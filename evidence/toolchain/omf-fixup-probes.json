@@ -1,0 +1,557 @@
+{
+  "schema": 1,
+  "purpose": "Pinned MSC FIXUPP resolution probes. Source, staged-source, and object hashes are evidence only; all objects remain in isolated build/workers/fixup_resolve scratch.",
+  "runner": {
+    "name": "MS-DOS Player",
+    "options": [
+      "-e",
+      "-v5.00"
+    ],
+    "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+    "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+  },
+  "profiles": {
+    "msc510": {
+      "label": "Microsoft C Optimizing Compiler 5.10",
+      "compiler_files": [
+        {
+          "path": "C:\\tools\\msc-5.10\\CL.EXE",
+          "sha256": "cad40cef732beea3455225fbd62286c664166db7c3f87e2402e22b2e3f107771"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C1.EXE",
+          "sha256": "8d33c6d87aa74b042b7d7cb01a23241c4cc3b1b8b446b8f1548bd167e3c7bf62"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C2.EXE",
+          "sha256": "a513c98bc2ce11bd00901b560252b5727ab9b6bacd9319b9eaba08f9e314b99b"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C3.EXE",
+          "sha256": "c1269628534d5deb48171ba9e42f761dcb1c28a0087c73780db0ee2e4352e6fa"
+        }
+      ],
+      "probes": {
+        "near_call": {
+          "source": "extern int helper(int); int invoke(int x) { return helper(x)+1; }",
+          "source_sha256": "d5649ba6d52257be5cee0dbcb09e1d608da6af8767e3cc42015e2132d20ba734",
+          "staged_source_sha256": "d5649ba6d52257be5cee0dbcb09e1d608da6af8767e3cc42015e2132d20ba734",
+          "flags": [
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl"
+          ],
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "version_banner": "Microsoft (R) C Optimizing Compiler Version 5.10",
+          "object_sha256": "3576ebc2fbb2f27d9e30c38254098705de35646471ecf38629bbadab2c474c62",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "declared_length": 16
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "declared_length": 0
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "declared_length": 0
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "declared_length": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_helper",
+            "_invoke"
+          ],
+          "fixups": [
+            {
+              "kind": "fixup",
+              "segment_index": 1,
+              "segment": "_TEXT",
+              "segment_offset": 7,
+              "field_width": 2,
+              "self_relative": true,
+              "frame": {
+                "kind": "target_frame",
+                "target": {
+                  "kind": "external",
+                  "index": 2,
+                  "name": "_helper",
+                  "method": 6,
+                  "zero_displacement": true
+                }
+              },
+              "target": {
+                "kind": "external",
+                "index": 2,
+                "name": "_helper",
+                "method": 6,
+                "zero_displacement": true
+              },
+              "displacement": null
+            }
+          ],
+          "raw_fixup_records": [
+            "000301020201030440014501",
+            "84075602"
+          ]
+        },
+        "far_call": {
+          "source": "extern int far helper(int); int invoke(int x) { return helper(x)+1; }",
+          "source_sha256": "f6f6fd6413a57937dcb81a6fbf91e0b881c8974171ee2a089fec9a2ccf5e770f",
+          "staged_source_sha256": "f6f6fd6413a57937dcb81a6fbf91e0b881c8974171ee2a089fec9a2ccf5e770f",
+          "flags": [
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl"
+          ],
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "version_banner": "Microsoft (R) C Optimizing Compiler Version 5.10",
+          "object_sha256": "cb59bf57aa5e42debbe0b2326178aceca19b367340a804e7436de9a71d046264",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "declared_length": 18
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "declared_length": 0
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "declared_length": 0
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "declared_length": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_helper",
+            "_invoke"
+          ],
+          "fixups": [
+            {
+              "kind": "fixup",
+              "segment_index": 1,
+              "segment": "_TEXT",
+              "segment_offset": 7,
+              "field_width": 4,
+              "self_relative": false,
+              "frame": {
+                "kind": "target_frame",
+                "target": {
+                  "kind": "external",
+                  "index": 2,
+                  "name": "_helper",
+                  "method": 6,
+                  "zero_displacement": true
+                }
+              },
+              "target": {
+                "kind": "external",
+                "index": 2,
+                "name": "_helper",
+                "method": 6,
+                "zero_displacement": true
+              },
+              "displacement": null
+            }
+          ],
+          "raw_fixup_records": [
+            "000301020201030440014501",
+            "cc075602"
+          ]
+        },
+        "global_data": {
+          "source": "int shared_value=7; int read_shared(void) { return shared_value; }",
+          "source_sha256": "dcfc8adfd8485eba5ae2f038cb0ddefb7dbe314c7546b6e972c92692f8bdbf03",
+          "staged_source_sha256": "dcfc8adfd8485eba5ae2f038cb0ddefb7dbe314c7546b6e972c92692f8bdbf03",
+          "flags": [
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl"
+          ],
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "version_banner": "Microsoft (R) C Optimizing Compiler Version 5.10",
+          "object_sha256": "794d7999bf0bc9cec517cb0c0fca5b132c7e4fb9658c4f6a4448b8a9d3f33468",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "declared_length": 4
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "declared_length": 2
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "declared_length": 0
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "declared_length": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_read_shared"
+          ],
+          "fixups": [
+            {
+              "kind": "fixup",
+              "segment_index": 1,
+              "segment": "_TEXT",
+              "segment_offset": 1,
+              "field_width": 2,
+              "self_relative": false,
+              "frame": {
+                "kind": "group",
+                "index": 1,
+                "name": "DGROUP"
+              },
+              "target": {
+                "kind": "segment",
+                "index": 2,
+                "name": "_DATA",
+                "method": 4,
+                "zero_displacement": true
+              },
+              "displacement": null
+            }
+          ],
+          "raw_fixup_records": [
+            "000301020201030440014501",
+            "c4019d"
+          ]
+        }
+      }
+    },
+    "msc600": {
+      "label": "Microsoft (R) C Optimizing Compiler Version 6.00",
+      "compiler_files": [
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "sha256": "136a092d68a206430b775f761d33d03ca350c385e1214ec6175f6690084b3598"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C1.EXE",
+          "sha256": "e5b8f76467c03df795b96ce18f96901e4cf5a4bced12c13202e0f1f200afa8c0"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C2.EXE",
+          "sha256": "85231e08ee8348b7c5acbc692f531602f9920d8393339f76376fff375158350b"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C3.EXE",
+          "sha256": "9a48ebc4a1440f06cb3cfc6a0a8a48a461a16c0e3df40dde40a702abc0e0d907"
+        }
+      ],
+      "probes": {
+        "near_call": {
+          "source": "extern int helper(int); int invoke(int x) { return helper(x)+1; }",
+          "source_sha256": "d5649ba6d52257be5cee0dbcb09e1d608da6af8767e3cc42015e2132d20ba734",
+          "staged_source_sha256": "d5649ba6d52257be5cee0dbcb09e1d608da6af8767e3cc42015e2132d20ba734",
+          "flags": [
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl"
+          ],
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "version_banner": "Microsoft (R) C Optimizing Compiler Version 6.00    ",
+          "object_sha256": "7dd0e37f192f0cdcd6b099b6ac2e388e5eb56eabb92f900f206b35c007131cd8",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "declared_length": 14
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "declared_length": 0
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "declared_length": 0
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "declared_length": 0
+            }
+          ],
+          "externals": [
+            "_helper",
+            "_invoke"
+          ],
+          "fixups": [
+            {
+              "kind": "fixup",
+              "segment_index": 1,
+              "segment": "_TEXT",
+              "segment_offset": 7,
+              "field_width": 2,
+              "self_relative": true,
+              "frame": {
+                "kind": "target_frame",
+                "target": {
+                  "kind": "external",
+                  "index": 1,
+                  "name": "_helper",
+                  "method": 6,
+                  "zero_displacement": true
+                }
+              },
+              "target": {
+                "kind": "external",
+                "index": 1,
+                "name": "_helper",
+                "method": 6,
+                "zero_displacement": true
+              },
+              "displacement": null
+            }
+          ],
+          "raw_fixup_records": [
+            "000301020201030440014501",
+            "84075601"
+          ]
+        },
+        "far_call": {
+          "source": "extern int far helper(int); int invoke(int x) { return helper(x)+1; }",
+          "source_sha256": "f6f6fd6413a57937dcb81a6fbf91e0b881c8974171ee2a089fec9a2ccf5e770f",
+          "staged_source_sha256": "f6f6fd6413a57937dcb81a6fbf91e0b881c8974171ee2a089fec9a2ccf5e770f",
+          "flags": [
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl"
+          ],
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "version_banner": "Microsoft (R) C Optimizing Compiler Version 6.00    ",
+          "object_sha256": "f1a15c2cfe2eb164b184d7f0929e8bde11298c12794083c2a661a95293b87c6d",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "declared_length": 16
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "declared_length": 0
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "declared_length": 0
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "declared_length": 0
+            }
+          ],
+          "externals": [
+            "_helper",
+            "_invoke"
+          ],
+          "fixups": [
+            {
+              "kind": "fixup",
+              "segment_index": 1,
+              "segment": "_TEXT",
+              "segment_offset": 7,
+              "field_width": 4,
+              "self_relative": false,
+              "frame": {
+                "kind": "target_frame",
+                "target": {
+                  "kind": "external",
+                  "index": 1,
+                  "name": "_helper",
+                  "method": 6,
+                  "zero_displacement": true
+                }
+              },
+              "target": {
+                "kind": "external",
+                "index": 1,
+                "name": "_helper",
+                "method": 6,
+                "zero_displacement": true
+              },
+              "displacement": null
+            }
+          ],
+          "raw_fixup_records": [
+            "000301020201030440014501",
+            "cc075601"
+          ]
+        },
+        "global_data": {
+          "source": "int shared_value=7; int read_shared(void) { return shared_value; }",
+          "source_sha256": "dcfc8adfd8485eba5ae2f038cb0ddefb7dbe314c7546b6e972c92692f8bdbf03",
+          "staged_source_sha256": "dcfc8adfd8485eba5ae2f038cb0ddefb7dbe314c7546b6e972c92692f8bdbf03",
+          "flags": [
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl"
+          ],
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "version_banner": "Microsoft (R) C Optimizing Compiler Version 6.00    ",
+          "object_sha256": "554cd804a31e545dcfe2674c5bd285762efd2134c5ba58111db092b021746e93",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "declared_length": 4
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "declared_length": 2
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "declared_length": 0
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "declared_length": 0
+            }
+          ],
+          "externals": [
+            "_read_shared"
+          ],
+          "fixups": [
+            {
+              "kind": "fixup",
+              "segment_index": 1,
+              "segment": "_TEXT",
+              "segment_offset": 1,
+              "field_width": 2,
+              "self_relative": false,
+              "frame": {
+                "kind": "group",
+                "index": 1,
+                "name": "DGROUP"
+              },
+              "target": {
+                "kind": "segment",
+                "index": 2,
+                "name": "_DATA",
+                "method": 4,
+                "zero_displacement": true
+              },
+              "displacement": null
+            }
+          ],
+          "raw_fixup_records": [
+            "000301020201030440014501",
+            "c4019d"
+          ]
+        }
+      }
+    }
+  }
+}

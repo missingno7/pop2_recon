@@ -30,6 +30,9 @@ class ObjectModule:
 class OmfReader:
     """Decode 16-bit OMF structure and data; reject unknown records and truncation."""
     _IGNORED = {0x94}
+    # Width in bytes of the 16-bit OMF LOCAT field.  These are field widths,
+    # not a request to apply the relocation.  6/7/8/10/12/14/15 are reserved.
+    _LOC_WIDTH = {0: 1, 1: 2, 2: 2, 3: 4, 4: 1, 5: 2}
     _RECORD_NAMES = {
         0x80: "THEADR", 0x82: "LHEADR", 0x88: "COMENT", 0x8A: "MODEND",
         0x8B: "MODEND32", 0x8C: "EXTDEF", 0x90: "PUBDEF", 0x91: "PUBDEF32",
@@ -196,6 +199,7 @@ class OmfReader:
                 anchor = last_data
                 fixups.append({"segment_index": anchor[0] if anchor else None,
                                "data_offset": anchor[1] if anchor else None,
+                               "data_length": len(anchor[2]) if anchor else None,
                                "iterated": anchor[3] if anchor else None,
                                "anchor_known": anchor is not None, "record_hex": body.hex(),
                                "decoded": self._decode_fixup_record(body)})
@@ -221,8 +225,148 @@ class OmfReader:
                 else:
                     merged.append((start, end))
             initialized[seg_defs[i-1]["name"]] = merged
+        self._resolve_fixups(fixups, seg_defs, group_defs, externals)
         return ObjectModule(module_name, segments, lengths, seg_defs, publics,
                             externals, group_defs, fixups, recs, initialized)
+
+    @classmethod
+    def _resolve_fixups(cls, fixups: list[dict], seg_defs: list[dict],
+                        group_defs: list[dict], externals: list[str]) -> None:
+        """Attach symbolic FIXUPP descriptions; never writes relocated bytes.
+
+        Thread tables are independent for frame and target threads and persist
+        across FIXUPP records.  The source record and its original decoded
+        fields remain intact; ``resolved`` parallels the decoded subrecords.
+        """
+        frame_threads: dict[int, dict] = {}
+        target_threads: dict[int, dict] = {}
+
+        def indexed(table, index, label):
+            if not isinstance(index, int) or index < 1 or index > len(table):
+                raise OmfError(f"FIXUPP {label} index {index!r} is undefined")
+            return table[index - 1]
+
+        def binding(frame: bool, method: int, datum: int | None, seg_i: int | None):
+            if frame:
+                if method == 0:
+                    seg = indexed(seg_defs, datum, "frame segment")
+                    return {"kind": "segment", "index": datum, "name": seg["name"]}
+                if method == 1:
+                    group = indexed(group_defs, datum, "frame group")
+                    return {"kind": "group", "index": datum, "name": group["name"]}
+                if method == 2:
+                    return {"kind": "external", "index": datum,
+                            "name": indexed(externals, datum, "frame external")}
+                if method == 3:
+                    raise OmfError("unsupported FIXUPP frame method 3")
+                if method == 4:
+                    seg = indexed(seg_defs, seg_i, "location segment")
+                    return {"kind": "segment", "index": seg_i, "name": seg["name"],
+                            "basis": "location"}
+                if method == 5:
+                    return {"kind": "target_frame"}
+                raise OmfError(f"unsupported FIXUPP frame method {method}")
+            if method == 0:
+                seg = indexed(seg_defs, datum, "target segment")
+                return {"kind": "segment", "index": datum, "name": seg["name"], "method": 0}
+            if method == 1:
+                group = indexed(group_defs, datum, "target group")
+                return {"kind": "group", "index": datum, "name": group["name"], "method": 1}
+            if method == 2:
+                return {"kind": "external", "index": datum,
+                        "name": indexed(externals, datum, "target external"), "method": 2}
+            if method == 3:
+                if datum is None: raise OmfError("FIXUPP absolute target lacks a datum")
+                return {"kind": "absolute", "frame": datum, "method": 3}
+            if method == 4:
+                return {"kind": "segment", "index": datum,
+                        "name": indexed(seg_defs, datum, "target segment")["name"],
+                        "method": 4, "zero_displacement": True}
+            if method == 5:
+                return {"kind": "group", "index": datum,
+                        "name": indexed(group_defs, datum, "target group")["name"],
+                        "method": 5, "zero_displacement": True}
+            if method == 6:
+                return {"kind": "external", "index": datum,
+                        "name": indexed(externals, datum, "target external"),
+                        "method": 6, "zero_displacement": True}
+            raise OmfError(f"unsupported FIXUPP target method {method}")
+
+        for record in fixups:
+            resolved = []
+            seg_i, base = record["segment_index"], record["data_offset"]
+            data_length, iterated = record["data_length"], record["iterated"]
+            for row in record["decoded"]:
+                if row["kind"] == "thread":
+                    # The TARGET-thread method's high bit is supplied by the
+                    # P bit in each referring FIXUP, not by THREAD itself.
+                    method = row["method"] if row["frame"] else row["method"] & 3
+                    table = frame_threads if row["frame"] else target_threads
+                    if row["frame"] and method in (4, 5):
+                        value = {"kind": "frame_special", "method": method}
+                    else:
+                        value = binding(row["frame"], method, row["datum"], seg_i)
+                    table[row["thread"]] = value
+                    resolved.append({"kind": "thread", "frame": row["frame"],
+                                     "thread": row["thread"], "binding": value})
+                    continue
+
+                loc, width = row["loc_type"], cls._LOC_WIDTH.get(row["loc_type"])
+                if width is None:
+                    raise OmfError(f"unsupported FIXUPP location type {loc}")
+                if seg_i is None or base is None:
+                    raise OmfError("FIXUPP relocation has no preceding LEDATA/LIDATA anchor")
+                if iterated:
+                    raise OmfError("FIXUPP relocation anchored to unsupported LIDATA")
+                if row["location"] + width > data_length:
+                    raise OmfError("FIXUPP relocation field extends past its LEDATA record")
+                seg = indexed(seg_defs, seg_i, "location segment")
+                segment_offset = base + row["location"]
+                if segment_offset + width > seg["length"]:
+                    raise OmfError("FIXUPP relocation field extends past segment extent")
+
+                frame_field = row["frame_method"]
+                if row.get("frame_thread"):
+                    thread_no = frame_field & 3
+                    if thread_no not in frame_threads:
+                        raise OmfError(f"undefined FIXUPP frame thread {thread_no}")
+                    frame = frame_threads[thread_no]
+                else:
+                    frame = binding(True, frame_field, row["frame_index"], seg_i)
+                if row["target_thread"]:
+                    thread_no = row["target_thread_index"]
+                    if thread_no not in target_threads:
+                        raise OmfError(f"undefined FIXUPP target thread {thread_no}")
+                    base_target = target_threads[thread_no]
+                    effective_method = base_target["method"]
+                    if row["target_has_displacement"]:
+                        target = dict(base_target)
+                    else:
+                        effective_method += 4
+                        target = binding(False, effective_method,
+                                         base_target.get("index"), seg_i)
+                else:
+                    target = binding(False, row["effective_target_method"],
+                                     row["target_index"], seg_i)
+                # F5 inline frames and frame threads describe a frame derived from the
+                # target. Resolve when unambiguous, otherwise keep symbolic.
+                if frame.get("kind") == "frame_special":
+                    method = frame["method"]
+                    if method == 4:
+                        frame = {"kind": "segment", "index": seg_i,
+                                 "name": seg["name"], "basis": "location"}
+                    elif method == 5:
+                        frame = {"kind": "target_frame"}
+                if frame.get("kind") == "target_frame":
+                    if target.get("kind") not in ("segment", "group", "external"):
+                        raise OmfError("FIXUPP target-derived frame has a non-address target")
+                    frame = {"kind": "target_frame", "target": target}
+                resolved.append({"kind": "fixup", "segment_index": seg_i,
+                                 "segment": seg["name"], "segment_offset": segment_offset,
+                                 "field_width": width, "self_relative": row["self_relative"],
+                                 "frame": frame, "target": target,
+                                 "displacement": row["displacement"]})
+            record["resolved"] = resolved
 
     @classmethod
     def _decode_fixup_record(cls, body: bytes) -> list[dict]:
@@ -233,8 +377,14 @@ class OmfReader:
                 at += 1; is_frame = bool(first & 0x40)
                 method, thread = (first >> 2) & 7, first & 3
                 datum = None
+                if is_frame and method == 3:
+                    raise OmfError("unsupported FIXUPP frame thread method 3")
                 if not (is_frame and method in (4, 5, 6)):
-                    datum, at = cls._index(body, at)
+                    if not is_frame and (method & 3) == 3:
+                        if at + 2 > len(body): raise OmfError("truncated FIXUPP target frame datum")
+                        datum = struct.unpack_from("<H", body, at)[0]; at += 2
+                    else:
+                        datum, at = cls._index(body, at)
                 out.append({"kind": "thread", "frame": is_frame, "method": method,
                             "thread": thread, "datum": datum})
                 continue
@@ -249,7 +399,13 @@ class OmfReader:
                 if at+2 > len(body): raise OmfError("truncated FIXUPP frame datum")
                 frame_i = struct.unpack_from("<H", body, at)[0]; at += 2
             target_thread = bool(fixdat & 8)
-            if not target_thread: target_i, at = cls._index(body, at)
+            if not target_thread:
+                if target_method == 3:
+                    if at + 2 > len(body): raise OmfError("truncated FIXUPP target frame datum")
+                    target_i = struct.unpack_from("<H", body, at)[0]; at += 2
+                else:
+                    target_i, at = cls._index(body, at)
+            target_thread_i = (fixdat & 3) if target_thread else None
             displacement = None
             if not fixdat & 4:
                 if at+2 > len(body): raise OmfError("truncated FIXUPP displacement")
@@ -258,6 +414,10 @@ class OmfReader:
                         "self_relative": not bool(locat & 0x4000), "frame_method": frame_method,
                         "frame_index": frame_i, "target_method": target_method,
                         "target_index": target_i, "target_thread": target_thread,
+                        "target_thread_index": target_thread_i,
+                        "frame_thread": bool(fixdat & 0x80),
+                        "target_has_displacement": not bool(fixdat & 4),
+                        "effective_target_method": target_method + (4 if fixdat & 4 else 0),
                         "displacement": displacement})
         return out
 

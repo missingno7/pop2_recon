@@ -16,11 +16,13 @@
     }
   },
   "inventory_summary": {
-    "candidate_count": 2184,
-    "decoded_entry_count": 976,
-    "call_edge_count": 1249,
+    "call_edge_count": 1354,
+    "candidate_count": 2263,
+    "cfg_linked_far_call_sites": 12,
+    "cfg_recovered_callers": 4,
+    "decoded_entry_count": 1081,
+    "prologue_only_candidates": 1182,
     "relocated_pointer_sites": 4716,
-    "prologue_only_candidates": 1208,
     "bulk_output": "build/workers/inventory/discovery.json"
   },
   "reviewed_rows": [
@@ -28,7 +30,9 @@
       "id": "root:2203:0678",
       "state": "UNKNOWN",
       "review_status": "candidate record reviewed; code identity not established",
-      "evidence": ["mz_entry_point"],
+      "evidence": [
+        "mz_entry_point"
+      ],
       "extent_status": "tentative_linear_sweep",
       "oracle_first_16_bytes_sha256": "6bd35f0c3d530cc60ff9b450c18dc8a34014cb109336d83d65e8b69fc2b0eac8"
     },
@@ -36,7 +40,9 @@
       "id": "overlay-2:298a:0074",
       "state": "UNKNOWN",
       "review_status": "candidate record reviewed; code identity not established",
-      "evidence": ["direct_near_call"],
+      "evidence": [
+        "direct_near_call"
+      ],
       "extent_status": "tentative_linear_sweep",
       "oracle_first_16_bytes_sha256": "67d2d2a714ed6489ab9eff0c539d2e435ccaf1cb2d61c3f454de4cdb427dd85b"
     },
@@ -44,7 +50,9 @@
       "id": "overlay-12:2c3e:1710",
       "state": "UNKNOWN",
       "review_status": "candidate record reviewed; code identity not established",
-      "evidence": ["direct_far_call_relocation"],
+      "evidence": [
+        "direct_far_call_relocation"
+      ],
       "extent_status": "tentative_linear_sweep",
       "oracle_first_16_bytes_sha256": "193da511c90863e43bd314c5a996610888b81b8a4dea9ec338384594b112af2d"
     },
@@ -52,7 +60,9 @@
       "id": "overlay-2:28a1:0c2a",
       "state": "UNKNOWN",
       "review_status": "candidate record reviewed; code identity not established",
-      "evidence": ["overlay_entry_pointer"],
+      "evidence": [
+        "overlay_entry_pointer"
+      ],
       "extent_status": "tentative_linear_sweep",
       "oracle_first_16_bytes_sha256": "f9f48a477a953c3f853ab0cf8a92a55aeee5f1b36954dd2af89967d5ea289943"
     },
@@ -60,9 +70,17 @@
       "id": "overlay-10:29cf:0000",
       "state": "UNKNOWN",
       "review_status": "candidate record reviewed; code identity not established",
-      "evidence": ["prologue_scan_tentative"],
+      "evidence": [
+        "prologue_scan_tentative"
+      ],
       "extent_status": "unclassified",
       "oracle_first_16_bytes_sha256": "c00aaf93c56d3d3b18b58bfd74c1030a2a6b8230c750bae3c5cdadfef325d0b9"
     }
+  ],
+  "discovery_limits": [
+    "All entry/extent/classification rows remain hypotheses; canonical ownership is separate.",
+    "Reference oN names normalize to matching Oracle overlay-N only.",
+    "Additional CFG caller probes require explicit reference_extra_entry target and at least two relocated direct calls; up to three nearby prologues per site, bounded to 0x1000 bytes/1024 instructions and requiring target call plus return.",
+    "Context merges equivalent addresses only within the same Oracle space and preserves requested CS:IP in disassembly."
   ]
 }

@@ -117,17 +117,71 @@ class DiscoveryTests(unittest.TestCase):
         ids = {row["id"] for row in inventory["functions"]}
         self.assertIn("overlay-2:2344:0020", ids)
 
-    def test_reviewed_fallback_target_uses_oracle_without_overriding_state(self):
-        oracle = FakeOracle([FakeSpace("root", bytes.fromhex("c3"))])
+    def test_reference_oN_names_map_to_oracle_overlay_spaces(self):
+        with tempfile.TemporaryDirectory() as temp:
+            recomp = Path(temp) / "recomp"
+            recomp.mkdir()
+            (recomp / "extra_entries.txt").write_text("o2 0200:0000\n", encoding="utf-8")
+            oracle = FakeOracle([FakeSpace("root", b"\xc3"),
+                                 FakeSpace("overlay-2", b"\xc3", link_segment=0x200)])
+            inventory = discover(oracle, reference=Path(temp) / "recomp", prologue_scan=False)
+            target = next(row for row in inventory["functions"] if row["id"] == "overlay-2:0200:0000")
+            self.assertIn("reference_extra_entry", [item["source"] for item in target["evidence"]])
+
+    def test_relocated_far_call_cfg_recovers_caller_across_unconditional_jump(self):
+        code = bytearray(b"\x90" * 40)
+        code[0:8] = bytes.fromhex("55 8b ec 74 03 eb 09 90")
+        code[8:13] = bytes.fromhex("9a 00 00 00 02")
+        code[13] = 0xcb
+        code[16] = 0xcb
+        code[24:27] = bytes.fromhex("55 8b ec")
+        code[27:32] = bytes.fromhex("9a 00 00 00 02")
+        code[32] = 0xcb
+        root = FakeSpace("root", bytes(code), link_segment=0,
+                         relocations=({"image_offset": 11, "index": 0},
+                                      {"image_offset": 30, "index": 1}))
+        # A byte-identical overlay deliberately shares the root's CS:IP range;
+        # near branch traversal must keep its source-space identity.
+        overlap = FakeSpace("overlay-3", bytes(code), link_segment=0,
+                            file_offset=len(code))
+        target = FakeSpace("overlay-2", bytes.fromhex("c3"), link_segment=0x200,
+                           file_offset=2 * len(code))
+        with tempfile.TemporaryDirectory() as temp:
+            recomp = Path(temp) / "recomp"
+            recomp.mkdir()
+            (recomp / "extra_entries.txt").write_text("o2 0200:0000\n", encoding="utf-8")
+            oracle = FakeOracle([root, overlap, target])
+            inventory = discover(oracle, reference=recomp, prologue_scan=True)
+        rows = {row["id"]: row for row in inventory["functions"]}
+        callee = rows["overlay-2:0200:0000"]
+        self.assertEqual(set(callee["callers"]), {"root:0000:0000", "root:0000:0018"})
+        self.assertFalse(any(item.startswith("overlay-3:") for item in callee["callers"]))
+        self.assertEqual(callee["evidence"][-1]["source"], "reference_extra_entry")
+        self.assertEqual(rows["root:0000:0000"]["extent"]["status"], "tentative_cfg_reachable")
+
+    def test_reviewed_fallback_target_uses_same_space_alias_and_preserves_state(self):
+        oracle = FakeOracle([FakeSpace("root", b"\x90" * 16 + b"\xc3")])
         index = {"target_sha256": hashlib.sha256(oracle.data).hexdigest(),
-                 "functions": [{"id": "root:0000:0000", "space": "root", "segment": 0,
-                                "offset": 0, "size": 1,
+                 "functions": [{"id": "root:0000:0010", "space": "root", "segment": 0,
+                                "offset": 0x10, "size": 1,
                                 "sha256": hashlib.sha256(bytes.fromhex("c3")).hexdigest(),
                                 "state": "READY_FOR_REVIEW", "boundary_status": "REVIEWED"}]}
-        discovery = _fallback_discovery(index, "root:0000:0000", oracle)
-        packet = build_context(discovery, "root:0000:0000", oracle, asm=True)
+        discovery = _fallback_discovery(index, "root:0000:0010", oracle)
+        packet = build_context(discovery, "root:0001:0000", oracle, asm=True)
         self.assertEqual(packet["function"]["state"], "READY_FOR_REVIEW")
         self.assertEqual(packet["asm"][0]["address"]["offset"], 0)
+
+    def test_fallback_target_alias_resolves_by_position(self):
+        oracle = FakeOracle([FakeSpace("root", b"\x90" * 16 + b"\xc3")])
+        index = {"target_sha256": hashlib.sha256(oracle.data).hexdigest(),
+                 "functions": [{"id": "root:0000:0010", "space": "root", "segment": 0,
+                                "offset": 0x10, "size": 1,
+                                "sha256": hashlib.sha256(b"\xc3").hexdigest(),
+                                "state": "ANALYZED"}]}
+        discovery = _fallback_discovery(index, "root:0001:0000", oracle)
+        packet = build_context(discovery, "root:0001:0000", oracle)
+        self.assertEqual(packet["function"]["state"], "ANALYZED")
+        self.assertEqual(packet["function"]["extent"]["start"], 0x10)
 
     def test_owner_and_recipe_are_loaded_as_separate_context_metadata(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -140,6 +194,43 @@ class DiscoveryTests(unittest.TestCase):
             attached = _owner_recipe({"owners": [owner]}, "root:0000:0000", root=root)
             self.assertEqual(attached["owner"], owner)
             self.assertEqual(attached["recipe"], recipe)
+
+    def test_owner_recipe_resolves_same_space_alias_by_position(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "recipes").mkdir()
+            recipe = {"target_id": "root:0000:0010", "name": "example"}
+            (root / "recipes/example.json").write_text(json.dumps(recipe), encoding="utf-8")
+            owner = {"target_id": "root:0000:0010", "kind": "MATCHING_C",
+                     "recipe": "recipes/example.json", "state": "CODE_EXACT"}
+            oracle = FakeOracle([FakeSpace("root", b"\x90" * 16 + b"\xc3")])
+            attached = _owner_recipe({"owners": [owner]}, "root:0001:0000", root=root,
+                                     oracle=oracle)
+            self.assertEqual(attached["owner"], owner)
+            self.assertEqual(attached["recipe"], recipe)
+
+    def test_context_resolves_same_space_alias_without_crossing_overlay(self):
+        data = bytearray(b"\x90" * 32)
+        data[16] = 0xc3
+        root = FakeSpace("root", bytes(data), link_segment=0)
+        overlay = FakeSpace("overlay-2", bytes(data), link_segment=0)
+        oracle = FakeOracle([root, overlay], entry_offset=0x10)
+        discovery = discover(oracle, reference=ROOT / "missing-reference", prologue_scan=False)
+        row = next(item for item in discovery["functions"] if item["id"] == "root:0000:0010")
+        overlay_alias = dict(row, id="overlay-2:0000:0010", space="overlay-2")
+        caller = dict(row, id="root:0000:0001", offset=1, callers=[], callees=[])
+        root_alias = dict(row, id="root:0001:0000", segment=1, offset=0,
+                          callers=[caller["id"]], callees=[])
+        richer_alias = dict(row, id="root:0000:0010", segment=0, offset=0x10,
+                            callers=[caller["id"]], callees=["root:0000:0001"],
+                            evidence=row["evidence"] + [{"source": "extra_review"}])
+        discovery["functions"].extend([overlay_alias, caller, root_alias, richer_alias])
+        packet = build_context(discovery, "root:0001:0000", oracle, asm=True)
+        self.assertEqual(packet["function"]["id"], "root:0000:0010")
+        self.assertEqual(packet["callers"][0]["id"], "root:0000:0001")
+        self.assertEqual(packet["asm"][0]["address"]["space"], "root")
+        self.assertEqual(packet["asm"][0]["address"]["segment"], 1)
+        self.assertEqual(packet["asm"][0]["address"]["offset"], 0)
 
 
 if __name__ == "__main__":

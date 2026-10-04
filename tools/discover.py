@@ -66,7 +66,10 @@ def _space_rows(oracle, full_data):
 
 
 def _space_for_name(spaces, name):
-    return next((s for s in spaces if s["name"].casefold() == name.casefold()), None)
+    normalized = str(name).casefold()
+    if normalized.startswith("o") and normalized[1:].isdigit():
+        normalized = f"overlay-{int(normalized[1:])}"
+    return next((s for s in spaces if s["name"].casefold() == normalized), None)
 
 
 def _segment_offset_to_space(spaces, segment, offset, preferred=None):
@@ -210,7 +213,8 @@ def discover(oracle, *, reference=REFERENCE, prologue_scan=True):
                         "relocation_index": _field(reloc, "index"),
                     })
                 if is_far_call and target_row:
-                    far_call_sites.append((source["name"], opcode_pos, target_row["id"]))
+                    far_call_sites.append((source["name"], opcode_pos, target_row["id"],
+                                           _field(reloc, "index")))
 
     # Build only direct near-call edges. A call target is an entry hypothesis;
     # decoding continues with explicit tentative boundaries and conservative caps.
@@ -288,7 +292,7 @@ def discover(oracle, *, reference=REFERENCE, prologue_scan=True):
     by_name = defaultdict(list)
     for row in rows:
         by_name[row["space"]].append(row)
-    for space_name, opcode_pos, target_id in far_call_sites:
+    for space_name, opcode_pos, target_id, relocation_index in far_call_sites:
         caller = next((r for r in by_name[space_name]
                        if r["extent"].get("end_exclusive") is not None
                        and r["extent"]["start"] <= opcode_pos < r["extent"]["end_exclusive"]), None)
@@ -296,7 +300,8 @@ def discover(oracle, *, reference=REFERENCE, prologue_scan=True):
             caller["callees"].append(target_id)
             caller["relocations"].append({"direction": "outgoing", "kind": "far_call",
                                           "target_id": target_id, "source_space": space_name,
-                                          "source_position": opcode_pos})
+                                          "source_position": opcode_pos,
+                                          "relocation_index": relocation_index})
             target = next((r for r in rows if r["id"] == target_id), None)
             if target:
                 target["callers"].append(caller["id"])
@@ -323,6 +328,131 @@ def discover(oracle, *, reference=REFERENCE, prologue_scan=True):
                 row["extent"] = {"start": pos, "end_exclusive": None, "status": "unclassified"}
                 prologue_candidates += 1
 
+    # Relocation-backed far calls can sit on conditional paths beyond an
+    # unconditional jump in the linear sweep. For these sites only, trace
+    # nearby raw prologues with a bounded same-space CFG before linking a caller.
+    def trace_to_far_calls(source, entry_pos, expected_target):
+        address = source["object"].address(entry_pos)
+        entry_segment, entry_offset = address["segment"], address["offset"]
+        pending, visited_blocks, decoded_insns, returns = [entry_pos], set(), {}, []
+        steps = 0
+        while pending and steps < 1024:
+            block = pending.pop()
+            if block in visited_blocks or block < entry_pos or block >= min(source["size"], entry_pos + 0x1000):
+                continue
+            visited_blocks.add(block)
+            pos = block
+            while entry_pos <= pos < min(source["size"], entry_pos + 0x1000) and steps < 1024:
+                if pos in decoded_insns:
+                    break
+                ins = decode_one(source["bytes"], pos, origin=entry_offset - entry_pos)
+                if ins is None or not ins.size:
+                    break
+                decoded_insns[pos] = ins
+                steps += 1
+                pos += ins.size
+                if ins.flow == "return":
+                    returns.append(pos)
+                    break
+                if ins.flow == "jump":
+                    if ins.mnemonic in {"jmp", "ljmp"}:
+                        if ins.near_target is not None:
+                            target_off = ins.near_target & 0xffff
+                            mapped = _segment_offset_to_space(spaces, entry_segment, target_off,
+                                                              preferred=source)
+                            if mapped and mapped[0]["name"] == source["name"]:
+                                pending.append(mapped[1])
+                        break
+                    if ins.near_target is not None:
+                        target_off = ins.near_target & 0xffff
+                        mapped = _segment_offset_to_space(spaces, entry_segment, target_off,
+                                                          preferred=source)
+                        if mapped and mapped[0]["name"] == source["name"]:
+                            pending.append(mapped[1])
+            if steps >= 1024:
+                break
+        target_space = _space_for_name(spaces, expected_target["space"])
+        expected_pos = target_space["object"].position(expected_target["segment"], expected_target["offset"])
+        target_calls = set()
+        for call_pos, ins in decoded_insns.items():
+            if ins.flow != "call" or ins.far_target is None:
+                continue
+            mapped = _segment_offset_to_space(spaces, *ins.far_target)
+            if mapped and mapped[0]["name"] == expected_target["space"] and mapped[1] == expected_pos:
+                target_calls.add(call_pos)
+        return {"entry_segment": entry_segment, "entry_offset": entry_offset,
+                "decoded": decoded_insns, "returns": returns, "block_count": len(visited_blocks),
+                "target_call_positions": target_calls, "truncated": steps >= 1024}
+
+    cfg_callers = {}
+    call_groups = defaultdict(list)
+    for site in far_call_sites:
+        call_groups[(site[0], site[2])].append(site)
+    for (space_name, target_id), sites in call_groups.items():
+        target_row = next((row for row in rows if row["id"] == target_id), None)
+        if (target_row is None or len(sites) < 2
+                or not any(item["source"] == "reference_extra_entry" for item in target_row["evidence"])):
+            continue
+        source = _space_for_name(spaces, space_name)
+        if source is None:
+            continue
+        unlinked_sites = [site for site in sites
+                          if not any(r["extent"].get("end_exclusive") is not None
+                                     and r["extent"]["start"] <= site[1] < r["extent"]["end_exclusive"]
+                                     for r in by_name[space_name])]
+        if not unlinked_sites:
+            continue
+        site_by_pos = {site[1]: site for site in unlinked_sites}
+        starts = set()
+        for _, opcode_pos, _, _ in unlinked_sites:
+            lo = max(0, opcode_pos - 0x400)
+            candidates = [match.start() for match in PROLOGUE.finditer(source["bytes"], lo, opcode_pos)]
+            starts.update(candidates[-3:])
+        cache = {}
+        for entry_pos in sorted(starts, reverse=True):
+            trace_key = (space_name, target_id, entry_pos)
+            if trace_key not in cache:
+                cache[trace_key] = trace_to_far_calls(source, entry_pos, target_row)
+            traced = cache[trace_key]
+            matching_sites = sorted(traced["target_call_positions"] & set(site_by_pos))
+            if not matching_sites or not traced["returns"]:
+                continue
+            start_addr = source["object"].address(entry_pos)
+            caller = _candidate(rows, seen, source, start_addr["segment"], start_addr["offset"],
+                                "direct_far_call_site_cfg", "medium",
+                                f"bounded same-space CFG reaches {len(matching_sites)} relocated call site(s)")
+            end_pos = max(max(traced["decoded"].keys()) + traced["decoded"][max(traced["decoded"].keys())].size,
+                           max(traced["returns"]))
+            caller["extent"] = {"start": entry_pos, "end_exclusive": end_pos,
+                                "status": "tentative_cfg_reachable", "stop_reason": "return_reached",
+                                "decoded_instructions": len(traced["decoded"]),
+                                "reachable_blocks": traced["block_count"],
+                                "call_site_positions": matching_sites}
+            for opcode_pos in matching_sites:
+                _, _, _, relocation_index = site_by_pos[opcode_pos]
+                caller["callees"].append(target_id)
+                caller["relocations"].append({"direction": "outgoing", "kind": "far_call",
+                                              "target_id": target_id, "source_space": space_name,
+                                              "source_position": opcode_pos,
+                                              "relocation_index": relocation_index})
+                target_row["callers"].append(caller["id"])
+                call_edges.add((caller["id"], target_id))
+            decoded.add(caller["id"])
+            cfg_callers.setdefault(caller["id"], {"row": caller, "sites": []})["sites"].extend(matching_sites)
+            by_name[space_name].append(caller)
+            for opcode_pos in matching_sites:
+                site_by_pos.pop(opcode_pos, None)
+            if not site_by_pos:
+                break
+
+    for caller_info in cfg_callers.values():
+        caller = caller_info["row"]
+        caller["extent"]["call_site_positions"] = sorted(set(caller_info["sites"]))
+    prologue_only_count = sum(1 for row in rows
+                              if row["evidence"]
+                              and all(item["source"] == "prologue_scan_tentative"
+                                      for item in row["evidence"]))
+
     for row in rows:
         row["callers"] = sorted(set(row["callers"]))
         row["callees"] = sorted(set(row["callees"]))
@@ -340,7 +470,9 @@ def discover(oracle, *, reference=REFERENCE, prologue_scan=True):
                        for s in spaces],
             "statistics": {"candidate_count": len(rows), "decoded_entry_count": len(decoded),
                            "call_edge_count": len(call_edges), "relocated_pointer_sites": pointer_count,
-                           "prologue_only_candidates": prologue_candidates},
+                           "prologue_only_candidates": prologue_only_count,
+                           "cfg_recovered_callers": len(cfg_callers),
+                           "cfg_linked_far_call_sites": sum(len(item["sites"]) for item in cfg_callers.values())},
             "functions": rows}
 
 

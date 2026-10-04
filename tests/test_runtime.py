@@ -48,8 +48,9 @@ def runtime_omf(code=b"\xCB", *, code_length=None, data_chunks=None,
         records.append(omf_record(0xA0, bytes((segment_index,)) +
                                   offset.to_bytes(2, "little") + payload))
     if actual_fixup:
-        locat = 0x8000 | (1 << 10)
-        records.append(omf_record(0x9C, bytes((locat >> 8, locat & 0xFF, 0x84, 0x01))))
+        # Valid one-byte relocation at the start of the one-byte CODE extent.
+        locat = 0x8000
+        records.append(omf_record(0x9C, bytes((locat >> 8, locat & 0xFF, 0x44, 0x01))))
     records.append(omf_record(0x8A))
     return b"".join(records)
 

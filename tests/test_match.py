@@ -74,9 +74,11 @@ def make_omf(code=b"\xCB", *, code_length=None, data_chunks=None,
         # Define frame thread zero (method=0, datum index 1) without using it.
         records.append(omf_record(0x9C, b"\x00\x01"))
     if actual_fixup:
-        # Offset16 FIXUPP against external index one, anchored to the CODE data.
-        locat = 0x8000 | (1 << 10)
-        body = bytes((locat >> 8, locat & 0xFF, 0x84, 0x01))
+        # Byte FIXUPP against segment index one, anchored to one CODE byte.
+        # The object remains semantically valid so acceptance is responsible
+        # for rejecting its relocation rather than the syntax reader.
+        locat = 0x8000
+        body = bytes((locat >> 8, locat & 0xFF, 0x44, 0x01))
         records.append(omf_record(0x9C, body))
     records.append(omf_record(0x8A))
     return b"".join(records)
