@@ -1,0 +1,48 @@
+# External reconstruction evidence
+
+Research date: 2026-10-04. This note records external leads and local executable identity without copying generated game code into the reconstruction.
+
+## Supermedo recompiler and overlay format
+
+The public [Supermedo/prince-of-persia-2-windows repository](https://github.com/Supermedo/prince-of-persia-2-windows) describes itself as a static recompilation of the original DOS `PRINCE.EXE`, where generated C is produced locally from the user's own game files. Its README explicitly says the checked-in repository contains the recompiler/runtime/launcher, not game code or assets. It is useful as an independently published parser and mapping aid. Its generated C is an emulation/recompilation product and is not source reconstruction evidence.
+
+At the inspected `main` tree (`e2c407fa8409ad891bf78c8e98c3e052dd00869b`), `recomp/image.py` labels the input as a 16-bit x86 MS C 6 executable with overlays. It reads the MZ header and relocation table, then a linker overlay table at file offset 150347 (`0x24B4B`). The table has 16 records of 18 bytes, for overlay IDs 2 through 17. Each record is decoded as `<HHHBBHHHHH`: segment, an unknown word, relative relocation-page position, high position byte, flags, another word, relocation count, two more words including overlay ID, and code size in paragraphs. It locates the relocation block at `(pos + hi*65536)*16`, skips `((nrel+3)>>2)*16` bytes to the code, reads `size*16` bytes, and applies each relocation by adding the runtime load segment `0x0100` to a word at `(reloc_segment - overlay_segment)*16 + reloc_offset`.
+
+The independent local `build/oracle/oracle.json` decodes all 16 records from the locked executable hash. It confirms `seg` is the link-time segment, `nrel` the relocation count, `fe` the overlay ID, and `size` the code length in paragraphs. `f2` is 3133 in every row; `f8` equals `size` for overlays 2–16 but is 3026 for overlay 17, whose `size` is 1319; `fc` equals 5 for overlays 8 and 9 and `0xffff` otherwise. `f2`, `f8`, and `fc` remain unknown fields. Flags are 4 for overlays 2–16 and 1 for overlay 17; the external parser skips flag-1 spaces for static call resolution, and the local oracle describes one data/driver space while leaving the linker meaning unresolved. Overlay 17 declares 1319 paragraphs (21104 bytes) but only 21103 payload bytes are present at EOF, which the oracle records as a one-byte final shortfall. The three-byte gap between the MZ image end (152637) and first relocation block (152640) is also recorded explicitly. These observations confirm this parser can decode the locked local image; they do not establish the executable's retail/version identity.
+
+The recompiler's boundaries are heuristic and address-based: it starts at the executable entry point and manually listed entries, follows near/far/tail calls and intra-function branches, and terminates at returns, far jumps, or unresolved indirect dispatch. `scan_prologues.py` supplements these using relocated far pointers to Microsoft C prologues (`55 8B EC` / `45 55 8B EC`) and prologues immediately after return instructions; `scan_jmptabs.py` heuristically finds indirect-jump table targets. These methods can suggest function starts and call relationships for investigation, but they are not symbol tables and do not provide original source names. The checked-in `extra_entries.txt` has manually seeded address counts for o2=10, o3=1, o4=4, o5=5, o6=19, o7=2, o8=18, o9=19, o10=3, o13=2, o14=1, and o15=1. There are no manual seed lines for o11, o12, o16, or o17; these overlays may still be discovered via calls.
+
+## FM Towns symbols
+
+The FM Towns debug-symbol lead is supported by first-person statements from the reverse engineer behind the PoP2 reimplementation. In a June 2025 post, FluffyQuack states that the FM Towns release has debug symbols and that those symbols accelerated analysis before he switched to the Xbox build for decompilation support. This is useful as an external name/role cross-reference, but I have not verified symbol completeness or ABI/layout equivalence against this DOS build. Treat matches as hypotheses until code/data behavior and call sites agree.
+
+## RTLink/Plus provenance and version
+
+The local executable itself contains the error text `ege0001: Internal error in .RTLink(R)/Plus run-time code` at byte offset 151735, confirming RTLink/Plus runtime code is embedded. It also contains `MS Run-Time Library - Copyright (c) 1990, Microsoft Corp.` at byte offset 279922. Neither string names an RTLink version, and searching the exact runtime message yielded no version-specific documentation. Historical technical sources establish that Pocket Soft's `.RTLink/Plus` was an MS-DOS overlay linker. A 1990 trade-news item describes `.RTLink/Plus 4.0` with virtual-memory linking; a January 1993 UK catalog lists `RTLink/Plus 5.1`; a 1994 Usenet message quotes a Pocket Soft banner for version 7.10. These records establish product history and plausible versions around the game's release, but do not identify which exact linker release built this executable. The recompiler calls its format “MS-LINK overlays,” while the MZ/overlay layout alone does not prove an exact RTLink product/version. No linker banner, map, response file, or original build artifact has been located in the local assets.
+
+## Local identity checked
+
+Read-only inspection of `assets/PRINCE.EXE` recorded SHA-256 `5BF733C56441258E69303102B0E08388484A9400E4D5CDAD9BD517478E150314`, MD5 `a025e942f8c9989ef5f6e0cc0ee06ed0`, length 290415 bytes, MZ signature, and filesystem timestamp 2023-01-16. Its MZ entry point is `CS:IP = 0x2203:0x0678` (runtime load segment is separately added by the parser). The MZ header computes a root image end at byte 152637; the public parser and independent oracle place the first overlay relocation block at byte 152640. `assets/PRINCE2.EX_` is also 290415 bytes (MD5 `cb5a52797fccbe32f49840f62478b2d1`) and differs from `PRINCE.EXE` at five offsets: 34157, 34158, 34161, 34162, and 34163. At root address `0x052d:0x129d`, the EXE performs `mov byte [0x03e2],1; nop; nop; jmp 0x53f4`, unconditionally skipping the following initialization block. The EX_ instead performs `cmp word [0x03e2],0; jz 0x6577; jmp 0x53f4`, entering the block only when the value is zero. The following block begins `mov word [0x03e2],si` and calls helper addresses `0x052d:0x44e7` and `0x052d:0x4569`. This establishes a one-time-initialization control-flow difference; it does not identify which file is retail, original, or correct.
+
+Version evidence remains mixed. The asset readme identifies the bundle as downloaded from bestoldgames.net. A TASVideos manifest describes a 290415-byte DOS executable as `unknown v1.0` / Initial Release, while its judge explicitly says whether that image was officially released or an early leak is inconclusive. That manifest's executable MD5 (`7bcdb72c92dc661eea0297bf0794d3e4`) matches neither local EXE nor EX_. Several local game-data files do match that manifest exactly, including `PRINCE.DAT`, `CAVERNS.DAT`, `ROOFTOPS.DAT`, `TRANS.DAT`, `PRINCE.ICO`, and `SETUP.EXE`. This points to an early-release-matching data set, but the local executable itself remains an unclassified modified variant. The filesystem timestamp identifies only the asset copy. No separate `.OVL`/`.OVR` file is present; the overlays are embedded after the DOS root image.
+
+## Retrieval limits
+
+The shell initially could not connect to `github.com:443`, but a subsequent authorized public-source checkout succeeded. The reference is cached at `build/references/prince-of-persia-2-windows`, pinned to commit `e2c407fa8409ad891bf78c8e98c3e052dd00869b`; the workspace `.gitignore` excludes `/build/`. The checkout contains project source/docs and no game executable. No proprietary binaries were downloaded.
+
+## Sources
+
+- [Supermedo repository README](https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/README.md)
+- [Supermedo `image.py` overlay loader](https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/image.py)
+- [Supermedo `overlays.json`](https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/overlays.json)
+- [Supermedo recompiler](https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/recomp.py)
+- [Supermedo prologue scanner](https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/scan_prologues.py)
+- [Supermedo indirect jump-table scanner](https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/scan_jmptabs.py)
+- [FluffyQuack's June 2025 project statement](https://www.resetera.com/threads/decompilation-projects-ot-free-next-gen-update-for-your-favorite-classics.682687/page-23)
+- [Dr. Dobb's Journal, January 1991: RTLink/Plus 4.0](https://jacobfilipp.com/DrDobbs/articles/DDJ/1991/9101/9101t/9101t.htm)
+- [Personal Computer World, January 1993: catalog listing for RTLink/Plus 5.1](https://worldradiohistory.com/UK/Personal-Computer-World/90s/Personal-Computer-World-1993-01-S-OCR.pdf)
+- [1994 Usenet archive quoting RTLink/Plus 7.10 banner](https://groups.google.com/g/fido.ger.clipper/c/AwVon_MX-CY)
+- [TASVideos DOS PoP2 submission with executable/data manifest and version caveat](https://tasvideos.org/7190S)
+- [Prince of Persia 2 download/version archive](https://popuw.com/download2.html)
+- [Prince of Persia 2 DAT version differences](https://www.popot.org/documentation/documents/2014-06-07_PoP2_DAT_Differences.pdf)
+- [Disassemblies of PoP2 forum thread: reported overlay 2 intro / overlay 3 gameplay](https://forum.princed.org/viewtopic.php?t=3424)

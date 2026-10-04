@@ -1,0 +1,31 @@
+"""Small project primitives. Verification never updates expected identities."""
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def read_json(path):
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def write_json(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def project_path(value):
+    path = (ROOT / value).resolve()
+    require(path.is_relative_to(ROOT), "Path escapes project")
+    return path

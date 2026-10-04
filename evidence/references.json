@@ -1,0 +1,103 @@
+{
+  "research_date": "2026-10-04",
+  "local_executable": {
+    "path": "assets/PRINCE.EXE",
+    "sha256": "5BF733C56441258E69303102B0E08388484A9400E4D5CDAD9BD517478E150314",
+    "md5": "A025E942F8C9989EF5F6E0CC0EE06ED0",
+    "length": 290415,
+    "filesystem_timestamp": "2023-01-16T12:46:41",
+    "mz_header_bytes": 8192,
+    "mz_declared_root_end": 152637,
+    "mz_entrypoint": {"cs": "0x2203", "ip": "0x0678"},
+    "overlay_table_offset": 150347,
+    "runtime_markers": [
+      {"offset": 151735, "text": "ege0001: Internal error in .RTLink(R)/Plus run-time code"},
+      {"offset": 279922, "text": "MS Run-Time Library - Copyright (c) 1990, Microsoft Corp."}
+    ],
+    "identity_note": "Overlay parser successfully decodes this locked local hash; this does not prove retail/version identity. Timestamp identifies only this asset copy."
+  },
+  "same_length_exe_copy": {
+    "path": "assets/PRINCE2.EX_",
+    "sha256": "2A4268B4C42DD808947EDCC4E4FE9646EF33F1BFB4E5361B6267FADBAF112DBD",
+    "length": 290415,
+    "md5": "CB5A52797FCCBE32F49840F62478B2D1",
+    "different_offsets_from_PRINCE.EXE": [34157, 34158, 34161, 34162, 34163]
+  },
+  "public_reference": {
+    "repository": "https://github.com/Supermedo/prince-of-persia-2-windows",
+    "local_cache": "build/references/prince-of-persia-2-windows",
+    "commit": "e2c407fa8409ad891bf78c8e98c3e052dd00869b",
+    "file_blobs": {
+      "README.md": "df68fae7495b0b9fd4d05624e90b43107704a622",
+      "recomp/image.py": "6b13a4abb3145002dbf4938923e79a7c240af197",
+      "recomp/overlays.json": "d25aaae4492c3da49bf526d6f724ec4ddcfacaf7",
+      "recomp/recomp.py": "b1abc4caba6a131b0f56d3fba41c97bc02d60f6f",
+      "recomp/extra_entries.txt": "88ad66c805844cdcdcd239bdf9dbaabb2f706374",
+      "recomp/scan_prologues.py": "5c5230bd5a30a4501d0cfb54ce7e9d463e568f76",
+      "recomp/scan_jmptabs.py": "eb40654da1320ee9d244141576e9d03c701bc239",
+      "recomp/prologues_root.txt": "ba8033b44f1da9a5ce62bacd171ec170b34a8774"
+    },
+    "overlay_layout": {
+      "descriptor_start": 150347,
+      "descriptor_start_hex": "0x24b4b",
+      "descriptor_record_bytes": 18,
+      "descriptor_count": 16,
+      "overlay_id_range": [2, 17],
+      "struct_format_little_endian": "<HHHBBHHHHH",
+      "field_evidence": {
+        "seg": "documented by parser as link-time segment",
+        "pos_hi": "(pos + hi*65536)*16 yields relocation block file offset",
+        "nrel": "relocation count",
+        "fe": "overlay id, used as o{fe} and runtime id",
+        "size": "code size in 16-byte paragraphs",
+        "flags": "4 for overlays 2-16 and 1 for overlay 17; parser avoids resolving calls into flag-1 spaces. Oracle calls one a data/driver space; exact linker meaning unknown",
+        "f2": "not interpreted by parser",
+        "f8": "not interpreted by parser; equals size for overlays 2-16 but is 3026 for overlay 17 (size 1319)",
+        "fc": "not interpreted by parser; equals 5 for overlays 8 and 9, 0xffff otherwise"
+      },
+      "observed_entries": [
+        {"id": 2, "seg": "0x2344", "f2": 3133, "pos_low": 9540, "pos_high": 0, "flags": 4, "f8": 1675, "relocations": 821, "fc": 65535, "relocation_file_offset": 152640, "code_file_offset": 155936, "paragraphs": 1675},
+        {"id": 3, "seg": "0x2344", "f2": 3133, "pos_low": 11421, "pos_high": 0, "flags": 4, "f8": 1489, "relocations": 506, "fc": 65535, "relocation_file_offset": 182736, "code_file_offset": 184768, "paragraphs": 1489},
+        {"id": 4, "seg": "0x29cf", "f2": 3133, "pos_low": 13037, "pos_high": 0, "flags": 4, "f8": 172, "relocations": 66, "fc": 65535, "relocation_file_offset": 208592, "code_file_offset": 208864, "paragraphs": 172},
+        {"id": 5, "seg": "0x29cf", "f2": 3133, "pos_low": 13226, "pos_high": 0, "flags": 4, "f8": 177, "relocations": 76, "fc": 65535, "relocation_file_offset": 211616, "code_file_offset": 211920, "paragraphs": 177},
+        {"id": 6, "seg": "0x29cf", "f2": 3133, "pos_low": 13422, "pos_high": 0, "flags": 4, "f8": 510, "relocations": 160, "fc": 65535, "relocation_file_offset": 214752, "code_file_offset": 215392, "paragraphs": 510},
+        {"id": 7, "seg": "0x29cf", "f2": 3133, "pos_low": 13972, "pos_high": 0, "flags": 4, "f8": 127, "relocations": 34, "fc": 65535, "relocation_file_offset": 223552, "code_file_offset": 223696, "paragraphs": 127},
+        {"id": 8, "seg": "0x2a4e", "f2": 3133, "pos_low": 14108, "pos_high": 0, "flags": 4, "f8": 315, "relocations": 98, "fc": 5, "relocation_file_offset": 225728, "code_file_offset": 226128, "paragraphs": 315},
+        {"id": 9, "seg": "0x2a4e", "f2": 3133, "pos_low": 14448, "pos_high": 0, "flags": 4, "f8": 496, "relocations": 152, "fc": 5, "relocation_file_offset": 231168, "code_file_offset": 231776, "paragraphs": 496},
+        {"id": 10, "seg": "0x29cf", "f2": 3133, "pos_low": 14982, "pos_high": 0, "flags": 4, "f8": 488, "relocations": 175, "fc": 65535, "relocation_file_offset": 239712, "code_file_offset": 240416, "paragraphs": 488},
+        {"id": 11, "seg": "0x2c3e", "f2": 3133, "pos_low": 15514, "pos_high": 0, "flags": 4, "f8": 368, "relocations": 124, "fc": 65535, "relocation_file_offset": 248224, "code_file_offset": 248720, "paragraphs": 368},
+        {"id": 12, "seg": "0x2c3e", "f2": 3133, "pos_low": 15913, "pos_high": 0, "flags": 4, "f8": 388, "relocations": 150, "fc": 65535, "relocation_file_offset": 254608, "code_file_offset": 255216, "paragraphs": 388},
+        {"id": 13, "seg": "0x2dc2", "f2": 3133, "pos_low": 16339, "pos_high": 0, "flags": 4, "f8": 124, "relocations": 50, "fc": 65535, "relocation_file_offset": 261424, "code_file_offset": 261632, "paragraphs": 124},
+        {"id": 14, "seg": "0x2dc2", "f2": 3133, "pos_low": 16476, "pos_high": 0, "flags": 4, "f8": 157, "relocations": 40, "fc": 65535, "relocation_file_offset": 263616, "code_file_offset": 263776, "paragraphs": 157},
+        {"id": 15, "seg": "0x2dc2", "f2": 3133, "pos_low": 16643, "pos_high": 0, "flags": 4, "f8": 109, "relocations": 55, "fc": 65535, "relocation_file_offset": 266288, "code_file_offset": 266512, "paragraphs": 109},
+        {"id": 16, "seg": "0x2dc2", "f2": 3133, "pos_low": 16766, "pos_high": 0, "flags": 4, "f8": 20, "relocations": 19, "fc": 65535, "relocation_file_offset": 268256, "code_file_offset": 268336, "paragraphs": 20},
+        {"id": 17, "seg": "0x2e5f", "f2": 3133, "pos_low": 16791, "pos_high": 0, "flags": 1, "f8": 3026, "relocations": 161, "fc": 65535, "relocation_file_offset": 268656, "code_file_offset": 269312, "paragraphs": 1319, "payload_bytes": 21103, "declared_bytes": 21104, "shortfall_at_eof": 1}
+      ]
+    },
+    "entrypoint_metadata": {
+      "root_entry": "MZ cs:ip fields; parser relocates segment values by LOADSEG 0x100",
+      "manual_overlay_entry_seed_counts": {"o2": 10, "o3": 1, "o4": 4, "o5": 5, "o6": 19, "o7": 2, "o8": 18, "o9": 19, "o10": 3, "o13": 2, "o14": 1, "o15": 1},
+      "manual_overlay_entry_seed_note": "Address seeds in recomp/extra_entries.txt, not named symbols. Unlisted overlays have no manual seed lines in that file; call graph tracing may still discover entries."
+    }
+  },
+  "provenance_notes": {
+    "fm_towns_symbols": "First-person June 2025 statement supports presence of debug symbols; symbol completeness and code/data equivalence to this DOS executable have not been verified.",
+    "game_version_identity": "The local readme says the bundle came from bestoldgames.net. Local PRINCE.DAT and multiple related data/assets match the TASVideos 290415-byte unknown-v1.0 / Initial Release manifest, but local PRINCE.EXE and PRINCE2.EX_ hashes do not match its PRINCE.EXE MD5. Record the data-set relationship as evidence only; executable release identity remains unclassified.",
+    "main_backup_diff": "At root link address 0x052d:0x129d (file byte 34157), PRINCE.EXE writes byte [DS:03e2]=1 then unconditionally jumps to 0x53f4; PRINCE2.EX_ compares word [DS:03e2] with zero and enters initialization at 0x052d:0x12a7 only if zero. The next block writes word [03e2] and calls 0x052d:0x44e7 and 0x052d:0x4569. No version/correctness conclusion is implied.",
+    "rtlink_version": "The executable embeds an RTLink(R)/Plus runtime error marker, confirming linker/runtime provenance. It contains no exact version evidence. Contemporary literature establishes RTLink/Plus 4.0 in 1991, a 5.1 catalog listing in 1993, and a 7.10 user-reported banner in 1994; none identifies this build.",
+    "reference_code_use": "Use parser, entry seed lists, and metadata as a comparison aid. Do not import generated emulation C as reconstruction."
+  },
+  "sources": [
+    "https://github.com/Supermedo/prince-of-persia-2-windows",
+    "https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/image.py",
+    "https://github.com/Supermedo/prince-of-persia-2-windows/blob/main/recomp/overlays.json",
+    "https://www.resetera.com/threads/decompilation-projects-ot-free-next-gen-update-for-your-favorite-classics.682687/page-23",
+    "https://jacobfilipp.com/DrDobbs/articles/DDJ/1991/9101/9101t/9101t.htm",
+    "https://worldradiohistory.com/UK/Personal-Computer-World/90s/Personal-Computer-World-1993-01-S-OCR.pdf",
+    "https://groups.google.com/g/fido.ger.clipper/c/AwVon_MX-CY",
+    "https://tasvideos.org/7190S",
+    "https://popuw.com/download2.html",
+    "https://www.popot.org/documentation/documents/2014-06-07_PoP2_DAT_Differences.pdf",
+    "https://forum.princed.org/viewtopic.php?t=3424"
+  ]
+}
