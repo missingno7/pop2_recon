@@ -1,0 +1,38 @@
+{
+  "functions": [
+    {
+      "abi": "far Pascal, two 16-bit arguments, near data pointer, callee pops 4 bytes",
+      "boundary_evidence": [
+        "Direct far CALL opcode at root image offset 0x1999 targets 02cc:08c2; its segment word is MZ-relocated at 0x199c. Preceding pushes at 0x1992 and 0x1996 supply the arguments.",
+        "Original BP+8 signed value/BP+6 near pointer, forward branch joins store; sole RETF 4 ends image offset 0x3596.",
+        "Complete 20-byte extent independently decoded; following bytes begin another global-test entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 14745,
+          "image_offset": 6553,
+          "kind": "far_call",
+          "relocated_segment_site": 6556,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident early game code; caller passes game-state word and near pointer to signed coordinate-style adjustment."
+      ],
+      "classification_status": "strong game-helper hypothesis, not original symbol recovery",
+      "id": "root:02cc:08c2",
+      "offset": 2242,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "store_negative_adjusted_word",
+      "sha256": "d9baf253489e47ef774203440e88dafa919aa6779a66fe9987e6bbb75102eeab",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    }
+  ],
+  "schema": 1,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

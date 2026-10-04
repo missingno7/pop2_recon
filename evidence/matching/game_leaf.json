@@ -1,0 +1,106 @@
+{
+  "accepted_canonical_source": "src/floor_adjust.c",
+  "accepted_canonical_source_sha256": "4179c2b9da1fee540ea7b90de048648ca8fd185374551f59ec877724fd6cefe3",
+  "candidate": {
+    "abi": "far Pascal; 16-bit signed value followed by near pointer; callee pops 4 bytes",
+    "boundary_evidence": [
+      "Whole 20-byte function starts at the BP prologue at root image position 0x3582.",
+      "Direct far CALL opcode at root image position 0x1999 encodes 02cc:08c2; its relocated segment word is at 0x199c. The caller pushes the value then the near pointer.",
+      "The function ends at 0x3596 with RETF 4; following bytes begin a different global-test entry.",
+      "Decoded body conditionally decrements a signed word when negative and stores it through the near pointer."
+    ],
+    "boundary_status": "REVIEWED",
+    "callsite": {
+      "bytes": "9a c2 08 cc 02",
+      "far_pointer": {
+        "offset": 2242,
+        "segment": 716
+      },
+      "mapped_root_position": 13698,
+      "preceding_push_bytes_at_0x1992": "ff 36 54 62 53 8b f3",
+      "relocated_segment_word_position": 6556,
+      "root_image_position": 6553
+    },
+    "class_evidence": [
+      "Called directly from resident game logic at root function entry 0x1966, with a game-state word and near pointer.",
+      "Behavior is a small signed-word adjustment; original source symbol and exact gameplay role remain unknown."
+    ],
+    "classification": "GAME_C",
+    "end_exclusive_position": 13718,
+    "id": "root:02cc:08c2",
+    "image_position": 13698,
+    "offset": 2242,
+    "original_name": null,
+    "segment": 716,
+    "semantic_name_hypothesis": "store_negative_adjusted_word",
+    "size": 20,
+    "space": "root",
+    "target_bytes": "55 8b ec 8b 56 08 0b d2 7d 01 4a 8b 5e 06 89 17 5d ca 04 00",
+    "target_sha256": "d9baf253489e47ef774203440e88dafa919aa6779a66fe9987e6bbb75102eeab"
+  },
+  "candidate_source": "build/workers/game_leaf/floor_adjust.c",
+  "comparison": {
+    "emitted_sha256": "d9baf253489e47ef774203440e88dafa919aa6779a66fe9987e6bbb75102eeab",
+    "emitted_size": 20,
+    "exact": true,
+    "expected_sha256": "d9baf253489e47ef774203440e88dafa919aa6779a66fe9987e6bbb75102eeab",
+    "expected_size": 20,
+    "first_difference": null,
+    "proof_scope": "Complete component code and empty fixup/relocation obligations; object declarations recorded, original TU identity and structural link unproved",
+    "state": "CODE_EXACT"
+  },
+  "compiler": {
+    "actual_fixups": 0,
+    "argv": [
+      "C:\\tools\\nmlgcdos\\msdos.exe",
+      "-e",
+      "-v5.00",
+      "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc",
+      "UNIT.C"
+    ],
+    "complete_segment": {
+      "alignment": 2,
+      "big": false,
+      "class": "CODE",
+      "combine": 2,
+      "frame": null,
+      "frame_offset": null,
+      "length": 20,
+      "name": "UNIT_TEXT",
+      "overlay": "",
+      "use32": false
+    },
+    "fixup_thread_declarations_retained": 6,
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "object_sha256": "c067fbde1ebde64e97634fc5086c1ff1ac09382c3e48bce10f0d287523c32cc5",
+    "profile": "msc600",
+    "public": {
+      "frame": null,
+      "group_index": 0,
+      "name": "FLOOR_ADJUST",
+      "offset": 0,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "type_index": 0
+    },
+    "unreferenced_external_declarations": [
+      "FLOOR_ADJUST"
+    ]
+  },
+  "schema": 1,
+  "source_sha256": "f460c204cbddf0f28f6b3ca737ecbdd4bf75c29625e32725b3e5f1f7ad27d250",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

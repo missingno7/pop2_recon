@@ -1,0 +1,74 @@
+{
+  "boundary_evidence": [
+    "Supermedo reference extra_entries.txt annotates o2 28a1:0e68 as a reachable function entry (cross-checked against overlay-2 address arithmetic).",
+    "Direct 16-bit decode from entry is linear and ends at RETF 2 at extent byte 42..44; no branch leaves the extent.",
+    "No overlay relocation sites fall within the 45-byte extent.",
+    "Independent semantic hypothesis: swaps two adjacent 16-bit words at record offsets 0/2 with words at offsets 0x2e/0x30."
+  ],
+  "candidate": {
+    "complete_code_bytes": "55 8b ec 83 ec 04 8b 5e 06 8b 07 8b 57 02 89 46 fc 89 56 fe 8b 47 2e 8b 57 30 89 07 89 57 02 8b 46 fc 8b 56 fe 89 47 2e 89 57 30 8b e5 5d ca 02 00 90",
+    "complete_code_sha256": "68865943dfb9f0a5b68d057d94b714d8f07f62a3ff6f53e443571d13eb5d1339",
+    "complete_code_size": 50,
+    "externals": [
+      "F"
+    ],
+    "fixup_count": 0,
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "object_path": "build/workers/first_matches/final_msc600/UNIT.OBJ",
+    "object_sha256": "60e88ca7c5e97fd501dbc71e6c586f0feb977ce14c1e8b8ec902cb3aeee8b611",
+    "profile": "msc600",
+    "public": "F",
+    "source": "evidence/matching/swap_candidate.c",
+    "source_sha256": "9d34f67195a550bb05d83e672ff43583837aa1acdb11a1d3660b75b03a249858"
+  },
+  "classification": "GAME_C hypothesis; semantic classification unreviewed",
+  "comparison": {
+    "decision": "No match. Complete 50-byte emitted CODE segment retained and compared; it is not trimmed to target length.",
+    "emitted_size": 50,
+    "exact": false,
+    "expected_size": 45,
+    "first_difference": 14,
+    "tail_or_length_difference": 5
+  },
+  "notes": [
+    "The emitted 50-byte CODE segment differs beginning at byte 14: compiler stores both words of the local aggregate at [BP-4] and [BP-2], while the target keeps the first word in CX and spills only the second at [BP-2].",
+    "Target ends with RETF 2 at byte 44. Candidate also ends with RETF 2, then has a trailing 90 byte in the complete CODE SEGDEF.",
+    "A scalar-local form and MSC optimization variants /O, /Og, /Ox, /Os, /Ot were tried; none matched. The scalar form collapsed to a 32-byte CODE segment, and aggregate variants retained two spills.",
+    "Future complete-component acceptance must include the observed alignment NOP: provisional owned extent 46 bytes. Current 45-byte instruction-body diagnostic is not acceptance.",
+    "An explicit register struct Pair local with /Oe, /Ox, or /Oe /Or also emits the same 50 bytes."
+  ],
+  "reference": {
+    "annotation_file": "recomp/extra_entries.txt",
+    "checkout": "build/references/prince-of-persia-2-windows",
+    "commit": "e2c407fa8409ad891bf78c8e98c3e052dd00869b",
+    "repository": "https://github.com/Supermedo/prince-of-persia-2-windows"
+  },
+  "schema": 1,
+  "state": "CANDIDATE_C_NO_MATCH",
+  "target": {
+    "asset": "assets/PRINCE.EXE",
+    "bytes": "55 8b ec 83 ec 04 8b 5e 06 8b 07 8b 57 02 8b c8 89 56 fe 8b 47 2e 8b 57 30 89 07 89 57 02 8b 46 fe 89 4f 2e 89 47 30 8b e5 5d ca 02 00",
+    "entry_alias": {
+      "offset": "0x0e68",
+      "segment": "0x28a1"
+    },
+    "file_offset": 181592,
+    "following_alignment_byte_hex": "90",
+    "instruction_body_size": 45,
+    "link_segment": 9028,
+    "original_relocations": [],
+    "position": 25656,
+    "provisional_complete_owned_sha256": "5b0c208d283d4a1c825863a6aee86c4ce7706ed92770b9fecc4d81f1122cf603",
+    "provisional_complete_owned_size": 46,
+    "sha256": "de693fb1c591180d085c523d12434cfd6dd7c643a9d6f413e6efd5cec953de8b",
+    "size": 45,
+    "space": "overlay-2"
+  }
+}

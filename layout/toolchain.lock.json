@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "purpose": "Machine-local pin of the DOS compiler runner and historical compiler passes. Executables are external to this repository.",
+  "runner": {
+    "name": "MS-DOS Player",
+    "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+    "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "options": ["-e", "-v5.00"],
+    "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+  },
+  "profiles": {
+    "msc510": {
+      "label": "Microsoft C Optimizing Compiler 5.10",
+      "directory": "C:\\tools\\msc-5.10",
+      "executable": "C:\\tools\\msc-5.10\\CL.EXE",
+      "flags": ["/c", "/O", "/AL"],
+      "files": [
+        {"path": "C:\\tools\\msc-5.10\\CL.EXE", "sha256": "cad40cef732beea3455225fbd62286c664166db7c3f87e2402e22b2e3f107771"},
+        {"path": "C:\\tools\\msc-5.10\\C1.EXE", "sha256": "8d33c6d87aa74b042b7d7cb01a23241c4cc3b1b8b446b8f1548bd167e3c7bf62"},
+        {"path": "C:\\tools\\msc-5.10\\C2.EXE", "sha256": "a513c98bc2ce11bd00901b560252b5727ab9b6bacd9319b9eaba08f9e314b99b"},
+        {"path": "C:\\tools\\msc-5.10\\C3.EXE", "sha256": "c1269628534d5deb48171ba9e42f761dcb1c28a0087c73780db0ee2e4352e6fa"}
+      ],
+      "probe_status": "compiled"
+    },
+    "msc600": {
+      "label": "Microsoft (R) C Optimizing Compiler Version 6.00",
+      "directory": "C:\\tools\\msc-6.00\\BIN",
+      "executable": "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+      "flags": ["/c", "/O", "/AL"],
+      "files": [
+        {"path": "C:\\tools\\msc-6.00\\BIN\\CL.EXE", "sha256": "136a092d68a206430b775f761d33d03ca350c385e1214ec6175f6690084b3598"},
+        {"path": "C:\\tools\\msc-6.00\\BIN\\C1.EXE", "sha256": "e5b8f76467c03df795b96ce18f96901e4cf5a4bced12c13202e0f1f200afa8c0"},
+        {"path": "C:\\tools\\msc-6.00\\BIN\\C2.EXE", "sha256": "85231e08ee8348b7c5acbc692f531602f9920d8393339f76376fff375158350b"},
+        {"path": "C:\\tools\\msc-6.00\\BIN\\C3.EXE", "sha256": "9a48ebc4a1440f06cb3cfc6a0a8a48a461a16c0e3df40dde40a702abc0e0d907"}
+      ],
+      "probe_status": "compiled_with_verified_dos_version"
+    },
+    "msc600a_bound": {
+      "label": "Microsoft C Optimizing Compiler Version 6.00A (c2l-bound local variant)",
+      "directory": "C:\\tools\\msc-6.00a-c2l-bound\\BIN",
+      "path_extra": ["C:\\tools\\msc-6.00a-c2l-bound"],
+      "executable": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\CL.EXE",
+      "flags": ["/c", "/O", "/AL"],
+      "timeout_seconds": 15,
+      "files": [
+        {"path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\CL.EXE", "sha256": "9f452b39def257b3e07a9f4e07857d6d8a6e36da869a30c6e20ac51ea98b9816"},
+        {"path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\C1.EXE", "sha256": "286cee7fe1fe3770d98f198c57350a62596095e83ad6c106c1a59101490b6507"},
+        {"path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\C2.EXE", "sha256": "1b370eb86adc28e23ddca9d89c9ae627f8e280b28e63c67c4c3824004d4059d7"},
+        {"path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\C3.EXE", "sha256": "224727d55a715057288d56c00fdd524700f1354e79b487705f1888283c079344"},
+        {"path": "C:\\tools\\msc-6.00a-c2l-bound\\C2L.EXE", "sha256": "04fc3f753a4ab1f292ffd4e1dfb70f5a45620457bb0974fdd115dc917ffa68c5"}
+      ],
+      "probe_status": "near_model_compiled; large_model_probe_timed_out"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "research_date": "2026-10-04",
+  "target": {
+    "path": "assets/PRINCE.EXE",
+    "sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+    "size": 290415
+  },
+  "reference_library": {
+    "path": "C:\\tools\\msc-6.00\\LIB\\llibcr.lib",
+    "product_context": "Installed Microsoft C 6.0 large-model DOS library",
+    "size": 148711,
+    "sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+    "reader": "tools/omf.py OmfReader().read(member_bytes, label); strict parsing succeeded for all listed members",
+    "extent_method": "member bytes from OMF THEADR record through MODEND record, excluding archive padding"
+  },
+  "exact_nofixup_runtime_matches": [
+    {"member": "searchsg.asm", "archive_offset": "0x7040", "member_extent": 257, "member_sha256": "5964e6c9dfd4de45ed54a592c35165c6dd851c32cca10ee25c6b652422c0a9e2", "publics": ["__searchseg"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 124, "segment_sha256": "44a28c72af20a32d04143d0b08720a019f3f13486749a27da6b9e3b52b21fb39", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x212ac", "root_address": "2000:12ac", "root_file_offset": 144044, "root_segment_sha256": "44a28c72af20a32d04143d0b08720a019f3f13486749a27da6b9e3b52b21fb39", "root_relocations_in_extent": 0},
+    {"member": "nmsize.asm", "archive_offset": "0x7450", "member_extent": 139, "member_sha256": "7860299116f1a7dbb6b28fe5bd6e7c73d0d6b17cd39c9f1f9932458e52b8fe0a", "publics": ["__nmsize"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 13, "segment_sha256": "65f2940dcea8f9a6757cce4f2770d99fc059f4b78f2bdc40e490933558a19a63", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21426", "root_address": "2000:1426", "root_file_offset": 144422, "root_segment_sha256": "65f2940dcea8f9a6757cce4f2770d99fc059f4b78f2bdc40e490933558a19a63", "root_relocations_in_extent": 0},
+    {"member": "strcpy.asm", "archive_offset": "0x7650", "member_extent": 179, "member_sha256": "d4d6a8b32590105b6f721818882355d512221b19d55bfa6b2055170e4a7f9f18", "publics": ["_strcpy"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 54, "segment_sha256": "d2de043779a7128c098a270356177adb5e2b742da948b8e8a1b0d4abbed13569", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21d4c", "root_address": "2000:1d4c", "root_file_offset": 146764, "root_segment_sha256": "d2de043779a7128c098a270356177adb5e2b742da948b8e8a1b0d4abbed13569", "root_relocations_in_extent": 0},
+    {"member": "strcmp.asm", "archive_offset": "0x7710", "member_extent": 166, "member_sha256": "647bb9bde2215e9aa469cae5ee0092d60dc70c8d6f36aeddfb93800be6d0d07c", "publics": ["_strcmp"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 41, "segment_sha256": "035ad47ddae9b512f38fe3759c5df5fa0e12c0dfdeeaf71d52c6919d3bdb40f5", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21fc2", "root_address": "2000:1fc2", "root_file_offset": 147394, "root_segment_sha256": "035ad47ddae9b512f38fe3759c5df5fa0e12c0dfdeeaf71d52c6919d3bdb40f5", "root_relocations_in_extent": 0},
+    {"member": "strlen.asm", "archive_offset": "0x77c0", "member_extent": 148, "member_sha256": "36407dec2d2121638e1743614974f899b5c156e863373de4f9499e8c60d4a714", "publics": ["_strlen"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 23, "segment_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21d34", "root_address": "2000:1d34", "root_file_offset": 146740, "root_segment_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331", "root_relocations_in_extent": 0},
+    {"member": "headchk.asm", "archive_offset": "0xdb10", "member_extent": 259, "member_sha256": "f6a0ac010766b5e631c8677b0c5e5f599b98c62c3107be89d2b44692dc94a427", "publics": ["__headchk", "__listchk"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 117, "segment_sha256": "7397326f984c6eb93d262a166cda397e6aa9b8e2bd850cf6b1cc4312acd8cd3e", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21698", "root_address": "2000:1698", "root_file_offset": 145048, "root_segment_sha256": "7397326f984c6eb93d262a166cda397e6aa9b8e2bd850cf6b1cc4312acd8cd3e", "root_relocations_in_extent": 0},
+    {"member": "growscan.asm", "archive_offset": "0xe6e0", "member_extent": 167, "member_sha256": "af22173718178583140192d6ef51dee8873a5179a53875c83f217a38269f43ff", "publics": ["__growscan"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 21, "segment_sha256": "0143ef3d243ee758839405385ad6115d6d9ca00c834e1d712c9d34b37aa2ab46", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x217d0", "root_address": "2000:17d0", "root_file_offset": 145360, "root_segment_sha256": "0143ef3d243ee758839405385ad6115d6d9ca00c834e1d712c9d34b37aa2ab46", "root_relocations_in_extent": 0},
+    {"member": "stricmp.asm", "archive_offset": "0x13fc0", "member_extent": 209, "member_sha256": "c7384f78630166042dca86b0987b5586e2eb861b4882e03a6291e33253ba0f40", "publics": ["_strcmpi", "_stricmp"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 69, "segment_sha256": "139b7c6d73baad3f586256404c04f228a0664dc315325cf23abf816646a4c7ef", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21cee", "root_address": "2000:1cee", "root_file_offset": 146670, "root_segment_sha256": "139b7c6d73baad3f586256404c04f228a0664dc315325cf23abf816646a4c7ef", "root_relocations_in_extent": 0},
+    {"member": "strnicmp.asm", "archive_offset": "0x14180", "member_extent": 219, "member_sha256": "49be8627f7594079023aa6d3c2a70c882e1c17f713cf900cdc6ba9481836b2fd", "publics": ["_strnicmp"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 88, "segment_sha256": "03d548a41c4cec445d438fd0af0928fde5e0dc96785c4449b53bbf7c4dc8cab9", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21efc", "root_address": "2000:1efc", "root_file_offset": 147196, "root_segment_sha256": "03d548a41c4cec445d438fd0af0928fde5e0dc96785c4449b53bbf7c4dc8cab9", "root_relocations_in_extent": 0},
+    {"member": "strstr.asm", "archive_offset": "0x14a90", "member_extent": 228, "member_sha256": "72b433a654b9a251bf06e8775cdf101d561938f88aa9566528c736e88b0803a5", "publics": ["_strstr"], "segment": "_TEXT", "segment_offset": 0, "segment_size": 103, "segment_sha256": "96bacf99c5d1b777c600fbe722335dc43e0f348dee34b05352ece25c7c57176b", "fixup_records": 0, "actual_fixups": 0, "root_position": "0x21dca", "root_address": "2000:1dca", "root_file_offset": 146890, "root_segment_sha256": "96bacf99c5d1b777c600fbe722335dc43e0f348dee34b05352ece25c7c57176b", "root_relocations_in_extent": 0}
+  ],
+  "startup_match": {
+    "member": "dos\\crt0.asm",
+    "archive_offset": "0x10",
+    "member_extent": 1230,
+    "member_sha256": "2e9a254b9bd00ea59884089e78e951f0e40343e11d24976f32d9582f4ded259d",
+    "public": "__astart",
+    "segment": "_TEXT",
+    "segment_size": 255,
+    "segment_sha256": "19f2be62cae28b23102f07c5c20733d06bed0e6fea50d23bbb44bf94201b57a1",
+    "root_address": "1000:fed4",
+    "root_file_offset": 138964,
+    "compared_prefix_bytes": 184,
+    "nonfixup_mismatches_in_prefix": 0,
+    "fixup_bytes_in_prefix": 40,
+    "first_nonfixup_mismatch": 184,
+    "member_actual_fixups_in_text": 30,
+    "member_thread_declarations": 0,
+    "member_fixupp_record_hex": ["c402000101ca00c404000101ca00c406000101ca00c80c040202", "c402060102", "c80e150101c42412010cfeff842d2608088434260303c4441001030400c4471001030600c469140103c47e16010fc484160110c48716010cc493160101cc9a260b0bcc9f260a0acca6260404c4ae1201070200c4b2160107c4b61201060200c4ba160106c4be160105ccc1260d0d84c8260e0ec4cd000101fd00c4d71001030200c4d906010e84de26080884e2260303c4e7140106c4f21001060400c4fb1001030200c8fd150101"]
+  },
+  "lower_ascii_candidate": {
+    "root_address": "1101:bd0a",
+    "root_file_offset": 126234,
+    "root_bytes_hex": "558bec8b46063c4172063c5a77020c205dca0200",
+    "root_relocations_in_extent": 0,
+    "behavior_note": "Tests AL against ASCII A-Z, sets bit 0x20 for that range, then RETF 2.",
+    "comparison_member": "tolower.c",
+    "archive_offset": "0x8150",
+    "member_extent": 294,
+    "member_sha256": "92b4f2998f5e689c7c500010e88f5300d628ec81220ef345300465ea4bbf143a",
+    "publics": {"_tolower": 12, "__tolower": 0},
+    "text_size": 34,
+    "actual_fixups": 1,
+    "thread_declarations": 6,
+    "fixupp_records_hex": ["000301020201030440014501", "c4145601"],
+    "conclusion": "Related ASCII-lowercasing purpose, but no exact match; do not assign _tolower symbol based on semantics alone."
+  },
+  "classification": {
+    "established": "Ten complete nofixup runtime member _TEXT extents match root bytes exactly. The MZ entrypoint reaches a resident startup routine matching the beginning of MSC6 large-model __astart; its first 184 bytes match outside declared FIXUPP fields.",
+    "runtime_region_hint": "Exact library members cluster from root position 0x212ac through 0x21feb; startup code is nearby. This supports a resident runtime-code cluster.",
+    "not_established": ["Exact CRT contiguous-segment boundaries", "Exact library release used by the game", "Identity of root:1101:bd0a as _tolower", "Attribution of unmatched bytes adjacent to exact member extents"],
+    "string_markers": "The MS C runtime copyright marker is in overlay 17; the .RTLink(R)/Plus error marker is in the resident image. Neither marker alone pins the runtime or linker build."
+  }
+}

@@ -1,0 +1,4571 @@
+{
+  "schema": 1,
+  "runner": {
+    "name": "MS-DOS Player",
+    "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+    "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "options": [
+      "-e",
+      "-v5.00"
+    ],
+    "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+  },
+  "toolchain_lock_sha256": "c1a7e70a9f2414d4512ce5cac24ef89505b81162fafb64e8af2a9e0acb14df09",
+  "probe_flags": [
+    "/c",
+    "/O",
+    "/AS",
+    "/Gs",
+    "/Zl"
+  ],
+  "profiles": {
+    "msc510": {
+      "label": "Microsoft C Optimizing Compiler 5.10",
+      "directory": "C:\\tools\\msc-5.10",
+      "executable": "C:\\tools\\msc-5.10\\CL.EXE",
+      "pinned_files": [
+        {
+          "path": "C:\\tools\\msc-5.10\\CL.EXE",
+          "sha256": "cad40cef732beea3455225fbd62286c664166db7c3f87e2402e22b2e3f107771"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C1.EXE",
+          "sha256": "8d33c6d87aa74b042b7d7cb01a23241c4cc3b1b8b446b8f1548bd167e3c7bf62"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C2.EXE",
+          "sha256": "a513c98bc2ce11bd00901b560252b5727ab9b6bacd9319b9eaba08f9e314b99b"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C3.EXE",
+          "sha256": "c1269628534d5deb48171ba9e42f761dcb1c28a0087c73780db0ee2e4352e6fa"
+        }
+      ],
+      "probe_flags": [
+        "/c",
+        "/O",
+        "/AS",
+        "/Gs",
+        "/Zl"
+      ],
+      "probes": {
+        "increment": {
+          "status": "COMPILED",
+          "source": "recipes/probes/increment.c",
+          "public_name": "_increment",
+          "source_sha256": "0b52539c8fc347d124d6dceaaec3528486ce6008e8a5beea90b8c126b5404bbc",
+          "staged_source_sha256": "35f1110d781dd2015a4731f08a72366960bd6da247afc183dcec7b0c122d3200",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "5ec84e059f1cd9c959eabcc5e288fbe6f3580d2eacb38b0daa1b4d04c91e0a62",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\increment\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 10,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                10
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b4604405dc390"
+          },
+          "publics": [
+            {
+              "name": "_increment",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_increment"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b4604405dc390",
+          "complete_function_extent_sha256": "a63db26f38112641158693a32eea80691218d1377a7d89ab6cdd61d4f66cd15c"
+        },
+        "external_call": {
+          "status": "COMPILED",
+          "source": "recipes/probes/external_call.c",
+          "public_name": "_invoke_external",
+          "source_sha256": "79899ee8b68ac890cfdf82f61d638fe0a23e24aeb9fbfdb12b546bb9dcd239cb",
+          "staged_source_sha256": "6cfb3533cb02a3ce9c259465b92ba04dd764c6e0916accd2c880747f3cb642f4",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "dea6d2262c12c71e2fba213f5b3d7867f871c351282d111ba556032ce37d8773",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\external_call\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 16,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                16
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff7604e8000083c402405dc390"
+          },
+          "publics": [
+            {
+              "name": "_invoke_external",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_helper",
+            "_invoke_external"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84075602",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 7,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 2,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        },
+        "signed_branch": {
+          "status": "COMPILED",
+          "source": "recipes/probes/signed_branch.c",
+          "public_name": "_signed_branch",
+          "source_sha256": "6e16b0c3abd75a334d4544270dacb43e633a85a0810e4174878be98819ba25b8",
+          "staged_source_sha256": "dfea3bcc902f7608beea3df818e9636f2a1d4f83c8042483ce88bf69478d2554",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "d3c36998abf398489b68ea3b0f30cfbb404361ca8f8f80b4f56baefd4f188708",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\signed_branch\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 34,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                34
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b46063946047d05b8ffff5dc38b460639460475042bc05dc3b801005dc390"
+          },
+          "publics": [
+            {
+              "name": "_signed_branch",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_signed_branch"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b46063946047d05b8ffff5dc38b460639460475042bc05dc3b801005dc390",
+          "complete_function_extent_sha256": "23b030b400306e4067d505dedcf69d184549b0705b548b58f9e2f0d3279cd500"
+        },
+        "unsigned_branch": {
+          "status": "COMPILED",
+          "source": "recipes/probes/unsigned_branch.c",
+          "public_name": "_unsigned_branch",
+          "source_sha256": "2488b5918c34143ea210fdf68340d05375dde133c343df9d43297603971bb17b",
+          "staged_source_sha256": "348e96085fabbbd7a80ca1881c2b9d99ae9f218187ad61fec7f521056bde3776",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "1ad486ef3ed227234d7259e73ee555127bf8257280779ced626f1ef264ed69fc",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\unsigned_branch\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 20,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                20
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b46063946047305b801005dc32bc05dc3"
+          },
+          "publics": [
+            {
+              "name": "_unsigned_branch",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_unsigned_branch"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b46063946047305b801005dc32bc05dc3",
+          "complete_function_extent_sha256": "bb640a535b05465a1f9a2fbcb8d1b5a241bd4a059c71f504363d5b54b652fb71"
+        },
+        "switch_select": {
+          "status": "COMPILED",
+          "source": "recipes/probes/switch_select.c",
+          "public_name": "_switch_select",
+          "source_sha256": "74240188e025da29f52cfc65280af41288d3fb199d3ad549dc4e752f1f64ddcc",
+          "staged_source_sha256": "b6ec0ca863548e99b9a02a2b170218540aa17afd46e182f5ecdc6f3f5f2496f7",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "4345f29fdb32847c2c6948d943fa8a6c3680bb846857060d92428b41424bfcfd",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\switch_select\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 54,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                54
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b46040bc074143d010074153d040074163d07007417b8ffff5dc3b811005dc390b81d005dc390b83d005dc390b871005dc390"
+          },
+          "publics": [
+            {
+              "name": "_switch_select",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_switch_select"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b46040bc074143d010074153d040074163d07007417b8ffff5dc3b811005dc390b81d005dc390b83d005dc390b871005dc390",
+          "complete_function_extent_sha256": "e030c6479e9454b3a4c9a3e93f696eac9e423727bc61df6014f477a44a6412c0"
+        },
+        "far_pointer": {
+          "status": "COMPILED",
+          "source": "recipes/probes/far_pointer.c",
+          "public_name": "_read_far",
+          "source_sha256": "f7bdc180a2cf06f90b58ca94c4e7d5c8a6a98dbedf8958cf0f5b6684e83b684e",
+          "staged_source_sha256": "d5a09fa47387c20bc29736bbfca62c8ed149948354e94a849e2758f008373b93",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "19750d0d3ac0a1da30d7b0bd270a06221b893de3becaafb78e1c77f30367aa38",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\far_pointer\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 14,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                14
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becc45e04268a072ae45dc390"
+          },
+          "publics": [
+            {
+              "name": "_read_far",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_read_far"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558becc45e04268a072ae45dc390",
+          "complete_function_extent_sha256": "af57b01be3d91b40fe0497a33a62f06345940c683a89d9f4ca881138fafb3fa7"
+        },
+        "long_multiply": {
+          "status": "COMPILED",
+          "source": "recipes/probes/long_multiply.c",
+          "public_name": "_multiply_long",
+          "source_sha256": "13a1042c12c6cd326a020395996e913f43a68c4351a745d64d82cfc680586507",
+          "staged_source_sha256": "5a87e9a255384e937ec82930a5cb0396686b3f651ac793d7e040627d26a8a17a",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "ca16070e1aaad23d8d282e1aea7fe87ceb8e2accbe81365ab529cbf59b7afdeb",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\long_multiply\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 20,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                20
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff760aff7608ff7606ff7604e800005dc3"
+          },
+          "publics": [
+            {
+              "name": "_multiply_long",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "__aNlmul",
+            "_multiply_long"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84105602",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 16,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 2,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        },
+        "long_divide": {
+          "status": "COMPILED",
+          "source": "recipes/probes/long_divide.c",
+          "public_name": "_divide_long",
+          "source_sha256": "a014b4c194089376948a92b5a5c9d49bd154766f362e6ebc54d8df066c58441e",
+          "staged_source_sha256": "d21a3737d604e0093fd2e30c061ceae423b2344342c8c3bc9393904676c4ee87",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "f899f1e1d0dafb09f5fe18646230a4cb4eb7a4f3c1f6c74c1631c88ac66c0d8d",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\long_divide\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 20,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                20
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff760aff7608ff7606ff7604e800005dc3"
+          },
+          "publics": [
+            {
+              "name": "_divide_long",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "__aNldiv",
+            "_divide_long"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84105602",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 16,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 2,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        },
+        "register_locals": {
+          "status": "COMPILED",
+          "source": "recipes/probes/register_locals.c",
+          "public_name": "_register_locals",
+          "source_sha256": "8fb061829ea2676c88fcd3d99a741b4977a9c7eca49232d59c89aee030587ffd",
+          "staged_source_sha256": "3e4fa042ad4526aa48a5e22e4501346c2aecdaf9e0cb8f7d7688d5cb4ee9f5e1",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-5.10\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "ce1cf18aae2aa0e71ebd4aa5c7d518db28192e7ccdcc9bf86d0ad699c4355576",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc510\\register_locals\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 34,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                34
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec83ec0457568b76040376068b7e08037e0a8bc6f7ef0346045e5f8be55dc390"
+          },
+          "publics": [
+            {
+              "name": "_register_locals",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__acrtused",
+            "_register_locals"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec83ec0457568b76040376068b7e08037e0a8bc6f7ef0346045e5f8be55dc390",
+          "complete_function_extent_sha256": "f9081fb06c08914217558e12b42617e2a2376bd81bbcef4d789679aed30355e5"
+        }
+      }
+    },
+    "msc600": {
+      "label": "Microsoft (R) C Optimizing Compiler Version 6.00",
+      "directory": "C:\\tools\\msc-6.00\\BIN",
+      "executable": "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+      "pinned_files": [
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "sha256": "136a092d68a206430b775f761d33d03ca350c385e1214ec6175f6690084b3598"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C1.EXE",
+          "sha256": "e5b8f76467c03df795b96ce18f96901e4cf5a4bced12c13202e0f1f200afa8c0"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C2.EXE",
+          "sha256": "85231e08ee8348b7c5acbc692f531602f9920d8393339f76376fff375158350b"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C3.EXE",
+          "sha256": "9a48ebc4a1440f06cb3cfc6a0a8a48a461a16c0e3df40dde40a702abc0e0d907"
+        }
+      ],
+      "probe_flags": [
+        "/c",
+        "/O",
+        "/AS",
+        "/Gs",
+        "/Zl"
+      ],
+      "probes": {
+        "increment": {
+          "status": "COMPILED",
+          "source": "recipes/probes/increment.c",
+          "public_name": "_increment",
+          "source_sha256": "0b52539c8fc347d124d6dceaaec3528486ce6008e8a5beea90b8c126b5404bbc",
+          "staged_source_sha256": "35f1110d781dd2015a4731f08a72366960bd6da247afc183dcec7b0c122d3200",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "c87d00c39111b76ae42a6bdfacf5fce4159cbfbc4b85ebb9c97b938183a2c6e1",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\increment\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 10,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                10
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b4604405dc390"
+          },
+          "publics": [
+            {
+              "name": "_increment",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_increment"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b4604405dc390",
+          "complete_function_extent_sha256": "a63db26f38112641158693a32eea80691218d1377a7d89ab6cdd61d4f66cd15c"
+        },
+        "external_call": {
+          "status": "COMPILED",
+          "source": "recipes/probes/external_call.c",
+          "public_name": "_invoke_external",
+          "source_sha256": "79899ee8b68ac890cfdf82f61d638fe0a23e24aeb9fbfdb12b546bb9dcd239cb",
+          "staged_source_sha256": "6cfb3533cb02a3ce9c259465b92ba04dd764c6e0916accd2c880747f3cb642f4",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "06d52d8f0a166722d46e1865446dec503befdf85d30dc63bbe6f641dce3cc4cb",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\external_call\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 14,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                14
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff7604e80000408be55dc3"
+          },
+          "publics": [
+            {
+              "name": "_invoke_external",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_helper",
+            "_invoke_external"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84075601",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 7,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 1,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        },
+        "signed_branch": {
+          "status": "COMPILED",
+          "source": "recipes/probes/signed_branch.c",
+          "public_name": "_signed_branch",
+          "source_sha256": "6e16b0c3abd75a334d4544270dacb43e633a85a0810e4174878be98819ba25b8",
+          "staged_source_sha256": "dfea3bcc902f7608beea3df818e9636f2a1d4f83c8042483ce88bf69478d2554",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "ba79d4260b1b1ae5ad3622160d7aed43fa903513dc790c6b0fb22290ead4e6c7",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\signed_branch\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 38,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                38
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b46043946067e07b8ffff8be55dc339460675072bc08be55dc390b801008be55dc390"
+          },
+          "publics": [
+            {
+              "name": "_signed_branch",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_signed_branch"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b46043946067e07b8ffff8be55dc339460675072bc08be55dc390b801008be55dc390",
+          "complete_function_extent_sha256": "1556c30451169eba2379ffdb584c041863be21bd54123e5e7ff37f8b5d710b0c"
+        },
+        "unsigned_branch": {
+          "status": "COMPILED",
+          "source": "recipes/probes/unsigned_branch.c",
+          "public_name": "_unsigned_branch",
+          "source_sha256": "2488b5918c34143ea210fdf68340d05375dde133c343df9d43297603971bb17b",
+          "staged_source_sha256": "348e96085fabbbd7a80ca1881c2b9d99ae9f218187ad61fec7f521056bde3776",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "fa683aad8943436da10c1bb3219aabc3cc6241a2fdd310d014a3b88574082322",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\unsigned_branch\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 20,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                20
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b46043946067605b801005dc32bc05dc3"
+          },
+          "publics": [
+            {
+              "name": "_unsigned_branch",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_unsigned_branch"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b46043946067605b801005dc32bc05dc3",
+          "complete_function_extent_sha256": "ec4e676cda290e3925c4eed6063f683420d5e18daf400ea275dbfda8f98ff209"
+        },
+        "switch_select": {
+          "status": "COMPILED",
+          "source": "recipes/probes/switch_select.c",
+          "public_name": "_switch_select",
+          "source_sha256": "74240188e025da29f52cfc65280af41288d3fb199d3ad549dc4e752f1f64ddcc",
+          "staged_source_sha256": "b6ec0ca863548e99b9a02a2b170218540aa17afd46e182f5ecdc6f3f5f2496f7",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "d935c175d3ff2c0521b3e08743533f2cfd316798ef9da39a98152dbbb08991da",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\switch_select\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 56,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                56
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b46040bc074104874132d030074142d03007415eb1990b811005dc390b81d005dc390b83d005dc390b871005dc390b8ffff5dc390"
+          },
+          "publics": [
+            {
+              "name": "_switch_select",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_switch_select"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b46040bc074104874132d030074142d03007415eb1990b811005dc390b81d005dc390b83d005dc390b871005dc390b8ffff5dc390",
+          "complete_function_extent_sha256": "0916d74bbf3ac9215c67c5eab796491dfda6e90b7784e57bf40261d709d60d0b"
+        },
+        "far_pointer": {
+          "status": "COMPILED",
+          "source": "recipes/probes/far_pointer.c",
+          "public_name": "_read_far",
+          "source_sha256": "f7bdc180a2cf06f90b58ca94c4e7d5c8a6a98dbedf8958cf0f5b6684e83b684e",
+          "staged_source_sha256": "d5a09fa47387c20bc29736bbfca62c8ed149948354e94a849e2758f008373b93",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "4432a933df93aa933b80fcf1a6734f6401ec60d5cf8357d51c2addce20ed4d49",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\far_pointer\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 12,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                12
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becc45e04268a075dc390"
+          },
+          "publics": [
+            {
+              "name": "_read_far",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_read_far"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558becc45e04268a075dc390",
+          "complete_function_extent_sha256": "a73bd5ef7779285a1ce7b29b88ac62c266487530aa06e1054373fbabe2ed9566"
+        },
+        "long_multiply": {
+          "status": "COMPILED",
+          "source": "recipes/probes/long_multiply.c",
+          "public_name": "_multiply_long",
+          "source_sha256": "13a1042c12c6cd326a020395996e913f43a68c4351a745d64d82cfc680586507",
+          "staged_source_sha256": "5a87e9a255384e937ec82930a5cb0396686b3f651ac793d7e040627d26a8a17a",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "109485201d565538195eb25c29c798059b310f8ab0d9d80922502f154949b114",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\long_multiply\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 22,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                22
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff7606ff7604ff760aff7608e800008be55dc3"
+          },
+          "publics": [
+            {
+              "name": "_multiply_long",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__aNlmul",
+            "_multiply_long"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84105601",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 16,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 1,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        },
+        "long_divide": {
+          "status": "COMPILED",
+          "source": "recipes/probes/long_divide.c",
+          "public_name": "_divide_long",
+          "source_sha256": "a014b4c194089376948a92b5a5c9d49bd154766f362e6ebc54d8df066c58441e",
+          "staged_source_sha256": "d21a3737d604e0093fd2e30c061ceae423b2344342c8c3bc9393904676c4ee87",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "86c4767603c9a7e2228ca150cf65cd7584251339685497ebf394e6547dd25fd6",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\long_divide\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 22,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                22
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff760aff7608ff7606ff7604e800008be55dc3"
+          },
+          "publics": [
+            {
+              "name": "_divide_long",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "__aNldiv",
+            "_divide_long"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84105601",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 16,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 1,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        },
+        "register_locals": {
+          "status": "COMPILED",
+          "source": "recipes/probes/register_locals.c",
+          "public_name": "_register_locals",
+          "source_sha256": "8fb061829ea2676c88fcd3d99a741b4977a9c7eca49232d59c89aee030587ffd",
+          "staged_source_sha256": "3e4fa042ad4526aa48a5e22e4501346c2aecdaf9e0cb8f7d7688d5cb4ee9f5e1",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "2a9092bdf01c9d5fae5b5d5ee9fc2bd58decf2cbc4ee01d8d741c71a59319053",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600\\register_locals\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 26,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                26
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec568b460a0346088b7606037604f7ee0346045e8be55dc3"
+          },
+          "publics": [
+            {
+              "name": "_register_locals",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_register_locals"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec568b460a0346088b7606037604f7ee0346045e8be55dc3",
+          "complete_function_extent_sha256": "367901c711ae32837c91646fb72982107ccd15c7c8a837aa1cee15d1263adf5a"
+        }
+      }
+    },
+    "msc600a_bound": {
+      "label": "Microsoft C Optimizing Compiler Version 6.00A (c2l-bound local variant)",
+      "directory": "C:\\tools\\msc-6.00a-c2l-bound\\BIN",
+      "executable": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\CL.EXE",
+      "pinned_files": [
+        {
+          "path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\CL.EXE",
+          "sha256": "9f452b39def257b3e07a9f4e07857d6d8a6e36da869a30c6e20ac51ea98b9816"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\C1.EXE",
+          "sha256": "286cee7fe1fe3770d98f198c57350a62596095e83ad6c106c1a59101490b6507"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\C2.EXE",
+          "sha256": "1b370eb86adc28e23ddca9d89c9ae627f8e280b28e63c67c4c3824004d4059d7"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\C3.EXE",
+          "sha256": "224727d55a715057288d56c00fdd524700f1354e79b487705f1888283c079344"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00a-c2l-bound\\C2L.EXE",
+          "sha256": "04fc3f753a4ab1f292ffd4e1dfb70f5a45620457bb0974fdd115dc917ffa68c5"
+        }
+      ],
+      "probe_flags": [
+        "/c",
+        "/O",
+        "/AS",
+        "/Gs",
+        "/Zl"
+      ],
+      "probes": {
+        "increment": {
+          "status": "COMPILED",
+          "source": "recipes/probes/increment.c",
+          "public_name": "_increment",
+          "source_sha256": "0b52539c8fc347d124d6dceaaec3528486ce6008e8a5beea90b8c126b5404bbc",
+          "staged_source_sha256": "35f1110d781dd2015a4731f08a72366960bd6da247afc183dcec7b0c122d3200",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "c87d00c39111b76ae42a6bdfacf5fce4159cbfbc4b85ebb9c97b938183a2c6e1",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600a_bound\\increment\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00A   \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 10,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                10
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558bec8b4604405dc390"
+          },
+          "publics": [
+            {
+              "name": "_increment",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_increment"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            138
+          ],
+          "complete_function_extent_hex": "558bec8b4604405dc390",
+          "complete_function_extent_sha256": "a63db26f38112641158693a32eea80691218d1377a7d89ab6cdd61d4f66cd15c"
+        },
+        "external_call": {
+          "status": "COMPILED",
+          "source": "recipes/probes/external_call.c",
+          "public_name": "_invoke_external",
+          "source_sha256": "79899ee8b68ac890cfdf82f61d638fe0a23e24aeb9fbfdb12b546bb9dcd239cb",
+          "staged_source_sha256": "6cfb3533cb02a3ce9c259465b92ba04dd764c6e0916accd2c880747f3cb642f4",
+          "argv": [
+            "C:\\tools\\nmlgcdos\\msdos.exe",
+            "-e",
+            "-v5.00",
+            "C:\\tools\\msc-6.00a-c2l-bound\\BIN\\CL.EXE",
+            "/c",
+            "/O",
+            "/AS",
+            "/Gs",
+            "/Zl",
+            "UNIT.C"
+          ],
+          "object_sha256": "06d52d8f0a166722d46e1865446dec503befdf85d30dc63bbe6f641dce3cc4cb",
+          "object_path": "D:\\Prog\\pop2_recon\\build\\workers\\toolchain\\probes\\msc600a_bound\\external_call\\UNIT.OBJ",
+          "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00A   \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+          "module_name": "UNIT.C",
+          "segments": [
+            {
+              "name": "_TEXT",
+              "class": "CODE",
+              "overlay": "",
+              "length": 14,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_DATA",
+              "class": "DATA",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "CONST",
+              "class": "CONST",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            },
+            {
+              "name": "_BSS",
+              "class": "BSS",
+              "overlay": "",
+              "length": 0,
+              "alignment": 2,
+              "combine": 2,
+              "big": false,
+              "use32": false,
+              "frame": null,
+              "frame_offset": null
+            }
+          ],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                14
+              ]
+            ]
+          },
+          "segment_bytes_hex": {
+            "_TEXT": "558becff7604e80000408be55dc3"
+          },
+          "publics": [
+            {
+              "name": "_invoke_external",
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "offset": 0,
+              "group_index": 0,
+              "frame": null,
+              "type_index": 0
+            }
+          ],
+          "externals": [
+            "_helper",
+            "_invoke_external"
+          ],
+          "fixups": [
+            {
+              "segment_index": null,
+              "data_offset": null,
+              "iterated": null,
+              "anchor_known": false,
+              "record_hex": "000301020201030440014501",
+              "decoded": [
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 3
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 1,
+                  "datum": 2
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 2,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": false,
+                  "method": 0,
+                  "thread": 3,
+                  "datum": 4
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 0,
+                  "thread": 0,
+                  "datum": 1
+                },
+                {
+                  "kind": "thread",
+                  "frame": true,
+                  "method": 1,
+                  "thread": 1,
+                  "datum": 1
+                }
+              ]
+            },
+            {
+              "segment_index": 1,
+              "data_offset": 0,
+              "iterated": false,
+              "anchor_known": true,
+              "record_hex": "84075601",
+              "decoded": [
+                {
+                  "kind": "fixup",
+                  "location": 7,
+                  "loc_type": 1,
+                  "self_relative": true,
+                  "frame_method": 5,
+                  "frame_index": null,
+                  "target_method": 2,
+                  "target_index": 1,
+                  "target_thread": false,
+                  "displacement": null
+                }
+              ]
+            }
+          ],
+          "omf_record_types": [
+            128,
+            136,
+            136,
+            150,
+            152,
+            152,
+            152,
+            152,
+            154,
+            156,
+            140,
+            144,
+            136,
+            160,
+            156,
+            138
+          ],
+          "extent_status": "REFUSED",
+          "extent_reason": "CODE segment carries FIXUPP records; unresolved fields cannot be compared as final code"
+        }
+      }
+    }
+  },
+  "model_contrasts": {
+    "msc510": {
+      "far_pointer": {
+        "status": "COMPILED",
+        "source": "recipes/probes/far_pointer.c",
+        "public_name": "_read_far",
+        "flags": [
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl"
+        ],
+        "source_sha256": "f7bdc180a2cf06f90b58ca94c4e7d5c8a6a98dbedf8958cf0f5b6684e83b684e",
+        "staged_source_sha256": "d5a09fa47387c20bc29736bbfca62c8ed149948354e94a849e2758f008373b93",
+        "argv": [
+          "C:\\tools\\nmlgcdos\\msdos.exe",
+          "-e",
+          "-v5.00",
+          "C:\\tools\\msc-5.10\\CL.EXE",
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl",
+          "UNIT.C"
+        ],
+        "object_sha256": "90ce006b6f817d3efdd64649d4f91e73e4aea3c41dd52a89aae198b9315f4da5",
+        "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+        "segments": [
+          {
+            "name": "UNIT_TEXT",
+            "class": "CODE",
+            "overlay": "",
+            "length": 14,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_DATA",
+            "class": "DATA",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_BSS",
+            "class": "BSS",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "initialized_ranges": {
+          "UNIT_TEXT": [
+            [
+              0,
+              14
+            ]
+          ]
+        },
+        "segment_bytes_hex": {
+          "UNIT_TEXT": "558becc45e06268a072ae45dcb90"
+        },
+        "publics": [
+          {
+            "name": "_read_far",
+            "segment": "UNIT_TEXT",
+            "segment_index": 1,
+            "offset": 0,
+            "group_index": 0,
+            "frame": null,
+            "type_index": 0
+          }
+        ],
+        "externals": [
+          "__acrtused",
+          "_read_far"
+        ],
+        "fixups": [
+          {
+            "segment_index": null,
+            "data_offset": null,
+            "iterated": null,
+            "anchor_known": false,
+            "record_hex": "000301020201030440014501",
+            "decoded": [
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 0,
+                "datum": 3
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 1,
+                "datum": 2
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 2,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 3,
+                "datum": 4
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 0,
+                "thread": 0,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 1,
+                "thread": 1,
+                "datum": 1
+              }
+            ]
+          }
+        ],
+        "omf_record_types": [
+          128,
+          136,
+          136,
+          150,
+          152,
+          152,
+          152,
+          152,
+          154,
+          156,
+          140,
+          144,
+          136,
+          160,
+          138
+        ],
+        "complete_function_extent_hex": "558becc45e06268a072ae45dcb90"
+      },
+      "switch_select": {
+        "status": "COMPILED",
+        "source": "recipes/probes/switch_select.c",
+        "public_name": "_switch_select",
+        "flags": [
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl"
+        ],
+        "source_sha256": "74240188e025da29f52cfc65280af41288d3fb199d3ad549dc4e752f1f64ddcc",
+        "staged_source_sha256": "b6ec0ca863548e99b9a02a2b170218540aa17afd46e182f5ecdc6f3f5f2496f7",
+        "argv": [
+          "C:\\tools\\nmlgcdos\\msdos.exe",
+          "-e",
+          "-v5.00",
+          "C:\\tools\\msc-5.10\\CL.EXE",
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl",
+          "UNIT.C"
+        ],
+        "object_sha256": "928d4f11ae8bbc1c00b7bafe33ff8c3ac2f75ca9f1403343efa04449d4633d8c",
+        "compiler_log": "Microsoft (R) C Optimizing Compiler Version 5.10\r\r\nCopyright (c) Microsoft Corp 1984, 1985, 1986, 1987, 1988. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+        "segments": [
+          {
+            "name": "UNIT_TEXT",
+            "class": "CODE",
+            "overlay": "",
+            "length": 54,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_DATA",
+            "class": "DATA",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_BSS",
+            "class": "BSS",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "initialized_ranges": {
+          "UNIT_TEXT": [
+            [
+              0,
+              54
+            ]
+          ]
+        },
+        "segment_bytes_hex": {
+          "UNIT_TEXT": "558bec8b46060bc074143d010074153d040074163d07007417b8ffff5dcbb811005dcb90b81d005dcb90b83d005dcb90b871005dcb90"
+        },
+        "publics": [
+          {
+            "name": "_switch_select",
+            "segment": "UNIT_TEXT",
+            "segment_index": 1,
+            "offset": 0,
+            "group_index": 0,
+            "frame": null,
+            "type_index": 0
+          }
+        ],
+        "externals": [
+          "__acrtused",
+          "_switch_select"
+        ],
+        "fixups": [
+          {
+            "segment_index": null,
+            "data_offset": null,
+            "iterated": null,
+            "anchor_known": false,
+            "record_hex": "000301020201030440014501",
+            "decoded": [
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 0,
+                "datum": 3
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 1,
+                "datum": 2
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 2,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 3,
+                "datum": 4
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 0,
+                "thread": 0,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 1,
+                "thread": 1,
+                "datum": 1
+              }
+            ]
+          }
+        ],
+        "omf_record_types": [
+          128,
+          136,
+          136,
+          150,
+          152,
+          152,
+          152,
+          152,
+          154,
+          156,
+          140,
+          144,
+          136,
+          160,
+          138
+        ],
+        "complete_function_extent_hex": "558bec8b46060bc074143d010074153d040074163d07007417b8ffff5dcbb811005dcb90b81d005dcb90b83d005dcb90b871005dcb90"
+      }
+    },
+    "msc600": {
+      "far_pointer": {
+        "status": "COMPILED",
+        "source": "recipes/probes/far_pointer.c",
+        "public_name": "_read_far",
+        "flags": [
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl"
+        ],
+        "source_sha256": "f7bdc180a2cf06f90b58ca94c4e7d5c8a6a98dbedf8958cf0f5b6684e83b684e",
+        "staged_source_sha256": "d5a09fa47387c20bc29736bbfca62c8ed149948354e94a849e2758f008373b93",
+        "argv": [
+          "C:\\tools\\nmlgcdos\\msdos.exe",
+          "-e",
+          "-v5.00",
+          "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl",
+          "UNIT.C"
+        ],
+        "object_sha256": "8406b5c5cdb79325ceb24399b9d633952a960d8c8475ae7a91b2fc41be14e8d8",
+        "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+        "segments": [
+          {
+            "name": "UNIT_TEXT",
+            "class": "CODE",
+            "overlay": "",
+            "length": 12,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_DATA",
+            "class": "DATA",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_BSS",
+            "class": "BSS",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "initialized_ranges": {
+          "UNIT_TEXT": [
+            [
+              0,
+              12
+            ]
+          ]
+        },
+        "segment_bytes_hex": {
+          "UNIT_TEXT": "558becc45e06268a075dcb90"
+        },
+        "publics": [
+          {
+            "name": "_read_far",
+            "segment": "UNIT_TEXT",
+            "segment_index": 1,
+            "offset": 0,
+            "group_index": 0,
+            "frame": null,
+            "type_index": 0
+          }
+        ],
+        "externals": [
+          "_read_far"
+        ],
+        "fixups": [
+          {
+            "segment_index": null,
+            "data_offset": null,
+            "iterated": null,
+            "anchor_known": false,
+            "record_hex": "000301020201030440014501",
+            "decoded": [
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 0,
+                "datum": 3
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 1,
+                "datum": 2
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 2,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 3,
+                "datum": 4
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 0,
+                "thread": 0,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 1,
+                "thread": 1,
+                "datum": 1
+              }
+            ]
+          }
+        ],
+        "omf_record_types": [
+          128,
+          136,
+          136,
+          150,
+          152,
+          152,
+          152,
+          152,
+          154,
+          156,
+          140,
+          144,
+          136,
+          160,
+          138
+        ],
+        "complete_function_extent_hex": "558becc45e06268a075dcb90"
+      },
+      "switch_select": {
+        "status": "COMPILED",
+        "source": "recipes/probes/switch_select.c",
+        "public_name": "_switch_select",
+        "flags": [
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl"
+        ],
+        "source_sha256": "74240188e025da29f52cfc65280af41288d3fb199d3ad549dc4e752f1f64ddcc",
+        "staged_source_sha256": "b6ec0ca863548e99b9a02a2b170218540aa17afd46e182f5ecdc6f3f5f2496f7",
+        "argv": [
+          "C:\\tools\\nmlgcdos\\msdos.exe",
+          "-e",
+          "-v5.00",
+          "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "/c",
+          "/O",
+          "/AM",
+          "/Gs",
+          "/Zl",
+          "UNIT.C"
+        ],
+        "object_sha256": "d7b434f123d0d50182b0e4b00a76cc202e218f1d1ae6f3044b0e1f3fdfb559d8",
+        "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+        "segments": [
+          {
+            "name": "UNIT_TEXT",
+            "class": "CODE",
+            "overlay": "",
+            "length": 56,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_DATA",
+            "class": "DATA",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          },
+          {
+            "name": "_BSS",
+            "class": "BSS",
+            "overlay": "",
+            "length": 0,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "initialized_ranges": {
+          "UNIT_TEXT": [
+            [
+              0,
+              56
+            ]
+          ]
+        },
+        "segment_bytes_hex": {
+          "UNIT_TEXT": "558bec8b46060bc074104874132d030074142d03007415eb1990b811005dcb90b81d005dcb90b83d005dcb90b871005dcb90b8ffff5dcb90"
+        },
+        "publics": [
+          {
+            "name": "_switch_select",
+            "segment": "UNIT_TEXT",
+            "segment_index": 1,
+            "offset": 0,
+            "group_index": 0,
+            "frame": null,
+            "type_index": 0
+          }
+        ],
+        "externals": [
+          "_switch_select"
+        ],
+        "fixups": [
+          {
+            "segment_index": null,
+            "data_offset": null,
+            "iterated": null,
+            "anchor_known": false,
+            "record_hex": "000301020201030440014501",
+            "decoded": [
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 0,
+                "datum": 3
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 1,
+                "datum": 2
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 2,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": false,
+                "method": 0,
+                "thread": 3,
+                "datum": 4
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 0,
+                "thread": 0,
+                "datum": 1
+              },
+              {
+                "kind": "thread",
+                "frame": true,
+                "method": 1,
+                "thread": 1,
+                "datum": 1
+              }
+            ]
+          }
+        ],
+        "omf_record_types": [
+          128,
+          136,
+          136,
+          150,
+          152,
+          152,
+          152,
+          152,
+          154,
+          156,
+          140,
+          144,
+          136,
+          160,
+          138
+        ],
+        "complete_function_extent_hex": "558bec8b46060bc074104874132d030074142d03007415eb1990b811005dcb90b81d005dcb90b83d005dcb90b871005dcb90b8ffff5dcb90"
+      }
+    }
+  },
+  "optimizer_variant_msc600_game_pascal_oe": {
+    "status": "COMPILED",
+    "scope": "accepted floor candidate family only",
+    "source": "recipes/probes/increment.c",
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "argv": [
+      "C:\\tools\\nmlgcdos\\msdos.exe",
+      "-e",
+      "-v5.00",
+      "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc",
+      "UNIT.C"
+    ],
+    "source_sha256": "0b52539c8fc347d124d6dceaaec3528486ce6008e8a5beea90b8c126b5404bbc",
+    "object_sha256": "1219f82e7bb52add8e2521b4fd6c26675f1b638adcdb7a0845213b59260a3e77",
+    "compiler_log": "Microsoft (R) C Optimizing Compiler Version 6.00    \r\r\nCopyright (c) Microsoft Corp 1984-1990. All rights reserved.\r\r\n\r\r\nUNIT.C\r\r\n",
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 12,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "initialized_ranges": {
+      "UNIT_TEXT": [
+        [
+          0,
+          12
+        ]
+      ]
+    },
+    "segment_bytes_hex": {
+      "UNIT_TEXT": "558bec8b4606405dca020090"
+    },
+    "publics": [
+      {
+        "name": "INCREMENT",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "INCREMENT"
+    ],
+    "fixups": [
+      {
+        "segment_index": null,
+        "data_offset": null,
+        "iterated": null,
+        "anchor_known": false,
+        "record_hex": "000301020201030440014501",
+        "decoded": [
+          {
+            "kind": "thread",
+            "frame": false,
+            "method": 0,
+            "thread": 0,
+            "datum": 3
+          },
+          {
+            "kind": "thread",
+            "frame": false,
+            "method": 0,
+            "thread": 1,
+            "datum": 2
+          },
+          {
+            "kind": "thread",
+            "frame": false,
+            "method": 0,
+            "thread": 2,
+            "datum": 1
+          },
+          {
+            "kind": "thread",
+            "frame": false,
+            "method": 0,
+            "thread": 3,
+            "datum": 4
+          },
+          {
+            "kind": "thread",
+            "frame": true,
+            "method": 0,
+            "thread": 0,
+            "datum": 1
+          },
+          {
+            "kind": "thread",
+            "frame": true,
+            "method": 1,
+            "thread": 1,
+            "datum": 1
+          }
+        ]
+      }
+    ],
+    "omf_record_types": [
+      128,
+      136,
+      136,
+      150,
+      152,
+      152,
+      152,
+      152,
+      154,
+      156,
+      140,
+      144,
+      136,
+      160,
+      138
+    ]
+  }
+}

@@ -21,6 +21,13 @@ recompiles every accepted source and checks full OMF identity, complete code,
 tool hashes, original asset/structure identities and non-overlapping ownership.
 Missing tools and compilation failures never fall back to cached objects.
 
+`tools/runtime.py` separately verifies pinned historical library members. Each
+recipe hashes the independent library archive and entire OMF member, owns the
+full initialized CODE segment, and checks declarations, original bytes and empty
+fixup/relocation obligations. Ten such resident members currently cover 653
+bytes. They are PINNED_RUNTIME, separate from reconstructed C or ASM. Partial
+startup comparisons are diagnostic and contribute no accepted bytes.
+
 CODE_EXACT means the recorded compiler/profile reproduces the complete reviewed
 component code with its proven fixup obligations. It does not establish original
 translation-unit membership, historical object-record identity, natural final

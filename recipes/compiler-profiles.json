@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "status": "candidate profiles for controlled code-generation probes; no profile is asserted as the original translation-unit configuration",
+  "profiles": {
+    "msc510": {
+      "toolchain_profile": "msc510",
+      "flags": ["/c", "/O", "/AL"],
+      "purpose": "Pinned Microsoft C Optimizing Compiler 5.10; large model is the initial default."
+    },
+    "msc600": {
+      "toolchain_profile": "msc600",
+      "flags": ["/c", "/O", "/AL"],
+      "purpose": "Pinned Microsoft C Optimizing Compiler 6.00; large model is the initial default."
+    },
+    "msc600a_bound": {
+      "toolchain_profile": "msc600a_bound",
+      "flags": ["/c", "/O", "/AL"],
+      "purpose": "Nearby 6.00A C2L-bound variant; near-model leaf probes compile, while the large-model probe timed out."
+    }
+  },
+  "variants": {
+    "msc510-near-optimized": {
+      "toolchain_profile": "msc510",
+      "flags": ["/c", "/O", "/AS"],
+      "purpose": "Near-model optimized compilation."
+    },
+    "msc510-near-leaf": {
+      "toolchain_profile": "msc510",
+      "flags": ["/c", "/O", "/AS", "/Gs", "/Zl"],
+      "purpose": "Leaf contrast with stack probes and default-library directives disabled."
+    },
+    "msc600-near-optimized": {
+      "toolchain_profile": "msc600",
+      "flags": ["/c", "/O", "/AS"],
+      "purpose": "Near-model optimized compilation."
+    },
+    "msc600-near-leaf": {
+      "toolchain_profile": "msc600",
+      "flags": ["/c", "/O", "/AS", "/Gs", "/Zl"],
+      "purpose": "Leaf contrast with stack probes and default-library directives disabled."
+    },
+    "msc600-game-pascal-oe": {
+      "toolchain_profile": "msc600",
+      "flags": ["/c", "/AM", "/Oe", "/Gs", "/Zl", "/Gc"],
+      "scope": "Accepted floor candidate family only.",
+      "purpose": "Bounded Pascal-convention optimizer hypothesis; not a general compiler profile."
+    }
+  },
+  "probe_sources": [
+    "recipes/probes/increment.c",
+    "recipes/probes/external_call.c",
+    "recipes/probes/signed_branch.c",
+    "recipes/probes/unsigned_branch.c",
+    "recipes/probes/switch_select.c",
+    "recipes/probes/far_pointer.c",
+    "recipes/probes/long_multiply.c",
+    "recipes/probes/long_divide.c",
+    "recipes/probes/register_locals.c"
+  ]
+}

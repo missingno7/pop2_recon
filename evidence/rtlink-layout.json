@@ -1,0 +1,172 @@
+{
+  "format": "MS-LINK/RTLink DOS overlay descriptor table (observed in PRINCE.EXE)",
+  "primary_asset": {
+    "path": "assets/PRINCE.EXE",
+    "sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+    "physical_size": 290415,
+    "mz_image_end": 152637,
+    "mz_image_end_hex": "0x2543d",
+    "mz_header_size": 8192,
+    "mz_relocation_count": 2029
+  },
+  "descriptor_table": {
+    "offset": 150347,
+    "offset_hex": "0x24b4b",
+    "entry_size": 18,
+    "entry_count": 16,
+    "end_offset": 150635,
+    "end_is_inside_mz_image": true,
+    "struct": "<HHHBBHHHHH>",
+    "fields_in_order": [
+      "link_segment",
+      "f2_unknown",
+      "relocation_position_paragraphs",
+      "high_position_byte",
+      "flags",
+      "f8_unknown",
+      "relocation_count",
+      "fc_unknown",
+      "overlay_id",
+      "size_paragraphs"
+    ]
+  },
+  "overlay_layout_rules": {
+    "relocation_offset": "(relocation_position_paragraphs + high_position_byte * 65536) * 16",
+    "relocation_record": "<HH>: offset, segment; four bytes per relocation",
+    "relocation_page_bytes": "ceil(relocation_count / 4) * 16",
+    "code_offset": "relocation_offset + relocation_page_bytes",
+    "code_size_bytes": "size_paragraphs * 16",
+    "relocation_site_in_code": "(relocation_segment - link_segment) * 16 + relocation_offset",
+    "load_relocation": "add runtime image segment 0x0100 to the word at each in-range relocation site"
+  },
+  "observed_overlays": {
+    "id_range": [
+      2,
+      17
+    ],
+    "first": {
+      "id": 2,
+      "descriptor_offset": 150347,
+      "link_segment": "0x2344",
+      "relocation_offset": 152640,
+      "relocation_count": 821,
+      "relocation_page_bytes": 3296,
+      "code_offset": 155936,
+      "size_paragraphs": 1675,
+      "declared_code_end": 182736
+    },
+    "last": {
+      "id": 17,
+      "relocation_offset": 268656,
+      "relocation_count": 161,
+      "relocation_page_bytes": 656,
+      "code_offset": 269312,
+      "size_paragraphs": 1319,
+      "declared_code_end": 290416,
+      "physical_file_end": 290415,
+      "short_by_bytes": 1
+    },
+    "all_entries": "Ordered overlays 2..17 have contiguous declared ranges; all relocation sites fall inside declared code extents. The final overlay's declared extent exceeds physical EOF by exactly one byte."
+  },
+  "alternate_asset": {
+    "path": "assets/PRINCE2.EX_",
+    "sha256": "2a4268b4c42dd808947edcc4e4fe9646ef33f1bfb4e5361b6267fadbaf112dbd",
+    "physical_size": 290415,
+    "same_mz_end": true,
+    "same_overlay_descriptor_and_payload_bytes": true,
+    "different_bytes": [
+      34157,
+      34158,
+      34161,
+      34162,
+      34163
+    ],
+    "difference_scope": "Five bytes differ in root-image code; bytes from the overlay payload boundary through EOF are identical."
+  },
+  "tool_probe": {
+    "script": "tools/probe_rtlink.py",
+    "synthetic_two_overlay_fixture": "PASS",
+    "primary_asset_parse": "PASS; 16 descriptors, 2687 relocation records total, final code extent one byte beyond physical EOF"
+  },
+  "local_rtlink_binaries": [
+    {
+      "version_source_directory": "C:/tools/RTLink-Plus-4.00-DiscMaster/installed/dest",
+      "rtlink_exe_size": 449497,
+      "rtlink_exe_sha256": "dff0a988738a2ba7716f7013ef5b8136e0857b6bfe700bccdeaad70ee5e87c74"
+    },
+    {
+      "version_source_directory": "C:/tools/rtlink-plus-6.10/installed",
+      "rtlink_exe_size": 687531,
+      "rtlink_exe_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb"
+    }
+  ],
+  "probe_limit": "RTLink 6.10 was run successfully through MS-DOS Player. A comparable RTLink 4.00 response-file invocation was attempted but the input was interpreted as positional prompts and no output executable was written; the bundled RTLink 4.00 sample log confirms its Version 4.00 banner. The 6.10 synthetic link used an isolated LLIBCR-to-LLIBCE filename alias because the expected LLIBCE.LIB is absent; this does not establish original runtime-library closure.",
+  "rtlink_probe": {
+    "linker_version": "RTLink Plus 6.10",
+    "runner": "MS-DOS Player",
+    "runner_path": "C:/tools/nmlgcdos/msdos.exe",
+    "runner_sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "command": "msdos.exe -e C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE @PROBE.ARF",
+    "working_directory": "build/workers/rtlink-probe/v6",
+    "response_file": "evidence/rtlink-probe/probe.arf",
+    "inputs": {
+      "resident_obj_sha256": "5b7782d0a61a04722bfa5115877799d289679c5a217c36a0ce8d2982be31ee3c",
+      "ovone_obj_sha256": "4692358837df089a396e24f0e6e59c78960b2077401a0b480e588095a549a77a",
+      "masm510_sha256": "233120302473749eafe9a54a30f8bda0127140c44346e5bcc047d113828a741e",
+      "ovtwo_obj_sha256": "6935f935ef6a346e1b4e59b787058153d09c02eec15632f040c5b5c5a73f4d62",
+      "resident_c_sha256": "c1252d25811797e4231ce5c5d8df9c9e74e7c68e615332f79be594d09d23776a",
+      "msc510_cl_sha256": "cad40cef732beea3455225fbd62286c664166db7c3f87e2402e22b2e3f107771"
+    },
+    "runtime_inputs": {
+      "RTLUTILS.LIB_sha256": "c718bac09b0b1204a259494446acfa8bfffb129144cc7d36799855621f4fdccb",
+      "LLIBCE.LIB": "temporary scratch copy of C:/tools/msc-5.10/LLIBCR.LIB; source SHA-256 7961eafce689dbf17acc3fd6fe34be6bc000f60d0f02fb1af2602b09112f3d2e; this alias is diagnostic only"
+    },
+    "output": {
+      "size": 7027,
+      "warnings": "none",
+      "sha256": "b24f859cade94fbb3bdf31760dfc40ace748a33ba3542a111b018c9fd4327156",
+      "path": "build/workers/rtlink-probe/v6/PROBE.EXE"
+    },
+    "descriptor_table": {
+      "hex": "0x129b",
+      "end_offset": 4799,
+      "entry_size": 18,
+      "count": 2,
+      "rows": [
+        {
+          "f2": 2899,
+          "nrel": 0,
+          "pos": 406,
+          "code_offset": 6496,
+          "relocation_offset": 6496,
+          "fc": 65535,
+          "declared_code_end": 6512,
+          "hi": 0,
+          "flags": 4,
+          "link_segment": "0x0176",
+          "id": 2,
+          "size_paragraphs": 1,
+          "f8": 1
+        },
+        {
+          "f2": 2899,
+          "nrel": 0,
+          "pos": 407,
+          "code_offset": 6512,
+          "relocation_offset": 6512,
+          "fc": 65535,
+          "declared_code_end": 6528,
+          "hi": 0,
+          "flags": 4,
+          "link_segment": "0x0176",
+          "id": 3,
+          "size_paragraphs": 1,
+          "f8": 1
+        }
+      ],
+      "mz_end": 6487,
+      "offset": 4763
+    },
+    "interpretation": "Successful real RTLink 6.10 output confirms the same <HHHBBHHHHH> table and paragraph/padding calculations in a small generated executable."
+  }
+}
