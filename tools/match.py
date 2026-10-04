@@ -1,8 +1,5 @@
-"""Strict bootstrap gate: complete single-function CODE segment, no fixup debt.
-
-Fixup-bearing components deliberately fail until independently grounded symbolic
-binding is implemented. Diagnostics never mask bytes or grant ownership.
-"""
+"""Strict complete single-function CODE gate; symbolic obligations fail closed."""
+import json
 from pathlib import Path
 
 from common import ROOT, read_json, require, sha
@@ -39,7 +36,7 @@ def get_target(identifier, oracle=None):
     return target, space, raw
 
 
-def check_object(obj_data, target, space, expected, public_name):
+def check_object(obj_data, target, space, expected, public_name, *, binding=None, oracle=None):
     """Compare the WHOLE emitted code extent, including any trailing bytes."""
     module = OmfReader().read(obj_data, "candidate")
     code = [s for s in module.segment_defs if s["class"] == "CODE"]
@@ -49,7 +46,9 @@ def check_object(obj_data, target, space, expected, public_name):
     require(not segment["use32"] and not segment["big"] and segment["alignment"] != 0,
             "Unsupported code segment declaration")
     fixups = [entry for record in module.fixups for entry in record["decoded"] if entry["kind"] == "fixup"]
-    require(not fixups, "Fixup-bearing components require a future symbolic binding proof")
+    require(not fixups or (binding is not None and oracle is not None),
+            "Fixup-bearing components require an independently grounded symbolic binding proof")
+    require(fixups or binding is None, "Unused binding proof on relocation-free component")
     require(all(s["length"] == 0 for s in module.segment_defs if s["name"] != name),
             "Unowned DATA/BSS/secondary declarations are not accepted")
     require(len(module.publics) == 1 and module.publics[0]["name"] == public_name and
@@ -75,26 +74,37 @@ def check_object(obj_data, target, space, expected, public_name):
     actual = module.segments.get(name, b"")
     require(len(actual) == segment["length"], "Incomplete emitted CODE segment")
     start = space.position(target["segment"], target["offset"])
-    relocations = [r for r in space.relocations if start <= r["image_offset"] < start+len(expected)]
-    require(not relocations, "Original relocation obligations require symbolic candidate fixups")
-    exact = actual == expected
-    return {"exact": exact, "state": "CODE_EXACT" if exact else "CANDIDATE_C",
+    relocations = [r for r in space.relocations if start-1 <= r["image_offset"] < start+len(expected)]
+    bound = None
+    if binding is not None:
+        from binding import compare
+        bound = compare(module, name, actual, expected, binding, target, space, oracle)
+    else:
+        require(not relocations, "Original relocation obligations require symbolic candidate fixups")
+    exact = bound["exact"] if bound else actual == expected
+    report = {"exact": exact, "state": "CODE_EXACT" if exact else "CANDIDATE_C",
             "target_id": target["id"], "expected_size": len(expected), "emitted_size": len(actual),
             "expected_sha256": sha(expected), "emitted_sha256": sha(actual),
-            "object_sha256": sha(obj_data), "fixups": 0, "relocations": 0,
-            "unreferenced_external_declarations": module.externals,
+            "object_sha256": sha(obj_data), "fixups": len(fixups), "relocations": 0,
+            "unreferenced_external_declarations": [e for e in module.externals
+                if not bound or e not in binding["symbols"]],
             "fixup_thread_declarations": [entry for record in module.fixups for entry in record["decoded"]],
             "first_difference": next((i for i in range(max(len(actual), len(expected)))
                                       if actual[i:i+1] != expected[i:i+1]), None),
             "segment": segment, "public": module.publics[0],
             "record_types": [r["type"] for r in module.records],
             "proof_scope": "Complete component code and empty fixup/relocation obligations; object declarations recorded, original TU identity and structural link unproved"}
+    if bound:
+        report.update(bound)
+        report["binding_content_sha256"] = sha(json.dumps(binding, sort_keys=True).encode("utf-8"))
+    return report
 
 
-def compile_and_check(source, profile, public_name, identifier, workdir, flags=None, *, language="c"):
+def compile_and_check(source, profile, public_name, identifier, workdir, flags=None, *, language="c", binding=None):
     from compiler import compile_c
     require(language in ("c", "asm"), "Unknown source language")
-    target, space, expected = get_target(identifier)
+    oracle = Oracle.load()
+    target, space, expected = get_target(identifier, oracle)
     # Compiler source API is supplied by tools/compiler.py; source is independent of expected bytes.
     if language == "asm":
         from assembler import assemble_asm
@@ -102,7 +112,8 @@ def compile_and_check(source, profile, public_name, identifier, workdir, flags=N
     else:
         result = compile_c(Path(source), profile, flags=flags, workdir=Path(workdir))
     require(result.ok, "Historical compilation failed: " + result.log)
-    report = check_object(result.obj.read_bytes(), target, space, expected, public_name)
+    report = check_object(result.obj.read_bytes(), target, space, expected, public_name,
+                          binding=binding, oracle=oracle)
     if language == "asm":
         report["state"] = "ASM_EXACT" if report["exact"] else "CANDIDATE_ASM"
     report["language"] = language

@@ -1,0 +1,417 @@
+{
+  "equations_observed": {
+    "external_DGROUP_offset16": "raw OMF field/addend 0; linked word = 0x000A, matching RTLink public map DGROUP:_GLOBAL_WORD at 0001:000A. The ASM module sees a nonzero DGROUP offset because RTLink places DGROUP origin at 0001:0008.",
+    "external_DGROUP_offset16_plus_addend": "raw OMF target displacement 2 and initial field bytes 0000; linked word = 0x000C = target public offset 0x000A + explicit addend 2.",
+    "far_pointer16_16": "OMF LOC3 at TEXT+11 width4; linked offset word 0x0014 targets _FAR_FN at TEXT+0x14; segment word at TEXT+13 is zero before load. MZ relocation table contains image offset 13, the segment word.",
+    "linker_agreement": "MS LINK 3.65 and RTLink Plus 6.10 emit byte-identical 28-byte load images and identical MZ relocation membership (segment 0, offset 13).",
+    "near_PC_relative_offset16": "OMF LOC1 self-relative fixup at TEXT+8, raw field 0; linked signed word = +6 = target _NEAR_FN at 0x10 - (field address 8 + width 2)."
+  },
+  "inputs": {
+    "asm_object": {
+      "argv": [
+        "C:\\tools\\nmlgcdos\\msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+        "UNIT.ASM,UNIT.OBJ,NUL,NUL;"
+      ],
+      "exit_code": 0,
+      "flags": [],
+      "language": "asm",
+      "object_sha256": "634557e327ad2f6874f2a225aef0455f377cdf5ad2e27fb01b530c2779952549",
+      "profile": "masm510",
+      "source_sha256": "6c71ada4a5358b510f1c428ed48bff08901023ad860f32fcaf34cc80f68d0b93",
+      "staged_source_sha256": "6c71ada4a5358b510f1c428ed48bff08901023ad860f32fcaf34cc80f68d0b93"
+    },
+    "asm_source": {
+      "path": "source/PROBE.ASM",
+      "sha256": "6c71ada4a5358b510f1c428ed48bff08901023ad860f32fcaf34cc80f68d0b93",
+      "text": "EXTRN _global_word:WORD\nEXTRN _near_fn:NEAR\nEXTRN _far_fn:FAR\n_TEXT SEGMENT WORD PUBLIC 'CODE'\nASSUME CS:_TEXT\nPUBLIC _probe\n_probe PROC NEAR\n mov ax, WORD PTR _global_word\n mov bx, WORD PTR _global_word+2\n call _near_fn\n call FAR PTR _far_fn\n ret\n_probe ENDP\n_TEXT ENDS\nEND\n"
+    },
+    "c_object": {
+      "argv": [
+        "C:\\tools\\nmlgcdos\\msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:\\tools\\msc-5.10\\CL.EXE",
+        "/c",
+        "/O",
+        "/AS",
+        "/Gs",
+        "/Zl",
+        "DATA.C"
+      ],
+      "exit_code": 0,
+      "flags": [
+        "/c",
+        "/O",
+        "/AS",
+        "/Gs",
+        "/Zl"
+      ],
+      "object_sha256": "9badfcdb5dc66c7f57bd9f96ea50d77c0814c507d416a4bf62d1fda215bb551d",
+      "profile": "msc510",
+      "source_sha256": "39afdcff0a246776bbf10764f0668bb9d2ee1320beb06a77693c1e7ddf717517",
+      "staged_source_sha256": "39afdcff0a246776bbf10764f0668bb9d2ee1320beb06a77693c1e7ddf717517",
+      "workdir": "D:\\Prog\\pop2_recon\\build\\workers\\binding_link_probe\\obj\\msc"
+    },
+    "c_source": {
+      "path": "source/DATA.C",
+      "sha256": "39afdcff0a246776bbf10764f0668bb9d2ee1320beb06a77693c1e7ddf717517",
+      "text": "int _acrtused=0; int global_word=0x1234; int near_fn(void){return 0x4567;} int far far_fn(void){return 0x2345;}\n"
+    },
+    "masm_TEXT_bytes": "a100008b1e0000e800009a00000000c3",
+    "omf_fixupp_record": {
+      "anchor_known": true,
+      "data_length": 16,
+      "data_offset": 0,
+      "decoded": [
+        {
+          "displacement": null,
+          "effective_target_method": 6,
+          "frame_index": 1,
+          "frame_method": 2,
+          "frame_thread": false,
+          "kind": "fixup",
+          "loc_type": 1,
+          "location": 1,
+          "self_relative": false,
+          "target_has_displacement": false,
+          "target_index": 1,
+          "target_method": 2,
+          "target_thread": false,
+          "target_thread_index": null
+        },
+        {
+          "displacement": 2,
+          "effective_target_method": 2,
+          "frame_index": 1,
+          "frame_method": 2,
+          "frame_thread": false,
+          "kind": "fixup",
+          "loc_type": 1,
+          "location": 5,
+          "self_relative": false,
+          "target_has_displacement": true,
+          "target_index": 1,
+          "target_method": 2,
+          "target_thread": false,
+          "target_thread_index": null
+        },
+        {
+          "displacement": null,
+          "effective_target_method": 6,
+          "frame_index": 3,
+          "frame_method": 2,
+          "frame_thread": false,
+          "kind": "fixup",
+          "loc_type": 1,
+          "location": 8,
+          "self_relative": true,
+          "target_has_displacement": false,
+          "target_index": 3,
+          "target_method": 2,
+          "target_thread": false,
+          "target_thread_index": null
+        },
+        {
+          "displacement": null,
+          "effective_target_method": 6,
+          "frame_index": 2,
+          "frame_method": 2,
+          "frame_thread": false,
+          "kind": "fixup",
+          "loc_type": 3,
+          "location": 11,
+          "self_relative": false,
+          "target_has_displacement": false,
+          "target_index": 2,
+          "target_method": 2,
+          "target_thread": false,
+          "target_thread_index": null
+        }
+      ],
+      "iterated": false,
+      "record_hex": "c401260101c40522010102008408260303cc0b260202",
+      "resolved": [
+        {
+          "displacement": null,
+          "field_width": 2,
+          "frame": {
+            "index": 1,
+            "kind": "external",
+            "name": "_GLOBAL_WORD"
+          },
+          "kind": "fixup",
+          "loc_type": 1,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "segment_offset": 1,
+          "self_relative": false,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "_GLOBAL_WORD",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": 2,
+          "field_width": 2,
+          "frame": {
+            "index": 1,
+            "kind": "external",
+            "name": "_GLOBAL_WORD"
+          },
+          "kind": "fixup",
+          "loc_type": 1,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "segment_offset": 5,
+          "self_relative": false,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 2,
+            "name": "_GLOBAL_WORD"
+          }
+        },
+        {
+          "displacement": null,
+          "field_width": 2,
+          "frame": {
+            "index": 3,
+            "kind": "external",
+            "name": "_NEAR_FN"
+          },
+          "kind": "fixup",
+          "loc_type": 1,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "segment_offset": 8,
+          "self_relative": true,
+          "target": {
+            "index": 3,
+            "kind": "external",
+            "method": 6,
+            "name": "_NEAR_FN",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": null,
+          "field_width": 4,
+          "frame": {
+            "index": 2,
+            "kind": "external",
+            "name": "_FAR_FN"
+          },
+          "kind": "fixup",
+          "loc_type": 3,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "segment_offset": 11,
+          "self_relative": false,
+          "target": {
+            "index": 2,
+            "kind": "external",
+            "method": 6,
+            "name": "_FAR_FN",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "segment_index": 1
+    },
+    "raw_fixup_addends": {
+      "1": 0,
+      "11": 0,
+      "5": 0,
+      "8": 0
+    },
+    "raw_fixup_field_bytes": {
+      "1": "0000",
+      "11": "00000000",
+      "5": "0000",
+      "8": "0000"
+    }
+  },
+  "links": {
+    "mslink510": {
+      "argv": [
+        "C:\\tools\\nmlgcdos\\msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:\\tools\\msc-5.10\\LINK.EXE",
+        "@LINK.LNK"
+      ],
+      "log": "\r\nMicrosoft (R) Overlay Linker  Version 3.65   \r\nCopyright (C) Microsoft Corp 1983-1988.  All rights reserved.\r\n\r\nObject Modules [.OBJ]: PROBE.OBJ+DATA.OBJ,MLINK.EXE,MLINK.MAP,;\r\nLINK : warning L4021: no stack segment\r\n",
+      "map": "build\\workers\\binding_link_probe\\links\\mslink510\\MLINK.MAP",
+      "map_text": "LINK : warning L4021: no stack segment\r\n\r\n Start  Stop   Length Name                   Class\r\n 00000H 00017H 00018H _TEXT                  CODE\r\n 00018H 0001BH 00004H _DATA                  DATA\r\n 0001CH 0001CH 00000H CONST                  CONST\r\n 0001CH 0001CH 00000H _BSS                   BSS\r\n\r\n Origin   Group\r\n 0001:0   DGROUP\r\n",
+      "objects": {
+        "DATA.OBJ": "9badfcdb5dc66c7f57bd9f96ea50d77c0814c507d416a4bf62d1fda215bb551d",
+        "PROBE.OBJ": "634557e327ad2f6874f2a225aef0455f377cdf5ad2e27fb01b530c2779952549"
+      },
+      "output": "build\\workers\\binding_link_probe\\links\\mslink510\\MLINK.EXE",
+      "output_sha256": "96e4842539634967ebae679118be19f68e9a50b5a8c94c822b7fb067e6784722",
+      "returncode": 0
+    },
+    "rtlink610": {
+      "argv": [
+        "C:/tools/nmlgcdos/msdos.exe",
+        "-e",
+        "C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE",
+        "@PROBE.ARF"
+      ],
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\n                    Serial Number: 836-103-6260\n\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\nMicrosoft Corporation.\n\n=> SYNTAX FREEFORMAT\n=> VERBOSE\n=> OUTPUT PROBE\n=> MAP\n=> FILE PROBE,DATA\n=> \n**** LOAD OBJECT CODE ****\nPROBE.OBJ(UNIT.ASM)\nDATA.OBJ(DATA.C)\n**** LIBRARY SEARCH ****\n**** ASSIGN ADDRESSES ****\nwarning wrt0094: No start address was encountered -- using 0:0 as the\n  default start address.\nwarning wrt0005: No program stack segment was encountered.\n**** WRITING EXECUTABLE ****\n**** PRINT MAP ****\n\n____________________________________________________________________________\n\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\n\n  Load Size:\t\t\t\t\t\t0.K\t+2H Para\n\nNOTE: Your program may have additional memory requirements depending on the\n  memory usage characteristics of your compiler. See your compiler\n  documentation for specifics.\n____________________________________________________________________________\n\n2 warning message(s)\n",
+      "map": "links/rtlink610/PROBE.MAP",
+      "objects": {
+        "DATA.OBJ": "9badfcdb5dc66c7f57bd9f96ea50d77c0814c507d416a4bf62d1fda215bb551d",
+        "PROBE.OBJ": "634557e327ad2f6874f2a225aef0455f377cdf5ad2e27fb01b530c2779952549"
+      },
+      "output": "links/rtlink610/PROBE.EXE",
+      "output_sha256": "36beb419d33cbca2dbffb579021ff19efcfebbb653f1bdd419d12fae5603877e",
+      "response": "links/rtlink610/PROBE.ARF",
+      "response_text": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT PROBE\nMAP\nFILE PROBE,DATA\n",
+      "returncode": 2,
+      "status_note": "RTLink wrote a fresh MZ executable and map; DOS runner returned 2 because RTLink emitted only the two expected warnings (no start address; no stack segment)."
+    }
+  },
+  "outputs": {
+    "mslink510": {
+      "exe": "build/workers/binding_link_probe/links/mslink510/MLINK.EXE",
+      "fields": {
+        "dgroup_global_at_1": 10,
+        "dgroup_global_plus_2_at_5": 12,
+        "far_offset_at_11": 20,
+        "far_segment_at_13": 0,
+        "near_disp_at_8": 6
+      },
+      "load_image_hex": "a10a008b1e0c00e806009a14000000c3b86745c3b84523cb00003412",
+      "map": "LINK : warning L4021: no stack segment\n\n Start  Stop   Length Name                   Class\n 00000H 00017H 00018H _TEXT                  CODE\n 00018H 0001BH 00004H _DATA                  DATA\n 0001CH 0001CH 00000H CONST                  CONST\n 0001CH 0001CH 00000H _BSS                   BSS\n\n Origin   Group\n 0001:0   DGROUP\n",
+      "mz_header": {
+        "checksum": 62941,
+        "header_paragraphs": 32,
+        "initial_cs": 0,
+        "initial_ip": 0,
+        "initial_sp": 0,
+        "initial_ss": 0,
+        "last_page_bytes": 28,
+        "magic": 23117,
+        "max_extra_paragraphs": 65535,
+        "min_extra_paragraphs": 0,
+        "overlay_number": 0,
+        "pages": 2,
+        "relocation_count": 1,
+        "relocation_table_offset": 30
+      },
+      "relocations": [
+        {
+          "image_offset": 13,
+          "index": 0,
+          "offset": 13,
+          "segment": 0,
+          "stored_word": 0
+        }
+      ],
+      "sha256": "96e4842539634967ebae679118be19f68e9a50b5a8c94c822b7fb067e6784722",
+      "size": 540
+    },
+    "rtlink610": {
+      "exe": "build/workers/binding_link_probe/links/rtlink610/PROBE.EXE",
+      "fields": {
+        "dgroup_global_at_1": 10,
+        "dgroup_global_plus_2_at_5": 12,
+        "far_offset_at_11": 20,
+        "far_segment_at_13": 0,
+        "near_disp_at_8": 6
+      },
+      "load_image_hex": "a10a008b1e0c00e806009a14000000c3b86745c3b84523cb00003412",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 00017H 00018H _TEXT                  CODE\n 00018H 0001BH 00004H _DATA                  DATA                DGROUP\n 0001CH 0001CH 00000H CONST                  CONST               DGROUP\n 0001CH 0001CH 00000H _BSS                   BSS                 DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 0001CH    0H\n\n Origin   Group\n 0001:8   DGROUP\n\n  Address         Publics by Name\n\n 0000:0000       $$MAIN\n 0000:0014       _FAR_FN\n 0001:000A       _GLOBAL_WORD\n 0000:0010       _NEAR_FN\n 0000:0000       _PROBE\n 0001:0008       __acrtused\n\n  Address         Publics by Value\n\n 0000:0000       $$MAIN\n 0000:0000       _PROBE\n 0000:0010       _NEAR_FN\n 0000:0014       _FAR_FN\n 0001:0008       __acrtused\n 0001:000A       _GLOBAL_WORD\n",
+      "mz_header": {
+        "checksum": 0,
+        "header_paragraphs": 32,
+        "initial_cs": 0,
+        "initial_ip": 0,
+        "initial_sp": 0,
+        "initial_ss": 0,
+        "last_page_bytes": 28,
+        "magic": 23117,
+        "max_extra_paragraphs": 65535,
+        "min_extra_paragraphs": 0,
+        "overlay_number": 0,
+        "pages": 2,
+        "relocation_count": 1,
+        "relocation_table_offset": 30
+      },
+      "relocations": [
+        {
+          "image_offset": 13,
+          "index": 0,
+          "offset": 13,
+          "segment": 0,
+          "stored_word": 0
+        }
+      ],
+      "sha256": "36beb419d33cbca2dbffb579021ff19efcfebbb653f1bdd419d12fae5603877e",
+      "size": 540
+    }
+  },
+  "purpose": "Synthetic proof of 16-bit OMF external fixup equations and DOS linker/MZ output; no original bytes used.",
+  "tools": {
+    "masm510": {
+      "allowed_flags": [],
+      "directory": "C:\\tools\\masm-5.10\\files",
+      "executable": "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+      "files": [
+        {
+          "path": "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+          "sha256": "233120302473749eafe9a54a30f8bda0127140c44346e5bcc047d113828a741e"
+        }
+      ],
+      "flags": [],
+      "label": "Microsoft Macro Assembler 5.10",
+      "provenance_note": "Pre-existing installed MASM5.10 also used by the independent RTLink probe; exact original assembler revision is unknown."
+    },
+    "msc510": {
+      "executable": "C:\\tools\\msc-5.10\\CL.EXE",
+      "files": [
+        {
+          "path": "C:\\tools\\msc-5.10\\CL.EXE",
+          "sha256": "cad40cef732beea3455225fbd62286c664166db7c3f87e2402e22b2e3f107771"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C1.EXE",
+          "sha256": "8d33c6d87aa74b042b7d7cb01a23241c4cc3b1b8b446b8f1548bd167e3c7bf62"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C2.EXE",
+          "sha256": "a513c98bc2ce11bd00901b560252b5727ab9b6bacd9319b9eaba08f9e314b99b"
+        },
+        {
+          "path": "C:\\tools\\msc-5.10\\C3.EXE",
+          "sha256": "c1269628534d5deb48171ba9e42f761dcb1c28a0087c73780db0ee2e4352e6fa"
+        }
+      ]
+    },
+    "mslink510": {
+      "path": "C:/tools/msc-5.10/LINK.EXE",
+      "sha256": "124a3c800edc16b60f696d35a9dfec798b68b78fe2ca90c5988ea76bdeab1a8a"
+    },
+    "rtlink610": {
+      "path": "C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE",
+      "sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "version": "RTLink Plus 6.10"
+    },
+    "runner": {
+      "options": [
+        "-e",
+        "-v5.00"
+      ],
+      "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+    }
+  },
+  "workdir": "D:\\Prog\\pop2_recon\\build\\workers\\binding_link_probe"
+}

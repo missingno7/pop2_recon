@@ -1,0 +1,219 @@
+{
+  "candidate_member": {
+    "archive_offset": "0x1e7e0",
+    "entry_references": {
+      "alternate_alias": "root:1fe6:1b94",
+      "direct_static_callers": [
+        "root:052d:1bca",
+        "root:052d:2200"
+      ],
+      "grounding": "Original-image far-call relocations and call bytes support that root address as a live entry candidate; context extents remain tentative discovery results.",
+      "incoming_mz_relocation_indices": [
+        455,
+        456,
+        457,
+        458,
+        459,
+        460,
+        461,
+        1438
+      ],
+      "one_explicit_call_site": {
+        "call_instruction_address": "1000:3a8c",
+        "far_destination": "1fe6:1b94",
+        "file_offset": 88719,
+        "instruction_bytes_hex": "9a941be61f",
+        "relocated_pointer_position": "1000:3a8f",
+        "relocation_index": 1438,
+        "root_position": 80527
+      }
+    },
+    "extent_bytes": 174,
+    "externals": [
+      {
+        "index": 1,
+        "name": "__dosreturn"
+      }
+    ],
+    "fixups": [
+      {
+        "displacement": {
+          "kind": "none_inline",
+          "value": 0
+        },
+        "frame": {
+          "method": 0,
+          "name": "_TEXT",
+          "segment_index": 1
+        },
+        "location": {
+          "data_record_base": 0,
+          "data_record_length": 13,
+          "field_width": 2,
+          "locat_type": 1,
+          "offset": 11,
+          "segment_index": 1,
+          "segment_name": "_TEXT",
+          "self_relative": true
+        },
+        "raw_fixupp_record_hex": "840b060101",
+        "target": {
+          "external_index": 1,
+          "method": 6,
+          "name": "__dosreturn"
+        }
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segment_indices": [
+          2
+        ]
+      }
+    ],
+    "name": "dos\\d_close.asm",
+    "publics": [
+      {
+        "name": "__dos_close",
+        "offset": 0,
+        "segment_index": 1
+      }
+    ],
+    "relocation_binding_hypothesis": {
+      "calculation": "(0x0464 - 0x1a01) mod 0x10000 = 0xea63",
+      "field_address": "2000:19ff",
+      "field_bytes_hex": "63ea",
+      "field_signed": -5533,
+      "field_unsigned_le": "0xea63",
+      "next_ip": "2000:1a01",
+      "opcode_address": "2000:19fe",
+      "resolution_kind": "near self-relative jump whose target agrees with public __dosreturn in separately inspected dos\\dosret.asm member",
+      "resolved_target_address": "2000:0464"
+    },
+    "root_candidate": {
+      "bytes_hex": "558bec8b5e06b43ecd21e963ea",
+      "extent_bytes": 13,
+      "file_offset": 145908,
+      "link_address": "2000:19f4",
+      "observation": "First 11 bytes agree with candidate member code; the two-byte relocation field is independently explained by the external-target binding below. This is diagnostic comparison evidence, not a normalized or accepted equality claim.",
+      "root_image_position": "0x219f4",
+      "sha256": "2ffa060069b8535daa1e571b66ae66245b96c5db36f6951433341e8c95376a11"
+    },
+    "segments": [
+      {
+        "alignment": 2,
+        "bytes_hex": "558bec8b5e06b43ecd21e90000",
+        "class": "CODE",
+        "combine": 2,
+        "index": 1,
+        "length": 13,
+        "name": "_TEXT",
+        "use16": true,
+        "whole_initialized_segment_sha256": "2922177b8956fc8bc16272bc5b80d9951343ee18ea6ccd57ad300df377c70bbc"
+      },
+      {
+        "class": "DATA",
+        "index": 2,
+        "length": 0,
+        "name": "_DATA"
+      }
+    ],
+    "whole_member_sha256": "672fa6319aa6357eec3132182114a8e6230b175ff0a46c3a1725adea7a5fb67b"
+  },
+  "independent_call_target_check": {
+    "expected_delta": "0x001a",
+    "field_address": "2000:0468",
+    "fixup": "self-relative internal _TEXT target offset 40",
+    "next_ip": "2000:046a",
+    "observed_root_field": "0x001a",
+    "root_candidate_module_base": "2000:045c",
+    "source": "dos\\dosret.asm _TEXT fixup at offset 12",
+    "target": "2000:0484"
+  },
+  "library": {
+    "note": "Installed MSC 6.00 library inspected read-only.",
+    "path": "C:/tools/msc-6.00/LIB/llibcr.lib",
+    "sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+    "size": 148711
+  },
+  "limitations": [
+    "This packet only records a diagnostic binding hypothesis for a CRT member; it does not establish PINNED_RUNTIME or alter the root classification.",
+    "No masking, truncation, normalization, byte-trim, or relaxed equality procedure is asserted.",
+    "The semantic identity and final link/frame rules for every runtime relocation remain unproven; the external __dosreturn near target is the narrow binding hypothesis under study.",
+    "The root image has candidate target aliases and static calls, but no exact build provenance or product-version inference follows from this evidence alone."
+  ],
+  "schema": 1,
+  "scope": "Independent OMF-to-original-image CRT binding observations. No edits to runtime policy, canonical targets, recipes, or manifest.",
+  "status": "diagnostic_hypothesis_only_not_pinned_runtime",
+  "target_image": {
+    "file": "root image (repository immutable target)",
+    "sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  },
+  "target_public_member": {
+    "archive_offset": "0x1bb0",
+    "dosreturn_public_candidate": {
+      "bytes_hex": "73f850e81a005832e48be55dcb",
+      "extent_bytes": 13,
+      "link_address": "2000:0464",
+      "note": "Root code agrees apart from field-bearing fixup content. The _TEXT segment has four publics and _DATA is initialized, so this is supporting target-binding evidence, not an isolated full-member runtime pin.",
+      "root_candidate_sha256": "e49fca837f61ba50153c04d515a24c182d26058d879ec44f2e123f837a3629d0",
+      "root_position": "0x20464",
+      "source_member_public_extent": "_TEXT+8 through next public at _TEXT+21 (13 bytes)"
+    },
+    "externals": [
+      "_errno",
+      "__osmajor",
+      "__doserrno"
+    ],
+    "fixup_observation": "Seven OMF fields in _TEXT are relocation-bearing: three self-relative internal _TEXT references to offset 40; DGROUP-framed external __doserrno, __osmajor, and _errno; and DGROUP-framed _DATA. Root field values were observed as 001a, 000e, 0001, 229b, 2298, 22d4, 2290 respectively. These are observations only; no claim that all frame/group semantics have been independently established.",
+    "group": {
+      "name": "DGROUP",
+      "segment_indices": [
+        2
+      ]
+    },
+    "name": "dos\\dosret.asm",
+    "publics": [
+      {
+        "name": "__dosret0",
+        "offset": 0,
+        "segment_index": 1
+      },
+      {
+        "name": "__dosreturn",
+        "offset": 8,
+        "segment_index": 1
+      },
+      {
+        "name": "__dosretax",
+        "offset": 21,
+        "segment_index": 1
+      },
+      {
+        "name": "__maperror",
+        "offset": 34,
+        "segment_index": 1
+      }
+    ],
+    "segments": [
+      {
+        "class": "CODE",
+        "index": 1,
+        "length": 85,
+        "name": "_TEXT",
+        "sha256": "619058471a1dc1bac2ec42c1f9961f3d4f888122426ffc3cb8643e61a544b75d"
+      },
+      {
+        "bytes_hex": "00160202180d090c0c0c07081616ff020d1202ff",
+        "class": "DATA",
+        "index": 2,
+        "length": 20,
+        "name": "_DATA",
+        "sha256": "e54227eaec51d70b2278c5771501d26a8cc3245ebfcfa3f1b1058d62dd9d0ced"
+      }
+    ],
+    "whole_member_bytes": 366,
+    "whole_member_sha256": "cd1526b0f6398bdd10acd3b86252bab5984992706f0980e17c50f36a689c5a17"
+  }
+}

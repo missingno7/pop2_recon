@@ -44,7 +44,8 @@ status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) adds a
-strict MASM path and one complete 51-byte ASM component. Totals are 20 C bytes,
-51 ASM bytes, and 653 pinned runtime bytes. Symbolic OMF fixup inspection and a
-reproducible compiler matrix support the next matching work; actual fixup
-binding and natural RTLink placement remain unresolved.
+strict MASM path, a complete 51-byte ASM component, and the first
+[independent DGROUP binding proof](docs/dgroup-binding.md). Totals are 46 C bytes,
+51 ASM bytes, and 653 pinned runtime bytes. Three external data fixups are proven;
+original relocation coverage remains 0/4,716. Symbolic call binding and natural
+RTLink placement remain unresolved.

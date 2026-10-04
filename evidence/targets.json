@@ -133,6 +133,38 @@
       "size": 51,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, signed word argument; word result in AX; RETF 2",
+      "boundary_evidence": [
+        "A separate 55 8b ec frame prologue begins at root+0x303a, immediately after a one-byte NOP at 0x3039.",
+        "The body ends with POP BP; RETF 2 at root+0x3050..0x3053, independently establishing the far-Pascal cleanup boundary.",
+        "A new 55 8b ec frame prologue begins at root+0x3054. Target extent [0x303a,0x3054) is therefore the complete 26-byte body, with no trailing padding included."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 16947,
+          "image_offset": 8755,
+          "kind": "far_call",
+          "relocated_segment_site": 8758,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatch code tests game-state bytes/words and selects signed adjustment constants before calling the helper; after return it calls another far helper and returns far at 0x225d."
+      ],
+      "classification_status": "resident game-state helper hypothesis, historical name/subsystem unknown",
+      "id": "root:0000:303a",
+      "offset": 12346,
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "apply_adjustment",
+      "sha256": "c1e5941e372941b8f36f175bd5522f08375ec5ec2cdd4623aab98c98caee25b7",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

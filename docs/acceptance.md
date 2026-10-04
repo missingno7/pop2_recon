@@ -7,12 +7,14 @@ Declared length, every initialized byte, padding, all publics, secondary storage
 records and FIXUPP subrecords are inspected. CODE holes, multiple publics,
 nonzero secondary data/BSS, unknown storage records and 32-bit records fail.
 
-The initial gate accepts only components with **zero actual object fixups and
-zero original relocation obligations**. FIXUPP thread definitions are linker
+The relocation-free gate accepts components with **zero actual object fixups
+and zero original relocation obligations**. FIXUPP thread definitions are linker
 declarations, not relocation requests; they are decoded and retained. Unused
 EXTDEF declarations (including Microsoft CRT markers and a self-public) are
-retained in reports and the exact object hash. No referenced external or
-relocation can pass this gate. Nothing is masked or normalized.
+retained in reports and the exact object hash. A separate narrow
+[external DGROUP gate](dgroup-binding.md) proves offset16 fields using frozen,
+independent original witnesses and explicit linker equations; no bytes are
+masked, patched or normalized. Unsupported fixup modes remain refused.
 
 Comparisons use the complete emitted segment, never an oracle-sized slice.
 Byte similarity and first-difference offsets are diagnostic. Promotion reruns

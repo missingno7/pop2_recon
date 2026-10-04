@@ -1,0 +1,225 @@
+{
+  "declarations": {
+    "externals": [
+      "SIGNFLAG",
+      "ACCUMULATOR",
+      "APPLY_ADJUSTMENT"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "APPLY_ADJUSTMENT",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 26,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "ACCUMULATOR",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 20,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "ACCUMULATOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "ACCUMULATOR",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 17,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "ACCUMULATOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "SIGNFLAG",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 8,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "SIGNFLAG",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "segment": 8707,
+    "witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    }
+  },
+  "limits": [
+    "DGROUP is the candidate group name; original group spelling/storage declaration and symbol names remain unproved.",
+    "Data may live in uninitialized storage beyond on-disk root payload; this proof owns code only, not those data bytes.",
+    "Startup establishes a DS paragraph; independent instructions ground DS-relative offsets/widths only. Runtime DS association at the later witnesses and helper is unproved. Component field equations hold for every frame value; no absolute data placement is claimed.",
+    "Natural RTLink placement, original translation unit and compiler identity are not inferred from equations."
+  ],
+  "mode": "external-dgroup-offset16-v1",
+  "schema": 1,
+  "symbols": {
+    "ACCUMULATOR": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 25172,
+      "width": 2,
+      "witnesses": [
+        {
+          "bytes_hex": "a35462",
+          "ds_context_evidence": "Default DS word store in resident record-state transfer code; surrounding accesses use common DS frame.",
+          "image_offset": 38666,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "a15462",
+          "ds_context_evidence": "Independent default DS word read in resident coordinate/state code; frame inheritance is static calling-context evidence, not a runtime trace.",
+          "image_offset": 17814,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "SIGNFLAG": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 25171,
+      "width": 1,
+      "witnesses": [
+        {
+          "bytes_hex": "a25362",
+          "ds_context_evidence": "Default DS write in resident dispatch helper; no local DS reload. Byte copied from DS:5c01. Identity is address/width, not recovered name.",
+          "image_offset": 8367,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "root:0000:303a",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

@@ -39,8 +39,7 @@ along with 32-bit FIXUPP records. LIDATA expansion is parsed for data coverage,
 but a relocation's record-relative offset can point into a repeated literal; mapping those
 positions is deliberately outside this resolver. COMDAT and communal storage
 are not accepted by the object reader. These are diagnostic OMF semantics;
-the match and runtime gates continue to reject objects carrying actual code
-fixups.
+binding acceptance is a separate, explicitly restricted proof gate.
 
 The field interpretation follows Intel's *8086 Relocatable Object Module
 Formats*, version 4.0 (FIXUPP/THREAD sections), and the later Tool Interface
@@ -49,7 +48,11 @@ Intel THREAD datum diagram labels its conditional field “Index or Frame
 Number”; absolute T3 uses the frame-number form (two bytes), while T0–T2 use
 the variable-width index form. The high-byte unit test distinguishes these
 encodings. Later 32-bit LOCAT values and record types are outside this reader's
-deliberate profile. The resolver implementation is local
+deliberate profile. `loc_type` now travels with each resolved row so different
+two-byte operation kinds cannot be mistaken for one another. A separate narrow
+[external data proof](dgroup-binding.md) now accepts independently grounded
+offset16 components; the runtime and other fixup modes remain rejected.
+The resolver implementation is local
 code. A sibling OMF parser was consulted as a behavior cross-check only; no
 sibling source was copied. See [the isolated MSC probes](../evidence/toolchain/omf-fixup-probes.json)
 for compiler and runner identities, hashes, switches, object hashes, and the

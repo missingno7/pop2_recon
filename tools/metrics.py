@@ -49,6 +49,7 @@ def metrics(oracle=None, manifest=None):
               "candidate_function_count": len(attempted),
               "total_relocation_records": sum(len(s.relocations) for s in oracle.spaces.values()),
               "proven_relocation_records": sum(r.get("relocation_count", 0) for r in manifest["owners"]),
+              "proven_candidate_fixups": sum(r.get("fixup_count", 0) for r in manifest["owners"]),
               "structural_link_status": manifest["structural_link_status"],
               "behavior_oracle_status": manifest["behavior_oracle_status"],
               "metric_scope": "Payload includes code, data and linker structures; discovered heuristic extents are not identified game-byte totals"}

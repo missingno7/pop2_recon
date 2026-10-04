@@ -46,6 +46,12 @@ def check_manifest(oracle, manifest):
         source_dir = ROOT / ("asm" if language == "asm" else "src")
         require(source.is_relative_to(source_dir), "Canonical source outside its language directory")
         require(sha(source.read_bytes()) == recipe["source_sha256"], "Canonical source changed without acceptance")
+        if "binding" in recipe:
+            binding_path = project_path(recipe["binding"])
+            require(binding_path.is_relative_to(ROOT / "evidence/bindings") and
+                    sha(binding_path.read_bytes()) == recipe["binding_sha256"],
+                    "Canonical binding evidence changed without acceptance")
+            require(owner["fixup_count"] == recipe["fixup_count"], "Owner fixup count differs from recipe")
 
 
 def validate(run_tests=True):
@@ -80,9 +86,12 @@ def validate(run_tests=True):
         _, report = compile_and_check(project_path(recipe["source"]), recipe["profile"],
                                       recipe["public"], owner["target_id"],
                                       ROOT / "build/workers/validation" / recipe["name"], recipe["flags"],
-                                      language=recipe.get("language", "c"))
+                                      language=recipe.get("language", "c"),
+                                      binding=read_json(project_path(recipe["binding"])) if "binding" in recipe else None)
         require(report["exact"], "Previously accepted source no longer compiles exactly")
         require(report["object_sha256"] == recipe["object_sha256"], "Accepted OMF identity changed")
+        require(report["fixups"] == owner.get("fixup_count", 0) and
+                report["relocations"] == owner.get("relocation_count", 0), "Owner obligation coverage changed")
         accepted.append(report)
     if run_tests:
         result = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], cwd=ROOT)
@@ -90,7 +99,7 @@ def validate(run_tests=True):
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
-                         "Fixup-bearing candidate acceptance not implemented"]}
+                         "Only independently grounded external DGROUP offset16 binding is implemented"]}
     write_json(ROOT / "build/validation/report.json", report)
     return report
 

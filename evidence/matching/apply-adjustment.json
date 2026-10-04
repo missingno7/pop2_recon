@@ -1,0 +1,100 @@
+{
+  "boundary_snapshots": [
+    {
+      "bytes_hex": "90558bec",
+      "image_offset": 12345,
+      "space": "root"
+    },
+    {
+      "bytes_hex": "5dca0200558bec",
+      "image_offset": 12368,
+      "space": "root"
+    }
+  ],
+  "caller": {
+    "argument_setup_bytes": "b8 0a 00 50 9a 7a 03 cc 02",
+    "argument_setup_image_position": 8751,
+    "caller_body_observation": "Dispatch code tests game-state bytes/words and selects signed adjustment constants before calling the helper; after return it calls another far helper and returns far at 0x225d.",
+    "caller_context_end": 8798,
+    "caller_context_start": 8582,
+    "caller_entry": "root:0000:2156 (tentative entry; dispatch-handler code)",
+    "far_target_alias": {
+      "offset": 890,
+      "resolved_root_image_position": 12346,
+      "segment": 716
+    },
+    "instruction_bytes": "9a 7a 03 cc 02",
+    "instruction_image_position": 8755,
+    "observed_argument_shape": "One 16-bit value is pushed before the far call; this path supplies 0x000a. A neighboring path at 0x2192 supplies 0xfff8, and dispatch branches at 0x2216/0x2220 supply other signed constants.",
+    "target_segment_relocation": {
+      "index": 170,
+      "source_image_position": 8758,
+      "stored_word": 716
+    }
+  },
+  "canonical_staging_object_sha256": "f94ac7a3495913537dde5f38c83a1a00efe8a3ac7a96ef54826b0604ae97e2da",
+  "compiler": {
+    "argv": [
+      "C:\\tools\\nmlgcdos\\msdos.exe",
+      "-e",
+      "-v5.00",
+      "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc",
+      "ADJUST.C"
+    ],
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "profile": "msc600",
+    "public_symbol": "APPLY_ADJUSTMENT",
+    "tool_profile_lock": "layout/toolchain.lock.json"
+  },
+  "object_identity_note": "Worker staged ADJUST.C; canonical compiler stages UNIT.C, changing THEADR/segment names, not code or fixup semantics.",
+  "raw_code_sha256": "aabf5d4b0660401fbb552b811c1f8394fa93415468396e8f07339ec32eb2cb63",
+  "schema": 1,
+  "semantic_status": "signflag/accumulator/apply_adjustment are hypotheses; volatile declarations reproduce observed accesses, original spelling unknown.",
+  "target": {
+    "abi": "far Pascal, signed word argument; word result in AX; RETF 2",
+    "boundary_evidence": [
+      "A separate 55 8b ec frame prologue begins at root+0x303a, immediately after a one-byte NOP at 0x3039.",
+      "The body ends with POP BP; RETF 2 at root+0x3050..0x3053, independently establishing the far-Pascal cleanup boundary.",
+      "A new 55 8b ec frame prologue begins at root+0x3054. Target extent [0x303a,0x3054) is therefore the complete 26-byte body, with no trailing padding included."
+    ],
+    "boundary_status": "REVIEWED",
+    "call_sites": [
+      {
+        "file_offset": 16947,
+        "image_offset": 8755,
+        "kind": "far_call",
+        "relocated_segment_site": 8758,
+        "space": "root"
+      }
+    ],
+    "classification": "GAME_C",
+    "classification_evidence": [
+      "Dispatch code tests game-state bytes/words and selects signed adjustment constants before calling the helper; after return it calls another far helper and returns far at 0x225d."
+    ],
+    "classification_status": "resident game-state helper hypothesis, historical name/subsystem unknown",
+    "id": "root:0000:303a",
+    "offset": 12346,
+    "original_name": null,
+    "segment": 0,
+    "semantic_name_hypothesis": "apply_adjustment",
+    "sha256": "c1e5941e372941b8f36f175bd5522f08375ec5ec2cdd4623aab98c98caee25b7",
+    "size": 26,
+    "space": "root",
+    "state": "ANALYZED"
+  },
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "worker_object_sha256": "fbcf60ec4291bfa723984be0969f2113ae350380c40098bd149d025d8b061bad"
+}

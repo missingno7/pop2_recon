@@ -26,16 +26,19 @@ Use `python tools/promote.py ID build/workers/NAME/candidate.c --profile PROFILE
 strict check. The integrating writer publishes by removing `--verify-only`, then
 runs `python tools/validate.py`. Accepted code is complete component CODE_EXACT,
 not original-TU or whole-link proof. Current acceptance supports one complete
-initialized CODE segment and no actual FIXUPP/target relocation obligations.
+initialized CODE segment. Relocation-free components need no binding proof.
 Unreferenced compiler externals and FIXUPP thread declarations are retained in
-the object proof; fixup-bearing components remain blocked on symbolic binding.
+the object proof. For the narrow external DGROUP offset16 mode, provide
+`--binding evidence/bindings/NAME.json`; see docs/dgroup-binding.md. Every field
+equation and independent original witness is rechecked, with no byte masking.
+Other fixup-bearing components remain blocked on their symbolic proof.
 
 For reviewed hand-assembly hypotheses, use readable MASM source and select
 `--language asm --profile masm510` for search/promotion. The same whole-segment
-and empty-obligation gate applies. No opcode byte blobs, output edits, or
+and symbolic-obligation gate applies. No opcode byte blobs, output edits, or
 synthetic trailing bytes are acceptable. Canonical ASM lives in `asm/` and is
-freshly assembled by validation. Symbolic FIXUPP inspection is now available,
-but does not yet grant acceptance to fixup-bearing components.
+freshly assembled by validation. Symbolic FIXUPP inspection supports research;
+only the explicitly implemented binding mode can grant fixup-bearing ownership.
 
 Run full validation at tooling/acceptance milestones, not every hypothesis.
 Keep original facts, compiler observations, external hints and source hypotheses

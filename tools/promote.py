@@ -17,6 +17,7 @@ def main():
     parser.add_argument("--name", required=True)
     parser.add_argument("--flags", nargs="+")
     parser.add_argument("--language", choices=("c", "asm"), default="c")
+    parser.add_argument("--binding", help="Reviewed original-derived symbolic binding JSON")
     parser.add_argument("--verify-only", action="store_true")
     args = parser.parse_args()
     require(re.fullmatch(r"[a-z][a-z0-9_]*", args.name), "Invalid canonical source name")
@@ -30,7 +31,8 @@ def main():
     frozen_source = stage / ("CAND.C" if args.language == "c" else "CAND.ASM")
     frozen_source.write_bytes(original_source)
     result, report = compile_and_check(frozen_source, args.profile, args.symbol, args.target,
-                                       stage / "compile", args.flags, language=args.language)
+                                       stage / "compile", args.flags, language=args.language,
+                                       binding=read_json(project_path(args.binding)) if args.binding else None)
     require(report["exact"], "Refusing promotion: complete component does not match")
     if args.verify_only:
         print(f"Strict {report['state']}: {args.target}, {report['emitted_size']} bytes")
@@ -44,10 +46,17 @@ def main():
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(original_source),
               "profile": args.profile, "flags": list(result.flags), "public": args.symbol,
               "object_sha256": report["object_sha256"], "proof_scope": report["proof_scope"]}
+    if args.binding:
+        binding_path = project_path(args.binding)
+        require(binding_path.is_relative_to(ROOT / "evidence/bindings"),
+                "Canonical binding proof must live under evidence/bindings")
+        recipe.update(binding=binding_path.relative_to(ROOT).as_posix(),
+                      binding_sha256=sha(binding_path.read_bytes()), fixup_count=report["fixups"])
     owner = {key: target[key] for key in ("space", "segment", "offset", "size")}
     owner.update(target_id=args.target, kind="MATCHING_C" if args.language == "c" else "MATCHING_ASM",
                  state=report["state"],
-                 recipe=recipe_path.relative_to(ROOT).as_posix(), relocation_count=0)
+                 recipe=recipe_path.relative_to(ROOT).as_posix(), relocation_count=report["relocations"],
+                 fixup_count=report["fixups"])
     manifest["owners"].append(owner)
     source_path.parent.mkdir(parents=True, exist_ok=True)
     source_path.write_bytes(original_source)

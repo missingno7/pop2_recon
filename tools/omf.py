@@ -363,6 +363,7 @@ class OmfReader:
                     frame = {"kind": "target_frame", "target": target}
                 resolved.append({"kind": "fixup", "segment_index": seg_i,
                                  "segment": seg["name"], "segment_offset": segment_offset,
+                                 "loc_type": row["loc_type"],
                                  "field_width": width, "self_relative": row["self_relative"],
                                  "frame": frame, "target": target,
                                  "displacement": row["displacement"]})
