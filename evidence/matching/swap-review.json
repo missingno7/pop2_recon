@@ -1,0 +1,340 @@
+{
+  "body_45_sha256": "de693fb1c591180d085c523d12434cfd6dd7c643a9d6f413e6efd5cec953de8b",
+  "call_sites": [
+    {
+      "file_offset": 174820,
+      "image_offset": 18884,
+      "kind": "far_call",
+      "relocated_segment_site": 18887,
+      "space": "overlay-2"
+    },
+    {
+      "file_offset": 174782,
+      "image_offset": 18846,
+      "kind": "far_call",
+      "relocated_segment_site": 18849,
+      "space": "overlay-2"
+    },
+    {
+      "file_offset": 175010,
+      "image_offset": 19074,
+      "kind": "far_call",
+      "relocated_segment_site": 19077,
+      "space": "overlay-2"
+    },
+    {
+      "file_offset": 174974,
+      "image_offset": 19038,
+      "kind": "far_call",
+      "relocated_segment_site": 19041,
+      "space": "overlay-2"
+    },
+    {
+      "file_offset": 177388,
+      "image_offset": 21452,
+      "kind": "far_call",
+      "relocated_segment_site": 21455,
+      "space": "overlay-2"
+    },
+    {
+      "file_offset": 177352,
+      "image_offset": 21416,
+      "kind": "far_call",
+      "relocated_segment_site": 21419,
+      "space": "overlay-2"
+    }
+  ],
+  "caller_cfgs": [
+    {
+      "blocks": [
+        18612,
+        18649,
+        18684,
+        18694,
+        18709,
+        18730,
+        18786,
+        18794,
+        18842,
+        18980,
+        19000,
+        19005,
+        19014,
+        19082,
+        19170,
+        19189
+      ],
+      "call_site_hits": [
+        18846,
+        18884,
+        19038,
+        19074
+      ],
+      "entry": 18612,
+      "instructions": 222,
+      "returns": [
+        {
+          "mnemonic": "retf",
+          "operands": "4",
+          "position": 19200
+        }
+      ]
+    },
+    {
+      "blocks": [
+        19200
+      ],
+      "call_site_hits": [],
+      "entry": 19200,
+      "instructions": 24,
+      "returns": [
+        {
+          "mnemonic": "retf",
+          "operands": "6",
+          "position": 19263
+        }
+      ]
+    },
+    {
+      "blocks": [
+        19412,
+        19601,
+        19664,
+        19708,
+        19752,
+        19796,
+        19803,
+        19928,
+        19946,
+        19990,
+        20034,
+        20078,
+        20091,
+        20108,
+        20115,
+        20227,
+        20278,
+        20342,
+        20457,
+        20566,
+        20658,
+        20722,
+        20786,
+        20850,
+        20941,
+        20963,
+        20970,
+        21079,
+        21092,
+        21110,
+        21128,
+        21169,
+        21210,
+        21251,
+        21288,
+        21350,
+        21377
+      ],
+      "call_site_hits": [],
+      "entry": 19412,
+      "instructions": 937,
+      "returns": [
+        {
+          "mnemonic": "retf",
+          "operands": "",
+          "position": 21407
+        }
+      ]
+    },
+    {
+      "blocks": [
+        21408
+      ],
+      "call_site_hits": [
+        21416,
+        21452
+      ],
+      "entry": 21408,
+      "instructions": 25,
+      "returns": [
+        {
+          "mnemonic": "retf",
+          "operands": "4",
+          "position": 21466
+        }
+      ]
+    }
+  ],
+  "classification_status": "medium game-helper hypothesis, caller purpose and original name unknown",
+  "complete_46_sha256": "5b0c208d283d4a1c825863a6aee86c4ce7706ed92770b9fecc4d81f1122cf603",
+  "extent_in_bounds": true,
+  "extent_relocations": [],
+  "following_18_bytes_hex": "55 8b ec 83 ec 04 57 56 2b ff ff 76 10 ff 76 0e ff 76",
+  "instructions_through_return": [
+    {
+      "bytes": "55",
+      "flow": null,
+      "mnemonic": "push",
+      "operands": "bp",
+      "position": 0
+    },
+    {
+      "bytes": "8bec",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "bp, sp",
+      "position": 1
+    },
+    {
+      "bytes": "83ec04",
+      "flow": null,
+      "mnemonic": "sub",
+      "operands": "sp, 4",
+      "position": 3
+    },
+    {
+      "bytes": "8b5e06",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "bx, word ptr [bp + 6]",
+      "position": 6
+    },
+    {
+      "bytes": "8b07",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "ax, word ptr [bx]",
+      "position": 9
+    },
+    {
+      "bytes": "8b5702",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "dx, word ptr [bx + 2]",
+      "position": 11
+    },
+    {
+      "bytes": "8bc8",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "cx, ax",
+      "position": 14
+    },
+    {
+      "bytes": "8956fe",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "word ptr [bp - 2], dx",
+      "position": 16
+    },
+    {
+      "bytes": "8b472e",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "ax, word ptr [bx + 0x2e]",
+      "position": 19
+    },
+    {
+      "bytes": "8b5730",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "dx, word ptr [bx + 0x30]",
+      "position": 22
+    },
+    {
+      "bytes": "8907",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "word ptr [bx], ax",
+      "position": 25
+    },
+    {
+      "bytes": "895702",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "word ptr [bx + 2], dx",
+      "position": 27
+    },
+    {
+      "bytes": "8b46fe",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "ax, word ptr [bp - 2]",
+      "position": 30
+    },
+    {
+      "bytes": "894f2e",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "word ptr [bx + 0x2e], cx",
+      "position": 33
+    },
+    {
+      "bytes": "894730",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "word ptr [bx + 0x30], ax",
+      "position": 36
+    },
+    {
+      "bytes": "8be5",
+      "flow": null,
+      "mnemonic": "mov",
+      "operands": "sp, bp",
+      "position": 39
+    },
+    {
+      "bytes": "5d",
+      "flow": null,
+      "mnemonic": "pop",
+      "operands": "bp",
+      "position": 41
+    },
+    {
+      "bytes": "ca0200",
+      "flow": "return",
+      "mnemonic": "retf",
+      "operands": "2",
+      "position": 42
+    }
+  ],
+  "next_entry": {
+    "alias": {
+      "offset": 3734,
+      "segment": 10401
+    },
+    "canonical_address": {
+      "offset": 25702,
+      "segment": 9028,
+      "space": "overlay-2"
+    },
+    "first_instruction": [
+      "push",
+      "bp"
+    ],
+    "second_instruction": [
+      "mov",
+      "bp, sp"
+    ]
+  },
+  "post_return_padding_instruction": {
+    "bytes": "90",
+    "mnemonic": "nop",
+    "operands": "",
+    "position": 45
+  },
+  "schema": 1,
+  "target_alias": {
+    "offset": 3688,
+    "segment": 10401
+  },
+  "target_canonical_address": {
+    "offset": 25656,
+    "segment": 9028,
+    "space": "overlay-2"
+  },
+  "target_file_offset": 181592,
+  "target_id": "overlay-2:28a1:0e68",
+  "target_position": 25656,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

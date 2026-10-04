@@ -30,6 +30,13 @@ initialized CODE segment and no actual FIXUPP/target relocation obligations.
 Unreferenced compiler externals and FIXUPP thread declarations are retained in
 the object proof; fixup-bearing components remain blocked on symbolic binding.
 
+For reviewed hand-assembly hypotheses, use readable MASM source and select
+`--language asm --profile masm510` for search/promotion. The same whole-segment
+and empty-obligation gate applies. No opcode byte blobs, output edits, or
+synthetic trailing bytes are acceptable. Canonical ASM lives in `asm/` and is
+freshly assembled by validation. Symbolic FIXUPP inspection is now available,
+but does not yet grant acceptance to fixup-bearing components.
+
 Run full validation at tooling/acceptance milestones, not every hypothesis.
 Keep original facts, compiler observations, external hints and source hypotheses
 separate. Report C, ASM, proven runtime, drivers and unresolved payload separately.

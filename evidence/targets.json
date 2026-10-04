@@ -31,6 +31,108 @@
       "size": 20,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near data pointer; callee pops 2 bytes",
+      "boundary_evidence": [
+        "Independent decode has no outgoing branch and ends with RETF 2 at bytes42..44.",
+        "Byte45 is NOP alignment; byte46 begins the next BP prologue at overlay position0x6466.",
+        "All46 bytes are inbounds and contain no original relocation sites; six relocated direct callers independently verified."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 174820,
+          "image_offset": 18884,
+          "kind": "far_call",
+          "relocated_segment_site": 18887,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174782,
+          "image_offset": 18846,
+          "kind": "far_call",
+          "relocated_segment_site": 18849,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 175010,
+          "image_offset": 19074,
+          "kind": "far_call",
+          "relocated_segment_site": 19077,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174974,
+          "image_offset": 19038,
+          "kind": "far_call",
+          "relocated_segment_site": 19041,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 177388,
+          "image_offset": 21452,
+          "kind": "far_call",
+          "relocated_segment_site": 21455,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 177352,
+          "image_offset": 21416,
+          "kind": "far_call",
+          "relocated_segment_site": 21419,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Six direct relocated far calls from two overlay-2 routines pass their record pointer in SI.",
+        "Exchanges word pairs at near-record offsets 0/2 and 0x2e/0x30; specific gameplay role not proven."
+      ],
+      "classification_status": "medium game-helper hypothesis, caller purpose and original name unknown",
+      "id": "overlay-2:28a1:0e68",
+      "offset": 3688,
+      "original_name": null,
+      "segment": 10401,
+      "semantic_name_hypothesis": "swap_record_pairs",
+      "sha256": "5b0c208d283d4a1c825863a6aee86c4ce7706ed92770b9fecc4d81f1122cf603",
+      "size": 46,
+      "space": "overlay-2",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "far callee-cleaned, far buffer plus count and length words; RETF8; observed DF assumption remains unverified",
+      "boundary_evidence": [
+        "A RETF 4 ends at image position 0x1343; a NOP at 0x1343 separates it from the 55 8b ec frame prologue at 0x1344.",
+        "The complete 51-byte body has one bounded inner LOOP back-edge and one outer conditional back-edge; cleanup restores DI, SI, DS, BP.",
+        "RETF 8 at 0x1374 ends the extent at 0x1377, where the next candidate begins with a separate 55 8b ec prologue.",
+        "The immutable root relocation table has no relocation site inside [0x1344,0x1377)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 136628,
+          "image_offset": 128436,
+          "kind": "far_call",
+          "relocated_segment_site": 128439,
+          "space": "root"
+        }
+      ],
+      "classification": "CUSTOM_ASM",
+      "classification_evidence": [
+        "Temporarily switches DS to far buffer segment, uses LES/STOSB/LOOP and paired AH/AL byte exchange, restores DS/SI/DI; supports handwritten assembly.",
+        "Called by a resident routine that passes a far buffer and two words; exact higher-level purpose is unknown."
+      ],
+      "classification_status": "hand-assembly hypothesis; game/resource subsystem unresolved",
+      "id": "root:0000:1344",
+      "offset": 4932,
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "reverse_block_bytes",
+      "sha256": "e6697776fa3dbd5e0b2e83c8d66e07edec1ff368be8d39f83dde690414136989",
+      "size": 51,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

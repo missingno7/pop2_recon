@@ -17,10 +17,11 @@ def check_manifest(oracle, manifest):
         require(owner["target_id"] not in ids, "Duplicate target owner")
         ids.add(owner["target_id"])
         require((owner["kind"], owner["state"]) in (("MATCHING_C", "CODE_EXACT"),
+                                                      ("MATCHING_ASM", "ASM_EXACT"),
                                                       ("PINNED_RUNTIME", "PINNED_RUNTIME")),
                 "Unsupported bootstrap ownership kind/state")
         recipe = read_json(project_path(owner["recipe"]))
-        if owner["kind"] == "MATCHING_C":
+        if owner["kind"] in ("MATCHING_C", "MATCHING_ASM"):
             target, space, _ = get_target(owner["target_id"], oracle)
         else:
             target = recipe
@@ -39,7 +40,11 @@ def check_manifest(oracle, manifest):
             continue
         require(recipe["target_id"] == owner["target_id"], "Recipe target mismatch")
         source = project_path(recipe["source"])
-        require(source.is_relative_to(ROOT / "src"), "Canonical C source outside src")
+        language = recipe.get("language", "c")
+        require(language == ("asm" if owner["kind"] == "MATCHING_ASM" else "c"),
+                "Recipe source language disagrees with ownership")
+        source_dir = ROOT / ("asm" if language == "asm" else "src")
+        require(source.is_relative_to(source_dir), "Canonical source outside its language directory")
         require(sha(source.read_bytes()) == recipe["source_sha256"], "Canonical source changed without acceptance")
 
 
@@ -56,11 +61,15 @@ def validate(run_tests=True):
             "Parsed structure disagrees with original-derived frozen structure")
     manifest = read_json(ROOT / "layout/manifest.json")
     check_manifest(oracle, manifest)
-    from compiler import verify_profile
+    from compiler import load_lock, verify_profile
     profiles = read_json(ROOT / "recipes/compiler-profiles.json")
     # Pin checks cover installed tested profiles even before one owns canonical code.
-    for profile in profiles["profiles"]:
+    require(set(profiles["profiles"]).issubset(load_lock()["profiles"]), "Unknown recipe compiler profile")
+    for profile in load_lock()["profiles"]:
         verify_profile(profile)
+    from assembler import verify_assembler
+    for profile in load_lock().get("assemblers", {}):
+        verify_assembler(profile)
     accepted = []
     for owner in manifest["owners"]:
         recipe = read_json(project_path(owner["recipe"]))
@@ -70,7 +79,8 @@ def validate(run_tests=True):
             continue
         _, report = compile_and_check(project_path(recipe["source"]), recipe["profile"],
                                       recipe["public"], owner["target_id"],
-                                      ROOT / "build/workers/validation" / recipe["name"], recipe["flags"])
+                                      ROOT / "build/workers/validation" / recipe["name"], recipe["flags"],
+                                      language=recipe.get("language", "c"))
         require(report["exact"], "Previously accepted source no longer compiles exactly")
         require(report["object_sha256"] == recipe["object_sha256"], "Accepted OMF identity changed")
         accepted.append(report)
@@ -92,6 +102,7 @@ def main():
     report = validate(not args.skip_tests)
     print(f"PASS: {report['metrics']['exact_function_count']} freshly recompiled exact functions; "
           f"{report['metrics']['matching_c_bytes']} C bytes; "
+          f"{report['metrics']['matching_asm_bytes']} ASM bytes; "
           f"{report['metrics']['pinned_runtime_bytes']} pinned runtime bytes; structural link UNRECOVERED")
 
 

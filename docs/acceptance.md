@@ -34,6 +34,17 @@ translation-unit membership, historical object-record identity, natural final
 placement, library order, overlay vectors or whole RTLink closure. Those remain
 separate structural proof. No hybrid executable is constructed in this bootstrap.
 
+The same complete-segment gate supports reconstructed ASM through
+`tools/assembler.py`. `masm510` pins Microsoft MASM 5.10 and the runner;
+assembly takes place as `UNIT.ASM` in isolated scratch. External include/library
+inputs and unapproved assembler switches are refused. Failed or timed-out
+assembly cannot reuse a stale object. Search and promotion select this path
+with `--language asm`; accepted recipes declare that language, own source under
+`asm/`, and are validated by fresh assembly and full OMF identity as ASM_EXACT.
+An odd-length segment is valid when its entire initialized extent matches the
+independently reviewed target. Original source language and assembler revision
+remain evidence-qualified claims separate from this component proof.
+
 The final overlay is physically 21,103 bytes although its descriptor allocates
 21,104 paragraph bytes. The guarded profile records one absent terminal byte;
 oracle extraction neither reads past EOF nor supplies a synthesized zero. The

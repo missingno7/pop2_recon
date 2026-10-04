@@ -1,0 +1,125 @@
+{
+  "assembler": {
+    "banner_present": true,
+    "exit_code": 0,
+    "name": "Microsoft Macro Assembler 5.10",
+    "path": "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+    "runner_argv": [
+      "C:\\tools\\nmlgcdos\\msdos.exe",
+      "-e",
+      "-v5.00",
+      "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+      "REVBLOCK.ASM,REVBLOCK.OBJ,NUL,NUL;"
+    ],
+    "runner_sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "sha256": "233120302473749eafe9a54a30f8bda0127140c44346e5bcc047d113828a741e"
+  },
+  "assembly_source": "build/workers/reverse_asm/REVBLOCK.ASM",
+  "assembly_source_sha256": "c171df18603f97c06725dbcab06c1ff1fdb9170c62ee315066102e99978d80b3",
+  "behavior_caveats": [
+    "The source computes CX=(length+1)>>1 in 16-bit arithmetic, then enters the LOOP body once before LOOP decrements CX. A zero length (and 0xffff after INC wrap) therefore cycles through 65536 inner iterations; this is the static machine behavior, not an assertion about intended input.",
+    "The outer block loop is do-while-shaped: it decrements count after processing, so an initial count of zero wraps and runs 65536 passes. This static behavior does not establish intended inputs.",
+    "STOSB follows DF and the routine contains no CLD. Byte equality does not prove the caller enters with DF=0; no original runtime trace was used."
+  ],
+  "comparison": {
+    "emitted_sha256": "e6697776fa3dbd5e0b2e83c8d66e07edec1ff368be8d39f83dde690414136989",
+    "emitted_size": 51,
+    "exact": true,
+    "expected_sha256": "e6697776fa3dbd5e0b2e83c8d66e07edec1ff368be8d39f83dde690414136989",
+    "expected_size": 51,
+    "first_difference": null,
+    "proof_scope": "One complete initialized CODE SEGDEF and empty fixup/relocation obligations; object exactness does not establish original translation-unit placement or link closure.",
+    "state": "CODE_EXACT"
+  },
+  "object": {
+    "complete_code_segment_bytes": "55 8b ec 1e 56 57 c4 7e 0a 06 1f 8b df 8b f7 8b 4e 06 03 f1 4e 41 d1 e9 8a 25 8a 04 aa 88 24 4e e2 f6 8b fb 03 7e 06 ff 4e 08 75 df 5f 5e 1f 5d ca 08 00",
+    "externals": [],
+    "fixups": [],
+    "initialized_ranges": {
+      "REVBLOCK_TEXT": [
+        [
+          0,
+          51
+        ]
+      ]
+    },
+    "path": "build/workers/reverse_asm/REVBLOCK.OBJ",
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "REVERSE_BLOCK_BYTES",
+        "offset": 0,
+        "segment": "REVBLOCK_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segment_defs": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 51,
+        "name": "REVBLOCK_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      }
+    ],
+    "sha256": "c7c83a0bb872a0c9565cc5e90e56e25c4f4a419a46431ebd09987a27efaa7fb8",
+    "size": 185
+  },
+  "schema": 1,
+  "scope_note": "Independent pre-publication receipt; UNIT.ASM canonical compilation uses a different module basename. Complete51 CODE equality is separate from original assembly/TU/link identity.",
+  "status": "WORKER_ASM_EXACT_SUBMISSION",
+  "target": {
+    "boundary_evidence": [
+      "A RETF 4 ends at image position 0x1343; a NOP at 0x1343 separates it from the 55 8b ec frame prologue at 0x1344.",
+      "The complete 51-byte body has one bounded inner LOOP back-edge and one outer conditional back-edge; cleanup restores DI, SI, DS, BP.",
+      "RETF 8 at 0x1374 ends the extent at 0x1377, where the next candidate begins with a separate 55 8b ec prologue.",
+      "The immutable root relocation table has no relocation site inside [0x1344,0x1377)."
+    ],
+    "bytes": "55 8b ec 1e 56 57 c4 7e 0a 06 1f 8b df 8b f7 8b 4e 06 03 f1 4e 41 d1 e9 8a 25 8a 04 aa 88 24 4e e2 f6 8b fb 03 7e 06 ff 4e 08 75 df 5f 5e 1f 5d ca 08 00",
+    "callsite": {
+      "argument_setup_bytes": "52 50 8e c2 8b de 26 ff 37 26 ff 77 04 9a 44 13 00 00",
+      "argument_setup_image_position": 128423,
+      "caller_entry": "root:1ecf:0886",
+      "caller_image_position": 128374,
+      "incoming_reference_note": "Discovery also lists far-pointer references from root and overlay-2; only the direct root call above is used as callsite proof.",
+      "instruction_bytes": "9a 44 13 00 00",
+      "instruction_image_position": 128436,
+      "observed_argument_shape": "Caller pushes the buffer segment and offset, then two words; callee reads length at BP+6, count at BP+8 and a far buffer at BP+10, then RETF 8.",
+      "relocated_segment_word_image_position": 128439,
+      "target_far_pointer": {
+        "offset": 4932,
+        "segment": 0
+      }
+    },
+    "classification_hypothesis": "resident game helper candidate; exact subsystem and original source symbol remain unknown",
+    "end_exclusive_image_position": 4983,
+    "id": "root:0000:1344",
+    "offset": 4932,
+    "segment": 0,
+    "semantic_evidence": "Target swaps paired bytes from the ends of each fixed-length block and advances to the next block.",
+    "semantic_name_hypothesis": "reverse_block_bytes",
+    "sha256": "e6697776fa3dbd5e0b2e83c8d66e07edec1ff368be8d39f83dde690414136989",
+    "size": 51,
+    "space": "root",
+    "start_image_position": 4932
+  }
+}

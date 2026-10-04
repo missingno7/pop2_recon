@@ -91,10 +91,19 @@ def check_object(obj_data, target, space, expected, public_name):
             "proof_scope": "Complete component code and empty fixup/relocation obligations; object declarations recorded, original TU identity and structural link unproved"}
 
 
-def compile_and_check(source, profile, public_name, identifier, workdir, flags=None):
+def compile_and_check(source, profile, public_name, identifier, workdir, flags=None, *, language="c"):
     from compiler import compile_c
+    require(language in ("c", "asm"), "Unknown source language")
     target, space, expected = get_target(identifier)
     # Compiler source API is supplied by tools/compiler.py; source is independent of expected bytes.
-    result = compile_c(Path(source), profile, flags=flags, workdir=Path(workdir))
+    if language == "asm":
+        from assembler import assemble_asm
+        result = assemble_asm(Path(source), profile, flags=flags, workdir=Path(workdir))
+    else:
+        result = compile_c(Path(source), profile, flags=flags, workdir=Path(workdir))
     require(result.ok, "Historical compilation failed: " + result.log)
-    return result, check_object(result.obj.read_bytes(), target, space, expected, public_name)
+    report = check_object(result.obj.read_bytes(), target, space, expected, public_name)
+    if language == "asm":
+        report["state"] = "ASM_EXACT" if report["exact"] else "CANDIDATE_ASM"
+    report["language"] = language
+    return result, report

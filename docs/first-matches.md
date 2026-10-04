@@ -11,3 +11,27 @@ The isolated source in [swap_candidate.c](../evidence/matching/swap_candidate.c)
 An alternate scalar-local formulation compiles to a 32-byte segment, and `/O`, `/Og`, `/Ox`, `/Os`, and `/Ot` aggregate variants did not match. The full target bytes, oracle hash, entry evidence, compile receipt, object hash, and exact comparison are in [first_matches.json](../evidence/matching/first_matches.json). No source has been promoted or added to canonical ownership.
 
 The next complete-component comparison should own all 46 original bytes including the observed alignment NOP; the 45-byte instruction-body comparison above is diagnostic only. A register aggregate local still emitted the same 50 bytes under /Oe, /Ox, and /Oe /Or.
+
+The continuation review independently found six relocated direct far calls from
+overlay-2 callers `2344:48b4` and `2344:53a0`. Each passes SI once; BP+6 and
+RETF2 confirm the callee-cleaned near-pointer ABI. The full 46-byte target is
+now reviewed in `evidence/targets.json`; byte45 is the alignment NOP and byte46
+begins the next prologue. See [swap-review.json](../evidence/matching/swap-review.json).
+Game-helper classification is a medium-confidence hypothesis.
+
+The [reproducible matrix](../evidence/toolchain/swap-matrix.json) records 277 trials
+over 39 readable source forms and pinned compiler/profile contrasts. Aggregate,
+long, float, union, scalar, qualifier and optimizer forms remain nonmatching.
+MSC 5.10 outputs differ, while tested MSC 6.00/6.00A aggregate forms retain both
+stack spills. A 46-byte scalar/long form uses DI and a different frame; equal
+length is not equality. Complete segments and failures are in
+[swap-results.json](../evidence/toolchain/swap-results.json). Nothing was trimmed.
+
+```
+python tools/probe_matrix.py evidence/toolchain/swap-matrix.json --worker swap_probe --trial 0
+```
+
+Omit `--trial` to rerun the entire diagnostic matrix. No trial grants ownership.
+The additional local July 1990 bound 6.00A chain fails with C1059 near-heap
+exhaustion; the local 6.00AX chain's selected pass reports it cannot run in DOS.
+Neither failure supplies code-generation evidence or silently falls back.

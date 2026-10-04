@@ -42,3 +42,9 @@ compiler comparisons, exact C/runtime totals, remaining debt and next targets.
 bytes. `build/validation/report.json` and `build/metrics.json` report fresh local
 status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
+
+The [current reconstruction milestone](docs/reconstruction-progress.md) adds a
+strict MASM path and one complete 51-byte ASM component. Totals are 20 C bytes,
+51 ASM bytes, and 653 pinned runtime bytes. Symbolic OMF fixup inspection and a
+reproducible compiler matrix support the next matching work; actual fixup
+binding and natural RTLink placement remain unresolved.

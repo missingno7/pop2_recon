@@ -16,6 +16,7 @@ def main():
     parser.add_argument("--symbol", required=True)
     parser.add_argument("--name", required=True)
     parser.add_argument("--flags", nargs="+")
+    parser.add_argument("--language", choices=("c", "asm"), default="c")
     parser.add_argument("--verify-only", action="store_true")
     args = parser.parse_args()
     require(re.fullmatch(r"[a-z][a-z0-9_]*", args.name), "Invalid canonical source name")
@@ -26,24 +27,26 @@ def main():
     original_source = project_path(args.source).read_bytes()
     stage = ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
-    frozen_source = stage / "CAND.C"
+    frozen_source = stage / ("CAND.C" if args.language == "c" else "CAND.ASM")
     frozen_source.write_bytes(original_source)
     result, report = compile_and_check(frozen_source, args.profile, args.symbol, args.target,
-                                       stage / "compile", args.flags)
+                                       stage / "compile", args.flags, language=args.language)
     require(report["exact"], "Refusing promotion: complete component does not match")
     if args.verify_only:
-        print(f"Strict CODE_EXACT: {args.target}, {report['emitted_size']} bytes")
+        print(f"Strict {report['state']}: {args.target}, {report['emitted_size']} bytes")
         return
-    source_path = ROOT / "src" / (args.name + ".c")
+    source_path = (ROOT / "src" / (args.name + ".c") if args.language == "c"
+                   else ROOT / "asm" / (args.name + ".asm"))
     recipe_path = ROOT / "recipes" / (args.name + ".json")
     require(not source_path.exists() and not recipe_path.exists(), "Canonical publication would overwrite a file")
     target, _, _ = get_target(args.target, oracle)
-    recipe = {"schema": 1, "name": args.name, "target_id": args.target,
+    recipe = {"schema": 1, "name": args.name, "target_id": args.target, "language": args.language,
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(original_source),
               "profile": args.profile, "flags": list(result.flags), "public": args.symbol,
               "object_sha256": report["object_sha256"], "proof_scope": report["proof_scope"]}
     owner = {key: target[key] for key in ("space", "segment", "offset", "size")}
-    owner.update(target_id=args.target, kind="MATCHING_C", state="CODE_EXACT",
+    owner.update(target_id=args.target, kind="MATCHING_C" if args.language == "c" else "MATCHING_ASM",
+                 state=report["state"],
                  recipe=recipe_path.relative_to(ROOT).as_posix(), relocation_count=0)
     manifest["owners"].append(owner)
     source_path.parent.mkdir(parents=True, exist_ok=True)
@@ -56,7 +59,7 @@ def main():
         recipe_path.unlink()
         raise
     write_json(ROOT / "layout/manifest.json", manifest)
-    print(f"Published {source_path.relative_to(ROOT)}: {target['size']} CODE_EXACT bytes")
+    print(f"Published {source_path.relative_to(ROOT)}: {target['size']} {report['state']} bytes")
 
 
 if __name__ == "__main__":

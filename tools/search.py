@@ -13,11 +13,12 @@ def main():
     parser.add_argument("--symbol", required=True)
     parser.add_argument("--worker", required=True)
     parser.add_argument("--flags", nargs="+")
+    parser.add_argument("--language", choices=("c", "asm"), default="c")
     args = parser.parse_args()
     work = project_path("build/workers/" + args.worker)
     try:
         result, report = compile_and_check(args.source, args.profile, args.symbol, args.target,
-                                         work / "search", args.flags)
+                                         work / "search", args.flags, language=args.language)
     except (ValueError, RuntimeError) as error:
         report = {"exact": False, "state": "REJECTED", "target_id": args.target, "reason": str(error)}
         write_json(work / "report.json", report)

@@ -76,9 +76,11 @@ declared segment, records after MODEND, and incomplete modules. A bytearray's
 zero fill is not treated as initialized data: callers must check
 `initialized_ranges`.
 
-The reader does not perform linker frame/target thread rebinding or apply
-relocations. FIXUPP thread definitions are identified separately from actual
-fixup fields; an unanchored pre-data FIXUPP record stays marked as unanchored.
+The reader now resolves frame/target threads symbolically for inspection;
+see [OMF fixup resolution](omf-fixup-resolution.md). It does not apply
+relocations or bind symbols to final original addresses. FIXUPP thread
+definitions remain separate from actual fixup fields; an unanchored pre-data
+thread-only FIXUPP record stays marked as unanchored.
 `tools/inspect_omf.py OBJECT.OBJ` prints the complete structure, ranges,
 declarations, fixup records, and record types. The candidate gate remains
 fail-closed for actual fixups until symbolic binding has its own proof.
@@ -99,3 +101,19 @@ initialized CODE extent only when one PUBLIC begins at offset zero, other
 SEGDEFs are empty, all bytes are covered without gaps, and there are no actual
 fixup fields. It never accepts a caller-supplied size or trims to an oracle
 length. External declarations and thread-only records remain inspectable.
+
+The [swap matrix](../evidence/toolchain/swap-matrix.json) and
+[results](../evidence/toolchain/swap-results.json) preserve the continuation's
+whole-segment source/profile contrasts. The primary bundled CL help
+(`evidence/toolchain/compiler-help.json` records document/decoder identities)
+describes `/Oe` as global register allocation, `/Or` as common function-exit
+generation, and `/Ox` as `/Ocegilt /Gs`. These documented meanings supplement
+observed bytes and do not establish original game flags.
+
+Two additional profiles in `layout/toolchain.lock.json` are failed diagnostics:
+`msc600a_jul_bound` is an explicit pre-existing DOS-driver/bound-DDK-pass chain
+and fails with C1059 near-heap exhaustion; `msc600ax_local` is a locally labeled
+6.00AX tree with unverified distribution provenance whose selected pass cannot
+run in DOS mode. Neither produced an object, and neither is an active successful
+compiler recipe. Their exact identities prevent silent substitution in later
+execution work.
