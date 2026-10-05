@@ -102,7 +102,7 @@ def validate(run_tests=True):
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
-                         "Binding modes are external DGROUP offset16 and independently anchored runtime near offset16"]}
+                         "Binding modes are resident external DGROUP offset16 (zero addend or independently witnessed word pair) and independently anchored runtime near offset16"]}
     write_json(ROOT / "build/validation/report.json", report)
     return report
 

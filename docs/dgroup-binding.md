@@ -1,8 +1,8 @@
-# First external data binding proof
+# External data binding proofs
 
-`tools/binding.py` accepts one deliberately small OMF mode: LOC1 offset16,
+`tools/binding.py` accepts deliberately small resident OMF modes: LOC1 offset16,
 segment-relative, external T6, F5 target-derived frame, omitted displacement
-and zero raw LEDATA addend. The source must own one complete initialized CODE
+and zero raw LEDATA addend in `external-dgroup-offset16-v1`. The source must own one complete initialized CODE
 segment, no secondary storage, and exactly one public at zero. Its declared
 segments, group, publics, externals and ordered resolved fixups are frozen in
 the binding evidence. LOCAT kind is retained independently of field width;
@@ -84,3 +84,28 @@ changes for complete 10-byte and 56-byte C contributions. Their two and nine
 external data fields are checked against separate original instructions outside
 each owner. Shared semantic aliases do not grant data ownership or prove original
 global declarations, runtime DS association, TU membership or natural placement.
+
+## Independently witnessed word pair
+
+`external-dgroup-word-pair-offset16-v2` additionally permits a four-byte
+near-data alias with exactly two ordered word members at offsets 0 and 2.
+Each member must have its own original direct DS word-access witness outside
+the candidate. The complete four-byte span cannot overlap another alias.
+Candidate accesses must be direct words at these members; raw LEDATA A is
+only 0 or 2, explicit D remains omitted, and every field satisfies
+`S - F + A = alias_offset + A`. Byte accesses, odd/outside addends, missing
+members and candidate-supplied witnesses fail. Other v1 restrictions remain.
+The legacy mode still rejects four-byte aliases and nonzero addends.
+
+[is_special_state.c](../src/is_special_state.c) uses a natural unsigned-long
+zero guard to reproduce MSC 6.00's BX allocation. Independent original reads
+at root `0x6065` and `0x6062` establish DS offsets `0x5bfc` and `0x5bfe`,
+respectively. The [canonical proof](../evidence/bindings/is_special_state.json)
+checks all eleven fields and 58 ordinary bytes in the complete 80-byte segment,
+including its alignment NOP. The +2 raw addend is retained unedited.
+
+These witnesses establish the two address/width equations; grouping the words
+into a long, its signedness, original storage/type, source names and purpose
+remain hypotheses. No data ownership, runtime DS proof, overlay binding,
+far-call binding or MZ relocation coverage follows. Nine additional refusal
+and equation tests preserve the narrow member rules and legacy behavior.

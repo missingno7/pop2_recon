@@ -1,0 +1,332 @@
+{
+  "baseline_head": "49c9c7cea5020ddc70223b1a63d544acbe05848b",
+  "canonical_totals": {
+    "behavior": "NOT_STARTED",
+    "external_driver_bytes": 0,
+    "matching_asm_bytes": 51,
+    "matching_c_bytes": 482,
+    "pinned_runtime_bytes": 666,
+    "proven_original_mz_relocations": 0,
+    "proven_runtime_fixups": 1,
+    "proven_source_fixups": 40,
+    "structural_link": "UNRECOVERED",
+    "total_original_mz_relocations": 4716,
+    "unknown_or_unclassified_payload_bytes": 270117,
+    "unresolved_identified_game_bytes": 72
+  },
+  "far_call_frontier": {
+    "c_observation": {
+      "acceptance": "NON_OWNING_PROBE; no binding or canonical recipe",
+      "actual_fixups": 6,
+      "best_flags": [
+        "/c",
+        "/AM",
+        "/Ox",
+        "/Gs",
+        "/Zl"
+      ],
+      "best_profile": "msc600",
+      "cause": "Return path loads table pointer into DI instead of SI and consequently uses BX+DI instead of BX+SI.",
+      "emitted_code_sha256": "ac0344c91c1b75eca9faac474d222e9961758ddc47792496b65aa7a0595c8cea",
+      "full_emitted_segment": "UNIT_TEXT",
+      "object_sha256": "686f899e8df1486727a47a3c7a92555d068764e377b1ca228806ffe6d0bd8f1b",
+      "ordinary_byte_differences": [
+        73,
+        77
+      ],
+      "other_finite_observations": "MSC600 /O:82 bytes; MSC510 /O:88 bytes; MSC600 /Ol:112 bytes. All complete extents retained.",
+      "public": "LOOKUP_PREFIX",
+      "size": 90,
+      "source": "recipes/probes/far_prefix_lookup.c",
+      "source_sha256": "10c0ee7ad990b0b6061b6c019a37e6e2f42f60f6081aa1e8045e5883886724ff"
+    },
+    "classification": "Readable C utility hypothesis; command-line count/table lookup plausible. Original language, names and subsystem remain unproved. MASM is a reviewed instruction-level research hypothesis, not evidence of original handwritten assembly.",
+    "full_original_extent": {
+      "discovery_extent_incomplete": true,
+      "image_end_exclusive": 80404,
+      "image_start": 80314,
+      "size": 90,
+      "tentative_discovery_size": 68
+    },
+    "original_relocations_in_frozen_order": [
+      {
+        "image_offset": 80362,
+        "index": 1582,
+        "symbol": "strnicmp"
+      },
+      {
+        "image_offset": 80340,
+        "index": 1644,
+        "symbol": "strlen"
+      }
+    ],
+    "original_review": {
+      "abi": "Far callee-cleaned, 4-byte far-string argument at BP+6/+8; near pointer result in AX; RETF4. Both CRT calls use cdecl caller cleanup.",
+      "boundary_evidence": [
+        "The previous BP-framed routine starts at 0x1398c, returns RETF4 at 0x139b1; its alternate zero-result tail ends JMP 0x139ae at 0x139b7..0x139b9. Original 00 at 0x139b9 separates the new BP prologue at 0x139ba.",
+        "All branch edges in the full 90-byte [0x139ba,0x13a14) extent stay inside it; the loop rejoins 0x139cb and both result paths converge at 0x13a0c.",
+        "The sole final RETF4 at 0x13a11 ends at 0x13a14, where another independent BP prologue begins. Discovery's 68-byte first-return extent is incomplete and cannot be accepted.",
+        "A separately decoded 0x36 caller pushes DS and near string offset at 0x4c..0x4e and performs relocated far CALL 1101:29aa at 0x4e; AX is tested immediately afterwards."
+      ],
+      "call_sites": [
+        {
+          "file_offset": 8270,
+          "image_offset": 78,
+          "kind": "far_call",
+          "relocated_segment_site": 81,
+          "space": "root"
+        }
+      ],
+      "sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551"
+    },
+    "proof_diagnostic": {
+      "canonical_acceptance_or_ownership_added": false,
+      "equations_agree_under_shared_frame_hypothesis": true,
+      "other_c_blocker": "Natural C source still differs at two ordinary register-encoding bytes.",
+      "strict_blocker": "strnicmp's only original far pointer occurs inside this proposed caller. Shared pinned archive/_TEXT PUBLIC-combine metadata cannot establish original CS alias independently. There are no raw E8/E9 signed transfers to its public and no other relocated far pointer in any original space.",
+      "strict_exact": false
+    },
+    "providers": [
+      {
+        "ds_contract": "Complete fresh 23-byte provider never writes DS and has no calls/interrupts.",
+        "independent_original_call_image_offset": 23218,
+        "independent_original_far_alias": "1fe6:1ed4",
+        "kind": "PINNED_RUNTIME",
+        "recipe": "recipes/runtime/crt_strlen.json",
+        "target_id": "root:2000:1d34"
+      },
+      {
+        "ds_contract": "Complete fresh 88-byte provider: PUSH DS+5, LDS+6, POP DS+81. Closed CFG, no calls/interrupts, no stack/BP/SP changes or stack writes during saved span, all returns restore DS.",
+        "independent_original_far_alias": null,
+        "kind": "PINNED_RUNTIME",
+        "recipe": "recipes/runtime/crt_strnicmp.json",
+        "target_id": "root:2000:1efc",
+        "unproven_original_far_alias_hypothesis": "1fe6:209c"
+      }
+    ],
+    "resume_condition": "Independent outside original strnicmp frame witness or a separately justified frame mechanism, plus a natural C register-allocation lead; shared archive _TEXT metadata is insufficient.",
+    "scratch": "build/workers/wave1_frontier_sol/",
+    "status": "BLOCKED_PROVIDER_FRAME",
+    "target_id": "root:1101:29aa"
+  },
+  "luna": [
+    {
+      "best": {
+        "candidate_input": "build/workers/wave1_luna_increment/candidate.c",
+        "candidate_source": "build/workers/wave1_luna_increment/best.c",
+        "comparison_key": "ae4acb402e49750433cb49fee5feca5b8febdc412fe9fa225811a8231b9ea4b6",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "c4dd947c5e1d9cdf0fb676095fefc56a7a597f7b610cd8738224bc5d4cf3ce43",
+        "emitted_size": 28,
+        "exact": true,
+        "expected_size": 28,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 0,
+        "object_sha256": "5febba21d3d4e0aab55963e99129c3465b7be67d31228ef7d073e17e58b3c96b",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "9b7882bfe2f8e0855d61fff88c1531c5bf2f3bd56577f8ffdf177f964faa968e",
+        "trial": "base-msc600-oe"
+      },
+      "canonical_recipe": "recipes/increment_record_index.json",
+      "explanation": "Fresh strict exact candidate; supervisor verification required",
+      "known_code_hashes": [
+        "c4dd947c5e1d9cdf0fb676095fefc56a7a597f7b610cd8738224bc5d4cf3ce43"
+      ],
+      "status": "accepted",
+      "supervisor_fresh_verify_only": true,
+      "target_id": "overlay-10:29cf:08fc",
+      "trial_count": 1,
+      "unique_code_count": 1,
+      "worker": "wave1_luna_increment"
+    },
+    {
+      "best": {
+        "candidate_input": "build/workers/wave1_luna_range/candidate.c",
+        "candidate_source": "build/workers/wave1_luna_range/best.c",
+        "comparison_key": "f0cfca6910b33f69540735a54f429611ad4cf0354f0739e1b953964ec611082a",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "fcb8853dfda142d2201f510b28698bb5f467d4569935ca75f4d9bb769a8a6d64",
+        "emitted_size": 32,
+        "exact": true,
+        "expected_size": 32,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 0,
+        "object_sha256": "bfa8d446a6f4dc4149fe07fb725f2c0f676dc92f0b98ee1d95c93b452071097b",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "e3ea0687d86637f11b2b4b1d1f104da597ca2515203f1426af704696fb9e0e96",
+        "trial": "t02_uint_temporary_msc600_oe"
+      },
+      "canonical_recipe": "recipes/is_low5_range.json",
+      "explanation": "Fresh strict exact candidate; supervisor verification required",
+      "known_code_hashes": [
+        "4ce24d9dfc06f17e5371e7dc3db977a59bb3faf40e7b0c7dc5d60d376a44a0e3",
+        "fcb8853dfda142d2201f510b28698bb5f467d4569935ca75f4d9bb769a8a6d64"
+      ],
+      "status": "accepted",
+      "supervisor_fresh_verify_only": true,
+      "target_id": "overlay-7:29cf:03f2",
+      "trial_count": 2,
+      "unique_code_count": 2,
+      "worker": "wave1_luna_range"
+    },
+    {
+      "best": {
+        "candidate_input": "build/workers/wave1_luna_selector/candidate.c",
+        "candidate_source": "build/workers/wave1_luna_selector/best.c",
+        "comparison_key": "94d49da86f99dd859e2a5f6a061108927bec75ffdc62fa44dea3b27b4744a102",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "a27c87b46f50947177cc9a6282985ed6f7ffdbc59c88db9cd67927d3147d0f03",
+        "emitted_size": 70,
+        "exact": true,
+        "expected_size": 70,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 0,
+        "object_sha256": "dec9342a52e9b1b0a0af7558e090c1edc41272ba1d394d03545105bcfc7482f0",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "4f69fb326166ccf162752fc9b8faffd596db09ee27d053e28835c44be42dcd65",
+        "trial": "t01"
+      },
+      "canonical_recipe": "recipes/select_pair_code.json",
+      "explanation": "Fresh strict exact candidate; supervisor verification required",
+      "known_code_hashes": [
+        "a27c87b46f50947177cc9a6282985ed6f7ffdbc59c88db9cd67927d3147d0f03"
+      ],
+      "status": "accepted",
+      "supervisor_fresh_verify_only": true,
+      "target_id": "overlay-4:29cf:07ce",
+      "trial_count": 1,
+      "unique_code_count": 1,
+      "worker": "wave1_luna_selector"
+    },
+    {
+      "best": {
+        "candidate_input": "build/workers/wave1_luna_remainder/candidate.c",
+        "candidate_source": "build/workers/wave1_luna_remainder/best.c",
+        "comparison_key": "b0ae6999026a562d27445cc89bc88c05a8b6b4d4b71bd7cce93cccf4776cd44a",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "928e9360a06f98937aceb099488ce0f6785e40c804eb971f1d4ec238ae52c1a7",
+        "emitted_size": 56,
+        "exact": false,
+        "expected_size": 56,
+        "first_difference": 3,
+        "flags": [
+          "/c",
+          "/AM",
+          "/O",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 52,
+        "object_sha256": "174980e46a454b6eb1037156d493e74c2e4948159b3cf2d01741d876e3121606",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "a7e67213d98b9fbd92d91c9b27e406aa178a08f470de468a4ef31d2a4102cde6",
+        "trial": "remainder-msc600-O-hypothesis-guards"
+      },
+      "explanation": "Budget or repeated output stop; resume only with a new supervisor reasoning lead",
+      "known_code_hashes": [
+        "3e967c260513c44ac65455c5445b0d019dc4c3095504f12b75f0a45fae9e78e8",
+        "597c3a881eac0c235fa69adcf064081488d77ce8727185bb959ec11911ab4c6b",
+        "77590ed29a0495133337e55336e79fc3e9383364f238d0c64916fb5b574360e8",
+        "7f4526cf17e047afb1d695de5f6284348ac4b73b637d58e32191b0a1dfcb577a",
+        "928e9360a06f98937aceb099488ce0f6785e40c804eb971f1d4ec238ae52c1a7",
+        "93416a1066ff281b31720332a6f48bccd8256d49b43046a5c6056a720408a09f",
+        "ca1abdcdbf8b9b9038bd852d12df746e88d57358946a899135c7c0b76116d55b",
+        "d82fe2875f41f7682b307e49e49025d81a6cd7bac823421117b93fed7189f2a7",
+        "e22dec842e9411f6e5e5296cdd0adae861033ba55b9fc6b961b9f024b906648a",
+        "e5a031bc4bdc3251f42bca5135f341f4e41ac9f8ddef3b6ec0a694b20e444eab",
+        "f6445dfa72177db116fdebb4521b241fda8b3fbdde638f29fb858c38e6c8db16"
+      ],
+      "resolution": {
+        "canonical_recipe": "recipes/in_remainder_window.json",
+        "emitted_code_sha256": "8024c02722dce01ebfb51cb83b13515be8de52c8daece35fa6d9c3eaa45182b1",
+        "emitted_size": 56,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "mismatch_count": 0,
+        "new_lead": "Normalize first parameter in place, then assign boolean comparison to a named local result; this supplies BX/LEA and DX allocation.",
+        "object_sha256": "9a09d6d966d948ad22e9b0f3c28f668a53abd3c563957d0d29ea4fddbdc882db",
+        "profile": "msc600",
+        "sol_trials": 5,
+        "sol_unique_code_count": 4,
+        "source_sha256": "d22ce91784d2972eb51236ba78d71fd34e4cdc1ec4a3e932f61d3de3381854a6",
+        "status": "accepted_after_sol_lead",
+        "supervisor_fresh_verify_only": true
+      },
+      "resume_condition": "Closed by independently verified canonical source; no further grinding.",
+      "status": "blocked_then_resolved_by_sol",
+      "target_id": "overlay-11:2c3e:1168",
+      "trial_count": 16,
+      "unique_code_count": 11,
+      "worker": "wave1_luna_remainder"
+    }
+  ],
+  "original_review": "evidence/matching/overlay-leaf-review.json",
+  "predicate": {
+    "binding_mode": "external-dgroup-word-pair-offset16-v2",
+    "canonical_recipe": "recipes/is_special_state.json",
+    "field_equations": 11,
+    "full_size": 80,
+    "limits": "Original long type, signedness, symbol grouping and semantics remain hypotheses.",
+    "new_lead": "Natural unsigned long zero comparison selects BX; independently witnessed low/high words supply alias offsets 0 and 2.",
+    "ordinary_bytes": 58,
+    "status": "accepted",
+    "target_id": "root:0284:0096"
+  },
+  "schema": 1,
+  "scope": "Worker diagnostics grant zero ownership. Only serial supervisor promotion and fresh canonical validation accept complete components. Future waves inspect these hashes and stop reasons before assigning a new lead.",
+  "validation": {
+    "command": "python tools/validate.py",
+    "fresh_asm_components": 1,
+    "fresh_c_components": 13,
+    "invariant_tests_passed": 129,
+    "whole_runtime_members": 11
+  }
+}

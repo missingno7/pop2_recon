@@ -1,6 +1,7 @@
 # Four complete state-helper C matches — 2026-10-05
 
-Four independently reviewed resident helpers now pass CODE_EXACT under pinned
+This earlier milestone accepted four independently reviewed resident helpers.
+They pass CODE_EXACT under pinned
 MSC 6.00 `/c /AM /Oe /Gs /Zl /Gc`. They add 104 bytes to the preceding
 [data-helper milestone](data-helpers.md), bringing matching C to 216 bytes
 across eight complete contributions. The external DGROUP gate is unchanged.
@@ -69,7 +70,12 @@ state meanings, original translation units and the runtime DS association remain
 hypotheses. Historical narrowing and negation behavior has not been validated
 with runtime traces or a portable arithmetic proof.
 
-## Unowned 80-byte predicate
+## Previously unowned 80-byte predicate
+
+This section records the earlier integer-guard search. The
+[current wave](reconstruction-progress.md) now accepts the whole predicate
+using a natural unsigned-long guard and independently witnessed word members.
+The compact negative receipt links the superseded material for manual review.
 
 The newly reviewed target `root:0284:0096` covers root `[0x28d6,0x2926)`:
 a 79-byte body, RETF at `0x2924`, and the original alignment NOP at `0x2925`.
@@ -78,7 +84,7 @@ segment-word relocations are at `0x0e02`, `0xa7c4`, `0xa7e7`, `0xe93a`.
 A separate PUSH CS; near CALL at `0x2ba6`/`0x2ba7` reaches the same entry,
 then normalizes returned AX before passing it onward. These are static contexts.
 
-The [readable non-owning replay](../recipes/probes/state_predicate.c) checks
+The [earlier non-owning replay](../to_delete/resolved-predicate/state_predicate.c) checks
 three word guards and four literal byte-pair cases. Fresh MSC 6.00 `/Oe`
 emits a complete 80-byte segment. Eleven independent data equations agree,
 but four ordinary instruction bytes differ because the candidate uses DX
@@ -86,12 +92,13 @@ for the zero/result where the original uses BX. Strict search reports
 CANDIDATE_C, first difference at byte 1, and grants zero ownership.
 
 The [negative receipt](../evidence/matching/state-predicate-negative.json)
-retains full declarations, original witnesses, equations and 34 bounded
-source/flag trials. Explored MSC 5.10 outputs use stack storage or a saved SI;
+records the resolved outcome and unique historical CODE hashes; the
+full 34-trial receipt is retained outside active indexing under `to_delete/`.
+Explored MSC 5.10 outputs use stack storage or a saved SI;
 MSC 6.00 contrasts include 79-, 80-, 81-, 82- and 96-byte complete extents.
 All remain mismatches. Neither shortening an extent nor forcing an unrelated
-pointer interpretation supplies an accepted source. A distinct natural source
-or compiler-generation lead is still needed; the experiments do not exclude
+pointer interpretation supplied an accepted source. At this earlier milestone
+a distinct source lead was still needed; these experiments did not exclude
 other source/TU/compiler possibilities.
 
 ## Validation and accounting

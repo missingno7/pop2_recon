@@ -42,7 +42,7 @@ def fixes(module):
 
 def ground(binding, target, oracle):
     """Recheck frozen original witnesses outside the contribution being judged."""
-    require(binding["schema"] == 1 and binding["mode"] == "external-dgroup-offset16-v1",
+    require(binding["schema"] == 1 and binding["mode"] in ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2"),
             "Unsupported binding proof mode")
     require(binding["target_id"] == target["id"] and
             binding["target_sha256"] == sha(oracle.data), "Binding belongs to another target/oracle")
@@ -83,20 +83,32 @@ def ground(binding, target, oracle):
     for name, symbol in symbols.items():
         offset, width = symbol["offset"], symbol["width"]
         require(symbol["kind"] == "near-data-alias" and symbol["group"] == "DGROUP" and
-                type(offset) is int and type(width) is int and width in (1, 2) and
+                type(offset) is int and type(width) is int and
+                (width in (1, 2) or (width == 4 and binding["mode"] == "external-dgroup-word-pair-offset16-v2")) and
                 0 <= offset and offset+width <= 65536, "Unsupported grounded data object")
         span = set(range(offset, offset+width))
         require(not spans.intersection(span), "Grounded data aliases overlap")
         spans.update(span)
-        require(symbol["witnesses"], "Data symbol has no independent witness")
-        for spec in symbol["witnesses"]:
-            _, raw = witness(spec)
-            rows = instructions(raw)
-            require(len(rows) == 1, "Data witness must be one complete instruction")
-            operand = direct_operand(rows[0])
-            require(rows[0].disp_offset == spec["operand_offset"] and
-                    operand.size == width and (operand.mem.disp & 0xffff) == offset,
-                    "Data witness does not ground this object address/width")
+        if width == 4:
+            require(symbol.get("members") and
+                    [m.get("offset") for m in symbol["members"]] == [0, 2] and
+                    all(type(m.get("offset")) is int and type(m.get("width")) is int and
+                        m["width"] == 2 for m in symbol["members"]),
+                    "Word pair must cover exactly two reviewed word members")
+            reviewed = symbol["members"]
+        else:
+            reviewed = [{"offset": 0, "width": width, "witnesses": symbol.get("witnesses")}]
+        for member in reviewed:
+            require(member["witnesses"], "Data member has no independent witness")
+            for spec in member["witnesses"]:
+                _, raw = witness(spec)
+                rows = instructions(raw)
+                require(len(rows) == 1, "Data witness must be one complete instruction")
+                operand = direct_operand(rows[0])
+                require(rows[0].disp_offset == spec["operand_offset"] and
+                        operand.size == member["width"] and
+                        (operand.mem.disp & 0xffff) == offset+member["offset"],
+                        "Data witness does not ground this member address/width")
             # A witness grounds DS-relative offset/width only. Its annotation
             # cannot prove that runtime DS still equals the startup paragraph.
     return symbols
@@ -138,12 +150,21 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
                 "Overlapping/out-of-range bound fields")
         symbol = symbols[target_ref["name"]]
         insns = [i for i in rows if i.address+i.disp_offset == at and i.disp_size == 2]
-        require(len(insns) == 1 and direct_operand(insns[0]).size == symbol["width"],
-                "FIXUPP is not the grounded DS memory operand")
+        require(len(insns) == 1, "FIXUPP has no unique direct DS memory operand")
         addend = struct.unpack_from("<H", actual, at)[0]
-        require(addend == 0, "Only zero encoded data addends are proven")
+        if symbol["width"] == 4:
+            member = next((m for m in symbol["members"] if m["offset"] == addend), None)
+            require(binding["mode"] == "external-dgroup-word-pair-offset16-v2" and
+                    member is not None and direct_operand(insns[0]).size == member["width"] and
+                    addend+member["width"] <= symbol["width"],
+                    "Word-pair addend is not an independently reviewed word member")
+        else:
+            require(direct_operand(insns[0]).size == symbol["width"],
+                    "FIXUPP is not the grounded DS memory operand")
+            require(addend == 0, "Only zero encoded data addends are proven")
         # F5 selects the external's group frame. For the independently reviewed
-        # relative alias S=F+offset, S-F+A+D = offset (A=0,D omitted).
+        # relative alias S=F+offset, S-F+A+D = offset+A (D omitted).
+        # v1 has A=0; the v2 word pair permits only independently witnessed A=0 or A=2.
         # No absolute runtime address or natural symbol placement is inferred.
         value = symbol["offset"]+addend
         observed = struct.unpack_from("<H", expected, at)[0]

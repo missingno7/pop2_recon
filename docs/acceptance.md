@@ -62,14 +62,20 @@ Source semantics, game/runtime classification, names and original build/version
 are evidence-qualified claims independent of byte equality. Compiler probes can
 establish code-generation facts without proving the compiler used by every TU.
 
-The [current state-helper milestone](state-helpers.md) brings matching C to 216
-bytes across eight complete contributions, with twenty-nine external DGROUP
-fields proved. Matching ASM remains 51 bytes and pinned runtime remains 666
-bytes. The reviewed 26-byte signed-value target is still unowned: its full
-24-byte candidate fails the extent gate. The new 80-byte predicate remains
-unowned despite agreeing data equations: four ordinary register-encoding bytes
-differ. Source hypotheses cannot inherit ownership from neighboring accepted
-helpers, agreeing equations or matching individual instructions.
+The [current grinding wave](reconstruction-progress.md) accepts four complete
+relocation-free C components from overlays 10, 7, 4 and 11, totaling 186 bytes.
+The resident 80-byte predicate now reproduces BX using a natural unsigned-long
+guard and the independently witnessed word-pair DGROUP mode. Together with
+earlier helpers, matching C totals 482 bytes across thirteen contributions;
+forty source data fields are proved. Matching ASM remains 51 bytes and pinned
+runtime remains 666 bytes. The 26-byte signed-value and 46-byte overlay swap
+targets remain unowned.
+
+Far-call investigation found a complete 90-byte utility candidate, but its
+strnicmp provider frame has no independent original witness and the readable C
+still differs at two ordinary bytes. No far-call/MZ mode was added. Source
+hypotheses cannot inherit ownership from agreeing equations or shared archive
+segment declarations. See the [compact wave receipt](../evidence/matching/grinding-wave1.json).
 
 Canonical source and binding file pins use the repository's LF checkout policy.
 Source publication normalizes its frozen independent copy to LF, then compiles

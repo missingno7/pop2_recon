@@ -6,27 +6,53 @@ Release identity is still unconfirmed. Root/overlay structure, all 62 asset
 identities, and the 4,716 relocation records remain unchanged. The
 [bootstrap report](bootstrap-status.md) is the earlier milestone snapshot.
 
-## Bounded grinding audit and initial cards
+## Bounded grinding audit and first wave
 
 The existing oracle, isolated historical runners, strict search/promotion and
-single manifest writer need no replacement orchestration. Search now optionally
-records compact `--trial` diagnostics in one worker directory, freezes one best
-source, identifies repeated full CODE hashes and changed binding identities,
-and stops at card budgets or stagnation. The supervisor gives one target to
-one Luna xhigh worker per wave; Sol high handles original review and proof leads.
-No scheduler, service, database or shared writable queue was added.
+single manifest writer needed no replacement orchestration. Optional
+`search.py --trial` now records a compact worker-local journal, freezes one
+best source, identifies repeated full CODE hashes and changed binding identities,
+and stops at card budgets or stagnation. AGENTS.md specifies one reviewed target
+per worker, model roles and serial integration. No shared queue or scheduler
+was added.
 
-Four independently reviewed relocation-free overlay leaves (28, 32, 70 and 56
-bytes in overlays 10, 7, 4 and 11) form the initial Luna batch. Their inbound
-PUSH CS/near-call witnesses are rechecked from original bytes and space identity;
-this adds no outbound fixup acceptance. Full exploration/CFG output stays ignored.
-The old swap, signed-value and integer-predicate families require new Sol leads,
-not another blind Luna matrix. Current wave results will be consolidated here.
+Sol reviewed four relocation-free overlay leaves and their original inbound
+PUSH CS/near-call witnesses. Luna matched the complete 28-byte increment leaf
+in overlay 10 in one trial, the 32-byte range leaf in overlay 7 in two trials,
+and the 70-byte selector in overlay 4 in one trial. Each passed fresh supervisor
+verify-only and publication checks; these are the first accepted overlay source
+components. The 56-byte overlay-11 remainder stopped after 16 trials / eleven
+unique CODE outputs. Its best size-matching candidate differs at 52 bytes;
+Sol then found an exact source in five trials / four new CODE outputs:
+normalizing the first parameter in place and assigning the range comparison
+to a named local result reproduces BX/LEA and DX. Fresh supervisor promotion
+accepted all 56 bytes, including both original NOPs. This illustrates stopping
+Luna repetition and handing a concrete code-generation question to Sol. The [wave receipt](../evidence/matching/grinding-wave1.json)
+records outcomes, hashes and resume conditions.
 
-Audit corrected the saved integer-predicate probe: its former replay had two
-unequal guard-field equations even though the prose said they all agreed.
-Reordered extern declarations now freshly agree on all eleven equations,
-leaving four ordinary DX/BX differences. The target remains unowned.
+Sol resolved the resident predicate's four DX/BX differences with a natural
+unsigned-long zero guard. A narrow word-pair mode rechecks independent original
+word witnesses for offsets 0 and 2; all eleven field equations and 58 ordinary
+bytes in the whole 80-byte segment pass. This establishes component code only,
+not original long type, signedness, symbol grouping or runtime behavior.
+The [binding details](dgroup-binding.md) specify restrictions and refusal tests.
+The audit also corrected two unequal fields in the old integer-probe replay
+before preserving the resolved probe under `to_delete/resolved-predicate/`.
+
+The far-call investigation reviewed a whole 90-byte resident utility. Natural
+C emits the right extent and six fixups but differs at two register encodings.
+More decisively, strnicmp's only original far pointer is inside the candidate;
+shared archive segment declarations cannot independently prove its original
+CS alias. Both original MZ obligations retain their recorded order. No far-call
+proof, MZ ownership or research ASM ownership was accepted. This concrete
+blocker and independent strlen context remain in the compact wave receipt;
+one readable C probe is retained; the draft proof and bulk experiments stay
+ignored.
+
+Consolidation retains one canonical source/recipe per accepted component and
+compact outcomes. Earlier helper receipts retain boundary/caller/ABI facts and
+worker identity hashes, with duplicate parsed OMF/equation payloads removed;
+canonical recipes and binding files remain the freshly checked authority.
 
 ## Four further complete C helpers
 
@@ -39,12 +65,9 @@ DGROUP gate. Ordinary bytes compare literally. Canonical publics are distinct
 and byte aliases agree by relative offset; original names and data storage
 remain unproved. Worker submissions and full object identities are retained.
 
-A newly reviewed 80-byte state predicate remains unowned. The
-[non-owning replay](../evidence/matching/state-predicate-negative.json)
-reproduces all eleven data equations but selects DX where the original uses BX,
-leaving four ordinary instruction bytes different. Thirty-four bounded source
-and compiler-flag trials are preserved. Whole CODE comparison remains strict;
-no code, object, extent or fixup field was edited to manufacture a match.
+The earlier 80-byte predicate near-match is resolved in the wave above.
+[Its compact history](../evidence/matching/state-predicate-negative.json) keeps
+previous unique CODE hashes and links the superseded integer-guard search.
 
 ## Previous two complete C helpers
 
@@ -178,35 +201,28 @@ historical flag family is inferred from these experiments.
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 216 |
+| Matching C | 482 |
 | Matching ASM | 51 |
 | Pinned runtime | 666 |
 | External drivers | 0 |
-| Unresolved identified game helpers | 338 |
+| Unresolved identified game helpers | 72 |
 | Unknown/unclassified payload | 270,117 |
 
-There are nine accepted source components (eight C and one ASM) and eleven
-pinned runtime components. All accepted bytes remain resident. The identified
-game-helper subtotal is 554 bytes, including the 46-byte swap, 26-byte
-signed-value helper, 80-byte predicate and 186 bytes of reviewed initial overlay
-cards; 216 of those bytes are accepted.
-No overlay has accepted ownership, and generated relocation coverage remains
-0/4,716. Twenty-nine source data-offset fixups and one runtime near fixup are proven and
-generate no MZ relocations;
-these counts are reported separately. Natural RTLink linkage and original runtime
-traces remain unresolved.
+There are fourteen accepted source components (thirteen C and one ASM) and eleven
+pinned runtime members. Overlay C owns 186 bytes; resident ownership is 1,013
+bytes. The identified game-helper subtotal is 554 bytes, with the 46-byte swap
+and 26-byte signed-value still unresolved. Forty source
+data-offset fixups and one runtime near fixup are proven; they generate no MZ
+relocations. Original relocation coverage remains 0/4,716. Structural RTLink
+closure remains UNRECOVERED and behavior validation remains NOT_STARTED.
 
-The next highest-leverage work is extending independently grounded binding to
-far calls and additional symbols/providers, then expanding the small data-helper
-family with distinct source/code-generation leads for the signed-value and
-state-predicate mismatches.
-The new near mode can be reused for related whole CRT members.
-The swap needs a new source/TU or compiler-generation lead:
-the documented aggregate and scalar families do not explain its CX/stack split.
-RTLink version, TU grouping and runtime-derived descriptor location remain
-separate structural investigations.
+Next work should seek a new source/TU or compiler-generation explanation for
+the stagnant swap and signed-value families, or independent provider
+frame evidence for the far-call frontier. The compact wave receipt supplies
+known output hashes and explicit resume conditions. RTLink version, TU grouping,
+overlay placement and runtime-derived descriptor location remain separate debts.
 
-Final `python tools/validate.py` passes all 120 invariant tests, freshly compiles
-all eight C functions, freshly assembles the ASM function, verifies all eleven independent
-runtime members, and rechecks every original asset/structure and tool pin.
-Source, object, byte extent, relocation and ownership checks all pass.
+Full `python tools/validate.py` passes all 129 invariant tests, freshly compiles
+thirteen C functions, freshly assembles the ASM function, verifies all eleven
+independent runtime members, and rechecks every original asset/structure and tool
+pin. Whole source/object extents, symbolic equations and ownership checks pass.

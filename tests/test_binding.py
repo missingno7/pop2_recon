@@ -174,5 +174,108 @@ class BindingTests(unittest.TestCase):
             self.check()
 
 
+class WordPairBindingTests(unittest.TestCase):
+    def setUp(self):
+        baseline = BindingTests()
+        baseline.setUp()
+        self.raw = bound_object(code=bytes.fromhex("a102000b060000cb"),
+                                fix_body=bytes.fromhex("c4015601c4055601"))
+        self.expected = bytes.fromhex("a112000b061000cb")
+        self.target = {**baseline.target, "size": 8}
+        original = bytearray(baseline.space.data)
+        original[44:47] = bytes.fromhex("a11200")
+        original[64:72] = self.expected
+        self.space = replace(baseline.space, data=bytes(original))
+        self.oracle = baseline.oracle
+        self.oracle.spaces["root"] = self.space
+        self.proof = copy.deepcopy(baseline.proof)
+        self.proof.update(mode="external-dgroup-word-pair-offset16-v2",
+                          declarations=declarations(OmfReader().read(self.raw)),
+                          fixups=fixes(OmfReader().read(self.raw)))
+        symbol = self.proof["symbols"]["_data"]
+        low = symbol.pop("witnesses")
+        symbol.update(width=4, members=[{"offset": 0, "width": 2, "witnesses": low},
+            {"offset": 2, "width": 2, "witnesses": [{"space": "root", "image_offset": 44,
+             "bytes_hex": "a11200", "operand_offset": 1}]}])
+
+    def check(self, *, raw=None, proof=None, expected=None):
+        return check_object(self.raw if raw is None else raw, self.target, self.space,
+                            self.expected if expected is None else expected, "_target",
+                            binding=self.proof if proof is None else proof, oracle=self.oracle)
+
+    def test_complete_word_pair_has_two_independent_equations_and_unedited_raw_addend(self):
+        before = bytes(self.raw)
+        result = self.check()
+        self.assertTrue(result["exact"])
+        self.assertEqual(result["fixups"], 2)
+        self.assertEqual(result["mismatch_count"], 0)
+        self.assertEqual([e["encoded_addend"] for e in result["equations"]], [2, 0])
+        self.assertEqual([e["linked_value"] for e in result["equations"]], [18, 16])
+        self.assertEqual(before, self.raw)
+
+    def test_legacy_mode_still_refuses_word_pair_and_nonzero_addend(self):
+        proof = copy.deepcopy(self.proof)
+        proof["mode"] = "external-dgroup-offset16-v1"
+        with self.assertRaisesRegex(ValueError, "Unsupported grounded"):
+            self.check(proof=proof)
+        proof["symbols"]["_data"]["width"] = 2
+        proof["symbols"]["_data"]["witnesses"] = proof["symbols"]["_data"]["members"][0]["witnesses"]
+        with self.assertRaisesRegex(ValueError, "zero encoded data addends"):
+            self.check(proof=proof)
+
+    def test_missing_reversed_or_odd_members_do_not_ground_a_pair(self):
+        for members in [[self.proof["symbols"]["_data"]["members"][0]],
+                        list(reversed(self.proof["symbols"]["_data"]["members"]))]:
+            proof = copy.deepcopy(self.proof)
+            proof["symbols"]["_data"]["members"] = members
+            with self.assertRaisesRegex(ValueError, "exactly two reviewed"):
+                self.check(proof=proof)
+        proof = copy.deepcopy(self.proof)
+        proof["symbols"]["_data"]["members"][1]["offset"] = 1
+        with self.assertRaisesRegex(ValueError, "exactly two reviewed"):
+            self.check(proof=proof)
+
+    def test_two_copies_of_low_witness_cannot_establish_high_word(self):
+        proof = copy.deepcopy(self.proof)
+        members = proof["symbols"]["_data"]["members"]
+        members[1]["witnesses"] = copy.deepcopy(members[0]["witnesses"])
+        with self.assertRaisesRegex(ValueError, "does not ground"):
+            self.check(proof=proof)
+
+    def test_witness_in_candidate_cannot_supply_missing_member(self):
+        proof = copy.deepcopy(self.proof)
+        proof["symbols"]["_data"]["members"][1]["witnesses"][0]["image_offset"] = 64
+        with self.assertRaisesRegex(ValueError, "overlaps candidate"):
+            self.check(proof=proof)
+
+    def test_raw_odd_or_outside_member_addends_are_refused(self):
+        for value in (1, 3, 4, 65535):
+            code = b"\xa1" + struct.pack("<H", value) + bytes.fromhex("0b060000cb")
+            raw = bound_object(code=code, fix_body=bytes.fromhex("c4015601c4055601"))
+            with self.assertRaisesRegex(ValueError, "reviewed word member"):
+                self.check(raw=raw)
+
+    def test_byte_access_cannot_use_a_reviewed_word_member(self):
+        raw = bound_object(code=bytes.fromhex("a002000b060000cb"),
+                           fix_body=bytes.fromhex("c4015601c4055601"))
+        with self.assertRaisesRegex(ValueError, "reviewed word member"):
+            self.check(raw=raw)
+
+    def test_pair_does_not_mask_wrong_original_member_value_or_ordinary_byte(self):
+        wrong_field = self.check(expected=bytes.fromhex("a113000b061000cb"))
+        self.assertFalse(wrong_field["exact"])
+        self.assertEqual(wrong_field["field_mismatch_count"], 1)
+        self.assertEqual(wrong_field["ordinary_mismatch_count"], 0)
+        wrong_byte = self.check(expected=bytes.fromhex("a112000b061000c3"))
+        self.assertFalse(wrong_byte["exact"])
+        self.assertEqual(wrong_byte["ordinary_mismatch_count"], 1)
+
+    def test_aggregate_member_schema_does_not_accept_float_offsets(self):
+        proof = copy.deepcopy(self.proof)
+        proof["symbols"]["_data"]["members"][0]["offset"] = 0.0
+        with self.assertRaisesRegex(ValueError, "exactly two reviewed"):
+            self.check(proof=proof)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -28,7 +28,8 @@ runs `python tools/validate.py`. Accepted code is complete component CODE_EXACT,
 not original-TU or whole-link proof. Current acceptance supports one complete
 initialized CODE segment. Relocation-free components need no binding proof.
 Unreferenced compiler externals and FIXUPP thread declarations are retained in
-the object proof. For the narrow external DGROUP offset16 mode, provide
+the object proof. For the narrow resident external DGROUP offset16 modes (zero addend or
+independently witnessed two-word alias), provide
 `--binding evidence/bindings/NAME.json`; see docs/dgroup-binding.md. Every field
 equation and independent original witness is rechecked, with no byte masking.
 Other fixup-bearing components remain blocked on their symbolic proof.

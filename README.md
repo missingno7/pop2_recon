@@ -44,12 +44,10 @@ bytes. `build/validation/report.json` and `build/metrics.json` report fresh loca
 status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
-The [current reconstruction milestone](docs/reconstruction-progress.md) adds a
-strict MASM path, a complete 51-byte ASM component, and the first
-[independent DGROUP binding proof](docs/dgroup-binding.md), followed by two further
-[data-helper C matches](docs/data-helpers.md) and four further
-[state-helper C matches](docs/state-helpers.md). Totals are 216 C bytes,
-51 ASM bytes, and 666 pinned runtime bytes. Twenty-nine source data fixups and the
-first [runtime near-jump equation](docs/runtime-near-binding.md) are proven;
-original relocation coverage remains 0/4,716. Far-call binding and natural
-RTLink placement remain unresolved.
+The [current reconstruction milestone](docs/reconstruction-progress.md) includes
+four complete overlay C matches and a resident predicate matched through
+[independently witnessed DGROUP word fields](docs/dgroup-binding.md). Totals
+are 482 C bytes, 51 ASM bytes, and 666 pinned runtime bytes. Forty source data
+fixups and the first [runtime near-jump equation](docs/runtime-near-binding.md)
+are proven; original relocation coverage remains 0/4,716. Far-call binding and
+natural RTLink placement remain unresolved.
