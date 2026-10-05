@@ -25,6 +25,13 @@ field and empty relocation tables. `tools/pin_runtime.py` provides controlled
 fresh verification/publication, and tests cover ambiguity, CS aliases, signature
 fields, conditional path edges, raw versus explicit addends and overlap rollback.
 
+The [related-member scan](../evidence/matching/runtime-near-family.json) strictly
+parses 328 aligned archive members and identifies four with this whole-segment
+and fixup shape. It confirms eight encoded far-call references to the close
+entry. The three other members have full-extent literal mismatches and failed
+field correspondence at the checked anchors; they grant no ownership. This
+bounded scan does not establish caller execution or exclude other library revisions.
+
 ## First fixup-bearing C component
 
 `root:0000:303a` owns the independently reviewed 26-byte helper ending in

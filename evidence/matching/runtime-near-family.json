@@ -1,0 +1,375 @@
+{
+  "schema": 1,
+  "status": "diagnostic_scan_no_additional_full_member_matches",
+  "target_exe_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "root_load_image_sha256": "8b03f13ca9a4e056263922108cb06e0bc5765887a6d87455b0651d4fc2953088",
+  "library": {
+    "path": "C:\\tools\\msc-6.00\\LIB\\llibcr.lib",
+    "size": 148711,
+    "sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+    "strictly_parsed_aligned_members": 328,
+    "original_far_call_anchors_across_spaces": 265,
+    "distinct_CS_1fe6_entry_IPs": 63,
+    "shape_members": 4
+  },
+  "provider": {
+    "public": "dos\\dosret.asm::__dosreturn",
+    "actual_CSIP": "1fe6:0604",
+    "root_position": "0x20464"
+  },
+  "members": [
+    {
+      "member": "dos\\d_close.asm",
+      "archive_offset": "0x1e7e0",
+      "whole_member_bytes": 174,
+      "whole_member_sha256": "672fa6319aa6357eec3132182114a8e6230b175ff0a46c3a1725adea7a5fb67b",
+      "public": {
+        "name": "__dos_close",
+        "segment": "_TEXT",
+        "offset": 0
+      },
+      "complete_CODE": {
+        "segment": "_TEXT",
+        "length": 13,
+        "sha256": "2922177b8956fc8bc16272bc5b80d9951343ee18ea6ccd57ad300df377c70bbc"
+      },
+      "secondary_declared_segments": [
+        {
+          "name": "_DATA",
+          "class": "DATA",
+          "length": 0
+        }
+      ],
+      "initialized_secondary_bytes": 0,
+      "one_fixup": {
+        "segment_offset": 11,
+        "opcode": "0xe9",
+        "LOCAT": "LOC1",
+        "width": 2,
+        "self_relative": true,
+        "frame": {
+          "kind": "segment",
+          "index": 1,
+          "name": "_TEXT"
+        },
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "__dosreturn",
+          "method": 6,
+          "zero_displacement": true
+        },
+        "raw_A": 0,
+        "explicit_D": null
+      },
+      "original_full_extent": {
+        "match": "ordinary bytes exact; near field equation exact",
+        "actual_CSIP": "1fe6:1b94",
+        "root_position": "0x219f4",
+        "length": 13,
+        "original_bytes_hex": "558bec8b5e06b43ecd21e963ea",
+        "sha256": "2ffa060069b8535daa1e571b66ae66245b96c5db36f6951433341e8c95376a11",
+        "far_calls": [
+          {
+            "space": "root",
+            "reloc_index": 455,
+            "source_image_offset": "0x5f78",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 456,
+            "source_image_offset": "0x6120",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 457,
+            "source_image_offset": "0x6280",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 458,
+            "source_image_offset": "0x6f16",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 459,
+            "source_image_offset": "0x7083",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 460,
+            "source_image_offset": "0x74c7",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 461,
+            "source_image_offset": "0x752f",
+            "call_bytes_hex": "9a941be61f"
+          },
+          {
+            "space": "root",
+            "reloc_index": 1438,
+            "source_image_offset": "0x13a8c",
+            "call_bytes_hex": "9a941be61f"
+          }
+        ],
+        "field_equation": {
+          "target": "1fe6:0604",
+          "next_ip": "0x1ba1",
+          "expected_signed": -5533,
+          "expected_word": "0xea63",
+          "original_field": "63ea",
+          "matches": true
+        }
+      }
+    },
+    {
+      "member": "dos\\d_gfile.asm",
+      "archive_offset": "0x1eb10",
+      "whole_member_bytes": 191,
+      "whole_member_sha256": "9955cdfc4092a51bbc640226185ec025903fd9d2cf6aca0c072bb988121a4005",
+      "public": {
+        "name": "__dos_getfileattr",
+        "segment": "_TEXT",
+        "offset": 0
+      },
+      "complete_CODE": {
+        "segment": "_TEXT",
+        "length": 24,
+        "sha256": "e815927781ac647d071ec6cc3cfb09a54e04934b72cb780da147f9d44efb4367"
+      },
+      "secondary_declared_segments": [
+        {
+          "name": "_DATA",
+          "class": "DATA",
+          "length": 0
+        }
+      ],
+      "initialized_secondary_bytes": 0,
+      "one_fixup": {
+        "segment_offset": 22,
+        "opcode": "0xe9",
+        "LOCAT": "LOC1",
+        "width": 2,
+        "self_relative": true,
+        "frame": {
+          "kind": "segment",
+          "index": 1,
+          "name": "_TEXT"
+        },
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "__dosreturn",
+          "method": 6,
+          "zero_displacement": true
+        },
+        "raw_A": 0,
+        "explicit_D": null
+      },
+      "status": "not accepted; no exact complete anchored extent",
+      "best_anchor_probe": {
+        "actual_CSIP": "1fe6:1bcc",
+        "root_position": "0x21a2c",
+        "full_original_extent_sha256": "12394c45fb0991560d64dbd33682b59019ccdd52801cabd275fd1df86e7a2cef",
+        "full_extent_length": 24,
+        "ordinary_byte_mismatch_count": 16,
+        "far_call_relocation_indices": [
+          513,
+          514,
+          515,
+          516,
+          517,
+          518,
+          1485
+        ],
+        "field": {
+          "expected_signed": -5600,
+          "expected_word": "0xea20",
+          "original_field": "ea00",
+          "original_opcode": "0x21",
+          "expected_opcode": "0xe9",
+          "matches": false
+        }
+      },
+      "exact_anchored_full_extent_candidates": 0
+    },
+    {
+      "member": "dos\\d_open.asm",
+      "archive_offset": "0x1ed50",
+      "whole_member_bytes": 184,
+      "whole_member_sha256": "4eb0555a90b620121c637d7edf805c86605e79fd63212846659d67f8b3f05ef4",
+      "public": {
+        "name": "__dos_open",
+        "segment": "_TEXT",
+        "offset": 0
+      },
+      "complete_CODE": {
+        "segment": "_TEXT",
+        "length": 26,
+        "sha256": "e109f9e510cd23b9214f2d5585d7d86435309e3cbe38e796a4e798eda33a9293"
+      },
+      "secondary_declared_segments": [
+        {
+          "name": "_DATA",
+          "class": "DATA",
+          "length": 0
+        }
+      ],
+      "initialized_secondary_bytes": 0,
+      "one_fixup": {
+        "segment_offset": 24,
+        "opcode": "0xe9",
+        "LOCAT": "LOC1",
+        "width": 2,
+        "self_relative": true,
+        "frame": {
+          "kind": "segment",
+          "index": 1,
+          "name": "_TEXT"
+        },
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "__dosreturn",
+          "method": 6,
+          "zero_displacement": true
+        },
+        "raw_A": 0,
+        "explicit_D": null
+      },
+      "status": "not accepted; no exact complete anchored extent",
+      "best_anchor_probe": {
+        "actual_CSIP": "1fe6:1cec",
+        "root_position": "0x21b4c",
+        "full_original_extent_sha256": "1fdaa38f94b833787c9903a78bd75f1045d59ad5d329345b05de1e6b94e335da",
+        "full_extent_length": 26,
+        "ordinary_byte_mismatch_count": 18,
+        "far_call_relocation_indices": [
+          1439,
+          1440
+        ],
+        "field": {
+          "expected_signed": -5890,
+          "expected_word": "0xe8fe",
+          "original_field": "5b5d",
+          "original_opcode": "0x2",
+          "expected_opcode": "0xe9",
+          "matches": false
+        }
+      },
+      "exact_anchored_full_extent_candidates": 0,
+      "probe_at_1fe6_1bcc": {
+        "full_original_extent_sha256": "ae055202605f4df40c407ff1aabaedded6f0124a1b8f55faab2254519e43d69c",
+        "ordinary_byte_mismatch_count": 21,
+        "far_call_relocation_indices": [
+          513,
+          514,
+          515,
+          516,
+          517,
+          518,
+          1485
+        ],
+        "field": {
+          "expected_signed": -5602,
+          "expected_word": "0xea1e",
+          "original_field": "558b",
+          "original_opcode": "0x0",
+          "expected_opcode": "0xe9",
+          "matches": false
+        }
+      }
+    },
+    {
+      "member": "dos\\d_sfile.asm",
+      "archive_offset": "0x1efe0",
+      "whole_member_bytes": 186,
+      "whole_member_sha256": "84f1ed47113876cbe51ecea890776a76bce4dbd6e4be1cdca36306bd0ab0001f",
+      "public": {
+        "name": "__dos_setfileattr",
+        "segment": "_TEXT",
+        "offset": 0
+      },
+      "complete_CODE": {
+        "segment": "_TEXT",
+        "length": 19,
+        "sha256": "40c2f9cb65e5442ad340a694607daf6f77f26c1f91cfc76642c753889264a7ec"
+      },
+      "secondary_declared_segments": [
+        {
+          "name": "_DATA",
+          "class": "DATA",
+          "length": 0
+        }
+      ],
+      "initialized_secondary_bytes": 0,
+      "one_fixup": {
+        "segment_offset": 17,
+        "opcode": "0xe9",
+        "LOCAT": "LOC1",
+        "width": 2,
+        "self_relative": true,
+        "frame": {
+          "kind": "segment",
+          "index": 1,
+          "name": "_TEXT"
+        },
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "__dosreturn",
+          "method": 6,
+          "zero_displacement": true
+        },
+        "raw_A": 0,
+        "explicit_D": null
+      },
+      "status": "not accepted; no exact complete anchored extent",
+      "best_anchor_probe": {
+        "actual_CSIP": "1fe6:16c6",
+        "root_position": "0x21526",
+        "full_original_extent_sha256": "ea162398805888dd62483f87b49cdce377125479c37fbf206032167bec5269f0",
+        "full_extent_length": 19,
+        "ordinary_byte_mismatch_count": 11,
+        "far_call_relocation_indices": [
+          673,
+          1421,
+          1422,
+          1942
+        ],
+        "field": {
+          "expected_signed": -4309,
+          "expected_word": "0xef2b",
+          "original_field": "0a75",
+          "original_opcode": "0xf9",
+          "expected_opcode": "0xe9",
+          "matches": false
+        }
+      },
+      "exact_anchored_full_extent_candidates": 0
+    }
+  ],
+  "independent_open_frame_witness": {
+    "entry_actual_CSIP": "1fe6:1ba9",
+    "far_call_relocation_indices": [
+      645,
+      646,
+      647
+    ],
+    "far_call_bytes_hex": "9aa91be61f",
+    "complete_path_bytes_hex": "558becb73c8b56068b4e088ae7cd21730a3d5000f97509b411eb058b5e0a8907e938ea",
+    "path_sha256": "9515cca4780fcb1a7c7a8b5db95567afd6eaa837d3c3afa5ec17a8d58e68655d",
+    "tail_jump_actual_CSIP": "1fe6:1bc9",
+    "tail_jump_bytes_hex": "e938ea",
+    "target_actual_CSIP": "1fe6:0604",
+    "path_condition": "Conditional error path (the conditional branch at 1bbe reaches 1bc9); wrapper does not imply all paths call __dosreturn. Independent entry span ends exactly at candidate public 1bcc."
+  },
+  "scope": "Only d_close has an entire direct-FAR-anchored member extent whose ordinary bytes and one OMF F0/T6 LOC1 equation match the independently grounded provider. The three other source shapes are diagnostic and rejected. No trimming, field masking, normalization, constructed linked buffer, or additional byte ownership is claimed; provider context owns zero bytes."
+}
