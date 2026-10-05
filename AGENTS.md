@@ -85,7 +85,9 @@ Append `--trial LABEL` to the existing search command to produce worker-local
 inside that worker directory. The journal records compact diagnostics, freezes
 one best source, deduplicates complete raw CODE hashes, distinguishes changed
 binding/fixup identities, and stops at exact, budget or repeated-output limits.
-A repeated CODE hash is no proof of equal bindings. These files grant no ownership;
+Strict refusals retain fresh complete raw CODE identity when available, without
+a mismatch score or best-source promotion. Compiler failure exposes no prior
+object identity. A repeated CODE hash is no proof of equal bindings. These files grant no ownership;
 search still compiles freshly, and promotion/validation never consume a cache.
 Stop when requested by the card. Do not retry a stagnant target without a new
 reasoning lead; inspect the existing negative receipts first.

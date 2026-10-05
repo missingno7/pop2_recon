@@ -1,0 +1,434 @@
+{
+  "baseline_head": "8fd39a4480556d4fa6949827cc4a150a162ffdfb",
+  "canonical_totals": {
+    "behavior_oracle_status": "NOT_STARTED",
+    "candidate_function_count": 2,
+    "exact_function_count": 26,
+    "identified_game_code_bytes": 1206,
+    "matching_asm_bytes": 51,
+    "matching_c_bytes": 1054,
+    "pinned_runtime_bytes": 666,
+    "pinned_runtime_component_count": 11,
+    "proven_candidate_fixups": 53,
+    "proven_relocation_records": 0,
+    "reviewed_target_count": 29,
+    "structural_link_status": "UNRECOVERED",
+    "total_payload_bytes": 271388,
+    "total_relocation_records": 4716,
+    "unknown_or_unclassified_payload_bytes": 269465,
+    "unresolved_identified_game_bytes": 152,
+    "unresolved_reviewed_target_count": 3
+  },
+  "diagnostic_fix": {
+    "Sol_review": {
+      "files": [
+        "tools/match.py",
+        "tools/search.py",
+        "tools/trial_log.py"
+      ],
+      "freshness": "Only check_object refusal after result.ok carries captured parsed/obj_bytes from the current invocation; compile/pre-target errors use generic refusal. Both compiler and assembler delete stale objects before invocation. Captured obj_bytes avoids later disk replacement.",
+      "minor_note": "Accepted reports use decoded FIXUPP rows and rejected diagnostics use resolved rows; their comparison keys may differ conservatively even with identical raw CODE. This cannot grant ownership.",
+      "proof": "Rejected report has exact false, no mismatch score, initialized full single CODE only. score returns None, so it cannot replace best or promote. Declarations and actual resolved fixups remain part of identity.",
+      "requested_by_supervisor": true,
+      "result": "No stale-object or acceptance weakening blocker found in inspected diff.",
+      "tests": "Read-only source review; supervisor owns implementation checks."
+    },
+    "acceptance": "Every strict check remains authoritative; promotion and validation still raise on refusal. No cached output, object edits, masking, trimming or new proof mode.",
+    "change": "Carry only the current successful compiler result through strict ValueError refusal. Search retains one complete initialized raw CODE hash/size, actual declarations and resolved fixups, with exact=false and no mismatch score. Precompile/compiler failures and CODE holes/multiple segments yield no CODE identity.",
+    "end_to_end": "Known full62-byte /O state predicate reproduced, refused for extent, raw hash b4cd0a79d825d863f750074a34d281e8b2661b6205b919693fd56d2777ab5925 retained, best=null.",
+    "problem": "Strict extent/fixup refusal discarded full emitted CODE hashes, causing distinct compiler outputs to appear as stagnation.",
+    "tests": [
+      "fresh bound extent refusal stays rejected/unscored",
+      "failed compiler cannot expose prior object",
+      "holes/multiple CODE excluded",
+      "rejected CODE dedup distinguishes declaration identity without choosing a best"
+    ]
+  },
+  "far_frontier": {
+    "compiler_trials": 0,
+    "exclusions": [
+      {
+        "candidate": "root:1d76:064e",
+        "reason": "Prior-wave63-byte caller: unproved update_record near/far tree."
+      },
+      {
+        "candidate": "root:1101:c2e4",
+        "reason": "Prior-wave67-byte duplication helper: extra1101:2436 and1101:216c."
+      },
+      {
+        "candidate": "root:1101:29aa",
+        "reason": "Prior-wave90-byte strnicmp lookup: independent provider frame absent and two ordinary C register bytes differ."
+      },
+      {
+        "candidate": "root:1de8:022a",
+        "reason": "New92-byte strstr caller: unaccepted lookup216c and only strstr far alias is owner-internal."
+      },
+      {
+        "candidate": "root:0a5c:0bb6",
+        "reason": "117-byte caller has sixcalls, including unproved far providers."
+      },
+      {
+        "candidate": "root:1f74:0130",
+        "reason": "157-byte caller has elevencalls and mixed provider tree."
+      },
+      {
+        "candidate": "overlay-2:prologue@606",
+        "reason": "Large overlay routine with globals and many unknown providers."
+      },
+      {
+        "candidate": "overlay-2:prologue@5b1c",
+        "reason": "Large overlay allocator routine with unproved allocator and many other providers."
+      },
+      {
+        "candidate": "root:prologue@5a74",
+        "reason": "Four other provider calls besidesstrlen; stack local record and custom near/far tree."
+      },
+      {
+        "candidate": "root:prologue@5c88",
+        "reason": "Large multi-return/UI routine with many unproved near/far providers."
+      },
+      {
+        "candidate": "root:prologue@66e4",
+        "reason": "Large formatting/allocation routine; extra unknown resource and CRTproviders."
+      },
+      {
+        "candidate": "root:prologue@686a",
+        "reason": "Large UI/string routine; mixed globalDS:1142, unknown resource and nearproviders."
+      },
+      {
+        "candidate": "root:prologue@6c7a",
+        "reason": "Surrounding routine contains unsupported other providers; original site window retained in scan."
+      },
+      {
+        "candidate": "root:prologue@1a166",
+        "reason": "Large assembly-like state dispatcher, indirectcall[DI+26], numerous nearproviders,globals."
+      }
+    ],
+    "lookup_provider": {
+      "abi": "Near data handle BP6, far return DX:AX, RETF2; no calls/interrupts/DS writes; LES changesES.",
+      "boundary_note": "Executable return at0x1319d with alternate branch0x131a0..0x131a5 backto0x1319c; observed zero at0x131a5 lies after branch and before nextprologue0x131a6.42-byte observed extent includes it; no claim of emitted segment proof.",
+      "bytes_hex": "558bec8b6e0685ed741ac44600a900027512250f008cc20bd074050506008cc25dca02002bc099ebf700",
+      "classification": "Likely custom assembly; BP is repurposed to handle pointer. Historical source absent.",
+      "end_exclusive": 78246,
+      "id": "root:1101:216c",
+      "original_relocations_in_frozen_order": [],
+      "sha256": "eadf599f51774de643e40cc6d9e58c8ec5c2ddee032ab880c07985d39f2a9435",
+      "size": 42,
+      "space": "root",
+      "start": 78204,
+      "status": "UNACCEPTED_PROVIDER_CONTEXT"
+    },
+    "new_caller": {
+      "abi": "Far RETF2; one near-data word at BP6 (needle converted by PUSH DS); return word handle in AX. lookup callee consumes two bytes; strstr cdecl consumes two far pointer arguments, caller ADD SP8.",
+      "boundary_evidence": [
+        "Prior complete routine RETF2 at0x1e0a7 ends exactly0x1e0aa.",
+        "Outside caller PUSH DI0x1e082; PUSH CS0x1e083; E8at0x1e084 reaches0x1e0aa.",
+        "Complete CFG branches to0x1e0fc and back0x1e0c5; RETF2 at0x1e103 ends0x1e106. Next independent BPprologue begins0x1e106. No padding between.",
+        "Discovery70 ends at unfollowed EB0x1e0ee and omits22 bytes; no prefix chosen."
+      ],
+      "bytes_hex": "558bec83ec0657568b362c26837e06011bdbf7db0bdb753a895efa0bf674331eff7606569a6c2101118bf88956fe05100052509a6a1fe61f83c4080bd07407c746fa0100eb068e46fe268b35837efa0074c98bc65e5f8be55dca0200",
+      "classification": "Likely historical C linked-handle search using strstr; original language/type/purpose unproved",
+      "end_exclusive": 123142,
+      "id": "root:1de8:022a",
+      "ordinary_data_accesses": [
+        {
+          "at": 123058,
+          "offset": 9772,
+          "width": 2
+        }
+      ],
+      "original_relocations_in_frozen_order": [
+        {
+          "image_offset": 123104,
+          "index": 1737,
+          "offset": 608,
+          "segment": 7656,
+          "stored_word": 8166
+        },
+        {
+          "image_offset": 123089,
+          "index": 1746,
+          "offset": 593,
+          "segment": 7656,
+          "stored_word": 4353
+        }
+      ],
+      "proof_status": "REVIEWED_NEGATIVE_NOT_SUBMITTED",
+      "sha256": "af90f487f2ea05faad9d1ab544e526871d0a4842423b229d02b8a42c525a6f9e",
+      "size": 92,
+      "space": "root",
+      "start": 123050
+    },
+    "new_checker_modes": 0,
+    "owned_bytes": 0,
+    "resume_condition": "A useful independent original CS-entry witness forstrstr outside0x1e0aa..0x1e106 would unblock frame evidence, but lookup216c still needs complete provider identity/proof. Prefer a new independent historical source/library lead forlookup216c; do not infer sharedCS from archivecombine metadata.",
+    "selection": {
+      "far_call_encodings_to_pinned_entry_publics": 22,
+      "fresh_pinned_relocation_free_members": 10,
+      "limitations": "Some large surrounding scopes are nearest-prologue hypotheses; exclusions rely on concrete extra calls and require no extent acceptance. Raw nonwrapping near encodings are diagnostic only. Secondary runtime public aliases are outside preferred far caller shortlist.",
+      "ordered_original_relocation_records": 4716,
+      "original_spaces": 17,
+      "surrounding_entry_groups": 14
+    },
+    "status": "blocked",
+    "strstr_provider": {
+      "ds_contract": "Whole accepted leaf savesDS withPUSH DS at+8; changesDS viaPUSH ES/POP DS; every normal return restoresDS from stack. No calls/interrupts. Contract diagnostic only; missing independentCS alias prevents caller proof.",
+      "original_entry_refs": {
+        "provider_position": 138698,
+        "raw_nonwrapping_near_entry_encodings": [],
+        "relocated_pointer_refs": [
+          {
+            "bytes_hex": "6a1fe61f",
+            "field_position": 123102,
+            "preceding_byte": 154,
+            "relocation": {
+              "image_offset": 123104,
+              "index": 1737,
+              "offset": 608,
+              "segment": 7656,
+              "stored_word": 8166
+            },
+            "space": "root"
+          }
+        ]
+      },
+      "recipe": "recipes\\runtime\\crt_strstr.json",
+      "sha256": "96bacf99c5d1b777c600fbe722335dc43e0f348dee34b05352ece25c7c57176b",
+      "size": 103,
+      "start": 138698
+    },
+    "supervisor_recheck": "Fresh full original caller/provider hashes, incoming PUSH CS/E8 target, ordered MZ identities and complete pinned strstr member verified; zero ownership."
+  },
+  "luna": [
+    {
+      "MZ_obligations": 0,
+      "candidate_source_sha256": "b7c907cd358f33429ba2a512acc9f64bd51cf4f2367f80d3229a43f8c5196ee3",
+      "canonical_recipe": "recipes/signed_byte_times10_adjusted.json",
+      "canonical_source": "src/signed_byte_times10_adjusted.c",
+      "canonical_source_sha256": "b7c907cd358f33429ba2a512acc9f64bd51cf4f2367f80d3229a43f8c5196ee3",
+      "distinct_raw_CODE_outputs": 1,
+      "emitted_CODE_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
+      "emitted_size": 54,
+      "explanation": "Natural signed-byte branch and local char result reproduce both cleanup paths and internal/final NOPs on first source trial.",
+      "first_difference": null,
+      "fixup_count": 0,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "e196ae3d1928a43304618ef73363dfe24f6430e29e2bcc128e3dbed6ac24bf79",
+      "mismatch_count": 0,
+      "profile": "msc600",
+      "public": "SIGNED_BYTE_TIMES10_ADJUSTED",
+      "status": "exact",
+      "supervisor": "Fresh strict verify-only and serialized publication, then full validation.",
+      "target_id": "root:02cc:07c6",
+      "trial_count": 1,
+      "worker": "wave4_luna_scale"
+    },
+    {
+      "MZ_obligations": 0,
+      "candidate_source_sha256": "ff827e1782a982867ad72adb249e36eac7c1dd3a63d5e5da8a4563dac3b14000",
+      "canonical_recipe": "recipes/signed_div63_adjusted.json",
+      "canonical_source": "src/signed_div63_adjusted.c",
+      "canonical_source_sha256": "ff827e1782a982867ad72adb249e36eac7c1dd3a63d5e5da8a4563dac3b14000",
+      "distinct_raw_CODE_outputs": 1,
+      "emitted_CODE_sha256": "38647a134ad2c843bef87f371260990aafa5a7c43bdc70ec1bd0db48a4ef2bab",
+      "emitted_size": 40,
+      "explanation": "Natural signed shifted local and char quotient result reproduce BX/LEA, byte stack local, decrement condition and terminal NOP on first trial.",
+      "first_difference": null,
+      "fixup_count": 0,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "f0aa1e986f2d3e7e1aab3bffc2d3509281af6b91bd231edf96c27351e77e95ab",
+      "mismatch_count": 0,
+      "profile": "msc600",
+      "public": "SIGNED_DIV63_ADJUSTED",
+      "status": "exact",
+      "supervisor": "Fresh strict verify-only and serialized publication, then full validation.",
+      "target_id": "root:02cc:1102",
+      "trial_count": 1,
+      "worker": "wave4_luna_divide"
+    },
+    {
+      "MZ_obligations": 0,
+      "candidate_source_sha256": "7edcf02af5e81394f73c10629492a641d622b7a3d94c819ce6f5e0178608696c",
+      "canonical_recipe": "recipes/adjust_byte_for_kind.json",
+      "canonical_source": "src/adjust_byte_for_kind.c",
+      "canonical_source_sha256": "7edcf02af5e81394f73c10629492a641d622b7a3d94c819ce6f5e0178608696c",
+      "distinct_raw_CODE_outputs": 1,
+      "emitted_CODE_sha256": "00749952e87e8f0084a96bd80bfd16a02de28051b194f68ed994f84cfe46a2e0",
+      "emitted_size": 48,
+      "explanation": "Natural volatile byte guard with else-if parameter mutation matches44 ordinary bytes and two relative data equations. First unbound diagnostic refusal and second bound verification emit the same full CODE.",
+      "first_difference": null,
+      "fixup_count": 2,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "a8dc5944363a7a3fa8831a86bbbe0cc46be77bc036a5c40bf6b1f5d3fb52351f",
+      "mismatch_count": 0,
+      "profile": "msc600",
+      "public": "ADJUST_BYTE_FOR_KIND",
+      "status": "exact",
+      "supervisor": "Fresh strict verify-only and serialized publication, then full validation.",
+      "target_id": "overlay-14:2dc2:0164",
+      "trial_count": 2,
+      "worker": "wave4_luna_adjust"
+    },
+    {
+      "MZ_obligations": 0,
+      "candidate_source_sha256": "ea0b489eb937ab716acaa7c6a95080d113a6c0de2022eb75ec25b7c43928f683",
+      "canonical_recipe": "recipes/is_level4_byte_window.json",
+      "canonical_source": "src/is_level4_byte_window.c",
+      "canonical_source_sha256": "ea0b489eb937ab716acaa7c6a95080d113a6c0de2022eb75ec25b7c43928f683",
+      "distinct_raw_CODE_outputs": 1,
+      "emitted_CODE_sha256": "6ea552764b2e684090287ea467e108d11e8d3959105cdf4358b28f658ab8fb98",
+      "emitted_size": 40,
+      "explanation": "Natural local result initialized0 reproduces DX, ordered unsigned parameter comparisons and terminal NOP;38 ordinary bytes and one relative data equation on first source trial.",
+      "first_difference": null,
+      "fixup_count": 1,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "d94ffdaa43765e962b20b52958dd1d278c9466fceeac8795d3930575227fcf80",
+      "mismatch_count": 0,
+      "profile": "msc600",
+      "public": "IS_LEVEL4_BYTE_WINDOW",
+      "status": "exact",
+      "supervisor": "Fresh strict verify-only and serialized publication, then full validation.",
+      "target_id": "overlay-12:2c3e:1204",
+      "trial_count": 1,
+      "worker": "wave4_luna_window"
+    }
+  ],
+  "membership": {
+    "accepted": false,
+    "canonical_probe": "recipes/probes/overlay_membership.c",
+    "compiler_trials": 2,
+    "following_entry": {
+      "first_eight_hex": "558bec83ec0a5756",
+      "meaning": "PUSH BP; MOV BP,SP; SUB SP,10; PUSH DI; PUSH SI. No independently established TU membership.",
+      "start": "overlay-5:29cf:0370"
+    },
+    "observations": [
+      "/Od followed by /Oer /Gs repeats prior complete 78-byte CODE and exact OMF object identity. It does not retain original MOV SP,BP.",
+      "/Oer /Ge emits complete 88-byte CODE: XOR AX,AX plus a far __aFchkstk call at offset 5, one pointer32 F5/T6 external fixup at offset 6, internal alignment NOP at75, MOV SP,BP at81. Thus actual stack-probe/call state can retain frame restoration even with zero allocation.",
+      "The /Ge contribution is larger and call-bearing, and strict search refuses it without binding. It is not an exact alternative or a removable prefix.",
+      "No grouped-TU trial was run because documented behavior plus original adjacent frameless function supplies no specific justified grouping prediction."
+    ],
+    "original_frame_fact": "No local stack allocation, saved-register push/pop, probe or call in reviewed body; exact original exit is MOV AX,DX; MOV SP,BP; POP BP; RETF 2; NOP.",
+    "preceding_entry": {
+      "bytes_hex": "c6060c16ffcb",
+      "meaning": "Frameless immediate byte store; RETF. Does not support stale prior BP/frame state.",
+      "size": 6,
+      "start": "overlay-5:29cf:031a"
+    },
+    "primary_documentation": {
+      "pins": [
+        {
+          "path": "C:\\tools\\msc-6.00\\DOCS\\UTILS\\cl.hlp",
+          "sha256": "cb7e2948b76b07fb47eb578258e1f1df81da4e10a729d3bf2098025a44a90fc4"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\cl.msg",
+          "sha256": "3379f283aec74842bc82205e4c848d759e6e2dcbb6d4820eec9719f1297213ec"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\expanded\\LIB2\\help\\helpmake.exe",
+          "sha256": "ac4807dd2f3bde2aa59f3ce5229be037365a26060cf72d903392609e2ed59654"
+        }
+      ],
+      "topics": {
+        "@L8019": "/Aw changes SS/DS assumptions, /Au adds DS reload; no documented epilogue-retention switch.",
+        "@L8041": "/G1 and /G2 select 186/286 instructions; original uses the 8086 MOV SP,BP/POP BP sequence.",
+        "@L804d": "/Zi suppresses some code motion only without explicit /O; no documented reason to add /Zi to an explicit /Oer experiment.",
+        "@L804f": "/Or uses a common function exit; no guarantee to retain redundant SP restoration.",
+        "@L8050": "Some optimizations occur by default; /O is /Oct.",
+        "@L8057": "/Oe allocates registers globally within function usage; ignores register declarations.",
+        "@L8058": "/Od disables optimization.",
+        "@L8063/@L8064": "/Ge emits stack-probe calls, /Gs suppresses them; probes check local-variable stack space."
+      }
+    },
+    "profile": "msc600",
+    "public": "IS_SELECTED_CODE",
+    "resume_condition": "Independent source/lifetime or compiler-pass evidence that retains MOV SP,BP after all local allocation/register saves/calls are absent. A compiler version or natural original-source construct must predict that behavior; known OR/if/ternary/goto/parameter/sparse/switch families and documented /Oe /Oer /Oeg /Oers plus /Od-before-/Oer and /Ge contrasts must not be repeated blindly.",
+    "status": "blocked",
+    "supervisor_recheck": "Freshly reproduced complete88-byte stack-probe CODE/object and strict refusal; documentation pins rechecked. No source, call or padding removed.",
+    "target_id": "overlay-5:29cf:0320",
+    "trials": [
+      {
+        "accepted": false,
+        "duplicate_CODE": true,
+        "emitted_CODE_sha256": "8503f646b32496b9b0c5c17bdd1e269e450da31cadad78e65a81dcbff4451cef",
+        "emitted_size": 78,
+        "first_difference": 73,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Od",
+          "/Oer",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "mismatch_count": 7,
+        "object_sha256": "2caebccbb8bffc568fbeda179da5fabd2b85a3f63cc6079323a173366b38164c",
+        "reason": null,
+        "source_sha256": "a01163a30508d01f16e60280dc0f4640c0278048c86e853f443037cc3ceefcb4",
+        "trial": "default_disabled_then_er"
+      },
+      {
+        "accepted": false,
+        "duplicate_CODE": false,
+        "emitted_CODE_sha256": "d482713a3ad21388c3051accaf1730cff5d821b19bef0500c7f63f18f90e806e",
+        "emitted_size": 88,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oer",
+          "/Ge",
+          "/Zl",
+          "/Gc"
+        ],
+        "mismatch_count": null,
+        "object_sha256": "81fc5eb165fad7f1bb169737fcbbcfb54bec63b5d5510631db5a3026b8a16a39",
+        "reason": "Fixup-bearing components require an independently grounded symbolic binding proof",
+        "source_sha256": "a01163a30508d01f16e60280dc0f4640c0278048c86e853f443037cc3ceefcb4",
+        "trial": "stack_check_enabled"
+      }
+    ]
+  },
+  "original_review": "evidence/matching/wave4-original-review.json",
+  "schema": 1,
+  "scope": "Complete component source proof only; one integrating writer; no original TU/natural RTLink/behavior claim.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "validation": {
+    "command": "python tools/validate.py",
+    "fresh_ASM_components": 1,
+    "fresh_C_components": 25,
+    "independent_runtime_members": 11,
+    "invariant_tests": 141,
+    "status": "PASS"
+  }
+}

@@ -64,21 +64,12 @@ Source semantics, game/runtime classification, names and original build/version
 are evidence-qualified claims independent of byte equality. Compiler probes can
 establish code-generation facts without proving the compiler used by every TU.
 
-The [second grinding wave](reconstruction-progress.md) accepts three more
-relocation-free overlay C components (28, 42 and 88 bytes) and a complete
-26-byte overlay state predicate with two independently proved data fields.
-Matching C totals 666 bytes across seventeen contributions, with forty-two
-source data fields proved. Matching ASM remains 51 bytes and pinned runtime
-remains 666 bytes. The 26-byte signed-value, 46-byte overlay swap and newly
-reviewed 80-byte membership targets remain unowned. A switch probe agrees on
-the membership target's first 73 bytes but emits 94 complete bytes; no prefix
-is accepted.
-
-Far-call/MZ proof remains blocked. The latest small strlen caller depends on
-an unproved near routine which reads a global and calls further near/far
-providers. Neither agreeing conditional equations, shared archive declarations
-nor a partially closed provider tree supplies ownership. See the
-[compact wave receipt](../evidence/matching/grinding-wave2.json).
+Current component counts, proven fields and unresolved targets are recorded in
+[reconstruction progress](reconstruction-progress.md), backed by canonical
+layout/manifest.json and fresh validation metrics. The bounded wave receipts
+record exhausted compiler outputs and concrete provider blockers. Far-call/MZ
+acceptance remains unimplemented; agreeing conditional equations, shared archive
+declarations or partially closed provider trees grant no ownership.
 
 Canonical source and binding file pins use the repository's LF checkout policy.
 Source publication normalizes its frozen independent copy to LF, then compiles

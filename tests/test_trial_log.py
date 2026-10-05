@@ -53,6 +53,20 @@ class TrialLogTests(unittest.TestCase):
         self.assertTrue(row["duplicate_code"])
         self.assertFalse(row["duplicate_result"])
 
+    def test_rejected_CODE_outputs_deduplicate_without_becoming_best(self):
+        refusal = {'exact': False, 'state': 'REJECTED', 'mismatch_count': None,
+                   'emitted_size': 2, 'emitted_sha256': sha(b'ab'),
+                   'object_declarations': {'externals': ['FIRST']}}
+        first = self.record('refused_one', **refusal)
+        self.assertIsNone(first['best'])
+        self.assertEqual(first['stale_trials'], 0)
+        self.record('refused_alias', **{**refusal, 'object_declarations': {'externals': ['SECOND']}})
+        row = read_json(self.work / 'trials.json')['trials'][-1]
+        self.assertTrue(row['duplicate_code'])
+        self.assertFalse(row['duplicate_result'])
+        self.assertFalse(row['exact'])
+        self.assertIsNone(read_json(self.work / 'summary.json')['best'])
+
     def test_stagnation_stops_before_another_trial_or_mutation(self):
         self.record("one")
         self.record("two")

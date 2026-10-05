@@ -45,9 +45,9 @@ status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) includes
-twelve complete overlay C matches, including independently proved overlay
-data fields. Totals are 872 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
-Forty-nine source data fixups and the first
+fourteen complete overlay C matches, including independently proved overlay
+data fields. Totals are 1,054 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
+Fifty-two source data fixups and the first
 [runtime near-jump equation](docs/runtime-near-binding.md) are proven; original
 relocation coverage remains 0/4,716. Far-call binding and natural RTLink
 placement remain unresolved.

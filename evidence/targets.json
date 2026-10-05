@@ -960,6 +960,150 @@
       "size": 48,
       "space": "overlay-4",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far callee-cleaned single word slot BP+6; signed low byte tested; low-byte result AL, upper AX unspecified; RETF 2.",
+      "boundary_evidence": [
+        "Previous helper ends RETF at root position 0x3484, with original NOP at 0x3485; independent BP frame begins 0x3486.",
+        "Signed JL at 0x3490 reaches alternate body 0x34a6; first RETF 2 at 0x34a2 ends at 0x34a5, with internal NOP 0x34a5 retained. Alternate RETF 2 at 0x34b8 ends 0x34bb; original terminal NOP 0x34bb aligns next BP frame at 0x34bc. Complete interval is [0x3486,0x34bc).",
+        "Independent original caller CFG from root position 0xada reaches far_call site 0xb3c; exact original encoding targets this entry; argument and result instructions support the stated ABI.",
+        "All original bytes, internal and terminal padding retained; every branch destination is an instruction start inside complete extent. Zero original relocation obligations, including a relocated word beginning one byte before entry.",
+        "No calls, interrupts or segment-register writes. Only stack parameters/locals, registers and scalar constants; relocation-free source component gate suitable."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 11068,
+          "image_offset": 2876,
+          "kind": "far_call",
+          "relocated_segment_site": 2879,
+          "relocation_index": 100,
+          "space": "root",
+          "target_alias": "02cc:07c6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns low byte 10*value when signed byte value>=0, otherwise 10*value+9. Caller at root 0xada computes SI-30, pushes AX, calls this helper and adds 9 to returned AL before storing a local byte. Other original callers pass state byte DS:5c0a.",
+        "Static original state/scalar helper context; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
+      "id": "root:02cc:07c6",
+      "offset": 1990,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "signed_byte_times10_adjusted",
+      "sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far callee-cleaned one signed word at BP+6; signed IDIV 63; local low-byte quotient at BP-1; result AL, upper AX unspecified; RETF 2.",
+      "boundary_evidence": [
+        "Previous helper RETF 2 at root position 0x3dbe ends 0x3dc1; NOP 0x3dc1 retained outside this entry. Independent BP frame starts 0x3dc2.",
+        "JG at 0x3ddb skips local-byte decrement and joins return-byte load 0x3de0. RETF 2 at 0x3de6 ends 0x3de9; terminal original NOP 0x3de9 is part of complete 40-byte extent before separate BP frame at 0x3dea.",
+        "Independent original caller CFG from overlay-9 position 0x84 reaches far_call site 0x9a; exact original encoding targets this entry; argument and result instructions support the stated ABI.",
+        "All original bytes, internal and terminal padding retained; every branch destination is an instruction start inside complete extent. Zero original relocation obligations, including a relocated word beginning one byte before entry.",
+        "No calls, interrupts or segment-register writes. Only stack parameters/locals, registers and scalar constants; relocation-free source component gate suitable."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 231930,
+          "image_offset": 154,
+          "kind": "far_call",
+          "relocated_segment_site": 157,
+          "relocation_index": 61,
+          "space": "overlay-9",
+          "target_alias": "02cc:1102"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes shifted=value-3, stores low-byte signed quotient shifted/63, decrements that byte when shifted<=0, then returns AL. Independent caller overlay-9 0x84 pushes word DS:67c0 and consumes AL into BP-3.",
+        "Static original state/scalar helper context; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
+      "id": "root:02cc:1102",
+      "offset": 4354,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "signed_div63_adjusted",
+      "sha256": "38647a134ad2c843bef87f371260990aafa5a7c43bdc70ec1bd0db48a4ef2bab",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far callee-cleaned two word slots; low byte BP+8 is kind, low byte BP+6 modified value; byte result AL; RETF 4.",
+      "boundary_evidence": [
+        "Previous closed helper returns RETF 4 at 0x161..0x163; separate BP frame begins 0x164.",
+        "JNE edges 0x16c/0x172 reach second conditional block 0x17a; JMP 0x178 and JNE 0x17f/0x185 join byte return at 0x18b. RETF 4 at 0x191 ends exactly at separate BP frame 0x194; no omitted padding.",
+        "Independent original caller CFG from overlay-14 position 0x23c reaches PUSH CS at 0x24b / E8 at 0x24c; exact original encoding targets this entry; argument and result instructions support the stated ABI.",
+        "All original bytes, internal and terminal padding retained; every branch destination is an instruction start inside complete extent. Zero original relocation obligations, including a relocated word beginning one byte before entry.",
+        "No calls, interrupts or segment-register writes. Only direct unprefixed DS byte global fields; existing external-overlay-dgroup-offset16-v1 required."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264364,
+          "image_offset": 588,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 587,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "If DS:4549 byte equals 5 and kind==7, subtract 10 from value; else if same state byte equals 5 and kind==12, add 10; return value byte. Independent caller pushes DS:5c0e then DS:5c09 and stores AL to local BP-1.",
+        "Static original state/scalar helper context; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
+      "id": "overlay-14:2dc2:0164",
+      "offset": 356,
+      "original_name": null,
+      "segment": 11714,
+      "semantic_name_hypothesis": "adjust_byte_for_kind",
+      "sha256": "bd2987bb0fe2d970bc1c715b3a516a2de27e2b40c542bf5aa63aa9bde91d7d17",
+      "size": 48,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far callee-cleaned one word slot BP+6; low byte unsigned comparisons; word boolean result AX through DX; RETF 2.",
+      "boundary_evidence": [
+        "Prior SI-saving helper returns POP SI at 0x1201; RETF 0x1202; original NOP 0x1203. Separate BP frame begins 0x1204.",
+        "JNE at 0x120e, JB 0x1214, JA 0x121a and JE 0x1220 converge on result move 0x1225; true block sets DX=1 at 0x1222. RETF 2 at 0x1228 ends 0x122b; terminal NOP 0x122b retained before separate BP frame 0x122c.",
+        "Independent original caller CFG from overlay-12 position 0xe60 reaches PUSH CS at 0xea0 / E8 at 0xea1; exact original encoding targets this entry; argument and result instructions support the stated ABI.",
+        "All original bytes, internal and terminal padding retained; every branch destination is an instruction start inside complete extent. Zero original relocation obligations, including a relocated word beginning one byte before entry.",
+        "No calls, interrupts or segment-register writes. Only direct unprefixed DS byte global fields; existing external-overlay-dgroup-offset16-v1 required."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 258961,
+          "image_offset": 3745,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3744,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns DS:4549 byte==4 && unsigned value>=22 && value<=28 && value!=23. Independent caller overlay-12 0xe60 pushes DS:5c0e and branches on AX.",
+        "Static original state/scalar helper context; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
+      "id": "overlay-12:2c3e:1204",
+      "offset": 4612,
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "is_level4_byte_window",
+      "sha256": "1b23e72fccf86b0bd3fb3813d884edc1dd037bc894ccc4d35ea9232c5d945d34",
+      "size": 40,
+      "space": "overlay-12",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

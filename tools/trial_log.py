@@ -45,10 +45,13 @@ def record_trial(work, target_id, label, source, profile, flags, language, repor
     rows = history["trials"]
     code_hash = report.get("emitted_sha256")
     known = set(card.get("known_code_hashes", [])) | {r["emitted_code_sha256"] for r in rows}
-    comparison_key = sha(json.dumps({
+    identity = {
         "code": code_hash, "original": report.get("expected_sha256"),
         "binding": report.get("binding_content_sha256"),
-        "fixups": report.get("fixup_thread_declarations", [])}, sort_keys=True).encode()) if code_hash else None
+        "fixups": report.get("fixup_thread_declarations", [])}
+    if "object_declarations" in report:
+        identity["declarations"] = report["object_declarations"]
+    comparison_key = sha(json.dumps(identity, sort_keys=True).encode()) if code_hash else None
     row = {"trial": label, "profile": profile, "flags": flags, "language": language,
            "candidate_input": source.relative_to(ROOT).as_posix(), "source_sha256": sha(source_bytes),
            "emitted_code_sha256": code_hash, "emitted_size": report.get("emitted_size"),

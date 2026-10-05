@@ -7,6 +7,16 @@ from oracle import Oracle
 from omf import OmfReader
 
 
+class CompiledObjectRejected(ValueError):
+    """Strict refusal carrying only this invocation's fresh diagnostic object."""
+    def __init__(self, reason, result, target, expected, binding):
+        super().__init__(reason)
+        self.result = result
+        self.target = target
+        self.expected = expected
+        self.binding = binding
+
+
 def get_target(identifier, oracle=None):
     oracle = oracle or Oracle.load()
     inventory = read_json(ROOT / "evidence/targets.json")
@@ -125,8 +135,11 @@ def compile_and_check(source, profile, public_name, identifier, workdir, flags=N
     else:
         result = compile_c(Path(source), profile, flags=flags, workdir=Path(workdir))
     require(result.ok, "Historical compilation failed: " + result.log)
-    report = check_object(result.obj.read_bytes(), target, space, expected, public_name,
-                          binding=binding, oracle=oracle)
+    try:
+        report = check_object(result.obj_bytes, target, space, expected, public_name,
+                              binding=binding, oracle=oracle)
+    except ValueError as error:
+        raise CompiledObjectRejected(str(error), result, target, expected, binding) from error
     if language == "asm":
         report["state"] = "ASM_EXACT" if report["exact"] else "CANDIDATE_ASM"
     report["language"] = language

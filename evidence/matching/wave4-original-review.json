@@ -1,0 +1,520 @@
+{
+  "canonical_head": "8fd39a4480556d4fa6949827cc4a150a162ffdfb",
+  "excluded": [
+    {
+      "reason": "Earlier extent-only record-field store, still no independent direct caller; excluded.",
+      "target_id": "overlay-2:2344:6744"
+    },
+    {
+      "reason": "Direct low-five-bit leaf and caller found, but an independent root byte-width DS:30ea witness was not found in bounded scan; not selected.",
+      "target_id": "overlay-5:29cf:061a"
+    },
+    {
+      "reason": "Clean register-AX scalar leaf and direct callers, but register calling convention/source lead less practical than two stack-ABI scalar leaves; not selected.",
+      "target_id": "overlay-10:29cf:1d28"
+    }
+  ],
+  "facts_scope": "Original-only full bytes and extents, instruction starts, branches, exact caller encodings and static paths, ABI observations, and independent root data alias witness. Source/name/classification leads remain hypotheses; no compilation, promotion or ownership.",
+  "frame_review": {
+    "DS_load_witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    },
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "entry_path_instruction_starts": [
+      140968,
+      140973,
+      140978,
+      140981
+    ],
+    "frame_segment": 8707,
+    "original_relocation": [
+      {
+        "image_offset": 140979,
+        "index": 1981,
+        "offset": 1667,
+        "segment": 8707,
+        "stored_word": 8707
+      }
+    ]
+  },
+  "root_witness_reviews": [
+    {
+      "boundary_prefix_hex": "5e5f8be55dcb909a941dcc02803e0e5c007503e9bb00",
+      "bytes_hex": "803e494505",
+      "for_targets": [
+        "overlay-14:2dc2:0164",
+        "overlay-12:2c3e:1204"
+      ],
+      "mnemonic": "cmp",
+      "operands": "byte ptr [0x4549], 5",
+      "path": [
+        7870,
+        7875,
+        7880,
+        7885,
+        7888,
+        7892,
+        7897,
+        7898,
+        7901,
+        7906,
+        7908,
+        7913,
+        7939,
+        7944,
+        7954,
+        7959,
+        7968
+      ],
+      "relative_offset": 17737,
+      "root_entry": 7870,
+      "root_position": 7968,
+      "symbol": "STATE_LEVEL",
+      "width": 1
+    }
+  ],
+  "schema": 1,
+  "supervisor_review": "Rechecked full extent hashes, decoded whole instructions, every recorded caller CFG step/context/path hash, independent startup/data witnesses and fresh complete object/binding proofs. Near-call text labels corrected to distinguish PUSH CS site from following E8 opcode.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "targets": [
+    {
+      "branches": [
+        {
+          "bytes_hex": "7c14",
+          "destination": 13478,
+          "mnemonic": "jl",
+          "position": 13456
+        }
+      ],
+      "callers": [
+        {
+          "call_context_bytes_hex": "fe217d1c8d44e2509ac607cc0204098846ff",
+          "call_context_start": 2868,
+          "caller_entry": 2778,
+          "file_offset": 11068,
+          "image_offset": 2876,
+          "instruction_path": [
+            2778,
+            2779,
+            2781,
+            2784,
+            2785,
+            2790,
+            2793,
+            2796,
+            2798,
+            2802,
+            2805,
+            2810,
+            2813,
+            2837,
+            2840,
+            2867,
+            2870,
+            2872,
+            2875,
+            2876
+          ],
+          "kind": "far_call",
+          "path_bytes_sha256": "02cc401b35db5077648f0cb5c80135ad7b0305d9d852eb1b2f934caf98d68850",
+          "relocated_segment_site": 2879,
+          "relocation_index": 100,
+          "space": "root",
+          "target_alias": "02cc:07c6"
+        }
+      ],
+      "canonical_recipe": "recipes/signed_byte_times10_adjusted.json",
+      "end_exclusive": 13500,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "558bec5756807e06",
+      "image_start": 13446,
+      "instruction_starts": [
+        13446,
+        13447,
+        13449,
+        13452,
+        13456,
+        13458,
+        13461,
+        13463,
+        13465,
+        13467,
+        13469,
+        13471,
+        13473,
+        13474,
+        13477,
+        13478,
+        13481,
+        13483,
+        13485,
+        13487,
+        13489,
+        13491,
+        13493,
+        13495,
+        13496,
+        13499
+      ],
+      "original_bytes_hex": "558bec83ec02807e06007c148a46068bc8d0e0d0e002c1d0e08be55dca0200908a46068bc8d0e0d0e002c1d0e004098be55dca020090",
+      "original_relocation_obligations": [],
+      "original_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
+      "padding_positions": [
+        13477,
+        13499
+      ],
+      "preceding_eight_bytes_hex": "045c13a1045ccb90",
+      "profile_shortlist": [
+        "msc600",
+        "msc510"
+      ],
+      "returns": [
+        {
+          "bytes_hex": "ca0200",
+          "mnemonic": "retf",
+          "operands": "2",
+          "position": 13474
+        },
+        {
+          "bytes_hex": "ca0200",
+          "mnemonic": "retf",
+          "operands": "2",
+          "position": 13496
+        }
+      ],
+      "source_lead": "Natural historical C lead: char result; if (value >= 0) result=value*10; else result=value*10+9; return result; with signed char value and char result. Named char local plausibly accounts for two stack bytes, with inlined return on each branch. Do not add an artificial local/padding if natural source cannot reproduce it.",
+      "target_id": "root:02cc:07c6"
+    },
+    {
+      "branches": [
+        {
+          "bytes_hex": "7f03",
+          "destination": 15840,
+          "mnemonic": "jg",
+          "position": 15835
+        }
+      ],
+      "callers": [
+        {
+          "call_context_bytes_hex": "03e97701ff36c0679a0211cc028846fda1be",
+          "call_context_start": 146,
+          "caller_entry": 132,
+          "file_offset": 231930,
+          "image_offset": 154,
+          "instruction_path": [
+            132,
+            133,
+            135,
+            138,
+            139,
+            140,
+            145,
+            150,
+            154
+          ],
+          "kind": "far_call",
+          "path_bytes_sha256": "316a4e79e41e490693186b8077531245e2df4b6ad7e4058d5f5759409757581d",
+          "relocated_segment_site": 157,
+          "relocation_index": 61,
+          "space": "overlay-9",
+          "target_alias": "02cc:1102"
+        }
+      ],
+      "canonical_recipe": "recipes/signed_div63_adjusted.json",
+      "end_exclusive": 15850,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "558bec83ec02a075",
+      "image_start": 15810,
+      "instruction_starts": [
+        15810,
+        15811,
+        15813,
+        15816,
+        15819,
+        15822,
+        15825,
+        15827,
+        15828,
+        15830,
+        15833,
+        15835,
+        15837,
+        15840,
+        15843,
+        15845,
+        15846,
+        15849
+      ],
+      "original_bytes_hex": "558bec83ec028b5e068d47fdb93f008bd899f7f98846ff0bdb7f03fe4eff8a46ff8be55dca020090",
+      "original_relocation_obligations": [],
+      "original_sha256": "38647a134ad2c843bef87f371260990aafa5a7c43bdc70ec1bd0db48a4ef2bab",
+      "padding_positions": [
+        15849
+      ],
+      "preceding_eight_bytes_hex": "048be55dca020090",
+      "profile_shortlist": [
+        "msc600",
+        "msc510"
+      ],
+      "returns": [
+        {
+          "bytes_hex": "ca0200",
+          "mnemonic": "retf",
+          "operands": "2",
+          "position": 15846
+        }
+      ],
+      "source_lead": "Natural historical C lead: int shifted=value-3; char result=shifted/63; if(shifted<=0) --result; return result; under 16-bit medium-model far Pascal ABI. BX holding shifted and two-byte stack allocation correspond to a real char result local.",
+      "target_id": "root:02cc:1102"
+    },
+    {
+      "branches": [
+        {
+          "bytes_hex": "750c",
+          "destination": 378,
+          "mnemonic": "jne",
+          "position": 364
+        },
+        {
+          "bytes_hex": "7506",
+          "destination": 378,
+          "mnemonic": "jne",
+          "position": 370
+        },
+        {
+          "bytes_hex": "eb11",
+          "destination": 395,
+          "mnemonic": "jmp",
+          "position": 376
+        },
+        {
+          "bytes_hex": "750a",
+          "destination": 395,
+          "mnemonic": "jne",
+          "position": 383
+        },
+        {
+          "bytes_hex": "7504",
+          "destination": 395,
+          "mnemonic": "jne",
+          "position": 389
+        }
+      ],
+      "callers": [
+        {
+          "call_context_bytes_hex": "a00e5c50a0095c500ee815ff8846ff803e01",
+          "call_context_start": 579,
+          "caller_entry": 572,
+          "file_offset": 264364,
+          "image_offset": 588,
+          "instruction_path": [
+            572,
+            573,
+            575,
+            578,
+            579,
+            582,
+            583,
+            586,
+            587
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_sha256": "a71bc0791e7c0e44589efecc8129986ea971c5f7907e17e053b08db36fc5ed6f",
+          "pushed_cs_site": 587,
+          "space": "overlay-14"
+        }
+      ],
+      "canonical_binding": "evidence/bindings/adjust_byte_for_kind.json",
+      "canonical_recipe": "recipes/adjust_byte_for_kind.json",
+      "end_exclusive": 404,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "558bec83ec025756",
+      "image_start": 356,
+      "instruction_starts": [
+        356,
+        357,
+        359,
+        364,
+        366,
+        370,
+        372,
+        376,
+        378,
+        383,
+        385,
+        389,
+        391,
+        395,
+        398,
+        400,
+        401
+      ],
+      "original_bytes_hex": "558bec803e494505750c807e08077506806e060aeb11803e494505750a807e080c75048046060a8a46068be55dca0400",
+      "original_relocation_obligations": [],
+      "original_sha256": "bd2987bb0fe2d970bc1c715b3a516a2de27e2b40c542bf5aa63aa9bde91d7d17",
+      "padding_positions": [],
+      "preceding_eight_bytes_hex": "5e5f8be55dca0400",
+      "profile_shortlist": [
+        "msc600",
+        "msc510"
+      ],
+      "returns": [
+        {
+          "bytes_hex": "ca0400",
+          "mnemonic": "retf",
+          "operands": "4",
+          "position": 401
+        }
+      ],
+      "source_lead": "Natural C lead: extern volatile unsigned char STATE_LEVEL; char far pascal function(char kind, char value) { if(STATE_LEVEL==5 && kind==7) value-=10; else if(STATE_LEVEL==5 && kind==12) value+=10; return value; }. Preserve second volatile state read and parameter mutation. One distinct zero-addend external byte symbol; no calls or segment writes inside target.",
+      "target_id": "overlay-14:2dc2:0164"
+    },
+    {
+      "branches": [
+        {
+          "bytes_hex": "7515",
+          "destination": 4645,
+          "mnemonic": "jne",
+          "position": 4622
+        },
+        {
+          "bytes_hex": "720f",
+          "destination": 4645,
+          "mnemonic": "jb",
+          "position": 4628
+        },
+        {
+          "bytes_hex": "7709",
+          "destination": 4645,
+          "mnemonic": "ja",
+          "position": 4634
+        },
+        {
+          "bytes_hex": "7403",
+          "destination": 4645,
+          "mnemonic": "je",
+          "position": 4640
+        }
+      ],
+      "callers": [
+        {
+          "call_context_bytes_hex": "7513740fa00e5c500ee860030bc07503e9b7",
+          "call_context_start": 3736,
+          "caller_entry": 3680,
+          "file_offset": 258961,
+          "image_offset": 3745,
+          "instruction_path": [
+            3680,
+            3681,
+            3683,
+            3686,
+            3687,
+            3688,
+            3690,
+            3693,
+            3695,
+            3696,
+            3699,
+            3700,
+            3701,
+            3706,
+            3708,
+            3710,
+            3715,
+            3720,
+            3725,
+            3730,
+            3735,
+            3738,
+            3740,
+            3743,
+            3744
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_sha256": "b49d58da3c1892580645665d72a94da255e6b53ca9d99800cddf795ddc4104fd",
+          "pushed_cs_site": 3744,
+          "space": "overlay-12"
+        }
+      ],
+      "canonical_binding": "evidence/bindings/is_level4_byte_window.json",
+      "canonical_recipe": "recipes/is_level4_byte_window.json",
+      "end_exclusive": 4652,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "558bec56a0345e2a",
+      "image_start": 4612,
+      "instruction_starts": [
+        4612,
+        4613,
+        4615,
+        4617,
+        4622,
+        4624,
+        4628,
+        4630,
+        4634,
+        4636,
+        4640,
+        4642,
+        4645,
+        4647,
+        4648,
+        4651
+      ],
+      "original_bytes_hex": "558bec2bd2803e4945047515807e0616720f807e061c7709807e06177403ba01008bc25dca020090",
+      "original_relocation_obligations": [],
+      "original_sha256": "1b23e72fccf86b0bd3fb3813d884edc1dd037bc894ccc4d35ea9232c5d945d34",
+      "padding_positions": [
+        4651
+      ],
+      "preceding_eight_bytes_hex": "9a421dcc025ecb90",
+      "profile_shortlist": [
+        "msc600",
+        "msc510"
+      ],
+      "returns": [
+        {
+          "bytes_hex": "ca0200",
+          "mnemonic": "retf",
+          "operands": "2",
+          "position": 4648
+        }
+      ],
+      "source_lead": "Natural C lead: extern volatile unsigned char STATE_LEVEL; int far pascal function(unsigned char value) { return STATE_LEVEL==4 && value>=22 && value<=28 && value!=23; }. One distinct zero-addend external byte symbol. Preserve observed unsigned range and short-circuit order.",
+      "target_id": "overlay-12:2c3e:1204"
+    }
+  ]
+}
