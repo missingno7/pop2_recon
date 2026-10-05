@@ -1,0 +1,27 @@
+{
+  "archive_offset": 124896,
+  "binding": "evidence/bindings/crt_dos_close.json",
+  "binding_sha256": "1a0aac2768dec284b9383bd8fc7ac4b6fe3e4df3980a25f67bb1c313961fb433",
+  "boundary_evidence": [
+    "Complete independent library CODE SEGDEF of 13 bytes, one public at offset zero and empty DATA.",
+    "Original relocated far-call encoding at root 0x13a8c specifies 1fe6:1b94; the full body ends in E9 at 1b9e, ending at root 0x21a01. Following zero at 0x21a01 is unowned alignment; the next prologue begins at 0x21a02."
+  ],
+  "fixup_count": 1,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:\\tools\\msc-6.00\\LIB\\llibcr.lib",
+  "library_sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+  "member_extent": 174,
+  "member_sha256": "672fa6319aa6357eec3132182114a8e6230b175ff0a46c3a1725adea7a5fb67b",
+  "name": "crt_dos_close",
+  "object_segment": "_TEXT",
+  "offset": 7060,
+  "proof_scope": "Whole pinned member CODE with external near equations to independently anchored library public context; provider context owns zero bytes, final provider/TU/link placement and behavior unproved",
+  "publics": [
+    "__dos_close"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 13,
+  "space": "root",
+  "target_sha256": "2ffa060069b8535daa1e571b66ae66245b96c5db36f6951433341e8c95376a11"
+}

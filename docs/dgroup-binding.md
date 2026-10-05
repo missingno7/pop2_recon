@@ -73,7 +73,8 @@ requires that evidence cone; recipes pin its file hash and validation rechecks
 the original witnesses, declarations, equations, complete extent, source, tool
 and raw object identity. No original translation unit, original object-record
 identity, natural RTLink placement, overlay binding or behavioral proof follows
-from this component match. The near-call CRT candidate in
+from this component match. The earlier near-call CRT diagnostic in
 [runtime-close-binding-candidate.json](../evidence/matching/runtime-close-binding-candidate.json)
-remains diagnostic with zero ownership until its independent symbol and frame
-proof is completed and the runtime gate gains that mode.
+has now led to the independently grounded
+[whole close-member proof](runtime-near-binding.md). The supporting provider
+prefix still owns zero bytes.

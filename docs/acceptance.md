@@ -14,7 +14,9 @@ EXTDEF declarations (including Microsoft CRT markers and a self-public) are
 retained in reports and the exact object hash. A separate narrow
 [external DGROUP gate](dgroup-binding.md) proves offset16 fields using frozen,
 independent original witnesses and explicit linker equations; no bytes are
-masked, patched or normalized. Unsupported fixup modes remain refused.
+masked, patched or normalized. A separate
+[runtime near-code gate](runtime-near-binding.md) supports anchored F0/T6
+self-relative offset16. Unsupported fixup modes remain refused.
 
 Comparisons use the complete emitted segment, never an oracle-sized slice.
 Byte similarity and first-difference offsets are diagnostic. Promotion reruns
@@ -25,10 +27,14 @@ Missing tools and compilation failures never fall back to cached objects.
 
 `tools/runtime.py` separately verifies pinned historical library members. Each
 recipe hashes the independent library archive and entire OMF member, owns the
-full initialized CODE segment, and checks declarations, original bytes and empty
-fixup/relocation obligations. Ten such resident members currently cover 653
-bytes. They are PINNED_RUNTIME, separate from reconstructed C or ASM. Partial
-startup comparisons are diagnostic and contribute no accepted bytes.
+full initialized CODE segment, and checks declarations, original bytes and
+fixup/relocation obligations. Ten relocation-free members cover 653 bytes; the
+13-byte close member additionally verifies an external near equation against
+independent zero-owned provider context. These eleven members cover 666 bytes
+as PINNED_RUNTIME, separate from reconstructed C or ASM. Partial startup/provider
+signatures remain evidence only and contribute no accepted bytes. Runtime
+publication uses `tools/pin_runtime.py` with a reviewed worker submission and
+fresh strict verification; whole members cannot be trimmed to a matching prefix.
 
 CODE_EXACT means the recorded compiler/profile reproduces the complete reviewed
 component code with its proven fixup obligations. It does not establish original

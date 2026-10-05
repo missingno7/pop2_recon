@@ -33,6 +33,15 @@ the object proof. For the narrow external DGROUP offset16 mode, provide
 equation and independent original witness is rechecked, with no byte masking.
 Other fixup-bearing components remain blocked on their symbolic proof.
 
+For whole historical runtime members, submit an independent archive/member pin
+as a worker recipe. Run `python tools/pin_runtime.py build/workers/NAME/recipe.json
+--verify-only` for a fresh check; the integrating writer publishes by removing
+`--verify-only`. The restricted resident F0/T6 near-offset mode uses independently
+anchored provider-public context; see docs/runtime-near-binding.md. Provider
+signatures grant zero ownership. A whole member with secondary storage cannot
+be promoted by selecting its matching prefix. Runtime recipes and any binding
+files are checked freshly by validation.
+
 For reviewed hand-assembly hypotheses, use readable MASM source and select
 `--language asm --profile masm510` for search/promotion. The same whole-segment
 and symbolic-obligation gate applies. No opcode byte blobs, output edits, or

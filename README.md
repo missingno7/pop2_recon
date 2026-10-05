@@ -46,6 +46,7 @@ becomes available.
 The [current reconstruction milestone](docs/reconstruction-progress.md) adds a
 strict MASM path, a complete 51-byte ASM component, and the first
 [independent DGROUP binding proof](docs/dgroup-binding.md). Totals are 46 C bytes,
-51 ASM bytes, and 653 pinned runtime bytes. Three external data fixups are proven;
-original relocation coverage remains 0/4,716. Symbolic call binding and natural
+51 ASM bytes, and 666 pinned runtime bytes. Three external data fixups and the
+first [runtime near-jump equation](docs/runtime-near-binding.md) are proven;
+original relocation coverage remains 0/4,716. Far-call binding and natural
 RTLink placement remain unresolved.

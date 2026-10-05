@@ -36,7 +36,10 @@ def check_manifest(oracle, manifest):
         owned[space.name].update(span)
         if owner["kind"] == "PINNED_RUNTIME":
             from runtime import verify_member
-            verify_member(recipe, oracle)
+            runtime_report = verify_member(recipe, oracle)
+            require(runtime_report["fixups"] == owner.get("fixup_count", 0) and
+                    runtime_report["relocations"] == owner.get("relocation_count", 0),
+                    "Runtime owner obligation counts differ from fresh proof")
             continue
         require(recipe["target_id"] == owner["target_id"], "Recipe target mismatch")
         source = project_path(recipe["source"])
@@ -99,7 +102,7 @@ def validate(run_tests=True):
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
-                         "Only independently grounded external DGROUP offset16 binding is implemented"]}
+                         "Binding modes are external DGROUP offset16 and independently anchored runtime near offset16"]}
     write_json(ROOT / "build/validation/report.json", report)
     return report
 

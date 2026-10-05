@@ -1,0 +1,358 @@
+{
+  "declarations": {
+    "externals": [
+      "__dosreturn"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "__dos_close",
+        "offset": 0,
+        "segment": "_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 13,
+        "name": "_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "entry_call": {
+    "bytes_hex": "9a941be61f",
+    "image_offset": 80524
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "_TEXT",
+      "segment_index": 1,
+      "segment_offset": 11,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "__dosreturn",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "limits": [
+    "Provider public is grounded by archived PUBLIC metadata and independent original signature/path; entire provider CODE/DATA still have unresolved obligations and own zero bytes.",
+    "CS=1fe6 is established by relocated original far calls; 2000:0464 is a window alias, not proof of live CS.",
+    "Only zero raw addends, omitted external displacement and nonwrapping signed near offsets are supported.",
+    "Neither final provider/TU/library ordering/natural RTLink placement nor runtime behavior is recovered."
+  ],
+  "mode": "external-near-offset16-v1",
+  "schema": 1,
+  "space": "root",
+  "symbols": {
+    "__dosreturn": {
+      "incoming_wrapper": {
+        "bytes_hex": "558bec8b56068b4608b43dcd2172058b5e0a8907e921ea",
+        "entry_call": {
+          "bytes_hex": "9acc1be61f",
+          "image_offset": 24314
+        },
+        "interpretation": "One valid conditional error path; no claim every path is taken.",
+        "path": [
+          0,
+          1,
+          3,
+          6,
+          9,
+          11,
+          13,
+          20
+        ]
+      },
+      "name": "__dosreturn",
+      "offset": 1540,
+      "provider": {
+        "archive_offset": 7088,
+        "declarations": {
+          "externals": [
+            "_errno",
+            "__osmajor",
+            "__doserrno"
+          ],
+          "groups": [
+            {
+              "name": "DGROUP",
+              "segments": [
+                2
+              ]
+            }
+          ],
+          "publics": [
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__dosret0",
+              "offset": 0,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            },
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__maperror",
+              "offset": 34,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            },
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__dosretax",
+              "offset": 21,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            },
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__dosreturn",
+              "offset": 8,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            }
+          ],
+          "segments": [
+            {
+              "alignment": 2,
+              "big": false,
+              "class": "CODE",
+              "combine": 2,
+              "frame": null,
+              "frame_offset": null,
+              "length": 85,
+              "name": "_TEXT",
+              "overlay": "",
+              "use32": false
+            },
+            {
+              "alignment": 2,
+              "big": false,
+              "class": "DATA",
+              "combine": 2,
+              "frame": null,
+              "frame_offset": null,
+              "length": 20,
+              "name": "_DATA",
+              "overlay": "",
+              "use32": false
+            }
+          ]
+        },
+        "fixups": [
+          {
+            "displacement": 40,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "segment",
+              "name": "_TEXT"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 12,
+            "self_relative": true,
+            "target": {
+              "index": 1,
+              "kind": "segment",
+              "method": 0,
+              "name": "_TEXT"
+            }
+          },
+          {
+            "displacement": 40,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "segment",
+              "name": "_TEXT"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 24,
+            "self_relative": true,
+            "target": {
+              "index": 1,
+              "kind": "segment",
+              "method": 0,
+              "name": "_TEXT"
+            }
+          },
+          {
+            "displacement": 40,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "segment",
+              "name": "_TEXT"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 37,
+            "self_relative": true,
+            "target": {
+              "index": 1,
+              "kind": "segment",
+              "method": 0,
+              "name": "_TEXT"
+            }
+          },
+          {
+            "displacement": null,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "group",
+              "name": "DGROUP"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 41,
+            "self_relative": false,
+            "target": {
+              "index": 3,
+              "kind": "external",
+              "method": 6,
+              "name": "__doserrno",
+              "zero_displacement": true
+            }
+          },
+          {
+            "displacement": null,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "group",
+              "name": "DGROUP"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 49,
+            "self_relative": false,
+            "target": {
+              "index": 2,
+              "kind": "external",
+              "method": 6,
+              "name": "__osmajor",
+              "zero_displacement": true
+            }
+          },
+          {
+            "displacement": null,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "group",
+              "name": "DGROUP"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 73,
+            "self_relative": false,
+            "target": {
+              "index": 2,
+              "kind": "segment",
+              "method": 4,
+              "name": "_DATA",
+              "zero_displacement": true
+            }
+          },
+          {
+            "displacement": null,
+            "field_width": 2,
+            "frame": {
+              "index": 1,
+              "kind": "group",
+              "name": "DGROUP"
+            },
+            "kind": "fixup",
+            "loc_type": 1,
+            "segment": "_TEXT",
+            "segment_index": 1,
+            "segment_offset": 78,
+            "self_relative": false,
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "_errno",
+              "zero_displacement": true
+            }
+          }
+        ],
+        "library_path": "C:\\tools\\msc-6.00\\LIB\\llibcr.lib",
+        "library_sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+        "member_extent": 366,
+        "member_sha256": "cd1526b0f6398bdd10acd3b86252bab5984992706f0980e17c50f36a689c5a17",
+        "module_offset": 1532,
+        "object_segment": "_TEXT",
+        "prefix_sha256": "6184fcafe003bc6d7ad2e0a39a9811c0b3d1db22256a13ba2eac70b5e182dd9b",
+        "prefix_size": 40
+      },
+      "segment": 8166
+    }
+  },
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

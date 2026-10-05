@@ -1,10 +1,29 @@
-# Reconstruction continuation — 2026-10-04
+# Reconstruction continuation — 2026-10-05
 
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
 Release identity is still unconfirmed. Root/overlay structure, all 62 asset
 identities, and the 4,716 relocation records remain unchanged. The
 [bootstrap report](bootstrap-status.md) is the earlier milestone snapshot.
+
+## First pinned runtime near jump
+
+The complete 13-byte `dos\d_close.asm` archive member now owns
+`root:1fe6:1b94` as PINNED_RUNTIME. Its only FIXUPP is an external F0/T6
+self-relative offset16 jump. Eleven bytes match literally; the two-byte E9
+field equals the independently derived signed displacement -5533. The
+[near-code proof](runtime-near-binding.md) anchors the public independently
+with an unrelated far-called wrapper's conditional path and a unique 40-byte
+signature of `dos\dosret.asm`, including three local near-call equations.
+That provider signature owns zero bytes; its data and other obligations remain
+unresolved. The frame is the `1fe6` destination encoded by original far-call
+references, qualified by unproved caller reachability/runtime execution.
+
+An independent MASM probe emits exactly F0/T6 with zero raw addend and omitted
+displacement; MS LINK 3.65 and RTLink Plus 6.10 produce the same backward-jump
+field and empty relocation tables. `tools/pin_runtime.py` provides controlled
+fresh verification/publication, and tests cover ambiguity, CS aliases, signature
+fields, conditional path edges, raw versus explicit addends and overlap rollback.
 
 ## First fixup-bearing C component
 
@@ -26,10 +45,9 @@ Independent synthetic links with MS LINK 3.65 and RTLink Plus 6.10 confirm
 data-offset, near-relative and far-pointer equations. A dedicated MSC 6.00
 F5/T6 probe verifies the precise zero-addend/omitted-displacement mode used by
 this helper. The paragraph frame is distinct from a map's first initialized
-group byte. Only the external DGROUP mode is enabled for acceptance; the other
-linker observations remain diagnostic. A complete 13-byte `__dos_close` library
-member is a promising next near-call target, with unresolved independent target
-symbol/frame proof and zero ownership.
+group byte. Source acceptance supports the external DGROUP mode; the near-relative
+observations supported the runtime gate above. Far-call
+binding remains unimplemented; the runtime provider itself still has zero ownership.
 
 ## First accepted ASM component
 
@@ -71,8 +89,8 @@ records and resolves thread, frame and target identities for inspection. Actual
 MSC 5.10/6.00 near-call, far-call and initialized-global probes verify field widths,
 LEDATA-based offsets, self-relative calls, external symbols and DGROUP frames.
 Undefined threads/indexes, unsupported methods and out-of-bounds fields fail.
-The resolver does not apply relocations. The separate narrow binding gate above
-is the only supported fixup-bearing acceptance mode.
+The resolver does not apply relocations. The separate DGROUP and runtime near-code gates above implement the supported
+fixup-bearing acceptance modes.
 
 Discovery now normalizes external `o2` names to Oracle `overlay-2`. A bounded
 CFG pass links relocated calls missed by the linear sweep, probing only explicit
@@ -95,27 +113,29 @@ historical flag family is inferred from these experiments.
 | --- | ---: |
 | Matching C | 46 |
 | Matching ASM | 51 |
-| Pinned runtime | 653 |
+| Pinned runtime | 666 |
 | External drivers | 0 |
 | Unresolved identified game helper | 46 |
-| Unknown/unclassified payload | 270,592 |
+| Unknown/unclassified payload | 270,579 |
 
-There are three accepted functions and ten pinned runtime components. All accepted
+There are three accepted functions and eleven pinned runtime components. All accepted
 bytes remain resident. The identified game subtotal is 92 bytes, including the
 medium-confidence 46-byte swap hypothesis; 46 of those bytes are accepted.
 No overlay has accepted ownership, and generated relocation coverage remains
-0/4,716. Three candidate offset fixups are proven and generate no MZ relocations;
+0/4,716. Three source data-offset fixups and one runtime near fixup are proven and
+generate no MZ relocations;
 these counts are reported separately. Natural RTLink linkage and original runtime
 traces remain unresolved.
 
 The next highest-leverage work is extending independently grounded binding to
-near/far calls, beginning with the library close/return pair, then expanding the
-small data-helper family. The swap needs a new source/TU or compiler-generation lead:
+far calls and additional symbols/providers, then expanding the small data-helper
+family. The new near mode can be reused for related whole CRT members.
+The swap needs a new source/TU or compiler-generation lead:
 the documented aggregate and scalar families do not explain its CX/stack split.
 RTLink version, TU grouping and runtime-derived descriptor location remain
 separate structural investigations.
 
-Final `python tools/validate.py` passes all 85 invariant tests, freshly compiles
-both C functions, freshly assembles the ASM function, verifies all ten independent
+Final `python tools/validate.py` passes all 104 invariant tests, freshly compiles
+both C functions, freshly assembles the ASM function, verifies all eleven independent
 runtime members, and rechecks every original asset/structure and tool pin.
 Source, object, byte extent, relocation and ownership checks all pass.

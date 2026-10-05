@@ -1,0 +1,54 @@
+{
+  "boundary_status": "Complete CODE SEGDEF of 13 bytes, sole public at zero, empty secondary DATA, original far-call encoding at 0x13a8c; E9 tail ends at 0x21a01. Unowned alignment zero at 0x21a01 and next prologue at 0x21a02.",
+  "call_site_correction": {
+    "call_bytes_hex": "9a941be61f",
+    "call_instruction_image_offset": "0x13a8c",
+    "far_entry": "1fe6:1b94",
+    "incoming_relocation_index": 1438,
+    "near_tail_jump_actual_csip": "1fe6:1b9e",
+    "near_tail_jump_bytes_hex": "e963ea",
+    "pointer_word_image_offset": "0x13a8f",
+    "target_actual_ip": "0x0604"
+  },
+  "earlier_packet_note": "runtime-close-binding-candidate.json is a historical diagnostic; its one_explicit_call_site root_position/file_offset originally refer to the segment relocation word. Opcode position 0x13a8c and relocation position 0x13a8f are corrected here and rechecked by the binding gate.",
+  "grounding": [
+    {
+      "offset": 1540,
+      "provider_context_bytes": 40,
+      "provider_member_sha256": "cd1526b0f6398bdd10acd3b86252bab5984992706f0980e17c50f36a689c5a17",
+      "provider_owned_bytes": 0,
+      "segment": 8166,
+      "symbol": "__dosreturn"
+    }
+  ],
+  "independent_cs_evidence": {
+    "actual_frame_linear": "0x1fe60 + 0x0604 = 0x20464",
+    "actual_runtime_csip": "1fe6:0604",
+    "explanation": "Far-call encodings specify segment 1fe6, which the MZ loader relocates; if executed, they establish that CS frame. The wrappers have a checked static near-JMP path preserving CS. Caller instruction boundaries and execution remain unproved. 2000:0464 is an alternate linear window alias.",
+    "linear_image_position": "0x20464",
+    "window_alias_csip": "2000:0464",
+    "window_alias_linear": "0x20000 + 0x0464 = 0x20464"
+  },
+  "proof_scope": "Whole pinned member CODE with external near equations to independently anchored library public context; provider context owns zero bytes, final provider/TU/link placement and behavior unproved",
+  "provider_member_sha256": "cd1526b0f6398bdd10acd3b86252bab5984992706f0980e17c50f36a689c5a17",
+  "provider_prefix_sha256": "6184fcafe003bc6d7ad2e0a39a9811c0b3d1db22256a13ba2eac70b5e182dd9b",
+  "provider_public_offset": 8,
+  "schema": 1,
+  "scope": "Whole 13-byte member CODE proof; provider prefix context has zero ownership. No final linker or behavior claim.",
+  "target_id": "root:1fe6:1b94",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "verified_near_equations": [
+    {
+      "encoded_addend": 0,
+      "equal": true,
+      "explicit_displacement": null,
+      "frame": 8166,
+      "linked_displacement": -5533,
+      "next_ip": 7073,
+      "offset": 11,
+      "original_displacement": -5533,
+      "symbol": "__dosreturn",
+      "target_offset": 1540
+    }
+  ]
+}

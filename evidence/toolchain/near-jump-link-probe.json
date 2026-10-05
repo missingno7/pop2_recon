@@ -1,0 +1,255 @@
+{
+  "expected_equation": "P=target(0x12)-(field_address(0x1F)+2)=0x12-0x21=-15=0xFFF1; encoded target address resolves back to _HELPER at 0x12. MZ relocation table is empty because the field is self-relative.",
+  "link_order": [
+    "PREFIX.OBJ",
+    "PROVIDER.OBJ",
+    "CONSUMER.OBJ"
+  ],
+  "links": {
+    "mslink510": {
+      "argv": [
+        "C:/tools/nmlgcdos/msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:/tools/msc-5.10/LINK.EXE",
+        "@LINK.LNK"
+      ],
+      "branch": {
+        "field_offset": 31,
+        "next_ip": 33,
+        "opcode": "e9f1ff",
+        "opcode_offset": 30,
+        "resolved_target": 18,
+        "signed_displacement": -15
+      },
+      "load_image_hex": "90909090909090909090909090909090c300c30090909090909090909090e9f1ffc3",
+      "load_image_length": 34,
+      "log": "\nMicrosoft (R) Overlay Linker  Version 3.65   \nCopyright (C) Microsoft Corp 1983-1988.  All rights reserved.\n\nObject Modules [.OBJ]: PREFIX.OBJ+PROVIDER.OBJ+CONSUMER.OBJ,MSNEAR.EXE,MSNEAR.MAP,;\nLINK : warning L4021: no stack segment\n",
+      "log_path": "links/mslink510/link.log",
+      "map_path": "links/mslink510/MSNEAR.MAP",
+      "map_text": "LINK : warning L4021: no stack segment\n\n Start  Stop   Length Name                   Class\n 00000H 00021H 00022H _TEXT                  CODE\n",
+      "mz_relocations": [],
+      "output_path": "links/mslink510/MSNEAR.EXE",
+      "output_sha256": "c21cea24c765eb93cb74c2263ccc71bfeca0345869cedd17725c29b7e922586c",
+      "output_size": 546,
+      "response_file": "links/mslink510/LINK.LNK",
+      "response_text": "PREFIX.OBJ+PROVIDER.OBJ+CONSUMER.OBJ,MSNEAR.EXE,MSNEAR.MAP,;\n",
+      "return_code": 0
+    },
+    "rtlink610": {
+      "argv": [
+        "C:/tools/nmlgcdos/msdos.exe",
+        "-e",
+        "C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE",
+        "@PROBE.ARF"
+      ],
+      "branch": {
+        "field_offset": 31,
+        "next_ip": 33,
+        "opcode": "e9f1ff",
+        "opcode_offset": 30,
+        "resolved_target": 18,
+        "signed_displacement": -15
+      },
+      "load_image_hex": "90909090909090909090909090909090c300c30090909090909090909090e9f1ffc3",
+      "load_image_length": 34,
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\n                    Serial Number: 836-103-6260\n\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\nMicrosoft Corporation.\n\n=> SYNTAX FREEFORMAT\n=> VERBOSE\n=> OUTPUT RTNEAR\n=> MAP\n=> FILE PREFIX,PROVIDER,CONSUMER\n=> \n**** LOAD OBJECT CODE ****\nPREFIX.OBJ(UNIT.ASM)\nPROVIDER.OBJ(UNIT.ASM)\nCONSUMER.OBJ(UNIT.ASM)\n**** LIBRARY SEARCH ****\n**** ASSIGN ADDRESSES ****\nwarning wrt0094: No start address was encountered -- using 0:0 as the\n  default start address.\nwarning wrt0005: No program stack segment was encountered.\n**** WRITING EXECUTABLE ****\n**** PRINT MAP ****\n\n____________________________________________________________________________\n\nMEMORY LAYOUT SUMMARY for: RTNEAR.EXE\n\n  Load Size:\t\t\t\t\t\t0.K\t+3H Para\n\nNOTE: Your program may have additional memory requirements depending on the\n  memory usage characteristics of your compiler. See your compiler\n  documentation for specifics.\n____________________________________________________________________________\n\n2 warning message(s)\n",
+      "log_path": "links/rtlink610/link.log",
+      "map_path": "links/rtlink610/RTNEAR.MAP",
+      "map_text": "\n Start  Stop   Length Name                   Class               Group\n 00000H 00021H 00022H _TEXT                  CODE\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    RTNEAR.EXE     00200H 00000H 00022H    0H\n\n Origin   Group\n\n  Address         Publics by Name\n\n 0000:0000       $$MAIN\n 0000:001E       _CONSUMER\n 0000:0012       _HELPER\n 0000:0000       _PREFIX\n\n  Address         Publics by Value\n\n 0000:0000       $$MAIN\n 0000:0000       _PREFIX\n 0000:0012       _HELPER\n 0000:001E       _CONSUMER\n",
+      "mz_relocations": [],
+      "output_path": "links/rtlink610/RTNEAR.EXE",
+      "output_sha256": "802ad6c7617c2cfec77ebf7ef4c4752371078b86a80dfd802d663e7135defd69",
+      "output_size": 546,
+      "response_file": "links/rtlink610/PROBE.ARF",
+      "response_text": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT RTNEAR\nMAP\nFILE PREFIX,PROVIDER,CONSUMER\n",
+      "return_code": 2
+    }
+  },
+  "omf_shape": {
+    "consumer_segment": "_TEXT",
+    "encoded_target_displacement": null,
+    "field_width": 2,
+    "fixupp_ledata_record_base": 10,
+    "frame": {
+      "index": 1,
+      "kind": "segment",
+      "name": "_TEXT"
+    },
+    "frame_method": 0,
+    "loc_type": 1,
+    "normalized_note": "MASM emits the JMP instruction in LEDATA beginning at segment offset 0x0A, so record-local LOCAT is 1; adding its LEDATA base gives segment-relative 0x0B and normalized runtime shape 84 0B 06 01 01.",
+    "normalized_segment_location_raw_form": "840b060101",
+    "raw_field_before_link": "0000",
+    "raw_fixupp_body": "8401060101",
+    "segment_relative_fixup_offset": 11,
+    "self_relative": true,
+    "target": {
+      "index": 1,
+      "kind": "external",
+      "name": "_HELPER"
+    },
+    "target_method_effective": 6
+  },
+  "purpose": "Independent synthetic proof of the runtime near external jump relocation shape, its link-time equation, and absence of loader relocation. No original bytes used.",
+  "sources_and_objects": {
+    "consumer_final": {
+      "TEXT_hex": "90909090909090909090e90000c3",
+      "externals": [
+        "_HELPER"
+      ],
+      "fixups": [
+        {
+          "anchor_known": true,
+          "data_length": 4,
+          "data_offset": 10,
+          "decoded": [
+            {
+              "displacement": null,
+              "effective_target_method": 6,
+              "frame_index": 1,
+              "frame_method": 0,
+              "frame_thread": false,
+              "kind": "fixup",
+              "loc_type": 1,
+              "location": 1,
+              "self_relative": true,
+              "target_has_displacement": false,
+              "target_index": 1,
+              "target_method": 2,
+              "target_thread": false,
+              "target_thread_index": null
+            }
+          ],
+          "iterated": false,
+          "record_hex": "8401060101",
+          "resolved": [
+            {
+              "displacement": null,
+              "field_width": 2,
+              "frame": {
+                "index": 1,
+                "kind": "segment",
+                "name": "_TEXT"
+              },
+              "kind": "fixup",
+              "loc_type": 1,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "segment_offset": 11,
+              "self_relative": true,
+              "target": {
+                "index": 1,
+                "kind": "external",
+                "method": 6,
+                "name": "_HELPER",
+                "zero_displacement": true
+              }
+            }
+          ],
+          "segment_index": 1
+        }
+      ],
+      "object_path": "objects/consumer_final/UNIT.OBJ",
+      "object_sha256": "4b2fa5097d7847663fa3a0aa9b36a0b866a11c472ba08a8a300c25ed73a18003",
+      "publics": [
+        {
+          "frame": null,
+          "group_index": 0,
+          "name": "_CONSUMER",
+          "offset": 10,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        }
+      ],
+      "segment_lengths": {
+        "_TEXT": 14
+      },
+      "source_path": "source/CONSUMER.ASM",
+      "source_sha256": "0154da516fb79b37a64da8c857384a1374f8fe76da76c9b19eb77e7a4497f02a"
+    },
+    "prefix": {
+      "TEXT_hex": "90909090909090909090909090909090c3",
+      "externals": [],
+      "fixups": [],
+      "object_path": "objects/prefix/UNIT.OBJ",
+      "object_sha256": "dbfc3349cfa77432293bb0f665c11b3034ef8e8f7d3d4dd867d4a32fc249851f",
+      "publics": [
+        {
+          "frame": null,
+          "group_index": 0,
+          "name": "_PREFIX",
+          "offset": 0,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        }
+      ],
+      "segment_lengths": {
+        "_TEXT": 17
+      },
+      "source_path": "source/PREFIX.ASM",
+      "source_sha256": "63fb214dabb7b6a0d959a5135162da9df099f96492cb25c9184e94b98dcc2dcf"
+    },
+    "provider": {
+      "TEXT_hex": "c3",
+      "externals": [],
+      "fixups": [],
+      "object_path": "objects/provider/UNIT.OBJ",
+      "object_sha256": "65fd2024b7487a09dc98ba9e417b4aa9ab1563450205309c84a3c7c00d120818",
+      "publics": [
+        {
+          "frame": null,
+          "group_index": 0,
+          "name": "_HELPER",
+          "offset": 0,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        }
+      ],
+      "segment_lengths": {
+        "_TEXT": 1
+      },
+      "source_path": "source/PROVIDER.ASM",
+      "source_sha256": "d51bc418169a66ba66d7d23bfc8cf69bedf714ba85fa37ca1a17c704620ec699"
+    }
+  },
+  "tools": {
+    "masm510": {
+      "allowed_flags": [],
+      "directory": "C:\\tools\\masm-5.10\\files",
+      "executable": "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+      "files": [
+        {
+          "path": "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+          "sha256": "233120302473749eafe9a54a30f8bda0127140c44346e5bcc047d113828a741e"
+        }
+      ],
+      "flags": [],
+      "label": "Microsoft Macro Assembler 5.10",
+      "provenance_note": "Pre-existing installed MASM5.10 also used by the independent RTLink probe; exact original assembler revision is unknown."
+    },
+    "mslink510": {
+      "path": "C:/tools/msc-5.10/LINK.EXE",
+      "sha256": "124a3c800edc16b60f696d35a9dfec798b68b78fe2ca90c5988ea76bdeab1a8a",
+      "version": "Microsoft Overlay Linker 3.65"
+    },
+    "rtlink610": {
+      "path": "C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE",
+      "sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "version": "RTLink Plus 6.10"
+    },
+    "runner": {
+      "name": "MS-DOS Player",
+      "options": [
+        "-e",
+        "-v5.00"
+      ],
+      "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+      "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+    }
+  }
+}
