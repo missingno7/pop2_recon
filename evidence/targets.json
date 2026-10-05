@@ -436,6 +436,186 @@
       "size": 22,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned near data pointer at BP+6; RETF 2; no established result",
+      "boundary_evidence": [
+        "Preceding routine terminates with POP BP; RETF at 0x8fa..0x8fb. Entry 0x8fc has a separate BP frame.",
+        "Both exits RETF 2 at 0x90d and 0x914. JNE targets 0x910. Original NOP at 0x917 aligns the next separate BP frame at 0x918. Complete interval [0x8fc,0x918), 28 bytes.",
+        "Original PUSH CS at 0x79f; E8 at 0x7a0 has decoded relative destination 0x8fc; caller CFG from 0x71a reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Original PUSH CS at 0x828; E8 at 0x829 has decoded relative destination 0x8fc; caller CFG from 0x7dc reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Every original instruction and branch destination was decoded; no original relocation word intersects this complete extent. No instruction references an external data symbol or direct absolute data field.",
+        "Concise durable original witnesses are recorded in evidence/matching/overlay-leaf-review.json; full exploratory CFG/context output stays ignored in the review worker directory."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 242368,
+          "image_offset": 1952,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1951,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 242505,
+          "image_offset": 2089,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2088,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Near-record byte at offset 1 advances by one except 3 wraps to 0. Record byte signedness and gameplay role remain unknown.",
+        "Caller static context accesses state/record data and consumes or relies on the helper result; no historical archive provenance has been established."
+      ],
+      "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
+      "id": "overlay-10:29cf:08fc",
+      "offset": 2300,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "increment_record_index",
+      "sha256": "c4dd947c5e1d9cdf0fb676095fefc56a7a597f7b610cd8738224bc5d4cf3ce43",
+      "size": 28,
+      "space": "overlay-10",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned one word stack slot; only low byte read at BP+6; word result AX; RETF 2",
+      "boundary_evidence": [
+        "Previous independent path ends POP SI; MOV SP,BP; POP BP; RETF at 0x3f0, followed by original NOP 0x3f1. Separate BP frame starts 0x3f2.",
+        "Unsigned JB from 0x3fe and JA from 0x403 target the zero-result exit 0x40c. RETF 2 exits at 0x409 and 0x40f. Next separate BP frame is 0x412. Complete interval [0x3f2,0x412), 32 bytes.",
+        "Original PUSH CS at 0x3a5; E8 at 0x3a6 has decoded relative destination 0x3f2; caller CFG from 0x380 reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Original PUSH CS at 0x3ca; E8 at 0x3cb has decoded relative destination 0x3f2; caller CFG from 0x380 reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Every original instruction and branch destination was decoded; no original relocation word intersects this complete extent. No instruction references an external data symbol or direct absolute data field.",
+        "Concise durable original witnesses are recorded in evidence/matching/overlay-leaf-review.json; full exploratory CFG/context output stays ignored in the review worker directory."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 224630,
+          "image_offset": 934,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 933,
+          "space": "overlay-7"
+        },
+        {
+          "file_offset": 224667,
+          "image_offset": 971,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 970,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns 1 when the low five bits of the input byte are in unsigned range 3..15, otherwise 0. Caller uses result to select state-related flow; specific gameplay meaning unknown.",
+        "Caller static context accesses state/record data and consumes or relies on the helper result; no historical archive provenance has been established."
+      ],
+      "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
+      "id": "overlay-7:29cf:03f2",
+      "offset": 1010,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "is_low5_range",
+      "sha256": "fcb8853dfda142d2201f510b28698bb5f467d4569935ca75f4d9bb769a8a6d64",
+      "size": 32,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned two word-sized argument slots; low bytes read at BP+8 and BP+6; byte result AL; RETF 4",
+      "boundary_evidence": [
+        "Previous BP-framed procedure ends RETF 2 at 0x7ca..0x7cc, followed by original NOP 0x7cd; separate BP frame begins 0x7ce.",
+        "All conditional and unconditional edges stay within 0x7ce..0x813 and join stack-byte result load at 0x80b. RETF 4 at 0x811 terminates the body; next separate BP frame is 0x814. Complete interval [0x7ce,0x814), 70 bytes.",
+        "Original PUSH CS at 0x683; E8 at 0x684 has decoded relative destination 0x7ce; caller CFG from 0x63e reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Original PUSH CS at 0x719; E8 at 0x71a has decoded relative destination 0x7ce; caller CFG from 0x6f6 reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Every original instruction and branch destination was decoded; no original relocation word intersects this complete extent. No instruction references an external data symbol or direct absolute data field.",
+        "Concise durable original witnesses are recorded in evidence/matching/overlay-leaf-review.json; full exploratory CFG/context output stays ignored in the review worker directory."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 210532,
+          "image_offset": 1668,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1667,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 210682,
+          "image_offset": 1818,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1817,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns 0 by default; for first input 0x13 returns second==5 ? 0x27 : 0x2f; for first==0x10 returns second==1 ? 0x30 : second==4 ? 0x3d : 0x45. Byte signedness and code meanings remain unknown.",
+        "Caller static context accesses state/record data and consumes or relies on the helper result; no historical archive provenance has been established."
+      ],
+      "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
+      "id": "overlay-4:29cf:07ce",
+      "offset": 1998,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "select_pair_code",
+      "sha256": "a27c87b46f50947177cc9a6282985ed6f7ffdbc59c88db9cd67927d3147d0f03",
+      "size": 70,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned two signed word arguments BP+8 and BP+6; word result AX; DI preserved; RETF 4",
+      "boundary_evidence": [
+        "Previous independent procedure ends POP SI; RETF at 0x1166..0x1167. Separate BP frame starts 0x1168.",
+        "JL edges at 0x1185 and 0x118c target zero-result block 0x1194; JMP at 0x1191 joins 0x1196. RETF 4 at 0x119c ends the body, original NOP 0x119f precedes separate BP frame 0x11a0. Complete interval [0x1168,0x11a0), 56 bytes.",
+        "Original PUSH CS at 0x7af; E8 at 0x7b0 has decoded relative destination 0x1168; caller CFG from 0x6d4 reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Original PUSH CS at 0x7d3; E8 at 0x7d4 has decoded relative destination 0x1168; caller CFG from 0x6d4 reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Original PUSH CS at 0x932; E8 at 0x933 has decoded relative destination 0x1168; caller CFG from 0x904 reaches this exact call. The stack push context and return cleanup support the stated ABI.",
+        "Every original instruction and branch destination was decoded; no original relocation word intersects this complete extent. No instruction references an external data symbol or direct absolute data field.",
+        "Concise durable original witnesses are recorded in evidence/matching/overlay-leaf-review.json; full exploratory CFG/context output stays ignored in the review worker directory."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250688,
+          "image_offset": 1968,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1967,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 250724,
+          "image_offset": 2004,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2003,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251075,
+          "image_offset": 2355,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2354,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Signed IDIV computes remainder of (first-144)/32; returns 1 if remainder lies in inclusive [16-second,16+second], otherwise 0. Specific coordinate/grid role unknown; arithmetic is 16-bit original behavior.",
+        "Caller static context accesses state/record data and consumes or relies on the helper result; no historical archive provenance has been established."
+      ],
+      "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
+      "id": "overlay-11:2c3e:1168",
+      "offset": 4456,
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "in_remainder_window",
+      "sha256": "8024c02722dce01ebfb51cb83b13515be8de52c8daece35fa6d9c3eaa45182b1",
+      "size": 56,
+      "space": "overlay-11",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

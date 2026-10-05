@@ -121,6 +121,8 @@ class MatchAcceptanceTests(unittest.TestCase):
         self.assertEqual(report["expected_size"], 1)
         self.assertEqual(report["emitted_size"], 2)
         self.assertEqual(report["first_difference"], 1)
+        self.assertEqual(report["mismatch_count"], 1)
+        self.assertEqual(report["mismatch_basis"], "whole-extent byte differences")
 
     def test_unused_external_and_thread_declaration_do_not_hide_fixup(self):
         # A relocation-free component can contain compiler scaffolding; an

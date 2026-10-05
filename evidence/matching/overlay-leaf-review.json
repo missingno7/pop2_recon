@@ -1,0 +1,162 @@
+{
+  "oracle_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "schema": 1,
+  "scope": "Independent original instruction/boundary/ABI review, then integrating root audit. Caller CFG paths are static; original names, runtime execution and original translation units remain unproved.",
+  "status": "REVIEWED_NO_OWNERSHIP",
+  "targets": [
+    {
+      "after_bytes_hex": "558bec8b5e06807f01007408fe4f015d",
+      "before_bytes_hex": "807efe0e7c0ceb07803e0a5c027503b901008bc18be55dcb",
+      "near_call_witnesses": [
+        {
+          "bytes_hex": "0ee85901",
+          "caller_entries_reaching_site": [
+            1818
+          ],
+          "context_bytes_hex": "560ee85901eb0690560ee86d010b",
+          "context_start": 1950,
+          "file_offset": 242368,
+          "image_offset": 1952
+        },
+        {
+          "bytes_hex": "0ee8d000",
+          "caller_entries_reaching_site": [
+            2012
+          ],
+          "context_bytes_hex": "560ee8d0008a4401384402740556",
+          "context_start": 2087,
+          "file_offset": 242505,
+          "image_offset": 2089
+        }
+      ],
+      "original_bytes_hex": "558bec8b5e06807f01037508c64701005dca0200fe47015dca020090",
+      "original_sha256": "c4dd947c5e1d9cdf0fb676095fefc56a7a597f7b610cd8738224bc5d4cf3ce43",
+      "profile_shortlist": [
+        "msc600 /AM /Oe /Gs /Zl /Gc",
+        "msc600 /AM /O /Gs /Zl /Gc",
+        "msc510 /AM /O /Gs /Zl /Gc"
+      ],
+      "source_hypothesis": "void far pascal increment_record_index(char near *p) { if (p[1] == 3) p[1] = 0; else ++p[1]; }",
+      "supported_fixup_mode": "relocation-free",
+      "target_id": "overlay-10:29cf:08fc"
+    },
+    {
+      "after_bytes_hex": "558bec803e70620c751f8a460850a075",
+      "before_bytes_hex": "8b87860d0509003b0684627c03be01008bc65e8be55dcb90",
+      "near_call_witnesses": [
+        {
+          "bytes_hex": "0ee84900",
+          "caller_entries_reaching_site": [
+            896
+          ],
+          "context_bytes_hex": "ff3671620ee849000bc0753a807eff0d75",
+          "context_start": 929,
+          "file_offset": 224630,
+          "image_offset": 934
+        },
+        {
+          "bytes_hex": "0ee82400",
+          "caller_entries_reaching_site": [
+            896
+          ],
+          "context_bytes_hex": "ff3671620ee824000bc07418a0095c988b",
+          "context_start": 966,
+          "file_offset": 224667,
+          "image_offset": 971
+        }
+      ],
+      "original_bytes_hex": "558bec8a560683e21f83fa03720c83fa0f7707b801005dca02002bc05dca0200",
+      "original_sha256": "fcb8853dfda142d2201f510b28698bb5f467d4569935ca75f4d9bb769a8a6d64",
+      "profile_shortlist": [
+        "msc600 /AM /Oe /Gs /Zl /Gc",
+        "msc600 /AM /O /Gs /Zl /Gc",
+        "msc510 /AM /O /Gs /Zl /Gc"
+      ],
+      "source_hypothesis": "int far pascal is_low5_range(unsigned char value) { value &= 31; return value >= 3 && value <= 15; }",
+      "supported_fixup_mode": "relocation-free",
+      "target_id": "overlay-7:29cf:03f2"
+    },
+    {
+      "after_bytes_hex": "558bec83ec0a56ff06485e813e485eb0",
+      "before_bytes_hex": "509a845201110bc07403be01008bc65e5f8be55dca020090",
+      "near_call_witnesses": [
+        {
+          "bytes_hex": "0ee84701",
+          "caller_entries_reaching_site": [
+            1598
+          ],
+          "context_bytes_hex": "8d46f6500ee888fca0cf6750a0ce67b10a98f6f98ac4500ee847018846ff0ac07463803e",
+          "context_start": 1644,
+          "file_offset": 210532,
+          "image_offset": 1668
+        },
+        {
+          "bytes_hex": "0ee8b100",
+          "caller_entries_reaching_site": [
+            1782
+          ],
+          "context_bytes_hex": "a0345e508a4401500ee8b1008846ff0ac074538b44",
+          "context_start": 1809,
+          "file_offset": 210682,
+          "image_offset": 1818
+        }
+      ],
+      "original_bytes_hex": "558bec83ec02c646ff00807e0813750e807e06057504b027eb20b02feb1c807e08107519807e06017504b030eb0c807e06047504b03deb02b0458846ff8a46ff8be55dca0400",
+      "original_sha256": "a27c87b46f50947177cc9a6282985ed6f7ffdbc59c88db9cd67927d3147d0f03",
+      "profile_shortlist": [
+        "msc600 /AM /Oe /Gs /Zl /Gc",
+        "msc600 /AM /O /Gs /Zl /Gc",
+        "msc510 /AM /O /Gs /Zl /Gc"
+      ],
+      "source_hypothesis": "char far pascal select_pair_code(char first, char second) { char result = 0; if (first == 19) result = second == 5 ? 39 : 47; else if (first == 16) result = second == 1 ? 48 : second == 4 ? 61 : 69; return result; }",
+      "supported_fixup_mode": "relocation-free",
+      "target_id": "overlay-4:29cf:07ce"
+    },
+    {
+      "after_bytes_hex": "558bec578b7e068b5e088d47fdb93f00",
+      "before_bytes_hex": "045c7d0eba01008bc25ecb903936045c7ff22bd28bc25ecb",
+      "near_call_witnesses": [
+        {
+          "bytes_hex": "0ee8b509",
+          "caller_entries_reaching_site": [
+            1748
+          ],
+          "context_bytes_hex": "ff36025cb80800500ee8b5090bc0743fa00e5c50a0",
+          "context_start": 1959,
+          "file_offset": 250688,
+          "image_offset": 1968
+        },
+        {
+          "bytes_hex": "0ee89109",
+          "caller_entries_reaching_site": [
+            1748
+          ],
+          "context_bytes_hex": "ff36025cb80800500ee891090bc0741ba00e5c50a0",
+          "context_start": 1995,
+          "file_offset": 250724,
+          "image_offset": 2004
+        },
+        {
+          "bytes_hex": "0ee83208",
+          "caller_entries_reaching_site": [
+            2308
+          ],
+          "context_bytes_hex": "ff36025cb80200500ee832080bc07503e9dd00a00a",
+          "context_start": 2346,
+          "file_offset": 251075,
+          "image_offset": 2355
+        }
+      ],
+      "original_bytes_hex": "558bec578b7e068b5e088d8770ffb9200099f7f98bdab810002bc73bd87c0d8d45103bc37c06ba0100eb03902bd28bc25f8be55dca040090",
+      "original_sha256": "8024c02722dce01ebfb51cb83b13515be8de52c8daece35fa6d9c3eaa45182b1",
+      "profile_shortlist": [
+        "msc600 /AM /Oe /Gs /Zl /Gc",
+        "msc600 /AM /O /Gs /Zl /Gc",
+        "msc510 /AM /O /Gs /Zl /Gc"
+      ],
+      "source_hypothesis": "int far pascal in_remainder_window(int first, register int second) { int remainder = (first - 144) % 32; return remainder >= 16 - second && remainder <= 16 + second; }",
+      "supported_fixup_mode": "relocation-free",
+      "target_id": "overlay-11:2c3e:1168"
+    }
+  ]
+}

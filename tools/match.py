@@ -20,10 +20,21 @@ def get_target(identifier, oracle=None):
     raw = space.extent(target["segment"], target["offset"], target["size"])
     require(sha(raw) == target["sha256"], "Target extent differs from frozen original evidence")
     for call in target.get("call_sites", []):
-        require(call["kind"] == "far_call", "Unsupported reviewed callsite proof")
+        require(call["kind"] in ("far_call", "push_cs_near_call"), "Unsupported reviewed callsite proof")
         caller = oracle.spaces[call["space"]]
         at = call["image_offset"]
         import struct
+        if call["kind"] == "push_cs_near_call":
+            require(call["space"] == target["space"], "Near call cannot cross overlay spaces")
+            require(1 <= at and at+3 <= caller.size and caller.data[at-1:at+1] == b"\x0e\xe8",
+                    "Reviewed PUSH CS; near CALL does not exist")
+            displacement = struct.unpack_from("<h", caller.data, at+1)[0]
+            require(at+3+displacement == space.position(target["segment"], target["offset"]),
+                    "Reviewed near caller does not target this function")
+            require(call["file_offset"] == caller.file_offset+at and call["pushed_cs_site"] == at-1 and
+                    not any(at-2 <= r["image_offset"] < at+3 for r in caller.relocations),
+                    "Reviewed near-call file/relocation provenance mismatch")
+            continue
         require(0 <= at and at+5 <= caller.size and caller.data[at] == 0x9a,
                 "Reviewed far-call opcode does not exist")
         offset, segment = struct.unpack_from("<HH", caller.data, at+1)
@@ -85,6 +96,8 @@ def check_object(obj_data, target, space, expected, public_name, *, binding=None
     report = {"exact": exact, "state": "CODE_EXACT" if exact else "CANDIDATE_C",
             "target_id": target["id"], "expected_size": len(expected), "emitted_size": len(actual),
             "expected_sha256": sha(expected), "emitted_sha256": sha(actual),
+            "mismatch_count": sum(actual[i:i+1] != expected[i:i+1] for i in range(max(len(actual), len(expected)))),
+            "mismatch_basis": "whole-extent byte differences",
             "object_sha256": sha(obj_data), "fixups": len(fixups), "relocations": 0,
             "unreferenced_external_declarations": [e for e in module.externals
                 if not bound or e not in binding["symbols"]],

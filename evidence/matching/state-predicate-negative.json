@@ -1,6 +1,6 @@
 {
   "binding": "evidence/matching/state-predicate-binding.json",
-  "binding_sha256": "7ec10072b4d7ed4524a8d9520d6e7f65640132209a968fd595c0ea56b9eee631",
+  "binding_sha256": "028184fd745f9a1d6988ebcdb1f7a2b86419ca17ceaa2a05cba9159104c2f720",
   "bounded_trials": [
     {
       "complete_code_segments": {
@@ -786,6 +786,7 @@
     }
   ],
   "compiler_observation": "Whole80-byte MSC600 /Oe output selects DX for Boolean zero/result while original selects BX. Eleven independently grounded data-field equations agree; four ordinary register-encoding bytes differ. No ownership, trimming, rewriting, or inferred original TU.",
+  "correction_note": "Supervisor audit found the former saved multiline replay had two unequal guard-field equations despite its prose. Reordering the two extern declarations now freshly reproduces all eleven field equations; four ordinary register encodings still differ. No ownership was or is granted.",
   "flags": [
     "/c",
     "/AM",
@@ -795,7 +796,7 @@
     "/Gc"
   ],
   "fresh_strict_report": {
-    "binding_content_sha256": "d0a72c615ecc0fd7cf981745852ac7c6c7de84cac01970f9bcfb18109bc2587b",
+    "binding_content_sha256": "f5eb0ff0aed5bdc94260514213e030f626722274a011ad9fb598a2e2ae5fd443",
     "emitted_sha256": "bc30b67b933ccc24f838f77939f8e0ae5fb603a3e96347b1105f6171525210a1",
     "emitted_size": 80,
     "equations": [
@@ -882,26 +883,27 @@
       },
       {
         "encoded_addend": 0,
-        "equal": false,
-        "grounded_ds_relative_offset": 23550,
-        "linked_value": 23550,
+        "equal": true,
+        "grounded_ds_relative_offset": 23548,
+        "linked_value": 23548,
         "offset": 7,
         "original_value": 23548,
-        "symbol": "GUARD_HIGH"
+        "symbol": "GUARD_LOW"
       },
       {
         "encoded_addend": 0,
-        "equal": false,
-        "grounded_ds_relative_offset": 23548,
-        "linked_value": 23548,
+        "equal": true,
+        "grounded_ds_relative_offset": 23550,
+        "linked_value": 23550,
         "offset": 3,
         "original_value": 23550,
-        "symbol": "GUARD_LOW"
+        "symbol": "GUARD_HIGH"
       }
     ],
     "exact": false,
     "expected_sha256": "9ac00f333629e74eff85c7dba331b31fc9cb2277b7cb90d3d1de99a05e4bc706",
     "expected_size": 80,
+    "field_mismatch_count": 0,
     "first_difference": 1,
     "fixup_thread_declarations": [
       {
@@ -1124,9 +1126,11 @@
       }
     ],
     "fixups": 11,
-    "language": "c",
-    "object_sha256": "013ca99c3a67168fad2ddef92c001e3f1182ca3566430a2082b35c28ec177d4a",
+    "mismatch_basis": "ordinary bytes plus unequal field equations",
+    "mismatch_count": 4,
+    "object_sha256": "946e7c9058bcaabd097a0a6a205b5c34d555eb36304a16eead6cb7c84d54c084",
     "ordinary_bytes_compared": 58,
+    "ordinary_mismatch_count": 4,
     "proof_scope": "Complete component bytes and external DGROUP offset16 equations to independent DS-relative aliases; raw object preserved, absolute data placement/original symbols/TU/runtime DS association/natural link placement unproved",
     "public": {
       "frame": null,
@@ -1175,7 +1179,7 @@
     ]
   },
   "limits": "Names, signedness, state meanings, runtime DS association and caller execution are hypotheses. Trials are compiler observations, not exhaustive source/compiler exclusions.",
-  "object_sha256": "013ca99c3a67168fad2ddef92c001e3f1182ca3566430a2082b35c28ec177d4a",
+  "object_sha256": "946e7c9058bcaabd097a0a6a205b5c34d555eb36304a16eead6cb7c84d54c084",
   "original_local_call_context": {
     "bytes_hex": "0ee82cfd3d01001bc0f7d850",
     "image_offset": 11174,
@@ -1241,7 +1245,7 @@
   "public": "IS_SPECIAL_STATE",
   "schema": 1,
   "source": "recipes/probes/state_predicate.c",
-  "source_sha256": "b966e8d6efd84a50394daf9460aaf1660f9d1279350fc54cc9a93b5c4ae52ed0",
+  "source_sha256": "fee57365688cb67ca30e23704b3a67d6a2010062c2d6ba692072c52ecbe00276",
   "status": "CANDIDATE_C_NO_OWNERSHIP",
   "target_id": "root:0284:0096",
   "trial_count": 34

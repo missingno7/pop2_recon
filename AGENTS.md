@@ -57,3 +57,39 @@ behavior validation are separate debts. Do not begin an SDL port.
 
 Commit useful bounded milestones. Preserve local assets, tools, reference clones
 and worker evidence; never run blanket `git clean -fdx`.
+
+## Bounded agent waves
+
+The supervisor selects independent reviewed targets from one canonical HEAD,
+reads previous negative evidence, and owns all canonical writes. Give each worker
+one target, its extent/ABI/classification, supported binding, profile shortlist,
+verification command, and a private `build/workers/NAME/task.json`. The card has
+`target_id`, `canonical_head`, `max_trials`, `stagnation_limit`, and optional
+`known_code_hashes`; add the source/ABI lead and evidence paths in plain fields.
+Assign a target to only one grinding worker per wave. Do not create worker chats,
+a daemon, shared writable queue, or speculative canonical source variants.
+
+Use gpt-6-luna with xhigh for bounded source/profile searches. Use gpt-6.1-sol
+with high for boundary/ABI review, stagnant near-matches, new proofs, overlays,
+and structural/TU/linker decisions. Luna must not design acceptance mechanisms.
+Workers write only their assigned scratch directory, never canonical directories,
+acceptance tools or another worker's files. Use escalated shell execution if the
+Windows sandbox helper fails; this does not change the owned write scope.
+
+Append `--trial LABEL` to the existing search command to produce worker-local
+`trials.json` and `summary.json`. This requires the supervisor card and source
+inside that worker directory. The journal records compact diagnostics, freezes
+one best source, deduplicates complete raw CODE hashes, distinguishes changed
+binding/fixup identities, and stops at exact, budget or repeated-output limits.
+A repeated CODE hash is no proof of equal bindings. These files grant no ownership;
+search still compiles freshly, and promotion/validation never consume a cache.
+Stop when requested by the card. Do not retry a stagnant target without a new
+reasoning lead; inspect the existing negative receipts first.
+
+Collect worker summaries, review full objects and independent original evidence,
+then run fresh `promote.py --verify-only` and serial publication. Run full
+validation at the wave boundary. Keep one canonical source/recipe and concise
+useful evidence; failed variants and bulk disassembly remain ignored scratch.
+Do not preserve every experiment as a tracked document. Preserve existing local
+assets/tools/reference clones; no blanket cleanup. Workers may discard only their
+own regenerable attempts, retaining the best source/report and stop reason.

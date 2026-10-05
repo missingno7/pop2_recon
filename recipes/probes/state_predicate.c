@@ -1,5 +1,5 @@
 /* Non-owning replay: field names, signedness, and purpose are hypotheses. */
-extern unsigned int guard_high, guard_low, guard_other;
+extern unsigned int guard_low, guard_high, guard_other;
 extern signed char mode_code, state_code, level_code;
 
 int far pascal is_special_state(void)

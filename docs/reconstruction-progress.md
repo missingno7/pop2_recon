@@ -1,10 +1,32 @@
-# Reconstruction continuation — 2026-10-05
+# Reconstruction continuation â€” 2026-10-05
 
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
 Release identity is still unconfirmed. Root/overlay structure, all 62 asset
 identities, and the 4,716 relocation records remain unchanged. The
 [bootstrap report](bootstrap-status.md) is the earlier milestone snapshot.
+
+## Bounded grinding audit and initial cards
+
+The existing oracle, isolated historical runners, strict search/promotion and
+single manifest writer need no replacement orchestration. Search now optionally
+records compact `--trial` diagnostics in one worker directory, freezes one best
+source, identifies repeated full CODE hashes and changed binding identities,
+and stops at card budgets or stagnation. The supervisor gives one target to
+one Luna xhigh worker per wave; Sol high handles original review and proof leads.
+No scheduler, service, database or shared writable queue was added.
+
+Four independently reviewed relocation-free overlay leaves (28, 32, 70 and 56
+bytes in overlays 10, 7, 4 and 11) form the initial Luna batch. Their inbound
+PUSH CS/near-call witnesses are rechecked from original bytes and space identity;
+this adds no outbound fixup acceptance. Full exploration/CFG output stays ignored.
+The old swap, signed-value and integer-predicate families require new Sol leads,
+not another blind Luna matrix. Current wave results will be consolidated here.
+
+Audit corrected the saved integer-predicate probe: its former replay had two
+unequal guard-field equations even though the prose said they all agreed.
+Reordered extern declarations now freshly agree on all eleven equations,
+leaving four ordinary DX/BX differences. The target remains unowned.
 
 ## Four further complete C helpers
 
@@ -160,14 +182,14 @@ historical flag family is inferred from these experiments.
 | Matching ASM | 51 |
 | Pinned runtime | 666 |
 | External drivers | 0 |
-| Unresolved identified game helpers | 152 |
-| Unknown/unclassified payload | 270,303 |
+| Unresolved identified game helpers | 338 |
+| Unknown/unclassified payload | 270,117 |
 
 There are nine accepted source components (eight C and one ASM) and eleven
 pinned runtime components. All accepted bytes remain resident. The identified
-game-helper subtotal is 368 bytes, including the 46-byte swap, 26-byte
-signed-value helper and 80-byte predicate hypotheses; 216 of those bytes are
-accepted.
+game-helper subtotal is 554 bytes, including the 46-byte swap, 26-byte
+signed-value helper, 80-byte predicate and 186 bytes of reviewed initial overlay
+cards; 216 of those bytes are accepted.
 No overlay has accepted ownership, and generated relocation coverage remains
 0/4,716. Twenty-nine source data-offset fixups and one runtime near fixup are proven and
 generate no MZ relocations;
@@ -184,7 +206,7 @@ the documented aggregate and scalar families do not explain its CX/stack split.
 RTLink version, TU grouping and runtime-derived descriptor location remain
 separate structural investigations.
 
-Final `python tools/validate.py` passes all 108 invariant tests, freshly compiles
+Final `python tools/validate.py` passes all 120 invariant tests, freshly compiles
 all eight C functions, freshly assembles the ASM function, verifies all eleven independent
 runtime members, and rechecks every original asset/structure and tool pin.
 Source, object, byte extent, relocation and ownership checks all pass.
