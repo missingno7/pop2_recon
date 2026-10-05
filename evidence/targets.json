@@ -820,6 +820,146 @@
       "size": 26,
       "space": "overlay-4",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned two signed word arguments at BP+8 and BP+6; signed IDIV; word result AX; DI preserved; RETF 4",
+      "boundary_evidence": [
+        "Accepted previous complete helper ends at 0x11a0; independent BP frame starts 0x11a0.",
+        "JL at 0x11bc and 0x11c3 target zero block 0x11ca; JMP at 0x11c8 joins result move 0x11cc. RETF 4 at 0x11d2 completes body at 0x11d5; original NOP 0x11d5 is retained. New SI-saving entry begins 0x11d6 and closes at 0x1225.",
+        "Original PUSH CS at 0x5a7; E8 at 0x5a8 encodes 0x11a0. Independent original-byte CFG from entry 0x4b4 reaches this pair; push context and return cleanup support the stated ABI.",
+        "Complete original extent decoded including all NOP padding; internal branches stay inside it; no original relocated word intersects the interval, including a word beginning one byte before it.",
+        "No calls, interrupts or segment-register writes occur. No direct or indexed absolute global data fields occur; relocation-free component gate is suitable."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250168,
+          "image_offset": 1448,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1447,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Signed 16-bit remainder r=(first-3)%63; returns 1 when 31-second <= r <= 31+second, otherwise 0. Caller pushes state word DS:5c04 and constant 15 and branches on AX.",
+        "Independent caller static context manipulates state words or records. No historical runtime/archive provenance established."
+      ],
+      "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
+      "id": "overlay-11:2c3e:11a0",
+      "offset": 4512,
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "in_remainder_window63",
+      "sha256": "208abc59e43c0ff6ecea3595266cd67244b6acff749ca93d1f3e7b7dcc56c1da",
+      "size": 54,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned signed first word at BP+6 and unsigned-comparison second word at BP+8; unsigned DIV; word result AX; DI preserved; RETF 4",
+      "boundary_evidence": [
+        "Preceding independent tiny entry at 0x282e is MOV CX,999; MOV AX,CX; RETF at 0x2835. Separate BP frame starts 0x2836.",
+        "Signed JL at 0x2841 and unsigned JBE/JAE at 0x2849/0x284e reach zero block 0x2882. JGE at 0x285c selects second modulo path 0x2872. Both paths join 0x287e then epilogue 0x2884. RETF 4 at 0x288a ends body 0x288d; original NOP 0x288d is retained. New closed no-argument predicate starts direct CMP at 0x288e and has RETF exits 0x28a7/0x28ad.",
+        "Original PUSH CS at 0x260f; E8 at 0x2610 encodes 0x2836. Independent original-byte CFG from entry 0x25d6 reaches this pair; push context and return cleanup support the stated ABI.",
+        "Complete original extent decoded including all NOP padding; internal branches stay inside it; no original relocated word intersects the interval, including a word beginning one byte before it.",
+        "No calls, interrupts or segment-register writes occur. No direct or indexed absolute global data fields occur; relocation-free component gate is suitable."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 194512,
+          "image_offset": 9744,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 9743,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Requires first>=4 and unsigned second in 46..51. Computes i=first-4, d=second-46; if i<2, result is d%(3-i)==0; otherwise result is (d+1)%3. Caller supplies state words DS:5c07 then DS:5e08 and converts result==1 to a DS:5c34 bit.",
+        "Independent caller static context manipulates state words or records. No historical runtime/archive provenance established."
+      ],
+      "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
+      "id": "overlay-3:2344:2836",
+      "offset": 10294,
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "is_scalar_modulo_window",
+      "sha256": "b20015abf84ca38c1800c9cbe6cd01721ad0fe7c99b721bf69fd99192804aeca",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned one word-sized stack slot at BP+6; only low byte read; RETF 2; no established result",
+      "boundary_evidence": [
+        "Previous independent helper ends RETF at 0x40 followed by NOP 0x41; separate BP frame begins 0x42.",
+        "Straight-line MOV AL,[BP+6]; two direct byte stores; POP BP; RETF 2 at 0x4f ends whole interval 0x52. Next independent SI-saving entry begins 0x52. No padding omitted.",
+        "Original PUSH CS at 0x399; E8 at 0x39a encodes 0x42. Independent original-byte CFG from entry 0x358 reaches this pair; push context and return cleanup support the stated ABI.",
+        "Complete original extent decoded including all NOP padding; internal branches stay inside it; no original relocated word intersects the interval, including a word beginning one byte before it.",
+        "No calls, interrupts or segment-register writes occur. Direct DS byte/word fields require the frozen original-only overlay binding skeleton; declarations and ordered object fixups must be frozen after fresh compilation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 256138,
+          "image_offset": 922,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 921,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies input low byte to DS:5e32 and DS:6290. Three original local call pairs pass low byte 0xfe (additional pairs 0x8d2/0x8d3 and 0xe57/0xe58). Purpose and byte signedness unproved.",
+        "Independent caller static context manipulates state words or records. No historical runtime/archive provenance established."
+      ],
+      "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
+      "id": "overlay-12:2c3e:0042",
+      "offset": 66,
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "set_overlay_state_bytes",
+      "sha256": "c617c5a5b0f4d5eb9fc4d842d47b2483676c86cabe1b4220a1f59c6bc708ee52",
+      "size": 16,
+      "space": "overlay-12",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far no-argument entry; word boolean result AX; intermediate result DX; RETF; no register-parameter evidence",
+      "boundary_evidence": [
+        "Preceding closed predicate at 0xa2c has RETF at 0xa52, then original NOP 0xa53; new predicate starts direct CMP at 0xa54.",
+        "Conditional edges at 0xa59/0xa61/0xa76 reach zero-result block 0xa7e; JE at 0xa68/0xa6f reaches true block 0xa78. RETF exits 0xa7d/0xa82 end body 0xa83. Original NOP 0xa83 retained before independent BP frame 0xa84.",
+        "Original PUSH CS at 0x3dd; E8 at 0x3de encodes 0xa54. Independent original-byte CFG from entry 0x3b6 reaches this pair; push context and return cleanup support the stated ABI.",
+        "Complete original extent decoded including all NOP padding; internal branches stay inside it; no original relocated word intersects the interval, including a word beginning one byte before it.",
+        "No calls, interrupts or segment-register writes occur. Direct DS byte/word fields require the frozen original-only overlay binding skeleton; declarations and ordered object fixups must be frozen after fresh compilation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209854,
+          "image_offset": 990,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 989,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns (byte DS:5c0e==19 && signed word DS:5c02<208 && (byte DS:5c0b==2 || byte DS:5c0b==6 || word DS:5c07==80)). Caller immediately tests AX before an accepted neighboring state predicate.",
+        "Independent caller static context manipulates state words or records. No historical runtime/archive provenance established."
+      ],
+      "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
+      "id": "overlay-4:29cf:0a54",
+      "offset": 2644,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "overlay_state_window",
+      "sha256": "ab1980b7d72c08c460711c1ffdfecb88018cdd6dce62b0c8f4175636a633a444",
+      "size": 48,
+      "space": "overlay-4",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

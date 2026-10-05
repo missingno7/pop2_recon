@@ -12,7 +12,7 @@ at five bytes and has a separate locked identity; matching targets the requested
 `PRINCE.EXE` without undoing that difference.
 
 The oracle contains a 144,445-byte resident load image, 16 attached spaces
-(overlays 2â€“17), and 4,716 ordered relocation records. File offsets, link
+(overlays 2-17), and 4,716 ordered relocation records. File offsets, link
 segment:offset pairs and runtime addresses stay distinct. Overlay spaces overlap
 in memory and remain separately identified. See [RTLink evidence](docs/rtlink.md),
 [external leads](docs/external-evidence.md), and [sibling workflows](docs/sibling-workflows.md).
@@ -45,9 +45,9 @@ status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) includes
-eight complete overlay C matches, with the first independently proved overlay
-data fields. Totals are 666 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
-Forty-two source data fixups and the first
+twelve complete overlay C matches, including independently proved overlay
+data fields. Totals are 872 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
+Forty-nine source data fixups and the first
 [runtime near-jump equation](docs/runtime-near-binding.md) are proven; original
 relocation coverage remains 0/4,716. Far-call binding and natural RTLink
 placement remain unresolved.

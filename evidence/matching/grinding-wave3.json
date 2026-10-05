@@ -1,0 +1,829 @@
+{
+  "baseline_head": "4c199d577fbc7bd8003f4455dbad44107d6ad78e",
+  "canonical_totals": {
+    "behavior_oracle_status": "NOT_STARTED",
+    "candidate_function_count": 2,
+    "exact_function_count": 22,
+    "identified_game_code_bytes": 1024,
+    "matching_asm_bytes": 51,
+    "matching_c_bytes": 872,
+    "pinned_runtime_bytes": 666,
+    "pinned_runtime_component_count": 11,
+    "proven_candidate_fixups": 50,
+    "proven_relocation_records": 0,
+    "reviewed_target_count": 25,
+    "structural_link_status": "UNRECOVERED",
+    "total_payload_bytes": 271388,
+    "total_relocation_records": 4716,
+    "unknown_or_unclassified_payload_bytes": 269647,
+    "unresolved_identified_game_bytes": 152,
+    "unresolved_reviewed_target_count": 3
+  },
+  "infrastructure": "Existing private cards, CODE-hash journals, search, strict verify-only and serialized promotion suffice; no new tooling or proof rules.",
+  "luna": [
+    {
+      "candidate_source_sha256": "65f6a2b0a0c790e65b094074f2c56023963e3cf8962bbffc69d38a741fd3dff4",
+      "canonical_recipe": "recipes/in_remainder_window63.json",
+      "canonical_source": "src/in_remainder_window63.c",
+      "canonical_source_sha256": "65f6a2b0a0c790e65b094074f2c56023963e3cf8962bbffc69d38a741fd3dff4",
+      "emitted_CODE_sha256": "208abc59e43c0ff6ecea3595266cd67244b6acff749ca93d1f3e7b7dcc56c1da",
+      "emitted_size": 54,
+      "explanation": "In-place signed parameter normalization and local result reproduce DI/BX/DX, shared frame exit and original NOP. Two recorded trials include one wrong public-symbol lookup; one distinct CODE output.",
+      "first_difference": null,
+      "fixup_count": 0,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "d821955a68de46a9d579461022fd8e59baf6937dc47848b3a0d2fdf3509c98e2",
+      "mismatch_count": 0,
+      "outputs": [
+        {
+          "emitted_code_sha256": null,
+          "emitted_size": null,
+          "first_difference": null,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": null,
+          "reason": "The public must own the complete CODE segment from offset zero",
+          "trial": "lead"
+        },
+        {
+          "emitted_code_sha256": "208abc59e43c0ff6ecea3595266cd67244b6acff749ca93d1f3e7b7dcc56c1da",
+          "emitted_size": 54,
+          "first_difference": null,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 0,
+          "reason": null,
+          "trial": "lead-symbol"
+        }
+      ],
+      "profile": "msc600",
+      "public": "IN_REMAINDER_WINDOW63",
+      "relocation_count": 0,
+      "status": "exact",
+      "supervisor": "Fresh strict --verify-only, then fresh serialized promotion; full validation passes.",
+      "target_id": "overlay-11:2c3e:11a0",
+      "trial_count": 2,
+      "unique_journal_CODE_outputs": 1,
+      "worker": "wave3_luna_window"
+    },
+    {
+      "candidate_source_sha256": "175b6db577a6eed392888bd3fe775da09e92aca88bf424d3e6385ecc22f3e27f",
+      "canonical_recipe": "recipes/is_scalar_modulo_window.json",
+      "canonical_source": "src/is_scalar_modulo_window.c",
+      "canonical_source_sha256": "46ab2e42cc91fc32815f66f9bd30dd16213c2ec14c41dd06a2f6789279a9867d",
+      "emitted_CODE_sha256": "b20015abf84ca38c1800c9cbe6cd01721ad0fe7c99b721bf69fd99192804aeca",
+      "emitted_size": 88,
+      "explanation": "Signed local index, unsigned in-place parameter delta and local result reproduce the complete unsigned division paths and stack frame. Four trials, three distinct outputs.",
+      "first_difference": null,
+      "fixup_count": 0,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "46cda183bf8c5d8fdc4e30af704b6c076fa6e9396c3d06729a40fe02495e0446",
+      "mismatch_count": 0,
+      "outputs": [
+        {
+          "emitted_code_sha256": "9c97e2cca6b1fa04a0c4495e34d99717397999b3dd0036b68159e3c568636353",
+          "emitted_size": 92,
+          "first_difference": 5,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 70,
+          "reason": null,
+          "trial": "lead"
+        },
+        {
+          "emitted_code_sha256": "acc5b0842a00d9d031cb668ea3f376a837711ee499727be08e898544215064eb",
+          "emitted_size": 88,
+          "first_difference": 7,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 51,
+          "reason": null,
+          "trial": "params"
+        },
+        {
+          "emitted_code_sha256": "acc5b0842a00d9d031cb668ea3f376a837711ee499727be08e898544215064eb",
+          "emitted_size": 88,
+          "first_difference": 7,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 51,
+          "reason": null,
+          "trial": "andguard"
+        },
+        {
+          "emitted_code_sha256": "b20015abf84ca38c1800c9cbe6cd01721ad0fe7c99b721bf69fd99192804aeca",
+          "emitted_size": 88,
+          "first_difference": null,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 0,
+          "reason": null,
+          "trial": "local-index"
+        }
+      ],
+      "profile": "msc600",
+      "public": "IS_SCALAR_MODULO_WINDOW",
+      "relocation_count": 0,
+      "status": "exact",
+      "supervisor": "Fresh strict --verify-only, then fresh serialized promotion; full validation passes.",
+      "target_id": "overlay-3:2344:2836",
+      "trial_count": 4,
+      "unique_journal_CODE_outputs": 3,
+      "worker": "wave3_luna_scalar"
+    },
+    {
+      "candidate_source_sha256": "24fec28a80bc4e8055976ba8a8e4a1d4bfa1f91c4901d884366e1c7144e59ee4",
+      "canonical_recipe": "recipes/set_overlay_state_bytes.json",
+      "canonical_source": "src/set_overlay_state_bytes.c",
+      "canonical_source_sha256": "61397406fc18fd0ee0bd2effbab12c540e9df91352e933fdb5683e7453d247aa",
+      "emitted_CODE_sha256": "9bafce02e6de260f32122c6f727278f22aba08c223f84a7adcd978f4a0b3edfb",
+      "emitted_size": 16,
+      "explanation": "Natural byte parameter and two stores match12 ordinary bytes and two independently witnessed relative data fields. One source trial.",
+      "first_difference": null,
+      "fixup_count": 2,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "0b30959b8bb91e767abbfa3bc45d5b9749621a702f024b27d658e2baa2e4ba07",
+      "mismatch_count": 0,
+      "outputs": [
+        {
+          "emitted_code_sha256": "9bafce02e6de260f32122c6f727278f22aba08c223f84a7adcd978f4a0b3edfb",
+          "emitted_size": 16,
+          "first_difference": null,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 0,
+          "reason": null,
+          "trial": "natural-void"
+        }
+      ],
+      "profile": "msc600",
+      "public": "SET_OVERLAY_STATE_BYTES",
+      "relocation_count": 0,
+      "status": "exact",
+      "supervisor": "Fresh strict --verify-only, then fresh serialized promotion; full validation passes.",
+      "target_id": "overlay-12:2c3e:0042",
+      "trial_count": 1,
+      "unique_journal_CODE_outputs": 1,
+      "worker": "wave3_luna_bytes"
+    },
+    {
+      "candidate_source_sha256": "7fc93b65056ca727e6eca3d8fcf506018d3b188675a51d2cf4088c507b481845",
+      "canonical_recipe": "recipes/overlay_state_window.json",
+      "canonical_source": "src/overlay_state_window.c",
+      "canonical_source_sha256": "8d5db506cae9b6707efad3f7628f869d43314300d71df39c019ca8f6828825c4",
+      "emitted_CODE_sha256": "f529e4b3ebadf114e1ca4fb80b8ebb72c48a9e1ec5e882410446247e3574cd7f",
+      "emitted_size": 48,
+      "explanation": "Natural local-result predicate under /Oe matches38 ordinary bytes and five independent field equations; /O produced a rejected62-byte full segment. Two distinct raw CODE outputs.",
+      "first_difference": null,
+      "fixup_count": 5,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "fresh_object_sha256": "087ea813b27958b39e140131995e4870e4c469d44965eb5a5edc2995e7c4ead3",
+      "mismatch_count": 0,
+      "outputs": [
+        {
+          "emitted_code_sha256": null,
+          "emitted_size": null,
+          "first_difference": null,
+          "flags": [
+            "/c",
+            "/AM",
+            "/O",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": null,
+          "reason": "Bound component extent differs; trimming forbidden",
+          "trial": "initial"
+        },
+        {
+          "emitted_code_sha256": "f529e4b3ebadf114e1ca4fb80b8ebb72c48a9e1ec5e882410446247e3574cd7f",
+          "emitted_size": 48,
+          "first_difference": null,
+          "flags": [
+            "/c",
+            "/AM",
+            "/Oe",
+            "/Gs",
+            "/Zl",
+            "/Gc"
+          ],
+          "mismatch_count": 0,
+          "reason": null,
+          "trial": "oe_local_result"
+        }
+      ],
+      "profile": "msc600",
+      "public": "OVERLAY_STATE_WINDOW",
+      "rejected_full_CODE_diagnostic": {
+        "emitted_code_sha256": "b4cd0a79d825d863f750074a34d281e8b2661b6205b919693fd56d2777ab5925",
+        "emitted_size": 62,
+        "object_sha256": "e491d72967973140a8343256fddeaae79b020fbe4f055882146e218e112d0c58"
+      },
+      "relocation_count": 0,
+      "status": "exact",
+      "supervisor": "Fresh strict --verify-only, then fresh serialized promotion; full validation passes.",
+      "target_id": "overlay-4:29cf:0a54",
+      "trial_count": 2,
+      "unique_journal_CODE_outputs": 1,
+      "worker": "wave3_luna_state"
+    }
+  ],
+  "membership": {
+    "accepted": false,
+    "best_size": 78,
+    "compiler_documentation": {
+      "path": "C:\\tools\\msc-6.00\\BIN\\cl.msg",
+      "related_existing_primary_help_record": "evidence/toolchain/compiler-help.json",
+      "sha256": "3379f283aec74842bc82205e4c848d759e6e2dcbb6d4820eec9719f1297213ec",
+      "verbatim_relevant_options": [
+        "/Oe enable registers allocations",
+        "/Og enable global optimization",
+        "/Or disable in_line return",
+        "/Os optimize for space"
+      ]
+    },
+    "explanation": "/Or (documented disable inline return) recovers shared exit; /Os removes alignment NOP. Both still omit original MOV SP,BP. /Og switch repeats known94-byte CODE.",
+    "fresh_supervisor_reproduction": "Full78 CODE/object hash reproduced independently; full80 target fails with7 extent differences at73.",
+    "matching_prefix_bytes": 73,
+    "reproduce": "python tools/search.py overlay-5:29cf:0320 recipes/probes/overlay_membership.c --profile msc600 --symbol IS_SELECTED_CODE --worker membership_probe --flags /c /AM /Oer /Gs /Zl /Gc",
+    "resume_condition": "Independent source/lifetime, compiler-pass, or TU evidence explaining redundant MOV SP,BP for an unallocated-stack shared-return function. Existing OR/if/ternary/goto/parameter families and /Oer, /Oeg predicate-switch, /Oers paths are now exhausted.",
+    "retained_source_sha256": "68a69eff257c53921fff83a676cfcda4a98d800bf812113649713a53efdd9c26",
+    "source": "recipes/probes/overlay_membership.c",
+    "status": "improved",
+    "target_id": "overlay-5:29cf:0320",
+    "trials": [
+      {
+        "duplicate_code": false,
+        "emitted_code_sha256": "8503f646b32496b9b0c5c17bdd1e269e450da31cadad78e65a81dcbff4451cef",
+        "emitted_size": 78,
+        "first_difference": 73,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oer",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "mismatch_count": 7,
+        "object_sha256": "2caebccbb8bffc568fbeda179da5fabd2b85a3f63cc6079323a173366b38164c",
+        "profile": "msc600",
+        "source_sha256": "a01163a30508d01f16e60280dc0f4640c0278048c86e853f443037cc3ceefcb4",
+        "trial": "inline_return_disabled"
+      },
+      {
+        "duplicate_code": true,
+        "emitted_code_sha256": "c84259f3e71abbf7faee94c7d8d9613feee44d4619fb611522a5d29ea60a012f",
+        "emitted_size": 94,
+        "first_difference": 73,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oeg",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "mismatch_count": 21,
+        "object_sha256": "3d09dcf0dfcc82c7d5ff0c89c60d1876bb89a9aa2f916b687e8f14db20b53d36",
+        "profile": "msc600",
+        "source_sha256": "9ee83e76711ecdaeab9fe4482e1c509af61d1b019437261471aa559fa11fcdc7",
+        "trial": "global_switch_folding"
+      },
+      {
+        "duplicate_code": false,
+        "emitted_code_sha256": "b8f4e1821c70743ae9714d446cfb1dcb8e0d1a14e3ba2b00f075e79416728c50",
+        "emitted_size": 77,
+        "first_difference": 73,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oers",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "mismatch_count": 7,
+        "object_sha256": "672819eba85b35ed6ee31043b446b18c209e811842c77746f644aec59cd4164c",
+        "profile": "msc600",
+        "source_sha256": "a01163a30508d01f16e60280dc0f4640c0278048c86e853f443037cc3ceefcb4",
+        "trial": "common_return_space"
+      }
+    ]
+  },
+  "original_review": "evidence/matching/wave3-original-review.json",
+  "runtime_frontier": {
+    "absolute_constant_provider": {
+      "archive_offset": 38208,
+      "library_path": "C:/tools/msc-6.00/LIB/llibcr.lib",
+      "library_sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+      "member": "dos\\diffhlp.asm",
+      "member_extent": 79,
+      "member_sha256": "0c6ab7581510ce610a1ffca5953f0909b34a493f915354fa82d78dded36a4956",
+      "wanted_publics": [
+        {
+          "frame": 0,
+          "group_index": 0,
+          "name": "__AHINCR",
+          "offset": 4096,
+          "segment": null,
+          "segment_index": 0,
+          "type_index": 0
+        }
+      ]
+    },
+    "archives": [
+      {
+        "counts": {
+          "LOC3_with_secondary_storage": 30,
+          "aligned_module_headers": 344,
+          "eligible_whole_CODE_ordinary_matches": 930,
+          "members_with_LOC3": 113,
+          "not_single_CODE": 7,
+          "one_ordinary_byte_stub_hits_not_retained": 927,
+          "strict_parsed": 328,
+          "strict_rejected": 16,
+          "whole_CODE_ordinary_matches": 930,
+          "whole_single_public_zero_secondary_LOC3": 73
+        },
+        "label": "msc600",
+        "path": "C:/tools/msc-6.00/LIB/llibcr.lib",
+        "sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+        "size": 148711
+      },
+      {
+        "counts": {
+          "LOC3_with_secondary_storage": 35,
+          "aligned_module_headers": 304,
+          "eligible_whole_CODE_ordinary_matches": 2472,
+          "members_with_LOC3": 149,
+          "not_single_CODE": 6,
+          "one_ordinary_byte_stub_hits_not_retained": 2781,
+          "strict_parsed": 287,
+          "strict_rejected": 17,
+          "whole_CODE_ordinary_matches": 2781,
+          "whole_single_public_zero_secondary_LOC3": 92
+        },
+        "label": "msc510",
+        "path": "C:/tools/msc-5.10/LLIBCR.LIB",
+        "sha256": "7961eafce689dbf17acc3fd6fe34be6bc000f60d0f02fb1af2602b09112f3d2e",
+        "size": 142837
+      },
+      {
+        "counts": {
+          "LOC3_with_secondary_storage": 1,
+          "aligned_module_headers": 74,
+          "members_with_LOC3": 30,
+          "not_single_CODE": 29,
+          "strict_parsed": 63,
+          "strict_rejected": 11
+        },
+        "label": "rtlink610",
+        "path": "C:/tools/rtlink-plus-6.10/installed/RTLUTILS.LIB",
+        "sha256": "c718bac09b0b1204a259494446acfa8bfffb129144cc7d36799855621f4fdccb",
+        "size": 423823
+      }
+    ],
+    "calloc_provider": {
+      "blocker": "Original near allocator contains DS:20de/20e0 new-handler pointer checks and indirect far CALL[20de], absent from the pinned73-byte member. Full public body does not match; no prefix selected for acceptance.",
+      "complete40_byte_public_context_ordinary_matches": 0,
+      "complete_provider_CODE_ordinary_matches": 0,
+      "diagnostic_whole73_ordinary_difference_offsets": [
+        53,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "observed_original_entry": "root:1fe6:003b",
+      "observed_original_entry_size": 57
+    },
+    "calloc_provider_pin": {
+      "archive_offset": 27472,
+      "public_offsets": [
+        {
+          "frame": null,
+          "group_index": 0,
+          "name": "__nfree",
+          "offset": 0,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        },
+        {
+          "frame": null,
+          "group_index": 0,
+          "name": "__nmalloc",
+          "offset": 33,
+          "segment": "_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        }
+      ],
+      "whole_CODE_size": 73,
+      "whole_member_extent": 284,
+      "whole_member_sha256": "0dbac747c28fdf56fcbee97be84bb31a68c7bcb8bc258ed64703c83be576483d"
+    },
+    "filelength_blocker": "Provider lseek.asm has122 CODE bytes with two F1 DGROUP fields (__nfile,__osfile), INT21 paths and an F2 external near tail to __dosretax. Mixed data/interrupt/near provider contracts remain unsupported. No third tree pursued.",
+    "hmemcpy_blockers": [
+      "Provider has no outside relocated far pointer and no raw nonwrapping near E8/E9 entry encoding. Its sole1fe6:16e2 alias occurs inside proposed memmove owner, so provider CS cannot be selected from the field under judgment.",
+      "The pinned provider member initializes CODE[0,41), then LEDATA[40,43) replaces RETF with RETF8; current strict reader rejects the one-byte overlap. No object normalization or replacement source performed.",
+      "Owner also carries one local self-relative LOC1 and six external absolute LOC1 __AHINCR fields. Full79-byte diffhlp.asm independently defines absolute PUBLIC4096, but these modes have no canonical acceptance; no prototype justified without closed provider witness."
+    ],
+    "hmemcpy_provider": {
+      "LEDATA_records": [
+        {
+          "payload_hex": "558bec8b46082b460c1bd203c013d203c013d203c013d203c013d203460683d2002b460a83da005dcb",
+          "payload_size": 41,
+          "record_offset": 120,
+          "segment_index": 1,
+          "segment_offset": 0
+        },
+        {
+          "payload_hex": "ca0800",
+          "payload_size": 3,
+          "record_offset": 168,
+          "segment_index": 1,
+          "segment_offset": 40
+        }
+      ],
+      "actual_fixups": [],
+      "archive_offset": 37824,
+      "declared_CODE_size": 43,
+      "independent_ordinary_context": {
+        "owned_bytes": 0,
+        "positions": [
+          136514
+        ],
+        "prefix_size": 40
+      },
+      "library_path": "C:/tools/msc-6.00/LIB/llibcr.lib",
+      "library_sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+      "member": "dos\\hdiff.asm",
+      "original43_bytes_hex": "558bec8b46082b460c1bd203c013d203c013d203c013d203c013d203460683d2002b460a83da005dca0800",
+      "outside_far_entry_witnesses": 0,
+      "raw_nonwrapping_E8_E9_entry_positions": [],
+      "relocated_pointer_aliases": [
+        {
+          "bytes_hex": "9ae216e61f",
+          "field_position": 138829,
+          "offset": 5858,
+          "opcode_position": 138828,
+          "outside_memmove": false,
+          "relocation": {
+            "image_offset": 138831,
+            "index": 1936,
+            "offset": 8175,
+            "segment": 8166,
+            "stored_word": 8166
+          },
+          "segment": 8166,
+          "space": "root"
+        }
+      ],
+      "strict_reader_result": "overlapping LEDATA/LIDATA for _TEXT",
+      "whole_member_extent": 183,
+      "whole_member_sha256": "f4800cbdc56ef7fe533073f711d1d61e088d8f4fa4e1f4b5a95257b747c56d71"
+    },
+    "matches": [
+      {
+        "archive_offset": 51456,
+        "complete_CODE": {
+          "complete": true,
+          "segment": "_TEXT",
+          "sha256": "2397c03079fd886914c2ab8f2aa6f5feb21acd1b3d08b63f21527af62c6e390c",
+          "size": 134
+        },
+        "fixup_count": 5,
+        "fixup_shapes": [
+          {
+            "LOC": 3,
+            "at": 116,
+            "displacement": null,
+            "frame": "target_frame:_lseek",
+            "original": "b610e61f",
+            "raw": "00000000",
+            "self_relative": false,
+            "target": "external:_lseek"
+          },
+          {
+            "LOC": 3,
+            "at": 82,
+            "displacement": null,
+            "frame": "target_frame:_lseek",
+            "original": "b610e61f",
+            "raw": "00000000",
+            "self_relative": false,
+            "target": "external:_lseek"
+          },
+          {
+            "LOC": 3,
+            "at": 42,
+            "displacement": null,
+            "frame": "target_frame:_lseek",
+            "original": "b610e61f",
+            "raw": "00000000",
+            "self_relative": false,
+            "target": "external:_lseek"
+          },
+          {
+            "LOC": 1,
+            "at": 22,
+            "displacement": null,
+            "frame": "target_frame:_errno",
+            "original": "9022",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:_errno"
+          },
+          {
+            "LOC": 1,
+            "at": 16,
+            "displacement": null,
+            "frame": "target_frame:__nfile",
+            "original": "9d22",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__nfile"
+          }
+        ],
+        "image_offset": 136648,
+        "member": "flength.c",
+        "member_extent": 402,
+        "member_sha256": "d1b148f143c151ea7ff4401bebab5ad7f892857a702521217be577e6e929e3ca",
+        "ordinary_compared_bytes": 118,
+        "ordinary_mismatches": 0,
+        "original_extent_sha256": "e5adee40090b0031d65734b4db6f9d04b29028b3054bd3cc6080829953adeb4e",
+        "original_relocations_in_frozen_order": [
+          {
+            "image_offset": 136766,
+            "index": 1904,
+            "offset": 6110,
+            "segment": 8166,
+            "stored_word": 8166
+          },
+          {
+            "image_offset": 136732,
+            "index": 1905,
+            "offset": 6076,
+            "segment": 8166,
+            "stored_word": 8166
+          },
+          {
+            "image_offset": 136692,
+            "index": 1906,
+            "offset": 6036,
+            "segment": 8166,
+            "stored_word": 8166
+          }
+        ],
+        "space": "root"
+      },
+      {
+        "archive_offset": 54608,
+        "complete_CODE": {
+          "complete": true,
+          "segment": "_TEXT",
+          "sha256": "363575254f3f0f41d601bdc1630aaf5bdc12efb83c6f6dfb83a175213d1a2187",
+          "size": 46
+        },
+        "fixup_count": 1,
+        "fixup_shapes": [
+          {
+            "LOC": 3,
+            "at": 19,
+            "displacement": null,
+            "frame": "external:__nmalloc",
+            "original": "3b00e61f",
+            "raw": "00000000",
+            "self_relative": false,
+            "target": "external:__nmalloc"
+          }
+        ],
+        "image_offset": 136782,
+        "member": "calloc.asm",
+        "member_extent": 198,
+        "member_sha256": "9a6ebe2bf2d7937b32f8f5b1c145fc6cddb43fa81411161eb21ddb814b73172c",
+        "ordinary_compared_bytes": 42,
+        "ordinary_mismatches": 0,
+        "original_extent_sha256": "6c041232cbb5020393e0483e34e8f59c9980f4801d66db75367d8328c24ffa26",
+        "original_relocations_in_frozen_order": [
+          {
+            "image_offset": 136803,
+            "index": 1932,
+            "offset": 6147,
+            "segment": 8166,
+            "stored_word": 8166
+          }
+        ],
+        "space": "root"
+      },
+      {
+        "archive_offset": 86384,
+        "complete_CODE": {
+          "complete": true,
+          "segment": "_TEXT",
+          "sha256": "2d190b86a214d0d7e4fc5e3d35804c3790d81a40ff7095dd31cb1101f4710ad8",
+          "size": 202
+        },
+        "fixup_count": 8,
+        "fixup_shapes": [
+          {
+            "LOC": 1,
+            "at": 14,
+            "displacement": 191,
+            "frame": "segment:_TEXT",
+            "original": "af00",
+            "raw": "0000",
+            "self_relative": true,
+            "target": "segment:_TEXT"
+          },
+          {
+            "LOC": 3,
+            "at": 27,
+            "displacement": null,
+            "frame": "external:__aFahdiff",
+            "original": "e216e61f",
+            "raw": "00000000",
+            "self_relative": false,
+            "target": "external:__aFahdiff"
+          },
+          {
+            "LOC": 1,
+            "at": 53,
+            "displacement": null,
+            "frame": "external:__AHINCR",
+            "original": "0010",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__AHINCR"
+          },
+          {
+            "LOC": 1,
+            "at": 64,
+            "displacement": null,
+            "frame": "external:__AHINCR",
+            "original": "0010",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__AHINCR"
+          },
+          {
+            "LOC": 1,
+            "at": 107,
+            "displacement": null,
+            "frame": "external:__AHINCR",
+            "original": "0010",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__AHINCR"
+          },
+          {
+            "LOC": 1,
+            "at": 119,
+            "displacement": null,
+            "frame": "external:__AHINCR",
+            "original": "0010",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__AHINCR"
+          },
+          {
+            "LOC": 1,
+            "at": 174,
+            "displacement": null,
+            "frame": "external:__AHINCR",
+            "original": "0010",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__AHINCR"
+          },
+          {
+            "LOC": 1,
+            "at": 185,
+            "displacement": null,
+            "frame": "external:__AHINCR",
+            "original": "0010",
+            "raw": "0000",
+            "self_relative": false,
+            "target": "external:__AHINCR"
+          }
+        ],
+        "image_offset": 138802,
+        "member": "hmemcpy.asm",
+        "member_extent": 402,
+        "member_sha256": "14a0812fedd20795eae41f5a9a7954e142573daa226ee198ac361ec8e1cb7892",
+        "ordinary_compared_bytes": 184,
+        "ordinary_mismatches": 0,
+        "original_extent_sha256": "34d636f98d37e5b1687f527005ff0cf87d5932093a74fe3fdbad386fd301c4e3",
+        "original_relocations_in_frozen_order": [
+          {
+            "image_offset": 138831,
+            "index": 1936,
+            "offset": 8175,
+            "segment": 8166,
+            "stored_word": 8166
+          }
+        ],
+        "space": "root"
+      }
+    ],
+    "members_with_far_LOC3": 292,
+    "one_ordinary_byte_stub_hits": 3708,
+    "owned_bytes": 0,
+    "resume_condition": "Independently ground the provider CS and admissible complete object for memmove, locate the matching allocator revision for calloc, or close the mixed lseek/dosret provider contracts. Repeating these archive scans supplies no new proof.",
+    "scan_scope": "Ordinary-byte candidate scan only; fixup fields are excluded from this diagnostic, never accepted or masked by the gate.",
+    "single_CODE_public_at_zero_empty_secondary": 165,
+    "status": "blocked",
+    "strict_members": 678,
+    "supervisor_recheck": "Independent fresh whole archive/member hashes, original complete extents, ordered MZ record identities, strict hdiff overlap refusal and absolute AHINCR PUBLIC pin verified; zero ownership."
+  },
+  "schema": 1,
+  "scope": "One supervisor owns canonical writes. Full components only; compiler observations and negative provider diagnostics grant zero ownership.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "validation": {
+    "command": "python tools/validate.py",
+    "fresh_asm_components": 1,
+    "fresh_c_components": 21,
+    "independent_runtime_members": 11,
+    "invariant_tests": 137,
+    "status": "PASS"
+  }
+}

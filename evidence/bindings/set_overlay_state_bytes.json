@@ -1,0 +1,185 @@
+{
+  "declarations": {
+    "externals": [
+      "STATE_A",
+      "STATE_B",
+      "SET_OVERLAY_STATE_BYTES"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SET_OVERLAY_STATE_BYTES",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 16,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_B",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 10,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "STATE_B",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_A",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 7,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "STATE_A",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "segment": 8707,
+    "witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    }
+  },
+  "mode": "external-overlay-dgroup-offset16-v1",
+  "schema": 1,
+  "symbols": {
+    "STATE_A": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 24114,
+      "width": 1,
+      "witnesses": [
+        {
+          "bytes_hex": "803e325e00",
+          "context": "Independent root byte CMP in BP-framed entry 0x242, immediately after far-call result assignment.",
+          "image_offset": 602,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "STATE_B": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 25232,
+      "width": 1,
+      "witnesses": [
+        {
+          "bytes_hex": "803e906200",
+          "context": "Independent root direct byte CMP after PUSH SI at separately far-referenced entry 02cc:0ee8 (root position 0x3ba8).",
+          "image_offset": 15273,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "overlay-12:2c3e:0042",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

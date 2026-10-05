@@ -1,0 +1,298 @@
+{
+  "declarations": {
+    "externals": [
+      "STATE_BYTE",
+      "POSITION_WORD",
+      "STATE_KIND",
+      "STATE_CODE",
+      "OVERLAY_STATE_WINDOW"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "OVERLAY_STATE_WINDOW",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 48,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_CODE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 31,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "STATE_CODE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 3,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_KIND",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 24,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "STATE_KIND",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 3,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_KIND",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 17,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "STATE_KIND",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "POSITION_WORD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 9,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "POSITION_WORD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_BYTE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "STATE_BYTE",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "segment": 8707,
+    "witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    }
+  },
+  "mode": "external-overlay-dgroup-offset16-v1",
+  "schema": 1,
+  "symbols": {
+    "POSITION_WORD": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 23554,
+      "width": 2,
+      "witnesses": [
+        {
+          "bytes_hex": "a1025c",
+          "context": "Independent root MOV AX,DS:5c02 on a conditional path from BP-framed entry 0x492; preceding far call ends 0x91d.",
+          "image_offset": 2333,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "STATE_BYTE": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 23566,
+      "width": 1,
+      "witnesses": [
+        {
+          "bytes_hex": "a00e5c",
+          "context": "Independent root MOV AL,DS:5c0e in separately starting entry 0x1ebe; original conditional edge 0x1ec8 reaches this instruction. Same frozen alias witness as accepted overlay_state_pair.",
+          "image_offset": 7885,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "STATE_CODE": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 23559,
+      "width": 2,
+      "witnesses": [
+        {
+          "bytes_hex": "a1075c",
+          "context": "Independent root MOV AX,DS:5c07 in far-referenced BP-framed entry root:0169:02d6 (position 0x1966).",
+          "image_offset": 6613,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "STATE_KIND": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 23563,
+      "width": 1,
+      "witnesses": [
+        {
+          "bytes_hex": "803e0b5c09",
+          "context": "Independent root direct byte CMP in far-referenced BP-framed entry root:0169:0600 (position 0x1c90).",
+          "image_offset": 7369,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "overlay-4:29cf:0a54",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

@@ -1,0 +1,620 @@
+{
+  "canonical_head": "4c199d577fbc7bd8003f4455dbad44107d6ad78e",
+  "excluded": [
+    {
+      "reason": "Natural 34-byte record-field store body, but no independent direct far/near caller found; raw prologue hypothesis not submitted as ready target.",
+      "target_id": "overlay-2:2344:6744"
+    }
+  ],
+  "facts_scope": "Independent original complete extents, branches, call encodings, ABI observations and root witnesses. Names, historical C forms, semantic types, classification and execution remain qualified hypotheses. No ownership granted. No compilation/search performed.",
+  "root_witness_reviews": [
+    {
+      "bytes_hex": "803e325e00",
+      "for_target": "overlay-12:2c3e:0042",
+      "mnemonic": "cmp",
+      "operands": "byte ptr [0x5e32], 0",
+      "path": [
+        578,
+        579,
+        581,
+        584,
+        585,
+        590,
+        595,
+        600,
+        602
+      ],
+      "relative_offset": 24114,
+      "root_entry": 578,
+      "root_position": 602,
+      "symbol": "STATE_A",
+      "width": 1
+    },
+    {
+      "bytes_hex": "803e906200",
+      "for_target": "overlay-12:2c3e:0042",
+      "mnemonic": "cmp",
+      "operands": "byte ptr [0x6290], 0",
+      "path": [
+        15272,
+        15273
+      ],
+      "relative_offset": 25232,
+      "root_entry": 15272,
+      "root_position": 15273,
+      "symbol": "STATE_B",
+      "width": 1
+    },
+    {
+      "bytes_hex": "a00e5c",
+      "for_target": "overlay-4:29cf:0a54",
+      "mnemonic": "mov",
+      "operands": "al, byte ptr [0x5c0e]",
+      "path": [
+        7870,
+        7875,
+        7880,
+        7885
+      ],
+      "relative_offset": 23566,
+      "root_entry": 7870,
+      "root_position": 7885,
+      "symbol": "STATE_BYTE",
+      "width": 1
+    },
+    {
+      "bytes_hex": "a1025c",
+      "for_target": "overlay-4:29cf:0a54",
+      "mnemonic": "mov",
+      "operands": "ax, word ptr [0x5c02]",
+      "path": [
+        1170,
+        1171,
+        1173,
+        1176,
+        1177,
+        1178,
+        1183,
+        1186,
+        1189,
+        1194,
+        1196,
+        1199,
+        1204,
+        1206,
+        2150,
+        2153,
+        2154,
+        2155,
+        2160,
+        2162,
+        2236,
+        2241,
+        2246,
+        2249,
+        2252,
+        2257,
+        2259,
+        2262,
+        2328,
+        2333
+      ],
+      "relative_offset": 23554,
+      "root_entry": 1170,
+      "root_position": 2333,
+      "symbol": "POSITION_WORD",
+      "width": 2
+    },
+    {
+      "bytes_hex": "803e0b5c09",
+      "for_target": "overlay-4:29cf:0a54",
+      "mnemonic": "cmp",
+      "operands": "byte ptr [0x5c0b], 9",
+      "path": [
+        7312,
+        7313,
+        7315,
+        7318,
+        7319,
+        7320,
+        7324,
+        7326,
+        7328,
+        7330,
+        7332,
+        7334,
+        7338,
+        7419,
+        7422,
+        7424,
+        7425,
+        7427,
+        7340,
+        7344,
+        7346,
+        7351,
+        7354,
+        7356,
+        7359,
+        7361,
+        7363,
+        7364,
+        7369
+      ],
+      "relative_offset": 23563,
+      "root_entry": 7312,
+      "root_position": 7369,
+      "symbol": "STATE_KIND",
+      "width": 1
+    },
+    {
+      "bytes_hex": "a1075c",
+      "for_target": "overlay-4:29cf:0a54",
+      "mnemonic": "mov",
+      "operands": "ax, word ptr [0x5c07]",
+      "path": [
+        6502,
+        6503,
+        6505,
+        6508,
+        6509,
+        6510,
+        6511,
+        6516,
+        6518,
+        6521,
+        6524,
+        6528,
+        6531,
+        6534,
+        6536,
+        6540,
+        6543,
+        6546,
+        6550,
+        6551,
+        6553,
+        6558,
+        6561,
+        6564,
+        6567,
+        6570,
+        6573,
+        6576,
+        6579,
+        6582,
+        6583,
+        6586,
+        6589,
+        6591,
+        6593,
+        6594,
+        6595,
+        6596,
+        6597,
+        6598,
+        6601,
+        6604,
+        6607,
+        6608,
+        6613
+      ],
+      "relative_offset": 23559,
+      "root_entry": 6502,
+      "root_position": 6613,
+      "symbol": "STATE_CODE",
+      "width": 2
+    }
+  ],
+  "schema": 1,
+  "supervisor_review": "Complete original bytes/hashes, every caller CFG step/context, all six independent witness paths and original binding frame/symbols were rechecked before strict fresh promotion. Decoded instruction starts/branches retained; verbose duplicate disassembly remains ignored.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "targets": [
+    {
+      "branch_edges": [
+        {
+          "at": 4540,
+          "to": 4554
+        },
+        {
+          "at": 4547,
+          "to": 4554
+        },
+        {
+          "at": 4552,
+          "to": 4556
+        }
+      ],
+      "callers": [
+        {
+          "caller_entry": 1204,
+          "context_bytes_hex": "03e90501ff36045cb80f00500ee8f50b0bc07503e9f200b8",
+          "context_start": 1435,
+          "file_offset": 250168,
+          "image_offset": 1448,
+          "instruction_path": [
+            1204,
+            1205,
+            1207,
+            1210,
+            1211,
+            1212,
+            1218,
+            1223,
+            1229,
+            1234,
+            1240,
+            1245,
+            1251,
+            1256,
+            1262,
+            1282,
+            1288,
+            1325,
+            1326,
+            1329,
+            1331,
+            1334,
+            1339,
+            1342,
+            1346,
+            1349,
+            1350,
+            1352,
+            1355,
+            1356,
+            1358,
+            1359,
+            1361,
+            1363,
+            1366,
+            1369,
+            1370,
+            1372,
+            1375,
+            1376,
+            1378,
+            1379,
+            1381,
+            1383,
+            1386,
+            1388,
+            1486,
+            1490,
+            1538,
+            1541,
+            1543,
+            1547,
+            1428,
+            1434,
+            1439,
+            1443,
+            1446,
+            1447
+          ],
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1447,
+          "space": "overlay-11"
+        }
+      ],
+      "canonical_recipe": "recipes/in_remainder_window63.json",
+      "decode_coverage": 54,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/O",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "56803e115c007d46",
+      "instruction_starts": [
+        4512,
+        4513,
+        4515,
+        4516,
+        4519,
+        4522,
+        4525,
+        4528,
+        4529,
+        4531,
+        4533,
+        4536,
+        4538,
+        4540,
+        4542,
+        4545,
+        4547,
+        4549,
+        4552,
+        4554,
+        4556,
+        4558,
+        4559,
+        4561,
+        4562,
+        4565
+      ],
+      "original_bytes_hex": "558bec578b7e068b5e088d47fdb93f0099f7f98bdab81f002bc73bd87c0c8d451f3bc37c05ba0100eb022bd28bc25f8be55dca040090",
+      "original_relocation_obligations": [],
+      "original_sha256": "208abc59e43c0ff6ecea3595266cd67244b6acff749ca93d1f3e7b7dcc56c1da",
+      "preceding_eight_bytes_hex": "5f8be55dca040090",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "source_lead": "Use accepted in_remainder_window source structure as a lead: normalize first parameter in place, register second parameter, named int result local. Constants become 3, 63, and 31. Source type/names remain hypotheses.",
+      "target_id": "overlay-11:2c3e:11a0"
+    },
+    {
+      "branch_edges": [
+        {
+          "at": 10305,
+          "to": 10370
+        },
+        {
+          "at": 10313,
+          "to": 10370
+        },
+        {
+          "at": 10318,
+          "to": 10370
+        },
+        {
+          "at": 10332,
+          "to": 10354
+        },
+        {
+          "at": 10352,
+          "to": 10366
+        },
+        {
+          "at": 10368,
+          "to": 10372
+        }
+      ],
+      "callers": [
+        {
+          "caller_entry": 9686,
+          "context_bytes_hex": "5e047c36ff36075cff36085e0ee823023d0100f51bc02508",
+          "context_start": 9731,
+          "file_offset": 194512,
+          "image_offset": 9744,
+          "instruction_path": [
+            9686,
+            9691,
+            9693,
+            9698,
+            9700,
+            9705,
+            9707,
+            9712,
+            9721,
+            9726,
+            9728,
+            9733,
+            9735,
+            9739,
+            9743
+          ],
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 9743,
+          "space": "overlay-3"
+        }
+      ],
+      "canonical_recipe": "recipes/is_scalar_modulo_window.json",
+      "decode_coverage": 88,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/O",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "833e245c0d741380",
+      "instruction_starts": [
+        10294,
+        10295,
+        10297,
+        10300,
+        10301,
+        10305,
+        10307,
+        10310,
+        10313,
+        10315,
+        10318,
+        10320,
+        10323,
+        10326,
+        10329,
+        10332,
+        10334,
+        10336,
+        10339,
+        10341,
+        10343,
+        10345,
+        10348,
+        10350,
+        10352,
+        10354,
+        10357,
+        10360,
+        10362,
+        10364,
+        10366,
+        10368,
+        10370,
+        10372,
+        10374,
+        10375,
+        10377,
+        10378,
+        10381
+      ],
+      "original_bytes_hex": "558bec83ec0257837e06047c3f8b5e0883fb2d763783fb3473328b7e0683ef0483eb2e83ff027d148bc3b903002bcf2bd2f7f183fa011bc0f7d8eb0cb903008d47012bd2f7f18bc28bd0eb022bd28bc25f8be55dca040090",
+      "original_relocation_obligations": [],
+      "original_sha256": "b20015abf84ca38c1800c9cbe6cd01721ad0fe7c99b721bf69fd99192804aeca",
+      "preceding_eight_bytes_hex": "cb90b9e7038bc1cb",
+      "profile_shortlist": [
+        "msc600",
+        "msc510"
+      ],
+      "source_lead": "Natural C lead: signed int first, unsigned int second; local index/unsigned delta; named result. Preserve the signed first test and unsigned range/division distinction. Comparison-as-expression reproducing SBB/NEG may matter.",
+      "target_id": "overlay-3:2344:2836"
+    },
+    {
+      "branch_edges": [],
+      "callers": [
+        {
+          "caller_entry": 856,
+          "context_bytes_hex": "238b46063946fe7e0eb0fe500ee8a5fc8be55dca02009080",
+          "context_start": 909,
+          "file_offset": 256138,
+          "image_offset": 922,
+          "instruction_path": [
+            856,
+            857,
+            859,
+            862,
+            867,
+            892,
+            897,
+            899,
+            902,
+            905,
+            910,
+            913,
+            916,
+            918,
+            920,
+            921
+          ],
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 921,
+          "space": "overlay-12"
+        }
+      ],
+      "canonical_binding": "evidence/bindings/set_overlay_state_bytes.json",
+      "canonical_recipe": "recipes/set_overlay_state_bytes.json",
+      "decode_coverage": 16,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "56813e075cb90075",
+      "instruction_starts": [
+        66,
+        67,
+        69,
+        72,
+        75,
+        78,
+        79
+      ],
+      "original_bytes_hex": "558bec8a4606a2325ea290625dca0200",
+      "original_relocation_obligations": [],
+      "original_sha256": "c617c5a5b0f4d5eb9fc4d842d47b2483676c86cabe1b4220a1f59c6bc708ee52",
+      "preceding_eight_bytes_hex": "8f62ff0ee8c1ffcb",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "source_lead": "Natural C lead: extern volatile char STATE_A, STATE_B; void far pascal function(char value) { STATE_A=value; STATE_B=value; }. Only byte widths and two separate zero-addend symbols are admissible.",
+      "target_id": "overlay-12:2c3e:0042"
+    },
+    {
+      "branch_edges": [
+        {
+          "at": 2649,
+          "to": 2686
+        },
+        {
+          "at": 2657,
+          "to": 2686
+        },
+        {
+          "at": 2664,
+          "to": 2680
+        },
+        {
+          "at": 2671,
+          "to": 2680
+        },
+        {
+          "at": 2678,
+          "to": 2686
+        }
+      ],
+      "callers": [
+        {
+          "caller_entry": 950,
+          "context_bytes_hex": "020ee892fc803e8e5c1375290ee873060bc075080ee82906",
+          "context_start": 977,
+          "file_offset": 209854,
+          "image_offset": 990,
+          "instruction_path": [
+            950,
+            951,
+            952,
+            957,
+            973,
+            978,
+            979,
+            982,
+            987,
+            989
+          ],
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 989,
+          "space": "overlay-4"
+        }
+      ],
+      "canonical_binding": "evidence/bindings/overlay_state_window.json",
+      "canonical_recipe": "recipes/overlay_state_window.json",
+      "decode_coverage": 48,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_eight_bytes_hex": "558bec56807e0800",
+      "instruction_starts": [
+        2644,
+        2649,
+        2651,
+        2657,
+        2659,
+        2664,
+        2666,
+        2671,
+        2673,
+        2678,
+        2680,
+        2683,
+        2685,
+        2686,
+        2688,
+        2690,
+        2691
+      ],
+      "original_bytes_hex": "803e0e5c137523813e025cd0007d1b803e0b5c02740e803e0b5c067407833e075c507506ba01008bc2cb2bd28bc2cb90",
+      "original_relocation_obligations": [],
+      "original_sha256": "ab1980b7d72c08c460711c1ffdfecb88018cdd6dce62b0c8f4175636a633a444",
+      "preceding_eight_bytes_hex": "03ba01008bc2cb90",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "source_lead": "Natural C lead: return STATE_BYTE==19 && POSITION_WORD<208 && (STATE_KIND==2 || STATE_KIND==6 || STATE_CODE==80), with extern volatile byte/word declarations. Signed POSITION_WORD required by JGE; short-circuit structure/order must remain observed.",
+      "target_id": "overlay-4:29cf:0a54"
+    }
+  ]
+}
