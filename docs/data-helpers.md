@@ -1,5 +1,8 @@
 # Additional complete data-helper C matches — 2026-10-05
 
+This records the earlier 112-byte C milestone. The later
+[state-helper continuation](state-helpers.md) brings matching C to 216 bytes.
+
 Two independently reviewed resident contributions now pass CODE_EXACT under
 pinned MSC 6.00 `/c /AM /Oe /Gs /Zl /Gc`. Both use the existing external DGROUP
 offset16 proof; no gate was weakened or extended. The original target remains

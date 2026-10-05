@@ -62,12 +62,14 @@ Source semantics, game/runtime classification, names and original build/version
 are evidence-qualified claims independent of byte equality. Compiler probes can
 establish code-generation facts without proving the compiler used by every TU.
 
-The [current data-helper milestone](data-helpers.md) brings matching C to 112
-bytes across four complete contributions, with fourteen external DGROUP fields
-proved. Matching ASM remains 51 bytes and pinned runtime remains 666 bytes.
-The reviewed 26-byte signed-value target is still unowned: its full 24-byte
-candidate fails the extent gate. Source hypotheses cannot inherit ownership
-from neighboring accepted helpers or from matching individual instructions.
+The [current state-helper milestone](state-helpers.md) brings matching C to 216
+bytes across eight complete contributions, with twenty-nine external DGROUP
+fields proved. Matching ASM remains 51 bytes and pinned runtime remains 666
+bytes. The reviewed 26-byte signed-value target is still unowned: its full
+24-byte candidate fails the extent gate. The new 80-byte predicate remains
+unowned despite agreeing data equations: four ordinary register-encoding bytes
+differ. Source hypotheses cannot inherit ownership from neighboring accepted
+helpers, agreeing equations or matching individual instructions.
 
 Canonical source and binding file pins use the repository's LF checkout policy.
 Source publication normalizes its frozen independent copy to LF, then compiles

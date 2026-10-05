@@ -6,7 +6,25 @@ Release identity is still unconfirmed. Root/overlay structure, all 62 asset
 identities, and the 4,716 relocation records remain unchanged. The
 [bootstrap report](bootstrap-status.md) is the earlier milestone snapshot.
 
-## Two more complete C helpers
+## Four further complete C helpers
+
+The [state-helper milestone](state-helpers.md) adds 104 CODE_EXACT bytes:
+two 32-byte negate/exchange helpers, an 18-byte clear/byte-result helper, and
+a 22-byte conditional-negation helper. Pinned MSC 6.00 `/Oe` reproduces all
+four complete extents, including original alignment NOPs. Their fifteen
+external data equations use independent outside witnesses and the existing
+DGROUP gate. Ordinary bytes compare literally. Canonical publics are distinct
+and byte aliases agree by relative offset; original names and data storage
+remain unproved. Worker submissions and full object identities are retained.
+
+A newly reviewed 80-byte state predicate remains unowned. The
+[non-owning replay](../evidence/matching/state-predicate-negative.json)
+reproduces all eleven data equations but selects DX where the original uses BX,
+leaving four ordinary instruction bytes different. Thirty-four bounded source
+and compiler-flag trials are preserved. Whole CODE comparison remains strict;
+no code, object, extent or fixup field was edited to manufacture a match.
+
+## Previous two complete C helpers
 
 The [data-helper milestone](data-helpers.md) accepts two complete resident C
 contributions with the existing DGROUP gate: `clear_steps` owns 10 bytes at
@@ -138,26 +156,28 @@ historical flag family is inferred from these experiments.
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 112 |
+| Matching C | 216 |
 | Matching ASM | 51 |
 | Pinned runtime | 666 |
 | External drivers | 0 |
-| Unresolved identified game helpers | 72 |
-| Unknown/unclassified payload | 270,487 |
+| Unresolved identified game helpers | 152 |
+| Unknown/unclassified payload | 270,303 |
 
-There are five accepted source components and eleven pinned runtime components.
-All accepted bytes remain resident. The identified game-helper subtotal is 184
-bytes, including the 46-byte swap and 26-byte signed-value hypotheses; 112 of
-those bytes are accepted.
+There are nine accepted source components (eight C and one ASM) and eleven
+pinned runtime components. All accepted bytes remain resident. The identified
+game-helper subtotal is 368 bytes, including the 46-byte swap, 26-byte
+signed-value helper and 80-byte predicate hypotheses; 216 of those bytes are
+accepted.
 No overlay has accepted ownership, and generated relocation coverage remains
-0/4,716. Fourteen source data-offset fixups and one runtime near fixup are proven and
+0/4,716. Twenty-nine source data-offset fixups and one runtime near fixup are proven and
 generate no MZ relocations;
 these counts are reported separately. Natural RTLink linkage and original runtime
 traces remain unresolved.
 
 The next highest-leverage work is extending independently grounded binding to
 far calls and additional symbols/providers, then expanding the small data-helper
-family with a distinct source/code-generation lead for the signed-value mismatch.
+family with distinct source/code-generation leads for the signed-value and
+state-predicate mismatches.
 The new near mode can be reused for related whole CRT members.
 The swap needs a new source/TU or compiler-generation lead:
 the documented aggregate and scalar families do not explain its CX/stack split.
@@ -165,6 +185,6 @@ RTLink version, TU grouping and runtime-derived descriptor location remain
 separate structural investigations.
 
 Final `python tools/validate.py` passes all 108 invariant tests, freshly compiles
-all four C functions, freshly assembles the ASM function, verifies all eleven independent
+all eight C functions, freshly assembles the ASM function, verifies all eleven independent
 runtime members, and rechecks every original asset/structure and tool pin.
 Source, object, byte extent, relocation and ownership checks all pass.

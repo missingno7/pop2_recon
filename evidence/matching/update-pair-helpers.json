@@ -1,0 +1,1884 @@
+{
+  "caller_scope": "Static decoded conditional paths in an independently bounded caller only; entry reachability and runtime DS association remain unproved.",
+  "canonical_names": "Distinct public names and byte aliases keyed by independently grounded DS offsets; source identifiers do not recover original names. Worker objects remain independently pinned under their original identifiers.",
+  "components": [
+    {
+      "call_evidence": {
+        "caller_boundary": "Independent BP prologue at root+0x4008; caller restores SP/BP and ends RETF at 0x4050.",
+        "caller_context": "Caller reads DS:5c01 and DS:5e8e and conditionally invokes these byte-state helpers. The calls themselves have no MZ relocation.",
+        "caller_context_bytes": "558bec83ec02a0015c8846ff0ac075040ee83600833e8e5e0074040ee84b00833efa2c0074059a5000a40d9a7e04da25807eff0075040ee81000833e8e5e0074040ee825008be55dcb",
+        "caller_context_end_exclusive": 16465,
+        "caller_context_start": 16392,
+        "caller_entry": "root:0000:4008",
+        "caller_extent": "[0x4008,0x4051)",
+        "calls": [
+          {
+            "bytes": "0e e8 36 00",
+            "context": "Caller root:4008; if DS:5c01 is zero, PUSH CS; near CALL 4052.",
+            "position": 16408
+          },
+          {
+            "bytes": "0e e8 10 00",
+            "context": "Same caller repeats conditional PUSH CS; near CALL 4052.",
+            "position": 16446
+          }
+        ],
+        "observed_abi": "no arguments; PUSH CS followed by near E8; target uses RETF, no stack cleanup needed"
+      },
+      "canonical_binding": "evidence/bindings/update_pair_4052.json",
+      "canonical_binding_sha256": "83ed519250ad71e7d46c529266107a93530b1a9ea027236d88609e4a96c9e331",
+      "canonical_object_sha256": "14a24ff135da9d649fdc0265fc351516eae452771749ec5dd0dacb768028c3f3",
+      "canonical_public": "UPDATE_PAIR_4052",
+      "canonical_recipe": "recipes/update_pair_4052.json",
+      "canonical_source": "src/update_pair_4052.c",
+      "canonical_source_sha256": "862368a9d8e24f719f410fb297b418516a7376a3b1165f512e2a13c5182b32c7",
+      "classification_hypothesis": "Resident game-state byte-pair update helper; exact original name/purpose unknown.",
+      "comparison": {
+        "field_equation": "LOC1 offset16, raw addend zero, omitted displacement, external T6 target and F5 target-derived frame; independently observed DS offset/width grounds S=F+offset, so S-F+A+D equals the operand.",
+        "fields": [
+          {
+            "displacement": null,
+            "external": "STATE_NEGATE",
+            "field_width": 2,
+            "frame": {
+              "kind": "target_frame",
+              "target": {
+                "index": 1,
+                "kind": "external",
+                "method": 6,
+                "name": "STATE_NEGATE",
+                "zero_displacement": true
+              }
+            },
+            "independent_ds_offset": 24112,
+            "loc_type": 1,
+            "segment_offset": 8,
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE_NEGATE",
+              "zero_displacement": true
+            },
+            "witnesses": [
+              {
+                "bytes": "a2305e",
+                "operation": "store AL to DS:5e30",
+                "position": 16260
+              },
+              {
+                "bytes": "803e305eff",
+                "operation": "compare DS:5e30 byte",
+                "position": 16603
+              }
+            ]
+          },
+          {
+            "displacement": null,
+            "external": "STATE_A",
+            "field_width": 2,
+            "frame": {
+              "kind": "target_frame",
+              "target": {
+                "index": 2,
+                "kind": "external",
+                "method": 6,
+                "name": "STATE_A",
+                "zero_displacement": true
+              }
+            },
+            "independent_ds_offset": 25228,
+            "loc_type": 1,
+            "segment_offset": 11,
+            "target": {
+              "index": 2,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE_A",
+              "zero_displacement": true
+            },
+            "witnesses": [
+              {
+                "bytes": "803e8c6200",
+                "operation": "compare DS:628c byte",
+                "position": 16596
+              },
+              {
+                "bytes": "c6068c62ff",
+                "operation": "store immediate byte at DS:628c",
+                "position": 16617
+              }
+            ]
+          },
+          {
+            "displacement": null,
+            "external": "STATE_B",
+            "field_width": 2,
+            "frame": {
+              "kind": "target_frame",
+              "target": {
+                "index": 3,
+                "kind": "external",
+                "method": 6,
+                "name": "STATE_B",
+                "zero_displacement": true
+              }
+            },
+            "independent_ds_offset": 25229,
+            "loc_type": 1,
+            "segment_offset": 17,
+            "target": {
+              "index": 3,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE_B",
+              "zero_displacement": true
+            },
+            "witnesses": [
+              {
+                "bytes": "803e8d6200",
+                "operation": "compare DS:628d byte",
+                "position": 16629
+              },
+              {
+                "bytes": "c6068d62ff",
+                "operation": "store immediate byte at DS:628d",
+                "position": 16650
+              }
+            ]
+          }
+        ],
+        "nonfield_differences": [],
+        "ordinary_byte_count": 22,
+        "ordinary_bytes_equal": true,
+        "whole_code_segment_size": 32,
+        "whole_target_size": 32
+      },
+      "compiler": {
+        "argv": [
+          "C:\\tools\\nmlgcdos\\msdos.exe",
+          "-e",
+          "-v5.00",
+          "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc",
+          "PAIR4052.C"
+        ],
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "profile": "msc600",
+        "public_symbol": "UPDATE_PAIR"
+      },
+      "ds_frame_and_symbol_witnesses": {
+        "ds_relocation": {
+          "image_position": 140979,
+          "index": 1981,
+          "stored_word": 8707
+        },
+        "ds_setup": {
+          "bytes": "bb03228edb",
+          "decode": "MOV BX,2203h; MOV DS,BX",
+          "image_position": 140978
+        },
+        "mz_entry": {
+          "cs": 8707,
+          "ip": 1656,
+          "prefix_hex": "2e8c0682092e8c1e8409bb03228edb",
+          "root_image_position": 140968
+        },
+        "symbols": {
+          "STATE_A": {
+            "ds_offset": 25228,
+            "width": 1,
+            "witnesses": [
+              {
+                "bytes": "803e8c6200",
+                "operation": "compare DS:628c byte",
+                "position": 16596
+              },
+              {
+                "bytes": "c6068c62ff",
+                "operation": "store immediate byte at DS:628c",
+                "position": 16617
+              }
+            ]
+          },
+          "STATE_B": {
+            "ds_offset": 25229,
+            "width": 1,
+            "witnesses": [
+              {
+                "bytes": "803e8d6200",
+                "operation": "compare DS:628d byte",
+                "position": 16629
+              },
+              {
+                "bytes": "c6068d62ff",
+                "operation": "store immediate byte at DS:628d",
+                "position": 16650
+              }
+            ]
+          },
+          "STATE_NEGATE": {
+            "ds_offset": 24112,
+            "width": 1,
+            "witnesses": [
+              {
+                "bytes": "a2305e",
+                "operation": "store AL to DS:5e30",
+                "position": 16260
+              },
+              {
+                "bytes": "803e305eff",
+                "operation": "compare DS:5e30 byte",
+                "position": 16603
+              }
+            ]
+          }
+        }
+      },
+      "fresh_strict_report": {
+        "binding_content_sha256": "75547521c8913964c76f587ada949361c05ba3deb163b7a972c3503b5160081d",
+        "emitted_sha256": "00aede12dbdc756d0b8e85f4473f8330a2d8142aa940d3cd13cefdddec2c146d",
+        "emitted_size": 32,
+        "equations": [
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25229,
+            "linked_value": 25229,
+            "offset": 26,
+            "original_value": 25229,
+            "symbol": "STATE_BYTE_628D"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25228,
+            "linked_value": 25228,
+            "offset": 20,
+            "original_value": 25228,
+            "symbol": "STATE_BYTE_628C"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25229,
+            "linked_value": 25229,
+            "offset": 17,
+            "original_value": 25229,
+            "symbol": "STATE_BYTE_628D"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25228,
+            "linked_value": 25228,
+            "offset": 11,
+            "original_value": 25228,
+            "symbol": "STATE_BYTE_628C"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 24112,
+            "linked_value": 24112,
+            "offset": 8,
+            "original_value": 24112,
+            "symbol": "STATE_BYTE_5E30"
+          }
+        ],
+        "exact": true,
+        "expected_sha256": "4d1b8febf1c0d1b5fbc9dc4012f3870d04faff192f15ea7e52bf4423ae2e8a53",
+        "expected_size": 32,
+        "first_difference": null,
+        "fixup_thread_declarations": [
+          {
+            "datum": 3,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 0
+          },
+          {
+            "datum": 2,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 1
+          },
+          {
+            "datum": 1,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 2
+          },
+          {
+            "datum": 4,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 3
+          },
+          {
+            "datum": 1,
+            "frame": true,
+            "kind": "thread",
+            "method": 0,
+            "thread": 0
+          },
+          {
+            "datum": 1,
+            "frame": true,
+            "kind": "thread",
+            "method": 1,
+            "thread": 1
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 26,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 3,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 20,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 2,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 17,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 3,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 11,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 2,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 8,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 1,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          }
+        ],
+        "fixups": 5,
+        "language": "c",
+        "object_sha256": "14a24ff135da9d649fdc0265fc351516eae452771749ec5dd0dacb768028c3f3",
+        "ordinary_bytes_compared": 22,
+        "proof_scope": "Complete component bytes and external DGROUP offset16 equations to independent DS-relative aliases; raw object preserved, absolute data placement/original symbols/TU/runtime DS association/natural link placement unproved",
+        "public": {
+          "frame": null,
+          "group_index": 0,
+          "name": "UPDATE_PAIR_4052",
+          "offset": 0,
+          "segment": "UNIT_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        },
+        "record_types": [
+          128,
+          136,
+          136,
+          150,
+          152,
+          152,
+          152,
+          152,
+          154,
+          156,
+          140,
+          144,
+          136,
+          160,
+          156,
+          138
+        ],
+        "relocations": 0,
+        "segment": {
+          "alignment": 2,
+          "big": false,
+          "class": "CODE",
+          "combine": 2,
+          "frame": null,
+          "frame_offset": null,
+          "length": 32,
+          "name": "UNIT_TEXT",
+          "overlay": "",
+          "use32": false
+        },
+        "state": "CODE_EXACT",
+        "target_id": "root:0000:4052",
+        "unreferenced_external_declarations": [
+          "UPDATE_PAIR_4052"
+        ]
+      },
+      "object": {
+        "code_segment": "PAIR4052_TEXT",
+        "externals": [
+          "STATE_NEGATE",
+          "STATE_A",
+          "STATE_B",
+          "UPDATE_PAIR"
+        ],
+        "fixup_records": [
+          {
+            "anchor_known": false,
+            "data_length": null,
+            "data_offset": null,
+            "decoded": [
+              {
+                "datum": 3,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 0
+              },
+              {
+                "datum": 2,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 1
+              },
+              {
+                "datum": 1,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 2
+              },
+              {
+                "datum": 4,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 3
+              },
+              {
+                "datum": 1,
+                "frame": true,
+                "kind": "thread",
+                "method": 0,
+                "thread": 0
+              },
+              {
+                "datum": 1,
+                "frame": true,
+                "kind": "thread",
+                "method": 1,
+                "thread": 1
+              }
+            ],
+            "iterated": null,
+            "record_hex": "000301020201030440014501",
+            "resolved": [
+              {
+                "binding": {
+                  "index": 3,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "CONST"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 0
+              },
+              {
+                "binding": {
+                  "index": 2,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "_DATA"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 1
+              },
+              {
+                "binding": {
+                  "index": 1,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "PAIR4052_TEXT"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 2
+              },
+              {
+                "binding": {
+                  "index": 4,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "_BSS"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 3
+              },
+              {
+                "binding": {
+                  "index": 1,
+                  "kind": "segment",
+                  "name": "PAIR4052_TEXT"
+                },
+                "frame": true,
+                "kind": "thread",
+                "thread": 0
+              },
+              {
+                "binding": {
+                  "index": 1,
+                  "kind": "group",
+                  "name": "DGROUP"
+                },
+                "frame": true,
+                "kind": "thread",
+                "thread": 1
+              }
+            ],
+            "segment_index": null
+          },
+          {
+            "anchor_known": true,
+            "data_length": 32,
+            "data_offset": 0,
+            "decoded": [
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 26,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 3,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 20,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 2,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 17,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 3,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 11,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 2,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 8,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 1,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              }
+            ],
+            "iterated": false,
+            "record_hex": "c41a5603c4145602c4115603c40b5602c4085601",
+            "resolved": [
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 3,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_B",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4052_TEXT",
+                "segment_index": 1,
+                "segment_offset": 26,
+                "self_relative": false,
+                "target": {
+                  "index": 3,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_B",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 2,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_A",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4052_TEXT",
+                "segment_index": 1,
+                "segment_offset": 20,
+                "self_relative": false,
+                "target": {
+                  "index": 2,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_A",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 3,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_B",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4052_TEXT",
+                "segment_index": 1,
+                "segment_offset": 17,
+                "self_relative": false,
+                "target": {
+                  "index": 3,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_B",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 2,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_A",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4052_TEXT",
+                "segment_index": 1,
+                "segment_offset": 11,
+                "self_relative": false,
+                "target": {
+                  "index": 2,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_A",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 1,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_NEGATE",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4052_TEXT",
+                "segment_index": 1,
+                "segment_offset": 8,
+                "self_relative": false,
+                "target": {
+                  "index": 1,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_NEGATE",
+                  "zero_displacement": true
+                }
+              }
+            ],
+            "segment_index": 1
+          }
+        ],
+        "groups": [
+          {
+            "name": "DGROUP",
+            "segments": [
+              3,
+              4,
+              2
+            ]
+          }
+        ],
+        "initialized_ranges": {
+          "PAIR4052_TEXT": [
+            [
+              0,
+              32
+            ]
+          ]
+        },
+        "path": "build\\workers\\leaf_family_next\\update_pair_4052\\PAIR4052.OBJ",
+        "publics": [
+          {
+            "frame": null,
+            "group_index": 0,
+            "name": "UPDATE_PAIR",
+            "offset": 0,
+            "segment": "PAIR4052_TEXT",
+            "segment_index": 1,
+            "type_index": 0
+          }
+        ],
+        "segment_defs": [
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "CODE",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 32,
+            "name": "PAIR4052_TEXT",
+            "overlay": "",
+            "use32": false
+          },
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "DATA",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 0,
+            "name": "_DATA",
+            "overlay": "",
+            "use32": false
+          },
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "CONST",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 0,
+            "name": "CONST",
+            "overlay": "",
+            "use32": false
+          },
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "BSS",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 0,
+            "name": "_BSS",
+            "overlay": "",
+            "use32": false
+          }
+        ],
+        "sha256": "91a6f3d5c0b8422e988b2af53d0973a56e380d5453a8eecc69d158cbeb510343",
+        "size": 302,
+        "whole_code_bytes": "558bec83ec02f61e0000a000008846ffa00000a200008a46ffa200008be55dcb",
+        "whole_code_size": 32
+      },
+      "source": {
+        "path": "build\\workers\\leaf_family_next\\update_pair_4052.c",
+        "semantic_name_hypothesis": "update_pair",
+        "sha256": "e9e7b1aa392d513b98bb406bf4bfb7280027f2106ef8661137e2fa03070595f3"
+      },
+      "target": {
+        "boundary_evidence": [
+          "Previous function RETF at 0x4050 and NOP at 0x4051 precede entry prologue 55 8b ec at 0x4052.",
+          "Body is [0x4052,0x4072), ends RETF at 0x4071; next independent BP prologue starts at 0x4072."
+        ],
+        "bytes": "558bec83ec02f61e305ea08c628846ffa08d62a28c628a46ffa28d628be55dcb",
+        "end_exclusive_image_position": 16498,
+        "id": "root:0000:4052",
+        "offset": 16466,
+        "original_mz_relocations_inside_extent": [],
+        "segment": 0,
+        "sha256": "4d1b8febf1c0d1b5fbc9dc4012f3870d04faff192f15ea7e52bf4423ae2e8a53",
+        "size": 32,
+        "space": "root",
+        "start_image_position": 16466
+      }
+    },
+    {
+      "call_evidence": {
+        "caller_boundary": "Independent BP prologue at root+0x4008; caller restores SP/BP and ends RETF at 0x4050.",
+        "caller_context": "Caller reads DS:5c01 and DS:5e8e and conditionally invokes these byte-state helpers. The calls themselves have no MZ relocation.",
+        "caller_context_bytes": "558bec83ec02a0015c8846ff0ac075040ee83600833e8e5e0074040ee84b00833efa2c0074059a5000a40d9a7e04da25807eff0075040ee81000833e8e5e0074040ee825008be55dcb",
+        "caller_context_end_exclusive": 16465,
+        "caller_context_start": 16392,
+        "caller_entry": "root:0000:4008",
+        "caller_extent": "[0x4008,0x4051)",
+        "calls": [
+          {
+            "bytes": "0e e8 4b 00",
+            "context": "Caller root:4008; if DS:5e8e word is nonzero, PUSH CS; near CALL 4072.",
+            "position": 16419
+          },
+          {
+            "bytes": "0e e8 25 00",
+            "context": "Same caller repeats conditional PUSH CS; near CALL 4072.",
+            "position": 16457
+          }
+        ],
+        "observed_abi": "no arguments; PUSH CS followed by near E8; target uses RETF, no stack cleanup needed"
+      },
+      "canonical_binding": "evidence/bindings/update_pair_4072.json",
+      "canonical_binding_sha256": "ac8d1186187e6b5976cf9b4deff788aab4d83ec4bb4ad498f5fe4afab8cfab86",
+      "canonical_object_sha256": "f95ba96998e06030eb8b69b25385988f9403cdcf63e7f8266d0c072d7ace2a84",
+      "canonical_public": "UPDATE_PAIR_4072",
+      "canonical_recipe": "recipes/update_pair_4072.json",
+      "canonical_source": "src/update_pair_4072.c",
+      "canonical_source_sha256": "4b445c06dfe4748a57537d78be677b49e9070ff3abc95e8a26d3da5baa2d6bfa",
+      "classification_hypothesis": "Resident game-state byte-pair update helper; exact original name/purpose unknown.",
+      "comparison": {
+        "field_equation": "LOC1 offset16, raw addend zero, omitted displacement, external T6 target and F5 target-derived frame; independently observed DS offset/width grounds S=F+offset, so S-F+A+D equals the operand.",
+        "fields": [
+          {
+            "displacement": null,
+            "external": "STATE_NEGATE",
+            "field_width": 2,
+            "frame": {
+              "kind": "target_frame",
+              "target": {
+                "index": 1,
+                "kind": "external",
+                "method": 6,
+                "name": "STATE_NEGATE",
+                "zero_displacement": true
+              }
+            },
+            "independent_ds_offset": 24113,
+            "loc_type": 1,
+            "segment_offset": 8,
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE_NEGATE",
+              "zero_displacement": true
+            },
+            "witnesses": [
+              {
+                "bytes": "a2315e",
+                "operation": "store AL to DS:5e31",
+                "position": 16263
+              },
+              {
+                "bytes": "803e315eff",
+                "operation": "compare DS:5e31 byte",
+                "position": 16670
+              }
+            ]
+          },
+          {
+            "displacement": null,
+            "external": "STATE_A",
+            "field_width": 2,
+            "frame": {
+              "kind": "target_frame",
+              "target": {
+                "index": 2,
+                "kind": "external",
+                "method": 6,
+                "name": "STATE_A",
+                "zero_displacement": true
+              }
+            },
+            "independent_ds_offset": 25230,
+            "loc_type": 1,
+            "segment_offset": 11,
+            "target": {
+              "index": 2,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE_A",
+              "zero_displacement": true
+            },
+            "witnesses": [
+              {
+                "bytes": "803e8e6200",
+                "operation": "compare DS:628e byte",
+                "position": 16663
+              },
+              {
+                "bytes": "c6068e62ff",
+                "operation": "store immediate byte at DS:628e",
+                "position": 16684
+              }
+            ]
+          },
+          {
+            "displacement": null,
+            "external": "STATE_B",
+            "field_width": 2,
+            "frame": {
+              "kind": "target_frame",
+              "target": {
+                "index": 3,
+                "kind": "external",
+                "method": 6,
+                "name": "STATE_B",
+                "zero_displacement": true
+              }
+            },
+            "independent_ds_offset": 25231,
+            "loc_type": 1,
+            "segment_offset": 17,
+            "target": {
+              "index": 3,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE_B",
+              "zero_displacement": true
+            },
+            "witnesses": [
+              {
+                "bytes": "803e8f6200",
+                "operation": "compare DS:628f byte",
+                "position": 16697
+              },
+              {
+                "bytes": "c6068f6200",
+                "operation": "store immediate byte at DS:628f",
+                "position": 16726
+              }
+            ]
+          }
+        ],
+        "nonfield_differences": [],
+        "ordinary_byte_count": 22,
+        "ordinary_bytes_equal": true,
+        "whole_code_segment_size": 32,
+        "whole_target_size": 32
+      },
+      "compiler": {
+        "argv": [
+          "C:\\tools\\nmlgcdos\\msdos.exe",
+          "-e",
+          "-v5.00",
+          "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc",
+          "PAIR4072.C"
+        ],
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "profile": "msc600",
+        "public_symbol": "UPDATE_PAIR"
+      },
+      "ds_frame_and_symbol_witnesses": {
+        "ds_relocation": {
+          "image_position": 140979,
+          "index": 1981,
+          "stored_word": 8707
+        },
+        "ds_setup": {
+          "bytes": "bb03228edb",
+          "decode": "MOV BX,2203h; MOV DS,BX",
+          "image_position": 140978
+        },
+        "mz_entry": {
+          "cs": 8707,
+          "ip": 1656,
+          "prefix_hex": "2e8c0682092e8c1e8409bb03228edb",
+          "root_image_position": 140968
+        },
+        "symbols": {
+          "STATE_A": {
+            "ds_offset": 25230,
+            "width": 1,
+            "witnesses": [
+              {
+                "bytes": "803e8e6200",
+                "operation": "compare DS:628e byte",
+                "position": 16663
+              },
+              {
+                "bytes": "c6068e62ff",
+                "operation": "store immediate byte at DS:628e",
+                "position": 16684
+              }
+            ]
+          },
+          "STATE_B": {
+            "ds_offset": 25231,
+            "width": 1,
+            "witnesses": [
+              {
+                "bytes": "803e8f6200",
+                "operation": "compare DS:628f byte",
+                "position": 16697
+              },
+              {
+                "bytes": "c6068f6200",
+                "operation": "store immediate byte at DS:628f",
+                "position": 16726
+              }
+            ]
+          },
+          "STATE_NEGATE": {
+            "ds_offset": 24113,
+            "width": 1,
+            "witnesses": [
+              {
+                "bytes": "a2315e",
+                "operation": "store AL to DS:5e31",
+                "position": 16263
+              },
+              {
+                "bytes": "803e315eff",
+                "operation": "compare DS:5e31 byte",
+                "position": 16670
+              }
+            ]
+          }
+        }
+      },
+      "fresh_strict_report": {
+        "binding_content_sha256": "ca2503eb738e732d6429161ea62f2ad48fffb8304f47a6682189c62f99d28d94",
+        "emitted_sha256": "00aede12dbdc756d0b8e85f4473f8330a2d8142aa940d3cd13cefdddec2c146d",
+        "emitted_size": 32,
+        "equations": [
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25231,
+            "linked_value": 25231,
+            "offset": 26,
+            "original_value": 25231,
+            "symbol": "STATE_BYTE_628F"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25230,
+            "linked_value": 25230,
+            "offset": 20,
+            "original_value": 25230,
+            "symbol": "STATE_BYTE_628E"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25231,
+            "linked_value": 25231,
+            "offset": 17,
+            "original_value": 25231,
+            "symbol": "STATE_BYTE_628F"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 25230,
+            "linked_value": 25230,
+            "offset": 11,
+            "original_value": 25230,
+            "symbol": "STATE_BYTE_628E"
+          },
+          {
+            "encoded_addend": 0,
+            "equal": true,
+            "grounded_ds_relative_offset": 24113,
+            "linked_value": 24113,
+            "offset": 8,
+            "original_value": 24113,
+            "symbol": "STATE_BYTE_5E31"
+          }
+        ],
+        "exact": true,
+        "expected_sha256": "d3b6c34985e3932538ce8f7fa7f366bf1e8e2a53442cf4802ca7779941e5ef3a",
+        "expected_size": 32,
+        "first_difference": null,
+        "fixup_thread_declarations": [
+          {
+            "datum": 3,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 0
+          },
+          {
+            "datum": 2,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 1
+          },
+          {
+            "datum": 1,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 2
+          },
+          {
+            "datum": 4,
+            "frame": false,
+            "kind": "thread",
+            "method": 0,
+            "thread": 3
+          },
+          {
+            "datum": 1,
+            "frame": true,
+            "kind": "thread",
+            "method": 0,
+            "thread": 0
+          },
+          {
+            "datum": 1,
+            "frame": true,
+            "kind": "thread",
+            "method": 1,
+            "thread": 1
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 26,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 3,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 20,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 2,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 17,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 3,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 11,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 2,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          },
+          {
+            "displacement": null,
+            "effective_target_method": 6,
+            "frame_index": null,
+            "frame_method": 5,
+            "frame_thread": false,
+            "kind": "fixup",
+            "loc_type": 1,
+            "location": 8,
+            "self_relative": false,
+            "target_has_displacement": false,
+            "target_index": 1,
+            "target_method": 2,
+            "target_thread": false,
+            "target_thread_index": null
+          }
+        ],
+        "fixups": 5,
+        "language": "c",
+        "object_sha256": "f95ba96998e06030eb8b69b25385988f9403cdcf63e7f8266d0c072d7ace2a84",
+        "ordinary_bytes_compared": 22,
+        "proof_scope": "Complete component bytes and external DGROUP offset16 equations to independent DS-relative aliases; raw object preserved, absolute data placement/original symbols/TU/runtime DS association/natural link placement unproved",
+        "public": {
+          "frame": null,
+          "group_index": 0,
+          "name": "UPDATE_PAIR_4072",
+          "offset": 0,
+          "segment": "UNIT_TEXT",
+          "segment_index": 1,
+          "type_index": 0
+        },
+        "record_types": [
+          128,
+          136,
+          136,
+          150,
+          152,
+          152,
+          152,
+          152,
+          154,
+          156,
+          140,
+          144,
+          136,
+          160,
+          156,
+          138
+        ],
+        "relocations": 0,
+        "segment": {
+          "alignment": 2,
+          "big": false,
+          "class": "CODE",
+          "combine": 2,
+          "frame": null,
+          "frame_offset": null,
+          "length": 32,
+          "name": "UNIT_TEXT",
+          "overlay": "",
+          "use32": false
+        },
+        "state": "CODE_EXACT",
+        "target_id": "root:0000:4072",
+        "unreferenced_external_declarations": [
+          "UPDATE_PAIR_4072"
+        ]
+      },
+      "object": {
+        "code_segment": "PAIR4072_TEXT",
+        "externals": [
+          "STATE_NEGATE",
+          "STATE_A",
+          "STATE_B",
+          "UPDATE_PAIR"
+        ],
+        "fixup_records": [
+          {
+            "anchor_known": false,
+            "data_length": null,
+            "data_offset": null,
+            "decoded": [
+              {
+                "datum": 3,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 0
+              },
+              {
+                "datum": 2,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 1
+              },
+              {
+                "datum": 1,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 2
+              },
+              {
+                "datum": 4,
+                "frame": false,
+                "kind": "thread",
+                "method": 0,
+                "thread": 3
+              },
+              {
+                "datum": 1,
+                "frame": true,
+                "kind": "thread",
+                "method": 0,
+                "thread": 0
+              },
+              {
+                "datum": 1,
+                "frame": true,
+                "kind": "thread",
+                "method": 1,
+                "thread": 1
+              }
+            ],
+            "iterated": null,
+            "record_hex": "000301020201030440014501",
+            "resolved": [
+              {
+                "binding": {
+                  "index": 3,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "CONST"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 0
+              },
+              {
+                "binding": {
+                  "index": 2,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "_DATA"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 1
+              },
+              {
+                "binding": {
+                  "index": 1,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "PAIR4072_TEXT"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 2
+              },
+              {
+                "binding": {
+                  "index": 4,
+                  "kind": "segment",
+                  "method": 0,
+                  "name": "_BSS"
+                },
+                "frame": false,
+                "kind": "thread",
+                "thread": 3
+              },
+              {
+                "binding": {
+                  "index": 1,
+                  "kind": "segment",
+                  "name": "PAIR4072_TEXT"
+                },
+                "frame": true,
+                "kind": "thread",
+                "thread": 0
+              },
+              {
+                "binding": {
+                  "index": 1,
+                  "kind": "group",
+                  "name": "DGROUP"
+                },
+                "frame": true,
+                "kind": "thread",
+                "thread": 1
+              }
+            ],
+            "segment_index": null
+          },
+          {
+            "anchor_known": true,
+            "data_length": 32,
+            "data_offset": 0,
+            "decoded": [
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 26,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 3,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 20,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 2,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 17,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 3,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 11,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 2,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              },
+              {
+                "displacement": null,
+                "effective_target_method": 6,
+                "frame_index": null,
+                "frame_method": 5,
+                "frame_thread": false,
+                "kind": "fixup",
+                "loc_type": 1,
+                "location": 8,
+                "self_relative": false,
+                "target_has_displacement": false,
+                "target_index": 1,
+                "target_method": 2,
+                "target_thread": false,
+                "target_thread_index": null
+              }
+            ],
+            "iterated": false,
+            "record_hex": "c41a5603c4145602c4115603c40b5602c4085601",
+            "resolved": [
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 3,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_B",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4072_TEXT",
+                "segment_index": 1,
+                "segment_offset": 26,
+                "self_relative": false,
+                "target": {
+                  "index": 3,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_B",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 2,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_A",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4072_TEXT",
+                "segment_index": 1,
+                "segment_offset": 20,
+                "self_relative": false,
+                "target": {
+                  "index": 2,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_A",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 3,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_B",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4072_TEXT",
+                "segment_index": 1,
+                "segment_offset": 17,
+                "self_relative": false,
+                "target": {
+                  "index": 3,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_B",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 2,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_A",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4072_TEXT",
+                "segment_index": 1,
+                "segment_offset": 11,
+                "self_relative": false,
+                "target": {
+                  "index": 2,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_A",
+                  "zero_displacement": true
+                }
+              },
+              {
+                "displacement": null,
+                "field_width": 2,
+                "frame": {
+                  "kind": "target_frame",
+                  "target": {
+                    "index": 1,
+                    "kind": "external",
+                    "method": 6,
+                    "name": "STATE_NEGATE",
+                    "zero_displacement": true
+                  }
+                },
+                "kind": "fixup",
+                "loc_type": 1,
+                "segment": "PAIR4072_TEXT",
+                "segment_index": 1,
+                "segment_offset": 8,
+                "self_relative": false,
+                "target": {
+                  "index": 1,
+                  "kind": "external",
+                  "method": 6,
+                  "name": "STATE_NEGATE",
+                  "zero_displacement": true
+                }
+              }
+            ],
+            "segment_index": 1
+          }
+        ],
+        "groups": [
+          {
+            "name": "DGROUP",
+            "segments": [
+              3,
+              4,
+              2
+            ]
+          }
+        ],
+        "initialized_ranges": {
+          "PAIR4072_TEXT": [
+            [
+              0,
+              32
+            ]
+          ]
+        },
+        "path": "build\\workers\\leaf_family_next\\update_pair_4072\\PAIR4072.OBJ",
+        "publics": [
+          {
+            "frame": null,
+            "group_index": 0,
+            "name": "UPDATE_PAIR",
+            "offset": 0,
+            "segment": "PAIR4072_TEXT",
+            "segment_index": 1,
+            "type_index": 0
+          }
+        ],
+        "segment_defs": [
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "CODE",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 32,
+            "name": "PAIR4072_TEXT",
+            "overlay": "",
+            "use32": false
+          },
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "DATA",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 0,
+            "name": "_DATA",
+            "overlay": "",
+            "use32": false
+          },
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "CONST",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 0,
+            "name": "CONST",
+            "overlay": "",
+            "use32": false
+          },
+          {
+            "alignment": 2,
+            "big": false,
+            "class": "BSS",
+            "combine": 2,
+            "frame": null,
+            "frame_offset": null,
+            "length": 0,
+            "name": "_BSS",
+            "overlay": "",
+            "use32": false
+          }
+        ],
+        "sha256": "2448711262b1181bbc626e5820f4140a2790f398eb8b3eb6c08ca30a6cd0ca8e",
+        "size": 302,
+        "whole_code_bytes": "558bec83ec02f61e0000a000008846ffa00000a200008a46ffa200008be55dcb",
+        "whole_code_size": 32
+      },
+      "source": {
+        "path": "build\\workers\\leaf_family_next\\update_pair_4072.c",
+        "semantic_name_hypothesis": "update_pair",
+        "sha256": "e9e7b1aa392d513b98bb406bf4bfb7280027f2106ef8661137e2fa03070595f3"
+      },
+      "target": {
+        "boundary_evidence": [
+          "A separate BP-frame prologue starts at 0x4072 after the preceding helper RETF at 0x4071.",
+          "Body is [0x4072,0x4092), ends RETF at 0x4091; the next independent no-argument leaf begins at 0x4092."
+        ],
+        "bytes": "558bec83ec02f61e315ea08e628846ffa08f62a28e628a46ffa28f628be55dcb",
+        "end_exclusive_image_position": 16530,
+        "id": "root:0000:4072",
+        "offset": 16498,
+        "original_mz_relocations_inside_extent": [],
+        "segment": 0,
+        "sha256": "d3b6c34985e3932538ce8f7fa7f366bf1e8e2a53442cf4802ca7779941e5ef3a",
+        "size": 32,
+        "space": "root",
+        "start_image_position": 16498
+      }
+    }
+  ],
+  "original_review": "evidence/matching/state-helpers-original-review.md",
+  "schema": 1,
+  "scope_note": "Worker-only evidence for parent review. No canonical files or gates changed; semantic names and signedness remain hypotheses.",
+  "status": "ACCEPTED_CODE_EXACT"
+}

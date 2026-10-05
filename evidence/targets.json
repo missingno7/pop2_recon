@@ -266,6 +266,176 @@
       "size": 26,
       "space": "root",
       "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "far no-argument procedure, byte result in AL; Pascal declaration is a source hypothesis",
+      "boundary_evidence": [
+        "A preceding RETF at root+0x4091 terminates the previous helper; the candidate starts at root+0x4092 with SUB AL,AL and has numerous relocation-backed far-call references to this exact alias.",
+        "The body ends with plain RETF at root+0x40a2. An alignment NOP at 0x40a3 precedes the next distinct byte sequence at 0x40a4 (PUSH DI; PUSH SI). Whole interval [0x4092,0x40a4) includes the NOP.",
+        "No original MZ relocation site lies inside the 18-byte target extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197743,
+          "image_offset": 12975,
+          "kind": "far_call",
+          "relocated_segment_site": 12978,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocation-backed overlay caller conditionally invokes this resident helper based on DS:628f and stores returned AL to that byte.",
+        "Four direct DS byte fields are also exchanged by neighboring resident state helpers; names and original qualifiers remain hypotheses."
+      ],
+      "classification_status": "strong state-helper hypothesis, not original symbol or subsystem recovery",
+      "id": "root:02cc:13d2",
+      "offset": 5074,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "clear_state_bytes",
+      "sha256": "15653b05427420efbd0d5d71903a99516a43a0f585f30be0b99f3d35f12db126",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far no-argument procedure, word result in AX; no-argument Pascal convention is a source hypothesis",
+      "boundary_evidence": [
+        "Preceding independent RETF 2 at root0x28d3 ends at0x28d6, where four relocation-backed far encodings target0284:0096.",
+        "All conditional edges from0x28d6 stay in the79-byte body and join the MOV AX,BX; RETF ending at0x2925.",
+        "Original NOP0x2925 precedes the next BP prologue at0x2926; the complete reviewed80-byte interval includes alignment. No original MZ relocation site lies within it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 11775,
+          "image_offset": 3583,
+          "kind": "far_call",
+          "relocated_segment_site": 3586,
+          "space": "root"
+        },
+        {
+          "file_offset": 51137,
+          "image_offset": 42945,
+          "kind": "far_call",
+          "relocated_segment_site": 42948,
+          "space": "root"
+        },
+        {
+          "file_offset": 51172,
+          "image_offset": 42980,
+          "kind": "far_call",
+          "relocated_segment_site": 42983,
+          "space": "root"
+        },
+        {
+          "file_offset": 67895,
+          "image_offset": 59703,
+          "kind": "far_call",
+          "relocated_segment_site": 59706,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident predicate combines three direct word guards and four literal byte-pair cases.",
+        "A separate PUSH CS; near CALL at0x2ba6 targets the entry; the caller normalizes returned AX and passes it to another helper. The containing caller entry reachability is unproved."
+      ],
+      "classification_status": "strong state-predicate helper hypothesis, original symbol and subsystem unconfirmed",
+      "id": "root:0284:0096",
+      "offset": 150,
+      "original_name": null,
+      "segment": 644,
+      "semantic_name_hypothesis": "is_special_state",
+      "sha256": "9ac00f333629e74eff85c7dba331b31fc9cb2277b7cb90d3d1de99a05e4bc706",
+      "size": 80,
+      "space": "root",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "far no-argument procedure; explicit pushed CS and near CALL match plain RETF, no-argument Pascal convention is a source hypothesis",
+      "boundary_evidence": [
+        "Previous function RETF at 0x4050 and NOP at 0x4051 precede entry prologue 55 8b ec at 0x4052.",
+        "Body is [0x4052,0x4072), ends RETF at 0x4071; next independent BP prologue starts at 0x4072.",
+        "The separately decoded root0x4008 caller executes PUSH CS; near CALL at0x4019, PUSH CS; near CALL at0x403f to the exact entry. All leaf instructions decode through RETF with no branch, call or original relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The bounded resident caller0x4008 conditionally invokes this byte-state helper twice, surrounding two other far calls.",
+        "Direct byte negation and exchange of separate state bytes support a state-update hypothesis; signs, names and gameplay purpose remain unconfirmed."
+      ],
+      "classification_status": "strong resident state-helper hypothesis, original symbol and subsystem unconfirmed",
+      "id": "root:0000:4052",
+      "offset": 16466,
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "update_pair_4052",
+      "sha256": "4d1b8febf1c0d1b5fbc9dc4012f3870d04faff192f15ea7e52bf4423ae2e8a53",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far no-argument procedure; explicit pushed CS and near CALL match plain RETF, no-argument Pascal convention is a source hypothesis",
+      "boundary_evidence": [
+        "A separate BP-frame prologue starts at 0x4072 after the preceding helper RETF at 0x4071.",
+        "Body is [0x4072,0x4092), ends RETF at 0x4091; the next independent no-argument leaf begins at 0x4092.",
+        "The separately decoded root0x4008 caller executes PUSH CS; near CALL at0x4024, PUSH CS; near CALL at0x404a to the exact entry. All leaf instructions decode through RETF with no branch, call or original relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The bounded resident caller0x4008 conditionally invokes this byte-state helper twice, surrounding two other far calls.",
+        "Direct byte negation and exchange of separate state bytes support a state-update hypothesis; signs, names and gameplay purpose remain unconfirmed."
+      ],
+      "classification_status": "strong resident state-helper hypothesis, original symbol and subsystem unconfirmed",
+      "id": "root:0000:4072",
+      "offset": 16498,
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "update_pair_4072",
+      "sha256": "d3b6c34985e3932538ce8f7fa7f366bf1e8e2a53442cf4802ca7779941e5ef3a",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one 16-bit argument at BP+6, word result in AX; callee pops two bytes",
+      "boundary_evidence": [
+        "A preceding RETF ends at root+0x424d; the candidate starts with a separate BP prologue at 0x424e.",
+        "RETF 2 ends the body at 0x4262; an alignment NOP at 0x4263 precedes the next BP prologue at 0x4264. Whole extent [0x424e,0x4264) includes the NOP.",
+        "No original MZ relocation site lies in the target extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200351,
+          "image_offset": 15583,
+          "kind": "far_call",
+          "relocated_segment_site": 15586,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated overlay-3 caller pushes a word, invokes this resident helper and immediately consumes AX in SI.",
+        "Conditional sign selection reads the same direct byte flag used by separately reviewed resident state helpers; signedness and exact purpose remain hypotheses."
+      ],
+      "classification_status": "strong resident state-helper hypothesis, original symbol and subsystem unconfirmed",
+      "id": "root:02cc:158e",
+      "offset": 5518,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "conditional_negative",
+      "sha256": "924860e94b2e809c8300afeca89d4d4b02b3c14f36d844b61e592aa0cba0a8cf",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
