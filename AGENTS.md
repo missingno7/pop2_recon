@@ -28,8 +28,8 @@ runs `python tools/validate.py`. Accepted code is complete component CODE_EXACT,
 not original-TU or whole-link proof. Current acceptance supports one complete
 initialized CODE segment. Relocation-free components need no binding proof.
 Unreferenced compiler externals and FIXUPP thread declarations are retained in
-the object proof. For the narrow resident external DGROUP offset16 modes (zero addend or
-independently witnessed two-word alias), provide
+the object proof. For the narrow external DGROUP offset16 modes (resident zero addend or
+independently witnessed two-word alias; overlay byte/word zero addend), provide
 `--binding evidence/bindings/NAME.json`; see docs/dgroup-binding.md. Every field
 equation and independent original witness is rechecked, with no byte masking.
 Other fixup-bearing components remain blocked on their symbolic proof.
@@ -73,6 +73,9 @@ a daemon, shared writable queue, or speculative canonical source variants.
 Use gpt-6-luna with xhigh for bounded source/profile searches. Use gpt-6.1-sol
 with high for boundary/ABI review, stagnant near-matches, new proofs, overlays,
 and structural/TU/linker decisions. Luna must not design acceptance mechanisms.
+Use `--output build/workers/NAME/discovery.json` for worker discovery and
+`--output build/workers/NAME/context.json` for worker context; their CLI defaults
+write shared inventory diagnostics. Root refreshes shared oracle fixtures.
 Workers write only their assigned scratch directory, never canonical directories,
 acceptance tools or another worker's files. Use escalated shell execution if the
 Windows sandbox helper fails; this does not change the owned write scope.

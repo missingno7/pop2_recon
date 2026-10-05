@@ -1,0 +1,150 @@
+{
+  "facts_scope": "Original full extents, instruction boundaries, caller encodings and ABI review. Source forms, types, names, gameplay purpose, TU and execution remain hypotheses. These rows grant no ownership.",
+  "schema": 1,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "targets": [
+    {
+      "abi": "far callee-cleaned one word at BP+6; word result AX; RETF 2; no signed comparison",
+      "callers": [
+        {
+          "context_bytes_hex": "5c3806d12c7442ff36075c0ee8fe000bc07436803ed12c02",
+          "context_start": 531,
+          "file_offset": 212463,
+          "image_offset": 543,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 542,
+          "space": "overlay-5"
+        },
+        {
+          "context_bytes_hex": "00509ab001d70dff36075c0ee8bc000bc07406a0095ca2d1",
+          "context_start": 597,
+          "file_offset": 212529,
+          "image_offset": 609,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 608,
+          "space": "overlay-5"
+        }
+      ],
+      "classification_scope": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "following_six_bytes_hex": "558bec83ec0a",
+      "original_bytes_hex": "558bec8b560683fa0f743983fa6d743483fa07742f83fa0b742a83fa0d742583fa26742083fa2c741b83fa1c741681fa9e00741081faaa00740a81faab0074042bd2eb03ba01008bc28be55dca020090",
+      "preceding_six_bytes_hex": "c6060c16ffcb",
+      "target_id": "overlay-5:29cf:0320"
+    },
+    {
+      "abi": "far callee-cleaned two near data pointers; destination at BP+8, source at BP+6; SI/DI preserved; RETF 4; no established return result",
+      "callers": [
+        {
+          "context_bytes_hex": "8a46fe38077f33750657530ee82404fe46ff807eff0f7cda",
+          "context_start": 1669,
+          "file_offset": 217073,
+          "image_offset": 1681,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1680,
+          "space": "overlay-6"
+        },
+        {
+          "context_bytes_hex": "e98b00c6040056b89a16500ee80f0156b8a216500ee80601",
+          "context_start": 2458,
+          "file_offset": 217862,
+          "image_offset": 2470,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2469,
+          "space": "overlay-6"
+        }
+      ],
+      "classification_scope": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "following_six_bytes_hex": "558bec83ec02",
+      "original_bytes_hex": "558bec57568b4e082bff8bd943833f00740983c30a4783ff0a7cf283ff0a7d308bc7d1e7d1e703f8d1e703f9c745010100c64503008b76068a44018845048b44028b54048945058955078b44068945095e5f8be55dca0400",
+      "preceding_six_bytes_hex": "e55dca040090",
+      "target_id": "overlay-6:29cf:0ab8"
+    },
+    {
+      "abi": "far callee-cleaned one word slot; low byte read at BP+6, AND DX,31 discards uninitialized high byte; word result AX; RETF 2",
+      "callers": [
+        {
+          "context_bytes_hex": "3c0d7403e9df00ff3671620ee87b010bc07503e9cd008d46",
+          "context_start": 366,
+          "file_offset": 224074,
+          "image_offset": 378,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 377,
+          "space": "overlay-7"
+        }
+      ],
+      "classification_scope": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "following_six_bytes_hex": "558bec83ec08",
+      "original_bytes_hex": "558bec8a560683e21f83fa02741283fa10720583fa1176082bd28bc25dca0200ba01008bc25dca020090",
+      "preceding_six_bytes_hex": "8be55dca0200",
+      "target_id": "overlay-7:29cf:02f8"
+    },
+    {
+      "abi": "far callee-cleaned near data pointer at BP+6; RETF 2; no established return result",
+      "callers": [
+        {
+          "context_bytes_hex": "7408560ee85901eb0690560ee86d010bff742a8a44013844",
+          "context_start": 1948,
+          "file_offset": 242376,
+          "image_offset": 1960,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1959,
+          "space": "overlay-10"
+        },
+        {
+          "context_bytes_hex": "ff500ee84e0a0bc07408560ee80301eb15908a440150b001",
+          "context_start": 2054,
+          "file_offset": 242482,
+          "image_offset": 2066,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2065,
+          "space": "overlay-10"
+        }
+      ],
+      "classification_scope": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "following_six_bytes_hex": "558bec83ec02",
+      "original_bytes_hex": "558bec8b5e06807f01007408fe4f015dca020090c64701035dca0200",
+      "preceding_six_bytes_hex": "015dca020090",
+      "target_id": "overlay-10:29cf:0918"
+    },
+    {
+      "abi": "Far return, noarguments, 16-bit boolean resultAX; DX holds intermediateboolean.",
+      "boundary_evidence": [
+        "Previous routine ends RETF2 at0xa0f..0xa12; predicate direct CMP begins0xa12.",
+        "True path ends RETF0xa25; conditional edges at0xa17/0xa1e land onfalseblock0xa26; falseRET0xa2a ends0xa2b. Original NOP0xa2b is retained as complete alignment extent.",
+        "Independent next closed predicate begins XOR DX,DX at0xa2c and returns at0xa52, followed byNOP0xa53 and another predicateentry0xa54; paddingNOP0xa2b is retained beforethatnextbody.",
+        "Caller starting0x3b6 PUSHCS/E8 at0x3e5/0x3e6 and0x3f1/0x3f2 targets0xa12 and immediately tests AX; no argumentpushes."
+      ],
+      "callers": [
+        {
+          "context_bytes_hex": "290ee873060bc075080ee829060bc07419ff0e02",
+          "context_start": 988,
+          "file_offset": 209862,
+          "image_offset": 998,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 997,
+          "space": "overlay-4"
+        },
+        {
+          "context_bytes_hex": "060bc07419ff0e025c0ee81d060bc0740d813e07",
+          "context_start": 1000,
+          "file_offset": 209874,
+          "image_offset": 1010,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1009,
+          "space": "overlay-4"
+        }
+      ],
+      "classification_scope": "overlay state predicate hypothesis; original symbols, source language, gameplay role, TU, runtime DS and execution unproved",
+      "data_equations": {
+        "byte_relative_offset": 23566,
+        "root_byte_witness": 7885,
+        "root_word_witness": 14366,
+        "word_relative_offset": 23577
+      },
+      "following_bytes_hex": "2bd2803e0e5c1375",
+      "original_bytes_hex": "803e0e5c13750d833e195c3b7506ba01008bc2cb2bd28bc2cb90",
+      "preceding_bytes_hex": "ca0200",
+      "target_id": "overlay-4:29cf:0a12"
+    }
+  ]
+}

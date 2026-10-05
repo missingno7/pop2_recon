@@ -45,9 +45,9 @@ status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) includes
-four complete overlay C matches and a resident predicate matched through
-[independently witnessed DGROUP word fields](docs/dgroup-binding.md). Totals
-are 482 C bytes, 51 ASM bytes, and 666 pinned runtime bytes. Forty source data
-fixups and the first [runtime near-jump equation](docs/runtime-near-binding.md)
-are proven; original relocation coverage remains 0/4,716. Far-call binding and
-natural RTLink placement remain unresolved.
+eight complete overlay C matches, with the first independently proved overlay
+data fields. Totals are 666 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
+Forty-two source data fixups and the first
+[runtime near-jump equation](docs/runtime-near-binding.md) are proven; original
+relocation coverage remains 0/4,716. Far-call binding and natural RTLink
+placement remain unresolved.

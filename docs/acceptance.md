@@ -13,7 +13,9 @@ declarations, not relocation requests; they are decoded and retained. Unused
 EXTDEF declarations (including Microsoft CRT markers and a self-public) are
 retained in reports and the exact object hash. A separate narrow
 [external DGROUP gate](dgroup-binding.md) proves offset16 fields using frozen,
-independent original witnesses and explicit linker equations; no bytes are
+independent original witnesses and explicit linker equations. Resident modes
+support zero addends or reviewed word pairs; the explicit overlay mode permits
+only byte/word zero addends with root witnesses. No bytes are
 masked, patched or normalized. A separate
 [runtime near-code gate](runtime-near-binding.md) supports anchored F0/T6
 self-relative offset16. Unsupported fixup modes remain refused.
@@ -62,20 +64,21 @@ Source semantics, game/runtime classification, names and original build/version
 are evidence-qualified claims independent of byte equality. Compiler probes can
 establish code-generation facts without proving the compiler used by every TU.
 
-The [current grinding wave](reconstruction-progress.md) accepts four complete
-relocation-free C components from overlays 10, 7, 4 and 11, totaling 186 bytes.
-The resident 80-byte predicate now reproduces BX using a natural unsigned-long
-guard and the independently witnessed word-pair DGROUP mode. Together with
-earlier helpers, matching C totals 482 bytes across thirteen contributions;
-forty source data fields are proved. Matching ASM remains 51 bytes and pinned
-runtime remains 666 bytes. The 26-byte signed-value and 46-byte overlay swap
-targets remain unowned.
+The [second grinding wave](reconstruction-progress.md) accepts three more
+relocation-free overlay C components (28, 42 and 88 bytes) and a complete
+26-byte overlay state predicate with two independently proved data fields.
+Matching C totals 666 bytes across seventeen contributions, with forty-two
+source data fields proved. Matching ASM remains 51 bytes and pinned runtime
+remains 666 bytes. The 26-byte signed-value, 46-byte overlay swap and newly
+reviewed 80-byte membership targets remain unowned. A switch probe agrees on
+the membership target's first 73 bytes but emits 94 complete bytes; no prefix
+is accepted.
 
-Far-call investigation found a complete 90-byte utility candidate, but its
-strnicmp provider frame has no independent original witness and the readable C
-still differs at two ordinary bytes. No far-call/MZ mode was added. Source
-hypotheses cannot inherit ownership from agreeing equations or shared archive
-segment declarations. See the [compact wave receipt](../evidence/matching/grinding-wave1.json).
+Far-call/MZ proof remains blocked. The latest small strlen caller depends on
+an unproved near routine which reads a global and calls further near/far
+providers. Neither agreeing conditional equations, shared archive declarations
+nor a partially closed provider tree supplies ownership. See the
+[compact wave receipt](../evidence/matching/grinding-wave2.json).
 
 Canonical source and binding file pins use the repository's LF checkout policy.
 Source publication normalizes its frozen independent copy to LF, then compiles

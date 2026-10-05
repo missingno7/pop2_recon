@@ -1,0 +1,424 @@
+{
+  "baseline_head": "06a7c1207dffe36befefc5e6b626bb95850fe23f",
+  "canonical_totals": {
+    "behavior_oracle_status": "NOT_STARTED",
+    "exact_function_count": 18,
+    "external_driver_bytes": 0,
+    "identified_game_code_bytes": 818,
+    "matching_asm_bytes": 51,
+    "matching_c_bytes": 666,
+    "pinned_runtime_bytes": 666,
+    "proven_candidate_fixups": 43,
+    "proven_relocation_records": 0,
+    "proven_runtime_near_fixups": 1,
+    "proven_source_data_fixups": 42,
+    "structural_link_status": "UNRECOVERED",
+    "total_relocation_records": 4716,
+    "unknown_or_unclassified_payload_bytes": 269853,
+    "unresolved_identified_game_bytes": 152
+  },
+  "far_call_frontier": {
+    "alignment_debt_note": "Original body ends before NOP at0x1dded; complete64-byte owner review would be required before future search/acceptance. No candidate extent accepted here.",
+    "blockers": [
+      "Near provider0024 is not a relocation-free leaf: it uses DS:25c0, calls near009e, and calls far1101:4fca twice and1101:5400 once.",
+      "Provider tree would require additional independent data aliases and complete provider contracts; current narrow near/far modes cannot admit these unknown callees.",
+      "Caller63 is therefore ineligible for far-only proof. No compiler profile search performed; no source/object ownership assigned.",
+      "Full67-byte string duplication helperroot1101:c2e4 also calls unaccepted1101:2436 and1101:216c alongsidestrlen/strcpy; not advanced as a second compiler target."
+    ],
+    "caller_body_size": 63,
+    "candidate": "root:1d76:064e",
+    "compiler_trials": 0,
+    "near_provider": {
+      "boundary_evidence": [
+        "Prior RETF4 at0x1d780 ends0x1d783; NOP0x1d783 beforeBPprologue0x1d784.",
+        "Whole100bytes endRETF4 at0x1d7e5..0x1d7e8; nextBPprologue begins0x1d7e8.",
+        "Outsidecaller0x1dcc9PUSHES,0x1dccaPUSHBX,0x1dccbPUSHCS,E8at0x1dccc enters0x1d784; secondcaller0x1dde1PUSHCS,E8at0x1dde2 samepublic."
+      ],
+      "id": "root:1d76:0024",
+      "original_relocations_in_frozen_order": [
+        {
+          "image_offset": 120781,
+          "index": 1712,
+          "offset": 109,
+          "segment": 7542,
+          "stored_word": 4353
+        },
+        {
+          "image_offset": 120798,
+          "index": 1719,
+          "offset": 126,
+          "segment": 7542,
+          "stored_word": 4353
+        },
+        {
+          "image_offset": 120761,
+          "index": 1720,
+          "offset": 89,
+          "segment": 7542,
+          "stored_word": 4353
+        }
+      ],
+      "sha256": "30baae7b2e49f9b9d58ac3d88b2c2a9f77d70428144ad1d7898fa4bb12d76615",
+      "size": 100
+    },
+    "resume_condition": "Prove the near009e and far1101:4fca/5400 provider tree with independent original contexts or select a genuinely closed far-call target. Do not retry missing strnicmp alias scan or assume shared archive metadata proves CS.",
+    "status": "BLOCKED_PROVIDER_TREE"
+  },
+  "luna": [
+    {
+      "best": {
+        "candidate_input": "build/workers/wave2_luna_decrement/candidate.c",
+        "candidate_source": "build/workers/wave2_luna_decrement/best.c",
+        "comparison_key": "d32f8fbb715c132e93bb9074d96204349ca2709c885173a54cf8b2831bc2efe8",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "bfa8c8ac148b0389bdca72760f3f6ff7c63907a03ec632df19ab551e9e3414e4",
+        "emitted_size": 28,
+        "exact": true,
+        "expected_size": 28,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 0,
+        "object_sha256": "2931fbb27e905b5b92a69ddfa861d0b817adb537ab060cd679300726ab223199",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "fb99f9c0f9bb47fc0a5a7bc98cf280b791ee6da09bfe8a7a75f7562744047f5c",
+        "trial": "t02"
+      },
+      "canonical_recipe": "recipes/decrement_record_index.json",
+      "fresh_supervisor_verify_only": true,
+      "known_code_hashes": [
+        "8e19308a68852ad89f15af3b9f4984035d09743d2d9b8adddb090794442a2631",
+        "bfa8c8ac148b0389bdca72760f3f6ff7c63907a03ec632df19ab551e9e3414e4"
+      ],
+      "status": "accepted",
+      "target_id": "overlay-10:29cf:0918",
+      "trial_count": 2,
+      "unique_code_count": 2,
+      "worker": "wave2_luna_decrement"
+    },
+    {
+      "best": {
+        "candidate_input": "build/workers/wave2_luna_low5/candidate.c",
+        "candidate_source": "build/workers/wave2_luna_low5/best.c",
+        "comparison_key": "24c6dced5b57e1e578621fdd6fcccc0760fb6ca0fe81406d5b2bf2235b2f1647",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "982e6a822b1c91cddace3427920643e98c34eeab86ebcd2564db36b037a1eeb3",
+        "emitted_size": 42,
+        "exact": true,
+        "expected_size": 42,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 0,
+        "object_sha256": "0919b5f79809a41b6d6a6b9716c8fcefd77cc57606e58d69b2d7e289c57db4be",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "b593f56fcdc69fdc29836a9431e9f7e7433f688b19ed0528c92dc6ecf83e9649",
+        "trial": "t03"
+      },
+      "canonical_recipe": "recipes/is_low5_special.json",
+      "fresh_supervisor_verify_only": true,
+      "known_code_hashes": [
+        "982e6a822b1c91cddace3427920643e98c34eeab86ebcd2564db36b037a1eeb3",
+        "9aef4fe5e7f03eb32e6fe3373a214db04a3157b623e92c930d1a439803103d8b",
+        "e5b5934b481bf0f43467b280576c0ca5fd75e87bfd610ff8aecce1c84fcc16fa"
+      ],
+      "status": "accepted",
+      "target_id": "overlay-7:29cf:02f8",
+      "trial_count": 3,
+      "unique_code_count": 3,
+      "worker": "wave2_luna_low5"
+    },
+    {
+      "best": {
+        "candidate_input": "build/workers/wave2_luna_append/candidate.c",
+        "candidate_source": "build/workers/wave2_luna_append/best.c",
+        "comparison_key": "ac4a5ff787d94ffa174a406cd41c79c6b139e0976430ea8333de7b1235163d76",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "5a52b3e336e51e13339778991430c3ede17a252449bb500ec66601119701e33c",
+        "emitted_size": 88,
+        "exact": true,
+        "expected_size": 88,
+        "first_difference": null,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 0,
+        "object_sha256": "496bb9d03cbfad5384072d0b9737a25ab4375727b34a7684b5a59bd3ab9a6eb9",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "5917079d12f2f58157a7076778a0628638e073951bc094011ef671fe9f1e6dac",
+        "trial": "t05"
+      },
+      "canonical_recipe": "recipes/append_record_if_room.json",
+      "fresh_supervisor_verify_only": true,
+      "known_code_hashes": [
+        "50885d95f642142791575a21aac6967d9299731905becd0b4d2b562898464ac3",
+        "5a52b3e336e51e13339778991430c3ede17a252449bb500ec66601119701e33c",
+        "d137897276a6b247b05f0b22a1dd9c2e59d780c7651caff582ac440a1a0d3141",
+        "f9cd176a4ee9fca5ab8681ca13a8827544f74566d1d7057ba20b9ffb4429ba71"
+      ],
+      "status": "accepted",
+      "target_id": "overlay-6:29cf:0ab8",
+      "trial_count": 5,
+      "unique_code_count": 4,
+      "worker": "wave2_luna_append"
+    },
+    {
+      "best": {
+        "candidate_input": "build/workers/wave2_luna_membership/candidate.c",
+        "candidate_source": "build/workers/wave2_luna_membership/best.c",
+        "comparison_key": "50226ce920f5dfb3533e9526a408a5ec91f811f22a5e45c429a8b765f10bed43",
+        "duplicate_code": false,
+        "duplicate_result": false,
+        "emitted_code_sha256": "5d754c2a29341dfd2c6ec061abb873cc312a3c531db950edbddcf71ad3658d2f",
+        "emitted_size": 80,
+        "exact": false,
+        "expected_size": 80,
+        "first_difference": 9,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "language": "c",
+        "mismatch_basis": "whole-extent byte differences",
+        "mismatch_count": 44,
+        "object_sha256": "b9a313824e18a801858ba231341e5421ba556384a43895fec13ce9adb3873ea6",
+        "profile": "msc600",
+        "reason": null,
+        "source_sha256": "dc8626c845ef9499bb56277205919b3376697560b5a691ae58e64d907f56f417",
+        "trial": "t06"
+      },
+      "known_code_hashes": [
+        "33e0b5b7456fc21cde729d898e1fdf31f05d847413e791f78f900ca1684f0f3b",
+        "3a8f26dfde507436a5f2e73b083a010a1f7d309238eb45e81fa78e7e79223478",
+        "5d754c2a29341dfd2c6ec061abb873cc312a3c531db950edbddcf71ad3658d2f",
+        "77511ee5dd99e7ef6c20603d778de08653058606ebe69f2355415ebaae26e663",
+        "b9dee62774544efccc6b7d34376addcf41f793155e3e56669c2b91bc960e1e39"
+      ],
+      "non_owning_replay": {
+        "emitted_sha256": "c84259f3e71abbf7faee94c7d8d9613feee44d4619fb611522a5d29ea60a012f",
+        "emitted_size": 94,
+        "exact": false,
+        "expected_size": 80,
+        "first_difference": 73,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "limits": "First73 bytes agree; complete94-byte segment fails target80. No trimming or prefix ownership.",
+        "mismatch_count": 21,
+        "object_sha256": "3d09dcf0dfcc82c7d5ff0c89c60d1876bb89a9aa2f916b687e8f14db20b53d36",
+        "profile": "msc600",
+        "public": "IS_SELECTED_CODE",
+        "source": "recipes/probes/overlay_membership.c",
+        "source_sha256": "9ee83e76711ecdaeab9fe4482e1c509af61d1b019437261471aa559fa11fcdc7"
+      },
+      "resume_condition": "New natural source/TU/compiler explanation for expression materialization and common SP-restoring exit; exhausted OR/if/ternary/goto/parameter reuse families must not be regrinded.",
+      "sol_followup": {
+        "new_code_count_relative_to_old": 2,
+        "new_reasoning_lead": "switch-predicate materialization matches first 73 bytes only; complete 94-byte output remains rejected",
+        "outputs": [
+          {
+            "duplicate_code": false,
+            "emitted_code_sha256": "27a168c04cac9597fcb79d824d8b03e3c0c9a62a552be08f844fb9797d5649ec",
+            "emitted_size": 78,
+            "first_difference": 4,
+            "flags": [
+              "/c",
+              "/AM",
+              "/Oe",
+              "/Gs",
+              "/Zl",
+              "/Gc"
+            ],
+            "mismatch_count": 72,
+            "object_sha256": "97ce6f889119da4b8c60eaf757a07cd05370ff9c678751aa89547f89683a3022",
+            "profile": "msc600",
+            "source_sha256": "8694920ad3ed01222b98169e2e2b5f6393eafc3fb44cc8711e84918b2acd37a6",
+            "trial": "switch_local"
+          },
+          {
+            "duplicate_code": false,
+            "emitted_code_sha256": "c84259f3e71abbf7faee94c7d8d9613feee44d4619fb611522a5d29ea60a012f",
+            "emitted_size": 94,
+            "first_difference": 73,
+            "flags": [
+              "/c",
+              "/AM",
+              "/Oe",
+              "/Gs",
+              "/Zl",
+              "/Gc"
+            ],
+            "mismatch_count": 21,
+            "object_sha256": "3d09dcf0dfcc82c7d5ff0c89c60d1876bb89a9aa2f916b687e8f14db20b53d36",
+            "profile": "msc600",
+            "source_sha256": "9ee83e76711ecdaeab9fe4482e1c509af61d1b019437261471aa559fa11fcdc7",
+            "trial": "switch_predicate"
+          },
+          {
+            "duplicate_code": true,
+            "emitted_code_sha256": "b9dee62774544efccc6b7d34376addcf41f793155e3e56669c2b91bc960e1e39",
+            "emitted_size": 82,
+            "first_difference": 10,
+            "flags": [
+              "/c",
+              "/AM",
+              "/Oe",
+              "/Gs",
+              "/Zl",
+              "/Gc"
+            ],
+            "mismatch_count": 27,
+            "object_sha256": "022bb343a3ea58c378eb75cffa1dd888a5a0666807df23b3c2931b96334cde52",
+            "profile": "msc600",
+            "source_sha256": "ef7f9fae731dacb0710201c83a7693fb3018ae2c8ccf7c7e7082d40151b1bcfe",
+            "trial": "parameter_reuse"
+          }
+        ],
+        "stop_reason": "repeated_prior_code_and_object",
+        "trial_count": 3
+      },
+      "status": "blocked",
+      "target_id": "overlay-5:29cf:0320",
+      "trial_count": 11,
+      "unique_code_count": 5,
+      "worker": "wave2_luna_membership"
+    }
+  ],
+  "original_review": "evidence/matching/wave2-overlay-review.json",
+  "overlay_binding_frontier": {
+    "binding": "evidence/bindings/overlay_state_pair.json",
+    "canonical_recipe": "recipes/overlay_state_pair.json",
+    "field_equations": 2,
+    "fresh_supervisor_verify_only": true,
+    "full_emitted_size": 26,
+    "mode": "external-overlay-dgroup-offset16-v1",
+    "ordinary_bytes": 22,
+    "scope": "Same DS-relative zero-addend equations with owner-space-aware overlap checks. Runtime DS, original symbols, data ownership, overlay placement and natural link remain unproved; no calls or MZ words admitted.",
+    "source_profile_trials": 4,
+    "status": "accepted",
+    "target_id": "overlay-4:29cf:0a12",
+    "unique_code_hashes": [
+      "5d85cb803e76b7a5f5ac06fd38a721206393faa2d8676642508a022a7bc579ca",
+      "6b4323c9937b42e5270837bf07a572547ec5a9157aed01dc1571fd2f717f423d"
+    ]
+  },
+  "schema": 1,
+  "scope": "Only fresh full-component supervisor verification and serial publication grant ownership. Search summaries, profile outputs and matching prefixes remain diagnostic.",
+  "signed_value": {
+    "best": {
+      "binding": "build/workers/wave2_signed_sol/return_assignment-binding.json",
+      "candidate_input": "build/workers/wave2_signed_sol/return_assignment.c",
+      "candidate_source": "build/workers/wave2_signed_sol/best.c",
+      "comparison_key": "94bcbbff9ba74c909e98f1b72bfd34bd5ed376b47874f91a376ccdf944364ae2",
+      "duplicate_code": true,
+      "duplicate_result": false,
+      "emitted_code_sha256": "9e00a8583dd4b78dc6c4a5ef804fed452bd1d9dd3ebe96e6cdfb8415376fbc8f",
+      "emitted_size": 26,
+      "exact": false,
+      "expected_size": 26,
+      "field_mismatch_count": 1,
+      "first_difference": 15,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "language": "c",
+      "mismatch_basis": "ordinary bytes plus unequal field equations",
+      "mismatch_count": 10,
+      "object_sha256": "8e9d3070d40100f0b0311b1b3cbb9241b9e34db1c84a3293b740a4c580a8338c",
+      "ordinary_mismatch_count": 9,
+      "profile": "msc600",
+      "public_symbol": "SIGNED_VALUE",
+      "reason": null,
+      "source_sha256": "8dc7a73f66dbb36e5d2502eef6f709fa14c1adb5e661260de14b22c0da94bff1",
+      "trial": "return_assignment"
+    },
+    "known_code_hashes": [
+      "00fe487b113f94e9473397fce41240ca62d34731f83df8e738a29a39f922f16a",
+      "080423ca943b951be811f8b591563653696263a625e4197df3105fe549a56898",
+      "1f9363f461fd1420cb1b27decc29bd6897ac0257237e83ba927a4acfc41be717",
+      "2b0060c2ca56afe54cdf4bb0a6d290c4fe4f4d887f4f4bf24b3f6a33838cccb6",
+      "37c733d423b27b0762347353be1fae67238429696b5addb84572a8a61de1ff97",
+      "495dff765a5ddc35f6e2ac0ba0382df36b95cfaa9d6dd8639d0e6d33087172fa",
+      "564f8d983cb4f06207c88c7947d15003ae15c957354aeac4000d901cc7f9f72a",
+      "57310f631c29306a83939d2a9e42b479b189780b2220b25c25b8e0b17679c308",
+      "634ef27986654bc3d4426edfb1fee900b7ae1b476ccb93e3167e6c05cf1db93b",
+      "833af590110d879f5fb2c4f50f12ada9fb784cfcb80f4518c273d210c3b6b6dc",
+      "9e00a8583dd4b78dc6c4a5ef804fed452bd1d9dd3ebe96e6cdfb8415376fbc8f",
+      "a5a2d89673ac932fc2b55bedaf9d78db3ad1fee1b50baa1e8062efc91a95810e",
+      "b4bf7bac7291411e8b71910b16098ca52f58b6a3ecc1ad33982d769d4eef3033",
+      "e65d4807b58171cc47e8cac1c9ce5aa32b4d83fc56ea3f543e6eb62bbd732014"
+    ],
+    "observations": [
+      "Return compound assignment preserves the old 26-byte ADD DX,AX; MOV AX,DX result; it does not recover the target MOV AX,DX; ADD AX,[bias]. The candidate BIAS fixup at16 falls on original 0x03c2, so that equation is unequal; only SIGNFLAG at8 agrees.",
+      "Explicit register parameter with MSC600 /O gives a new 28-byte SI body with push/pop SI, not the observed DX body.",
+      "Selective volatile flag/nonvolatile bias with /Oe repeats the known24-byte body. /Og and /Oes repeat the old26-byte stack-parameter body. /Oer repeats the known24-byte body. Combined optimization switches produced no compiler warnings.",
+      "Best equal extent candidate has9 ordinary mismatches and1 unequal data equation. The stack-parameter equal extent output has19 ordinary mismatches and2 unequal equations.",
+      "Rejected 24/28-byte outputs carry whole raw CODE diagnostics only; strict comparison stops at extent mismatch. No field matching claim is made for them.",
+      "No wider data type, struct/array shape, source bytes, filler or assembly was invented to coerce allocation. Additional type/storage work needs independent original evidence."
+    ],
+    "previous_review": {
+      "inventory": "build/workers/wave2_signed_sol/previous_outputs.json",
+      "source_families": 32,
+      "unique_complete_raw_CODE_hashes": 13
+    },
+    "resume_condition": "A distinct lifetime/TU/compiler lead supported by independent original facts; register parameter and selective qualifier families already exhausted.",
+    "status": "BOUNDED_NEGATIVE_C_PROBE",
+    "stop": {
+      "max_trials": 10,
+      "new_CODE_outputs_vs_previous": 1,
+      "new_trials": 6,
+      "reason": "Four consecutive prior raw CODE repetitions after the one new register-parameter output; supervisor card stagnation stop reached."
+    },
+    "target_id": "root:0000:3020"
+  },
+  "validation": {
+    "command": "python tools/validate.py",
+    "fresh_asm_components": 1,
+    "fresh_c_components": 17,
+    "invariant_tests": 137,
+    "whole_runtime_members": 11
+  }
+}

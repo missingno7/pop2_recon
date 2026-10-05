@@ -109,3 +109,26 @@ into a long, its signedness, original storage/type, source names and purpose
 remain hypotheses. No data ownership, runtime DS proof, overlay binding,
 far-call binding or MZ relocation coverage follows. Nine additional refusal
 and equation tests preserve the narrow member rules and legacy behavior.
+
+## Overlay byte and word fields
+
+`external-overlay-dgroup-offset16-v1` applies the same zero-addend F5/T6 LOC1
+equations to a reviewed overlay contribution. Its only alias widths are one
+and two bytes, with independent direct DS witnesses in the resident original.
+The unchanged startup DS witness remains in root. Owner positions use their
+actual overlay space; overlap checks compare both space identity and offsets.
+A root witness at the same numeric offset is not inside the overlay owner.
+The resident v1/v2 modes still refuse overlay targets; this overlay mode refuses
+resident targets, word pairs, nonzero addends and overlay-supplied witnesses.
+
+[overlay_state_pair.c](../src/overlay_state_pair.c) freshly reproduces the full
+26 bytes at `overlay-4:29cf:0a12`, including its alignment NOP. Original root
+read `0x1ecd` establishes byte DS:5c0e; root comparison `0x381e` establishes
+word DS:5c19. The two operand fields satisfy the equations and all 22 other
+bytes match literally. Eight additional space/refusal tests pass.
+
+Calls, interrupts, segment writes, indexed absolute globals and every original
+MZ word touching the owner remain rejected. The equations are DS-relative and
+hold for every DS value. They establish no runtime DS lifetime, shared original
+symbol identity, data ownership, overlay load/placement, natural link or behavior.
+Far pointers and relocation-generating code remain unsupported.

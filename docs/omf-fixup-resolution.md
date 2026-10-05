@@ -51,7 +51,9 @@ encodings. Later 32-bit LOCAT values and record types are outside this reader's
 deliberate profile. `loc_type` now travels with each resolved row so different
 two-byte operation kinds cannot be mistaken for one another. A separate narrow
 [external data proof](dgroup-binding.md) now accepts independently grounded
-offset16 components; the runtime and other fixup modes remain rejected.
+offset16 components, including explicit overlay byte/word mode. The separate
+[runtime near proof](runtime-near-binding.md) accepts its narrow anchored mode;
+far pointers and other fixup modes remain rejected.
 The resolver implementation is local
 code. A sibling OMF parser was consulted as a behavior cross-check only; no
 sibling source was copied. See [the isolated MSC probes](../evidence/toolchain/omf-fixup-probes.json)

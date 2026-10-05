@@ -616,6 +616,210 @@
       "size": 56,
       "space": "overlay-11",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned one word at BP+6; word result AX; RETF 2; no signed comparison",
+      "boundary_evidence": [
+        "Separate six-byte helper at 0x31a stores a state byte and terminates RETF at 0x31f; independent BP frame begins 0x320.",
+        "Eleven JE edges join true result at 0x364; JMP at 0x362 joins result move at 0x367. Sole RETF 2 at 0x36c ends instruction body at 0x36f; original NOP at 0x36f precedes separate BP frame at 0x370.",
+        "Original PUSH CS at 0x21e; E8 at 0x21f encodes destination 0x320. Static original-byte CFG from 0x200 reaches the call; argument pushes and cleanup support ABI.",
+        "Original PUSH CS at 0x260; E8 at 0x261 encodes destination 0x320. Static original-byte CFG from 0x200 reaches the call; argument pushes and cleanup support ABI.",
+        "Complete original extent decoded; every control-flow edge remains in the interval, all exits are far returns. No original relocation word touches the extent. No direct global data field or external call occurs inside it.",
+        "Compact independent original-byte review: evidence/matching/wave2-overlay-review.json; complete worker CFG remains ignored."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212463,
+          "image_offset": 543,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 542,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 212529,
+          "image_offset": 609,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 608,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns 1 for word values 15,109,7,11,13,38,44,28,158,170,171; otherwise 0. Caller tests AX and updates DS:2cd1 from DS:5c09 on selected paths.",
+        "Independent caller static context handles state words or records; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "id": "overlay-5:29cf:0320",
+      "offset": 800,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "is_selected_code",
+      "sha256": "dab88340a12f757ac08f07a1ebcab531a1e49537f9e212e39b82448876f1b240",
+      "size": 80,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned two near data pointers; destination at BP+8, source at BP+6; SI/DI preserved; RETF 4; no established return result",
+      "boundary_evidence": [
+        "Previous independent BP-framed routine restores SP/BP at 0xab1..0xab3 and ends RETF 4 at 0xab4..0xab6; original NOP 0xab7 precedes separate BP frame at 0xab8.",
+        "Loop body begins 0xac5; JE at 0xac8 joins 0xad3, JL at 0xad1 returns to 0xac5. JGE at 0xad6 reaches common epilogue 0xb08. Sole RETF 4 at 0xb0d completes the full 88-byte interval; next BP frame begins 0xb10, without inter-entry padding.",
+        "Original PUSH CS at 0x690; E8 at 0x691 encodes destination 0xab8. Static original-byte CFG from 0x5b0 reaches the call; argument pushes and cleanup support ABI.",
+        "Original PUSH CS at 0x9a5; E8 at 0x9a6 encodes destination 0xab8. Static original-byte CFG from 0x97e reaches the call; argument pushes and cleanup support ABI.",
+        "Complete original extent decoded; every control-flow edge remains in the interval, all exits are far returns. No original relocation word touches the extent. No direct global data field or external call occurs inside it.",
+        "Compact independent original-byte review: evidence/matching/wave2-overlay-review.json; complete worker CFG remains ignored."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 217073,
+          "image_offset": 1681,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1680,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 217862,
+          "image_offset": 2470,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2469,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Finds first zero word in at most ten destination entries, with ten-byte stride and first word at destination+1. Sets active word=1 and byte at +3=0, copies source+1 byte and source+2/+4/+6 words to destination entry+4/+5/+7/+9. Caller at 0x97e zeros 101 destination bytes and invokes this helper with eight-byte records from DS:169a onward.",
+        "Independent caller static context handles state words or records; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "id": "overlay-6:29cf:0ab8",
+      "offset": 2744,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "append_record_if_room",
+      "sha256": "5a52b3e336e51e13339778991430c3ede17a252449bb500ec66601119701e33c",
+      "size": 88,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned one word slot; low byte read at BP+6, AND DX,31 discards uninitialized high byte; word result AX; RETF 2",
+      "boundary_evidence": [
+        "Previous routine restores SI/DI/SP/BP at 0x2f0..0x2f4 and ends RETF 2 at 0x2f5..0x2f7; separate BP frame begins 0x2f8 immediately afterward.",
+        "JE at 0x304 and JBE at 0x30e reach true block 0x318; JB at 0x309 reaches false block 0x310. RETF 2 exits at 0x315 and 0x31e; original NOP 0x321 aligns next separate BP frame at 0x322. Complete interval is 42 bytes.",
+        "Original PUSH CS at 0x179; E8 at 0x17a encodes destination 0x2f8. Static original-byte CFG from 0x118 reaches the call; argument pushes and cleanup support ABI.",
+        "Complete original extent decoded; every control-flow edge remains in the interval, all exits are far returns. No original relocation word touches the extent. No direct global data field or external call occurs inside it.",
+        "Compact independent original-byte review: evidence/matching/wave2-overlay-review.json; complete worker CFG remains ignored."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 224074,
+          "image_offset": 378,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 377,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns 1 when input low five bits equal 2,16,17, otherwise 0. Caller pushes state word DS:6271 after testing a returned state byte against 12/13 and branches on result AX before passing a local record to another helper.",
+        "Independent caller static context handles state words or records; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "id": "overlay-7:29cf:02f8",
+      "offset": 760,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "is_low5_special",
+      "sha256": "982e6a822b1c91cddace3427920643e98c34eeab86ebcd2564db36b037a1eeb3",
+      "size": 42,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far callee-cleaned near data pointer at BP+6; RETF 2; no established return result",
+      "boundary_evidence": [
+        "Accepted predecessor at 0x8fc has second exit INC byte [BX+1]; POP BP; RETF 2 at 0x910..0x916 and original NOP at 0x917; separate BP frame begins 0x918.",
+        "JE at 0x922 selects zero-to-three block 0x92c; the other path decrements record byte +1 and ends RETF 2 at 0x928. Original internal NOP at 0x92b precedes branch destination 0x92c; second RETF 2 at 0x931 ends the 28-byte interval at 0x934, where a separate BP frame begins.",
+        "Original PUSH CS at 0x7a7; E8 at 0x7a8 encodes destination 0x918. Static original-byte CFG from 0x71a reaches the call; argument pushes and cleanup support ABI.",
+        "Original PUSH CS at 0x811; E8 at 0x812 encodes destination 0x918. Static original-byte CFG from 0x7dc reaches the call; argument pushes and cleanup support ABI.",
+        "Complete original extent decoded; every control-flow edge remains in the interval, all exits are far returns. No original relocation word touches the extent. No direct global data field or external call occurs inside it.",
+        "Compact independent original-byte review: evidence/matching/wave2-overlay-review.json; complete worker CFG remains ignored."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 242376,
+          "image_offset": 1960,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1959,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 242482,
+          "image_offset": 2066,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2065,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Near-record byte at offset 1 decrements when nonzero and wraps zero to 3. Independent callers choose between this decrement helper and accepted increment helper, then compare adjacent record bytes +1/+2.",
+        "Independent caller static context handles state words or records; no historical runtime archive provenance identified."
+      ],
+      "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
+      "id": "overlay-10:29cf:0918",
+      "offset": 2328,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "decrement_record_index",
+      "sha256": "bfa8c8ac148b0389bdca72760f3f6ff7c63907a03ec632df19ab551e9e3414e4",
+      "size": 28,
+      "space": "overlay-10",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far return, noarguments, 16-bit boolean resultAX; DX holds intermediateboolean.",
+      "boundary_evidence": [
+        "Previous routine ends RETF2 at0xa0f..0xa12; predicate direct CMP begins0xa12.",
+        "True path ends RETF0xa25; conditional edges at0xa17/0xa1e land onfalseblock0xa26; falseRET0xa2a ends0xa2b. Original NOP0xa2b is retained as complete alignment extent.",
+        "Independent next closed predicate begins XOR DX,DX at0xa2c and returns at0xa52, followed byNOP0xa53 and another predicateentry0xa54; paddingNOP0xa2b is retained beforethatnextbody.",
+        "Caller starting0x3b6 PUSHCS/E8 at0x3e5/0x3e6 and0x3f1/0x3f2 targets0xa12 and immediately tests AX; no argumentpushes."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209862,
+          "image_offset": 998,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 997,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 209874,
+          "image_offset": 1010,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1009,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests state byte DS:5c0e against19 and word DS:5c19 against59, returns AX boolean. Independent caller consumes AX and updates state-related fields; no runtime archive provenance established."
+      ],
+      "classification_status": "overlay state predicate hypothesis; original symbols, source language, gameplay role, TU, runtime DS and execution unproved",
+      "id": "overlay-4:29cf:0a12",
+      "offset": 2578,
+      "original_name": null,
+      "segment": 10703,
+      "semantic_name_hypothesis": "overlay_state_pair",
+      "sha256": "00097f3460d0ca347fd633074389e60aa5f88b2ed2d5b831984a4ace2c3c191b",
+      "size": 26,
+      "space": "overlay-4",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

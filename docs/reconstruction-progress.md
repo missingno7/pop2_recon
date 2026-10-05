@@ -6,6 +6,55 @@ Release identity is still unconfirmed. Root/overlay structure, all 62 asset
 identities, and the 4,716 relocation records remain unchanged. The
 [bootstrap report](bootstrap-status.md) is the earlier milestone snapshot.
 
+## Second bounded wave
+
+Three further reviewed overlay leaves now pass complete CODE_EXACT: the
+28-byte decrement/wrap in overlay 10 (two Luna trials), 42-byte low-five-bit
+predicate in overlay 7 (three trials), and 88-byte packed-record insertion in
+overlay 6 (five trials, four unique outputs). The insertion source uses the
+observed ten-byte record stride and one-byte list prefix; walking an entry
+pointer with a register index reproduces the original DI/CX allocation.
+The four-byte copied field's pointer interpretation, original names and packing
+declarations remain source hypotheses. Each source passed fresh supervisor
+verify-only and serialized publication.
+
+Sol found the complete 26-byte state-pair predicate in overlay 4. Its two
+external data fields use independently checked root byte/word witnesses.
+The [explicit overlay mode](dgroup-binding.md) reuses the same zero-addend
+DS-relative equations while comparing overlap in the correct owner space.
+All 22 ordinary bytes match literally, including the original alignment NOP.
+Eight new refusal/space tests preserve the resident gates, restrict overlay
+aliases to bytes/words, and reject calls, segment changes and original MZ
+words. LDS/LES are refused explicitly because disassembly register metadata
+can omit their implicit segment writes. Runtime DS association and original
+data storage remain unproved.
+
+The 80-byte overlay-5 membership target stopped after eleven Luna trials and
+five unique CODE outputs. Sol tried three distinct leads, then stopped on a
+prior CODE/object repetition. A sparse switch explains the common SP-restoring
+exit; a boolean switch reproduces the first 73 original bytes but emits a
+complete 94-byte segment. That [single non-owning probe](../recipes/probes/overlay_membership.c)
+is retained with fresh full diagnostics, not trimmed or counted. A genuine new
+source/TU/compiler materialization lead is needed before more grinding.
+
+The signed-value review examined all 32 earlier objects / thirteen distinct
+CODE outputs, then stopped after six trials and four repeated outputs. The
+26-byte best repeats an old body with nine ordinary differences and one unequal
+BIAS equation. The new register-parameter form emits 28 bytes; selective
+qualifier/optimizer forms add no lead. No ownership or type coercion follows.
+
+Far-call work reviewed a small strlen caller, then stopped before compiler
+grinding because its near provider reads DS:25c0 and invokes additional
+near/far providers. Its 63-byte instruction body also has one following
+alignment NOP; a future complete-owner review must retain that debt. The
+provider tree is not closed. The earlier missing strnicmp frame witness remains
+unresolved. No speculative far checker or new orchestration was added.
+The [consolidated wave receipt](../evidence/matching/grinding-wave2.json) keeps
+output hashes, exact/blocked outcomes and explicit resume conditions; failed
+variants, draft proof copies and bulk CFG/objects remain ignored. AGENTS.md
+now specifies existing CLI output options so worker context/discovery stays
+in its own directory.
+
 ## Bounded grinding audit and first wave
 
 The existing oracle, isolated historical runners, strict search/promotion and
@@ -201,28 +250,30 @@ historical flag family is inferred from these experiments.
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 482 |
+| Matching C | 666 |
 | Matching ASM | 51 |
 | Pinned runtime | 666 |
 | External drivers | 0 |
-| Unresolved identified game helpers | 72 |
-| Unknown/unclassified payload | 270,117 |
+| Unresolved identified game helpers | 152 |
+| Unknown/unclassified payload | 269,853 |
 
-There are fourteen accepted source components (thirteen C and one ASM) and eleven
-pinned runtime members. Overlay C owns 186 bytes; resident ownership is 1,013
-bytes. The identified game-helper subtotal is 554 bytes, with the 46-byte swap
-and 26-byte signed-value still unresolved. Forty source
-data-offset fixups and one runtime near fixup are proven; they generate no MZ
-relocations. Original relocation coverage remains 0/4,716. Structural RTLink
-closure remains UNRECOVERED and behavior validation remains NOT_STARTED.
+There are eighteen accepted source components (seventeen C and one ASM) and
+eleven pinned runtime members. Overlay C owns 370 bytes across eight complete
+components; resident ownership is 1,013 bytes. The identified game-helper
+subtotal is 818 bytes, with the 46-byte swap, 26-byte signed-value and 80-byte
+membership predicate unresolved. Forty-two source data-offset fixups and one
+runtime near fixup are proven; they generate no MZ relocations. Original
+relocation coverage remains 0/4,716. Structural RTLink closure remains
+UNRECOVERED and behavior validation remains NOT_STARTED.
 
-Next work should seek a new source/TU or compiler-generation explanation for
-the stagnant swap and signed-value families, or independent provider
-frame evidence for the far-call frontier. The compact wave receipt supplies
-known output hashes and explicit resume conditions. RTLink version, TU grouping,
-overlay placement and runtime-derived descriptor location remain separate debts.
+Next work should seek a new source/TU/compiler explanation for the stagnant
+swap, signed-value and membership families, or independently close a far-call
+provider tree. The wave receipts supply known output hashes and explicit
+resume conditions. Runtime DS, RTLink version, TU grouping, overlay placement
+and runtime-derived descriptor location remain separate debts.
 
-Full `python tools/validate.py` passes all 129 invariant tests, freshly compiles
-thirteen C functions, freshly assembles the ASM function, verifies all eleven
-independent runtime members, and rechecks every original asset/structure and tool
-pin. Whole source/object extents, symbolic equations and ownership checks pass.
+Full `python tools/validate.py` passes all 137 invariant tests, freshly compiles
+seventeen C functions, freshly assembles the ASM function, verifies all eleven
+independent runtime members, and rechecks every original asset/structure and
+tool pin. Whole source/object extents, symbolic equations and ownership checks
+pass.

@@ -42,20 +42,25 @@ def fixes(module):
 
 def ground(binding, target, oracle):
     """Recheck frozen original witnesses outside the contribution being judged."""
-    require(binding["schema"] == 1 and binding["mode"] in ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2"),
+    require(binding["schema"] == 1 and binding["mode"] in ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
+                                                        "external-overlay-dgroup-offset16-v1"),
             "Unsupported binding proof mode")
     require(binding["target_id"] == target["id"] and
             binding["target_sha256"] == sha(oracle.data), "Binding belongs to another target/oracle")
-    require(target["space"] == "root", "Overlay DGROUP binding not proven")
+    overlay_mode = binding["mode"] == "external-overlay-dgroup-offset16-v1"
+    require(target["space"] in oracle.spaces and
+            (target["space"].startswith("overlay-") if overlay_mode else target["space"] == "root"),
+            "Unsupported owner space for DGROUP binding mode")
     space = oracle.spaces["root"]
-    start = space.position(target["segment"], target["offset"])
+    start = oracle.spaces[target["space"]].position(target["segment"], target["offset"])
     end = start + target["size"]
 
     def witness(spec):
         require(spec["space"] == "root", "Unsupported cross-space data witness")
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
         require(raw and 0 <= at and at+len(raw) <= space.size and
-                not (at < end and start < at+len(raw)), "Binding witness overlaps candidate or escapes root")
+                not (spec["space"] == target["space"] and at < end and start < at+len(raw)),
+                "Binding witness overlaps candidate or escapes root")
         require(space.data[at:at+len(raw)] == raw, "Original binding witness changed")
         return at, raw
 
@@ -132,7 +137,7 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
     rows = instructions(actual)
     for insn in rows:
         require(not set(insn.groups).intersection((cs.CS_GRP_CALL, cs.CS_GRP_INT, cs.CS_GRP_IRET)) and
-                insn.mnemonic not in ("int", "into", "iret", "iretd") and
+                insn.mnemonic not in ("int", "into", "iret", "iretd", "lds", "les") and
                 not set(insn.regs_access()[1]).intersection((xc.X86_REG_DS, xc.X86_REG_ES,
                                                           xc.X86_REG_SS, xc.X86_REG_CS)),
                 "Near-data binding helper changes segment context or calls unknown code")
