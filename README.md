@@ -46,7 +46,7 @@ becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) includes
 fourteen complete overlay C matches, including independently proved overlay
-data fields. Totals are 1,054 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
+data fields. Totals are 1,174 C bytes, 51 ASM bytes, and 666 pinned runtime bytes.
 Fifty-two source data fixups and the first
 [runtime near-jump equation](docs/runtime-near-binding.md) are proven; original
 relocation coverage remains 0/4,716. Far-call binding and natural RTLink

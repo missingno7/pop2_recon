@@ -19,25 +19,27 @@
     "struct": "<HHHBBHHHHH>",
     "fields_in_order": [
       "link_segment",
-      "f2_unknown",
+      "filename_record_offset",
       "relocation_position_paragraphs",
       "high_position_byte",
       "flags",
-      "f8_unknown",
+      "memory_size_paragraphs",
       "relocation_count",
-      "fc_unknown",
+      "ancestor_table_index",
       "overlay_id",
-      "size_paragraphs"
-    ]
+      "file_size_paragraphs"
+    ],
+    "original_instruction_proof": "evidence/rtlink-manager.json"
   },
   "overlay_layout_rules": {
     "relocation_offset": "(relocation_position_paragraphs + high_position_byte * 65536) * 16",
     "relocation_record": "<HH>: offset, segment; four bytes per relocation",
     "relocation_page_bytes": "ceil(relocation_count / 4) * 16",
     "code_offset": "relocation_offset + relocation_page_bytes",
-    "code_size_bytes": "size_paragraphs * 16",
+    "code_size_bytes": "file_size_paragraphs * 16",
     "relocation_site_in_code": "(relocation_segment - link_segment) * 16 + relocation_offset",
-    "load_relocation": "add runtime image segment 0x0100 to the word at each in-range relocation site"
+    "load_relocation": "Original static loop: B=(startup_ES+0x10) mod65536; if record_segment+B does not carry, add B to memory[(record_segment+B):record_offset]. No runtime trace; fixed0x0100 is a reference-loader observation model.",
+    "memory_size_bytes": "memory_size_paragraphs*16; separate from file_size_paragraphs*16. No allocation/BSS ownership follows."
   },
   "observed_overlays": {
     "id_range": [
@@ -64,7 +66,9 @@
       "size_paragraphs": 1319,
       "declared_code_end": 290416,
       "physical_file_end": 290415,
-      "short_by_bytes": 1
+      "short_by_bytes": 1,
+      "memory_size_paragraphs": 3026,
+      "post_file_memory_remainder_bytes": 27312
     },
     "all_entries": "Ordered overlays 2..17 have contiguous declared ranges; all relocation sites fall inside declared code extents. The final overlay's declared extent exceeds physical EOF by exactly one byte."
   },
@@ -168,5 +172,16 @@
       "offset": 4763
     },
     "interpretation": "Successful real RTLink 6.10 output confirms the same <HHHBBHHHHH> table and paragraph/padding calculations in a small generated executable."
+  },
+  "original_manager_review": {
+    "descriptor_address_MZ_indices": [
+      1948,
+      1963
+    ],
+    "owned_relocations": 0,
+    "ownership_bytes": 0,
+    "proof": "evidence/rtlink-manager.json",
+    "table_locator": "MZ entry2203:0678; count0b17=16; getsectionptr0587: BX=18*AX+0b1b; file8192+2203*16+0b1b=150347",
+    "version_limit": "Original18-byte stride, filesize+16 and compressed branch agree with supplied6.10 non-debug structure and differ from supplied4.00 non-debug16-byte structure. This does not prove exact RTLink version or unmodified manager source identity."
   }
 }

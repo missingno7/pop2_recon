@@ -1,0 +1,389 @@
+{
+  "canonical_head": "0c95d3f3eeafd0a120f973d7c8cc88a07ee6eee6",
+  "excluded": [
+    {
+      "reason": "Original reads uninitialized local BP-2 in predicate; no grounded natural-source lead; not selected.",
+      "target_id": "root:0284:0068"
+    },
+    {
+      "reason": "Discovery truncated at early JMP; full original routine has external far call and exceeds bounded extent; not selected.",
+      "target_id": "overlay-10:29cf:0126"
+    },
+    {
+      "reason": "Useful88-byte complete predicate with known wordDS5c19 witness; reserve for a later wave since selected three suffice.",
+      "target_id": "overlay-3:2344:237e"
+    }
+  ],
+  "facts_scope": "Original-only complete bytes, boundaries, decoded CFG paths and observed ABI; source/name/classification are hypotheses. No compilation, acceptance or ownership.",
+  "frame_review": {
+    "DS_load_witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    },
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "entry_path_instruction_starts": [
+      140968,
+      140973,
+      140978,
+      140981
+    ],
+    "frame_segment": 8707,
+    "original_relocation": [
+      {
+        "image_offset": 140979,
+        "index": 1981,
+        "offset": 1667,
+        "segment": 8707,
+        "stored_word": 8707
+      }
+    ]
+  },
+  "root_witness_reviews": [
+    {
+      "boundary_prefix_hex": "a0135c98403d0c007e03b80c00a2135c0ee80200cb90a0135c",
+      "bytes_hex": "a0135c",
+      "context": "Independent frameless root helper starts at0xe8e after original RETF0xe8c and NOP0xe8d; direct MOV AL,[5c13] establishes relative DS byte width outside overlay owner. No runtime DS lifetime or original symbol/type claim.",
+      "mnemonic": "mov",
+      "operands": "al, byte ptr [0x5c13]",
+      "path": [
+        3726
+      ],
+      "path_bytes_sha256": "5e6c290d08c02bb8bc988e7281a3e4f6a7da5779730d8b5d92056bf807c4b4ee",
+      "relative_offset": 23571,
+      "root_entry": 3726,
+      "root_position": 3726,
+      "space": "root",
+      "symbol": "STATE_BYTE",
+      "width": 1
+    }
+  ],
+  "schema": 1,
+  "supervisor_review": "Rechecked each full original extent/hash, decoded instruction starts and branches, preceding/following context, every caller CFG step/path/context/hash, exact call encoding, canonical non-overlap and original MZ exclusion. Root byte witness and relocated startup frame rechecked separately. Source/name/classification remain hypotheses; original TU/link/runtime behavior unproved.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "targets": [
+    {
+      "abi": "far Pascal; BP+8 near word-record pointer, BP+6 signed word index; RETF4; returns pointer AX; saves DI",
+      "binding_mode": null,
+      "branches": [
+        {
+          "bytes_hex": "7c0e",
+          "destination": 28848,
+          "mnemonic": "jl",
+          "position": 28832
+        },
+        {
+          "bytes_hex": "eb09",
+          "destination": 28856,
+          "mnemonic": "jmp",
+          "position": 28845
+        },
+        {
+          "bytes_hex": "7e03",
+          "destination": 28870,
+          "mnemonic": "jle",
+          "position": 28865
+        }
+      ],
+      "callers": [
+        {
+          "call_bytes_hex": "e8c0fd",
+          "call_context_bytes_hex": "568b76088d46f250560ee8c0fd0bc07503e9b700c746fcff",
+          "call_context_start": 29385,
+          "call_position": 29395,
+          "caller_boundary_prefix_hex": "0100500ee8df005e8be55dcb558bec83ec36",
+          "caller_entry": 29378,
+          "file_offset": 37587,
+          "instruction_path": [
+            29378,
+            29379,
+            29381,
+            29384,
+            29385,
+            29386,
+            29389,
+            29392,
+            29393,
+            29394,
+            29395
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_hex": "558bec83ec3657568b76088d46f250560ee8c0fd",
+          "path_bytes_sha256": "e17844c9d9fd8d8503ff70d96a2f741a5dbc0d558d3f2cb423b3c135bd02d07e",
+          "push_cs_position": 29394,
+          "space": "root",
+          "target_alias": "052d:1dc6"
+        }
+      ],
+      "end_exclusive": 28900,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_context_hex": "558bec83ec045756bfffff2bf68976fe",
+      "full_segment_size_required": 78,
+      "instruction_starts": [
+        28822,
+        28823,
+        28825,
+        28826,
+        28829,
+        28832,
+        28834,
+        28837,
+        28842,
+        28845,
+        28847,
+        28848,
+        28851,
+        28856,
+        28859,
+        28862,
+        28865,
+        28867,
+        28870,
+        28873,
+        28875,
+        28878,
+        28880,
+        28883,
+        28885,
+        28888,
+        28891,
+        28893,
+        28894,
+        28896,
+        28897
+      ],
+      "original_bytes_hex": "558bec578b7e0683ff037c0e8b5e08c74702c60083ef03eb09908b5e08c7470226008b4702058c003d36017e03b836018947068bc7b91600f7e905280089070514008947048bc35f8be55dca0400",
+      "original_sha256": "4390f86a5415a5edc1eab313e0b858b175686544140410ca547a9b54b51380df",
+      "padding_positions": [
+        28847
+      ],
+      "prior_boundary_context_hex": "028b46fe5e5f8be55dca0400",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "relocations_touching_owner": [],
+      "returns": [
+        28897
+      ],
+      "semantic_name_hypothesis": "make_index_rect",
+      "space_position": 28822,
+      "target_id": "root:052d:1dc6"
+    },
+    {
+      "abi": "far Pascal; low byte BP+6 input; RETF2; int boolean AX; no local allocation; two inline exits",
+      "binding_mode": null,
+      "branches": [
+        {
+          "bytes_hex": "7419",
+          "destination": 41408,
+          "mnemonic": "je",
+          "position": 41381
+        },
+        {
+          "bytes_hex": "7413",
+          "destination": 41408,
+          "mnemonic": "je",
+          "position": 41387
+        },
+        {
+          "bytes_hex": "740d",
+          "destination": 41408,
+          "mnemonic": "je",
+          "position": 41393
+        },
+        {
+          "bytes_hex": "7407",
+          "destination": 41408,
+          "mnemonic": "je",
+          "position": 41399
+        }
+      ],
+      "callers": [
+        {
+          "call_bytes_hex": "e8ef00",
+          "call_context_bytes_hex": "0200558bec8a4606500ee8ef000bc075158a4606500ee8ad",
+          "call_context_start": 41122,
+          "call_position": 41132,
+          "caller_boundary_prefix_hex": "580369015e5f8be55dca0200558bec8a4606",
+          "caller_entry": 41124,
+          "file_offset": 49324,
+          "instruction_path": [
+            41124,
+            41125,
+            41127,
+            41130,
+            41131,
+            41132
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_hex": "558bec8a4606500ee8ef00",
+          "path_bytes_sha256": "7b1ae01ba7ea7788f7d20f8a7e2cef16530f3d852a24763bdc98917353e1d6d4",
+          "push_cs_position": 41131,
+          "space": "root",
+          "target_alias": "078a:28fe"
+        }
+      ],
+      "end_exclusive": 41416,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_context_hex": "b80a00502bc050b010502ac0500ee8d1",
+      "full_segment_size_required": 42,
+      "instruction_starts": [
+        41374,
+        41375,
+        41377,
+        41381,
+        41383,
+        41387,
+        41389,
+        41393,
+        41395,
+        41399,
+        41401,
+        41403,
+        41404,
+        41407,
+        41408,
+        41411,
+        41412,
+        41415
+      ],
+      "original_bytes_hex": "558bec807e06147419807e06027413807e0607740d807e061974072bc05dca020090b801005dca020090",
+      "original_sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
+      "padding_positions": [
+        41407,
+        41415
+      ],
+      "prior_boundary_context_hex": "ca020090b801005dca020090",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "relocations_touching_owner": [],
+      "returns": [
+        41404,
+        41412
+      ],
+      "semantic_name_hypothesis": "is_four_kind",
+      "space_position": 41374,
+      "target_id": "root:078a:28fe"
+    },
+    {
+      "abi": "far Pascal; BP+6 near byte-record pointer; RETF2; void source hypothesis; saves SI and MOV SP,BP; reads record byte offset16",
+      "anticipated_original_data_fields": [
+        {
+          "raw_linked_value": 23571,
+          "segment_offset": 15,
+          "symbol": "STATE_BYTE",
+          "width": 1
+        },
+        {
+          "raw_linked_value": 23571,
+          "segment_offset": 24,
+          "symbol": "STATE_BYTE",
+          "width": 1
+        }
+      ],
+      "binding_mode": "external-overlay-dgroup-offset16-v1",
+      "binding_skeleton_scope": "Original frame/symbol witness only; fill declarations and exact fresh compiler fixups from successful full object. No guessed object identity.",
+      "branches": [
+        {
+          "bytes_hex": "7507",
+          "destination": 86,
+          "mnemonic": "jne",
+          "position": 77
+        },
+        {
+          "bytes_hex": "eb06",
+          "destination": 92,
+          "mnemonic": "jmp",
+          "position": 84
+        }
+      ],
+      "callers": [
+        {
+          "call_bytes_hex": "e83000",
+          "call_context_bytes_hex": "00cb90558becff76060ee83000803e065c047507833e195c",
+          "call_context_start": 5,
+          "call_position": 15,
+          "caller_boundary_prefix_hex": "",
+          "caller_entry": 8,
+          "file_offset": 184783,
+          "instruction_path": [
+            8,
+            9,
+            11,
+            14,
+            15
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_hex": "558becff76060ee83000",
+          "path_bytes_sha256": "e24b1045104448a4c286517246b87a555177ac3162f58ceba67413d4e64a702c",
+          "push_cs_position": 14,
+          "space": "overlay-3",
+          "target_alias": "2344:0042"
+        }
+      ],
+      "end_exclusive": 100,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_context_hex": "558bec83ec0257560ee870032bffb074",
+      "full_segment_size_required": 34,
+      "instruction_starts": [
+        66,
+        67,
+        69,
+        70,
+        73,
+        77,
+        79,
+        84,
+        86,
+        89,
+        92,
+        93,
+        95,
+        96,
+        99
+      ],
+      "original_bytes_hex": "558bec568b7606807c10007507c606135c03eb068a4410a2135c5e8be55dca020090",
+      "original_sha256": "ca1ff8b770d609cb41ffddc67d63603279fc7be235955edb1b38cc9a338c3892",
+      "padding_positions": [
+        99
+      ],
+      "prior_boundary_context_hex": "125ca2145c8be55dca020090",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "relocations_touching_owner": [],
+      "returns": [
+        96
+      ],
+      "semantic_name_hypothesis": "set_state_from_record",
+      "space_position": 66,
+      "target_id": "overlay-3:2344:0042"
+    }
+  ]
+}

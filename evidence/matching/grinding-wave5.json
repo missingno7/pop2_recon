@@ -1,0 +1,328 @@
+{
+  "baseline_head": "0c95d3f3eeafd0a120f973d7c8cc88a07ee6eee6",
+  "canonical_totals": {
+    "behavior_oracle_status": "NOT_STARTED",
+    "candidate_function_count": 2,
+    "exact_function_count": 28,
+    "identified_game_code_bytes": 1360,
+    "matching_asm_bytes": 51,
+    "matching_c_bytes": 1174,
+    "pinned_runtime_bytes": 666,
+    "pinned_runtime_component_count": 11,
+    "proven_candidate_fixups": 53,
+    "proven_relocation_records": 0,
+    "reviewed_target_count": 32,
+    "structural_link_status": "UNRECOVERED",
+    "total_payload_bytes": 271388,
+    "total_relocation_records": 4716,
+    "unknown_or_unclassified_payload_bytes": 269311,
+    "unresolved_identified_game_bytes": 186,
+    "unresolved_reviewed_target_count": 4
+  },
+  "consolidation": "One canonical source/recipe per accepted component. Failed forms, compiler outputs and bulk contexts stay ignored. No speculative canonical setter/binding/probe. Existing journal/proof tools used unchanged; supervisor refreshed the generated shared context after one default-path mistake.",
+  "luna": [
+    {
+      "accepted": true,
+      "emitted_CODE_sha256": "4390f86a5415a5edc1eab313e0b858b175686544140410ca547a9b54b51380df",
+      "first_difference": null,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "mismatch_count": 0,
+      "object_sha256": "4be778696cbe323490c48b389a3962a95c56da796ae6061b246ea62dfbfc5f4f",
+      "profile": "msc600",
+      "public": "MAKE_INDEX_RECT",
+      "recipe": "recipes/make_index_rect.json",
+      "size": 78,
+      "source_sha256": "1a7fa89128d92630afb0ef5d3bcf338feb74739e950c7cd73ef94f49db35a50d",
+      "status": "exact",
+      "supervisor_checks": [
+        "fresh strict --verify-only",
+        "fresh serialized promotion",
+        "full validation"
+      ],
+      "target_id": "root:052d:1dc6",
+      "trials": 3,
+      "unique_CODE_outputs": 2,
+      "worker_source_sha256_before_LF_normalization": "c22c50cb4763ba778c493a6848b14f089d9441bb0200dc99a68e27c4040fc95b"
+    },
+    {
+      "accepted": true,
+      "emitted_CODE_sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
+      "first_difference": null,
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "mismatch_count": 0,
+      "object_sha256": "e4dac2dcfcdef7dd60444051b0717bd93a70bcd5469f5bbe7b7c4c9c29385e8e",
+      "profile": "msc600",
+      "public": "IS_FOUR_KIND",
+      "recipe": "recipes/is_four_kind.json",
+      "size": 42,
+      "source_sha256": "87916fb97ad6bb88f5e1fd97fb139905f5d7157cc007d63d65e53778592716fe",
+      "status": "exact",
+      "supervisor_checks": [
+        "fresh strict --verify-only",
+        "fresh serialized promotion",
+        "full validation"
+      ],
+      "target_id": "root:078a:28fe",
+      "trials": 2,
+      "unique_CODE_outputs": 1,
+      "worker_source_sha256_before_LF_normalization": "87916fb97ad6bb88f5e1fd97fb139905f5d7157cc007d63d65e53778592716fe"
+    }
+  ],
+  "original_review": "evidence/matching/wave5-original-review.json",
+  "overlay_setter": {
+    "accepted": false,
+    "best_scored_candidate": null,
+    "expected_size": 34,
+    "final_observation": "/Oer shared-exit option repeats known32-byte /Oe CODE; no new output or match.",
+    "first_difference": null,
+    "grounding": {
+      "frame_segment": 8707,
+      "group": "DGROUP",
+      "independent_root_witness_image_offset": 3726,
+      "original_fields": [
+        15,
+        24
+      ],
+      "relative_offset": 23571,
+      "symbol": "STATE_BYTE",
+      "width": 1
+    },
+    "known_CODE_outputs": [
+      {
+        "also_seen_with_flags": [
+          "/c",
+          "/AM",
+          "/Oer",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "fresh_fixup_offsets": [
+          22
+        ],
+        "object_sha256": "ec4019c5b4bbbb16d723dd7b3806cc2086dcc25ad5229592fcc5a5fd421d08f9",
+        "profile": "msc600",
+        "result": "Strictly refused: full emitted extent 32 differs from reviewed 34; one common external store.",
+        "sha256": "60080805f8e5d0ec1b123bdf31987298a7f78ed9d706c53a426863430658e0de",
+        "size": 32
+      },
+      {
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "fresh_fixup_offsets": [
+          21
+        ],
+        "object_sha256": "705ba46dba36cc055f12da12e96911c9550b28905ceb7d49f6238cff76c1810d",
+        "profile": "msc600",
+        "result": "Strictly refused: full emitted extent 30 differs from reviewed 34; inverted branch/early-return form.",
+        "sha256": "460c48458b9e7ee00d1fd74137db125c7289f3370155e5bc619ebb24de48fddc",
+        "size": 30
+      },
+      {
+        "flags": [
+          "/c",
+          "/AM",
+          "/O",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "fresh_fixup_offsets": [
+          26,
+          14
+        ],
+        "object_sha256": "5f692276cea69ce50bd0d404db3cfd4c408bb9e00ca5256ec456f463e9987d65",
+        "profile": "msc600",
+        "result": "Strictly refused: full emitted extent 32 differs from reviewed 34; separate stores, but BX use and two branch-specific epilogues.",
+        "sha256": "b7c796baa7e6b2d81ff421b43af7a6dcd918947d1988d7119a10d5d5f03af551",
+        "size": 32
+      }
+    ],
+    "mismatch_basis": "Strict full-extent refusals are unscored; no prefix ownership.",
+    "mismatch_count": null,
+    "profile": "msc600",
+    "public": "SET_STATE_FROM_RECORD",
+    "resume_condition": "Resume only with a new independent source/ABI or compiler lead that changes the register/data-store shape. The final /Oer common-exit diagnostic repeated the /Oe 32-byte raw CODE hash and one field at 22; no further retry of this source/profile family is useful without such a lead.",
+    "status": "blocked",
+    "stop_reason": "Supervisor closed finite grounded source/optimizer family before budget; no supported new register lead.",
+    "target_id": "overlay-3:2344:0042",
+    "trials": 7,
+    "trials_detail": [
+      {
+        "duplicate_code": false,
+        "emitted_code_sha256": "60080805f8e5d0ec1b123bdf31987298a7f78ed9d706c53a426863430658e0de",
+        "emitted_size": 32,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "ec4019c5b4bbbb16d723dd7b3806cc2086dcc25ad5229592fcc5a5fd421d08f9",
+        "reason": "Ordered symbolic fixup obligations changed",
+        "source_sha256": "8904ba73343a3db2aa1786fcaa04d8ae5db5d20ddd1097b3a8512e81dacd8551",
+        "trial": "baseline"
+      },
+      {
+        "duplicate_code": true,
+        "emitted_code_sha256": "60080805f8e5d0ec1b123bdf31987298a7f78ed9d706c53a426863430658e0de",
+        "emitted_size": 32,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "ec4019c5b4bbbb16d723dd7b3806cc2086dcc25ad5229592fcc5a5fd421d08f9",
+        "reason": "Bound component extent differs; trimming forbidden",
+        "source_sha256": "8904ba73343a3db2aa1786fcaa04d8ae5db5d20ddd1097b3a8512e81dacd8551",
+        "trial": "unit-baseline"
+      },
+      {
+        "duplicate_code": false,
+        "emitted_code_sha256": "460c48458b9e7ee00d1fd74137db125c7289f3370155e5bc619ebb24de48fddc",
+        "emitted_size": 30,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "705ba46dba36cc055f12da12e96911c9550b28905ceb7d49f6238cff76c1810d",
+        "reason": "Bound component extent differs; trimming forbidden",
+        "source_sha256": "126436a3de8018dd6691744b79f6da7d6541a22443c8affccbd6e284bd38ff7d",
+        "trial": "inverted-return"
+      },
+      {
+        "duplicate_code": true,
+        "emitted_code_sha256": "460c48458b9e7ee00d1fd74137db125c7289f3370155e5bc619ebb24de48fddc",
+        "emitted_size": 30,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "705ba46dba36cc055f12da12e96911c9550b28905ceb7d49f6238cff76c1810d",
+        "reason": "Bound component extent differs; trimming forbidden",
+        "source_sha256": "6f899ff69e96563fe3f49471427f3fa0d6f231dc199d1757c0574f8bef53d70b",
+        "trial": "inverted-if"
+      },
+      {
+        "duplicate_code": true,
+        "emitted_code_sha256": "60080805f8e5d0ec1b123bdf31987298a7f78ed9d706c53a426863430658e0de",
+        "emitted_size": 32,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "ec4019c5b4bbbb16d723dd7b3806cc2086dcc25ad5229592fcc5a5fd421d08f9",
+        "reason": "Bound component extent differs; trimming forbidden",
+        "source_sha256": "512c2bc5252125681a6b88451a760d20ae34ffb3f70fa263a4ebf1cf19fc23cf",
+        "trial": "volatile-pointer-ifelse"
+      },
+      {
+        "duplicate_code": false,
+        "emitted_code_sha256": "b7c796baa7e6b2d81ff421b43af7a6dcd918947d1988d7119a10d5d5f03af551",
+        "emitted_size": 32,
+        "flags": [
+          "/c",
+          "/AM",
+          "/O",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "5f692276cea69ce50bd0d404db3cfd4c408bb9e00ca5256ec456f463e9987d65",
+        "reason": "Bound component extent differs; trimming forbidden",
+        "source_sha256": "8904ba73343a3db2aa1786fcaa04d8ae5db5d20ddd1097b3a8512e81dacd8551",
+        "trial": "opt-default"
+      },
+      {
+        "duplicate_code": true,
+        "emitted_code_sha256": "60080805f8e5d0ec1b123bdf31987298a7f78ed9d706c53a426863430658e0de",
+        "emitted_size": 32,
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oer",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "object_sha256": "ec4019c5b4bbbb16d723dd7b3806cc2086dcc25ad5229592fcc5a5fd421d08f9",
+        "reason": "Bound component extent differs; trimming forbidden",
+        "source_sha256": "8904ba73343a3db2aa1786fcaa04d8ae5db5d20ddd1097b3a8512e81dacd8551",
+        "trial": "opt-common-exit"
+      }
+    ],
+    "unique_CODE_outputs": 3
+  },
+  "schema": 1,
+  "scope": "One integrating writer, private bounded workers; complete component ownership only. No acceptance changes, original TU, natural link or behavior claim.",
+  "structural_frontier": {
+    "accepted_bytes": 0,
+    "layout": "evidence/rtlink-layout.json",
+    "observations": [
+      "Original MZ entry/relocated selector/count and18-byte getsectionptr independently locate table at file150347.",
+      "Separate memory/file extents distinguish overlay17:3026/1319 paragraphs.",
+      "Relocation addend is startup_ES+0x10, with carry skip; fixed0100 is a reference observation model.",
+      "Ancestor table index and user section number are separate fields."
+    ],
+    "owned_original_relocations": 0,
+    "proof": "evidence/rtlink-manager.json",
+    "resume_condition": "Independent original manager/archive-member identity or another discriminating feature; runtime trace for behavior. Shared format alone does not identify linker or arbitrary CRT provider frames.",
+    "source_hint": "Pinned supplied6.10 non-debug18-byte info_section agrees; supplied4.00 non-debug16-byte structure differs. Exact historical version remains unproved.",
+    "status": "original_descriptor_locator_established",
+    "supervisor_review": "Fresh worker verifier and independent compact packet/flow/ordered-MZ/source-pin checks pass."
+  },
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "validation": {
+    "command": "python tools/validate.py",
+    "fresh_ASM_components": 1,
+    "fresh_C_components": 27,
+    "independent_runtime_members": 11,
+    "invariant_tests": 141,
+    "status": "PASS"
+  }
+}

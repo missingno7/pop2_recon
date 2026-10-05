@@ -1104,6 +1104,105 @@
       "size": 40,
       "space": "overlay-12",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; BP+8 near word-record pointer, BP+6 signed word index; RETF4; returns pointer AX; saves DI",
+      "boundary_evidence": [
+        "Independent complete original-byte decode from position0x7096 through0x70e4, all internal/final NOPs retained; following bytes 558bec83ec045756.",
+        "Incoming caller has validated original CFG from position0x72c2 to CALL position0x72d3; exact path and context retained in evidence/matching/wave5-original-review.json.",
+        "Original returns: 0x70e1 ca0400; every branch destination lies on an in-extent instruction boundary.",
+        "Prior closed return and following independent entry retained in original review; no calls/interrupts/segment writes or original relocation obligations. Complete initialized CODE extent required."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 37587,
+          "image_offset": 29395,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 29394,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates four near word-record coordinates from signed index; independent caller pushes a stack record address and index, and tests returned AX. Game/state purpose and original names remain hypotheses."
+      ],
+      "classification_status": "game-helper hypothesis, not original symbol recovery",
+      "id": "root:052d:1dc6",
+      "offset": 7622,
+      "original_name": null,
+      "segment": 1325,
+      "semantic_name_hypothesis": "make_index_rect",
+      "sha256": "4390f86a5415a5edc1eab313e0b858b175686544140410ca547a9b54b51380df",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; low byte BP+6 input; RETF2; int boolean AX; no local allocation; two inline exits",
+      "boundary_evidence": [
+        "Independent complete original-byte decode from position0xa19e through0xa1c8, all internal/final NOPs retained; following bytes b80a00502bc050b0.",
+        "Incoming caller has validated original CFG from position0xa0a4 to CALL position0xa0ac; exact path and context retained in evidence/matching/wave5-original-review.json.",
+        "Original returns: 0xa1bc ca0200, 0xa1c4 ca0200; every branch destination lies on an in-extent instruction boundary.",
+        "Prior closed return and following independent entry retained in original review; no calls/interrupts/segment writes or original relocation obligations. Complete initialized CODE extent required."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 49324,
+          "image_offset": 41132,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 41131,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Ordered byte comparisons against20,2,7,25 return word boolean; independently reached caller loads its low-byte argument and tests returned AX. Game purpose and original names remain hypotheses."
+      ],
+      "classification_status": "game-helper hypothesis, not original symbol recovery",
+      "id": "root:078a:28fe",
+      "offset": 10494,
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "is_four_kind",
+      "sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; BP+6 near byte-record pointer; RETF2; void source hypothesis; saves SI and MOV SP,BP; reads record byte offset16",
+      "boundary_evidence": [
+        "Independent complete original-byte decode from position0x42 through0x64, all internal/final NOPs retained; following bytes 558bec83ec025756.",
+        "Incoming caller has validated original CFG from position0x8 to CALL position0xf; exact path and context retained in evidence/matching/wave5-original-review.json.",
+        "Original returns: 0x60 ca0200; every branch destination lies on an in-extent instruction boundary.",
+        "Prior closed return and following independent entry retained in original review; no calls/interrupts/segment writes or original relocation obligations. Only supported zero-addend direct DS byte fields require independent overlay binding; complete initialized CODE extent required."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 184783,
+          "image_offset": 15,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 14,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies near record byte at offset16 to DS5c13, substituting3 when zero; independently reached caller forwards its near record argument. Game/state purpose and original names remain hypotheses."
+      ],
+      "classification_status": "game-helper hypothesis, not original symbol recovery",
+      "id": "overlay-3:2344:0042",
+      "offset": 66,
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "set_state_from_record",
+      "sha256": "ca1ff8b770d609cb41ffddc67d63603279fc7be235955edb1b38cc9a338c3892",
+      "size": 34,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
