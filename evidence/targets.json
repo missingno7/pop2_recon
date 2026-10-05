@@ -165,6 +165,107 @@
       "size": 26,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far no-argument helper hypothesis; plain RETF; return value unused in reviewed caller; C Pascal declaration is a source hypothesis",
+      "boundary_evidence": [
+        "The previous routine has RETF at root 0x3603; this separate entry starts at 0x3604 with SUB AL,AL.",
+        "The nine-byte instruction body ends with plain RETF at 0x360c. The original NOP at 0x360d separates it from the distinct BP prologue at 0x360e; the frozen complete comparison interval includes this alignment byte: [0x3604,0x360e).",
+        "The original far-call encoding at root 0xe852 specifies 02cc:0944 and has its segment-word MZ relocation at 0xe855 (index 1250). The caller sequence from 0xe828 decodes to this call without branches; caller entry and dynamic execution remain unproved.",
+        "Independent review is retained in build/workers/data_helper_review/ORIGINAL_EVIDENCE.md. No original relocated word touches this contribution."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67666,
+          "image_offset": 59474,
+          "kind": "far_call",
+          "relocated_segment_site": 59477,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The root caller context at 0xe828 contains direct state byte/word stores, calls this helper at 0xe852, and continues initializing state words.",
+        "Independent adjacent instructions read the two bytes at DS:5c0c and DS:5c0d and sign-extend AL into AX. A game-state helper is a hypothesis; original names and gameplay purpose remain unknown."
+      ],
+      "classification_status": "resident game-state helper hypothesis; name, signedness and gameplay purpose unproved",
+      "id": "root:02cc:0944",
+      "offset": 2372,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "clear_steps",
+      "sha256": "595d3debf836c5a3506e49bdee04920a3052a0789bf990548c79c59a6d0fc30d",
+      "size": 10,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far no-argument helper hypothesis; two plain RETF exits; C Pascal declaration is a source hypothesis",
+      "boundary_evidence": [
+        "The preceding accepted helper ends with RETF 4 at root 0x3593..0x3595; this independent entry starts at 0x3596.",
+        "The full original 56-byte interval [0x3596,0x35ce) decodes completely. All five conditional branches remain within it and terminate at plain RETF at 0x35bb or 0x35cd. The next independent word-comparison entry starts at 0x35ce.",
+        "Root far-call encodings at 0xec4b and 0xee09 specify 02cc:08d6; MZ relocation indices 1227 and 1228 cover their segment words at 0xec4e and 0xee0c. A separate PUSH CS; CALL sequence at 0x3a9a targets the same entry without arguments.",
+        "Independent original review is retained in build/workers/data_helper_review/INCREASE_STEP_ORIGINAL.md. Caller execution, original TU membership and names remain unproved. No MZ relocation word touches this complete contribution."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68683,
+          "image_offset": 60491,
+          "kind": "far_call",
+          "relocated_segment_site": 60494,
+          "space": "root"
+        },
+        {
+          "file_offset": 69129,
+          "image_offset": 60937,
+          "kind": "far_call",
+          "relocated_segment_site": 60940,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original control flow gates a signed-byte increment/clamp on a state byte being 4 or 9 and a word being zero or nonzero.",
+        "The separate caller sequence at 0x3a9a invokes this helper then the following state-update helper at 0x35ce; independent following code reads the updated byte and adds it to a state word. Gameplay purpose and names remain hypotheses."
+      ],
+      "classification_status": "resident game-state update hypothesis; original name, field meaning and subsystem unknown",
+      "id": "root:02cc:08d6",
+      "offset": 2262,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "increase_step",
+      "sha256": "fabe8643614349c186f01ea8e6e14dcec88259de45b09998cef99080e35950a4",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far one-word callee-cleaned helper; RETF 2; returned word in AX; same-segment callers use PUSH CS plus near CALL",
+      "boundary_evidence": [
+        "Previous RETF at 0x301e and NOP at 0x301f precede the independent BP prologue at 0x3020.",
+        "The 25-byte instruction body ends with RETF 2 at 0x3036..0x3038. Original NOP at 0x3039 separates it from the distinct 0x303a prologue; the frozen comparison interval includes that alignment byte: [0x3020,0x303a).",
+        "Decoded callers at 0x32c2 and 0x32e5 push one argument and CS before relative CALL to 0x3020, then store AX to DS:5c02. Other raw near-call references remain diagnostic.",
+        "No original relocated word touches the contribution. Independent original review is retained under build/workers/data_helper_review."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The dispatch callers store the returned word into DS:5c02; one conditional caller supplies constant 25 before toggling the selector byte DS:5c01.",
+        "Independent original instructions access the same byte and word outside this helper; gameplay purpose and source-level signedness remain hypotheses."
+      ],
+      "classification_status": "resident game-state adjustment hypothesis; original names, types and subsystem unproved",
+      "id": "root:0000:3020",
+      "offset": 12320,
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "signed_value",
+      "sha256": "799cb16539e0656097f123e25da9fae2adecad39728c9db41f60e2e3672426d3",
+      "size": 26,
+      "space": "root",
+      "state": "CANDIDATE_C"
     }
   ],
   "schema": 1,

@@ -12,6 +12,9 @@ def pin(recipe_path, *, verify_only=False):
     source = project_path(recipe_path)
     require(source.is_relative_to(ROOT/"build/workers"), "Runtime submissions must live in worker scratch")
     recipe = read_json(source)
+    if "binding" in recipe:
+        require(b"\r" not in project_path(recipe["binding"]).read_bytes(),
+                "Canonical runtime binding must use LF newlines for stable Git identity")
     name = recipe["name"]
     require(re.fullmatch(r"[a-z][a-z0-9_]*", name), "Invalid runtime recipe name")
     oracle = Oracle.load()

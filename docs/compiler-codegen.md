@@ -56,9 +56,10 @@ thread definitions. The reader preserves those declarations and records.
 The report also contains a bounded MSC 6.00 Pascal-call experiment
 (`/c /AM /Oe /Gs /Zl /Gc`) against the increment control. It compiles and
 publishes the name `INCREMENT` rather than `_increment`, consistent with the
-Pascal naming switch. The recipe scopes this hypothesis to the accepted floor
-candidate family; the control does not establish that setting as a global game
-profile.
+Pascal naming switch. The recipe scopes this hypothesis to the accepted
+resident C components; the control does not establish that setting as a global
+game profile. Further [data-helper matches](data-helpers.md) reuse those explicit
+flags without proving a common original TU or global setting.
 
 The separate `external_call.c` probe provides a real fixup control. Under the
 near-model flags, `invoke_external` has a near-offset fixup at CODE offset 7.

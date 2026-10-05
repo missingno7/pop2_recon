@@ -25,14 +25,22 @@ def main():
     manifest = read_json(ROOT / "layout/manifest.json")
     check_manifest(oracle, manifest)
     require(all(r["target_id"] != args.target for r in manifest["owners"]), "Target already has canonical owner")
+    binding_path = project_path(args.binding) if args.binding else None
+    if binding_path:
+        require(binding_path.is_relative_to(ROOT / "evidence/bindings"),
+                "Canonical binding proof must live under evidence/bindings")
+        require(b"\r" not in binding_path.read_bytes(),
+                "Canonical binding proof must use LF newlines for stable Git identity")
     original_source = project_path(args.source).read_bytes()
+    # Canonical source hashes must survive the repository's LF checkout policy.
+    original_source = original_source.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     stage = ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
     frozen_source = stage / ("CAND.C" if args.language == "c" else "CAND.ASM")
     frozen_source.write_bytes(original_source)
     result, report = compile_and_check(frozen_source, args.profile, args.symbol, args.target,
                                        stage / "compile", args.flags, language=args.language,
-                                       binding=read_json(project_path(args.binding)) if args.binding else None)
+                                       binding=read_json(binding_path) if binding_path else None)
     require(report["exact"], "Refusing promotion: complete component does not match")
     if args.verify_only:
         print(f"Strict {report['state']}: {args.target}, {report['emitted_size']} bytes")
@@ -46,10 +54,7 @@ def main():
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(original_source),
               "profile": args.profile, "flags": list(result.flags), "public": args.symbol,
               "object_sha256": report["object_sha256"], "proof_scope": report["proof_scope"]}
-    if args.binding:
-        binding_path = project_path(args.binding)
-        require(binding_path.is_relative_to(ROOT / "evidence/bindings"),
-                "Canonical binding proof must live under evidence/bindings")
+    if binding_path:
         recipe.update(binding=binding_path.relative_to(ROOT).as_posix(),
                       binding_sha256=sha(binding_path.read_bytes()), fixup_count=report["fixups"])
     owner = {key: target[key] for key in ("space", "segment", "offset", "size")}

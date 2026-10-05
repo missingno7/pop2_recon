@@ -68,7 +68,8 @@ holes, length mismatches and literal address substitutions cannot pass.
 fresh check. Removing `--verify-only` publishes a canonical recipe after
 ownership validation; a rejected physical alias overlap removes the proposed
 recipe and leaves the manifest unchanged. Binding files are confined to
-`evidence/bindings` and pinned by file hash. Validation rereads the independent
+`evidence/bindings`, use LF newlines for stable Git identity, and are pinned by
+file hash. Validation rereads the independent
 archive, whole member, provider, original witnesses and equations every time.
 
 This is component proof with a signature-backed provider-public binding.

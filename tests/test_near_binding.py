@@ -232,6 +232,23 @@ class NearRuntimeTests(unittest.TestCase):
         self.assertEqual(before, manifest.read_bytes())
         self.assertFalse((self.root/"recipes/runtime/test_near.json").exists())
 
+    def test_runtime_publication_refuses_checkout_unstable_crlf_binding(self):
+        self.check()
+        binding = self.root/self.recipe["binding"]
+        binding.write_bytes(binding.read_bytes().replace(b"\n", b"\r\n"))
+        self.recipe["binding_sha256"] = sha(binding.read_bytes())
+        submitted = self.root/"build/workers/test/submitted.json"
+        manifest = self.root/"layout/manifest.json"
+        write_json(submitted, self.recipe)
+        write_json(manifest, {"owners": []})
+        before = manifest.read_bytes()
+        with patch.object(common, "ROOT", self.root), patch.object(pin_runtime, "ROOT", self.root), \
+             patch.object(pin_runtime.Oracle, "load", return_value=self.oracle):
+            with self.assertRaisesRegex(ValueError, "LF newlines"):
+                pin_runtime.pin(submitted)
+        self.assertEqual(before, manifest.read_bytes())
+        self.assertFalse((self.root/"recipes/runtime/test_near.json").exists())
+
     def test_runtime_publication_rolls_back_a_physical_alias_overlap(self):
         self.check()
         old = copy.deepcopy(self.recipe)

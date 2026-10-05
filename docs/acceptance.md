@@ -61,3 +61,17 @@ three file bytes before overlay 2 relocations remain unowned alignment debt.
 Source semantics, game/runtime classification, names and original build/version
 are evidence-qualified claims independent of byte equality. Compiler probes can
 establish code-generation facts without proving the compiler used by every TU.
+
+The [current data-helper milestone](data-helpers.md) brings matching C to 112
+bytes across four complete contributions, with fourteen external DGROUP fields
+proved. Matching ASM remains 51 bytes and pinned runtime remains 666 bytes.
+The reviewed 26-byte signed-value target is still unowned: its full 24-byte
+candidate fails the extent gate. Source hypotheses cannot inherit ownership
+from neighboring accepted helpers or from matching individual instructions.
+
+Canonical source and binding file pins use the repository's LF checkout policy.
+Source publication normalizes its frozen independent copy to LF, then compiles
+and pins that copy; worker input is unchanged. JSON output uses explicit UTF-8
+bytes. Source/runtime publication refuse CRLF binding files so Git cannot
+silently change their pinned identity. This file-format rule does not change
+original bytes, object bytes, fixup equations or component extents.

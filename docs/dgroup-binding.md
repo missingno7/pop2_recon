@@ -78,3 +78,9 @@ from this component match. The earlier near-call CRT diagnostic in
 has now led to the independently grounded
 [whole close-member proof](runtime-near-binding.md). The supporting provider
 prefix still owns zero bytes.
+
+The [next data-helper milestone](data-helpers.md) reuses this gate without
+changes for complete 10-byte and 56-byte C contributions. Their two and nine
+external data fields are checked against separate original instructions outside
+each owner. Shared semantic aliases do not grant data ownership or prove original
+global declarations, runtime DS association, TU membership or natural placement.

@@ -1,0 +1,113 @@
+{
+  "bounded_probe_matrix": [
+    {
+      "family": "if / ternary / operand order / volatile qualifiers",
+      "profiles_flags": "MSC600 /Oe, /O, /Ox",
+      "result": "No exact full-extent candidate; simplest if form yields 24 bytes under /Oe-/Ox; ternary variants yield 32 bytes; /O gives a different 26-byte spill-heavy body."
+    },
+    {
+      "family": "compound assignment, local temporaries, pointer aliases, explicit dereference",
+      "profile_flags": "MSC600 /Oe",
+      "result": "No exact full-extent candidate; outputs range 24\u201336 bytes and use different register/memory operations."
+    },
+    {
+      "family": "simple if form, alternate historical profile",
+      "profile_flags": "MSC510 /Ox, /Os, /Ot",
+      "result": "30-byte output; MSC510 rejects /Oe as unknown option. No exact match."
+    }
+  ],
+  "callers": [
+    {
+      "argument_hypothesis": "computed word returned by root:337e",
+      "call_image_position": 12996,
+      "far_return_stack_note": "Caller pushes CS then uses near E8; callee RETF 2 consumes the synthetic far return and one word argument.",
+      "instruction_bytes": "e859fd",
+      "post_call_bytes": "a3025c",
+      "post_call_image_position": 12999,
+      "preceding_setup_bytes": "500e",
+      "preceding_setup_image_position": 12994
+    },
+    {
+      "argument_hypothesis": "constant 0x0019",
+      "call_image_position": 13034,
+      "far_return_stack_note": "Caller pushes CS then uses near E8; callee RETF 2 consumes the synthetic far return and one word argument.",
+      "instruction_bytes": "e833fd",
+      "post_call_bytes": "a3025c",
+      "post_call_image_position": 13037,
+      "preceding_setup_bytes": "b81900500e",
+      "preceding_setup_image_position": 13029
+    },
+    {
+      "argument_hypothesis": "byte [5c00] sign-extended then decremented",
+      "call_image_position": 13355,
+      "far_return_stack_note": "Caller pushes CS then uses near E8; callee RETF 2 consumes the synthetic far return and one word argument.",
+      "instruction_bytes": "e8f2fb",
+      "post_call_bytes": "a3025c",
+      "post_call_image_position": 13358,
+      "preceding_setup_bytes": "a0005c9848500e",
+      "preceding_setup_image_position": 13348
+    },
+    {
+      "argument_hypothesis": "byte [5c0c] sign-extended",
+      "call_image_position": 13817,
+      "far_return_stack_note": "Caller pushes CS then uses near E8; callee RETF 2 consumes the synthetic far return and one word argument.",
+      "instruction_bytes": "e824fa",
+      "post_call_bytes": "a3025c",
+      "post_call_image_position": 13820,
+      "preceding_setup_bytes": "a00c5c98500e",
+      "preceding_setup_image_position": 13811
+    }
+  ],
+  "candidate": {
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "object_path": "build\\workers\\data_helper_family\\signed_value_msc600\\SIGNED.OBJ",
+    "object_sha256": "db6e28a0eacb57d334a6bf22888b0a996daff503372900665bdc46fa58041a73",
+    "object_size": 264,
+    "profile": "msc600",
+    "public_symbol": "SIGNED_VALUE",
+    "semantic_name_hypothesis": "signed_value",
+    "source": "build\\workers\\data_helper_family\\signed_value.c",
+    "source_sha256": "82805bed460304fb0a4aa066f16886ca6fa8b0c964512cfb75d69ea9e953387a"
+  },
+  "comparison": {
+    "candidate_tail_from_offset_15": "a1000003c25dca0200",
+    "emitted_whole_segment_size": 24,
+    "first_ordinary_code_difference_offset": 15,
+    "reviewed_original_extent_size": 26,
+    "summary": "The simple readable C hypothesis emits 24 complete CODE bytes; the reviewed target extent is 26 bytes including its independently observed alignment NOP. Both external fields are ordinary DGROUP-style external offset16 candidates (SIGNFLAG operand offset 8; BIAS operand offset 16), but arithmetic order differs: target is MOV AX,DX; ADD AX,[bias], while MSC600 /Oe emits MOV AX,[bias]; ADD AX,DX. This is a negative probe; no field matching is claimed.",
+    "target_tail_from_offset_15": "8bc20306025c5dca020090"
+  },
+  "fresh_object_sha256": "db6e28a0eacb57d334a6bf22888b0a996daff503372900665bdc46fa58041a73",
+  "raw_CODE_hex": "558bec8b5606803e0000007402f7daa1000003c25dca0200",
+  "raw_CODE_sha256": "833af590110d879f5fb2c4f50f12ada9fb784cfcb80f4518c273d210c3b6b6dc",
+  "replay_source": {
+    "API": "compiler.compile_c(Path(source), profile=msc600, flags=candidate.flags, basename=SIGNED, workdir=build/workers/NAME)",
+    "note": "LF replay source differs from the worker source only in physical line endings; DOS staging and full OMF bytes are unchanged.",
+    "path": "recipes/probes/signed_value.c",
+    "sha256": "1f854cad8a0132b56ba9d699904951a19f3ff6e78114bb40f5dedc9745e5b6e7",
+    "status": "Non-owning source hypothesis; never counted as matching C"
+  },
+  "schema": 1,
+  "scope": "No ownership. The full 24-byte emitted segment fails the independently reviewed 26-byte comparison extent; no trimming, padding, field masking or byte edits are permitted.",
+  "state": "CANDIDATE_C_NO_MATCH",
+  "strict_rejection": "Bound component extent differs; trimming forbidden",
+  "target": {
+    "id": "root:0000:3020",
+    "position": 12320,
+    "sha256": "799cb16539e0656097f123e25da9fae2adecad39728c9db41f60e2e3672426d3",
+    "size": 26,
+    "space": "root"
+  },
+  "whole_emitted_CODE_size": 24,
+  "worker_packet": {
+    "path": "build/workers/data_helper_family/submission.json",
+    "sha256": "ed97a3d613e2a2676c3f5b4d2074d045f73cff0f7fa4399c8022a426c076f2e6"
+  }
+}
