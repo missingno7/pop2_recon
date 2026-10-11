@@ -1203,6 +1203,72 @@
       "size": 34,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; low byte at BP+6; RETF2; boolean word AX; two inline exits",
+      "boundary_evidence": [
+        "Complete original decode and both RETF2 exits; all internal/final NOPs retained.",
+        "Every branch destination is an in-extent instruction boundary; adjacent original return/prologue boundaries retained.",
+        "Original caller frame independently anchored by relocated overlay-3 far entry; validated instruction path to PUSH CS/E8 site.",
+        "Full proof context in evidence/matching/wave6-original-review.json; no object or original relocation obligations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 49440,
+          "image_offset": 41248,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 41247,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Ordered low-byte comparisons return boolean AX; independent caller passes its byte input and tests AX."
+      ],
+      "classification_status": "game-helper hypothesis; purpose/name/TU remain unproved",
+      "id": "root:078a:2830",
+      "offset": 10288,
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "is_seven_kind",
+      "sha256": "1fcb5212c76b72cb8b9b00da08e48c04a7f593cdceb3adc318e41e9175fc07c1",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; low byte at BP+6; RETF2; boolean word AX; two inline exits",
+      "boundary_evidence": [
+        "Complete original decode and both RETF2 exits; all internal/final NOPs retained.",
+        "Every branch destination is an in-extent instruction boundary; adjacent original return/prologue boundaries retained.",
+        "Original caller frame independently anchored by relocated overlay-3 far entry; validated instruction path to PUSH CS/E8 site.",
+        "Full proof context in evidence/matching/wave6-original-review.json; no object or original relocation obligations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 49336,
+          "image_offset": 41144,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 41143,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Ordered low-byte comparisons return boolean AX; independent caller passes its byte input and tests AX."
+      ],
+      "classification_status": "game-helper hypothesis; purpose/name/TU remain unproved",
+      "id": "root:078a:28c8",
+      "offset": 10440,
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "is_six_kind",
+      "sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

@@ -1,0 +1,307 @@
+{
+  "canonical_head": "5f26559dd7cc1329f57927672c8dabecc53460e7",
+  "facts_scope": "Immutable original bytes, complete control flow, independent caller/entry evidence; source names remain hypotheses.",
+  "schema": 1,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "targets": [
+    {
+      "abi": "far Pascal; low byte at BP+6; RETF2; boolean word AX; two inline exits",
+      "branches": [
+        {
+          "bytes_hex": "742b",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41175
+        },
+        {
+          "bytes_hex": "7425",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41181
+        },
+        {
+          "bytes_hex": "741f",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41187
+        },
+        {
+          "bytes_hex": "7419",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41193
+        },
+        {
+          "bytes_hex": "7413",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41199
+        },
+        {
+          "bytes_hex": "740d",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41205
+        },
+        {
+          "bytes_hex": "7407",
+          "destination": 41220,
+          "mnemonic": "je",
+          "position": 41211
+        }
+      ],
+      "callers": [
+        {
+          "call_bytes_hex": "e8adff",
+          "call_position": 41248,
+          "caller_alias": "078a:286c",
+          "caller_entry": 41228,
+          "file_offset": 49440,
+          "independent_entry": {
+            "bytes_hex": "9a6c288a07",
+            "image_offset": 16171,
+            "relocation": {
+              "image_offset": 16174,
+              "index": 200,
+              "offset": 5582,
+              "segment": 9690,
+              "stored_word": 1930
+            },
+            "space": "overlay-3"
+          },
+          "instruction_path": [
+            41228,
+            41229,
+            41231,
+            41234,
+            41235,
+            41236,
+            41239,
+            41241,
+            41243,
+            41246,
+            41247,
+            41248
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_hex": "558bec8a4606500ee88dff0bc074218a4606500ee8adff",
+          "path_choice": "Sequential fallthrough at conditional branches; prior calls return by their independently decoded far Pascal exits.",
+          "path_sha256": "737f0728ac4066f63aad43a08aab9c5004f54620ad9eb0aa602f0ddc1467f49a",
+          "preceding_caller_boundary_hex": "ca020090b801005dca020090",
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_limit": "Game-state byte predicate, exact role and original name unknown",
+      "end_exclusive": 41228,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_context_hex": "558bec8a4606500ee88dff0b",
+      "instruction_starts": [
+        41168,
+        41169,
+        41171,
+        41175,
+        41177,
+        41181,
+        41183,
+        41187,
+        41189,
+        41193,
+        41195,
+        41199,
+        41201,
+        41205,
+        41207,
+        41211,
+        41213,
+        41215,
+        41216,
+        41219,
+        41220,
+        41223,
+        41224,
+        41227
+      ],
+      "ordered_values": [
+        11,
+        15,
+        26,
+        12,
+        13,
+        23,
+        24
+      ],
+      "original_bytes_hex": "558bec807e060b742b807e060f7425807e061a741f807e060c7419807e060d7413807e0617740d807e061874072bc05dca020090b801005dca020090",
+      "original_sha256": "1fcb5212c76b72cb8b9b00da08e48c04a7f593cdceb3adc318e41e9175fc07c1",
+      "padding_positions": [
+        41219,
+        41227
+      ],
+      "prior_boundary_context_hex": "5dca02002bc08be55dca0200",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "relocations_touching_owner": [],
+      "returns": [
+        41216,
+        41224
+      ],
+      "semantic_name_hypothesis": "is_seven_kind",
+      "size": 60,
+      "space_position": 41168,
+      "target_id": "root:078a:2830"
+    },
+    {
+      "abi": "far Pascal; low byte at BP+6; RETF2; boolean word AX; two inline exits",
+      "branches": [
+        {
+          "bytes_hex": "7425",
+          "destination": 41366,
+          "mnemonic": "je",
+          "position": 41327
+        },
+        {
+          "bytes_hex": "741f",
+          "destination": 41366,
+          "mnemonic": "je",
+          "position": 41333
+        },
+        {
+          "bytes_hex": "7419",
+          "destination": 41366,
+          "mnemonic": "je",
+          "position": 41339
+        },
+        {
+          "bytes_hex": "7413",
+          "destination": 41366,
+          "mnemonic": "je",
+          "position": 41345
+        },
+        {
+          "bytes_hex": "740d",
+          "destination": 41366,
+          "mnemonic": "je",
+          "position": 41351
+        },
+        {
+          "bytes_hex": "7407",
+          "destination": 41366,
+          "mnemonic": "je",
+          "position": 41357
+        }
+      ],
+      "callers": [
+        {
+          "call_bytes_hex": "e8ad00",
+          "call_position": 41144,
+          "caller_alias": "078a:2804",
+          "caller_entry": 41124,
+          "file_offset": 49336,
+          "independent_entry": {
+            "bytes_hex": "9a04288a07",
+            "image_offset": 558,
+            "relocation": {
+              "image_offset": 561,
+              "index": 111,
+              "offset": 561,
+              "segment": 9028,
+              "stored_word": 1930
+            },
+            "space": "overlay-3"
+          },
+          "instruction_path": [
+            41124,
+            41125,
+            41127,
+            41130,
+            41131,
+            41132,
+            41135,
+            41137,
+            41139,
+            41142,
+            41143,
+            41144
+          ],
+          "kind": "push_cs_near_call",
+          "path_bytes_hex": "558bec8a4606500ee8ef000bc075158a4606500ee8ad00",
+          "path_choice": "Sequential fallthrough at conditional branches; prior calls return by their independently decoded far Pascal exits.",
+          "path_sha256": "7c1f40ddc897cad2759b66cd84d9372ae10a13e7e8084207c08619dee4814444",
+          "preceding_caller_boundary_hex": "580369015e5f8be55dca0200",
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_limit": "Game-state byte predicate, exact role and original name unknown",
+      "end_exclusive": 41374,
+      "flags_lead": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "following_context_hex": "558bec807e06147419807e06",
+      "instruction_starts": [
+        41320,
+        41321,
+        41323,
+        41327,
+        41329,
+        41333,
+        41335,
+        41339,
+        41341,
+        41345,
+        41347,
+        41351,
+        41353,
+        41357,
+        41359,
+        41361,
+        41362,
+        41365,
+        41366,
+        41369,
+        41370,
+        41373
+      ],
+      "ordered_values": [
+        0,
+        9,
+        33,
+        35,
+        27,
+        37
+      ],
+      "original_bytes_hex": "558bec807e06007425807e0609741f807e06217419807e06237413807e061b740d807e062574072bc05dca020090b801005dca020090",
+      "original_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
+      "padding_positions": [
+        41365,
+        41373
+      ],
+      "prior_boundary_context_hex": "ca020090b801005dca020090",
+      "profile_shortlist": [
+        "msc600"
+      ],
+      "relocations_touching_owner": [],
+      "returns": [
+        41362,
+        41370
+      ],
+      "semantic_name_hypothesis": "is_six_kind",
+      "size": 54,
+      "space_position": 41320,
+      "target_id": "root:078a:28c8"
+    }
+  ]
+}
