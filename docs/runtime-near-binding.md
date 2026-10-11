@@ -1,4 +1,34 @@
-# Runtime external near-code proof — 2026-10-05
+# Runtime external near-code proofs
+
+## Medium-model DOS open — 2026-10-11
+
+The unchanged gate also accepts the complete 23-byte `__dos_open` member from
+`C:/tools/msc-6.00/LIB/mlibcr.lib`, pinned archive SHA-256
+`03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0`.
+The entire 181-byte `dos\d_open.asm` member at archive offset 120016 is pinned;
+it has one public at CODE offset zero and no secondary storage. Its far cdecl
+ABI uses a near filename, a mode word and a near output-handle pointer. The
+large-model member is 26 bytes and differs; this proves the selected member,
+not a global CRT model or library order.
+
+Original entry `1fe6:1bcc` is independently encoded by the relocated far call
+at root image offset 24314. All 21 ordinary bytes compare literally and the
+single F0/T6 field at CODE offset 21 satisfies
+`0x0604 - 0x1be3 = -5599 = 0xea21`. The complete member ends at `1be3`; the
+following original alignment byte remains unowned, and the next entry is `1be4`.
+
+To keep the provider witness outside this new owner, its binding uses the
+complete original close wrapper at `1fe6:1b94`, the outside relocated entry at
+root 80524, and the original straight-line path to its near tail. The same
+independently pinned provider signature/public context is checked afresh. These
+are immutable original witnesses, not candidate output or ownership-dependent
+fallbacks; provider context still owns zero bytes. Both near-bound members now
+cover 36 bytes, separately from ten relocation-free members covering 653 bytes.
+See [the open recipe](../recipes/runtime/crt_dos_open.json) and
+[binding](../evidence/bindings/crt_dos_open.json). No new fixup mode, MZ coverage,
+whole-link closure or behavioral proof is introduced.
+
+## Initial close proof — 2026-10-05
 
 The complete MSC 6.00 archive member `dos\d_close.asm` now owns 13 resident
 CODE bytes as PINNED_RUNTIME. The independent archive and entire 174-byte OMF

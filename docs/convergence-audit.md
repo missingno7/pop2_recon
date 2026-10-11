@@ -1,5 +1,8 @@
 # Convergence audit — 2026-10-11
 
+Audit snapshot at `5f26559`, before the sixth wave. Current ownership and the
+subsequent blocker results are in [reconstruction progress](reconstruction-progress.md).
+
 The current limitation is evidence supply and compiler context, rather than
 compiler throughput. Existing isolated searches, complete-CODE journals and
 serial promotion already cover the useful grinding loop. The highest coverage

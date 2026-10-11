@@ -67,6 +67,9 @@ one target, its extent/ABI/classification, supported binding, profile shortlist,
 verification command, and a private `build/workers/NAME/task.json`. The card has
 `target_id`, `canonical_head`, `max_trials`, `stagnation_limit`, and optional
 `known_code_hashes`; add the source/ABI lead and evidence paths in plain fields.
+For nested guards, include a few discriminating branch outcomes from the
+reviewed original CFG. Review candidate source against them before compiling
+or treating a rejected variant as evidence that a source family is exhausted.
 Assign a target to only one grinding worker per wave. Do not create worker chats,
 a daemon, shared writable queue, or speculative canonical source variants.
 

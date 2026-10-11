@@ -1269,6 +1269,53 @@
       "size": 54,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, argument word at BP+6 and low byte at BP+8. Callers push the byte value in AX first, then a word, then CS followed by near CALL. RETF4 pops the two word argument slots. Return boolean AX copied from DX.",
+      "boundary_evidence": [
+        "Complete original 88-byte extent; all branches land on in-extent decoded starts and sole RETF4 ends at23d6.",
+        "Previous closed routine returns immediately before237e; independent next prologue and closed CFG start23d6.",
+        "Three independently decoded intrafile PUSH CS/E8 caller paths and byte/word argument pushes target237e exactly.",
+        "Source-space paths, full original hashes and outside entry caveat retained in evidence/matching/wave6-original-review.json; runtime overlay dispatch is unproved."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 191477,
+          "image_offset": 6709,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6708,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 193189,
+          "image_offset": 8421,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8420,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 193278,
+          "image_offset": 8510,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8509,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Byte-kind and word-value membership predicate, with one direct DS5c19 word comparison; original intrafile callers use state globals."
+      ],
+      "classification_status": "game-state helper hypothesis; original name/TU/runtime behavior unproved",
+      "id": "overlay-3:2344:237e",
+      "offset": 9086,
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "is_kind_value",
+      "sha256": "ecece0390d5e3b0d8bffad8b2e6c46cab7475f8c90382a60c9f5f67b67352374",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

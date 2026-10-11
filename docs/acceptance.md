@@ -31,9 +31,10 @@ Missing tools and compilation failures never fall back to cached objects.
 recipe hashes the independent library archive and entire OMF member, owns the
 full initialized CODE segment, and checks declarations, original bytes and
 fixup/relocation obligations. Ten relocation-free members cover 653 bytes; the
-13-byte close member additionally verifies an external near equation against
-independent zero-owned provider context. These eleven members cover 666 bytes
-as PINNED_RUNTIME, separate from reconstructed C or ASM. Partial startup/provider
+13-byte close and 23-byte medium-model open members additionally verify external
+near equations against independent zero-owned provider context. These twelve
+members cover 689 bytes as PINNED_RUNTIME, separate from reconstructed C or ASM.
+Partial startup/provider
 signatures remain evidence only and contribute no accepted bytes. Runtime
 publication uses `tools/pin_runtime.py` with a reviewed worker submission and
 fresh strict verification; whole members cannot be trimmed to a matching prefix.
