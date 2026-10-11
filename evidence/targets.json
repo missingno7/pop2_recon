@@ -1316,6 +1316,72 @@
       "size": 88,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal char argument in low byte of BP6, word AX boolean, both RETF2 paths; no locals or saved index registers.",
+      "boundary_evidence": [
+        "Complete original CFG with both RETF2 exits and both NOPs retained; adjacent previous RETF2 and next prologue.",
+        "Independent overlay-3 caller entry2d34 follows RETF/NOP; complete CFG reaches byte push and relocated far CALL at2d76 encoding078a:28a4.",
+        "Full original evidence in evidence/matching/wave7-original-review.json; no original relocation obligations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196406,
+          "image_offset": 11638,
+          "kind": "relocated_far_call",
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Ordered low-byte predicate; full original caller loads byte argument, calls and compares boolean AX."
+      ],
+      "classification_status": "game-kind helper hypothesis; name/TU/behavior unproved",
+      "id": "root:078a:28a4",
+      "offset": 10404,
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "is_three_kind",
+      "sha256": "0668200ec8db5520bf70a57c24ecb734aff92986a342de4216356538a652ee20",
+      "size": 36,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; one far pointer atBP+6 offset/BP+8 segment, callee pops4 bytes with RETF4; signed16-bit coordinate fields, BooleanAX; ES:BX loaded by LES.",
+      "boundary_evidence": [
+        "Complete original root interval[0x15d7e,0x15da0) is34 bytes, SHA256 e9f74bae09bf698fd274a4846acfd9a104821484346ff379d01e3723bf27b632. It decodes without gaps; both JGE instructions at1101:4d7f and4d88 target the POP BP at4d8c, followed by sole RETF4 at4d8d. No calls, stack allocation, saved-register pushes or original relocation obligations.",
+        "Previous original BP-framed routine begins root0x15d00 and closes with RETF6 at0x15d7b..0x15d7d; target begins immediately at0x15d7e. Next original BP-framed entry begins exactly0x15da0 (1101:4d90), ends RETF4 at0x15db8..0x15dba, then has unowned zero alignment at0x15dbb before the next prologue0x15dbc. No padding is attributed to the34-byte target.",
+        "Original far CALL at root image0xa293 (file0xc293) encodes1101:4d6e; sole touching segment-word MZ relocation is image0xa296 index742. Preceding MOV AX,5cac; PUSH DS; PUSH AX supplies one far pointer.",
+        "Caller root:078a:29a6 (image0xa246) is independently referenced by far CALL encoding9a a6 29 8a 07 at root0x578c with segment-word relocation0x578f index655. Complete124-byte caller decodes through RETF at0xa2c1. A structural fallthrough path from its entry reaches0xa293; the selected JNE is untaken and intervening calls are treated as returning continuations, without dynamic branch/execution claims."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 49811,
+          "image_offset": 41619,
+          "kind": "far_call",
+          "relocated_segment_site": 41622,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The body tests signed word pairs in an eight-byte coordinate record addressed by a far pointer and returns an empty/invalid-rectangle predicate.",
+        "An independently far-referenced resident caller passes DS:5cac, tests the Boolean, then passes the same record plus another far record to a separate Boolean helper and an eight-byte stack record to the immediately following graphics-style routine. This supports an application/graphics support-helper classification, not recovery of original symbol or source provenance."
+      ],
+      "classification_status": "resident application/graphics helper hypothesis; original source/symbol provenance unproved",
+      "id": "root:1101:4d6e",
+      "offset": 19822,
+      "original_bytes_hex": "558becb80100c45e06268b4f02263b4f067d0b268b17263b57047d022bc05dca0400",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "is_rectangle_empty",
+      "sha256": "e9f74bae09bf698fd274a4846acfd9a104821484346ff379d01e3723bf27b632",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
