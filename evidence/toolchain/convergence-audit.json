@@ -1,0 +1,494 @@
+{
+  "schema": 1,
+  "date": "2026-10-11",
+  "canonical_head": "fa27c317b82205fadf6822824b0a400f9d3252ff",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "scope": "Compiler observations and workflow audit only. Zero new ownership; no acceptance, original-asset or toolchain-lock changes.",
+  "sibling": {
+    "root": "D:\\Prog\\simant_recon",
+    "head_observed": "4f5a320e304b4a873c0563a157257e90d98e6408",
+    "authority": "Actual inspected file hashes; sibling checkout cleanliness was not established by sandbox Git.",
+    "consulted": [
+      {
+        "path": "D:/Prog/simant_recon/docs/codegen-rules.md",
+        "sha256": "348346a65cbb90280eb78bdd5955ad77f7c7dd6535a041f07280d3b5399d7172"
+      },
+      {
+        "path": "D:/Prog/simant_recon/docs/tu-evidence.md",
+        "sha256": "cd43d0a361da88c9db5f7957fca83027e4590149d239e576106bfe40d4ae132f"
+      },
+      {
+        "path": "D:/Prog/simant_recon/tools/probe.py",
+        "sha256": "cbbec59f45f95c333a831e319c83022c071ffd2e6f1747af2e8e032dfac5c596"
+      },
+      {
+        "path": "D:/Prog/simant_recon/tools/autosearch.py",
+        "sha256": "35b6bf087081b1714bfc383d1740041c89b2499df47efeb74ba823e1143a4a8e"
+      },
+      {
+        "path": "D:/Prog/simant_recon/tools/srcrules.py",
+        "sha256": "e34f8bd91d224df26b5981acd9316b00bdf96e3dcc28e744aaebfc466046fc30"
+      },
+      {
+        "path": "D:/Prog/simant_recon/tools/compiler.py",
+        "sha256": "27a750d509e7d2d114a69514294150af66b88aaa0ff68cd42abda970febd0634"
+      },
+      {
+        "path": "D:/Prog/simant_recon/layout/toolchain.json",
+        "sha256": "cd59ec266f604b616c6a69bb3acdd24b19b2ccecb31adc0d8f8be82e5d7cc4b9"
+      },
+      {
+        "path": "D:/Prog/simant_recon/docs/status.md",
+        "sha256": "3b7e33ded15e19224166f479d56ddcb4fe2252de4eb8f21cc18a74af05cb3358"
+      },
+      {
+        "path": "D:/Prog/simant_recon/evidence/canonical/blockers.json",
+        "sha256": "e473f9a7fde5968e39f94a675b2d1b260e832764e24b8c9eae8dfa330e045622"
+      }
+    ]
+  },
+  "declaration_context": {
+    "lead": {
+      "path": "D:/Prog/simant_recon/evidence/codegen/SYM-1-declaration-position.json",
+      "sha256": "8a775721c728c2d196d518a84b45cc620dfc2f63bfb32fe0505f2b3acfc979eb"
+    },
+    "question": "Does declaration-position sensitivity also occur with pop2's pinned MSC600 /AM /Gc flags?",
+    "sources": {
+      "baseline": "extern int far a0;\nextern int far c4;\nextern int far e9;\nint far f(int far *s)\n{\n    int n;\n\n    n = c4 + a0;\n    if (n > 0)\n        s[4] = (long)a0 * 100 / n;\n    else\n        s[4] = 100;\n    n = e9 + a0;\n    if (n > 0)\n        s[5] = (long)a0 * 100 / n;\n    else\n        s[5] = 100;\n    return 0;\n}\n",
+      "ident_before_externs": "extern int d0;\nextern int far a0;\nextern int far c4;\nextern int far e9;\nint far f(int far *s)\n{\n    int n;\n\n    n = c4 + a0;\n    if (n > 0)\n        s[4] = (long)a0 * 100 / n;\n    else\n        s[4] = 100;\n    n = e9 + a0;\n    if (n > 0)\n        s[5] = (long)a0 * 100 / n;\n    else\n        s[5] = 100;\n    return 0;\n}\n",
+      "ident_after_externs": "extern int far a0;\nextern int far c4;\nextern int far e9;\nextern int d0;\nint far f(int far *s)\n{\n    int n;\n\n    n = c4 + a0;\n    if (n > 0)\n        s[4] = (long)a0 * 100 / n;\n    else\n        s[4] = 100;\n    n = e9 + a0;\n    if (n > 0)\n        s[5] = (long)a0 * 100 / n;\n    else\n        s[5] = 100;\n    return 0;\n}\n"
+    },
+    "compiler_profile": {
+      "directory": "C:\\tools\\msc-6.00\\BIN",
+      "executable": "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+      "files": [
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\CL.EXE",
+          "sha256": "136a092d68a206430b775f761d33d03ca350c385e1214ec6175f6690084b3598"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C1.EXE",
+          "sha256": "e5b8f76467c03df795b96ce18f96901e4cf5a4bced12c13202e0f1f200afa8c0"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C2.EXE",
+          "sha256": "85231e08ee8348b7c5acbc692f531602f9920d8393339f76376fff375158350b"
+        },
+        {
+          "path": "C:\\tools\\msc-6.00\\BIN\\C3.EXE",
+          "sha256": "9a48ebc4a1440f06cb3cfc6a0a8a48a461a16c0e3df40dde40a702abc0e0d907"
+        }
+      ],
+      "flags": [
+        "/c",
+        "/O",
+        "/AL"
+      ],
+      "label": "Microsoft (R) C Optimizing Compiler Version 6.00",
+      "probe_status": "compiled_with_verified_dos_version"
+    },
+    "runner": {
+      "name": "MS-DOS Player",
+      "options": [
+        "-e",
+        "-v5.00"
+      ],
+      "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+      "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+    },
+    "toolchain_lock_sha256": "b65b021c4f894fa960f086fd3e26051404b97b4a9acb6158cd44a7f29ba0b9ae",
+    "results": [
+      {
+        "variant": "baseline",
+        "profile": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "source_sha256": "c9a4ecb5ebb8d5bb7c2035bfeeca9b58037951fe104da3ac5c553cf6d47c0f05",
+        "object_sha256": "2a76be9d84d7e08125ee1b273c4a034a4c3ef1cc71783170fd1afa187b0be38b",
+        "code_size": 126,
+        "code_sha256": "8cd3dbfda47713ad3dc4f28a54c59b717f63acccf8b1c41cb63bef97c6a5cf37",
+        "complete_initialized_CODE": true,
+        "secondary_storage": [
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 6,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "actual_fixup_count": 15,
+        "declaration_fixup_identity_sha256": "dd3703b426302eb093255f89c4f5a476725d674085740e074f73b7d667bf48ee"
+      },
+      {
+        "variant": "ident_before_externs",
+        "profile": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "source_sha256": "09bd6ca5b4cb40aacbc5cc1610c9b15f3edbf8734b4894ba222eb224645ff216",
+        "object_sha256": "8fbc994514a4d2d67a6f5228d2d09a5c88e407ee3c5d52a1991688cf73c0f3cd",
+        "code_size": 130,
+        "code_sha256": "d6b5176b144e6310f5a8e41a74338016d47a6fdc9ddbe426cb5c6f57d1bb1565",
+        "complete_initialized_CODE": true,
+        "secondary_storage": [
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 6,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "actual_fixup_count": 16,
+        "declaration_fixup_identity_sha256": "57e3cf91fbcf28365ac52b5fd7876b52cd01858fc97029671a4c7d0a67e6e9dd"
+      },
+      {
+        "variant": "ident_after_externs",
+        "profile": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "source_sha256": "1485a1da4d24f51f8ca7f68b1791eb62bf92dcdaf913f40deef0a88fc9e80ea4",
+        "object_sha256": "2a76be9d84d7e08125ee1b273c4a034a4c3ef1cc71783170fd1afa187b0be38b",
+        "code_size": 126,
+        "code_sha256": "8cd3dbfda47713ad3dc4f28a54c59b717f63acccf8b1c41cb63bef97c6a5cf37",
+        "complete_initialized_CODE": true,
+        "secondary_storage": [
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 6,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "actual_fixup_count": 15,
+        "declaration_fixup_identity_sha256": "dd3703b426302eb093255f89c4f5a476725d674085740e074f73b7d667bf48ee"
+      },
+      {
+        "variant": "baseline",
+        "profile": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oeg",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "source_sha256": "c9a4ecb5ebb8d5bb7c2035bfeeca9b58037951fe104da3ac5c553cf6d47c0f05",
+        "object_sha256": "cd668e65b029dc4c69dfe682758299865c482f529d583e1e8744fdb6d9f4d776",
+        "code_size": 152,
+        "code_sha256": "1a871d20de51971d1f473dde2a5b84fee10add7796b746108ffd2748b5a33423",
+        "complete_initialized_CODE": true,
+        "secondary_storage": [
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 6,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "actual_fixup_count": 11,
+        "declaration_fixup_identity_sha256": "8a8d7a59176adb81ee8586c2fcf4d1f439063d351c994764a224bc298a72976d"
+      },
+      {
+        "variant": "ident_before_externs",
+        "profile": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oeg",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "source_sha256": "09bd6ca5b4cb40aacbc5cc1610c9b15f3edbf8734b4894ba222eb224645ff216",
+        "object_sha256": "3ecf6c620ca9af95117d1537690dcf18d0f5356c7dec9da9cf72125f2f9a2a0a",
+        "code_size": 150,
+        "code_sha256": "d55e480ed5864a2bf419bf40a306c0f19629a75cb343300366f7c9c178756ed9",
+        "complete_initialized_CODE": true,
+        "secondary_storage": [
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 6,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "actual_fixup_count": 11,
+        "declaration_fixup_identity_sha256": "e44f49411f82f1599ea97e933612a1cc7e785ce1149226261dc34253e905738b"
+      },
+      {
+        "variant": "ident_after_externs",
+        "profile": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oeg",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "source_sha256": "1485a1da4d24f51f8ca7f68b1791eb62bf92dcdaf913f40deef0a88fc9e80ea4",
+        "object_sha256": "cd668e65b029dc4c69dfe682758299865c482f529d583e1e8744fdb6d9f4d776",
+        "code_size": 152,
+        "code_sha256": "1a871d20de51971d1f473dde2a5b84fee10add7796b746108ffd2748b5a33423",
+        "complete_initialized_CODE": true,
+        "secondary_storage": [
+          {
+            "name": "CONST",
+            "class": "CONST",
+            "overlay": "",
+            "length": 6,
+            "alignment": 2,
+            "combine": 2,
+            "big": false,
+            "use32": false,
+            "frame": null,
+            "frame_offset": null
+          }
+        ],
+        "actual_fixup_count": 11,
+        "declaration_fixup_identity_sha256": "8a8d7a59176adb81ee8586c2fcf4d1f439063d351c994764a224bc298a72976d"
+      }
+    ],
+    "controls": [
+      {
+        "optimizer": "/Oe",
+        "before_referenced_declarations_changes_complete_raw_CODE": true,
+        "after_referenced_declarations_preserves_complete_raw_CODE": true
+      },
+      {
+        "optimizer": "/Oeg",
+        "before_referenced_declarations_changes_complete_raw_CODE": true,
+        "after_referenced_declarations_preserves_complete_raw_CODE": true
+      }
+    ],
+    "observation": "One declaration before referenced externs changes arithmetic operand/load order and complete raw CODE. The same declaration after them preserves baseline raw CODE under both /Oe and /Oeg.",
+    "limit": "Probe has explicit far data/pointer, unbound fields and secondary CONST. No rule about near-data targets, original TU membership or equal bindings is established. Unused identifier is diagnostic only; no canonical padding proposal.",
+    "full_local_report": "build/workers/convergence_audit/context-results.json"
+  },
+  "ax_runner": {
+    "question": "Does the independently pinned working AX /EM runner change the membership blocker?",
+    "profile_authority": "Read-only sibling profile; not added to pop2 toolchain lock",
+    "sibling_lock_sha256": "cd59ec266f604b616c6a69bb3acdd24b19b2ccecb31adc0d8f8be82e5d7cc4b9",
+    "verified_tool_pins": [
+      {
+        "path": "C:/tools/dosbox-x/dosbox-x.exe",
+        "sha256": "b028a4d328302ea270722dec69f3ec3a10ebf76beba72a51970db33a88df2bf6"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\CL.EXE",
+        "sha256": "92df4a0839aac77940189ce54f107381b829babe8103926cb05d1adffe947347"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\C1L.EXE",
+        "sha256": "d3db38b875a95048bca2809cd1f84783c6c070805f188fec9161054d6350ded3"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\C2L.EXE",
+        "sha256": "62490de22e7b279ea59218a54d677bfc752cb5fc1287533d2e23d03519f155e0"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\C3L.EXE",
+        "sha256": "9e82ecc87ffcdb2def53ac64c0d1f048b26421c1415b5600ad4d8d6fcbc06553"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\CL.ERR",
+        "sha256": "ca22f37e5e0c09faebde9e4d549dd1f53523cc6f23049d2239a040cd19a424e7"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\C1.ERR",
+        "sha256": "637444915870f3283d5df41c5cdb1be8c32cc6c19b080f2bb3891edbc3751c6e"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\C23.ERR",
+        "sha256": "22944a0dffef336c0ebb8f6d5aeb97b4dbeb5c9758a48759557176bff49d1151"
+      },
+      {
+        "path": "C:\\tools\\msc-6.00ax-archive\\BIN\\CL.MSG",
+        "sha256": "3379f283aec74842bc82205e4c848d759e6e2dcbb6d4820eec9719f1297213ec"
+      }
+    ],
+    "environment": "Headless DOSBox-X, SDL dummy drivers, 16 MB/XMS; read-only compiler D:, fresh audit-owned E:; explicit compiler-success marker.",
+    "results": [
+      {
+        "case": "control",
+        "compiler": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "target_id": "root:078a:28fe",
+        "source": "src/is_four_kind.c",
+        "source_sha256": "87916fb97ad6bb88f5e1fd97fb139905f5d7157cc007d63d65e53778592716fe",
+        "object_sha256": "e4dac2dcfcdef7dd60444051b0717bd93a70bcd5469f5bbe7b7c4c9c29385e8e",
+        "code_sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
+        "code_size": 42,
+        "expected_size": 42,
+        "exact_diagnostic": true,
+        "first_difference": null,
+        "mismatch_count": 0,
+        "fixups": 0
+      },
+      {
+        "case": "control",
+        "compiler": "msc600ax_sibling_dosbox",
+        "flags": [
+          "/c",
+          "/EM",
+          "/AM",
+          "/Oe",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "target_id": "root:078a:28fe",
+        "source": "src/is_four_kind.c",
+        "source_sha256": "87916fb97ad6bb88f5e1fd97fb139905f5d7157cc007d63d65e53778592716fe",
+        "object_sha256": "e4dac2dcfcdef7dd60444051b0717bd93a70bcd5469f5bbe7b7c4c9c29385e8e",
+        "code_sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
+        "code_size": 42,
+        "expected_size": 42,
+        "exact_diagnostic": true,
+        "first_difference": null,
+        "mismatch_count": 0,
+        "fixups": 0
+      },
+      {
+        "case": "membership",
+        "compiler": "msc600",
+        "flags": [
+          "/c",
+          "/AM",
+          "/Oer",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "target_id": "overlay-5:29cf:0320",
+        "source": "recipes/probes/overlay_membership.c",
+        "source_sha256": "68a69eff257c53921fff83a676cfcda4a98d800bf812113649713a53efdd9c26",
+        "object_sha256": "2caebccbb8bffc568fbeda179da5fabd2b85a3f63cc6079323a173366b38164c",
+        "code_sha256": "8503f646b32496b9b0c5c17bdd1e269e450da31cadad78e65a81dcbff4451cef",
+        "code_size": 78,
+        "expected_size": 80,
+        "exact_diagnostic": false,
+        "first_difference": 73,
+        "mismatch_count": 7,
+        "fixups": 0
+      },
+      {
+        "case": "membership",
+        "compiler": "msc600ax_sibling_dosbox",
+        "flags": [
+          "/c",
+          "/EM",
+          "/AM",
+          "/Oer",
+          "/Gs",
+          "/Zl",
+          "/Gc"
+        ],
+        "target_id": "overlay-5:29cf:0320",
+        "source": "recipes/probes/overlay_membership.c",
+        "source_sha256": "68a69eff257c53921fff83a676cfcda4a98d800bf812113649713a53efdd9c26",
+        "object_sha256": "2caebccbb8bffc568fbeda179da5fabd2b85a3f63cc6079323a173366b38164c",
+        "code_sha256": "8503f646b32496b9b0c5c17bdd1e269e450da31cadad78e65a81dcbff4451cef",
+        "code_size": 78,
+        "expected_size": 80,
+        "exact_diagnostic": false,
+        "first_difference": 73,
+        "mismatch_count": 7,
+        "fixups": 0
+      }
+    ],
+    "observation": "Both AX complete objects equal the freshly compiled MSC600 counterparts. Accepted control matches 42 bytes; membership stays 78 versus 80 bytes, first difference 73.",
+    "limit": "Working runner availability is established. Original compiler selection and new accepted bytes are not established.",
+    "full_local_report": "build/workers/convergence_audit/ax-results.json"
+  },
+  "discovery": {
+    "output": "build/workers/convergence_audit/discovery.json",
+    "candidate_count": 2263,
+    "decoded_entry_count": 1081,
+    "prologue_only_candidates": 1182,
+    "reserved_lead": "overlay-3:2344:237e",
+    "reserved_lead_status": "Only raw prologue evidence, no discovered callers; no target publication"
+  },
+  "validation": {
+    "command": "python tools/validate.py",
+    "status": "PASS",
+    "invariant_tests": 141,
+    "C_components": 27,
+    "C_bytes": 1174,
+    "ASM_components": 1,
+    "ASM_bytes": 51,
+    "runtime_members": 11,
+    "runtime_bytes": 666,
+    "source_data_fields": 52,
+    "runtime_near_fields": 1,
+    "original_relocations_covered": 0,
+    "original_relocations_total": 4716
+  },
+  "retained_research_scripts": [
+    {
+      "path": "D:/Prog/pop2_recon/build/workers/convergence_audit/probe_ax.py",
+      "sha256": "5fc1cd1f1d14247a8000ba8c060e111532eea12dcc0eb2027e42eb81cb015dda"
+    },
+    {
+      "path": "D:/Prog/pop2_recon/build/workers/convergence_audit/probe_context.py",
+      "sha256": "91803993a5863b881ddcde112909e69a2e03deec1a0625d28aafca100e6911f4"
+    }
+  ],
+  "reproduction": "Probe scripts and complete reports stay in the named ignored worker directory. Scripts require fresh case directories; copy a script into a fresh build/workers/NAME/ directory to rerun. Sources, flags and tool identities are also embedded here. Validation does not consume these diagnostic receipts."
+}

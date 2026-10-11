@@ -37,8 +37,8 @@ proof tools, tests and durable evidence are tracked.
 Follow [AGENTS.md](AGENTS.md) for bounded worker waves, optional `search.py --trial`
 output deduplication, isolation and serialized publication, and
 [acceptance.md](docs/acceptance.md) for exactness and current gate limits.
-The [bootstrap report](docs/bootstrap-status.md) records the verified target,
-compiler comparisons, exact C/runtime totals, remaining debt and next targets.
+The [bootstrap report](docs/bootstrap-status.md) records the initial target and
+compiler comparisons; its ownership totals and next steps are historical.
 `layout/manifest.json` is canonical ownership; generated discovery does not own
 bytes. `build/validation/report.json` and `build/metrics.json` report fresh local
 status. Compiler findings and next targets are recorded in docs/ as evidence
@@ -51,3 +51,7 @@ Fifty-two source data fixups and the first
 [runtime near-jump equation](docs/runtime-near-binding.md) are proven; original
 relocation coverage remains 0/4,716. Far-call binding and natural RTLink
 placement remain unresolved.
+
+The [convergence audit](docs/convergence-audit.md) compares the current blockers
+with SimAnt's workflow, confirms declaration-context sensitivity under our
+compiler flags, and records a working AX contrast and the next proof priorities.

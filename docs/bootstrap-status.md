@@ -1,5 +1,9 @@
 # Bootstrap status — 2026-10-04
 
+Historical snapshot. For current ownership, blockers and validation, see
+[reconstruction progress](reconstruction-progress.md) and the
+[convergence audit](convergence-audit.md).
+
 The bootstrap produces real component proofs, not a reconstructed executable.
 One game C function is CODE_EXACT; ten independent historical library members
 are PINNED_RUNTIME. `python tools/validate.py` freshly verifies every component
