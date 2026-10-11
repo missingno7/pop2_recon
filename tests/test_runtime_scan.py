@@ -9,7 +9,7 @@ from types import SimpleNamespace
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"tools"))
 from omf import OmfReader
 from runtime_scan import archive_members, scan_archive, whole_code
-from test_runtime import runtime_omf
+from test_runtime import runtime_omf, omf_record
 
 
 def archive(member, dictionary_payload=b"dictionary"):
@@ -45,6 +45,32 @@ class RuntimeScanTests(unittest.TestCase):
         fixup = runtime_omf(b"\xcb", actual_fixup=True)
         self.assertIsNone(whole_code(OmfReader().read(hole), 1))
         self.assertIsNone(whole_code(OmfReader().read(fixup), 1))
+
+    def test_complete_shared_entry_member_retains_every_public(self):
+        code = b"\x55\x8b\xec\x5d\xcb"
+        records = []
+        for kind, body, _ in OmfReader.records(runtime_omf(code)):
+            if kind == 0x8a:
+                records.append(omf_record(0x90, b"\x00\x01\x06_entry\x03\x00\x00"))
+            records.append(omf_record(kind, body))
+        member = b"".join(records)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/"shared.lib"
+            path.write_bytes(archive(member))
+            oracle = SimpleNamespace(spaces={"root": SimpleNamespace(name="root",
+                data=code, file_offset=0, relocations=())})
+            candidate = scan_archive(path, oracle, minimum_size=1)["review_candidates"][0]
+            self.assertEqual(candidate["code_size"], 5)
+            self.assertEqual([(p["name"], p["offset"]) for p in candidate["declarations"]["publics"]],
+                             [("_target", 0), ("_entry", 3)])
+
+    def test_public_outside_complete_code_does_not_become_candidate(self):
+        records = []
+        for kind, body, _ in OmfReader.records(runtime_omf(b"\xcb")):
+            if kind == 0x8a:
+                records.append(omf_record(0x90, b"\x00\x01\x06_entry\x01\x00\x00"))
+            records.append(omf_record(kind, body))
+        self.assertIsNone(whole_code(OmfReader().read(b"".join(records)), 1))
 
     def test_whole_code_required_and_original_obligations_remain_visible(self):
         code = b"\x55\x8b\xec\x5d\xcb"

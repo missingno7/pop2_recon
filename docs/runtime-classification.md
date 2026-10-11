@@ -1,5 +1,33 @@
 # Runtime classification evidence
 
+## Whole conversion members — 2026-10-11
+
+The medium-model `atox.asm` and `xtoa.asm` members now pass the unchanged
+literal-runtime gate at `1fe6:1672` (84 bytes) and `1fe6:19a4` (95 bytes).
+Every initialized CODE byte matches, with no fixups or secondary storage.
+The parser's original entry is reached through an independently relocated
+three-byte conversion stub. The stub and its following zero alignment remain
+unowned. The shared output core retains both archive publics, `__cltoasub+0`
+and `__cxtoa+12`, and its entire 95-byte segment. Its first twelve bytes are
+setup for an existing caller frame, rather than a separate far C function.
+
+The original `itoa` wrapper independently establishes its register entry and
+far caller frame; both conditional paths reach the shared core's public at 12.
+This caller context supports the complete literal-member review. The separate
+fixup-bearing `itoa` member remains unowned: its near proof lacks a distinct
+incoming wrapper, and the provider's shared public is not after a RETF within
+the member as required by the current near gate. Pinning a provider does not
+satisfy those symbolic obligations. The [compact review](../evidence/matching/wave8-runtime-review.json)
+retains exact pins, original paths and ABI limits; runtime execution is untraced.
+
+The diagnostic scanner now retains all in-extent CODE publics of a complete
+zero-fixup member. Its earlier one-public restriction hid `xtoa.asm` even though
+the literal-runtime gate already supports whole multi-public members. Two new
+tests verify complete shared-entry discovery and reject an out-of-extent public.
+The combined medium and large census now yields 23 whole literal research
+matches; after publication they all overlap accepted ownership. No acceptance
+gate changed.
+
 ## Medium-model continuation — 2026-10-11
 
 Whole members from `C:\tools\msc-6.00\LIB\mlibcr.lib` also match the resident
@@ -34,10 +62,11 @@ python tools/runtime_scan.py C:/tools/msc-6.00/LIB/mlibcr.lib --output build/wor
 ```
 
 It reports whole literal matches, preserves original relocation obligations and
-ownership overlaps, and excludes actual fixups, sparse CODE, multiple publics
+ownership overlaps, and excludes actual fixups, sparse CODE
 and nonempty secondary storage. It cannot publish. The initial two-library run
 examines 343 members per archive and reproduces all seven reviewed member pins.
-The unanchored `__catox` hit and near-bound `_itoa` research remain unowned.
+At that milestone the `__catox` hit and near-bound `_itoa` research remained
+unowned; the later conversion review above closes the whole parser member.
 
 ## Initial large-model comparison
 

@@ -1,0 +1,1133 @@
+{
+  "canonical_head": "e37e8c0716c03b52f8a2707d681ffe42395a7c7a",
+  "members": [
+    {
+      "name": "crt_catox_medium",
+      "review": {
+        "caller": {
+          "entry": 10534,
+          "entry_bytes_hex": "558bec83ec04",
+          "limits": "Selected original path only; an indirect switch on another branch remains open. Decode coordinates use root image offsets; caller live CS is not inferred. Returning call continuations are structural, not execution proof. The callee CS is independently encoded by the relocated far CALL.",
+          "path": [
+            10534,
+            10535,
+            10537,
+            10540,
+            10541,
+            10543,
+            10548,
+            10550,
+            10706,
+            10711,
+            10716,
+            10719,
+            10720,
+            10721,
+            10726,
+            10728,
+            10730,
+            10733,
+            10734
+          ],
+          "path_bytes_hex": [
+            "55",
+            "8bec",
+            "83ec04",
+            "56",
+            "2bf6",
+            "803ecc6c00",
+            "7503",
+            "e99900",
+            "833e421100",
+            "7503",
+            "b8d701",
+            "1e",
+            "50",
+            "9aaa290111",
+            "0bc0",
+            "7450",
+            "050300",
+            "50",
+            "9a6e16e61f"
+          ],
+          "path_disassembly": [
+            "2926: push bp",
+            "2927: mov bp, sp",
+            "2929: sub sp, 4",
+            "292c: push si",
+            "292d: sub si, si",
+            "292f: cmp byte ptr [0x6ccc], 0",
+            "2934: jne 0x2939",
+            "2936: jmp 0x29d2",
+            "29d2: cmp word ptr [0x1142], 0",
+            "29d7: jne 0x29dc",
+            "29dc: mov ax, 0x1d7",
+            "29df: push ds",
+            "29e0: push ax",
+            "29e1: lcall 0x1101, 0x29aa",
+            "29e6: or ax, ax",
+            "29e8: je 0x2a3a",
+            "29ea: add ax, 3",
+            "29ed: push ax",
+            "29ee: lcall 0x1fe6, 0x166e"
+          ],
+          "preceding_bytes_hex": "03bb01008bc3cb90",
+          "unreviewed_other_exits": [
+            {
+              "bytes_hex": "2effa71a01",
+              "operands": "word ptr cs:[bx + 0x11a]",
+              "position": 10581
+            }
+          ]
+        },
+        "following_bytes_hex": "558bec5657b3018b",
+        "fresh_private_proof": {
+          "fixups": 0,
+          "kind": "PINNED_RUNTIME",
+          "member_sha256": "579da5d1dc80655298975c5104931a7e6005d193a3881302c9e48f18edb65654",
+          "name": "crt_catox_medium",
+          "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
+          "publics": [
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__catox",
+              "offset": 0,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            }
+          ],
+          "raw_code_sha256": "e4690636042be2f069dec352c0ba68c21819da95d93c85470f6209c6cf4ebe6b",
+          "relocations": 0,
+          "sha256": "e4690636042be2f069dec352c0ba68c21819da95d93c85470f6209c6cf4ebe6b",
+          "size": 84,
+          "state": "PINNED_RUNTIME"
+        },
+        "independent_stub": {
+          "alignment_bytes_hex": "00",
+          "bytes_hex": "e90100",
+          "delta": 1,
+          "far_entry_call": {
+            "bytes_hex": "9a6e16e61f",
+            "image_offset": 10734
+          },
+          "image_offset": 136398,
+          "logical_entry": [
+            8166,
+            5742
+          ],
+          "owned_bytes": 0,
+          "relocation": {
+            "image_offset": 10737,
+            "index": 269,
+            "offset": 433,
+            "segment": 644,
+            "stored_word": 8166
+          },
+          "tail_next_ip": 5745,
+          "target_ip": 5746
+        },
+        "member": {
+          "archive_offset": 30448,
+          "declarations": {
+            "externals": [],
+            "groups": [
+              {
+                "name": "DGROUP",
+                "segments": [
+                  2
+                ]
+              }
+            ],
+            "publics": [
+              {
+                "frame": null,
+                "group_index": 0,
+                "name": "__catox",
+                "offset": 0,
+                "segment": "_TEXT",
+                "segment_index": 1,
+                "type_index": 0
+              }
+            ],
+            "segments": [
+              {
+                "alignment": 2,
+                "big": false,
+                "class": "CODE",
+                "combine": 2,
+                "frame": null,
+                "frame_offset": null,
+                "length": 84,
+                "name": "_TEXT",
+                "overlay": "",
+                "use32": false
+              },
+              {
+                "alignment": 2,
+                "big": false,
+                "class": "DATA",
+                "combine": 2,
+                "frame": null,
+                "frame_offset": null,
+                "length": 0,
+                "name": "_DATA",
+                "overlay": "",
+                "use32": false
+              }
+            ]
+          },
+          "fixups": [],
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                84
+              ]
+            ]
+          },
+          "library_path": "C:\\tools\\msc-6.00\\LIB\\mlibcr.lib",
+          "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+          "library_size": 142539,
+          "member_extent": 205,
+          "member_sha256": "579da5d1dc80655298975c5104931a7e6005d193a3881302c9e48f18edb65654",
+          "module": "atox.asm"
+        },
+        "original_branch_edges": {
+          "16": [
+            13,
+            18
+          ],
+          "20": [
+            13,
+            22
+          ],
+          "25": [
+            31,
+            27
+          ],
+          "29": [
+            32,
+            31
+          ],
+          "34": [
+            67,
+            36
+          ],
+          "38": [
+            67,
+            40
+          ],
+          "65": [
+            31
+          ],
+          "71": [
+            80,
+            73
+          ],
+          "83": []
+        },
+        "original_bytes_hex": "558bec57568b760633c09933dbac3c2074fb3c0974f7503c2d74043c2b7501ac3c39771f2c30721bd1e3d1d28bcb8bfad1e3d1d2d1e3d1d203d913d703d883d200ebdc583c2d937507f7d883d200f7da5e5f5dcb",
+        "original_file_offset": 144594,
+        "original_image_offset": 136402,
+        "original_instruction_starts": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          8,
+          10,
+          11,
+          13,
+          14,
+          16,
+          18,
+          20,
+          22,
+          23,
+          25,
+          27,
+          29,
+          31,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46,
+          48,
+          50,
+          52,
+          54,
+          56,
+          58,
+          60,
+          62,
+          65,
+          67,
+          68,
+          70,
+          71,
+          73,
+          75,
+          78,
+          80,
+          81,
+          82,
+          83
+        ],
+        "original_return": 136485,
+        "original_sha256": "e4690636042be2f069dec352c0ba68c21819da95d93c85470f6209c6cf4ebe6b",
+        "owned_bytes": 0,
+        "schema": 1,
+        "target_id": "root:1fe6:1672"
+      }
+    },
+    {
+      "name": "crt_xtoa",
+      "review": {
+        "ABI": {
+          "caller": "Original itoa: far cdecl wordvalueBP6, near bufferBP8, radixBP10; CWD only for decimal. Outside caller pushes radix10, LEA[BP-10] near buffer, word[BP+14] value, and ADDSP,6 after return. Equality of runtimeSS/DS is a near-data compiler-model contract inference, not execution proof.",
+          "public0": "__cltoasub is a shared long-value setup entry using the existing caller BP frame: CX=wordBP12 radix, AX=BP6 lowword, DX=BP8 highword, DI=BP10 near output pointer. It falls through to __cxtoa and requires the same wrapper-saved SI/DI/frame context.",
+          "public12": "__cxtoa register entry: DX:AX numeric value, CX radix, DI near output offset, BL nonzero signed-conversion flag. Wrapper already pushed SI thenDI and established BP; core pushes initialDI to return it inAX, copiesDS toES, clearsDF, converts/reverses digits, popsAX/DI/SI, MOVSP,BP, POPBP, plainRETF. Not an independently callable far C function.",
+          "semantics": "Integer-to-ASCII shared conversion: radix division byCX; digits above9 are offset to lowercase letters. Nonzero signed flag with radix10 and negative highword emits minus and negatesDX:BX. Near buffer interpretation usesDS; ES and DF are modified, exact valid-input/runtime ABI behavior not traced."
+        },
+        "archive": {
+          "path": "C:\\tools\\msc-6.00\\LIB\\mlibcr.lib",
+          "sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+          "size": 142539
+        },
+        "boundary_evidence": [
+          "Complete independent medium-model xtoa.asm OMF member is230 bytes at archive84128; its entire initialized CODE SEGDEF is95 bytes, with empty DATA, no actual fixups/externals, and two preserved publics __cxtoa at12 and __cltoasub at0.",
+          "All95 original resident bytes root[0x21804,0x21863) match literally and uniquely, SHA256 ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0. Both public-entry CFGs remain inside the complete segment and reach sole RETF at0x21862. Public0 is12-byte setup falling through to public12; neither is a separately trimmed contribution.",
+          "Previous original routine starts0x217e6 and ends RETF0x21803. Entire member begins0x21804 with its shared BP setup reads. Unowned zero at0x21863 follows the complete member; next BP-framed entry starts0x21864. No original relocation word touches member, including straddling start.",
+          "Independent original far CALL at root0x534d (image21325) encodes1fe6:16c6; exact segment-word relocation0x5350 index673. Its original itoa body saves SI/DI, establishes BP and loads conversion registers, then E9 at1fe6:16de targets1fe6:19b0, the archive __cxtoa public+12. Both conditional paths decode to this tail; no execution claim.",
+          "This is the entire multi-public member, not a prefix/provider signature. Existing nofixup runtime gate supports the full public list. Review of its caller does not grant automatic symbolic ownership to the separate fixup-bearing itoa member."
+        ],
+        "canonical_head": "e37e8c0716c03b52f8a2707d681ffe42395a7c7a",
+        "compiler_trials": 0,
+        "independent_itoa_entry": {
+          "archive_pin": {
+            "archive_offset": 30656,
+            "library_path": "C:\\tools\\msc-6.00\\LIB\\mlibcr.lib",
+            "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+            "member_extent": 168,
+            "member_sha256": "b7b79523cfb071974bac2844ce92a6f41ab08551078d6a6e6518de6e9c72ceff"
+          },
+          "call": {
+            "bytes_hex": "9ac616e61f",
+            "image_offset": 21325,
+            "offset": 5830,
+            "relocation": {
+              "image_offset": 21328,
+              "index": 673,
+              "offset": 128,
+              "segment": 1325,
+              "stored_word": 8166
+            },
+            "segment": 8166,
+            "space": "root"
+          },
+          "caller_instructions": [
+            "00 55 push bp",
+            "01 8bec mov bp, sp",
+            "03 83ec0a sub sp, 0xa",
+            "06 b80a00 mov ax, 0xa",
+            "09 50 push ax",
+            "0a 8d4ef6 lea cx, [bp - 0xa]",
+            "0d 51 push cx",
+            "0e ff760e push word ptr [bp + 0xe]",
+            "11 9ac616e61f lcall 0x1fe6, 0x16c6"
+          ],
+          "near_equation": {
+            "delta": 719,
+            "encoded_word": 719,
+            "equal": true,
+            "frame": 8166,
+            "next_ip": 5857,
+            "original_bytes_hex": "cf02",
+            "target_ip": 6576
+          },
+          "ordered_original_paths": [
+            [
+              0,
+              1,
+              3,
+              4,
+              5,
+              7,
+              10,
+              13,
+              15,
+              18,
+              20,
+              21,
+              24
+            ],
+            [
+              0,
+              1,
+              3,
+              4,
+              5,
+              7,
+              10,
+              13,
+              15,
+              18,
+              21,
+              24
+            ]
+          ],
+          "original_caller_start": 21308,
+          "original_instructions": [
+            "00 55 push bp",
+            "01 8bec mov bp, sp",
+            "03 56 push si",
+            "04 57 push di",
+            "05 b301 mov bl, 1",
+            "07 8b4e0a mov cx, word ptr [bp + 0xa]",
+            "0a 8b4606 mov ax, word ptr [bp + 6]",
+            "0d 33d2 xor dx, dx",
+            "0f 83f90a cmp cx, 0xa",
+            "12 7501 jne 0x16db",
+            "14 99 cdq ",
+            "15 8b7e08 mov di, word ptr [bp + 8]",
+            "18 e9cf02 jmp 0x19b0"
+          ],
+          "original_itoa_image_offset": 136486,
+          "original_relocations": [],
+          "postcall_cleanup_bytes_hex": "83c406",
+          "scope": "Encoded CS1fe6 from independent far call; root2000 window addresses are display aliases. No traced runtime call or whole-link placement claim.",
+          "whole_original_itoa_bytes_hex": "558bec5657b3018b4e0a8b460633d283f90a7501998b7e08e9cf02",
+          "whole_original_itoa_sha256": "2c6e57235ff4d194b3b7414d9a4ed8d870c647c35e130b12658b86940be6db7b"
+        },
+        "itoa_binding_debt": "The separate itoa member still has one external F0/T6 near fixup. Its own E9/entry path is useful caller evidence for owning xtoa, but cannot serve as an outside incoming wrapper to ground itoa itself. Pinning whole xtoa grants no automatic itoa proof; find a separate independently anchored incoming wrapper or other already supported noncircular evidence.",
+        "limitations": [
+          "Root must run fresh pin_runtime --verify-only and serial publication/validation; this private verifier result grants zero canonical ownership.",
+          "Original library order/TU/natural RTLink placement and behavioral execution remain unproved. No acceptance mechanism changed."
+        ],
+        "member": {
+          "actual_fixups": [],
+          "archive_offset": 84128,
+          "declarations": {
+            "externals": [],
+            "groups": [
+              {
+                "name": "DGROUP",
+                "segments": [
+                  2
+                ]
+              }
+            ],
+            "publics": [
+              {
+                "frame": null,
+                "group_index": 0,
+                "name": "__cxtoa",
+                "offset": 12,
+                "segment": "_TEXT",
+                "segment_index": 1,
+                "type_index": 0
+              },
+              {
+                "frame": null,
+                "group_index": 0,
+                "name": "__cltoasub",
+                "offset": 0,
+                "segment": "_TEXT",
+                "segment_index": 1,
+                "type_index": 0
+              }
+            ],
+            "segments": [
+              {
+                "alignment": 2,
+                "big": false,
+                "class": "CODE",
+                "combine": 2,
+                "frame": null,
+                "frame_offset": null,
+                "length": 95,
+                "name": "_TEXT",
+                "overlay": "",
+                "use32": false
+              },
+              {
+                "alignment": 2,
+                "big": false,
+                "class": "DATA",
+                "combine": 2,
+                "frame": null,
+                "frame_offset": null,
+                "length": 0,
+                "name": "_DATA",
+                "overlay": "",
+                "use32": false
+              }
+            ]
+          },
+          "extent": 230,
+          "initialized_ranges": {
+            "_TEXT": [
+              [
+                0,
+                95
+              ]
+            ]
+          },
+          "module": "xtoa.asm",
+          "sha256": "e71dae15240eb51545dd0d0a12d00faac923830b551c1a41e5a31b9534ef5922"
+        },
+        "original": {
+          "bytes_hex": "8b4e0c8b46068b56088b7e0a571e07fc930ac0741383f90a750e0bd2790ab02daaf7db83d200f7da8bf79233d20bc07402f7f193f7f19287d304303c3976020427aa8bc20bc375e288054fac86058844ff8d44013bc772f2585f5e8be55dcb",
+          "end_exclusive": 137315,
+          "file_offset": 145412,
+          "image_offset": 137220,
+          "instruction_starts": [
+            0,
+            3,
+            6,
+            9,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            19,
+            21,
+            24,
+            26,
+            28,
+            30,
+            32,
+            33,
+            35,
+            38,
+            40,
+            42,
+            43,
+            45,
+            47,
+            49,
+            51,
+            52,
+            54,
+            55,
+            57,
+            59,
+            61,
+            63,
+            65,
+            66,
+            68,
+            70,
+            72,
+            74,
+            75,
+            76,
+            78,
+            81,
+            84,
+            86,
+            88,
+            89,
+            90,
+            91,
+            93,
+            94
+          ],
+          "offset": 6564,
+          "public_CFGs": [
+            {
+              "branches": [
+                {
+                  "bytes_hex": "7413",
+                  "fallthrough_offset": 21,
+                  "mnemonic": "je",
+                  "offset": 19,
+                  "target_offset": 40
+                },
+                {
+                  "bytes_hex": "750e",
+                  "fallthrough_offset": 26,
+                  "mnemonic": "jne",
+                  "offset": 24,
+                  "target_offset": 40
+                },
+                {
+                  "bytes_hex": "790a",
+                  "fallthrough_offset": 30,
+                  "mnemonic": "jns",
+                  "offset": 28,
+                  "target_offset": 40
+                },
+                {
+                  "bytes_hex": "7402",
+                  "fallthrough_offset": 49,
+                  "mnemonic": "je",
+                  "offset": 47,
+                  "target_offset": 51
+                },
+                {
+                  "bytes_hex": "7602",
+                  "fallthrough_offset": 63,
+                  "mnemonic": "jbe",
+                  "offset": 61,
+                  "target_offset": 65
+                },
+                {
+                  "bytes_hex": "75e2",
+                  "fallthrough_offset": 72,
+                  "mnemonic": "jne",
+                  "offset": 70,
+                  "target_offset": 42
+                },
+                {
+                  "bytes_hex": "72f2",
+                  "fallthrough_offset": 88,
+                  "mnemonic": "jb",
+                  "offset": 86,
+                  "target_offset": 74
+                }
+              ],
+              "edges": {
+                "12": [
+                  13
+                ],
+                "13": [
+                  14
+                ],
+                "14": [
+                  15
+                ],
+                "15": [
+                  16
+                ],
+                "16": [
+                  17
+                ],
+                "17": [
+                  19
+                ],
+                "19": [
+                  40,
+                  21
+                ],
+                "21": [
+                  24
+                ],
+                "24": [
+                  40,
+                  26
+                ],
+                "26": [
+                  28
+                ],
+                "28": [
+                  40,
+                  30
+                ],
+                "30": [
+                  32
+                ],
+                "32": [
+                  33
+                ],
+                "33": [
+                  35
+                ],
+                "35": [
+                  38
+                ],
+                "38": [
+                  40
+                ],
+                "40": [
+                  42
+                ],
+                "42": [
+                  43
+                ],
+                "43": [
+                  45
+                ],
+                "45": [
+                  47
+                ],
+                "47": [
+                  51,
+                  49
+                ],
+                "49": [
+                  51
+                ],
+                "51": [
+                  52
+                ],
+                "52": [
+                  54
+                ],
+                "54": [
+                  55
+                ],
+                "55": [
+                  57
+                ],
+                "57": [
+                  59
+                ],
+                "59": [
+                  61
+                ],
+                "61": [
+                  65,
+                  63
+                ],
+                "63": [
+                  65
+                ],
+                "65": [
+                  66
+                ],
+                "66": [
+                  68
+                ],
+                "68": [
+                  70
+                ],
+                "70": [
+                  42,
+                  72
+                ],
+                "72": [
+                  74
+                ],
+                "74": [
+                  75
+                ],
+                "75": [
+                  76
+                ],
+                "76": [
+                  78
+                ],
+                "78": [
+                  81
+                ],
+                "81": [
+                  84
+                ],
+                "84": [
+                  86
+                ],
+                "86": [
+                  74,
+                  88
+                ],
+                "88": [
+                  89
+                ],
+                "89": [
+                  90
+                ],
+                "90": [
+                  91
+                ],
+                "91": [
+                  93
+                ],
+                "93": [
+                  94
+                ],
+                "94": []
+              },
+              "entry_offset": 12,
+              "public": "__cxtoa",
+              "reachable_instruction_offsets": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                19,
+                21,
+                24,
+                26,
+                28,
+                30,
+                32,
+                33,
+                35,
+                38,
+                40,
+                42,
+                43,
+                45,
+                47,
+                49,
+                51,
+                52,
+                54,
+                55,
+                57,
+                59,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                72,
+                74,
+                75,
+                76,
+                78,
+                81,
+                84,
+                86,
+                88,
+                89,
+                90,
+                91,
+                93,
+                94
+              ],
+              "returns": [
+                94
+              ]
+            },
+            {
+              "branches": [
+                {
+                  "bytes_hex": "7413",
+                  "fallthrough_offset": 21,
+                  "mnemonic": "je",
+                  "offset": 19,
+                  "target_offset": 40
+                },
+                {
+                  "bytes_hex": "750e",
+                  "fallthrough_offset": 26,
+                  "mnemonic": "jne",
+                  "offset": 24,
+                  "target_offset": 40
+                },
+                {
+                  "bytes_hex": "790a",
+                  "fallthrough_offset": 30,
+                  "mnemonic": "jns",
+                  "offset": 28,
+                  "target_offset": 40
+                },
+                {
+                  "bytes_hex": "7402",
+                  "fallthrough_offset": 49,
+                  "mnemonic": "je",
+                  "offset": 47,
+                  "target_offset": 51
+                },
+                {
+                  "bytes_hex": "7602",
+                  "fallthrough_offset": 63,
+                  "mnemonic": "jbe",
+                  "offset": 61,
+                  "target_offset": 65
+                },
+                {
+                  "bytes_hex": "75e2",
+                  "fallthrough_offset": 72,
+                  "mnemonic": "jne",
+                  "offset": 70,
+                  "target_offset": 42
+                },
+                {
+                  "bytes_hex": "72f2",
+                  "fallthrough_offset": 88,
+                  "mnemonic": "jb",
+                  "offset": 86,
+                  "target_offset": 74
+                }
+              ],
+              "edges": {
+                "0": [
+                  3
+                ],
+                "12": [
+                  13
+                ],
+                "13": [
+                  14
+                ],
+                "14": [
+                  15
+                ],
+                "15": [
+                  16
+                ],
+                "16": [
+                  17
+                ],
+                "17": [
+                  19
+                ],
+                "19": [
+                  40,
+                  21
+                ],
+                "21": [
+                  24
+                ],
+                "24": [
+                  40,
+                  26
+                ],
+                "26": [
+                  28
+                ],
+                "28": [
+                  40,
+                  30
+                ],
+                "3": [
+                  6
+                ],
+                "30": [
+                  32
+                ],
+                "32": [
+                  33
+                ],
+                "33": [
+                  35
+                ],
+                "35": [
+                  38
+                ],
+                "38": [
+                  40
+                ],
+                "40": [
+                  42
+                ],
+                "42": [
+                  43
+                ],
+                "43": [
+                  45
+                ],
+                "45": [
+                  47
+                ],
+                "47": [
+                  51,
+                  49
+                ],
+                "49": [
+                  51
+                ],
+                "51": [
+                  52
+                ],
+                "52": [
+                  54
+                ],
+                "54": [
+                  55
+                ],
+                "55": [
+                  57
+                ],
+                "57": [
+                  59
+                ],
+                "59": [
+                  61
+                ],
+                "6": [
+                  9
+                ],
+                "61": [
+                  65,
+                  63
+                ],
+                "63": [
+                  65
+                ],
+                "65": [
+                  66
+                ],
+                "66": [
+                  68
+                ],
+                "68": [
+                  70
+                ],
+                "70": [
+                  42,
+                  72
+                ],
+                "72": [
+                  74
+                ],
+                "74": [
+                  75
+                ],
+                "75": [
+                  76
+                ],
+                "76": [
+                  78
+                ],
+                "78": [
+                  81
+                ],
+                "81": [
+                  84
+                ],
+                "84": [
+                  86
+                ],
+                "86": [
+                  74,
+                  88
+                ],
+                "88": [
+                  89
+                ],
+                "89": [
+                  90
+                ],
+                "9": [
+                  12
+                ],
+                "90": [
+                  91
+                ],
+                "91": [
+                  93
+                ],
+                "93": [
+                  94
+                ],
+                "94": []
+              },
+              "entry_offset": 0,
+              "public": "__cltoasub",
+              "reachable_instruction_offsets": [
+                0,
+                3,
+                6,
+                9,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                19,
+                21,
+                24,
+                26,
+                28,
+                30,
+                32,
+                33,
+                35,
+                38,
+                40,
+                42,
+                43,
+                45,
+                47,
+                49,
+                51,
+                52,
+                54,
+                55,
+                57,
+                59,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                72,
+                74,
+                75,
+                76,
+                78,
+                81,
+                84,
+                86,
+                88,
+                89,
+                90,
+                91,
+                93,
+                94
+              ],
+              "returns": [
+                94
+              ]
+            }
+          ],
+          "relocations": [],
+          "segment": 8166,
+          "sha256": "ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0",
+          "size": 95,
+          "space": "root",
+          "unique_literal_matches": 1
+        },
+        "owned_bytes": 0,
+        "private_existing_verifier_result": {
+          "fixups": 0,
+          "kind": "PINNED_RUNTIME",
+          "member_sha256": "e71dae15240eb51545dd0d0a12d00faac923830b551c1a41e5a31b9534ef5922",
+          "name": "crt_xtoa",
+          "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
+          "publics": [
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__cxtoa",
+              "offset": 12,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            },
+            {
+              "frame": null,
+              "group_index": 0,
+              "name": "__cltoasub",
+              "offset": 0,
+              "segment": "_TEXT",
+              "segment_index": 1,
+              "type_index": 0
+            }
+          ],
+          "raw_code_sha256": "ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0",
+          "relocations": 0,
+          "sha256": "ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0",
+          "size": 95,
+          "state": "PINNED_RUNTIME"
+        },
+        "recipe_path": "build/workers/wave8_xtoa_review/recipe.json",
+        "schema": 1,
+        "status": "WHOLE_LITERAL_MEMBER_REVIEWED_PRIVATE_VERIFY_PASSED",
+        "target_id": "root:1fe6:19a4"
+      }
+    }
+  ],
+  "runtime_bytes_added": 179,
+  "schema": 1,
+  "scope": "Two independent whole literal runtime members. Provider caller context is original-only and does not authorize separate fixup-bearing wrappers. Unrelated open caller branches and behavior remain explicit debts.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

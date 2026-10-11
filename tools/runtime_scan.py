@@ -56,8 +56,9 @@ def whole_code(module, minimum_size):
         len(raw) < minimum_size or len(raw) != segment["length"] or
         module.initialized_ranges.get(segment["name"]) != [(0, len(raw))] or
         any(s["length"] for s in module.segment_defs if s is not segment) or fixes(module) or
-        len(module.publics) != 1 or module.publics[0]["segment"] != segment["name"] or
-        module.publics[0]["offset"] != 0 or module.publics[0]["group_index"] != 0):
+        not module.publics or not any(p["offset"] == 0 for p in module.publics) or
+        any(p["segment"] != segment["name"] or p["group_index"] != 0 or
+            not 0 <= p["offset"] < len(raw) for p in module.publics)):
         return None
     return segment, raw
 

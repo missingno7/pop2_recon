@@ -2,7 +2,8 @@
 
 `tools/match.py` reads expected bytes solely from the SHA-locked original EXE.
 `evidence/targets.json` freezes reviewed extents and their independent boundary
-evidence. A whole emitted CODE SEGDEF belongs to one public at offset zero.
+evidence. For reconstructed C/ASM, a whole emitted CODE SEGDEF belongs to one
+public at offset zero.
 Declared length, every initialized byte, padding, all publics, secondary storage,
 records and FIXUPP subrecords are inspected. CODE holes, multiple publics,
 nonzero secondary data/BSS, unknown storage records and 32-bit records fail.
@@ -30,18 +31,22 @@ Missing tools and compilation failures never fall back to cached objects.
 `tools/runtime.py` separately verifies pinned historical library members. Each
 recipe hashes the independent library archive and entire OMF member, owns the
 full initialized CODE segment, and checks declarations, original bytes and
-fixup/relocation obligations. Seventeen relocation-free members cover 951 bytes; the
+fixup/relocation obligations. Nineteen relocation-free members cover 1,130 bytes; the
 13-byte close and 23-byte medium-model open members additionally verify external
-near equations against independent zero-owned provider context. These nineteen
-members cover 987 bytes as PINNED_RUNTIME, separate from reconstructed C or ASM.
+near equations against independent zero-owned provider context. These twenty-one
+members cover 1,166 bytes as PINNED_RUNTIME, separate from reconstructed C or ASM.
 Partial startup/provider
 signatures remain evidence only and contribute no accepted bytes. Runtime
 publication uses `tools/pin_runtime.py` with a reviewed worker submission and
 fresh strict verification; whole members cannot be trimmed to a matching prefix.
+The literal, relocation-free runtime gate retains every public in a whole
+multi-public member; it does not select a public's matching suffix or prefix.
+The near-bound runtime gate still requires one owning public at zero.
 
 `tools/runtime_scan.py` supplies diagnostic whole-member candidates. It reads
 page-aligned members before the archive dictionary, requires one complete CODE
-segment/public at zero and empty secondary storage, excludes actual fixups,
+segment with at least one public at zero and empty secondary storage, retains
+all CODE publics within that extent, excludes actual fixups,
 and searches whole literal CODE bytes. It retains original relocations and
 existing ownership overlaps in its worker-local report. A scan hit still needs
 independent boundary/ABI/caller review and fresh `pin_runtime.py` verification;

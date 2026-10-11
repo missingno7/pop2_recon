@@ -1,4 +1,4 @@
-# Reconstruction continuation â€” 2026-10-11
+# Reconstruction continuation — 2026-10-11
 
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
@@ -11,17 +11,57 @@ structure and 4,716 ordered relocation records remain unchanged.
 | --- | ---: |
 | Matching C | 1,412 |
 | Matching ASM | 51 |
-| Pinned runtime | 987 |
+| Pinned runtime | 1,166 |
 | External drivers | 0 |
 | Unresolved identified game helpers | 220 |
-| Unknown/unclassified payload | 268,718 |
+| Unknown/unclassified payload | 268,539 |
 
-There are 31 accepted C components, one ASM component and nineteen whole pinned
+There are 31 accepted C components, one ASM component and twenty-one whole pinned
 runtime members. Overlay C owns 752 bytes across fifteen complete components;
-resident ownership is 1,698 bytes. The identified game-helper subtotal is
+resident ownership is 1,877 bytes. The identified game-helper subtotal is
 1,632 bytes. Fifty-three source data-offset fixups and two runtime near fixups
 are proven. Original MZ relocation coverage remains 0/4,716. Structural RTLink
 closure remains UNRECOVERED and behavior validation remains NOT_STARTED.
+
+## Eighth bounded wave
+
+The recorded rectangle operand-orientation proposal was tested once under
+MSC600 `/c /AM /O /Gs /Zl /Gc`. Its equivalent signed relations reproduce the
+same complete 38-byte CODE and entire OMF object as the previous best source.
+The first load remains the bottom word at +6; the predicted +2 top-word load
+does not appear. The worker stops on this known complete-object repetition.
+This closes the proposed discriminator in that compiler context; the original
+early AX=1, CX/DX coordinate temporaries and single exit remain unexplained.
+No second trial or source ownership is claimed.
+
+Two complete medium-model conversion members now pass the existing literal
+runtime gate. The 84-byte `atox.asm` parser at `1fe6:1672` is reached through an
+independently relocated far call to the preceding three-byte conversion stub,
+whose original near equation enters the parser. Its selected caller path is
+reviewed; an indirect switch on another branch remains open. The stub and
+alignment stay unowned. The 95-byte `xtoa.asm` member at `1fe6:19a4` retains
+both publics and its shared setup/core, with both entry CFGs reviewed. Original
+`itoa` handoff context establishes its register ABI, while the separate
+fixup-bearing wrapper still lacks the independent incoming witness required by
+the near gate. Provider ownership does not grant wrapper ownership.
+
+The scanner's one-public restriction had hidden the complete shared conversion
+member. The diagnostic now preserves all in-extent CODE publics while retaining
+one complete zero-fixup CODE segment and empty secondary storage. Two tests
+cover complete shared-entry discovery and an out-of-extent public. This matches
+the existing literal-runtime member rules; acceptance itself is unchanged.
+The refreshed two-library census finds 23 whole literal research matches, all
+overlapping accepted ownership after these publications. Further runtime work
+needs a new library/context or symbolic-provider lead.
+
+Fresh strict checks and serial publication add 179 pinned runtime bytes.
+[Original review](../evidence/matching/wave8-runtime-review.json) and
+[the wave receipt](../evidence/matching/grinding-wave8.json) retain complete
+member pins, original paths, the closed compiler discriminator and explicit
+remaining debts. Full validation passes 148 invariant tests and freshly checks
+31 C components, one ASM component, twenty-one runtime members and every asset
+and historical tool identity. Source/ASM totals and the five unresolved helpers
+are unchanged; original relocation coverage remains 0/4,716.
 
 ## Seventh bounded wave
 
@@ -219,14 +259,15 @@ RTLink version and overlay placement remain debts; the original descriptor
 locator is now independently established. The formerly reserved overlay-3
 predicate `2344:237e` is now reconstructed.
 
-The medium-model census is now a reusable whole-member literal diagnostic.
-Its `__catox` hit lacks an independently relocated far entry, and `_itoa` needs
-an independently reviewed `__cxtoa` provider; neither research hit owns bytes.
-The rectangle's next source lead is operand orientation, with its eight bounded
-negative compiler receipts preserved. Further trials need a card around that
-specific discriminator.
+The medium-model census now includes complete multi-public members. All of its
+current literal hits overlap accepted ownership. The conversion parser and
+shared output core are pinned in full; `_itoa` still needs a distinct incoming
+wrapper and a supported shared-public near proof. The rectangle operand-order
+proposal repeats its known complete object. Further source trials need an
+independent lifetime, type, TU or compiler-pass lead, rather than another
+equivalent comparison rewrite.
 
-Full `python tools/validate.py` passes all 146 invariant tests, freshly compiles
-31 C components, assembles one ASM component, checks all nineteen independent
+Full `python tools/validate.py` passes all 148 invariant tests, freshly compiles
+31 C components, assembles one ASM component, checks all twenty-one independent
 runtime members and rechecks every supplied asset/structure and historical tool
 pin. Whole extents, symbolic equations and canonical ownership pass.

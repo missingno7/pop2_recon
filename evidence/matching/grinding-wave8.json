@@ -1,0 +1,128 @@
+{
+  "accepted_runtime": [
+    {
+      "CODE_sha256": "e4690636042be2f069dec352c0ba68c21819da95d93c85470f6209c6cf4ebe6b",
+      "fixups": 0,
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_sha256": "579da5d1dc80655298975c5104931a7e6005d193a3881302c9e48f18edb65654",
+      "name": "crt_catox_medium",
+      "publics": [
+        "__catox"
+      ],
+      "recipe": "recipes/runtime/crt_catox_medium.json",
+      "recipe_sha256": "431d6fc25f3fef6c409fa16b0f0203b0b0c89534a8140ca6d08b2e2926538fa2",
+      "relocations": 0,
+      "size": 84,
+      "target_id": "root:1fe6:1672"
+    },
+    {
+      "CODE_sha256": "ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0",
+      "fixups": 0,
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_sha256": "e71dae15240eb51545dd0d0a12d00faac923830b551c1a41e5a31b9534ef5922",
+      "name": "crt_xtoa",
+      "publics": [
+        "__cxtoa",
+        "__cltoasub"
+      ],
+      "recipe": "recipes/runtime/crt_xtoa.json",
+      "recipe_sha256": "0002b0104d0e22a6b3e5591e1d313ac77da626849279d3ab034976686a796886",
+      "relocations": 0,
+      "size": 95,
+      "target_id": "root:1fe6:19a4"
+    }
+  ],
+  "bytes_added": {
+    "ASM": 0,
+    "C": 0,
+    "PINNED_RUNTIME": 179,
+    "drivers": 0
+  },
+  "canonical_head": "e37e8c0716c03b52f8a2707d681ffe42395a7c7a",
+  "date": "2026-10-11",
+  "diagnostic_update": {
+    "all_current_literal_hits_overlap_accepted_ownership": true,
+    "behavior": "Retain all CODE publics within full segment, with at least oneat0; holes/fixups/secondary storage still excluded. No emitted bytes sliced, normalized or masked.",
+    "libraries": [
+      {
+        "library_path": "C:\\tools\\msc-6.00\\LIB\\mlibcr.lib",
+        "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+        "members_examined": 343,
+        "research_matches": 13,
+        "whole_zero_fixup_shapes": 77
+      },
+      {
+        "library_path": "C:\\tools\\msc-6.00\\LIB\\llibcr.lib",
+        "library_sha256": "3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884",
+        "members_examined": 343,
+        "research_matches": 10,
+        "whole_zero_fixup_shapes": 68
+      }
+    ],
+    "new_tests": 2,
+    "reason": "One-public diagnostic restriction hid complete zero-fixup xtoa95, while existing literal-runtime acceptance already retained whole multi-public members.",
+    "sha256": "d59a402c14695fdd81c2a18428b13142f3bafc67adcbea16e4e7bf4ebf8fe011",
+    "tool": "tools/runtime_scan.py"
+  },
+  "metrics": {
+    "behavior_oracle_status": "NOT_STARTED",
+    "exact_function_count": 32,
+    "matching_asm_bytes": 51,
+    "matching_c_bytes": 1412,
+    "pinned_runtime_bytes": 1166,
+    "pinned_runtime_component_count": 21,
+    "proven_candidate_fixups": 55,
+    "proven_relocation_records": 0,
+    "reviewed_target_count": 37,
+    "structural_link_status": "UNRECOVERED",
+    "total_relocation_records": 4716,
+    "unknown_or_unclassified_payload_bytes": 268539,
+    "unresolved_identified_game_bytes": 220,
+    "unresolved_reviewed_target_count": 5
+  },
+  "original_review": "evidence/matching/wave8-runtime-review.json",
+  "rectangle_negative": {
+    "compiler_trials": 1,
+    "complete_CODE_extent": 38,
+    "complete_CODE_sha256": "0ce2c8f62e2d599a918109fa55be5399876f44854b4fed046e142a9f8785aa3b",
+    "expected_extent": 34,
+    "flags": [
+      "/c",
+      "/AM",
+      "/O",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "limits": "Signed semantic checkpoints passed. Equal full object establishes repeated output in this context; it does not exclude every type/lifetime/TU/compiler-pass explanation. Original earlyAX1/CXDX coordinate temporaries/single exit still unmatched.",
+    "observed": "First load268b4706 atCODE6 still readsES:[BX+6]; complete CODE and full OMF object are byte-identical to prior best under same profile/flags.",
+    "owned_bytes": 0,
+    "prediction": "Equivalent reversed relations might change first far-memory load+6 to+2.",
+    "profile": "msc600",
+    "resume": "Independent type/lifetime/TU/compiler-pass evidence predicting those original temporaries; do not replay operand orientation.",
+    "scratch": "build/workers/wave8_rectangle_orientation/final.json",
+    "source_sha256": "e7c6d402618ae3e1ebc331064d981c77e3d8f5987c901c3c40d43fa2b3957240",
+    "stop": "Supervisor card known-output stop after1trial; generic journal stop=False does not override the card. No second distinct mechanism observed.",
+    "target_id": "root:1101:4d6e",
+    "whole_object_sha256": "749c9645edf482a0a7ff7b1d9b8d0171038c6be1d7cf43fbafee8eca8ac86c56"
+  },
+  "remaining_debt": [
+    "Separate itoa27 F0/T6 wrapper has no distinct independent incoming-wrapper witness; provider shared public12 also lacks v1 internal RETF/public boundary. Full provider pin grants no automatic symbolic binding.",
+    "Conversion stub3 remains unowned with unresolved near obligation and identity correspondence; entire parser84 is owned separately.",
+    "Unrelated indirect-switch branch in parser caller remains open; selected entry-to-far-call path only is reviewed.",
+    "Five source helpers remain220 bytes; earlier four were not retried. Far-call provider trees, original MZ coverage, structural RTLink closure and behavior remain unresolved."
+  ],
+  "schema": 1,
+  "scope": "Complete literal-runtime continuation and bounded source discriminator; no source/ASM or symbolic gate changes.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "validation": {
+    "ASM_components": 1,
+    "C_components": 31,
+    "fresh_sources_members_assets_and_tool_pins": true,
+    "invariant_tests": 148,
+    "runtime_components": 21,
+    "status": "PASS",
+    "supplied_assets": 62
+  },
+  "wave": 8
+}

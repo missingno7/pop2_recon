@@ -1,0 +1,29 @@
+{
+  "archive_offset": 84128,
+  "boundary_evidence": [
+    "Complete independent medium-model xtoa.asm OMF member is230 bytes at archive84128; its entire initialized CODE SEGDEF is95 bytes, with empty DATA, no actual fixups/externals, and two preserved publics __cxtoa at12 and __cltoasub at0.",
+    "All95 original resident bytes root[0x21804,0x21863) match literally and uniquely, SHA256 ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0. Both public-entry CFGs remain inside the complete segment and reach sole RETF at0x21862. Public0 is12-byte setup falling through to public12; neither is a separately trimmed contribution.",
+    "Previous original routine starts0x217e6 and ends RETF0x21803. Entire member begins0x21804 with its shared BP setup reads. Unowned zero at0x21863 follows the complete member; next BP-framed entry starts0x21864. No original relocation word touches member, including straddling start.",
+    "Independent original far CALL at root0x534d (image21325) encodes1fe6:16c6; exact segment-word relocation0x5350 index673. Its original itoa body saves SI/DI, establishes BP and loads conversion registers, then E9 at1fe6:16de targets1fe6:19b0, the archive __cxtoa public+12. Both conditional paths decode to this tail; no execution claim.",
+    "This is the entire multi-public member, not a prefix/provider signature. Existing nofixup runtime gate supports the full public list. Review of its caller does not grant automatic symbolic ownership to the separate fixup-bearing itoa member."
+  ],
+  "fixup_count": 0,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:\\tools\\msc-6.00\\LIB\\mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 230,
+  "member_sha256": "e71dae15240eb51545dd0d0a12d00faac923830b551c1a41e5a31b9534ef5922",
+  "name": "crt_xtoa",
+  "object_segment": "_TEXT",
+  "offset": 6564,
+  "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
+  "publics": [
+    "__cxtoa",
+    "__cltoasub"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 95,
+  "space": "root",
+  "target_sha256": "ce0cc5977c41eb6d3df17c85bef29b90073e2a850d5392a95f557a41cd0884e0"
+}

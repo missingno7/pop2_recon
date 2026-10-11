@@ -22,8 +22,9 @@ complete original close wrapper at `1fe6:1b94`, the outside relocated entry at
 root 80524, and the original straight-line path to its near tail. The same
 independently pinned provider signature/public context is checked afresh. These
 are immutable original witnesses, not candidate output or ownership-dependent
-fallbacks; provider context still owns zero bytes. Both near-bound members now
-cover 36 bytes, separately from ten relocation-free members covering 653 bytes.
+fallbacks; provider context still owns zero bytes. Both near-bound members
+cover 36 bytes; current literal-runtime totals are recorded in
+[reconstruction progress](reconstruction-progress.md).
 See [the open recipe](../recipes/runtime/crt_dos_open.json) and
 [binding](../evidence/bindings/crt_dos_open.json). No new fixup mode, MZ coverage,
 whole-link closure or behavioral proof is introduced.
