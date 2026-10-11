@@ -30,14 +30,22 @@ Missing tools and compilation failures never fall back to cached objects.
 `tools/runtime.py` separately verifies pinned historical library members. Each
 recipe hashes the independent library archive and entire OMF member, owns the
 full initialized CODE segment, and checks declarations, original bytes and
-fixup/relocation obligations. Ten relocation-free members cover 653 bytes; the
+fixup/relocation obligations. Seventeen relocation-free members cover 951 bytes; the
 13-byte close and 23-byte medium-model open members additionally verify external
-near equations against independent zero-owned provider context. These twelve
-members cover 689 bytes as PINNED_RUNTIME, separate from reconstructed C or ASM.
+near equations against independent zero-owned provider context. These nineteen
+members cover 987 bytes as PINNED_RUNTIME, separate from reconstructed C or ASM.
 Partial startup/provider
 signatures remain evidence only and contribute no accepted bytes. Runtime
 publication uses `tools/pin_runtime.py` with a reviewed worker submission and
 fresh strict verification; whole members cannot be trimmed to a matching prefix.
+
+`tools/runtime_scan.py` supplies diagnostic whole-member candidates. It reads
+page-aligned members before the archive dictionary, requires one complete CODE
+segment/public at zero and empty secondary storage, excludes actual fixups,
+and searches whole literal CODE bytes. It retains original relocations and
+existing ownership overlaps in its worker-local report. A scan hit still needs
+independent boundary/ABI/caller review and fresh `pin_runtime.py` verification;
+the scan never publishes or supplies acceptance fixtures.
 
 CODE_EXACT means the recorded compiler/profile reproduces the complete reviewed
 component code with its proven fixup obligations. It does not establish original

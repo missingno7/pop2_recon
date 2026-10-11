@@ -1,0 +1,28 @@
+{
+  "abi": "Far cdecl; near destination/source pointers BP6/BP8, DS copied toES, near resultAX; SI/DI preserved through BX/DX. DF execution precondition untraced.",
+  "archive_offset": 28768,
+  "boundary_evidence": [
+    "Independent medium-model strcpy.asm whole OMF member has sole public _strcpy at0 and complete initialized50-byte CODE; all secondary storage empty; archive/member pinned.",
+    "Whole literal CODE uniquely occurs at root image0x21474, logical1fe6:1614; original CFG closes at exclusive0x214a6. All ordinary bytes, internal branches and returns included, no emitted or original fixup obligations.",
+    "Outside original far CALL image0x21fb7 encodes1fe6:1614; original MZ segment-word relocation index1919 at0x21fba. Original caller entry0x21f9a full CFG has a structural entry-to-call path; calls are opaque returning continuations, not execution proof.",
+    "Compact independent original boundary/caller/ABI evidence in evidence/matching/wave7-runtime-review.json; preceding/following alignment outside full member remains unowned."
+  ],
+  "fixup_count": 0,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:\\tools\\msc-6.00\\LIB\\mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 175,
+  "member_sha256": "a41d60e87ecb87e665aa98785b21680bd6d0830c5b8140f6aa52640265e55848",
+  "name": "crt_strcpy_medium",
+  "object_segment": "_TEXT",
+  "offset": 5652,
+  "proof_scope": "Complete independent library member CODE with empty relocation obligations; natural RTLink placement unproved",
+  "publics": [
+    "_strcpy"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 50,
+  "space": "root",
+  "target_sha256": "3ec8855142e9c8f5cc31c41e5acedd4d752b052713f8a3a1d5be14d997123380"
+}

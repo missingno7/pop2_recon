@@ -1,4 +1,4 @@
-# Reconstruction continuation — 2026-10-11
+# Reconstruction continuation â€” 2026-10-11
 
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
@@ -9,19 +9,65 @@ structure and 4,716 ordered relocation records remain unchanged.
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 1,376 |
+| Matching C | 1,412 |
 | Matching ASM | 51 |
-| Pinned runtime | 689 |
+| Pinned runtime | 987 |
 | External drivers | 0 |
-| Unresolved identified game helpers | 186 |
-| Unknown/unclassified payload | 269,086 |
+| Unresolved identified game helpers | 220 |
+| Unknown/unclassified payload | 268,718 |
 
-There are 30 accepted C components, one ASM component and twelve whole pinned
+There are 31 accepted C components, one ASM component and nineteen whole pinned
 runtime members. Overlay C owns 752 bytes across fifteen complete components;
-resident ownership is 1,364 bytes. The identified game-helper subtotal is
-1,562 bytes. Fifty-three source data-offset fixups and two runtime near fixups
+resident ownership is 1,698 bytes. The identified game-helper subtotal is
+1,632 bytes. Fifty-three source data-offset fixups and two runtime near fixups
 are proven. Original MZ relocation coverage remains 0/4,716. Structural RTLink
 closure remains UNRECOVERED and behavior validation remains NOT_STARTED.
+
+## Seventh bounded wave
+
+The remaining adjacent three-value predicate `root:078a:28a4` is reconstructed
+as [is_three_kind.c](../src/is_three_kind.c). Independent original review closes
+both RETF2 exits, both NOPs, the byte argument ABI and the complete overlay caller
+path to its relocated far entry. The ordered natural comparisons 11, 26, 15 match
+all 36 bytes on one compiler trial using MSC600 `/c /AM /Oe /Gs /Zl /Gc`.
+One preceding search refused a mislabeled reviewed callsite before compilation;
+correcting the evidence schema cleared it without changing source or acceptance.
+Fresh strict verification, serial publication and full validation passed.
+
+The medium-model library lead yields seven further complete runtime members:
+strcat 63, strcpy 50, strlen 27, strncpy 40, strchr 42, strupr 30 and BIOS timeofday 46.
+All 298 bytes compare literally, with no fixups or secondary storage. Original
+entry encodings and caller paths are independently reviewed; all members pass
+fresh `pin_runtime.py --verify-only` and serial publication. Their near-pointer
+ABIs coexist with distinct accepted large-model members. Global CRT model,
+original TU/library ordering and execution assumptions remain unproved. The
+[runtime review](../evidence/matching/wave7-runtime-review.json) retains whole
+archive/member pins and compact original context.
+
+The successful census is now `tools/runtime_scan.py`, with required worker-local
+output. It scans complete members before the archive dictionary and reports
+whole literal CODE matches, original relocations and ownership overlaps. It
+excludes sparse code, secondary storage, multiple publics and actual fixups;
+it grants no ownership. Five new refusal/bounds tests cover the diagnostic's
+important failure cases. Existing acceptance gates are unchanged.
+
+The newly reviewed rectangle predicate `root:1101:4d6e` has a complete 34-byte
+extent, signed word comparisons and a far-pointer Pascal ABI, with no fixups.
+Four Luna trials stop after repeated 40-byte outputs. A four-trial Sol compiler
+context review produces 48-byte MSC510 local-result code and identical 38-byte
+short-OR CODE under MSC510/MSC600 `/O`; MSC600 `/Oeg` repeats known 40-byte CODE.
+The short-OR baseline already uses transient BX and result AX. Its remaining
+differences include coordinate operand order, late Boolean materialization and
+return/branch arrangement; the original initializes AX to 1 early and uses CX/DX for
+coordinates. Swapping equivalent relational operands is a concrete uncompiled
+resume lead, not an accepted explanation. The 34 bytes remain unresolved, joining
+the four older parked helpers. Full objects and failed sources stay private.
+
+The [wave receipt](../evidence/matching/grinding-wave7.json) separates original
+review, compiler observations and hypotheses. Current totals add 36 C bytes and
+298 runtime bytes. Full validation passes 146 invariant tests and freshly checks
+31 C components, one ASM component, nineteen pinned runtime members, all assets
+and historical tool identities. Original relocation coverage remains 0/4,716.
 
 ## Sixth bounded wave
 
@@ -160,8 +206,8 @@ and [RTLink research](rtlink.md) remain separate from acceptance.
 ## Next reasoning leads
 
 The unresolved identified helpers are the 46-byte overlay-2 swap, 26-byte
-resident signed-value helper, 80-byte membership predicate and new 34-byte
-overlay-3 setter. The [swap matrix](first-matches.md), prior wave receipts and current frame-option evidence
+resident signed-value helper, 80-byte membership predicate, 34-byte
+overlay-3 setter and 34-byte resident rectangle predicate. The [swap matrix](first-matches.md), prior wave receipts and current frame-option evidence
 record exhausted outputs. Further Luna work requires a new lead;
 repeating known source/flag families does not advance these targets.
 
@@ -173,7 +219,14 @@ RTLink version and overlay placement remain debts; the original descriptor
 locator is now independently established. The formerly reserved overlay-3
 predicate `2344:237e` is now reconstructed.
 
-Full `python tools/validate.py` passes all 141 invariant tests, freshly compiles
-30 C components, assembles one ASM component, checks all twelve independent
+The medium-model census is now a reusable whole-member literal diagnostic.
+Its `__catox` hit lacks an independently relocated far entry, and `_itoa` needs
+an independently reviewed `__cxtoa` provider; neither research hit owns bytes.
+The rectangle's next source lead is operand orientation, with its eight bounded
+negative compiler receipts preserved. Further trials need a card around that
+specific discriminator.
+
+Full `python tools/validate.py` passes all 146 invariant tests, freshly compiles
+31 C components, assembles one ASM component, checks all nineteen independent
 runtime members and rechecks every supplied asset/structure and historical tool
 pin. Whole extents, symbolic equations and canonical ownership pass.

@@ -1,5 +1,46 @@
 # Runtime classification evidence
 
+## Medium-model continuation — 2026-10-11
+
+Whole members from `C:\tools\msc-6.00\LIB\mlibcr.lib` also match the resident
+image. This archive is 142,539 bytes, SHA-256
+`03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0`.
+The prior medium-model DOS open match supplied the reason to inspect this model.
+Seven further members have complete literal CODE matches, empty secondary
+storage, sole publics at zero, no fixups and independently relocated far entries.
+Fresh strict publication owns all 298 bytes:
+
+| Public | Logical root address | Complete bytes |
+| --- | --- | ---: |
+| `_strcat` | `1fe6:15d4` | 63 |
+| `_strcpy` | `1fe6:1614` | 50 |
+| `_strlen` | `1fe6:20f4` | 27 |
+| `_strncpy` | `1fe6:1646` | 40 |
+| `_strchr` | `1fe6:2110` | 42 |
+| `_strupr` | `1fe6:1986` | 30 |
+| `__bios_timeofday` | `1fe6:1b66` | 46 |
+
+These far-call members use near data pointers. The distinct large-model string
+members below remain accepted at their own extents. This establishes both ABI
+families in specific components; it does not infer a global CRT model, source
+translation units or library order. DS/DF and DOS/BIOS execution remain separate
+behavior debts. Complete member pins, original CFGs, caller paths and limits are
+in [the compact review](../evidence/matching/wave7-runtime-review.json).
+
+The reusable diagnostic command is:
+
+```
+python tools/runtime_scan.py C:/tools/msc-6.00/LIB/mlibcr.lib --output build/workers/NAME/runtime.json
+```
+
+It reports whole literal matches, preserves original relocation obligations and
+ownership overlaps, and excludes actual fixups, sparse CODE, multiple publics
+and nonempty secondary storage. It cannot publish. The initial two-library run
+examines 343 members per archive and reproduces all seven reviewed member pins.
+The unanchored `__catox` hit and near-bound `_itoa` research remain unowned.
+
+## Initial large-model comparison
+
 Research date: 2026-10-04. This read-only comparison tests local MSC 6.0 large-model runtime objects against immutable `PRINCE.EXE` bytes. It establishes byte-level matches for specific library members; it does not pin the exact library release used to link the game or assign every byte in the resident image to the CRT.
 
 The reference archive is `C:\tools\msc-6.00\LIB\llibcr.lib` (148,711 bytes, SHA-256 `3d0c6ae92972789e87def01fa96351c39216d731d5c880370155c5613d78c884`). I located member boundaries from OMF `THEADR` through `MODEND`, then used the repository's strict `OmfReader` on each relevant complete member. The OMF reader API is `OmfReader().read(member_bytes, label)`; its result exposes `segments`, `segment_defs`, `publics`, `externals`, `fixups`, and raw OMF records. The candidate root addresses and bytes come from the locked local executable SHA-256 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.

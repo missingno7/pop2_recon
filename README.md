@@ -24,6 +24,7 @@ python tools/inventory.py
 python tools/oracle.py --extract
 python tools/discover.py
 python tools/context.py root:2203:0678 --asm
+python tools/runtime_scan.py C:/tools/msc-6.00/LIB/mlibcr.lib --output build/workers/review/runtime.json
 python tools/metrics.py
 python tools/validate.py
 ```
@@ -46,7 +47,7 @@ becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) includes
 fifteen complete overlay C matches, including independently proved overlay
-data fields. Totals are 1,376 C bytes, 51 ASM bytes, and 689 pinned runtime bytes.
+data fields. Totals are 1,412 C bytes, 51 ASM bytes, and 987 pinned runtime bytes.
 Fifty-three source data fixups and two
 [runtime near-jump equations](docs/runtime-near-binding.md) are proven; original
 relocation coverage remains 0/4,716. Far-call binding and natural RTLink
