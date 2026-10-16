@@ -1,0 +1,338 @@
+{
+  "declarations": {
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 18,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "RELEASE_NEAR_BUFFER",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "__acrtused",
+      "_NEAR_HEAP_FREE",
+      "RELEASE_NEAR_BUFFER"
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 7,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "_NEAR_HEAP_FREE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "_NEAR_HEAP_FREE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "relocation_indices": [
+    1460
+  ],
+  "schema": 1,
+  "symbols": {
+    "_NEAR_HEAP_FREE": {
+      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "entry_target_id": "root:1fe6:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "relocation_index": 14,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 28011,
+          "image_offset": 19819,
+          "relocation_index": 387,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 28839,
+          "image_offset": 20647,
+          "relocation_index": 388,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 28828,
+          "image_offset": 20636,
+          "relocation_index": 389,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 29131,
+          "image_offset": 20939,
+          "relocation_index": 390,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 29390,
+          "image_offset": 21198,
+          "relocation_index": 391,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 34648,
+          "image_offset": 26456,
+          "relocation_index": 476,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 51017,
+          "image_offset": 42825,
+          "relocation_index": 901,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 52309,
+          "image_offset": 44117,
+          "relocation_index": 902,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 54237,
+          "image_offset": 46045,
+          "relocation_index": 903,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 86738,
+          "image_offset": 78546,
+          "relocation_index": 1454,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 87158,
+          "image_offset": 78966,
+          "relocation_index": 1455,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 98123,
+          "image_offset": 89931,
+          "relocation_index": 1456,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 98741,
+          "image_offset": 90549,
+          "relocation_index": 1457,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 98922,
+          "image_offset": 90730,
+          "relocation_index": 1458,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 113493,
+          "image_offset": 105301,
+          "relocation_index": 1459,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 119907,
+          "image_offset": 111715,
+          "relocation_index": 1461,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 123937,
+          "image_offset": 115745,
+          "relocation_index": 1462,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 126846,
+          "image_offset": 118654,
+          "relocation_index": 1463,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 88742,
+          "image_offset": 80550,
+          "relocation_index": 1465,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 92524,
+          "image_offset": 84332,
+          "relocation_index": 1466,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 97934,
+          "image_offset": 89742,
+          "relocation_index": 1467,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 106529,
+          "image_offset": 98337,
+          "relocation_index": 1468,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 108650,
+          "image_offset": 100458,
+          "relocation_index": 1469,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 108859,
+          "image_offset": 100667,
+          "relocation_index": 1470,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 130711,
+          "image_offset": 122519,
+          "relocation_index": 1732,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 134104,
+          "image_offset": 125912,
+          "relocation_index": 1780,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 134070,
+          "image_offset": 125878,
+          "relocation_index": 1781,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 136490,
+          "image_offset": 128298,
+          "relocation_index": 1799,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 137441,
+          "image_offset": 129249,
+          "relocation_index": 1884,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "root:1000:a82a",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

@@ -1,0 +1,14 @@
+struct Context {
+    unsigned char reserved[0x22];
+    int x;
+    int y;
+};
+
+extern struct Context *CURRENT_CONTEXT;
+
+void far pascal TRANSLATE_CONTEXT_ORIGIN(int y_delta, int x_delta)
+{
+    struct Context *context = CURRENT_CONTEXT;
+    context->y += y_delta;
+    context->x += x_delta;
+}

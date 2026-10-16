@@ -1714,7 +1714,8 @@
         "3 independent incoming direct call site(s): 3 relocated far CALLs; 0 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
         "Body ends at 0x16105; the observed byte 00 at 0x16105 is included as trailing alignment before the following independent entry. A compiler/assembler candidate must emit this complete interval; never trim output or add synthetic bytes.",
         "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
-        "Previous independent 50b8 leaf ends RETF8 exactly at 0x160ee. After body RETF4 and included zero at 0x16105, the called 50f6 leaf starts 55 8b ec at 0x16106."
+        "Previous independent 50b8 leaf ends RETF8 exactly at 0x160ee. After body RETF4 and included zero at 0x16105, the called 50f6 leaf starts 55 8b ec at 0x16106.",
+        "Extent corrected 24 -> 23 bytes (wave 9): the routine ends with RETF 4 at +0x14..+0x16; the following byte at root 0x160f5 is 00, not the 90 NOP MSC 6.00 emits as in-segment padding. Pinned MSC 6.00 /Oes emits an odd 23-byte CODE segment for this body, so the 00 is treated as linker alignment fill outside the component (unowned, like other inter-segment fill); the root image has 24 RETF n; 00; 55 8B EC sites versus 152 with a 90 pad."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -1748,12 +1749,12 @@
       "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
       "id": "root:1101:50de",
       "offset": 20702,
-      "original_bytes_hex": "558bec8b1ec0258b46080147248b46060147225dca040000",
+      "original_bytes_hex": "558bec8b1ec0258b46080147248b46060147225dca0400",
       "original_name": null,
       "segment": 4353,
       "semantic_name_hypothesis": "translate_context_origin",
-      "sha256": "14afe259cbcf652c43f2d980c8294a155d239d415aee58376585f3db12111136",
-      "size": 24,
+      "sha256": "a557c199cd7b14972dca853d08cb0d87736812dab3da0b3464f2b906f7834e3b",
+      "size": 23,
       "space": "root",
       "state": "ANALYZED"
     },

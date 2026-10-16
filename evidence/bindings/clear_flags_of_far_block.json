@@ -1,0 +1,246 @@
+{
+  "declarations": {
+    "externals": [
+      "CLEAR_FAR_BLOCK_FLAGS",
+      "CLEAR_FLAGS_OF_FAR_BLOCK"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "CLEAR_FLAGS_OF_FAR_BLOCK",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 20,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 10,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "CLEAR_FAR_BLOCK_FLAGS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "CLEAR_FAR_BLOCK_FLAGS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "relocation_indices": [
+    1696
+  ],
+  "schema": 1,
+  "symbols": {
+    "CLEAR_FAR_BLOCK_FLAGS": {
+      "entry_sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
+      "entry_target_id": "root:1101:25e4",
+      "kind": "far-code-entry",
+      "offset": 9700,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 30874,
+          "image_offset": 22682,
+          "relocation_index": 584,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 31058,
+          "image_offset": 22866,
+          "relocation_index": 585,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 32616,
+          "image_offset": 24424,
+          "relocation_index": 586,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 33048,
+          "image_offset": 24856,
+          "relocation_index": 587,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 33400,
+          "image_offset": 25208,
+          "relocation_index": 588,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 33663,
+          "image_offset": 25471,
+          "relocation_index": 589,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 35628,
+          "image_offset": 27436,
+          "relocation_index": 590,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 36302,
+          "image_offset": 28110,
+          "relocation_index": 591,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 36614,
+          "image_offset": 28422,
+          "relocation_index": 592,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 36892,
+          "image_offset": 28700,
+          "relocation_index": 593,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 49719,
+          "image_offset": 41527,
+          "relocation_index": 810,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 49668,
+          "image_offset": 41476,
+          "relocation_index": 811,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 50076,
+          "image_offset": 41884,
+          "relocation_index": 812,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 80530,
+          "image_offset": 72338,
+          "relocation_index": 1550,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 132182,
+          "image_offset": 123990,
+          "relocation_index": 1763,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 132863,
+          "image_offset": 124671,
+          "relocation_index": 1764,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 134039,
+          "image_offset": 125847,
+          "relocation_index": 1788,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "root:1000:d922",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

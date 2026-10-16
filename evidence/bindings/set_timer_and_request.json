@@ -1,0 +1,231 @@
+{
+  "declarations": {
+    "externals": [
+      "RESTRICTED_STEP",
+      "REQUEST_IF_UNSET",
+      "SET_TIMER_AND_REQUEST"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SET_TIMER_AND_REQUEST",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 16,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "REQUEST_IF_UNSET",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 11,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "REQUEST_IF_UNSET",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "RESTRICTED_STEP",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "RESTRICTED_STEP",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "relocation_indices": [
+    70
+  ],
+  "schema": 1,
+  "symbols": {
+    "REQUEST_IF_UNSET": {
+      "entry_sha256": "cdf0308626fc23cc06e8c27c9a72719e6561ce6e19d47d3eba856e7851ada53d",
+      "entry_target_id": "root:0dd7:01b0",
+      "kind": "far-code-entry",
+      "offset": 432,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 9902,
+          "image_offset": 1710,
+          "relocation_index": 68,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 13050,
+          "image_offset": 4858,
+          "relocation_index": 69,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 21469,
+          "image_offset": 13277,
+          "relocation_index": 340,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 26292,
+          "image_offset": 18100,
+          "relocation_index": 341,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 59223,
+          "image_offset": 51031,
+          "relocation_index": 1047,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 63840,
+          "image_offset": 55648,
+          "relocation_index": 1048,
+          "space": "root"
+        }
+      ]
+    },
+    "RESTRICTED_STEP": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 24208,
+      "width": 2,
+      "witnesses": [
+        {
+          "bytes_hex": "833e905e00",
+          "image_offset": 12806,
+          "space": "root",
+          "operand_offset": 2,
+          "context": "Independent original direct DS cmp word ptr [0x5e90], 0 outside the owner (entry Original instruction decoded from root:0000:3054; immutable bytes and direct DS width checked independently of the owner.); grounds relative offset and width only."
+        }
+      ]
+    }
+  },
+  "target_id": "root:0000:1306",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "data": {
+    "mode": "external-dgroup-offset16-v1",
+    "frame": {
+      "entry_path": {
+        "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+        "image_offset": 140968,
+        "space": "root"
+      },
+      "segment": 8707,
+      "witness": {
+        "bytes_hex": "bb03228edb",
+        "image_offset": 140978,
+        "space": "root"
+      }
+    }
+  },
+  "review_notes": [
+    "Fresh MSC 6.00 object inspected with tools/inspect_omf.py. Complete UNIT_TEXT extent is 16 bytes; ordered LOC3 REQUEST_IF_UNSET at offset 11 then LOC1 RESTRICTED_STEP at offset 2. Raw initialized bytes match the reviewed instruction sequence with only the two symbolic fixup fields zeroed."
+  ]
+}
