@@ -1,0 +1,169 @@
+{
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "segment": 8707,
+    "witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    }
+  },
+  "mode": "external-overlay-dgroup-offset16-v1",
+  "schema": 1,
+  "symbols": {
+    "STATE_BYTE": {
+      "group": "DGROUP",
+      "kind": "near-data-alias",
+      "offset": 23571,
+      "width": 1,
+      "witnesses": [
+        {
+          "bytes_hex": "a0135c",
+          "context": "Independent frameless root helper starts at0xe8e after original RETF0xe8c and NOP0xe8d; direct MOV AL,[5c13] establishes relative DS byte width outside overlay owner. No runtime DS lifetime or original symbol/type claim.",
+          "image_offset": 3726,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "overlay-3:2344:0042",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "declarations": {
+    "segments": [
+      {
+        "name": "UNIT_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 34,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "CONST",
+        "class": "CONST",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "_BSS",
+        "class": "BSS",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "SET_STATE_FROM_RECORD",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "STATE_BYTE",
+      "SET_STATE_FROM_RECORD"
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 24,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "STATE_BYTE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "STATE_BYTE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 15,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "STATE_BYTE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "STATE_BYTE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    }
+  ]
+}

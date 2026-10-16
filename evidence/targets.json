@@ -1383,6 +1383,501 @@
       "size": 34,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry; RETF, Pascal/cdecl indistinguishable with zero arguments. AL contains byte difference on return; AH unspecified and scalar return declaration unproved. No BP frame, locals, or saved SI/DI; DS/ES preserved.",
+      "boundary_evidence": [
+        "Original caller at 0x0e78 ends RETF at 0x0e8c; NOP at 0x0e8d separates this entry.",
+        "RETF at 0x0e98; NOP at 0x0e99; next independent PUSH DI/PUSH SI entry begins at 0x0e9a.",
+        "Complete independently decoded interval root+[0xe8e,0xe9a) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "Includes original trailing NOP at root+0xe99: the return body is 11 bytes, next entry is even aligned. This is a compiler-padding hypothesis independently bounded by the next entry; a grinder must emit the entire 12-byte CODE segment, never append padding by hand.",
+        "0 immediate far CALL sites independently decoded from original ordered relocation records; 1 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent.",
+        "No relocated far CALL is present. PUSH CS immediately before same-CS CALL provides a far return address; RETF therefore supports a distinct far function entry rather than a near-RET routine."
+      ],
+      "call_sites": [
+        {
+          "file_offset": 11913,
+          "image_offset": 3721,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 3720
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident C-like scalar/data helper with simple register allocation and no segment-context changes; gameplay-state/table use is a naming hypothesis, not original symbol recovery."
+      ],
+      "boundary_status": "REVIEWED",
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:0000:0e8e",
+      "offset": 3726,
+      "original_bytes_hex": "a0135c2a06125ca2145ccb90",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "update_step_delta",
+      "sha256": "310c97754f699aebb9cc6eb26132c55bc7d5926ab471dbddf76495e7b4def28e",
+      "size": 12,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one signed 16-bit argument BP+6; RETF 2. AL is meaningful byte result; full AX is not sign-extended after SUB AL,4. BP frame, no local allocation, no SI/DI saves. BX/CX/DX/AX clobbered; DS/ES preserved.",
+      "boundary_evidence": [
+        "Wrapper at 0x3d80 ends POP BP; RETF 2 at 0x3d91..0x3d93, immediately before this BP prologue.",
+        "RETF 2 at 0x3dbe..0x3dc0; NOP at 0x3dc1; accepted signed_div63_adjusted owner root:02cc:1102 begins at 0x3dc2.",
+        "Complete independently decoded interval root+[0x3d94,0x3dc2) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "Includes original trailing NOP at root+0x3dc1: the return body is 45 bytes, next entry is even aligned. This is a compiler-padding hypothesis independently bounded by the next entry; a grinder must emit the entire 46-byte CODE segment, never append padding by hand.",
+        "9 immediate far CALL sites independently decoded from original ordered relocation records; 1 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent."
+      ],
+      "call_sites": [
+        {
+          "file_offset": 200369,
+          "image_offset": 15601,
+          "kind": "far_call",
+          "relocated_segment_site": 15604,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207007,
+          "image_offset": 22239,
+          "kind": "far_call",
+          "relocated_segment_site": 22242,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 206994,
+          "image_offset": 22226,
+          "kind": "far_call",
+          "relocated_segment_site": 22229,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 206982,
+          "image_offset": 22214,
+          "kind": "far_call",
+          "relocated_segment_site": 22217,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 206964,
+          "image_offset": 22196,
+          "kind": "far_call",
+          "relocated_segment_site": 22199,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 226329,
+          "image_offset": 201,
+          "kind": "far_call",
+          "relocated_segment_site": 204,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 226317,
+          "image_offset": 189,
+          "kind": "far_call",
+          "relocated_segment_site": 192,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 226161,
+          "image_offset": 33,
+          "kind": "far_call",
+          "relocated_segment_site": 36,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 261163,
+          "image_offset": 5947,
+          "kind": "far_call",
+          "relocated_segment_site": 5950,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 23947,
+          "image_offset": 15755,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 15754
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident C-like scalar/data helper with simple register allocation and no segment-context changes; gameplay-state/table use is a naming hypothesis, not original symbol recovery.",
+        "Direct adjacent accepted owner signed_div63_adjusted uses matching far-Pascal byte result and signed arithmetic; /Oe source/recipe are pinned at root:02cc:1102."
+      ],
+      "boundary_status": "REVIEWED",
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:10d4",
+      "offset": 4308,
+      "original_bytes_hex": "558bec8b5e068d47fcb920008bd899f7f98816d06c8bc39933c22bc2b90500d3f833c22bc22c048be55dca020090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "signed_div32_remainder_adjusted",
+      "sha256": "61a394972ed052ae62c001263494006962993aa1727147ce532af7343e51bd3b",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one 16-bit index at BP+6, RETF 2. AL returns selected byte (caller stores AL); AH retains index high byte, so do not return int. Saves SI/BP; no local allocation or DI save; DS/ES preserved.",
+      "boundary_evidence": [
+        "Preceding search helper ends RETF 4 at 0xce1d..0xce1f; this BP prologue starts at 0xce20.",
+        "RETF 2 at 0xce4f..0xce51; next BP prologue begins at 0xce52 with an independent eight-byte local frame.",
+        "Complete independently decoded interval root+[0xce20,0xce52) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "1 immediate far CALL sites independently decoded from original ordered relocation records; 1 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent."
+      ],
+      "call_sites": [
+        {
+          "file_offset": 11100,
+          "image_offset": 2908,
+          "kind": "far_call",
+          "relocated_segment_site": 2911,
+          "space": "root"
+        },
+        {
+          "file_offset": 54463,
+          "image_offset": 46271,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 46270
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident C-like scalar/data helper with simple register allocation and no segment-context changes; gameplay-state/table use is a naming hypothesis, not original symbol recovery.",
+        "Register-indexed [BX+SI] and [BX+SI+2] use pointer values loaded from DS:6292; they are not indexed absolute globals such as [BX+3fc4]. All five address-bearing DS fields have independent same-width root witnesses; two-word destination is eligible for word-pair v2."
+      ],
+      "boundary_status": "REVIEWED",
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:0b41:1a10",
+      "offset": 6672,
+      "original_bytes_hex": "558bec568b76068bde8bc6d1e3d1e38b3692628b088b5002890e485e89164a5e8bd88b3694628a00a2d26c5e8be55dca0200",
+      "original_name": null,
+      "segment": 2881,
+      "semantic_name_hypothesis": "select_record_and_kind",
+      "sha256": "271bf68260d92d47220a4a04417500beda18d470791495239a63fee8bab1df71",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 6; first argument near destination BP+0x0a (word pointer), second argument far source BP+6/+8; AX returns the near destination; BP frame, saves SI, no locals; LES changes ES",
+      "boundary_evidence": [
+        "Immutable root interval [0x125ae,0x125c6), 24 bytes; recursively decoded CFG has 12 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x125c3 ca0600 RETF 6",
+        "Original preceding 16 bytes: 07908976f2ebea905e5f8be55dca0a00; next 16 bytes after review interval: 558bec83c4f857561ec446068cc20507.",
+        "1 independent incoming direct call site(s): 0 relocated far CALLs; 1 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Preceding RETF10 occupies 0x125ab..0x125ae; next prologue is exactly 0x125c6. Original caller at 0x11d96 has 0e e8 14 08, with near destination pushed at 0x11d8f and far source words pushed at 0x11d90/0x11d93; AX is pushed as the next near-pointer argument."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 81303,
+          "image_offset": 73111,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 73110
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "id": "root:1101:159e",
+      "offset": 5534,
+      "original_bytes_hex": "558bec568b5e0ac47606268b0489078bc35e8be55dca0600",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "copy_far_word_to_near",
+      "sha256": "85ba3d32f4aa1ce6559f0e0454b47dc13c54a09bc01c44408b72f57beb03f332",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; first argument near base BP+8, second unsigned 16-bit index BP+6; returns far pointer DX:AX; BP frame, no locals or saved SI/DI; LES AX loads pointer and clobbers ES",
+      "boundary_evidence": [
+        "Immutable root interval [0x1a83c,0x1a855), 25 bytes; recursively decoded CFG has 11 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x1a852 ca0400 RETF 4",
+        "Original preceding 16 bytes: ecff76069a1a00e61f83c4025dca0200; next 16 bytes after review interval: 558bec83c4fe57568b7e088b452ee82c.",
+        "0 independent incoming direct call site(s): 0 relocated far CALLs; 0 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Preceding separate BP-frame function starts root 0x1a82a, calls CRT 1fe6:001a, and ends RETF2 at 0x1a839..0x1a83c. The candidate starts 55 8b ec at 0x1a83c; its RETF4 ends at 0x1a855, immediately followed by a separate 55 8b ec / local-frame prologue at 0x1a855. No alignment byte lies between them.",
+        "No incoming far CALL, PUSH CS / near CALL or relocated address pointer was found. Entry remains credible from the two independently decoded return/prologue boundaries and the internally complete Pascal leaf; reference labels are secondary hints, not boundary authority."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "medium application-support C hypothesis; no caller and no recovered original type/name",
+      "id": "root:1101:982c",
+      "offset": 38956,
+      "original_bytes_hex": "558becb80500f76606052d0003460893c447018cc25dca0400",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "lookup_packed_far_pointer",
+      "sha256": "30aa949c3a50a1d16b9dbd6230ea14e7c5cfb7785de8bc343b2324e4c8db8d6a",
+      "size": 25,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; one 16-bit value BP+6; AX returns old word at active context+0x2a; BP frame, no locals/saved SI/DI; BX context pointer and DX old value; segment registers preserved",
+      "boundary_evidence": [
+        "Immutable root interval [0x15fda,0x15ff0), 22 bytes; recursively decoded CFG has 9 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x15fed ca0200 RETF 2",
+        "Original preceding 16 bytes: 6f0111509a1c0a01118be55dca020090; next 16 bytes after review interval: 558bec57568b5e0ab92c008bfbbeee25.",
+        "6 independent incoming direct call site(s): 6 relocated far CALLs; 0 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Previous function RETF2 at 0x15fd6..0x15fd9, NOP at 0x15fd9; entry at 0x15fda. Sole RETF2 ends at 0x15ff0, exactly the next BP-frame/DI/SI prologue. Six original relocated far call sites ground the entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 76277,
+          "image_offset": 68085,
+          "kind": "far_call",
+          "relocated_segment_site": 68088,
+          "space": "root"
+        },
+        {
+          "file_offset": 99082,
+          "image_offset": 90890,
+          "kind": "far_call",
+          "relocated_segment_site": 90893,
+          "space": "root"
+        },
+        {
+          "file_offset": 128987,
+          "image_offset": 120795,
+          "kind": "far_call",
+          "relocated_segment_site": 120798,
+          "space": "root"
+        },
+        {
+          "file_offset": 128950,
+          "image_offset": 120758,
+          "kind": "far_call",
+          "relocated_segment_site": 120761,
+          "space": "root"
+        },
+        {
+          "file_offset": 157838,
+          "image_offset": 1902,
+          "kind": "far_call",
+          "relocated_segment_site": 1905,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 157730,
+          "image_offset": 1794,
+          "kind": "far_call",
+          "relocated_segment_site": 1797,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "id": "root:1101:4fca",
+      "offset": 20426,
+      "original_bytes_hex": "558bec8b1ec0258b572a8b460689472a8bc25dca0200",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "exchange_context_attribute",
+      "sha256": "cd1e308d4f1b4e4a89185dcf8378dfebef88ec0005f336fdedd2440375016606",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; first 16-bit delta BP+8 added to context+0x24, second BP+6 added to context+0x22; void return (AX retains second delta); BP frame, no locals/saved SI/DI, segment registers preserved",
+      "boundary_evidence": [
+        "Immutable root interval [0x160ee,0x16106), 24 bytes; recursively decoded CFG has 9 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x16102 ca0400 RETF 4",
+        "Original preceding 16 bytes: c47e0aab91ab8b460a8cc25f5dca0800; next 16 bytes after review interval: 558bec8b1ec025c446068947228c4724.",
+        "3 independent incoming direct call site(s): 3 relocated far CALLs; 0 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "Body ends at 0x16105; the observed byte 00 at 0x16105 is included as trailing alignment before the following independent entry. A compiler/assembler candidate must emit this complete interval; never trim output or add synthetic bytes.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Previous independent 50b8 leaf ends RETF8 exactly at 0x160ee. After body RETF4 and included zero at 0x16105, the called 50f6 leaf starts 55 8b ec at 0x16106."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 38726,
+          "image_offset": 30534,
+          "kind": "far_call",
+          "relocated_segment_site": 30537,
+          "space": "root"
+        },
+        {
+          "file_offset": 39051,
+          "image_offset": 30859,
+          "kind": "far_call",
+          "relocated_segment_site": 30862,
+          "space": "root"
+        },
+        {
+          "file_offset": 39022,
+          "image_offset": 30830,
+          "kind": "far_call",
+          "relocated_segment_site": 30833,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "id": "root:1101:50de",
+      "offset": 20702,
+      "original_bytes_hex": "558bec8b1ec0258b46080147248b46060147225dca040000",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "translate_context_origin",
+      "sha256": "14afe259cbcf652c43f2d980c8294a155d239d415aee58376585f3db12111136",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 10; first far destination BP+0x0c/+0x0e, then three byte values in word slots BP+0x0a/BP+8/BP+6; void return (AL retains third byte); BP frame saves SI, no locals; ES clobbered",
+      "boundary_evidence": [
+        "Immutable root interval [0x1e9dc,0x1ea02), 38 bytes; recursively decoded CFG has 15 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x1e9fe ca0a00 RETF 0xa",
+        "Original preceding 16 bytes: 7d068b4efce96fff5e5f8be55dca1000; next 16 bytes after review interval: 558bec5756c47e0ac576068a04260005.",
+        "1 independent incoming direct call site(s): 0 relocated far CALLs; 1 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "Body ends at 0x1ea01; the observed byte 90 at 0x1ea01 is included as trailing alignment before the following independent entry. A compiler/assembler candidate must emit this complete interval; never trim output or add synthetic bytes.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Preceding RETF16 ends at 0x1e9dc. Body RETF10 ends at 0x1ea01; NOP 0x1ea01 separates next prologue at 0x1ea02. Caller 0x1e962 passes a far destination and three zero byte slots."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 133475,
+          "image_offset": 125283,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 125282
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "id": "root:1e23:07ac",
+      "offset": 1964,
+      "original_bytes_hex": "558bec568b760c8a460a8e460e2688048a4608268844018a4606268844025e8be55dca0a0090",
+      "original_name": null,
+      "segment": 7715,
+      "semantic_name_hypothesis": "store_three_component_bytes",
+      "sha256": "15dca066f2615830501d8f0ba4d17ddd12ba655f606420e18589e33a9742ba0e",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 10; far destination BP+0x0c/+0x0e, far source BP+8/+0x0a, signed factor BP+6; void return (AL retains final scaled byte); BP frame saves DI/SI, no locals; ES clobbered; reads then writes each component in order",
+      "boundary_evidence": [
+        "Immutable root interval [0x1ea2e,0x1ea96), 104 bytes; recursively decoded CFG has 46 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x1ea93 ca0a00 RETF 0xa",
+        "Original preceding 16 bytes: 4502b9f3308ed95e5f8be55dca080090; next 16 bytes after review interval: 558bec83ec0456a1e81f8b16ea1f8bf0.",
+        "2 independent incoming direct call site(s): 0 relocated far CALLs; 2 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Preceding routine ends RETF8 at 0x1ea2a..0x1ea2d, then NOP at 0x1ea2d. Candidate begins at 0x1ea2e and ends at next prologue 0x1ea96. Caller pairs 0x1e979 and 0x1e9a2 pass two far byte pointers plus a factor word."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 133498,
+          "image_offset": 125306,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 125305
+        },
+        {
+          "file_offset": 133539,
+          "image_offset": 125347,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 125346
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "id": "root:1e23:07fe",
+      "offset": 2046,
+      "original_bytes_hex": "558bec57568b7e088b760c8e460a268a052ae4f76e06b93f0099f7f98cc28e460e2688048cc08ec28bd0268a45018cc32ae48bcaf76e068bd1b93f0099f7f98e460e268844018cc08ec38bd0268a45022ae48bdaf76e0699f7f98ec3268844025e5f8be55dca0a00",
+      "original_name": null,
+      "segment": 7715,
+      "semantic_name_hypothesis": "scale_three_component_bytes63",
+      "sha256": "dfb454de05c01a30faf997d213afd822043ad59b82698d65dcc17a886b9d8432",
+      "size": 104,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; first near record pointer BP+8, second 16-bit value BP+6; void or assigned-word return (AX retains value; caller ignores); BP frame, no locals/saved SI/DI; BX record pointer; segment registers unchanged",
+      "boundary_evidence": [
+        "Immutable root interval [0x1f9fc,0x1fa0c), 16 bytes; recursively decoded CFG has 7 reachable instructions and 1 RETF epilogue(s). Branch targets checked against instruction starts; indirect control explicitly noted below.",
+        "Return instruction(s): 0x1fa09 ca0400 RETF 4",
+        "Original preceding 16 bytes: 4c0111893ec0255e5f8be55dca060090; next 16 bytes after review interval: 558bec83c4ee57561e8bd82affd1e32e.",
+        "1 independent incoming direct call site(s): 0 relocated far CALLs; 1 PUSH CS / near CALL sequences. Individual bytes, positions and original ordered relocation indices are in call_sites.",
+        "No original MZ relocation word touches this interval, including a word starting one byte before the entry.",
+        "Preceding RETF6 at 0x1f9f8..0x1f9fb, NOP at 0x1f9fb; candidate prologue at 0x1f9fc. RETF4 ends at 0x1fa0c, where the next 55 8b ec / local-frame routine begins. Original caller 0x1f8d0 is PUSH CS / CALL; pushes SI then immediate 15."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 137425,
+          "image_offset": 129233,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 129232
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Ordinary BP-based far Pascal leaf with no calls, interrupts, static far-address field or original MZ relocations. Dynamic argument pointers do not themselves introduce fixups.",
+        "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
+      ],
+      "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "id": "root:1f74:02bc",
+      "offset": 700,
+      "original_bytes_hex": "558bec8b46068b5e088947205dca0400",
+      "original_name": null,
+      "segment": 8052,
+      "semantic_name_hypothesis": "set_near_record_word20",
+      "sha256": "f2e6324a3074352afb84dc7fc8998b428180f2f41505d504ee8ac2c7a39a0728",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

@@ -80,8 +80,12 @@ Use `--output build/workers/NAME/discovery.json` for worker discovery and
 `--output build/workers/NAME/context.json` for worker context; their CLI defaults
 write shared inventory diagnostics. Root refreshes shared oracle fixtures.
 Workers write only their assigned scratch directory, never canonical directories,
-acceptance tools or another worker's files. Use escalated shell execution if the
-Windows sandbox helper fails; this does not change the owned write scope.
+acceptance tools or another worker's files. Launch sandboxed workers with their
+scratch directory as the sandbox root (`-C build/workers/NAME`); they run repository
+commands after `cd` to the repository root. A sandbox rooted at the checkout fails
+setup on this machine. Tooling changes use a separate git worktree.
+Read docs/codegen-rules.md before source search; add a rule there only when an
+accepted component or a fresh contrast confirms it.
 
 Append `--trial LABEL` to the existing search command to produce worker-local
 `trials.json` and `summary.json`. This requires the supervisor card and source
