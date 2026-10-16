@@ -1,0 +1,138 @@
+{
+  "declarations": {
+    "externals": [
+      "CLEAR_FAR_BLOCK_FLAGS",
+      "FORWARD_FAR_BLOCK_FLAGS"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "FORWARD_FAR_BLOCK_FLAGS",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 20,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "CLEAR_FAR_BLOCK_FLAGS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 10,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "CLEAR_FAR_BLOCK_FLAGS",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "relocation_indices": [
+    1764
+  ],
+  "review_notes": [
+    "Callee body and original alias were reviewed before compilation; root+0x589a is outside the owner and independently establishes the exact segment:offset pair.",
+    "Only the complete wrapper is submitted for ownership; the reviewed callee and witness grant zero bytes."
+  ],
+  "schema": 1,
+  "symbols": {
+    "CLEAR_FAR_BLOCK_FLAGS": {
+      "entry_sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
+      "entry_target_id": "root:1101:25e4",
+      "kind": "far-code-entry",
+      "offset": 9700,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ae4250111",
+          "file_offset": 30874,
+          "image_offset": 22682,
+          "relocation_index": 584,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "root:1e23:04c6",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

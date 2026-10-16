@@ -1,4 +1,4 @@
-# Reconstruction continuation — 2026-10-11
+# Reconstruction continuation Ă˘â‚¬â€ť 2026-10-16
 
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
@@ -9,19 +9,33 @@ structure and 4,716 ordered relocation records remain unchanged.
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 1,412 |
+| Matching C | 1,432 |
 | Matching ASM | 51 |
 | Pinned runtime | 1,166 |
 | External drivers | 0 |
 | Unresolved identified game helpers | 220 |
-| Unknown/unclassified payload | 268,539 |
+| Unknown/unclassified payload | 268,519 |
 
-There are 31 accepted C components, one ASM component and twenty-one whole pinned
+There are 32 accepted C components, one ASM component and twenty-one whole pinned
 runtime members. Overlay C owns 752 bytes across fifteen complete components;
-resident ownership is 1,877 bytes. The identified game-helper subtotal is
+resident ownership is 1,897 bytes. The identified game-helper subtotal is
 1,632 bytes. Fifty-three source data-offset fixups and two runtime near fixups
-are proven. Original MZ relocation coverage remains 0/4,716. Structural RTLink
+are proven. One external far-call field additionally covers original root MZ
+relocation index 1764: coverage is now 1/4,716. Structural RTLink
 closure remains UNRECOVERED and behavior validation remains NOT_STARTED.
+
+## Ninth far-call milestone
+
+The [root far-call mode](far-call-binding.md) proves F5/T6 zero-addend LOC3
+CALL operands to separately reviewed direct entries with independent relocated
+original callers. It checks exact ordered segment-word relocation coverage and
+composes with both resident DGROUP data modes. Overlay/vector and TU routing
+remain separate debts. The complete 20-byte far-pointer wrapper at
+`root:1e23:04c6` adds one C component and covers root relocation index 1764.
+The independently reviewed 22-byte callee grants no ownership. Source names and
+resource/memory interpretation remain hypotheses; SUPPORT_CODE is kept separate
+from identified game helpers. Full validation and `python -m pytest -q tests`
+pass all 172 tests. No assets or locks changed.
 
 ## Eighth bounded wave
 

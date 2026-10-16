@@ -1,7 +1,7 @@
 """Honest reconstruction ownership metrics; unknown payload is explicit debt."""
 from collections import Counter
 
-from common import ROOT, read_json, write_json
+from common import ROOT, read_json, require, write_json
 from oracle import Oracle
 
 
@@ -14,6 +14,11 @@ def metrics(oracle=None, manifest=None):
         counts = Counter()
         for owner in owners:
             counts[owner["kind"]] += owner["size"]
+        covered = [index for owner in owners for index in owner.get("relocation_indices", [])]
+        require(all(type(i) is int and 0 <= i < len(space.relocations) for i in covered) and
+                len(covered) == len(set(covered)) and
+                all(len(r.get("relocation_indices", [])) == r.get("relocation_count", 0) for r in owners),
+                "Invalid/duplicate original relocation coverage indices")
         c = counts["MATCHING_C"]
         asm = counts["MATCHING_ASM"]
         runtime = counts["PINNED_RUNTIME"]
@@ -25,7 +30,8 @@ def metrics(oracle=None, manifest=None):
                      "exact_function_count": sum(r["kind"] in ("MATCHING_C", "MATCHING_ASM") for r in owners),
                      "pinned_runtime_component_count": sum(r["kind"] == "PINNED_RUNTIME" for r in owners),
                      "total_relocation_records": len(space.relocations),
-                     "proven_relocation_records": sum(r.get("relocation_count", 0) for r in owners)})
+                     "covered_relocation_indices": sorted(covered),
+                     "proven_relocation_records": len(covered)})
     targets = read_json(ROOT / "evidence/targets.json")["functions"]
     accepted = {r["target_id"] for r in manifest["owners"] if r["kind"] in ("MATCHING_C", "MATCHING_ASM")}
     game = [r for r in targets if r.get("classification") == "GAME_C"]
@@ -48,7 +54,7 @@ def metrics(oracle=None, manifest=None):
               "unresolved_reviewed_target_count": len(targets)-len(accepted),
               "candidate_function_count": len(attempted),
               "total_relocation_records": sum(len(s.relocations) for s in oracle.spaces.values()),
-              "proven_relocation_records": sum(r.get("relocation_count", 0) for r in manifest["owners"]),
+              "proven_relocation_records": sum(r["proven_relocation_records"] for r in rows),
               "proven_candidate_fixups": sum(r.get("fixup_count", 0) for r in manifest["owners"]),
               "structural_link_status": manifest["structural_link_status"],
               "behavior_oracle_status": manifest["behavior_oracle_status"],

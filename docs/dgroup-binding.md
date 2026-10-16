@@ -132,3 +132,13 @@ MZ word touching the owner remain rejected. The equations are DS-relative and
 hold for every DS value. They establish no runtime DS lifetime, shared original
 symbol identity, data ownership, overlay load/placement, natural link or behavior.
 Far pointers and relocation-generating code remain unsupported.
+
+
+## Composition with root far calls
+
+The explicit [external-far-call-v1](far-call-binding.md) mode reuses these
+resident byte/word and reviewed word-pair equations. Its `data` object chooses
+the original data mode and startup frame; the combined `symbols` table keeps
+each independent witness. Proven CALL FAR operands may coexist with data
+fields, and only their segment words create original MZ obligations. The
+standalone data modes, including overlay v1, keep their existing refusals.

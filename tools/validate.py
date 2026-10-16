@@ -31,6 +31,12 @@ def check_manifest(oracle, manifest):
         require(all(owner[key] == target[key] for key in ("space", "segment", "offset", "size")),
                 "Owner disagrees with reviewed oracle extent")
         start = space.position(owner["segment"], owner["offset"])
+        touched = [r["index"] for r in space.relocations
+                   if start-1 <= r["image_offset"] < start+owner["size"]]
+        require(owner.get("relocation_indices", []) == touched and
+                owner.get("relocation_count", 0) == len(touched) and
+                recipe.get("relocation_indices", []) == touched,
+                "Owner/recipe original relocation indices differ from extent obligations")
         span = set(range(start, start+owner["size"]))
         require(not owned.setdefault(space.name, set()).intersection(span), "Overlapping canonical owners")
         owned[space.name].update(span)
@@ -95,6 +101,9 @@ def validate(run_tests=True):
         require(report["object_sha256"] == recipe["object_sha256"], "Accepted OMF identity changed")
         require(report["fixups"] == owner.get("fixup_count", 0) and
                 report["relocations"] == owner.get("relocation_count", 0), "Owner obligation coverage changed")
+        require(report.get("covered_relocation_indices", []) == owner.get("relocation_indices", []) and
+                report.get("covered_relocation_indices", []) == recipe.get("relocation_indices", []),
+                "Fresh original relocation index coverage changed")
         accepted.append(report)
     if run_tests:
         result = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], cwd=ROOT)
@@ -102,7 +111,7 @@ def validate(run_tests=True):
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
-                         "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16"]}
+                         "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses and exact ordered MZ coverage"]}
     write_json(ROOT / "build/validation/report.json", report)
     return report
 

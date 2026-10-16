@@ -19,7 +19,12 @@ support zero addends or reviewed word pairs; the explicit overlay mode permits
 only byte/word zero addends with root witnesses. No bytes are
 masked, patched or normalized. A separate
 [runtime near-code gate](runtime-near-binding.md) supports anchored F0/T6
-self-relative offset16. Unsupported fixup modes remain refused.
+self-relative offset16. The narrow [root CALL FAR gate](far-call-binding.md)
+supports external zero-addend F5/T6 LOC3 operands to reviewed direct entries
+with independent original relocated callers. Every segment word must match
+its exact ordered MZ relocation, with indices pinned in binding, recipe and
+owner. It composes with the resident DGROUP modes. The far-call mode refuses
+overlay owners, vectors and near/TU calls. Other fixup modes remain refused.
 
 Comparisons use the complete emitted segment, never an oracle-sized slice.
 Byte similarity and first-difference offsets are diagnostic. Promotion reruns
@@ -82,8 +87,8 @@ Current component counts, proven fields and unresolved targets are recorded in
 [reconstruction progress](reconstruction-progress.md), backed by canonical
 layout/manifest.json and fresh validation metrics. The bounded wave receipts
 record exhausted compiler outputs and concrete provider blockers. Far-call/MZ
-acceptance remains unimplemented; agreeing conditional equations, shared archive
-declarations or partially closed provider trees grant no ownership.
+acceptance is limited to the explicit root mode above; agreeing conditional
+equations, shared archive declarations or partially closed provider trees grant no ownership.
 
 Canonical source and binding file pins use the repository's LF checkout policy.
 Source publication normalizes its frozen independent copy to LF, then compiles

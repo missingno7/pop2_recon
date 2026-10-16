@@ -1,0 +1,126 @@
+{
+  "canonical_head_before_wave": "7e80d72fa8e8e0fa32ee4a5dff916b626ae708db",
+  "compiler_observations": {
+    "exemplar_recipe": "recipes/forward_far_block_flags.json",
+    "same_file_probe": {
+      "complete_code_hex": "558bec8b4606405dca020090558becff76060ee80000408be55dca020090",
+      "fixups": [
+        {
+          "displacement": null,
+          "field_width": 2,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "SAME_FILE_INCREMENT",
+              "zero_displacement": true
+            }
+          },
+          "kind": "fixup",
+          "loc_type": 1,
+          "segment": "UNIT_TEXT",
+          "segment_index": 1,
+          "segment_offset": 20,
+          "self_relative": true,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "SAME_FILE_INCREMENT",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "object_sha256": "20d5f4f268f5c0b6addf374b2fe335e1e0c68a94e50d61a30626e1f46d0ad104",
+      "observation": "PUSH CS at CODE+18; E8 at +19; self-relative external LOC1 field at +20. Research only; multiple publics and near binding are refused by the new mode.",
+      "profile": "msc600",
+      "source_sha256": "369d906709cda1fdcab074f457875fbab0937535f94940033e933c2f7bddc47a",
+      "source_text": "int far pascal SAME_FILE_INCREMENT(int value)\n{\n    return value + 1;\n}\nint far pascal SAME_FILE_CALL(int value)\n{\n    return SAME_FILE_INCREMENT(value) + 1;\n}\r\n",
+      "staged_source_sha256": "332ef69fae9118e97de48818aa64e7a900dffa2a26623b08bbbb360cee0a11a3"
+    }
+  },
+  "diagnostic_census": {
+    "command": "python tools/discover.py --output build/workers/wave9_farcall_sol/discovery.json",
+    "decoded_push_cs_near_pairs_by_space": {
+      "overlay-10": 0,
+      "overlay-11": 0,
+      "overlay-12": 0,
+      "overlay-13": 0,
+      "overlay-14": 0,
+      "overlay-15": 0,
+      "overlay-16": 0,
+      "overlay-17": 0,
+      "overlay-2": 3,
+      "overlay-3": 0,
+      "overlay-4": 0,
+      "overlay-5": 0,
+      "overlay-6": 0,
+      "overlay-7": 0,
+      "overlay-8": 0,
+      "overlay-9": 3,
+      "root": 426
+    },
+    "discovery_sha256": "8ae69928603b14ede90e4480a02ecada6a320f90e504270fa238db31e00da3d4",
+    "filter": "Deduplicate space/start; fully linearly decode tentative extent; return stop; only direct 9A calls; destinations below root manager region 0x22030; touching relocation site set equals CALL segment-word set.",
+    "limits": "Not boundary review, DS-shape review, independent callee grounding, compiler matching or FIXUPP-order proof. Supplied ~592 frontier has broader recovery scope.",
+    "root_direct_return_leads": 91,
+    "root_far_call_extents": 249,
+    "statistics": {
+      "call_edge_count": 1075,
+      "candidate_count": 2035,
+      "cfg_linked_far_call_sites": 0,
+      "cfg_recovered_callers": 0,
+      "decoded_entry_count": 827,
+      "prologue_only_candidates": 1208,
+      "relocated_pointer_sites": 4716
+    }
+  },
+  "original_facts": {
+    "callee": "root:1101:25e4",
+    "callee_bytes_unowned": 22,
+    "covered_root_relocation_indices": [
+      1764
+    ],
+    "independent_root_call": {
+      "bytes_hex": "9ae4250111",
+      "image_offset": 22682,
+      "relocation_index": 584
+    },
+    "manager_stub_not_accepted": {
+      "offset": 3361,
+      "prefix_hex": "e834f8ea0e00da25",
+      "segment": 8707,
+      "space": "root"
+    },
+    "overlay_root_call_observed_not_accepted": {
+      "bytes_hex": "9ae4250111",
+      "image_offset": 25559,
+      "relocation_index": 766,
+      "space": "overlay-2"
+    },
+    "owner": "root:1e23:04c6",
+    "owner_bytes": 20
+  },
+  "schema": 1,
+  "source_hypotheses": [
+    "Forwarded argument is a far pointer; result is unspecified/void.",
+    "Names and resource/heap interpretation are provisional; SUPPORT_CODE is not counted as identified game code.",
+    "Same-CS calls do not establish original TU membership."
+  ],
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "validation": {
+    "full": "python tools/validate.py: PASS; 33 exact C/ASM components; 1432 C, 51 ASM, 1166 pinned runtime bytes; 1/4716 original relocation records",
+    "pytest": "python -m pytest -q tests: 172 passed",
+    "strict_promotion": "Fresh verify-only and publication passed for complete 20-byte wrapper."
+  }
+}
