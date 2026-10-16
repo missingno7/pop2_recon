@@ -7016,6 +7016,121 @@
       "size": 24,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; saves DI/SI, no BP frame/locals, ES clobbered; scalar result unestablished.",
+      "boundary_evidence": [
+        "Predecessor ends in RETF at 0x48fd.",
+        "RETF at 0x490f immediately precedes inverse helper at 0x4910.",
+        "Complete independently decoded interval root+[0x48fe,0x4910) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "5 immediate far CALL sites independently decoded from original ordered relocation records; 0 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent.",
+        "Wave9 immediate review rechecked immutable bytes, predecessor RETF, complete decode, successor entry, all reviewed callers and absence of touching MZ words; compiler padding is included where present."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a3e1ccc02",
+          "file_offset": 16731,
+          "image_offset": 8539,
+          "kind": "far_call",
+          "original_instruction_address": "0x215b",
+          "relocated_segment_site": 8542,
+          "relocation_index": 141,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a3e1ccc02",
+          "file_offset": 16992,
+          "image_offset": 8800,
+          "kind": "far_call",
+          "original_instruction_address": "0x2260",
+          "relocated_segment_site": 8803,
+          "relocation_index": 142,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a3e1ccc02",
+          "file_offset": 195286,
+          "image_offset": 10518,
+          "kind": "far_call",
+          "original_instruction_address": "0x2916",
+          "relocated_segment_site": 10521,
+          "relocation_index": 129,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a3e1ccc02",
+          "file_offset": 262746,
+          "image_offset": 1114,
+          "kind": "far_call",
+          "original_instruction_address": "0x45a",
+          "relocated_segment_site": 1117,
+          "relocation_index": 7,
+          "space": "overlay-13"
+        },
+        {
+          "bytes_hex": "9a3e1ccc02",
+          "file_offset": 268036,
+          "image_offset": 1524,
+          "kind": "far_call",
+          "original_instruction_address": "0x5f4",
+          "relocated_segment_site": 1527,
+          "relocation_index": 1,
+          "space": "overlay-15"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident independently called structure copy/clear helper; fresh natural MSC C reproduces the complete component. Specific game-state purpose and original type/name remain hypotheses."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:1c3e",
+      "offset": 7230,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "save_twenty_byte_state",
+      "sha256": "303f62493f656324ac751e2d1115815c9b7f2bc57ba355d5a25552d2ee5dab4a",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; Pascal versus cdecl is indistinguishable with zero arguments. AX is zero on return; saves DI; no BP frame or locals; ES clobbered.",
+      "boundary_evidence": [
+        "Previous copy helper ends in RETF at root+0x40c3.",
+        "NOP at 0x40d3 precedes next direct global-test entry at 0x40d4.",
+        "Complete independently decoded interval root+[0x40c4,0x40d4) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "Includes original trailing NOP at root+0x40d3: the return body is 15 bytes, next entry is even aligned. This is a compiler-padding hypothesis independently bounded by the next entry; a grinder must emit the entire 16-byte CODE segment, never append padding by hand.",
+        "1 immediate far CALL sites independently decoded from original ordered relocation records; 0 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent.",
+        "Wave9 immediate review rechecked immutable bytes, predecessor RETF, complete decode, successor entry, all reviewed callers and absence of touching MZ words; compiler padding is included where present."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0414cc02",
+          "file_offset": 67166,
+          "image_offset": 58974,
+          "kind": "far_call",
+          "original_instruction_address": "0xe65e",
+          "relocated_segment_site": 58977,
+          "relocation_index": 1178,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident independently called structure copy/clear helper; fresh natural MSC C reproduces the complete component. Specific game-state purpose and original type/name remain hypotheses."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:1404",
+      "offset": 5124,
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "clear_five_byte_state",
+      "sha256": "41019e3afd55f48a2835767bf04d803026e8cf4387c2eaf01b7a26471044743b",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

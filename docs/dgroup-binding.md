@@ -110,6 +110,53 @@ remain hypotheses. No data ownership, runtime DS proof, overlay binding,
 far-call binding or MZ relocation coverage follows. Nine additional refusal
 and equation tests preserve the narrow member rules and legacy behavior.
 
+## Resident immediate string bases
+
+`external-dgroup-offset16-v3` is a standalone resident mode adding only
+`MOV SI/DI,imm16` fields with LOC1 offset16, F5/T6, raw A=0 and omitted D:
+`S - F + A = alias_offset` for every F. Complete-segment, empty-secondary-storage,
+frozen-object, startup-DS, literal-byte and touching-MZ-word checks still apply.
+F1/group frames, segment targets and other immediate instructions remain refused.
+The v1, v2, overlay and composed far-call modes keep their existing rules.
+
+A `near-data-address-alias` has an offset and **no width or members**. Its
+independent original witness must be outside the complete owner: either an
+unprefixed direct DS access at the exact offset, or `MOV SI/DI,imm16` with a
+frozen `base_use` block that consumes it in the checked string idiom. The block
+must contain the witness on an instruction boundary and have no touching MZ
+word. Its `transfer_bytes` is rechecked from string widths and literal counts.
+This grounds an address/transfer footprint, never aggregate allocation bounds,
+original type, forward direction/DF, data ownership or runtime DS lifetime.
+Neither the instruction nor its context may overlap the candidate.
+
+Straight-line code must reach exactly one adjacent, unprefixed `push ds; pop es`
+pair before any string. Every other segment write (including FS/GS and explicit
+LDS/LES/LFS/LGS/LSS loads), system context transfer, call, interrupt and branch fails. Only MOVSB/MOVSW, F3 MOVSW and F3 STOSB encodings are supported;
+other strings, overrides, operand/address-size prefixes, F2 and LOCK fail.
+REP needs a reached positive literal CX count. Every string pointer must still
+come from a symbolic immediate SI/DI base, and every field must feed a string.
+Literal address replacements, intervening pointer writes and instructions after
+return (except alignment NOPs) fail. General pointer dataflow remains unsupported.
+
+Fresh [MSC 6.00 contrasts](../evidence/toolchain/immediate-dgroup-msc600.json)
+with `/c /AM /Oe /Gs /Zl /Gc` and `/O` give identical objects: five-byte extern
+struct assignment emits MOVSW/MOVSW/MOVSB; 20/64-byte assignment emits REP MOVSW;
+`#pragma intrinsic(memset)` plus `memset(state, 0, sizeof(state))` emits REP STOSB.
+Extern fields use F5/T6, A=0, D omitted. Same-file initialized/static definitions
+instead use F1/T4 _DATA/_BSS and 40 bytes of secondary storage; tentative
+external-linkage definitions emit COMDEF. All these storage forms remain refused.
+
+[save_twenty_byte_state.c](../src/save_twenty_byte_state.c) proves all 18 bytes at
+`root:02cc:1c3e` (two equations, 14 literal bytes); separate inverse helper
+`0x4910` grounds both bases and a 20-byte transfer.
+[clear_five_byte_state.c](../src/clear_five_byte_state.c) proves all 16 bytes at
+`root:02cc:1404`, including the NOP (one equation, 14 literal bytes); separate
+copy `0x40a4` grounds its base and five-byte transfer. Boundaries, incoming
+callers and absent MZ obligations were independently rechecked. Seven of the ten
+reviewed helpers fit this shape; parameter/zero pointers and DX-to-DI propagation
+remain outside v3. Further ownership still requires independent witnesses and
+complete fresh compiler equality.
+
 ## Overlay byte and word fields
 
 `external-overlay-dgroup-offset16-v1` applies the same zero-addend F5/T6 LOC1

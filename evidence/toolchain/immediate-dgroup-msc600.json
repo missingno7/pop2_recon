@@ -1,0 +1,425 @@
+{
+  "examples": [
+    {
+      "externals": [
+        "SAVED",
+        "CURRENT",
+        "SAVE_FIVE_BYTE_STATE"
+      ],
+      "fields": [
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 2,
+              "kind": "external",
+              "method": 6,
+              "name": "CURRENT",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 6,
+          "raw_addend": 0,
+          "target": {
+            "index": 2,
+            "kind": "external",
+            "method": 6,
+            "name": "CURRENT",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "SAVED",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 3,
+          "raw_addend": 0,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "SAVED",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "name": "copy5",
+      "object_sha256": "62dab0b3e9ad9eb6d88ddd7a19d60e6fa3c6fbeb37a81617f0147daf73d5e5f4",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": true,
+      "publics": [
+        "SAVE_FIVE_BYTE_STATE"
+      ],
+      "raw_code_hex": "5756bf0000be00001e07a5a5a45e5fcb",
+      "segment_extents": {
+        "CONST": 0,
+        "UNIT_TEXT": 16,
+        "_BSS": 0,
+        "_DATA": 0
+      },
+      "source": "struct Record { char bytes[5]; };\nextern struct Record saved, current;\nvoid save_five_byte_state(void) { saved = current; }\n",
+      "source_sha256": "48c90f73cd36333bb6f11f956e751c41880fbdbe5fddd9158ec80e97e2dfcacb"
+    },
+    {
+      "externals": [
+        "SAVED",
+        "CURRENT",
+        "SAVE_TWENTY_BYTE_STATE"
+      ],
+      "fields": [
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 2,
+              "kind": "external",
+              "method": 6,
+              "name": "CURRENT",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 6,
+          "raw_addend": 0,
+          "target": {
+            "index": 2,
+            "kind": "external",
+            "method": 6,
+            "name": "CURRENT",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "SAVED",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 3,
+          "raw_addend": 0,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "SAVED",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "name": "copy20",
+      "object_sha256": "ffaa1c4fddf3996735821d76446872d3ac8f659d5794fc3a0105fd0d9f43782b",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": true,
+      "publics": [
+        "SAVE_TWENTY_BYTE_STATE"
+      ],
+      "raw_code_hex": "5756bf0000be00001e07b90a00f3a55e5fcb",
+      "segment_extents": {
+        "CONST": 0,
+        "UNIT_TEXT": 18,
+        "_BSS": 0,
+        "_DATA": 0
+      },
+      "source": "struct Record { char bytes[20]; };\nextern struct Record saved, current;\nvoid save_twenty_byte_state(void) { saved = current; }\n",
+      "source_sha256": "4627e0e23ba2f4b5d618371101236fe063df3ab72380fd397575951cf804505b"
+    },
+    {
+      "externals": [
+        "SAVED",
+        "CURRENT",
+        "COPY_RECORD"
+      ],
+      "fields": [
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 2,
+              "kind": "external",
+              "method": 6,
+              "name": "CURRENT",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 6,
+          "raw_addend": 0,
+          "target": {
+            "index": 2,
+            "kind": "external",
+            "method": 6,
+            "name": "CURRENT",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "SAVED",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 3,
+          "raw_addend": 0,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "SAVED",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "name": "copy64",
+      "object_sha256": "230b0cb6fcb9593e14d34d3028aeb4d35975e5e538f637617d8b775765e429ca",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": true,
+      "publics": [
+        "COPY_RECORD"
+      ],
+      "raw_code_hex": "5756bf0000be00001e07b92000f3a55e5fcb",
+      "segment_extents": {
+        "CONST": 0,
+        "UNIT_TEXT": 18,
+        "_BSS": 0,
+        "_DATA": 0
+      },
+      "source": "struct Record { char bytes[64]; };\nextern struct Record saved, current;\nvoid copy_record(void) { saved = current; }\n",
+      "source_sha256": "0ae4610c20aa7f9e7b998df6a5ab17027cabd3313c46d0030e1d923940dcb88a"
+    },
+    {
+      "externals": [
+        "STATE",
+        "CLEAR_FIVE_BYTE_STATE"
+      ],
+      "fields": [
+        {
+          "displacement": null,
+          "frame": {
+            "kind": "target_frame",
+            "target": {
+              "index": 1,
+              "kind": "external",
+              "method": 6,
+              "name": "STATE",
+              "zero_displacement": true
+            }
+          },
+          "loc_type": 1,
+          "offset": 4,
+          "raw_addend": 0,
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "STATE",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "name": "clear5",
+      "object_sha256": "0f1e1eceb9f3fc65e599636ef72ddad3303f282ecab74b0936568e3991b0e5b5",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": true,
+      "publics": [
+        "CLEAR_FIVE_BYTE_STATE"
+      ],
+      "raw_code_hex": "572bc0bf0000b905001e07f3aa5fcb90",
+      "segment_extents": {
+        "CONST": 0,
+        "UNIT_TEXT": 16,
+        "_BSS": 0,
+        "_DATA": 0
+      },
+      "source": "extern char state[5];\nvoid *memset(void *, int, unsigned);\n#pragma intrinsic(memset)\nvoid clear_five_byte_state(void) { memset(state, 0, sizeof(state)); }\n",
+      "source_sha256": "1772dfb6025325d98a9562f77ee73e7c87873cba3ac070a86c0b8d69006e281f"
+    },
+    {
+      "name": "defined20",
+      "object_sha256": "b7d4091f9d479099f3590b85f3d3bb559e0a8e22c533be2dfe7355d038091ccd",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": false,
+      "refusal": "Unsupported OMF COMDEF record 0xb0 from same-file tentative definitions; no acceptance or storage exception.",
+      "source": "struct Record { char bytes[20]; };\nstruct Record saved, current;\nvoid copy_record(void) { saved = current; }\n",
+      "source_sha256": "ac21ad72604adf0b16e1f921b275a52e77e4a38ec74182440428704069651606"
+    },
+    {
+      "externals": [
+        "COPY_RECORD"
+      ],
+      "fields": [
+        {
+          "displacement": null,
+          "frame": {
+            "index": 1,
+            "kind": "group",
+            "name": "DGROUP"
+          },
+          "loc_type": 1,
+          "offset": 6,
+          "raw_addend": 20,
+          "target": {
+            "index": 2,
+            "kind": "segment",
+            "method": 4,
+            "name": "_DATA",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": null,
+          "frame": {
+            "index": 1,
+            "kind": "group",
+            "name": "DGROUP"
+          },
+          "loc_type": 1,
+          "offset": 3,
+          "raw_addend": 0,
+          "target": {
+            "index": 2,
+            "kind": "segment",
+            "method": 4,
+            "name": "_DATA",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "name": "initialized20",
+      "object_sha256": "727f6a25203104a2524244afb827ccbef70862358f381d5b4822c7b0ca5156a5",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": true,
+      "publics": [
+        "SAVED",
+        "CURRENT",
+        "COPY_RECORD"
+      ],
+      "raw_code_hex": "5756bf0000be14001e07b90a00f3a55e5fcb",
+      "segment_extents": {
+        "CONST": 0,
+        "UNIT_TEXT": 18,
+        "_BSS": 0,
+        "_DATA": 40
+      },
+      "source": "struct Record { char bytes[20]; };\nstruct Record saved = {{0}}, current = {{0}};\nvoid copy_record(void) { saved = current; }\n",
+      "source_sha256": "c4999d35bb1f933546b7c5675b95abd565fe04e95c94b2b1ece06ed7df517f96"
+    },
+    {
+      "externals": [
+        "COPY_RECORD"
+      ],
+      "fields": [
+        {
+          "displacement": null,
+          "frame": {
+            "index": 1,
+            "kind": "group",
+            "name": "DGROUP"
+          },
+          "loc_type": 1,
+          "offset": 6,
+          "raw_addend": 0,
+          "target": {
+            "index": 4,
+            "kind": "segment",
+            "method": 4,
+            "name": "_BSS",
+            "zero_displacement": true
+          }
+        },
+        {
+          "displacement": null,
+          "frame": {
+            "index": 1,
+            "kind": "group",
+            "name": "DGROUP"
+          },
+          "loc_type": 1,
+          "offset": 3,
+          "raw_addend": 20,
+          "target": {
+            "index": 4,
+            "kind": "segment",
+            "method": 4,
+            "name": "_BSS",
+            "zero_displacement": true
+          }
+        }
+      ],
+      "name": "static20",
+      "object_sha256": "b7205e2add78e53339e528d7a3db3464f7baaa41c3cd78c005691d1f04e61995",
+      "optimizations": [
+        "/Oe",
+        "/O"
+      ],
+      "parsed": true,
+      "publics": [
+        "COPY_RECORD"
+      ],
+      "raw_code_hex": "5756bf1400be00001e07b90a00f3a55e5fcb",
+      "segment_extents": {
+        "CONST": 0,
+        "UNIT_TEXT": 18,
+        "_BSS": 40,
+        "_DATA": 0
+      },
+      "source": "struct Record { char bytes[20]; };\nstatic struct Record saved, current;\nvoid copy_record(void) { saved = current; }\n",
+      "source_sha256": "e3b7565c586919bc7a607dcad4d2ae61b54a5b032d5800a631722da849720769"
+    }
+  ],
+  "flags_common": [
+    "/c",
+    "/AM",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "profile": "msc600",
+  "schema": 1,
+  "scope": "Fresh compiler observations, separate from original-byte target evidence. Extern examples have LOC1 F5/T6 zero-addend immediate fields and empty secondary segments. Same-file initialized/static definitions use F1/T4 _DATA/_BSS and secondary storage; no new acceptance for these or COMDEF. Types, original TU/compiler/link placement remain hypotheses.",
+  "tool_identity": "layout/toolchain.lock.json"
+}

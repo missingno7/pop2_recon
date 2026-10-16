@@ -31,6 +31,104 @@ def direct_operand(insn):
     return operand
 
 
+IMMEDIATE_MODE = "external-dgroup-offset16-v3"
+
+
+def immediate_base(insn):
+    """The freshly observed 16-bit MOV SI/DI,imm16 address fields only."""
+    _, xc = _capstone()
+    require(len(insn.bytes) == 3 and insn.bytes[0] in (0xbe, 0xbf) and
+            not any(insn.prefix) and insn.imm_offset == 1 and insn.imm_size == 2 and
+            len(insn.operands) == 2 and insn.operands[0].type == xc.X86_OP_REG and
+            insn.operands[0].reg in (xc.X86_REG_SI, xc.X86_REG_DI) and
+            insn.operands[1].type == xc.X86_OP_IMM,
+            "Binding needs MOV SI/DI,imm16 as a string address base")
+    return insn.operands[0].reg, insn.operands[1].imm & 0xffff
+
+
+def preserve_segments(rows, allowed_calls=(), *, es_ds=False):
+    cs, xc = _capstone()
+    for n, insn in enumerate(rows):
+        pair = (es_ds and n > 0 and bytes(insn.bytes) == b"\x07" and
+                bytes(rows[n-1].bytes) == b"\x1e")
+        forbidden = set(insn.groups).intersection((cs.CS_GRP_CALL, cs.CS_GRP_INT, cs.CS_GRP_IRET))
+        segments = (xc.X86_REG_DS, xc.X86_REG_ES, xc.X86_REG_SS, xc.X86_REG_CS)
+        if es_ds:
+            # The 16-bit decoder also recognizes later FS/GS instructions.
+            # v3 permits only ES:=DS; leave the legacy modes unchanged.
+            segments += (xc.X86_REG_FS, xc.X86_REG_GS)
+        writes = set(insn.regs_access()[1]).intersection(segments)
+        # Capstone omits implicit segment writes for LFS/LGS/LSS and marks
+        # even POP ES privileged. Check the actual context writers explicitly.
+        modern_context = es_ds and insn.mnemonic in (
+            "lfs", "lgs", "lss", "sysenter", "sysexit", "syscall", "sysret", "sysretq", "rsm")
+        require((insn.address in allowed_calls or not forbidden) and not modern_context and
+                insn.mnemonic not in ("int", "into", "iret", "iretd", "lds", "les") and
+                (not writes or (pair and writes == {xc.X86_REG_ES})),
+                "Near-data binding helper changes segment context or calls unknown code")
+
+
+def string_context(rows, address_fields):
+    """Straight-line ES:=DS idiom with symbolic SI/DI bases and literal counts.
+
+    The count is a transfer footprint, never an allocation/forward-DF proof.
+    No generic segment dataflow, branches, pointer arithmetic or prefixes.
+    """
+    cs, xc = _capstone()
+    bases, transferred = {}, {at: 0 for at in address_fields}
+    es_ds, pairs, count, returned = False, 0, None, False
+    string_names = {stem + suffix for stem in ("movs", "stos", "lods", "cmps", "scas", "ins", "outs")
+                    for suffix in ("b", "w", "d", "q")}
+    for n, insn in enumerate(rows):
+        raw = bytes(insn.bytes)
+        require(not set(insn.groups).intersection((cs.CS_GRP_JUMP, cs.CS_GRP_CALL,
+                                                   cs.CS_GRP_INT, cs.CS_GRP_IRET)) and
+                not insn.mnemonic.startswith("loop"), "Immediate binding needs straight-line code")
+        require(not returned or raw == b"\x90", "Only alignment NOPs may follow the return")
+        if raw == b"\x1e":
+            require(n+1 < len(rows) and bytes(rows[n+1].bytes) == b"\x07",
+                    "PUSH DS must be immediately followed by POP ES")
+        if raw == b"\x07":
+            require(n > 0 and bytes(rows[n-1].bytes) == b"\x1e",
+                    "POP ES lacks the exact PUSH DS pair")
+            es_ds, pairs = True, pairs+1
+        is_string = insn.mnemonic.split()[-1] in string_names
+        if is_string:
+            require(raw in (b"\xa4", b"\xa5", b"\xf3\xa5", b"\xf3\xaa"),
+                    "Only MOVSB/MOVSW, F3 MOVSW and F3 STOSB strings are supported")
+            require(es_ds and pairs == 1, "String destination lacks the reached ES=DS pair")
+            repeat = raw[0] == 0xf3
+            require(not repeat or (count is not None and count > 0),
+                    "REP string needs a positive literal CX count")
+            amount = (count if repeat else 1) * (2 if raw[-1] in (0xa5, 0xab) else 1)
+            regs = [xc.X86_REG_DI] + ([xc.X86_REG_SI] if raw[-1] in (0xa4, 0xa5) else [])
+            for reg in regs:
+                require(reg in bases, "String pointer lacks a symbolic immediate address base")
+                transferred[bases[reg]] += amount
+            if repeat:
+                count = 0
+            continue
+        require(not any(insn.prefix), "Immediate binding refuses non-string prefixes")
+        writes = set(insn.regs_access()[1])
+        for reg in (xc.X86_REG_SI, xc.X86_REG_DI):
+            if reg in writes:
+                bases.pop(reg, None)
+        if xc.X86_REG_CX in writes or xc.X86_REG_CL in writes or xc.X86_REG_CH in writes:
+            count = None
+        if len(raw) == 3 and raw[0] in (0xbe, 0xbf):
+            reg, _ = immediate_base(insn)
+            field = insn.address+insn.imm_offset
+            require(field in address_fields, "Immediate address lacks a symbolic candidate fixup")
+            bases[reg] = field
+        if len(raw) == 3 and raw[0] == 0xb9:
+            count = struct.unpack_from("<H", raw, 1)[0]
+        if cs.CS_GRP_RET in insn.groups:
+            returned = True
+    require(pairs == 1 and transferred and all(0 < n <= 65536 for n in transferred.values()),
+            "Immediate address fields must feed the single ES=DS string idiom")
+    return transferred
+
+
 def declarations(module):
     return {"segments": module.segment_defs, "groups": module.groups,
             "publics": module.publics, "externals": module.externals}
@@ -43,7 +141,7 @@ def fixes(module):
 def ground(binding, target, oracle):
     """Recheck frozen original witnesses outside the contribution being judged."""
     require(binding["schema"] == 1 and binding["mode"] in ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
-                                                        "external-overlay-dgroup-offset16-v1"),
+                                                        "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE),
             "Unsupported binding proof mode")
     require(binding["target_id"] == target["id"] and
             binding["target_sha256"] == sha(oracle.data), "Binding belongs to another target/oracle")
@@ -86,7 +184,44 @@ def ground(binding, target, oracle):
     symbols = binding["symbols"]
     spans = set()
     for name, symbol in symbols.items():
-        offset, width = symbol["offset"], symbol["width"]
+        if binding["mode"] == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias":
+            offset = symbol["offset"]
+            require(symbol["group"] == "DGROUP" and type(offset) is int and 0 <= offset < 65536 and
+                    "width" not in symbol and "members" not in symbol,
+                    "Unsupported grounded address alias (no width is inferred)")
+            require(offset not in spans, "Grounded data aliases overlap")
+            spans.add(offset)
+            require(symbol.get("witnesses"), "Address alias has no independent witness")
+            for spec in symbol["witnesses"]:
+                at, raw = witness(spec)
+                rows = instructions(raw)
+                require(len(rows) == 1, "Address witness must be one complete instruction")
+                if spec["operand_kind"] == "direct":
+                    operand = direct_operand(rows[0])
+                    require(rows[0].disp_offset == spec["operand_offset"] and
+                            (operand.mem.disp & 0xffff) == offset,
+                            "Data witness does not ground this address")
+                else:
+                    require(spec["operand_kind"] == "immediate", "Unsupported address witness operand")
+                    _, value = immediate_base(rows[0])
+                    require(spec["operand_offset"] == rows[0].imm_offset and value == offset,
+                            "Immediate witness does not ground this address")
+                    use_at, use_raw = witness(spec["base_use"])
+                    use_rows = instructions(use_raw)
+                    relative = at-use_at
+                    require(any(i.address == relative and bytes(i.bytes) == raw for i in use_rows),
+                            "Immediate witness is not an instruction in its original base use")
+                    require(not any(use_at-1 <= r["image_offset"] < use_at+len(use_raw)
+                                    for r in space.relocations), "Address base use touches an MZ relocation")
+                    preserve_segments(use_rows, es_ds=True)
+                    fields = {i.address+i.imm_offset for i in use_rows
+                              if len(i.bytes) == 3 and i.bytes[0] in (0xbe, 0xbf)}
+                    transfers = string_context(use_rows, fields)
+                    require(type(spec["transfer_bytes"]) is int and
+                            transfers.get(relative+rows[0].imm_offset) == spec["transfer_bytes"],
+                            "Independent string transfer footprint changed")
+            continue
+        offset, width = symbol["offset"], symbol.get("width")
         require(symbol["kind"] == "near-data-alias" and symbol["group"] == "DGROUP" and
                 type(offset) is int and type(width) is int and
                 (width in (1, 2) or (width == 4 and binding["mode"] == "external-dgroup-word-pair-offset16-v2")) and
@@ -119,28 +254,22 @@ def ground(binding, target, oracle):
     return symbols
 
 
-def data_context(module, rows, allowed_calls=()):
-    """Legacy DS-context rules; composed mode may allow only proven far calls."""
+def data_context(module, rows, allowed_calls=(), *, mode=None):
+    """Preserve DS; only explicit v3 permits the adjacent ES:=DS pair."""
     groups = [g for g in module.groups if g["name"] == "DGROUP"]
     require(len(groups) == 1 and groups[0]["segments"] and
             all(1 <= i <= len(module.segment_defs) and
                 module.segment_defs[i-1]["class"] in ("DATA", "BSS", "CONST") and
                 module.segment_defs[i-1]["length"] == 0 for i in groups[0]["segments"]),
             "External data binding needs an empty declared DGROUP")
-    cs, xc = _capstone()
-    for insn in rows:
-        forbidden = set(insn.groups).intersection((cs.CS_GRP_CALL, cs.CS_GRP_INT, cs.CS_GRP_IRET))
-        require((insn.address in allowed_calls or not forbidden) and
-                insn.mnemonic not in ("int", "into", "iret", "iretd", "lds", "les") and
-                not set(insn.regs_access()[1]).intersection((xc.X86_REG_DS, xc.X86_REG_ES,
-                                                          xc.X86_REG_SS, xc.X86_REG_CS)),
-                "Near-data binding helper changes segment context or calls unknown code")
+    preserve_segments(rows, allowed_calls, es_ds=mode == IMMEDIATE_MODE)
+
 
 
 def data_equations(obligations, symbols, code_name, actual, expected, rows, mode, occupied):
     """Check data fields without constructing or modifying a linked byte buffer."""
     _, xc = _capstone()
-    equations, differences = [], []
+    equations, differences, address_fields = [], [], set()
     for fix in obligations:
         at = fix["segment_offset"]
         target_ref = fix["target"]
@@ -153,10 +282,17 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
         require(0 <= at <= len(actual)-2 and not occupied.intersection((at, at+1)),
                 "Overlapping/out-of-range bound fields")
         symbol = symbols[target_ref["name"]]
-        insns = [i for i in rows if i.address+i.disp_offset == at and i.disp_size == 2]
-        require(len(insns) == 1, "FIXUPP has no unique direct DS memory operand")
+        address_alias = mode == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias"
+        insns = ([i for i in rows if i.address+i.imm_offset == at and i.imm_size == 2]
+                 if address_alias else
+                 [i for i in rows if i.address+i.disp_offset == at and i.disp_size == 2])
+        require(len(insns) == 1, "FIXUPP has no unique direct DS memory operand or immediate base")
         addend = struct.unpack_from("<H", actual, at)[0]
-        if symbol["width"] == 4:
+        if address_alias:
+            immediate_base(insns[0])
+            require(addend == 0, "Only zero encoded data addends are proven")
+            address_fields.add(at)
+        elif symbol["width"] == 4:
             member = next((m for m in symbol["members"] if m["offset"] == addend), None)
             require(mode == "external-dgroup-word-pair-offset16-v2" and
                     member is not None and direct_operand(insns[0]).size == member["width"] and
@@ -186,6 +322,8 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
             direct_operand(insn)
             require({insn.address+insn.disp_offset, insn.address+insn.disp_offset+1} <= occupied,
                     "Absolute DS operand lacks a symbolic candidate fixup")
+    if mode == IMMEDIATE_MODE:
+        string_context(rows, address_fields)
     return equations, differences
 
 
@@ -198,7 +336,7 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
     require(set(symbols) == {e["target"].get("name") for e in obligations},
             "Missing or unused grounded data symbol")
     rows = instructions(actual)
-    data_context(module, rows)
+    data_context(module, rows, mode=binding["mode"])
     occupied = set()
     equations, differences = data_equations(obligations, symbols, code_name, actual, expected,
                                            rows, binding["mode"], occupied)

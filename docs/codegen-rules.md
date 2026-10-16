@@ -67,7 +67,7 @@ update the closed-family list instead of repeating its experiments.
 | DATA-1 | `volatile` forces each source read of a global and a reload after a compound store. | adjust_byte_for_kind, apply_adjustment, is_level4_byte_window | CONFIRMED |
 | DATA-2 | Constant indexes fold into displacements (`p[16]` → `[si+10]`); `#pragma pack(1)` reproduces odd member offsets. | setter, decrement_record_index, append_record_if_room | CONFIRMED |
 | DATA-3 | A `far *` parameter loads with `les bx,[bp+6]` plus `ES:` overrides. LES/LDS are refused only when a DS data binding is needed; relocation-free LES is fine. | rectangle; `docs/dgroup-binding.md` | OBSERVED |
-| DATA-4 | Original structure copies are frameless `push di; push si; mov di,imm; mov si,imm; push ds; pop es; rep movsw`. The gate cannot own them yet (immediate DS operands, ES write). Uncompiled. | root:02cc:13e4, 1c3e (`wave9_review_a_sol/review.json`) | OBSERVED |
+| DATA-4 | Extern struct assignment emits immediate SI/DI bases, `push ds; pop es`, and MOVSW/MOVSW/MOVSB (5 B object) or REP MOVSW (20/64 B object); intrinsic `memset` emits REP STOSB. `/Oe` and `/O` objects agree. Extern fixups are LOC1/F5/T6, A=0, D omitted; same-file initialized/static storage uses refused F1/T4 DATA/BSS. Narrow resident v3 proves the immediate bases and ES=DS idiom. | `src/save_twenty_byte_state.c`, `src/clear_five_byte_state.c`, `evidence/toolchain/immediate-dgroup-msc600.json`, `docs/dgroup-binding.md` | CONFIRMED |
 | DATA-5 | A two-word aggregate temporary under `/Oe` spills both words to `[BP-4]/[BP-2]`. | `evidence/toolchain/swap-results.json` | OBSERVED |
 | NAME-1 | Renaming identifiers changes OMF identity, not CODE; one or two added used typedefs did not move three parked targets. | `docs/state-helpers.md`, wave9 parked contrasts | CONFIRMED / OBSERVED |
 | NAME-2 | An unused declaration before referenced far externs changed CODE (126 vs 130 B); after them it did not. | `evidence/toolchain/convergence-audit.json` | OBSERVED (probe) |
@@ -88,5 +88,4 @@ update the closed-family list instead of repeating its experiments.
 - SimAnt: declaration-count sensitivity is periodic mod 17 (symbol hash); pop2 tried only +1/+2.
 - SimAnt VER-3 / C4203: whole-file pass-2 budget effects; pop2 tested only single-function files.
 - SimAnt "slots follow first use", Stunts L1 "BP homes follow identifier hash": relevant to the swap's `[BP-2]`.
-- Stunts E6: struct assignment emits `rep movs` (DATA-4 targets).
 - SimAnt ZI-1/ZD-1: `/Zi`/`/Zd` move LEDATA breaks only — matters for relocation order, not CODE.

@@ -15,7 +15,8 @@ EXTDEF declarations (including Microsoft CRT markers and a self-public) are
 retained in reports and the exact object hash. A separate narrow
 [external DGROUP gate](dgroup-binding.md) proves offset16 fields using frozen,
 independent original witnesses and explicit linker equations. Resident modes
-support zero addends or reviewed word pairs; the explicit overlay mode permits
+support zero addends, reviewed word pairs, or explicit v3 immediate SI/DI
+bases with the checked ES := DS string idiom; the explicit overlay mode permits
 only byte/word zero addends with root witnesses. No bytes are
 masked, patched or normalized. A separate
 [runtime near-code gate](runtime-near-binding.md) supports anchored F0/T6
