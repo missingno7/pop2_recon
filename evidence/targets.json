@@ -1693,6 +1693,7 @@
         "Application record/graphics/palette semantics inferred from the original operations and callers; not a pinned CRT member or RTLink-manager identification."
       ],
       "classification_status": "reviewed source-language/purpose hypothesis; no original symbol recovery",
+      "entry_kind": "direct-code",
       "id": "root:1101:4fca",
       "offset": 20426,
       "original_bytes_hex": "558bec8b1ec0258b572a8b460689472a8bc25dca0200",
@@ -1943,6 +1944,2066 @@
       "semantic_name_hypothesis": "forward_far_block_flags",
       "sha256": "f7bbdd6e16995cce89da497a6e5abd7a9741558210c322cd78a05883a1b0f90f",
       "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 10; near destination BP+0x0e, first 32-bit value BP+0x0a/+0x0c, second BP+6/+8; BP frame, no locals or SI/DI saves; void return.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at overlay-2+0x6741 ends at0x6744.",
+        "Complete interval overlay-2+[0x6744,0x6766) is 34 bytes; 1 return path(s): 0x6763 ca0a00.",
+        "All 0 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at overlay-2+0x6766; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 0 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No independent incoming relocated call/pointer or proven PUSH CS call was found. Entry remains credible from a distinct BP prologue between independently delimited return/entry sequences and a complete balanced far-return body; it may be unused or indirectly referenced.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "overlay-2:2344:6744",
+      "offset": 26436,
+      "original_bytes_hex": "558bec8b5e0e8b460a8b560c89474889574a8b46068b560889474c89574e5dca0a00",
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "set_record_long_pair",
+      "sha256": "9270fcb4cddab34f32603e41c2d9ae76b1d6824d8d4ad0a9e2299db61fd22b52",
+      "size": 34,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; byte kind in low BP+8 word slot, signed 16-bit value BP+6, result AX; BP frame, no allocated locals or SI/DI saves; MOV SP,BP on shared exit.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at overlay-3+0x5175 ends at0x5178.",
+        "Complete interval overlay-3+[0x5178,0x51b8) is 64 bytes; 1 return path(s): 0x51b5 ca0400.",
+        "All 6 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at overlay-3+0x51b8; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 3 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 208401,
+          "image_offset": 23633,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "overlay-3",
+          "pushed_cs_site": 23632
+        },
+        {
+          "file_offset": 205606,
+          "image_offset": 20838,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "overlay-3",
+          "pushed_cs_site": 20837
+        },
+        {
+          "file_offset": 208497,
+          "image_offset": 23729,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "overlay-3",
+          "pushed_cs_site": 23728
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "Zero original MZ relocation words; only independently witnessed direct DS address fields require data binding."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "overlay-3:2344:5178",
+      "offset": 20856,
+      "original_bytes_hex": "558beca0345e384608742ca0355e384608741fa03b5e3846087417a0365e3846087408a03c5e384608750c8146064001eb05816e0640018b46068be55dca0400",
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "adjust_offset_for_neighbor_kind",
+      "sha256": "8a50bff573514c296cd79aa117a5fb198a916820943d01ce1bc0c78bb55d9055",
+      "size": 64,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; 16-bit value BP+6, AX Boolean via DX; BP frame, no locals or SI/DI saves.",
+      "boundary_evidence": [
+        "Preceding RETF 4 at root+0x2875 ends at0x2878.",
+        "Complete interval root+[0x2878,0x28a8) is 48 bytes; 2 return path(s): 0x289d ca0200, 0x28a5 ca0200.",
+        "All 5 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x28a8; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 1 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19255,
+          "image_offset": 11063,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 11062
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:0000:2878",
+      "offset": 10360,
+      "original_bytes_hex": "558bec8b560683fa01741d83fa64741883fa02741383fa03740e83fa067409ba01008bc25dca02002bd28bc25dca0200",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "is_not_reserved_value",
+      "sha256": "4d36692167b923fdcf2122bd690eb57227306d391dcfc77e984c53dea72de4d3",
+      "size": 48,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; byte value low BP+6 word slot; void return, AL incidental loaded value on store path; BP frame, no locals or saves.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x3442 ends at0x3445; byte0x3445 is alignment 90.",
+        "Complete interval root+[0x3446,0x3462) is 28 bytes; 1 return path(s): 0x345e ca0200.",
+        "All 2 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Trailing NOP at0x3461 belongs to the reviewed compiler-alignment extent; next entry starts at0x3462. A grinder must emit it naturally, never append it.",
+        "10 original relocated far CALL(s), 3 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 189154,
+          "image_offset": 4386,
+          "kind": "far_call",
+          "relocated_segment_site": 4389,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 192648,
+          "image_offset": 7880,
+          "kind": "far_call",
+          "relocated_segment_site": 7883,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 196256,
+          "image_offset": 11488,
+          "kind": "far_call",
+          "relocated_segment_site": 11491,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 209147,
+          "image_offset": 283,
+          "kind": "far_call",
+          "relocated_segment_site": 286,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 216591,
+          "image_offset": 1199,
+          "kind": "far_call",
+          "relocated_segment_site": 1202,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 224161,
+          "image_offset": 465,
+          "kind": "far_call",
+          "relocated_segment_site": 468,
+          "space": "overlay-7"
+        },
+        {
+          "file_offset": 233572,
+          "image_offset": 1796,
+          "kind": "far_call",
+          "relocated_segment_site": 1799,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 244324,
+          "image_offset": 3908,
+          "kind": "far_call",
+          "relocated_segment_site": 3911,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 263119,
+          "image_offset": 1487,
+          "kind": "far_call",
+          "relocated_segment_site": 1490,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 267113,
+          "image_offset": 601,
+          "kind": "far_call",
+          "relocated_segment_site": 604,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 23373,
+          "image_offset": 15181,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 15180
+        },
+        {
+          "file_offset": 23259,
+          "image_offset": 15067,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 15066
+        },
+        {
+          "file_offset": 22875,
+          "image_offset": 14683,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 14682
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "Zero original MZ relocation words; only independently witnessed direct DS address fields require data binding."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:0000:3446",
+      "offset": 13382,
+      "original_bytes_hex": "558bec803e065c007407803e065c0175068a4606a2025e5dca020090",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "set_byte_in_initial_states",
+      "sha256": "1e4bc05b7aa92809dcc62dacaccdff187ae24328c80538e4d9823c0f234af73d",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; near output pointer BP+8, signed index BP+6; near pointer return AX; BP frame, saves DI then SI, no stack locals.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x66a8 ends at0x66ab; byte0x66ab is alignment 90.",
+        "Complete interval root+[0x66ac,0x66e4) is 56 bytes; 1 return path(s): 0x66e1 ca0400.",
+        "All 0 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x66e4; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 2 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 34787,
+          "image_offset": 26595,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 26594
+        },
+        {
+          "file_offset": 34868,
+          "image_offset": 26676,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 26675
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:0000:66ac",
+      "offset": 26284,
+      "original_bytes_hex": "558bec57568b7e068b5e088bc7b905008bf799f7f98bc2bf2a00f7ef053e008947028bc699f7f9f7ef05450089078bc35e5f8be55dca0400",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "make_five_column_point",
+      "sha256": "6b4b928e036fda695db0a57ae697f5a4d5ad5a167df20935187ce30a59549af6",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 6; far output BP+8 offset/BP+0x0a segment, signed index BP+6; far result DX:AX; saves DI, BP frame, no locals; ES loaded from argument.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x6b35 ends at0x6b38.",
+        "Complete interval root+[0x6b38,0x6b70) is 56 bytes; 1 return path(s): 0x6b6d ca0600.",
+        "All 0 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x6b70; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 3 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 35847,
+          "image_offset": 27655,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 27654
+        },
+        {
+          "file_offset": 35418,
+          "image_offset": 27226,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 27225
+        },
+        {
+          "file_offset": 35980,
+          "image_offset": 27788,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 27787
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:0000:6b38",
+      "offset": 27448,
+      "original_bytes_hex": "558bec578b7e068b5e088e460a26c74702190026c747069b008bc7b91800f7e9053b00268907051400268947048bc38cc25f8be55dca0600",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "make_far_index_rectangle",
+      "sha256": "cfb62cd581027982e19354dcb5b848e749aa7e4231ddfc05c0e11bd5f7c16292",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; word slot BP+6 read into BX, low byte bit7 controls; AX int result via DX; BP frame, no locals or saves.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x105e8 ends at0x105eb; byte0x105eb is alignment 90.",
+        "Complete interval root+[0x105ec,0x1060c) is 32 bytes; 2 return path(s): 0x105fd ca0200, 0x10608 ca0200.",
+        "All 1 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Trailing NOP at0x1060b belongs to the reviewed compiler-alignment extent; next entry starts at0x1060c. A grinder must emit it naturally, never append it.",
+        "0 original relocated far CALL(s), 0 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No independent incoming relocated call/pointer or proven PUSH CS call was found. Entry remains credible from a distinct BP prologue between independently delimited return/entry sequences and a complete balanced far-return body; it may be unused or indirectly referenced.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:05ec",
+      "offset": 1516,
+      "original_bytes_hex": "558bec8b5e06f6c3807409ba05008bc25dca02008bd383e2078bc25dca020090",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "decode_kind_low_bits",
+      "sha256": "87ac0e71d9a276b249e2ec020ab4fc15b051253e41f68e883ebbfc69cb170c57",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; unsigned byte request in low BP+6 slot; AX 16-bit mask result; BP frame allocates4, byte local BP-3, saves DI then SI; DS/ES preserved.",
+      "boundary_evidence": [
+        "Preceding RETF at root+0x11897 ends at0x11898.",
+        "Complete interval root+[0x11898,0x118e2) is 74 bytes; 1 return path(s): 0x118df ca0200.",
+        "All 5 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x118e2; no omitted trailing byte.",
+        "2 original relocated far CALL(s), 0 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110584,
+          "image_offset": 102392,
+          "kind": "far_call",
+          "relocated_segment_site": 102395,
+          "space": "root"
+        },
+        {
+          "file_offset": 134551,
+          "image_offset": 126359,
+          "kind": "far_call",
+          "relocated_segment_site": 126362,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "Zero original MZ relocation words; only independently witnessed direct DS address fields require data binding."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:1898",
+      "offset": 6296,
+      "original_bytes_hex": "558bec83ec0457562bffbe0100b1048a46062ae4050f00d3f88846fdeb148536c820740ad1e60bf675f42bc0eb140bfed1e68a46fdfe4efd0ac075e2093ec8208bc75e5f8be55dca0200",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "reserve_bitmap_units",
+      "sha256": "891c638bf115e8435c96b16b2705ff43a6bf3b87d40a6c1d21548be6de73f60a",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; far record pointer BP+6/+8; AX word result; BP frame allocates4, flags local BP-4/-3 and pointer home BP-2; saves DI then SI; ES loaded with LES.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x11908 ends at0x1190b; byte0x1190b is alignment 90.",
+        "Complete interval root+[0x1190c,0x11966) is 90 bytes; 1 return path(s): 0x11962 ca0400.",
+        "All 2 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Trailing NOP at0x11965 belongs to the reviewed compiler-alignment extent; next entry starts at0x11966. A grinder must emit it naturally, never append it.",
+        "0 original relocated far CALL(s), 2 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 81446,
+          "image_offset": 73254,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 73253
+        },
+        {
+          "file_offset": 82368,
+          "image_offset": 74176,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 74175
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:190c",
+      "offset": 6412,
+      "original_bytes_hex": "558bec83ec045756c45e06268b47048946fc8d7efcf64501807517268b47020507009933c22bc2b90300d3f833c22bc2eb1f897efeb1048bc38a5efd83e370d3eb438bf0268b4402f7e3050700b103d3e85e5f8be55dca040090",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "record_row_bytes",
+      "sha256": "a83106e00adcb90381dc2fcf5eb998462bd76577df18c17ddba6bd61be4a596b",
+      "size": 90,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; signed value BP+8, selector word BP+6; AX result, BX/CX/DX scratch; BP frame, no locals or saved registers.",
+      "boundary_evidence": [
+        "Preceding RETF 18 at root+0x11bab ends at0x11bae.",
+        "Complete interval root+[0x11bae,0x11be2) is 52 bytes; 2 return path(s): 0x11bd7 ca0400, 0x11bde ca0400.",
+        "All 1 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Trailing NOP at0x11be1 belongs to the reviewed compiler-alignment extent; next entry starts at0x11be2. A grinder must emit it naturally, never append it.",
+        "0 original relocated far CALL(s), 4 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 81514,
+          "image_offset": 73322,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 73321
+        },
+        {
+          "file_offset": 82440,
+          "image_offset": 74248,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 74247
+        },
+        {
+          "file_offset": 80956,
+          "image_offset": 72764,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 72763
+        },
+        {
+          "file_offset": 81125,
+          "image_offset": 72933,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 72932
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:1bae",
+      "offset": 7086,
+      "original_bytes_hex": "558bec837e060275238b5e088bc3b9020099f7f98bc38bda9933c22bc2b90100d3f833c22bc203c35dca04008b46085dca040090",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "halve_for_mode_two",
+      "sha256": "1cdf5f70a9663439bf7eff080f9c19c15a6f4fd270b89624564538954b72bd12",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; near head BP+6 copied CX; AX count; BP frame, no locals/saves, BX traversal.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x199f9 ends at0x199fc.",
+        "Complete interval root+[0x199fc,0x19a19) is 29 bytes; 1 return path(s): 0x19a16 ca0200.",
+        "All 2 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x19a19; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 1 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 114339,
+          "image_offset": 106147,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 106146
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:99fc",
+      "offset": 39420,
+      "original_bytes_hex": "558bec2bc08b4e06e30f8bd98b5f028d5f50408b1f3bd975f95dca0200",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "count_ring_from_anchor",
+      "sha256": "1c730d00a8507f218e3446e707f247ee7330ae18e686cbeabfcc499f0889faf7",
+      "size": 29,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 4; near record BP+8, unsigned ordinal BP+6; AX near node pointer via XCHG BX,AX; BP frame, no locals/saves.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x19b96 ends at0x19b99.",
+        "Complete interval root+[0x19b99,0x19bb5) is 28 bytes; 1 return path(s): 0x19bb2 ca0400.",
+        "All 2 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x19bb5; no omitted trailing byte.",
+        "2 original relocated far CALL(s), 1 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 137678,
+          "image_offset": 129486,
+          "kind": "far_call",
+          "relocated_segment_site": 129489,
+          "space": "root"
+        },
+        {
+          "file_offset": 137174,
+          "image_offset": 128982,
+          "kind": "far_call",
+          "relocated_segment_site": 128985,
+          "space": "root"
+        },
+        {
+          "file_offset": 113896,
+          "image_offset": 105704,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 105703
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:9b99",
+      "offset": 39833,
+      "original_bytes_hex": "558bec2bc08b5e088d5f508b1f85db7406403b460675f4935dca0400",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "nth_link_after_record",
+      "sha256": "0161bdc0035d7adcfeff98c271b2491e31abfd80c5a424e363ffc1f1602104fe",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 6; near record BP+0x0a saved DI, unsigned index BP+8 in BX, byte value low BP+6 slot; void result; BP frame, saved DI only, no locals.",
+      "boundary_evidence": [
+        "Preceding RETF 8 at root+0x1b2d9 ends at0x1b2dc.",
+        "Complete interval root+[0x1b2dc,0x1b2fa) is 30 bytes; 1 return path(s): 0x1b2f7 ca0600.",
+        "All 1 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x1b2fa; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 0 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No independent incoming relocated call/pointer or proven PUSH CS call was found. Entry remains credible from a distinct BP prologue between independently delimited return/entry sequences and a complete balanced far-return body; it may be unused or indirectly referenced.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:b2dc",
+      "offset": 45788,
+      "original_bytes_hex": "558bec578b7e0a8b5e083b5d1a770ad1e38b591c8a460688075f5dca0600",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "store_byte_in_indexed_slot",
+      "sha256": "2fbedf4d2fa8a13318b7d8baa8230d2a6a208e6e7255b486d7e3b825a04cbc8d",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; low byte BP+6 is character, AL result (AX initially loads entire argument slot and preserves AH incidentally); BP frame, no locals/saves.",
+      "boundary_evidence": [
+        "Preceding RETF at root+0x1cd19 ends at0x1cd1a.",
+        "Complete interval root+[0x1cd1a,0x1cd2e) is 20 bytes; 1 return path(s): 0x1cd2b ca0200.",
+        "All 2 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x1cd2e; no omitted trailing byte.",
+        "0 original relocated far CALL(s), 0 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No independent incoming relocated call/pointer or proven PUSH CS call was found. Entry remains credible from a distinct BP prologue between independently delimited return/entry sequences and a complete balanced far-return body; it may be unused or indirectly referenced.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:cd1a",
+      "offset": 52506,
+      "original_bytes_hex": "558bec8b46063c4172063c5a77020c205dca0200",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "ascii_lower_byte",
+      "sha256": "0c41257eb371afe3addc09ab22ef464d2a9cf0e83f6e9f11e2811ffa867f0f42",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal RETF 2; low byte BP+6 is character, AL result, AH incidental preserved slot high byte; BP frame, no locals/saves.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x1ce18 ends at0x1ce1b.",
+        "Complete interval root+[0x1ce1b,0x1ce2f) is 20 bytes; 1 return path(s): 0x1ce2c ca0200.",
+        "All 2 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Following original bytes at0x1ce2f: b946278bd98b4f2ce3053b4d0a75f4c3; separate next entry/helper, not candidate fallthrough.",
+        "0 original relocated far CALL(s), 2 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 113248,
+          "image_offset": 105056,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 105055
+        },
+        {
+          "file_offset": 113283,
+          "image_offset": 105091,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 105090
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "No static address-bearing operand or original MZ relocation. Dynamic pointer dereferences and ES loads from argument/record data create no linker field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1000:ce1b",
+      "offset": 52763,
+      "original_bytes_hex": "558bec8b46063c6172063c7a770224df5dca0200",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "ascii_upper_byte",
+      "sha256": "3802ff3376d26d9c508b9bf8df7d4291db886b3e2391b4a3036a348fc4f67234",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far cdecl-compatible RETF without args; frameless, no saves/locals; void return, AX incidental7 or0; DS/ES preserved.",
+      "boundary_evidence": [
+        "Preceding RETF 2 at root+0x1f9a2 ends at0x1f9a5; byte0x1f9a5 is alignment 90.",
+        "Complete interval root+[0x1f9a6,0x1f9ba) is 20 bytes; 2 return path(s): 0x1f9b3 cb, 0x1f9b9 cb.",
+        "All 1 direct branch targets resolve to instruction starts inside the complete interval. Raw bytes and complete SHA-256 below are fresh from immutable Oracle.",
+        "Next independent BP prologue begins exactly at root+0x1f9ba; no omitted trailing byte.",
+        "1 original relocated far CALL(s), 0 original PUSH CS/near CALL(s), 0 relocated pointer(s). Exact ordered relocation indices are retained per source space.",
+        "No original relocated word touches this complete interval, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156585,
+          "image_offset": 649,
+          "kind": "far_call",
+          "relocated_segment_site": 652,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Source language and purpose are hypotheses, separate from original bytes/boundaries; no original symbol or whole-TU identity is recovered.",
+        "Balanced far leaf and ordinary record/scalar/graphics operations support C hypothesis; outside known CRT/RTLink segments1fe6,2000,2203. This does not establish gameplay purpose or exclude third-party application libraries.",
+        "Zero original MZ relocation words; only independently witnessed direct DS address fields require data binding."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "id": "root:1f74:0266",
+      "offset": 614,
+      "original_bytes_hex": "833ed025027507b80700a34027cb2bc0a34027cb",
+      "original_name": null,
+      "segment": 8052,
+      "semantic_name_hypothesis": "set_mode_flag_value",
+      "sha256": "0c3f944dbcbf32c08282a4bf50df4b18112c0b2909b87da5025fc1ab6d723404",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far return, no incoming arguments or frame/locals/saves; pushes a zero far pointer (two words), then DS:2c3e word; callee RETF 6; AX result passes through.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0xdc79 8b56fe mov dx, word ptr [bp - 2]; root+0xdc7c 5e pop si; root+0xdc7d 5f pop di; root+0xdc7e 8be5 mov sp, bp; root+0xdc80 5d pop bp; root+0xdc81 ca0400 retf 4.",
+        "All decoded return paths: root+0xdc91 cb (retf ).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "Following original bytes at root+0xdc92: 57833e2a2c047407833e2a2c; next decoded context is in supplement.json.",
+        "2 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 64722,
+          "image_offset": 56530,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 56529
+        },
+        {
+          "file_offset": 64847,
+          "image_offset": 56655,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 56654
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Combine external-far-call-v1 and resident external-dgroup-offset16-v1 for the single direct DS word field."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0da4:0244",
+      "offset": 580,
+      "original_bytes_hex": "2bc05050ff363e2c9a6a6f0111cb",
+      "original_name": null,
+      "segment": 3492,
+      "semantic_name_hypothesis": "allocate_default_handle",
+      "sha256": "73fe52f489b4f042648d7765e2f918132b181878c445c50d59f7b6307bb6744a",
+      "size": 14,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far return; no incoming arguments, BP frame, saves or locals; outgoing constant word 105 is popped by Pascal callee; result unspecified.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x12f0 c7068e5e3804 mov word ptr [0x5e8e], 0x438; root+0x12f6 b89900 mov ax, 0x99; root+0x12f9 50 push ax; root+0x12fa 9ab001d70d lcall 0xdd7, 0x1b0; root+0x12ff c706185e0100 mov word ptr [0x5e18], 1; root+0x1305 cb retf .",
+        "All decoded return paths: root+0x1315 cb (retf ).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "Following original bytes at root+0x1316: 2bc0509af0830111b8625e50; next decoded context is in supplement.json.",
+        "2 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 26308,
+          "image_offset": 18116,
+          "kind": "far_call",
+          "relocated_segment_site": 18119,
+          "space": "root"
+        },
+        {
+          "file_offset": 9931,
+          "image_offset": 1739,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 1738
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Resident zero-addend direct word DS:5e90 composes with the far-call binding."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1306",
+      "offset": 4870,
+      "original_bytes_hex": "c706905ee400b86900509ab001d70dcb",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "set_timer_and_request",
+      "sha256": "0111a486aff1fbe381b1112c464f4ee1cc41c484b5b1a07354e71b3a06ee0403",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2, one near pointer/word at BP+6; BP frame, no locals or SI/DI saves; cdecl far callee, explicit ADD SP,2; AX incidental.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x1a820 52 push dx; root+0x1a821 50 push ax; root+0x1a822 e83804 call 0x1ac5d; root+0x1a825 5f pop di; root+0x1a826 5d pop bp; root+0x1a827 ca0600 retf 6.",
+        "All decoded return paths: root+0x1a839 ca0200 (retf 2).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "Following original bytes at root+0x1a83c: 558becb80500f76606052d00; next decoded context is in supplement.json.",
+        "No independently decoded caller found. A separate entry is supported by the preceding termination/alignment, a self-contained frame/body/return and following entry; no missing caller is invented."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "The callee is runtime code at 1fe6:001a, independently grounded by many original relocated root calls; it is not already PINNED_RUNTIME."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1000:a82a",
+      "offset": 43050,
+      "original_bytes_hex": "558becff76069a1a00e61f83c4025dca0200",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "release_near_buffer",
+      "sha256": "42d274c2c2682d82a8d66027f062e7a1508625781b81679e5aa0629a767913b1",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 4; one far pointer, offset BP+6 and segment BP+8; BP frame, no locals or SI/DI saves; result unspecified.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x1d914 8b1ec025 mov bx, word ptr [0x25c0]; root+0x1d918 897728 mov word ptr [bx + 0x28], si; root+0x1d91b 5e pop si; root+0x1d91c 8be5 mov sp, bp; root+0x1d91e 5d pop bp; root+0x1d91f ca0600 retf 6.",
+        "All decoded return paths: root+0x1d933 ca0400 (retf 4).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "Following original bytes at root+0x1d936: 558bec57568b7606a154268b; next decoded context is in supplement.json.",
+        "3 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 31950,
+          "image_offset": 23758,
+          "kind": "far_call",
+          "relocated_segment_site": 23761,
+          "space": "root"
+        },
+        {
+          "file_offset": 32469,
+          "image_offset": 24277,
+          "kind": "far_call",
+          "relocated_segment_site": 24280,
+          "space": "root"
+        },
+        {
+          "file_offset": 36197,
+          "image_offset": 28005,
+          "kind": "far_call",
+          "relocated_segment_site": 28008,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Owner relocation is index 1696 at 0x1d92e; exemplar uses index 1764. Historical incoming alias is 1d76:01c2, not the census display alias 1000:d922."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1000:d922",
+      "offset": 55586,
+      "original_bytes_hex": "558becff7608ff76069ae42501118be55dca0400",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "forward_far_block_flags_duplicate",
+      "sha256": "f7bbdd6e16995cce89da497a6e5abd7a9741558210c322cd78a05883a1b0f90f",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2; one word at BP+6; BP frame, no locals/saves; first callee RETF 2, AX pushed to second callee RETF 2; final AX passed through.",
+      "boundary_evidence": [
+        "Original preceding 32-byte context ends at root+0x162fe: 7d0dc57e0e8905895504b80100eb0a2bc0b90400c47e0ef3ab1f5f5dca0c0000; independent entry/control-flow evidence is recorded below.",
+        "All decoded return paths: root+0x16312 ca0200 (retf 2).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "RETF body ends at 0x16315; original byte 90 at 0x16315 is MSC even-alignment padding INCLUDED in the 24-byte proposed complete component. No bytes are appended.",
+        "Following original bytes at root+0x16316: 558becc456068cc18b1ec025; next decoded context is in supplement.json.",
+        "6 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 29814,
+          "image_offset": 21622,
+          "kind": "far_call",
+          "relocated_segment_site": 21625,
+          "space": "root"
+        },
+        {
+          "file_offset": 29654,
+          "image_offset": 21462,
+          "kind": "far_call",
+          "relocated_segment_site": 21465,
+          "space": "root"
+        },
+        {
+          "file_offset": 30159,
+          "image_offset": 21967,
+          "kind": "far_call",
+          "relocated_segment_site": 21970,
+          "space": "root"
+        },
+        {
+          "file_offset": 30679,
+          "image_offset": 22487,
+          "kind": "far_call",
+          "relocated_segment_site": 22490,
+          "space": "root"
+        },
+        {
+          "file_offset": 30636,
+          "image_offset": 22444,
+          "kind": "far_call",
+          "relocated_segment_site": 22447,
+          "space": "root"
+        },
+        {
+          "file_offset": 76110,
+          "image_offset": 67918,
+          "kind": "far_call",
+          "relocated_segment_site": 67921,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Include the compiler trailing NOP: full candidate is 24 bytes, not the census 23. Callee 4fca already has a reviewed target; add its direct-code entry kind after this review."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1000:62fe",
+      "offset": 25342,
+      "original_bytes_hex": "558becff76069aaa4f0111509aca4f01118be55dca020090",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "load_and_exchange_attribute",
+      "sha256": "41e4a26b769e71db14db8d74112d3bd3707829717c05ed9c604a73ff276f2bab",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2; one near handle/word at BP+6; BP frame, no locals/saves; nested callees each RETF 2; AX is forwarded.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x1942f 9a42330111 lcall 0x1101, 0x3342; root+0x19434 5e pop si; root+0x19435 8be5 mov sp, bp; root+0x19437 5d pop bp; root+0x19438 ca0200 retf 2; root+0x1943b 90 nop .",
+        "All decoded return paths: root+0x19450 ca0200 (retf 2).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "RETF body ends at 0x19453; original byte 90 at 0x19453 is MSC even-alignment padding INCLUDED in the 24-byte proposed complete component. No bytes are appended.",
+        "Following original bytes at root+0x19454: 558bec83ec04568b4e062bc0; next decoded context is in supplement.json.",
+        "9 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 18954,
+          "image_offset": 10762,
+          "kind": "far_call",
+          "relocated_segment_site": 10765,
+          "space": "root"
+        },
+        {
+          "file_offset": 32366,
+          "image_offset": 24174,
+          "kind": "far_call",
+          "relocated_segment_site": 24177,
+          "space": "root"
+        },
+        {
+          "file_offset": 36146,
+          "image_offset": 27954,
+          "kind": "far_call",
+          "relocated_segment_site": 27957,
+          "space": "root"
+        },
+        {
+          "file_offset": 37262,
+          "image_offset": 29070,
+          "kind": "far_call",
+          "relocated_segment_site": 29073,
+          "space": "root"
+        },
+        {
+          "file_offset": 69798,
+          "image_offset": 61606,
+          "kind": "far_call",
+          "relocated_segment_site": 61609,
+          "space": "root"
+        },
+        {
+          "file_offset": 129978,
+          "image_offset": 121786,
+          "kind": "far_call",
+          "relocated_segment_site": 121789,
+          "space": "root"
+        },
+        {
+          "file_offset": 114079,
+          "image_offset": 105887,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 105886
+        },
+        {
+          "file_offset": 114292,
+          "image_offset": 106100,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 106099
+        },
+        {
+          "file_offset": 126878,
+          "image_offset": 118686,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 118685
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Full compiler component is 24 bytes including the trailing NOP. Callee internals have their own obligations, which are not transitive obligations of this wrapper proof."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1000:943c",
+      "offset": 37948,
+      "original_bytes_hex": "558becff76069a7a800111509ab08001118be55dca020090",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "load_and_process_handle",
+      "sha256": "b3a6716fe00b2eb26309e3583b3d3abec800d1c8c473be762fa8ae3871a2ec18",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 8; two far-pointer parameters, first at BP+10/+12 and second at BP+6/+8; BP frame, no locals/saves. Calls cdecl far compare(p,q,8), discards its 10 outgoing stack bytes with MOV SP,BP; Boolean AX result.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x1ec20 f7d8 neg ax; root+0x1ec22 5e pop si; root+0x1ec23 8be5 mov sp, bp; root+0x1ec25 5d pop bp; root+0x1ec26 ca0800 retf 8; root+0x1ec29 90 nop .",
+        "All decoded return paths: root+0x1ec4c ca0800 (retf 8).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "RETF body ends at 0x1ec4f; original byte 90 at 0x1ec4f is MSC even-alignment padding INCLUDED in the 38-byte proposed complete component. No bytes are appended.",
+        "Following original bytes at root+0x1ec50: 558bec568b7606ff36c02556; next decoded context is in supplement.json.",
+        "1 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 45584,
+          "image_offset": 37392,
+          "kind": "far_call",
+          "relocated_segment_site": 37395,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Full C extent is 38 bytes including trailing NOP. Extern must be cdecl despite the Pascal wrapper. Runtime compare has independent relocated witnesses at 0x1e5d9 and 0x1ec13."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1000:ec2a",
+      "offset": 60458,
+      "original_bytes_hex": "558becb8080050ff7608ff7606ff760cff760a9ad41de61f3d01001bc0f7d88be55dca080090",
+      "original_name": null,
+      "segment": 4096,
+      "semantic_name_hypothesis": "equal_first_eight_bytes",
+      "sha256": "f6eaf62e8f21a6937c466db43dab5fe975c03f2ebc3f366bb35a266211859f40",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2; word BP+6 in saved SI; BP frame, no locals; conditional same-CS far-return call; return unspecified.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0xdf17 0e push cs; root+0xdf18 e82300 call 0xdf3e; root+0xdf1b 8be5 mov sp, bp; root+0xdf1d 5d pop bp; root+0xdf1e cb retf ; root+0xdf1f 90 nop .",
+        "All decoded return paths: root+0xdf3b ca0200 (retf 2).",
+        "Every direct branch remains inside this extent: 0xdf29->0xdf37.",
+        "Following original bytes at root+0xdf3e: 558bec833efe08ff741d8b1e; next decoded context is in supplement.json.",
+        "10 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9902,
+          "image_offset": 1710,
+          "kind": "far_call",
+          "relocated_segment_site": 1713,
+          "space": "root"
+        },
+        {
+          "file_offset": 13050,
+          "image_offset": 4858,
+          "kind": "far_call",
+          "relocated_segment_site": 4861,
+          "space": "root"
+        },
+        {
+          "file_offset": 13072,
+          "image_offset": 4880,
+          "kind": "far_call",
+          "relocated_segment_site": 4883,
+          "space": "root"
+        },
+        {
+          "file_offset": 21469,
+          "image_offset": 13277,
+          "kind": "far_call",
+          "relocated_segment_site": 13280,
+          "space": "root"
+        },
+        {
+          "file_offset": 26292,
+          "image_offset": 18100,
+          "kind": "far_call",
+          "relocated_segment_site": 18103,
+          "space": "root"
+        },
+        {
+          "file_offset": 59223,
+          "image_offset": 51031,
+          "kind": "far_call",
+          "relocated_segment_site": 51034,
+          "space": "root"
+        },
+        {
+          "file_offset": 63840,
+          "image_offset": 55648,
+          "kind": "far_call",
+          "relocated_segment_site": 55651,
+          "space": "root"
+        },
+        {
+          "file_offset": 64906,
+          "image_offset": 56714,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 56713
+        },
+        {
+          "file_offset": 64930,
+          "image_offset": 56738,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 56737
+        },
+        {
+          "file_offset": 65232,
+          "image_offset": 57040,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 57039
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests DS:0900 against ffff, invokes a request routine and stores the supplied word; application state utility hypothesis."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:01b0",
+      "offset": 432,
+      "original_bytes_hex": "558bec56833e0009ff750c8b7606560ee84500893600095e8be55dca0200",
+      "original_name": null,
+      "segment": 3543,
+      "semantic_name_hypothesis": "request_if_unset",
+      "sha256": "cdf0308626fc23cc06e8c27c9a72719e6561ce6e19d47d3eba856e7851ada53d",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2; word BP+6; BP frame, no locals/saves; returns AX from two nested far calls.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x15faf 0e push cs; root+0x15fb0 2eff5708 call word ptr cs:[bx + 8]; root+0x15fb4 d1e8 shr ax, 1; root+0x15fb6 c3 ret ; root+0x15fb7 f8 clc ; root+0x15fb8 ebfc jmp 0x15fb6.",
+        "All decoded return paths: root+0x15fd6 ca0200 (retf 2).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "RETF body ends at 0x15fd9; original byte 90 at 0x15fd9 is MSC even-alignment padding INCLUDED in the 32-byte proposed complete component. No bytes are appended.",
+        "Following original bytes at root+0x15fda: 558bec8b1ec0258b572a8b46; next decoded context is in supplement.json.",
+        "12 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 29481,
+          "image_offset": 21289,
+          "kind": "far_call",
+          "relocated_segment_site": 21292,
+          "space": "root"
+        },
+        {
+          "file_offset": 29557,
+          "image_offset": 21365,
+          "kind": "far_call",
+          "relocated_segment_site": 21368,
+          "space": "root"
+        },
+        {
+          "file_offset": 30231,
+          "image_offset": 22039,
+          "kind": "far_call",
+          "relocated_segment_site": 22042,
+          "space": "root"
+        },
+        {
+          "file_offset": 30216,
+          "image_offset": 22024,
+          "kind": "far_call",
+          "relocated_segment_site": 22027,
+          "space": "root"
+        },
+        {
+          "file_offset": 30201,
+          "image_offset": 22009,
+          "kind": "far_call",
+          "relocated_segment_site": 22012,
+          "space": "root"
+        },
+        {
+          "file_offset": 31641,
+          "image_offset": 23449,
+          "kind": "far_call",
+          "relocated_segment_site": 23452,
+          "space": "root"
+        },
+        {
+          "file_offset": 31630,
+          "image_offset": 23438,
+          "kind": "far_call",
+          "relocated_segment_site": 23441,
+          "space": "root"
+        },
+        {
+          "file_offset": 31553,
+          "image_offset": 23361,
+          "kind": "far_call",
+          "relocated_segment_site": 23364,
+          "space": "root"
+        },
+        {
+          "file_offset": 31542,
+          "image_offset": 23350,
+          "kind": "far_call",
+          "relocated_segment_site": 23353,
+          "space": "root"
+        },
+        {
+          "file_offset": 38638,
+          "image_offset": 30446,
+          "kind": "far_call",
+          "relocated_segment_site": 30449,
+          "space": "root"
+        },
+        {
+          "file_offset": 99076,
+          "image_offset": 90884,
+          "kind": "far_call",
+          "relocated_segment_site": 90887,
+          "space": "root"
+        },
+        {
+          "file_offset": 98039,
+          "image_offset": 89847,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 89846
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads the literal two-word tag 464f:4e54 (FONT), obtains a handle then a derived word. Application resource-helper hypothesis."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4faa",
+      "offset": 20394,
+      "original_bytes_hex": "558becb8544eba4f465250ff76069a6a6f0111509a1c0a01118be55dca020090",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "load_font_attribute",
+      "sha256": "c6f7d1676eac2ecfa81767740f5393c4e0f8ed61b404abdb74032c621a795ffd",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 6; far value BP+8/+10 and word BP+6; saves DI,SI,DS, BP frame, no locals; AX handle/status after carry conversion.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x17f6e 816600ffef and word ptr [bp], 0xefff; root+0x17f73 1f pop ds; root+0x17f74 5e pop si; root+0x17f75 5f pop di; root+0x17f76 5d pop bp; root+0x17f77 ca0200 retf 2.",
+        "All decoded return paths: root+0x17f96 ca0600 (retf 6).",
+        "Every direct branch remains inside this extent: 0x17f8d->0x17f92.",
+        "Original zero at 0x17f99 is excluded as inter-procedure/data alignment, not assumed emitted CODE. Callee support review grants no ownership or archive-member proof.",
+        "Following original bytes at root+0x17f99: 00558bec83c4fc57561ec746; next decoded context is in supplement.json.",
+        "30 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17855,
+          "image_offset": 9663,
+          "kind": "far_call",
+          "relocated_segment_site": 9666,
+          "space": "root"
+        },
+        {
+          "file_offset": 21433,
+          "image_offset": 13241,
+          "kind": "far_call",
+          "relocated_segment_site": 13244,
+          "space": "root"
+        },
+        {
+          "file_offset": 27653,
+          "image_offset": 19461,
+          "kind": "far_call",
+          "relocated_segment_site": 19464,
+          "space": "root"
+        },
+        {
+          "file_offset": 28524,
+          "image_offset": 20332,
+          "kind": "far_call",
+          "relocated_segment_site": 20335,
+          "space": "root"
+        },
+        {
+          "file_offset": 34202,
+          "image_offset": 26010,
+          "kind": "far_call",
+          "relocated_segment_site": 26013,
+          "space": "root"
+        },
+        {
+          "file_offset": 47756,
+          "image_offset": 39564,
+          "kind": "far_call",
+          "relocated_segment_site": 39567,
+          "space": "root"
+        },
+        {
+          "file_offset": 50118,
+          "image_offset": 41926,
+          "kind": "far_call",
+          "relocated_segment_site": 41929,
+          "space": "root"
+        },
+        {
+          "file_offset": 50438,
+          "image_offset": 42246,
+          "kind": "far_call",
+          "relocated_segment_site": 42249,
+          "space": "root"
+        },
+        {
+          "file_offset": 51936,
+          "image_offset": 43744,
+          "kind": "far_call",
+          "relocated_segment_site": 43747,
+          "space": "root"
+        },
+        {
+          "file_offset": 53090,
+          "image_offset": 44898,
+          "kind": "far_call",
+          "relocated_segment_site": 44901,
+          "space": "root"
+        },
+        {
+          "file_offset": 53055,
+          "image_offset": 44863,
+          "kind": "far_call",
+          "relocated_segment_site": 44866,
+          "space": "root"
+        },
+        {
+          "file_offset": 64652,
+          "image_offset": 56460,
+          "kind": "far_call",
+          "relocated_segment_site": 56463,
+          "space": "root"
+        },
+        {
+          "file_offset": 98248,
+          "image_offset": 90056,
+          "kind": "far_call",
+          "relocated_segment_site": 90059,
+          "space": "root"
+        },
+        {
+          "file_offset": 110516,
+          "image_offset": 102324,
+          "kind": "far_call",
+          "relocated_segment_site": 102327,
+          "space": "root"
+        },
+        {
+          "file_offset": 110745,
+          "image_offset": 102553,
+          "kind": "far_call",
+          "relocated_segment_site": 102556,
+          "space": "root"
+        },
+        {
+          "file_offset": 128723,
+          "image_offset": 120531,
+          "kind": "far_call",
+          "relocated_segment_site": 120534,
+          "space": "root"
+        },
+        {
+          "file_offset": 128477,
+          "image_offset": 120285,
+          "kind": "far_call",
+          "relocated_segment_site": 120288,
+          "space": "root"
+        },
+        {
+          "file_offset": 135254,
+          "image_offset": 127062,
+          "kind": "far_call",
+          "relocated_segment_site": 127065,
+          "space": "root"
+        },
+        {
+          "file_offset": 134964,
+          "image_offset": 126772,
+          "kind": "far_call",
+          "relocated_segment_site": 126775,
+          "space": "root"
+        },
+        {
+          "file_offset": 136167,
+          "image_offset": 127975,
+          "kind": "far_call",
+          "relocated_segment_site": 127978,
+          "space": "root"
+        },
+        {
+          "file_offset": 135540,
+          "image_offset": 127348,
+          "kind": "far_call",
+          "relocated_segment_site": 127351,
+          "space": "root"
+        },
+        {
+          "file_offset": 136818,
+          "image_offset": 128626,
+          "kind": "far_call",
+          "relocated_segment_site": 128629,
+          "space": "root"
+        },
+        {
+          "file_offset": 137558,
+          "image_offset": 129366,
+          "kind": "far_call",
+          "relocated_segment_site": 129369,
+          "space": "root"
+        },
+        {
+          "file_offset": 137316,
+          "image_offset": 129124,
+          "kind": "far_call",
+          "relocated_segment_site": 129127,
+          "space": "root"
+        },
+        {
+          "file_offset": 79270,
+          "image_offset": 71078,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 71077
+        },
+        {
+          "file_offset": 113613,
+          "image_offset": 105421,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 105420
+        },
+        {
+          "file_offset": 114497,
+          "image_offset": 106305,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 106304
+        },
+        {
+          "file_offset": 118597,
+          "image_offset": 110405,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 110404
+        },
+        {
+          "file_offset": 119456,
+          "image_offset": 111264,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 111263
+        },
+        {
+          "file_offset": 124952,
+          "image_offset": 116760,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 116759
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Internal near allocation helper calls, saved DS and SBB AX,AX carry handling indicate custom memory-support assembly; no CRT archive identity is claimed."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1101:6f6a",
+      "offset": 28522,
+      "original_bytes_hex": "558bec57561ec446088cc28b4e06e8e2051bc07403e878041f5e5f5dca0600",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "allocate_tagged_handle",
+      "sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "size": 31,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2; word BP+6; BP frame, saves SI, no locals; returns AX zero or handle.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x1907d 9a94250111 lcall 0x1101, 0x2594; root+0x19082 5e pop si; root+0x19083 5f pop di; root+0x19084 8be5 mov sp, bp; root+0x19086 5d pop bp; root+0x19087 ca0200 retf 2.",
+        "All decoded return paths: root+0x190bc ca0200 (retf 2).",
+        "Every direct branch remains inside this extent: 0x190a2->0x190b6, 0x190ac->0x190b6.",
+        "RETF body ends at 0x190bf; original byte 90 at 0x190bf is MSC even-alignment padding INCLUDED in the 54-byte proposed complete component. No bytes are appended.",
+        "Following original bytes at root+0x190c0: 558bec83ec0457568b7e060b; next decoded context is in supplement.json.",
+        "10 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 53608,
+          "image_offset": 45416,
+          "kind": "far_call",
+          "relocated_segment_site": 45419,
+          "space": "root"
+        },
+        {
+          "file_offset": 53592,
+          "image_offset": 45400,
+          "kind": "far_call",
+          "relocated_segment_site": 45403,
+          "space": "root"
+        },
+        {
+          "file_offset": 65470,
+          "image_offset": 57278,
+          "kind": "far_call",
+          "relocated_segment_site": 57281,
+          "space": "root"
+        },
+        {
+          "file_offset": 65815,
+          "image_offset": 57623,
+          "kind": "far_call",
+          "relocated_segment_site": 57626,
+          "space": "root"
+        },
+        {
+          "file_offset": 66262,
+          "image_offset": 58070,
+          "kind": "far_call",
+          "relocated_segment_site": 58073,
+          "space": "root"
+        },
+        {
+          "file_offset": 67845,
+          "image_offset": 59653,
+          "kind": "far_call",
+          "relocated_segment_site": 59656,
+          "space": "root"
+        },
+        {
+          "file_offset": 111579,
+          "image_offset": 103387,
+          "kind": "far_call",
+          "relocated_segment_site": 103390,
+          "space": "root"
+        },
+        {
+          "file_offset": 111639,
+          "image_offset": 103447,
+          "kind": "far_call",
+          "relocated_segment_site": 103450,
+          "space": "root"
+        },
+        {
+          "file_offset": 111682,
+          "image_offset": 103490,
+          "kind": "far_call",
+          "relocated_segment_site": 103493,
+          "space": "root"
+        },
+        {
+          "file_offset": 111723,
+          "image_offset": 103531,
+          "kind": "far_call",
+          "relocated_segment_site": 103534,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resource tag/handle acquisition, validity test and conditional release; C-style null/validation guards with a common saved-SI epilogue."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1101:807a",
+      "offset": 32890,
+      "original_bytes_hex": "558bec56b8444eba53005250ff76069a6a6f01118bf00bf67412569a368101110bc07508569aa02201112bf68bc65e8be55dca020090",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "load_typed_handle",
+      "sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal RETF 2; near handle/word BP+6; BP frame with 4 local bytes; saves DI,SI; far temporary low in SI/high BP-2; result AX.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x190b6 8bc6 mov ax, si; root+0x190b8 5e pop si; root+0x190b9 8be5 mov sp, bp; root+0x190bb 5d pop bp; root+0x190bc ca0200 retf 2; root+0x190bf 90 nop .",
+        "All decoded return paths: root+0x19129 ca0200 (retf 2).",
+        "Every direct branch remains inside this extent: 0x190cd->0x1911c, 0x190e3->0x190ef, 0x19111->0x19121, 0x1911a->0x19121.",
+        "Following original bytes at root+0x1912c: 558becff760aff76089ac625; next decoded context is in supplement.json.",
+        "2 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 66277,
+          "image_offset": 58085,
+          "kind": "far_call",
+          "relocated_segment_site": 58088,
+          "space": "root"
+        },
+        {
+          "file_offset": 111688,
+          "image_offset": 103496,
+          "kind": "far_call",
+          "relocated_segment_site": 103499,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Handle validation, resource operations and an embedded far callback pointer to 1101:811c; regular C frame and structured branches."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1101:80b0",
+      "offset": 32944,
+      "original_bytes_hex": "558bec83ec0457568b7e060bff744d579a6c2101118bf08956fe52509af03301110bc0740a8b46fe50569a42330111579ad02201118bf0579a622301115250b81c81ba011152509a5b3301118946fe0bc0750e57569a94250111eb05c746fe00008b46fe5e5f8be55dca0200",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "process_handle",
+      "sha256": "e899d01859e3d81019f7290d59e0559859ff51e8a52206efc9baf889687aa057",
+      "size": 108,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl RETF, one near pointer/word BP+6; BP frame, saves SI, no locals; result unspecified.",
+      "boundary_evidence": [
+        "Original preceding 32-byte context ends at root+0x1fe7a: fba07408b90004f7e1f81fc3f9ebfb0000000000000000000000000000000000; independent entry/control-flow evidence is recorded below.",
+        "All decoded return paths: root+0x1fe9a cb (retf ).",
+        "Every direct branch remains inside this extent: 0x1fe87->0x1fe96, 0x1fe91->0x1fe96.",
+        "Following original bytes at root+0x1fe9b: 558bec56578b4e0683f9e877; next decoded context is in supplement.json.",
+        "Additional original relocated 16:16 entry pointer(s): 0x212a7 (1fe6:001a, relocation 1915). These are entry evidence, not eligible 9A witnesses.",
+        "31 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "kind": "far_call",
+          "relocated_segment_site": 5117,
+          "space": "root"
+        },
+        {
+          "file_offset": 28011,
+          "image_offset": 19819,
+          "kind": "far_call",
+          "relocated_segment_site": 19822,
+          "space": "root"
+        },
+        {
+          "file_offset": 28839,
+          "image_offset": 20647,
+          "kind": "far_call",
+          "relocated_segment_site": 20650,
+          "space": "root"
+        },
+        {
+          "file_offset": 28828,
+          "image_offset": 20636,
+          "kind": "far_call",
+          "relocated_segment_site": 20639,
+          "space": "root"
+        },
+        {
+          "file_offset": 29131,
+          "image_offset": 20939,
+          "kind": "far_call",
+          "relocated_segment_site": 20942,
+          "space": "root"
+        },
+        {
+          "file_offset": 29390,
+          "image_offset": 21198,
+          "kind": "far_call",
+          "relocated_segment_site": 21201,
+          "space": "root"
+        },
+        {
+          "file_offset": 34648,
+          "image_offset": 26456,
+          "kind": "far_call",
+          "relocated_segment_site": 26459,
+          "space": "root"
+        },
+        {
+          "file_offset": 51017,
+          "image_offset": 42825,
+          "kind": "far_call",
+          "relocated_segment_site": 42828,
+          "space": "root"
+        },
+        {
+          "file_offset": 52309,
+          "image_offset": 44117,
+          "kind": "far_call",
+          "relocated_segment_site": 44120,
+          "space": "root"
+        },
+        {
+          "file_offset": 54237,
+          "image_offset": 46045,
+          "kind": "far_call",
+          "relocated_segment_site": 46048,
+          "space": "root"
+        },
+        {
+          "file_offset": 86738,
+          "image_offset": 78546,
+          "kind": "far_call",
+          "relocated_segment_site": 78549,
+          "space": "root"
+        },
+        {
+          "file_offset": 87158,
+          "image_offset": 78966,
+          "kind": "far_call",
+          "relocated_segment_site": 78969,
+          "space": "root"
+        },
+        {
+          "file_offset": 98123,
+          "image_offset": 89931,
+          "kind": "far_call",
+          "relocated_segment_site": 89934,
+          "space": "root"
+        },
+        {
+          "file_offset": 98741,
+          "image_offset": 90549,
+          "kind": "far_call",
+          "relocated_segment_site": 90552,
+          "space": "root"
+        },
+        {
+          "file_offset": 98922,
+          "image_offset": 90730,
+          "kind": "far_call",
+          "relocated_segment_site": 90733,
+          "space": "root"
+        },
+        {
+          "file_offset": 113493,
+          "image_offset": 105301,
+          "kind": "far_call",
+          "relocated_segment_site": 105304,
+          "space": "root"
+        },
+        {
+          "file_offset": 116784,
+          "image_offset": 108592,
+          "kind": "far_call",
+          "relocated_segment_site": 108595,
+          "space": "root"
+        },
+        {
+          "file_offset": 119907,
+          "image_offset": 111715,
+          "kind": "far_call",
+          "relocated_segment_site": 111718,
+          "space": "root"
+        },
+        {
+          "file_offset": 123937,
+          "image_offset": 115745,
+          "kind": "far_call",
+          "relocated_segment_site": 115748,
+          "space": "root"
+        },
+        {
+          "file_offset": 126846,
+          "image_offset": 118654,
+          "kind": "far_call",
+          "relocated_segment_site": 118657,
+          "space": "root"
+        },
+        {
+          "file_offset": 88742,
+          "image_offset": 80550,
+          "kind": "far_call",
+          "relocated_segment_site": 80553,
+          "space": "root"
+        },
+        {
+          "file_offset": 92524,
+          "image_offset": 84332,
+          "kind": "far_call",
+          "relocated_segment_site": 84335,
+          "space": "root"
+        },
+        {
+          "file_offset": 97934,
+          "image_offset": 89742,
+          "kind": "far_call",
+          "relocated_segment_site": 89745,
+          "space": "root"
+        },
+        {
+          "file_offset": 106529,
+          "image_offset": 98337,
+          "kind": "far_call",
+          "relocated_segment_site": 98340,
+          "space": "root"
+        },
+        {
+          "file_offset": 108650,
+          "image_offset": 100458,
+          "kind": "far_call",
+          "relocated_segment_site": 100461,
+          "space": "root"
+        },
+        {
+          "file_offset": 108859,
+          "image_offset": 100667,
+          "kind": "far_call",
+          "relocated_segment_site": 100670,
+          "space": "root"
+        },
+        {
+          "file_offset": 130711,
+          "image_offset": 122519,
+          "kind": "far_call",
+          "relocated_segment_site": 122522,
+          "space": "root"
+        },
+        {
+          "file_offset": 134104,
+          "image_offset": 125912,
+          "kind": "far_call",
+          "relocated_segment_site": 125915,
+          "space": "root"
+        },
+        {
+          "file_offset": 134070,
+          "image_offset": 125878,
+          "kind": "far_call",
+          "relocated_segment_site": 125881,
+          "space": "root"
+        },
+        {
+          "file_offset": 136490,
+          "image_offset": 128298,
+          "kind": "far_call",
+          "relocated_segment_site": 128301,
+          "space": "root"
+        },
+        {
+          "file_offset": 137441,
+          "image_offset": 129249,
+          "kind": "far_call",
+          "relocated_segment_site": 129252,
+          "space": "root"
+        }
+      ],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "Known runtime segment 1fe6; immediate near heap descriptor 225c and block free-bit manipulation. Not a PINNED_RUNTIME owner at the reviewed HEAD."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:001a",
+      "offset": 26,
+      "original_bytes_hex": "558bec568b5e06be5c22395c06730d4b4b800f01395c087603895c085e8be55dcb",
+      "original_name": null,
+      "segment": 8166,
+      "semantic_name_hypothesis": "near_heap_free",
+      "sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "size": 33,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl RETF; far pointers BP+6/+8 and BP+10/+12, count BP+14; BP frame, no locals; saves DS,DI,SI on nonzero count; AX signed compare result, zero on equality.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x21c28 f7da neg dx; root+0x21c2a f7d8 neg ax; root+0x21c2c 83da00 sbb dx, 0; root+0x21c2f 5b pop bx; root+0x21c30 5d pop bp; root+0x21c31 ca0800 retf 8.",
+        "All decoded return paths: root+0x21c8e cb (retf ).",
+        "Every direct branch remains inside this extent: 0x21c3c->0x21c8d, 0x21c68->0x21c85, 0x21c6b->0x21c8a, 0x21c6f->0x21c78, 0x21c7a->0x21c47, 0x21c83->0x21c47.",
+        "Original zero at 0x21c8f is excluded as inter-procedure/data alignment, not assumed emitted CODE. Callee support review grants no ownership or archive-member proof.",
+        "Following original bytes at root+0x21c8f: 00558bec8b4e0e1e5756e348; next decoded context is in supplement.json.",
+        "3 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 132569,
+          "image_offset": 124377,
+          "kind": "far_call",
+          "relocated_segment_site": 124380,
+          "space": "root"
+        },
+        {
+          "file_offset": 134205,
+          "image_offset": 126013,
+          "kind": "far_call",
+          "relocated_segment_site": 126016,
+          "space": "root"
+        },
+        {
+          "file_offset": 134163,
+          "image_offset": 125971,
+          "kind": "far_call",
+          "relocated_segment_site": 125974,
+          "space": "root"
+        }
+      ],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "Known runtime segment and far byte-compare loop with segment rollover by 1000h; no archive/member pin or byte ownership is claimed."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1dd4",
+      "offset": 7636,
+      "original_bytes_hex": "558bec33c08b4e0ee34f1e5756c57606c47e0a8bc1488bd7f7d22bc21bdb23c303c28bd6f7d22bc21bdb23c303c240912bc1f3a6751b91e31d0bf675078cd80500108ed80bff75cb8cc00500108ec0ebc21bc01dffff5e5f1f5dcb",
+      "original_name": null,
+      "segment": 8166,
+      "semantic_name_hypothesis": "far_memory_compare",
+      "sha256": "ad9ce2b01cdf308c4f0836c8519ea524790908b86725daa870d5ca8986d892b8",
+      "size": 91,
       "space": "root",
       "state": "ANALYZED"
     }
