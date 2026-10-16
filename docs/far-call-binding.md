@@ -33,12 +33,32 @@ raw addend `A = 0` and omitted `D`, the offset equation is
 words must equal these values. The generated loader obligation is exactly the
 segment word, operand offset +2. Every original relocated word touching the
 owner, including one starting a byte before it, must correspond one-to-one to
-these fields. V1 requires the entire original relocation subsequence to equal
-far FIXUPP traversal order, and freezes its original indices in the binding,
-recipe and owner. It does not infer RTLink symbol-group ordering or reorder a
-mismatch. All remaining bytes compare literally. Validation freshly compiles,
-checks raw OMF identity, witnesses, equations and indices; metrics report the
-covered index list and `relocs=X/N` for each original space.
+these fields. The exact site set, one-to-one correspondence, original table
+indices and within-target-symbol FIXUPP order are checked without sorting or
+rewriting either sequence. Original symbol groups projected onto the owner must
+be contiguous. Indices remain frozen in original table order in the binding,
+recipe and owner; reports separately retain generated FIXUPP traversal indices.
+All remaining bytes compare literally. Validation freshly compiles, checks raw
+OMF identity, witnesses, equations, order qualification and indices; metrics
+report the covered index list and `relocs=X/N` for each original space.
+
+The original v1 whole-subsequence equality was over-strict. The independently
+reproduced [RTLink order probe](../evidence/rtlink-probe/relocation-order/README.md)
+shows target-symbol buckets within a **combined output CODE segment**, across
+input object modules and LEDATA records. Another segment in the same object
+has separate buckets. References to different public names at the same address
+remain separate buckets. Each module/segment/symbol projection keeps raw OMF
+FIXUPP traversal exactly. Thus a whole single-CODE component can prove its site
+bijection and within-symbol order; it cannot determine the symbol bucket
+permutation or full output-segment placement from its own object.
+
+Reports use `relocation_order: EXACT` when whole FIXUPP traversal happens to
+match the original subsequence, otherwise `GROUPED` after all group checks
+pass. A GROUPED report and recipe explicitly retain `relocation_order_debt`:
+between-target bucket order and combined-segment placement need structural
+linker proof. Validation refuses a missing or changed qualification/debt. Old
+recipes without these fields mean EXACT and still pass unchanged. Neither
+qualification proves original TU membership or a natural whole-program link.
 
 Composition uses the same `symbols` table with `near-data-alias` entries and a
 `data` object containing the resident DGROUP `mode` and `frame` from
@@ -63,8 +83,8 @@ Original facts for the exemplar:
   Independent witness `root+0x589a`, `9a e4 25 01 11`, has relocation index
   584 at `0x589d`; it is outside the accepted wrapper.
 - The wrapper's CALL at `0x1e6ff` has operand offset 10. Its segment word at
-  `0x1e702` is root MZ relocation **1764**, now the sole covered original
-  relocation: root **1/2,029**, all spaces **1/4,716**.
+  `0x1e702` is root MZ relocation **1764**, the first covered original
+  relocation. That initial milestone had root **1/2,029**, all spaces **1/4,716**.
 
 Compiler observation: pinned MSC 6.00 with
 `/c /AM /Oe /Gs /Zl /Gc` emits the complete 20-byte segment, public
@@ -108,3 +128,33 @@ still need proof. The separately supplied ~592-function frontier uses a
 broader recovery scope; this count is not a recount or acceptance of it.
 Remaining debts include overlay vectors, near/TU calls, other fixups, natural
 placement, complete RTLink closure and runtime behavior.
+
+
+## Multi-callee 62fe qualification
+
+The [original order receipt](../evidence/toolchain/far-call-order-original.json)
+rechecks 1,070 increasing site pairs among 2,028 consecutive root relocation
+pairs. Calls to `1101:4faa` occur at indices 466..475 and 1453; calls to
+`1101:4fca` at 1426, 1654, 1719 and 1720. These address-based observations are
+consistent with segment/symbol buckets; they do not recover original symbol
+names, TU boundaries or the linker version. The synthetic probe separately
+establishes the tested ordering mechanism rather than importing SimAnt's rule.
+
+`root:1000:62fe` is the existing reviewed 24-byte wrapper at root+0x162fe.
+It pushes BP+6, calls `1101:4faa`, pushes AX, calls `1101:4fca`, restores the
+frame, executes RETF 2, then has the original alignment NOP. The next frame
+starts at 0x16316. Six independently recorded callers and both reviewed callee
+entries are rechecked. Pinned MSC 6.00 `/c /AM /Oe /Gs /Zl /Gc` emits the whole
+24 bytes and F5/T6 LOC3 fields at offsets **13, 7**. Original relocation indices
+**1453, 1654** instead identify segment words at root+0x16307 and root+0x1630d.
+Each symbol has one field, so its group order is exact. The complete
+[src/load_and_exchange_attribute.c](../src/load_and_exchange_attribute.c) is
+CODE_EXACT with GROUPED debt pinned in its recipe. Both indices gain coverage;
+no code byte, fixup or relocation record is changed.
+
+The separate 300-call compiler contrast emits three LEDATA chunks: starts
+0, 745, 1490; lengths 745, 745, 12; fixup counts 149, 149, 2. FIXUPPs descend
+inside each chunk and continue in LEDATA traversal order across chunks. MASM's
+probe references ascend. Sorting by site, globally reversing FIXUPPs, or
+requiring a universal descending sequence would therefore be incorrect.
+All non-order v1 restrictions and the root-only scope remain in force.

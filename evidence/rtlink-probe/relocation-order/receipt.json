@@ -1,0 +1,463 @@
+{
+  "inputs": {
+    "A": {
+      "object_sha256": "3cfde758b8b5eeb2cf17e02acb0ec63d01b513801541cbe1ed470348eb010be8",
+      "source_sha256": "c2abf5611eeb17c8a760e80d74e06f070494dfaccc48832debc7e7b7e5e826f5",
+      "staged_source_sha256": "cab0e23657324184a2eb761709d2951ef227d3d0ce7e647f5d10786c4eb9f807"
+    },
+    "B": {
+      "object_sha256": "3919f2bf62a4c977b33c934e7e6cee711334cda384974956f5f241a4904a6614",
+      "source_sha256": "012416ac59ed09f396d6195bc27501883adbe4a7fcc0f18e16314f34be809b56",
+      "staged_source_sha256": "fd5abd22cf1b613e52ff172be61fe7bed27d1454968764d0fea44f45ef759dae"
+    },
+    "DEFS": {
+      "object_sha256": "95364d530403f112a870b56e6bcb804f7a64bc5eccb6a12f61f95847e3ea8396",
+      "source_sha256": "d0404ab7c2cf5ac58f1e41a8b9068a8f06ac9828648c2af23fc7f33fad363204",
+      "staged_source_sha256": "a17bc2052e70410b795e292fefee133e1b5137c0d1c48dadddbe5064cd37740e"
+    },
+    "MANY": {
+      "object_sha256": "c462006bc4096f4c289b0d03067aec2ea2e679b0263aaec33b849635fb5545f3",
+      "source_sha256": "bfa9fa2affb768829b8b169d2961e92299c8d96f532d9010a30322ce44eb9a12",
+      "staged_source_sha256": "05d202927ddb37f6d00b540533135d25440dfad18ebe6a887c43593e21f48b53"
+    },
+    "START": {
+      "object_sha256": "87899b6172f541adea0a48f06b989da2595a61b7868ddb3fe5013f6d3935c91f",
+      "source_sha256": "14b5b2eecaa064adc9509a9d698cc99d3e2a5494b894f9b78d0233b1ef9c0c39"
+    }
+  },
+  "linker": {
+    "path": "C:/tools/rtlink-plus-6.10/installed/RTLINK.EXE",
+    "sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb"
+  },
+  "links": {
+    "AB": {
+      "equal_address_symbols_stay_separate": true,
+      "exe_sha256": "ddfc11bded43feceb5652c842f1c0e9790f7b7ef4fc27f0926004e1e33fa41ae",
+      "relocation_count": 24,
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT ORDER\nMAP\nFILE START\nFILE A\nFILE B\nFILE DEFS\n",
+      "target_group_order_by_output_segment": {
+        "SECOND": [
+          "PROBE_Y",
+          "PROBE_X",
+          "ALIAS_X"
+        ],
+        "SHARED": [
+          "PROBE_Y",
+          "PROBE_X",
+          "ALIAS_X"
+        ]
+      },
+      "warning_count": 0,
+      "within_symbol_orders_checked": [
+        {
+          "count": 4,
+          "input": "A:SHARED:PROBE_Y",
+          "operand_offsets": [
+            6,
+            21,
+            1132,
+            1147
+          ],
+          "ordered_offsets_sha256": "444ac514faf55d7cecf11dbafb556b0c06408052edf934259b6fc33d956164b4",
+          "original_indices": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "count": 2,
+          "input": "B:SHARED:PROBE_Y",
+          "operand_offsets": [
+            1,
+            16
+          ],
+          "ordered_offsets_sha256": "395f41241205421ffb70acdd505e17e9f733edb79ceeae1a765350465db285f9",
+          "original_indices": [
+            4,
+            5
+          ]
+        },
+        {
+          "count": 4,
+          "input": "A:SHARED:PROBE_X",
+          "operand_offsets": [
+            1,
+            16,
+            1137,
+            1152
+          ],
+          "ordered_offsets_sha256": "a3dc0e23b2a37b580f3c6eba183b4424115cc30aee2f4dbab90cc0cc6e5157e7",
+          "original_indices": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "count": 2,
+          "input": "B:SHARED:PROBE_X",
+          "operand_offsets": [
+            11,
+            26
+          ],
+          "ordered_offsets_sha256": "127eab791c917de479d0d18f396caa7fa2cf57a65ca8c39b3333ad08a37a45c0",
+          "original_indices": [
+            10,
+            11
+          ]
+        },
+        {
+          "count": 4,
+          "input": "A:SHARED:ALIAS_X",
+          "operand_offsets": [
+            11,
+            26,
+            1142,
+            1157
+          ],
+          "ordered_offsets_sha256": "8a0e6f9bc9e92a37c0f0f3bc8895eea7b25f793cb18a19375520f3f3807304e2",
+          "original_indices": [
+            12,
+            13,
+            14,
+            15
+          ]
+        },
+        {
+          "count": 2,
+          "input": "B:SHARED:ALIAS_X",
+          "operand_offsets": [
+            6,
+            21
+          ],
+          "ordered_offsets_sha256": "dcbf3c5583de86a4ca68c13c3ea90b4221a6a6df78c30a2b4465867250f7c596",
+          "original_indices": [
+            16,
+            17
+          ]
+        },
+        {
+          "count": 2,
+          "input": "A:SECOND:PROBE_Y",
+          "operand_offsets": [
+            6,
+            21
+          ],
+          "ordered_offsets_sha256": "dcbf3c5583de86a4ca68c13c3ea90b4221a6a6df78c30a2b4465867250f7c596",
+          "original_indices": [
+            18,
+            19
+          ]
+        },
+        {
+          "count": 2,
+          "input": "A:SECOND:PROBE_X",
+          "operand_offsets": [
+            1,
+            16
+          ],
+          "ordered_offsets_sha256": "395f41241205421ffb70acdd505e17e9f733edb79ceeae1a765350465db285f9",
+          "original_indices": [
+            20,
+            21
+          ]
+        },
+        {
+          "count": 2,
+          "input": "A:SECOND:ALIAS_X",
+          "operand_offsets": [
+            11,
+            26
+          ],
+          "ordered_offsets_sha256": "127eab791c917de479d0d18f396caa7fa2cf57a65ca8c39b3333ad08a37a45c0",
+          "original_indices": [
+            22,
+            23
+          ]
+        }
+      ]
+    },
+    "BA": {
+      "equal_address_symbols_stay_separate": true,
+      "exe_sha256": "5bc6c0fdb9bd7644e1c75f67530145c5d44335d679732c5f4094df2089a103eb",
+      "relocation_count": 24,
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT ORDER\nMAP\nFILE START\nFILE B\nFILE A\nFILE DEFS\n",
+      "target_group_order_by_output_segment": {
+        "SECOND": [
+          "PROBE_Y",
+          "PROBE_X",
+          "ALIAS_X"
+        ],
+        "SHARED": [
+          "PROBE_Y",
+          "PROBE_X",
+          "ALIAS_X"
+        ]
+      },
+      "warning_count": 0,
+      "within_symbol_orders_checked": [
+        {
+          "count": 2,
+          "input": "B:SHARED:PROBE_Y",
+          "operand_offsets": [
+            1,
+            16
+          ],
+          "ordered_offsets_sha256": "395f41241205421ffb70acdd505e17e9f733edb79ceeae1a765350465db285f9",
+          "original_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "count": 4,
+          "input": "A:SHARED:PROBE_Y",
+          "operand_offsets": [
+            6,
+            21,
+            1132,
+            1147
+          ],
+          "ordered_offsets_sha256": "444ac514faf55d7cecf11dbafb556b0c06408052edf934259b6fc33d956164b4",
+          "original_indices": [
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "count": 2,
+          "input": "B:SHARED:PROBE_X",
+          "operand_offsets": [
+            11,
+            26
+          ],
+          "ordered_offsets_sha256": "127eab791c917de479d0d18f396caa7fa2cf57a65ca8c39b3333ad08a37a45c0",
+          "original_indices": [
+            6,
+            7
+          ]
+        },
+        {
+          "count": 4,
+          "input": "A:SHARED:PROBE_X",
+          "operand_offsets": [
+            1,
+            16,
+            1137,
+            1152
+          ],
+          "ordered_offsets_sha256": "a3dc0e23b2a37b580f3c6eba183b4424115cc30aee2f4dbab90cc0cc6e5157e7",
+          "original_indices": [
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "count": 2,
+          "input": "B:SHARED:ALIAS_X",
+          "operand_offsets": [
+            6,
+            21
+          ],
+          "ordered_offsets_sha256": "dcbf3c5583de86a4ca68c13c3ea90b4221a6a6df78c30a2b4465867250f7c596",
+          "original_indices": [
+            12,
+            13
+          ]
+        },
+        {
+          "count": 4,
+          "input": "A:SHARED:ALIAS_X",
+          "operand_offsets": [
+            11,
+            26,
+            1142,
+            1157
+          ],
+          "ordered_offsets_sha256": "8a0e6f9bc9e92a37c0f0f3bc8895eea7b25f793cb18a19375520f3f3807304e2",
+          "original_indices": [
+            14,
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "count": 2,
+          "input": "A:SECOND:PROBE_Y",
+          "operand_offsets": [
+            6,
+            21
+          ],
+          "ordered_offsets_sha256": "dcbf3c5583de86a4ca68c13c3ea90b4221a6a6df78c30a2b4465867250f7c596",
+          "original_indices": [
+            18,
+            19
+          ]
+        },
+        {
+          "count": 2,
+          "input": "A:SECOND:PROBE_X",
+          "operand_offsets": [
+            1,
+            16
+          ],
+          "ordered_offsets_sha256": "395f41241205421ffb70acdd505e17e9f733edb79ceeae1a765350465db285f9",
+          "original_indices": [
+            20,
+            21
+          ]
+        },
+        {
+          "count": 2,
+          "input": "A:SECOND:ALIAS_X",
+          "operand_offsets": [
+            11,
+            26
+          ],
+          "ordered_offsets_sha256": "127eab791c917de479d0d18f396caa7fa2cf57a65ca8c39b3333ad08a37a45c0",
+          "original_indices": [
+            22,
+            23
+          ]
+        }
+      ]
+    },
+    "MSC": {
+      "equal_address_symbols_stay_separate": true,
+      "exe_sha256": "07290c8ced9055ea318a315789ba8ba35e0c1e3edfa22e0eed571720384fa779",
+      "relocation_count": 300,
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT ORDER\nMAP\nFILE START\nFILE MANY\nFILE DEFS\n",
+      "target_group_order_by_output_segment": {
+        "UNIT_TEXT": [
+          "PROBE_Y",
+          "ALIAS_X",
+          "PROBE_X"
+        ]
+      },
+      "warning_count": 0,
+      "within_symbol_orders_checked": [
+        {
+          "count": 100,
+          "input": "MANY:UNIT_TEXT:PROBE_Y",
+          "operand_offsets": [
+            741,
+            726,
+            711,
+            696,
+            786,
+            771,
+            756,
+            1491
+          ],
+          "ordered_offsets_sha256": "3c97d1c406658a58453b55d554fa1cdd1d94078f1a8f3a69779a2acfc55785a2",
+          "original_indices": [
+            0,
+            99
+          ]
+        },
+        {
+          "count": 100,
+          "input": "MANY:UNIT_TEXT:ALIAS_X",
+          "operand_offsets": [
+            731,
+            716,
+            701,
+            686,
+            776,
+            761,
+            746,
+            1496
+          ],
+          "ordered_offsets_sha256": "1294fc2935c8b343231bc867ea42e6df080308676224bb957736600a323746fc",
+          "original_indices": [
+            100,
+            199
+          ]
+        },
+        {
+          "count": 100,
+          "input": "MANY:UNIT_TEXT:PROBE_X",
+          "operand_offsets": [
+            736,
+            721,
+            706,
+            691,
+            796,
+            781,
+            766,
+            751
+          ],
+          "ordered_offsets_sha256": "520c4bf34486283916fdffab754a3c0986bf2dd213459e700504a28ebe36345e",
+          "original_indices": [
+            200,
+            299
+          ]
+        }
+      ]
+    }
+  },
+  "msc600": {
+    "across_chunks": "LEDATA traversal, not global site sort",
+    "calls": 300,
+    "fixupp_chunks": [
+      {
+        "first_operand_offset": 741,
+        "fixup_count": 149,
+        "last_operand_offset": 1,
+        "ledata_length": 745,
+        "ledata_offset": 0
+      },
+      {
+        "first_operand_offset": 1486,
+        "fixup_count": 149,
+        "last_operand_offset": 746,
+        "ledata_length": 745,
+        "ledata_offset": 745
+      },
+      {
+        "first_operand_offset": 1496,
+        "fixup_count": 2,
+        "last_operand_offset": 1491,
+        "ledata_length": 12,
+        "ledata_offset": 1490
+      }
+    ],
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "within_chunk_order": "descending"
+  },
+  "observations": [
+    "SHARED is one combined output CODE segment across A and B; its target buckets contain both modules before the next target. Reversing A/B reverses module contributions inside each bucket.",
+    "SECOND is another CODE segment in A and has its own buckets. Group scope in these probes is combined output segment, not object module or LEDATA record.",
+    "PROBE_X and ALIAS_X have equal public addresses but distinct target buckets; bucket keys are linker symbol identities, not bound address pairs.",
+    "All module/segment/symbol projections preserve complete raw FIXUPP traversal, including MSC descending fields within each LEDATA and the transition to the next chunk.",
+    "No general between-target bucket permutation, original linker version, original TU partition or natural output placement follows from these probes."
+  ],
+  "purpose": "Synthetic linker observation only; no acceptance ownership or original-linker identity",
+  "runner": {
+    "name": "MS-DOS Player",
+    "options": [
+      "-e",
+      "-v5.00"
+    ],
+    "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+    "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+  },
+  "schema": 1,
+  "source_script_sha256": "6a1330479a8861db9e879c315970d0c07187e8ce9c9844ac432cca992ec232bc"
+}

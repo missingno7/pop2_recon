@@ -1,0 +1,155 @@
+{
+  "authority": "Immutable original MZ bytes and ordered relocation table, not candidate output or sibling assumptions",
+  "base_head": "9ffadf8",
+  "component": {
+    "call_operand_offsets": [
+      7,
+      13
+    ],
+    "compiled_object_sha256": "19406d54ab0d712b008361255f1b7b93568940e36ea5d45a90df1e70c6118781",
+    "following_12_hex": "558becc456068cc18b1ec025",
+    "independent_boundary_review": "Existing reviewed 24-byte target and both direct callee rows rechecked by get_target; straight-line frame, two calls, RETF2 and original NOP; next frame starts at root+0x16316.",
+    "ordered_fixup_operand_offsets": [
+      13,
+      7
+    ],
+    "original_relocations": [
+      {
+        "image_offset": 90887,
+        "index": 1453,
+        "offset": 21239,
+        "segment": 4353,
+        "stored_word": 4353
+      },
+      {
+        "image_offset": 90893,
+        "index": 1654,
+        "offset": 21245,
+        "segment": 4353,
+        "stored_word": 4353
+      }
+    ],
+    "predecessor_32_hex": "7d0dc57e0e8905895504b80100eb0a2bc0b90400c47e0ef3ab1f5f5dca0c0000",
+    "sha256": "41e4a26b769e71db14db8d74112d3bd3707829717c05ed9c604a73ff276f2bab",
+    "size": 24,
+    "status": "CODE_EXACT with GROUPED structural order qualification",
+    "target_id": "root:1000:62fe"
+  },
+  "consecutive_pairs": 2028,
+  "increasing_consecutive_sites": 1070,
+  "inference": "Original source-segment/callee runs contradict global site sorting. Synthetic RTLink output-segment/symbol buckets explain the local cross-target permutation. Exact original TU/output-segment membership, original symbol names and between-target ordering remain unproved.",
+  "original_9a_call_runs": {
+    "1101:25e4": {
+      "original_indices": [
+        584,
+        585,
+        586,
+        587,
+        588,
+        589,
+        590,
+        591,
+        592,
+        593,
+        810,
+        811,
+        812,
+        1550,
+        1696,
+        1763,
+        1764,
+        1788
+      ],
+      "relocation_source_segment_representations": [
+        1325,
+        1930,
+        4353,
+        7542,
+        7715,
+        7853
+      ]
+    },
+    "1101:4faa": {
+      "original_indices": [
+        466,
+        467,
+        468,
+        469,
+        470,
+        471,
+        472,
+        473,
+        474,
+        475,
+        1453
+      ],
+      "relocation_source_segment_representations": [
+        1325,
+        4353
+      ]
+    },
+    "1101:4fca": {
+      "original_indices": [
+        1426,
+        1654,
+        1719,
+        1720
+      ],
+      "relocation_source_segment_representations": [
+        4221,
+        4353,
+        7542
+      ]
+    },
+    "1fe6:001a": {
+      "original_indices": [
+        14,
+        387,
+        388,
+        389,
+        390,
+        391,
+        476,
+        901,
+        902,
+        903,
+        1454,
+        1455,
+        1456,
+        1457,
+        1458,
+        1459,
+        1460,
+        1461,
+        1462,
+        1463,
+        1465,
+        1466,
+        1467,
+        1468,
+        1469,
+        1470,
+        1732,
+        1780,
+        1781,
+        1799,
+        1884
+      ],
+      "relocation_source_segment_representations": [
+        0,
+        1190,
+        1325,
+        2652,
+        4353,
+        7656,
+        7853,
+        7887,
+        8052
+      ]
+    }
+  },
+  "root_relocations": 2029,
+  "schema": 1,
+  "synthetic_receipt": "evidence/rtlink-probe/relocation-order/receipt.json",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

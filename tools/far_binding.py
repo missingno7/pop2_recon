@@ -1,4 +1,4 @@
-"""Finite root external CALL FAR equations and exact ordered MZ obligations.
+"""Finite root external CALL FAR equations and grouped MZ obligations.
 
 The callee entry and an original relocated CALL outside the owner establish
 its alias independently. Raw OMF and oracle bytes are never rewritten.
@@ -47,6 +47,49 @@ def ground_symbol(symbol, target, oracle):
         receipts.append({"image_offset": at, "relocation_index": relocs[0]["index"]})
     return {"entry_target_id": callee["id"], "segment": symbol["segment"],
             "offset": symbol["offset"], "witnesses": receipts, "callee_owned_bytes": 0}
+
+
+ORDER_DEBT = ["Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"]
+
+
+def relocation_order(relocs, fields, frozen_indices):
+    """Project RTLink's output-segment/symbol buckets onto one whole CODE owner.
+
+    `fields` retains OMF FIXUPP traversal, never site-sorted. Distinct external
+    symbols remain distinct even when their grounded 16:16 addresses coincide.
+    No between-symbol bucket permutation is inferred from the local object.
+    """
+    original_sites = [r["image_offset"] for r in relocs]
+    sites = [f["site"] for f in fields]
+    require(len(original_sites) == len(sites) == len(set(original_sites)) == len(set(sites)) and
+            set(original_sites) == set(sites),
+            "Original MZ relocation site set differs from far segment fields")
+    indices = [r["index"] for r in relocs]
+    require(all(type(i) is int and i >= 0 for i in indices) and len(indices) == len(set(indices)),
+            "Duplicate/invalid original relocation index")
+    require(indices == frozen_indices, "Frozen original relocation indices changed")
+    by_site = {f["site"]: f for f in fields}
+    groups = []
+    names = list(dict.fromkeys(f["symbol"] for f in fields))
+    original_names = [by_site[r["image_offset"]]["symbol"] for r in relocs]
+    runs = [n for i, n in enumerate(original_names) if i == 0 or original_names[i-1] != n]
+    require(len(runs) == len(set(runs)), "Original MZ target-symbol groups are interleaved")
+    for name in names:
+        generated = [f for f in fields if f["symbol"] == name]
+        observed = [r for r in relocs if by_site[r["image_offset"]]["symbol"] == name]
+        require([f["site"] for f in generated] == [r["image_offset"] for r in observed],
+                "Original MZ within-symbol FIXUPP order differs: " + name)
+        groups.append({"symbol": name,
+                       "fixup_operand_offsets": [f["offset"] for f in generated],
+                       "segment_word_sites": [f["site"] for f in generated],
+                       "original_relocation_indices": [r["index"] for r in observed],
+                       "within_group_order": "EXACT"})
+    qualification = "EXACT" if original_sites == sites else "GROUPED"
+    index_by_site = {r["image_offset"]: r["index"] for r in relocs}
+    return {"relocation_order": qualification, "relocation_groups": groups,
+            "generated_relocation_indices": [index_by_site[f["site"]] for f in fields],
+            "relocation_order_debt": list(ORDER_DEBT) if qualification == "GROUPED" else [],
+            "relocation_order_scope": "Exact site bijection and contiguous target-symbol groups within one CODE contribution; exact FIXUPP order inside each group; no natural between-group/output-segment placement proof"}
 
 
 def compare(module, code_name, actual, expected, binding, target, space, oracle):
@@ -101,7 +144,8 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
                           "equal": value == observed})
         occupied.update(range(at, at+4))
         allowed_calls.add(at-1)
-        sites.append(space.position(target["segment"], target["offset"])+at+2)
+        sites.append({"site": space.position(target["segment"], target["offset"])+at+2,
+                      "offset": at, "symbol": ref["name"]})
     # No literal or indirect call may bypass the supported symbolic obligations.
     for insn in rows:
         require(not set(insn.groups).intersection((cs.CS_GRP_CALL, cs.CS_GRP_INT, cs.CS_GRP_IRET)) or
@@ -120,21 +164,19 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
         differences.extend(data_diff)
     start = space.position(target["segment"], target["offset"])
     relocs = [r for r in space.relocations if start-1 <= r["image_offset"] < start+len(expected)]
-    require([r["image_offset"] for r in relocs] == sites,
-            "Ordered original MZ relocation obligations differ from far segment fields")
+    order_proof = relocation_order(relocs, sites, binding["relocation_indices"])
     indices = [r["index"] for r in relocs]
-    require(indices == binding["relocation_indices"], "Frozen original relocation indices changed")
     # Retain complete FIXUPP order even when data/far equations were evaluated separately.
     order = {f["segment_offset"]: i for i, f in enumerate(obligations)}
     equations.sort(key=lambda e: order[e["offset"]])
     ordinary = [i for i, (a, b) in enumerate(zip(actual, expected)) if i not in occupied and a != b]
     field_count = len(differences)
     differences.extend(ordinary)
-    return {"exact": not differences, "first_difference": min(differences, default=None),
+    return {**order_proof, "exact": not differences, "first_difference": min(differences, default=None),
             "mismatch_count": len(differences), "mismatch_basis": "ordinary bytes plus unequal field equations",
             "ordinary_mismatch_count": len(ordinary), "field_mismatch_count": field_count,
             "fixups": len(obligations), "relocations": len(relocs), "equations": equations,
             "covered_relocation_indices": indices if not differences else [],
-            "generated_relocation_indices": indices, "original_relocations": relocs,
+            "original_relocations": relocs,
             "ordinary_bytes_compared": len(actual)-len(occupied), "symbol_grounding": grounding,
-            "proof_scope": "Complete root component bytes, external zero-addend CALL FAR equations to independently witnessed reviewed direct entries, exact ordered original MZ segment-word coverage; optional resident DGROUP equations hold for every DS; raw OMF preserved, original symbols/TU/runtime DS/natural placement/overlay vectors/whole link unproved"}
+            "proof_scope": "Complete root component bytes, external zero-addend CALL FAR equations to independently witnessed reviewed direct entries, exact original MZ segment-word coverage with within-target-symbol FIXUPP order (between-group order is structural debt); optional resident DGROUP equations hold for every DS; raw OMF preserved, original symbols/TU/runtime DS/natural placement/overlay vectors/whole link unproved"}

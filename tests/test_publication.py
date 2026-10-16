@@ -66,6 +66,14 @@ class PublicationIdentityTests(unittest.TestCase):
         self.assertNotIn(b"\r", recipe_path.read_bytes())
         self.assertEqual(recipe["binding_sha256"], common.sha(self.binding.read_bytes()))
 
+    def test_grouped_relocation_order_and_structural_debt_are_pinned_in_recipe(self):
+        self.report.update(relocation_order="GROUPED",
+                           relocation_order_debt=["Unproved between-target bucket order"])
+        self.publish()
+        recipe = common.read_json(self.root / "recipes/f.json")
+        self.assertEqual(recipe["relocation_order"], "GROUPED")
+        self.assertEqual(recipe["relocation_order_debt"], self.report["relocation_order_debt"])
+
     def test_verify_only_normalizes_frozen_source_without_publishing_or_editing_input(self):
         before = self.manifest.read_bytes()
         self.publish(verify_only=True)

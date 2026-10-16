@@ -63,6 +63,14 @@ def check_manifest(oracle, manifest):
             require(owner["fixup_count"] == recipe["fixup_count"], "Owner fixup count differs from recipe")
 
 
+def check_relocation_order(recipe, report):
+    """Old exact-order recipes remain valid; a grouped proof must be explicit."""
+    if "relocation_order" in report:
+        require(recipe.get("relocation_order", "EXACT") == report["relocation_order"] and
+                recipe.get("relocation_order_debt", []) == report["relocation_order_debt"],
+                "Fresh relocation order qualification/debt differs from recipe")
+
+
 def validate(run_tests=True):
     oracle = Oracle.load()
     structure = read_json(ROOT / "layout/structure.lock.json")
@@ -104,6 +112,7 @@ def validate(run_tests=True):
         require(report.get("covered_relocation_indices", []) == owner.get("relocation_indices", []) and
                 report.get("covered_relocation_indices", []) == recipe.get("relocation_indices", []),
                 "Fresh original relocation index coverage changed")
+        check_relocation_order(recipe, report)
         accepted.append(report)
     if run_tests:
         result = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], cwd=ROOT)
@@ -111,7 +120,7 @@ def validate(run_tests=True):
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
-                         "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses and exact ordered MZ coverage"]}
+                         "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses, exact MZ site coverage and within-symbol order; GROUPED reports retain between-symbol order as structural debt"]}
     write_json(ROOT / "build/validation/report.json", report)
     return report
 

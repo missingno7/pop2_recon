@@ -123,7 +123,7 @@ class FarBindingTests(unittest.TestCase):
                     ({'index': 1, 'image_offset': 67}, {'index': 2, 'image_offset': 67})]
         for relocs in variants:
             self.space = replace(original, relocations=(original.relocations[0],)+relocs)
-            with self.assertRaisesRegex(ValueError, 'Ordered original MZ'):
+            with self.assertRaisesRegex(ValueError, 'Original MZ relocation site set'):
                 self.check()
         self.space = original
 
@@ -189,7 +189,7 @@ class FarBindingTests(unittest.TestCase):
         self.assertTrue(r['exact']); self.assertEqual([e['offset'] for e in r['equations']], [6, 1])
         self.space = replace(self.space, relocations=(self.space.relocations[0],
                             {'index': 1, 'image_offset': 67}, {'index': 2, 'image_offset': 72}))
-        with self.assertRaisesRegex(ValueError, 'Ordered original MZ'): self.check(raw=raw, expected=expected)
+        with self.assertRaisesRegex(ValueError, 'within-symbol FIXUPP order'): self.check(raw=raw, expected=expected)
 
     def test_overlapping_far_fixups_refused(self):
         raw = far_object(fix_body=bytes.fromhex('cc015601cc015601')); self.freeze(raw)

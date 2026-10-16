@@ -57,6 +57,9 @@ def main():
     if binding_path:
         recipe.update(binding=binding_path.relative_to(ROOT).as_posix(),
                       binding_sha256=sha(binding_path.read_bytes()), fixup_count=report["fixups"])
+    if "relocation_order" in report:
+        recipe["relocation_order"] = report["relocation_order"]
+        recipe["relocation_order_debt"] = report["relocation_order_debt"]
     if "covered_relocation_indices" in report:
         recipe["relocation_indices"] = report["covered_relocation_indices"]
     owner = {key: target[key] for key in ("space", "segment", "offset", "size")}

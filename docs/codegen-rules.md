@@ -72,6 +72,12 @@ update the closed-family list instead of repeating its experiments.
 | NAME-1 | Renaming identifiers changes OMF identity, not CODE; one or two added used typedefs did not move three parked targets. | `docs/state-helpers.md`, wave9 parked contrasts | CONFIRMED / OBSERVED |
 | NAME-2 | An unused declaration before referenced far externs changed CODE (126 vs 130 B); after them it did not. | `evidence/toolchain/convergence-audit.json` | OBSERVED (probe) |
 
+## Object records and relocation order
+| ID | Rule | Evidence | Status |
+|---|---|---|---|
+| OMF-1 | The 24-byte LOAD_AND_EXCHANGE_ATTRIBUTE emits far FIXUPPs at 13, then 7. A 300-call contrast emits descending FIXUPPs inside each of three LEDATA chunks, then proceeds to the next chunk. Preserve raw traversal; do not globally sort or reverse it. MASM's contrast ascends. | `src/load_and_exchange_attribute.c`, `evidence/rtlink-probe/relocation-order/receipt.json` | CONFIRMED (accepted component + fresh contrast) |
+| LINK-1 | RTLink 6.10 buckets references by target symbol inside the combined output CODE segment, across modules and LEDATA; within each symbol, raw FIXUPP order survives. Equal-address public aliases stay distinct. Between-symbol order and original output placement remain structural debt. | `docs/far-call-binding.md`, `evidence/rtlink-probe/relocation-order/receipt.json` | OBSERVED (synthetic linker; original identity unproved) |
+
 ## Closed families (unmatched targets)
 - **overlay-2:28a1:0e68 swap, 46 B.** Closed: 277 trials, 39 forms (aggregate, long, float, union, scalar, qualifier, register); `/Oe /O /Ox /Or /Og /Os /Ol`; msc510/600/600A; wave-9 renames and used types. Open: context predicting low word in CX plus one `[BP-2]` spill in a 4-byte frame.
 - **root:0000:3020 signed value, 26 B.** Closed: conditional, ternary, compound, local, pointer forms; register parameter `/O`; selective volatile; `/Og /Oes /Oer`; declaration reorder; renames, two typedefs. Open: context predicting `mov ax,dx; add ax,[bias]`.

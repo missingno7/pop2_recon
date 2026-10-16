@@ -45,14 +45,14 @@ bytes. `build/validation/report.json` and `build/metrics.json` report fresh loca
 status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
-The [current reconstruction milestone](docs/reconstruction-progress.md) includes
-fifteen complete overlay C matches, including independently proved overlay
-data fields. Totals are 1,432 C bytes, 51 ASM bytes, and 1,166 pinned runtime bytes.
-Fifty-three source data fixups and two
-[runtime near-jump equations](docs/runtime-near-binding.md) are proven;
-[root far-call binding](docs/far-call-binding.md) now proves one far field and
-original relocation index 1764, for 1/4,716 relocation coverage. Overlay vectors
-and natural RTLink placement remain unresolved.
+Fresh validation records 47 complete C components (1,803 bytes), one ASM
+component (51 bytes), and 21 pinned runtime members (1,166 bytes). Seventeen
+complete overlay C components are included. 65 source data-offset fields,
+two runtime near equations and seven far-call fields are proven.
+[Root far-call binding](docs/far-call-binding.md) now supports exact
+within-symbol relocation order with explicit GROUPED structural debt for
+between-symbol permutations. Original relocation coverage is 7/4,716;
+overlay vectors, original TU identity and natural RTLink placement remain open.
 
 The [convergence audit](docs/convergence-audit.md) compares the current blockers
 with SimAnt's workflow, confirms declaration-context sensitivity under our

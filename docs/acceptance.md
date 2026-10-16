@@ -22,8 +22,11 @@ masked, patched or normalized. A separate
 self-relative offset16. The narrow [root CALL FAR gate](far-call-binding.md)
 supports external zero-addend F5/T6 LOC3 operands to reviewed direct entries
 with independent original relocated callers. Every segment word must match
-its exact ordered MZ relocation, with indices pinned in binding, recipe and
-owner. It composes with the resident DGROUP modes. The far-call mode refuses
+an exact one-to-one MZ relocation, with original table indices pinned in binding,
+recipe and owner. Target-symbol groups must be contiguous and retain FIXUPP
+order internally. A between-group permutation is reported and recipe-pinned
+as `relocation_order: GROUPED` with explicit structural debt; old recipes mean
+EXACT. It composes with the resident DGROUP modes. The far-call mode refuses
 overlay owners, vectors and near/TU calls. Other fixup modes remain refused.
 
 Comparisons use the complete emitted segment, never an oracle-sized slice.
