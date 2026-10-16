@@ -47,11 +47,12 @@ becomes available.
 
 The [current reconstruction milestone](docs/reconstruction-progress.md) includes
 fifteen complete overlay C matches, including independently proved overlay
-data fields. Totals are 1,412 C bytes, 51 ASM bytes, and 1,166 pinned runtime bytes.
+data fields. Totals are 1,432 C bytes, 51 ASM bytes, and 1,166 pinned runtime bytes.
 Fifty-three source data fixups and two
-[runtime near-jump equations](docs/runtime-near-binding.md) are proven; original
-relocation coverage remains 0/4,716. Far-call binding and natural RTLink
-placement remain unresolved.
+[runtime near-jump equations](docs/runtime-near-binding.md) are proven;
+[root far-call binding](docs/far-call-binding.md) now proves one far field and
+original relocation index 1764, for 1/4,716 relocation coverage. Overlay vectors
+and natural RTLink placement remain unresolved.
 
 The [convergence audit](docs/convergence-audit.md) compares the current blockers
 with SimAnt's workflow, confirms declaration-context sensitivity under our

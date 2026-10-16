@@ -1878,6 +1878,73 @@
       "size": 16,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one far pointer at BP+6/BP+8; RETF 4; result unspecified",
+      "boundary_evidence": [
+        "Direct relocated far CALLs at root+0x589a (index 584) and seventeen other root sites land on exact alias 1101:25e4; original near caller at 0x13ca4 also lands at root+0x135f4.",
+        "Separate BP frame begins at 0x135f4. LES BX,[BP+6] reads one far pointer; OR AX,BX checks it. The sole conditional branch at 0x135fe joins POP BP at 0x13606, then RETF 4 at 0x13607..0x13609.",
+        "Both paths terminate within [0x135f4,0x1360a); a new BP frame begins at 0x1360a. No original relocation touches these 22 bytes. This is direct executable code, not an RTLink vector or thunk."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30874,
+          "image_offset": 22682,
+          "kind": "far_call",
+          "relocated_segment_site": 22685,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "For a non-null far pointer, clears bits 14 and 15 in the word six bytes before it; neighboring routines manipulate the same block header."
+      ],
+      "classification_status": "memory/block support hypothesis; original library and symbol unknown",
+      "entry_kind": "direct-code",
+      "id": "root:1101:25e4",
+      "offset": 9700,
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "clear_far_block_flags",
+      "sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one far pointer at BP+6/BP+8; RETF 4; forwards to flag helper; result unspecified",
+      "boundary_evidence": [
+        "Independent PUSH CS; near CALL at root+0x1e602 lands on root+0x1e6f6; its saved CS and RETF establish a far-entry wrapper. No relocation touches the call.",
+        "BP frame at root+0x1e6f6 reads BP+8 then BP+6 and pushes the far-pointer words, calls 1101:25e4 at 0x1e6ff, restores SP/BP and returns with RETF 4 at 0x1e707..0x1e709.",
+        "The preceding independent procedure ends in RETF 6 immediately before this frame; the next BP frame begins at 0x1e70a. Straight-line complete extent is [0x1e6f6,0x1e70a), exactly 20 bytes.",
+        "Exactly one original relocation touches the extent: root index 1764 at 0x1e702, the segment word of its 9A operand."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 132610,
+          "image_offset": 124418,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 124417,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Forwards an unchanged far pointer to the independently reviewed block-header flag operation; owns no storage."
+      ],
+      "classification_status": "resource/memory support wrapper hypothesis; game versus library origin unresolved",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:04c6",
+      "offset": 1222,
+      "original_name": null,
+      "segment": 7715,
+      "semantic_name_hypothesis": "forward_far_block_flags",
+      "sha256": "f7bbdd6e16995cce89da497a6e5abd7a9741558210c322cd78a05883a1b0f90f",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

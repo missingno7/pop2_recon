@@ -57,11 +57,15 @@ def main():
     if binding_path:
         recipe.update(binding=binding_path.relative_to(ROOT).as_posix(),
                       binding_sha256=sha(binding_path.read_bytes()), fixup_count=report["fixups"])
+    if "covered_relocation_indices" in report:
+        recipe["relocation_indices"] = report["covered_relocation_indices"]
     owner = {key: target[key] for key in ("space", "segment", "offset", "size")}
     owner.update(target_id=args.target, kind="MATCHING_C" if args.language == "c" else "MATCHING_ASM",
                  state=report["state"],
                  recipe=recipe_path.relative_to(ROOT).as_posix(), relocation_count=report["relocations"],
                  fixup_count=report["fixups"])
+    if "covered_relocation_indices" in report:
+        owner["relocation_indices"] = report["covered_relocation_indices"]
     manifest["owners"].append(owner)
     source_path.parent.mkdir(parents=True, exist_ok=True)
     source_path.write_bytes(original_source)

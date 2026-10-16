@@ -98,7 +98,10 @@ def check_object(obj_data, target, space, expected, public_name, *, binding=None
     relocations = [r for r in space.relocations if start-1 <= r["image_offset"] < start+len(expected)]
     bound = None
     if binding is not None:
-        from binding import compare
+        if binding.get("mode") == "external-far-call-v1":
+            from far_binding import compare
+        else:
+            from binding import compare
         bound = compare(module, name, actual, expected, binding, target, space, oracle)
     else:
         require(not relocations, "Original relocation obligations require symbolic candidate fixups")
