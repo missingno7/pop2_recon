@@ -59,3 +59,6 @@ overlay vectors, original TU identity and natural RTLink placement remain open.
 The [convergence audit](docs/convergence-audit.md) compares the current blockers
 with SimAnt's workflow, confirms declaration-context sensitivity under our
 compiler flags, and records a working AX contrast and the next proof priorities.
+The [state-step TU investigation](docs/tu-state-step.md) tests an original
+caller/callee cluster with isolated compiler controls; its grouping remains
+research evidence with no additional accepted ownership.

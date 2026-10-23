@@ -1,0 +1,575 @@
+{
+  "blocked_on": [
+    "Current C gate permits only one public owning the complete CODE segment.",
+    "F5/T6 self-relative external LOC1 bound to another public in the same object is unsupported for reconstructed C.",
+    "Five DS-relative fields have outside byte witnesses, but grouped-object binding and absolute data ownership/runtime DS remain unproved.",
+    "The existing 12-byte owner overlaps this research cluster; any future grouping needs an explicit ownership migration.",
+    "Original TU boundaries, per-module declarations, natural RTLink placement and runtime behavior remain open."
+  ],
+  "canonical_head": "f4b9d67",
+  "compiler": {
+    "externals": [
+      "STATE_BYTE",
+      "STATE_BASE",
+      "STATE_DELTA",
+      "UPDATE_STEP_DELTA",
+      "INCREMENT_STATE_AND_UPDATE"
+    ],
+    "fixups_in_emission_order": [
+      {
+        "displacement": null,
+        "field_width": 2,
+        "frame": {
+          "kind": "target_frame",
+          "target": {
+            "index": 3,
+            "kind": "external",
+            "method": 6,
+            "name": "STATE_DELTA",
+            "zero_displacement": true
+          }
+        },
+        "kind": "fixup",
+        "loc_type": 1,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "segment_offset": 30,
+        "self_relative": false,
+        "target": {
+          "index": 3,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_DELTA",
+          "zero_displacement": true
+        }
+      },
+      {
+        "displacement": null,
+        "field_width": 2,
+        "frame": {
+          "kind": "target_frame",
+          "target": {
+            "index": 2,
+            "kind": "external",
+            "method": 6,
+            "name": "STATE_BASE",
+            "zero_displacement": true
+          }
+        },
+        "kind": "fixup",
+        "loc_type": 1,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "segment_offset": 27,
+        "self_relative": false,
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_BASE",
+          "zero_displacement": true
+        }
+      },
+      {
+        "displacement": null,
+        "field_width": 2,
+        "frame": {
+          "kind": "target_frame",
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "STATE_BYTE",
+            "zero_displacement": true
+          }
+        },
+        "kind": "fixup",
+        "loc_type": 1,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "segment_offset": 23,
+        "self_relative": false,
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_BYTE",
+          "zero_displacement": true
+        }
+      },
+      {
+        "displacement": null,
+        "field_width": 2,
+        "frame": {
+          "kind": "target_frame",
+          "target": {
+            "index": 4,
+            "kind": "external",
+            "method": 6,
+            "name": "UPDATE_STEP_DELTA",
+            "zero_displacement": true
+          }
+        },
+        "kind": "fixup",
+        "loc_type": 1,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "segment_offset": 18,
+        "self_relative": true,
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "UPDATE_STEP_DELTA",
+          "zero_displacement": true
+        }
+      },
+      {
+        "displacement": null,
+        "field_width": 2,
+        "frame": {
+          "kind": "target_frame",
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "STATE_BYTE",
+            "zero_displacement": true
+          }
+        },
+        "kind": "fixup",
+        "loc_type": 1,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "segment_offset": 14,
+        "self_relative": false,
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_BYTE",
+          "zero_displacement": true
+        }
+      },
+      {
+        "displacement": null,
+        "field_width": 2,
+        "frame": {
+          "kind": "target_frame",
+          "target": {
+            "index": 1,
+            "kind": "external",
+            "method": 6,
+            "name": "STATE_BYTE",
+            "zero_displacement": true
+          }
+        },
+        "kind": "fixup",
+        "loc_type": 1,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "segment_offset": 1,
+        "self_relative": false,
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STATE_BYTE",
+          "zero_displacement": true
+        }
+      }
+    ],
+    "flags": [
+      "/c",
+      "/AM",
+      "/Oe",
+      "/Gs",
+      "/Zl",
+      "/Gc"
+    ],
+    "object_sha256": "d9249a52f503ac6ebfcd7e1cd84e4446cdc0f4f92438808279b2786a1d2e0a90",
+    "profile": "msc600",
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "UPDATE_STEP_DELTA",
+        "offset": 22,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "INCREMENT_STATE_AND_UPDATE",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "record_types": [
+      128,
+      136,
+      136,
+      150,
+      152,
+      152,
+      152,
+      152,
+      154,
+      156,
+      140,
+      144,
+      136,
+      160,
+      156,
+      138
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 34,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ],
+    "source_sha256": "e0d755f7fe4cb29bb2f2d6018e49f0722bcaf3c0bb7b87f7cfd65ca2ddcf9658",
+    "source_text": "extern unsigned char STATE_BYTE;\nextern unsigned char STATE_BASE;\nextern unsigned char STATE_DELTA;\nchar far pascal UPDATE_STEP_DELTA(void);\n\nchar far pascal INCREMENT_STATE_AND_UPDATE(void)\n{\n    int next = (signed char)STATE_BYTE + 1;\n    STATE_BYTE = (next > 12) ? 12 : next;\n    return UPDATE_STEP_DELTA();\n}\n\nchar far pascal UPDATE_STEP_DELTA(void)\n{\n    STATE_DELTA = STATE_BYTE - STATE_BASE;\n    return STATE_DELTA;\n}\n",
+    "thread_declarations": [
+      {
+        "binding": {
+          "index": 3,
+          "kind": "segment",
+          "method": 0,
+          "name": "CONST"
+        },
+        "frame": false,
+        "kind": "thread",
+        "thread": 0
+      },
+      {
+        "binding": {
+          "index": 2,
+          "kind": "segment",
+          "method": 0,
+          "name": "_DATA"
+        },
+        "frame": false,
+        "kind": "thread",
+        "thread": 1
+      },
+      {
+        "binding": {
+          "index": 1,
+          "kind": "segment",
+          "method": 0,
+          "name": "UNIT_TEXT"
+        },
+        "frame": false,
+        "kind": "thread",
+        "thread": 2
+      },
+      {
+        "binding": {
+          "index": 4,
+          "kind": "segment",
+          "method": 0,
+          "name": "_BSS"
+        },
+        "frame": false,
+        "kind": "thread",
+        "thread": 3
+      },
+      {
+        "binding": {
+          "index": 1,
+          "kind": "segment",
+          "name": "UNIT_TEXT"
+        },
+        "frame": true,
+        "kind": "thread",
+        "thread": 0
+      },
+      {
+        "binding": {
+          "index": 1,
+          "kind": "group",
+          "name": "DGROUP"
+        },
+        "frame": true,
+        "kind": "thread",
+        "thread": 1
+      }
+    ],
+    "toolchain_lock_sha256": "b65b021c4f894fa960f086fd3e26051404b97b4a9acb6158cd44a7f29ba0b9ae",
+    "whole_code_hex": "a0000098403d0c007e03b80c00a200000ee80000cb90a000002a060000a20000cb90",
+    "whole_code_sha256": "45ecb33698c155448eb05886b8061e7cf1296e6363a18a0586b36c8482d21d87"
+  },
+  "controls": {
+    "callee_only": {
+      "accepted_object_unchanged": true,
+      "object_sha256": "7b8439292576b1c3fcf1f3751d73e727437fafc94206900bcbb3e41f46132fd9",
+      "source": "src/update_step_delta.c",
+      "source_sha256": "fd8d5bb9db1223ecf8cee403e62158e706074cb10994d4f505d7fb399d48917d",
+      "whole_code_unchanged_in_cluster": true
+    },
+    "caller_only": {
+      "object_sha256": "77c0720b31a752c16655edc605474b83c13dc0d02e163b5734ce6e725bdbd7df",
+      "observation": "CALL FAR at +16, RETF at +21; same 22-byte size because the near form has a padding NOP.",
+      "size": 22,
+      "source_sha256": "40158673f85fbd7bb1fc9b617b0a763cd0fff0a32c96b0ccfb70462aefebaf32",
+      "source_text": "extern unsigned char STATE_BYTE;\nextern unsigned char STATE_BASE;\nextern unsigned char STATE_DELTA;\nchar far pascal UPDATE_STEP_DELTA(void);\n\nchar far pascal INCREMENT_STATE_AND_UPDATE(void)\n{\n    int next = (signed char)STATE_BYTE + 1;\n    STATE_BYTE = (next > 12) ? 12 : next;\n    return UPDATE_STEP_DELTA();\n}\n\n",
+      "whole_code_hex": "a0000098403d0c007e03b80c00a200009a00000000cb"
+    }
+  },
+  "diagnostics": {
+    "all_34_bytes_accounted_for": true,
+    "buffers_modified": false,
+    "field_equations": [
+      {
+        "equation": "independent DS-relative offset 0x5c13 + raw addend 0",
+        "field_offset": 1,
+        "original_value": 23571,
+        "raw_addend": 0,
+        "self_relative": false,
+        "symbol": "STATE_BYTE"
+      },
+      {
+        "equation": "independent DS-relative offset 0x5c13 + raw addend 0",
+        "field_offset": 14,
+        "original_value": 23571,
+        "raw_addend": 0,
+        "self_relative": false,
+        "symbol": "STATE_BYTE"
+      },
+      {
+        "equation": "callee public offset 22 - (field offset 18 + width 2) = 2",
+        "field_offset": 18,
+        "original_value": 2,
+        "raw_addend": 0,
+        "self_relative": true,
+        "symbol": "UPDATE_STEP_DELTA"
+      },
+      {
+        "equation": "independent DS-relative offset 0x5c13 + raw addend 0",
+        "field_offset": 23,
+        "original_value": 23571,
+        "raw_addend": 0,
+        "self_relative": false,
+        "symbol": "STATE_BYTE"
+      },
+      {
+        "equation": "independent DS-relative offset 0x5c12 + raw addend 0",
+        "field_offset": 27,
+        "original_value": 23570,
+        "raw_addend": 0,
+        "self_relative": false,
+        "symbol": "STATE_BASE"
+      },
+      {
+        "equation": "independent DS-relative offset 0x5c14 + raw addend 0",
+        "field_offset": 30,
+        "original_value": 23572,
+        "raw_addend": 0,
+        "self_relative": false,
+        "symbol": "STATE_DELTA"
+      }
+    ],
+    "literal_intervals": [
+      {
+        "end_exclusive": 1,
+        "sha256": "c19a797fa1fd590cd2e5b42d1cf5f246e29b91684e2f87404b81dc345c7a56a0",
+        "start": 0
+      },
+      {
+        "end_exclusive": 14,
+        "sha256": "4cc3cdda0e65ef50aca9c2206087db4e886f0bb68e6a6364da8f6a5cc9bfc55c",
+        "start": 3
+      },
+      {
+        "end_exclusive": 18,
+        "sha256": "618a9439f5d9a009692949080715c38f0ab9dcb31aad67527e5f32430efbeb26",
+        "start": 16
+      },
+      {
+        "end_exclusive": 23,
+        "sha256": "22b1932b144e99eed660d9585b71e5d2e2ad45f60532ca7cdf1c71d1ffc4f9b0",
+        "start": 20
+      },
+      {
+        "end_exclusive": 27,
+        "sha256": "c5cdfdc1830d5623601557b8669716b5e10a167edda87674ff96cf68cbf05cad",
+        "start": 25
+      },
+      {
+        "end_exclusive": 30,
+        "sha256": "0a43b22d89fa2499be5c7704c9bf273260b0ca9588e4cd1897cd80f9c96cd97a",
+        "start": 29
+      },
+      {
+        "end_exclusive": 34,
+        "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+        "start": 32
+      }
+    ],
+    "strict_component_refusal": "single-function extraction requires exactly one PUBLIC in the object"
+  },
+  "next_discriminator": "Review surrounding functions and same-CS callers for a larger original unit before designing a narrow grouped-public/near-call proof.",
+  "original": {
+    "bytes_hex": "a0135c98403d0c007e03b80c00a2135c0ee80200cb90a0135c2a06125ca2145ccb90",
+    "end_exclusive": 3738,
+    "incoming_call": {
+      "bytes_hex": "9a780e0000",
+      "file_offset": 26300,
+      "image_offset": 18108,
+      "mnemonic": "lcall",
+      "operands": "0, 0xe78"
+    },
+    "incoming_limits": "Caller lies in a six-case CS switch; dispatcher invocation remains untraced.",
+    "incoming_mz": {
+      "image_offset": 18111,
+      "index": 343,
+      "offset": 6655,
+      "segment": 716,
+      "stored_word": 0
+    },
+    "members": [
+      {
+        "entry": 3704,
+        "padding": 3725,
+        "return": 3724,
+        "size": 22
+      },
+      {
+        "accepted_recipe": "recipes/update_step_delta.json",
+        "entry": 3726,
+        "padding": 3737,
+        "return": 3736,
+        "size": 12
+      }
+    ],
+    "outside_data_entry": {
+      "caller": {
+        "bytes_hex": "9a9a0e0000",
+        "file_offset": 14687,
+        "image_offset": 6495,
+        "mnemonic": "lcall",
+        "operands": "0, 0xe9a"
+      },
+      "entry": 3738,
+      "relocation": {
+        "image_offset": 6498,
+        "index": 150,
+        "offset": 722,
+        "segment": 361,
+        "stored_word": 0
+      }
+    },
+    "outside_data_witnesses": {
+      "STATE_BASE": {
+        "bytes_hex": "a0125c",
+        "file_offset": 11944,
+        "image_offset": 3752,
+        "mnemonic": "mov",
+        "operands": "al, byte ptr [0x5c12]"
+      },
+      "STATE_BYTE": {
+        "bytes_hex": "a0135c",
+        "file_offset": 11949,
+        "image_offset": 3757,
+        "mnemonic": "mov",
+        "operands": "al, byte ptr [0x5c13]"
+      },
+      "STATE_DELTA": {
+        "bytes_hex": "803e145c00",
+        "file_offset": 11937,
+        "image_offset": 3745,
+        "mnemonic": "cmp",
+        "operands": "byte ptr [0x5c14], 0"
+      }
+    },
+    "relocations_touching_cluster": [],
+    "segment": 0,
+    "sha256": "144e70820659e3d588f2fb5e40be893034d7123c1c3ca891d90bcfe57630cc06",
+    "size": 34,
+    "space": "root",
+    "start": 3704,
+    "switch_table": {
+      "call_case": 1,
+      "call_case_offset": 6652,
+      "case_count": 6,
+      "cs": 716,
+      "image_offset": 18070,
+      "selector": "unsigned [DS:2930] <= 5, SHL AX,1, XCHG BX,AX, JMP CS:[BX+19d6]",
+      "values": [
+        6626,
+        6652,
+        6660,
+        6668,
+        6676,
+        6714
+      ]
+    }
+  },
+  "reproduction": {
+    "compile_api": "compiler.compile_c(source_path, \"msc600\", [\"/c\", \"/AM\", \"/Oe\", \"/Gs\", \"/Zl\", \"/Gc\"], workdir=worker_directory)",
+    "observation": "Receipt is evidence only; never consumed by promotion or validation.",
+    "scratch": "build/workers/tu_cluster",
+    "source_material": "compiler.source_text and controls.caller_only.source_text; callee control uses src/update_step_delta.c"
+  },
+  "schema": 1,
+  "scope": "Complete 34-byte research cluster; no new ownership, binding mode or original TU claim",
+  "source_hypotheses": [
+    "Signed interpretation is explicit at the caller load; the callee preserves its accepted unsigned-byte declarations.",
+    "Caller result declared char to forward AL; its original caller discards the result, so void is also plausible.",
+    "Gameplay names and a two-function original TU are unproved; this may be part of a larger TU."
+  ],
+  "status": "RESEARCH_ONLY",
+  "stop_reason": "Predicted encoding and placement reproduced with isolated controls; remaining work is structural proof, not source grinding.",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "trials": 3
+}

@@ -273,6 +273,13 @@ and [RTLink research](rtlink.md) remain separate from acceptance.
 
 ## Remaining reasoning leads
 
+The [state-step TU investigation](tu-state-step.md) reproduces a complete
+34-byte caller/callee cluster under conditional field equations, with unchanged
+accepted callee CODE. Its three controlled compilations isolate same-file call
+lowering and alignment; the existing multi-public/near-call gate correctly
+refuses acceptance. No bytes were added to ownership. The next discriminator
+is larger-unit membership and symbolic proof, not more source permutations.
+
 The four parked helper searches are the 46-byte overlay-2 swap, 26-byte
 resident signed-value helper, 80-byte membership predicate and 34-byte resident
 rectangle predicate (186 bytes total). They are a subset of unresolved reviewed
