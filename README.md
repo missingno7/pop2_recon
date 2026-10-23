@@ -45,9 +45,9 @@ bytes. `build/validation/report.json` and `build/metrics.json` report fresh loca
 status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
-Validation on 2026-10-23 records 56 complete C components (2,189 bytes), one ASM
+Validation on 2026-10-23 records 57 complete C components (2,349 bytes), one ASM
 component (51 bytes), and 21 pinned runtime members (1,166 bytes). Eighteen
-complete overlay C components are included. There are 92 proven object fixup
+complete overlay C components are included. There are 105 proven object fixup
 fields and 11 covered original relocation records. See
 [current progress](docs/reconstruction-progress.md) for the dated baseline;
 the manifest and a fresh validation report take precedence over these snapshots.
@@ -62,3 +62,6 @@ compiler flags, and records a working AX contrast and the next proof priorities.
 The [state-step TU investigation](docs/tu-state-step.md) tests an original
 caller/callee cluster with isolated compiler controls; its grouping remains
 research evidence with no additional accepted ownership.
+The [larger-function follow-up](docs/larger-function-frontier.md) adds a complete
+160-byte fallback through the unchanged gate and identifies the remaining
+dependencies of its 122-byte caller.

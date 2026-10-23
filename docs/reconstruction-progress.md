@@ -9,16 +9,16 @@ structure and 4,716 ordered relocation records remain unchanged.
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 2,189 |
+| Matching C | 2,349 |
 | Matching ASM | 51 |
 | Pinned runtime | 1,166 |
 | External drivers | 0 |
-| Unowned payload (identified and unclassified) | 267,982 |
+| Unowned payload (identified and unclassified) | 267,822 |
 
 Fresh validation of the canonical ownership baseline passes 220 invariant tests
-and rebuilds 56 C components, one ASM component and twenty-one pinned runtime
+and rebuilds 57 C components, one ASM component and twenty-one pinned runtime
 members. Overlay C owns 884 bytes across eighteen complete components; resident
-ownership is 2,522 bytes. There are 92 proven object fixup fields and 11/4,716
+ownership is 2,682 bytes. There are 105 proven object fixup fields and 11/4,716
 covered original relocation records. Structural RTLink closure remains
 UNRECOVERED and behavior validation remains NOT_STARTED.
 
@@ -32,6 +32,12 @@ Validation and both publication paths now retain explicit failure/interruption
 state and recoverable publication journals; see [acceptance](acceptance.md).
 The proof rules, original assets, toolchain pins and accepted ownership are
 unchanged by this reliability milestone.
+
+The subsequent [larger-function follow-up](larger-function-frontier.md) adds
+the 160-byte fallback at `root:02cc:016a`, with thirteen proven byte-data fields.
+It is the largest accepted C component so far. Complete source, branch shape,
+outside data witnesses and fresh validation agree under the existing rules;
+the near-call/TU investigation remains separate research.
 
 ## Historical milestones
 
@@ -243,8 +249,8 @@ the narrow independently witnessed word-pair mode. The
 overlay leaves and the first overlay data-bound predicate. Its refusal tests
 preserve resident gates, reject overlay word pairs/nonzero addends, and explicitly
 reject LDS/LES segment writes. The [binding document](dgroup-binding.md) records
-the exact proof limits. Earlier failed predicate material is isolated under
-`to_delete/resolved-predicate/`, outside normal indexing/build/validation.
+the exact proof limits. The earlier rejected predicate has been superseded;
+the wave receipt retains its useful negative evidence.
 
 The initial audit found the existing oracle, runners and serial manifest writer
 sufficient. `search.py --trial` adds only private CODE-hash/binding-identity

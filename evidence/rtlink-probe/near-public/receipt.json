@@ -1,0 +1,467 @@
+{
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "inputs": {
+    "BACK": {
+      "code_hex": "a000002a060000a20000cb90a0000098403d0c007e03b80c00a200000ee80000cb90",
+      "code_sha256": "90841c408bf978d0b90b36038aac2b8ff793c9de1e361a462291958393b6e09c",
+      "object_sha256": "0fb3cd696e964d5aaded8533a4e8b529c8e379a920fca2579c4e3ad54f38cdbe",
+      "size": 34,
+      "source_sha256": "b6fb01f94611eb367f13cad5df552e8475b927e0ca46d5c9b9d4d2fb234ed6c4"
+    },
+    "CALLEE": {
+      "code_hex": "a000002a060000a20000cb90",
+      "code_sha256": "d78f0c5f6d1484657fc18c260a8b69aa64b9ab4a982e842c8292ca82e28e82da",
+      "object_sha256": "7b8439292576b1c3fcf1f3751d73e727437fafc94206900bcbb3e41f46132fd9",
+      "size": 12,
+      "source_sha256": "fd8d5bb9db1223ecf8cee403e62158e706074cb10994d4f505d7fb399d48917d"
+    },
+    "CALLER": {
+      "code_hex": "a0000098403d0c007e03b80c00a200009a00000000cb",
+      "code_sha256": "fef310837aa16c6ea738305260329653888c61fde89dfdf928907dac61d222f7",
+      "object_sha256": "77c0720b31a752c16655edc605474b83c13dc0d02e163b5734ce6e725bdbd7df",
+      "size": 22,
+      "source_sha256": "40158673f85fbd7bb1fc9b617b0a763cd0fff0a32c96b0ccfb70462aefebaf32"
+    },
+    "DEFS": {
+      "object_sha256": "9d59d462cc111382f4a4c659a335dee5fe4627e79149c5c9998b5163573e2fb5",
+      "source_sha256": "59bc477d5f24451abd288e5d4e161428152f51a41582f2cf4b2465c3facf21a0"
+    },
+    "GROUP": {
+      "code_hex": "a0000098403d0c007e03b80c00a200000ee80000cb90a000002a060000a20000cb90",
+      "code_sha256": "45ecb33698c155448eb05886b8061e7cf1296e6363a18a0586b36c8482d21d87",
+      "object_sha256": "d9249a52f503ac6ebfcd7e1cd84e4446cdc0f4f92438808279b2786a1d2e0a90",
+      "size": 34,
+      "source_sha256": "e0d755f7fe4cb29bb2f2d6018e49f0722bcaf3c0bb7b87f7cfd65ca2ddcf9658"
+    },
+    "PREFIX": {
+      "object_sha256": "7f36cd969a3a1527ae4ee4a9d7e054ba2a41c9408d151a0535b76b605510f18f",
+      "source_sha256": "cd1187ebbca38a8804e868336e23169d50deb3403e3d32e3c13408a04bfd8ac2"
+    },
+    "START": {
+      "object_sha256": "87899b6172f541adea0a48f06b989da2595a61b7868ddb3fe5013f6d3935c91f",
+      "source_sha256": "14b5b2eecaa064adc9509a9d698cc99d3e2a5494b894f9b78d0233b1ef9c0c39"
+    }
+  },
+  "linker": {
+    "path": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+    "sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb"
+  },
+  "links": {
+    "BACK": {
+      "contributions": {
+        "BACK": {
+          "fields": [
+            {
+              "kind": "same-CS relative16",
+              "observed": 65504,
+              "offset": 30,
+              "predicted": 65504,
+              "target": "UPDATE_STEP_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 26,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 13,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 2,
+              "offset": 8,
+              "predicted": 2,
+              "target": "STATE_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 1,
+              "offset": 5,
+              "predicted": 1,
+              "target": "STATE_BASE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 1,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            }
+          ],
+          "linked_code_hex": "a000002a060100a20200cb90a0000098403d0c007e03b80c00a200000ee8e0ffcb90",
+          "literal_differences": [],
+          "ordinary_bytes_compared": 22,
+          "public_address": [
+            0,
+            6
+          ],
+          "size": 34
+        }
+      },
+      "exe_sha256": "2b480e401bbfe38a9cdc072ce71b8168252c224a1318da75ac78868abbd744d4",
+      "map_sha256": "b86634f0677a06d20cac03a0032ea43b2cc901648125ff76b4736a588920ef74",
+      "publics": {
+        "ENTRY_POINT": [
+          0,
+          0
+        ],
+        "INCREMENT_STATE_AND_UPDATE": [
+          0,
+          18
+        ],
+        "STATE_BASE": [
+          7,
+          1
+        ],
+        "STATE_BYTE": [
+          7,
+          0
+        ],
+        "STATE_DELTA": [
+          7,
+          2
+        ],
+        "UPDATE_STEP_DELTA": [
+          0,
+          6
+        ]
+      },
+      "relocations": [],
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT PROBE\nMAP\nFILE START\nFILE BACK\nFILE DEFS\n",
+      "warning_count": 0
+    },
+    "GROUP": {
+      "contributions": {
+        "GROUP": {
+          "fields": [
+            {
+              "kind": "DGROUP offset16",
+              "observed": 2,
+              "offset": 30,
+              "predicted": 2,
+              "target": "STATE_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 1,
+              "offset": 27,
+              "predicted": 1,
+              "target": "STATE_BASE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 23,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "same-CS relative16",
+              "observed": 2,
+              "offset": 18,
+              "predicted": 2,
+              "target": "UPDATE_STEP_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 14,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 1,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            }
+          ],
+          "linked_code_hex": "a0000098403d0c007e03b80c00a200000ee80200cb90a000002a060100a20200cb90",
+          "literal_differences": [],
+          "ordinary_bytes_compared": 22,
+          "public_address": [
+            0,
+            6
+          ],
+          "size": 34
+        }
+      },
+      "exe_sha256": "f29edf3e7a33359efca190ac29226911a3c91506d45a5a6ca30b6356e3a66aee",
+      "map_sha256": "e0c383cfe8ed5a441960184d7c7ba665bae2f3a55f3a460671fe9b37441fae2c",
+      "publics": {
+        "ENTRY_POINT": [
+          0,
+          0
+        ],
+        "INCREMENT_STATE_AND_UPDATE": [
+          0,
+          6
+        ],
+        "STATE_BASE": [
+          7,
+          1
+        ],
+        "STATE_BYTE": [
+          7,
+          0
+        ],
+        "STATE_DELTA": [
+          7,
+          2
+        ],
+        "UPDATE_STEP_DELTA": [
+          0,
+          28
+        ]
+      },
+      "relocations": [],
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT PROBE\nMAP\nFILE START\nFILE GROUP\nFILE DEFS\n",
+      "warning_count": 0
+    },
+    "SHIFT": {
+      "contributions": {
+        "GROUP": {
+          "fields": [
+            {
+              "kind": "DGROUP offset16",
+              "observed": 2,
+              "offset": 30,
+              "predicted": 2,
+              "target": "STATE_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 1,
+              "offset": 27,
+              "predicted": 1,
+              "target": "STATE_BASE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 23,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "same-CS relative16",
+              "observed": 2,
+              "offset": 18,
+              "predicted": 2,
+              "target": "UPDATE_STEP_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 14,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 1,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            }
+          ],
+          "linked_code_hex": "a0000098403d0c007e03b80c00a200000ee80200cb90a000002a060100a20200cb90",
+          "literal_differences": [],
+          "ordinary_bytes_compared": 22,
+          "public_address": [
+            0,
+            10
+          ],
+          "size": 34
+        }
+      },
+      "exe_sha256": "cb8cb2788a021d9cc755f9d36e8c947f67d185fcb25126806a01ff1e34740318",
+      "map_sha256": "20b0c1679f06da1f6a4467dd0ba2626275232570e53ff031a928035fb4a95839",
+      "publics": {
+        "ENTRY_POINT": [
+          0,
+          0
+        ],
+        "INCREMENT_STATE_AND_UPDATE": [
+          0,
+          10
+        ],
+        "PREFIX_FUNCTION": [
+          0,
+          6
+        ],
+        "STATE_BASE": [
+          7,
+          1
+        ],
+        "STATE_BYTE": [
+          7,
+          0
+        ],
+        "STATE_DELTA": [
+          7,
+          2
+        ],
+        "UPDATE_STEP_DELTA": [
+          0,
+          32
+        ]
+      },
+      "relocations": [],
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT PROBE\nMAP\nFILE START\nFILE PREFIX\nFILE GROUP\nFILE DEFS\n",
+      "warning_count": 0
+    },
+    "SPLIT": {
+      "contributions": {
+        "CALLEE": {
+          "fields": [
+            {
+              "kind": "DGROUP offset16",
+              "observed": 2,
+              "offset": 8,
+              "predicted": 2,
+              "target": "STATE_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 1,
+              "offset": 5,
+              "predicted": 1,
+              "target": "STATE_BASE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 1,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            }
+          ],
+          "linked_code_hex": "a000002a060100a20200cb90",
+          "literal_differences": [],
+          "ordinary_bytes_compared": 6,
+          "public_address": [
+            0,
+            28
+          ],
+          "size": 12
+        },
+        "CALLER": {
+          "fields": [
+            {
+              "kind": "far16:16",
+              "observed": [
+                28,
+                0
+              ],
+              "offset": 17,
+              "predicted": [
+                28,
+                0
+              ],
+              "target": "UPDATE_STEP_DELTA"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 14,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            },
+            {
+              "kind": "DGROUP offset16",
+              "observed": 0,
+              "offset": 1,
+              "predicted": 0,
+              "target": "STATE_BYTE"
+            }
+          ],
+          "linked_code_hex": "a0000098403d0c007e03b80c00a200009a1c000000cb",
+          "literal_differences": [],
+          "ordinary_bytes_compared": 14,
+          "public_address": [
+            0,
+            6
+          ],
+          "size": 22
+        }
+      },
+      "exe_sha256": "1310c30cfedc36e0dff9f2162c16d6d64014fc8327ef71cf671660edb90c5bf5",
+      "map_sha256": "e0c383cfe8ed5a441960184d7c7ba665bae2f3a55f3a460671fe9b37441fae2c",
+      "publics": {
+        "ENTRY_POINT": [
+          0,
+          0
+        ],
+        "INCREMENT_STATE_AND_UPDATE": [
+          0,
+          6
+        ],
+        "STATE_BASE": [
+          7,
+          1
+        ],
+        "STATE_BYTE": [
+          7,
+          0
+        ],
+        "STATE_DELTA": [
+          7,
+          2
+        ],
+        "UPDATE_STEP_DELTA": [
+          0,
+          28
+        ]
+      },
+      "relocations": [
+        {
+          "image_offset": 25,
+          "index": 0,
+          "offset": 25,
+          "segment": 0,
+          "stored_word": 0
+        }
+      ],
+      "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT PROBE\nMAP\nFILE START\nFILE CALLER\nFILE CALLEE\nFILE DEFS\n",
+      "warning_count": 0
+    }
+  },
+  "runner": {
+    "name": "MS-DOS Player",
+    "options": [
+      "-e",
+      "-v5.00"
+    ],
+    "path": "C:\\tools\\nmlgcdos\\msdos.exe",
+    "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+    "version_evidence": "C:\\tools\\nmlgcdos\\readme.txt identifies the console runner as MS-DOS Player and dates that build 2024-06-23."
+  },
+  "schema": 1,
+  "scope": "Synthetic source-only compiler/linker observation; no original TU or ownership proof",
+  "script_sha256": "f231dd00c3a9333d40c6dcd59546eeb42eec64fa19655e11a5a0cee312108abc",
+  "source_material": {
+    "BACK": "Same declarations and bodies, with UPDATE_STEP_DELTA before its caller",
+    "CALLEE": "src/update_step_delta.c",
+    "CALLER": "evidence/tu/state-step.json: controls.caller_only.source_text",
+    "DEFS": "evidence/rtlink-probe/near-public/DEFS.ASM",
+    "GROUP": "evidence/tu/state-step.json: compiler.source_text",
+    "PREFIX": "evidence/rtlink-probe/near-public/PREFIX.ASM",
+    "START": "evidence/rtlink-probe/relocation-order/START.ASM"
+  },
+  "toolchain_lock_sha256": "b65b021c4f894fa960f086fd3e26051404b97b4a9acb6158cd44a7f29ba0b9ae"
+}

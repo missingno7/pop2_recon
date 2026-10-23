@@ -5130,6 +5130,42 @@
       "state": "ANALYZED"
     },
     {
+      "abi": "Far Pascal RETF 4; signed byte x/y in word slots BP+8/+6. One byte result local BP-1 in a two-byte frame, AL return, AH unspecified. No saved index registers or outgoing calls.",
+      "boundary_evidence": [
+        "Outside caller in reviewed root:02cc:00f0 takes its zero-room branch and pushes original BP+8 and BP+6 bytes, then PUSH CS at 0158 and E8 at 0159 targets 016a. Its RETF 6 at 0166 and alignment NOP at 0169 end immediately before this entry.",
+        "Full 160-byte interval [02cc:016a,02cc:020a) decodes without holes. Every local branch targets a decoded instruction in the extent. All returns converge to AL load at 0201 and RETF 4 at 0207; there is no trailing padding.",
+        "Next entry 02cc:020a has its own original relocated far CALL at root image f194 (9a0a02cc02), segment relocation at f197, outside this extent.",
+        "No original relocation word touches the entire extent, including a word beginning one byte before it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19993,
+          "image_offset": 11801,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11800,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Caller uses the returned byte as its tile-kind fallback. Switch on DS:4547 and conditions on DS:4549/5e34/5e37 select byte 0 or 20."
+      ],
+      "classification_status": "Evidence-qualified hypothesis; original names/source unproved",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:016a",
+      "offset": 362,
+      "original_bytes_hex": "558bec83ec02a047452ae44848740d4848742d487422487445eb7890803e345e047507803e49450d740e803e49450d7562803e345e0d755bc646ff00eb599090803e375e007506807e06ff74eb803e345e1b753f803e49450674ddeb3690803e345e077407803e345e087507803e4745067420803e345e0375be803e47450675b7807e08007c06807e080975ab807e060275a5c646ff148a46ff8be55dca0400",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "fallback_tile_kind",
+      "sha256": "0b4656de5825b3fbac50220c9f04cba2686e53226e7a24208e8b5b6629b973dd",
+      "size": 160,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
       "abi": "No args; RETF; BP frame reserves 6 bytes, DI/SI saved; SI word moved to AX result.",
       "boundary_evidence": [
         "Preceding 16 original bytes: b8401f50b8010050509a4000cf1ecb90. No adjacent RET reached by bounded predecessor CFG; relocated entry references and full local CFG provide separate boundary evidence.",

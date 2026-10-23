@@ -79,3 +79,22 @@ functions belong to a larger unit. Original TU boundaries, full declarations,
 data ownership, natural RTLink placement and runtime behavior remain open.
 A grouped-public/near-call proof would require its own reviewed implementation
 and refusal tests; this investigation deliberately leaves the gate unchanged.
+
+## Fresh RTLink discriminator
+
+The [source-only linker controls](../evidence/rtlink-probe/near-public/README.md)
+recompile the combined source and isolated controls, then link them with pinned
+RTLink 6.10. The original EXE supplies no link input. The combined forward field
+resolves to +2, remains +2 when a four-byte contribution precedes the group, and
+becomes -32 when the callee definition precedes the caller. All other code bytes
+and all data field equations agree with the linker output. These near fields
+create no MZ relocation.
+
+The split-source control combines both objects into the same `UNIT_TEXT`, but
+retains CALL FAR and its segment relocation. This configuration does not turn
+mere linked adjacency into the observed grouped encoding. It strengthens the
+source-context lead without identifying the original linker options or TU.
+The complete group still fails the current multiple-public/near-call gate.
+
+Tracing a separate 122-byte caller exposed a supported 160-byte leaf and
+additional provider obligations; see the [follow-up](larger-function-frontier.md).
