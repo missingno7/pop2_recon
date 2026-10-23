@@ -37,6 +37,25 @@ recompiles every accepted source and checks full OMF identity, complete code,
 tool hashes, original asset/structure identities and non-overlapping ownership.
 Missing tools and compilation failures never fall back to cached objects.
 
+Validation replaces its previous report with `RUNNING` before any oracle or
+compiler checks. Success is atomically published as `PASS`, with a run ID,
+timestamps, the manifest hash and whether tests were requested. Exceptions write
+`FAIL` or `INTERRUPTED`; a killed process may leave `RUNNING`, never a new success.
+`--skip-tests` remains an explicitly recorded local check. Manifest changes
+during validation or an unfinished publication prevent success.
+
+Source and runtime publication use one recovery journal at
+`build/publication-pending.json`. New source/recipe files are installed without
+overwriting existing files, the unchanged manifest gate runs, and an atomic
+manifest replacement commits the transaction. Publication invalidates the old
+validation report. Ordinary failures roll back; after a process crash, stop the
+publisher and run `python tools/publication.py --recover` before continuing.
+Recovery removes only journaled, unchanged files when the old manifest remains,
+or retains the complete publication when the new manifest was committed. An
+external edit causes recovery to refuse without deleting files. Do not remove
+the journal manually or run recovery against a live publisher. These controls
+protect publication and reporting; they grant no additional code or binding proof.
+
 `tools/runtime.py` separately verifies pinned historical library members. Each
 recipe hashes the independent library archive and entire OMF member, owns the
 full initialized CODE segment, and checks declarations, original bytes and

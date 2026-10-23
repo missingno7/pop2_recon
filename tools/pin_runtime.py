@@ -1,14 +1,17 @@
 """Publish a whole independent runtime member only after a fresh strict proof."""
 import argparse
+import json
 import re
 
-from common import ROOT, project_path, read_json, require, write_json
+from common import ROOT, project_path, read_json, require, json_bytes
+from publication import publish, require_idle
 from oracle import Oracle
 from runtime import verify_member
 from validate import check_manifest
 
 
 def pin(recipe_path, *, verify_only=False):
+    require_idle(ROOT)
     source = project_path(recipe_path)
     require(source.is_relative_to(ROOT/"build/workers"), "Runtime submissions must live in worker scratch")
     recipe = read_json(source)
@@ -18,7 +21,8 @@ def pin(recipe_path, *, verify_only=False):
     name = recipe["name"]
     require(re.fullmatch(r"[a-z][a-z0-9_]*", name), "Invalid runtime recipe name")
     oracle = Oracle.load()
-    manifest = read_json(ROOT/"layout/manifest.json")
+    manifest_before = (ROOT/"layout/manifest.json").read_bytes()
+    manifest = json.loads(manifest_before)
     check_manifest(oracle, manifest)
     identifier = f"{recipe['space']}:{recipe['segment']:04x}:{recipe['offset']:04x}"
     require(all(o["target_id"] != identifier for o in manifest["owners"]), "Runtime target already owned")
@@ -34,13 +38,8 @@ def pin(recipe_path, *, verify_only=False):
                  recipe=path.relative_to(ROOT).as_posix(), fixup_count=report["fixups"],
                  relocation_count=report["relocations"])
     manifest["owners"].append(owner)
-    write_json(path, recipe)
-    try:
-        check_manifest(oracle, manifest)
-    except Exception:
-        path.unlink()
-        raise
-    write_json(ROOT/"layout/manifest.json", manifest)
+    publish(ROOT, {path: json_bytes(recipe)}, manifest_before, manifest,
+            lambda: check_manifest(oracle, manifest))
     return report
 
 

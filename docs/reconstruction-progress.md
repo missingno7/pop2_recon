@@ -1,28 +1,42 @@
-# Reconstruction continuation Ă˘â‚¬â€ť 2026-10-16
+# Reconstruction progress
 
 The immutable target remains `assets/PRINCE.EXE`, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
 Release identity is unconfirmed. All 62 supplied asset identities, root/overlay
 structure and 4,716 ordered relocation records remain unchanged.
 
-## Current ownership and debt
+## Current ownership and debt (2026-10-23)
 
 | Category | Bytes |
 | --- | ---: |
-| Matching C | 1,432 |
+| Matching C | 2,189 |
 | Matching ASM | 51 |
 | Pinned runtime | 1,166 |
 | External drivers | 0 |
-| Unresolved identified game helpers | 220 |
-| Unknown/unclassified payload | 268,519 |
+| Unowned payload (identified and unclassified) | 267,982 |
 
-There are 32 accepted C components, one ASM component and twenty-one whole pinned
-runtime members. Overlay C owns 752 bytes across fifteen complete components;
-resident ownership is 1,897 bytes. The identified game-helper subtotal is
-1,632 bytes. Fifty-three source data-offset fixups and two runtime near fixups
-are proven. One external far-call field additionally covers original root MZ
-relocation index 1764: coverage is now 1/4,716. Structural RTLink
-closure remains UNRECOVERED and behavior validation remains NOT_STARTED.
+Fresh validation of the canonical ownership baseline passes 220 invariant tests
+and rebuilds 56 C components, one ASM component and twenty-one pinned runtime
+members. Overlay C owns 884 bytes across eighteen complete components; resident
+ownership is 2,522 bytes. There are 92 proven object fixup fields and 11/4,716
+covered original relocation records. Structural RTLink closure remains
+UNRECOVERED and behavior validation remains NOT_STARTED.
+
+These totals are a dated snapshot. `layout/manifest.json` is authoritative
+ownership; `python tools/validate.py` freshly checks it and writes the report,
+including metrics. `python tools/metrics.py` refreshes the diagnostic metrics
+without rebuilding and is not an acceptance command. Unowned payload includes
+code, data and linker structures, not just game code.
+
+Validation and both publication paths now retain explicit failure/interruption
+state and recoverable publication journals; see [acceptance](acceptance.md).
+The proof rules, original assets, toolchain pins and accepted ownership are
+unchanged by this reliability milestone.
+
+## Historical milestones
+
+The wave counts and validation totals below describe their respective historical
+milestones, not current ownership. Use the dated summary above and fresh reports.
 
 ## Ninth far-call milestone
 
@@ -257,11 +271,14 @@ runtime close member uses the [restricted near proof](runtime-near-binding.md);
 its provider context grants zero ownership. [Symbolic OMF inspection](omf-fixup-resolution.md)
 and [RTLink research](rtlink.md) remain separate from acceptance.
 
-## Next reasoning leads
+## Remaining reasoning leads
 
-The unresolved identified helpers are the 46-byte overlay-2 swap, 26-byte
-resident signed-value helper, 80-byte membership predicate, 34-byte
-overlay-3 setter and 34-byte resident rectangle predicate. The [swap matrix](first-matches.md), prior wave receipts and current frame-option evidence
+The four parked helper searches are the 46-byte overlay-2 swap, 26-byte
+resident signed-value helper, 80-byte membership predicate and 34-byte resident
+rectangle predicate (186 bytes total). They are a subset of unresolved reviewed
+targets, not a complete inventory of remaining code. The overlay-3 setter is
+accepted as `src/set_state_from_record.c`; `/O /Or` with an explicit register
+pointer reproduced its 34-byte extent. The [swap matrix](first-matches.md), prior wave receipts and current frame-option evidence
 record exhausted outputs. Further Luna work requires a new lead;
 repeating known source/flag families does not advance these targets.
 
@@ -281,7 +298,6 @@ proposal repeats its known complete object. Further source trials need an
 independent lifetime, type, TU or compiler-pass lead, rather than another
 equivalent comparison rewrite.
 
-Full `python tools/validate.py` passes all 148 invariant tests, freshly compiles
-31 C components, assembles one ASM component, checks all twenty-one independent
-runtime members and rechecks every supplied asset/structure and historical tool
-pin. Whole extents, symbolic equations and canonical ownership pass.
+The eighth-wave validation passed 148 invariant tests, compiled 31 C components,
+assembled one ASM component and checked twenty-one runtime members. This is a
+historical result; the current validation baseline is recorded at the top.

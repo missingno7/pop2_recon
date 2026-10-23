@@ -1,8 +1,10 @@
 """Serialize strict component publication after a fresh historical compilation."""
 import argparse
+import json
 import re
 
-from common import ROOT, read_json, require, sha, project_path, write_json
+from common import ROOT, read_json, require, sha, project_path, json_bytes
+from publication import publish, require_idle
 from match import compile_and_check, get_target
 from oracle import Oracle
 from validate import check_manifest
@@ -21,8 +23,10 @@ def main():
     parser.add_argument("--verify-only", action="store_true")
     args = parser.parse_args()
     require(re.fullmatch(r"[a-z][a-z0-9_]*", args.name), "Invalid canonical source name")
+    require_idle(ROOT)
     oracle = Oracle.load()
-    manifest = read_json(ROOT / "layout/manifest.json")
+    manifest_before = (ROOT / "layout/manifest.json").read_bytes()
+    manifest = json.loads(manifest_before)
     check_manifest(oracle, manifest)
     require(all(r["target_id"] != args.target for r in manifest["owners"]), "Target already has canonical owner")
     binding_path = project_path(args.binding) if args.binding else None
@@ -70,16 +74,8 @@ def main():
     if "covered_relocation_indices" in report:
         owner["relocation_indices"] = report["covered_relocation_indices"]
     manifest["owners"].append(owner)
-    source_path.parent.mkdir(parents=True, exist_ok=True)
-    source_path.write_bytes(original_source)
-    write_json(recipe_path, recipe)
-    try:
-        check_manifest(oracle, manifest)
-    except Exception:
-        source_path.unlink()
-        recipe_path.unlink()
-        raise
-    write_json(ROOT / "layout/manifest.json", manifest)
+    publish(ROOT, {source_path: original_source, recipe_path: json_bytes(recipe)},
+            manifest_before, manifest, lambda: check_manifest(oracle, manifest))
     print(f"Published {source_path.relative_to(ROOT)}: {target['size']} {report['state']} bytes")
 
 

@@ -45,13 +45,15 @@ bytes. `build/validation/report.json` and `build/metrics.json` report fresh loca
 status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
-Fresh validation records 47 complete C components (1,803 bytes), one ASM
-component (51 bytes), and 21 pinned runtime members (1,166 bytes). Seventeen
-complete overlay C components are included. 65 source data-offset fields,
-two runtime near equations and seven far-call fields are proven.
+Validation on 2026-10-23 records 56 complete C components (2,189 bytes), one ASM
+component (51 bytes), and 21 pinned runtime members (1,166 bytes). Eighteen
+complete overlay C components are included. There are 92 proven object fixup
+fields and 11 covered original relocation records. See
+[current progress](docs/reconstruction-progress.md) for the dated baseline;
+the manifest and a fresh validation report take precedence over these snapshots.
 [Root far-call binding](docs/far-call-binding.md) now supports exact
 within-symbol relocation order with explicit GROUPED structural debt for
-between-symbol permutations. Original relocation coverage is 7/4,716;
+between-symbol permutations. Original relocation coverage is 11/4,716;
 overlay vectors, original TU identity and natural RTLink placement remain open.
 
 The [convergence audit](docs/convergence-audit.md) compares the current blockers

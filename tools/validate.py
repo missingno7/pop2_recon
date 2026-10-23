@@ -3,11 +3,14 @@ import argparse
 import struct
 import subprocess
 import sys
+from datetime import datetime, timezone
+from uuid import uuid4
 
 from common import ROOT, read_json, require, sha, project_path, write_json
 from match import compile_and_check, get_target
 from metrics import metrics
 from oracle import Oracle
+from publication import require_idle
 
 
 def check_manifest(oracle, manifest):
@@ -71,7 +74,7 @@ def check_relocation_order(recipe, report):
                 "Fresh relocation order qualification/debt differs from recipe")
 
 
-def validate(run_tests=True):
+def _validate(run_tests=True):
     oracle = Oracle.load()
     structure = read_json(ROOT / "layout/structure.lock.json")
     spaces = [{"name": s.name, "link_segment": s.link_segment, "file_offset": s.file_offset,
@@ -121,8 +124,41 @@ def validate(run_tests=True):
               "metrics": metrics(oracle, manifest),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
                          "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses, exact MZ site coverage and within-symbol order; GROUPED reports retain between-symbol order as structural debt"]}
-    write_json(ROOT / "build/validation/report.json", report)
     return report
+
+
+def validate(run_tests=True):
+    """Invalidate old success before any checks; exceptions never leave PASS."""
+    path = ROOT / "build/validation/report.json"
+    run = {"run_id": str(uuid4()), "started_at": datetime.now(timezone.utc).isoformat(),
+           "tests_requested": run_tests}
+    try:
+        write_json(path, {**run, "status": "RUNNING"})
+    except BaseException:
+        # If replacement itself fails, do not leave an old PASS as this run's result.
+        path.unlink(missing_ok=True)
+        raise
+    try:
+        require_idle(ROOT)
+        manifest_before = (ROOT / "layout/manifest.json").read_bytes()
+        report = _validate(run_tests)
+        require_idle(ROOT)
+        require((ROOT / "layout/manifest.json").read_bytes() == manifest_before,
+                "Manifest changed during validation")
+        report.update(run, finished_at=datetime.now(timezone.utc).isoformat(),
+                      manifest_sha256=sha(manifest_before))
+        write_json(path, report)
+        return report
+    except BaseException as exc:
+        failure = {**run, "status": "INTERRUPTED" if isinstance(exc, (KeyboardInterrupt, SystemExit)) else "FAIL",
+                   "finished_at": datetime.now(timezone.utc).isoformat(),
+                   "error": f"{type(exc).__name__}: {exc}"}
+        try:
+            write_json(path, failure)
+        except OSError as report_error:
+            if hasattr(exc, "add_note"):
+                exc.add_note(f"Failure report unavailable; prior RUNNING marker remains: {report_error}")
+        raise
 
 
 def main():
