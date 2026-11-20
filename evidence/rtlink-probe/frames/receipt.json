@@ -1,0 +1,183 @@
+{
+  "distinct_frame_per_file": true,
+  "exe_sha256": "4c5d268f0ae0d2516cc25a14825881138a9f21c8b9bb7d253edf3891dd84a391",
+  "far_calls": [
+    {
+      "callee": "B1",
+      "callee_file": "FILEB",
+      "frame": 3,
+      "offset": 8,
+      "site": 33
+    },
+    {
+      "callee": "A1",
+      "callee_file": "FILEA",
+      "frame": 0,
+      "offset": 24,
+      "site": 98
+    },
+    {
+      "callee": "A2",
+      "callee_file": "FILEA",
+      "frame": 0,
+      "offset": 6,
+      "site": 82
+    },
+    {
+      "callee": "A1",
+      "callee_file": "FILEA",
+      "frame": 0,
+      "offset": 24,
+      "site": 145
+    },
+    {
+      "callee": "B2",
+      "callee_file": "FILEB",
+      "frame": 3,
+      "offset": 22,
+      "site": 137
+    }
+  ],
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frames": {
+    "FILEA": {
+      "frame": 0,
+      "public_addresses": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          24
+        ]
+      ],
+      "segment_start": 6
+    },
+    "FILEB": {
+      "frame": 3,
+      "public_addresses": [
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          22
+        ],
+        [
+          3,
+          68
+        ]
+      ],
+      "segment_start": 56
+    },
+    "FILEC": {
+      "frame": 8,
+      "public_addresses": [
+        [
+          8,
+          0
+        ]
+      ],
+      "segment_start": 128
+    }
+  },
+  "inputs": {
+    "FILEA": {
+      "alignment": 2,
+      "object_sha256": "6610cffcc0f40f755c729361cdcbef7856b98a1078632114f8f0a87705eba7aa",
+      "publics": {
+        "A1": 18,
+        "A2": 0
+      },
+      "segment": "FILEA_TEXT",
+      "size": 50,
+      "source_sha256": "d43299edb7ceb7da3b1142ba3b3635f805c0ec8345d4c24c196b03d73e3bc373"
+    },
+    "FILEB": {
+      "alignment": 2,
+      "object_sha256": "85239288baa296378f8253d8a775ca5aba4463d41829b47834c7a8003f4c032a",
+      "publics": {
+        "B1": 0,
+        "B2": 14,
+        "B3": 60
+      },
+      "segment": "FILEB_TEXT",
+      "size": 72,
+      "source_sha256": "691ecf5846a880280474cded51539db832497898502df52d699a0e9b9af7e043"
+    },
+    "FILEC": {
+      "alignment": 2,
+      "object_sha256": "0d294a2ce8db064837f239d8d493a9ae5de22c496c2848caf8174d101e8f53b2",
+      "publics": {
+        "C1": 0
+      },
+      "segment": "FILEC_TEXT",
+      "size": 32,
+      "source_sha256": "460c3e9afac8bdb4a2b9067a668d9a1161ac2facc2132a86fb29fb14eab32e2f"
+    }
+  },
+  "inter_file_fill": [
+    {
+      "after": "FILEA",
+      "before": "FILEB",
+      "end": 56,
+      "fill_hex": "",
+      "next_start": 56
+    },
+    {
+      "after": "FILEB",
+      "before": "FILEC",
+      "end": 128,
+      "fill_hex": "",
+      "next_start": 128
+    }
+  ],
+  "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+  "map_sha256": "aba9b28c073fd8a26c0d8a46533e462abef655348892035ce6c4be00f101fc22",
+  "near_call_sites": [
+    41,
+    90
+  ],
+  "publics": {
+    "A1": [
+      0,
+      24
+    ],
+    "A2": [
+      0,
+      6
+    ],
+    "B1": [
+      3,
+      8
+    ],
+    "B2": [
+      3,
+      22
+    ],
+    "B3": [
+      3,
+      68
+    ],
+    "C1": [
+      8,
+      0
+    ],
+    "ENTRY_POINT": [
+      0,
+      0
+    ]
+  },
+  "schema": 1,
+  "scope": "Synthetic source-only compiler/linker observation; no original TU or ownership proof",
+  "script_sha256": "6d63e9946c06657cb91feceae6f334ecd385d5d70c42db6d24ed7217570c6354"
+}
