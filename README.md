@@ -5,7 +5,7 @@ supplied DOS executable's machine code. This repository starts with component
 matching; whole RTLink structural closure is a separate investigation. No SDL
 port has been started.
 
-Target: local `assets/PRINCE.EXE`, 290,415 bytes, SHA-256
+Target: local `assets/DOS/PRINCE.EXE`, 290,415 bytes, SHA-256
 `5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314`.
 Its exact release identity is unconfirmed. The supplied `PRINCE2.EX_` differs
 at five bytes and has a separate locked identity; matching targets the requested

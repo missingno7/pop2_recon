@@ -124,7 +124,7 @@ def run_self_test() -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('image', nargs='?', type=Path, default=Path('assets/PRINCE.EXE'))
+    ap.add_argument('image', nargs='?', type=Path, default=Path('assets/DOS/PRINCE.EXE'))
     ap.add_argument('--descriptor-offset', type=int, default=DEFAULT_DESC_OFFSET)
     ap.add_argument('--count', type=int, default=DEFAULT_OVERLAYS)
     ap.add_argument('--self-test', action='store_true')

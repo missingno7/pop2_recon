@@ -36,7 +36,8 @@ def verify_assets():
     require(LOCK.is_file(), "Missing frozen oracle lock; run inventory.py --freeze once")
     lock = read_json(LOCK)
     expected = {r["path"]: (r["size"], r["sha256"]) for r in lock["assets"]["files"]}
-    actual = inventory(ROOT / "assets")
+    # The locked target's directory holds the whole locked DOS asset set.
+    actual = inventory(ROOT / Path(lock["target"]["path"]).parent)
     observed = {r["path"]: (r["size"], r["sha256"]) for r in actual["files"]}
     require(expected == observed, "Asset identities differ from frozen oracle.lock.json")
     return lock
@@ -48,10 +49,10 @@ def main():
     args = parser.parse_args()
     if args.freeze:
         require(not LOCK.exists(), "Refusing to overwrite frozen oracle lock")
-        inv = inventory(ROOT / "assets")
+        inv = inventory(ROOT / "assets/DOS")
         target = next(r for r in inv["files"] if r["path"] == "PRINCE.EXE")
         write_json(LOCK, {"schema": 1, "authority": "Immutable supplied assets; never candidate output",
-                          "target": {"path": "assets/PRINCE.EXE", "size": target["size"],
+                          "target": {"path": "assets/DOS/PRINCE.EXE", "size": target["size"],
                                      "sha256": target["sha256"]}, "assets": inv})
     lock = verify_assets()
     print(f"Verified {lock['assets']['file_count']} assets, {lock['assets']['total_bytes']} bytes")
