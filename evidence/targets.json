@@ -7737,6 +7737,41 @@
       "size": 18,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; Pascal/cdecl indistinguishable with zero arguments. AL forwards the callee's byte result; the original caller ignores it. No BP frame, locals or saved SI/DI; DS/ES preserved.",
+      "boundary_evidence": [
+        "Previous function ends RETF 2 at 0x0e74 with NOP at 0x0e77; this entry begins at 0x0e78.",
+        "RETF at 0x0e8c and NOP at 0x0e8d precede the independently reviewed UPDATE_STEP_DELTA entry root:0000:0e8e.",
+        "Complete decoded interval root+[0x0e78,0x0e8e) has one RETF; its only branch target 0x0e85 lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "Incoming relocated CALL FAR 0000:0e78 at root+0x46bc (MZ relocation index 343), the second destination of a six-case CS-relative switch table at 0x4696 bounded to 0..5; see docs/tu-state-step.md.",
+        "Includes original trailing NOP at root+0x0e8d: the return body is 21 bytes and the next entry is even aligned; the whole 22-byte extent must be emitted by the compiler."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 26300,
+          "image_offset": 18108,
+          "kind": "far_call",
+          "relocated_segment_site": 18111,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Signed byte increment with upper clamp, byte store and same-CS call to a reviewed C helper; resident C-like code with no segment-context changes."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:0000:0e78",
+      "offset": 3704,
+      "original_bytes_hex": "a0135c98403d0c007e03b80c00a2135c0ee80200cb90",
+      "original_name": null,
+      "segment": 0,
+      "semantic_name_hypothesis": "increment_state_and_update",
+      "sha256": "32bc0d1faac3e13c8dd0b5264dc1ffeb88bf5c7bce362e05acfb77cb7738b022",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

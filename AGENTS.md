@@ -27,6 +27,12 @@ strict check. The integrating writer publishes by removing `--verify-only`, then
 runs `python tools/validate.py`. Accepted code is complete component CODE_EXACT,
 not original-TU or whole-link proof. Current acceptance supports one complete
 initialized CODE segment. Relocation-free components need no binding proof.
+Functions that call each other with `PUSH CS; CALL near` must come from one source:
+use `python tools/promote_group.py build/workers/NAME/candidate.c --name NAME
+--profile PROFILE --flags ... --claim TARGET_ID=PUBLIC ... [--binding ...] --verify-only`
+(see the same-source group section of docs/acceptance.md). Draft whole runs of
+neighbouring functions in original order; `python tools/tu_census.py` lists the
+original code frames (one per medium-model file) and their near-call blocks.
 Unreferenced compiler externals and FIXUPP thread declarations are retained in
 the object proof. For the narrow external DGROUP offset16 modes (resident zero addend or
 independently witnessed two-word alias; overlay byte/word zero addend), provide

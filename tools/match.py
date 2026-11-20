@@ -57,24 +57,16 @@ def get_target(identifier, oracle=None):
     return target, space, raw
 
 
-def check_object(obj_data, target, space, expected, public_name, *, binding=None, oracle=None):
-    """Compare the WHOLE emitted code extent, including any trailing bytes."""
-    module = OmfReader().read(obj_data, "candidate")
+def code_segment(module):
+    """The single complete CODE segment; refuses secondary storage and unknown records."""
     code = [s for s in module.segment_defs if s["class"] == "CODE"]
     require(len(code) == 1, "Bootstrap gate requires exactly one CODE segment")
     segment = code[0]
     name = segment["name"]
     require(not segment["use32"] and not segment["big"] and segment["alignment"] != 0,
             "Unsupported code segment declaration")
-    fixups = [entry for record in module.fixups for entry in record["decoded"] if entry["kind"] == "fixup"]
-    require(not fixups or (binding is not None and oracle is not None),
-            "Fixup-bearing components require an independently grounded symbolic binding proof")
-    require(fixups or binding is None, "Unused binding proof on relocation-free component")
     require(all(s["length"] == 0 for s in module.segment_defs if s["name"] != name),
             "Unowned DATA/BSS/secondary declarations are not accepted")
-    require(len(module.publics) == 1 and module.publics[0]["name"] == public_name and
-            module.publics[0]["segment"] == name and module.publics[0]["offset"] == 0,
-            "The public must own the complete CODE segment from offset zero")
     # Independently establish LEDATA coverage; OmfReader payload gaps must never become authority.
     initialized = set()
     supported = {0x80, 0x82, 0x88, 0x8a, 0x8c, 0x90, 0x96, 0x98, 0x9a, 0x9c, 0xa0}
@@ -94,6 +86,20 @@ def check_object(obj_data, target, space, expected, public_name, *, binding=None
     require(initialized == set(range(segment["length"])), "CODE segment contains uninitialized holes")
     actual = module.segments.get(name, b"")
     require(len(actual) == segment["length"], "Incomplete emitted CODE segment")
+    return segment, name, actual
+
+
+def check_object(obj_data, target, space, expected, public_name, *, binding=None, oracle=None):
+    """Compare the WHOLE emitted code extent, including any trailing bytes."""
+    module = OmfReader().read(obj_data, "candidate")
+    fixups = [entry for record in module.fixups for entry in record["decoded"] if entry["kind"] == "fixup"]
+    require(not fixups or (binding is not None and oracle is not None),
+            "Fixup-bearing components require an independently grounded symbolic binding proof")
+    require(fixups or binding is None, "Unused binding proof on relocation-free component")
+    segment, name, actual = code_segment(module)
+    require(len(module.publics) == 1 and module.publics[0]["name"] == public_name and
+            module.publics[0]["segment"] == name and module.publics[0]["offset"] == 0,
+            "The public must own the complete CODE segment from offset zero")
     start = space.position(target["segment"], target["offset"])
     relocations = [r for r in space.relocations if start-1 <= r["image_offset"] < start+len(expected)]
     bound = None

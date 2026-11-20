@@ -181,6 +181,11 @@ def _owner_recipe(manifest, function_id, *, root=ROOT, oracle=None):
     if not recipe_path.is_relative_to(root.resolve()):
         raise ValueError("Owner recipe path escapes the project")
     recipe = json.loads(recipe_path.read_text(encoding="utf-8"))
+    if recipe.get("kind") == "same_source_group":
+        claims = [c for c in recipe.get("claims", []) if c.get("target_id") == owner["target_id"]]
+        if len(claims) != 1:
+            raise ValueError(f"Owner recipe target mismatch for {owner['target_id']}")
+        return {"owner": owner, "recipe": recipe, "group_claim": claims[0]}
     if recipe.get("target_id") != owner["target_id"]:
         raise ValueError(f"Owner recipe target mismatch for {owner['target_id']}")
     return {"owner": owner, "recipe": recipe}

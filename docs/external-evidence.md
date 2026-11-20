@@ -26,6 +26,53 @@ Read-only inspection of `assets/PRINCE.EXE` recorded SHA-256 `5BF733C56441258E69
 
 Version evidence remains mixed. The asset readme identifies the bundle as downloaded from bestoldgames.net. A TASVideos manifest describes a 290415-byte DOS executable as `unknown v1.0` / Initial Release, while its judge explicitly says whether that image was officially released or an early leak is inconclusive. That manifest's executable MD5 (`7bcdb72c92dc661eea0297bf0794d3e4`) matches neither local EXE nor EX_. Several local game-data files do match that manifest exactly, including `PRINCE.DAT`, `CAVERNS.DAT`, `ROOFTOPS.DAT`, `TRANS.DAT`, `PRINCE.ICO`, and `SETUP.EXE`. This points to an early-release-matching data set, but the local executable itself remains an unclassified modified variant. The filesystem timestamp identifies only the asset copy. No separate `.OVL`/`.OVR` file is present; the overlays are embedded after the DOS root image.
 
+## Naming leads refreshed 2026-11-21
+
+A web search re-checked the leads above and found newer ones. Nothing was
+downloaded. Names from another platform can inform descriptive names, but under
+AGENTS.md naming rules they are not original DOS symbols until independently
+anchored in the DOS code.
+
+- **[dmucli/pop2-port](https://github.com/dmucli/pop2-port)** (commits to
+  2026-10-18). This is the strongest lead.
+  - **What it is.** A Ghidra decompilation of the Macintosh 68k PoP2 into C,
+    about 2,160 functions. Its `docs/PORTING.md` says to keep the original
+    names ("MacsBug symbols") and names THINK C as the compiler.
+  - **Structure.** Its `src/game/segNN_*.c` files follow the Mac CODE segments:
+    main, modularset, characters, ruins, caverns, finalbattle, temple, desert,
+    rooftops, niss, animaudio, poptools, mohawklibs, maclibs.
+  - **Names.** Example function names are PlayNIS, JumpSeq, Falling, HitFloor,
+    GenCtrl, DoStepFwd, DoRunJump, DoEngarde and StairClimbing. About 20% are
+    still `FUN_` placeholders.
+  - **Global names may not be original.** Globals and field macros (gKid,
+    CH_X, ...) are probably the porter's, because MacsBug stores function names
+    only.
+  - **Licence.** `src/game/` is explicitly not licensed; only the port code is
+    MIT.
+  - **Use here.** Function names and segment grouping, provided the Mac build
+    shares the DOS C codebase. That is likely but not proven, and bytes do not
+    transfer.
+- **FluffyQuack.** The June 2025 statements (FM Towns debug symbols, then the
+  Xbox build, a planned open-source release with an IDA database) were
+  re-verified. As of 2026-11 no PoP2 project or symbol dump is public.
+- **FM Towns.** The release reportedly carries symbols, possibly in a Phar Lap
+  `.EXP` symbol table as other FM Towns titles do. This is unverified. It is
+  32-bit protected-mode code, so names would transfer but bytes would not. An
+  archive.org image exists; nothing was downloaded.
+- **Xbox.** NTSC Xbox *Sands of Time* contains an unlockable PoP2. Its symbols
+  and code lineage are unknown.
+- **Source and design documents.** No PoP2 source is public. Jordan Mechner's
+  library has the 1991 "POP2 Bible" (design, not code), useful for official
+  object and level names.
+- **Other recompilers.** mac-recomp/pop2 (a 68k recompiler) and the Supermedo
+  recompiler publish no symbols. A third-party note says Supermedo targets the
+  "IR" pre-release leak build.
+- **DOS builds.** popuw.com lists Demo, IR, 1.0 and 1.1. No symbol source is tied
+  to a specific DOS build.
+- **Caution.** Automated fetches of tcrf.net PoP2 pages returned text addressed
+  to AI agents with instructions. It was ignored. Treat that site's automated
+  content as untrusted.
+
 ## Retrieval limits
 
 The shell initially could not connect to `github.com:443`, but a subsequent authorized public-source checkout succeeded. The reference is cached at `build/references/prince-of-persia-2-windows`, pinned to commit `e2c407fa8409ad891bf78c8e98c3e052dd00869b`; the workspace `.gitignore` excludes `/build/`. The checkout contains project source/docs and no game executable. No proprietary binaries were downloaded.

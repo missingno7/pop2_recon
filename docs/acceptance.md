@@ -3,7 +3,66 @@
 `tools/match.py` reads expected bytes solely from the SHA-locked original EXE.
 `evidence/targets.json` freezes reviewed extents and their independent boundary
 evidence. For reconstructed C/ASM, a whole emitted CODE SEGDEF belongs to one
-public at offset zero.
+public at offset zero, or to a same-source group (below).
+
+## Same-source groups
+
+`tools/module_gate.py` lets one compiled object own several reviewed functions.
+
+**Placement and claims.**
+- The object has one complete CODE segment and the same record and storage rules
+  as the single-function gate.
+- Every public starts inside the initialized segment, and one public starts at
+  offset 0, so no emitted byte is unaccounted for. Fixup fields must not overlap.
+- Each *claim* pairs a reviewed target with the public that starts it.
+- All claims must share one placement: the original position minus the public's
+  object offset is the same for every claim. Permuted definitions therefore fail.
+- The claims' reviewed, relocated incoming CALL FARs must all name one original
+  frame.
+
+**What each claim is judged on.** A claim's extent runs from its public to the
+next public or the segment end, and must equal the reviewed target exactly. Its
+bytes compare literally, except for these fixup fields:
+
+- **Same-object near call.** The field is the operand of a decoded
+  `PUSH CS; CALL near` pair, and it targets a public of this object (F5/T6
+  self-relative LOC1, zero addend). It must equal `S - (P + 2)`, the equation the
+  RTLink controls in [tu-state-step.md](tu-state-step.md) observed. The call is
+  proven only when that frame is witnessed and both the field and the callee lie
+  in its 64 KB window. Within that window, 16-bit IP arithmetic and linear
+  placement agree.
+- **External DGROUP offset16.** The existing modes apply. The group binding is
+  pinned to `group:NAME`, and every data witness must lie outside the whole
+  emitted object, not just outside the claim. A data fixup whose symbol is also a
+  CODE public of the object is refused, because the linker would resolve it to
+  that code.
+- **Calls before DGROUP accesses.** A claim with DGROUP accesses may call only
+  claims that themselves provably preserve DS/ES/SS. This is checked as a
+  fixpoint. A call into an unclaimed draft refuses those accesses.
+
+**What refuses a claim.** Any other fixup, a field crossing a claim boundary, or
+an original MZ relocation in the extent refuses that claim. Such a claim cannot
+be published. Root CALL FAR and overlay modes are not yet supported in groups.
+
+**Unclaimed publics.** These are in-place *drafts*. They own nothing and are
+recorded in the recipe as debt.
+
+**Promotion and validation.** `tools/promote_group.py` publishes only when every
+claim is CODE_EXACT.
+- Existing single-function owners inside the placement must be among the claims.
+  Their owners are replaced in the same transaction, and their source, recipe
+  and unshared binding are retired after the manifest commit (recoverable through
+  the same journal).
+- Only files that no remaining recipe references are retired. Their pins are
+  rechecked before the commit, and they are deleted only while they still match.
+- Promotion and validation hash exactly the source and binding bytes they compile
+  and parse.
+- Validation recompiles each group once. Every claim must remain exact, and the
+  object hash, placement, frame, extent and draft record must stay the same.
+
+**What a group proves.** A group proves CODE_EXACT for each claim and their
+relative placement from one compilation. It does not prove the original file
+boundary, declarations before the group, unclaimed drafts, or link placement.
 Declared length, every initialized byte, padding, all publics, secondary storage,
 records and FIXUPP subrecords are inspected. CODE holes, multiple publics,
 nonzero secondary data/BSS, unknown storage records and 32-bit records fail.

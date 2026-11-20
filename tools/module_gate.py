@@ -1,0 +1,285 @@
+"""Same-source group gate: several reviewed functions from one compiled object.
+
+One historical compilation emits one CODE segment holding several publics in
+source order. Each *claim* names a reviewed target and the public that starts
+it. Every claim must sit at one shared placement (object offset 0 maps to one
+original position), and each is judged over its complete extent: from its
+public to the next public or the segment end. Publics that are not claimed are
+in-place drafts; they own nothing and are reported as debt.
+
+Supported fixups inside a claim: a same-object near call (`PUSH CS; CALL near`
+to another public of this object, equation `S - (P + 2)`), and the existing
+external DGROUP offset16 modes with witnesses outside the whole object.
+Everything else, including any original MZ relocation in the claim, refuses
+that claim. No bytes are masked. This proves CODE_EXACT for each claim and
+the relative placement of the group; it does not prove the original file
+boundary, declarations outside the group, or link placement.
+
+Object-level rules (refusals, not claim failures): every public lies inside
+the initialized CODE segment and one public starts at offset 0; fixup fields
+are disjoint; a near call is proven only inside the original CS window named by
+an independently relocated CALL FAR into a claim, so 16-bit IP arithmetic and
+linear placement agree.
+"""
+import struct
+
+from binding import (IMMEDIATE_MODE, data_context, data_equations, declarations, fixes, ground,
+                     instructions, preserve_segments)
+from common import require, sha
+from match import code_segment, get_target
+from omf import OmfReader
+
+GROUP_PROOF_SCOPE = ("Complete code of each claimed function at one shared placement from one compilation; "
+                     "same-object near calls inside the witnessed original CS window and external DGROUP "
+                     "offset16 equations proven; original file boundary, unclaimed drafts, data placement and "
+                     "natural link placement unproved")
+
+
+def _near_equation(fix, publics, actual, expected, at, rows):
+    """Same-object self-relative near call; returns (value, observed) or raises.
+
+    The field must be the rel16 operand of a decoded `CALL near` instruction that
+    immediately follows a decoded `PUSH CS`, not merely sit after matching bytes.
+    """
+    target = fix["target"]
+    require(fix["self_relative"] and fix["loc_type"] == 1 and fix["field_width"] == 2 and
+            target["kind"] == "external" and target["method"] == 6 and fix["displacement"] is None and
+            fix["frame"] == {"kind": "target_frame", "target": target},
+            "Unsupported self-relative fixup shape")
+    require(target["name"] in publics, "Near call target is not a public of this object")
+    by_address = {insn.address: bytes(insn.bytes) for insn in rows}
+    require(at >= 2 and by_address.get(at - 1, b"")[:1] == b"\xe8" and len(by_address[at - 1]) == 3 and
+            by_address.get(at - 2) == b"\x0e",
+            "Near fixup is not the operand of a decoded PUSH CS; CALL near pair")
+    require(actual[at:at+2] == b"\x00\x00", "Only zero encoded near-call addends are proven")
+    value = (publics[target["name"]] - (at + 2)) & 0xffff
+    return value, struct.unpack_from("<H", expected, at)[0]
+
+
+def _contained(rows, length):
+    """Control stays inside the claim: direct in-range jumps only, ending in a return or JMP."""
+    from disasm import _capstone
+    cs, xc = _capstone()
+    last = None
+    for insn in rows:
+        if set(insn.groups).intersection((cs.CS_GRP_JUMP,)):
+            require(len(insn.operands) == 1 and insn.operands[0].type == xc.X86_OP_IMM and
+                    0 <= insn.operands[0].imm < length,
+                    "Jump leaves the claim or is indirect")
+        if bytes(insn.bytes) != b"\x90":
+            last = insn
+    require(last is not None and (set(last.groups).intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or
+                                  last.mnemonic == "jmp"),
+            "Control can fall through out of the claim")
+
+
+def _witnessed_frames(target, oracle):
+    """Segment words of the reviewed, relocated CALL FARs that enter this target."""
+    frames = set()
+    for call in target.get("call_sites", []):
+        if call["kind"] == "far_call":
+            caller = oracle.spaces[call["space"]]
+            frames.add(struct.unpack_from("<H", caller.data, call["image_offset"] + 3)[0])
+    return frames
+
+
+def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
+    """Judge every claim; never raises for a claim-level mismatch, only for object-level refusal."""
+    module = OmfReader().read(obj_data, "candidate")
+    segment, name, actual = code_segment(module)
+    publics = {}
+    for public in module.publics:
+        require(public["segment"] == name, "Public outside the CODE segment")
+        require(public["name"] not in publics, "Duplicate public")
+        require(0 <= public["offset"] < len(actual), "Public outside the initialized CODE segment")
+        publics[public["name"]] = public["offset"]
+    offsets = sorted(publics.values())
+    require(len(set(offsets)) == len(offsets), "Two publics share one offset")
+    require(offsets and offsets[0] == 0, "Code before the first public would be unaccounted for")
+    require(claims and len({c["target_id"] for c in claims}) == len(claims) and
+            len({c["public"] for c in claims}) == len(claims), "Claims must be unique")
+    obligations = fixes(module)
+    fields = set()
+    for fix in obligations:
+        span = set(range(fix["segment_offset"], fix["segment_offset"] + fix["field_width"]))
+        require(not fields.intersection(span) and max(span) < len(actual),
+                "Fixup fields overlap or leave the CODE segment")
+        fields.update(span)
+    resolved, origin, space, frames = [], None, None, set()
+    for claim in claims:
+        require(claim["public"] in publics, f"Claimed public {claim['public']} is not emitted")
+        target, target_space, expected = get_target(claim["target_id"], oracle)
+        require(space is None or target_space.name == space.name, "Claims span several spaces")
+        space = target_space
+        position = space.position(target["segment"], target["offset"])
+        start = publics[claim["public"]]
+        require(origin is None or position - start == origin,
+                "Claims do not share one object placement")
+        origin = position - start
+        frames |= _witnessed_frames(target, oracle)
+        resolved.append((claim, target, expected, start))
+    require(0 <= origin and origin + len(actual) <= space.size, "Object placement escapes the space")
+    require(len(frames) <= 1, "Claims are entered through different original frames")
+    window = None
+    if frames:
+        base = (next(iter(frames)) - space.link_segment) * 16
+        window = (base, base + 0x10000)
+    symbols, mode = None, None
+    if binding is not None:
+        require(binding["fixups"] == obligations, "Ordered symbolic fixup obligations changed")
+        require(binding["declarations"] == declarations(module), "Bound object declarations changed")
+        require(group_id is not None and binding["target_id"] == group_id, "Binding belongs to another group")
+        hull = dict(space.address(origin), id=group_id, size=len(actual))
+        symbols, mode = ground(binding, hull, oracle), binding["mode"]
+
+    # Pass 1: extent, decoding, near equations. Pass 2: segment safety. Pass 3: data.
+    states, reports = {}, []
+    for claim, target, expected, start in resolved:
+        later = [o for o in offsets if o > start]
+        end = later[0] if later else len(actual)
+        report = {"target_id": claim["target_id"], "public": claim["public"], "object_offset": start,
+                  "expected_size": len(expected), "emitted_size": end - start,
+                  "expected_sha256": sha(expected), "emitted_sha256": sha(actual[start:end])}
+        reports.append(report)
+        try:
+            piece = actual[start:end]
+            require(len(piece) == len(expected), "Claim extent differs from the reviewed target; trimming forbidden")
+            position = origin + start
+            require(not any(position-1 <= r["image_offset"] < position+len(expected) for r in space.relocations),
+                    "Original MZ relocation obligations are outside the group gate")
+            mine = [f for f in obligations if start <= f["segment_offset"] < end]
+            require(all(f["segment_offset"] + f["field_width"] <= end for f in mine) and
+                    not any(f["segment_offset"] < start < f["segment_offset"] + f["field_width"]
+                            for f in obligations), "Fixup field crosses the claim boundary")
+            try:
+                rows = instructions(piece)
+            except ValueError:
+                require(not mine, "Fixup-bearing claim does not decode completely")
+                rows = None
+            state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
+                     "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
+                     "near": [], "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
+                     "report": report}
+            for fix in mine:
+                at = fix["segment_offset"] - start
+                if fix["self_relative"]:
+                    callee = fix["target"].get("name")
+                    # Claim-relative coordinates: S and P both shift by the claim start.
+                    value, observed = _near_equation(fix, {k: v - start for k, v in publics.items()},
+                                                     piece, expected, at, rows)
+                    state["equations"].append({"offset": at, "kind": "same-object near16", "symbol": callee,
+                                               "linked_value": value, "original_value": observed,
+                                               "equal": value == observed})
+                    state["near"].append({"pair_start": origin + fix["segment_offset"] - 2,
+                                          "field_end": origin + fix["segment_offset"] + 2,
+                                          "callee": callee, "callee_at": origin + publics[callee],
+                                          "equal": value == observed})
+                    if value != observed:
+                        state["differences"].append(at)
+                    state["occupied"].update((at, at+1))
+                    state["calls"][at - 1] = callee
+                else:
+                    require(fix["target"].get("name") not in publics,
+                            "Data fixup target resolves to a CODE public of this object")
+                    state["data"].append(dict(fix, segment_offset=at))
+            states[claim["public"]] = state
+        except ValueError as error:
+            report.update(exact=False, state="REFUSED", reason=str(error))
+
+    # Original CS: a claim runs in the witnessed frame if a relocated CALL FAR names
+    # it directly, or a claim already proven so reaches it by an equal near call whose
+    # whole PUSH CS; CALL pair and callee lie inside that frame's 64K window.
+    def in_window(near):
+        return (window is not None and window[0] <= near["pair_start"] and near["field_end"] <= window[1]
+                and window[0] <= near["callee_at"] < window[1])
+
+    cs_proven = {p for p, s in states.items() if s["frames"]}
+    changed = True
+    while changed:
+        changed = False
+        for public in list(cs_proven):
+            for near in states[public]["near"]:
+                if near["equal"] and in_window(near) and near["callee"] in states and \
+                        near["callee"] not in cs_proven:
+                    cs_proven.add(near["callee"])
+                    changed = True
+    for public, state in list(states.items()):
+        if not state["near"]:
+            continue
+        reason = ("Near call lacks an independently witnessed original frame for its caller"
+                  if public not in cs_proven else
+                  "Near call leaves the witnessed original CS window"
+                  if not all(in_window(n) for n in state["near"]) else None)
+        if reason:
+            state["report"].update(exact=False, state="REFUSED", reason=reason)
+            del states[public]
+
+    # A claim preserves DS/ES/SS only if its own code does, control cannot leave it
+    # except by return or an allowed call, and every call goes to a claim that does too.
+    # Unclaimed drafts are never assumed safe.
+    safe, changed = set(), True
+    while changed:
+        changed = False
+        for public, state in states.items():
+            if public in safe or state["rows"] is None:
+                continue
+            allowed = {at for at, callee in state["calls"].items() if callee in safe}
+            try:
+                preserve_segments(state["rows"], allowed, es_ds=mode == IMMEDIATE_MODE)
+                _contained(state["rows"], len(state["piece"]))
+            except ValueError:
+                continue
+            safe.add(public)
+            changed = True
+
+    used_symbols = set()
+    for report in reports:
+        state = states.get(report["public"])
+        if state is None:
+            continue
+        try:
+            if state["data"]:
+                require(symbols is not None, "DGROUP fixups require a grounded group binding")
+                require(report["public"] in safe,
+                        "DGROUP access after a call into code not proven to preserve segment context")
+                allowed = {at for at, callee in state["calls"].items() if callee in safe}
+                data_context(module, state["rows"], allowed, mode=mode)
+                found, unequal = data_equations(state["data"], symbols, name, state["piece"], state["expected"],
+                                                state["rows"], mode, state["occupied"])
+                state["equations"] += [dict(e, kind="DGROUP offset16") for e in found]
+                state["differences"] += unequal
+                used_symbols.update(f["target"]["name"] for f in state["data"])
+            piece, expected, occupied = state["piece"], state["expected"], state["occupied"]
+            differences = state["differences"] + [i for i in range(len(piece))
+                                                  if i not in occupied and piece[i] != expected[i]]
+            report.update(exact=not differences, state="CODE_EXACT" if not differences else "CANDIDATE_C",
+                          first_difference=min(differences, default=None),
+                          mismatch_count=len(differences), fixups=state["fixups"], relocations=0,
+                          equations=state["equations"], ordinary_bytes_compared=len(piece) - len(occupied))
+        except ValueError as error:
+            report.update(exact=False, state="REFUSED", reason=str(error))
+    # A refused claim never evaluated its data fields; report it instead of masking the reason.
+    if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
+        require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
+    claimed = {c["public"] for c in claims}
+    return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
+            "space": space.name, "origin": origin, "emitted_size": len(actual),
+            "frame": next(iter(frames)) if frames else None,
+            "segment": segment, "claims": reports,
+            "drafts": sorted(({"public": p, "object_offset": o} for p, o in publics.items() if p not in claimed),
+                             key=lambda d: d["object_offset"]),
+            "unreferenced_external_declarations": [e for e in module.externals
+                                                   if e not in {f["target"].get("name") for f in obligations}],
+            "fixup_thread_declarations": [entry for record in module.fixups for entry in record["decoded"]],
+            "record_types": [r["type"] for r in module.records], "proof_scope": GROUP_PROOF_SCOPE}
+
+
+def compile_group(source_text, profile, flags, claims, workdir, *, binding=None, group_id=None):
+    """Compile exactly the given source text (the bytes the caller hashed) and judge it."""
+    from pathlib import Path
+    from compiler import compile_c
+    from oracle import Oracle
+    oracle = Oracle.load()
+    result = compile_c(source_text, profile, flags=flags, workdir=Path(workdir))
+    require(result.ok, "Historical compilation failed: " + result.log)
+    return result, check_group(result.obj_bytes, claims, oracle, binding=binding, group_id=group_id)

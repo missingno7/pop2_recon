@@ -72,6 +72,21 @@ remain unresolved.
 
 ## Phase 2: module gate (tooling worktree, integrator)
 
+**Status 2026-11-21.** The gate's first version is implemented: `tools/module_gate.py`,
+`tools/promote_group.py`, and group support in validation, publication and context.
+Its rules are in [acceptance.md](acceptance.md#same-source-groups).
+
+- **Review.** GPT 6.2 Sol reviewed it independently and found eleven issues. A
+  re-check found four variants. All are fixed, each with a regression test in
+  `tests/test_module_gate.py`.
+- **Pilot.** The state-step pair (`state_step_pair`, 34 bytes) is published and
+  migrated `UPDATE_STEP_DELTA` into it.
+- **Not yet supported.** Complete-module status (reviewed file boundaries), root
+  CALL FAR and overlay claims are refused for now.
+- **Accepted limit.** Publication and validation have no file locks, so a
+  concurrent edit in the instant before a retirement unlink is not excluded.
+  Validation re-checks every live pin at the end.
+
 Implement this in a separate git worktree, following AGENTS.md. Reuse the
 existing binding modes per claim instead of inventing new ones.
 

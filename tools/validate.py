@@ -1,5 +1,6 @@
 """Fresh authoritative bootstrap validation; never alters locks or oracle assets."""
 import argparse
+import json
 import struct
 import subprocess
 import sys
@@ -13,9 +14,13 @@ from oracle import Oracle
 from publication import require_idle
 
 
+GROUP_KIND = "same_source_group"
+
+
 def check_manifest(oracle, manifest):
     owned = {}
     ids = set()
+    group_claims = {}
     for owner in manifest["owners"]:
         require(owner["target_id"] not in ids, "Duplicate target owner")
         ids.add(owner["target_id"])
@@ -50,7 +55,15 @@ def check_manifest(oracle, manifest):
                     runtime_report["relocations"] == owner.get("relocation_count", 0),
                     "Runtime owner obligation counts differ from fresh proof")
             continue
-        require(recipe["target_id"] == owner["target_id"], "Recipe target mismatch")
+        if recipe.get("kind") == GROUP_KIND:
+            require(owner["kind"] == "MATCHING_C" and owner.get("group") == recipe["name"],
+                    "Group owner does not name its group recipe")
+            claim = [c for c in recipe["claims"] if c["target_id"] == owner["target_id"]]
+            require(len(claim) == 1 and claim[0]["fixup_count"] == owner["fixup_count"],
+                    "Group owner is not exactly one recipe claim")
+            group_claims.setdefault(owner["recipe"], set()).add(owner["target_id"])
+        else:
+            require(recipe["target_id"] == owner["target_id"], "Recipe target mismatch")
         source = project_path(recipe["source"])
         language = recipe.get("language", "c")
         require(language == ("asm" if owner["kind"] == "MATCHING_ASM" else "c"),
@@ -63,7 +76,33 @@ def check_manifest(oracle, manifest):
             require(binding_path.is_relative_to(ROOT / "evidence/bindings") and
                     sha(binding_path.read_bytes()) == recipe["binding_sha256"],
                     "Canonical binding evidence changed without acceptance")
-            require(owner["fixup_count"] == recipe["fixup_count"], "Owner fixup count differs from recipe")
+            if recipe.get("kind") != GROUP_KIND:
+                require(owner["fixup_count"] == recipe["fixup_count"], "Owner fixup count differs from recipe")
+    for path, claimed in group_claims.items():
+        require(claimed == {c["target_id"] for c in read_json(project_path(path))["claims"]},
+                "Group recipe claims and canonical owners differ")
+
+
+def verify_group(recipe):
+    """Fresh compilation of one same-source group; every claim must stay exact."""
+    from module_gate import compile_group
+    # Hash exactly the bytes that are compiled and parsed; a later edit cannot pass under an old pin.
+    source = project_path(recipe["source"]).read_bytes()
+    require(sha(source) == recipe["source_sha256"], "Canonical source changed without acceptance")
+    binding = None
+    if "binding" in recipe:
+        raw = project_path(recipe["binding"]).read_bytes()
+        require(sha(raw) == recipe["binding_sha256"], "Canonical binding evidence changed without acceptance")
+        binding = json.loads(raw)
+    _, report = compile_group(source.decode("ascii"), recipe["profile"], recipe["flags"],
+                              [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]],
+                              ROOT / "build/workers/validation" / recipe["name"],
+                              binding=binding, group_id=recipe["group_id"])
+    require(report["exact"], "Previously accepted group no longer compiles exactly")
+    require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
+    require(all(report[key] == recipe[key] for key in ("space", "origin", "emitted_size", "frame", "drafts")),
+            "Accepted group placement, extent or draft record changed")
+    return report
 
 
 def check_relocation_order(recipe, report):
@@ -97,8 +136,18 @@ def _validate(run_tests=True):
     for profile in load_lock().get("assemblers", {}):
         verify_assembler(profile)
     accepted = []
+    groups = {}
     for owner in manifest["owners"]:
         recipe = read_json(project_path(owner["recipe"]))
+        if recipe.get("kind") == GROUP_KIND:
+            if owner["recipe"] not in groups:
+                groups[owner["recipe"]] = verify_group(recipe)
+                accepted.append(groups[owner["recipe"]])
+            claim = next(c for c in groups[owner["recipe"]]["claims"] if c["target_id"] == owner["target_id"])
+            require(claim["exact"] and claim["fixups"] == owner["fixup_count"] and
+                    claim["relocations"] == owner.get("relocation_count", 0),
+                    "Group claim no longer exact or its obligations changed")
+            continue
         if owner["kind"] == "PINNED_RUNTIME":
             from runtime import verify_member
             accepted.append(verify_member(recipe, oracle))
@@ -117,6 +166,9 @@ def _validate(run_tests=True):
                 "Fresh original relocation index coverage changed")
         check_relocation_order(recipe, report)
         accepted.append(report)
+    # Live canonical files must still carry their pins after all compilation, so a
+    # PASS never certifies files edited while proofs ran on earlier snapshots.
+    check_manifest(oracle, manifest)
     if run_tests:
         result = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], cwd=ROOT)
         require(result.returncode == 0, "Focused invariant tests failed")

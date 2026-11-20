@@ -45,10 +45,12 @@ bytes. `build/validation/report.json` and `build/metrics.json` report fresh loca
 status. Compiler findings and next targets are recorded in docs/ as evidence
 becomes available.
 
-Validation on 2026-10-23 records 57 complete C components (2,349 bytes), one ASM
-component (51 bytes), and 21 pinned runtime members (1,166 bytes). Eighteen
-complete overlay C components are included. There are 105 proven object fixup
-fields and 11 covered original relocation records. See
+Validation on 2026-11-21 records 58 exact C functions (2,371 bytes), one ASM
+component (51 bytes), and 21 pinned runtime members (1,166 bytes). The C functions
+include the first [same-source group](docs/acceptance.md#same-source-groups): two
+functions linked by a same-file near call, from one compilation. Eighteen
+complete overlay C components are included. There are 11 covered original
+relocation records. See
 [current progress](docs/reconstruction-progress.md) for the dated baseline;
 the manifest and a fresh validation report take precedence over these snapshots.
 [Root far-call binding](docs/far-call-binding.md) now supports exact
