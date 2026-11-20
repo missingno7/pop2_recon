@@ -45,7 +45,12 @@ not yet verified for this linker.
    as main HEAD). This needs the user's OK first.
 3. Update the model routing in AGENTS.md (see "Model routing" below).
 
+Done on 2026-11-20.
+
 ## Phase 1: module census and the frame = file proof (research, no ownership)
+
+Done for root on 2026-11-20; see [tu-census.md](tu-census.md). Overlay frames
+remain unresolved.
 
 - `tools/tu_census.py` (worker-local output by default) builds a per-space module
   table:
