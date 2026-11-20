@@ -7167,6 +7167,576 @@
       "size": 16,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; calling convention cleanup is indistinguishable. Saves DI/SI; no BP frame or locals; no meaningful scalar result established; ES clobbered.",
+      "boundary_evidence": [
+        "Accepted clear_state_bytes owner root:02cc:13d2 ends at 0x40a4, including its NOP at 0x40a3; new PUSH DI at 0x40a4.",
+        "RETF at 0x40b3 immediately precedes inverse copy entry at 0x40b4.",
+        "Complete independently decoded interval root+[0x40a4,0x40b4) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "0 immediate far CALL sites independently decoded from original ordered relocation records; 1 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent.",
+        "No relocated far CALL is present. PUSH CS immediately before same-CS CALL provides a far return address; RETF therefore supports a distinct far function entry rather than a near-RET routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24474,
+          "image_offset": 16282,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 16281
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Immediate addresses DI=626a and SI=628c; POP ES and MOVSW/MOVSB are unsupported data/segment obligations."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:13e4",
+      "offset": 5092,
+      "original_bytes_hex": "5756bf6a62be8c621e07a5a5a45e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "save_five_byte_state",
+      "sha256": "3e3b79eebc87654f12ba3227d800f4f59141bbbafd96ed41ab8d6457ef944a29",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame or locals; scalar result unestablished; ES clobbered.",
+      "boundary_evidence": [
+        "Previous copy entry ends in RETF at 0x40b3.",
+        "RETF at 0x40c3 immediately precedes clear helper at 0x40c4.",
+        "Complete independently decoded interval root+[0x40b4,0x40c4) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "0 immediate far CALL sites independently decoded from original ordered relocation records; 1 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent.",
+        "No relocated far CALL is present. PUSH CS immediately before same-CS CALL provides a far return address; RETF therefore supports a distinct far function entry rather than a near-RET routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24418,
+          "image_offset": 16226,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 16225
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Immediate addresses DI=628c and SI=626a; POP ES and string copies are outside the gate."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:13f4",
+      "offset": 5108,
+      "original_bytes_hex": "5756bf8c62be6a621e07a5a5a45e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "restore_five_byte_state",
+      "sha256": "93c8102620442a8bf9a667cc1b5e4b837314b08dfea340ffdacadc74118a5a4f",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame or locals; ES clobbered; scalar return not established.",
+      "boundary_evidence": [
+        "Previous 64-byte copy ends in RETF at 0x356f.",
+        "NOP at 0x3581; accepted floor_adjust entry begins with BP prologue at 0x3582 (root:02cc:08c2).",
+        "Complete independently decoded interval root+[0x3570,0x3582) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "Includes original trailing NOP at root+0x3581: the return body is 17 bytes, next entry is even aligned. This is a compiler-padding hypothesis independently bounded by the next entry; a grinder must emit the entire 18-byte CODE segment, never append padding by hand.",
+        "4 immediate far CALL sites independently decoded from original ordered relocation records; 1 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 14682,
+          "image_offset": 6490,
+          "kind": "far_call",
+          "relocated_segment_site": 6493,
+          "space": "root"
+        },
+        {
+          "file_offset": 16511,
+          "image_offset": 8319,
+          "kind": "far_call",
+          "relocated_segment_site": 8322,
+          "space": "root"
+        },
+        {
+          "file_offset": 39092,
+          "image_offset": 30900,
+          "kind": "far_call",
+          "relocated_segment_site": 30903,
+          "space": "root"
+        },
+        {
+          "file_offset": 262805,
+          "image_offset": 1173,
+          "kind": "far_call",
+          "relocated_segment_site": 1176,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 25319,
+          "image_offset": 17127,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 17126
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DI=625b and SI=09fe are immediate DS addresses; POP ES changes segment context; four MOVSW copy eight bytes."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:08b0",
+      "offset": 2224,
+      "original_bytes_hex": "5756bf5b62befe091e07a5a5a5a55e5fcb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "initialize_eight_byte_record",
+      "sha256": "73f35adbbc62c042027a886bf7f9b4c059eb67d2d57fc64c1d89d35bfadaa398",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; saves DI/SI, no BP frame/locals, ES clobbered; scalar result unestablished.",
+      "boundary_evidence": [
+        "Previous helper ends in RETF at 0x490f.",
+        "RETF at 0x4921; next routine starts with CMP word DS:5c07,00a6 at 0x4922.",
+        "Complete independently decoded interval root+[0x4910,0x4922) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "5 immediate far CALL sites independently decoded from original ordered relocation records; 0 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 16983,
+          "image_offset": 8791,
+          "kind": "far_call",
+          "relocated_segment_site": 8794,
+          "space": "root"
+        },
+        {
+          "file_offset": 17090,
+          "image_offset": 8898,
+          "kind": "far_call",
+          "relocated_segment_site": 8901,
+          "space": "root"
+        },
+        {
+          "file_offset": 195360,
+          "image_offset": 10592,
+          "kind": "far_call",
+          "relocated_segment_site": 10595,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 262881,
+          "image_offset": 1249,
+          "kind": "far_call",
+          "relocated_segment_site": 1252,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 268225,
+          "image_offset": 1713,
+          "kind": "far_call",
+          "relocated_segment_site": 1716,
+          "space": "overlay-15"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Immediate DI=6252 / SI=2932, POP ES and REP MOVSW (ten words)."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:1c50",
+      "offset": 7248,
+      "original_bytes_hex": "5756bf5262be32291e07b90a00f3a55e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "restore_twenty_byte_state",
+      "sha256": "54081b9671f6e3f2d9fb0717ef3b300261cae81c13b47bbf36f064561602b6d1",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame/locals; ES clobbered; scalar result unestablished.",
+      "boundary_evidence": [
+        "Predecessor RETF 2 at 0x4a50..0x4a52; alignment NOP at 0x4a53.",
+        "RETF at 0x4a65; next BP prologue starts at 0x4a66.",
+        "Complete independently decoded interval root+[0x4a54,0x4a66) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
+        "47 immediate far CALL sites independently decoded from original ordered relocation records; 2 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9035,
+          "image_offset": 843,
+          "kind": "far_call",
+          "relocated_segment_site": 846,
+          "space": "root"
+        },
+        {
+          "file_offset": 9991,
+          "image_offset": 1799,
+          "kind": "far_call",
+          "relocated_segment_site": 1802,
+          "space": "root"
+        },
+        {
+          "file_offset": 9745,
+          "image_offset": 1553,
+          "kind": "far_call",
+          "relocated_segment_site": 1556,
+          "space": "root"
+        },
+        {
+          "file_offset": 10570,
+          "image_offset": 2378,
+          "kind": "far_call",
+          "relocated_segment_site": 2381,
+          "space": "root"
+        },
+        {
+          "file_offset": 10520,
+          "image_offset": 2328,
+          "kind": "far_call",
+          "relocated_segment_site": 2331,
+          "space": "root"
+        },
+        {
+          "file_offset": 10772,
+          "image_offset": 2580,
+          "kind": "far_call",
+          "relocated_segment_site": 2583,
+          "space": "root"
+        },
+        {
+          "file_offset": 10754,
+          "image_offset": 2562,
+          "kind": "far_call",
+          "relocated_segment_site": 2565,
+          "space": "root"
+        },
+        {
+          "file_offset": 10736,
+          "image_offset": 2544,
+          "kind": "far_call",
+          "relocated_segment_site": 2547,
+          "space": "root"
+        },
+        {
+          "file_offset": 10718,
+          "image_offset": 2526,
+          "kind": "far_call",
+          "relocated_segment_site": 2529,
+          "space": "root"
+        },
+        {
+          "file_offset": 10700,
+          "image_offset": 2508,
+          "kind": "far_call",
+          "relocated_segment_site": 2511,
+          "space": "root"
+        },
+        {
+          "file_offset": 10682,
+          "image_offset": 2490,
+          "kind": "far_call",
+          "relocated_segment_site": 2493,
+          "space": "root"
+        },
+        {
+          "file_offset": 10648,
+          "image_offset": 2456,
+          "kind": "far_call",
+          "relocated_segment_site": 2459,
+          "space": "root"
+        },
+        {
+          "file_offset": 10614,
+          "image_offset": 2422,
+          "kind": "far_call",
+          "relocated_segment_site": 2425,
+          "space": "root"
+        },
+        {
+          "file_offset": 11804,
+          "image_offset": 3612,
+          "kind": "far_call",
+          "relocated_segment_site": 3615,
+          "space": "root"
+        },
+        {
+          "file_offset": 11932,
+          "image_offset": 3740,
+          "kind": "far_call",
+          "relocated_segment_site": 3743,
+          "space": "root"
+        },
+        {
+          "file_offset": 16062,
+          "image_offset": 7870,
+          "kind": "far_call",
+          "relocated_segment_site": 7873,
+          "space": "root"
+        },
+        {
+          "file_offset": 41646,
+          "image_offset": 33454,
+          "kind": "far_call",
+          "relocated_segment_site": 33457,
+          "space": "root"
+        },
+        {
+          "file_offset": 57118,
+          "image_offset": 48926,
+          "kind": "far_call",
+          "relocated_segment_site": 48929,
+          "space": "root"
+        },
+        {
+          "file_offset": 63272,
+          "image_offset": 55080,
+          "kind": "far_call",
+          "relocated_segment_site": 55083,
+          "space": "root"
+        },
+        {
+          "file_offset": 65870,
+          "image_offset": 57678,
+          "kind": "far_call",
+          "relocated_segment_site": 57681,
+          "space": "root"
+        },
+        {
+          "file_offset": 68586,
+          "image_offset": 60394,
+          "kind": "far_call",
+          "relocated_segment_site": 60397,
+          "space": "root"
+        },
+        {
+          "file_offset": 75776,
+          "image_offset": 67584,
+          "kind": "far_call",
+          "relocated_segment_site": 67587,
+          "space": "root"
+        },
+        {
+          "file_offset": 75753,
+          "image_offset": 67561,
+          "kind": "far_call",
+          "relocated_segment_site": 67564,
+          "space": "root"
+        },
+        {
+          "file_offset": 189179,
+          "image_offset": 4411,
+          "kind": "far_call",
+          "relocated_segment_site": 4414,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 189016,
+          "image_offset": 4248,
+          "kind": "far_call",
+          "relocated_segment_site": 4251,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 194770,
+          "image_offset": 10002,
+          "kind": "far_call",
+          "relocated_segment_site": 10005,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 195226,
+          "image_offset": 10458,
+          "kind": "far_call",
+          "relocated_segment_site": 10461,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 197965,
+          "image_offset": 13197,
+          "kind": "far_call",
+          "relocated_segment_site": 13200,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 202850,
+          "image_offset": 18082,
+          "kind": "far_call",
+          "relocated_segment_site": 18085,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 209580,
+          "image_offset": 716,
+          "kind": "far_call",
+          "relocated_segment_site": 719,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 209837,
+          "image_offset": 973,
+          "kind": "far_call",
+          "relocated_segment_site": 976,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 212434,
+          "image_offset": 514,
+          "kind": "far_call",
+          "relocated_segment_site": 517,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 232412,
+          "image_offset": 636,
+          "kind": "far_call",
+          "relocated_segment_site": 639,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 234213,
+          "image_offset": 2437,
+          "kind": "far_call",
+          "relocated_segment_site": 2440,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 234052,
+          "image_offset": 2276,
+          "kind": "far_call",
+          "relocated_segment_site": 2279,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 241873,
+          "image_offset": 1457,
+          "kind": "far_call",
+          "relocated_segment_site": 1460,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 241826,
+          "image_offset": 1410,
+          "kind": "far_call",
+          "relocated_segment_site": 1413,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 241688,
+          "image_offset": 1272,
+          "kind": "far_call",
+          "relocated_segment_site": 1275,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 244290,
+          "image_offset": 3874,
+          "kind": "far_call",
+          "relocated_segment_site": 3877,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 244692,
+          "image_offset": 4276,
+          "kind": "far_call",
+          "relocated_segment_site": 4279,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 261406,
+          "image_offset": 6190,
+          "kind": "far_call",
+          "relocated_segment_site": 6193,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 264072,
+          "image_offset": 296,
+          "kind": "far_call",
+          "relocated_segment_site": 299,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 264188,
+          "image_offset": 412,
+          "kind": "far_call",
+          "relocated_segment_site": 415,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 266531,
+          "image_offset": 19,
+          "kind": "far_call",
+          "relocated_segment_site": 22,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 267044,
+          "image_offset": 532,
+          "kind": "far_call",
+          "relocated_segment_site": 535,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 267435,
+          "image_offset": 923,
+          "kind": "far_call",
+          "relocated_segment_site": 926,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 268504,
+          "image_offset": 168,
+          "kind": "far_call",
+          "relocated_segment_site": 171,
+          "space": "overlay-16"
+        },
+        {
+          "file_offset": 21710,
+          "image_offset": 13518,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 13517
+        },
+        {
+          "file_offset": 24176,
+          "image_offset": 15984,
+          "kind": "push_cs_near_call",
+          "relocated_segment_site": null,
+          "space": "root",
+          "pushed_cs_site": 15983
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Immediate DI=5c00 and SI=5c80 are unsupported, even though there are zero MZ relocations. POP ES also fails segment-preservation rule."
+      ],
+      "classification_status": "evidence-qualified hypothesis; no original symbol identity",
+      "id": "root:02cc:1d94",
+      "offset": 7572,
+      "original_bytes_hex": "5756bf005cbe805c1e07b92000f3a55e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "load_sixtyfour_byte_state",
+      "sha256": "a2a62980f8508b634bf68774db21a40cacb768b10100046f1a5fcd12530f09c2",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

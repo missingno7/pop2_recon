@@ -73,9 +73,12 @@ or treating a rejected variant as evidence that a source family is exhausted.
 Assign a target to only one grinding worker per wave. Do not create worker chats,
 a daemon, shared writable queue, or speculative canonical source variants.
 
-Use gpt-6-luna with xhigh for bounded source/profile searches. Use gpt-6.1-sol
-with high for boundary/ABI review, stagnant near-matches, new proofs, overlays,
-and structural/TU/linker decisions. Luna must not design acceptance mechanisms.
+Use gpt-6.2-sol for matching: source/profile searches, module drafting,
+boundary/ABI review, near-misses and independent review of gate tests. Use
+gpt-6-luna only for mechanical work (census runs, card generation, declaration
+extraction, ledger chores); Luna must not design acceptance mechanisms. Escalate
+to Opus 5.5 only for blockers where Sol stalled with recorded negative receipts.
+Acceptance mechanisms are written by the integrating session.
 Use `--output build/workers/NAME/discovery.json` for worker discovery and
 `--output build/workers/NAME/context.json` for worker context; their CLI defaults
 write shared inventory diagnostics. Root refreshes shared oracle fixtures.
