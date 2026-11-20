@@ -7196,13 +7196,14 @@
       "id": "root:02cc:13e4",
       "offset": 5092,
       "original_bytes_hex": "5756bf6a62be8c621e07a5a5a45e5fcb",
-      "original_name": null,
+      "original_name": "SaveSelect",
       "segment": 716,
       "semantic_name_hypothesis": "save_five_byte_state",
       "sha256": "3e3b79eebc87654f12ba3227d800f4f59141bbbafd96ed41ab8d6457ef944a29",
       "size": 16,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": "FM Towns CTRL.C public @SaveSelect; DOS PlayerCtrl saves the selection at root+0x3f9a where FM Towns PlayerCtrl calls SaveSelect (1a18:14f5); copied globals DS:628c/DS:626a = FM Towns _Dir/_SelDir."
     },
     {
       "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame or locals; scalar result unestablished; ES clobbered.",
@@ -7232,13 +7233,14 @@
       "id": "root:02cc:13f4",
       "offset": 5108,
       "original_bytes_hex": "5756bf8c62be6a621e07a5a5a45e5fcb",
-      "original_name": null,
+      "original_name": "LoadSelect",
       "segment": 716,
       "semantic_name_hypothesis": "restore_five_byte_state",
       "sha256": "93c8102620442a8bf9a667cc1b5e4b837314b08dfea340ffdacadc74118a5a4f",
       "size": 16,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": "FM Towns CTRL.C public @LoadSelect; inverse copy before the input poll in both PlayerCtrl bodies (DOS root+0x3f62, FM Towns 1a18:14b5)."
     },
     {
       "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame or locals; ES clobbered; scalar return not established.",
@@ -7358,13 +7360,14 @@
       "id": "root:02cc:1c50",
       "offset": 7248,
       "original_bytes_hex": "5756bf5262be32291e07b90a00f3a55e5fcb",
-      "original_name": null,
+      "original_name": "RestoreFChar",
       "segment": 716,
       "semantic_name_hypothesis": "restore_twenty_byte_state",
       "sha256": "54081b9671f6e3f2d9fb0717ef3b300261cae81c13b47bbf36f064561602b6d1",
       "size": 18,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": "FM Towns CTRL.C public @RestoreFChar; SetupCarpet restore sites DOS overlay-13+0x04e1 and FM Towns 1c20:0510 write _FChar = DOS DS:6252."
     },
     {
       "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame/locals; ES clobbered; scalar result unestablished.",
