@@ -9,7 +9,7 @@ import argparse
 import json
 import re
 
-from common import ROOT, json_bytes, project_path, read_json, require, sha
+from common import CANONICAL_NAME, ROOT, json_bytes, project_path, read_json, require, sha
 from module_gate import compile_group
 from oracle import Oracle
 from publication import publish, require_idle
@@ -32,7 +32,7 @@ def main():
     parser.add_argument("--binding", help="Reviewed group binding under evidence/bindings")
     parser.add_argument("--verify-only", action="store_true")
     args = parser.parse_args()
-    require(re.fullmatch(r"[a-z][a-z0-9_]*", args.name), "Invalid canonical group name")
+    require(re.fullmatch(CANONICAL_NAME, args.name), "Invalid canonical group name")
     require_idle(ROOT)
     oracle = Oracle.load()
     manifest_before = (ROOT / "layout/manifest.json").read_bytes()

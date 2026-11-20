@@ -6,6 +6,8 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# Canonical names: optional original-module directory, then the component name.
+CANONICAL_NAME = r"(?:[a-z][a-z0-9_]*/)?[a-z][a-z0-9_]*"
 
 
 def sha(data):

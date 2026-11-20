@@ -3,7 +3,7 @@ import argparse
 import json
 import re
 
-from common import ROOT, read_json, require, sha, project_path, json_bytes
+from common import CANONICAL_NAME, ROOT, read_json, require, sha, project_path, json_bytes
 from publication import publish, require_idle
 from match import compile_and_check, get_target
 from oracle import Oracle
@@ -22,7 +22,7 @@ def main():
     parser.add_argument("--binding", help="Reviewed original-derived symbolic binding JSON")
     parser.add_argument("--verify-only", action="store_true")
     args = parser.parse_args()
-    require(re.fullmatch(r"[a-z][a-z0-9_]*", args.name), "Invalid canonical source name")
+    require(re.fullmatch(CANONICAL_NAME, args.name), "Invalid canonical source name")
     require_idle(ROOT)
     oracle = Oracle.load()
     manifest_before = (ROOT / "layout/manifest.json").read_bytes()

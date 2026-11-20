@@ -19,9 +19,10 @@ def _new_path(root, relative, *, retired=False):
     path = (root / relative).resolve()
     allowed = ("src", "asm", "recipes")
     parts = path.parts[len(root.parts):]
+    # Relocation publishes renamed bindings, so bindings may be written as well as retired.
     require(path.is_relative_to(root) and
-            (parts[0] in allowed or (retired and parts[:2] == ("evidence", "bindings"))),
-            "Publication file must be canonical source, recipe or (retired) binding")
+            (parts[0] in allowed or parts[:2] == ("evidence", "bindings")),
+            "Publication file must be canonical source, recipe or binding")
     return path
 
 
