@@ -50,7 +50,7 @@ extern void show_system_error(FarName, int);
 extern int read_input(void);
 extern int input_active(int);
 extern int sound_playing(int);
-extern void close_resource_map(ResourceMap);
+extern void close_resource_catalog(ResourceMap);
 extern ResourceMap open_resource_map(FarName);
 extern struct ResourceMapData far *lock_resource_map(ResourceMap);
 extern int get_midi_driver_flag(void);
@@ -171,7 +171,7 @@ void close_resource_file(const char *name)
 {
     ResourceMap map = find_resource_map(name);
     if (map)
-        close_resource_map(map);
+        close_resource_catalog(map);
 }
 
 ResourceMap open_verified_resource(const char *name)
