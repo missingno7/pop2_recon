@@ -38307,6 +38307,93 @@
         "FM Towns DIALOG.C @SetRebirthPtKidStatus at 1ddb:0752 checks saved rebirth storage and reads the selected two-byte room/cell entry. It computes signed remainder and quotient by 10, copies saved record byte offsets 9, 10 and 12, and returns 2 or -1.",
         "The immediately preceding DOS routine and FM Towns @SetRebirthPtLevelStatus independently match four copy lengths (03c0, 0f00, 0e80, 0440), record offsets (0017, 03d7, 12d7, 2157), and the last word access at record+0x0f."
       ]
+    },
+    {
+      "abi": "Far Pascal, one word at BP+6, int AX, RETF 2.",
+      "boundary_evidence": [
+        "The sole RETF 2 at +0x20 and one NOP end the routine. A new BP frame starts at +0x24. The 2a4e:0000 far caller at root+0x453a supplies a word; FM Towns ordered names do not assign a name to this DOS entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 25914,
+          "image_offset": 17722,
+          "kind": "far_call",
+          "relocated_segment_site": 17725,
+          "relocation_index": 327,
+          "space": "root"
+        },
+        {
+          "file_offset": 57659,
+          "image_offset": 49467,
+          "kind": "far_call",
+          "relocated_segment_site": 49470,
+          "relocation_index": 1085,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Compare the word to zero. A nonzero word returns zero, and zero calls the established bounded-random entry with 2 and returns its result plus one."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0000",
+      "offset": 0,
+      "original_bytes_hex": "558bec56837e060074042bf6eb0cb80200509a9000611f8bf0468bc65e8be55dca020090",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "choose_trapdoor_delay",
+      "sha256": "ab7cec906ab07b1b1224d6338e9fada914b293f2c716e5c9fee3fef009caf9a9",
+      "size": 36,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Reached by PUSH CS / CALL at +0x1c1, +0x1e0, and +0x1f4. The RETF at +0x82 and NOP at +0x83 precede the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 232225,
+          "image_offset": 449,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 448,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 232256,
+          "image_offset": 480,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 479,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 232276,
+          "image_offset": 500,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 499,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Iterates moving X toward the saved signed limit in steps of 24; computes a tile index using the saved row and redraws at moving Y."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0024",
+      "offset": 36,
+      "original_bytes_hex": "558bec83ec0456a0c8678846ff8b36c9673b36be677e438a46ff509ac607cc028bc8a1be678bd99933c22bc2b90500d3f833c22bc202d8881e5262803ec767087504fe065262ff36c0679aaa22410b8306be67183936be677cbd5e8be55dcb90",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "move_slide_bolt",
+      "sha256": "235c1e41fe4ed6bb84d60a58a47b7c7684079a9636a8e02c1d42c57ea79b5000",
+      "size": 96,
+      "space": "overlay-9",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
