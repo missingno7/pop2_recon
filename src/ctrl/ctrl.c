@@ -239,8 +239,21 @@ void far pascal get_frame_info(void)
     }
 }
 
-extern unsigned char char_direction;
-extern int char_x;
+struct CharacterRecord { char bytes[64]; };
+/* The active and opponent character records are adjacent. */
+struct ActorPair {
+    struct CharacterRecord current;
+    struct CharacterRecord rival;
+};
+extern struct ActorPair actor_pair;
+extern struct CharacterRecord Kid;
+extern unsigned char hidden_facing;
+#define Char actor_pair.current
+#define opponent actor_pair.rival
+#define char_direction (*(unsigned char *)&Char.bytes[1])
+#define char_x (*(int *)&Char.bytes[2])
+#define character_row (Char.bytes[10])
+#define character_room (Char.bytes[14])
 
 int far pascal AddCharX(int value)
 {
@@ -266,10 +279,8 @@ extern unsigned int animation_sequence;
 extern int animation_repeat;
 extern signed char state_code;
 extern volatile unsigned char character_kind;
-extern signed char character_row;
 extern signed char horizontal_step;
 extern signed char vertical_step;
-extern signed char character_room;
 extern int character_y;
 extern int animation_contact;
 extern int animation_advance;
@@ -284,11 +295,6 @@ extern int sound_steps;
 extern unsigned char animation_tick;
 extern int kid_step;
 
-struct CharacterRecord {
-    char bytes[64];
-};
-
-extern struct CharacterRecord Char, Kid;
 
 typedef int far * near * SequenceHandle;
 
@@ -308,7 +314,7 @@ extern void far pascal play_sequence_music(int cue);
 extern void far pascal stop_sequence_music(void);
 extern int far pascal test_animation_condition(int condition);
 extern void far pascal animation_event(int event);
-extern void far pascal show_animation_message(void);
+extern void far pascal TriggerJinnee(void);
 extern void far pascal play_special_step(int sound);
 extern void far pascal play_step(int sound);
 extern int far pascal should_shift_step(unsigned char room);
@@ -381,7 +387,7 @@ void far pascal AnimChar(void)
                     goto retain_sequence;
                 }
             } else if (opcode == 3) {
-                show_animation_message();
+                TriggerJinnee();
             }
             break;
         case -13:
@@ -542,8 +548,7 @@ char far FirstInRow(signed char value)
     return result;
 }
 
-extern struct CharacterRecord opponent, actor_slots[];
-extern unsigned char hidden_facing;
+extern struct CharacterRecord actor_slots[];
 
 void copy_kid_to_char(void);
 void far pascal save_actor_slot(void);
@@ -1656,18 +1661,20 @@ void far pascal guard_ctrl(void)
     }
 }
 
-extern signed char opponent_life, opponent_room, opponent_row;
-extern unsigned char opponent_direction;
-extern int opponent_x;
+#define opponent_direction ((unsigned char)opponent.bytes[1])
+#define opponent_x (*(int *)&opponent.bytes[2])
+#define opponent_row (opponent.bytes[10])
+#define opponent_room (opponent.bytes[14])
+#define opponent_life (opponent.bytes[18])
 int far pascal get_opp_dist(void)
 {
     int distance;
     if (opponent_life && opponent_room == character_room && opponent_row == character_row &&
-        opponent_direction != 86) {
+        (unsigned char)opponent.bytes[1] != 86) {
         distance = opponent_x - char_x;
         if (char_direction)
             distance = -distance;
-        if (distance >= 0 && char_direction != opponent_direction)
+        if (distance >= 0 && char_direction != (unsigned char)opponent.bytes[1])
             distance += 13;
     } else {
         distance = 999;

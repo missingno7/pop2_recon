@@ -43667,6 +43667,70 @@
       "size": 15,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original push_cs_near_call at root+31c1 targets 02cc:1998.",
+        "Original contiguous routine extends through its final return and applicable alignment at 1a54, before the next independent code entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20929,
+          "image_offset": 12737,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12736,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches the active potion operation through a six-case switch, then clears the operation counter."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1998",
+      "offset": 6552,
+      "original_bytes_hex": "803e065c007403e9b000833e3029007503e9a600833e3029ff7509c606105c00e9910090ff0e3029a130293d05007603e98100d1e0932effa7d619909090e219fc19041a0c1a141a3a1aa0125c3806135c7405c606145c01b86500509ab001d70deb51909a780e0000ebed909a06130000eb41909ade120000eb3990833e8e5e0075f1b001500ee82cef0bc07409b84700509a1600da25b80e00509ace01d70deb12b80e00509ace01d70db86f00509a1600da25c70630290000cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "potioneffect",
+      "sha256": "8116715aa6ebd8719e45a6a67c28776596f92212ec5bc48d670fccc275300909",
+      "size": 188,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original far_call at overlay-3+2e35 targets 02cc:1c62.",
+        "Original contiguous routine extends through its final return and applicable alignment at 1cac, before the next independent code entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196597,
+          "image_offset": 11829,
+          "kind": "far_call",
+          "relocated_segment_site": 11832,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Adjusts guard input and animation around a special frame."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1c62",
+      "offset": 7266,
+      "original_bytes_hex": "813e075ca6007540803e8f62007d39803e8c62007d240ee8dcf350ff3671629ad62344230bc0750bb80500500ee8cee6a3025c9a1819da25cb90c6068f6201b85000509a1600da25cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "guard_ctrl",
+      "sha256": "a7951896deae646a60c072929ce44582774e40c09513a0f7e191cb7ccdfb65a4",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
