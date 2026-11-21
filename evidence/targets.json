@@ -15828,6 +15828,510 @@
       "size": 436,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far entry, no stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "Incoming overlay-3+1a6b MZ 104. Prior RETF 2 at 082e with NOP 0831. Invalid slot branches both reach 0867. Bare RETF at 0869 immediately precedes the 086a prologue.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 191531,
+          "image_offset": 6763,
+          "kind": "far_call",
+          "relocated_segment_site": 6766,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies two 64-byte actor records, with a signed opponent slot guard and a 64-byte slot stride."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0832",
+      "offset": 2098,
+      "original_bytes_hex": "5756803e405c007c2c803e405c057d25b8805c8bf8be005c1e07b92000f3a5a0405c988bd8b106d3e38dbfc05cbe405cb92000f3a55e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "save_kid_with_opponent",
+      "sha256": "9a6feed8ff171303158ba1337fb059dc89cc5c90e33d2b16643d7bfe82820b14",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far entry, no stack arguments, tile byte in AL, bare RETF.",
+      "boundary_evidence": [
+        "Independent root+bc2c MZ 982. Preceded by RETF 2 at 09d4 and NOP 09d7. PUSH CS/E8 at 09e4/09e5 names ReadCell. RETF 09e8 and NOP 09e9 precede the independent 09ea entry.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56364,
+          "image_offset": 48172,
+          "kind": "far_call",
+          "relocated_segment_site": 48175,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calls ReadCell with room, base column and row drawn from character state."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:09d8",
+      "offset": 2520,
+      "original_bytes_hex": "a00e5c50a0095c50a00a5c500ee808f7cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_under_foot",
+      "sha256": "6793f16d2b6d21afd173fd7d296f6128fd8ae28a7311d2222253d48bea78a7f3",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, AX boolean and bare RETF.",
+      "boundary_evidence": [
+        "Independent root+ebef, MZ 1162. Prior common RETF 0eb4 and NOP 0eb5. The two return blocks end in RETF 0ee2 and 0ee7, just before the separately called 0ee8.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68591,
+          "image_offset": 60399,
+          "kind": "far_call",
+          "relocated_segment_site": 60402,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests room zero and two mode-dependent undefined-room exceptions from the room and row globals."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0eb6",
+      "offset": 3766,
+      "original_bytes_hex": "803e0e5c007427803e0e5c037507803e474506740e803e0e5c05750e803e4745067507803e0a5c0b7d042bc0cb90b80100cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "is_undefined_room",
+      "sha256": "f01b14ee3a9f9b61dc28e6988d66523d63718f4e2c57a83f6a501c31394a7505",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, AL tile ID and bare RETF.",
+      "boundary_evidence": [
+        "Independent overlay-3+2a80, MZ 179. Preceding GrabTest ends in RETF 0fce and NOP 0fcf. Conditional branches converge at the PUSH CS/E8 call to 09d8 and RETF at 102e, with NOP 102f.",
+        "The sole touching MZ relocation is the 078a:28fe CALL at 1007."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 195648,
+          "image_offset": 10880,
+          "kind": "far_call",
+          "relocated_segment_site": 10883,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Conditionally corrects direction-relative X and then rereads the tile below the character."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0fd0",
+      "offset": 4048,
+      "original_bytes_hex": "56833e245c047451803e065c0b744a803e0e5c03750e803e4745067507803e095c007c350ee890008bf0b001500ee82f0083fe0b7d10509afe288a070bc0750683c60beb0890b80f002bc68bf0560ee83ef3a3025c0ee855f20ee8abf95ecb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "inside_cell",
+      "sha256": "24e94580dbbc034a3dbe7cfa768a044fbe51f65ca6177b48378d0c2977b41308",
+      "size": 96,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte distance at BP+6 in word slot. AL return and RETF 2.",
+      "boundary_evidence": [
+        "Independent overlay-3+1b8b, MZ 43. Preceding RETF 102e and NOP 102f. PUSH CS/E8 at 104d/104e enters 00f0. RETF 2 at 1054 and NOP 1057 precede the separate 1058 entry.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 191819,
+          "image_offset": 7051,
+          "kind": "far_call",
+          "relocated_segment_site": 7054,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes a facing-relative column from the byte table and forwards it to the tile query."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1030",
+      "offset": 4144,
+      "original_bytes_hex": "558beca00e5c50a0015c988bd88a87790df66e060206095c50a00a5c500ee89ff08be55dca020090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_cells_ahead",
+      "sha256": "f072292ecb96bffefbec98c6e45d232d466ce5e1061ccd0291f3f807c19bcd5f",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, AL tile ID and bare RETF.",
+      "boundary_evidence": [
+        "Independent overlay-3+1c27, MZ 123. Preceding RETF 2 at 1054 and NOP 1057. PUSH CS/E8 at 106f/1070 enters 00f0. RETF 1073 immediately precedes the relocated 1074 entry.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 191975,
+          "image_offset": 7207,
+          "kind": "far_call",
+          "relocated_segment_site": 7210,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Queries the tile behind the character using a facing-relative column offset."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1058",
+      "offset": 4184,
+      "original_bytes_hex": "a00e5c50a0015c988bd88a877b0d0206095c50a00a5c500ee87df0cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_behind",
+      "sha256": "2e9f159247611e89010b543e050d5300a6ad14e1e838c2af7f01182f2d3f519d",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, signed AX result and bare RETF.",
+      "boundary_evidence": [
+        "Independent root+108a6, MZ 1419. Prior RETF 1073. PUSH CS/E8 at 1082/1083 enters 0360. RETF 1086 and NOP 1087 precede 1088.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 75942,
+          "image_offset": 67750,
+          "kind": "far_call",
+          "relocated_segment_site": 67753,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Subtracts a masked frame bias from the frame X byte and passes the signed difference to the direction-relative X helper."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1074",
+      "offset": 4212,
+      "original_bytes_hex": "a0145e8a0e165e80e11f2ac198500ee8daf2cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_base_x",
+      "sha256": "e95febc065db9104bd3effd0a52b6dc2d8373cbbaa3afd0fd40a3b237d015858",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, signed AX result and bare RETF.",
+      "boundary_evidence": [
+        "Independent root+d849, MZ 1080. Preceding RETF 1086 and NOP 1087. PUSH CS/E8 at 1088/1089 enters 1074, then the pair at 108d/108e enters 1092. RETF 1091 is immediately before 1092.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 63561,
+          "image_offset": 55369,
+          "kind": "far_call",
+          "relocated_segment_site": 55372,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Passes the base-X result to the facing-relative distance helper."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1088",
+      "offset": 4232,
+      "original_bytes_hex": "0ee8e8ff500ee80100cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_edge_distance",
+      "sha256": "a51efa9526aaf8e3a36d70e9568f3780ff71865e39a96c6137aa554c51acdeca",
+      "size": 10,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, word x at BP+6, tile column in AL and RETF 2.",
+      "boundary_evidence": [
+        "Independent overlay-3+16a, MZ 79. Preceding RETF 2 at 10bc and NOP 10bf. PUSH CS/E8 enters 10d4 after pushing x minus 14. RETF 2 at 10d1 ends immediately before 10d4.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 185130,
+          "image_offset": 362,
+          "kind": "far_call",
+          "relocated_segment_site": 365,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Subtracts a constant coordinate bias and forwards to the column quotient helper."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:10c0",
+      "offset": 4288,
+      "original_bytes_hex": "558bec8b46062d0e00500ee806008be55dca0200",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_char_col",
+      "sha256": "9f6ab59ed3fd77054424c14dbfeb0dcd94b954f923dfbff86177d3ae4b4d12b6",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, bare far return; no result word is used.",
+      "boundary_evidence": [
+        "Independent root+bb4c relocated 9A enters 02cc:0ee8 (root index 1060).",
+        "Prior undefined-room predicate ends at RETF 0ee7. New saved SI at 0ee8. Paths end at RETF 0f3b or 0f8b. Next prologue is 0f8c.",
+        "Both touching MZ words are CALL FAR segment operands at 0f6f and 0f7c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56140,
+          "image_offset": 47948,
+          "kind": "far_call",
+          "relocated_segment_site": 47951,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "During a fall, checks the vertical threshold and ledge eligibility, then adjusts direction-relative X and selects sequence 15."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0ee8",
+      "offset": 3816,
+      "original_bytes_hex": "56803e9062007503e99700803e0d5c207c03e98d00803e115c007c03e98300b03ff62e0a5c0538008b0e045c83c1193bc17f6f8b36025cb8f0ff500ee839f4a3025c0ee850f30ee85a000bc075068936025c5ecb0ee848018bf083c604803e015cff7506b80700eb0490b809002bf0560ee804f4a3025c0ee83ff8c6060d5c00b80f00509a1600da250ee81ff4b80b00509ace01d70dc7069e620c00c7069c6200005ecb",
+      "original_name": "FallOn",
+      "original_name_evidence": [
+        "evidence/modules.json anchors FallOn through the independently paired GrabTest, ResetCharY and Falling callers."
+      ],
+      "segment": 716,
+      "semantic_name_hypothesis": "fall_on",
+      "sha256": "ef713e0ec304c9d309339343babbcefbdc4cac48b8cd6278de914a523c7ddf73",
+      "size": 164,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One signed word sequence at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-3+028f calls 25da:0016 directly with its own overlay relocated segment word, MZ index 47. The call executes while overlay 3 is loaded.",
+        "Entry starts at the BP frame at overlay-3+2976. All branch paths reach the SI restore at 008a. RETF 2 at 008e and NOP 0091 precede the next frame at 0092.",
+        "Original far call obligations are the lookup at 0026 and CTRL calls at 007d and 0085, with overlay segment-word relocations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 185423,
+          "image_offset": 655,
+          "kind": "far_call",
+          "relocated_segment_site": 658,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Looks up a SEQS resource and sets the current and repeat sequence IDs, then clears the sequence position. Certain character kinds also update facing and refresh cells."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0016",
+      "offset": 22,
+      "original_bytes_hex": "558bec568b7606b85351ba45535250569a6a6f01110bc0745b8936175c8936195cc706155c0000803e065c077407803e065c08753f81fe82007c0681fe8b007e0681fea600752d803e015c007526c606015cff813e075c9e007408813e075c9600750cb80e00509a6003cc02a3025c9a7e02cc025e8be55dca020090",
+      "original_name": null,
+      "segment": 9690,
+      "semantic_name_hypothesis": "select_animation_sequence",
+      "sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
+      "size": 124,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No arguments, bare RETF.",
+      "boundary_evidence": [
+        "Independent root+ed08 relocated CALL enters 0dda (index 1160). Preceding RETF at 0dd8 and NOP 0dd9.",
+        "Fall paths return at 0e4a, 0e73, 0ea7 or common 0eb4. NOP 0eb5 precedes separately called 0eb6.",
+        "Five original relocated CALL FAR segment words occur at 0e08, 0e45, 0e64, 0e71 and 0eb2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68872,
+          "image_offset": 60680,
+          "kind": "far_call",
+          "relocated_segment_site": 60683,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances fall velocity, clamps Y at 384 and handles landing or death for the current mode and character type."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0dda",
+      "offset": 3546,
+      "original_bytes_hex": "0ee8f8fa0ee82cfb803e4745057403e98800813e045c80017e5a803e345e137423803e345e10741c2bc0509ace01d70db064500ee83dfbc706075cb900b003500ee868f9c706045c8001c6060d5c00c6060b5c01803e065c00747fa0005c3806b95c7576a0015c509af0084423a2b95ccb909090803e065c02755f813e075cb9007457b82927509a448401110bc0754ab81900509ace01d70dcb813e045c80017e38b064500ee8cbfac706075cb900b003500ee8f6f8c706045c8001c6060d5c00803e065c007506c6060b5c01cb803e065c0175059aee028725cb90",
+      "original_name": "FallingInUndefinedRoom",
+      "original_name_evidence": [
+        "FM Towns pair independently anchored by calls to Gravity, AddCharVel, DecLifePts and SetKidDeathMethod in evidence/modules.json."
+      ],
+      "segment": 716,
+      "semantic_name_hypothesis": "falling_in_undefined_room",
+      "sha256": "b4d75719e42ce8b61572cfad68cb75232d6913d18094384764dd5e52c9d1b595",
+      "size": 220,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One direction byte in a Pascal word slot and signed byte result in AL, RETF 2.",
+      "boundary_evidence": [
+        "Original CALL at overlay-3+2f77 contains exactly 2344:08f0 and own-overlay relocation index 216. It enters the entry in the currently loaded overlay 3.",
+        "RETF 4 immediately precedes 08f0. All local branches close in the interval ending in RETF 2 at 0a2b. A separate frameless procedure starts at 0a2e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196919,
+          "image_offset": 12151,
+          "kind": "far_call",
+          "relocated_segment_site": 12154,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans an indexed set of character slots and returns a selected index or the initialized sentinel ff."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:08f0",
+      "offset": 2288,
+      "original_bytes_hex": "558bec83ec0c5756c646f7ff803e8e5c007503e91d01c646ff00b074f6268e5c8bd88a87f5448846f60ac07f03e90301a0345e2ae4508a46ff98508bf00ee883ff8bf8b106d3e681c6c05c8b44042b06845c9933c22bc28946fa807c11007d64807c060b745e807c06077406807c06087506807d1102744c807e060175168b44022b06825c9933c22bc28946f48b76faeb359090807e06ff7512a1825c3944027f0a2b440279e32bc0ebdf90807e06007512a1825c3944027e0a8b44022b06825cebe290beffff0bf67c5a837ef4007c54807ef7ff74488a46f7988bd8b106d3e38b87c25c2b06825c9933c22bc28946f88b87c45c2b06845c9933c22bc28bf88bc62bc79933c22bc23d2b007e043bf77c0d3d2b007d0e8b46f83946f47d068a46ff8846f78a46f6fe46ff3846ff7d03e9fdfe8a46f75e5f8be55dca0200",
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "pick_hidden_actor",
+      "sha256": "3dd7bb9f2d435db3be2aab45f21478bae5dca62384cc2b7cf6a35b633a554b75",
+      "size": 318,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "Original CALL overlay-3+2f8d uses exact alias 2587:02ee with relocation index 262 of the same loaded overlay.",
+        "Preceding routine returns just before NOP 02ed and prologue at 02ee. Branches stay within the body and lead to register restoration and RETF at 037d before the separately framed 037e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196941,
+          "image_offset": 12173,
+          "kind": "far_call",
+          "relocated_segment_site": 12176,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Transfers actor state between records and refreshes the shadow character in the undefined-room death path."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:02ee",
+      "offset": 750,
+      "original_bytes_hex": "558bec83ec025756b8805c8bf8be005c1e07b92000f3a5a0125c9850a0135c98509aee248a070ee86600509a421dcc02c606005c0ac706345c0000a0925ca2125ca0935ca2135ca0945ca2145c9a3a1344238846ff3806345e7406a2cd6ca20e5c807eff077406807eff087510803e4745067509b80601509ace01d70dbf805cbe005c1e07b92000f3a55e5f8be55dcb",
+      "original_name": null,
+      "segment": 9607,
+      "semantic_name_hypothesis": "handle_undefined_room_death",
+      "sha256": "8807bc246a037c22d804bb7527de155656aec2d94641eb765e3563d39b6f85a0",
+      "size": 144,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One Pascal word argument at BP+6 and AX result, RETF 2.",
+      "boundary_evidence": [
+        "Independent root+c743, index 992, calls 1101:8444. Preceding RETF 2 at 8440 followed by NOP 8443.",
+        "Local branches stay within the body and converge at 847d before RETF 2 at 8481. Next BP frame begins at 8484."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59203,
+          "image_offset": 51011,
+          "kind": "far_call",
+          "relocated_segment_site": 51014,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resolves the resource from a nonzero handle, tests the far pointer and passes it to the query routine."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:1101:8444",
+      "offset": 33860,
+      "original_bytes_hex": "558bec83ec04568b4e062bc0998bf08956fe0bc9741a519a7a800111509a6c2101118bf08956fe0bd075052bc0eb0a90ff76fe569af03301115e8be55dca0200",
+      "original_name": null,
+      "segment": 4353,
+      "semantic_name_hypothesis": "query_sequence_resource",
+      "sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
+      "size": 64,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "c29f0d08681f01f2f78bc37bd04ae78e519e976e68bf9c89881e359f3442c15b",
+  "binding_sha256": "98c814c9ee0b0f47e2376a797c4fbb0916ffe0c2ab830d9146bcbae76c3160c2",
   "claims": [
     {
       "fixup_count": 28,
@@ -39,8 +39,23 @@
     },
     {
       "fixup_count": 3,
+      "public": "REREAD_BASE_CELL",
+      "target_id": "root:02cc:0288"
+    },
+    {
+      "fixup_count": 3,
       "public": "ADDFCHARX",
       "target_id": "root:0000:303a"
+    },
+    {
+      "fixup_count": 1,
+      "public": "@find_char_sequence",
+      "relocation_indices": [
+        367
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:06ee"
     },
     {
       "fixup_count": 3,
@@ -56,13 +71,101 @@
       "fixup_count": 0,
       "public": "FIRSTINROW",
       "target_id": "root:02cc:07c6"
+    },
+    {
+      "fixup_count": 7,
+      "public": "SAVE_KID_WITH_OPPONENT",
+      "target_id": "root:02cc:0832"
+    },
+    {
+      "fixup_count": 2,
+      "public": "INIT_FCHAR_RECT",
+      "target_id": "root:02cc:08b0"
+    },
+    {
+      "fixup_count": 0,
+      "public": "CONVERTX",
+      "target_id": "root:02cc:08c2"
+    },
+    {
+      "fixup_count": 9,
+      "public": "GRAVITY",
+      "target_id": "root:02cc:08d6"
+    },
+    {
+      "fixup_count": 4,
+      "public": "GET_UNDER_FOOT",
+      "target_id": "root:02cc:09d8"
+    },
+    {
+      "fixup_count": 33,
+      "public": "FALLINGINUNDEFINEDROOM",
+      "relocation_indices": [
+        285,
+        286,
+        291,
+        300,
+        328
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:0dda"
+    },
+    {
+      "fixup_count": 6,
+      "public": "IS_UNDEFINED_ROOM",
+      "target_id": "root:02cc:0eb6"
+    },
+    {
+      "fixup_count": 22,
+      "public": "FALLON",
+      "relocation_indices": [
+        287,
+        322
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:0ee8"
+    },
+    {
+      "fixup_count": 12,
+      "public": "INSIDE_CELL",
+      "relocation_indices": [
+        317
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:0fd0"
+    },
+    {
+      "fixup_count": 6,
+      "public": "GET_CELLS_AHEAD",
+      "target_id": "root:02cc:1030"
+    },
+    {
+      "fixup_count": 6,
+      "public": "GET_BEHIND",
+      "target_id": "root:02cc:1058"
+    },
+    {
+      "fixup_count": 3,
+      "public": "GET_BASE_X",
+      "target_id": "root:02cc:1074"
+    },
+    {
+      "fixup_count": 2,
+      "public": "GET_EDGE_DISTANCE",
+      "target_id": "root:02cc:1088"
+    },
+    {
+      "fixup_count": 1,
+      "public": "GET_CHAR_COL",
+      "target_id": "root:02cc:10c0"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 646,
-      "public": "REREAD_BASE_CELL"
-    },
     {
       "object_offset": 660,
       "public": "GET_FRAME_INFO"
@@ -80,83 +183,79 @@
       "public": "@get_seq_op"
     },
     {
-      "object_offset": 1772,
-      "public": "@find_char_sequence"
-    },
-    {
       "object_offset": 1790,
       "public": "ANIM_CHAR_TAP"
     },
     {
       "object_offset": 2042,
-      "public": "CONVERTX"
+      "public": "LOAD_KID_WITH_OPPONENT"
     },
     {
-      "object_offset": 2062,
-      "public": "GRAVITY"
+      "object_offset": 2152,
+      "public": "LOAD_SHADOW_WITH_OPPONENT"
     },
     {
-      "object_offset": 2118,
-      "public": "CLEARCHARVEL"
-    },
-    {
-      "object_offset": 2128,
-      "public": "GET_BASE_X"
-    },
-    {
-      "object_offset": 2148,
-      "public": "GET_CHAR_COL"
-    },
-    {
-      "object_offset": 2168,
-      "public": "GET_COL"
-    },
-    {
-      "object_offset": 2212,
-      "public": "GETROW"
-    },
-    {
-      "object_offset": 2252,
-      "public": "FACEJOYSTICK"
-    },
-    {
-      "object_offset": 2284,
-      "public": "INVERTJOYSTICK"
+      "object_offset": 2186,
+      "public": "SAVE_SHADOW_WITH_OPPONENT"
     },
     {
       "object_offset": 2316,
-      "public": "CLRALL"
+      "public": "ADD_CHAR_VELOCITY"
     },
     {
-      "object_offset": 2334,
-      "public": "SAVESELECT"
+      "object_offset": 2370,
+      "public": "CLEARCHARVEL"
     },
     {
-      "object_offset": 2350,
-      "public": "LOADSELECT"
+      "object_offset": 2380,
+      "public": "DECREMENT_LIFE_POINTS"
     },
     {
-      "object_offset": 2366,
-      "public": "INITINPUT"
+      "object_offset": 2536,
+      "public": "ON_GROUND"
     },
     {
-      "object_offset": 2382,
-      "public": "FACEDX"
+      "object_offset": 2714,
+      "public": "START_FALL"
     },
     {
-      "object_offset": 2404,
-      "public": "SAVEFCHAR"
+      "object_offset": 3978,
+      "public": "GRABTEST"
     },
     {
-      "object_offset": 2422,
-      "public": "RESTOREFCHAR"
+      "object_offset": 4240,
+      "public": "GET_EDGE_DISTANCE_AT"
     },
     {
-      "object_offset": 2440,
+      "object_offset": 4306,
+      "public": "GET_COL"
+    },
+    {
+      "object_offset": 4350,
+      "public": "GET_ABOVE"
+    },
+    {
+      "object_offset": 4370,
+      "public": "GET_ABOVE_BEHIND"
+    },
+    {
+      "object_offset": 4400,
+      "public": "GET_ABOVE_FRONT"
+    },
+    {
+      "object_offset": 4430,
+      "public": "SAVE_ACTOR_SLOT"
+    },
+    {
+      "object_offset": 4506,
+      "public": "LOAD_ACTOR_SLOT"
+    },
+    {
+      "object_offset": 4588,
       "public": "COPY_KID_TO_CHAR"
     }
   ],
-  "emitted_size": 2458,
+  "emitted_size": 4606,
   "flags": [
     "/c",
     "/AM",
@@ -170,12 +269,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "6a7ff235c76910c831ca3116e81017552096b2a785bfa4eeca6ac8abfb885643",
+  "object_sha256": "89a114a7683054fcc6d90ddc8c6b7b3fefc049c66eac5211de1a58b81bc8e0b2",
   "origin": 11458,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "b984ea07bea584800bd6c1be25200eb8e1f458293310741433f2d730b83d1ba9",
+  "source_sha256": "a530d33c7837ec544fee7de4be8fb30a71949180cc2ef637e43ddc68b84973ea",
   "space": "root"
 }
