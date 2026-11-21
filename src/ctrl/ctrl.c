@@ -425,21 +425,11 @@ void far pascal AnimChar(void)
             if (opcode != 10000)
                 vertical_step = opcode;
             break;
-        case -7:
-            state_code = GetSeqOp(sequence);
-            break;
-        case -6:
-            character_y += GetSeqOp(sequence);
-            break;
-        case -5:
-            char_x = AddCharX(GetSeqOp(sequence));
-            break;
-        case -4:
-            ++character_row;
-            break;
-        case -3:
-            --character_row;
-            break;
+        case -7: state_code = GetSeqOp(sequence); break;
+        case -6: character_y += GetSeqOp(sequence); break;
+        case -5: char_x = AddCharX(GetSeqOp(sequence)); break;
+        case -4: ++character_row; break;
+        case -3: --character_row; break;
         case -2:
             if (character_kind == 10)
                 char_x = AddCharX(25);
@@ -479,8 +469,7 @@ int far _fastcall GetSeqOp(SequenceHandle sequence)
 
     if (sequence) {
         entries = lock_frame_resource((unsigned int)sequence);
-        opcode = entries[animation_position];
-        ++animation_position;
+        opcode = entries[animation_position]; ++animation_position;
     }
     return opcode;
 }
@@ -1376,14 +1365,14 @@ int far pascal is_char_non_viewable(void);
 
 void far pascal ClipChar(void)
 {
-    int visible = 1;
+    int clearance = 1;
     unsigned int frame = frame_number;
     int action = state_code;
     signed char row = character_row;
-    int hero_clearance, flying;
+    int flying;
     char tile;
     int bounds[4];
-    int top;
+    volatile int top;
 
     init_fchar_rect();
     MakeFCharClipRect();
@@ -1405,7 +1394,6 @@ void far pascal ClipChar(void)
         return;
     }
 
-    hero_clearance = visible;
     flying = character_kind == 7 || character_kind == 8;
     tile = ReadCell(character_room, above_col, above_row);
     if (tile_has_floor(tile))
@@ -1421,29 +1409,26 @@ void far pascal ClipChar(void)
     tile = ReadCell(character_room, front_col, above_row);
     if (tile_has_floor(tile) || (tile == 20 && STATE_MODE == 3 && clip_desert_floor(cell_modifier))) {
     solid:
-        hero_clearance = 0;
+        clearance = 0;
     }
 
 adjust:
-    if (hero_clearance && STATE_MODE != 5 && STATE_MODE != 1 &&
+    if (clearance && STATE_MODE != 5 && STATE_MODE != 1 &&
         !(character_room == 16 && STATE_LEVEL == 9) &&
         !(character_room == 27 && STATE_LEVEL == 6) &&
         !(character_room == 3 && STATE_MODE == 6) &&
         !(character_room == 6 && STATE_MODE == 6)) {
         tile = row + 1;
-        if (row == -1) {
-            visible = hero_clearance;
-        } else {
+        if (tile) {
             frame = (signed char)63 * tile - 60;
             if ((int)frame < sprite_y) {
-                visible = hero_clearance;
                 if ((int)frame - 15 >= clip_top_cache)
-                    visible = 0;
+                    clearance = 0;
             } else {
-                visible = 0;
+                clearance = 0;
             }
         }
-        if (visible && !flying) {
+        if (clearance && !flying) {
             top = (signed char)63 * tile - 60;
             if (top > fchar_rect.top)
                 fchar_rect.top = clip_top_cache = top;
