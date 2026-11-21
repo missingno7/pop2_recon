@@ -33349,6 +33349,273 @@
       "size": 102,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, Boolean in AX, two bare RETF paths.",
+      "boundary_evidence": [
+        "The preceding landing routine ends in RETF at overlay-3+3FE9. The BP prologue begins at +3FEA, with Boolean exits at +4029 and +4031. The next BP prologue begins at +4032.",
+        "Original PUSH CS; CALL near at overlay-3+3F0A enters +3FEA. Overlay-15+0183 also calls exact alias 25DA:168A with relocation index 28.",
+        "The 72-byte extent saves sequence state, calls the advance routine from overlay-3+4006, restores three sequence words and compares the old and new frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 266899,
+          "image_offset": 387,
+          "kind": "far_call",
+          "relocated_segment_site": 390,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 200906,
+          "image_offset": 16138,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 16137,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Game actor-control code within the reviewed ACT frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:168a",
+      "offset": 5770,
+      "original_bytes_hex": "558bec83ec0457568b36195c8b3e155ca1175c8946fea1075c8946fc9a9403cc028b46fea3175c893e155c8936195ca1075c3946fc7209b801005e5f8be55dcb2bc05e5f8be55dcb",
+      "original_name": "IsCharSwingingFwd",
+      "original_name_evidence": [
+        "FM Towns ACT.C @IsCharSwingingFwd at 0C42:1BEC saves the same four words, calls the character advance routine, applies the same unsigned frame comparison and restores the three sequence words in the same order."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "IsCharSwingingFwd",
+      "sha256": "758aaacbe119b28cfdfbdb39a254377b93eb08a95cd2481a28221e2834cc51af",
+      "size": 72,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near pointer BP+8 and unsigned byte at BP+6; RETF 4.",
+      "boundary_evidence": [
+        "The preceding routine returns at overlay-3+4B7F. BP frame starts at +4B80, RETF 4 at +4BD8 and NOP at +4BDB precede the next entry at +4BDC.",
+        "Root+0xD7A6 has original relocated CALL FAR to 25DA:2220, index 1027. The one outgoing CALL FAR is overlay-3+4BAF to AUTO at 2344:07BC."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 63398,
+          "image_offset": 55206,
+          "kind": "far_call",
+          "relocated_segment_site": 55209,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Game actor-control code within the reviewed ACT frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:2220",
+      "offset": 8736,
+      "original_bytes_hex": "558bec568b7608803e6845027404c6440c00803e684505751d807c0f087507c74405a900eb298a4606508a440a98509abc074423eb1e803e684502750d837c11017511c744110000eb0ac744051600c7440700005e8be55dca040090",
+      "original_name": "CrushOppInfo",
+      "original_name_evidence": [
+        "FM Towns ACT.C @CrushOppInfo at 0C42:29C3 tests modes 2/5 and record byte +15 for 8, sets sequences 169 or 22 at +5 and clears +7, and otherwise calls @RemoveOppFromRoom with the same record index."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "CrushOppInfo",
+      "sha256": "a71fd93b96bba7fb3a01f0d0f47c04aacf0e6be78be8cb8782bbb04b0c893407",
+      "size": 92,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned room byte BP+8 and index word BP+6, RETF 4.",
+      "boundary_evidence": [
+        "Predecessor RETF 2 at overlay-3+07B8 with NOP at +07BB; new BP frame at +07BC. Common RETF 4 at +0867 followed by NOPs to the next BP frame at +086C.",
+        "Original relocated CALL FARs at root+EEFC (index 1302) and overlay-3+4BAF (index 353) enter exactly 2344:07BC.",
+        "The room index scales by 116, and the routine updates the count and compacts the 23-byte opponent entries."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69372,
+          "image_offset": 61180,
+          "kind": "far_call",
+          "relocated_segment_site": 61183,
+          "space": "root"
+        },
+        {
+          "file_offset": 204143,
+          "image_offset": 19375,
+          "kind": "far_call",
+          "relocated_segment_site": 19378,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "AUTO's per-room opponent list updates are directly called by CrushOppInfo."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:07bc",
+      "offset": 1980,
+      "original_bytes_hex": "558bec83ec0c57568b76068a46082ae48946f4b97400f7e98bd881c3f544895ef68a078846fb983bc67e7b988d4c013bc17e6eb1068bc6d3e005c05c8946feff76f4ff76060ee8af008946fcff76f48b460640500ee8a0008bf01e078b7efcb90b00f3a5a48a46068b5efc88470a8a46083806345e75168b5efe8d77408b7efeb92000f3a58a46068b5efe88078346fe408a46fb988b4e0641894e06413bc87c9e8b5ef6fe0f5e5f8be55dca04009090",
+      "original_name": "RemoveOppFromRoom",
+      "original_name_evidence": [
+        "FM Towns @CrushOppInfo calls named AUTO.C @RemoveOppFromRoom at 117C:0875 in the equivalent mode-5/non-8 branch. The DOS outgoing far call at +4BAF uses that role."
+      ],
+      "segment": 9028,
+      "sha256": "adaa41f714cd6f3bf099cc8b873b0a361f9a9c47f488282bc21a66613cf7a049",
+      "size": 176,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "GenCtrl's original PUSH CS; CALL near at overlay-3+2EFC enters the BP prologue at +36C2, after the previous routine's RETF at +36C1.",
+        "The exit is RETF at +3718, followed by one NOP and the following routine at +371A. Original relocated CALL FARs inside at +36D1, +370A and +370F."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196797,
+          "image_offset": 12029,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12028,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Game actor-control code within the reviewed ACT frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0d62",
+      "offset": 3426,
+      "original_bytes_hex": "558bec83ec0256a0095c50a00a5c509a0a02cc028846ffa00e5ca2cf678a46ff988bd8b01ef626cf678bf080b8e42c1175068a46ffeb06908a46fffec0a2ce67813e075ce00075059a2400d70d9a7a02410b5e8be55dcb90",
+      "original_name": "StairClimbing",
+      "original_name_evidence": [
+        "FM Towns ACT.C @StairClimbing at 0C42:0EF1 computes the cell index, tests tile 17 in a 30-byte room row, updates a global exit cell, and requests the leave-level song only for frame 224."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "StairClimbing",
+      "sha256": "e2b068a4f4c5b1bc1ed9b661367a5fb2d3435ff8fdfea177da520e152a054b33",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Framed far procedure, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The preceding reviewed routine 0B41:009C ends with RETF 2 plus NOP at root+0xB606..0xB609.",
+        "PUSH CS; CALL near at root+0xBD1E reaches the BP frame at +0xB60A. Its branch joins and RETF at +0xB688 establish this zero-ownership structural extent. The untouched alignment NOP at +0xB689 separates it from the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56607,
+          "image_offset": 48415,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48414,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Handles resident rendered exit state and shares helpers with the adjacent routine."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:01fa",
+      "offset": 506,
+      "original_bytes_hex": "558bec83ec0a5756803e4745027505b80100eb022bc08946fe0bc07405b84a08eb03b842088d7ef68bf01607a5a5a5a58d46f650500ee827020bc0743c837efe007429a0ce67508d46f6500ee8870b0ee875038846ff508d46f6500ee8770b0ee8b303508d46f6500ee86a0b0ee8d202508d46f6500ee85d0b5e5f8be55dcb",
+      "segment": 2881,
+      "semantic_name_hypothesis": "draw_exit_state",
+      "sha256": "827a557b8c7420126decfb9df7185f012f40e8e4e41d2c57eb69b059647242b3",
+      "size": 127,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Framed far procedure, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The preceding routine ends in RETF at root+0xB688, then NOP at +0xB689. The next BP prologue at +0xB68A is independently reached by PUSH CS; CALL near at root+0xC10E.",
+        "The routine calls exit-state helpers and has one RETF at root+0xB6E4 followed by a NOP and the next BP prologue at +0xB6E6.",
+        "Overlay-3+0x370F is ACT's StairClimbing caller, relocation index 298, using the exact 0B41:027A alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 57615,
+          "image_offset": 49423,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 49422,
+          "space": "root"
+        },
+        {
+          "file_offset": 198863,
+          "image_offset": 14095,
+          "kind": "far_call",
+          "relocated_segment_site": 14098,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Handles resident rendered exit state and shares helpers with the adjacent routine."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:027a",
+      "offset": 634,
+      "original_bytes_hex": "558bec83ec0a8d46f6508a1e47452affd1e3ffb77c080ee8c6010bc07439a0ce67508d46f6500ee82c0b0ee894028846ff508d46f6500ee81c0b0ee80a038846ff508d46f6500ee80c0b0ee84803508d46f6500ee8ff0a8be55dcb90",
+      "segment": 2881,
+      "semantic_name_hypothesis": "handle_stair_exit",
+      "sha256": "727a81e1f7b0c7970fdeff221aae3df453f2417c298cf74493fd77111cc457e2",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "RETF 4 at overlay-3+4BD8 and one alignment NOP precede the entry at +4BDC. Original RETF at +4BEC plus NOP at +4BED end ACT before the COLLIDE frame's first procedure at +4BEE.",
+        "Same-overlay relocated CALL FAR at +59C3 enters exactly 25DA:227C at relocation index 440. The entry calls JumpSeq via PUSH CS/CALL near at +4BE0 and then calls the resident life adjustment."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 207747,
+          "image_offset": 22979,
+          "kind": "far_call",
+          "relocated_segment_site": 22982,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Game actor-control code within the reviewed ACT frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:227c",
+      "offset": 8828,
+      "original_bytes_hex": "b87600500ee892ddb064509a4e09cc02cb90",
+      "original_name": "SquishChar",
+      "original_name_evidence": [
+        "FM Towns ACT.C @SquishChar at 0C42:2A25 sets sequence 118 with a same-file call to JumpSeq, passes 100 to the life routine, and returns far."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "SquishChar",
+      "sha256": "4006391475f0dead4219c412787bbb8f45fa2b86dcc64feb1423c3720673e84c",
+      "size": 18,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

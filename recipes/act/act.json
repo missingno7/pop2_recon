@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/act/act.json",
-  "binding_sha256": "9e856bdf3b4ea883caa729f08315c5962c2825977ae21e11c38d5e9b073686ad",
+  "binding_sha256": "7b0514fc2555e1c3aef38e7d24e8662816dd788ce3f2328e9426aad127b60d06",
   "claims": [
     {
       "fixup_count": 1,
@@ -37,6 +37,20 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:25da:03d4"
+    },
+    {
+      "fixup_count": 11,
+      "public": "STAIRCLIMBING",
+      "relocation_indices": [
+        236,
+        298,
+        352
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:0d62"
     }
   ],
   "drafts": [
@@ -51,9 +65,181 @@
     {
       "object_offset": 1136,
       "public": "GENCTRL"
+    },
+    {
+      "object_offset": 1602,
+      "public": "CONTROL_CRAWLING"
+    },
+    {
+      "object_offset": 2038,
+      "public": "CONTROL_CROUCHING"
+    },
+    {
+      "object_offset": 2406,
+      "public": "CONTROL_DEAD"
+    },
+    {
+      "object_offset": 2650,
+      "public": "CONTROL_STANDING"
+    },
+    {
+      "object_offset": 3088,
+      "public": "ACTOR_UP"
+    },
+    {
+      "object_offset": 3166,
+      "public": "ACTOR_DOWN"
+    },
+    {
+      "object_offset": 3380,
+      "public": "ENTER_STAIRS"
+    },
+    {
+      "object_offset": 3500,
+      "public": "CONTROL_TURNING"
+    },
+    {
+      "object_offset": 3584,
+      "public": "CROUCH_ACTOR"
+    },
+    {
+      "object_offset": 3628,
+      "public": "TURN_ACTOR"
+    },
+    {
+      "object_offset": 3756,
+      "public": "START_RUNNING"
+    },
+    {
+      "object_offset": 3810,
+      "public": "CONTROL_RUNNING"
+    },
+    {
+      "object_offset": 3928,
+      "public": "STEP_FORWARD"
+    },
+    {
+      "object_offset": 4100,
+      "public": "TRY_PICK_UP"
+    },
+    {
+      "object_offset": 4216,
+      "public": "PICK_IT_UP"
+    },
+    {
+      "object_offset": 4556,
+      "public": "CONTROL_STARTING"
+    },
+    {
+      "object_offset": 4586,
+      "public": "BEGIN_STANDING_JUMP"
+    },
+    {
+      "object_offset": 4598,
+      "public": "STANDING_JUMP"
+    },
+    {
+      "object_offset": 4616,
+      "public": "JUMP_UP"
+    },
+    {
+      "object_offset": 4812,
+      "public": "JUMP_BACK"
+    },
+    {
+      "object_offset": 4894,
+      "public": "JUMP_EDGE"
+    },
+    {
+      "object_offset": 4926,
+      "public": "JUMP_HIGH"
+    },
+    {
+      "object_offset": 5134,
+      "public": "CONTROL_HANGING"
+    },
+    {
+      "object_offset": 5302,
+      "public": "CLIMB_UP"
+    },
+    {
+      "object_offset": 5468,
+      "public": "CONTROL_DROP"
+    },
+    {
+      "object_offset": 5756,
+      "public": "ISCHARSWINGINGFWD"
+    },
+    {
+      "object_offset": 5830,
+      "public": "JUMP_HANG"
+    },
+    {
+      "object_offset": 5942,
+      "public": "RUN_JUMP"
+    },
+    {
+      "object_offset": 6248,
+      "public": "RETREAT_ACTOR"
+    },
+    {
+      "object_offset": 6322,
+      "public": "ADVANCE_ACTOR"
+    },
+    {
+      "object_offset": 6416,
+      "public": "ENGAGE_WEAPON"
+    },
+    {
+      "object_offset": 6512,
+      "public": "CHOOSE_WEAPON_DRAW"
+    },
+    {
+      "object_offset": 7050,
+      "public": "CONTROL_FIGHTING"
+    },
+    {
+      "object_offset": 7424,
+      "public": "OPPTOFIGHT"
+    },
+    {
+      "object_offset": 7650,
+      "public": "ON_ALERT"
+    },
+    {
+      "object_offset": 7830,
+      "public": "SHEATHE_WEAPON"
+    },
+    {
+      "object_offset": 7902,
+      "public": "TURN_ENGARDE"
+    },
+    {
+      "object_offset": 8008,
+      "public": "TURN_KID_ENGARDE"
+    },
+    {
+      "object_offset": 8154,
+      "public": "STRIKE_ACTOR"
+    },
+    {
+      "object_offset": 8314,
+      "public": "BLOCK_ACTOR"
+    },
+    {
+      "object_offset": 8500,
+      "public": "CRUSH_ACTOR"
+    },
+    {
+      "object_offset": 8706,
+      "public": "CRUSHOPPINFO"
+    },
+    {
+      "object_offset": 8798,
+      "public": "SQUISHCHAR"
     }
   ],
-  "emitted_size": 1612,
+  "emitted_size": 8816,
   "flags": [
     "/c",
     "/AM",
@@ -67,12 +253,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "act/act",
-  "object_sha256": "0b8d9f82ebf4ac2e8872996aba5ad71fbc45ad868a86ca4cb003fb89e9ab2fb7",
+  "object_sha256": "13cc5899dd8df21fbc5ca4d7f9a3c52dacf6612fea099ce02a3e3ce866001855",
   "origin": 10606,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/act/act.c",
-  "source_sha256": "8209acd87a485f0be99d1d664aea97b740c4a5078068f2718954e84365ceb688",
+  "source_sha256": "0246de38a7cdf9964f8ac4b1cca288e78c76372f4897014f67810a86b9df0cf1",
   "space": "overlay-3"
 }

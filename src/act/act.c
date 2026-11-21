@@ -247,7 +247,7 @@ extern void far pascal play_guard_room_event(void);
 extern void far pascal apply_guard_control(void);
 extern void far pascal handle_frame_295(void);
 extern void far pascal handle_frames_272_to_281(void);
-extern void far pascal continue_animation(void);
+extern unsigned char far pascal ClrAll(void);
 
 extern void far pascal control_fighting(void);
 extern void far pascal control_turning(void);
@@ -258,11 +258,11 @@ extern void far pascal control_hanging(void);
 extern void far pascal control_drop(void);
 extern void far pascal control_crouching(void);
 extern void far pascal control_crawling(void);
-extern void far pascal control_stair_climbing(void);
+extern void far pascal StairClimbing(void);
 extern void far pascal control_dead(void);
 extern void far pascal control_standing(void);
 
-/* Dispatch draft. The later same-file targets still need their definitions. */
+/* 25da:047e */
 void far pascal GenCtrl(void)
 {
     unsigned int frame = actor_frame;
@@ -275,7 +275,7 @@ void far pascal GenCtrl(void)
             goto animate;
         if (floor_contact == 1) {
             control_fighting();
-        } else if (actor_kind < 2) {
+        } else if (actor_kind >= 2) {
             apply_guard_control();
         } else if (frame == 15 || (frame >= 50 && frame <= 52)) {
             goto standing;
@@ -298,7 +298,7 @@ void far pascal GenCtrl(void)
                    (frame >= 256 && frame <= 263)) {
             control_crawling();
         } else if (frame >= 217 && frame <= 226) {
-            control_stair_climbing();
+            StairClimbing();
         } else if (is_dead_pos(frame) || (frame >= 179 && frame <= 183)) {
             goto dead;
         } else if (actor_frame == 295) {
@@ -310,7 +310,7 @@ void far pascal GenCtrl(void)
             return;
         }
     } else {
-        if (actor_kind != 0 && actor_character == previous_opponent)
+        if (actor_kind != 0 && previous_opponent == actor_character)
             previous_opponent = choose_opponent(1);
         if (actor_kind == 1) {
             if (fall_latch > 6) {
@@ -330,5 +330,1407 @@ standing:
     control_standing();
     return;
 animate:
-    continue_animation();
+    ClrAll();
+}
+
+extern signed char actor_column;
+extern signed char direction_forward, direction_back, direction_up, direction_down;
+extern signed char direction_action;
+extern signed char crawl_latch;
+extern signed char tile_modifier;
+extern unsigned char level_number;
+extern int gate_override;
+extern int cell_x[];
+extern unsigned char far pascal ClrAll(void);
+extern signed char far pascal lookup_tile_kind(signed char room, signed char column, signed char row);
+extern signed char far pascal GetCellCol(void);
+extern void far pascal animate_crawl_room(void);
+extern void far pascal trigger_crouch_event(void);
+extern int far pascal crouch_obstructed(void);
+extern int far pascal gate_is_open(void);
+extern int far pascal try_pick_up(void);
+
+/* 25da:0650 */
+void far pascal control_crawling(void)
+{
+    signed char tile;
+    int gap;
+
+    if ((unsigned int)actor_frame >= 246 && (unsigned int)actor_frame <= 261) {
+        if (state_mode == 4)
+            animate_crawl_room();
+        tile = lookup_tile_kind(actor_room, actor_column, actor_row);
+        if (tile != 7 && tile != 12 && tile != 13 &&
+            get_cells_ahead(1) != 7 && get_cells_ahead(1) != 12 && get_cells_ahead(1) != 13 &&
+            get_behind() != 7 && get_behind() != 12 && get_behind() != 13 &&
+            repeat_sequence_id != 124) {
+            JumpSeq(124);
+            return;
+        }
+        tile = lookup_tile_kind(actor_room, actor_column, actor_row);
+        if (actor_frame == 251) {
+            if (state_mode == 4)
+                animate_crawl_room();
+            if (direction_up && tile != 7) {
+                tile = get_behind();
+                if (tile == 7) {
+                    if (actor_direction == 0)
+                        gap = actor_x - cell_x[actor_column] - 38;
+                    else
+                        gap = cell_x[actor_column + 1] - actor_x - 10;
+                } else if (tile == 12 || tile == 13) {
+                    gap = gate_is_open() ? -32 : 32;
+                } else {
+                    gap = 32;
+                }
+                if (gap >= 0) {
+                    JumpSeq(124);
+                    direction_up = ClrAll();
+                    if (gap < 6) {
+                        gap = 6 - gap;
+                        actor_x = AddCharX(gap);
+                    }
+                }
+            } else {
+                if (direction_forward < 0 && crawl_latch) {
+                    ClrAll();
+                    JumpSeq(122);
+                } else if (direction_back < 0) {
+                    ClrAll();
+                    JumpSeq(123);
+                }
+            }
+            if (direction_forward == 0 && crawl_latch == 0) {
+                crawl_latch = 1;
+                return;
+            }
+        } else {
+            ClrAll();
+        }
+    }
+}
+
+/* 25da:0802 */
+void far pascal control_crouching(void)
+{
+    signed char tile;
+    int edge, gap;
+    int sequence;
+
+    if (state_mode == 4)
+        animate_crawl_room();
+    if (level_number == 5 && actor_room == 3 &&
+        repeat_sequence_id != 17 && repeat_sequence_id != 20 &&
+        (get_under_foot() == 18 || lookup_tile_kind(actor_room, actor_column - 1, actor_row) == 18)) {
+        trigger_crouch_event();
+        return;
+    }
+    if (repeat_sequence_id == 111 || try_pick_up()) {
+        direction_action = ClrAll();
+        goto done;
+    }
+
+    sequence = -1;
+    if (direction_down == 0) {
+        if (!crouch_obstructed() && (!gate_override || !gate_is_open())) {
+            sequence = 49;
+            goto apply;
+        }
+        if (direction_forward < 0)
+            goto step;
+    } else if (direction_forward < 0) {
+        direction_forward = ClrAll();
+        tile = get_cells_ahead(1);
+        if (tile != 7 && tile != 12 && tile != 13)
+            goto step;
+        if (tile == 7 && (tile_modifier & 3) == 3)
+            goto step;
+        tile = GetCellCol();
+        if (actor_direction == 0 && actor_x - (edge = cell_x[tile]) > 6) {
+            gap = edge - actor_x + 6;
+        } else if (actor_direction == -1 && (gap = actor_x - cell_x[tile + 1]) < 22) {
+            gap -= 22;
+        } else {
+            gap = 0;
+        }
+        if (gap != 0)
+            actor_x = AddCharX(gap);
+        sequence = 125;
+        goto apply;
+step:
+        sequence = 79;
+    }
+apply:
+    if (direction_down != 0)
+        direction_down = ClrAll();
+    if (sequence != -1) {
+        JumpSeq(sequence);
+        return;
+    }
+done:
+    return;
+}
+
+struct saved_actor {
+    signed char bytes[64];
+};
+
+extern struct saved_actor current_actor_record, kid_actor_record;
+extern signed char actor_life, actor_max_life;
+extern int far pascal shadow_distance(void);
+extern void far pascal merge_shadow(void);
+extern void far pascal trigger_death_scene(void);
+extern void far pascal save_actor_slot(void);
+extern void far pascal copy_kid_to_char(void);
+extern void far pascal load_actor_slot(signed char slot);
+
+/* 25da:0974 */
+void far pascal control_dead(void)
+{
+    signed char slot;
+
+    if (is_dead_pos(actor_frame)) {
+        if (state_mode == 1 && actor_frame == 185 && actor_life) {
+            decrement_life_points(actor_life);
+        } else if (actor_kind == 1) {
+            if (!crawl_latch && (shadow_distance() < 0 ? -shadow_distance() : shadow_distance()) < 2) {
+                merge_shadow();
+                return;
+            }
+        } else if (actor_room == 9 && level_number == 8 && repeat_sequence_id == 237) {
+            trigger_death_scene();
+            return;
+        }
+    } else if (actor_kind == 0 && actor_character != 10 && actor_frame != 179 && actor_frame != 183) {
+        slot = actor_character;
+        save_actor_slot();
+        copy_kid_to_char();
+        if (!decrement_life_points(1))
+            actor_max_life--;
+        kid_actor_record = current_actor_record;
+        load_actor_slot(slot);
+        decrement_life_points(1);
+    }
+}
+
+extern signed char sword_input, selected_opponent, opponent_health;
+extern signed char area_number, current_area, exit_column;
+extern signed char ledge_input, actor_health_slot;
+extern int animation_contact, guard_turn_counter, gate_override;
+extern int far pascal actor_spacing(void);
+extern signed char far pascal pick_hidden_actor(signed char direction);
+extern void far pascal check_turn_sequences(void);
+extern void far pascal engage_weapon(void);
+extern void far pascal turn_actor(void);
+extern void far pascal actor_up(void);
+extern void far pascal actor_down(void);
+extern void far pascal start_running(void);
+extern void far pascal step_forward(int amount);
+extern void far pascal standing_jump(void);
+extern void far pascal jump_up(void);
+extern int far pascal IsExitOpen(void);
+extern void far pascal enter_stairs(void);
+extern void far pascal crouch_actor(void);
+
+/* 25da:0a68 */
+void far pascal control_standing(void)
+{
+    int act_on_input = 1;
+    int gap;
+
+    if (state_mode == 2 || state_mode == 6)
+        check_turn_sequences();
+    if (sword_input == -1 && try_pick_up())
+        goto acted;
+    if (actor_character == 10) {
+        if ((floor_contact != -1 || (state_mode == 6 && actor_kind == 1)) &&
+            sword_input == -2 && !direction_forward && !direction_back &&
+            !direction_up && !direction_down) {
+            sword_input = 2;
+            ClrAll();
+            engage_weapon();
+            selected_opponent = pick_hidden_actor(actor_direction);
+            if (selected_opponent == -1)
+                selected_opponent = 0;
+            goto acted;
+        }
+        if (opponent_health >= 2 && actor_kind != 1 && animation_contact != 13) {
+            gap = actor_spacing();
+            if (gap >= -10 && gap < 205 && gap < 0 && gap >= -14) {
+                turn_actor();
+                goto acted;
+            }
+        }
+    } else if (direction_down < 0 && direction_forward < 0) {
+        engage_weapon();
+acted:
+        act_on_input = 0;
+    }
+
+    if (act_on_input) {
+        if (sword_input == -1 || sword_input == 1) {
+            act_on_input = 0;
+            if (direction_back < 0)
+                turn_actor();
+            else if (direction_up < 0)
+                actor_up();
+            else if (direction_down < 0)
+                actor_down();
+            else if (direction_forward < 0 && !direction_up && !direction_down)
+                step_forward(0);
+            else if (!direction_forward)
+                act_on_input = 1;
+        }
+        if (act_on_input) {
+            if (direction_forward < 0) {
+                if (direction_up >= 0)
+                    goto run;
+jump:
+                standing_jump();
+            } else if (direction_back < 0) {
+                turn_actor();
+            } else if (direction_up < 0) {
+                if (direction_forward < 0)
+                    goto jump;
+                actor_up();
+            } else if (direction_down < 0) {
+                actor_down();
+            } else if (direction_forward) {
+run:
+                start_running();
+            }
+        }
+    }
+
+    if (repeat_sequence_id != 5 && actor_kind == 0 && guard_turn_counter)
+        guard_turn_counter = 0;
+}
+
+/* 25da:0c1e */
+void far pascal actor_up(void)
+{
+    if (current_area != area_number && actor_kind == 0 &&
+        (get_under_foot() == 17 || get_behind() == 17 || get_cells_ahead(1) == 17) &&
+        IsExitOpen()) {
+        enter_stairs();
+        return;
+    }
+    if (direction_forward) {
+        standing_jump();
+        return;
+    }
+    jump_up();
+}
+
+extern unsigned int cell_modifier_word;
+extern int far pascal check_ledge(signed char behind, signed char under, unsigned int behind_mod, unsigned int under_mod);
+
+/* 25da:0c6c */
+void far pascal actor_down(void)
+{
+    signed char behind, under;
+    int crouch, edge;
+    unsigned int modifier;
+
+    crouch = 1;
+    direction_down = 1;
+    if (is_six_kind(get_cells_ahead(1)) && get_edge_distance() < 3) {
+        actor_x = AddCharX(10);
+        reread_cells();
+        crouch = 0;
+    } else if (is_six_kind(get_behind()) && get_edge_distance() >= 8) {
+        behind = get_behind();
+        modifier = cell_modifier_word;
+        under = get_under_foot();
+        if (check_ledge(behind, under, modifier, cell_modifier_word) &&
+            (actor_direction == 0 || get_under_foot() != 4 || (cell_modifier_word & 0xfffc) >= 24)) {
+            edge = get_edge_distance();
+            actor_x = AddCharX(edge - (actor_direction == 0) * 4 - 19);
+            JumpSeq(68);
+            crouch = 0;
+        }
+    }
+    if (crouch)
+        crouch_actor();
+}
+
+/* 25da:0d42 */
+void far pascal enter_stairs(void)
+{
+    actor_x = cell_x[exit_column - 1] + 16;
+    actor_direction = -1;
+    JumpSeq(70);
+}
+
+extern unsigned char exit_room;
+extern signed char exit_cell;
+extern unsigned char room_tiles[][30];
+extern signed char far pascal index_cell(signed char column, signed char row);
+extern void far pascal AddLeaveLevelSong(void);
+extern void far pascal handle_stair_exit(void);
+
+/* 25da:0d62 */
+void far pascal StairClimbing(void)
+{
+    signed char cell = index_cell(actor_column, actor_row);
+
+    exit_room = actor_room;
+    exit_cell = room_tiles[exit_room][cell] == 17 ? cell : cell + 1;
+    if (actor_frame == 224)
+        AddLeaveLevelSong();
+    handle_stair_exit();
+}
+
+/* 25da:0dba */
+void far pascal control_turning(void)
+{
+    if (actor_character == 10 && repeat_sequence_id == 5)
+        check_turn_sequences();
+    if (actor_frame == 48 && sword_input >= 0 &&
+        direction_forward && !direction_up && !direction_down) {
+        JumpSeq(43);
+        if (actor_kind == 0 && guard_turn_counter)
+            guard_turn_counter = 0;
+    }
+}
+
+extern int far pascal shadow_crouch_sequence(void);
+
+/* 25da:0e0e */
+void far pascal crouch_actor(void)
+{
+    int sequence = actor_kind == 1 ? shadow_crouch_sequence() : -1;
+    if (sequence == -1)
+        sequence = 50;
+    JumpSeq(sequence);
+    direction_down = ClrAll();
+}
+
+extern int far pascal can_turn_on_gate(void);
+extern void far pascal check_shadow_create(void);
+
+/* 25da:0e3a */
+void far pascal turn_actor(void)
+{
+    int edge, distance;
+    direction_back = ClrAll();
+    crawl_latch = 1;
+    edge = get_edge_distance();
+    if (get_cells_ahead(1) == 4 && can_turn_on_gate()) {
+        if (state_mode == 3)
+            distance = 7;
+        else if (current_area == 9 && level_number == 8)
+            distance = -100;
+        else
+            distance = 4;
+        if (distance > edge) {
+            edge -= distance;
+            actor_x = AddCharX(edge);
+        }
+    }
+    if (state_mode == 2 || state_mode == 6)
+        check_shadow_create();
+    if (repeat_sequence_id != 71)
+        JumpSeq(5);
+}
+
+extern signed char running_collision;
+extern int far pascal query_run_distance(void);
+
+/* 25da:0eba */
+void far pascal start_running(void)
+{
+    int distance = query_run_distance();
+    if (running_collision == 1 && distance < 18) {
+        if (direction_forward < 0)
+            step_forward(0);
+    } else {
+        JumpSeq(1);
+    }
+    direction_forward = ClrAll();
+}
+
+extern int far pascal run_jump(int sequence);
+
+/* 25da:0ef0 */
+void far pascal control_running(void)
+{
+    if (!direction_forward && !direction_back && (actor_frame == 7 || actor_frame == 11)) {
+        direction_forward = ClrAll();
+        JumpSeq(13);
+    } else if (direction_back) {
+        direction_back = ClrAll();
+        JumpSeq(6);
+    } else if (direction_up) {
+        if (direction_up < 0)
+            run_jump(4);
+    } else if (direction_down < 0) {
+        direction_down = ClrAll();
+        JumpSeq(26);
+    }
+    if (direction_forward < 0)
+        direction_forward = 1;
+}
+
+extern int step_in_progress;
+extern unsigned char forward_tile_kind;
+
+/* 25da:0f66 */
+void far pascal step_forward(int distance)
+{
+    int sequence;
+    signed char edge_marker;
+
+    step_in_progress = 1;
+    direction_forward = edge_marker = 1;
+    direction_action = edge_marker;
+    if (!distance)
+        distance = query_run_distance();
+    if (running_collision == 1)
+        distance--;
+    if (distance > 0) {
+        crawl_latch = 1;
+        if (distance < 28) {
+            sequence = distance == 1 ? -1 : distance / 2 + 28;
+            if (distance % 2 != 0)
+                actor_x = AddCharX(1);
+            distance = sequence;
+        } else {
+            distance = 42;
+        }
+    } else if (crawl_latch &&
+               (running_collision != 1 || forward_tile_kind == 12 || forward_tile_kind == 13)) {
+        crawl_latch = 0;
+        distance = 44;
+    } else {
+        distance = 42;
+    }
+    if (distance != -1)
+        JumpSeq(distance);
+    step_in_progress = 0;
+}
+
+struct tile_snapshot {
+    unsigned char bytes[11];
+};
+extern struct tile_snapshot current_tile;
+extern int far pascal pick_it_up(void);
+extern void far pascal RemoveObj(int portion);
+extern void far pascal AddSong(int song);
+extern void far pascal record_pickup_type(unsigned char type);
+extern unsigned char pickup_type;
+
+int far pascal try_pick_up(void)
+{
+    struct tile_snapshot saved_tile;
+    int here = 0;
+    signed char tile = get_under_foot();
+
+    if (tile == 10 || tile == 22) {
+        saved_tile = current_tile;
+        here = 1;
+        current_tile = saved_tile;
+    }
+    if (here || get_cells_ahead(1) == 10 || get_cells_ahead(1) == 22)
+        return pick_it_up();
+    return here;
+}
+
+int far pascal pick_it_up(void)
+{
+    signed char item = forward_tile_kind;
+    struct tile_snapshot saved_tile = current_tile;
+    unsigned char type = (unsigned char)cell_modifier_word & 3;
+    int picked = 1;
+    int edge = get_edge_distance();
+    signed char foot = get_under_foot();
+    int shift, song;
+
+    if (actor_frame != 109) {
+        if (foot == item)
+            shift = actor_direction == 0 ? edge - 25 : edge - 17;
+        else
+            shift = actor_direction == 0 ? edge + 1 : edge + 15;
+        actor_x = AddCharX(shift);
+        crouch_actor();
+    } else if (repeat_sequence_id == 50 ||
+               (repeat_sequence_id != 20 && direction_action == -1)) {
+        if (actor_direction == 0) {
+            if (edge < 24 && foot != item)
+                actor_x = AddCharX(edge - 4);
+        } else {
+            actor_x = AddCharX(edge - 22);
+        }
+        current_tile = saved_tile;
+        if (item == 22) {
+            RemoveObj(-1);
+            if (actor_room == 9 && level_number == 8) {
+                JumpSeq(237);
+                song = 254;
+            } else {
+                JumpSeq(91);
+                song = 151;
+            }
+            AddSong(song);
+            record_pickup_type(type);
+            pickup_type = type;
+        } else if (item == 10) {
+            RemoveObj((cell_modifier_word & 0xe0) >> 5);
+            JumpSeq(78);
+        }
+    } else {
+        picked = 0;
+    }
+    return picked;
+}
+
+/* 25da:11dc */
+void far pascal control_starting(void)
+{
+    if (direction_up < 0 && direction_forward < 0) {
+        unsigned char zero = ClrAll();
+        direction_forward = zero;
+        direction_up = zero;
+        standing_jump();
+    }
+}
+
+/* 25da:11fa */
+void far pascal begin_standing_jump(void)
+{
+    if (direction_forward)
+        standing_jump();
+}
+
+/* 25da:1206 */
+void far pascal standing_jump(void)
+{
+    signed char held = 1;
+    direction_forward = held;
+    direction_up = held;
+    JumpSeq(3);
+}
+
+extern signed char far pascal get_above(void);
+extern signed char far pascal get_above_front(void);
+extern signed char far pascal get_above_behind(void);
+extern int far _fastcall probe_jump_anchor(signed char room, signed char row);
+extern int abs(int);
+#pragma intrinsic(abs)
+extern void far pascal jump_hang(int back);
+extern void far pascal jump_back(void);
+extern void far pascal jump_edge(void);
+extern void far pascal jump_high(void);
+extern int far pascal FaceDx(int x);
+extern int far pascal get_base_x(void);
+extern signed char far pascal signed_div32_remainder_adjusted(int x);
+
+/* 25da:1218 */
+void far pascal jump_up(void)
+{
+    signed char above, front;
+    unsigned int modifier;
+    int anchor;
+
+    direction_up = ClrAll();
+    above = get_above();
+    modifier = cell_modifier_word;
+    front = get_above_front();
+    if (front == 4)
+        cell_modifier_word = 200;
+    anchor = probe_jump_anchor(actor_room, actor_row);
+    if (anchor && abs(anchor - actor_x) > 32)
+        anchor = 0;
+    if (!anchor && check_ledge(above, front, modifier, cell_modifier_word)) {
+        jump_hang(0);
+        return;
+    }
+
+    above = get_above_behind();
+    modifier = cell_modifier_word;
+    front = get_above();
+    if (front == 4)
+        cell_modifier_word = 200;
+    if (!anchor && check_ledge(above, front, modifier, cell_modifier_word)) {
+        jump_back();
+        return;
+    }
+    jump_high();
+}
+
+/* 25da:12dc */
+void far pascal jump_back(void)
+{
+    int edge = get_edge_distance();
+
+    probe_jump_anchor(actor_room, actor_row);
+    if (edge < 16) {
+        jump_high();
+        return;
+    }
+    if (is_six_kind(get_behind())) {
+        jump_edge();
+        return;
+    }
+    actor_x = AddCharX(edge - 32);
+    reread_cells();
+    jump_hang(1);
+}
+
+/* 25da:132e */
+void far pascal jump_edge(void)
+{
+    get_above();
+    actor_x = AddCharX(get_edge_distance() - 24);
+    JumpSeq(16);
+}
+
+/* 25da:134e */
+void far pascal jump_high(void)
+{
+    signed char column;
+    int edge;
+
+    direction_up = ClrAll();
+    edge = query_run_distance();
+    if (edge < 4 && running_collision == 1)
+        actor_x = AddCharX(edge - 6);
+    edge = FaceDx(0);
+    edge += get_base_x();
+    edge -= 6;
+    column = signed_div32_remainder_adjusted(edge);
+    if (is_six_kind(lookup_tile_kind(actor_room, column, actor_row - 1)) ||
+        (state_mode == 5 && actor_room == 15) ||
+        (actor_room == 7 && state_mode == 6 &&
+         (actor_row != 2 || (actor_column != 2 && actor_column != 6))) ||
+        (actor_room == 8 && state_mode == 6 &&
+         (actor_row != 2 || actor_column == 3 || actor_column == 4)))
+        JumpSeq(28);
+    else
+        JumpSeq(14);
+}
+
+extern int climb_delay;
+extern signed char far pascal get_above(void);
+extern int far pascal room_allows_drop(void);
+extern int far pascal climb_special_gate(int direction);
+extern void far pascal climb_up(void);
+extern int far pascal IsCharSwingingFwd(void);
+extern int far pascal is_drop_tile(signed char tile);
+extern int far pascal is_drop_ledge(signed char tile);
+
+/* 25da:141e */
+void far pascal control_hanging(void)
+{
+    signed char tile;
+    if (fall_latch < 0) {
+        if (!climb_delay && direction_up) {
+            climb_up();
+            return;
+        }
+        if (direction_action && animation_contact != 11) {
+            tile = get_under_foot();
+            if ((state_code != 6 && IsWall(tile)) ||
+                (actor_direction == -1 && tile == 4) ||
+                (state_mode == 5 && actor_room == 15)) {
+                JumpSeq(25);
+                return;
+            }
+            if (!is_six_kind(get_above()) || (state_mode == 5 && room_allows_drop()))
+                return;
+        } else {
+            animation_contact = 0;
+        }
+    }
+    control_drop();
+}
+
+/* 25da:14c4 */
+void far pascal climb_up(void)
+{
+    int sequence;
+    unsigned char zero;
+    signed char above;
+
+    if (level_number == 5 && actor_room == 10 && floor_contact != -1) {
+        sequence = 236;
+        floor_contact = -1;
+        AddSound(19);
+    } else {
+        sequence = 10;
+    }
+    zero = ClrAll();
+    direction_action = zero;
+    direction_up = zero;
+    above = get_above();
+    if ((actor_kind != 1 && above == 4 && actor_direction == -1 &&
+         (cell_modifier_word & 0xfffc) < 24) ||
+        (state_mode == 2 && climb_special_gate(0))) {
+        sequence = 73;
+    } else if (state_mode == 5 && room_allows_drop()) {
+        sequence = 59;
+    }
+    JumpSeq(sequence);
+    if (actor_direction == 0 || state_mode != 3)
+        actor_x = AddCharX(-2);
+}
+
+/* 25da:156a */
+void far pascal control_drop(void)
+{
+    signed char behind, under;
+    int sequence, front_drop, back_drop;
+    int adjustment = 0;
+
+    direction_down = ClrAll();
+    behind = get_behind();
+    under = get_under_foot();
+    if (is_six_kind(behind) && is_six_kind(under)) {
+        sequence = IsCharSwingingFwd() ? 99 : 23;
+    } else {
+        front_drop = is_drop_tile(under);
+        back_drop = is_drop_tile(behind);
+        if (!front_drop && !back_drop) {
+            if (is_drop_ledge(behind) && IsWall(under))
+                back_drop = 1;
+            else if (is_drop_ledge(under) && IsWall(behind))
+                front_drop = 1;
+        }
+        if (IsWall(under)) {
+            adjustment = -14;
+            sequence = back_drop ? 11 : 23;
+        } else if (!front_drop && back_drop) {
+            adjustment = -8;
+            sequence = 11;
+        } else if (front_drop && !back_drop) {
+            adjustment = 6;
+            sequence = 11;
+        } else {
+            sequence = front_drop && back_drop ? 11 : 23;
+        }
+        if (adjustment)
+            actor_x = AddCharX(adjustment);
+    }
+    JumpSeq(sequence);
+}
+
+extern void far pascal advance_character(void);
+
+int far pascal IsCharSwingingFwd(void)
+{
+    int old_repeat = repeat_sequence_id;
+    int old_position = sequence_position;
+    int old_sequence = sequence_id;
+    unsigned int old_frame = actor_frame;
+
+    advance_character();
+    sequence_id = old_sequence;
+    sequence_position = old_position;
+    repeat_sequence_id = old_repeat;
+    if (old_frame >= actor_frame)
+        return 1;
+    return 0;
+}
+
+/* 25da:16d2 */
+void far pascal jump_hang(int back)
+{
+    int edge = get_edge_distance();
+
+    if (back && edge == 32)
+        edge = 0;
+    if (edge < 4 && query_run_distance() < 4 && running_collision != 1) {
+        actor_x = AddCharX(edge);
+        JumpSeq(8);
+    } else {
+        edge -= actor_direction == -1 ? 7 : 9;
+        actor_x = AddCharX(edge);
+        JumpSeq(24);
+    }
+}
+
+extern signed char stride_columns[];
+extern signed char far pascal get_char_col(int x);
+extern int far pascal get_edge_distance_at(int x);
+extern int far pascal can_continue_run_jump(signed char tile, unsigned int modifier);
+
+/* 25da:1738 */
+int far pascal run_jump(int sequence)
+{
+    signed char tile, column;
+    int reach, x, distance, gaps, scanning, found;
+
+    if ((sequence == 4 && (actor_frame == 7 || actor_frame == 11)) ||
+        (sequence == 100 && (actor_frame == 192 || actor_frame == 196))) {
+        reach = sequence == 4 ? 11 : 9;
+        x = AddCharX(reach);
+        column = get_char_col(x);
+        gaps = found = 0;
+        scanning = 1;
+        while (scanning) {
+            tile = lookup_tile_kind(actor_room, column += stride_columns[actor_direction], actor_row);
+            if (!is_six_kind(tile) && can_continue_run_jump(tile, cell_modifier_word)) {
+                if (++gaps == 2)
+                    found = 1;
+            } else {
+                scanning = 0;
+            }
+            if (found)
+                break;
+        }
+        if (!scanning) {
+            distance = get_edge_distance_at(x) + (gaps << 5);
+            distance -= sequence == 4 ? 31 : 35;
+            if (distance < -19 || distance >= 10) {
+                if (distance < 0 && sequence == 4)
+                    return 0;
+                distance = -reach;
+            }
+            actor_x = AddCharX(distance + reach);
+        }
+        JumpSeq(sequence);
+        direction_up = ClrAll();
+        return 1;
+    }
+    return 0;
+}
+
+/* 25da:1870 */
+void far pascal retreat_actor(void)
+{
+    int frame = actor_frame;
+    if (actor_kind != 7 && actor_kind != 8 && actor_kind != 11 &&
+        (frame == 158 || frame == 170 || frame == 171)) {
+        int sequence = actor_kind == 10 ? 104 : 57;
+        JumpSeq(sequence);
+        direction_back = ClrAll();
+    }
+}
+
+/* 25da:18ba */
+void far pascal advance_actor(void)
+{
+    int frame = actor_frame;
+    if (actor_kind != 7 && actor_kind != 8 && actor_kind != 11 &&
+        (frame == 158 || frame == 170 || frame == 171)) {
+        int sequence;
+        if (actor_kind == 0 || actor_kind == 1)
+            sequence = 56;
+        else if (actor_kind == 10)
+            sequence = 108;
+        else
+            sequence = 86;
+        JumpSeq(sequence);
+        direction_forward = ClrAll();
+    }
+}
+
+extern int far pascal choose_weapon_draw(void);
+extern int far pascal special_shadow_draw(void);
+extern struct saved_actor actor_slots[];
+
+/* 25da:1918 */
+void far pascal engage_weapon(void)
+{
+    int sequence;
+
+    direction_forward = ClrAll();
+    direction_action = 2;
+    floor_contact = 1;
+    if (actor_kind == 0 || actor_kind == 1)
+        sequence = choose_weapon_draw();
+    else if (actor_kind == 7 || actor_kind == 8)
+        sequence = -1;
+    else if (actor_kind != 1)
+        sequence = 90;
+    if (sequence != -1)
+        JumpSeq(sequence);
+}
+
+/* 25da:1978 */
+int far pascal choose_weapon_draw(void)
+{
+    signed char tile, slot;
+    int sequence, anchor, edge, adjustment;
+
+    if (((unsigned int)actor_frame >= 246 && (unsigned int)actor_frame <= 261) ||
+        ((actor_room == 1 || actor_room == 2) && state_mode == 14)) {
+        sequence = -1;
+    } else if (actor_kind == 1 && (actor_room == 7 || actor_room == 8) && state_mode == 6) {
+        sequence = special_shadow_draw();
+        slot = 0;
+        while (actor_slots[slot].bytes[6] != 0 && slot < 5)
+            slot++;
+        floor_contact = actor_slots[slot].bytes[16];
+    } else {
+        sequence = 55;
+        adjustment = -1;
+        anchor = probe_jump_anchor(actor_room, actor_row);
+        if (anchor) {
+            tile = get_char_col(anchor);
+            if (abs(tile - actor_column) > 1)
+                anchor = 0;
+        }
+        tile = actor_direction == 0 ? get_under_foot() : 0;
+        if (tile == 4 && can_turn_on_gate()) {
+            adjustment = -32;
+        } else if (anchor && ((actor_direction == -1 && actor_x >= anchor) ||
+                             (actor_direction == 0 && actor_x <= anchor))) {
+            edge = get_edge_distance();
+            adjustment = abs(anchor - actor_x) - edge;
+            adjustment = (adjustment == -1 ? -2 : adjustment) - 4;
+        } else {
+            tile = get_cells_ahead(1);
+            if (!is_drop_ledge(tile) || (tile == 4 && can_turn_on_gate()))
+                adjustment = 0;
+        }
+        if (adjustment != -1) {
+            tile = get_behind();
+            if (is_drop_ledge(tile) && (tile != 4 || !can_turn_on_gate()) &&
+                (!anchor || (actor_direction == -1 && actor_x >= anchor) ||
+                 (actor_direction == 0 && anchor >= actor_x)) && animation_contact != 4) {
+                edge = get_edge_distance() + adjustment;
+                if (actor_direction == 0 && edge < 21)
+                    actor_x = AddCharX(edge - 21);
+                else if (actor_direction == -1 && edge < 15)
+                    actor_x = AddCharX(edge - 15);
+            } else {
+                floor_contact = 0;
+                sequence = -1;
+            }
+        }
+    }
+    if (sequence != -1 && sequence != 242)
+        AddSound(19);
+    else if (floor_contact != -1)
+        floor_contact = 0;
+    return sequence;
+}
+
+struct fight_opponent {
+    unsigned char payload[23];
+};
+struct fight_list {
+    signed char count;
+    struct fight_opponent opponent[5];
+};
+extern struct fight_list fight_lists[];
+extern unsigned int next_opponent_toggle;
+extern int room_event_pending;
+extern signed char opponent_kind;
+extern void far pascal load_kid_with_opponent(signed char slot);
+extern void far pascal on_alert(void);
+extern void far pascal turn_engarde(void);
+extern void far pascal sheathe_weapon(void);
+
+/* 25da:1b92 */
+void far pascal control_fighting(void)
+{
+    signed char target;
+    int gap, react;
+
+    if (actor_character == 10) {
+        kid_actor_record = current_actor_record;
+        target = -1;
+        if (selected_opponent != -1 && selected_opponent < fight_lists[(unsigned char)actor_room].count) {
+            load_kid_with_opponent(selected_opponent);
+            if (actor_life > 0)
+                target = selected_opponent;
+        }
+        if (target == -1) {
+            target = pick_hidden_actor(1);
+            if (target == -1)
+                target = 0;
+            else
+                selected_opponent = target;
+        }
+        load_kid_with_opponent(target);
+    }
+    if (state_code < 2) {
+        react = 1;
+        {
+            signed char tile = get_under_foot();
+            if (tile == 11 || tile == 15 || opponent_health >= 2) {
+                gap = actor_spacing();
+                if (gap >= -10 && gap < 205) {
+alert:
+                    on_alert();
+reacted:
+                    react = 0;
+                } else if (gap < 0) {
+                    if (gap >= -4 || (gap >= -30 && (opponent_kind == 7 || opponent_kind == 8)))
+                        goto alert;
+                    if (actor_kind == 11)
+                        goto reacted;
+                    if ((actor_character == 10 && !next_opponent_toggle) || opponent_kind == 6)
+                        goto alert;
+                    turn_engarde();
+                    goto reacted;
+                }
+            }
+        }
+        if (actor_character == 10 && direction_back < 0 &&
+            (direction_action == -1 || direction_action == 1) &&
+            (level_number != 5 || actor_room != 10 || room_event_pending <= 0)) {
+            turn_engarde();
+            direction_action = 2;
+            direction_back = ClrAll();
+            next_opponent_toggle = !next_opponent_toggle;
+            selected_opponent = pick_hidden_actor(~actor_direction);
+            return;
+        }
+        if (react) {
+            if (actor_character == 10 && direction_down < 0) {
+                sheathe_weapon();
+                return;
+            }
+            on_alert();
+        }
+    }
+}
+#pragma pack(1)
+struct actor_state {
+    signed char slot;
+    signed char direction;
+    int x;
+    int y;
+    signed char kind;
+    int frame;
+    signed char cell_row;
+    signed char reserved_0a;
+    signed char state_code;
+    signed char reserved_0c[2];
+    unsigned char room;
+    signed char reserved_0f[2];
+    signed char fall_latch;
+    signed char reserved_12[17];
+    signed char field_23;
+    int animation_contact;
+    signed char reserved_26[26];
+};
+
+struct opponent {
+    signed char reserved[17];
+    signed char attitude;
+    signed char pad[5];
+};
+
+struct opponent_list {
+    signed char count;
+    struct opponent opponents[5];
+};
+
+extern struct actor_state actor;
+extern unsigned char opponent_list_index;
+extern struct opponent_list opponent_lists[];
+
+extern void far pascal copy_kid_to_char(void);
+extern int far pascal is_dead_pos(unsigned int frame);
+extern void far pascal load_actor_slot(signed char index);
+extern struct opponent near * far pascal GetOppInfoIdx(int room, int index);
+
+int far pascal OppToFight(void)
+{
+    struct actor_state saved_actor;
+    signed char index;
+    int ready;
+    struct opponent near *opponent;
+
+    ready = 0;
+    saved_actor = actor;
+    copy_kid_to_char();
+    if (actor.animation_contact != 13 && actor.kind != 1 &&
+        actor.state_code != 3 && actor.state_code != 4 && !is_dead_pos(actor.frame)) {
+        index = 0;
+        do {
+            if (index >= opponent_lists[opponent_list_index].count)
+                break;
+            load_actor_slot(index);
+            if (actor.fall_latch < 0 && actor.field_23 > 0 && actor.kind != 11) {
+                if (actor.kind == 7 || actor.kind == 8) {
+                    opponent = GetOppInfoIdx(actor.room, actor.slot);
+                    if (opponent->attitude != 1 && opponent->attitude != 3) {
+                        ready = 0;
+                        goto next_opponent;
+                    }
+                }
+                ready = 1;
+            }
+next_opponent:
+            index++;
+        } while (!ready);
+    }
+    actor = saved_actor;
+    return ready;
+}
+
+
+extern int strike_delay, sheathe_delay;
+extern unsigned int opponent_frame;
+extern void far pascal alert_special_actor(void);
+extern int far pascal special_turn_engarde(signed char room, int slot);
+extern void far pascal turn_kid_engarde(void);
+extern void far pascal strike_actor(void);
+extern void far pascal block_actor(void);
+
+/* 25da:1e08 */
+void far pascal on_alert(void)
+{
+    int acted, frame, kind;
+
+    if (actor_kind != 7 && actor_kind != 8) {
+        acted = 0;
+        frame = actor_frame;
+        kind = actor_kind;
+        if (frame == 161 && direction_action >= 0) {
+            JumpSeq(57);
+            acted = 1;
+        } else if (direction_action == -2) {
+            if (kind == 0 || kind == 1)
+                strike_delay = 15;
+            strike_actor();
+            acted = 1;
+        }
+        if (!acted) {
+            if (direction_down < 0) {
+                if (frame == 158 || frame == 170 || frame == 171) {
+                    sheathe_weapon();
+                    return;
+                }
+            } else if (direction_up < 0) {
+                block_actor();
+                return;
+            } else if (direction_forward < 0) {
+                advance_actor();
+                return;
+            } else if (direction_back < 0 && !direction_action) {
+                retreat_actor();
+                return;
+            }
+        }
+    } else {
+        alert_special_actor();
+    }
+}
+
+/* 25da:1ebc */
+void far pascal sheathe_weapon(void)
+{
+    int sequence;
+
+    floor_contact = 0;
+    direction_down = ClrAll();
+    if (actor_kind == 0 || actor_kind == 1) {
+        sheathe_delay = 9;
+        if (OppToFight())
+            sequence = 93;
+        else
+            sequence = 92;
+    } else if (actor_kind == 10) {
+        sequence = 90;
+    } else {
+        sequence = 77;
+    }
+    JumpSeq(sequence);
+}
+
+/* 25da:1f08 */
+void far pascal turn_engarde(void)
+{
+    if (actor_kind == 7 || actor_kind == 8) {
+        if (repeat_sequence_id != 156 && repeat_sequence_id != 166 &&
+            !special_turn_engarde(actor_room, actor_character))
+            JumpSeq(156);
+    } else if (actor_kind == 0 || actor_kind == 1) {
+        turn_kid_engarde();
+        return;
+    } else if (actor_kind != 10 || (unsigned int)actor_frame < 213 || (unsigned int)actor_frame > 217) {
+        JumpSeq(60);
+    }
+}
+
+/* 25da:1f72 */
+void far pascal turn_kid_engarde(void)
+{
+    signed char tile;
+    int offset, edge;
+
+    offset = -1;
+    tile = get_cells_ahead(1);
+    if (is_drop_ledge(tile) && (tile != 4 || !can_turn_on_gate())) {
+        tile = get_cells_ahead(2);
+        if (!is_drop_ledge(tile) || (tile == 4 && can_turn_on_gate()))
+            offset = 32;
+    } else {
+        offset = 0;
+    }
+    if (repeat_sequence_id == 94)
+        offset += 18;
+    if (offset != -1) {
+        edge = get_edge_distance() + offset;
+        if (edge < 56)
+            actor_x = AddCharX(edge - 56);
+    }
+    JumpSeq(127);
+}
+
+/* 25da:2004 */
+void far pascal strike_actor(void)
+{
+    int frame, sequence;
+    if (actor_kind != 7 && actor_kind != 8) {
+        frame = actor_frame;
+        switch (frame) {
+        case 157:
+        case 158:
+        case 170:
+        case 171:
+        case 165:
+            switch (actor_kind) {
+            case 0:
+            case 1:
+                sequence = opponent_kind == 11 ? 96 : 75;
+                break;
+            case 10:
+                sequence = 109;
+                break;
+            default:
+                sequence = 58;
+            }
+            break;
+        case 150:
+        case 161:
+            sequence = 66;
+            break;
+        default:
+            sequence = -1;
+        }
+        if (sequence != -1) {
+            JumpSeq(sequence);
+            direction_action = 2;
+            ClrAll();
+        }
+    }
+}
+
+/* 25da:2090 */
+void far pascal block_actor(void)
+{
+    int threat_frame, kind, sequence, advance, frame;
+
+    if (actor_kind != 7 && actor_kind != 8) {
+        threat_frame = opponent_frame;
+        kind = actor_kind;
+        sequence = 62;
+        advance = 0;
+        frame = actor_frame;
+        switch (frame) {
+        case 158:
+        case 170:
+        case 171:
+        case 168:
+        case 165:
+            if (kind == 0 || kind == 1) {
+                if (threat_frame == 168)
+                    sequence = -1;
+                else if (threat_frame == 153)
+                    advance = 1;
+            } else if (actor_spacing() >= 51) {
+                retreat_actor();
+                sequence = -1;
+            } else if (threat_frame != 152) {
+                sequence = -1;
+            }
+            break;
+        case 167:
+            sequence = 61;
+            break;
+        default:
+            sequence = -1;
+        }
+        if (sequence != -1) {
+            direction_up = 1;
+            JumpSeq(sequence);
+            if (advance)
+                advance_character();
+        }
+    }
+}
+
+/* 25da:2152 */
+void far pascal crush_actor(void)
+{
+    signed char state = state_code;
+    int frame = actor_frame;
+    int sequence;
+
+    if ((frame < 5 || frame >= 15) && frame != 109 &&
+        (state < 2 || state == 7) && actor_kind != 1) {
+        reset_char_y();
+        if (decrement_life_points(actor_kind == 0 ? 1 : 100)) {
+            if (actor_kind == 11)
+                sequence = 169;
+            else if (actor_kind == 7 || actor_kind == 8)
+                sequence = 146;
+            else if (actor_kind == 4) {
+                play_guard_landing();
+                return;
+            } else {
+                sequence = 22;
+            }
+        } else {
+            if (frame == 109)
+                return;
+            if (is_six_kind(get_behind()))
+                actor_x = AddCharX(-4);
+            animation_contact = 8;
+            AddSound(10);
+            sequence = 52;
+        }
+        JumpSeq(sequence);
+    }
+}
+
+#pragma pack(1)
+struct crush_record {
+    signed char bytes_00[5];
+    int sequence, position;
+    signed char byte_09;
+    signed char index;
+    signed char byte_0b;
+    signed char enabled;
+    signed char bytes_0d[2];
+    signed char kind;
+    signed char byte_10;
+    int pending;
+};
+extern unsigned char crush_mode;
+extern void far pascal RemoveOppFromRoom(unsigned char room, int slot);
+
+/* 25da:2220 */
+void far pascal CrushOppInfo(struct crush_record near *opponent, unsigned char room)
+{
+    if (crush_mode != 2)
+        opponent->enabled = 0;
+    if (crush_mode == 5) {
+        if (opponent->kind == 8) {
+            opponent->sequence = 169;
+            opponent->position = 0;
+        } else {
+            RemoveOppFromRoom(room, opponent->index);
+        }
+    } else if (crush_mode == 2) {
+        if (opponent->pending == 1)
+            opponent->pending = 0;
+    } else {
+        opponent->sequence = 22;
+        opponent->position = 0;
+    }
+}
+
+/* 25da:227c */
+void far pascal SquishChar(void)
+{
+    JumpSeq(118);
+    decrement_life_points(100);
 }
