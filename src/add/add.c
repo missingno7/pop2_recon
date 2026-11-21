@@ -310,11 +310,13 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
     int image_index;
     ImageSize size;
     int added;
+    MidItem _based(mid_table_selector) *row;
 
     if (image != 0 && mid_count < 30) {
         image_index = image - 1;
         index = mid_count;
-        mid_rows[index].x = x;
+        row = &mid_rows[index];
+        row->x = x;
         if (drawing_environment == 5 && special_scene == 10 &&
             set == 4 && *custom_shapes > image_index) {
             get_custom_shape_size(image_index, &size);
@@ -323,17 +325,17 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
                 return 0;
         }
 
-        mid_rows[index].y = y - size.height + 1;
-        mid_rows[index].set = set;
-        mid_rows[index].image = image_index;
-        mid_rows[index].clip = actor_clip;
-        mid_rows[index].order = order;
-        mid_rows[index].reserved = 0;
+        row->y = y - size.height + 1;
+        row->set = set;
+        row->image = image_index;
+        row->clip = actor_clip;
+        row->order = order;
+        row->reserved = 0;
         if (actor_flags == 0 && (set != 4 || background_depth >= 0))
-            mid_rows[index].visible = 1;
+            row->visible = 1;
         else
-            mid_rows[index].visible = 0;
-        mid_rows[index].depth = 255;
+            row->visible = 0;
+        row->depth = 255;
         ++mid_count;
         added = 1;
     } else {
@@ -488,7 +490,7 @@ void restore_peels(void)
                 ++destination;
                 ++remaining;
             }
-        } while (++entry, ++saved, ++index < peel_count);
+        } while (++entry, ++saved, index++ < peel_count - 1);
     }
     peel_count = remaining;
 }
@@ -652,6 +654,7 @@ temple_kid:
 void setup_char(void)
 {
     int equipment;
+    extern int actor_depth_source;
 
     add_auxiliary_character();
     set_actor_position();
@@ -660,7 +663,7 @@ void setup_char(void)
         return;
 
     actor_flags = actor_action;
-    actor_depth = actor_position_y;
+    actor_depth = actor_depth_source;
     if (actor_character == 0 || actor_character == 6 || actor_character == 1) {
         actor_set = 2;
         actor_image = actor_shape_index;
@@ -691,45 +694,55 @@ extern Offset actor_object_type;
 void setup_comix(void)
 {
     unsigned int frame = actor_id;
-    int dx;
 
     save_actor_object_state();
     actor_object_type = -1;
     actor_set = 2;
     actor_image = 218;
 
-    if (frame == 185 || (frame >= 106 && frame < 111)) {
-        actor_y += 4;
-        dx = 10;
-    } else if (actor_character == 11) {
+    if (frame == 185 || (frame >= 106 && frame < 111))
+        goto raised;
+    if (actor_character == 11) {
         actor_y += 5;
         adjust_actor_x(-8);
         actor_set = 3;
         actor_image = 119;
         goto render;
-    } else if (actor_character == 12) {
-        actor_y -= 11;
-        dx = -8;
-    } else if (actor_character != 0) {
-        actor_y -= 11;
-        dx = 7;
-    } else if (previous_actor_character == 11 || actor_id == 265) {
-        dx = 10;
-    } else if (actor_id == 138 || actor_id == 139 || actor_id == 140) {
-        actor_y -= 10;
-        dx = -5;
-    } else if (actor_id == 338) {
-        actor_y -= 30;
-        dx = 29;
-    } else if (actor_id == 340) {
-        actor_y -= 30;
-        dx = -17;
-    } else {
-        actor_y -= 15;
-        dx = 10;
     }
-
-    adjust_actor_x(dx);
+    if (actor_character == 12) {
+        actor_y -= 11;
+        adjust_actor_x(-8);
+        goto render;
+    }
+    if (actor_character == 0) {
+        if (previous_actor_character == 11 || actor_id == 265)
+            goto default_x;
+        if (actor_id == 138 || actor_id == 139 || actor_id == 140)
+            goto lowered;
+        if (actor_id == 338) {
+            actor_y -= 30;
+            adjust_actor_x(29);
+            goto render;
+        }
+        if (actor_id == 340) {
+            actor_y -= 30;
+            adjust_actor_x(-17);
+            goto render;
+        }
+        actor_y -= 15;
+        goto default_x;
+lowered:
+        actor_y -= 10;
+        adjust_actor_x(-5);
+        goto render;
+    }
+    actor_y -= 11;
+    adjust_actor_x(7);
+    goto render;
+raised:
+    actor_y += 4;
+default_x:
+    adjust_actor_x(10);
 render:
     update_actor_clip();
     add_char_object(5);
@@ -749,10 +762,9 @@ void setup_fireball(void)
     if (actor_equipment) {
         unsigned int frame = actor_equipment;
         EquipmentPlacement far *entries = (EquipmentPlacement far *)lock_shape(object_position_handle);
-        EquipmentPlacement far *entry = &entries[frame];
-        actor_image = entry->image;
-        adjust_actor_x(entry->x);
-        actor_y += entry->y;
+        actor_image = entries[frame].image;
+        adjust_actor_x(entries[frame].x);
+        actor_y += entries[frame].y;
         update_actor_clip();
         add_char_object(3);
         schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, -1);
@@ -779,7 +791,6 @@ void far _fastcall setup_sword(Byte kind)
 {
     unsigned int frame;
     EquipmentPlacement far *entries;
-    EquipmentPlacement far *entry;
 
     if (suppress_actor_callback() || actor_equipment == 0)
         return;
@@ -795,12 +806,11 @@ void far _fastcall setup_sword(Byte kind)
 
     frame = actor_equipment;
     entries = (EquipmentPlacement far *)lock_shape(object_position_handle);
-    entry = &entries[frame];
-    actor_image = entry->image;
+    actor_image = entries[frame].image;
     if (actor_image == -1)
         return;
-    adjust_actor_x(entry->x);
-    actor_y += entry->y;
+    adjust_actor_x(entries[frame].x);
+    actor_y += entries[frame].y;
     actor_set = 0;
     update_actor_clip();
     if (current_level == 5)
