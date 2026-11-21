@@ -1,10 +1,10 @@
 {
   "declarations": {
     "externals": [
-      "RELEASE_BACKING_RECORD",
-      "GET_BLOCK_PAYLOAD_SIZE",
-      "ALLOCATE_BACKING_RECORD",
-      "TRANSFER_BACKING_RECORD"
+      "CREATE_WINDOW",
+      "LOAD_ITEM_LIST",
+      "SELECT_ITEM_BY_INDEX",
+      "CURRENT_CONTEXT"
     ],
     "groups": [
       {
@@ -18,7 +18,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "SWAP_OUT_HEAP_BLOCK",
+        "name": "CREATE_WINDOW_FROM_DEFINITION",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -33,7 +33,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 111,
+        "length": 84,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -58,6 +58,28 @@
       "field_width": 2,
       "frame": {
         "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 9,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_CONTEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
         "kind": "segment",
         "name": "UNIT_TEXT"
       },
@@ -65,13 +87,57 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 12,
+      "segment_offset": 29,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "CREATE_WINDOW",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 38,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_CONTEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 63,
       "self_relative": true,
       "target": {
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "GET_BLOCK_PAYLOAD_SIZE",
+        "name": "LOAD_ITEM_LIST",
         "zero_displacement": true
       }
     },
@@ -87,13 +153,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 20,
+      "segment_offset": 67,
       "self_relative": true,
       "target": {
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_BACKING_RECORD",
+        "name": "SELECT_ITEM_BY_INDEX",
         "zero_displacement": true
       }
     },
@@ -102,42 +168,20 @@
       "field_width": 2,
       "frame": {
         "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 32,
-      "self_relative": true,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "RELEASE_BACKING_RECORD",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 107,
-      "self_relative": true,
+      "segment_offset": 74,
+      "self_relative": false,
       "target": {
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "TRANSFER_BACKING_RECORD",
+        "name": "CURRENT_CONTEXT",
         "zero_displacement": true
       }
     }
@@ -158,43 +202,49 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "ALLOCATE_BACKING_RECORD": {
-      "entry_sha256": "152c8154a99e03d306a06c8a6b7441d4372fc817d233609fc70247977f44dcf3",
-      "entry_target_id": "root:1101:2788",
+    "CREATE_WINDOW": {
+      "entry_sha256": "8e5d199b0c35dbdde24a8860ec5fca9f11789d5592e3e34be99809b858956cca",
+      "entry_target_id": "root:1101:b7ad",
       "kind": "near-code-entry",
-      "offset": 10120,
+      "offset": 47021,
       "segment": 4353,
       "space": "root",
       "witnesses": []
     },
-    "GET_BLOCK_PAYLOAD_SIZE": {
-      "entry_sha256": "5189d5aadc546501c2456423415cfbb36ef664736fb266535a081ccbe9d5a0ca",
-      "entry_target_id": "root:1101:1f0d",
+    "CURRENT_CONTEXT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "LOAD_ITEM_LIST": {
+      "entry_sha256": "8c13eb8237c2fee7f342151485c72f2e993f96ffc8686cd36a8cd820b53a125b",
+      "entry_target_id": "root:1101:8bff",
       "kind": "near-code-entry",
-      "offset": 7949,
+      "offset": 35839,
       "segment": 4353,
       "space": "root",
       "witnesses": []
     },
-    "RELEASE_BACKING_RECORD": {
-      "entry_sha256": "94666884dbe6d8d45226c7e98dcc1f458b124eb0cafc2e03aa142988f7aaefd9",
-      "entry_target_id": "root:1101:2616",
+    "SELECT_ITEM_BY_INDEX": {
+      "entry_sha256": "b70e2facdcab275a3fc4eb614e090e64f90a6e829bfcb08d8fcbcfea490a6652",
+      "entry_target_id": "root:1101:8cce",
       "kind": "near-code-entry",
-      "offset": 9750,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "TRANSFER_BACKING_RECORD": {
-      "entry_sha256": "62eaecb93778ba0a869d36930c9e1246a745e37bba6c10bce2ea50edf1350925",
-      "entry_target_id": "root:1101:2749",
-      "kind": "near-code-entry",
-      "offset": 10057,
+      "offset": 36046,
       "segment": 4353,
       "space": "root",
       "witnesses": []
     }
   },
-  "target_id": "group:swap_out_heap_block",
+  "target_id": "group:create_window_from_definition",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

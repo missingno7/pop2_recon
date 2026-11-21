@@ -1,7 +1,22 @@
 {
   "binding": "evidence/bindings/movable_blocks.json",
-  "binding_sha256": "66202299d590135b0be28ab4dacf72963cfd2d863960a8cd494f78da9b86d03b",
+  "binding_sha256": "b8e41bafe4c82c166790bc84e19d9d37e887b4e7e75f50548f13e1c24ff7ccb7",
   "claims": [
+    {
+      "fixup_count": 0,
+      "public": "ROUND_BYTES_TO_PARAGRAPHS",
+      "target_id": "root:1101:1c90"
+    },
+    {
+      "fixup_count": 10,
+      "public": "ALLOCATE_BACKING_SPACE",
+      "target_id": "root:1101:1cab"
+    },
+    {
+      "fixup_count": 3,
+      "public": "ALLOCATE_BACKING_SPACE_GUARDED",
+      "target_id": "root:1101:1df1"
+    },
     {
       "fixup_count": 4,
       "public": "ALLOCATE_MOVABLE_SLOT",
@@ -21,22 +36,27 @@
       "fixup_count": 5,
       "public": "EVICT_MOVABLE_BLOCK",
       "target_id": "root:1101:1f75"
+    },
+    {
+      "fixup_count": 4,
+      "public": "SWAP_OUT_HEAP_BLOCK",
+      "target_id": "root:1101:1fdd"
     }
   ],
   "drafts": [],
-  "emitted_size": 470,
+  "emitted_size": 956,
   "flags": [],
   "frame": 4353,
   "group_id": "group:movable_blocks",
   "kind": "same_source_group",
   "language": "asm",
   "name": "movable_blocks",
-  "object_sha256": "40895a2963e75c5974365de94131b9d3431e0777efa1cb9b18f619d99a1b4dda",
-  "origin": 77335,
+  "object_sha256": "73a733a8592bfaacff549392f5b002506655ddaf6311d733b1d1531080a387aa",
+  "origin": 76960,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/movable_blocks.asm",
-  "source_sha256": "6c83f6606b83e5eb6d66fd4162baeb9c837617bfa8ec1d039f1b5bf619ee4e79",
+  "source_sha256": "53b32ca5a7128822ea9e9fe18a268c03072b4f84c473ada04f1faadec2fd24eb",
   "space": "root"
 }

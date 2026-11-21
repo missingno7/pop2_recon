@@ -2,6 +2,7 @@
   "declarations": {
     "externals": [
       "EVICT_MOVABLE_BLOCK",
+      "SWAP_OUT_HEAP_BLOCK",
       "COALESCE_FREE_BLOCKS",
       "RESIZE_DOS_HEAP",
       "HEAP_STATE"
@@ -18,16 +19,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "PREPARE_BACKING_ALLOCATION",
-        "offset": 22,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 0
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "RELEASE_HEAP_SEGMENT",
+        "name": "RECLAIM_HEAP_BLOCKS",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -36,8 +28,26 @@
       {
         "frame": null,
         "group_index": 0,
+        "name": "PREPARE_BACKING_ALLOCATION",
+        "offset": 360,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "RELEASE_HEAP_SEGMENT",
+        "offset": 338,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
         "name": "MOVE_HUGE_BYTES",
-        "offset": 296,
+        "offset": 634,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -51,7 +61,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 572,
+        "length": 910,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -83,10 +93,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 2,
+      "segment_offset": 82,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "HEAP_STATE",
@@ -105,10 +115,161 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 89,
+      "segment_offset": 141,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 5,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_STATE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 293,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 195,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 202,
+      "self_relative": true,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "COALESCE_FREE_BLOCKS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 293,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 266,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": 101,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 285,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 336,
+      "self_relative": true,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "SWAP_OUT_HEAP_BLOCK",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 340,
+      "self_relative": false,
+      "target": {
+        "index": 5,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_STATE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 427,
+      "self_relative": false,
+      "target": {
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "HEAP_STATE",
@@ -127,10 +288,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 140,
+      "segment_offset": 478,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "RESIZE_DOS_HEAP",
@@ -149,10 +310,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 149,
+      "segment_offset": 487,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "HEAP_STATE",
@@ -171,7 +332,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 203,
+      "segment_offset": 541,
       "self_relative": true,
       "target": {
         "index": 1,
@@ -193,10 +354,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 210,
+      "segment_offset": 548,
       "self_relative": true,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "COALESCE_FREE_BLOCKS",
@@ -215,7 +376,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 278,
+      "segment_offset": 616,
       "self_relative": true,
       "target": {
         "index": 1,
@@ -226,7 +387,7 @@
       }
     },
     {
-      "displacement": 108,
+      "displacement": 446,
       "field_width": 2,
       "frame": {
         "index": 1,
@@ -237,7 +398,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 294,
+      "segment_offset": 632,
       "self_relative": true,
       "target": {
         "index": 1,
@@ -270,14 +431,7 @@
       "offset": 7996,
       "segment": 4353,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "e86e05",
-          "entry": "root:1101:1902",
-          "image_offset": 76251,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "EVICT_MOVABLE_BLOCK": {
       "entry_sha256": "79bcd1dfe66eb3f39161d1c6d14ab072ae0d22ab4ef1a3013bd0c6ae0bfcd1d2",
@@ -315,6 +469,15 @@
       "entry_target_id": "root:1101:16ef",
       "kind": "near-code-entry",
       "offset": 5871,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SWAP_OUT_HEAP_BLOCK": {
+      "entry_sha256": "61023090508b7ae0a9d742a9c87599bb6e8ba04c2c6186ad16e92205aa581621",
+      "entry_target_id": "root:1101:1fdd",
+      "kind": "near-code-entry",
+      "offset": 8157,
       "segment": 4353,
       "space": "root",
       "witnesses": []

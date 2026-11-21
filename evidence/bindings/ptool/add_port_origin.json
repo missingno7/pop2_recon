@@ -1,7 +1,7 @@
 {
   "declarations": {
     "externals": [
-      "MEASURE_COUNTED_TEXT"
+      "CURRENT_CONTEXT"
     ],
     "groups": [
       {
@@ -15,7 +15,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "MEASURE_NUL_TERMINATED_TEXT",
+        "name": "ADD_PORT_ORIGIN",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -30,7 +30,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 29,
+        "length": 38,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -55,20 +55,20 @@
       "field_width": 2,
       "frame": {
         "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 22,
-      "self_relative": true,
+      "segment_offset": 6,
+      "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "MEASURE_COUNTED_TEXT",
+        "name": "CURRENT_CONTEXT",
         "zero_displacement": true
       }
     }
@@ -89,23 +89,22 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "MEASURE_COUNTED_TEXT": {
-      "entry_sha256": "1683408a4e5781e517e5e085a7cb72d597ad05b223662d46e84f87df55bb1123",
-      "entry_target_id": "root:1101:5400",
-      "kind": "near-code-entry",
-      "offset": 21504,
-      "segment": 4353,
-      "space": "root",
+    "CURRENT_CONTEXT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
       "witnesses": [
         {
-          "bytes_hex": "0ee8f5ed",
-          "entry": "root:1101:5352",
-          "image_offset": 95767,
+          "bytes_hex": "a3c025",
+          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
     }
   },
-  "target_id": "group:ptool/measure_nul_terminated_text",
+  "target_id": "group:ptool/add_port_origin",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }
