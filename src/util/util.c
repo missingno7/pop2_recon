@@ -3,7 +3,7 @@ typedef struct {
     int top, left, bottom, right;
 } Rect;
 
-extern unsigned long random_state;
+static unsigned long random_state;
 extern int random_seeded;
 
 void far * far cdecl memcpy(void far *, const void far *, unsigned);

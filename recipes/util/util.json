@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/util/util.json",
-  "binding_sha256": "2715fb5db159460f42802473594076a28e4eaa6324c04ca10de80c92c0656c95",
+  "binding_sha256": "6ce4d14827e61e45a7d2520cbcd9a586bcd0ed4ebb892b0a19023d9448a868b4",
   "claims": [
     {
       "fixup_count": 1,
@@ -11,6 +11,16 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1f61:000a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "SETRNDSEED",
+      "relocation_indices": [
+        1870
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1f61:00e0"
     }
   ],
   "drafts": [
@@ -25,10 +35,6 @@
     {
       "object_offset": 134,
       "public": "RND"
-    },
-    {
-      "object_offset": 214,
-      "public": "SETRNDSEED"
     },
     {
       "object_offset": 256,
@@ -49,12 +55,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "util/util",
-  "object_sha256": "50b67e61ab78bbf6948236d04cb938f12a348d52f44dbfe5a465e899749dde59",
+  "object_sha256": "637b5bd64ce172cd209e7daafa35808d0ff85ec61a723c0ce0bd3e422aab98a2",
   "origin": 128538,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/util/util.c",
-  "source_sha256": "3c7a9a1c2dddc3b9b63a0b0923dd2871ced1b2bde8c5a8d022b0db25ad836fc7",
+  "source_sha256": "0388712be71f6459163bec7a0cebff15e0a7728a9258f3ee7be3537150ffe055",
   "space": "root"
 }
