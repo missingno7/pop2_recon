@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawcave/drawcave.json",
-  "binding_sha256": "c5ef7de060535fdc0449e7dc887103e83184e847a9efbcb8a95bccac0841f20b",
+  "binding_sha256": "e7006f62e6f626c0d60cac806a1131ef2ac3fb9db38805ef9ef6a5354960b9df",
   "claims": [
     {
       "fixup_count": 9,
@@ -216,6 +216,25 @@
       "target_id": "overlay-6:2a93:104e"
     },
     {
+      "fixup_count": 17,
+      "public": "DRAWCAVESPACE",
+      "relocation_indices": [
+        70,
+        113,
+        114,
+        118,
+        120,
+        121,
+        122,
+        123
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2a93:1066"
+    },
+    {
       "fixup_count": 3,
       "public": "DRAWCAVESPIKES",
       "relocation_indices": [
@@ -287,10 +306,6 @@
     {
       "object_offset": 4064,
       "public": "DRAW_CAVE_RUBBLE_PIECES"
-    },
-    {
-      "object_offset": 4188,
-      "public": "DRAWCAVESPACE"
     }
   ],
   "emitted_size": 5006,
@@ -301,19 +316,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 10899,
   "group_id": "group:drawcave/drawcave",
   "kind": "same_source_group",
   "language": "c",
   "name": "drawcave/drawcave",
-  "object_sha256": "97578468f8f812dc8041f8bcc1f24c079ffbd8601ceb9eddf3d05d2ec115ccf0",
+  "object_sha256": "cce3ed57f5477924f6e544f3c945ea984d0db9a9ef44c1a89ca320b98d70987e",
   "origin": 3146,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawcave/drawcave.c",
-  "source_sha256": "9e7f029301252f3c451cfd49842c074cb9637f081ed022e71c0e34cfe0a38a7e",
+  "source_sha256": "697abd5b0593d1dac09ab2f97e55ff3a4921416992b5060ac58cf244b21fe296",
   "space": "overlay-6"
 }

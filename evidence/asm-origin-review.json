@@ -1959,6 +1959,538 @@
         "0011 pushf",
         "001f popf"
       ]
+    },
+    "root:1101:9845": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9848 add sp, -2",
+        "9853 call 0x9d82",
+        "9856 xchg cx, ax"
+      ]
+    },
+    "root:1101:98f2": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "98f5 add sp, -0x10",
+        "98ff xchg word ptr [0x25c0], ax",
+        "9922 test ax, ax",
+        "996a call 0x9c27"
+      ]
+    },
+    "root:1101:9a02": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "9a1d xchg si, ax",
+        "9a1e test si, si",
+        "9a22 xchg si, ax",
+        "9a25 pop bp"
+      ]
+    },
+    "root:1101:9ad9": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9adc add sp, -0xc",
+        "9b27 xchg word ptr [0x25c0], ax",
+        "9b62 les ax, ptr [bp - 4]"
+      ]
+    },
+    "root:1101:9b6e": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "9b7a xchg word ptr [bx + 0x2a], ax",
+        "9b7e xchg word ptr [0x25c0], bx",
+        "9b8f jcxz 0x9ba7",
+        "9ba9 xchg word ptr [di + 0x2e], cx"
+      ]
+    },
+    "root:1101:9bfa": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "9c05 les ax, ptr [bp + 6]",
+        "9c0a call 0x9d89",
+        "9c10 call 0x9d82",
+        "9c16 call 0x9c4d"
+      ]
+    },
+    "root:1101:9c1e": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:98e8 plain register-ABI near CALL from 1101:9845 to 9c1e; original callee begins mov cx, dx and uses caller registers or frame."
+      ]
+    },
+    "root:1101:9c27": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry"
+      ]
+    },
+    "root:1101:9c4d": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9c50 add sp, -0x16",
+        "9c5d xchg word ptr [si + 0x2a], ax",
+        "9c63 xchg word ptr [0x25c0], ax"
+      ]
+    },
+    "root:1101:9d69": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9d6c add sp, -8",
+        "9d6f call 0x9d82",
+        "9d75 call 0x9c27"
+      ]
+    },
+    "root:1101:9d82": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:9853 plain register-ABI near CALL from 1101:9845 to 9d82; original callee begins dec ax and uses caller registers or frame."
+      ]
+    },
+    "root:1101:9d89": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9d92 jcxz 0x9da9",
+        "9da0 les ax, ptr [bp + 4]"
+      ]
+    },
+    "root:1101:9dae": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "9db1 add sp, -8",
+        "9dbc xchg word ptr [bx + 0x18], ax",
+        "9dc3 xchg word ptr [0x25c0], bx",
+        "9dd9 xchg word ptr [si], ax"
+      ]
+    },
+    "root:1101:9e55": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9e58 add sp, -2",
+        "9e76 lodsb al, byte ptr [si]",
+        "9e77 test ax, ax"
+      ]
+    },
+    "root:1101:9edd": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9ef0 jcxz 0x9ef9",
+        "9f04 jcxz 0x9f0f",
+        "9f0f xchg word ptr [di + 0x14], bx"
+      ]
+    },
+    "root:1101:9f26": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "9f38 test ax, ax",
+        "9f57 xchg bp, ax",
+        "9f5c xchg bp, ax"
+      ]
+    },
+    "root:1101:9f61": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "9f64 add sp, -8",
+        "9f6f xchg word ptr [bx + 0x18], ax",
+        "9f72 xchg word ptr [0x25c0], bx"
+      ]
+    },
+    "root:1101:9fca": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:a009 PUSH CS; CALL near a00a reaches the negative-ADD-SP ASM body at 9dae. A separately compiled MSC source uses a relocated CALL FAR instead.",
+        "1101:9fd9 PUSH DS; POP ES and REP MOVSW copy four words to the item rectangle in the adjacent original ASM run."
+      ]
+    },
+    "root:1101:a010": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a01f test si, si",
+        "a023 jcxz 0xa01b",
+        "a031 call 0xa321",
+        "a036 pop bp"
+      ]
+    },
+    "root:1101:a03a": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a03d add sp, -0xe",
+        "a048 xchg word ptr [0x25c0], ax",
+        "a052 jcxz 0xa095",
+        "a054 xchg cx, ax"
+      ]
+    },
+    "root:1101:a195": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "a198 add sp, -0xc",
+        "a1a0 xchg word ptr [0x25c0], ax",
+        "a1b9 test di, di"
+      ]
+    },
+    "root:1101:a241": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "a266 test ax, ax",
+        "a26a xchg di, ax",
+        "a29b les ax, ptr es:[bx]"
+      ]
+    },
+    "root:1000:b2dc": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:a2e5 POP DI directly precedes POP BP, without MOV SP,BP as seen in the MSC far Pascal ABI. It is the same hand-written epilogue as adjacent a2ea and a241."
+      ]
+    },
+    "root:1101:a2ea": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a2fc les ax, ptr [bp + 6]",
+        "a301 call 0xa435",
+        "a307 jcxz 0xa314",
+        "a314 call 0xa321"
+      ]
+    },
+    "root:1101:a321": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "a326 xchg word ptr [0x25c0], ax",
+        "a336 test di, di"
+      ]
+    },
+    "root:1101:a36a": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:9df3 plain register-ABI near CALL from 1101:9dae to a36a; original callee begins mov ax, word ptr [di + 0x1c] and uses caller registers or frame."
+      ]
+    },
+    "root:1101:a391": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "a393 xchg word ptr [0x26fc], cx",
+        "a397 jcxz 0xa3b1",
+        "a39b xchg word ptr [0x26fe], ax"
+      ]
+    },
+    "root:1101:a3b2": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a3bb test di, di",
+        "a3c8 test ah, ah",
+        "a3d1 jcxz 0xa3f0",
+        "a3d5 test al, al"
+      ]
+    },
+    "root:1101:a435": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "a438 add sp, -4",
+        "a45d xchg si, ax",
+        "a466 lodsb al, byte ptr es:[si]"
+      ]
+    },
+    "root:1101:a4f3": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "a4f6 xchg word ptr [0x25c0], ax",
+        "a503 jcxz 0xa508",
+        "a505 call 0xa391"
+      ]
+    },
+    "root:1101:a526": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a529 add sp, -0x30",
+        "a53f xchg word ptr [bx + 0x2a], ax",
+        "a542 xchg word ptr [0x25c0], bx",
+        "a569 xchg si, ax"
+      ]
+    },
+    "root:1101:a6da": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a6eb jcxz 0xa6f9",
+        "a6ed xchg cx, ax",
+        "a6ee call 0xba66"
+      ]
+    },
+    "root:1101:a704": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a724 jcxz 0xa72c",
+        "a72c xchg word ptr [bx + 0x28], dx"
+      ]
+    },
+    "root:1101:a75c": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a7b3 test dx, dx",
+        "a7e9 test dx, dx",
+        "a836 test ax, ax",
+        "a86b call 0xba7b"
+      ]
+    },
+    "root:1101:a8c2": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "a8c5 add sp, -0x5e",
+        "a8d8 xchg word ptr [0x25c0], ax",
+        "a8ec call 0xab89",
+        "a8f2 xchg si, ax"
+      ]
+    },
+    "root:1101:ab89": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry"
+      ]
+    },
+    "root:1101:abd4": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "ac14 test ax, ax"
+      ]
+    },
+    "root:1101:ac2e": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "ac30 xchg si, ax",
+        "ac3c jcxz 0xac41",
+        "ac7d xchg bp, ax",
+        "ac9b pop bp"
+      ]
+    },
+    "root:1101:ac9d": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry",
+        "aca6 jcxz 0xacab"
+      ]
+    },
+    "root:1101:acbc": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:aa91 plain register-ABI near CALL from 1101:a8c2 to acbc; original callee begins lea bx, [bp - 0x46] and uses caller registers or frame."
+      ]
+    },
+    "root:1101:acd3": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "odd entry"
+      ]
+    },
+    "root:1101:ace0": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "ace0 test ax, ax",
+        "acfa jcxz 0xad34",
+        "ad1b jcxz 0xad20",
+        "ad2e call 0xabd4"
+      ]
+    },
+    "root:1101:ad36": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "ad39 add sp, -8",
+        "ad4f xchg word ptr [bx + 0x2a], ax",
+        "ad52 xchg word ptr [0x25c0], bx",
+        "ad6a xchg si, ax"
+      ]
+    },
+    "root:1101:ae62": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "ae65 add sp, -0x10",
+        "aeab jcxz 0xaef8",
+        "aeca jcxz 0xaeed",
+        "aecd xchg di, ax"
+      ]
+    },
+    "root:1101:b0e6": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "1101:af48 plain register-ABI near CALL from 1101:ae62 to b0e6; original callee begins mul word ptr [di + 0xa] and uses caller registers or frame."
+      ]
+    },
+    "root:1101:b108": {
+      "verdict": "asm",
+      "group": "itemdlg/itemdlg",
+      "evidence": [
+        "b10d xchg word ptr [di + 0x18], ax",
+        "b110 test ax, ax",
+        "b114 call 0xb0e6",
+        "b120 jcxz 0xb12c"
+      ]
+    },
+    "root:1101:b286": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS negative ADD SP at b289 and TEST DI, DI at b2a5."
+      ]
+    },
+    "root:1101:b31c": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS negative ADD SP at b31f and XCHG DI, AX at b37a."
+      ]
+    },
+    "root:1101:b47d": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS odd entry b47d, negative ADD SP at b480 and JCXZ at b4c1."
+      ]
+    },
+    "root:1101:b56e": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS negative ADD SP at b571, REP MOVSB at b591 and JCXZ at b5ac."
+      ]
+    },
+    "root:1101:b686": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS negative ADD SP at b689, REP MOVSB at b6a5 and JCXZ at b6be."
+      ]
+    },
+    "root:1101:b75a": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS negative ADD SP at b75d and REP MOVSB at b77c."
+      ]
+    },
+    "root:1101:b90b": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS odd entry b90b, JCXZ at b91b and TEST BX,BX at b937."
+      ]
+    },
+    "root:1101:b95a": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS JCXZ at b964 and direct POP DI; POP BP at b986."
+      ]
+    },
+    "root:1101:b98b": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS odd entry b98b, negative ADD SP at b98e and REP MOVSB at b99e."
+      ]
+    },
+    "root:1101:b9fd": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS odd entry b9fd and negative ADD SP at ba00."
+      ]
+    },
+    "root:1101:ba66": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS register AX input, XCHG CX, AX and JCXZ at ba66-ba69."
+      ]
+    },
+    "root:1101:ba7b": {
+      "verdict": "asm",
+      "group": "winlife/lifecycle",
+      "evidence": [
+        "Original DOS odd entry ba7b, AX register input and direct near RET at bac0."
+      ]
+    },
+    "root:1101:bae5": {
+      "verdict": "asm",
+      "group": "winlife/events",
+      "evidence": [
+        "Original DOS odd entry bae5, DOS INT 21h/AH=0bh at bb02 and JCXZ at baf2."
+      ]
+    },
+    "root:1101:be52": {
+      "verdict": "asm",
+      "group": "winlife/events",
+      "evidence": [
+        "Original DOS pushf and indirect chaining from be67, IRET at be7c and CS-private scratch at be90."
+      ]
+    },
+    "root:1101:be92": {
+      "verdict": "asm",
+      "group": "winlife/events",
+      "evidence": [
+        "Original DOS STI at be92, negative ADD SP at bea0 and IRET at bfe1."
+      ]
+    },
+    "root:1101:bfed": {
+      "verdict": "asm",
+      "group": "winlife/events",
+      "evidence": [
+        "Original DOS odd entry bfed, CLD at bffc and DOS mouse callback register ABI."
+      ]
     }
   },
   "summary": {

@@ -1,7 +1,37 @@
 {
-  "binding": "evidence/bindings/install_dos_vectors.json",
-  "binding_sha256": "cf0660272cbc0f1f1c2514731bd58c1bf0aea016a26dea4bfed4695c8700bea7",
+  "binding": "evidence/bindings/winlife/events.json",
+  "binding_sha256": "077652f04831f98c9009950097f473dcac77611faabb41764c58f5703472c16d",
   "claims": [
+    {
+      "fixup_count": 1,
+      "public": "MOUSE_BUTTON_DOWN",
+      "target_id": "root:1101:bac2"
+    },
+    {
+      "fixup_count": 3,
+      "public": "TEST_EVENT_PENDING",
+      "target_id": "root:1101:bae5"
+    },
+    {
+      "fixup_count": 4,
+      "public": "DISCARD_QUEUED_EVENTS",
+      "target_id": "root:1101:bb29"
+    },
+    {
+      "fixup_count": 14,
+      "public": "READ_QUEUED_EVENT",
+      "relocation_indices": [
+        1571
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:bb8a"
+    },
+    {
+      "fixup_count": 2,
+      "public": "READ_MOUSE_EVENT_POSITION",
+      "target_id": "root:1101:bc69"
+    },
     {
       "fixup_count": 16,
       "public": "INSTALL_DOS_VECTORS",
@@ -65,31 +95,31 @@
   ],
   "drafts": [
     {
-      "object_offset": 448,
+      "object_offset": 912,
       "public": "KEYBOARD_INTERRUPT_FILTER"
     },
     {
-      "object_offset": 512,
+      "object_offset": 976,
       "public": "DOS_CRITICAL_ERROR"
     },
     {
-      "object_offset": 859,
+      "object_offset": 1323,
       "public": "DOS_MOUSE_EVENT"
     }
   ],
-  "emitted_size": 926,
+  "emitted_size": 1390,
   "flags": [],
   "frame": 4353,
-  "group_id": "group:install_dos_vectors",
+  "group_id": "group:winlife/events",
   "kind": "same_source_group",
   "language": "asm",
-  "name": "install_dos_vectors",
-  "object_sha256": "518fa94d14169cb365ca29c87b59dc54d3962dd9195c690cd0e627867d2d0c4b",
-  "origin": 117922,
+  "name": "winlife/events",
+  "object_sha256": "81e74e0e4b517b48147ff30a29232507b512d6a647c9f850b8871803a1ecd67a",
+  "origin": 117458,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
-  "source": "asm/install_dos_vectors.asm",
-  "source_sha256": "6cffa0657bc60ea9e95294281b24e2ddc464f9be7bba51a237bfe89703531d1d",
+  "source": "asm/winlife/events.asm",
+  "source_sha256": "7facb3260c0b47f558c99aa1d09225eb3068da22011440a5b1bd3a41e440d902",
   "space": "root"
 }

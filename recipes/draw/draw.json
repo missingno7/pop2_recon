@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "1ab6edc2435b7441453a0077dbc738c65f3fdcb5a04e943859968ac3c3261f64",
+  "binding_sha256": "400090376036aa69bb9f595aa9ef7a32071060317655b19d3b8f0acfba30cbd7",
   "claims": [
     {
       "fixup_count": 5,
@@ -115,6 +115,21 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:078a:13b2"
+    },
+    {
+      "fixup_count": 23,
+      "public": "DRAW_HALF_CELL",
+      "relocation_indices": [
+        772,
+        838,
+        845,
+        859
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:078a:14c4"
     },
     {
       "fixup_count": 11,
@@ -367,11 +382,7 @@
       "public": "ADD_DIRTY_RECTANGLE"
     },
     {
-      "object_offset": 5318,
-      "public": "DRAW_HALF_CELL"
-    },
-    {
-      "object_offset": 5580,
+      "object_offset": 5578,
       "public": "COMPUTE_HALF_RECT"
     },
     {
@@ -455,19 +466,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 1930,
   "group_id": "group:draw/draw",
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "bee1ff1ccf9459f396bbb01db0ffd2fd737782ba28aa96aaf3c76a3e93f46489",
+  "object_sha256": "1d9c3ae601d5f66ca4c525e84e856d7a9a395f0f8b708f0ba8cc53ad1d9b7c16",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "0d8c4881fbb006595db40091bef0dae72e975113434d422fbdcaa6cf7bbf1853",
+  "source_sha256": "6413e9a44914de562f101f6c6127b9f2e263d660a8674da7797f69f3cd42d898",
   "space": "root"
 }

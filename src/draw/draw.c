@@ -974,37 +974,54 @@ void add_dirty_rectangle(DrawRect *rect)
 {
     DrawRect expanded;
     DrawRect *entry;
-    int index;
+    int index = 0;
 
-    for (index = 0, entry = dirty_rectangles; index < dirty_rectangle_count;
-         ++index, ++entry) {
-        inset_rect(&expanded, rect, -1, -1);
-        if (intersect_rect(&expanded, &expanded, entry))
-            break;
+    if (dirty_rectangle_count > index) {
+        entry = dirty_rectangles;
+        do {
+            inset_rect(&expanded, rect, -1, -1);
+            if (intersect_rect(&expanded, &expanded, entry))
+                goto merge;
+            ++entry;
+            ++index;
+        } while (dirty_rectangle_count > index);
     }
-    if (index < dirty_rectangle_count)
-        union_rect(&dirty_rectangles[index], &dirty_rectangles[index], rect);
-    else if (dirty_rectangle_count >= 40)
+    if (dirty_rectangle_count >= 40) {
         report_rect_error(dirty_rectangle_error, 1);
-    else
-        dirty_rectangles[dirty_rectangle_count++] = *rect;
+        goto done;
+    }
+    goto append;
+merge:
+    entry = &dirty_rectangles[index];
+    union_rect(entry, entry, rect);
+    goto done;
+append:
+    dirty_rectangles[dirty_rectangle_count++] = *rect;
+done:
+    return;
 }
 
 extern int room_row_clip(DrawRect *area, Room room, signed char row);
 extern void mark_floor_area(signed char cell, DrawRect *area);
 
+extern struct LooseItemDrawer *loose_item_drawer;
+
 void draw_half_cell(void)
 {
     unsigned char priority;
-    DrawRect area, row_clip, old_clip;
-    struct { unsigned long address; TileDrawArgs args; } draw;
+    DrawRect area;
+    struct {
+        unsigned long address;
+        DrawRect old_clip, row_clip;
+        TileDrawArgs args;
+    } draw;
 
     if (!compute_half_rect(&area))
         return;
-    if (level_style == 2 && room_row_clip(&row_clip, drawn_room, draw_row) &&
-        intersect_rect(&row_clip, &row_clip, &area))
-        area.top = row_clip.bottom - 1;
-    old_clip = clip_rect;
+    if (level_style == 2 && room_row_clip(&draw.row_clip, drawn_room, draw_row) &&
+        intersect_rect(&draw.row_clip, &draw.row_clip, &area))
+        area.top = draw.row_clip.bottom - 1;
+    draw.old_clip = clip_rect;
     clip_rect = area;
     draw.args.pass = 2;
     draw.args.column = draw_column;
@@ -1012,7 +1029,7 @@ void draw_half_cell(void)
     draw.args.info = current_tile_info;
     priority = (draw.args.info.words[0] >> 14) & 3;
     if (!room_is_custom || priority == 2) {
-        draw.address = (unsigned long)tile_drawers[(unsigned char)current_tile];
+        draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[(unsigned char)current_tile];
         if (draw.address) {
             ((TileDrawer)draw.address)(&draw.args);
             mark_floor_area((signed char)(row_to_first_cell(draw_row) + draw_column), &area);
@@ -1020,7 +1037,7 @@ void draw_half_cell(void)
     }
     if (room_images && room_images->floor_image)
         draw_custom_room_images(2);
-    clip_rect = old_clip;
+    clip_rect = draw.old_clip;
 }
 
 #pragma pack(1)
@@ -1033,41 +1050,47 @@ typedef struct HalfTile {
 
 extern Room object_room;
 extern HalfTile room_half_tiles[];
-extern DrawRect half_tile_rectangles[];
+typedef struct GuardMeterRoom {
+    unsigned char present;
+    unsigned char rest[115];
+} GuardMeterRoom;
+
+extern GuardMeterRoom guard_meter_rooms[];
+extern const DrawRect half_tile_rectangles[10];
 extern DrawRect *ComputeOffsetCellRect(DrawRect *area, DrawRect *source, int column, int row);
 
 int compute_half_rect(DrawRect *area)
 {
-    signed char index, count;
+    signed char index;
     unsigned int image;
-    int byte_offset;
-    DrawRect source;
+    struct { int byte_offset; signed char count; DrawRect source; } state;
 
     if (foreground_image_number >= 135 && foreground_image_number < 145) {
         image = foreground_image_number;
     } else {
         image = 0;
         index = 0;
-        count = gate_rooms[object_room].count;
-        if (count > 0) {
+        state.count = guard_meter_rooms[object_room].present;
+        if (state.count > 0) {
             do {
                 if (image)
                     break;
-                byte_offset = index * sizeof(HalfTile);
-                if (((HalfTile *)((char *)room_half_tiles + byte_offset))->kind == 1 &&
-                    ((HalfTile *)((char *)room_half_tiles + byte_offset))->image >= 135 &&
-                    ((HalfTile *)((char *)room_half_tiles + byte_offset))->image < 145)
-                    image = ((HalfTile *)((char *)room_half_tiles + byte_offset))->image;
-            } while (++index < count);
+                state.byte_offset = index * sizeof(HalfTile);
+                if (((HalfTile *)((char *)room_half_tiles + state.byte_offset))->kind == 1 &&
+                    ((HalfTile *)((char *)room_half_tiles + state.byte_offset))->image >= 135 &&
+                    ((HalfTile *)((char *)room_half_tiles + state.byte_offset))->image < 145)
+                    image = ((HalfTile *)((char *)room_half_tiles + state.byte_offset))->image;
+                ++index;
+            } while (index < *(volatile signed char *)&state.count);
         }
     }
     if (image) {
-        source = half_tile_rectangles[image];
+        state.source = half_tile_rectangles[image - 135];
         if (current_tile == 6)
-            ++source.bottom;
+            ++state.source.bottom;
         if ((object_room == 7 || object_room == 8) && level_style == 6)
-            source.top += 3;
-        area = ComputeOffsetCellRect(area, &source, draw_column, draw_row);
+            state.source.top += 3;
+        area = ComputeOffsetCellRect(area, &state.source, draw_column, draw_row);
     }
     return (int)area;
 }
@@ -1807,12 +1830,6 @@ void draw_meters(void)
     draw_kid_meter(kid_life, kid_max_life);
 }
 
-typedef struct GuardMeterRoom {
-    unsigned char present;
-    unsigned char rest[115];
-} GuardMeterRoom;
-
-extern GuardMeterRoom guard_meter_rooms[];
 extern unsigned char guard_kind, guard_level_room, guard_action;
 extern int game_tick_counter;
 extern signed char find_guard_for_meter(unsigned char slot);

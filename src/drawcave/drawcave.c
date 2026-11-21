@@ -582,28 +582,22 @@ void DrawCaveRevPlate(DrawCell *cell)
     unsigned long draw = 0;
 
     switch (cell->pass) {
-    case 0:
-        AddBImgToBTable(34, -2, cell->column, cell->row, 0, 0);
-        if (IsWall(PieceLeftId(cell->column, cell->row)))
-            draw = (unsigned long)AddBImgToBTable;
+    case 0: AddBImgToBTable(34, -2, cell->column, cell->row, 0, 0);
+        if (IsWall(PieceLeftId(cell->column, cell->row))) draw = (unsigned long)AddBImgToBTable;
         break;
     case 1:
         AddFImgToFTable(34, -2, cell->column, cell->row, 0, 0);
         DrawCaveBotEdge(cell);
         break;
-    case 2:
-        AddBFImgToFTable(34, -2, cell->column, cell->row, 10, 0);
-        if (cell->modifier & 0x0800)
-            draw = (unsigned long)AddBFImgToFTable;
+    case 2: AddBFImgToFTable(34, -2, cell->column, cell->row, 10, 0);
+        if (cell->modifier & 0x0800) draw = (unsigned long)AddBFImgToFTable;
         break;
     case 5:
         AddBFImgToBTable(34, -2, cell->column, cell->row, 10, 0);
-        if (cell->modifier & 0x0800)
-            draw = (unsigned long)AddBFImgToBTable;
+        if (cell->modifier & 0x0800) draw = (unsigned long)AddBFImgToBTable;
         break;
     }
-    if (draw)
-        ((AddImage)draw)(56, -2, cell->column, cell->row, 10, 0);
+    if (draw) ((AddImage)draw)(56, -2, cell->column, cell->row, 10, 0);
 }
 
 void draw_cave_rubble(DrawCell *cell)
@@ -643,15 +637,12 @@ void DrawCaveSpace(DrawCell *cell)
 
     if (cell->pass == 0 || cell->pass == 5) {
         modifier &= 7;
-        if (cell->row == redraw_row) {
-            draw_floor = 1;
-        } else if (cell->row == redraw_row + 1 &&
+        if (cell->row == redraw_row) { draw_floor = 1; }
+        else if (cell->row == redraw_row + 1 &&
                    (supports_cave_floor(piece_above_id(cell->column, cell->row)) ||
-                    supports_cave_floor(PieceAboveRightId(cell->column, cell->row)))) {
-            draw_floor = 1;
-        } else if (redraw_row == -1 && supports_cave_floor(cave_edge_tile)) {
-            draw_floor = 1;
-        } else {
+                    supports_cave_floor(PieceAboveRightId(cell->column, cell->row)))) { draw_floor = 1; }
+        else if (redraw_row == -1 && supports_cave_floor(cave_edge_tile)) { draw_floor = 1; }
+        else {
             draw_floor = 0;
         }
     }
@@ -659,16 +650,14 @@ void DrawCaveSpace(DrawCell *cell)
     case 0:
         if (!draw_floor)
             break;
-        if (modifier >= 3) {
-        loose_floor:
+        if (modifier < 3) {
+            AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
+            if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
+                cell->column == redraw_column)
+                AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
+        } else {
             draw_loose = 1;
-            break;
         }
-        AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
-    trim:
-        if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
-            cell->column == redraw_column)
-            AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
         break;
     case 1:
         DrawCaveTopEdge(cell);
@@ -676,9 +665,14 @@ void DrawCaveSpace(DrawCell *cell)
     case 5:
         if (!draw_floor)
             break;
-        if (modifier >= 3)
-            goto loose_floor;
-        goto trim;
+        if (modifier < 3) {
+            if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
+                cell->column == redraw_column)
+                AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
+        } else {
+            draw_loose = 1;
+        }
+        break;
     }
     if (draw_loose) {
         modifier = modifier == 4 ? 0x80 : 0;

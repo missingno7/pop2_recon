@@ -64973,6 +64973,1975 @@
       "size": 46,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near DrawCell pointer, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x1028..+0x110e decodes to 108 complete instructions. RETF at 2a93:04cb ends the function.",
+        "Entry bytes 558bec83ec185756, next entry bytes 558bec83ec0c5756. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 0274, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 219156,
+          "image_offset": 3764,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3763,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clips the exit doorway and limits its vertical travel before dispatching its two drawing layers.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:03e8",
+      "offset": 1000,
+      "segment": 10899,
+      "sha256": "308a0d5f67eb67b4ab54953d16a0c85e793f731483e8e5868a4c238121add399",
+      "size": 230,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near DrawCell pointer, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x110e..+0x11fc decodes to 96 complete instructions. RETF at 2a93:05b9 ends the function.",
+        "Entry bytes 558bec83ec0c5756, next entry bytes 558bec568b76068a. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 01b2, 0875, 0882, 08a7, 0975, 0982, 09aa, 0db1, 0fd3, 1319, 1369, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 218962,
+          "image_offset": 3570,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3569,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220693,
+          "image_offset": 5301,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5300,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220706,
+          "image_offset": 5314,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5313,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220743,
+          "image_offset": 5351,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5350,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220949,
+          "image_offset": 5557,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5556,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220962,
+          "image_offset": 5570,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5569,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 221002,
+          "image_offset": 5610,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5609,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222033,
+          "image_offset": 6641,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6640,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222579,
+          "image_offset": 7187,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7186,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 223417,
+          "image_offset": 8025,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8024,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 223497,
+          "image_offset": 8105,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8104,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects the cave-floor image and draw callback by render pass, then draws the floor edges in pass 1.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:04ce",
+      "offset": 1230,
+      "segment": 10899,
+      "sha256": "692af58707359be8ba6ff8cd04d03b8da3c00f9e2ce421a44017521e713a4260",
+      "size": 238,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near DrawCell pointer, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x12ce..+0x13bc decodes to 110 complete instructions. RETF at 2a93:0779 ends the function.",
+        "Entry bytes 558bec83ec185756, next entry bytes 558bec83ec105756. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 0684, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 220196,
+          "image_offset": 4804,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4803,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clips and offsets the cave gate and dispatches its moving image into the selected render layer.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:068e",
+      "offset": 1678,
+      "segment": 10899,
+      "sha256": "657cb3e0f138a6dec86f2182be17e777b61b12611f91a34cc7ca2ca08d824bd1",
+      "size": 238,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near DrawCell pointer at BP+8, layer flag at BP+6, RETF 4.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x164c..+0x1858 decodes to 208 complete instructions. RETF at 2a93:0c14 ends the function before one NOP alignment byte.",
+        "Entry bytes 558bec83ec125756, next entry bytes 558bec83ec025756. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 08d7, 0908, 09d0, 0a01, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 220791,
+          "image_offset": 5399,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5398,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220840,
+          "image_offset": 5448,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5447,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 221040,
+          "image_offset": 5648,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5647,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 221089,
+          "image_offset": 5697,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5696,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Looks up the tile lava state, walks ten bubble records in two layers and uses the bubble image table.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0a0c",
+      "offset": 2572,
+      "segment": 10899,
+      "sha256": "e1646aeb7e0dcbd49d0e41c48005ea08272d87a7437074a3cee6b2f4907f226e",
+      "size": 524,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near DrawCell pointer, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x1afc..+0x1c04 decodes to 126 complete instructions. RETF at 2a93:0fc0 ends the function before one NOP alignment byte.",
+        "Entry bytes 558bec83ec085756, next entry bytes 558bec568b7606f6. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 0fda, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 222586,
+          "image_offset": 7194,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7193,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the reverse plate by render pass and optionally dispatches its foreground overlay.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0ebc",
+      "offset": 3772,
+      "segment": 10899,
+      "sha256": "22328dccfa8b6bc17849d99100d31962851fc8b92437134f0238bfa8a5a9d365",
+      "size": 264,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near DrawCell pointer, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x1c2a..+0x1c8e decodes to 49 complete instructions. RETF at 2a93:104a ends the function before one NOP alignment byte.",
+        "Entry bytes 558bec83ec08568b, next entry bytes 558bec568b760656. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 0fdf, 105c, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 222591,
+          "image_offset": 7199,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7198,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222716,
+          "image_offset": 7324,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7323,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects one of three drawing callbacks by render pass and adds the cave rubble overlay image.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0fea",
+      "offset": 4074,
+      "segment": 10899,
+      "sha256": "8faf33a67aee53cd7b35ec8010fcf27ff11307fdfcab8294cc339d6c548b8420",
+      "size": 100,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near DrawCell pointer, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 extent +0x1ca6..+0x1dec decodes to 146 complete instructions. RETF at 2a93:11a9 ends the function.",
+        "Entry bytes 558bec83ec0c5756, next entry bytes 558bec83ec085756. Direct branches stay within the reviewed extent.",
+        "Original 2a93 near CALL instructions at 0df4, each preceded by PUSH CS, land on this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 222100,
+          "image_offset": 6708,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6707,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws cave floor or trim based on neighboring support, or delegates the loose-floor pass.",
+        "Framed Pascal RETF with a word-rounded argument block, paired with same-CS far-style callers in DRAWCAVE."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:1066",
+      "offset": 4198,
+      "original_name": "DrawCaveSpace",
+      "original_name_evidence": [
+        "FM Towns TD public @DrawCaveSpace at 2129:10f0 calls @DrawCaveTopEdge at 2129:133f and @DrawCaveLoose at 2129:137f. DOS 2a93:1066 makes those same-file calls at 2a93:1172 and 2a93:11a1.",
+        "FM Towns @DrawCavePillarTop calls @DrawCaveSpace at 2129:0e9b. DOS DrawCavePillarTop calls this reviewed entry at 2a93:0df4. Both builds consult the two above-neighbor functions and add the background image during cave space drawing."
+      ],
+      "segment": 10899,
+      "sha256": "ec752ab2a649ae1177e111c05a493819d9708f9d8cfd6d0e21dc98e33aba5827",
+      "size": 326,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:9845",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38981,
+      "size": 173,
+      "sha256": "ca7be6cc7f8f69fc6663957248ba117c331a67a12761566aa4e140c26b6281cd",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a612 (e830f2) calls 1101:9845 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9845,1101:98f2); next bytes are 558bec83c4f05756.",
+        "Original returns at 1101:9884 retf 4."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9884 retf 4.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "navigate_grid_items",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 112162,
+          "file_offset": 120354,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 112161
+        }
+      ]
+    },
+    {
+      "id": "root:1101:98f2",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39154,
+      "size": 272,
+      "sha256": "f663980c262c05c423db7adfdf9a3665fccc296a117680aac179dadf20f6411b",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a644 (e8abf2) calls 1101:98f2 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:98f2,1101:9a02); next bytes are 558bec5756b80500.",
+        "Original returns at 1101:99ff retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 99ff retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_grid_item",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 112212,
+          "file_offset": 120404,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 112211
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9a02",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39426,
+      "size": 215,
+      "sha256": "96f89cfad2634cdda1792504d08bc678cc354c377d3908a0d3718f6731f7ace8",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a830 (e8cff1) calls 1101:9a02 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9a02,1101:9ad9); next bytes are 558bec83c4f4578b.",
+        "Original returns at 1101:9a26 retf 8."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9a26 retf 8.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "assemble_packed_item",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 112704,
+          "file_offset": 120896,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 112703
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9ad9",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39641,
+      "size": 149,
+      "sha256": "84b7faed1296a467f9999cb5d4a15c5d16bb26b1768ee34f2f985a41ed572e7a",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:994b (e88b01) calls 1101:9ad9 in the same CS window with PUSH CS.",
+        "Original instruction 1101:9bdf (e8f7fe) calls 1101:9ad9 in the same CS window with PUSH CS.",
+        "Original instruction 1101:a8a9 (e82df2) calls 1101:9ad9 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9ad9,1101:9b6e); next bytes are 558bec578b7e088b.",
+        "Original returns at 1101:9b6b retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9b6b retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "scroll_grid_origin",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 108891,
+          "file_offset": 117083,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 108890
+        },
+        {
+          "space": "root",
+          "image_offset": 109551,
+          "file_offset": 117743,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 109550
+        },
+        {
+          "space": "root",
+          "image_offset": 112825,
+          "file_offset": 121017,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 112824
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9b6e",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39790,
+      "size": 140,
+      "sha256": "d88b1e385ae5c9c99c094c8d90297a01d24cf7e05f96810561f433a46675242a",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:98dd (e88e02) calls 1101:9b6e in the same CS window with PUSH CS.",
+        "Original instruction 1101:99bd (e8ae01) calls 1101:9b6e in the same CS window with PUSH CS.",
+        "Original instruction 1101:a8bc (e8aff2) calls 1101:9b6e in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9b6e,1101:9bfa); next bytes are 558bec578b7e0c57.",
+        "Original returns at 1101:9bf7 retf 4."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9bf7 retf 4.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "select_grid_item",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 108781,
+          "file_offset": 116973,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 108780
+        },
+        {
+          "space": "root",
+          "image_offset": 109005,
+          "file_offset": 117197,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 109004
+        },
+        {
+          "space": "root",
+          "image_offset": 112844,
+          "file_offset": 121036,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 112843
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9bfa",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39930,
+      "size": 36,
+      "sha256": "d29122e1aa1cc9486158dfd470e2b7dceb0a5c0c0f923f8909cef379b3f5cac5",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:9bfa; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:9bfa,1101:9c1e); next bytes are 8bcaf7652403c140.",
+        "Original returns at 1101:9c1b retf 8."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9c1b retf 8.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "update_item_vector",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9c1e",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39966,
+      "size": 9,
+      "sha256": "a45f88230f64cb628fc118b1aa7538b583a045cda0fdd1065130cc7dda261b6c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:98e8 (e83303) calls 1101:9c1e in the same CS window with a near return address.",
+        "Original instruction 1101:998d (e88e02) calls 1101:9c1e in the same CS window with a near return address.",
+        "Original instruction 1101:9c9a (e881ff) calls 1101:9c1e in the same CS window with a near return address.",
+        "Original decode covers [1101:9c1e,1101:9c27); next bytes are 522b452af7651e03.",
+        "Original returns at 1101:9c26 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): 9c26 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "grid_coordinates_to_index",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9c27",
+      "space": "root",
+      "segment": 4353,
+      "offset": 39975,
+      "size": 38,
+      "sha256": "99d47de51b5f5823540b2590ec436c28262edd042ec088a3b794dbb03b78d4c4",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:996a (e8ba02) calls 1101:9c27 in the same CS window with a near return address.",
+        "Original instruction 1101:9c7f (e8a5ff) calls 1101:9c27 in the same CS window with a near return address.",
+        "Original instruction 1101:9d75 (e8affe) calls 1101:9c27 in the same CS window with a near return address.",
+        "Original decode covers [1101:9c27,1101:9c4d); next bytes are 558bec83c4ea5756.",
+        "Original returns at 1101:9c4c ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): 9c4c ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "grid_cell_rectangle",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9c4d",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40013,
+      "size": 284,
+      "sha256": "cfc843ce5bf1ad6d32165668dd61543e5c48955ba8e823ec742bc44a60caa207",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9c16 (e83400) calls 1101:9c4d in the same CS window with a near return address.",
+        "Original decode covers [1101:9c4d,1101:9d69); next bytes are 558bec83c4f8e810.",
+        "Original returns at 1101:9cb9 ret 6."
+      ],
+      "abi": "Near 16-bit entry; original return(s): 9cb9 ret 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_grid_items",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9d69",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40297,
+      "size": 25,
+      "sha256": "62947e4e8bd74eeea885e0c2210a2b62b16caa8920863ac129a4de89db2a3417",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9baf (e8b701) calls 1101:9d69 in the same CS window with a near return address.",
+        "Original instruction 1101:9be6 (e88001) calls 1101:9d69 in the same CS window with a near return address.",
+        "Original instruction 1101:9d63 (e80300) calls 1101:9d69 in the same CS window with a near return address.",
+        "Original decode covers [1101:9d69,1101:9d82); next bytes are 482bd2f77524c355.",
+        "Original returns at 1101:9d81 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): 9d81 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "invalidate_grid_cell",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9d82",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40322,
+      "size": 7,
+      "sha256": "85c930a3f25bb69988216f19c9112744961a480e4a143c337fc90b2f52dbb8ca",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9853 (e82c05) calls 1101:9d82 in the same CS window with a near return address.",
+        "Original instruction 1101:9bb8 (e8c701) calls 1101:9d82 in the same CS window with a near return address.",
+        "Original instruction 1101:9c10 (e86f01) calls 1101:9d82 in the same CS window with a near return address.",
+        "Original instruction 1101:9d6f (e81000) calls 1101:9d82 in the same CS window with a near return address.",
+        "Original decode covers [1101:9d82,1101:9d89); next bytes are 558bec8b5e0a8b4e.",
+        "Original returns at 1101:9d88 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): 9d88 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "grid_index_to_coordinates",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9d89",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40329,
+      "size": 36,
+      "sha256": "db7e6199a48c6410fe8b8818c4ace70405723be154a841c0434d1a7649e217eb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9acb (e8bb02) calls 1101:9d89 in the same CS window with a near return address.",
+        "Original instruction 1101:9c0a (e87c01) calls 1101:9d89 in the same CS window with a near return address.",
+        "Original decode covers [1101:9d89,1101:9dad); next bytes are 00558bec83c4f857.",
+        "Original returns at 1101:9daa ret 8."
+      ],
+      "abi": "Near 16-bit entry; original return(s): 9daa ret 8.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "copy_packed_item_rects",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9dae",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40366,
+      "size": 167,
+      "sha256": "f8a47b77564d670c353332d8753919087baa71f242f25531961d345c4f9eb275",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9f1e (e88dfe) calls 1101:9dae in the same CS window with PUSH CS.",
+        "Original instruction 1101:a00a (e8a1fd) calls 1101:9dae in the same CS window with PUSH CS.",
+        "Original instruction 1101:a318 (e893fa) calls 1101:9dae in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9dae,1101:9e55); next bytes are 558bec83c4fe5756.",
+        "Original returns at 1101:9e54 retf."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9e54 retf.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "redraw_dialog_scroll",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 110382,
+          "file_offset": 118574,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 110381
+        },
+        {
+          "space": "root",
+          "image_offset": 110618,
+          "file_offset": 118810,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 110617
+        },
+        {
+          "space": "root",
+          "image_offset": 111400,
+          "file_offset": 119592,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 111399
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9e55",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40533,
+      "size": 136,
+      "sha256": "97c69b09089b555ad35746e6f671b6d1edaeb12bcbd9b85f573fe86bc017d811",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9e31 (e82100) calls 1101:9e55 in the same CS window with PUSH CS.",
+        "Original instruction 1101:b073 (e8dfed) calls 1101:9e55 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9e55,1101:9edd); next bytes are 558bec578b7e0a8b.",
+        "Original returns at 1101:9eda retf 4."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9eda retf 4.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_dialog_scroll_region",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 110145,
+          "file_offset": 118337,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 110144
+        },
+        {
+          "space": "root",
+          "image_offset": 114819,
+          "file_offset": 123011,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 114818
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9edd",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40669,
+      "size": 73,
+      "sha256": "e7124e036c636a6fa8c25ea3d3bcf1b3a3c5df111367843bdebe9c2afa62be61",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:9edd; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:9edd,1101:9f26); next bytes are 558becb8454d50b8.",
+        "Original returns at 1101:9f23 retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9f23 retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "set_grid_item_location",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9f26",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40742,
+      "size": 59,
+      "sha256": "3a2e7711d1b751e68e6a4e0719033f6f42609b5957e85098f1566f1f1e027387",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:9f26; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:9f26,1101:9f61); next bytes are 558bec83c4f85756.",
+        "Original returns at 1101:9f5e retf 2."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9f5e retf 2.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "load_menu_handle",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:9f61",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40801,
+      "size": 105,
+      "sha256": "36287fe7cb8c7b32754b18bbec94cbee097d7e5b6f0fc3978a1cfb6875eb243c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a078 (e8e6fe) calls 1101:9f61 in the same CS window with PUSH CS.",
+        "Original instruction 1101:a0ca (e894fe) calls 1101:9f61 in the same CS window with PUSH CS.",
+        "Original instruction 1101:a1e0 (e87efd) calls 1101:9f61 in the same CS window with PUSH CS.",
+        "Original instruction 1101:a22e (e830fd) calls 1101:9f61 in the same CS window with PUSH CS.",
+        "Original instruction 1101:a431 (e82dfb) calls 1101:9f61 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:9f61,1101:9fca); next bytes are 57568b1e7427b904.",
+        "Original returns at 1101:9fc7 retf 2."
+      ],
+      "abi": "Far 16-bit entry; original return(s): 9fc7 retf 2.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "redraw_menu_items",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 110728,
+          "file_offset": 118920,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 110727
+        },
+        {
+          "space": "root",
+          "image_offset": 110810,
+          "file_offset": 119002,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 110809
+        },
+        {
+          "space": "root",
+          "image_offset": 111088,
+          "file_offset": 119280,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 111087
+        },
+        {
+          "space": "root",
+          "image_offset": 111166,
+          "file_offset": 119358,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 111165
+        },
+        {
+          "space": "root",
+          "image_offset": 111681,
+          "file_offset": 119873,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 111680
+        }
+      ]
+    },
+    {
+      "id": "root:1101:9fca",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40906,
+      "size": 70,
+      "sha256": "c812d14e99cb35a9770e3fa35ceaa468969afe8f1ef00df8bda28b618fd16580",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Immediately after RETF 2 at 9fc7. No local branch from 9f61 enters this interval. Independently preserves DI/SI and returns via its own RETF at a00f.",
+        "Original decode covers [1101:9fca,1101:a010); next bytes are 558bec57568b4e06.",
+        "Original returns at 1101:a00f retf."
+      ],
+      "abi": "Frameless far entry, no stack arguments, saves DI and SI, RETF at a00f.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "initialize_menu_bounds",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a010",
+      "space": "root",
+      "segment": 4353,
+      "offset": 40976,
+      "size": 42,
+      "sha256": "77b4f77225cb1e2af98582c5868f6e40577d0aea98925506290b491c3bee31c6",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:a010; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:a010,1101:a03a); next bytes are 558bec83c4f2570e.",
+        "Original returns at 1101:a037 retf 4."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a037 retf 4.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "set_indexed_item_position",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a03a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41018,
+      "size": 347,
+      "sha256": "c48bdc3e4e2289e6b340896f0e45c083cb77c0ffd2e5c3717e00a1faf9b2ab64",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:a03a; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:a03a,1101:a195); next bytes are 558bec83c4f45756.",
+        "Original returns at 1101:a071 retf 2."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a071 retf 2.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "update_menu_tracking",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a195",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41365,
+      "size": 172,
+      "sha256": "b224265c25173fcb5003000ded5615541987f08b5adad3b2ff1e953014d00ecb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:a195; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:a195,1101:a241); next bytes are 558bec57568b460a.",
+        "Original returns at 1101:a23e retf 4."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a23e retf 4.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_menu_item",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a241",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41537,
+      "size": 139,
+      "sha256": "5d0bde9a21d22b479ebd54a3576a9ea6da33522235d1154c3a93305d7339c5e6",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9f54 (e8ea02) calls 1101:a241 in the same CS window with PUSH CS.",
+        "Original decode covers [1101:a241,1101:a2cc); next bytes are 558bec578b7e0a8b.",
+        "Original returns at 1101:a2c9 retf 8."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a2c9 retf 8.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_packed_item",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 110436,
+          "file_offset": 118628,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 110435
+        }
+      ]
+    },
+    {
+      "id": "root:1101:a2ea",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41706,
+      "size": 55,
+      "sha256": "aaf3dd82a3cd9c62f75ca085db33a7fd97913290c67c66ed15c16a74ae302dac",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original entry bytes 55 at 1101:a2ea; preceding code closes with its own original return or contained tail and this entry establishes a fresh BP frame.",
+        "Original decode covers [1101:a2ea,1101:a321); next bytes are 5756a174278706c0.",
+        "Original returns at 1101:a31e retf 8."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a31e retf 8.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "set_indexed_item_value",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a321",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41761,
+      "size": 73,
+      "sha256": "387209bc330303138c79e5b0ece54989918b12720343560a3a70bcadbb5ae860",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a031 (e8ed02) calls 1101:a321 in the same CS window with a near return address.",
+        "Original instruction 1101:a314 (e80a00) calls 1101:a321 in the same CS window with a near return address.",
+        "Original decode covers [1101:a321,1101:a36a); next bytes are 8b451c0503001e50.",
+        "Original returns at 1101:a369 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a369 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "redraw_indexed_item",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a36a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41834,
+      "size": 39,
+      "sha256": "08e8fef5784810abd74fc06ac85aa0777735671e22e7578b31ad5326d45e3619",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9df3 (e87405) calls 1101:a36a in the same CS window with a near return address.",
+        "Original instruction 1101:9f99 (e8ce03) calls 1101:a36a in the same CS window with a near return address.",
+        "Original instruction 1101:9fae (e8b903) calls 1101:a36a in the same CS window with a near return address.",
+        "Original instruction 1101:a1c1 (e8a601) calls 1101:a36a in the same CS window with a near return address.",
+        "Original decode covers [1101:a36a,1101:a391); next bytes are 2bc9870efc26e318.",
+        "Original returns at 1101:a390 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a390 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "calculate_menu_bounds",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a391",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41873,
+      "size": 33,
+      "sha256": "872c5f2e4b1bc09cfb24c0f1d363d132f3f0a7d913f8404080c025db205d3bf7",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:9fb7 (e8d703) calls 1101:a391 in the same CS window with a near return address.",
+        "Original instruction 1101:a060 (e82e03) calls 1101:a391 in the same CS window with a near return address.",
+        "Original instruction 1101:a213 (e87b01) calls 1101:a391 in the same CS window with a near return address.",
+        "Original instruction 1101:a505 (e889fe) calls 1101:a391 in the same CS window with a near return address.",
+        "Original decode covers [1101:a391,1101:a3b2); next bytes are 500ee8541a8b3ef0.",
+        "Original returns at 1101:a3b1 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a3b1 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "close_tracking_window",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a3b2",
+      "space": "root",
+      "segment": 4353,
+      "offset": 41906,
+      "size": 131,
+      "sha256": "3ef0c27ec9b7bf765d9f5aeb027acedb3bc3ad64d072cbb54843c6d2a654615f",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a055 (e85a03) calls 1101:a3b2 in the same CS window with a near return address.",
+        "Original instruction 1101:a0e8 (e8c702) calls 1101:a3b2 in the same CS window with a near return address.",
+        "Original decode covers [1101:a3b2,1101:a435); next bytes are 558bec83c4fc5756.",
+        "Original returns at 1101:a434 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a434 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "open_tracking_window",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a435",
+      "space": "root",
+      "segment": 4353,
+      "offset": 42037,
+      "size": 190,
+      "sha256": "c5dcb01ee6983a712c68f7459b912d299d2012a661c49a9c338d4ef776ef7c41",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a2b0 (e88201) calls 1101:a435 in the same CS window with a near return address.",
+        "Original instruction 1101:a301 (e83101) calls 1101:a435 in the same CS window with a near return address.",
+        "Original decode covers [1101:a435,1101:a4f3); next bytes are a174278706c02550.",
+        "Original returns at 1101:a4f0 ret 8."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a4f0 ret 8.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "replace_packed_item",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a4f3",
+      "space": "root",
+      "segment": 4353,
+      "offset": 42227,
+      "size": 50,
+      "sha256": "8c81a1cf25a9110f35cb0a6deb6910b8879d136143acb2f2d8afe76004607756",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a0cd (e82304) calls 1101:a4f3 in the same CS window with a near return address.",
+        "Original instruction 1101:a1e8 (e80803) calls 1101:a4f3 in the same CS window with a near return address.",
+        "Original decode covers [1101:a4f3,1101:a525); next bytes are 00558bec83c4d057.",
+        "Original returns at 1101:a524 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a524 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "refresh_tracking_item",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a526",
+      "space": "root",
+      "segment": 4353,
+      "offset": 42278,
+      "size": 436,
+      "sha256": "214ea58ba1a90df2f0a0979dceb10dafa3e1a1df508ceaeb848885f13e2f7541",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Preloaded overlay-17+0x1360 stores 26a50111 for 1101:a526; overlay relocation 4 applies to its segment word at +0x1362.",
+        "Original decode covers [1101:a526,1101:a6da); next bytes are ff76ee0ee839f1ff.",
+        "Original returns at 1101:a598 retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a598 retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "grid_item_callback",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a6da",
+      "space": "root",
+      "segment": 4353,
+      "offset": 42714,
+      "size": 42,
+      "sha256": "f82ae4b363b612b6f7aa46619aa79658545da1717b950b9cc0dc1ce20458e6cc",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a61e (e8b900) calls 1101:a6da in the same CS window with a near return address.",
+        "Original instruction 1101:a651 (e88600) calls 1101:a6da in the same CS window with a near return address.",
+        "Original decode covers [1101:a6da,1101:a704); next bytes are 568d76da1e568d45.",
+        "Shared epilogue or tail reached by original a6f7 -> a704."
+      ],
+      "abi": "Near helper using the owning callback frame and shared near return path at a704.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "release_grid_item_records",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a704",
+      "space": "root",
+      "segment": 4353,
+      "offset": 42756,
+      "size": 88,
+      "sha256": "65562ff87806afd641c4c5f9de484280fd74c699532e7b40463bec2a08ad7ca8",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a5c2 (e83f01) calls 1101:a704 in the same CS window with a near return address.",
+        "Original decode covers [1101:a704,1101:a75c); next bytes are 568d46d01e508d45.",
+        "Original returns at 1101:a75b ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a75b ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_grid_cell_frame",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a75c",
+      "space": "root",
+      "segment": 4353,
+      "offset": 42844,
+      "size": 358,
+      "sha256": "293e97781816d36881ae5c1ac26a863e44c366a7bcf31cb1f0b561eb2550c895",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a5e2 (e87701) calls 1101:a75c in the same CS window with a near return address.",
+        "Original instruction 1101:a629 (e83001) calls 1101:a75c in the same CS window with a near return address.",
+        "Original decode covers [1101:a75c,1101:a8c2); next bytes are 558bec83c4a25756.",
+        "Original returns at 1101:a83b ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): a83b ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_grid_selection",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:a8c2",
+      "space": "root",
+      "segment": 4353,
+      "offset": 43202,
+      "size": 711,
+      "sha256": "b1861c08ce0375d3c01afb9b9c33a219b155762f2ca3b989f334ec06145f6f7b",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Preloaded overlay-17+0x1370 stores c2a80111 for 1101:a8c2; overlay relocation 5 applies to its segment word at +0x1372.",
+        "Original decode covers [1101:a8c2,1101:ab89); next bytes are 8bdfbf08004f8a41.",
+        "Original returns at 1101:a918 retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): a918 retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "slider_item_callback",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ab89",
+      "space": "root",
+      "segment": 4353,
+      "offset": 43913,
+      "size": 75,
+      "sha256": "4fba9e5ce76514f5062114fbab6393ca68a2395866691b34725c02f9bd044a47",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a8ec (e89a02) calls 1101:ab89 in the same CS window with a near return address.",
+        "Original decode covers [1101:ab89,1101:abd4); next bytes are 56be08004e8a42e0.",
+        "Original 1101:abd2 falls through to independently called 1101:abd4, which returns at 1101:ac2d."
+      ],
+      "abi": "Near helper using the caller BP frame and item DI, returns through shared abd4 tail.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "initialize_slider_geometry",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:abd4",
+      "space": "root",
+      "segment": 4353,
+      "offset": 43988,
+      "size": 90,
+      "sha256": "28314ba5ed6067e2efa4563a3f7f1e718f33265538e913ee4b23df37ca517dba",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:ad2e (e8a3fe) calls 1101:abd4 in the same CS window with a near return address.",
+        "Original decode covers [1101:abd4,1101:ac2e); next bytes are 5556961e538b5d02.",
+        "Original returns at 1101:ac2d ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): ac2d ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "rebuild_slider_bounds",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ac2e",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44078,
+      "size": 111,
+      "sha256": "748260c38b1cfa7799b7d8ba3c42ca11545a61c63a9d85ddfddacddadffbd529",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a9a7 (e88402) calls 1101:ac2e in the same CS window with a near return address.",
+        "Original instruction 1101:a9b1 (e87a02) calls 1101:ac2e in the same CS window with a near return address.",
+        "Original decode covers [1101:ac2e,1101:ac9d); next bytes are 8b5d028b47208b4d.",
+        "Original returns at 1101:ac9c ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): ac9c ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_slider_region",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ac9d",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44189,
+      "size": 31,
+      "sha256": "c46601d395d9ce3bff868715b5b39322c6f36d495ff19862aa2642df8c8d6b97",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a9b9 (e8e102) calls 1101:ac9d in the same CS window with a near return address.",
+        "Original instruction 1101:ad31 (e869ff) calls 1101:ac9d in the same CS window with a near return address.",
+        "Original decode covers [1101:ac9d,1101:acbc); next bytes are 8d5eba1e531e50b8.",
+        "Original returns at 1101:acbb ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): acbb ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "draw_slider_edges",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:acbc",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44220,
+      "size": 23,
+      "sha256": "9d9f53952b9a2960ed208e74a4ecb6cb013f9fd48b5be354afeab49019c04d5d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:aa91 (e82802) calls 1101:acbc in the same CS window with a near return address.",
+        "Original instruction 1101:aab0 (e80902) calls 1101:acbc in the same CS window with a near return address.",
+        "Original instruction 1101:aad0 (e8e901) calls 1101:acbc in the same CS window with a near return address.",
+        "Original decode covers [1101:acbc,1101:acd3); next bytes are 8b45080b450a7404.",
+        "Original returns at 1101:acd2 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): acd2 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "convert_slider_bounds",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:acd3",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44243,
+      "size": 13,
+      "sha256": "f738f43091a2aef68d1caf6d4e2a2d9f680ed82ced5fb7676f68dd2e4a10fedc",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:aaba (e81602) calls 1101:acd3 in the same CS window with a near return address.",
+        "Original instruction 1101:ab83 (e84d01) calls 1101:acd3 in the same CS window with a near return address.",
+        "Original decode covers [1101:acd3,1101:ace0); next bytes are 85c07d022bc03b45.",
+        "Original returns at 1101:acdf ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): acdf ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "notify_slider_changed",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ace0",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44256,
+      "size": 85,
+      "sha256": "d481e404682ddea0966cb89c579bdd30c73af52e8bfd3306b2c02c9ab0da08dc",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:a924 (e8b903) calls 1101:ace0 in the same CS window with a near return address.",
+        "Original instruction 1101:a9f0 (e8ed02) calls 1101:ace0 in the same CS window with a near return address.",
+        "Original instruction 1101:aab7 (e82602) calls 1101:ace0 in the same CS window with a near return address.",
+        "Original instruction 1101:ab80 (e85d01) calls 1101:ace0 in the same CS window with a near return address.",
+        "Original decode covers [1101:ace0,1101:ad35); next bytes are 00558bec83c4f857.",
+        "Original returns at 1101:ad34 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): ad34 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "update_slider_value",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ad36",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44342,
+      "size": 300,
+      "sha256": "e8ffcbea11b8d4e53d039a5ef5be425c6d6b2f58aefce148131c4b93521bcb5f",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Preloaded overlay-17+0x1380 stores 36ad0111 for 1101:ad36; overlay relocation 6 applies to its segment word at +0x1382.",
+        "Original decode covers [1101:ad36,1101:ae62); next bytes are 558bec83c4f05756.",
+        "Original returns at 1101:ad8f retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): ad8f retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "text_item_callback",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ae62",
+      "space": "root",
+      "segment": 4353,
+      "offset": 44642,
+      "size": 644,
+      "sha256": "c4060f7cae0a924f85e77732a86f64ad9adc9f0c37f6d6ecccd8ec2718a3d6e5",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Preloaded overlay-17+0x1390 stores 62ae0111 for 1101:ae62; overlay relocation 7 applies to its segment word at +0x1392.",
+        "Original decode covers [1101:ae62,1101:b0e6); next bytes are f7650a03450c8d5e.",
+        "Original returns at 1101:ae97 retf 6."
+      ],
+      "abi": "Far 16-bit entry; original return(s): ae97 retf 6.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "field_item_callback",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:b0e6",
+      "space": "root",
+      "segment": 4353,
+      "offset": 45286,
+      "size": 34,
+      "sha256": "df66f1960a14cd50d7ac9e4992dd5dcad2fea04cdf842bc7bcd95b4a6bd6308b",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:af48 (e89b01) calls 1101:b0e6 in the same CS window with a near return address.",
+        "Original instruction 1101:afc5 (e81e01) calls 1101:b0e6 in the same CS window with a near return address.",
+        "Original instruction 1101:affd (e8e600) calls 1101:b0e6 in the same CS window with a near return address.",
+        "Original instruction 1101:b114 (e8cfff) calls 1101:b0e6 in the same CS window with a near return address.",
+        "Original instruction 1101:b123 (e8c0ff) calls 1101:b0e6 in the same CS window with a near return address.",
+        "Original decode covers [1101:b0e6,1101:b108); next bytes are 3b4518741f874518.",
+        "Original returns at 1101:b107 ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): b107 ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "field_slot_rectangle",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:b108",
+      "space": "root",
+      "segment": 4353,
+      "offset": 45320,
+      "size": 37,
+      "sha256": "deee655df12401730b04a3f8b387a0eef9af8bf42c2ca13e35778c0341e81a4d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original instruction 1101:af39 (e8cc01) calls 1101:b108 in the same CS window with a near return address.",
+        "Original instruction 1101:af78 (e88d01) calls 1101:b108 in the same CS window with a near return address.",
+        "Original instruction 1101:afe7 (e81e01) calls 1101:b108 in the same CS window with a near return address.",
+        "Original decode covers [1101:b108,1101:b12d); next bytes are 0058075a8bda83c3.",
+        "Original returns at 1101:b12c ret."
+      ],
+      "abi": "Near 16-bit entry; original return(s): b12c ret.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "redraw_field_selection",
+      "call_sites": []
+    },
+    {
+      "id": "root:1101:ba66",
+      "space": "root",
+      "segment": 4353,
+      "offset": 47718,
+      "size": 21,
+      "sha256": "6e60c9d6fa97f709228275c32904b7d60c67b7c8b8598b77f9f24f84a7ffee58",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Reached outside original near call at 1101:bfa3 from root:1101:be92.",
+        "Entry xchg cx,ax (ba66) skips null window; restores CURRENT_PORT and returns at ba7a. Next separately reviewed near entry starts ba7b."
+      ],
+      "abi": "Near register ABI; AX incoming window or 0, RET.",
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_ASM",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Resident window/item library code, original DOS frame 1101."
+      ],
+      "semantic_name_hypothesis": "dispatch_window_update",
+      "call_sites": []
+    },
+    {
+      "id": "root:1fe6:2110",
+      "space": "root",
+      "segment": 8166,
+      "offset": 8464,
+      "size": 42,
+      "sha256": "aae6245a5217404c72895a3a00247d0a6acd4797a02ef7b8e7098e1b36536a1c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent medium-model strchr.asm whole OMF member has sole public _strchr at0 and complete initialized42-byte CODE; all secondary storage empty; archive/member pinned.",
+        "Whole literal CODE uniquely occurs at root image0x21f70, logical1fe6:2110; original CFG closes at exclusive0x21f9a. All ordinary bytes, internal branches and returns included, no emitted or original fixup obligations.",
+        "Outside original far CALL image0x1bee3 encodes1fe6:2110; original MZ segment-word relocation index1609 at0x1bee6. Original caller entry0x1be72 full CFG has a structural entry-to-call path; calls are opaque returning continuations, not execution proof.",
+        "Compact independent original boundary/caller/ABI evidence in evidence/matching/wave7-runtime-review.json; preceding/following alignment outside full member remains unowned."
+      ],
+      "abi": "Far cdecl; BP+6 near string, BP+8 search byte, AX near char pointer or zero.",
+      "entry_kind": "direct-code",
+      "classification": "RUNTIME",
+      "classification_status": "DOS original-byte review",
+      "classification_evidence": [
+        "Pinned MS C medium-model runtime member; recipe recipes/runtime/crt_strchr_medium.json."
+      ],
+      "semantic_name_hypothesis": "find_string_byte",
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 114403,
+          "file_offset": 122595,
+          "kind": "far_call",
+          "relocated_segment_site": 114406
+        },
+        {
+          "space": "root",
+          "image_offset": 114854,
+          "file_offset": 123046,
+          "kind": "far_call",
+          "relocated_segment_site": 114857
+        }
+      ]
+    },
+    {
+      "id": "root:1101:b286",
+      "space": "root",
+      "segment": 4353,
+      "offset": 45702,
+      "size": 150,
+      "sha256": "25419a6d6c2a3e1ac137b06b8457d20e583e679a2b67c3c044bd10ed0bc7c07a",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "handle_window_move_command",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b286..b31c, with returns at b29b and final JMP at b31a.",
+        "At b286 the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through b31c. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "negative ADD SP at b289 and TEST DI, DI at b2a5"
+      ],
+      "abi": "Far entry, callee pops 2 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b31c",
+      "space": "root",
+      "segment": 4353,
+      "offset": 45852,
+      "size": 143,
+      "sha256": "f4f909432727459c7165b517325e4dfffc75fd4b47b92400dd370c129559ae22",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "drag_window_from_point",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b31c..b3ab, with returns at b3a8 and final RETF at b3a8.",
+        "At b31c the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through b3ab. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "negative ADD SP at b31f and XCHG DI, AX at b37a"
+      ],
+      "abi": "Far entry, callee pops 6 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b47d",
+      "space": "root",
+      "segment": 4353,
+      "offset": 46205,
+      "size": 89,
+      "sha256": "5ea6673b1ce4d91106a6f10c1ce9957d0beaaf83edb85a8ff881066403bc40e4",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "invalidate_window_behind_port",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b47d..b4d6, with returns at b4d3 and final RETF at b4d3.",
+        "At b47d the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through b4d6. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "odd entry b47d, negative ADD SP at b480 and JCXZ at b4c1"
+      ],
+      "abi": "Far entry, callee pops 2 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b56e",
+      "space": "root",
+      "segment": 4353,
+      "offset": 46446,
+      "size": 280,
+      "sha256": "504b51121a227c94f0dd4f7bc1390d0e7e6d81680b25fd24f8540fd0a60c88b4",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "move_outline_by_keyboard",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b56e..b686, with returns at b5cf and final JMP at b684.",
+        "Decoded direct near CALL sites 1101:b2fc enter the first instruction."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 115468,
+          "file_offset": 123660,
+          "pushed_cs_site": 115467
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "negative ADD SP at b571, REP MOVSB at b591 and JCXZ at b5ac"
+      ],
+      "abi": "Far entry, callee pops 4 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b686",
+      "space": "root",
+      "segment": 4353,
+      "offset": 46726,
+      "size": 212,
+      "sha256": "e88a703d7c84b8014c8c145e9844f19ed57cf0c84452901167b2e47066175134",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "drag_outline_with_mouse",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b686..b75a, with returns at b757 and final RETF at b757.",
+        "Decoded direct near CALL sites 1101:b385 enter the first instruction."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 115605,
+          "file_offset": 123797,
+          "pushed_cs_site": 115604
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "negative ADD SP at b689, REP MOVSB at b6a5 and JCXZ at b6be"
+      ],
+      "abi": "Far entry, callee pops 10 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b75a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 46938,
+      "size": 83,
+      "sha256": "ce4c481ed360c99a24c908f8c471936a3fa47ad2c450d63f369458a1193c0436",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "offset_window_and_redraw",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b75a..b7ad, with returns at b7aa and final RETF at b7aa.",
+        "Decoded direct near CALL sites 1101:b30f, 1101:b39c enter the first instruction."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 115487,
+          "file_offset": 123679,
+          "pushed_cs_site": 115486
+        },
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 115628,
+          "file_offset": 123820,
+          "pushed_cs_site": 115627
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "negative ADD SP at b75d and REP MOVSB at b77c"
+      ],
+      "abi": "Far entry, callee pops 6 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b90b",
+      "space": "root",
+      "segment": 4353,
+      "offset": 47371,
+      "size": 79,
+      "sha256": "1664cf2118be1d7cbe8100e3f976f21d4f881c0a284b4a073492384662d86f72",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "relink_window_after",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b90b..b95a, with returns at b957 and final RETF at b957.",
+        "Decoded direct near CALL sites 1101:b2ba enter the first instruction."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 115402,
+          "file_offset": 123594,
+          "pushed_cs_site": 115401
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "odd entry b90b, JCXZ at b91b and TEST BX,BX at b937"
+      ],
+      "abi": "Far entry, callee pops 4 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b95a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 47450,
+      "size": 49,
+      "sha256": "b7cc4d68508293d6ffa3175b99f2c84ae878245a0e6f8f97835d6d5504f8fe6a",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "replace_window_title",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b95a..b98b, with returns at b988 and final RETF at b988.",
+        "At b95a the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through b98b. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "JCXZ at b964 and direct POP DI; POP BP at b986"
+      ],
+      "abi": "Far entry, callee pops 6 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b98b",
+      "space": "root",
+      "segment": 4353,
+      "offset": 47499,
+      "size": 114,
+      "sha256": "1d16c30d372d184657d86ad6455a819d3c5f9014914479af72063a8b0823dcdf",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "track_window_hit",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b98b..b9fd, with returns at b9fa and final RETF at b9fa.",
+        "At b98b the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through b9fd. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "odd entry b98b, negative ADD SP at b98e and REP MOVSB at b99e"
+      ],
+      "abi": "Far entry, callee pops 6 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:b9fd",
+      "space": "root",
+      "segment": 4353,
+      "offset": 47613,
+      "size": 52,
+      "sha256": "c770d23d85f55dd2e11e381fe39079dc7353399f14a9f554cd13eb099333d849",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "translate_window_clip",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:b9fd..ba31, with returns at ba2e and final RETF at ba2e.",
+        "At b9fd the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through ba31. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "odd entry b9fd and negative ADD SP at ba00"
+      ],
+      "abi": "Far entry, callee pops 2 argument bytes.",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:bae5",
+      "space": "root",
+      "segment": 4353,
+      "offset": 47845,
+      "size": 68,
+      "sha256": "c429180bf5b91a51135efd491f4f3578fe27a4466b8896fccba89aa7724e1d2b",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "test_event_pending",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original DOS extent 1101:bae5..bb29, with returns at bb22 and final JMP at bb27.",
+        "At bae5 the entry prologue begins immediately after the preceding routine ends. The stack convention and exit paths are self-contained through bb29. No relocated direct caller is known."
+      ],
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS instruction and ABI review",
+      "classification_evidence": [
+        "odd entry bae5, DOS INT 21h/AH=0bh at bb02 and JCXZ at baf2"
+      ],
+      "abi": "Far entry, callee pops 2 argument bytes.",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
