@@ -54361,6 +54361,190 @@
       "size": 772,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "CS 0b41:[06f8,075e) decodes through 0730 (cb), 0744 (cb), 075d (cb). Preceding end ff8be55dcb90; successor starts 558bec83ec02.",
+        "root+0xec77 CALL FAR 9af806410b, relocation table index 1199.",
+        "root+0xee33 CALL FAR 9af806410b, relocation table index 1200."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68727,
+          "image_offset": 60535,
+          "kind": "far_call",
+          "relocated_segment_site": 60538,
+          "space": "root"
+        },
+        {
+          "file_offset": 69171,
+          "image_offset": 60979,
+          "kind": "far_call",
+          "relocated_segment_site": 60982,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "NPC kinds seven/eight or action nine go through the airborne check. Actions two and six do nothing, action three checks climbing frames and action five shares the floor check at frame 109."
+      ],
+      "classification_status": "Resident MOVE.C gameplay routine.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:06f8",
+      "offset": 1784,
+      "original_bytes_hex": "558bec803e065c07744c803e065c087445803e0b5c09743e8b16075ca00b5c984848743e4874134874334874214874329aea09cc028be55dcb9083fa66722383fa6a731e9ae80ecc028be55dcb9083fa6d750febdb90803e0d5c0074059a9200da258be55dcb",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "79748e6b6b62c21cb1db5f07342348372fcce5e104fb76af7f64abf172b87646",
+      "size": 102,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one word stack argument, AX result, RETF 2.",
+      "boundary_evidence": [
+        "CS 0b41:[0d14,0d38) decodes through 0d34 (ca0200). Preceding end cb902bc0cb90; successor starts 558bec83ec0a.",
+        "Original PUSH CS; CALL near at CS 0b41:08e8 encodes 0ee82804 and lands at the entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56569,
+          "image_offset": 48377,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48376,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Level type three dispatches to the cave torch frame selector. The other branch forwards one word to the overlay-9 entry at 2a4e:0000. The overlay-8 alias uses a different no-argument ABI."
+      ],
+      "classification_status": "Resident MOVE.C gameplay routine.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0d14",
+      "offset": 3348,
+      "original_bytes_hex": "558bec568b7606803e4745037508569ac40bcf29eb06569a00004e2a5e8be55dca020090",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "a3368c32207d972aa3e08c7b1c7bf12bf1016994c5443689fa10a37b3b4ffc9c",
+      "size": 36,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "CS 0b41:[1690,16ac) decodes through 16ab (cb). Preceding end e55dca040090; successor starts 558bec83ec02.",
+        "overlay-3+0x585 CALL FAR 9a9016410b, relocation table index 35.",
+        "Original PUSH CS; CALL near at CS 0b41:0878 encodes 0ee8140e and lands at the entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 186181,
+          "image_offset": 1413,
+          "kind": "far_call",
+          "relocated_segment_site": 1416,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 56457,
+          "image_offset": 48265,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48264,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Takes the low byte of the pressed tile state as link index, sets the timer to 31 and dispatches the same-file plate routine."
+      ],
+      "classification_status": "Resident MOVE.C gameplay routine.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1690",
+      "offset": 5776,
+      "original_bytes_hex": "568b36716281e6ff0056b01f500ee885fea0706250560ee80aff5ecb",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "329c04d603de3d420ef6cd210d12e35b54f7c41b7b53c65fde50bb46e8148edc",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "CS 0b41:[075e,0892) decodes through 0859 (cb), 0869 (cb), 0880 (cb), 0891 (cb). Preceding end da258be55dcb; successor starts 56803ed26c0a.",
+        "root+0xec7c CALL FAR 9a5e07410b, relocation table index 1141.",
+        "root+0xee38 CALL FAR 9a5e07410b, relocation table index 1142."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68732,
+          "image_offset": 60540,
+          "kind": "far_call",
+          "relocated_segment_site": 60543,
+          "space": "root"
+        },
+        {
+          "file_offset": 69176,
+          "image_offset": 60984,
+          "kind": "far_call",
+          "relocated_segment_site": 60987,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Guards actor and frame, locates the tile below the actor, dispatches the plate, loose-floor and fragile-tile cases."
+      ],
+      "classification_status": "Resident MOVE.C gameplay routine.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:075e",
+      "offset": 1886,
+      "original_bytes_hex": "558bec83ec0256803e065c0b7503e91e01803e065c0a7503e91401803e065c00750a833e905e007403e90301803e065c017511833e195c1d7c0a833e195c2a7f03e9eb00a00b5c988bd08b36075c83fe57720583fe63760c81fe8700720e81fe8d0073089a3e15cc02eb589083fa027c1583fa07741083fa05740b83fa087406c646ff00eb409a3e15cc028846ff83fe4f750d3c0b75092ac0500ee84210eb2683fe4f750d807eff0f75079a26014e2aeb14f606165e4075052ac0eb06909ad809cc028846ff807eff057440807eff06743a807eff227434807eff0b7406807eff0f754bc70698620100807eff0b750c2ac0500ee8e90f5e8be55dcb807eff0f752d9a26014e2a5e8be55dcb803e115c007c11803e065c04740a0ee8140e5e8be55dcb902ac050b8ffff500ee8270d5e8be55dcb",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "cbc9cb5f79d6866b31a38b89fdb03e143b266a24b62acbbb3b53cf9659503f9c",
+      "size": 308,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, kind byte and link word, RETF 4.",
+      "boundary_evidence": [
+        "CS 0b41:[15b4,1690) decodes through 168c (ca0400). Preceding end c23f5dca0200; successor starts 568b36716281.",
+        "Original PUSH CS; CALL near at CS 0b41:0889 encodes 0ee8270d and lands at the entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56474,
+          "image_offset": 48282,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48281,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects the active pressed cell and link timer, schedules the linked switch animation, marks redraw and refreshes room state."
+      ],
+      "classification_status": "Resident MOVE.C gameplay routine.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:15b4",
+      "offset": 5556,
+      "original_bytes_hex": "558bec83ec045756807e08007506a07062884608837e06ff7403e983008b36716281e6ff00560ee830ff8846ff3c1f7503e99400a073628846fe8b3e716281cf0008a074628846fd56b005500ee822ff807eff027d50a0746250a0736250b001508a4608500ee8d7fd813e075cb9007417803e7462047507803e49450d7409b80300509ace01d70d0ee8beec568a46082ae4500ee89dfac70698620100eb12908b7606e97fff568a46082ae4500ee883fab01ef666fd8bd88a46fe9803d8d1e3d1e389bf4a30eb0b568a46082ae4500ee861fa5e5f8be55dca040090",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "fd286acde2877561cc6a626c863612183fc17da2e23a16e9a7b2b5b88e865aeb",
+      "size": 220,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

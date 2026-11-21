@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "fef2257d1263f7c8fdfd72ae7fa5135294a101a6cde9151c7639c2c25e9dd5dd",
+  "binding_sha256": "6c31b2d0421752398e29202578d4099ff6878f0f200e42e85e82bf0a9a9ed01c",
   "claims": [
     {
       "fixup_count": 13,
@@ -13,9 +13,52 @@
       "target_id": "root:0b41:06ae"
     },
     {
+      "fixup_count": 9,
+      "public": "CHECK_FLOOR",
+      "relocation_indices": [
+        1054,
+        1060,
+        1077
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:06f8"
+    },
+    {
+      "fixup_count": 22,
+      "public": "CHECK_PRESS",
+      "relocation_indices": [
+        978,
+        979,
+        982,
+        1042,
+        1043
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:075e"
+    },
+    {
       "fixup_count": 1,
       "public": "ISEXITOPEN",
       "target_id": "root:0b41:0d04"
+    },
+    {
+      "fixup_count": 3,
+      "public": "GET_TORCH_FRAME",
+      "relocation_indices": [
+        1053,
+        1085
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:0d14"
     },
     {
       "fixup_count": 7,
@@ -48,6 +91,19 @@
       "fixup_count": 3,
       "public": "MARK_FOREGROUND",
       "target_id": "root:0b41:0f1e"
+    },
+    {
+      "fixup_count": 3,
+      "public": "MARK_BUFS_FOR_RECT",
+      "relocation_indices": [
+        1012,
+        1071
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:0f62"
     },
     {
       "fixup_count": 3,
@@ -115,9 +171,34 @@
       "target_id": "root:0b41:159e"
     },
     {
+      "fixup_count": 20,
+      "public": "PUSH_PLATE",
+      "relocation_indices": [
+        986
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:15b4"
+    },
+    {
+      "fixup_count": 4,
+      "public": "JAM_PLATE",
+      "target_id": "root:0b41:1690"
+    },
+    {
       "fixup_count": 4,
       "public": "MAKE_SPACE",
       "target_id": "root:0b41:17ec"
+    },
+    {
+      "fixup_count": 9,
+      "public": "BREAK_LOOSE_FLOOR",
+      "relocation_indices": [
+        987
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:183e"
     },
     {
       "fixup_count": 5,
@@ -152,6 +233,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0b41:250a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "GET_TROB_ROOM_CELL",
+      "target_id": "root:0b41:255c"
     },
     {
       "fixup_count": 4,
@@ -221,14 +307,6 @@
       "public": "CHECK_TROB_ABOVE_RIGHT"
     },
     {
-      "object_offset": 1772,
-      "public": "CHECK_FLOOR"
-    },
-    {
-      "object_offset": 1874,
-      "public": "CHECK_PRESS"
-    },
-    {
       "object_offset": 2182,
       "public": "ANIMATE_FLASK"
     },
@@ -257,20 +335,12 @@
       "public": "ANIMATE_EXIT"
     },
     {
-      "object_offset": 3336,
-      "public": "GET_TORCH_FRAME"
-    },
-    {
       "object_offset": 3722,
       "public": "MARK_REDRAW"
     },
     {
       "object_offset": 3764,
       "public": "MARK_CELL_REDRAW"
-    },
-    {
-      "object_offset": 3926,
-      "public": "MARK_BUFS_FOR_RECT"
     },
     {
       "object_offset": 4124,
@@ -305,14 +375,6 @@
       "public": "GET_SLIDE_ROCK_X"
     },
     {
-      "object_offset": 5544,
-      "public": "PUSH_PLATE"
-    },
-    {
-      "object_offset": 5764,
-      "public": "JAM_PLATE"
-    },
-    {
       "object_offset": 5792,
       "public": "ANIMATE_PLATE"
     },
@@ -323,10 +385,6 @@
     {
       "object_offset": 5928,
       "public": "ANIMATE_LOOSE_FLOOR"
-    },
-    {
-      "object_offset": 6194,
-      "public": "BREAK_LOOSE_FLOOR"
     },
     {
       "object_offset": 6292,
@@ -397,10 +455,6 @@
       "public": "LOOSE_HITS_ACTOR"
     },
     {
-      "object_offset": 9552,
-      "public": "GET_TROB_ROOM_CELL"
-    },
-    {
       "object_offset": 9614,
       "public": "GET_TROB_BY_ID"
     }
@@ -421,12 +475,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "d1aa5c324d07e2089646d8eafc418ac0ff50328d8f968f2c371258111d4170d8",
+  "object_sha256": "e61fc2017f934ed506339ecaede0533cf0926537515c695e992c5aade044d254",
   "origin": 46108,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "27220db4c8ed99a0ad98295a1009d290d82f38e29fd3aaf589ec9509d8d7310a",
+  "source_sha256": "f03bce6921aeb7dcf062ecfce26900d8e14bbf2b0b93646a88a8151d05f28c10",
   "space": "root"
 }

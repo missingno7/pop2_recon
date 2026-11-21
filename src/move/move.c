@@ -750,7 +750,8 @@ void animate_exit(void)
     redraw_exit();
 }
 
-extern byte exit_height;
+extern unsigned pressed_state;
+#define exit_height (*(byte *)&pressed_state)
 
 int IsExitOpen(void)
 {
@@ -1195,7 +1196,6 @@ byte get_link_room(int link)
 /* PushPlate and JamPlate at 15b4 through 16ac are pending. */
 
 extern byte pressed_kind;
-extern unsigned pressed_state;
 extern RoomObject room_records[][30];
 
 void push_plate(sbyte kind, int link)
@@ -1932,8 +1932,9 @@ int loose_hits_actor(void)
             if (edge == column) {
                 if (reach > 8)
                     hit = 1;
-            } else if (column == actor_column + near_crush_offset[actor_facing] && reach < 4) {
-                hit = 1;
+            } else if (column == actor_column + near_crush_offset[actor_facing]) {
+                if (reach < 4)
+                    hit = 1;
             }
         }
     }
