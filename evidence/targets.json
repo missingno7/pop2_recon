@@ -63110,6 +63110,40 @@
       "size": 4,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-3:2802:06cc",
+      "space": "overlay-3",
+      "segment": 10242,
+      "offset": 1740,
+      "size": 372,
+      "sha256": "66f60329a2e2beef3c152160e072c70832ca38245b5908a7cee54ddf4d6fd1d3",
+      "original_bytes_hex": "558bec5756803e105c01741ab03ff62e0a5c2b06045c0538003d0f007c080ee8b0ffe94601909aa207cc02803e0d5c167c14b8f6ff509a6003cc02a3025c9a7e02cc02e92501c6060d5c00803e115c007503e91601803e105c017403e98b00a00e5c8a160a5c9adc14410b8bf88a46063806015c752c833e175c377514813e075ccf00750cb80a00509a6003cc02a3025cb80200509a6003cc02a3025cbe4100eb34be4000a0065c50ff36075c9ae82244230bc07420803e706204750d803e7162407606beffffeb0d90b81000509a6003cc02a3025c0bff745d3b3e025c7e57be5d00c606105c00eb4d8b16075c81faf600721c81fa05017716b8fdff509a6003cc02a3025cbe7900c6060f5c00eb2783fa18741f83fa19741a83fa28720583fa2b721083fa66720583fa6b7206be2f00eb0490be2e0083feff7410569a1600da259a9403cc029a7e02cc0283fe4074070ee81f00eb1490467410833e195c387409b80c00509ace01d70d5e5f8be55dca020090",
+      "abi": "void far Pascal, signed byte at BP+6, RETF 2.",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "MSC-style BP prologue, register saves and Pascal stack cleanup; same-frame collision logic. FM Towns @GroundBump is a probable ordered COLLIDE.C pairing in evidence/modules.json."
+      ],
+      "semantic_name_hypothesis": "apply_ground_bump",
+      "boundary_evidence": [
+        "Reviewed ApplyCollision at 2802:05d8 decodes a PUSH CS / CALL near at 0694/0695 to 2802:06cc. Preceding AirBump has RETF at 06ca followed by one NOP.",
+        "Linear decode covers +52ac..+5420; conditional and unconditional jumps land on instruction starts inside the extent. BP+6 byte and RETF 2 at 083c identify one byte argument in a stack word. NOP at 083f followed by independently reviewed BumpSound at 0840.",
+        "Outgoing relocated far-call segment words (overlay-3 position/index): 5415/432, 5315/434, 53f6/435, 52ed/436, 52d5/459, 53ec/462, 53ad/472, 537d/473, 5344/474, 5338/475, 52e5/476, 53f1/492, 535c/494"
+      ],
+      "call_sites": [
+        {
+          "space": "overlay-3",
+          "kind": "push_cs_near_call",
+          "image_offset": 21109,
+          "file_offset": 205877,
+          "pushed_cs_site": 21108,
+          "relocated_segment_site": null
+        }
+      ]
     }
   ],
   "schema": 1,
