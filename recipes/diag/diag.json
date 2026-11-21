@@ -1,7 +1,17 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "c952616a996744d8d93aea102a8f8dc249dc85c5dae35471e49b87e7f5f4e456",
+  "binding_sha256": "bd4c16b2772940259db3ec35125e10e28dbd03a143a1bf0cfad831ac4b5ba594",
   "claims": [
+    {
+      "fixup_count": 3,
+      "public": "PLOT_ACTOR_OFFSET",
+      "relocation_indices": [
+        1419
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:107d:00d2"
+    },
     {
       "fixup_count": 11,
       "public": "PLOT_POSITION",
@@ -65,6 +75,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:107d:0786"
+    },
+    {
+      "fixup_count": 9,
+      "public": "DRAW_FRAME_DIAGNOSTICS",
+      "relocation_indices": [
+        1411,
+        1420
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:107d:0804"
     }
   ],
   "drafts": [
@@ -81,10 +104,6 @@
       "public": "PLOT_EDGE_OFFSET"
     },
     {
-      "object_offset": 198,
-      "public": "PLOT_ACTOR_OFFSET"
-    },
-    {
       "object_offset": 334,
       "public": "DRAW_RULER_MARKS"
     },
@@ -95,10 +114,6 @@
     {
       "object_offset": 818,
       "public": "DUMP_HEAP"
-    },
-    {
-      "object_offset": 2040,
-      "public": "DRAW_FRAME_DIAGNOSTICS"
     }
   ],
   "emitted_size": 2104,
@@ -116,12 +131,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "diag/diag",
-  "object_sha256": "095a1cc8db2d627c78ae1fd1327cd2fdbaae5a8a36095f79d70845034043db24",
+  "object_sha256": "dfdd7a33893dd747b0ca8708108f767c25a92dbde325fd3ed6b3dfe192182baa",
   "origin": 67548,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/diag/diag.c",
-  "source_sha256": "fd01546a71718f4d590daf071049326ab0096fc2e4b1f729f55b767b8af696e2",
+  "source_sha256": "044b47a50f946ae546f37861057902b5c429e7cd53270edb4aad138c365badba",
   "space": "root"
 }

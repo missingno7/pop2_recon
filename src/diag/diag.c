@@ -129,9 +129,13 @@ void report_ticks(const char *label)
 void plot_edge_offset(register int distance)
 {
     register int x;
-    x = (facing == 0) ? right_edge + distance : left_edge - distance;
-    x = x - 130;
-    plot_position(x, 14);
+
+    if (facing == 0)
+        x = right_edge + distance;
+    else
+        x = left_edge - distance;
+    distance = x - 130;
+    plot_position(distance, 14);
 }
 
 void plot_actor_offset(int distance)
