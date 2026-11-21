@@ -980,7 +980,8 @@ class OwnBaseBucketTests(unittest.TestCase):
                            recipe["flags"], workdir=ROOT / "build/workers/tests/own_base_buckets")
         self.assertTrue(result.ok, result.log)
         claims = [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]]
-        claims.append({"target_id": "root:0b41:2264", "public": "MARK_MOB_REDRAW"})
+        if not any(c["target_id"] == "root:0b41:2264" for c in claims):
+            claims.append({"target_id": "root:0b41:2264", "public": "MARK_MOB_REDRAW"})
         report = check_group(result.obj_bytes, claims, Oracle.load(),
                              binding=common.read_json(ROOT / recipe["binding"]), group_id=recipe["group_id"])
         claim = next(c for c in report["claims"] if c["public"] == "MARK_MOB_REDRAW")
