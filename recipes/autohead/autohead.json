@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autohead/autohead.json",
-  "binding_sha256": "d2877775073287183e92ae349c31cbcf7ad7c54d7925da033602b03ba97cfda1",
+  "binding_sha256": "0a8bd34b46f65d1937a6d10a7c7b934abeed0c5ca259c39ee32b10049da0496e",
   "claims": [
     {
       "fixup_count": 0,
@@ -53,6 +53,22 @@
       "fixup_count": 2,
       "public": "HEAD_DONE_ATTACKING_KID",
       "target_id": "overlay-11:2c3e:0800"
+    },
+    {
+      "fixup_count": 19,
+      "public": "HEAD_ENEMY_COLLIDE",
+      "relocation_indices": [
+        39,
+        55,
+        60,
+        83,
+        92
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-11:2c3e:0816"
     },
     {
       "fixup_count": 10,
@@ -285,10 +301,6 @@
       "public": "HEAD_ATTACK_PROG"
     },
     {
-      "object_offset": 2070,
-      "public": "HEAD_ENEMY_COLLIDE"
-    },
-    {
       "object_offset": 3048,
       "public": "HEAD_GO_TO_DEST"
     },
@@ -328,12 +340,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "autohead/autohead",
-  "object_sha256": "e3ffded3233a6bc1b258fb2873cfb98b0db3fb50908f59951457ab5d2cc33912",
+  "object_sha256": "9de4ebf591d256f5f1d20bb4c9ecc1b727663ccb6898ac9a2ff6bb2e213e0a5a",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autohead/autohead.c",
-  "source_sha256": "73c6421eb5b19f55cfebdaa71908b21aa209e718ff9d9c66748213a043be820d",
+  "source_sha256": "04108f25025029f2ed51fc2dcc68179fbd047307e3acd075ca428b31c20a2b8d",
   "space": "overlay-11"
 }

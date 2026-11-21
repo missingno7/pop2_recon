@@ -43,7 +43,9 @@ typedef struct {
 } OpponentRecord;
 
 extern signed char target_column, target_row, target_life, target_facing;
-extern signed char actor_slot, actor_column, actor_row, actor_life;
+extern signed char actor_slot, actor_row, actor_life;
+extern struct { signed char column; } actor_column;
+#define actor_column actor_column.column
 extern signed char actor_velocity_x, actor_velocity_y, camera_actor, actor_alert, head_active;
 extern unsigned char actor_room, level_head_kind, target_visible, tile_flags, target_room;
 extern unsigned char tile_modifier;
@@ -850,17 +852,16 @@ void far pascal snake_attack(OpponentRecord near *record)
 
 void far pascal snake_come_out_of_hole(OpponentRecord near *record)
 {
-    signed char tile, column;
-    volatile signed char left, right;
+    signed char tile;
+    signed char left, right;
     if (--record->mode > 0)
         return;
     record->mode = -1;
     left = last_clear_column(actor_room, actor_column, actor_row, -1);
     right = last_clear_column(actor_room, actor_column, actor_row, 1);
     tile = tile_under_actor();
-    column = actor_column;
     if (target_room == actor_room && actor_row == target_row &&
-        column > left && column < right) {
+        actor_column > left && actor_column < right) {
         if (actor_column <= target_column &&
             (!tile_blocks_head(tile) || tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128))))
             actor_facing = 0;
