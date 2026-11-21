@@ -19399,6 +19399,78 @@
       "size": 90,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no argument words, RETF. DRAW does not consume a result.",
+      "boundary_evidence": [
+        "Relocated direct CALL FAR from DRAW at root+0x78bd, bytes 9a5614410b, enters root+0xc866; MZ relocation 820 is at root+0x78c0.",
+        "Previous function ends in RETF 8 at root+0xc862, followed by a NOP at root+0xc865. Entry saves DI. Seven straight-line REP STOSB operations lead to POP DI and RETF at root+0xc8b0.",
+        "The NOP at root+0xc8b1 is alignment. A fresh BP prologue begins at root+0xc8b2 (0b41:14a2). No relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39101,
+          "image_offset": 30909,
+          "kind": "far_call",
+          "relocated_segment_site": 30912,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW calls this MOVE leaf at the end of its full redraw path. It clears seven DGROUP buffers also used by redraw routines."
+      ],
+      "classification_status": "strong game C",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1456",
+      "offset": 5206,
+      "original_name": "ZeroBuffers",
+      "original_name_evidence": [
+        "FM Towns MOVE.C @ZeroBuffers at 29f6:156b clears seven buffers in the same order and byte widths (60, 300, 300, 300, 60, 30, 100). Its debug symbols at the seven destination offsets identify RedrawBuf, MoveBuf, FRedrawBuf, FloorBuf, HalfBuf, ObjBuf and TopBuf."
+      ],
+      "segment": 2881,
+      "semantic_name_hypothesis": "zero_buffers",
+      "sha256": "974c31c20b9941f243b15e52bf27569aa016f4d6ecf7d783f19a39f85ebac95b",
+      "size": 76,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one byte argument in a word slot, RETF 2. Returns a Boolean in AX, with AL consumed by DRAW.",
+      "boundary_evidence": [
+        "DRAW loads the byte at DS:5e34 and pushes AX before the relocated CALL FAR at root+0x79a6, bytes 9a6c02a604. MZ relocation 865 is at root+0x79a9. DRAW stores the returned AL at DS:5e3d.",
+        "Previous function ends in RETF 6 at root+0x4cc8 and a NOP at root+0x4ccb. The entry at root+0x4ccc starts a BP frame and uses only the low byte of BP+6.",
+        "The loop back edge stays in the extent; its early exit and fallthrough meet at root+0x4d02. RETF 2 at root+0x4d0d ends the function immediately before a new BP prologue at root+0x4d10. No relocation touches the extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39334,
+          "image_offset": 31142,
+          "kind": "far_call",
+          "relocated_segment_site": 31145,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "CUSTOM.C room predicate called by DRAW. Indexes a 120-byte room record and tests the top two bits of each of 30 tile flag words."
+      ],
+      "classification_status": "strong game C",
+      "entry_kind": "direct-code",
+      "id": "root:04a6:026c",
+      "offset": 620,
+      "original_name": "IsCustomizedRoom",
+      "original_name_evidence": [
+        "evidence/modules.json pairs this DOS entry with FM Towns CUSTOM.C @IsCustomizedRoom. At FM Towns 1c9f:02b8 the code likewise multiplies the unsigned room byte by 120 and searches up to 30 four-byte records for a nonzero 0xc000 flag mask. Mac MacsBug also names IsCustomizedRoom."
+      ],
+      "segment": 1190,
+      "semantic_name_hypothesis": "is_customized_room",
+      "sha256": "65510024be7722792309f07f72d24e3e32b17814a7dd750305bed60e03992c50",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
