@@ -62620,6 +62620,496 @@
       "size": 30,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, RETF.",
+      "boundary_evidence": [
+        "Decoded root vector 2203:0cbd names overlay 2 and directly enters overlay-2:2344:016c, after the reviewed 0160 function ends with RETF/NOP.",
+        "The platform setup initializes resource handles and callback pointers, including the relocated Input pointer at offset 022d.",
+        "The body ends with register restores, RETF at 0354, and one NOP. The helper entered by PUSH CS; CALL at 0243/0244 starts at 0356."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded root vector 2203:0cbd names overlay 2 and directly enters overlay-2:2344:016c, after the reviewed 0160 function ends with RETF/NOP.",
+        "The platform setup initializes resource handles and callback pointers, including the relocated Input pointer at offset 022d.",
+        "The body ends with register restores, RETF at 0354, and one NOP. The helper entered by PUSH CS; CALL at 0243/0244 starts at 0356."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:2344:016c",
+      "offset": 364,
+      "segment": 9028,
+      "sha256": "d3982c6ac404e4138c84c0af0b40a274acf47df36873cfad2f922860eb9d05b4",
+      "size": 490,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl, no arguments read, RETF.",
+      "boundary_evidence": [
+        "The original relocated CRT call enters root:0000:0000. The body calls platform setup and loads resources before seeding RNG and invoking ResetGame.",
+        "RETF at 0034 and one alignment NOP end before the separate BP prologue at 0036."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a00000000",
+          "file_offset": 139148,
+          "image_offset": 130956,
+          "kind": "far_call",
+          "relocated_segment_site": 130959,
+          "relocation_index": 1925,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The original relocated CRT call enters root:0000:0000. The body calls platform setup and loads resources before seeding RNG and invoking ResetGame.",
+        "RETF at 0034 and one alignment NOP end before the separate BP prologue at 0036."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0000",
+      "offset": 0,
+      "original_name": "main",
+      "original_name_evidence": [
+        "Independent DOS usage and FM Towns pairing in evidence/modules.json."
+      ],
+      "segment": 0,
+      "sha256": "1b785932d1a2a2a02ccd0e7be7235f3d0066d24e913a3cb1ff200e792945caa2",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, loops indefinitely in normal control flow.",
+      "boundary_evidence": [
+        "Main's PUSH CS; CALL at 002f/0030 enters the BP prologue at 0036. The main loop reenters at 003f/0042 and the alternate exit path loops at 010a through the tail branch at 0113.",
+        "NOP at 0115 precedes the independently called startup-level entry at 0116. Diagnostic string and FM Towns call structure anchor ResetGame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8240,
+          "image_offset": 48,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 47,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Main's PUSH CS; CALL at 002f/0030 enters the BP prologue at 0036. The main loop reenters at 003f/0042 and the alternate exit path loops at 010a through the tail branch at 0113.",
+        "NOP at 0115 precedes the independently called startup-level entry at 0116. Diagnostic string and FM Towns call structure anchor ResetGame."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0036",
+      "offset": 54,
+      "original_name": "ResetGame",
+      "original_name_evidence": [
+        "Independent DOS usage and FM Towns pairing in evidence/modules.json."
+      ],
+      "segment": 0,
+      "sha256": "df0e55028f6fb6ce28dc8639d23541c4d73df2bae2edbd0a9cda7b98d203156c",
+      "size": 224,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, RETF.",
+      "boundary_evidence": [
+        "The decoded PUSH CS; CALL at root+0x0b/0x0c in main enters 0116. The preceding ResetGame loop ends in JMP at 0113 and a NOP at 0115.",
+        "Command-line guard and conversion paths converge at RETF at 014c, then NOP at 014d before the opening-sequence BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8204,
+          "image_offset": 12,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The decoded PUSH CS; CALL at root+0x0b/0x0c in main enters 0116. The preceding ResetGame loop ends in JMP at 0113 and a NOP at 0115.",
+        "Command-line guard and conversion paths converge at RETF at 014c, then NOP at 014d before the opening-sequence BP prologue."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0116",
+      "offset": 278,
+      "segment": 0,
+      "sha256": "3288a06fca382abf7e8e3286260ea24b1e685756026e6e927efed556623db36d",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, byte result in AL, RETF.",
+      "boundary_evidence": [
+        "The decoded PUSH CS; CALL at root+0x00a3/0x00a4 in ResetGame enters the BP prologue at 014e, following RETF/NOP of the startup level reader.",
+        "The three PlayNIS calls, recording-player selection and optional poll converge at the AL result and RETF at 020f, before the independent relocated entry at 0210.",
+        "FM Towns pairing is independently anchored by the recording-player calls and ResetGame in evidence/modules.json."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8356,
+          "image_offset": 164,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 163,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The decoded PUSH CS; CALL at root+0x00a3/0x00a4 in ResetGame enters the BP prologue at 014e, following RETF/NOP of the startup level reader.",
+        "The three PlayNIS calls, recording-player selection and optional poll converge at the AL result and RETF at 020f, before the independent relocated entry at 0210.",
+        "FM Towns pairing is independently anchored by the recording-player calls and ResetGame in evidence/modules.json."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:014e",
+      "offset": 334,
+      "original_name": "PlayOpeningSequence",
+      "original_name_evidence": [
+        "Independent DOS usage and FM Towns pairing in evidence/modules.json."
+      ],
+      "segment": 0,
+      "sha256": "42d9d739a1f3657c0fbba9885bbed2fba42a536f339e01ce6467ff20eac78914",
+      "size": 194,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, AX result, RETF.",
+      "boundary_evidence": [
+        "The incoming PUSH CS; CALL at 1019/101a names 0242, after the previous reviewed poll helper's RETF plus NOP.",
+        "The guarded jump table at 02ee..030d supplies local key case targets. Cases and the no-key path join the AX result and RETF at 0491, before the debug-input prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 12314,
+          "image_offset": 4122,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4121,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The incoming PUSH CS; CALL at 1019/101a names 0242, after the previous reviewed poll helper's RETF plus NOP.",
+        "The guarded jump table at 02ee..030d supplies local key case targets. Cases and the no-key path join the AX result and RETF at 0491, before the debug-input prologue."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0242",
+      "offset": 578,
+      "segment": 0,
+      "sha256": "81c7247404459ca74815209df646cfc8c1f24f27ea9a57a627a9de51e2b04959",
+      "size": 592,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one word key argument, RETF 2.",
+      "boundary_evidence": [
+        "The decoded PUSH CS; CALL at 043e/043f names BP prologue 0492. Input uses its first word as a BIOS key, then dispatches by compares, with no data table in the code.",
+        "The paths converge at 0a52 and return using RETF 2 at 0a57. The independently relocated toggle-sound entry is 0a5a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9279,
+          "image_offset": 1087,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1086,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The decoded PUSH CS; CALL at 043e/043f names BP prologue 0492. Input uses its first word as a BIOS key, then dispatches by compares, with no data table in the code.",
+        "The paths converge at 0a52 and return using RETF 2 at 0a57. The independently relocated toggle-sound entry is 0a5a."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0492",
+      "offset": 1170,
+      "segment": 0,
+      "sha256": "4c92918d89e3a721536b9aaf08ef740e977074ea38c7e8d5901cda4684dbd2aa",
+      "size": 1480,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, near pointer returned in AX, RETF.",
+      "boundary_evidence": [
+        "Relocated far callers and PUSH CS; CALL at root+03a4/03a5 enter the saved-DI prologue at 0a84. Toggle-sound's extent ends at that entry.",
+        "Capability test and joystick detection select three status string addresses. The three RETF paths end at 0a9c, 0aba and 0ad8, with a final alignment NOP before 0ada."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a840a0000",
+          "file_offset": 38306,
+          "image_offset": 30114,
+          "kind": "far_call",
+          "relocated_segment_site": 30117,
+          "relocation_index": 439,
+          "space": "root"
+        },
+        {
+          "file_offset": 9125,
+          "image_offset": 933,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 932,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated far callers and PUSH CS; CALL at root+03a4/03a5 enter the saved-DI prologue at 0a84. Toggle-sound's extent ends at that entry.",
+        "Capability test and joystick detection select three status string addresses. The three RETF paths end at 0a9c, 0aba and 0ad8, with a final alignment NOP before 0ada."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0a84",
+      "offset": 2692,
+      "segment": 0,
+      "sha256": "8faefdfa02483cab8a05ca310fd1ef9ce72077588a0809b4b47916089029d828",
+      "size": 86,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Incoming PUSH CS; CALL at root+0e21/0e22 names the BP entry after three joystick status return paths and their final NOP.",
+        "Switch table at 0b76..0bcb names local case starts. Cases return to the loop advance, and the room-load exit returns at 0cba with an alignment NOP at 0cbb before KeepTime."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 11810,
+          "image_offset": 3618,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3617,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Incoming PUSH CS; CALL at root+0e21/0e22 names the BP entry after three joystick status return paths and their final NOP.",
+        "Switch table at 0b76..0bcb names local case starts. Cases return to the loop advance, and the room-load exit returns at 0cba with an alignment NOP at 0cbb before KeepTime."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0ada",
+      "offset": 2778,
+      "segment": 0,
+      "sha256": "4369652d51fe061eed69a6164ff95423896cda8a43b9a5f9740b6c4eb9e54f42",
+      "size": 482,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, RETF.",
+      "boundary_evidence": [
+        "Relocated far calls enter the BP prologue at 0cbc, after RETF/NOP at 0cba/0cbb.",
+        "Time display and deferred-room paths return at 0d4d or 0dd3, with the independently called PrepCut BP entry starting at 0dd4.",
+        "FM pairing is anchored through NextFrame and DrawMessage and the minute/second/expiration behavior in evidence/modules.json."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9abc0c0000",
+          "file_offset": 68524,
+          "image_offset": 60332,
+          "kind": "far_call",
+          "relocated_segment_site": 60335,
+          "relocation_index": 1291,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated far calls enter the BP prologue at 0cbc, after RETF/NOP at 0cba/0cbb.",
+        "Time display and deferred-room paths return at 0d4d or 0dd3, with the independently called PrepCut BP entry starting at 0dd4.",
+        "FM pairing is anchored through NextFrame and DrawMessage and the minute/second/expiration behavior in evidence/modules.json."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0cbc",
+      "offset": 3260,
+      "original_name": "KeepTime",
+      "original_name_evidence": [
+        "Independent DOS usage and FM Towns pairing in evidence/modules.json."
+      ],
+      "segment": 0,
+      "sha256": "a420e440cdbf58d4b818ce55d35b4feea6ba4fa4650a205fd9c65e7deef78ac0",
+      "size": 280,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no arguments, AX result, RETF.",
+      "boundary_evidence": [
+        "Original relocated calls and the independently relocated DOS callback pointer at overlay-2:2344:0223..022e name 0000:1000. The previous ChangeMeters ends at 0fff.",
+        "Pause and nonpause paths join the result at 1055 and RETF at 1059. The next prologue is the independently relocated read_controls at 105a.",
+        "The FM Towns pairing is independently anchored in evidence/modules.json by joystick reset, poll and pause handling."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a00100000",
+          "file_offset": 24421,
+          "image_offset": 16229,
+          "kind": "far_call",
+          "relocated_segment_site": 16232,
+          "relocation_index": 379,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original relocated calls and the independently relocated DOS callback pointer at overlay-2:2344:0223..022e name 0000:1000. The previous ChangeMeters ends at 0fff.",
+        "Pause and nonpause paths join the result at 1055 and RETF at 1059. The next prologue is the independently relocated read_controls at 105a.",
+        "The FM Towns pairing is independently anchored in evidence/modules.json by joystick reset, poll and pause handling."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1000",
+      "offset": 4096,
+      "original_name": "Input",
+      "original_name_evidence": [
+        "Independent DOS usage and FM Towns pairing in evidence/modules.json."
+      ],
+      "segment": 0,
+      "sha256": "77f3324991e263acd54eb85965e79d22002d5a57afe7965e466dde8e84df8f23",
+      "size": 90,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, four stack words, AL result, RETF 8.",
+      "boundary_evidence": [
+        "Fresh BP prologue directly follows RETF 6 at 12ab. The dispatch reads BP+0c and uses a byte local for its result.",
+        "The byte-return paths join at 1396 and RETF 8 at 139d. The independently relocated entry 13a0 begins at the next byte."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Fresh BP prologue directly follows RETF 6 at 12ab. The dispatch reads BP+0c and uses a byte local for its result.",
+        "The byte-return paths join at 1396 and RETF 8 at 139d. The independently relocated entry 13a0 begins at the next byte."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:12ae",
+      "offset": 4782,
+      "segment": 2881,
+      "sha256": "c27af89505300293a209c05671be9282c3bb18bb9ed09f25cc9d58b03a0955c1",
+      "size": 242,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two stack words, RETF 4.",
+      "boundary_evidence": [
+        "Relocated CALL at root+0c50 names the fresh BP prologue. The preceding routine ends exactly at 13a0 with RETF 8.",
+        "The body checks the current level and operates on the supplied room and tile; it restores DI and SI at 13eb and returns with RETF 4 followed by one NOP before the separate 13f4 entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aa013410b",
+          "file_offset": 11344,
+          "image_offset": 3152,
+          "kind": "far_call",
+          "relocated_segment_site": 3155,
+          "relocation_index": 2,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated CALL at root+0c50 names the fresh BP prologue. The preceding routine ends exactly at 13a0 with RETF 8.",
+        "The body checks the current level and operates on the supplied room and tile; it restores DI and SI at 13eb and returns with RETF 4 followed by one NOP before the separate 13f4 entry."
+      ],
+      "classification_status": "Original control flow and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:13a0",
+      "offset": 5024,
+      "segment": 2881,
+      "sha256": "b284f88154150d59c24cb6d0327a79e0ec6800baecbf7bf1548ed48fcc37c37b",
+      "size": 84,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl, near string argument, AX result.",
+      "boundary_evidence": [
+        "Relocated CALL FARs at root+0134, +29ee and +2a4c enter 166e. The caller drops its argument itself.",
+        "The entire entry is JMP 1672 followed by one zero pad byte. The destination is the canonically pinned CATOX runtime owner and starts at 1672."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a6e16e61f",
+          "file_offset": 8500,
+          "image_offset": 308,
+          "kind": "far_call",
+          "relocated_segment_site": 311,
+          "relocation_index": 103,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a6e16e61f",
+          "file_offset": 18926,
+          "image_offset": 10734,
+          "kind": "far_call",
+          "relocated_segment_site": 10737,
+          "relocation_index": 269,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a6e16e61f",
+          "file_offset": 19020,
+          "image_offset": 10828,
+          "kind": "far_call",
+          "relocated_segment_site": 10831,
+          "relocation_index": 270,
+          "space": "root"
+        }
+      ],
+      "classification": "RUNTIME_GLUE",
+      "classification_evidence": [
+        "Relocated CALL FARs at root+0134, +29ee and +2a4c enter 166e. The caller drops its argument itself.",
+        "The entire entry is JMP 1672 followed by one zero pad byte. The destination is the canonically pinned CATOX runtime owner and starts at 1672."
+      ],
+      "classification_status": "Original DOS CRT entry thunk",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:166e",
+      "offset": 5742,
+      "segment": 8166,
+      "sha256": "5626fef717cbb76f13f5706923c9d6c2f856bb0c9097e9cae20eaf045d632682",
+      "size": 4,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

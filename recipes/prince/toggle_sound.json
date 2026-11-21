@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/prince/toggle_sound.json",
-  "binding_sha256": "084cc511e4ee02079e6ba9a4b15321affccbdfb669e1e4ca769133626cbff438",
+  "binding_sha256": "4387501020c7aa8d05577204dfa67b4e5869cffb1e006eb71b1b6cd49dd92b5d",
   "claims": [
     {
       "fixup_count": 4,
@@ -13,10 +13,71 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0000:0a5a"
+    },
+    {
+      "fixup_count": 11,
+      "public": "JOYSTICK_STATUS",
+      "relocation_indices": [
+        16
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0a84"
+    },
+    {
+      "fixup_count": 33,
+      "public": "KEEPTIME",
+      "relocation_indices": [
+        52,
+        82
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0cbc"
+    },
+    {
+      "fixup_count": 3,
+      "public": "BOOSTMETER",
+      "target_id": "root:0000:0e78"
+    },
+    {
+      "fixup_count": 3,
+      "public": "UPDATE_STEP_DELTA",
+      "target_id": "root:0000:0e8e"
+    },
+    {
+      "fixup_count": 30,
+      "public": "CHECKMETERS",
+      "relocation_indices": [
+        20,
+        47,
+        48,
+        97,
+        121,
+        122
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:0e9a"
     }
   ],
-  "drafts": [],
-  "emitted_size": 42,
+  "drafts": [
+    {
+      "object_offset": 128,
+      "public": "ADD_ROOM_TROBS"
+    },
+    {
+      "object_offset": 890,
+      "public": "PREPCUT"
+    },
+    {
+      "object_offset": 1302,
+      "public": "CHANGEMETERS"
+    }
+  ],
+  "emitted_size": 1452,
   "flags": [
     "/c",
     "/AM",
@@ -30,12 +91,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "prince/toggle_sound",
-  "object_sha256": "c17b43ea70aaa2501a4a13dc1e9c3520b61f880c5d0e2eed0568443231c49e94",
+  "object_sha256": "8e0136a8c4bd9bd450f60bb5f3127499815fd2ac4fe212e290d915ed6b4cac96",
   "origin": 2650,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/prince/toggle_sound.c",
-  "source_sha256": "b9e8ab3ca66f40d55c9334afbc5af6da2498826fa7b92eb7f59a678028a8ddcc",
+  "source_sha256": "b209b02845271de54cfbb97d50de619fe61cc2b304375cd556e78cbab4342ea1",
   "space": "root"
 }

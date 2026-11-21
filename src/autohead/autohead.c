@@ -586,7 +586,7 @@ int far pascal head_go_to_dest(HeadPlan near *plan)
 
 void far pascal head_locked_prog(HeadPlan near *plan)
 {
-    volatile int lost = 0;
+    int lost = 0;
     register OpponentRecord near *record;
     if ((actor_sequence == 150 && actor_frame == 167 && actor_timer != 1) ||
         (actor_sequence == 151 && actor_frame == 166)) {
@@ -767,20 +767,14 @@ int far pascal is_head_locked_on(unsigned char room, int slot)
 }
 
 int far pascal just_start_vertical_seq(void)
-{
-    int baseline = actor_row * 63 + 37;
+{   int baseline = actor_row * 63 + 37;
     int result;
     if (actor_sequence != 144) {
-        if (actor_sequence == 143 && actor_y < baseline)
-            result = 1;
-        else
-            result = 0;
-    } else if (actor_y > baseline)
-        result = 1;
-    else
-        result = 0;
-    return result;
-}
+        if (actor_sequence == 143 && actor_y < baseline) result = 1;
+        else result = 0;
+    } else if (actor_y > baseline) result = 1;
+    else result = 0;
+    return result; }
 
 int far pascal XWithinMiddleOfCell(int first, register int second)
 {

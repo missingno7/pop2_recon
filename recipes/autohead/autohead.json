@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autohead/autohead.json",
-  "binding_sha256": "0a8bd34b46f65d1937a6d10a7c7b934abeed0c5ca259c39ee32b10049da0496e",
+  "binding_sha256": "9a2201da2f9ac32419022a8d055a2ab7210b62a3a99294bbcb26ef50b3925336",
   "claims": [
     {
       "fixup_count": 0,
@@ -149,6 +149,21 @@
       "target_id": "overlay-11:2c3e:0ba0"
     },
     {
+      "fixup_count": 19,
+      "public": "HEAD_LOCKED_PROG",
+      "relocation_indices": [
+        19,
+        70,
+        71,
+        86
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-11:2c3e:0c7e"
+    },
+    {
       "fixup_count": 0,
       "public": "UNUSED_HEAD_ALERT",
       "target_id": "overlay-11:2c3e:0d52"
@@ -239,6 +254,27 @@
       "target_id": "overlay-11:2c3e:1226"
     },
     {
+      "fixup_count": 31,
+      "public": "SNAKE_COME_OUT_OF_HOLE",
+      "relocation_indices": [
+        0,
+        47,
+        48,
+        76,
+        77,
+        88,
+        112,
+        113,
+        122,
+        123
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-11:2c3e:1366"
+    },
+    {
       "fixup_count": 38,
       "public": "SNAKE_GO_INTO_HOLE",
       "relocation_indices": [
@@ -305,10 +341,6 @@
       "public": "HEAD_GO_TO_DEST"
     },
     {
-      "object_offset": 3198,
-      "public": "HEAD_LOCKED_PROG"
-    },
-    {
       "object_offset": 3872,
       "public": "HEAD_SET_TO_FLEE_MODE"
     },
@@ -319,10 +351,6 @@
     {
       "object_offset": 4402,
       "public": "JUST_START_VERTICAL_SEQ"
-    },
-    {
-      "object_offset": 4966,
-      "public": "SNAKE_COME_OUT_OF_HOLE"
     }
   ],
   "emitted_size": 5878,
@@ -333,19 +361,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 11326,
   "group_id": "group:autohead/autohead",
   "kind": "same_source_group",
   "language": "c",
   "name": "autohead/autohead",
-  "object_sha256": "9de4ebf591d256f5f1d20bb4c9ecc1b727663ccb6898ac9a2ff6bb2e213e0a5a",
+  "object_sha256": "4e3ac07aebc88d971739a5e5499bad5484f779cf89f595676d586b4ac30d40fb",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autohead/autohead.c",
-  "source_sha256": "04108f25025029f2ed51fc2dcc68179fbd047307e3acd075ca428b31c20a2b8d",
+  "source_sha256": "11b85ac63314d0da10191a60165ce0a59405eace6c68d5b102ede58402cb4ef9",
   "space": "overlay-11"
 }

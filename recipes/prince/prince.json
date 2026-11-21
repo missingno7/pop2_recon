@@ -1,7 +1,42 @@
 {
   "binding": "evidence/bindings/prince/prince.json",
-  "binding_sha256": "e88d8705297b81dc87a2df6bb18da78f4fbdbb522f276ea806b013deaaeec5ba",
+  "binding_sha256": "5ecf8f2cb473f262ee2f809479dce36d790404646fcdc97f861580c774b0ff89",
   "claims": [
+    {
+      "fixup_count": 3,
+      "public": "READ_CONTROLS",
+      "target_id": "root:0000:105a"
+    },
+    {
+      "fixup_count": 14,
+      "public": "READ_GAMEPORT_CONTROLS",
+      "relocation_indices": [
+        34
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:106c"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CLEAR_KEYBOARD",
+      "relocation_indices": [
+        120
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:125a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "PRINCECOPY",
+      "relocation_indices": [
+        64
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:1268"
+    },
     {
       "fixup_count": 5,
       "public": "TOGGLEINVERTSTATE",
@@ -35,8 +70,13 @@
       "target_id": "root:0000:1316"
     }
   ],
-  "drafts": [],
-  "emitted_size": 98,
+  "drafts": [
+    {
+      "object_offset": 126,
+      "public": "READ_KEYBOARD_CONTROLS"
+    }
+  ],
+  "emitted_size": 742,
   "flags": [
     "/c",
     "/AM",
@@ -50,12 +90,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "prince/prince",
-  "object_sha256": "167b751406b953e800431af4298f77e191f3bd4c00ee4e85ac597539894655b2",
-  "origin": 4830,
+  "object_sha256": "e9e73317a6db01f9b85a8e0b9ac2c363d5f7b2016d1cc9e9144b29bbf30c2491",
+  "origin": 4186,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/prince/prince.c",
-  "source_sha256": "6cea6d9f3909921430bde1e4e2efce572d6437e6705a0b1a728a9be69925a1f0",
+  "source_sha256": "c2378831f4cb480b61504116454facc640d941af43f1fa5f6d9bc8815af6deeb",
   "space": "root"
 }

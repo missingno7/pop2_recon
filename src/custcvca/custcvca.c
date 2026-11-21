@@ -192,33 +192,22 @@ void draw_obj_carpet(Byte *unused)
     Byte palette;
 
     if (carpet && carpet->frame) {
-        slot = mid_count;
-        mid_rows[slot].x = actor_x;
-        frame = get_carpet_frame();
-        shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
-        mid_rows[slot].y = actor_y - shape->height;
-        mid_rows[slot].sheet = 4;
-        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
-        mid_rows[slot].clip = actor_clip;
+        slot = mid_count; mid_rows[slot].x = actor_x;
+        frame = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
+        mid_rows[slot].y = actor_y - shape->height; mid_rows[slot].sheet = 4;
+        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; mid_rows[slot].clip = actor_clip;
         mid_rows[slot].order = 10;
-        mid_rows[slot].reserved = 0;
-        mid_rows[slot].invisible = 0;
-        mid_rows[slot].depth = 255;
-        scroll = carpet_animation.scroll[frame];
-        if (scroll) {
-            camera_y += scroll;
-            translate_rect(&view_rect, &view_rect, 0, scroll);
+        mid_rows[slot].reserved = 0; mid_rows[slot].invisible = 0; mid_rows[slot].depth = 255;
+        scroll = carpet_animation.scroll[frame]; if (scroll) {
+            camera_y += scroll; translate_rect(&view_rect, &view_rect, 0, scroll);
         }
         if (carpet->sitting) {
             palette = carpet->frame - 4;
-            if (palette < 8)
-                set_resource(CARPET_SHAPE_ID, 16, 32, palette);
+            if (palette < 8) set_resource(CARPET_SHAPE_ID, 16, 32, palette);
         }
-        ++mid_count;
-        ++carpet->frame;
+        ++mid_count; ++carpet->frame;
         if (carpet->saved) {
-            set_floor_restore(1);
-            carpet->saved = 0;
+            set_floor_restore(1); carpet->saved = 0;
         }
     }
 }
