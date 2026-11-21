@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custcvca/custcvca.json",
-  "binding_sha256": "b09a232b524df0bd92fc733f5e42ceef5250db5009d1fd9edd9413c83cda7fe5",
+  "binding_sha256": "b1a6937720f1f8f60317f9c210c7f98c9de8d66d09fcc6702181ab8b3c5d0b56",
   "claims": [
     {
       "fixup_count": 3,
@@ -23,7 +23,7 @@
       "target_id": "overlay-13:2dc2:0012"
     },
     {
-      "fixup_count": 15,
+      "fixup_count": 14,
       "public": "DRAW_CARPET",
       "relocation_indices": [
         38,
@@ -57,7 +57,7 @@
       "target_id": "overlay-13:2dc2:03ea"
     },
     {
-      "fixup_count": 2,
+      "fixup_count": 1,
       "public": "MAP_CARPET_COLORS",
       "relocation_indices": [
         20
@@ -65,6 +65,24 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-13:2dc2:0428"
+    },
+    {
+      "fixup_count": 25,
+      "public": "SETUP_CARPET",
+      "relocation_indices": [
+        4,
+        7,
+        17,
+        28,
+        39,
+        41,
+        43
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-13:2dc2:043c"
     },
     {
       "fixup_count": 25,
@@ -87,6 +105,29 @@
       "target_id": "overlay-13:2dc2:04ec"
     },
     {
+      "fixup_count": 7,
+      "public": "TRIGGER_CHAR_ON_CARPET",
+      "relocation_indices": [
+        27,
+        35
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-13:2dc2:05da"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CAVE_BARS_OPEN",
+      "relocation_indices": [
+        15
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-13:2dc2:06c0"
+    },
+    {
       "fixup_count": 8,
       "public": "DRAW_CAVE_BARS",
       "relocation_indices": [
@@ -95,6 +136,20 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-13:2dc2:06e0"
+    },
+    {
+      "fixup_count": 5,
+      "public": "REDRAW_CAVE_BARS",
+      "relocation_indices": [
+        6,
+        11,
+        25
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-13:2dc2:0748"
     },
     {
       "fixup_count": 2,
@@ -120,28 +175,12 @@
       "public": "@get_carpet_shape_info"
     },
     {
-      "object_offset": 1084,
-      "public": "SETUP_CARPET"
-    },
-    {
-      "object_offset": 1498,
-      "public": "TRIGGER_CHAR_ON_CARPET"
-    },
-    {
       "object_offset": 1556,
       "public": "UNLOAD_CARPET_DATA"
     },
     {
       "object_offset": 1640,
       "public": "ANIMATE_CAVE_BARS"
-    },
-    {
-      "object_offset": 1728,
-      "public": "CAVE_BARS_OPEN"
-    },
-    {
-      "object_offset": 1864,
-      "public": "REDRAW_CAVE_BARS"
     }
   ],
   "emitted_size": 1982,
@@ -159,12 +198,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "custcvca/custcvca",
-  "object_sha256": "abbd90ae8bf54258a4e2b7713e46fb701f43a06b19ce474989d99bc951e9e4fe",
+  "object_sha256": "af99e068e923f7b5739ade3e79be16b931e9d51c5bf4bd1b47a1d09f07b2ca11",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custcvca/custcvca.c",
-  "source_sha256": "a69383517851d13f1cdb3aba20e8f43647a32a6c44515279a0b6da0c7664e284",
+  "source_sha256": "77ea8847918b1adfb03869b8a6f835476f27d08a00b969cf7ed1ccd84ea17041",
   "space": "overlay-13"
 }

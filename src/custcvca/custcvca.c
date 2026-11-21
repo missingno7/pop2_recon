@@ -12,7 +12,7 @@ typedef struct {
 } Carpet;
 typedef struct {
     signed char sheet, flags;
-    Byte near *colors;
+    unsigned int colors;
     int x, y;
     Byte col, row;
     Rect bounds;
@@ -21,7 +21,7 @@ typedef struct {
 typedef struct {
     int x, y;
     Byte sheet;
-    Byte near *image;
+    unsigned int image;
     Rect clip;
     Byte order;
     int reserved;
@@ -33,17 +33,25 @@ typedef struct { Byte kind; Byte row; Byte unknown[2]; Byte modifier; } TileAnim
 
 extern Carpet *carpet;                /* DS:2cdc */
 extern unsigned int *carpet_source;             /* DS:6242 */
-extern Byte carpet_colors[];                    /* DS:62d7 */
+#define CARPET_SHAPE_ID 0x62d7
 extern int carpet_y, carpet_x;                   /* DS:1d9c,1d9a */
-extern int carpet_image_offsets[];               /* DS:1d9e */
-extern signed char carpet_scroll_steps[];         /* DS:1db2 */
-extern CarpetStep carpet_steps[];                /* DS:1dbc */
-extern Rect cave_bars_bounds;                    /* DS:1de4 */
+static struct {
+    int images[10];
+    signed char scroll[10];
+    CarpetStep steps[10];
+    Rect bars;
+} carpet_animation = {
+    {0, 1, 2, 3, 4, 5, 6, 7, 1, 8},
+    {-1, 0, 1, 1, 1, 1, -1, 0, 0, 0},
+    {{7, -45}, {8, -46}, {5, -44}, {7, -39}, {7, -41},
+     {7, -39}, {5, -43}, {7, -42}, {8, -46}, {8, -46}},
+    {5, -88, 26, 7}
+};
 extern int carpet_view_enabled;                 /* DS:6266 */
 extern int custom_count, mid_count;              /* DS:6248,624e */
 extern int actor_x, actor_y;                     /* DS:6254,6256 */
 extern Byte actor_depth;                        /* DS:6253 */
-extern Byte near *actor_image;                  /* DS:6258 */
+extern unsigned int actor_image;                  /* DS:6258 */
 extern Rect actor_clip;                         /* DS:625b */
 extern Byte draw_col, draw_row, draw_flags;       /* DS:6ccf,6cce,6cd2 */
 extern CarpetDraw far carpet_draw_queue[];       /* 2fae:0000 */
@@ -68,7 +76,7 @@ extern void free_handle(Handle), mark_purgeable(Handle);
 extern Handle allocate_handle(long);
 extern Shape far *locate_shape(Handle);
 extern void create_shape(Handle, int, CarpetImage far *, int);
-extern void free_shape_slot(Byte near *);
+extern void free_shape_slot(int);
 extern void unload_palette(int);
 extern void shape_rect(Rect far *, int, int, Shape far *);
 extern void far _fastcall save_under_shape(int, int, int, int, Byte, Byte);
@@ -79,7 +87,7 @@ extern void far _fastcall set_draw_mode(Byte);
 typedef void far pascal DrawCallback(void);
 extern DrawCallback draw_under_actor, draw_carpet_foreground;
 extern void redraw_cells(DrawCallback *, Rect near *, signed char);
-extern void load_tile(Byte, Byte, Byte);
+extern void load_tile(signed char, signed char, signed char);
 extern void trigger_tile(Byte, Byte);
 extern void set_sequence(int);
 extern void move_char(Byte), set_char_state(Byte);
@@ -133,7 +141,7 @@ int check_carpet_image(int index)
         create_shape(copy_handle, index + 302, ENTRY, 1);
         mark_purgeable(ENTRY->handle);
         free_handle(copy_handle);
-        free_shape_slot(carpet_colors + index);
+        free_shape_slot(CARPET_SHAPE_ID + index);
     }
 return_handle:
 #undef ENTRY
@@ -151,7 +159,7 @@ void draw_carpet(Byte *tile)
         ++custom_count;
         entry->y = carpet_x;
         entry->x = carpet_y;
-        entry->colors = carpet_colors;
+        entry->colors = CARPET_SHAPE_ID;
         entry->sheet = 4;
         entry->col = draw_col;
         entry->row = draw_row;
@@ -187,16 +195,16 @@ void draw_obj_carpet(Byte *unused)
         slot = mid_count;
         mid_rows[slot].x = actor_x;
         frame = get_carpet_frame();
-        shape = get_carpet_shape_info(&ref, carpet_image_offsets[frame] + 1);
+        shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
         mid_rows[slot].y = actor_y - shape->height;
         mid_rows[slot].sheet = 4;
-        mid_rows[slot].image = carpet_colors + carpet_image_offsets[frame] + 1;
+        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
         mid_rows[slot].clip = actor_clip;
         mid_rows[slot].order = 10;
         mid_rows[slot].reserved = 0;
         mid_rows[slot].invisible = 0;
         mid_rows[slot].depth = 255;
-        scroll = carpet_scroll_steps[frame];
+        scroll = carpet_animation.scroll[frame];
         if (scroll) {
             camera_y += scroll;
             translate_rect(&view_rect, &view_rect, 0, scroll);
@@ -204,7 +212,7 @@ void draw_obj_carpet(Byte *unused)
         if (carpet->sitting) {
             palette = carpet->frame - 4;
             if (palette < 8)
-                set_resource((unsigned int)carpet_colors, 16, 32, palette);
+                set_resource(CARPET_SHAPE_ID, 16, 32, palette);
         }
         ++mid_count;
         ++carpet->frame;
@@ -262,7 +270,7 @@ void load_carpet_data(void)
 
 void map_carpet_colors(void)
 {
-    set_resource((unsigned int)carpet_colors, 16, 32, 0);
+    set_resource(CARPET_SHAPE_ID, 16, 32, 0);
 }
 
 void setup_carpet(void)
@@ -274,13 +282,13 @@ void setup_carpet(void)
     if (carpet && carpet->frame) {
         enter_char_context();
         frame = get_carpet_frame();
-        actor_image = carpet_colors + carpet_image_offsets[frame] + 1;
-        actor_y += carpet_steps[frame].dy;
-        actor_x += carpet_steps[frame].dx;
+        actor_image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
+        actor_y += carpet_animation.steps[frame].dy;
+        actor_x += carpet_animation.steps[frame].dx;
         if (!actor_depth)
             actor_x -= 20;
         update_char_pos();
-        shape = get_carpet_shape_info(&ref, actor_image - carpet_colors);
+        shape = get_carpet_shape_info(&ref, actor_image - CARPET_SHAPE_ID);
         shape_rect(&actor_clip, actor_y - shape->height, actor_x, shape);
         set_draw_mode(13);
         redraw_cells(draw_carpet_foreground, &actor_clip, -1);
@@ -327,7 +335,11 @@ void trigger_char_on_carpet(void)
         char_x = 268;
         if (char_direction == 0)
             char_x = 288;
-        start_sound(cave_bars_open() != 0 ? 34 : 35);
+        if (cave_bars_open()) {
+            start_sound(34);
+            return;
+        }
+        start_sound(35);
     }
 }
 
@@ -397,7 +409,7 @@ void draw_cave_bars(TileAnim *tile)
 void redraw_cave_bars(void)
 {
     Rect rect;
-    if (get_tile_rect(&rect, &cave_bars_bounds))
+    if (get_tile_rect(&rect, &carpet_animation.bars))
         redraw_cells(draw_under_actor, &rect, -1);
 }
 

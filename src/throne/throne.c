@@ -47,7 +47,11 @@ void draw_throne_room_gate_in_fore(void)
 void load_throne_room(void)
 {
     set_resource(3500, 64, 160, 2);
-    start_sound(opponent_sequence < 9 ? 253 : 152);
+    if (opponent_sequence < 9) {
+        start_sound(253);
+        return;
+    }
+    start_sound(152);
 }
 
 void unload_throne_room(void)

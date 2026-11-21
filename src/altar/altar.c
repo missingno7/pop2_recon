@@ -51,7 +51,7 @@ typedef struct { Byte frame, unknown; signed char col, dy; } FlameStep;
 #pragma pack()
 
 extern Character current_char, opponent, room_chars[];
-extern Byte char_action;
+extern signed char char_action;
 extern signed char char_image;
 extern Byte scene_flag;                       /* DS:6290 */
 extern unsigned int candle_sound;             /* DS:3256 */
@@ -120,7 +120,7 @@ void altar_shadow_progress(void)
         if (current_char.direction == -1) {
             if (current_char.col >= 6) {
                 if (current_char.program == 13)
-                    sequence = 71;
+                    goto turn;
                 else if (current_char.col >= 8)
                     sequence = 1;
                 else {
@@ -148,8 +148,10 @@ void altar_shadow_progress(void)
                 walk_distance(distance);
             else if (opponent.direction != current_char.direction)
                 sequence = 5;
-            else
+            else {
+turn:
                 sequence = 71;
+            }
         }
     } else if (((current_char.frame >= 1 && current_char.frame <= 14) ||
                 (current_char.frame >= 49 && current_char.frame <= 56)) &&
@@ -241,9 +243,13 @@ int altar_shadow_active(void)
     signed char i, count;
     i = 0;
     count = room_char_count;
-    for (; i < count && !result; ++i) {
-        if (room_chars[i].action == 1)
-            result = 1;
+    if (count > 0) {
+        do {
+            if (result)
+                break;
+            if (room_chars[i].action == 1)
+                result = 1;
+        } while (++i < count);
     }
     return result;
 }

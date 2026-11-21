@@ -58252,6 +58252,45 @@
           "pushed_cs_site": 750
         }
       ]
+    },
+    {
+      "id": "overlay-3:25da:0f66",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 3942,
+      "size": 176,
+      "sha256": "aae1b8417a597faef19823ba9f1f9f6c90fe1315ee012c436c33259c658a3048",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, one signed word argument at BP+6, RETF 2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts 55 8B EC at 25da:0f66 immediately after the reviewed Running extent and its RETF at 0f65.",
+        "Two relocated far calls from FINAL overlay 10 name the exact alias. The ALTAR caller also passes 0 or a signed horizontal distance.",
+        "Local branches resolve within 0f66..1015. RETF 2 at 1012 is followed by compiler NOP at 1015 and the independently reviewed TryPickUp entry 1016."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "file_offset": 243013,
+          "image_offset": 2597,
+          "relocated_segment_site": 2600
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "file_offset": 244211,
+          "image_offset": 3795,
+          "relocated_segment_site": 3798
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "FM Towns ACT.C pairing @DoStepFwd. DOS computes a signed step distance and chooses a sequence through same-CS 0016."
+      ],
+      "semantic_name_hypothesis": "step_forward"
     }
   ],
   "schema": 1,
