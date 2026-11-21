@@ -55451,6 +55451,447 @@
       "size": 92,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one signed byte pass in BP+6, RETF 2, saved SI and four-byte locals.",
+      "boundary_evidence": [
+        "Complete original interval [0x7ec4, 0x7fb2); Begins after the 0594 return and pad; four independently decoded PUSH CS/CALL sites enter it.",
+        "Far returns at 070e retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "Shared SI-restoring RETF 2 at 070e and alignment NOP precede the register-argument entry at 0712."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 40337,
+          "image_offset": 32145,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 32144,
+          "space": "root"
+        },
+        {
+          "file_offset": 41499,
+          "image_offset": 33307,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 33306,
+          "space": "root"
+        },
+        {
+          "file_offset": 44629,
+          "image_offset": 36437,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 36436,
+          "space": "root"
+        },
+        {
+          "file_offset": 45266,
+          "image_offset": 37074,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 37073,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches custom room images and, when enabled for the pass, the horse image."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0624",
+      "offset": 1572,
+      "segment": 1930,
+      "sha256": "5bf80cbe98417aac21b247162a01f29f8f2c106aa2a96d3abfcecc760217ca31",
+      "size": 238,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far Pascal. No arguments or consumed result. RETF.",
+      "boundary_evidence": [
+        "Complete original interval [0x8c52, 0x8cce); New root far entry after RETF at 13b1. The relocation inventory identifies direct far callers.",
+        "Far returns at 142c retf; all direct branches stay on instruction boundaries within the extent.",
+        "The last destination assignment precedes RETF and pad, followed by a new BP frame at 142e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ab2138a07",
+          "file_offset": 68050,
+          "image_offset": 59858,
+          "kind": "far_call",
+          "relocated_segment_site": 59861,
+          "relocation_index": 1251,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2138a07",
+          "file_offset": 68110,
+          "image_offset": 59918,
+          "kind": "far_call",
+          "relocated_segment_site": 59921,
+          "relocation_index": 1252,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2138a07",
+          "file_offset": 69543,
+          "image_offset": 61351,
+          "kind": "far_call",
+          "relocated_segment_site": 61354,
+          "relocation_index": 1253,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects the room clip surface, orders the room tables, and dispatches three drawing passes."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:13b2",
+      "offset": 5042,
+      "segment": 1930,
+      "sha256": "6004f9f802b314c9c85066a29838678d6ab89b0a36ba993a11ffb9dae01b27c8",
+      "size": 124,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, BP+6 is a near rectangle pointer, RETF 2. Eight byte local rectangle.",
+      "boundary_evidence": [
+        "Complete original interval [0x8cce, 0x8d64); New BP frame after the preceding RETF and NOP. Reached from same-frame CALL at 12d8.",
+        "Far returns at 14c1 retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "The compare loop and three outcomes join at 14bc, ending in RETF 2 immediately before 14c4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a2e148a07",
+          "file_offset": 15756,
+          "image_offset": 7564,
+          "kind": "far_call",
+          "relocated_segment_site": 7567,
+          "relocation_index": 193,
+          "space": "root"
+        },
+        {
+          "file_offset": 43896,
+          "image_offset": 35704,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35703,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Merges intersecting dirty rectangles or inserts a rectangle under a 40-entry bound."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:142e",
+      "offset": 5166,
+      "segment": 1930,
+      "sha256": "141cd0a6cbd471a6c04a9272e57a87093aff77e1b168d06c28194f14832b6be2",
+      "size": 150,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, RETF with saved SI/DI and 38-byte local frame.",
+      "boundary_evidence": [
+        "Complete original interval [0x8d64, 0x8e6a); Starts after RETF 2 at 14c1. The near caller at 0307 from the fast-cell routine enters here.",
+        "Far returns at 15c9 retf; all direct branches stay on instruction boundaries within the extent.",
+        "All exits restore the frame at 15c4 and RETF at 15c9 immediately before the 15ca frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39847,
+          "image_offset": 31655,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31654,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes a half-cell clip, inspects tile priority, and dispatches drawing callbacks."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:14c4",
+      "offset": 5316,
+      "segment": 1930,
+      "sha256": "338b2fc0a87d2c20a337880426e668bb152100d98cff2ba67a508c74723b297e",
+      "size": 262,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near rectangle pointer, word result in AX. RETF 2 and SI/DI saves.",
+      "boundary_evidence": [
+        "Complete original interval [0x8e6a, 0x8f36); Fresh BP frame immediately after RETF at 15c9. Two same-frame CALLs at 02a0 and 14d1 enter here.",
+        "Far returns at 1693 retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "Branches join at 168b, reload the result from BP+6, and RETF 2 immediately before 1696."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39744,
+          "image_offset": 31552,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31551,
+          "space": "root"
+        },
+        {
+          "file_offset": 44401,
+          "image_offset": 36209,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 36208,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Finds a qualifying room image and computes a rectangle from its clip template and current cell."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:15ca",
+      "offset": 5578,
+      "segment": 1930,
+      "sha256": "3f5dd02564e963bd72437ed03cccfdd7432501703670ed9d9a2e7a8e4d229102",
+      "size": 204,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, RETF with a 30-byte frame and SI/DI saves.",
+      "boundary_evidence": [
+        "Complete original interval [0x8f36, 0x9166); New BP frame after RETF 2 at 1693. Same-frame CALL from 02e2 reaches the entry.",
+        "Far returns at 18c4 retf; all direct branches stay on instruction boundaries within the extent.",
+        "Callback paths restore a saved rectangle and RETF at 18c4, then pad before 18c6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39810,
+          "image_offset": 31618,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31617,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Adjusts the floor clip and invokes left/current tile drawing callbacks under priority checks."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:1696",
+      "offset": 5782,
+      "segment": 1930,
+      "sha256": "4af0bf8d2362ccb20b1bea4eb35cdd3e727c08ce38df932a297be4ccbc28fe31",
+      "size": 560,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte argument in the BP+6 slot, RETF 2. 28-byte locals and SI/DI saves.",
+      "boundary_evidence": [
+        "Complete original interval [0x9166, 0x929e); Fresh BP frame after RETF at 18c4 and NOP. Same-frame CALLs at 0319, 1307 and 13ab enter here.",
+        "Far returns at 19fb retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "The empty path and object loop join at 19f6 and RETF 2 immediately before 19fe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39865,
+          "image_offset": 31673,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31672,
+          "space": "root"
+        },
+        {
+          "file_offset": 43943,
+          "image_offset": 35751,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35750,
+          "space": "root"
+        },
+        {
+          "file_offset": 44107,
+          "image_offset": 35915,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35914,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans intersecting or cell-matched object records, sorts the selected indices and draws them."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:18c6",
+      "offset": 6342,
+      "segment": 1930,
+      "sha256": "7be52a642c4c8a2f2d3f0b8538f7cbec37683ac2038871a315ca42f214a0f972",
+      "size": 312,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte object index, RETF 2 and byte return in AL.",
+      "boundary_evidence": [
+        "Complete original interval [0x96f2, 0x974e); Fresh BP frame reached by PUSH CS/CALL at 1c25.",
+        "Far returns at 1eaa retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "After the final AL load, returns at 1eaa. The pad precedes the separate BP frame at 1eae."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 46277,
+          "image_offset": 38085,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 38084,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads a selected 23-byte drawing-object record into the active object scratch fields."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:1e52",
+      "offset": 7762,
+      "segment": 1930,
+      "sha256": "d53d4068c9857a37b2ac8e1eef7df4f93b304930d47796873b0ac11a981a750e",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near pointer to draw arguments in BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Complete original interval [0xa01c, 0xa0a4); Fresh BP frame after the opponent meter return and NOP. A relocated far pointer at overlay-17+0x4386 (relocation 38) names 078a:277c.",
+        "Far returns at 2801 retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "Both draw paths share the SI/DI-restoring epilogue ending at 2804 before a new frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DrawSword ordered FM public. Draws the base tile callback and adds the selected sword image."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:277c",
+      "offset": 10108,
+      "segment": 1930,
+      "sha256": "d3f45c10f669c74b775f998e79bb7d44b9732b3ca77482d30bae3716ac348535",
+      "size": 136,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one byte tile kind in BP+6, RETF 2 and word Boolean result.",
+      "boundary_evidence": [
+        "Complete original interval [0xa10c, 0xa144); New BP frame after 286b pad. Relocated direct calls from overlay-3+0x3f20 and +0x3f2b enter here.",
+        "Far returns at 2899 retf 2, 28a1 retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "Both closed RETF 2 epilogues are in this extent. The final return ends at the IsMobFloor frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a6c288a07",
+          "file_offset": 200939,
+          "image_offset": 16171,
+          "kind": "far_call",
+          "relocated_segment_site": 16174,
+          "relocation_index": 200,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a6c288a07",
+          "file_offset": 200928,
+          "image_offset": 16160,
+          "kind": "far_call",
+          "relocated_segment_site": 16163,
+          "relocation_index": 201,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Combines the open-tile and impassable predicates with tile kinds 6 and 34."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:286c",
+      "offset": 10348,
+      "segment": 1930,
+      "sha256": "edb9d61cb4a2ecf4d00fac0db5542b71d1f7cf23ca86c31e4a934645ccb705fc",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, word resource ID, RETF 2, low byte of palette count in AL.",
+      "boundary_evidence": [
+        "Complete original interval [0xa4f6, 0xa532); Fresh BP frame immediately after RETF 8 at 2c53. Its PUSH CS/CALL at 2b17 enters this frame.",
+        "Far returns at 2c8f retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "The found and missing cases join at 2c88. RETF 2 ends exactly at the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 50103,
+          "image_offset": 41911,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 41910,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "GetTotalPals ordered FM public. Finds a palette count resource, reads it and unlocks it."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:2c56",
+      "offset": 11350,
+      "segment": 1930,
+      "sha256": "04b0e2acb0eef3626aa787ce4c4d8aa01f18a9e70d7573d776c7d6d885fe7ad1",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, word shape index in BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Complete original interval [0xa532, 0xa552); Fresh BP frame after RETF 2 at 2c8f. Both PUSH CS/CALLs from DrawMiddleItem enter 2c92.",
+        "Far returns at 2cae retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "Completes after the ES-relative word store, one RETF 2 and its alignment NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 43016,
+          "image_offset": 34824,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 34823,
+          "space": "root"
+        },
+        {
+          "file_offset": 43081,
+          "image_offset": 34889,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 34888,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "TweakKidShpList ordered FM public. Obtains the shape list and updates its third word."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:2c92",
+      "offset": 11410,
+      "segment": 1930,
+      "sha256": "ff2fcd5193896dfd439cab8835d5296c72003e7262e22d0f66dd261ba7b68d7a",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
