@@ -448,3 +448,24 @@ class ReplacePublicationTests(unittest.TestCase):
         before = self.manifest.read_bytes()
         with self.assertRaisesRegex(ValueError, "overwrite"):
             publication.publish(self.root, {self.recipe: b"x\n"}, before, {"owners": []}, lambda: None)
+
+
+class ReachabilityTests(unittest.TestCase):
+    """v4 witnesses must be reached code: LOOP edges followed, prefixed JMP not fallen through."""
+
+    def reach(self, code, entry_at=32):
+        import binding
+        from oracle import Space
+        image = bytearray(16) + struct.pack("<BHH", 0x9a, entry_at, 0) + bytearray(entry_at - 21) + code
+        space = Space("root", 0, 0, bytes(image), ({"image_offset": 19, "index": 0},))
+        oracle = SimpleNamespace(spaces={"root": space})
+        binding._REACH.clear()
+        return binding.reachable_from_entry(oracle, "root:0000:%04x" % entry_at)
+
+    def test_loop_target_is_followed(self):
+        # 32: loop +2 -> 36 ; 34: ret ; 35: nop ; 36: ret
+        self.assertIn(36, self.reach(bytes.fromhex("e202c390c3")))
+
+    def test_prefixed_unconditional_jump_does_not_fall_through(self):
+        # 32: cs: jmp word ptr [0x0100] ; 37: bytes after it must not be reached
+        self.assertNotIn(37, self.reach(bytes.fromhex("2eff260001b8ffffc3")))

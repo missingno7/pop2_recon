@@ -72,14 +72,17 @@ def reachable_from_entry(oracle, entry):
                 break
             seen.add(pos)
             groups = set(insn.groups)
-            if groups.intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or insn.mnemonic in ("ljmp", "hlt"):
+            # Prefixes (CS:, REP, ...) may decorate the mnemonic, so test the last word.
+            op_name = insn.mnemonic.split()[-1]
+            if groups.intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or op_name in ("ljmp", "hlt", "iret"):
                 break
-            if cs.CS_GRP_JUMP in groups:
+            branch = cs.CS_GRP_JUMP in groups or op_name.startswith("loop") or op_name in ("jcxz", "jecxz")
+            if branch:
                 op = insn.operands[0] if insn.operands else None
-                if op is not None and op.type == 2:  # immediate near target
+                if op is not None and op.type == 2:  # immediate near target, both edges followed
                     work.append(base + (op.imm & 0xFFFF))
-                if insn.mnemonic == "jmp":
-                    break
+                if op_name == "jmp":
+                    break  # unconditional: direct target queued above, indirect stops
             pos += insn.size
     _REACH[entry] = seen
     return seen
