@@ -1,9 +1,7 @@
 {
   "declarations": {
     "externals": [
-      "SHAPE_METADATA_LIST",
-      "LEGACY_CATALOG",
-      "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
+      "ENUMERATE_DOS_DIRECTORY"
     ],
     "groups": [
       {
@@ -17,7 +15,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "FIND_SHAPE_METADATA",
+        "name": "CHECK_DOS_DRIVE",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -32,7 +30,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 96,
+        "length": 57,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -44,10 +42,20 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 0,
+        "length": 16,
         "name": "_DATA",
         "overlay": "",
         "use32": false
+      }
+    ]
+  },
+  "dgroup_segment": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
       }
     ]
   },
@@ -64,13 +72,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 2,
+      "segment_offset": 23,
       "self_relative": false,
       "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "SHAPE_METADATA_LIST",
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
         "zero_displacement": true
       }
     },
@@ -86,35 +94,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 14,
+      "segment_offset": 34,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 2,
-        "kind": "external",
-        "name": "LEGACY_CATALOG"
-      },
-      "kind": "fixup",
-      "loc_type": 2,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 66,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "LEGACY_CATALOG",
+        "name": "ENUMERATE_DOS_DIRECTORY",
         "zero_displacement": true
       }
     }
@@ -133,51 +119,21 @@
     }
   },
   "mode": "external-dgroup-offset16-v4",
+  "placements": {
+    "_DATA": 9786
+  },
   "schema": 1,
   "symbols": {
-    "LEGACY_CATALOG": {
-      "kind": "segment-base",
-      "segment": 12185,
-      "witnesses": [
-        {
-          "image_offset": 99840,
-          "relocation_index": 1450,
-          "space": "root"
-        }
-      ]
-    },
-    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+    "ENUMERATE_DOS_DIRECTORY": {
+      "entry_sha256": "d0e30fb7f5207a6a66175dfdd632911bcfd4ad65af188990ad7b27e600f7bdf2",
+      "entry_target_id": "root:1101:7b26",
       "kind": "near-code-entry",
-      "offset": 8556,
+      "offset": 31526,
       "segment": 4353,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "0ee863d4",
-          "entry": "root:1101:4cd2",
-          "image_offset": 89365,
-          "space": "root"
-        }
-      ]
-    },
-    "SHAPE_METADATA_LIST": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9772,
-      "witnesses": [
-        {
-          "bytes_hex": "bf2c26",
-          "context": "mov di, 0x262c reached from root:1101:6f6a",
-          "entry": "root:1101:6f6a",
-          "image_offset": 99100,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     }
   },
-  "target_id": "group:find_shape_metadata",
+  "target_id": "group:check_dos_drive",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

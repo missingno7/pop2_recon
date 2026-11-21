@@ -1,5 +1,17 @@
 {
+  "binding": "evidence/bindings/handle_flags.json",
+  "binding_sha256": "90eeeb1fe4f4248cd299a8053d24537f7bfbc618afc7ae13f55ede6134cb1ab9",
   "claims": [
+    {
+      "fixup_count": 3,
+      "public": "ALLOCATE_PAYLOAD_HANDLE",
+      "relocation_indices": [
+        1455
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:2436"
+    },
     {
       "fixup_count": 0,
       "public": "MARK_FIXED",
@@ -9,22 +21,42 @@
       "fixup_count": 0,
       "public": "MARK_PURGEABLE",
       "target_id": "root:1101:24aa"
+    },
+    {
+      "fixup_count": 2,
+      "public": "REPLACE_HANDLE_PAYLOAD",
+      "target_id": "root:1101:24be"
+    },
+    {
+      "fixup_count": 6,
+      "public": "RESIZE_HANDLE",
+      "target_id": "root:1101:2502"
+    },
+    {
+      "fixup_count": 0,
+      "public": "RESTORE_HANDLE_FLAGS",
+      "target_id": "root:1101:2594"
     }
   ],
-  "drafts": [],
-  "emitted_size": 40,
+  "drafts": [
+    {
+      "object_offset": 60,
+      "public": "ALLOCATE_EMPTY_HANDLE"
+    }
+  ],
+  "emitted_size": 379,
   "flags": [],
   "frame": 4353,
   "group_id": "group:handle_flags",
   "kind": "same_source_group",
   "language": "asm",
   "name": "handle_flags",
-  "object_sha256": "34a5c40adc4dea82387b7315af2d07e58e4b0ba573ce1aa46f5780034278a211",
-  "origin": 79014,
+  "object_sha256": "9517e929a53d327b2684e5bd76b7a9d031998f61a828f92a6b88256b88233b6f",
+  "origin": 78918,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/handle_flags.asm",
-  "source_sha256": "392bf8856e5a71c23d1878cd6af00d8e34a9486641c45b08ccb6d799159a132b",
+  "source_sha256": "15e6338663b5190614fd427b90b0f4eaeacbd832961b436d2d599b57b4993145",
   "space": "root"
 }
