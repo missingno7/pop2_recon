@@ -1,0 +1,29 @@
+{
+  "archive_offset": 397312,
+  "binding": "evidence/bindings/rtl_pathsrch.json",
+  "binding_sha256": "b27272ff5adda6f6643d53ec9ae23cd3d92bcaf0e5b5546d5999028cd87b2311",
+  "boundary_evidence": [
+    "Complete RTLink/Plus 6.10 RTLUTILS.LIB member pathsrch.asm (archive offset 0x61000, 1050 bytes) whose whole 820-byte $$OVLMGR_UTILS contribution lies at root 0x230d7 (22e5:0287). Original relocated CALL FARs reach 22e5:02e3 ($$RTLPATHSEARCH) and 22e5:0429 ($$RTLGETPROGNAME) of this member."
+  ],
+  "fixup_count": 7,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/rtlink-plus-6.10/installed/RTLUTILS.LIB",
+  "library_sha256": "c718bac09b0b1204a259494446acfa8bfffb129144cc7d36799855621f4fdccb",
+  "member_extent": 1050,
+  "member_sha256": "041d9aa2c4c294d4660a82c5bd0b7051e990c9c0ed3d0bc4b4bb78084299ff3d",
+  "name": "rtl_pathsrch",
+  "object_segment": "$$OVLMGR_UTILS",
+  "offset": 647,
+  "proof_scope": "Whole pinned RTLink manager member segment with every fixup computed from independently grounded output-segment frames and pinned providers; interior uninitialized bytes linked as zero; natural RTLink placement and behavior unproved",
+  "publics": [
+    "$$RTLGETPROGNAME",
+    "$$RTLPATHSEARCH",
+    "$$RTLGETENV"
+  ],
+  "schema": 1,
+  "segment": 8933,
+  "segment_class": "$$OVLMGR_UTILS",
+  "size": 820,
+  "space": "root",
+  "target_sha256": "06b50916a0517f11f91a03a8bb0f8ca8836bcbf90cbc12b009d62d905c31e4b0"
+}
