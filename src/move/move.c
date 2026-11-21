@@ -1423,7 +1423,16 @@ void select_trob_cell(int cell)
 }
 
 extern int mob_index;
-extern int mob_heights[], mob_widths[];
+static struct {
+    int heights[13];
+    int widths[13];
+} mob_dimensions = {
+    {18, 18, 2, 16, 27, 39, 69, 69, 12, 12, 37, 37, 18},
+    {50, 50, 4, 57, 27, 31, 52, 52, 24, 24, 69, 57, 17}
+};
+
+#define mob_heights mob_dimensions.heights
+#define mob_widths mob_dimensions.widths
 extern void animate_mob_kind_2(void);
 extern void animate_mob_kind_4(void);
 extern void animate_mob_kind_6(void);
@@ -1744,21 +1753,20 @@ void add_loose_to_frame(void)
         MoveRect rect;
         byte pad;
         sbyte cell, row, column;
-        int height;
     } work;
 
-    work.height = mob_heights[current_mob.kind];
+    int height = mob_heights[current_mob.kind];
 
     if (viewed_room == current_mob.room) {
-        if (work.height + 191 <= y)
+        if (height + 191 <= y)
             visible = 0;
     } else if (upper_room == current_mob.room) {
-        if (work.height > y)
+        if (height > y)
             y += 191;
         else
             visible = 0;
     } else if (lower_room == current_mob.room) {
-        if (191 - work.height <= y)
+        if (191 - height <= y)
             y -= 191;
         else
             visible = 0;
@@ -1782,7 +1790,7 @@ void add_loose_to_frame(void)
         work.cell = room_cell(work.column, work.row);
         if (upper_room != current_mob.room)
             mark_floor(work.cell, &work.rect);
-        work.cell = room_row_at_y(y - work.height);
+        work.cell = room_row_at_y(y - height);
         if (work.cell != work.row)
             mark_floor(room_cell(work.column, work.cell), &work.rect);
     }
@@ -1850,19 +1858,21 @@ typedef struct {
 
 extern int mob_draw_count;
 extern MobDraw mob_draw_list[];
-extern void order_mob_object(int index);
+extern void order_mob_object(sbyte index);
 
 void add_mob_obj(int y)
 {
     int index = mob_draw_count++;
     int zero;
+    struct { MoveRect *rect; } work;
 
     mob_draw_list[index].image = current_mob.kind | 0x80;
     mob_draw_list[index].x = current_mob.x;
     mob_draw_list[index].y = y;
     mob_draw_list[index].bank = 4;
     mob_draw_list[index].flags = current_mob.flags;
-    compute_mob_rect(&mob_draw_list[index].rect);
+    work.rect = &mob_draw_list[index].rect;
+    compute_mob_rect(work.rect);
     zero = 0;
     mob_draw_list[index].sequence = zero;
     mob_draw_list[index].scratch = zero;
