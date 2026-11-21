@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/shape/shape.json",
-  "binding_sha256": "eca2eb2c7f2baa7ca1a777423494b5ea1d1e12dbd77c72c27e4207d27f4f2f75",
+  "binding_sha256": "835c45c7f8d8f51536ca6910754a001cf017f7dab0a745e1502e8790036783e5",
   "claims": [
     {
       "fixup_count": 1,
@@ -11,6 +11,22 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1ecf:000c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "PRINCEPAINTSHAPEIDX",
+      "relocation_indices": [
+        1823,
+        1825,
+        1827,
+        1840,
+        1857
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1ecf:059c"
     },
     {
       "fixup_count": 2,
@@ -123,23 +139,19 @@
       "public": "PRINCEMARKIMGSPURGEABLE"
     },
     {
-      "object_offset": 988,
+      "object_offset": 990,
       "public": "PRINCEMARKRANGESPURGEABLE"
     },
     {
-      "object_offset": 1036,
+      "object_offset": 1034,
       "public": "PRINCENEWSHPITEM"
     },
     {
-      "object_offset": 1426,
-      "public": "PRINCEPAINTSHAPEIDX"
-    },
-    {
-      "object_offset": 1584,
+      "object_offset": 1582,
       "public": "GET_LIST_ITEM"
     },
     {
-      "object_offset": 1664,
+      "object_offset": 1662,
       "public": "PRINCEGETNSHAPEITEMSIZE"
     },
     {
@@ -161,12 +173,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "shape/shape",
-  "object_sha256": "a16c8a4a0b9c0ec44cf5ae826ddc8d2306dedac6255da2c9af95088113576b44",
+  "object_sha256": "ae8f2a3ed563c48f60d8311388b264112f18f318374881ffd2595c36d169ce43",
   "origin": 126204,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/shape/shape.c",
-  "source_sha256": "0750c11754a75bf964158bc30244ef21e4112787b8141a597c1a6724895606bf",
+  "source_sha256": "c29eb5380f65be72e320afff37cce56e3e41ad5cf0ddc98e4d4d67ec8c4856fa",
   "space": "root"
 }

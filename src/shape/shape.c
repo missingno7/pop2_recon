@@ -49,7 +49,7 @@ extern void show_error(int fatal, const char far *text);
 extern int get_handle_flags(Handle handle);
 extern void far *get_handle_address(Handle handle);
 extern Handle load_mapping(unsigned char id);
-extern void prepare_mapping(Handle far *mapping);
+extern void prepare_mapping(unsigned long address);
 extern void set_handle_flags(Handle handle, int flags);
 extern void far *resolve_handle(Handle handle);
 extern void lock_handle(Handle handle);
@@ -116,7 +116,7 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
         if (prepare) {
             unsigned segment = ((unsigned long)resource) >> 16;
             unsigned offset = (unsigned)&resource->mapping;
-            prepare_mapping((Handle far *)(((unsigned long)segment << 16) | offset));
+            prepare_mapping(((unsigned long)segment << 16) | offset);
         }
     }
     set_handle_flags(handle, flags);
@@ -226,17 +226,17 @@ void overlay_shape_list(ShapeList *list, int id, int first, int last, signed cha
 
 void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
 {
-    Handle *entry;
+    ShapeInfo *entry;
     int count;
 
     if (list->count > last && last >= first) {
-        entry = &list->items[first].image;
+        entry = &list->items[first];
         count = last - first + 1;
         if (first <= last) {
             do {
-                if (*entry)
-                    mark_purgeable(*entry);
-                entry += 3;
+                if (entry->image)
+                    mark_purgeable(entry->image);
+                ++entry;
             } while (--count);
         }
     }
@@ -244,12 +244,10 @@ void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
 
 void PrinceMarkRangesPurgeable(ShapeList *list, int *first, int *last)
 {
-    int *begin;
-    int *end;
+    int *begin = first;
+    int *end = last;
 
     if (*first != -1) {
-        end = last;
-        begin = first;
         do {
             PrinceMarkImgsPurgeable(list, *begin, *end);
             ++end;
@@ -350,7 +348,7 @@ ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result)
 
 void far *PrinceGetnShapeItemSize(ShapeList *list, int index, unsigned long far *size)
 {
-    Handle handle = ((ShapeInfo *)list)[index].image;
+    volatile Handle handle = ((ShapeInfo *)list)[index].image;
     unsigned long far *image;
 
     if (handle && (image = resolve_handle(handle)) != 0)
