@@ -384,7 +384,9 @@ void far pascal AnimChar(void)
                 if (!animation_position) {
                     restore_resource(sequence, status);
                     sequence = (SequenceHandle)find_char_sequence(animation_sequence);
-                    goto retain_sequence;
+                    status = resource_status(sequence);
+                    retain_resource(sequence);
+                    break;
                 }
             } else if (opcode == 3) {
                 TriggerJinnee();
@@ -448,7 +450,6 @@ void far pascal AnimChar(void)
             sequence = (SequenceHandle)find_char_sequence(opcode);
             if (!sequence)
                 break;
-        retain_sequence:
             status = resource_status(sequence);
             retain_resource(sequence);
             break;
@@ -648,18 +649,15 @@ int far pascal decrement_life_points(volatile signed char amount)
     if (character_kind == 4 && STATE_LEVEL == 5 && character_row == 1 &&
           (character_room == 10 || character_room == 7 || character_room == 12))
         goto done;
-    if (Char.bytes[18] > amount)
-        goto pending;
-    if (-Char.bytes[18] < life_delta)
-        life_delta = -Char.bytes[18];
-    lethal = 1;
-    goto done;
-pending:
-    if (-life_delta < amount) {
+    if (amount >= *(volatile signed char *)&Char.bytes[18]) {
+        if (-Char.bytes[18] < life_delta)
+            life_delta = -Char.bytes[18];
+        lethal = 1;
+    } else if (-life_delta < amount) {
         life_delta = -amount;
-        goto done;
+    } else {
+        lethal = Char.bytes[18] + life_delta == 0;
     }
-    lethal = (unsigned)(Char.bytes[18] + life_delta) < 1;
 done:
     return lethal;
 }
@@ -1382,7 +1380,7 @@ void far pascal ClipChar(void)
     }
     if (character_kind == 0 && frame_number >= 217 && frame_number <= 226) {
         tile = ReadCell(character_room, base_cell, character_row);
-        if (clip_floor(bounds, clip_tables[STATE_MODE], base_cell + (tile == 16), character_row)) {
+        if (clip_floor(bounds, clip_tables[STATE_MODE], (tile == 16) + (signed char)base_cell, character_row)) {
             fchar_rect.top = bounds[0];
             fchar_rect.right = bounds[3];
         }
@@ -1419,7 +1417,7 @@ adjust:
         !(character_room == 3 && STATE_MODE == 6) &&
         !(character_room == 6 && STATE_MODE == 6)) {
         tile = row + 1;
-        if (tile) {
+        if (row) {
             frame = (signed char)63 * tile - 60;
             if ((int)frame < sprite_y) {
                 if ((int)frame - 15 >= clip_top_cache)
@@ -1429,8 +1427,7 @@ adjust:
             }
         }
         if (clearance && !flying) {
-            top = (signed char)63 * tile - 60;
-            if (top > fchar_rect.top)
+            if ((top = (signed char)63 * tile - 60) > fchar_rect.top)
                 fchar_rect.top = clip_top_cache = top;
         }
     }

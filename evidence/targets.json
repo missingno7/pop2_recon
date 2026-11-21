@@ -63837,6 +63837,65 @@
         "Medium-model MSC runtime helper."
       ],
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:02cc:1348",
+      "space": "root",
+      "segment": 716,
+      "offset": 4936,
+      "size": 74,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PlayerCtrl PUSH CS/CALL at root+0x3f8e/0x3f8f lands at this BP prologue.",
+        "Previous RETF/NOP at root+0x4006..0x4008. Original branches have a shared RETF at root+0x4050; the following NOP precedes FaceJoystick at root+0x4052."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 16271,
+          "file_offset": 24463,
+          "pushed_cs_site": 16270
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "CTRL.C module pairing and original decoded character-control logic."
+      ],
+      "original_name": "UserCtrl",
+      "semantic_name_hypothesis": "UserCtrl",
+      "abi": "No stack arguments; far Pascal RETF.",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec02a0015c8846ff0ac075040ee83600833e8e5e0074040ee84b00833efa2c0074059a5000a40d9a7e04da25807eff0075040ee81000833e8e5e0074040ee825008be55dcb90",
+      "sha256": "6d3269f995a4c82971fd16032eb4406e7b962ac684568040fb248a10924ac198"
+    },
+    {
+      "id": "root:02cc:1a54",
+      "space": "root",
+      "segment": 716,
+      "offset": 6740,
+      "size": 68,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PotionEffect ends at root+0x4714 after RETF/NOP at 0x4712..0x4714.",
+        "The complete CFG branches to two boolean epilogues with RETF at root+0x4750 and 0x4757. Original PUSH CS/CALL at root+0x4718/0x4719 lands at IsDeadPos; the separately reviewed next entry is root+0x4758.",
+        "FM Towns CTRL.C probable ordered partner @Static."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "CTRL.C module pairing and original decoded character-control logic."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "is_static_frame",
+      "abi": "No stack arguments; AX boolean; both exits RETF.",
+      "state": "ANALYZED",
+      "original_bytes_hex": "ff36075c0ee89a000bc075323906075c742c833e075c0f7425833e075c6d741e813e075ca6007416813e075cab00740e813e075ce50074062bd28bc2cb90ba01008bc2cb",
+      "sha256": "292b028d3da4e263046eb846294f4abb69fd1da82cf1f2011099eb045051b07e"
     }
   ],
   "schema": 1,

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "cb85c283702f64de605fe2a6c6787304b729558df25b7d6936b9aa13f8954d3d",
+  "binding_sha256": "1dcde1a18483eea21b00170c5adb6bfdf07392434f8f49e74bf59c5ad7c864a2",
   "claims": [
     {
       "fixup_count": 28,
@@ -319,6 +319,17 @@
       "target_id": "root:02cc:12e2"
     },
     {
+      "fixup_count": 10,
+      "public": "USERCTRL",
+      "relocation_indices": [
+        282,
+        363
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:1348"
+    },
+    {
       "fixup_count": 5,
       "public": "FACEJOYSTICK",
       "target_id": "root:0000:4052"
@@ -436,6 +447,11 @@
       "target_id": "root:02cc:1998"
     },
     {
+      "fixup_count": 8,
+      "public": "IS_STATIC_FRAME",
+      "target_id": "root:02cc:1a54"
+    },
+    {
       "fixup_count": 12,
       "public": "IS_CHAR_NON_VIEWABLE",
       "target_id": "root:02cc:1a98"
@@ -535,16 +551,8 @@
       "public": "SHAD_CTRL"
     },
     {
-      "object_offset": 4934,
-      "public": "USERCTRL"
-    },
-    {
       "object_offset": 5640,
       "public": "CLIPCHAR"
-    },
-    {
-      "object_offset": 6738,
-      "public": "IS_STATIC_FRAME"
     },
     {
       "object_offset": 7124,
@@ -559,19 +567,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 716,
   "group_id": "group:ctrl/ctrl",
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "b0ae383aba37e05610fbaa5a533764eefadaf0e675289497cf6aaedd005b9765",
+  "object_sha256": "c2def8521922a03eed31d2671fe447f9991731b01ee31e5eae1562a0694099b9",
   "origin": 11458,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "c9a35773c685aaadb39cc5e6e67326a8ae7690c54bc4a6f73c0a0365769bfc8e",
+  "source_sha256": "31b55c59a2dec0e96c1609a55f0c99824abeaae0c2b15d7ae9062acacce64fcc",
   "space": "root"
 }
