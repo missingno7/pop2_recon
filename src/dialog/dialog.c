@@ -991,14 +991,151 @@ void far pascal show_dialog_notice(int reason)
         show_notice_error(1, notice_failure);
 }
 
-/* The intervening symbol and hall-of-fame routines are still open. */
-
 int * far pascal ComputeSymbolPt(int *p, int index)
 {
     p[1] = (index % 5) * 42 + 62;
     p[0] = (index / 5) * 42 + 69;
     return p;
 }
+extern char * far cdecl malloc(unsigned);
+extern void far cdecl free(void *);
+extern int far cdecl sprintf(char *, const char *, ...);
+static const struct dialog_point _based(_segname("_CONST")) symbol_heading = {28, 47};
+static const struct dialog_point _based(_segname("_CONST")) symbol_caption = {44, 72};
+
+void far pascal draw_notice_symbols(unsigned symbol, DialogAsset asset, int attempt)
+{
+    char text[100];
+    int text_handle;
+    const char far *format;
+    char *near_format;
+    int point[2];
+    struct dialog_range range;
+    int index;
+
+    if (attempt)
+        frame_rect((struct dialog_rect far *)notice_port, 12);
+    text_handle = find_dialog_string(8006);
+    format = lock_string_handle(text_handle);
+    near_format = malloc(_fstrlen(format) + 1);
+    _fstrcpy(near_format, format);
+    sprintf(text, near_format, symbol);
+    release_handle(text_handle);
+    free(near_format);
+    DialogDrawStr(text, 10, 0, &symbol_caption, 0, 0);
+
+    if (!attempt) {
+        DialogDrawStrId(8005, 10, 0, &symbol_heading, 0, 0);
+        /* The original writes only the last bound for these two lines. */
+        range.last = -1;
+        DialogDrawStrId(8007, 10, 0, 0, &save_description, &range);
+        range.last = 1;
+        DialogDrawStrId(8008, 10, 0, 0, &save_description, &range);
+        index = 0;
+        do {
+            ComputeSymbolPt(point, index);
+            use_frame_palette(asset, index + 4, point[1], point[0], 10);
+        } while (++index < 10);
+    }
+}
+
+void far pascal draw_notice_cursor(int index, int selected)
+{
+    struct { int * ink; struct dialog_rect rect; } state;
+    int previous_ink;
+
+    previous_ink = current_port->foreground;
+    state.ink = &current_port->foreground;
+
+    if (selected)
+        *(volatile int *)state.ink = 14;
+    else
+        *(volatile int *)state.ink = 12;
+    ComputeSymbolPt((int *)&state.rect, index);
+    state.rect.left -= 3;
+    state.rect.right = state.rect.left + 35;
+    state.rect.top -= 3;
+    state.rect.bottom = state.rect.top + 35;
+    fill_rect(&state.rect);
+    current_port->foreground = previous_ink;
+}
+
+
+extern int notice_keyboard_text;
+extern int far cdecl _fstrcmp(const char far *, const char far *);
+
+int far pascal read_notice_selection(void)
+{
+    char typed[101];
+    const char far *confirmation;
+    int confirmation_length = 0;
+    int typed_count = 0;
+    int previous = -1;
+    int index = 0;
+    int done = 0;
+    unsigned key;
+
+    if (notice_keyboard_text) {
+        confirmation = lock_string_handle(find_dialog_string(10));
+        confirmation_length = _fstrlen(confirmation);
+    } else {
+        confirmation = 0;
+    }
+    do {
+        if (previous != index) {
+            if (previous != -1)
+                draw_notice_cursor(previous, 0);
+            previous = index;
+            draw_notice_cursor(index, 1);
+        }
+        key = read_key();
+        switch (key) {
+        case 9:
+            previous = index;
+            index = index == 9 ? 0 : index + 1;
+            break;
+        case 13:
+            done = 1;
+            break;
+        case 17:
+        case 0x1000:
+            acknowledge_key(0, 0, 0);
+            break;
+        case 0x4700:
+            index = 0;
+            break;
+        case 0x4800:
+        case 0x5000:
+            index += index >= 5 ? -5 : 5;
+            break;
+        case 0x4b00:
+            index += index % 5 == 0 ? 4 : -1;
+            break;
+        case 0x4d00:
+            index += index % 5 == 4 ? -4 : 1;
+            break;
+        case 0x4f00:
+            index = 9;
+            break;
+        default:
+            if (key && confirmation && typed_count < 100)
+                typed[typed_count++] = (char)key;
+            break;
+        }
+    } while (!done);
+    draw_notice_cursor(index, 0);
+    if (confirmation) {
+        if (typed_count >= confirmation_length) {
+            typed[typed_count] = '\0';
+            if (!_fstrcmp(confirmation, typed + typed_count - confirmation_length))
+                index = -2;
+        }
+        release_handle(find_dialog_string(10));
+    }
+    return index;
+}
+
+/* The hall display and file routines between the notice and this helper are open. */
 int far * far pascal ComputeHallPlayerRect(int far *p, int index)
 {
     p[1] = 25;

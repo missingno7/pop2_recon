@@ -1,7 +1,20 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "e223dacbef17989af3e22597f12d4ffde3a14cde1dc4845262e16911677dc894",
+  "binding_sha256": "423bc7ba6e5bc010a87e8918b842de55594658d8f6df760808786c92274fb855",
   "claims": [
+    {
+      "fixup_count": 4,
+      "public": "DRAW_DIALOG_TEXT_BLOCK",
+      "relocation_indices": [
+        466,
+        496
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:000e"
+    },
     {
       "fixup_count": 4,
       "public": "DIALOGDRAWNUMBER",
@@ -331,13 +344,30 @@
       "fixup_count": 0,
       "public": "COMPUTESYMBOLPT",
       "target_id": "root:0000:66ac"
+    },
+    {
+      "fixup_count": 20,
+      "public": "DRAW_NOTICE_SYMBOLS",
+      "relocation_indices": [
+        432,
+        476,
+        509,
+        527,
+        530,
+        600,
+        618,
+        652,
+        668,
+        694
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:1414"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "DRAW_DIALOG_TEXT_BLOCK"
-    },
     {
       "object_offset": 712,
       "public": "DIALOGRESETTOGAMEPLAY"
@@ -367,39 +397,47 @@
       "public": "SHOW_DIALOG_NOTICE"
     },
     {
-      "object_offset": 5126,
+      "object_offset": 5418,
+      "public": "DRAW_NOTICE_CURSOR"
+    },
+    {
+      "object_offset": 5516,
+      "public": "READ_NOTICE_SELECTION"
+    },
+    {
+      "object_offset": 5946,
       "public": "COMPUTEHALLPLAYERRECT"
     },
     {
-      "object_offset": 5182,
+      "object_offset": 6002,
       "public": "MAKE_INDEX_RECT"
     },
     {
-      "object_offset": 5260,
+      "object_offset": 6080,
       "public": "MAIN_MENU_CHOICE"
     },
     {
-      "object_offset": 5572,
+      "object_offset": 6392,
       "public": "DRAW_MAIN_MENU"
     },
     {
-      "object_offset": 5780,
+      "object_offset": 6600,
       "public": "DRAW_MENU_LABEL"
     },
     {
-      "object_offset": 5998,
+      "object_offset": 6818,
       "public": "DRAW_MENU_ICON"
     },
     {
-      "object_offset": 6186,
+      "object_offset": 7006,
       "public": "SAVEOPTIONSTODISK"
     },
     {
-      "object_offset": 6300,
+      "object_offset": 7120,
       "public": "SETOPTIONSFROMDISK"
     }
   ],
-  "emitted_size": 6404,
+  "emitted_size": 7224,
   "flags": [
     "/c",
     "/AM",
@@ -414,12 +452,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "489980e7ca4999e0d1ea4cf32a6ef7b50e27bd35e25c826f17a5f1265ba9d007",
+  "object_sha256": "e80110bea23ddb0b72f21be09f0fd00e432c1251ef769b0a744c14b5e8e9678b",
   "origin": 21214,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "3b71c5a963f4aa76b67c3447d4837d4959af38746c3d68b484f50517c91d937a",
+  "source_sha256": "4707ef59d4fe247047a57054ffd8713ebc0d9318d6fc0986efadde03810a80c0",
   "space": "root"
 }
