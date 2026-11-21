@@ -55330,6 +55330,104 @@
       "size": 1,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far mouse-event callback registers, RETF.",
+      "boundary_evidence": [
+        "The original bfed entry calls this routine through a relocated 9A. The mouse semaphore at 06c3 is read and written with CS overrides. The reached JG at 0689 branches over it to 06c4, whose tail jumps back to the sole RETF path at 06c2. The word at 06cc is the start of the separately called cursor-overlap helper.",
+        "Complete extent 064a..06cc (exclusive).",
+        "Independent CALL FAR at root+0x1cffd."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 126973,
+          "image_offset": 118781,
+          "kind": "far_call",
+          "relocated_segment_site": 118784,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 19 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:064a",
+      "offset": 1610,
+      "segment": 4353,
+      "semantic_name_hypothesis": "handle_mouse_callback",
+      "sha256": "25d2f9505027e7a64d9c7e6f59a60ffd79821a8fcf9e98f9c8ea523496575456",
+      "size": 130,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal far font pointer, AX near handle, RETF 4.",
+      "boundary_evidence": [
+        "The relocated 0a1c entry reaches PUSH CS/E8 at 0a46/0a47. The distinct BP frame processes the source glyph directory, allocates and converts each output glyph, and returns at 0d6b immediately before independently relocated 0d6e. The XLATGRAF pairing identifies XlatFont.",
+        "Reached call at 0a47 from root:1101:0a1c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 80471,
+          "image_offset": 72279,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 72278,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Reviewed XLATGRAF C entry",
+      "entry_kind": "direct-code",
+      "id": "root:1101:0bd2",
+      "offset": 3026,
+      "segment": 4353,
+      "semantic_name_hypothesis": "XlatFont",
+      "sha256": "da6b3f164637714e27f17b02fcdcf1eba7a767e03a634094b84a00aae7656a0f",
+      "size": 412,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal two coordinate words; tail jump to far 5070 callee.",
+      "boundary_evidence": [
+        "A relocated root entry enters the BP frame. It adds the port offsets to both coordinates, restores BP and executes a relocated EA at 506a. The distinct 5070 far entry owns the eventual RETF.",
+        "Complete extent 5056..506f (exclusive).",
+        "00 at 506f is unreachable and unreferenced, before independently entered word-aligned instruction 5070 (independent relocated far calls and existing exact owner).",
+        "Recursive descent found no instruction covering the byte or direct CS-relative operand reference. No relocation covers it or stores a 16:16 address naming it.",
+        "Independent CALL FAR at root+0x1d87d."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 129149,
+          "image_offset": 120957,
+          "kind": "far_call",
+          "relocated_segment_site": 120960,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 19 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5056",
+      "offset": 20566,
+      "segment": 4353,
+      "semantic_name_hypothesis": "draw_relative_axis_segment",
+      "sha256": "cbc3c06fae049ac6647b08626b8a62557c276df699f9f38ff601a32a386ebb24",
+      "size": 25,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
