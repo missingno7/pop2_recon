@@ -31292,6 +31292,290 @@
         }
       ],
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no stack args, RETF.",
+      "boundary_evidence": [
+        "RTLink vector root:2203:0d21 names 25da:000e in descriptor 1 (overlay 3), with jump segment relocation 2005.",
+        "The preceding routine ends in RETF and a NOP at overlay-3+296C..296D; root:2203:0d17 identifies its alias as 2587:0536 in AUTOSHAD. This entry ends in RETF and a NOP at +2974..2975 before the new BP frame at +2976."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:000e",
+      "offset": 14,
+      "original_bytes_hex": "c706205e0000cb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "reset_actor_alert",
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "size": 8,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, AX Boolean, RETF.",
+      "boundary_evidence": [
+        "The predecessor ends in RETF at overlay-3+4685. The BP frame at +4686 saves the 64-byte actor state and the exit restores it; all branches stay inside the routine and converge on RETF at +4767. Next procedure pushes DI/SI at +4768.",
+        "Three independent relocated SOUND.C CALL FARs at root+DEAD/E173/E431 use 25DA:1D26 (indices 1125..1127). The same-overlay PUSH CS; CALL near at +4850 also enters +4686.",
+        "Four original CALL FARs inside the routine are at overlay-3+46A2/46D3/46F2/4725."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 65197,
+          "image_offset": 57005,
+          "kind": "far_call",
+          "relocated_segment_site": 57008,
+          "space": "root"
+        },
+        {
+          "file_offset": 65907,
+          "image_offset": 57715,
+          "kind": "far_call",
+          "relocated_segment_site": 57718,
+          "space": "root"
+        },
+        {
+          "file_offset": 66609,
+          "image_offset": 58417,
+          "kind": "far_call",
+          "relocated_segment_site": 58420,
+          "space": "root"
+        },
+        {
+          "file_offset": 203281,
+          "image_offset": 18513,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 18512,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1d26",
+      "offset": 7462,
+      "original_bytes_hex": "558bec83ec445756c746fc00008d7ebcbe005c8cd08ec0b92000f3a59a941dcc02833e245c0d7503e99f00803e065c017503e99500803e0b5c037503e98b00803e0b5c047503e98100ff36075c9af61acc020bc07574c646ff00b074f6268e5c8bd88a46ff3887f5447e5f509a421dcc02803e115c007d49803e235c007e42803e065c0b743b803e065c077407803e065c087528a00e5c2ae450a0005c98509ab40844238bf0807c11017410807c1103740ac746fc0000eb08909090c746fc0100fe46ff837efc007490b8005c8bf88d76bc1e07b92000f3a58b46fc5e5f8be55dcb",
+      "original_name": "OppToFight",
+      "original_name_evidence": [
+        "FM Towns ACT.C @OppToFight (0C42:23A0) saves and restores a 64-byte actor, rejects constants 13/1/3/4 in order, and tests categories 7/8 and opponent field +17 values 1/3. It also scales the selected list by 116."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "opponent_ready_to_fight",
+      "sha256": "b85f80d463b3b2534b91aa1d5fc79e26d4701800537876dae18fe83481c3adc6",
+      "size": 226,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two signed words at BP+8 and BP+6, AX near pointer or null, RETF 4.",
+      "boundary_evidence": [
+        "The previous far procedure ends in RETF 4 at overlay-3+08B1. The BP frame at +08B4 reads the index and group, with the only conditional selecting a null or a calculated near pointer. Both paths converge on RETF 4 at +08ED. The next BP frame begins at +08F0.",
+        "AUTOSHAD calls directly from overlay-3+26A3 (9A B4 08 44 23, overlay relocation 134 at +26A6). ACT also calls at +4725 (relocation 212), and AUTO's PUSH CS; CALL near at +092D independently reaches +08B4.",
+        "The AUTO caller at +092D is inside reviewed target overlay-3:2344:08f0. No original overlay relocation word touches [08B4,08F0)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 194659,
+          "image_offset": 9891,
+          "kind": "far_call",
+          "relocated_segment_site": 9894,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 202981,
+          "image_offset": 18213,
+          "kind": "far_call",
+          "relocated_segment_site": 18216,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 187118,
+          "image_offset": 2350,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2349,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:08b4",
+      "offset": 2228,
+      "original_bytes_hex": "558bec83ec0457568b7e068b76088bc6b97400f7e98bd88a87f544983bc77e108bc7b91700f7e903c305f6448bd0eb022bd28bc25e5f8be55dca0400",
+      "original_name": "GetOppInfoIdx",
+      "original_name_evidence": [
+        "FM Towns @OppToFight calls AUTO.C @GetOppInfoIdx (117C:0987) with the corresponding actor bytes before the same field +17 tests. Both callee implementations use strides 116 and 23, a signed byte count, and the same two pointer/null exits."
+      ],
+      "segment": 9028,
+      "semantic_name_hypothesis": "find_opponent",
+      "sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
+      "size": 60,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, four bare RETF exits.",
+      "boundary_evidence": [
+        "Preceding JumpSeq's RETF 2 and alignment NOP end at overlay-3+29F2. The next BP prologue starts at +2B40. The fall dispatch's four RETF exits are at +2A6C/+2AB1/+2B36/+2B3F.",
+        "Resident CALL FAR at root+BB65 uses 25DA:0092 and has relocation 1077. No same-overlay relocated call to this entry was found. The sole same-file PUSH CS; CALL near at +2AAA reaches +2B40."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56165,
+          "image_offset": 47973,
+          "kind": "far_call",
+          "relocated_segment_site": 47976,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0092",
+      "offset": 146,
+      "original_bytes_hex": "558bec83ec02833e9c6200752f803e0d5c1f7c28803e065c007511a00e5c9a3800d70dc7069c620100eb1190803e065c027509b81900509ace01d70db03ff62e0a5c0538003b06045c7e319ae80ecc02803e065c07740a803e065c087403e9e900803e0d5c007503e9df00ff36045c9a0211cc02a20a5c8be55dcb909ad809cc028846ff509afe288a070bc074089ad00fcc028846ff8a46ff509ac8288a070bc07403e9a000807eff0b7414807eff0f740e807eff1a74080ee892008be55dcb807eff0b750ca00d5c509a3e18410beb1a90807eff0f75089a26014e2aeb0c90807eff1a75059a8a0e4e2a803e0d5c217d07803e005c0a740f803e065c017408b064509a4e09cc02b102a00d5c98f6f9a20d5ca00a5c988bd8d1e38b87c00d2d0700a3045c833efe08017506c706fe08ffffb81127509af0830111c7069c6200008be55dcb90fe060a5c8be55dcb",
+      "original_name": "Falling",
+      "original_name_evidence": [
+        "FM Towns ACT.C @Falling (0C42:0083) carries the 63 * row + 56 calculation, the same kinds 7/8 branch, hazard dispatch on 11/15/26, and halving vertical speed."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "falling",
+      "sha256": "a3d17430cfaa7a82e800ce41f723f684a69f5ee9d3709cd6fedc508e4437ce02",
+      "size": 334,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Falling's original PUSH CS; CALL near at overlay-3+2AAA enters the BP frame at +2B40, directly after the predecessor RETF at +2B3F.",
+        "The routine has one register-restoring RETF at +2D32, an alignment NOP at +2D33, and the following BP prologue at +2D34."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 195691,
+          "image_offset": 10923,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 10922,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:01e0",
+      "offset": 480,
+      "original_bytes_hex": "558bec83ec0c57562bc08946fc8946f68946f48946faa39c62c746f8ffff9aa207cc029ad809cc028846ff3c17745b3c1874579a8810cc028bf0b001509a3010cc028846ff803e065c07742f803e065c087428509ac8288a070bc0750d8a46ff509a30288a070bc0741183fe0b7d0c8d44f3509a6003cc02a3025c803e115c007c0dc746f40100eb0690c746fa01009ad809cc028846ff837efa00750b3c1774078b7efc3c1875089a5607cf29bf01000bff7403e93601803e0d5c167d48803e065c027d07803e105c01751e803e065c067417813e195cba007505bebb00eb03be3f00c606105c01eb03be1100803e065c047506b84c00eb0490b811008946f88976feeb5f90803e0d5c217c0f803e065c017408c746f40100eb4990803e005c0a75f1803e065c01740cb001509a4e09cc020bc07515803e0e5c0b751d803e4745057516803e0a5c037c0fc746f60100b064509a4e09cc02eb0ac746f81000c746fe14008b76f6837ef400740bb064509a4e09cc02be01000bf67414803e065c0475159a72113e2cbe70008b7ef8eb0d8b7ef88b76feeb112bffbe1600b003509a8607cc020ee84b00803e065c077407803e065c08750fb80600509a6003cc02a3025cbe9b00560ee86bfc9a9403cc02c6060d5c0083ffff7413579ace01d70d803e065c007506c706986201005e5f8be55dcb90",
+      "original_name": "HitFloor",
+      "original_name_evidence": [
+        "FM Towns ACT.C @Falling reaches @HitFloor (0C42:01FE); the DOS near call occupies the corresponding nonhazard path. Both HitFloor bodies test foot tiles 23/24 and compare edge distance against 11."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "hit_floor",
+      "sha256": "2678aca730a49e9120aff2bb8f2158a9881ea3c09b51d1649fa32a89b860b3ce",
+      "size": 500,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL near at overlay-3+2CE5 enters the BP frame at +2D34 following HitFloor's RETF/NOP at +2D32/+2D33.",
+        "The control paths meet at SI/DI restore at +2DD8, then RETF at +2DDD. The next routine at +2DDE starts with PUSH SI and loads the actor frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196262,
+          "image_offset": 11494,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11493,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:03d4",
+      "offset": 980,
+      "original_bytes_hex": "558bec83ec0257569a8810cc028bf083fe147d0ab001509a3010cc02eb0e83fe147e079a5810cc02eb02b0018846ff509ac8288a070bc07405bf0100eb128a46ff509aa4288a073d0100f51bff83e7020bff74508d44ec509a6003cc02a3025c83ff02753f803e0a5c037c388d44ec0bc07d05b8ffffeb03b801008bf0b91200f7e9509a6003cc02a3025c807eff1a75138bc6d1e6d1e6d1e603f0569a6003cc02a3025c5e5f8be55dcb",
+      "original_name": "PutDeadBodyOnSolidGround",
+      "original_name_evidence": [
+        "FM Towns ACT.C @PutDeadBodyOnSolidGround (0C42:042E) calls the edge-distance routine, probes opposite sides of distance 20, and follows the distinct tile-26 path with 18- and 9-pixel horizontal corrections."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "adjust_landing_x",
+      "sha256": "f66ff8aee1d2fcd39548d95bfbdfec154119d8b890db4484585ce5e54ccaf67e",
+      "size": 170,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The preceding function finishes RETF at overlay-3+2DDD. The dispatch starts at +2DDE with PUSH SI and loads the frame word, then every local exit restores SI. Its last RETF is at +2FAF; the following BP prologue is at +2FB0.",
+        "Relocated root calls at +4001/+4033 encode 25DA:047E (indices 281/282). Twelve original same-file PUSH CS; CALL near pairs inside +2DDE..+2FB0 dispatch to ACT routines."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24577,
+          "image_offset": 16385,
+          "kind": "far_call",
+          "relocated_segment_site": 16388,
+          "space": "root"
+        },
+        {
+          "file_offset": 24627,
+          "image_offset": 16435,
+          "kind": "far_call",
+          "relocated_segment_site": 16438,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor control code in the reviewed overlay-3 ACT or AUTO frame."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:047e",
+      "offset": 1150,
+      "original_bytes_hex": "568b36075c803e115c007c03e97701a00b5c988bd083fa057503e9610183fa047503e9590183fa097503e95101833e195c1b7503e94701833e195c6e7503e93d01803e105c0175080ee8c816e9810190803e065c027c099a621ccc02e971019083fe0f7503e9100183fe32720883fe347703e9030183fe2d720c83fe3177070ee8b908e94a0183fe01720d83fe0473080ee8ca0ce939019083fe43720d83fe4673080ee8d60ce927019083fe0f73070ee8bf09e91a0183fe57721783fe637712803e4745017503e906010ee8d20ee9ff009083fe51750f833e195c4475080ee80a10e9eb009083fe6d75070ee89502e9de0081fef600720681fe0501760c81fe0001720e81fe070177080ee8c400e9bf009081fed900720e81fee20077080ee8c207e9ab0090569af61acc020bc0754281feb300720681feb7007636813e075c270175089aec04c22de98400813e075c10017210813e075c190177089a021ecf29eb6d90833e075c2c7565c6068c62005ecb0ee880035ecb0ee86e045ecb9ad213cc025ecb90803e065c007414a0005c3806b95c750bb001509af0084423a2b95c803e065c01750e803e115c067e219aee0287255ecb803e0e5c037513803e474506750c803e065c0275059a5400cf295ecb",
+      "original_name": "GenCtrl",
+      "original_name_evidence": [
+        "FM Towns ACT.C @GenCtrl (0C42:0528) starts by saving the frame and testing the fall latch, with the identical ordered state codes 5/4/9 and sequence codes 27/110."
+      ],
+      "segment": 9690,
+      "semantic_name_hypothesis": "dispatch_actor_control",
+      "sha256": "05b292aed980e0d056e78c62e5e0df130a95368a821d7cd50b816142e795c897",
+      "size": 466,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

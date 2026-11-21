@@ -1,0 +1,78 @@
+{
+  "binding": "evidence/bindings/act/act.json",
+  "binding_sha256": "9e856bdf3b4ea883caa729f08315c5962c2825977ae21e11c38d5e9b073686ad",
+  "claims": [
+    {
+      "fixup_count": 1,
+      "public": "RESET_ACTOR_ALERT",
+      "target_id": "overlay-3:25da:000e"
+    },
+    {
+      "fixup_count": 13,
+      "public": "JUMPSEQ",
+      "relocation_indices": [
+        207,
+        272,
+        354
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:0016"
+    },
+    {
+      "fixup_count": 12,
+      "public": "PUTDEADBODYONSOLIDGROUND",
+      "relocation_indices": [
+        211,
+        245,
+        275,
+        276,
+        277,
+        319,
+        371,
+        415
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:03d4"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 132,
+      "public": "FALLING"
+    },
+    {
+      "object_offset": 466,
+      "public": "HITFLOOR"
+    },
+    {
+      "object_offset": 1136,
+      "public": "GENCTRL"
+    }
+  ],
+  "emitted_size": 1612,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 9690,
+  "group_id": "group:act/act",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "act/act",
+  "object_sha256": "0b8d9f82ebf4ac2e8872996aba5ad71fbc45ad868a86ca4cb003fb89e9ab2fb7",
+  "origin": 10606,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/act/act.c",
+  "source_sha256": "8209acd87a485f0be99d1d664aea97b740c4a5078068f2718954e84365ceb688",
+  "space": "overlay-3"
+}

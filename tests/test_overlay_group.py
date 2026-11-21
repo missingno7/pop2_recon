@@ -117,6 +117,8 @@ class RealOverlayTests(unittest.TestCase):
         # Root 0xd791 calls 2344:08b4; overlay 2 shares link segment 2344 and holds that address.
         inventory = self.without_calls()
         raw = self.ov3.data[0x8b4:0x8f0]
+        # The test's own row with exactly this root caller (replacing any canonical review).
+        inventory["functions"] = [f for f in inventory["functions"] if f["id"] != "overlay-3:2344:08b4"]
         inventory["functions"].append({
             "id": "overlay-3:2344:08b4", "space": "overlay-3", "segment": 0x2344, "offset": 0x8b4,
             "size": 0x3c, "sha256": common.sha(raw), "boundary_status": "REVIEWED",
