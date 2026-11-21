@@ -385,9 +385,10 @@ int RestoreKeepCustomPeel(unsigned char id)
     return peel;
 }
 
+#pragma optimize("e", off)
 void SaveCustomRoomPeels(void)
 {
-    int i, offset;
+    register int offset, i;
 
     if (custom_room) {
         i = 0;
@@ -396,15 +397,24 @@ void SaveCustomRoomPeels(void)
             do {
                 CustomRoom *at = (CustomRoom *)((char *)custom_room + offset);
                 if (at->pieces[0].peel_type == 2) {
-                    AddCustomPiecePeel(&((CustomRoom *)((char *)*(CustomRoom * volatile *)&custom_room + offset))->pieces[0], &at->pieces[0].rect);
-                } else if (((CustomRoom *)((char *)*(CustomRoom * volatile *)&custom_room + offset))->pieces[0].peel_type == 3) {
-                    save_special_peel(&((CustomRoom *)((char *)*(CustomRoom * volatile *)&custom_room + offset))->pieces[0]);
+                    /* Form both arguments from the reloaded near base. */
+                    AddCustomPiecePeel(
+                        &((CustomRoom *)((unsigned)custom_room + offset))->pieces[0],
+                        &((CustomRoom *)((unsigned)custom_room + offset))->pieces[0].rect);
+                } else {
+                    CustomRoom *other = custom_room;
+                    other = (CustomRoom *)((char *)other + offset);
+                    if (other->pieces[0].peel_type == 3)
+                        save_special_peel(&((CustomRoom *)(
+                            (char *)*(CustomRoom * volatile *)&custom_room + offset))->pieces[0]);
                 }
                 offset += sizeof(CustomPiece);
             } while (++i < custom_room->count);
         }
     }
 }
+
+#pragma optimize("e", on)
 
 #pragma optimize("e", off)
 void SetCustomRoomTemplate(unsigned char type)
