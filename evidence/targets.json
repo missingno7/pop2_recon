@@ -19130,6 +19130,179 @@
       "size": 138,
       "space": "overlay-9",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF, SI preserved",
+      "boundary_evidence": [
+        "Original relocated root+0x3f19 CALL enters 0e56:11e8 with no stack arguments.",
+        "11e7 is the preceding RETF. Branch and same-file call join at the 1210 restore and RETF at 1211.",
+        "Following code is the 0f77:0002 BP prologue. The two external CALL sites and internal PUSH CS/CALL all decode within the full 42-byte contribution."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24345,
+          "image_offset": 16153,
+          "kind": "far_call",
+          "relocated_segment_site": 16156,
+          "space": "root"
+        },
+        {
+          "file_offset": 68537,
+          "image_offset": 60345,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60344,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original renderer call context."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:11e8",
+      "offset": 4584,
+      "segment": 3670,
+      "semantic_name_hypothesis": "lose_game",
+      "sha256": "f675b684256f2bd4a3010dcc50268572b91a90cb67d4d544cb87d4e9b3700525",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Relocated original CALL at root+0x22e9 enters 0e56:0bf2. Its segment word is original MZ relocation 168.",
+        "Preceding routine ends in RETF at 0bf1. A byte predicate at 0bf2 joins a sole RETF at 0c0d, then 0c0e begins with PUSH SI.",
+        "True path pushes a far code pointer, near box pointer, and -1 byte argument. Original relocations mark the segment immediate and the direct CALL operand."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17129,
+          "image_offset": 8937,
+          "kind": "far_call",
+          "relocated_segment_site": 8940,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original renderer call context."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0bf2",
+      "offset": 3058,
+      "segment": 3670,
+      "semantic_name_hypothesis": "quick_foreground",
+      "sha256": "378e21816bf1400d28af3561c3e1cc8c53613c10496bcb175c4b2054b98d2232",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal (far callback, near box pointer, byte selector); RETF 8",
+      "boundary_evidence": [
+        "Root+0x2252 relocated CALL enters a BP frame at 0b41:0f62 immediately after preceding RETF 4.",
+        "BP+8 is a near box pointer. Nested floor sweeps invoke the far pointer at BP+0a. The BP+6 low byte goes to the same-file helper.",
+        "Early branch and post-sweep path join the restore at image 0xc431. RETF 8 at 0xc435 is followed by the next prologue at 0xc438."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 16978,
+          "image_offset": 8786,
+          "kind": "far_call",
+          "relocated_segment_site": 8789,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original renderer call context."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0f62",
+      "offset": 3938,
+      "segment": 2881,
+      "semantic_name_hypothesis": "draw_floor_foreground",
+      "sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
+      "size": 198,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Root+0x3e89 relocated CALL enters 0e56:02c8, a separate entry after RETF and NOP at 02c6/02c7.",
+        "Inner predicates merge before the final call and 64-byte REP MOVSW copy. DI/SI restore leads to RETF at 0329, then 032a starts a new predicate."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24201,
+          "image_offset": 16009,
+          "kind": "far_call",
+          "relocated_segment_site": 16012,
+          "space": "root"
+        },
+        {
+          "file_offset": 67598,
+          "image_offset": 59406,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 59405,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The original sets character state, advances its sequence, and copies the character record to the kid state."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:02c8",
+      "offset": 712,
+      "segment": 3670,
+      "semantic_name_hypothesis": "finish_start_kid",
+      "sha256": "cef8ecf90748ec173f2b11d12879c5dccea22c78f2766d3894cc215baf81eb3d",
+      "size": 98,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "An independent relocated root CALL at root+0x10577 enters a BP frame at 02cc:0394.",
+        "Original switch at 03d1 bounds AX to 0..23 before indirect jump at 03d9. The 24 words at [03de,040e) name internal code branches.",
+        "Recursive intra-function review of each case and the remaining branches reaches one RETF at 06bc. The 06bd alignment NOP precedes the next frame at 06be."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 75127,
+          "image_offset": 66935,
+          "kind": "far_call",
+          "relocated_segment_site": 66938,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original character animation helper consumes character fields and dispatches the sequence operation."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0394",
+      "offset": 916,
+      "segment": 716,
+      "semantic_name_hypothesis": "advance_character",
+      "sha256": "0beb08c5925b3303158c6cff6bf62104e6c0ea19f5fdd0e611e436220147c192",
+      "size": 810,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

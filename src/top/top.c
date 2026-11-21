@@ -577,8 +577,8 @@ int next_frame(void)
 
 int run_kid(void)
 {
-    signed char opponent;
-    volatile int saved_result;
+    volatile signed char opponent;
+    int saved_result;
     int result;
 
     load_kid();
@@ -747,7 +747,7 @@ void run_shadows(void)
 
 int advance_frame(void)
 {
-    int result, phase, mode;
+    int result, phase;
 
     ++frame_count;
     result = -2;
@@ -782,15 +782,13 @@ int advance_frame(void)
     step_sound();
     finish_queued_sound(&queued_sound);
     if (sequence_delay == 1) {
-        if (pending_sequence == 36 || pending_sequence == 600)
-            goto time_ended;
-        mode = 1;
-paint:
-        update_display(mode);
+        if (pending_sequence == 36 || pending_sequence == 600) {
+            game_request = 0;
+            result = -1;
+        } else {
+            update_display(1);
+        }
         return result;
-time_ended:
-        game_request = 0;
-        return result = -1;
     }
     if (sequence_delay && pending_sequence != 1188) {
         if (special_sequence != -1)
@@ -801,8 +799,8 @@ time_ended:
             if ((unsigned)sequence_delay < 120) {
                 phase = (unsigned)sequence_delay % 12;
                 if (phase > 3) {
-                    mode = 0;
-                    goto paint;
+                    update_display(0);
+                    return result;
                 }
                 if (phase == 3) {
                     update_flash();

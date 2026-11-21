@@ -418,7 +418,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 for fix in state["far"]:
                     at, ref = fix["segment_offset"], fix["target"]
                     symbol = far_symbols[ref["name"]]
-                    if symbol.get("kind") == "far-data" and fix["loc_type"] == 1 and not fix["self_relative"]:
+                    # LOC5 (loader-resolved offset16) writes the same value as LOC1 here.
+                    if symbol.get("kind") == "far-data" and fix["loc_type"] in (1, 5) and not fix["self_relative"]:
                         # Offset half of a far data pointer: O within the object's own segment.
                         require(fix["field_width"] == 2 and ref["kind"] == "external" and fix["displacement"] is None and
                                 fix["frame"] == {"kind": "target_frame", "target": ref},
