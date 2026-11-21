@@ -57,9 +57,9 @@ void far pascal read_keyboard_controls(void);
             key_down[0x4c] || key_down[0x33] || key_down[0x2e] ||
             key_down[0x4f] || key_down[0x32] || key_down[0x2d] ||
             key_down[0x51] || key_down[0x34] || key_down[0x2f])
-            joystick_y = 1;
+            joystick_x = 1;
     } else {
-        joystick_y = -1;
+        joystick_x = -1;
     }
 
     if (!(key_down[0x4b] || key_down[0x24] || key_down[0x1f] ||
@@ -68,9 +68,9 @@ void far pascal read_keyboard_controls(void);
         if (key_down[0x4d] || key_down[0x26] || key_down[0x21] ||
             key_down[0x49] || key_down[0x18] || key_down[0x13] ||
             key_down[0x51] || key_down[0x34] || key_down[0x2f])
-            joystick_x = 1;
+            joystick_y = 1;
     } else {
-        joystick_x = -1;
+        joystick_y = -1;
     }
 
     keyboard_flags &= 0x0f;

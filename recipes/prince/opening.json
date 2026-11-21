@@ -1,0 +1,87 @@
+{
+  "binding": "evidence/bindings/prince/opening.json",
+  "binding_sha256": "f781d49f9762645d69c6fd01dd1b36163de77ed22dd7380ce568704fe11e9df0",
+  "claims": [
+    {
+      "fixup_count": 7,
+      "public": "READ_START_LEVEL",
+      "relocation_indices": [
+        12,
+        103
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:0116"
+    },
+    {
+      "fixup_count": 18,
+      "public": "PLAYOPENINGSEQUENCE",
+      "relocation_indices": [
+        7,
+        31,
+        54,
+        62,
+        77,
+        105,
+        106,
+        107,
+        113,
+        130
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:014e"
+    },
+    {
+      "fixup_count": 6,
+      "public": "POLL_AND_CLEAR_PENDING_STATE",
+      "relocation_indices": [
+        60
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0210"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 0,
+      "public": "_main"
+    },
+    {
+      "object_offset": 54,
+      "public": "RESETGAME"
+    },
+    {
+      "object_offset": 578,
+      "public": "RESETDATA"
+    }
+  ],
+  "emitted_size": 620,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc",
+    "/Zi"
+  ],
+  "frame": 0,
+  "group_id": "group:prince/opening",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "prince/opening",
+  "object_sha256": "25248851a2a71f3c01aa7f3eb00d47d9dc1ae32857ef36fd5b3280e1d7db022c",
+  "origin": 0,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/prince/opening.c",
+  "source_sha256": "d1d398eddb4482514862c6f2da168cd9eb51229dd1224427220f42d046cd4508",
+  "space": "root"
+}
