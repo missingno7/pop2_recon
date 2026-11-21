@@ -858,7 +858,7 @@ void far pascal prepare_saved_room_objects(void)
             room_start = room * 30;
             do {
                 tile_index = tile;
-                switch ((unsigned char)(rebirth_data->rooms + room_start)[tile_index]) {
+                switch ((unsigned char)rebirth_data->rooms[room_start + tile_index]) {
                 case 4:
                     saved.word = ((struct room_object far *)rebirth_data->room_links)
                                  [room_start + tile_index].state;
@@ -930,11 +930,6 @@ struct notice_record {
     unsigned symbol, detail;
 };
 
-struct notice_table {
-    unsigned count;
-    struct notice_record records[1];
-};
-
 extern int dialog_notice_done;
 extern char notice_port[];
 extern const char notice_failure[];
@@ -954,7 +949,7 @@ void far pascal show_dialog_notice(int reason)
     unsigned count;
     int table_handle;
     DialogAsset asset;
-    struct notice_table far *table;
+    unsigned far *table;
     struct notice_record prompt;
 
     if (!dialog_notice_done) {
@@ -965,14 +960,14 @@ void far pascal show_dialog_notice(int reason)
         attempt = 0;
         previous = -1;
         table_handle = find_notice_table(0, 0, 8000);
-        table = (struct notice_table far *)lock_string_handle(table_handle);
-        count = table->count;
+        table = (unsigned far *)lock_string_handle(table_handle);
+        count = table[0];
         do {
             index = random_below(count - 1);
             if (index == previous)
                 index = (random_below(count - 2) + index + 1) % count;
             previous = index;
-            _fmemcpy(&prompt, &table->records[index], sizeof(prompt));
+            _fmemcpy(&prompt, &table[index * 2 + 1], sizeof(prompt));
             current_port = (struct dialog_port *)dialog_port_handle;
             draw_notice_symbols(prompt.symbol, asset, attempt);
             current_port = &dialog_port;

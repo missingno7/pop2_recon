@@ -60682,6 +60682,733 @@
       "size": 434,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:09b8",
+      "space": "root",
+      "segment": 1325,
+      "offset": 2488,
+      "size": 606,
+      "sha256": "86d7947fc874edab138b8c77e468c7025f7cf11380d826a9f90b5d0e36ba2e3b",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x5c88,0x5ee6); bytes before entry 8b e5 5d ca 02 00 90, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:0c12 ca0600. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 45 direct branch operands target instruction starts inside the extent.",
+        "Bounded indirect switch owns CS:[0b18,0b2c); all 10 table words name original instruction starts in this extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22626,
+          "file_offset": 30818,
+          "pushed_cs_site": 22625
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22834,
+          "file_offset": 31026,
+          "pushed_cs_site": 22833
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 6 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:0c16",
+      "space": "root",
+      "segment": 1325,
+      "offset": 3094,
+      "size": 200,
+      "sha256": "68205072a71490647359251c4c3372c85ebabb63477aeba3ef64aa01403a0d8f",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x5ee6,0x5fae); bytes before entry 8b e5 5d ca 06 00 90, next entry ba 01 00 80 3e 18.",
+        "Original RETF sites and bytes: 052d:0cdd cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 9 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22565,
+          "file_offset": 30757,
+          "pushed_cs_site": 22564
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22778,
+          "file_offset": 30970,
+          "pushed_cs_site": 22777
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:10be",
+      "space": "root",
+      "segment": 1325,
+      "offset": 4286,
+      "size": 236,
+      "sha256": "2c893358d1a47bf8806db13033e08564f394bb98442b180719dbb0830aae1e08",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x638e,0x647a); bytes before entry fe 5b a3 fc 5b cb 90, next entry a1 fe 5b 0b 06 fc.",
+        "Original RETF sites and bytes: 052d:11a9 cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 15 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 25444,
+          "file_offset": 33636,
+          "pushed_cs_site": 25443
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1414",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5140,
+      "size": 292,
+      "sha256": "12325cbe187d93da0e1d3771d339aa07008141919f19b14970e821f5be64e326",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x66e4,0x6808); bytes before entry 5f 8b e5 5d ca 04 00, next entry 55 8b ec 83 ec 0a.",
+        "Original RETF sites and bytes: 052d:1535 ca0600. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 4 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26128,
+          "file_offset": 34320,
+          "pushed_cs_site": 26127
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 6 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1538",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5432,
+      "size": 98,
+      "sha256": "4c5787451c0217bd0acf31b3a16bb00fb5dbac994239317507f58a9f89fe3518",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6808,0x686a); bytes before entry 5f 8b e5 5d ca 06 00, next entry 55 8b ec 83 ec 78.",
+        "Original RETF sites and bytes: 052d:1596 ca0400. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 2 direct branch operands target instruction starts inside the extent.",
+        "3 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26827,
+          "file_offset": 35019,
+          "pushed_cs_site": 26826
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26839,
+          "file_offset": 35031,
+          "pushed_cs_site": 26838
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27071,
+          "file_offset": 35263,
+          "pushed_cs_site": 27070
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:159a",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5530,
+      "size": 418,
+      "sha256": "abb1239e61d3b517f1270b2d903e697975618998478142f6bbf9da14764f14b7",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x686a,0x6a0c); bytes before entry 8b e5 5d ca 04 00 90, next entry 55 8b ec 83 ec 12.",
+        "Original RETF sites and bytes: 052d:173a cb. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 39 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26172,
+          "file_offset": 34364,
+          "pushed_cs_site": 26171
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:173c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5948,
+      "size": 300,
+      "sha256": "86f487e5d4b8aed98ba340f56e48b1a5139464b2c19afa224ac5b86845d056da",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6a0c,0x6b38); bytes before entry 5e 5f 8b e5 5d cb 90, next entry 55 8b ec 57 8b 7e.",
+        "Original RETF sites and bytes: 052d:1865 ca0200. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 4 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 235,
+          "file_offset": 8427,
+          "relocated_segment_site": 238,
+          "relocation_index": 41
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:18a0",
+      "space": "root",
+      "segment": 1325,
+      "offset": 6304,
+      "size": 266,
+      "sha256": "f752446168d8415c68518c6a93970ce67c3e2d4f5e9cb92c5ecec84990e038bc",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6b70,0x6c7a); bytes before entry 5f 8b e5 5d ca 06 00, next entry 55 8b ec 83 ec 12.",
+        "Original RETF sites and bytes: 052d:19a5 ca0400. Compiler alignment suffix is 2 NOP byte(s).",
+        "All 2 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27187,
+          "file_offset": 35379,
+          "pushed_cs_site": 27186
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28581,
+          "file_offset": 36773,
+          "pushed_cs_site": 28580
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:19aa",
+      "space": "root",
+      "segment": 1325,
+      "offset": 6570,
+      "size": 248,
+      "sha256": "f3f24c7a528eb5d5a0176609082f9e8974c4ecb53f7fa93be1811b9d1d956a4a",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6c7a,0x6d72); bytes before entry e5 5d ca 04 00 90 90, next entry 55 8b ec 83 ec 0e.",
+        "Original RETF sites and bytes: 052d:1a9f ca0600. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 8 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27208,
+          "file_offset": 35400,
+          "pushed_cs_site": 27207
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 6 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1aa2",
+      "space": "root",
+      "segment": 1325,
+      "offset": 6818,
+      "size": 296,
+      "sha256": "a74c07688de4ef26c047607ef5c75ab1a971444da2210e3cb78336b647913d8e",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6d72,0x6e9a); bytes before entry 5f 8b e5 5d ca 06 00, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:1bc6 ca0800. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 10 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28463,
+          "file_offset": 36655,
+          "pushed_cs_site": 28462
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 8 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1bca",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7114,
+      "size": 206,
+      "sha256": "9380914e869464d1d12fd0f136760daffc348a836554409b3258a42ea6fdbff6",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6e9a,0x6f68); bytes before entry 8b e5 5d ca 08 00 90, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:1c94 ca0400. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 7 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27163,
+          "file_offset": 35355,
+          "pushed_cs_site": 27162
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28541,
+          "file_offset": 36733,
+          "pushed_cs_site": 28540
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1c98",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7320,
+      "size": 196,
+      "sha256": "ad1406a0850e788079559623188c8ae7482cbd3972d752d29d99e2927b2378d3",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6f68,0x702c); bytes before entry 8b e5 5d ca 04 00 90, next entry 55 8b ec 83 ec 06.",
+        "Original RETF sites and bytes: 052d:1d59 ca0200. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 13 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 400,
+          "file_offset": 8592,
+          "relocated_segment_site": 403,
+          "relocation_index": 54
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 924,
+          "file_offset": 9116,
+          "relocated_segment_site": 927,
+          "relocation_index": 55
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1d5c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7516,
+      "size": 106,
+      "sha256": "672083746bcb7d543a7d0d0462bef096e99122f65488e9cdbaf409a300310b50",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x702c,0x7096); bytes before entry 5f 8b e5 5d ca 02 00, next entry 55 8b ec 57 8b 7e.",
+        "Original RETF sites and bytes: 052d:1dc3 ca0400. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 3 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27376,
+          "file_offset": 35568,
+          "pushed_cs_site": 27375
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1e14",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7700,
+      "size": 270,
+      "sha256": "82c31acb768b0544c8c9c2a86161d96d0e8d0cc2bfe6f1d986c9f6e6645c43df",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x70e4,0x71f2); bytes before entry 5f 8b e5 5d ca 04 00, next entry 55 8b ec 83 ec 04.",
+        "Original RETF sites and bytes: 052d:1f21 cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 38 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22995,
+          "file_offset": 31187,
+          "pushed_cs_site": 22994
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1f22",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7970,
+      "size": 208,
+      "sha256": "ac9e9b328dd977829600e7052a33aab3980cf85a65fa3dfef0de48dd2dd0f597",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x71f2,0x72c2); bytes before entry c6 5e 5f 8b e5 5d cb, next entry 55 8b ec 83 ec 36.",
+        "Original RETF sites and bytes: 052d:1ff1 cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 1 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22966,
+          "file_offset": 31158,
+          "pushed_cs_site": 22965
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1ff2",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8178,
+      "size": 218,
+      "sha256": "40d0b4d66e8d02548a34138dd7565a03184d067ed7e6c740c5e98f6c6d89bb3f",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x72c2,0x739c); bytes before entry df 00 5e 8b e5 5d cb, next entry 55 8b ec 83 ec 14.",
+        "Original RETF sites and bytes: 052d:20c9 ca0400. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 15 direct branch operands target instruction starts inside the extent.",
+        "Bounded indirect switch owns CS:[2028,2034); all 6 table words name original instruction starts in this extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29061,
+          "file_offset": 37253,
+          "pushed_cs_site": 29060
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29353,
+          "file_offset": 37545,
+          "pushed_cs_site": 29352
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:20cc",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8396,
+      "size": 194,
+      "sha256": "d9e98c7a4ffc33756269601ea97db296601304a00f030a56a6cd11d1bcb72bc3",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x739c,0x745e); bytes before entry 5f 8b e5 5d ca 04 00, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:218a ca0400. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 5 direct branch operands target instruction starts inside the extent.",
+        "3 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28937,
+          "file_offset": 37129,
+          "pushed_cs_site": 28936
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28949,
+          "file_offset": 37141,
+          "pushed_cs_site": 28948
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29370,
+          "file_offset": 37562,
+          "pushed_cs_site": 29369
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:2268",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8808,
+      "size": 142,
+      "sha256": "a758112c41b78e92e6ddd685b9d46758cd895b78ca6eb166421c3b22f560670a",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x7538,0x75c6); bytes before entry 1b e6 1f 8b e5 5d cb, next entry 55 8b ec 83 ec 0e.",
+        "Original RETF sites and bytes: 052d:22f2 ca0200. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 13 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29048,
+          "file_offset": 37240,
+          "pushed_cs_site": 29047
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:22f6",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8950,
+      "size": 344,
+      "sha256": "8eae26215df26f0549c855377534daac0a926a60ccbc0b2e78dd3f5c49fbc7da",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x75c6,0x771e); bytes before entry 8b e5 5d ca 02 00 90, next entry 55 8b ec 57 56 8b.",
+        "Original RETF sites and bytes: 052d:244d cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 15 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 390,
+          "file_offset": 8582,
+          "relocated_segment_site": 393,
+          "relocation_index": 7
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:244e",
+      "space": "root",
+      "segment": 1325,
+      "offset": 9294,
+      "size": 58,
+      "sha256": "a014fc052b80df21bc46669ae3c0e91776d54df1623ef3255d6ca446977d5c8d",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x771e,0x7758); bytes before entry c6 5e 5f 8b e5 5d cb, next entry 55 8b ec 83 ec 2c.",
+        "Original RETF sites and bytes: 052d:2485 ca0400. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 2 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 30235,
+          "file_offset": 38427,
+          "pushed_cs_site": 30234
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:2488",
+      "space": "root",
+      "segment": 1325,
+      "offset": 9352,
+      "size": 328,
+      "sha256": "63764d9c7b3dff9a0fc5f7d990397b764448bfede940f689b2bffba9ebdcba49",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x7758,0x78a0); bytes before entry 5f 8b e5 5d ca 04 00, next entry 57 9a 94 07 69 01.",
+        "Original RETF sites and bytes: 052d:25cd ca0200. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 11 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 30524,
+          "file_offset": 38716,
+          "pushed_cs_site": 30523
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
