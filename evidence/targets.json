@@ -22339,6 +22339,818 @@
       "size": 52,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, signed byte in one stack word, RETF 2",
+      "boundary_evidence": [
+        "The preceding file RETF 2 is at 0dd7:0007. Root CALL at 0x3ee3, relocation 370, pushes the byte in DS:5e02. The single indexed word push calls 01b0, then RETF 2 and one NOP.",
+        "Original return/next-entry window: 018be55dca020090560ee85b028bf083."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24291,
+          "image_offset": 16099,
+          "kind": "far_call",
+          "relocated_segment_site": 16102,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:000a",
+      "offset": 10,
+      "segment": 3543,
+      "semantic_name_hypothesis": "AddKidDeathSong",
+      "sha256": "ef4ee08fa6eaef458639029961d0a2fdafc3ddbe87ba6fc86d752d430185d32d",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, RETF",
+      "boundary_evidence": [
+        "Overlay-3 CALL at 0x370a, relocation 236. The near call to 0284 produces the ID, and -1 bypasses 01b0. Both paths join the same RETF plus NOP.",
+        "Original return/next-entry window: 560ee87b015ecb90558bec50803e065c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198858,
+          "image_offset": 14090,
+          "kind": "far_call",
+          "relocated_segment_site": 14093,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 209889,
+          "image_offset": 1025,
+          "kind": "far_call",
+          "relocated_segment_site": 1028,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0024",
+      "offset": 36,
+      "segment": 3543,
+      "semantic_name_hypothesis": "AddLeaveLevelSong",
+      "sha256": "2dd339daea66731754ab93651dfcf22740f5c71a9621705acd7758f83d79e64d",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "MSC fastcall far, byte in AL, RETF",
+      "boundary_evidence": [
+        "Overlay-3 CALLs at 0x1105 and 0x2a10 preload AL from two room bytes. PUSH AX preserves the fastcall argument, consumed at BP-2. Level/room guards reach the same RETF plus NOP.",
+        "Original return/next-entry window: e863018be55dcb905756803e0f5c0075."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 189125,
+          "image_offset": 4357,
+          "kind": "far_call",
+          "relocated_segment_site": 4360,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 195536,
+          "image_offset": 10768,
+          "kind": "far_call",
+          "relocated_segment_site": 10771,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0038",
+      "offset": 56,
+      "segment": 3543,
+      "semantic_name_hypothesis": "AddKidScream",
+      "sha256": "e4ace71330ff82feed76296482567fa7273bb56b5ebbd5ec497a6f70201f6517",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, RETF",
+      "boundary_evidence": [
+        "Root CALL at 0x3fb2, relocation 296. The switch table occupies 0090..00a3, has ten in-range targets, and joins the same RETF at 016a plus one NOP.",
+        "Original return/next-entry window: 060f5c005e5fcb90558bec83ec02a0b9."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24498,
+          "image_offset": 16306,
+          "kind": "far_call",
+          "relocated_segment_site": 16309,
+          "space": "root"
+        },
+        {
+          "file_offset": 188946,
+          "image_offset": 4178,
+          "kind": "far_call",
+          "relocated_segment_site": 4181,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0070",
+      "offset": 112,
+      "segment": 3543,
+      "semantic_name_hypothesis": "add_opponent_death_song",
+      "sha256": "695d44264368b6ff0e48f033e3431e49a6ed6b75fc1b5132a86dd32c6689af3a",
+      "size": 252,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, RETF",
+      "boundary_evidence": [
+        "Root CALL at 0xeb81, relocation 1272. A byte -1 bypasses the two calls. The other branches join the RETF at 01ae plus one NOP.",
+        "Original return/next-entry window: e823008be55dcb90558bec56833e0009."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68481,
+          "image_offset": 60289,
+          "kind": "far_call",
+          "relocated_segment_site": 60292,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:016c",
+      "offset": 364,
+      "segment": 3543,
+      "semantic_name_hypothesis": "add_actor_sfx",
+      "sha256": "f9feb87c8a24c3be7e33275d4714cac0269a098a26a2c80e8fd535adc18d1082",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one word, DX:AX result, RETF 2",
+      "boundary_evidence": [
+        "Same-frame callers at 01c0 and 0786. Resource handle lookup and reload converge at a DX:AX return at 0280 followed by one NOP.",
+        "Original return/next-entry window: 5f8be55dca020090a047452ae448740e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 65328,
+          "image_offset": 57136,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57135,
+          "space": "root"
+        },
+        {
+          "file_offset": 66806,
+          "image_offset": 58614,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58613,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0208",
+      "offset": 520,
+      "segment": 3543,
+      "semantic_name_hypothesis": "load_song",
+      "sha256": "b6e88b21233b0593dc35dc172808acd3d606b4dd075326d6f85ddb601e513821",
+      "size": 124,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, word result, RETF",
+      "boundary_evidence": [
+        "Two same-frame callers at 0026 and 02d1. Level cases 1, 2, 4 and default each have a far return, with the latest one at 02ab immediately before the BP frame at 02ac.",
+        "Original return/next-entry window: c2cbba1d008bc2cb558bec57568b7606."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 64918,
+          "image_offset": 56726,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 56725,
+          "space": "root"
+        },
+        {
+          "file_offset": 65601,
+          "image_offset": 57409,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57408,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0284",
+      "offset": 644,
+      "segment": 3543,
+      "semantic_name_hypothesis": "GetLeaveLevelSongId",
+      "sha256": "2a9dd58e7a052ef36b4f1555e476264fb5cba9dd5c4c77fac43d23c6dc4ac864",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one near pointer, RETF 2",
+      "boundary_evidence": [
+        "Overlay-2 CALL at 0x0311, relocation 28. Eight bytes are cleared through ES=DS, then a flag bit is stored through the same pointer. RETF 2 ends at 02ce.",
+        "Original return/next-entry window: 5e5f8be55dca020057560ee8b0ff8bf8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156721,
+          "image_offset": 785,
+          "kind": "far_call",
+          "relocated_segment_site": 788,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:02ac",
+      "offset": 684,
+      "segment": 3543,
+      "semantic_name_hypothesis": "init_ambient",
+      "sha256": "c32dda7871b5679e6b83296325e01b50af13ef1903534c0eb195408ca748b2ba",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, word result, RETF",
+      "boundary_evidence": [
+        "Root CALL at 0x0428, relocation 6. The two return arms follow the 0284 lookup; the last RETF at 02f2 and NOP precede the next BP frame.",
+        "Original return/next-entry window: 2bf68bc65e5fcb90558bec83ec02a0f0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9256,
+          "image_offset": 1064,
+          "kind": "far_call",
+          "relocated_segment_site": 1067,
+          "space": "root"
+        },
+        {
+          "file_offset": 68250,
+          "image_offset": 60058,
+          "kind": "far_call",
+          "relocated_segment_site": 60061,
+          "space": "root"
+        },
+        {
+          "file_offset": 66476,
+          "image_offset": 58284,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58283,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:02ce",
+      "offset": 718,
+      "segment": 3543,
+      "semantic_name_hypothesis": "is_leave_level_music_on",
+      "sha256": "31673caee0b63a9d5c603cb289b3d3867ca4674406f04b78bb9f4eeb710cc5ac",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one signed byte in a stack word, RETF 2",
+      "boundary_evidence": [
+        "Root CALL at 0xaf2e, relocation 917. Both range decisions are signed-byte indexed, with same-frame calls to 07ac and 0350 before the common RETF 2.",
+        "Original return/next-entry window: 06008be55dca0200558bec5756b8e209."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 53038,
+          "image_offset": 44846,
+          "kind": "far_call",
+          "relocated_segment_site": 44849,
+          "space": "root"
+        },
+        {
+          "file_offset": 53523,
+          "image_offset": 45331,
+          "kind": "far_call",
+          "relocated_segment_site": 45334,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:02f4",
+      "offset": 756,
+      "segment": 3543,
+      "semantic_name_hypothesis": "change_song_range",
+      "sha256": "9fcca7e3c25aa7236843d8658cf41a71448cf21e16ccf4439766e28b7ee2f984",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, two signed words, RETF 4",
+      "boundary_evidence": [
+        "Root CALL at 0x4d8d, relocation 407, and same-frame CALL at 0347. Option gating and the ascending inclusive handle loop converge at RETF 4.",
+        "Original return/next-entry window: 5e5f8be55dca0400558bec83ec065756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 28045,
+          "image_offset": 19853,
+          "kind": "far_call",
+          "relocated_segment_site": 19856,
+          "space": "root"
+        },
+        {
+          "file_offset": 50927,
+          "image_offset": 42735,
+          "kind": "far_call",
+          "relocated_segment_site": 42738,
+          "space": "root"
+        },
+        {
+          "file_offset": 51224,
+          "image_offset": 43032,
+          "kind": "far_call",
+          "relocated_segment_site": 43035,
+          "space": "root"
+        },
+        {
+          "file_offset": 51500,
+          "image_offset": 43308,
+          "kind": "far_call",
+          "relocated_segment_site": 43311,
+          "space": "root"
+        },
+        {
+          "file_offset": 53488,
+          "image_offset": 45296,
+          "kind": "far_call",
+          "relocated_segment_site": 45299,
+          "space": "root"
+        },
+        {
+          "file_offset": 65719,
+          "image_offset": 57527,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57526,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0350",
+      "offset": 848,
+      "segment": 3543,
+      "semantic_name_hypothesis": "load_song_range",
+      "sha256": "2cf4c29e1539508eef8a87ee2b73f7061f09805b7698f6c70a283a1e39d3c715",
+      "size": 124,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one near pointer, RETF 2",
+      "boundary_evidence": [
+        "Root CALL at 0xf006, relocation 1172. The global guard and early branches share the epilogue with the state-updating path. RETF 2 plus NOP ends just before 04d0.",
+        "Original return/next-entry window: 5f8be55dca020090b8ee091e509aaa29."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69638,
+          "image_offset": 61446,
+          "kind": "far_call",
+          "relocated_segment_site": 61449,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:03cc",
+      "offset": 972,
+      "segment": 3543,
+      "semantic_name_hypothesis": "play_ambient",
+      "sha256": "378dd5666ef62741f9174d0897ed42b38432abfcea5e934d2d297f9f6caa33a0",
+      "size": 260,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, RETF",
+      "boundary_evidence": [
+        "Root CALL at 0xeffd, relocation 1307. The option guard jumps to the RETF at 053b; the next byte begins a BP frame.",
+        "Original return/next-entry window: 02c7060009ffffcb558bec83ec02568b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69629,
+          "image_offset": 61437,
+          "kind": "far_call",
+          "relocated_segment_site": 61440,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:04d0",
+      "offset": 1232,
+      "segment": 3543,
+      "semantic_name_hypothesis": "play_sounds",
+      "sha256": "ac188326699932f4bd5093d22f00d056c89234b149dfba95c32efd9450a01dfa",
+      "size": 108,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one word, RETF 2",
+      "boundary_evidence": [
+        "Root CALL at 0x5c73, relocation 574, and three same-frame calls. The cache and reload paths join one final handle call and RETF 2 plus NOP.",
+        "Original return/next-entry window: 5e8be55dca020090558bec83ec045756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 31859,
+          "image_offset": 23667,
+          "kind": "far_call",
+          "relocated_segment_site": 23670,
+          "space": "root"
+        },
+        {
+          "file_offset": 209525,
+          "image_offset": 661,
+          "kind": "far_call",
+          "relocated_segment_site": 664,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 66088,
+          "image_offset": 57896,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57895,
+          "space": "root"
+        },
+        {
+          "file_offset": 66162,
+          "image_offset": 57970,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57969,
+          "space": "root"
+        },
+        {
+          "file_offset": 66198,
+          "image_offset": 58006,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58005,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:053c",
+      "offset": 1340,
+      "segment": 3543,
+      "semantic_name_hypothesis": "play_song",
+      "sha256": "041b51a11a1648e6cb545c8f728098e1dde9086b5d043530c4efb3c648398adb",
+      "size": 70,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, two words, word result, RETF 4",
+      "boundary_evidence": [
+        "Same-frame CALL at 04e7 pushes both effect IDs. Every branch joins the single AX return and RETF 4 plus NOP.",
+        "Original return/next-entry window: 5f8be55dca040090558becbaffff837e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 66135,
+          "image_offset": 57943,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57942,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0582",
+      "offset": 1410,
+      "segment": 3543,
+      "semantic_name_hypothesis": "should_replace_effect",
+      "sha256": "f0ad5cb1159cc716e244fe252ca769533474e06049db94cf37443eac7662a97e",
+      "size": 132,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one word, word result, RETF 2",
+      "boundary_evidence": [
+        "Same-frame CALL at 041f pushes DI and consumes AX as the song ID. False paths return -1, while scene 5 and room 7, 10 or 12 return 64. One RETF 2 and one NOP follow.",
+        "Original return/next-entry window: 008bc25dca020090562bf60ee88ffc0b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 65935,
+          "image_offset": 57743,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57742,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0606",
+      "offset": 1542,
+      "segment": 3543,
+      "semantic_name_hypothesis": "select_special_ambient",
+      "sha256": "a8968f14aa68c85863663dcd34eada9845ad1e4620fdf4697e1634f896457073",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, one unused stack word, word result, RETF 2",
+      "boundary_evidence": [
+        "Same-frame CALL at 06a4 pushes DI, and AX controls a conditional branch. All paths join the far return, which accounts for the unused word.",
+        "Original return/next-entry window: 01008bc65eca0200558bec83ec045756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 66580,
+          "image_offset": 58388,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58387,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0638",
+      "offset": 1592,
+      "segment": 3543,
+      "semantic_name_hypothesis": "special_no_ambient_case",
+      "sha256": "eb339d61b9eb0f13b63fc2d64f7a90afbbbd47b0c4d25627b1916af4169f4dd8",
+      "size": 76,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "MSC fastcall far, near pointer in BX, word result, RETF",
+      "boundary_evidence": [
+        "Same-frame CALL at 03e7 loads BX from BP+6. The entry copies BX to DI and uses the pointed state. Every path joins RETF at 0723.",
+        "Original return/next-entry window: 46fe5e5f8be55dcb56f606f521027442."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 65879,
+          "image_offset": 57687,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57686,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0684",
+      "offset": 1668,
+      "segment": 3543,
+      "semantic_name_hypothesis": "should_change_ambient",
+      "sha256": "168d4f2cd5579b74eb6a5564a12f3a394634904005a21ddcfde42bc025689e16",
+      "size": 160,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, zero arguments, near pointer result, RETF",
+      "boundary_evidence": [
+        "Root CALL at 0x0420, relocation 112. The flag branches return two enabled-state messages or a third unavailable-state message; the last RETF and NOP precede 0776.",
+        "Original return/next-entry window: bec40a8bc65ecb90558bec83ec085756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9248,
+          "image_offset": 1056,
+          "kind": "far_call",
+          "relocated_segment_site": 1059,
+          "space": "root"
+        },
+        {
+          "file_offset": 38265,
+          "image_offset": 30073,
+          "kind": "far_call",
+          "relocated_segment_site": 30076,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0724",
+      "offset": 1828,
+      "segment": 3543,
+      "semantic_name_hypothesis": "toggle_ambient",
+      "sha256": "72dedd728a39dfaca137d4d6b7dc60a442b650417067774902b6355dc74f4b1f",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, near pointer then song word, RETF 4",
+      "boundary_evidence": [
+        "Same-frame CALL at 0532 pushes the pointer, then the song. The callee reads the song at BP+6, calls 0208, and conditionally writes two state fields before RETF 4.",
+        "Original return/next-entry window: 5e5f8be55dca0400558bec57568b5e08."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 66210,
+          "image_offset": 58018,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58017,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:0776",
+      "offset": 1910,
+      "segment": 3543,
+      "semantic_name_hypothesis": "remember_ambient_song",
+      "sha256": "37ad66d9ec486bf9355fa30b032fe1fbb71c2b41e071377055e0248741850a51",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Pascal far, two signed words, RETF 4",
+      "boundary_evidence": [
+        "Root CALL at 0x51ab, relocation 412, and same-frame CALL at 0323. The range loop joins its rejection branches at RETF 4, ending at 0e56:0006, the independently called next frame entry.",
+        "Original return/next-entry window: 5e5f8be55dca0400558bec9a4e005c0a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 29099,
+          "image_offset": 20907,
+          "kind": "far_call",
+          "relocated_segment_site": 20910,
+          "space": "root"
+        },
+        {
+          "file_offset": 51469,
+          "image_offset": 43277,
+          "kind": "far_call",
+          "relocated_segment_site": 43280,
+          "space": "root"
+        },
+        {
+          "file_offset": 53957,
+          "image_offset": 45765,
+          "kind": "far_call",
+          "relocated_segment_site": 45768,
+          "space": "root"
+        },
+        {
+          "file_offset": 262687,
+          "image_offset": 1055,
+          "kind": "far_call",
+          "relocated_segment_site": 1058,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 263243,
+          "image_offset": 1611,
+          "kind": "far_call",
+          "relocated_segment_site": 1614,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 65683,
+          "image_offset": 57491,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 57490,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident game sound scheduling and ambient state in original module SOUND.C. See evidence/modules.json for FM Towns alignment."
+      ],
+      "classification_status": "Resident game C function based on frame, callers, and sound-ID/state use.",
+      "entry_kind": "direct-code",
+      "id": "root:0dd7:07ac",
+      "offset": 1964,
+      "segment": 3543,
+      "semantic_name_hypothesis": "release_song_range",
+      "sha256": "2852a44b68190ab0e25640a4f6a13b5c545d8fde0f9f751c58d5bd2173c34c7e",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
