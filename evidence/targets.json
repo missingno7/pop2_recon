@@ -23151,6 +23151,736 @@
       "size": 74,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one Byte slot; returns near handle in AX; RETF 2",
+      "boundary_evidence": [
+        "Predecessor RETF 2 at 0504 and NOP at 0507 bound the new BP frame. RETF 2 at 0528 and NOP at 052b precede the far register-entry at 052c.",
+        "Complete original root extent [0xaac8,0xaaec).",
+        "Original root+0xaa0f push_cs_near_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51727,
+          "image_offset": 43535,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43534,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Chooses resource 1200 for kind 2 or 1000 otherwise and returns the handle for tag FRAM."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0508",
+      "offset": 1288,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_sword_frames",
+      "sha256": "ee787c947772a3d1288df507391746cdaad4512fe1744516ec603d41f0dec43a",
+      "size": 36,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far register ABI, unsigned index in AX; result word in AX; RETF",
+      "boundary_evidence": [
+        "Previous routine ends RETF 2/NOP at 0528/052b; relocated far call at root+208c enters PUSH DI/PUSH SI at 052c. Both RETF exits at 054c/0555 terminate before the 0556 BP frame.",
+        "Complete original root extent [0xaaec,0xab16).",
+        "Original root+0x208c far_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 16524,
+          "image_offset": 8332,
+          "kind": "far_call",
+          "relocated_segment_site": 8335,
+          "relocation_index": 137,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Nonzero frame indices address the four-byte entries of the resolved sword frame payload and return the low word. Zero maps to -1."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:052c",
+      "offset": 1324,
+      "segment": 2652,
+      "semantic_name_hypothesis": "get_sword_frame_image",
+      "sha256": "34f55c6d722f8c3fb1efbc4f169786896c6409b81eaa5e09a046b10188edfa3d",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far register ABI, int index in AX; RETF",
+      "boundary_evidence": [
+        "Previous RETF 2/NOP at 0580/0583 precede PUSH DI/PUSH SI at 0584. RETF at 05a4 and NOP at 05a5 precede the next BP frame.",
+        "Complete original root extent [0xab44,0xab66).",
+        "Original root+0xab9d push_cs_near_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 52125,
+          "image_offset": 43933,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43932,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Clears bit 7 of the record at sequence_flags + 4*index if the corresponding opcode byte equals 7."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0584",
+      "offset": 1412,
+      "segment": 2652,
+      "semantic_name_hypothesis": "clear_special_sequence_flag",
+      "sha256": "1fcc5cde3d696b00bde0b1a0adc8215bb99c1f0cfc7759b0eec9cae244bc8526",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one Byte slot; RETF 2",
+      "boundary_evidence": [
+        "Previous RETF 2/NOP at 078e/0791 precede the BP frame at 0792. RETF 2 at 07ae and NOP at 07b1 end before the next BP frame.",
+        "Complete original root extent [0xad52,0xad72).",
+        "Original root+0x2b51 far_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19281,
+          "image_offset": 11089,
+          "kind": "far_call",
+          "relocated_segment_site": 11092,
+          "relocation_index": 279,
+          "space": "root"
+        },
+        {
+          "file_offset": 30283,
+          "image_offset": 22091,
+          "kind": "far_call",
+          "relocated_segment_site": 22094,
+          "relocation_index": 701,
+          "space": "root"
+        },
+        {
+          "file_offset": 31247,
+          "image_offset": 23055,
+          "kind": "far_call",
+          "relocated_segment_site": 23058,
+          "relocation_index": 702,
+          "space": "root"
+        },
+        {
+          "file_offset": 191591,
+          "image_offset": 6823,
+          "kind": "far_call",
+          "relocated_segment_site": 6826,
+          "relocation_index": 126,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 194546,
+          "image_offset": 9778,
+          "kind": "far_call",
+          "relocated_segment_site": 9781,
+          "relocation_index": 170,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 241455,
+          "image_offset": 1039,
+          "kind": "far_call",
+          "relocated_segment_site": 1042,
+          "relocation_index": 174,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Calls the reviewed palette installer for resource 25001, entries 16 through 31, with the source bank one less than the argument."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0792",
+      "offset": 1938,
+      "segment": 2652,
+      "semantic_name_hypothesis": "set_kid_palette",
+      "sha256": "6e42119ef86371757634dc8c7b63286f8a4ee8e20bf6f4a4d1abc5348f7f4690",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, far name pointer; RETF 4",
+      "boundary_evidence": [
+        "Previous RETF 2/NOP at 0c28/0c2b precedes the BP frame at 0c2c. RETF 4 at 0c59 ends exactly before the distinct frameless sword-kind routine.",
+        "Complete original root extent [0xb1ec,0xb21c).",
+        "Original root+0xb1de push_cs_near_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 53726,
+          "image_offset": 45534,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 45533,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Formats a missing-resource message in a 100-byte stack buffer and forwards it with severity 1."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0c2c",
+      "offset": 3116,
+      "segment": 2652,
+      "semantic_name_hypothesis": "report_resource_path",
+      "sha256": "d69a64e095e9bd710f9ba98cd8eae50c2d2d545a0754cb5adf527c044ac084b3",
+      "size": 48,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Prior RETF 4 at 0c59 ends immediately before 0c5c. Branches end in RETF at 0c70, 0c7e, 0ca3 or 0ca9, with the next BP frame starting at 0caa.",
+        "Complete original root extent [0xb21c,0xb26a).",
+        "Original root+0xa806 push_cs_near_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51206,
+          "image_offset": 43014,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43013,
+          "space": "root"
+        },
+        {
+          "file_offset": 51392,
+          "image_offset": 43200,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43199,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Sets the sword kind from a saved protagonist record or stage/room defaults."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0c5c",
+      "offset": 3164,
+      "segment": 2652,
+      "semantic_name_hypothesis": "set_kid_sword_kind",
+      "sha256": "7f481f76c91f1a45935b9e45635a5a7198ab76c4695aa96e316cdeb68cd87114",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Previous RETF 4 at 0e0f bounds entry 0e12, also reached by relocated CALL at root+2c05. The zero test branches to RETF at 0e2b before the 0e2c BP frame.",
+        "Complete original root extent [0xb3d2,0xb3ec).",
+        "Original root+0x2c05 far_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19461,
+          "image_offset": 11269,
+          "kind": "far_call",
+          "relocated_segment_site": 11272,
+          "relocation_index": 274,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Releases the near level pieces data if present and clears the global."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0e12",
+      "offset": 3602,
+      "segment": 2652,
+      "semantic_name_hypothesis": "unload_pieces_data",
+      "sha256": "43f5b3d8d7d37c9412f9a8707520dcb22b3e9a4d8c02ab80a61618403a502b30",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, unsigned resource id, int destination, Byte count, Byte bank; returns int",
+      "boundary_evidence": [
+        "Predecessor RETF 2/NOP at 2b06/2b09 precedes the BP frame at 2b0a. Branches join at 2c4c and RETF 8 at 2c53 ends exactly at the next BP frame.",
+        "Complete original root extent [0xa3aa,0xa4f6).",
+        "Original root+0x691 far_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9873,
+          "image_offset": 1681,
+          "kind": "far_call",
+          "relocated_segment_site": 1684,
+          "relocation_index": 29,
+          "space": "root"
+        },
+        {
+          "file_offset": 50796,
+          "image_offset": 42604,
+          "kind": "far_call",
+          "relocated_segment_site": 42607,
+          "relocation_index": 907,
+          "space": "root"
+        },
+        {
+          "file_offset": 51039,
+          "image_offset": 42847,
+          "kind": "far_call",
+          "relocated_segment_site": 42850,
+          "relocation_index": 908,
+          "space": "root"
+        },
+        {
+          "file_offset": 52582,
+          "image_offset": 44390,
+          "kind": "far_call",
+          "relocated_segment_site": 44393,
+          "relocation_index": 909,
+          "space": "root"
+        },
+        {
+          "file_offset": 52991,
+          "image_offset": 44799,
+          "kind": "far_call",
+          "relocated_segment_site": 44802,
+          "relocation_index": 910,
+          "space": "root"
+        },
+        {
+          "file_offset": 185223,
+          "image_offset": 455,
+          "kind": "far_call",
+          "relocated_segment_site": 458,
+          "relocation_index": 36,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 188765,
+          "image_offset": 3997,
+          "kind": "far_call",
+          "relocated_segment_site": 4000,
+          "relocation_index": 37,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 188730,
+          "image_offset": 3962,
+          "kind": "far_call",
+          "relocated_segment_site": 3965,
+          "relocation_index": 38,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 194205,
+          "image_offset": 9437,
+          "kind": "far_call",
+          "relocated_segment_site": 9440,
+          "relocation_index": 138,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 194445,
+          "image_offset": 9677,
+          "kind": "far_call",
+          "relocated_segment_site": 9680,
+          "relocation_index": 139,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 209242,
+          "image_offset": 378,
+          "kind": "far_call",
+          "relocated_segment_site": 381,
+          "relocation_index": 18,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 218512,
+          "image_offset": 3120,
+          "kind": "far_call",
+          "relocated_segment_site": 3123,
+          "relocation_index": 30,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 226636,
+          "image_offset": 508,
+          "kind": "far_call",
+          "relocated_segment_site": 511,
+          "relocation_index": 6,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 226670,
+          "image_offset": 542,
+          "kind": "far_call",
+          "relocated_segment_site": 545,
+          "relocation_index": 7,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 241447,
+          "image_offset": 1031,
+          "kind": "far_call",
+          "relocated_segment_site": 1034,
+          "relocation_index": 60,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 245299,
+          "image_offset": 4883,
+          "kind": "far_call",
+          "relocated_segment_site": 4886,
+          "relocation_index": 61,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 245442,
+          "image_offset": 5026,
+          "kind": "far_call",
+          "relocated_segment_site": 5029,
+          "relocation_index": 62,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 245366,
+          "image_offset": 4950,
+          "kind": "far_call",
+          "relocated_segment_site": 4953,
+          "relocation_index": 63,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 245347,
+          "image_offset": 4931,
+          "kind": "far_call",
+          "relocated_segment_site": 4934,
+          "relocation_index": 64,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 246046,
+          "image_offset": 5630,
+          "kind": "far_call",
+          "relocated_segment_site": 5633,
+          "relocation_index": 65,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 246012,
+          "image_offset": 5596,
+          "kind": "far_call",
+          "relocated_segment_site": 5599,
+          "relocation_index": 66,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 245993,
+          "image_offset": 5577,
+          "kind": "far_call",
+          "relocated_segment_site": 5580,
+          "relocation_index": 67,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 245974,
+          "image_offset": 5558,
+          "kind": "far_call",
+          "relocated_segment_site": 5561,
+          "relocation_index": 68,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 248078,
+          "image_offset": 7662,
+          "kind": "far_call",
+          "relocated_segment_site": 7665,
+          "relocation_index": 69,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 261668,
+          "image_offset": 36,
+          "kind": "far_call",
+          "relocated_segment_site": 39,
+          "relocation_index": 18,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 262445,
+          "image_offset": 813,
+          "kind": "far_call",
+          "relocated_segment_site": 816,
+          "relocation_index": 19,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 262710,
+          "image_offset": 1078,
+          "kind": "far_call",
+          "relocated_segment_site": 1081,
+          "relocation_index": 20,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 264808,
+          "image_offset": 1032,
+          "kind": "far_call",
+          "relocated_segment_site": 1035,
+          "relocation_index": 17,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 265128,
+          "image_offset": 1352,
+          "kind": "far_call",
+          "relocated_segment_site": 1355,
+          "relocation_index": 18,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 266976,
+          "image_offset": 464,
+          "kind": "far_call",
+          "relocated_segment_site": 467,
+          "relocation_index": 10,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 267996,
+          "image_offset": 1484,
+          "kind": "far_call",
+          "relocated_segment_site": 1487,
+          "relocation_index": 11,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 267977,
+          "image_offset": 1465,
+          "kind": "far_call",
+          "relocated_segment_site": 1468,
+          "relocation_index": 12,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 268250,
+          "image_offset": 1738,
+          "kind": "far_call",
+          "relocated_segment_site": 1741,
+          "relocation_index": 13,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 268378,
+          "image_offset": 42,
+          "kind": "far_call",
+          "relocated_segment_site": 45,
+          "relocation_index": 1,
+          "space": "overlay-16"
+        },
+        {
+          "file_offset": 268427,
+          "image_offset": 91,
+          "kind": "far_call",
+          "relocated_segment_site": 94,
+          "relocation_index": 2,
+          "space": "overlay-16"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Looks up the PALS resource, resolves its handle to a far payload and installs palette entries."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:078a:2b0a",
+      "offset": 11018,
+      "segment": 1930,
+      "sha256": "4eb94aa76dc5b816dd37b6da52bdcda8b9be4f3d7463f65782c687458dad91c5",
+      "size": 332,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far cdecl, near destination, near format, varargs; result in AX",
+      "boundary_evidence": [
+        "Preceding RETF 8 at 170a and boundary byte 170d precede the BP frame at 170e. Both termination paths join at 1760 and RETF at 1767 before a new BP frame.",
+        "Complete original root extent [0x2156e,0x215c8).",
+        "Original root+0x63c far_call enters this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9788,
+          "image_offset": 1596,
+          "kind": "far_call",
+          "relocated_segment_site": 1599,
+          "relocation_index": 81,
+          "space": "root"
+        },
+        {
+          "file_offset": 11688,
+          "image_offset": 3496,
+          "kind": "far_call",
+          "relocated_segment_site": 3499,
+          "relocation_index": 82,
+          "space": "root"
+        },
+        {
+          "file_offset": 34631,
+          "image_offset": 26439,
+          "kind": "far_call",
+          "relocated_segment_site": 26442,
+          "relocation_index": 618,
+          "space": "root"
+        },
+        {
+          "file_offset": 43636,
+          "image_offset": 35444,
+          "kind": "far_call",
+          "relocated_segment_site": 35447,
+          "relocation_index": 826,
+          "space": "root"
+        },
+        {
+          "file_offset": 53712,
+          "image_offset": 45520,
+          "kind": "far_call",
+          "relocated_segment_site": 45523,
+          "relocation_index": 954,
+          "space": "root"
+        },
+        {
+          "file_offset": 53760,
+          "image_offset": 45568,
+          "kind": "far_call",
+          "relocated_segment_site": 45571,
+          "relocation_index": 955,
+          "space": "root"
+        },
+        {
+          "file_offset": 75798,
+          "image_offset": 67606,
+          "kind": "far_call",
+          "relocated_segment_site": 67609,
+          "relocation_index": 1412,
+          "space": "root"
+        },
+        {
+          "file_offset": 75856,
+          "image_offset": 67664,
+          "kind": "far_call",
+          "relocated_segment_site": 67667,
+          "relocation_index": 1413,
+          "space": "root"
+        },
+        {
+          "file_offset": 126838,
+          "image_offset": 118646,
+          "kind": "far_call",
+          "relocated_segment_site": 118649,
+          "relocation_index": 1583,
+          "space": "root"
+        },
+        {
+          "file_offset": 134491,
+          "image_offset": 126299,
+          "kind": "far_call",
+          "relocated_segment_site": 126302,
+          "relocation_index": 1837,
+          "space": "root"
+        },
+        {
+          "file_offset": 135576,
+          "image_offset": 127384,
+          "kind": "far_call",
+          "relocated_segment_site": 127387,
+          "relocation_index": 1838,
+          "space": "root"
+        },
+        {
+          "file_offset": 156047,
+          "image_offset": 111,
+          "kind": "far_call",
+          "relocated_segment_site": 114,
+          "relocation_index": 39,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 156028,
+          "image_offset": 92,
+          "kind": "far_call",
+          "relocated_segment_site": 95,
+          "relocation_index": 40,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 157135,
+          "image_offset": 1199,
+          "kind": "far_call",
+          "relocated_segment_site": 1202,
+          "relocation_index": 383,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 179643,
+          "image_offset": 23707,
+          "kind": "far_call",
+          "relocated_segment_site": 23710,
+          "relocation_index": 779,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 181149,
+          "image_offset": 25213,
+          "kind": "far_call",
+          "relocated_segment_site": 25216,
+          "relocation_index": 780,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Builds a string stream for the near destination, sends the format and varargs to the formatter, appends a NUL and returns the count."
+      ],
+      "classification_status": "Original byte and caller review; source identity unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:170e",
+      "offset": 5902,
+      "segment": 8166,
+      "sha256": "36e913b51ca8e483e907f93b9972a636d8c6be67fb1373ff44dd2ead2b9e19e6",
+      "size": 90,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
