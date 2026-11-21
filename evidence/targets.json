@@ -47962,6 +47962,391 @@
       "size": 62,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. Signed word result in AX. DI and SI preserved.",
+      "boundary_evidence": [
+        "The prior AUTO function ends with RETF 4 at 2587:0000 and alignment NOP at 0003. The BP frame starts at 0004.",
+        "The same-overlay relocated far call at overlay-3+3776 (index 228) enters 0004 and consumes AX. The branches at 0020, 0029 and 005c stay inside the function.",
+        "The two result paths join at 0061, share the slot-restoration call, and close at RETF 0071 before a fresh predicate at 0072."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198966,
+          "image_offset": 14198,
+          "kind": "far_call",
+          "relocated_segment_site": 14201,
+          "relocation_index": 228,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates character state on a short signed shadow distance and restores the character slot. Returns 71 when the update runs, or -1."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:0004",
+      "offset": 4,
+      "original_name": "CheckShadowmanBackIntoKid",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @CheckShadowmanBackIntoKid at 177f:0003. The reached distance helper, absolute distance threshold 32, conditional facing flip, 64-byte record copy and return 71 or -1 align."
+      ],
+      "segment": 9607,
+      "sha256": "a1e44028996ac717f29d475f35af6f9c00238b6af1a2bc158760c5301b0838b7",
+      "size": 110,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF.",
+      "boundary_evidence": [
+        "The first CMP at 0072 follows the preceding restored BP/RETF at 0071. Original relocated callers independently name 2587:0072.",
+        "The state and mode failures branch to 0134, and the timer below four branches to 013a. The RETF exits at 0132 and 013a and their alignment NOPs close the extent before a new BP frame at 013c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9847,
+          "image_offset": 1655,
+          "kind": "far_call",
+          "relocated_segment_site": 1658,
+          "relocation_index": 0,
+          "space": "root"
+        },
+        {
+          "file_offset": 199108,
+          "image_offset": 14340,
+          "kind": "far_call",
+          "relocated_segment_site": 14343,
+          "relocation_index": 171,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Runs a shadow creation timer. At count 4 it installs a palette, and at 8 it creates an opponent or depletes life and resets the timer."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:0072",
+      "offset": 114,
+      "original_name": "CheckShadowmanCreate",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @CheckShadowmanCreate at 177f:007d. The kind / repeat sequence guard, timing thresholds 4 and 8, palette setup and sequence and opponent creation branches align."
+      ],
+      "segment": 9607,
+      "sha256": "f6fa513c64935487fd9c7c52000ca9aad0907bdfd5251944d63cb8605d5ac81f",
+      "size": 202,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. One signed byte local at BP-1.",
+      "boundary_evidence": [
+        "The preceding timer routine ends in RETF at 013a with NOP 013b. The BP frame starts at 013c. Root ChangeMeters at root+0f85 calls exactly 2587:013c with MZ relocation 24.",
+        "The first guard at 014b selects the downward crossing checks or the second test at 016c. Both decisions join at 0188 and optionally call the same palette installer. RETF at 01a5 ends just before the independent frame-value comparison at 01a6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 12165,
+          "image_offset": 3973,
+          "kind": "far_call",
+          "relocated_segment_site": 3976,
+          "relocation_index": 24,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Changes palette bank when the Kid health plus pending delta crosses the threshold 2. On a downward crossing it excludes repeat sequence 242."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:013c",
+      "offset": 316,
+      "original_name": "CheckShadowPaletteChange",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @CheckShadowPaletteChange at 177f:0192. Both versions initialize bank to -1, test the same signed crossings of 2 and repeat sequence 242, and install palette 2000 at 48 with count 16."
+      ],
+      "segment": 9607,
+      "sha256": "0c60b5d207fb732f06de9136f1f37d0aefd17ff42b7e45b035b0df7439386f6b",
+      "size": 106,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF.",
+      "boundary_evidence": [
+        "The first CMP at 01a6 follows RETF at 01a5. Original relocated callers independently name the entry.",
+        "The frame 15 branch reaches 0207. The blink result path returns at 01ef. The other branches reach 01f0, 0207 or 020d. The final RETF at 020d precedes the BP frame at 020e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198040,
+          "image_offset": 13272,
+          "kind": "far_call",
+          "relocated_segment_site": 13275,
+          "relocation_index": 333,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198888,
+          "image_offset": 14120,
+          "kind": "far_call",
+          "relocated_segment_site": 14123,
+          "relocation_index": 334,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests animation frames 15 and 45..52, updates the shadow blink bit using IsShadowBlinkOn, and clears or resets the shadow timer."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:01a6",
+      "offset": 422,
+      "original_name": "CheckTurnSeqs",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @CheckTurnSeqs at 177f:01e6. Frame 15 clears the timer. Frames 45 through 52, the level 14 exception, a call to IsShadowBlinkOn and a conditional value 8 agree."
+      ],
+      "segment": 9607,
+      "sha256": "6cb5371f57e600e5d7c95cd65347d01ffc9878540d4bd3250371fe1289425794",
+      "size": 104,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. Two stack locals. DI and SI preserved.",
+      "boundary_evidence": [
+        "The BP frame at 020e follows RETF 020d. A PUSH CS and near CALL at 00e5/00e6 enters 020e from the creation timer.",
+        "The tile probes and conditional X change join at the actor copy at 0248. Stores and refresh calls then reach the single RETF at 02ec and its NOP 02ed, before the separately framed entry at 02ee."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 194262,
+          "image_offset": 9494,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 9493,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies character state, allocates or finds a room opponent, initializes the record and refreshes the actor."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:020e",
+      "offset": 526,
+      "original_name": "CreateKidAsOpp",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @CreateKidAsOpp at 177f:0259. The creation path uses a room index scaled by 0x74, creates the opponent record and sends the saved actor through the same initialization sequence."
+      ],
+      "segment": 9607,
+      "sha256": "4f0c2a9a1bea924bf70d1c49fbbf08d4ba0913edbbec0c13b980fc0dc68c9009",
+      "size": 224,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. Signed word distance in AX.",
+      "boundary_evidence": [
+        "PUSH CS/CALL at 0012/0013 enters 03be from the independently entered first routine. Entry 03be follows RETF 03bd.",
+        "Row mismatch jumps to 0400. Direction or frame mismatch joins at 0403. RETF exits at 03fe and 0405 bracket the alternate result and precede the canonical Blink helper at 0406."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197864,
+          "image_offset": 13096,
+          "kind": "far_call",
+          "relocated_segment_site": 13099,
+          "relocation_index": 363,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 197856,
+          "image_offset": 13088,
+          "kind": "far_call",
+          "relocated_segment_site": 13091,
+          "relocation_index": 364,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 197847,
+          "image_offset": 13079,
+          "kind": "far_call",
+          "relocated_segment_site": 13082,
+          "relocation_index": 365,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads an opponent slot, returns 999 on a row mismatch, otherwise computes signed X distance with an optional direction adjustment."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:03be",
+      "offset": 958,
+      "original_name": "GetShadowToKidDist",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @GetShadowToKidDist at 177f:04a5. Both versions invoke the opponent lookup, return 999 on row mismatch and apply a direction-based adjustment of six except for frame 185."
+      ],
+      "segment": 9607,
+      "sha256": "7fb1963e37d4743b3f8f91a22d6668ad50b7ec496b6408fcbb6d40fdd794c94c",
+      "size": 72,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. Boolean word result in AX.",
+      "boundary_evidence": [
+        "Start at 045e follows the proven 0406 routine and its NOP at 045d. PUSH CS/CALL at 00a1/00a2 and 04de/04df independently enter it.",
+        "The three comparisons reach the zero exit at 0477 or one exit at 047d. The successor starts with DI/SI saves at 047e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks animation contact 13 or level 6 with health greater than 2."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:045e",
+      "offset": 1118,
+      "original_name": "IsShadowImbued",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @IsShadowImbued at 177f:0536. Identical predicate over animation contact 13, level 6 and signed health greater than 2."
+      ],
+      "segment": 9607,
+      "sha256": "68171408d7a627bd0b965ec1e2202e5a3ce6407e738f8c8944bbbed06c362395",
+      "size": 32,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. DI and SI preserved.",
+      "boundary_evidence": [
+        "Distinct DI/SI saves at 047e follow the bare RETF at 047d. Original relocated callers name 2587:047e.",
+        "The guard at 0485 reaches the shared DI/SI restore at 04da. RETF at 04dc and alignment NOP at 04dd close the body before the near call starting 04de."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197879,
+          "image_offset": 13111,
+          "kind": "far_call",
+          "relocated_segment_site": 13114,
+          "relocation_index": 222,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "On an inactive opponent, reloads character state, marks the merge state, selects sequence 231 and stores the actor record."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:047e",
+      "offset": 1150,
+      "original_name": "KidRiseFromShadowman",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @KidRiseFromShadowman at 177f:055d. Both versions have the same opponent-kind guard, actor transfers, merge-byte update and sequence 231."
+      ],
+      "segment": 9607,
+      "sha256": "6e2e753e6553fa046dc6cebbfa1a001d4826db407ef42691f72e9c7aed8e8f7c",
+      "size": 96,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF.",
+      "boundary_evidence": [
+        "PUSH CS/CALL at 04de/04df follows the 04dc RETF and NOP. Its result drives the single branch to 0535.",
+        "The flame configuration block terminates at the same RETF 0535. The next routine begins at the independently vectored reset entry 0536."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 16248,
+          "image_offset": 8056,
+          "kind": "far_call",
+          "relocated_segment_site": 8059,
+          "relocation_index": 165,
+          "space": "root"
+        },
+        {
+          "file_offset": 16441,
+          "image_offset": 8249,
+          "kind": "far_call",
+          "relocated_segment_site": 8252,
+          "relocation_index": 166,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "If imbued, configures the shadow flame from a modulo-biased coordinate, a far effect callback and the active character."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:04de",
+      "offset": 1246,
+      "original_name": "SetupShadowFlame",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @SetupShadowFlame at 177f:05da. Both versions call IsShadowImbued then save sprite state, calculate remainder modulo 9 plus 290, adjust X by 13 minus half Y and add object 14 before drawing and restoring state."
+      ],
+      "segment": 9607,
+      "sha256": "d1e4d9c9361a16c55965f6d218e6ee1502e0f3131b84e0aa140068f837565dad",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Medium-model far entry with no stacked arguments and bare RETF. Room byte in AL.",
+      "boundary_evidence": [
+        "BP frame at 133a follows the previous RETF at 1339. The complete body ends in RETF 1452 and NOP 1453 before the next BP frame.",
+        "The original overlay-10 CALL at +053f compares the result against rooms 7 and 8, matching the AUTOSHAD caller. Its overlay-2 address names bytes inside unrelated code, whereas the overlay-3 entry is preceded by a return and starts a distinct routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 194859,
+          "image_offset": 10091,
+          "kind": "far_call",
+          "relocated_segment_site": 10094,
+          "relocation_index": 154,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 241759,
+          "image_offset": 1343,
+          "kind": "far_call",
+          "relocated_segment_site": 1346,
+          "relocation_index": 121,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Walks linked rooms to bring the actor row and column into the room bounds, adjusting X or Y by a room width or height."
+      ],
+      "classification_status": "Original overlay byte and flow review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:133a",
+      "offset": 4922,
+      "segment": 9028,
+      "sha256": "919a1d49ec2219a96b047490a3a93a10fb4ac0ed19924d7d5e3253a77bbf49bb",
+      "size": 282,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
