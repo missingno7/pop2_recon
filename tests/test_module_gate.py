@@ -566,3 +566,217 @@ class PlacementTests(unittest.TestCase):
         self.assertTrue(self.check([("_DATA", b"\x12\x34", 2)], {}, {"_DATA": 8}, image))
         with self.assertRaisesRegex(ValueError, "differs"):
             self.check([("_DATA", b"\x12\x35", 2)], {}, {"_DATA": 8}, image)
+
+
+def fixup(at, *, relative, frame, frame_datum=None, target, target_datum, displacement=None):
+    """One explicit FIXUPP subrecord: LOC1 at `at`, frame method F0..F5, target method T0..T6."""
+    low = target - 4 if target >= 4 else target
+    fixdat = (frame << 4) | ((1 if target >= 4 else 0) << 2) | low
+    body = struct.pack(">HB", (0x8000 if relative else 0xc000) | (1 << 10) | at, fixdat)
+    body += bytes([frame_datum]) if frame <= 2 else b""
+    body += bytes([target_datum])
+    return body + (struct.pack("<H", displacement) if target < 4 else b"")
+
+
+def masm_object(code, publics, externals=(), subrecords=(), *, group="DGROUP"):
+    """MASM-shaped object: CODE segment 1, empty _DATA segment 2 in GRPDEF `group` (index 1)."""
+    names = ("", "FIX_TEXT", "CODE", "_DATA", "DATA", group)
+    records = [_record(0x80, _name("fixture")), _record(0x96, b"".join(map(_name, names))),
+               _record(0x98, b"\x48" + struct.pack("<H", len(code)) + b"\x02\x03\x01"),
+               _record(0x98, b"\x48\x00\x00\x04\x05\x01"), _record(0x9a, b"\x06\xff\x02")]
+    if externals:
+        records.append(_record(0x8c, b"".join(_name(e) + b"\x00" for e in externals)))
+    records.append(_record(0x90, b"\x00\x01" + b"".join(_name(p) + struct.pack("<H", o) + b"\x00"
+                                                       for p, o in publics)))
+    records.append(_record(0xa0, b"\x01\x00\x00" + code))
+    if subrecords:
+        records.append(_record(0x9c, b"".join(subrecords)))
+    records.append(_record(0x8a, b"\x00"))
+    return b"".join(records)
+
+
+def own_branch(at, destination):
+    """MASM's own-segment rel16: F0 own CODE segment, T0 own CODE segment + displacement."""
+    return fixup(at, relative=True, frame=0, frame_datum=1, target=0, target_datum=1, displacement=destination)
+
+
+def near_external(at, index):
+    """MASM's external near CALL: F0 own CODE segment, T6 EXTDEF."""
+    return fixup(at, relative=True, frame=0, frame_datum=1, target=6, target_datum=index)
+
+
+class SelfRelativeTests(unittest.TestCase):
+    """MASM self-relative rel16 shapes: own-segment branches, plain and external near calls."""
+
+    def setUp(self):
+        import binding
+        binding._REACH.clear()  # synthetic oracles may reuse an id
+
+    def check(self, obj, oracle, inventory, claims, *, owners=(), **kw):
+        import match
+        from module_gate import check_group
+
+        def read(path):
+            return {"owners": list(owners)} if "manifest" in str(path) else inventory
+        with patch.object(match, "read_json", return_value=inventory), patch.object(common, "read_json", read):
+            return check_group(obj, [{"target_id": t, "public": p} for t, p in claims], oracle, **kw)
+
+    def binding(self, obj, symbols, group_id="group:fixture"):
+        from binding import OPERAND_MODE, declarations, fixes
+        from omf import OmfReader
+        module = OmfReader().read(obj)
+        return {"schema": 1, "mode": OPERAND_MODE, "target_id": group_id, "symbols": symbols,
+                "fixups": fixes(module), "declarations": declarations(module)}
+
+    def test_own_segment_branch_is_exact_without_a_frame(self):
+        # jmp done (E9, F0/T0 displacement 4); nop; done: retf. Linked rel16 = 4 - 3.
+        oracle, inventory = synthetic_oracle(bytes(32) + bytes.fromhex("e9010090cb"), [("f", 2, 0, 5, [])])
+        obj = masm_object(bytes.fromhex("e9000090cb"), [("F", 0)], (), [own_branch(1, 4)])
+        report = self.check(obj, oracle, inventory, [("f", "F")])
+        claim = report["claims"][0]
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        self.assertEqual([(e["kind"], e["linked_value"], e["destination"]) for e in claim["equations"]],
+                         [("own-segment rel16", 1, 4)])
+
+    def test_self_relative_field_that_is_not_a_branch_operand_is_refused(self):
+        # The same fixup on MOV AX, imm16 would let a branch equation stand in for an address.
+        oracle, inventory = synthetic_oracle(bytes(32) + bytes.fromhex("b80100cb"), [("f", 2, 0, 4, [])])
+        obj = masm_object(bytes.fromhex("b80000cb"), [("F", 0)], (), [own_branch(1, 3)])
+        report = self.check(obj, oracle, inventory, [("f", "F")])
+        self.assertIn("not the rel16 operand", report["claims"][0]["reason"])
+
+    def test_own_segment_branch_into_another_claim_is_refused(self):
+        oracle, inventory = synthetic_oracle(bytes(32) + bytes.fromhex("e90100cbcb"),
+                                             [("f", 2, 0, 4, []), ("g", 2, 4, 1, [])])
+        obj = masm_object(bytes.fromhex("e90000cbcb"), [("F", 0), ("G", 4)], (), [own_branch(1, 4)])
+        report = self.check(obj, oracle, inventory, [("f", "F"), ("g", "G")])
+        self.assertIn("leaves its claim", report["claims"][0]["reason"])
+
+    def plain_call(self, sites=True):
+        # FIRST: call HELPER (plain E8, F0/T0 displacement 4); retf. HELPER: ret.
+        call, site = far_call(16, 2, 0)
+        image = bytearray(32) + bytes.fromhex("e80100cbc3")
+        image[16:21] = call
+        oracle, inventory = synthetic_oracle(image, [("first", 2, 0, 4, [site] if sites else []),
+                                                     ("helper", 2, 4, 1, [])], relocations=[{"image_offset": 19}])
+        obj = masm_object(bytes.fromhex("e80000cbc3"), [("FIRST", 0), ("HELPER", 4)], (), [own_branch(1, 4)])
+        return self.check(obj, oracle, inventory, [("first", "FIRST"), ("helper", "HELPER")])
+
+    def test_plain_near_call_to_an_object_public_needs_the_witnessed_window(self):
+        claim = self.plain_call()["claims"][0]
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        self.assertEqual([(e["kind"], e["push_cs"], e["symbol"]) for e in claim["equations"]],
+                         [("same-object near16", False, "HELPER")])
+        self.assertIn("witnessed original frame", self.plain_call(sites=False)["claims"][0]["reason"])
+
+    def external(self, witnesses=None, *, callee=0x60, frame_segment=4, accepted=False):
+        """Candidate at 0x40 (PUSH CS; CALL OUTSIDE; RETF), entered by CALL FAR frame_segment:off.
+        Callee RETF at `callee`; an independent function at 0x80 calls it with a reached E8."""
+        image = bytearray(0x90)
+        entry, entry_site = far_call(0x10, frame_segment, 0x40 - frame_segment * 16)
+        other, _ = far_call(0x20, 0, 0x80)
+        image[0x10:0x15], image[0x20:0x25] = entry, other
+        image[0x40:0x45] = bytes.fromhex("0ee8") + struct.pack("<H", (callee - 0x44) & 0xFFFF) + b"\xcb"
+        image[callee] = 0xcb
+        image[0x80:0x84] = b"\xe8" + struct.pack("<H", (callee - 0x83) & 0xFFFF) + b"\xcb"
+        ident = "root:0000:%04x" % callee
+        oracle, inventory = synthetic_oracle(image, [("caller", frame_segment, 0x40 - frame_segment * 16, 5,
+                                                      [entry_site]), (ident, 0, callee, 1, [])],
+                                             relocations=[{"image_offset": 0x13}, {"image_offset": 0x23}])
+        inventory["functions"][1]["entry_kind"] = "direct-code"
+        obj = masm_object(bytes.fromhex("0ee80000cb"), [("CALLER", 0)], ["OUTSIDE"], [near_external(2, 1)])
+        if witnesses is None:
+            witnesses = [{"space": "root", "image_offset": 0x80, "bytes_hex": image[0x80:0x83].hex(),
+                          "entry": "root:0000:0080"}]
+        symbol = {"kind": "near-code-entry", "space": "root", "segment": 0, "offset": callee,
+                  "entry_target_id": ident, "entry_sha256": inventory["functions"][1]["sha256"],
+                  "witnesses": witnesses}
+        owners = [{"target_id": ident, "state": "ASM_EXACT"}] if accepted else []
+        return self.check(obj, oracle, inventory, [("caller", "CALLER")], owners=owners,
+                          binding=self.binding(obj, {"OUTSIDE": symbol}), group_id="group:fixture")
+
+    def test_external_near_callee_grounded_by_an_outside_near_call_is_exact(self):
+        claim = self.external()["claims"][0]
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        self.assertEqual([(e["kind"], e["linked_value"], e["original_value"]) for e in claim["equations"]],
+                         [("external near16", 0x1c, 0x1c)])
+        self.assertEqual(self.external([], accepted=True)["claims"][0]["state"], "CODE_EXACT")
+
+    def test_external_near_callee_with_only_the_candidates_own_call_is_refused(self):
+        own = [{"space": "root", "image_offset": 0x40, "bytes_hex": "0ee81c00", "entry": "root:0000:0040"}]
+        with self.assertRaisesRegex(ValueError, "lies inside the object"):
+            self.external(own)
+        with self.assertRaisesRegex(ValueError, "no independent original near CALL"):
+            self.external([])
+
+    def test_external_near_callee_outside_the_cs_window_is_refused(self):
+        # CS = 0004 (base 0x40): the callee at 0x30 lies below the window, so IP arithmetic
+        # would wrap to 0x10030 although the linear equation agrees.
+        claim = self.external(callee=0x30)["claims"][0]
+        self.assertEqual(claim["state"], "REFUSED")
+        self.assertIn("CS window", claim["reason"])
+        self.assertEqual(self.external(callee=0x30, frame_segment=0)["claims"][0]["state"], "CODE_EXACT")
+
+
+class MasmDgroupFrameTests(unittest.TestCase):
+    """v4 accepts MASM's F1 DGROUP frame (ASSUME DS:DGROUP) only when the group is DGROUP."""
+
+    def equations(self, group):
+        from binding import OPERAND_MODE, data_equations, fixes, instructions
+        from omf import OmfReader
+        code = bytes.fromhex("a10000cb")  # mov ax, [SYM]; retf
+        sub = fixup(1, relative=False, frame=1, frame_datum=1, target=6, target_datum=1)
+        module = OmfReader().read(masm_object(code, [("F", 0)], ["SYM"], [sub], group=group))
+        return data_equations(fixes(module), {"SYM": {"offset": 0x25c0}}, "FIX_TEXT", code,
+                              bytes.fromhex("a1c025cb"), instructions(code), OPERAND_MODE, set())
+
+    def test_dgroup_frame_is_the_grounded_offset_equation(self):
+        found, unequal = self.equations("DGROUP")
+        self.assertEqual((found[0]["linked_value"], unequal), (0x25c0, []))
+
+    def test_frame_naming_another_group_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "Unsupported DGROUP fixup equation"):
+            self.equations("OTHER")
+
+
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+class AsmGroupTests(unittest.TestCase):
+    """A MASM group assembles through compile_group and reports ASM states."""
+
+    SOURCE = """.MODEL MEDIUM
+.CODE
+PUBLIC FIRST, HELPER
+FIRST PROC FAR
+    call HELPER
+    jmp done
+    REPT 130
+    nop
+    ENDM
+done:
+    retf
+FIRST ENDP
+HELPER PROC NEAR
+    ret
+HELPER ENDP
+END
+"""
+
+    def test_masm_group_with_own_segment_calls_and_jumps_is_asm_exact(self):
+        import match
+        from module_gate import compile_group
+        # MASM emits F0/T0 for both: call HELPER (137 - 3) and jmp done (136 - 6).
+        linked = bytes.fromhex("e88600e98200") + b"\x90" * 130 + b"\xcb\xc3"
+        call, site = far_call(16, 2, 0)
+        image = bytearray(32) + linked
+        image[16:21] = call
+        oracle, inventory = synthetic_oracle(image, [("first", 2, 0, 137, [site]), ("helper", 2, 137, 1, [])],
+                                             relocations=[{"image_offset": 19}])
+        with patch.object(match, "read_json", return_value=inventory), \
+                patch("oracle.Oracle.load", return_value=oracle):
+            _, report = compile_group(self.SOURCE, "masm510", None,
+                                      [{"target_id": "first", "public": "FIRST"},
+                                       {"target_id": "helper", "public": "HELPER"}],
+                                      ROOT / "build/workers/tests/asm_group", language="asm")
+        self.assertEqual([c["state"] for c in report["claims"]], ["ASM_EXACT", "ASM_EXACT"], report["claims"])
+        self.assertEqual(sorted(e["kind"] for e in report["claims"][0]["equations"]),
+                         ["own-segment rel16", "same-object near16"])
