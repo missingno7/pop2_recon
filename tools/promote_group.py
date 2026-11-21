@@ -24,9 +24,11 @@ def parse_claim(text):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source")
-    parser.add_argument("--name", required=True, help="Canonical group name (src/NAME.c, recipes/NAME.json)")
+    parser.add_argument("--name", required=True, help="Canonical group name (src/NAME.c or asm/NAME.asm, recipes/NAME.json)")
     parser.add_argument("--profile", required=True)
     parser.add_argument("--flags", nargs="+")
+    parser.add_argument("--language", choices=("c", "asm"), default="c",
+                        help="asm: one MASM source (profile masm510), canonical under asm/NAME.asm")
     parser.add_argument("--claim", action="append", required=True, type=parse_claim,
                         help="TARGET_ID=PUBLIC, repeated in any order")
     parser.add_argument("--binding", help="Reviewed group binding under evidence/bindings")
@@ -56,18 +58,19 @@ def main():
     source_bytes = project_path(args.source).read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     stage = ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
-    (stage / "CAND.C").write_bytes(source_bytes)
+    (stage / ("CAND.ASM" if args.language == "asm" else "CAND.C")).write_bytes(source_bytes)
     result, report = compile_group(source_bytes.decode("ascii"), args.profile, args.flags, args.claim,
                                    stage / "compile",
                                    binding=json.loads(binding_bytes) if binding_bytes else None,
-                                   group_id=group_id)
+                                   group_id=group_id, language=args.language)
     for claim in report["claims"]:
         print(f"  {claim['target_id']} {claim['public']}: {claim['state']}"
               + (f" ({claim['reason']})" if claim.get("reason") else "")
               + (f" first difference {claim['first_difference']}" if claim.get("first_difference") is not None else ""))
     for draft in report["drafts"]:
         print(f"  draft {draft['public']} at +{draft['object_offset']} (owns nothing)")
-    require(report["exact"], "Refusing promotion: not every claim is CODE_EXACT")
+    exact_state = "ASM_EXACT" if args.language == "asm" else "CODE_EXACT"
+    require(report["exact"], f"Refusing promotion: not every claim is {exact_state}")
     space = oracle.spaces[report["space"]]
     # Only claimed extents take ownership; an owner overlapping just an unclaimed draft
     # keeps its bytes (drafts own nothing), while one overlapping a claim must migrate.
@@ -89,14 +92,15 @@ def main():
             require({c["target_id"] for c in recipe["claims"]} <= claimed,
                     f"Group {recipe['name']} overlaps this group but not all its claims are reclaimed")
         else:
-            require(owner["kind"] == "MATCHING_C" and owner["target_id"] in claimed,
+            require(owner["kind"] in ("MATCHING_C", "MATCHING_ASM") and owner["target_id"] in claimed,
                     f"Owner {owner['target_id']} overlaps a claim but is not itself claimed")
         migrated.append((owner, recipe))
     if args.verify_only:
-        print(f"Strict group CODE_EXACT: {len(report['claims'])} claims at {space.name}+{report['origin']:#x}, "
+        print(f"Strict group {exact_state}: {len(report['claims'])} claims at {space.name}+{report['origin']:#x}, "
               f"{report['emitted_size']} bytes; would migrate {[o['target_id'] for o, _ in migrated]}")
         return
-    source_path = ROOT / "src" / (args.name + ".c")
+    source_path = (ROOT / "asm" / (args.name + ".asm") if args.language == "asm"
+                   else ROOT / "src" / (args.name + ".c"))
     recipe_path = ROOT / "recipes" / (args.name + ".json")
     canonical_binding = ROOT / "evidence/bindings" / (args.name + ".json")
     claims = []
@@ -107,7 +111,7 @@ def main():
             row["relocation_order"] = c.get("relocation_order", "EXACT")
             row["relocation_order_debt"] = c.get("relocation_order_debt", [])
         claims.append(row)
-    recipe = {"schema": 1, "kind": GROUP_KIND, "name": args.name, "group_id": group_id, "language": "c",
+    recipe = {"schema": 1, "kind": GROUP_KIND, "name": args.name, "group_id": group_id, "language": args.language,
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(source_bytes),
               "profile": args.profile, "flags": list(result.flags), "object_sha256": report["object_sha256"],
               "space": report["space"], "origin": report["origin"], "emitted_size": report["emitted_size"],
@@ -120,7 +124,8 @@ def main():
         target = next(t for t in read_json(ROOT / "evidence/targets.json")["functions"]
                       if t["id"] == claim["target_id"])
         owner = {key: target[key] for key in ("space", "segment", "offset", "size")}
-        owner.update(target_id=claim["target_id"], kind="MATCHING_C", state="CODE_EXACT",
+        owner.update(target_id=claim["target_id"], kind="MATCHING_ASM" if args.language == "asm" else "MATCHING_C",
+                     state=exact_state,
                      recipe=recipe_path.relative_to(ROOT).as_posix(), group=args.name,
                      relocation_count=claim["relocations"], fixup_count=claim["fixups"])
         if claim.get("covered_relocation_indices"):
@@ -155,7 +160,7 @@ def main():
     retire = [p for p in retire if p not in files]
     publish(ROOT, files, manifest_before, manifest, lambda: check_manifest(oracle, manifest),
             retire=retire, replace=replace)
-    print(f"Published group {args.name}: {sum(o['size'] for o in owners)} CODE_EXACT bytes in {len(owners)} claims; "
+    print(f"Published group {args.name}: {sum(o['size'] for o in owners)} {exact_state} bytes in {len(owners)} claims; "
           f"migrated {[o['target_id'] for o, _ in migrated]}")
 
 

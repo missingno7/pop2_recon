@@ -59,7 +59,8 @@ def check_manifest(oracle, manifest):
                     "Runtime owner obligation counts differ from fresh proof")
             continue
         if recipe.get("kind") == GROUP_KIND:
-            require(owner["kind"] == "MATCHING_C" and owner.get("group") == recipe["name"],
+            require(owner["kind"] == ("MATCHING_ASM" if recipe.get("language", "c") == "asm" else "MATCHING_C") and
+                    owner.get("group") == recipe["name"],
                     "Group owner does not name its group recipe")
             claim = [c for c in recipe["claims"] if c["target_id"] == owner["target_id"]]
             require(len(claim) == 1 and claim[0]["fixup_count"] == owner["fixup_count"],
@@ -100,7 +101,7 @@ def verify_group(recipe):
     _, report = compile_group(source.decode("ascii"), recipe["profile"], recipe["flags"],
                               [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]],
                               ROOT / "build/workers/validation" / recipe["name"],
-                              binding=binding, group_id=recipe["group_id"])
+                              binding=binding, group_id=recipe["group_id"], language=recipe.get("language", "c"))
     require(report["exact"], "Previously accepted group no longer compiles exactly")
     require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
     require(all(report[key] == recipe[key] for key in ("space", "origin", "emitted_size", "frame", "drafts")),

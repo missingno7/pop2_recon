@@ -218,3 +218,32 @@ or accepted-owner rule.
 
 Every far-code-entry and overlay-code-entry callee must also lie outside
 accepted owners, except one that starts exactly at the entry.
+
+## Near-code-entry (groups)
+
+A same-source group may call a near routine outside its object (MASM `EXTRN
+NAME:NEAR`, LOC1 self-relative F0/T6 or F5/T6, zero addend, `CALL near` with or
+without `PUSH CS`). The binding names it as a `near-code-entry` symbol: `space`,
+`segment`, `offset`, `entry_target_id`, `entry_sha256` and `witnesses`. The field
+must equal `callee - (field + 2)` mod 65536 in linear positions.
+
+The callee position is grounded independently of the candidate:
+
+- the reviewed target row is rechecked (extent hash, exact 16:16 alias,
+  `entry_kind: direct-code` or an accepted owner); it lies in the object's space,
+  outside the whole object, and inside no accepted code except an owner that
+  starts there;
+- **accepted exact entry:** a CODE_EXACT, ASM_EXACT or PINNED_RUNTIME owner
+  starts at the position, or
+- **original near CALL:** each witness is `E8 rel16` (optionally with its
+  `PUSH CS`) at a recorded image offset outside the whole object. Its bytes are
+  rechecked, and the instruction is reached by recursive descent from an
+  independent `entry`: a relocated CALL FAR destination, a reviewed direct-code
+  entry or an overlay vector target. Its rel16 must land on the callee in that
+  entry's CS window. The candidate's own call never counts.
+
+The candidate's call is then proven only inside the claim's witnessed CS window,
+as for same-object calls ([acceptance.md](acceptance.md)). External near callees
+are never assumed to preserve segment context. Limits: no overlay-to-root or
+cross-space near calls, no near jumps to external code, and no frame inferred
+for a component entered only by near calls.

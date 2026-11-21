@@ -199,6 +199,9 @@ instruction shape:
 - **Field.** The FIXUPP (LOC1, F5/T6, no displacement) must be the address field
   of exactly one decoded instruction: a memory disp16, or the imm16 of `MOV` or
   `PUSH`. Branch displacements, `RET n` and arithmetic immediates never count.
+  MASM's `ASSUME DS:DGROUP` emits F1 instead: a frame naming the object's GRPDEF
+  `DGROUP` gives the same value `S - DGROUP + A`, so it is accepted; an F1 frame
+  naming any other group is refused.
 - **Value.** The linked value is `S + A`. `A` must be 0, or a member offset `k`
   whose own address `S + k` is independently witnessed (`members`). A free
   addend would let a binding re-fit `S` to any witnessed value and leave the

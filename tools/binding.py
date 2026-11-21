@@ -433,11 +433,15 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
     for fix in obligations:
         at = fix["segment_offset"]
         target_ref = fix["target"]
+        # v4 also accepts MASM's explicit DGROUP frame (F1 naming the GRPDEF DGROUP, from
+        # `ASSUME DS:DGROUP`): S - DGROUP + A is the same grounded DGROUP offset equation.
+        dgroup_frame = (mode == OPERAND_MODE and fix["frame"].get("kind") == "group" and
+                        fix["frame"].get("name") == "DGROUP")
         require(fix["segment"] == code_name and fix["loc_type"] == 1 and
                 fix["field_width"] == 2 and not fix["self_relative"] and
                 target_ref["kind"] == "external" and target_ref["method"] == 6 and
                 fix["displacement"] is None and
-                fix["frame"] == {"kind": "target_frame", "target": target_ref},
+                (fix["frame"] == {"kind": "target_frame", "target": target_ref} or dgroup_frame),
                 "Unsupported DGROUP fixup equation")
         require(0 <= at <= len(actual)-2 and not occupied.intersection((at, at+1)),
                 "Overlapping/out-of-range bound fields")

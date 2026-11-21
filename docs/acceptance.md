@@ -24,13 +24,35 @@ public at offset zero, or to a same-source group (below).
 next public or the segment end, and must equal the reviewed target exactly. Its
 bytes compare literally, except for these fixup fields:
 
-- **Same-object near call.** The field is the operand of a decoded
-  `PUSH CS; CALL near` pair, and it targets a public of this object (F5/T6
-  self-relative LOC1, zero addend). It must equal `S - (P + 2)`, the equation the
-  RTLink controls in [tu-state-step.md](tu-state-step.md) observed. The call is
-  proven only when that frame is witnessed and both the field and the callee lie
-  in its 64 KB window. Within that window, 16-bit IP arithmetic and linear
-  placement agree.
+- **Self-relative rel16 fields.** Every LOC1 self-relative field must be the
+  rel16 operand of a decoded `E8`, `E9` or `0F 8x`. Its frame is the
+  target-derived frame (MSC F5) or the object's own CODE segment (MASM F0/F4);
+  the value, a difference of two positions in one frame, is the same for both.
+  The field must equal `S - (P + 2)` mod 65536, the equation the RTLink controls
+  in [tu-state-step.md](tu-state-step.md) observed, where `S` is:
+  - **own-segment branch** (T0/T4 to this CODE segment, MASM's long `JMP`/`Jcc`
+    to a label): target displacement plus the encoded LEDATA addend. `S` must be
+    an instruction start of the same claim. A branch into another claim is
+    refused. No CS window is needed: like a jump the compiler resolves itself,
+    it stays inside one contiguous claim;
+  - **same-object near call**: a public of this object, named by an external
+    T6 (MSC) or an own-segment target (MASM), called by `PUSH CS; CALL near`
+    or by a plain `CALL near`. T6 fields need a zero addend;
+  - **external near call**: a `near-code-entry` symbol outside the whole object
+    (F0/T6 or F5/T6, zero addend, `CALL near` with or without `PUSH CS`). The
+    symbol grounds the callee position independently of the candidate; see
+    [far-call-binding.md](far-call-binding.md#near-code-entry-groups).
+
+  The linked value does not depend on CS, but whether the call reaches `S` does.
+  Every call (both forms, same-object or external) is therefore proven only
+  when a claim's frame is witnessed and the whole call, its `PUSH CS` and the
+  callee lie in that frame's 64 KB window. A claim without its own relocated
+  CALL FAR may inherit the frame only through an equal near call from a claim
+  already proven in it. A component entered only by near calls has no
+  independent frame evidence and is refused: another target's CALL FAR into the
+  same code frame does not prove the CS its callers use (root frames such as
+  `1000` and `1101` overlap linearly). External near callees are never assumed
+  to preserve DS/ES/SS.
 - **External DGROUP offset16.** The existing modes apply. The group binding is
   pinned to `group:NAME`, and every data witness must lie outside the whole
   emitted object, not just outside the claim. A data fixup whose symbol is also a
@@ -67,7 +89,9 @@ bytes compare literally, except for these fixup fields:
 
 - **File-private DGROUP data (placements).** A group binding may place the
   object's own `_DATA`/`CONST`/`_BSS` segments (`placements: {"_BSS": P, ...}`).
-  Fields addressing them must equal `P + A`. Each placement must be
+  Fields addressing them must use the F1 DGROUP frame (MSC and MASM both do) of
+  a DGROUP member and equal `P + A`; any other frame would write `A` alone and
+  is refused. Each placement must be
   over-determined:
   - an initialized segment's bytes equal the original DGROUP bytes at `P`. The
     C runtime reloads DS with the relocated paragraph `30f3` before `main`, so
@@ -87,8 +111,15 @@ not yet supported in groups.
 **Unclaimed publics.** These are in-place *drafts*. They own nothing and are
 recorded in the recipe as debt.
 
+**MASM groups.** `promote_group.py --language asm --profile masm510` assembles
+one reviewed MASM source instead (no flags). The recipe records `language: asm`,
+the source lives under `asm/NAME.asm` (e.g. `asm/xlattxt4/xlattxt4.asm`), claims
+are ASM_EXACT and owners MATCHING_ASM. Validation reassembles freshly. The same
+gate applies; v4 data fields may use MASM's F1 DGROUP frame
+([dgroup-binding.md](dgroup-binding.md)).
+
 **Promotion and validation.** `tools/promote_group.py` publishes only when every
-claim is CODE_EXACT.
+claim is CODE_EXACT (ASM_EXACT for MASM).
 - Existing single-function owners inside the placement must be among the claims.
   Their owners are replaced in the same transaction, and their source, recipe
   and unshared binding are retired after the manifest commit (recoverable through

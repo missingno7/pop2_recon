@@ -106,7 +106,8 @@ def main():
         from module_gate import compile_group
         claims = [{"target_id": c["target_id"], "public": public_map[c["public"]]} for c in recipe["claims"]]
         result, report = compile_group(new_text, recipe["profile"], recipe["flags"], claims, stage / "proof",
-                                       binding=binding, group_id="group:" + args.name)
+                                       binding=binding, group_id="group:" + args.name,
+                                       language=recipe.get("language", "c"))
         require(report["exact"], "Relocated group is not exact")
         new_recipe = dict(recipe, name=args.name, group_id="group:" + args.name, object_sha256=report["object_sha256"],
                           claims=[dict(c, public=public_map[c["public"]]) for c in recipe["claims"]],

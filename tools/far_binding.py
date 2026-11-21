@@ -276,6 +276,65 @@ def ground_symbol(symbol, target, oracle):
             **({"vector_destination": destination} if destination else {})}
 
 
+NEAR_KIND = "near-code-entry"
+
+
+def ground_near_entry(symbol, hull, oracle):
+    """Ground the position of an external near callee independently of the candidate.
+
+    The symbol names a reviewed direct-code entry (`entry_target_id`, frozen extent hash)
+    in the object's own space, outside the whole object and outside accepted code other
+    than an owner starting there. Its position is the start of an accepted CODE_EXACT,
+    ASM_EXACT or PINNED_RUNTIME owner, or is reached by original near CALL witnesses
+    outside the whole object: `E8 rel16` (optionally after its PUSH CS) whose bytes,
+    image offset and instruction starts are rechecked, reached by recursive descent from
+    an independent entry (`reachable_from_entry`), and whose rel16 lands on the entry in
+    that entry's CS window. The candidate's own call can never ground its callee. Whether
+    the candidate's call reaches the entry at runtime is a separate CS-window check."""
+    from binding import reachable_from_entry
+    from match import get_target
+    require(symbol.get("kind") == NEAR_KIND and type(symbol.get("segment")) is int and
+            type(symbol.get("offset")) is int and 0 <= symbol["segment"] <= 65535 and
+            0 <= symbol["offset"] <= 65535, "Near code alias must be an exact 16:16 pair")
+    space = oracle.spaces[hull["space"]]
+    start = space.position(hull["segment"], hull["offset"])
+    end = start + hull["size"]
+    require(symbol.get("space") == space.name, "Near callee must lie in the object's own space")
+    callee, cspace, raw = get_target(symbol["entry_target_id"], oracle)
+    accepted = _accepted_entry(callee["id"], oracle)
+    require((callee.get("entry_kind") == "direct-code" or accepted) and cspace.name == space.name and
+            (callee["segment"], callee["offset"]) == (symbol["segment"], symbol["offset"]) and
+            callee["sha256"] == symbol["entry_sha256"],
+            "Near callee is not the frozen reviewed direct-code entry")
+    entry = space.position(callee["segment"], callee["offset"])
+    require(not (entry < end and start < entry + len(raw)), "Near callee entry overlaps the object")
+    _inside_accepted(oracle, space.name, entry, len(raw))
+    receipts = []
+    for spec in symbol.get("witnesses", []):
+        require(spec.get("space") == space.name, "Near callee witness must lie in the callee's space")
+        at, witness = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
+        width = len(witness)
+        require(type(at) is int and width in (3, 4) and witness[-3] == 0xe8 and
+                (width == 3 or witness[0] == 0x0e) and 0 <= at <= space.size - width and
+                space.data[at:at + width] == witness,
+                "Near callee witness is not an original near CALL")
+        require(not (at < end and start < at + width), "Near callee witness lies inside the object")
+        call_at = at + width - 3
+        entry_space, entry_segment, _ = spec["entry"].split(":")
+        reached = reachable_from_entry(oracle, spec["entry"])
+        require(entry_space == space.name and call_at in reached and at in reached,
+                "Near callee witness is not reached code")
+        base = (int(entry_segment, 16) - space.link_segment) * 16
+        destination = base + ((call_at - base + 3 + struct.unpack_from("<H", witness, width - 2)[0]) & 0xFFFF)
+        require(destination == entry, "Independent near CALL does not reach the callee entry")
+        receipts.append({"space": space.name, "image_offset": at, "entry": spec["entry"]})
+    require(receipts or accepted,
+            "Near callee has no independent original near CALL witness or accepted exact entry")
+    return {"kind": NEAR_KIND, "entry_target_id": callee["id"], "position": entry,
+            "grounded_by": "original near CALL" if receipts else "accepted exact entry",
+            "witnesses": receipts, "callee_owned_bytes": 0}
+
+
 ORDER_DEBT = ["Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"]
 
 
