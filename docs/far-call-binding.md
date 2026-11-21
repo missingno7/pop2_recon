@@ -335,3 +335,8 @@ A candidate offset field with encoded addend `k > 0` (for example
 independent offset witnesses, under the same rules as `O`: reached,
 paired with a relocated segment word, outside every claim. A free addend
 would re-fit `O`, as in the v4 member rule.
+
+A far-call fixup may also use frame method F2 when it names the same external
+as its T6 target (MASM `call far ptr X`). That frames the pointer by X's own
+segment, exactly as MSC's F5 target frame does. An F2 naming any other
+external is refused.

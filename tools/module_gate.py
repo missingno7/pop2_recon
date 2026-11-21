@@ -664,9 +664,12 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         sites.append({"site": state["position"] + at, "offset": at, "symbol": ref["name"]})
                         used_far.add(ref["name"])
                         continue
+                    # F5 (target frame, MSC) or F2 naming the same external as the target (MASM
+                    # `call far ptr X`): both frame the pointer by X's own segment.
+                    same_external = {k: fix["frame"].get(k) for k in ("kind", "index", "name")} ==                         {"kind": "external", "index": ref.get("index"), "name": ref.get("name")}
                     require(fix["loc_type"] == 3 and fix["field_width"] == 4 and not fix["self_relative"] and
                             ref["kind"] == "external" and ref["method"] == 6 and fix["displacement"] is None and
-                            fix["frame"] == {"kind": "target_frame", "target": ref},
+                            (fix["frame"] == {"kind": "target_frame", "target": ref} or same_external),
                             "Unsupported far CALL fixup equation/frame/displacement")
                     insn = by_address.get(at - 1)
                     require(insn is not None and insn.size == 5 and bytes(insn.bytes)[:1] == b"\x9a",
