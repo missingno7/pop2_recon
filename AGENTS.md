@@ -5,7 +5,10 @@ Read README.md and docs/acceptance.md. The immutable supplied `assets/` and
 a candidate, patch an object/executable, embed original code bytes as C, trim a
 mismatching extent, mask fixups, or count static-recompiled C as reconstruction.
 
-Run `python tools/oracle.py --extract` for unrelocated verification fixtures.
+The supervisor runs `python tools/oracle.py --extract` for unrelocated fixtures;
+sandboxed workers must not run it. In the Codex sandbox on this machine a write
+outside the worker directory hangs instead of failing and stalls the worker, so
+workers always pass `--output build/workers/NAME/...` and run commands one at a time.
 Run `python tools/discover.py` for the tentative inventory and
 `python tools/context.py SPACE:SEG:OFF --asm` for original-byte context. Review
 boundaries, callers, ABI and classification before submitting a target for
