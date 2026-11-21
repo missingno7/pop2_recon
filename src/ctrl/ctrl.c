@@ -1,12 +1,13 @@
-/* CTRL.C worker draft. Functions follow original order. Omitted bodies
- * leave later publics short of their original code offsets. */
+/* CTRL.C reconstruction. See notes.md for claims and unresolved bodies.
+ * Functions follow original order. */
 
 extern unsigned char cell_room;
 extern signed char cell_column;
 extern signed char cell_row;
 extern signed char cell_index;
-extern char cell_kind;
 extern unsigned int cell_modifier;
+/* The kind byte immediately precedes the modifier word in the DOS cell result. */
+#define cell_kind (((char near *)&cell_modifier)[-1])
 extern unsigned char *room_kinds;
 /* Each modifier entry occupies two words. ReadCell uses its first word. */
 extern unsigned int (*room_modifiers)[2];
@@ -254,9 +255,10 @@ extern int char_x;
 
 int far pascal offset_char_x(int value)
 {
+    int x = value;
     if (char_direction)
-        value = -value;
-    return char_x + value;
+        x = -value;
+    return x + char_x;
 }
 
 /* Semantic names are hypotheses only; direct addresses are established separately. */
@@ -271,8 +273,247 @@ int far pascal AddFCharX(int value)
     return accumulator;
 }
 
-/* 0394..0786 contains the animation dispatcher and its helpers.
- * 07a2..07c6 contains the unresolved character Y reset. */
+extern int animation_position;
+extern unsigned int animation_sequence;
+extern int animation_repeat;
+extern unsigned int character_action;
+extern volatile unsigned char character_kind;
+extern signed char character_row;
+extern signed char character_velocity_x;
+extern signed char character_velocity_y;
+extern signed char character_fall;
+extern signed char character_room;
+extern signed char character_width;
+extern int character_y;
+extern int animation_contact;
+extern int animation_advance;
+extern int animation_jump_flag;
+extern unsigned char STATE_MODE;
+extern unsigned char STATE_LEVEL;
+extern unsigned char base_cell;
+extern unsigned char animation_variant;
+extern int animation_items;
+extern int animation_portion;
+extern int sound_steps;
+extern unsigned char animation_tick;
+extern int kid_step;
+
+int far _fastcall get_seq_op(unsigned int sequence);
+unsigned int far _fastcall find_char_sequence(unsigned int id);
+void far pascal anim_char_tap(int sound);
+int far pascal reset_char_y(void);
+void far pascal SetKidDeathMethod(unsigned char method);
+void far pascal PotionEffect(void);
+void far pascal remove_char(void);
+
+extern unsigned int far pascal resource_status(unsigned int handle);
+extern void far pascal retain_resource(unsigned int handle);
+extern void far pascal restore_resource(unsigned int handle, unsigned int status);
+extern unsigned int far pascal find_resource(unsigned long type, unsigned int id);
+extern void far pascal play_sequence_music(int cue);
+extern void far pascal stop_sequence_music(void);
+extern int far pascal test_animation_condition(int condition);
+extern void far pascal animation_event(int event);
+extern void far pascal show_animation_message(void);
+extern void far pascal play_special_step(int sound);
+extern void far pascal play_step(int sound);
+extern int far pascal should_shift_step(unsigned char room);
+
+/* The animation dispatcher and tap are placement drafts. */
+void far pascal AnimChar(void)
+{
+    int previous_position = animation_position;
+    int reading = 1;
+    unsigned int sequence = find_char_sequence(animation_sequence);
+    int opcode;
+    int first, second;
+    unsigned int status;
+
+    if (!sequence)
+        return;
+
+    status = resource_status(sequence);
+    retain_resource(sequence);
+
+    do {
+        opcode = get_seq_op(sequence);
+        switch (opcode) {
+        case -24:
+            if (get_seq_op(sequence))
+                play_sequence_music(get_seq_op(sequence));
+            else
+                stop_sequence_music();
+            break;
+        case -23:
+            animation_position = previous_position - 1 >= 0 ? previous_position - 1 : 0;
+            break;
+        case -22:
+            opcode = get_seq_op(sequence);
+            first = get_seq_op(sequence);
+            second = get_seq_op(sequence);
+            animation_event(test_animation_condition(opcode) ? first : second);
+            break;
+        case -21:
+            animation_contact = get_seq_op(sequence);
+            break;
+        case -19:
+            reset_char_y();
+            break;
+        case -18:
+            animation_repeat = 0;
+            break;
+        case -17:
+            remove_char();
+            reading = 0;
+            break;
+        case -16:
+            ++animation_items;
+            if (STATE_LEVEL == 6)
+                animation_variant = (signed char)base_cell >= 6 ? 2 : 1;
+            break;
+        case -15:
+            anim_char_tap(get_seq_op(sequence));
+            break;
+        case -14:
+            opcode = get_seq_op(sequence);
+            if (opcode == 1 || (opcode == 2 && animation_portion == 6)) {
+                PotionEffect();
+                if (!animation_position) {
+                    restore_resource(sequence, status);
+                    sequence = find_char_sequence(animation_sequence);
+                    goto retain_sequence;
+                }
+            } else if (opcode == 3) {
+                show_animation_message();
+            }
+            break;
+        case -13:
+            animation_advance = -1;
+            break;
+        case -12:
+            animation_advance = 1;
+            break;
+        case -11:
+            SetKidDeathMethod(get_seq_op(sequence));
+            break;
+        case -10:
+            if (animation_jump_flag)
+                goto change_sequence;
+            get_seq_op(sequence);
+            break;
+        case -9:
+            opcode = get_seq_op(sequence);
+            first = get_seq_op(sequence);
+            if (opcode && character_velocity_x < 16 &&
+                (!character_velocity_y || character_velocity_y < 32)) {
+                character_velocity_x = character_velocity_x + opcode > 16
+                    ? 16 : character_velocity_x + opcode;
+            }
+            if (first && character_velocity_y < 32) {
+                character_velocity_y = character_velocity_y + first > 32
+                    ? 32 : character_velocity_y + first;
+            }
+            break;
+        case -8:
+            opcode = get_seq_op(sequence);
+            if (opcode != 10000)
+                character_velocity_x = opcode;
+            opcode = get_seq_op(sequence);
+            if (opcode != 10000)
+                character_velocity_y = opcode;
+            break;
+        case -7:
+            character_fall = get_seq_op(sequence);
+            break;
+        case -6:
+            character_y += get_seq_op(sequence);
+            break;
+        case -5:
+            char_x = offset_char_x(get_seq_op(sequence));
+            break;
+        case -4:
+            ++character_row;
+            break;
+        case -3:
+            --character_row;
+            break;
+        case -2:
+            if (character_kind == 10)
+                char_x = offset_char_x(25);
+            char_direction = ~char_direction;
+            break;
+        case -1:
+        change_sequence:
+            opcode = get_seq_op(sequence);
+            if (STATE_LEVEL == 5 && character_row == 1 &&
+                (character_room == 10 || character_room == 7 || character_room == 12) &&
+                opcode == 57 && animation_repeat != 60 && base_cell == 9)
+                opcode = 86;
+            animation_sequence = opcode;
+            animation_position = 0;
+            restore_resource(sequence, status);
+            sequence = find_char_sequence(opcode);
+            if (!sequence)
+                break;
+        retain_sequence:
+            status = resource_status(sequence);
+            retain_resource(sequence);
+            break;
+        default:
+            frame_number = opcode;
+            reading = 0;
+            break;
+        }
+    } while (reading);
+
+    restore_resource(sequence, status);
+}
+
+int far _fastcall get_seq_op(unsigned int sequence)
+{
+    int opcode;
+    int far *entries;
+
+    if (sequence) {
+        entries = lock_frame_resource(sequence);
+        opcode = entries[animation_position];
+        ++animation_position;
+    }
+    return opcode;
+}
+
+unsigned int far _fastcall find_char_sequence(unsigned int id)
+{
+    return find_resource(0x53455153UL, id);
+}
+
+void far pascal anim_char_tap(int sound)
+{
+    switch (sound) {
+    case 1:
+        ++sound_steps;
+        if (STATE_MODE != 1 && !(animation_tick & 3)) {
+            play_step(sound_steps % 2 + 23);
+            if (character_kind == 4 && should_shift_step(character_room))
+                char_x = offset_char_x(character_width - 1);
+        }
+        /* Fall through. */
+    case 0:
+        if (!character_kind)
+            kid_step = 1;
+        break;
+    default:
+        if (sound <= 273) {
+            if (sound == 271)
+                play_special_step(sound);
+            else
+                play_step(sound);
+        }
+        break;
+    }
+}
+
+
 #define STATE_KIND character_kind
 extern volatile unsigned char STATE_KIND;
 extern volatile unsigned char STATE_ARGUMENT;
@@ -283,6 +524,14 @@ void far pascal SetKidDeathMethod(unsigned char value)
         STATE_ARGUMENT = value;
 }
 #undef STATE_KIND
+
+int far pascal reset_char_y(void)
+{
+    character_y = (signed char)63 * character_row + 56;
+    if (character_kind == 7 || character_kind == 8)
+        character_y -= 19;
+    return character_y;
+}
 
 char far FirstInRow(signed char value)
 {

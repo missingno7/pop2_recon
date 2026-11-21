@@ -1,11 +1,31 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "b22861bc96f8c25526b5307f57f3bb10f6d8bbfdd044a5450a11c5cc5ea831a9",
+  "binding_sha256": "c29f0d08681f01f2f78bc37bd04ae78e519e976e68bf9c89881e359f3442c15b",
   "claims": [
+    {
+      "fixup_count": 28,
+      "public": "HANDLER",
+      "target_id": "root:02cc:0002"
+    },
+    {
+      "fixup_count": 21,
+      "public": "READCELL",
+      "relocation_indices": [
+        306
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:00f0"
+    },
     {
       "fixup_count": 13,
       "public": "GETUNDEFINECELLID",
       "target_id": "root:02cc:016a"
+    },
+    {
+      "fixup_count": 1,
+      "public": "INDEX_CELL",
+      "target_id": "root:02cc:020a"
     },
     {
       "fixup_count": 1,
@@ -16,21 +36,29 @@
       "fixup_count": 2,
       "public": "REREAD_CELLS",
       "target_id": "root:02cc:027e"
+    },
+    {
+      "fixup_count": 3,
+      "public": "ADDFCHARX",
+      "target_id": "root:0000:303a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "SETKIDDEATHMETHOD",
+      "target_id": "root:0000:3446"
+    },
+    {
+      "fixup_count": 6,
+      "public": "RESET_CHAR_Y",
+      "target_id": "root:02cc:07a2"
+    },
+    {
+      "fixup_count": 0,
+      "public": "FIRSTINROW",
+      "target_id": "root:02cc:07c6"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "HANDLER"
-    },
-    {
-      "object_offset": 238,
-      "public": "READCELL"
-    },
-    {
-      "object_offset": 520,
-      "public": "INDEX_CELL"
-    },
     {
       "object_offset": 646,
       "public": "REREAD_BASE_CELL"
@@ -44,87 +72,91 @@
       "public": "OFFSET_CHAR_X"
     },
     {
-      "object_offset": 886,
-      "public": "ADDFCHARX"
+      "object_offset": 914,
+      "public": "ANIMCHAR"
     },
     {
-      "object_offset": 912,
-      "public": "SETKIDDEATHMETHOD"
+      "object_offset": 1724,
+      "public": "@get_seq_op"
     },
     {
-      "object_offset": 940,
-      "public": "FIRSTINROW"
+      "object_offset": 1772,
+      "public": "@find_char_sequence"
     },
     {
-      "object_offset": 994,
+      "object_offset": 1790,
+      "public": "ANIM_CHAR_TAP"
+    },
+    {
+      "object_offset": 2042,
       "public": "CONVERTX"
     },
     {
-      "object_offset": 1014,
+      "object_offset": 2062,
       "public": "GRAVITY"
     },
     {
-      "object_offset": 1070,
+      "object_offset": 2118,
       "public": "CLEARCHARVEL"
     },
     {
-      "object_offset": 1080,
+      "object_offset": 2128,
       "public": "GET_BASE_X"
     },
     {
-      "object_offset": 1100,
+      "object_offset": 2148,
       "public": "GET_CHAR_COL"
     },
     {
-      "object_offset": 1120,
+      "object_offset": 2168,
       "public": "GET_COL"
     },
     {
-      "object_offset": 1164,
+      "object_offset": 2212,
       "public": "GETROW"
     },
     {
-      "object_offset": 1204,
+      "object_offset": 2252,
       "public": "FACEJOYSTICK"
     },
     {
-      "object_offset": 1236,
+      "object_offset": 2284,
       "public": "INVERTJOYSTICK"
     },
     {
-      "object_offset": 1268,
+      "object_offset": 2316,
       "public": "CLRALL"
     },
     {
-      "object_offset": 1286,
+      "object_offset": 2334,
       "public": "SAVESELECT"
     },
     {
-      "object_offset": 1302,
+      "object_offset": 2350,
       "public": "LOADSELECT"
     },
     {
-      "object_offset": 1318,
+      "object_offset": 2366,
       "public": "INITINPUT"
     },
     {
-      "object_offset": 1334,
+      "object_offset": 2382,
       "public": "FACEDX"
     },
     {
-      "object_offset": 1356,
+      "object_offset": 2404,
       "public": "SAVEFCHAR"
     },
     {
-      "object_offset": 1374,
+      "object_offset": 2422,
       "public": "RESTOREFCHAR"
     },
     {
-      "object_offset": 1392,
+      "object_offset": 2440,
       "public": "COPY_KID_TO_CHAR"
     }
   ],
-  "emitted_size": 1410,
+  "emitted_size": 2458,
   "flags": [
     "/c",
     "/AM",
@@ -138,12 +170,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "3ac755154f5421a73b031e7a22f6452bc0226ef5198dec6e43dfe650275d9819",
+  "object_sha256": "6a7ff235c76910c831ca3116e81017552096b2a785bfa4eeca6ac8abfb885643",
   "origin": 11458,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "4416385da8f4879182e919e9f54a7fa03135430fc7f3be90568368f23ecbfd07",
+  "source_sha256": "b984ea07bea584800bd6c1be25200eb8e1f458293310741433f2d730b83d1ba9",
   "space": "root"
 }

@@ -1076,7 +1076,8 @@
       "state": "ANALYZED",
       "original_name_evidence": [
         "Mac CODE 4 (Characters 2) MacsBug FirstInRow: One signed row argument selects the first cell index. DOS computes \u00d710 (+9 on negative input); Mac reads one of two row-table views and applies a separate negative-path correction. DOS and Mac both call this specific helper from ReadCell, IndexCell, DrawHalf, DrawFloorBuf, GetObject, PieceRightId, StopGate, FinlGenerateOpp, ATMSlideRock and ATMTrapDoor. Mac CODE 4:2830 and 2a16 call the named suffix at 322a."
-      ]
+      ],
+      "entry_kind": "direct-code"
     },
     {
       "abi": "Far callee-cleaned one signed word at BP+6; signed IDIV 63; local low-byte quotient at BP-1; result AL, upper AX unspecified; RETF 2.",
@@ -14557,6 +14558,158 @@
         "Appends a 23-byte sprite record, using mobile state for x/kind and the stack argument for y."
       ],
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far routine, no arguments, AX result and bare RETF.",
+      "boundary_evidence": [
+        "Independent root+e84d relocated CALL names 02cc:07a2; MZ relocation index 1213 at e850.",
+        "Preceding SetKidDeathMethod ends with RETF 2 at 079e and alignment NOP at 07a1.",
+        "Internal branches target 07bc and 07c1 and end at RETF 07c4, with alignment NOP 07c5. The separately called FirstInRow begins at 07c6.",
+        "No original MZ relocation touches this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67661,
+          "image_offset": 59469,
+          "kind": "far_call",
+          "relocated_segment_site": 59472,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resets the character's vertical position from signed row with stride 63 and a kind-dependent correction of 19."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:07a2",
+      "offset": 1954,
+      "original_bytes_hex": "b03ff62e0a5c053800a3045c803e065c077407803e065c087505832e045c13a1045ccb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "reset_char_y",
+      "sha256": "29d45b1e94cfeeb7c013cac32a16c564701d04d7872c145ce43eb21ca8b0f8d7",
+      "size": 36,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "AX receives the resource ID and returns the handle. No stack arguments. Far return.",
+      "boundary_evidence": [
+        "Preceding sequence opcode helper ends at the RETF at 06ec followed by NOP 06ed.",
+        "PUSH CS/E8 at 03aa/03ab enters 06ee after loading AX from DS:5c17. AnimChar also enters 06ee at 051b and 068d.",
+        "Straight-line body returns at RETF 06fe; NOP 06ff precedes the separately called animation tap entry at 0700.",
+        "MZ relocation index 367 at root+33bc is the sole touching relocation and belongs to CALL FAR 1101:6f6a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20587,
+          "image_offset": 12395,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12394,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Forwards the caller's ID plus the fixed resource tag 53455153 to the independently entered resource lookup."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:06ee",
+      "offset": 1774,
+      "original_bytes_hex": "8bc8b85351ba45535250519a6a6f0111cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "find_char_sequence",
+      "sha256": "6861569f59b6d69933165295d893dacc494ca60bc9788e5c02a4fc496eae5d23",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal: three far rectangle pointers, BP+6/BP+10/BP+14; RETF 12, result AX.",
+      "boundary_evidence": [
+        "Takes the overlapping rectangle, or clears four words and returns zero. RETF 12 at 52ea, alignment zero at 52ed, and the next BP prologue at 52ee.",
+        "Independent original relocated CALL FAR at root+0x5013."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a84520111",
+          "file_offset": 28691,
+          "image_offset": 20499,
+          "kind": "far_call",
+          "relocated_segment_site": 20502,
+          "relocation_index": 402,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5284",
+      "offset": 21124,
+      "segment": 4353,
+      "sha256": "4c9784db0426b7cbe424f1d0593ac40683c111616bbb7aa9dbf46e4a4af61a84",
+      "size": 106,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: two far pointers and two word deltas; RETF 12, DX:AX returns destination.",
+      "boundary_evidence": [
+        "Four LODSW/STOSW pairs add alternating deltas. RETF 12 at 5132; one alignment byte before the FF 26 jump stub at 5136.",
+        "Independent original relocated CALL FAR at root+0x5005."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0a510111",
+          "file_offset": 28677,
+          "image_offset": 20485,
+          "kind": "far_call",
+          "relocated_segment_site": 20488,
+          "relocation_index": 406,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:1101:510a",
+      "offset": 20746,
+      "segment": 4353,
+      "sha256": "08813f01b201b6ea3abda8a2af437af521496996e4236b27c8c8afbc732c3697",
+      "size": 44,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: one byte input, AX result; RETF 2.",
+      "boundary_evidence": [
+        "Two same-frame calls are followed by in-extent branches, two Boolean returns and the next prologue at 2830.",
+        "Independent original relocated CALL FAR at root+0x41bd."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a04288a07",
+          "file_offset": 25021,
+          "image_offset": 16829,
+          "kind": "far_call",
+          "relocated_segment_site": 16832,
+          "relocation_index": 368,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:078a:2804",
+      "offset": 10244,
+      "segment": 1930,
+      "sha256": "8561a2d56f74fd02d3f48a10486f328c0f4a9262d6831c2835e591c6bc560aa1",
+      "size": 44,
+      "space": "root"
     }
   ],
   "schema": 1,

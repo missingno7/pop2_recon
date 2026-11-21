@@ -17,7 +17,7 @@ from validate import GROUP_KIND, check_manifest
 
 def parse_claim(text):
     target, sep, public = text.partition("=")
-    require(sep and target and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", public), "Claim must be TARGET_ID=PUBLIC")
+    require(sep and target and re.fullmatch(r"@?[A-Za-z_][A-Za-z0-9_]*", public), "Claim must be TARGET_ID=PUBLIC")
     return {"target_id": target, "public": public}
 
 

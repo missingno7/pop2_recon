@@ -134,18 +134,6 @@
       "target_id": "root:0000:1344"
     },
     {
-      "fixup_count": 3,
-      "kind": "MATCHING_C",
-      "offset": 12346,
-      "recipe": "recipes/ctrl/add_f_char_x.json",
-      "relocation_count": 0,
-      "segment": 0,
-      "size": 26,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:0000:303a"
-    },
-    {
       "fixup_count": 1,
       "kind": "PINNED_RUNTIME",
       "offset": 7060,
@@ -372,18 +360,6 @@
       "space": "overlay-4",
       "state": "CODE_EXACT",
       "target_id": "overlay-4:29cf:0a54"
-    },
-    {
-      "fixup_count": 0,
-      "kind": "MATCHING_C",
-      "offset": 1990,
-      "recipe": "recipes/ctrl/first_in_row.json",
-      "relocation_count": 0,
-      "segment": 716,
-      "size": 54,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:02cc:07c6"
     },
     {
       "fixup_count": 0,
@@ -687,18 +663,6 @@
       "space": "overlay-2",
       "state": "CODE_EXACT",
       "target_id": "overlay-2:2344:6744"
-    },
-    {
-      "fixup_count": 3,
-      "kind": "MATCHING_C",
-      "offset": 13382,
-      "recipe": "recipes/ctrl/set_kid_death_method.json",
-      "relocation_count": 0,
-      "segment": 0,
-      "size": 28,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:0000:3446"
     },
     {
       "fixup_count": 1,
@@ -1101,45 +1065,6 @@
       "target_id": "root:0f77:00aa"
     },
     {
-      "fixup_count": 13,
-      "group": "ctrl/ctrl",
-      "kind": "MATCHING_C",
-      "offset": 362,
-      "recipe": "recipes/ctrl/ctrl.json",
-      "relocation_count": 0,
-      "segment": 716,
-      "size": 160,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:02cc:016a"
-    },
-    {
-      "fixup_count": 1,
-      "group": "ctrl/ctrl",
-      "kind": "MATCHING_C",
-      "offset": 596,
-      "recipe": "recipes/ctrl/ctrl.json",
-      "relocation_count": 0,
-      "segment": 716,
-      "size": 42,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:02cc:0254"
-    },
-    {
-      "fixup_count": 2,
-      "group": "ctrl/ctrl",
-      "kind": "MATCHING_C",
-      "offset": 638,
-      "recipe": "recipes/ctrl/ctrl.json",
-      "relocation_count": 0,
-      "segment": 716,
-      "size": 10,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:02cc:027e"
-    },
-    {
       "fixup_count": 2,
       "group": "ctrl/init_fchar_rect",
       "kind": "MATCHING_C",
@@ -1195,6 +1120,139 @@
       "space": "root",
       "state": "CODE_EXACT",
       "target_id": "root:101f:0490"
+    },
+    {
+      "fixup_count": 28,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 2,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 238,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:0002"
+    },
+    {
+      "fixup_count": 21,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 240,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        306
+      ],
+      "segment": 716,
+      "size": 122,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:00f0"
+    },
+    {
+      "fixup_count": 13,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 362,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 160,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:016a"
+    },
+    {
+      "fixup_count": 1,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 522,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 74,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:020a"
+    },
+    {
+      "fixup_count": 1,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 596,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 42,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:0254"
+    },
+    {
+      "fixup_count": 2,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 638,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 10,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:027e"
+    },
+    {
+      "fixup_count": 3,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 12346,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 0,
+      "size": 26,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:303a"
+    },
+    {
+      "fixup_count": 3,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 13382,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 0,
+      "size": 28,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:3446"
+    },
+    {
+      "fixup_count": 6,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 1954,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 36,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:07a2"
+    },
+    {
+      "fixup_count": 0,
+      "group": "ctrl/ctrl",
+      "kind": "MATCHING_C",
+      "offset": 1990,
+      "recipe": "recipes/ctrl/ctrl.json",
+      "relocation_count": 0,
+      "segment": 716,
+      "size": 54,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:02cc:07c6"
     }
   ],
   "schema": 1,

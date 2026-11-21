@@ -53,13 +53,58 @@ def witnesses(oracle, offsets, exclude=()):
     return found
 
 
+def add_members(oracle, binding, source, flags, exclude):
+    """Add witnessed members for every non-zero v4 addend the compiled source uses."""
+    import struct
+    from binding import fixes
+    from compiler import compile_c
+    result = compile_c(source, "msc600", flags=flags, workdir=ROOT / "build/workers/dgroup_witness/compile")
+    module = result.parsed
+    code = next(s for s in module.segment_defs if s["class"] == "CODE")
+    raw = module.segments[code["name"]]
+    wanted, missing = {}, []
+    for fix in fixes(module):
+        name = fix["target"].get("name")
+        symbol = binding["symbols"].get(name)
+        if not symbol or symbol.get("kind") != "dgroup-offset" or fix["loc_type"] != 1 or fix["self_relative"]:
+            continue
+        addend = struct.unpack_from("<H", raw, fix["segment_offset"])[0]
+        if addend:
+            wanted.setdefault(name, set()).add(addend)
+    for name, addends in wanted.items():
+        symbol = binding["symbols"][name]
+        have = {m["offset"] for m in symbol.get("members", [])}
+        need = sorted(addends - have)
+        found = witnesses(oracle, [(symbol["offset"] + k) & 0xFFFF for k in need], exclude)
+        for k in need:
+            rows = found[(symbol["offset"] + k) & 0xFFFF]
+            if rows:
+                symbol.setdefault("members", []).append(
+                    {"offset": k, "witnesses": [{x: v for x, v in r.items() if x != "context"} for r in rows[:2]]})
+            else:
+                missing.append(f"{name}+{k:#x} (DS:{(symbol['offset'] + k) & 0xFFFF:04x})")
+        symbol.get("members", []).sort(key=lambda m: m["offset"])
+    return binding, missing
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("offsets", nargs="+", help="DGROUP offsets, hex")
+    parser.add_argument("offsets", nargs="*", help="DGROUP offsets, hex")
+    parser.add_argument("--members", metavar="BINDING", help="add witnessed members for SOURCE's non-zero addends")
+    parser.add_argument("--source", help="candidate C source for --members")
+    parser.add_argument("--flags", nargs="+", default=["/c", "/AM", "/Oe", "/Gs", "/Zl", "/Gc"],
+                        help="compiler flags for --members (default the project flags)")
     parser.add_argument("--exclude", action="append", default=[], help="START:END root positions, hex")
     parser.add_argument("--output")
     args = parser.parse_args()
     exclude = [tuple(int(x, 16) for x in e.split(":")) for e in args.exclude]
+    if args.members:
+        binding, missing = add_members(Oracle.load(), read_json(project_path(args.members)),
+                                       project_path(args.source).read_text(encoding="ascii"),
+                                       args.flags, exclude)
+        write_json(project_path(args.output or args.members), binding)
+        print("members added; unwitnessed:", ", ".join(missing) or "none")
+        return
     found = witnesses(Oracle.load(), [int(o, 16) for o in args.offsets], exclude)
     for offset, rows in found.items():
         print(f"{offset:04x}: {len(rows)} witnesses " + ", ".join(r["context"] for r in rows[:4]))
