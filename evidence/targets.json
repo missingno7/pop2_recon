@@ -51017,6 +51017,475 @@
       "size": 276,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xc4a..+0xd7e, exclusive end. Return(s) at 2a93:013b; remaining tail empty.",
+        "Entry bytes 558bec83ec045756; following extent starts 558bec57568b7606.",
+        "MOVECAVE tail at overlay-6+0xc48 is CB 90. First distinct body starts at +0xc4a. DRAWCAVESPIKES calls this entry from 2a93:11e5 and 2a93:11f8.",
+        "Original PUSH CS; CALL at 2a93:11e4 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:11f7 in the same code frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 223109,
+          "image_offset": 7717,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7716,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 223128,
+          "image_offset": 7736,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7735,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Cave block draw selects distinct pass 1 and pass 5 blends and decorates modifier classes. Matches FM Towns DrawCaveBlock and is called by the cave spike renderer."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:000a",
+      "offset": 10,
+      "original_name": "DrawCaveBlock",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveBlock in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Cave block draw selects distinct pass 1 and pass 5 blends and decorates modifier classes. Matches FM Towns DrawCaveBlock and is called by the cave spike renderer."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveBlock",
+      "sha256": "0393011cf073898d27f3d6c5660c6aed002458715b8ab8dfc735e07f3062fc7a",
+      "size": 308,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xd7e..+0xdd2, exclusive end. Return(s) at 2a93:018e; remaining tail 90.",
+        "Entry bytes 558bec57568b7606; following extent starts 558bec83ec085756.",
+        "Original PUSH CS; CALL at 2a93:006d in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0233 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0293 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:05ab in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0641 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0e73 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0f39 in the same code frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 218638,
+          "image_offset": 3246,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3245,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219092,
+          "image_offset": 3700,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3699,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219188,
+          "image_offset": 3796,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3795,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219980,
+          "image_offset": 4588,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4587,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220130,
+          "image_offset": 4738,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4737,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222228,
+          "image_offset": 6836,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6835,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222426,
+          "image_offset": 7034,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7033,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the lower edge using the packed high modifier and redraw column/row, including an explicit row 2 guard. Matches FM Towns DrawCaveBotEdge."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:013e",
+      "offset": 318,
+      "original_name": "DrawCaveBotEdge",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveBotEdge in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Draws the lower edge using the packed high modifier and redraw column/row, including an explicit row 2 guard. Matches FM Towns DrawCaveBotEdge."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveBotEdge",
+      "sha256": "5f7c558de45fa3f365c444e3a75ec8c8f75bb7c050cd4070d947d3ef7f35de13",
+      "size": 84,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xdd2..+0xe2a, exclusive end. Return(s) at 2a93:01e7; remaining tail empty.",
+        "Entry bytes 558bec83ec085756; following extent starts 558bec568b76068a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws a masked floor tile and, in pass 1, selects a dart image from the private word table indexed by the modifier nibble."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0192",
+      "offset": 402,
+      "original_name": "DrawCaveDart",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveDart in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Draws a masked floor tile and, in pass 1, selects a dart image from the private word table indexed by the modifier nibble."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveDart",
+      "sha256": "f6fd8a728a005266c81cb613289ff9b9c19a853cf626d0d70c2239369bb43414",
+      "size": 88,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xe2a..+0xe84, exclusive end. Return(s) at 2a93:0240; remaining tail 90.",
+        "Entry bytes 558bec568b76068a; following extent starts 558bec568b76068a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Exit drawing pass switch for image set 16, with the call pair that draws both vertical edge pieces."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:01ea",
+      "offset": 490,
+      "original_name": "DrawCaveExit1",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveExit1 in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Exit drawing pass switch for image set 16, with the call pair that draws both vertical edge pieces."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveExit1",
+      "sha256": "102c49d4f684f5fd2e9d3365ee47872f45ff0623b975144799dedca5e9a9203b",
+      "size": 90,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xe84..+0xee4, exclusive end. Return(s) at 2a93:02a0; remaining tail 90.",
+        "Entry bytes 558bec568b76068a; following extent starts 558bec83ec085756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Exit drawing pass switch for image set 17. Calls the movable door painter for pass 0 and both edge routines for pass 1."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0244",
+      "offset": 580,
+      "original_name": "DrawCaveExit2",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveExit2 in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Exit drawing pass switch for image set 17. Calls the movable door painter for pass 0 and both edge routines for pass 1."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveExit2",
+      "sha256": "9eff9a113d5cf48bb651d5d2713951dbd65be85040d8dce1716416c7efe7d3b8",
+      "size": 96,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xee4..+0xf86, exclusive end. Return(s) at 2a93:0343; remaining tail empty.",
+        "Entry bytes 558bec83ec085756; following extent starts 558bec83ec085756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Exit tile adds shape 1 and clips image set 33 at the row boundary. Pass 1 draws the top edge."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:02a4",
+      "offset": 676,
+      "original_name": "DrawCaveExit3",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveExit3 in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Exit tile adds shape 1 and clips image set 33 at the row boundary. Pass 1 draws the top edge."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveExit3",
+      "sha256": "a6cc08fa4cef1945ae2e1818a6a698a76ca8e2325d0d80cd5537c8ca8d9dd435",
+      "size": 162,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0xf86..+0x1028, exclusive end. Return(s) at 2a93:03e5; remaining tail empty.",
+        "Entry bytes 558bec83ec085756; following extent starts 558bec83ec185756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Exit tile adds shape 2 and clips image set 35 at the row boundary. Pass 1 draws the top edge."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0346",
+      "offset": 838,
+      "original_name": "DrawCaveExit4",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveExit4 in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Exit tile adds shape 2 and clips image set 35 at the row boundary. Pass 1 draws the top edge."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveExit4",
+      "sha256": "920372f14568b07983044ca4058ee6a799feece856163039e35216f5a98286b2",
+      "size": 162,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0x11fc..+0x12ce, exclusive end. Return(s) at 2a93:068b; remaining tail empty.",
+        "Entry bytes 558bec568b76068a; following extent starts 558bec83ec185756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Pass switch draws the main cave gate with conditional wall trim and calls its moving part renderer."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:05bc",
+      "offset": 1468,
+      "original_name": "DrawCaveGate",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveGate in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Pass switch draws the main cave gate with conditional wall trim and calls its moving part renderer."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveGate",
+      "sha256": "f5c3ef5c96dd0c040b7629abeb0504ec9f540790857d815ee0afa93e1df43e0c",
+      "size": 210,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near record pointer in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0x1e5e..+0x1ef0, exclusive end. Return(s) at 2a93:12ad; remaining tail empty.",
+        "Entry bytes 558bec83ec085756; following extent starts 558bec83ec125756.",
+        "Original PUSH CS; CALL at 2a93:0238 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0298 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:033a in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:03dc in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:05b0 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0646 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0e15 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:0e78 in the same code frame.",
+        "Original PUSH CS; CALL at 2a93:1171 in the same code frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 219097,
+          "image_offset": 3705,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3704,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219193,
+          "image_offset": 3801,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3800,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219355,
+          "image_offset": 3963,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3962,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219517,
+          "image_offset": 4125,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4124,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 219985,
+          "image_offset": 4593,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4592,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220135,
+          "image_offset": 4743,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4742,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222134,
+          "image_offset": 6742,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6741,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222233,
+          "image_offset": 6841,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6840,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 222994,
+          "image_offset": 7602,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7601,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks active redraw cell, extracts the upper edge modifier bits, loads its image and draws set 61 with table-selected offsets."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:121e",
+      "offset": 4638,
+      "original_name": "DrawCaveTopEdge",
+      "original_name_evidence": [
+        "FM Towns lists @DrawCaveTopEdge in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "Checks active redraw cell, extracts the upper edge modifier bits, loads its image and draws set 61 with table-selected offsets."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveTopEdge",
+      "sha256": "72e32d085d5304a7f205099793cf785291e85a0d82891d94e5dbd87eefa4b269",
+      "size": 146,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Microsoft fastcall: word argument in AX, int result in AX, RETF.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0x1fb4..+0x1fd6, exclusive end. Return(s) at 2a93:138f, 2a93:1395; remaining tail empty.",
+        "Entry bytes 250f003d01007414; following extent starts cb90000000000000.",
+        "Original relocated 9A at root+0x4454, relocation 376.",
+        "Original relocated 9A at root+0x43e5, relocation 377."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 25684,
+          "image_offset": 17492,
+          "kind": "far_call",
+          "relocated_segment_site": 17495,
+          "space": "root"
+        },
+        {
+          "file_offset": 25573,
+          "image_offset": 17381,
+          "kind": "far_call",
+          "relocated_segment_site": 17384,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "AX low-nibble membership predicate for the four round cave-block variants, matching FM Towns name and DOS context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:1374",
+      "offset": 4980,
+      "original_name": "IsRoundCaveBlock",
+      "original_name_evidence": [
+        "FM Towns lists @IsRoundCaveBlock in DRAWCAVE.C. The DOS operation and calling context agree with that name.",
+        "AX low-nibble membership predicate for the four round cave-block variants, matching FM Towns name and DOS context."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "IsRoundCaveBlock",
+      "sha256": "ba104e9dd404bd6348d9d592f984f20c17667c0854573a6d324652f95f84c977",
+      "size": 34,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Locked overlay-6 image +0x1fd6..+0x1fd8, exclusive end. Return(s) at 2a93:1396; remaining tail 90.",
+        "Entry bytes cb90; following extent starts 0000000000000000.",
+        "RTLink vector decoded from the root interrupt-manager record points at this exact entry. Eight zero overlay-fill bytes follow the alignment NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "RTLink vector destination for the cave draw overlay, with a single RETF and alignment NOP."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:1396",
+      "offset": 5014,
+      "segment": 10899,
+      "semantic_name_hypothesis": "load_cave_drawing",
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "overlay-6",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
