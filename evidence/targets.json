@@ -50114,6 +50114,796 @@
       "size": 209,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x17c..0x1a2 yields 14 complete instructions, RETF at 0x195, 0x1a0 and one alignment NOP.",
+        "Entry bytes 8a16485e83e20f83 and next boundary bytes 833ec367ff744a83 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the low four bits of a dart animation timer and redraws the first three frames.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:017c",
+      "offset": 380,
+      "segment": 10703,
+      "sha256": "4b58340b8ec849e64373627b5b13095b1e3e4ff1b9f52f267fada8c6e45db67f",
+      "size": 38,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x1a2..0x1f4 yields 28 complete instructions, RETF at 0x1f3.",
+        "Entry bytes 833ec367ff744a83 and next boundary bytes 558bec83ec105756 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates floor state from dart coordinates and redraws only in the displayed room.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:01a2",
+      "offset": 418,
+      "segment": 10703,
+      "sha256": "9c51a688bd30ab123561263f2089b665bd2940f9eaeca0c002662447d2a25e43",
+      "size": 82,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x1f4..0x2ac yields 78 complete instructions, RETF at 0x2ab.",
+        "Entry bytes 558bec83ec105756 and next boundary bytes 558bec83ec045756 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Iterates projectile records, compares their rectangle to the actor and marks impacts.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:01f4",
+      "offset": 500,
+      "segment": 10703,
+      "sha256": "841a4b29a89793c24b171034a1837d7ec90541724fdbc817ea351d4827bf3537",
+      "size": 184,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x2ac..0x422 yields 142 complete instructions, RETF at 0x2c6, 0x420 and one alignment NOP.",
+        "Entry bytes 558bec83ec045756 and next boundary bytes 56803e115c007c03 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Moves a projectile, handles neighboring room transitions, and tests tile obstructions.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:02ac",
+      "offset": 684,
+      "segment": 10703,
+      "sha256": "51916be5c7361f71959d3f697d7b2ddbfe3348094d64f6c4c423aac108704232",
+      "size": 374,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x422..0x4b6 yields 51 complete instructions, RETF at 0x4b5.",
+        "Entry bytes 56803e115c007c03 and next boundary bytes 9ad404410b0bc074 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x0296 in routine 0x01f4.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 216055,
+          "image_offset": 663,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 662,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Applies dart damage or the associated actor action, sound and sequence.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0422",
+      "offset": 1058,
+      "segment": 10703,
+      "sha256": "57c7ca58d5aa63e9f0deb6738fd8cdc368c812af205b1dfb7ff3af4bc4b3d6db",
+      "size": 148,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x4b6..0x4d0 yields 10 complete instructions, RETF at 0x4c8, 0x4cf.",
+        "Entry bytes 9ad404410b0bc074 and next boundary bytes 558bec83ec0e5756 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x0191 in routine 0x017c.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 215794,
+          "image_offset": 402,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 401,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Marks a redraw rectangle or sets the animation selector to 1.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:04b6",
+      "offset": 1206,
+      "segment": 10703,
+      "sha256": "787f276ad865ce2a9ac825b7d8681041486adc6848a025256e1ae26154bf4501",
+      "size": 26,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "two byte parameters, RETF 4",
+      "boundary_evidence": [
+        "Original overlay-6+0x4d0..0x5b0 yields 89 complete instructions, RETF at 0x5ad.",
+        "Entry bytes 558bec83ec0e5756 and next boundary bytes 558bec83ec085756 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Temporarily initializes the 13-byte dart state, spawns a projectile, and restores it.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:04d0",
+      "offset": 1232,
+      "segment": 10703,
+      "sha256": "b872d325ddfea3c65ebd800f4d574a4a7807e1a5537b61b9ed347b531b1c7b34",
+      "size": 224,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x5b0..0x6e8 yields 135 complete instructions, RETF at 0x6c8, 0x6e6 and one alignment NOP.",
+        "Entry bytes 558bec83ec085756 and next boundary bytes 558bec83ec045756 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances the lava frame, updates ten bubble slots and dispatches newly timed bubbles.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:05b0",
+      "offset": 1456,
+      "segment": 10703,
+      "sha256": "2e15b209835630d1121d75d6269f14bfe6d3be64c7f158c86b229b97fafa19e9",
+      "size": 312,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x6e8..0x756 yields 46 complete instructions, RETF at 0x755.",
+        "Entry bytes 558bec83ec045756 and next boundary bytes 56a00e5c50a0095c from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests lava tile types 23/24, row mask and actor reach before invoking lava boil.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:06e8",
+      "offset": 1768,
+      "segment": 10703,
+      "sha256": "070ccf12e06912ce28b63e2766beebaf66a1d74734a0c53bebfba525efe8add1",
+      "size": 110,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x756..0x806 yields 66 complete instructions, RETF at 0x805.",
+        "Entry bytes 56a00e5c50a0095c and next boundary bytes 558bec83ec02c646 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x074c in routine 0x06e8.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 217261,
+          "image_offset": 1869,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1868,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts boil animation and actor sequence, copies the four-byte active lava state.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0756",
+      "offset": 1878,
+      "segment": 10703,
+      "sha256": "1e7315f4e77b95b6a40c426ea3ec67241411d31296621263a5e6974069db0102",
+      "size": 176,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, byte result AL, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x806..0x846 yields 26 complete instructions, RETF at 0x844 and one alignment NOP.",
+        "Entry bytes 558bec83ec02c646 and next boundary bytes 558bec568a460a50 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x0a6e in routine 0x0a56.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 218063,
+          "image_offset": 2671,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2670,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans four near pointers and returns the first open slot as AL.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0806",
+      "offset": 2054,
+      "segment": 10703,
+      "sha256": "c0be165dab6a7225584842efab2affdd834c7dbb56e445eaddb7d21915c7b291",
+      "size": 64,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "three byte parameters, near pointer AX, RETF 6",
+      "boundary_evidence": [
+        "Original overlay-6+0x846..0x87a yields 27 complete instructions, RETF at 0x876 and one alignment NOP.",
+        "Entry bytes 558bec568a460a50 and next boundary bytes 558bec83ec02568a from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x0763 in routine 0x0756.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 220647,
+          "image_offset": 5255,
+          "kind": "far_call",
+          "relocated_segment_site": 5258,
+          "relocation_index": 93,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 220904,
+          "image_offset": 5512,
+          "kind": "far_call",
+          "relocated_segment_site": 5515,
+          "relocation_index": 94,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 221164,
+          "image_offset": 5772,
+          "kind": "far_call",
+          "relocated_segment_site": 5775,
+          "relocation_index": 95,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 217284,
+          "image_offset": 1892,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1891,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Looks up a lava trigger then maps its slot byte to a near pointer.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0846",
+      "offset": 2118,
+      "segment": 10703,
+      "sha256": "91b1f0cc559af55e205a9fc5a36450f7c70e9cd0b7a207ef3ecbe808889905a8",
+      "size": 52,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "three byte parameters, near pointer AX, RETF 6",
+      "boundary_evidence": [
+        "Original overlay-6+0x87a..0x8c6 yields 32 complete instructions, RETF at 0x8c3.",
+        "Entry bytes 558bec83ec02568a and next boundary bytes 558bec83ec025756 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x07ea in routine 0x0756.",
+        "Original same-frame PUSH CS; CALL at 0x0856 in routine 0x0846.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 217419,
+          "image_offset": 2027,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2026,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 217527,
+          "image_offset": 2135,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2134,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Gets the tile and active trigger, then restores the displayed room.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:087a",
+      "offset": 2170,
+      "segment": 10703,
+      "sha256": "fd684d1fecffeb8b0a370b099f4456cc3943c176207baa35d158a0fa2d7b02d8",
+      "size": 76,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x8c6..0x8f6 yields 23 complete instructions, RETF at 0x8f4 and one alignment NOP.",
+        "Entry bytes 558bec83ec025756 and next boundary bytes 558bec83ec0aa0d0 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Frees and zeros the four lava information pointers.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:08c6",
+      "offset": 2246,
+      "segment": 10703,
+      "sha256": "706499d861cb4d3f29b4cc46bf984b430b2b5f128fe4c81bd0f4c1f9cee68ce6",
+      "size": 48,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0x8f6..0x97e yields 55 complete instructions, RETF at 0x97c and one alignment NOP.",
+        "Entry bytes 558bec83ec0aa0d0 and next boundary bytes 558bec57568b7608 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x06bf in routine 0x05b0.",
+        "Original same-frame PUSH CS; CALL at 0x0800 in routine 0x0756.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 217120,
+          "image_offset": 1728,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1727,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 217441,
+          "image_offset": 2049,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2048,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Chooses a draw image for a lava pool and queues redraws for neighboring cells.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:08f6",
+      "offset": 2294,
+      "segment": 10703,
+      "sha256": "d3eedf645bc3bbe06888be66c567b96b859969955f62427415840d539af6aedf",
+      "size": 136,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "near pointer plus int, RETF 4",
+      "boundary_evidence": [
+        "Original overlay-6+0x97e..0xa56 yields 108 complete instructions, RETF at 0xa53.",
+        "Entry bytes 558bec57568b7608 and next boundary bytes 558bec83ec028a46 from separate original-byte decoding.",
+        "Original same-frame PUSH CS; CALL at 0x06ab in routine 0x05b0.",
+        "Original same-frame PUSH CS; CALL at 0x0a99 in routine 0x0a56.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 217100,
+          "image_offset": 1708,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1707,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 218106,
+          "image_offset": 2714,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2713,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears a 101-byte lava pool and seeds its bubbles according to the mode.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:097e",
+      "offset": 2430,
+      "segment": 10703,
+      "sha256": "b329c6c9c6d672b41abe701c31d761e8b2d735df892ab32e1e4cbb41230469be",
+      "size": 216,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "two byte parameters, RETF 4",
+      "boundary_evidence": [
+        "Original overlay-6+0xa56..0xab8 yields 45 complete instructions, RETF at 0xab4 and one alignment NOP.",
+        "Entry bytes 558bec83ec028a46 and next boundary bytes 558bec57568b4e08 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Allocates a 101-byte lava pool and starts its trigger when no trigger exists.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0a56",
+      "offset": 2646,
+      "segment": 10703,
+      "sha256": "d855947e149a54a4b39ca1dac1d834ac351f834a6eb7fac223b4ffab813e770e",
+      "size": 98,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "word parameter, word result AX, RETF 2",
+      "boundary_evidence": [
+        "Original overlay-6+0xb10..0xbc4 yields 66 complete instructions, RETF at 0xbc0 and one alignment NOP.",
+        "Entry bytes 558bec83ec02a08a and next boundary bytes 558bec56b8080050 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates gate movement state based on guard position, frame, and active sequence.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0b10",
+      "offset": 2832,
+      "segment": 10703,
+      "sha256": "8b83d32dd9964919e0cff4a379a4c0d911223989a449406c7dca9452030a3940",
+      "size": 180,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "word parameter, word result AX, RETF 2",
+      "boundary_evidence": [
+        "Original overlay-6+0xbc4..0xbea yields 19 complete instructions, RETF at 0xbe6 and one alignment NOP.",
+        "Entry bytes 558bec56b8080050 and next boundary bytes cb90803e49450575 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a random torch image and advances if it would repeat.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0bc4",
+      "offset": 3012,
+      "segment": 10703,
+      "sha256": "26f446b1aaf12027b0cc0b0cec7e07b6873efc6f1f93d8d6d5d25224fd168994",
+      "size": 38,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0xbea..0xbec yields 2 complete instructions, RETF at 0xbea and one alignment NOP.",
+        "Entry bytes cb90 and next boundary bytes 803e494505750780 from separate original-byte decoding.",
+        "RTLink vector at 2203:0d53 names this overlay entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Empty RTLink vector destination.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0bea",
+      "offset": 3050,
+      "segment": 10703,
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0xbec..0xc1c yields 14 complete instructions, RETF at 0xc1b.",
+        "Entry bytes 803e494505750780 and next boundary bytes 579ac10d0322b8ac from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches a water effect in the three level-5 cave rooms.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0bec",
+      "offset": 3052,
+      "segment": 10703,
+      "sha256": "a4053e03d1ea8cf619d3084b243c6b0dbf688d067159c28ff1f5e33dfa84c655",
+      "size": 48,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF",
+      "boundary_evidence": [
+        "Original overlay-6+0xc1c..0xc4a yields 21 complete instructions, RETF at 0xc48 and one alignment NOP.",
+        "Entry bytes 579ac10d0322b8ac and next boundary bytes 558bec83ec045756 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Initializes the cave drawing provider, view and bridge state.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0c1c",
+      "offset": 3100,
+      "segment": 10703,
+      "sha256": "b49ee0c3f0386b928c2daa63c2f665f3e7906628135a2da13b14ae0974471aff",
+      "size": 46,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no arguments, AX result, RETF",
+      "boundary_evidence": [
+        "Original root+0xd342..0xd3ba yields 56 complete instructions, RETF at 0xd3b9.",
+        "Entry bytes 558bec83ec045756 and next boundary bytes 558bec83ec045756 from separate original-byte decoding.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 215438,
+          "image_offset": 46,
+          "kind": "far_call",
+          "relocated_segment_site": 49,
+          "relocation_index": 0,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans matching actor/tile records and returns a word predicate.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1f32",
+      "offset": 7986,
+      "segment": 2881,
+      "sha256": "09a03636742d84317ab28809f4a1d18d739ca2615377cbdba98beef72743f8d8",
+      "size": 120,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "near pointer, RETF 2",
+      "boundary_evidence": [
+        "Original root+0xb82c..0xb86a yields 32 complete instructions, RETF at 0xb866 and one alignment NOP.",
+        "Entry bytes 558bec83ec0a8b4e and next boundary bytes 558bec83ec02568b from separate original-byte decoding.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 216611,
+          "image_offset": 1219,
+          "kind": "far_call",
+          "relocated_segment_site": 1222,
+          "relocation_index": 40,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Redraws a tile and its adjacent animation using the supplied word pointer.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:041c",
+      "offset": 1052,
+      "segment": 2881,
+      "sha256": "df32f9b238b1474d77594c92891cb285b74af3095573b9225b5bd1a4885c6e0d",
+      "size": 62,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no arguments, RETF",
+      "boundary_evidence": [
+        "Original root+0xb74a..0xb79e yields 41 complete instructions, RETF at 0xb79c and one alignment NOP.",
+        "Entry bytes 558bec83ec0a8d46 and next boundary bytes 558bec83ec0a5756 from separate original-byte decoding."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Schedules tile and adjacent-cell redraws from a level-indexed tile descriptor.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:033a",
+      "offset": 826,
+      "segment": 2881,
+      "sha256": "283a67e64a50999e673ad907e72cd08017750cc4da979ecd9d5a891a21dcac43",
+      "size": 84,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no arguments, RETF",
+      "boundary_evidence": [
+        "Original root+0xb79e..0xb82c yields 71 complete instructions, RETF at 0xb82a and one alignment NOP.",
+        "Entry bytes 558bec83ec0a5756 and next boundary bytes 558bec83ec0a8b4e from separate original-byte decoding.",
+        "Original call sites below encode the exact entry independently of source."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 218389,
+          "image_offset": 2997,
+          "kind": "far_call",
+          "relocated_segment_site": 3000,
+          "relocation_index": 31,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Removes an active gate redraw and updates its tile and neighboring redraw records.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:038e",
+      "offset": 910,
+      "segment": 2881,
+      "sha256": "11f38f14c9a19d3c81c802bba0242d5d46331af30d9ff710dd26629cdbc02b90",
+      "size": 142,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "no stack arguments, RETF, preserves SI/DI",
+      "boundary_evidence": [
+        "Original root+0xbd2a..0xbf00 yields 190 complete instructions, RETF at 0xbefe and one alignment NOP.",
+        "Entry bytes 558bec83ec045756 and next boundary bytes 558bec5756c606d0 from separate original-byte decoding.",
+        "Original tile-animation switch arm at root+0xb532 branches to PUSH CS; CALL at root+0xb542 and its rel16 reaches root+0xbd2a. This arm is behind the dispatcher indirect jump.",
+        "Original instruction root+0xbe28 (8a87f607) indexes DS:07f6 from a path in this function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54595,
+          "image_offset": 46403,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46402,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the active gate and reads signed gate frame deltas at DS:07f6.",
+        "Original Pascal far exits and cave gameplay or rendering context."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:091a",
+      "offset": 2330,
+      "segment": 2881,
+      "sha256": "277d4422576b023e4b17f209c91af40476fb39fde6728b9ae43e0d2e3bf859ac",
+      "size": 470,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
