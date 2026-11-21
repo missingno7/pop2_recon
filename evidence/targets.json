@@ -55428,6 +55428,29 @@
       "size": 25,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, word argument; RETF 2",
+      "boundary_evidence": [
+        "Entry 00e8 starts 558bec83ec02 after the original predecessor ending 8be55dca0200.",
+        "Complete original root extent [0xa6a8,0xa704) ends with e55dca020090 including alignment where present. The next entry starts 5756833e6045."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Loops through eight background overlay flags and resource range pairs."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:00e8",
+      "offset": 232,
+      "segment": 2652,
+      "semantic_name_hypothesis": "check_background_overlays",
+      "sha256": "9457aa51ad2e3f50bc7e69f0fdf9dd949bc35e10939e10a75c425dc77e4d3ed8",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

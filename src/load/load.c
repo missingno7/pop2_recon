@@ -22,9 +22,21 @@ extern Rect back_port_bounds;
 extern int level_resource_files[];
 extern Byte background;
 static int background_overlay_flags[8];
-extern int background_overlay_first[], background_overlay_last[];
+extern int background_overlay_first[];
+static const int _based(_segname("_CONST")) background_overlay_last[8] = {
+    126, 161, 91, 114, 103, 90, 94, 108
+};
+static const int _based(_segname("_CONST")) kid_overlay_first[11] = {
+    263, 223, 241, 244, 249, 269, 222, 271, 280, 290, 300
+};
+static const int _based(_segname("_CONST")) kid_overlay_last[11] = {
+    268, 240, 243, 248, 262, 270, 222, 279, 289, 298, 313
+};
+static const int _based(_segname("_CONST")) kid_image_first[9] = {
+    15, 44, 99, 120, 133, 160, 219, 222, -1
+};
 extern int background_intro_group[], background_intro_number[];
-extern int background_image_first[], background_image_last[];
+extern const int *background_image_first[], *background_image_last[];
 extern int background_image_count;
 static int flask_enabled;
 extern unsigned overlay_output;
@@ -32,13 +44,13 @@ extern Handle sprite_sets[];
 extern Byte level_number;
 extern int sound_available;
 extern int active_map, resume_mode;
-extern char level_effect[], map_option[], map_archive[], background_overlay_file[];
+extern char level_effect[];
+extern char map_archive[], background_overlay_file[];
 extern Byte opponent, start_room_count;
 extern SByte loaded_opponent;
 extern int opponent_resource_files[];
 extern int *opponent_overlay_first[], *opponent_overlay_last[];
 extern int sword_overlay_first[], sword_overlay_last[];
-extern int kid_overlay_first[], kid_overlay_last[];
 extern int extra_kid_overlay;
 static int sword_overlay_enabled[3];
 extern SByte sword_kind;
@@ -72,7 +84,7 @@ extern void far pascal release_sprite_set(Handle);
 extern void far pascal load_overlay_range(Handle, unsigned, int, int, int);
 extern int far pascal has_set_overlay(Handle, int);
 extern void far pascal release_overlay_range(Handle, int, int);
-extern void far pascal preload_sprite_range(Handle, int, int);
+extern void far pascal preload_sprite_range(Handle, const int *, const int *);
 extern void far pascal load_scene_overlay(int, int);
 extern void far pascal unload_scene_overlay(int, int);
 extern void far pascal load_opponent_sound(SByte);
@@ -87,7 +99,7 @@ extern void far pascal start_named_effect(const char far *);
 extern void far pascal initialize_level_overlay(void);
 extern void * far pascal find_option(const char far *);
 extern void far pascal load_map_resource(int, int, int, const char far *, long);
-extern void far pascal initialize_level(void);
+extern void far pascal SetRebirthPtLevelStatus(void);
 extern void far pascal reset_level_display(void);
 extern void far pascal load_overlay_one(void);
 extern void far pascal load_overlay_two(void);
@@ -153,6 +165,11 @@ void far pascal open_level_resource_files(Byte current, Byte previous)
         select_resource_file(level_resource_files[current]);
     }
 }
+
+static const int _based(_segname("_CONST")) kid_image_last[8] = {
+    32, 79, 111, 129, 144, 215, 220, 299
+};
+static const char _based(_segname("_CONST")) map_option[] = "GAMEPLAY";
 
 void far pascal CheckBPort(void)
 {
@@ -256,7 +273,7 @@ void far pascal load_level_map(SByte map)
         id += 20;
     load_map_resource(0, 0, id, map_archive, 12025L);
     set_initial_room_state();
-    initialize_level();
+    SetRebirthPtLevelStatus();
 }
 
 void far pascal load_minimum_level(SByte number)
@@ -425,7 +442,7 @@ void far pascal load_kid_set(void)
         entries[j] = 1;
     load_set(2, 25001U, 2, (int)entries, 0);
     free(entries);
-    preload_sprite_range(sprite_sets[2], 1976, 1994);
+    preload_sprite_range(sprite_sets[2], kid_image_first, kid_image_last);
 }
 
 void far pascal load_kid_set_overlays(void)
@@ -550,8 +567,8 @@ void far pascal load_opponent_set(SByte kind)
             load_resource_palette(750, 32, 16, 0);
             if (opponent_overlay_first[kind]) {
                 load_opponent_overlays(kind);
-                preload_sprite_range(sprite_sets[3], (int)opponent_overlay_first[kind],
-                                     (int)opponent_overlay_last[kind]);
+                preload_sprite_range(sprite_sets[3], opponent_overlay_first[kind],
+                                     opponent_overlay_last[kind]);
             }
             load_opponent_sound(kind);
             opponent_frames = allocate_tagged_handle(0x4652414dUL, 750);
