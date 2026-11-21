@@ -22082,6 +22082,263 @@
       "size": 350,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, no return value consumed at root+0xe9bd.",
+      "boundary_evidence": [
+        "Complete original interval [0x78a0, 0x78c4); Frame follows RETF 2 ending at 0x78a0; independent 9a00008a07 at root+0xe9bd has relocation 1187.",
+        "Far returns at 0023 retf; all direct branches stay on instruction boundaries within the extent.",
+        "End is directly followed by a separate relocated far-call destination, 078a:0024."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a00008a07",
+          "file_offset": 68029,
+          "image_offset": 59837,
+          "kind": "far_call",
+          "relocated_segment_site": 59840,
+          "relocation_index": 1187,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resets a ten-byte drawing-state block and invokes the full-room drawing pass."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0000",
+      "offset": 0,
+      "segment": 1930,
+      "sha256": "23477e3c81d109b06dea2decbe52a780a3c3dffe4dcbfb7295993fd5366a9c23",
+      "size": 36,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, room state written via globals.",
+      "boundary_evidence": [
+        "Complete original interval [0x78c4, 0x79c0); Starts immediately after the prior POP DI; RETF; root far calls at 0xdf4, 0xeda6 and 0xeeb2 enter here.",
+        "Far returns at 010e retf, 011e retf; all direct branches stay on instruction boundaries within the extent.",
+        "The early equal case (JNE not taken, followed by a near JMP) reaches the second return at 0x11e; tail NOP precedes the independent PUSH CS/CALL near destination 078a:0120."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a24008a07",
+          "file_offset": 11764,
+          "image_offset": 3572,
+          "kind": "far_call",
+          "relocated_segment_site": 3575,
+          "relocation_index": 15,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a24008a07",
+          "file_offset": 69030,
+          "image_offset": 60838,
+          "kind": "far_call",
+          "relocated_segment_site": 60841,
+          "relocation_index": 1176,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a24008a07",
+          "file_offset": 69298,
+          "image_offset": 61106,
+          "kind": "far_call",
+          "relocated_segment_site": 61109,
+          "relocation_index": 1177,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Fills four room neighbours and four diagonals via a table of four-byte room links; calculates the custom-room flag."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0024",
+      "offset": 36,
+      "segment": 1930,
+      "sha256": "61a31d56312f1b8f1a1cdc3ac9c80c4c1703f3a2d8615e1926898ba7e6c0104f",
+      "size": 252,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments. Saves SI, two-byte local frame, no observed return value.",
+      "boundary_evidence": [
+        "Complete original interval [0x79c0, 0x7a68); New BP frame after GET_ROOMS' final RETF and NOP. The located same-frame CALL from 078a:001a independently names the entry.",
+        "Far returns at 01bd retf, 01c7 retf; all direct branches stay on instruction boundaries within the extent.",
+        "The alternate last call ends in a second SI-restoring RETF with no pad. Both row loops reach the independent entry at 078a:01c8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39098,
+          "image_offset": 30906,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 30905,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads room rows and renders each selected cell; special top-edge pass temporarily changes the drawn room."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0120",
+      "offset": 288,
+      "segment": 1930,
+      "sha256": "3ec83065e1fed30f5501fe2d61bd3c7eceb331d93656bdae99413d7b9085ddc1",
+      "size": 168,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments; pushes three byte argument slots before calling the background routine.",
+      "boundary_evidence": [
+        "Complete original interval [0x7a68, 0x7a82); Starts after the second complete epilogue at 078a:01c7. The two same-frame calls from the row loops enter 01c8.",
+        "Far returns at 01e1 retf; all direct branches stay on instruction boundaries within the extent.",
+        "RETF at 078a:01e1 followed by a new BP frame at 01e2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 39401,
+          "image_offset": 31209,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31208,
+          "space": "root"
+        },
+        {
+          "file_offset": 39490,
+          "image_offset": 31298,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31297,
+          "space": "root"
+        },
+        {
+          "file_offset": 39590,
+          "image_offset": 31398,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 31397,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Makes three background passes (0, 5, 11) and one foreground pass."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:01c8",
+      "offset": 456,
+      "segment": 1930,
+      "sha256": "f4be1217966f68497e15245f8400636a93cd5767a2bc113ed1153869efb79562",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte column in BP+6, RETF 2. DI/SI saved and a 14-byte local frame.",
+      "boundary_evidence": [
+        "Complete original interval [0x7a82, 0x7bf6); New frame immediately after RETF at 01e1. PUSH CS; CALL at 078a:1335 reaches the entry.",
+        "Far returns at 0353 retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "The unique RETF 2 closes the range, immediately before a new frame at 0356."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 43989,
+          "image_offset": 35797,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35796,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches redraws for dirty cells, clipping the background, floor, objects and foreground in separate passes."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:01e2",
+      "offset": 482,
+      "segment": 1930,
+      "sha256": "6d40e5baf014f8541d7c244f31e20a23e6cb92a28cd18d1b55e140c1307624dc",
+      "size": 372,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte column in BP+6, RETF 2. DI/SI saved and a 12-byte local frame.",
+      "boundary_evidence": [
+        "Complete original interval [0x7bf6, 0x7c7a); New frame after RETF 2 at 0353. PUSH CS; CALL at 078a:1387 reaches the entry.",
+        "Far returns at 03d6 retf 2; all direct branches stay on instruction boundaries within the extent.",
+        "Both paths meet at the DI/SI-restoring RETF 2, followed by NOP and a fresh frame at 03da."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 44071,
+          "image_offset": 35879,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35878,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the dirty flag and redraws the exposed top row under a temporary clip rectangle."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0356",
+      "offset": 854,
+      "segment": 1930,
+      "sha256": "89519f427418733f43439ff8c1f11351fc7f477a223fa788d3aa09382f1eb996",
+      "size": 132,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal; no stack arguments, no result consumed. BP frame with one signed-byte counter.",
+      "boundary_evidence": [
+        "Complete original interval [0x4b94, 0x4bc8); Fresh BP frame after RETF 4 and pad. Relocated far calls at root+0x7a5e and root+0x8c42 enter here.",
+        "Far returns at 0167 retf; all direct branches stay on instruction boundaries within the extent.",
+        "The loop branches to 013e until the signed-byte counter reaches 11. Closed RETF at 0167 before the new BP frame at 0168."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a3401a604",
+          "file_offset": 39518,
+          "image_offset": 31326,
+          "kind": "far_call",
+          "relocated_segment_site": 31329,
+          "relocation_index": 843,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a3401a604",
+          "file_offset": 44098,
+          "image_offset": 35906,
+          "kind": "far_call",
+          "relocated_segment_site": 35909,
+          "relocation_index": 844,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Initializes eleven five-byte records for the custom-room upper tile pass."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0134",
+      "offset": 308,
+      "segment": 1190,
+      "sha256": "bc95564cf460ba03bb1cfa0a31e2162e06dcf58dd41a9685e07d107ef11edeb5",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
