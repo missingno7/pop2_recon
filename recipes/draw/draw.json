@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "c058ce98a7e80cb4ad3dd61ea878f3b1726c9443bd3392242af0f91fc9f5c6bf",
+  "binding_sha256": "ff01c71da833dd93a5cf03d0fce8ee7027a3f2bc9e7631e071892146c8655b78",
   "claims": [
     {
       "fixup_count": 5,
@@ -48,23 +48,76 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:078a:0120"
+    },
+    {
+      "fixup_count": 4,
+      "public": "REDRAW_CELL_SURE",
+      "target_id": "root:078a:01c8"
     }
   ],
   "drafts": [
     {
-      "object_offset": 456,
-      "public": "REDRAW_CELL_SURE"
-    },
-    {
-      "object_offset": 486,
+      "object_offset": 482,
       "public": "REDRAW_CELL_FAST"
     },
     {
-      "object_offset": 868,
+      "object_offset": 854,
       "public": "REDRAW_TOP_FAST"
+    },
+    {
+      "object_offset": 986,
+      "public": "DRAW_BACK_IMAGE"
+    },
+    {
+      "object_offset": 1428,
+      "public": "BACK_IMAGE_START_PASS"
+    },
+    {
+      "object_offset": 1572,
+      "public": "DRAW_CUSTOM_ROOM_IMAGES"
+    },
+    {
+      "object_offset": 1812,
+      "public": "@draw_custom_room_image"
+    },
+    {
+      "object_offset": 2136,
+      "public": "DRAW_FORE_IMAGE"
+    },
+    {
+      "object_offset": 2436,
+      "public": "CHECK_FOREGROUND_GATE"
+    },
+    {
+      "object_offset": 2916,
+      "public": "DUMP_DRAW_TABLE"
+    },
+    {
+      "object_offset": 3046,
+      "public": "DRAW_BACK_FORE_ITEM"
+    },
+    {
+      "object_offset": 3758,
+      "public": "DRAW_MIDDLE_ITEM"
+    },
+    {
+      "object_offset": 4406,
+      "public": "DRAW_BITMAP"
+    },
+    {
+      "object_offset": 4724,
+      "public": "FULL_REDRAW_FAST"
+    },
+    {
+      "object_offset": 4744,
+      "public": "REDRAW_ROOM_FAST"
+    },
+    {
+      "object_offset": 4932,
+      "public": "ISWALL"
     }
   ],
-  "emitted_size": 1004,
+  "emitted_size": 4974,
   "flags": [
     "/c",
     "/AM",
@@ -79,12 +132,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "5242e1850bddfeb1786374fa352f5ffc8b305521f005eadced1c3a0cb2ef80d3",
+  "object_sha256": "114311ef5687f21df9a61e178e4a225042fdf88f6ebd9bdc05cab97596b687f8",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "4abd88db708f6cfb694d791cb9f954562dc55b3e403006afa6a441e6b4f49581",
+  "source_sha256": "9badd7cc8b84f5a462c0f89c7dfdf6769a8946061ced5eb86980ab660069b90a",
   "space": "root"
 }
