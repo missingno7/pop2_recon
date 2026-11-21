@@ -739,7 +739,16 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     require(binding is not None and "frame" in binding and fix["displacement"] is None,
                             "DGROUP base needs a binding with a grounded DGROUP frame")
                     require(piece[at:at+2] == bytes(2), "Only zero encoded DGROUP base addends are proven")
-                    value = binding["frame"]["segment"]
+                    # The runtime DGROUP paragraph: the grounded `dgroup_segment` when the binding has
+                    # one (the C runtime reloads DS with it before main), else the startup DS frame.
+                    if "dgroup_segment" in binding:
+                        from far_binding import _ground_segment
+                        seg_spec = binding["dgroup_segment"]
+                        _ground_segment({"segment": seg_spec["segment"], "witnesses": seg_spec["witnesses"]},
+                                        {"space": "root", "segment": 0, "offset": 0, "size": 0}, oracle)
+                        value = seg_spec["segment"]
+                    else:
+                        value = binding["frame"]["segment"]
                     observed = struct.unpack_from("<H", expected, at)[0]
                     state["equations"].append({"offset": at, "kind": "DGROUP base", "linked_segment": value,
                                                "original_segment": observed, "equal": value == observed})
