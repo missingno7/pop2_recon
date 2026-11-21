@@ -58685,6 +58685,900 @@
       "size": 20,
       "space": "overlay-9",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-10:29cf:0934",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 2356,
+      "size": 90,
+      "sha256": "9ba8aa819075f422d7faf39f2a75056a08a062fc64055d3f9fa6b06a6bc98213",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Dispatches one of four stance-motion functions unless the word at DS:1bce is nonzero."
+      ],
+      "entry_kind": "direct-code",
+      "semantic_name_hypothesis": "send_jaffar_to_position",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Begins after the full 0918 helper and its RETF 2 at 0931. Separate BP prologue and two-byte local frame.",
+        "Direct PUSH CS/CALL pairs at 07d5/07d6 and 0835/0836 enter this entry.",
+        "Switch reads byte stance+1 and calls 0a62, 0bba, 0ce2 or 0ddc. All paths converge before RETF 2 at 098b, immediately before the next BP prologue.",
+        "Dispatches one of four stance-motion functions unless the word at DS:1bce is nonzero."
+      ],
+      "abi": "far Pascal, one near data pointer in [BP+6], RETF 2",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242422,
+          "image_offset": 2006,
+          "pushed_cs_site": 2005
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242518,
+          "image_offset": 2102,
+          "pushed_cs_site": 2101
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:098e",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 2446,
+      "size": 212,
+      "sha256": "5f6abd0dc60800d83f663f68360a0eb7c2e553a386a2b0ac98720833505b2dc4",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Normalizes a signed horizontal coordinate and returns a stance command in AX."
+      ],
+      "entry_kind": "direct-code",
+      "semantic_name_hypothesis": "settle_jaffar_at_position",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "First BP frame after the 0934 dispatcher reaches RETF 2 at 098b.",
+        "Four same-frame PUSH CS/CALL pairs in the subsequent position routines reach 098e.",
+        "All branch exits converge on the 0a57 selection load and then RETF 2 at 0a5f, directly before 0a62.",
+        "Normalizes a signed horizontal coordinate and returns a stance command in AX."
+      ],
+      "abi": "far Pascal, one near data pointer in [BP+6], RETF 2, returns word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 243402,
+          "image_offset": 2986,
+          "pushed_cs_site": 2985
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 243698,
+          "image_offset": 3282,
+          "pushed_cs_site": 3281
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 243948,
+          "image_offset": 3532,
+          "pushed_cs_site": 3531
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 244246,
+          "image_offset": 3830,
+          "pushed_cs_site": 3829
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0a62",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 2658,
+      "size": 344,
+      "sha256": "3010ee9a538d6726835cc923e2b852858b59c5c105e955be9ed08a32e8ea90a1",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Position-zero movement rule for the active opponent."
+      ],
+      "entry_kind": "direct-code",
+      "semantic_name_hypothesis": "jaffar_go_to_position_0",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts immediately after the 098e RETF 2. The switch near CALL at 095e supplies a near stance pointer.",
+        "The branch graph selects action or settlement and rejoins at 0baf, with RETF 2 at 0bb6, NOP at 0bb9, and next BP frame at 0bba.",
+        "Position-zero movement rule for the active opponent."
+      ],
+      "abi": "far Pascal, one near data pointer in [BP+6], RETF 2, returns word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242814,
+          "image_offset": 2398,
+          "pushed_cs_site": 2397
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0bba",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 3002,
+      "size": 296,
+      "sha256": "f7734ef1259c32a832e7e065bbfee8958c9dbbcd4926052bac4f2c3ac0d17565",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "NOP at 0ce1 before the distinct 0ce2 prologue. Position-one movement rule."
+      ],
+      "entry_kind": "direct-code",
+      "semantic_name_hypothesis": "jaffar_go_to_position_1",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Begins at the BP prologue after the 0bb6 RETF 2 and 0bb9 NOP.",
+        "The switch near CALL at 0966 enters the routine with one near stance pointer. Control merges at 0cd7 to return through 0cde RETF 2.",
+        "NOP at 0ce1 before the distinct 0ce2 prologue. Position-one movement rule."
+      ],
+      "abi": "far Pascal, one near data pointer in [BP+6], RETF 2, returns word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242822,
+          "image_offset": 2406,
+          "pushed_cs_site": 2405
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0ce2",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 3298,
+      "size": 250,
+      "sha256": "fe07f28c66ee680554cba88e62a180f7758fb4cf94a494e8549625b4fb34fcb1",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Position-two movement rule with mutually exclusive signed column windows."
+      ],
+      "entry_kind": "direct-code",
+      "semantic_name_hypothesis": "jaffar_go_to_position_2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate BP prologue follows RETF 2 and NOP at 0cde/0ce1. PUSH CS/CALL at 096d/096e supplies a near stance pointer.",
+        "The two stance cases share the 0dd1 AX result load and RETF 2 at 0dd8, followed by NOP at 0ddb.",
+        "Position-two movement rule with mutually exclusive signed column windows."
+      ],
+      "abi": "far Pascal, one near data pointer in [BP+6], RETF 2, returns word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242830,
+          "image_offset": 2414,
+          "pushed_cs_site": 2413
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0ddc",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 3548,
+      "size": 298,
+      "sha256": "fcfcadb374ba7100174880a0e7c2b5801846f4995e454e150b7a5c9e99d2e91d",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Position-three movement rule and fallbacks."
+      ],
+      "entry_kind": "direct-code",
+      "semantic_name_hypothesis": "jaffar_go_to_position_3",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The switch near CALL at 0976 enters the BP frame directly after RETF 2 and NOP at 0dd8/0ddb.",
+        "Movement and settlement paths converge at 0efb. RETF 2 at 0f02 and NOP at 0f05 end the interval before the next BP prologue.",
+        "Position-three movement rule and fallbacks."
+      ],
+      "abi": "far Pascal, one near data pointer in [BP+6], RETF 2, returns word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242838,
+          "image_offset": 2422,
+          "pushed_cs_site": 2421
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:061a",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1562,
+      "size": 26,
+      "sha256": "1dae6999c0a153fa02d940d5373540a66641d29d3da72b65cb2c72b01ab5549b",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Two guards route to far-Pascal near-call pairs at 0629/062f. The two RETF/NOP ends are 062c/062d and 0632/0633."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Two guards route to far-Pascal near-call pairs at 0629/062f. The two RETF/NOP ends are 062c/062d and 0632/0633."
+      ],
+      "semantic_name_hypothesis": "run_jaffar",
+      "state": "ANALYZED",
+      "abi": "far, no arguments, RETF",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:0f06",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 3846,
+      "size": 98,
+      "sha256": "13de602e3f4a1151fbe48a7b7436a2f6ac168bc1740736f8fd882ffc632f17ad",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL at 076a/076b. The preceding position routine ends RETF 2/NOP at 0f02/0f05. Saves the byte slot and copies the character record before restoring the slot. The shared epilogue returns at 0f66 and aligns the next BP frame."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "PUSH CS/CALL at 076a/076b. The preceding position routine ends RETF 2/NOP at 0f02/0f05. Saves the byte slot and copies the character record before restoring the slot. The shared epilogue returns at 0f66 and aligns the next BP frame."
+      ],
+      "semantic_name_hypothesis": "finish_casting_at_kid",
+      "state": "ANALYZED",
+      "abi": "far, no arguments, RETF",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 1899,
+          "file_offset": 242315,
+          "pushed_cs_site": 1898
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0f68",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 3944,
+      "size": 200,
+      "sha256": "c1c9cd564117ba02aa76b31f9d68eecd75a816b19c9e5d950e97ff790e79ff36",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL at 0628/0629 enters a distinct BP frame after the previous RETF/NOP. Both the early sequence-assignment exit and the final guard return, with the final RETF/NOP at 102e/102f."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "PUSH CS/CALL at 0628/0629 enters a distinct BP frame after the previous RETF/NOP. Both the early sequence-assignment exit and the final guard return, with the final RETF/NOP at 102e/102f."
+      ],
+      "semantic_name_hypothesis": "run_jaffar_in_crystal",
+      "state": "ANALYZED",
+      "abi": "far, no arguments, RETF",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 1577,
+          "file_offset": 241993,
+          "pushed_cs_site": 1576
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:1030",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 4144,
+      "size": 364,
+      "sha256": "1f274b681c24db1960e17b157954aa350a6221d4b9b63566800ee19b55e8c914",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL at 062e/062f. The six-byte BP frame begins immediately after RETF/NOP at 102e/102f. Attack and flee paths converge at their matching epilogues with final RETF at 119b."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "PUSH CS/CALL at 062e/062f. The six-byte BP frame begins immediately after RETF/NOP at 102e/102f. Attack and flee paths converge at their matching epilogues with final RETF at 119b."
+      ],
+      "semantic_name_hypothesis": "run_jaffar_in_escher",
+      "state": "ANALYZED",
+      "abi": "far, no arguments, RETF",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 1583,
+          "file_offset": 241999,
+          "pushed_cs_site": 1582
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:119c",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 4508,
+      "size": 190,
+      "sha256": "f0768c584832fee16c138d526b938449aeb66318f7c253d7b8656cfc3ca9acc2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Distinct BP frame after RETF at 119b. Copies fields into the near record, with both top guards bypassing the update to 124c. Single RETF 2 at 1257 precedes the shadow predicate."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Distinct BP frame after RETF at 119b. Copies fields into the near record, with both top guards bypassing the update to 124c. Single RETF 2 at 1257 precedes the shadow predicate."
+      ],
+      "semantic_name_hypothesis": "update_jaffar_slot",
+      "state": "ANALYZED",
+      "abi": "far Pascal, one near data pointer at BP+6, RETF 2",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:125a",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 4698,
+      "size": 116,
+      "sha256": "5b0fa8797d8d4d6071333db3d865b314c1e42bacaee282103100edf779c3c942",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Called with two byte-width pushes from separate attack and flee paths. The prior forward branch exits return at 1257, and this predicate returns at 12ca with alignment at 12cd."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Called with two byte-width pushes from separate attack and flee paths. The prior forward branch exits return at 1257, and this predicate returns at 12ca with alignment at 12cd."
+      ],
+      "semantic_name_hypothesis": "shadow_in_range",
+      "state": "ANALYZED",
+      "abi": "far Pascal, two signed byte arguments and AX result, RETF 4",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 1943,
+          "file_offset": 242359,
+          "pushed_cs_site": 1942
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 2057,
+          "file_offset": 242473,
+          "pushed_cs_site": 2056
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 2080,
+          "file_offset": 242496,
+          "pushed_cs_site": 2079
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:12ce",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 4814,
+      "size": 48,
+      "sha256": "478818cd0832b846a98cb8a5326ef16f56c541a3590273618cfcd256d49b2b2b",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "abi": "far, no arguments, RETF",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "The shadow predicate returns at 12ca with NOP at 12cd. This no-argument contribution initializes the coordinate fields and ends in RETF at 12fd."
+      ],
+      "boundary_evidence": [
+        "The shadow predicate returns at 12ca with NOP at 12cd. This no-argument contribution initializes the coordinate fields and ends in RETF at 12fd."
+      ],
+      "semantic_name_hypothesis": "transfer_jaffar_to_escher2",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:12fe",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 4862,
+      "size": 54,
+      "sha256": "d3295c8fc6bfc4d1bd9fc89e1f0e352ea62134ae0d1f84eb7000fbaea97d1f9d",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "abi": "far, no arguments, RETF",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "The previous and following RETF instructions at 12fd and 1333 bracket the guard and background load. The next entry at 1334 starts by saving SI."
+      ],
+      "boundary_evidence": [
+        "The previous and following RETF instructions at 12fd and 1333 bracket the guard and background load. The next entry at 1334 starts by saving SI."
+      ],
+      "semantic_name_hypothesis": "load_tower_top",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1334",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 4916,
+      "size": 126,
+      "sha256": "3646ce233c07461c17138f6d67aac9db0c32e995a78fe2e06244fd3f287c590b",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "abi": "far, no arguments, RETF",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Saves SI after RETF at 1333. Two scene branches merge in the music call at 13ab and return at 13b1 before the next BP frame."
+      ],
+      "boundary_evidence": [
+        "Saves SI after RETF at 1333. Two scene branches merge in the music call at 13ab and return at 13b1 before the next BP frame."
+      ],
+      "semantic_name_hypothesis": "load_chess",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:13b2",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5042,
+      "size": 144,
+      "sha256": "18ab400f316f763ed58e7bb64c38a0ee8b2a6d28d340f2f1780c316ccc6260f1",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "abi": "far, no arguments, RETF",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "BP prologue after separate RETF at 13b1. The guarded frame lookup and setup paths converge on the same restored-register epilogue. RETF at 1440 with NOP at 1441."
+      ],
+      "boundary_evidence": [
+        "BP prologue after separate RETF at 13b1. The guarded frame lookup and setup paths converge on the same restored-register epilogue. RETF at 1440 with NOP at 1441."
+      ],
+      "semantic_name_hypothesis": "setup_guard_smoke",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1442",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5186,
+      "size": 70,
+      "sha256": "727cdbd01a6a0da7bbd96e646eb4f13f27dbadd954ebef8a0dc3ca34896aaa54",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "abi": "far, no arguments",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Immediately follows the 1440 RETF and 1441 NOP. Increments the shared animation word, dispatches the triggered frame and returns at 147a or 1487."
+      ],
+      "boundary_evidence": [
+        "Immediately follows the 1440 RETF and 1441 NOP. Increments the shared animation word, dispatches the triggered frame and returns at 147a or 1487."
+      ],
+      "semantic_name_hypothesis": "animate_jaffar_blink",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1488",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5256,
+      "size": 66,
+      "sha256": "bd85decb7720ca2570a57b5e7fbd32f48bb93958ee54643e6b521df1a9ac3172",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "abi": "far Pascal, one near object pointer in BP+6",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "New BP frame after the 1487 RETF. Reads the packed object animation word and checks object kind before calling the draw helper. Ends with RETF 2 at 14c6 and NOP at 14c9."
+      ],
+      "boundary_evidence": [
+        "New BP frame after the 1487 RETF. Reads the packed object animation word and checks object kind before calling the draw helper. Ends with RETF 2 at 14c6 and NOP at 14c9."
+      ],
+      "semantic_name_hypothesis": "draw_jaffar_blink",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:170e",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5902,
+      "size": 202,
+      "sha256": "091355879f4920237ec85e0f36490edfef6ed39196ffad9726c02000f4509425",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Targets same-frame PUSH CS/CALL at 0021/0022. Begins after prior RETF/NOP at 170c/170d. The object-type guard and drawing paths converge at the RETF 2 at 17d4 with NOP at 17d7."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Targets same-frame PUSH CS/CALL at 0021/0022. Begins after prior RETF/NOP at 170c/170d. The object-type guard and drawing paths converge at the RETF 2 at 17d4 with NOP at 17d7."
+      ],
+      "abi": "far Pascal, one near object pointer at BP+6",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "draw_crystal",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 34,
+          "pushed_cs_site": 33,
+          "file_offset": 240450
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:17d8",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 6104,
+      "size": 82,
+      "sha256": "ad0ee43be40a0647b2ef591ea9878ad222d1da5cf2456200606fa2e4c4597e3d",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "New BP frame immediately after RETF 2 and NOP at 17d4/17d7. Reads, increments and packs a byte serial into a word for a cell, then restores SI/DI and returns at 1826. NOP at 1829 aligns the next frame."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "New BP frame immediately after RETF 2 and NOP at 17d4/17d7. Reads, increments and packs a byte serial into a word for a cell, then restores SI/DI and returns at 1826. NOP at 1829 aligns the next frame."
+      ],
+      "abi": "far Pascal, two signed byte arguments at BP+8 and BP+6",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "trigger_crystal",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:182a",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 6186,
+      "size": 278,
+      "sha256": "1a8fdd9ae3f31a6e10f54277c9e8e40fb3ca3c9abf5499d64d9a03ea97eb2c1e",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP frame between the 1826 RETF 4 and the two guarded returns at 1933 and 193e. The non-room branch stores the inactive marker and exits. Pad at 193f separates the next BP prologue."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "BP frame between the 1826 RETF 4 and the two guarded returns at 1933 and 193e. The non-room branch stores the inactive marker and exits. Pad at 193f separates the next BP prologue."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "animate_gargoyle",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1940",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 6464,
+      "size": 202,
+      "sha256": "52a845faa9dab8be9171aa88ad53e3c94102c023778a6415f3b58907ede0ee78",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL at 0041/0042 names this entry. Begins after the 193e RETF and 193f NOP. The final RETF 2 at 1a06 and NOP at 1a09 precede the next separate BP frame."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "PUSH CS/CALL at 0041/0042 names this entry. Begins after the 193e RETF and 193f NOP. The final RETF 2 at 1a06 and NOP at 1a09 precede the next separate BP frame."
+      ],
+      "abi": "far Pascal, one near object pointer at BP+6",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "draw_gargoyle",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 66,
+          "pushed_cs_site": 65,
+          "file_offset": 240482
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:1a0a",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 6666,
+      "size": 82,
+      "sha256": "aa2a9fd2632d601e3dbf97bd8d3b0959b41097f8457ff34247be747fbb8a409a",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts in a separate BP frame, following the 1a06 return and 1a09 NOP. Updates the packed tile-effect word and returns at 1a58, with alignment NOP at 1a5b."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Starts in a separate BP frame, following the 1a06 return and 1a09 NOP. Updates the packed tile-effect word and returns at 1a58, with alignment NOP at 1a5b."
+      ],
+      "abi": "far Pascal, two signed byte arguments at BP+8 and BP+6",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "trigger_gargoyle",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1a5c",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 6748,
+      "size": 260,
+      "sha256": "7a1ddd3fd618b07e6b457ced33f375581706f758644ddb2a1667747df93b0e2c",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "New BP frame at 1a5c after RETF 4 and NOP at 1a58/1a5b. Placement and sprite-dimensions paths converge at the 1b59 epilogue and RETF at 1b5e."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "New BP frame at 1a5c after RETF 4 and NOP at 1a58/1a5b. Placement and sprite-dimensions paths converge at the 1b59 epilogue and RETF at 1b5e."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "update_fireball_view",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1b60",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7008,
+      "size": 216,
+      "sha256": "f997ce3e82e588d3828927ac416ca82e24e9b059a768096ca9ea8c07b16ee10d",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Saves DI and SI after the 1b5e RETF and pad at 1b5f. Signed count loop over fireball slots converges at the restored-register RETF before 1c38."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Saves DI and SI after the 1b5e RETF and pad at 1b5f. Signed count loop over fireball slots converges at the restored-register RETF before 1c38."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "check_fireball_hit_character",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1c38",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7224,
+      "size": 138,
+      "sha256": "79788ea375ca17fe16e47fcd25a2e5b38c3f1ce86b26a7a1a8ed4e97a7249854",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Boundary at 1c38 follows RETF at 1c37. Same-frame PUSH CS and CALL from 1db4/1db5 and 1e68/1e69. Tile and collision paths converge at a RETF before 1cc2."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Boundary at 1c38 follows RETF at 1c37. Same-frame PUSH CS and CALL from 1db4/1db5 and 1e68/1e69. Tile and collision paths converge at a RETF before 1cc2."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "check_fireball_hit_wall",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 7605,
+          "pushed_cs_site": 7604,
+          "file_offset": 248021
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 7785,
+          "pushed_cs_site": 7784,
+          "file_offset": 248201
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:1cc2",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7362,
+      "size": 40,
+      "sha256": "439b86eb5018e5222c65e4639528d9969edde12b1d51d8afc5442ed302766906",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate saved SI and signed strength guard after preceding RETF. Two return sequences at 1ce1 and 1ce8, then NOP at 1ce9."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Separate saved SI and signed strength guard after preceding RETF. Two return sequences at 1ce1 and 1ce8, then NOP at 1ce9."
+      ],
+      "abi": "far, no arguments, int AX result",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "do_throw_fireball",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1cea",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7402,
+      "size": 62,
+      "sha256": "3fff225c35f08376f3b505782aee1c6d3575bfab6468bd2f52e968bd5b8905b4",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Drawing code begins after the pad at 1ce9, calls the AX-argument image helper at 1cef, updates queue fields, and returns before 1d28."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Drawing code begins after the pad at 1ce9, calls the AX-argument image helper at 1cef, updates queue fields, and returns before 1d28."
+      ],
+      "abi": "far Pascal, near object pointer, RETF 2",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "draw_fireball_object",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1d28",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7464,
+      "size": 32,
+      "sha256": "8f3cd3ce6b5f7f557119582427428431a2abc9e3d692eec1288d594623120e0b",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-frame PUSH CS/CALL pairs at 1afc/1afd and 1cee/1cef. Two image bias branches, with RETFs at 1d3c and 1d46, each followed by a pad byte."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Same-frame PUSH CS/CALL pairs at 1afc/1afd and 1cee/1cef. Two image bias branches, with RETFs at 1d3c and 1d46, each followed by a pad byte."
+      ],
+      "abi": "far fastcall, word argument in AX, returns in AX",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "get_fireball_image",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 6909,
+          "pushed_cs_site": 6908,
+          "file_offset": 247325
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 7407,
+          "pushed_cs_site": 7406,
+          "file_offset": 247823
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:1d48",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7496,
+      "size": 186,
+      "sha256": "03194122aee56b104305709881f920d3213160cb1a32d414d1ccb899931a9753",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The entry follows the 1d46 RETF and pad at 1d47. Checks the active marker and translates the fireball, returning before the frame check at 1e02."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "The entry follows the 1d46 RETF and pad at 1d47. Checks the active marker and translates the fireball, returning before the frame check at 1e02."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "move_fireball",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1e02",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7682,
+      "size": 22,
+      "sha256": "8ddc9a473d1d5ecc8006d36e954436dcf12a906982a8571dd3457fd79269f603",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate compares of the actor frame before the PUSH CS/CALL at 1e0a/1e0b or the relocated audio call at 1e12. Both paths return before 1e18."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Separate compares of the actor frame before the PUSH CS/CALL at 1e0a/1e0b or the relocated audio call at 1e12. Both paths return before 1e18."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "throwing_fireball",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1e18",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 7704,
+      "size": 100,
+      "sha256": "e2d9216b9dc05cbb12a474c58745a742c715c1f25c75c255400df262075db095",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts after separate RETF at 1e17. Initializes the fired projectile. Original PUSH CS/CALL at 1e0a/1e0b targets it. Final RETF at 1e7a and alignment NOP at 1e7b."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "DOS flow and medium-model C shape",
+      "classification_evidence": [
+        "Starts after separate RETF at 1e17. Initializes the fired projectile. Original PUSH CS/CALL at 1e0a/1e0b targets it. Final RETF at 1e7a and alignment NOP at 1e7b."
+      ],
+      "abi": "far, no arguments",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "trigger_fireball",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "image_offset": 7691,
+          "pushed_cs_site": 7690,
+          "file_offset": 248107
+        }
+      ]
     }
   ],
   "schema": 1,
