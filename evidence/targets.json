@@ -58291,6 +58291,400 @@
         "FM Towns ACT.C pairing @DoStepFwd. DOS computes a signed step distance and chooses a sequence through same-CS 0016."
       ],
       "semantic_name_hypothesis": "step_forward"
+    },
+    {
+      "abi": "Far, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The relocated root caller at +0xd44a and new BP frame at +0x84 identify the start. The restore block ends at RETF +0x212 and NOP +0x213, followed by a register-saving entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 62538,
+          "image_offset": 54346,
+          "kind": "far_call",
+          "relocated_segment_site": 54349,
+          "relocation_index": 1013,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Guards the moving record mode and floor probe, temporarily updates coordinates and render state, and stages three offset draw passes."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0084",
+      "offset": 132,
+      "original_bytes_hex": "558bec83ec045756833ec367ff7503e97701ff36c0679a0211cc028846fda1be679933c22bc2b90500d3f833c22bc2508a46fd509a5402cc02a25262a0c26750a05262509ae425410b0bc07503e93901a19e088946feb0ff50b83400500ee84d060bc075598b3ec067832ec0673b8b36b608a1c9672b06be678bc83bc67e028bc6a3b6083b0eb8087e048b0eb808890eb8088306be6705b80900a39c08a39e08b002509a6422410b893ec067832ebe67058936b6088936b8088b46feeb03b83a00a39c08a39e08c606c76707ff36c0679aaa22410b8b36be678306be67208b3ec067a1be673906c96776368a46fd509ac607cc028bc8a1be678bd99933c22bc2b90500d3f833c22bc202d8881e5262c606c76706ff0ec067ff36c0679aaa22410ba1521a03c6a3be673b06c9677311a1501a03c7a3c067c606c767080ee860fea14a1a03c6a3be673b06c9677325a1481a03c7a3c067c606c767090ee841fea14e1a03c6a3be67a14c1a03c7a3c0670ee82dfe8936be67893ec067c606c767068b46fea39c08a39e085e5f8be55dcb90",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "move_slide_rock",
+      "sha256": "fa5deb743db2f579aba3da74f0fcaa846d6dff46292f9f3201cd4f7e371ed485",
+      "size": 400,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no stack arguments, word in AX, RETF.",
+      "boundary_evidence": [
+        "Follows the previous RETF and NOP; own RETF +0x236 and NOP +0x237 precede the next BP frame. Both CS-preserving calls target +0x732."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 233823,
+          "image_offset": 2047,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2046,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 233874,
+          "image_offset": 2098,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2097,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "With a distance of 32, probes rows -1 and 0 and returns the second result only if the first was nonzero."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0214",
+      "offset": 532,
+      "original_bytes_hex": "562bf6b0ff50b82000500ee810050bc0740d2ac050b82000500ee801058bf08bc65ecb90",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "can_slide_rock_stop",
+      "sha256": "72d99abe6b3e2b3a3c076fbd3c8e52fe400172d77c87c35d6843e8e39a4156ec",
+      "size": 36,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, three word slots (near rectangle pointer, room byte, row byte), AX pointer result, RETF 6.",
+      "boundary_evidence": [
+        "Root relocated call at +0x8d8e lands on the BP frame. Sole RETF 6 at +0x276 and NOP precede the next function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 44430,
+          "image_offset": 36238,
+          "kind": "far_call",
+          "relocated_segment_site": 36241,
+          "relocation_index": 859,
+          "space": "root"
+        },
+        {
+          "file_offset": 44972,
+          "image_offset": 36780,
+          "kind": "far_call",
+          "relocated_segment_site": 36783,
+          "relocation_index": 860,
+          "space": "root"
+        },
+        {
+          "file_offset": 44918,
+          "image_offset": 36726,
+          "kind": "far_call",
+          "relocated_segment_site": 36729,
+          "relocation_index": 861,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Finds a moving rock in the given room and row, then writes four rectangle coordinates or returns null."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0238",
+      "offset": 568,
+      "original_bytes_hex": "558bec578a46088a56060ee8e0028bf80bff74228b5e0a8b45022d450089078b058947028b4502408947048b4702053400894706eb022bdb8bc35f8be55dca060090",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "compute_slide_rock_rect",
+      "sha256": "dd33de8fe7e65cc77c66374b35778dfc138ec0b93ec94236279723e075605960",
+      "size": 66,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Root relocated call at +0xcf63 reaches the saved-register entry after RETF 6 and NOP. Own RETF +0x2d4 and NOP precede the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61283,
+          "image_offset": 53091,
+          "kind": "far_call",
+          "relocated_segment_site": 53094,
+          "relocation_index": 994,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Loads character state, checks row, room, and either character action or a horizontal overlap, then calls the hurt routine and copies state back."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:027a",
+      "offset": 634,
+      "original_bytes_hex": "57569a941dcc02803e015c0075068b36025ceb078b36025c83c60da0c26738060e5c7534a0c86738060a5c752b8b16be6781c28c00833e245c04740b3bd67d1883c2103bd67e110ee8a702bf805cbe005c1e07b92000f3a55e5fcb90",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "check_slide_rock_crush",
+      "sha256": "3d23580d75697d7abbf58f0a58060b079fc8892afeb08cd3279dde757a29bd30",
+      "size": 92,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed row delta in first word slot and distance in second; AX result, RETF 4.",
+      "boundary_evidence": [
+        "PUSH CS / CALL at +0xe2, +0x21f and +0x22e land on the BP frame. RETF 4 at +0x7d1 precedes the +0x7d4 frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 232002,
+          "image_offset": 226,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 225,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 232319,
+          "image_offset": 543,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 542,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 232334,
+          "image_offset": 558,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 557,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Clamps a step by the slide limit and scans the tiles crossed, stopping on incompatible floor kinds."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0732",
+      "offset": 1842,
+      "original_bytes_hex": "558bec83ec0457568b7e06be0100a1be670506009933c22bc2b90500d3f833c22bc28846ff8b0ec9672b0ebe672bcf1bd223ca03cf8bf98bc10306be679933c22bc2b90500d3f833c22bc28846fe8a4e08020ec867884efd3a46ff7c3b0bf67437a0c267508a46fffe46ff508a46fd509af000cc028846fc509ac8288a070bc0750c807efc197406be0100eb03902bf68a46ff3846fe7dc58bc65e5f8be55dca0400",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "probe_floors_toward_rock",
+      "sha256": "1f9bb826d828be4df602af5de526c8c8bf9971e9739e53161cd1056feea96d2d",
+      "size": 162,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Following the RETF and NOP at +0xe0a and +0xe0b, the first instruction tests the motion mode. Every local branch stays within the routine and joins the RETF at +0xe43. The +0xe44 entry begins with a distinct character guard."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61290,
+          "image_offset": 53098,
+          "kind": "far_call",
+          "relocated_segment_site": 53101,
+          "relocation_index": 1032,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Updates the moving trapdoor step while active. Conditionally starts sound 95 after querying two indexed timers."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0e0c",
+      "offset": 3596,
+      "original_bytes_hex": "833ec367ff7430a0c967241f3c107f04ff06c967b86e27509a448401110bc07516b86f27509a448401110bc07509b85f00509ace01d70dcb",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "move_trapdoor_record",
+      "sha256": "41c21f50ddb521358e419fc6befd0ba475af6cfe8a5dfee3b7be46ccd8ec988c",
+      "size": 56,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The first instruction follows RETF +0xe43. All failed guards target RETF +0xe89. The only near call, +0xe86, targets +0xec6. The next entry at +0xe8a saves SI and tests a different state bit."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68761,
+          "image_offset": 60569,
+          "kind": "far_call",
+          "relocated_segment_site": 60572,
+          "relocation_index": 1156,
+          "space": "root"
+        },
+        {
+          "file_offset": 69207,
+          "image_offset": 61015,
+          "kind": "far_call",
+          "relocated_segment_site": 61018,
+          "relocation_index": 1157,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Checks a level flag and character position before probing the current tile. Triggers the trapdoor via same-CS call if its low state bits are clear."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0e44",
+      "offset": 3652,
+      "original_bytes_hex": "f606165e40743eb03ff62e0a5c2b06045c3dc8ff752f803e065c017428a00e5c50a0095c50a00a5c509af000cc023c1a7513f60671621f750ca0746250a07362500ee83d00cb",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "check_trapdoor",
+      "sha256": "cca42ac9511b7c70d54b54b0b8d3b0da6ed5e4d37518a1445674cec969f36874",
+      "size": 70,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, room byte at BP+8, signed cell byte at BP+6, RETF 4.",
+      "boundary_evidence": [
+        "Both near calls at +0xe86 and +0xec1 push room then cell, then CS. The new BP frame begins immediately after RETF +0xec5. RETF 4 at +0xf57 ends the routine before the next saved-register entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 235494,
+          "image_offset": 3718,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3717,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 235553,
+          "image_offset": 3777,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3776,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Sets the tile animation state, clears per-room flags, initializes the moving record and starts its sound."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0ec6",
+      "offset": 3782,
+      "original_bytes_hex": "558bec56b01ef666088bd88a46069803d8d1e3d1e3c7874a3081008bd88b369462c600002bc0a3c567a3c367b10a8a460698f6f98ac4988bd8d1e38b87a60da3be67a071622540003d01001bc024b6054b00a3c9678a4608a2c267a07662988bd8d1e38b87c00da3c0678a460698f6f9a2c867880ec7679a9219410bb85e00509ace01d70d2ac0509a6422410b5e8be55dca0400",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "trigger_trapdoor",
+      "sha256": "9a9d973073c67708eb38a84960e7029c1b3f21a3a30ecb6d47e41110a28feb99",
+      "size": 148,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one unused word slot, RETF 2.",
+      "boundary_evidence": [
+        "The SI save immediately follows RETF 4 +0xf57. Branches reach the common fastcall drawing site at +0xfa4 and the sole RETF 2 at +0xfaa, followed by NOP +0xfad. The signed inscription guard starts at +0xfae."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 46642,
+          "image_offset": 38450,
+          "kind": "far_call",
+          "relocated_segment_site": 38453,
+          "relocation_index": 798,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Uses the low modifier bits to look up the trapdoor drawing frame. Frame 21 draws an extra shape."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0f5a",
+      "offset": 3930,
+      "original_bytes_hex": "568a1e586283e31fd1e38bb7961a83fe157527a15662484850b00a508b1e546243b0048bd69a02046901a1566248502ac050b004ba1600eb0d90a156624850b00a508bd6b0048b1e54629a020469015eca020090",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "draw_object_trapdoor",
+      "sha256": "c5bf639cb603ef49a600e46c4950d08ca9f008f0f5d934b6178e649217a76c1b",
+      "size": 84,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The guard at +0xfae follows the preceding RETF 2 and NOP. The conditional branch lands at the sole RETF +0xfbe followed by NOP +0xfbf. The next entry at +0xfc0 begins a room and tile check."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Signed comparison of the inscription marker against 9 guards a call passing 92."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0fae",
+      "offset": 4014,
+      "original_bytes_hex": "803e895c097c09b85c00509ab001d70dcb90",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "load_inscription_room",
+      "sha256": "7588dd88ea0b9136ff474847472b9b4cea9608b1c08a6006f31269206ad9739a",
+      "size": 18,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The +0xfc0 guard immediately follows the RETF at +0xfbe and pad at +0xfbf. Both failed guards join RETF at +0xfd3. The relocated CALL FAR at +0xfce names 2dc2:0212, whose reviewed overlay-15 entry matches this role. The next entry at +0xfd4 is an independent RTLink vector destination."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Tests view room 4 and the room tile marker 13. If both match, calls the overlay-15 altar/shadow sequence helper."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0fc0",
+      "offset": 4032,
+      "original_bytes_hex": "803e345e04750c803e49450d75059a1202c22dcb",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "check_temple_event",
+      "sha256": "3f8bf0bc6eab7bea8cab38411048f1f03e83b9c3730814b7ba4e850554e34dca",
+      "size": 20,
+      "space": "overlay-9",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

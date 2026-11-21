@@ -58,10 +58,19 @@ extern unsigned char moving_kind, moving_room;
 extern signed char moving_row;
 extern unsigned char current_tile_column;
 extern int sequence_a, sequence_b, rock_speed_a, rock_speed_b;
-extern int rock_draw_delta_x_1, rock_draw_delta_y_1;
-extern int trapdoor_x_steps[];
-extern int rock_draw_delta_x_2, rock_draw_delta_y_2;
-extern int rock_draw_delta_x_3, rock_draw_delta_y_3;
+static struct {
+    int bolt_y_2, bolt_x_2;
+    int bolt_y_3, bolt_x_3;
+    int bolt_y_1;
+    int trapdoor_x[17];
+    int trapdoor_y[17];
+    int trapdoor_shape[18];
+} temple_draw_offsets = {
+    -42, 39, -11, 40, -31,
+    { 51, 5, 5, 16, 16, 16, 16, 9, 9, -5, 0, 5, 16, 9, -5, 0, 5 },
+    { 0, 7, 7, 12, 12, 12, 12, 7, 7, -2, 0, 7, 12, 7, -1, 0, 7 },
+    { 0, 91, 91, 92, 92, 92, 92, 93, 93, 94, 21, 91, 92, 93, 94, 21, 91, 21 }
+};
 extern struct character_state active_character, kid_state;
 extern unsigned char slide_det_flags[];
 extern unsigned char room_foregrounds[];
@@ -110,14 +119,14 @@ void move_slide_rock(void)
                 rock_speed_a = (int)(movement_end - moving_x) <= old_speed ? (int)(movement_end - moving_x) : old_speed;
                 rock_speed_b = (int)(movement_end - moving_x) <= rock_speed_b ? (int)(movement_end - moving_x) : rock_speed_b;
                 moving_x += 5;
-                sequence_a = sequence_b = 9;
+                sequence_b = sequence_a = 9;
                 play_movement_sound(2);
                 moving_y = y;
                 moving_x -= 5;
-                rock_speed_a = rock_speed_b = old_speed;
-                sequence_a = sequence_b = sequence;
+                rock_speed_b = rock_speed_a = old_speed;
+                sequence_b = sequence_a = sequence;
             } else
-                sequence_a = sequence_b = 58;
+                sequence_b = sequence_a = 58;
             moving_kind = 7;
             draw_moving_tile(moving_y);
             x = moving_x;
@@ -129,25 +138,25 @@ void move_slide_rock(void)
                 --moving_y;
                 draw_moving_tile(moving_y);
             }
-            moving_x = rock_draw_delta_x_1 + x;
+            moving_x = temple_draw_offsets.trapdoor_x[0] + x;
             if ((unsigned int)moving_x < movement_end) {
-                moving_y = rock_draw_delta_y_1 + y;
+                moving_y = temple_draw_offsets.bolt_y_1 + y;
                 moving_kind = 8;
                 move_slide_bolt();
             }
-            moving_x = rock_draw_delta_x_2 + x;
+            moving_x = temple_draw_offsets.bolt_x_2 + x;
             if ((unsigned int)moving_x < movement_end) {
-                moving_y = rock_draw_delta_y_2 + y;
+                moving_y = temple_draw_offsets.bolt_y_2 + y;
                 moving_kind = 9;
                 move_slide_bolt();
-                moving_x = rock_draw_delta_x_3 + x;
-                moving_y = rock_draw_delta_y_3 + y;
+                moving_x = temple_draw_offsets.bolt_x_3 + x;
+                moving_y = temple_draw_offsets.bolt_y_3 + y;
                 move_slide_bolt();
             }
             moving_x = x;
             moving_y = y;
             moving_kind = 6;
-            sequence_a = sequence_b = sequence;
+            sequence_b = sequence_a = sequence;
         }
     }
 }
@@ -163,16 +172,14 @@ int can_slide_rock_stop(void)
 struct rock_rect *compute_slide_rock_rect(struct rock_rect *rect, unsigned char room, signed char row)
 {
     struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
-    struct rock_rect *result;
     if (rock) {
-        result = rect;
-        result->top = rock->y - 69;
-        result->left = rock->x;
-        result->bottom = rock->y + 1;
-        result->right = result->left + 52;
+        rect->top = rock->y - 69;
+        rect->left = rock->x;
+        rect->bottom = rock->y + 1;
+        rect->right = rect->left + 52;
     } else
-        result = 0;
-    return result;
+        rect = 0;
+    return rect;
 }
 
 void check_slide_rock_crush(void)
@@ -180,7 +187,7 @@ void check_slide_rock_crush(void)
     int kid_x, rock_x;
     load_kid_state();
     kid_x = active_character.direction == 0 ? active_character.x : active_character.x + 13;
-    if (active_character.room == moving_room && active_character.row == moving_row) {
+    if (moving_room == active_character.room && moving_row == active_character.row) {
         rock_x = moving_x + 140;
         if (active_character.action == 4 || (rock_x < kid_x && rock_x + 16 > kid_x)) {
             hit_character_with_rock();
@@ -238,10 +245,12 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
 void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned char *flags)
 {
     struct moving_rock *rock;
-    int left, right;
+    int left;
+    struct {
+        unsigned char *neighbor_flags;
+        int right;
+    } edge;
     signed char column;
-    unsigned char *neighbor_flags;
-    unsigned char bits;
 
     rock = (struct moving_rock *)slide_rock_on_row(active_character.room, row);
     if (rock) {
@@ -255,29 +264,27 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
             if (rock->mode != 100 && row == active_character.row) {
                 signed char neighbor = get_char_col(left + 1);
                 if (neighbor != column) {
-                    neighbor_flags = &slide_det_flags[neighbor];
-                    bits = *neighbor_flags & 0x0f;
-                    slide_det_flags[column] |= bits;
+                    edge.neighbor_flags = &slide_det_flags[neighbor];
+                    slide_det_flags[column] |= *edge.neighbor_flags & 0x0f;
                     if (!(flags[neighbor] & 0x0f))
-                        *neighbor_flags &= 0xf0;
+                        *edge.neighbor_flags &= 0xf0;
                 }
             }
         }
-        right = left + 38;
-        if (right > screen_left) {
-            column = get_char_col(right);
+        edge.right = left + 38;
+        if (edge.right > screen_left) {
+            column = get_char_col(edge.right);
             if (column >= 0 && column < 10) {
                 flags[column] |= 0xf0;
                 rooms[column] = rock->room;
             }
             if (rock->mode != 100 && row == active_character.row) {
-                signed char neighbor = get_char_col(right + 1);
+                signed char neighbor = get_char_col(edge.right + 1);
                 if (neighbor != column) {
-                    neighbor_flags = &slide_det_flags[neighbor];
-                    bits = *neighbor_flags & 0xf0;
-                    slide_det_flags[column] |= bits;
+                    edge.neighbor_flags = &slide_det_flags[neighbor];
+                    slide_det_flags[column] |= *edge.neighbor_flags & 0xf0;
                     if (!(flags[neighbor] & 0xf0))
-                        *neighbor_flags &= 0x0f;
+                        *edge.neighbor_flags &= 0x0f;
                 }
             }
         }
@@ -340,7 +347,7 @@ void hit_character_with_rock(void)
         if (!IsWall(tile) && tile != 4) {
             if (active_character.fall_speed < 0) {
                 if (active_character.grounded != 1)
-                    sequence = 48 - ((unsigned char)active_character.direction < 1);
+                    sequence = active_character.direction == 0 ? 47 : 48;
                 else {
                     sequence = 93;
                     active_character.grounded = 0;
@@ -402,13 +409,17 @@ int probe_floors_toward_rock(signed char row_delta, int step)
     unsigned char tile;
     step = (unsigned int)step < movement_end - moving_x ? step : movement_end - moving_x;
     last = (step + moving_x) / 32;
-    row = row_delta + moving_row;
-    while (last >= first && result) {
-        tile = floor_at(moving_room, first++, row);
-        if (floor_supports_rock(tile) || tile == 25)
-            result = 0;
-        else
-            result = 1;
+    row = moving_row + row_delta;
+    if (last >= first) {
+        do {
+            if (!result)
+                break;
+            tile = floor_at(moving_room, first++, row);
+            if (floor_supports_rock(tile) || tile == 25)
+                result = 0;
+            else
+                result = 1;
+        } while (last >= first);
     }
     return result;
 }
@@ -446,7 +457,7 @@ extern void character_release_grip(void);
 extern int probe_chain_floor(int);
 extern int room_edge_x[], row_y[];
 extern unsigned char view_left, view_right, view_up, view_down;
-extern int trapdoor_y_steps[], trapdoor_shapes[], trapdoor_sheet;
+extern int trapdoor_sheet;
 extern int trapdoor_top, trapdoor_left;
 extern void add_moving_record(void);
 extern unsigned char current_modifier;
@@ -464,77 +475,86 @@ extern void trigger_trapdoor(unsigned char room, signed char cell);
 
 void move_rock_record(void)
 {
-    signed char column, new_column;
+    signed char column, new_column, prev_column;
     unsigned char tile;
     int x, next_x, prior_column;
-    if (rock_motion_state != 0 && rock_motion_state != 100) {
-        x = moving_x;
-        if (rock_motion_state == -1)
-            --x;
-        else if (can_slide_rock_stop() && rock_motion_state >= 8) {
-            rock_motion_state = 0;
-            alter_timer(10054);
-            if (current_sound == 54)
-                current_sound = -1;
-        } else {
-            moving_x -= 8;
-            if (can_slide_rock_stop())
-                start_sound(53);
-            moving_x = x--;
-            if (rock_motion_state <= 8)
-                ++rock_motion_state;
-        }
-        if (x < 0) {
-            moving_room = room_links[moving_room].left;
-            x += 320;
-        }
-        next_x = x;
-        if (!moving_room) {
-            moving_mode = -1;
-            alter_timer(10054);
-        } else if (rock_motion_state != 0 && rock_motion_state != 100) {
-            prior_column = next_x - 20;
-            column = prior_column / 32;
-            if (prior_column <= 0)
-                --column;
-            tile = floor_at(moving_room, column, moving_row);
-            if (moving_mode == 1) {
-                moving_mode = 0;
-                rock_motion_state = 100;
-                ++moving_y;
-                moving_x = next_x + 2;
-                if (tile == 2) {
-                    load_kid_state();
-                    rock_hit_spikes();
-                    kid_state = active_character;
-                }
-            } else {
-                new_column = (next_x - 4) / 32;
-                if (new_column != (moving_x - 4) / 32 || column != new_column) {
-                    unsigned char new_tile = floor_at(moving_room, new_column, moving_row);
-                    if ((IsWall(new_tile) || new_tile == 4 || tile == 2) && moving_mode == 0) {
-                        moving_mode = 1;
-                        --moving_y;
-                        if (!indexed_timer_running(10055) && tile != 2)
-                            start_sound(8);
-                    }
-                }
-                load_kid_state();
-                if (active_character.sequence >= 87 && active_character.sequence <= 99) {
-                    column = (next_x - 8) / 32;
-                    if (moving_row - active_character.row + 1 == 0 && column == active_character.column)
-                        character_release_grip();
-                }
-                kid_state = active_character;
-                if (rock_motion_state != 100)
-                    moving_x = next_x;
-                if (rock_motion_state != 0 && rock_motion_state != 100)
-                    start_sound(54);
-            }
-            if (rock_motion_state == 100 && moving_mode == -1)
-                alter_timer(10054);
+
+    if (rock_motion_state == 0 || rock_motion_state == 100)
+        return;
+    x = moving_x;
+    if (rock_motion_state == -1)
+        --x;
+    else if (can_slide_rock_stop() && rock_motion_state >= 8) {
+        rock_motion_state = 0;
+        alter_timer(10054);
+        if (current_sound == 54)
+            current_sound = -1;
+    } else {
+        moving_x -= 8;
+        if (can_slide_rock_stop())
+            start_sound(53);
+        moving_x = x--;
+        if (rock_motion_state <= 8)
+            ++rock_motion_state;
+    }
+    if (x < 0) {
+        moving_room = room_links[moving_room].left;
+        x += 320;
+    }
+    next_x = x;
+    if (!moving_room)
+        goto no_room;
+    if (rock_motion_state == 0 || rock_motion_state == 100)
+        goto done;
+    prior_column = next_x - 20;
+    column = prior_column / 32;
+    if (prior_column <= 0)
+        --column;
+    tile = floor_at(moving_room, column, moving_row);
+    if (moving_mode != 1)
+        goto advance;
+    moving_mode = 0;
+    rock_motion_state = 100;
+    ++moving_y;
+    moving_x = next_x + 2;
+    if (tile != 2)
+        goto finish;
+    load_kid_state();
+    rock_hit_spikes();
+    goto copy_kid;
+no_room:
+    moving_mode = -1;
+    goto stop_timer;
+advance:
+    new_column = (next_x - 4) / 32;
+    prev_column = (moving_x - 4) / 32;
+    if (new_column != prev_column || column != prev_column) {
+        column = floor_at(moving_room, new_column, moving_row);
+        if ((IsWall(column) || column == 4 || tile == 2) && moving_mode == 0) {
+            moving_mode = 1;
+            --moving_y;
+            if (!indexed_timer_running(10055) && tile != 2)
+                start_sound(8);
         }
     }
+    load_kid_state();
+    if (active_character.sequence >= 87 && active_character.sequence <= 99) {
+        column = (next_x - 8) / 32;
+        if (moving_row - active_character.row + 1 == 0 && column == active_character.column)
+            character_release_grip();
+    }
+copy_kid:
+    kid_state = active_character;
+finish:
+    if (rock_motion_state != 100) {
+        moving_x = next_x;
+        if (rock_motion_state != 0)
+            start_sound(54);
+        return;
+    }
+stop_timer:
+    alter_timer(10054);
+done:;
 }
 
 int slide_rock_near_spikes(void)
@@ -644,7 +664,7 @@ draw:
     if (step > 16) {
         moving_mode = -1;
         tile_animations[moving_room][absolute_column].state &= 0xff00;
-        room_foregrounds[moving_room * 30 + absolute_column] = 26;
+        room_foregrounds[(unsigned char)30 * *(volatile unsigned char *)&moving_room + absolute_column] = 26;
         step = 17;
         alter_timer(10095);
         if (current_sound == 95)
@@ -653,16 +673,18 @@ draw:
     }
     if (check_rock_column(room, FirstInRow(moving_row) + column)) {
         saved_y = moving_y;
-        moving_y += trapdoor_y_steps[step];
-        y += trapdoor_y_steps[step];
+        moving_y += temple_draw_offsets.trapdoor_y[step];
+        y += temple_draw_offsets.trapdoor_y[step];
         saved_x = moving_x;
-        x += trapdoor_x_steps[step];
+        x += temple_draw_offsets.trapdoor_x[step];
         moving_x = x;
-        if (shape_bounds(trapdoor_sheet, trapdoor_shapes[step] - 1, &bounds)) {
+        if (shape_bounds(trapdoor_sheet, temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
+            int left_edge;
             trapdoor_top = bounds.top + 1;
+            left_edge = column * 32 - moving_x + 57;
             ++bounds.left;
-            if (column * 32 - moving_x + 57 > bounds.left)
-                bounds.left = column * 32 - moving_x + 57;
+            if (left_edge > bounds.left)
+                bounds.left = left_edge;
             trapdoor_left = bounds.left;
         }
         play_movement_sound(0);
@@ -727,7 +749,7 @@ void trigger_trapdoor(unsigned char room, signed char cell)
 
 void draw_object_trapdoor(unsigned char modifier)
 {
-    int shape = trapdoor_shapes[current_modifier & 31];
+    int shape = temple_draw_offsets.trapdoor_shape[current_modifier & 31];
     if (shape == 21) {
         draw_movement_shape(4, shape, screen_tile_x + 1, screen_tile_y - 2, 10);
         draw_movement_shape(4, 22, screen_tile_x, screen_tile_y - 1, 0);
