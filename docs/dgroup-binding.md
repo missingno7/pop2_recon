@@ -191,15 +191,26 @@ fields, and only their segment words create original MZ obligations. The
 standalone data modes, including overlay v1, keep their existing refusals.
 
 
-## v4: byte-level offset fields (2026-11-21)
+## v4: byte-level offset fields (2026-11-21, revised after review)
 
-`external-dgroup-offset16-v4` proves the bytes of any DGROUP offset field: the
-FIXUPP (LOC1, F5/T6, no displacement) must be the disp16 or imm16 field of exactly
-one decoded instruction, and the linked value is `S + A` (mod 64K) for any
-encoded addend `A`. Each symbol (`kind: dgroup-offset`) is grounded by original
-instructions outside the candidate whose disp16/imm16 field equals `S` exactly
-and which are reached by control flow from an original relocated CALL FAR entry
-(`entry`), so the witness is real code. `python tools/dgroup_witness.py OFFSET
---exclude START:END` lists such witnesses. v4 proves code bytes only: data
-extents, types and the runtime DS association are not claimed, so it needs no
-segment-context proof. It works in single-function and group bindings.
+`external-dgroup-offset16-v4` proves the bytes of DGROUP offset fields in any
+instruction shape:
+
+- **Field.** The FIXUPP (LOC1, F5/T6, no displacement) must be the address field
+  of exactly one decoded instruction: a memory disp16, or the imm16 of `MOV` or
+  `PUSH`. Branch displacements, `RET n` and arithmetic immediates never count.
+- **Value.** The linked value is `S + A`. `A` must be 0, or a member offset `k`
+  whose own address `S + k` is independently witnessed (`members`). A free
+  addend would let a binding re-fit `S` to any witnessed value and leave the
+  source's struct offsets unproven, as an Opus review demonstrated.
+- **Grounding.** Each `S` (and each `S + k`) is grounded by original instructions
+  outside the candidate whose address field equals it.
+  - A witness with an `entry` must be reached by recursive descent from a
+    relocated CALL FAR destination or a reviewed direct-code entry. The descent
+    follows branches, loops and direct near calls.
+  - A witness without an entry must be a v1-shape direct, unprefixed DS memory
+    operand.
+- **Finding witnesses.** `python tools/dgroup_witness.py OFFSET --exclude START:END`
+  lists the reachable ones.
+- **Scope.** v4 proves code bytes only. Data extents, types and the runtime DS
+  association are not claimed.

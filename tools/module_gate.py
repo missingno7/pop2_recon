@@ -23,6 +23,8 @@ linear placement agree.
 """
 import struct
 
+from binding import operand_field as operand_field_of
+from disasm import _capstone
 from binding import (IMMEDIATE_MODE, OPERAND_MODE, data_context, data_equations, declarations, fixes, ground,
                      instructions, preserve_segments)
 from far_binding import FAR_KINDS, ground_symbol as far_ground, relocation_order
@@ -75,6 +77,46 @@ def _contained(rows, length):
     require(last is not None and (set(last.groups).intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or
                                   last.mnemonic == "jmp"),
             "Control can fall through out of the claim")
+
+
+def _own_segment(fix, code_name):
+    """An offset16 field addressing this object's own CODE segment (switch tables, CS: operands)."""
+    target, frame = fix["target"], fix["frame"]
+    own = {"kind": "segment", "name": code_name}
+    return (not fix["self_relative"] and fix["loc_type"] == 1 and fix["field_width"] == 2 and
+            fix["displacement"] is None and
+            {k: target.get(k) for k in ("kind", "name")} == own and
+            (frame.get("kind") == "target_frame" or {k: frame.get(k) for k in ("kind", "name")} == own))
+
+
+def _tables(fields):
+    """Runs of two or more consecutive own-segment words: compiler jump tables in CODE."""
+    runs, run = [], []
+    for at in sorted(fields):
+        if run and at == run[-1] + 2:
+            run.append(at)
+        else:
+            if len(run) >= 2:
+                runs.append((run[0], run[-1] + 2))
+            run = [at]
+    if len(run) >= 2:
+        runs.append((run[0], run[-1] + 2))
+    return runs
+
+
+def _decode(piece, tables):
+    """Decode every byte outside the jump tables, each code run from its own start."""
+    cs, _ = _capstone()
+    engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
+    engine.detail = True
+    rows, cursor = [], 0
+    for lo, hi in list(tables) + [(len(piece), len(piece))]:
+        chunk = piece[cursor:lo]
+        part = list(engine.disasm(chunk, cursor))
+        require(sum(i.size for i in part) == len(chunk), "Claim code does not decode completely")
+        rows += part
+        cursor = hi
+    return rows
 
 
 def _witnessed_frames(target, oracle):
@@ -166,20 +208,35 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             require(all(f["segment_offset"] + f["field_width"] <= end for f in mine) and
                     not any(f["segment_offset"] < start < f["segment_offset"] + f["field_width"]
                             for f in obligations), "Fixup field crosses the claim boundary")
+            own_fields = [f["segment_offset"] - start for f in mine if _own_segment(f, name)]
+            tables = _tables(own_fields)
             try:
-                rows = instructions(piece)
+                rows = _decode(piece, tables) if tables else instructions(piece)
             except ValueError:
                 require(not mine, "Fixup-bearing claim does not decode completely")
                 rows = None
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
+                     "near": [], "far": [], "own": [], "tables": tables,
+                     "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
                      "report": report, "position": position,
                      "relocations": [r for r in space.relocations
                                      if position-1 <= r["image_offset"] < position+len(expected)]}
+            starts = {i.address for i in rows} if rows else set()
             for fix in mine:
                 at = fix["segment_offset"] - start
-                if fix["self_relative"]:
+                if _own_segment(fix, name):
+                    in_table = any(lo <= at < hi for lo, hi in tables)
+                    require(in_table or any(operand_field_of(i, at) for i in rows),
+                            "Own-segment field is neither a jump-table word nor an operand field")
+                    addend = struct.unpack_from("<H", piece, at)[0]
+                    if in_table:
+                        # A table entry must point at an instruction start inside this claim.
+                        require(start <= addend < end and (addend - start) in starts,
+                                "Jump-table entry does not target an instruction of the claim")
+                    state["own"].append({"offset": at, "addend": addend})
+                    state["occupied"].update((at, at+1))
+                elif fix["self_relative"]:
                     callee = fix["target"].get("name")
                     # Claim-relative coordinates: S and P both shift by the claim start.
                     value, observed = _near_equation(fix, {k: v - start for k, v in publics.items()},
@@ -228,9 +285,19 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     cs_proven.add(near["callee"])
                     changed = True
     for public, state in list(states.items()):
-        if not state["near"]:
+        if state["own"] and public in cs_proven and window is not None:
+            # Own-segment word = segment-relative offset in the witnessed frame: origin - base + A.
+            for own in state["own"]:
+                value = (origin - window[0] + own["addend"]) & 0xFFFF
+                observed = struct.unpack_from("<H", state["expected"], own["offset"])[0]
+                state["equations"].append({"offset": own["offset"], "kind": "own-segment offset16",
+                                           "encoded_addend": own["addend"], "linked_value": value,
+                                           "original_value": observed, "equal": value == observed})
+                if value != observed:
+                    state["differences"].append(own["offset"])
+        if not state["near"] and not state["own"]:
             continue
-        reason = ("Near call lacks an independently witnessed original frame for its caller"
+        reason = ("Near call or own-segment word lacks an independently witnessed original frame"
                   if public not in cs_proven else
                   "Near call leaves the witnessed original CS window"
                   if not all(in_window(n) for n in state["near"]) else None)

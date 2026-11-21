@@ -1,7 +1,7 @@
 {
   "declarations": {
     "externals": [
-      "FCHAR",
+      "FCHAR_RECT",
       "GAMEPLAYRECT",
       "INIT_FCHAR_RECT"
     ],
@@ -114,7 +114,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "FCHAR_RECT",
           "zero_displacement": true
         }
       },
@@ -128,7 +128,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "FCHAR_RECT",
         "zero_displacement": true
       }
     }
@@ -149,22 +149,29 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "FCHAR": {
+    "FCHAR_RECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 25170,
+      "offset": 25179,
       "witnesses": [
         {
-          "bytes_hex": "a25262",
-          "entry": "root:02cc:1936",
-          "image_offset": 18004,
+          "bytes_hex": "be5b62",
+          "entry": "root:0169:0402",
+          "image_offset": 6988,
           "operand_offset": 1,
           "space": "root"
         },
         {
-          "bytes_hex": "a05262",
-          "entry": "root:078a:1eae",
-          "image_offset": 38744,
+          "bytes_hex": "b85b62",
+          "entry": "root:02cc:160a",
+          "image_offset": 17142,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "a35b62",
+          "entry": "root:02cc:160a",
+          "image_offset": 17261,
           "operand_offset": 1,
           "space": "root"
         }
@@ -188,10 +195,17 @@
           "image_offset": 41638,
           "operand_offset": 1,
           "space": "root"
+        },
+        {
+          "bytes_hex": "b8fe09",
+          "entry": "root:0a5c:004e",
+          "image_offset": 42517,
+          "operand_offset": 1,
+          "space": "root"
         }
       ]
     }
   },
-  "target_id": "root:02cc:08b0",
+  "target_id": "group:ctrl/init_fchar_rect",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

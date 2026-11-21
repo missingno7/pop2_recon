@@ -23,8 +23,12 @@ def witnesses(oracle, offsets, exclude=()):
     engine.detail = True
     root = oracle.spaces["root"]
     found = {o: [] for o in offsets}
-    entries = sorted({(c["segment"], c["offset"]) for c in far_call_sites(root)
-                      if 0 <= (c["segment"] * 16 + c["offset"]) < root.size})
+    entries = {(c["segment"], c["offset"]) for c in far_call_sites(root)
+               if 0 <= (c["segment"] * 16 + c["offset"]) < root.size}
+    entries |= {(t["segment"], t["offset"]) for t in read_json(ROOT / "evidence/targets.json")["functions"]
+                if t["space"] == "root" and t.get("boundary_status") == "REVIEWED"
+                and t.get("entry_kind", "direct-code") == "direct-code"}
+    entries = sorted(entries)
     seen = set()
     for segment, offset in entries:
         entry = f"root:{segment:04x}:{offset:04x}"
@@ -39,7 +43,7 @@ def witnesses(oracle, offsets, exclude=()):
             insn = next(engine.disasm(root.data[at:at + 16], 0), None)
             for kind, size, rel in (("displacement", insn.disp_size, insn.disp_offset),
                                     ("immediate", insn.imm_size, insn.imm_offset)):
-                if size != 2:
+                if size != 2 or operand_field(insn, rel) != kind:
                     continue
                 value = int.from_bytes(root.data[at + rel:at + rel + 2], "little")
                 if value in found:

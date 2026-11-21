@@ -48,17 +48,23 @@ def reachable_from_entry(oracle, entry):
     Recursive descent within the entry's 64K CS window: conditional branches and loops
     follow both edges, JMP follows its target, calls fall through, returns and indirect
     jumps stop. Result is cached per entry."""
-    if entry in _REACH:
-        return _REACH[entry]
+    key = (id(oracle), entry)
+    if key in _REACH:
+        return _REACH[key]
     space_name, seg_text, off_text = entry.split(":")
     require(space_name == "root", "v4 witness entries are resident only")
     root = oracle.spaces["root"]
     segment, offset = int(seg_text, 16), int(off_text, 16)
     start = root.position(segment, offset)
-    require(any(at >= 0 and root.data[at] == 0x9a and
-                root.data[at+1:at+5] == struct.pack("<HH", offset, segment)
-                for at in (r["image_offset"] - 3 for r in root.relocations)),
-            "v4 witness entry is not an original relocated CALL FAR destination")
+    from common import ROOT, read_json
+    reviewed = any(t["space"] == "root" and t.get("boundary_status") == "REVIEWED" and
+                   t.get("entry_kind", "direct-code") == "direct-code" and
+                   root.position(t["segment"], t["offset"]) == start
+                   for t in read_json(ROOT / "evidence/targets.json")["functions"])
+    require(reviewed or any(at >= 0 and root.data[at] == 0x9a and
+                            root.data[at+1:at+5] == struct.pack("<HH", offset, segment)
+                            for at in (r["image_offset"] - 3 for r in root.relocations)),
+            "v4 witness entry is neither a relocated CALL FAR destination nor a reviewed entry")
     cs, _ = _capstone()
     engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
     engine.detail = True
@@ -76,6 +82,9 @@ def reachable_from_entry(oracle, entry):
             op_name = insn.mnemonic.split()[-1]
             if groups.intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or op_name in ("ljmp", "hlt", "iret"):
                 break
+            if cs.CS_GRP_CALL in groups and op_name == "call" and insn.operands and insn.operands[0].type == 2:
+                # A direct near call's target is code in the same CS window; the call returns.
+                work.append(base + (insn.operands[0].imm & 0xFFFF))
             branch = cs.CS_GRP_JUMP in groups or op_name.startswith("loop") or op_name in ("jcxz", "jecxz")
             if branch:
                 op = insn.operands[0] if insn.operands else None
@@ -84,15 +93,25 @@ def reachable_from_entry(oracle, entry):
                 if op_name == "jmp":
                     break  # unconditional: direct target queued above, indirect stops
             pos += insn.size
-    _REACH[entry] = seen
+    _REACH[key] = seen
     return seen
 
 
+# Immediates that may carry a data address: MOV r16/m16, imm16 and PUSH imm16.
+# Branch displacements, RET/RETF n, ENTER and arithmetic constants never qualify.
+_ADDRESS_IMMEDIATE = ("mov", "push")
+
+
 def operand_field(insn, at):
-    """The 16-bit disp or imm field of a decoded instruction that starts at `at`."""
+    """The 16-bit address field (memory disp16 or address-carrying imm16) starting at `at`."""
+    cs, _ = _capstone()
+    if set(insn.groups).intersection((cs.CS_GRP_JUMP, cs.CS_GRP_CALL, cs.CS_GRP_RET,
+                                      cs.CS_GRP_IRET, cs.CS_GRP_INT)):
+        return None
     if insn.disp_size == 2 and insn.address + insn.disp_offset == at:
         return "displacement"
-    if insn.imm_size == 2 and insn.address + insn.imm_offset == at:
+    if (insn.imm_size == 2 and insn.address + insn.imm_offset == at and
+            insn.mnemonic.split()[-1] in _ADDRESS_IMMEDIATE):
         return "immediate"
     return None
 
@@ -255,18 +274,30 @@ def ground(binding, target, oracle):
             require(offset not in spans, "Two v4 symbols share one DGROUP offset")
             spans.add(offset)
             require(symbol.get("witnesses"), "DGROUP symbol has no independent witness")
-            for spec in symbol["witnesses"]:
+            members = symbol.get("members", [])
+            require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and m.get("witnesses")
+                        for m in members) and len({m["offset"] for m in members}) == len(members),
+                    "Every v4 member needs a positive offset and its own witnesses")
+            specs = [(spec, offset) for spec in symbol["witnesses"]] +                     [(spec, (offset + m["offset"]) & 0xFFFF) for m in members for spec in m["witnesses"]]
+            for spec, expected_value in specs:
                 at, raw = witness(spec)
                 rows = instructions(raw)
                 require(len(rows) == 1, "Witness must be one complete instruction")
-                # The witness must be real code: an instruction reached by control flow from an
-                # original far-call entry (a relocated CALL FAR destination), not bytes from data.
-                require(at in reachable_from_entry(oracle, spec["entry"]),
-                        "v4 witness is not reached from its original far-call entry")
+                if "entry" in spec:
+                    # Immediates and indexed operands must be real code: reached by control flow
+                    # from a relocated CALL FAR destination or a reviewed entry.
+                    require(at in reachable_from_entry(oracle, spec["entry"]),
+                            "v4 witness is not reached from its entry")
+                else:
+                    # Without an entry, only the v1 witness shape: one unprefixed direct
+                    # default-DS memory operand (the project's long-standing witness standard).
+                    direct_operand(rows[0])
+                    require(rows[0].disp_offset == spec["operand_offset"],
+                            "Unreached v4 witness must be a direct DS memory operand")
                 field = operand_field(rows[0], spec["operand_offset"])
                 require(field is not None and
-                        struct.unpack_from("<H", raw, spec["operand_offset"])[0] == offset,
-                        "Witness operand field does not equal this DGROUP offset")
+                        struct.unpack_from("<H", raw, spec["operand_offset"])[0] == expected_value,
+                        "Witness operand field does not equal this DGROUP address")
             continue
         if binding["mode"] == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias":
             offset = symbol["offset"]
@@ -339,13 +370,15 @@ def ground(binding, target, oracle):
 
 
 def data_context(module, rows, allowed_calls=(), *, mode=None):
+    """Preserve DS; only explicit v3 permits the adjacent ES:=DS pair (v4: hygiene only)."""
     if mode == OPERAND_MODE:
-        # Byte-level mode: only object hygiene; no DS association is claimed.
+        # Byte-level mode: the same DGROUP hygiene as v1, but no DS association is claimed.
         groups = [g for g in module.groups if g["name"] == "DGROUP"]
-        require(len(groups) == 1 and all(module.segment_defs[i-1]["length"] == 0 for i in groups[0]["segments"]),
+        require(len(groups) == 1 and groups[0]["segments"] and
+                all(1 <= i <= len(module.segment_defs) and module.segment_defs[i-1]["length"] == 0
+                    for i in groups[0]["segments"]),
                 "External data binding needs an empty declared DGROUP")
         return
-    """Preserve DS; only explicit v3 permits the adjacent ES:=DS pair."""
     groups = [g for g in module.groups if g["name"] == "DGROUP"]
     require(len(groups) == 1 and groups[0]["segments"] and
             all(1 <= i <= len(module.segment_defs) and
@@ -376,6 +409,10 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
             fields = [operand_field(i, at) for i in rows if operand_field(i, at)]
             require(len(fields) == 1, "v4 FIXUPP is not the disp16/imm16 field of one decoded instruction")
             addend = struct.unpack_from("<H", actual, at)[0]
+            # A non-zero addend must be a member whose own address S+k is independently
+            # witnessed; a free addend would let the binding re-fit S (2026-11-21 review).
+            require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
+                    "v4 proves zero-addend fields or independently witnessed members only")
             value = (symbol["offset"] + addend) & 0xFFFF
             observed = struct.unpack_from("<H", expected, at)[0]
             if value != observed:

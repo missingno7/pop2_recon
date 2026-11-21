@@ -248,7 +248,7 @@ class SyntheticGroupTests(unittest.TestCase):
         obj = synthetic_object(bytes.fromhex("0ee80000cb") + b"\x90" * 11 + b"\xcb",
                                [("CALLER", 0), ("CALLEE", 16)], ["CALLEE"], [(2, 1, True)])
         report = self.check(obj, oracle, inventory, [("caller", "CALLER"), ("callee", "CALLEE")])
-        self.assertIn("witnessed original frame for its caller", report["claims"][0]["reason"])
+        self.assertIn("independently witnessed original frame", report["claims"][0]["reason"])
 
     def test_caller_below_the_callees_frame_is_refused(self):
         # Only the callee is far-entered (frame 0002, base 32); the pair at 30..33 straddles the base.
@@ -466,6 +466,35 @@ class ReachabilityTests(unittest.TestCase):
         # 32: loop +2 -> 36 ; 34: ret ; 35: nop ; 36: ret
         self.assertIn(36, self.reach(bytes.fromhex("e202c390c3")))
 
+    def test_near_call_target_is_followed(self):
+        # 32: call +1 -> 36 ; 35: retf ; 36: ret
+        self.assertIn(36, self.reach(bytes.fromhex("e80100cbc3")))
+
     def test_prefixed_unconditional_jump_does_not_fall_through(self):
         # 32: cs: jmp word ptr [0x0100] ; 37: bytes after it must not be reached
         self.assertNotIn(37, self.reach(bytes.fromhex("2eff260001b8ffffc3")))
+
+
+class V4FieldTests(unittest.TestCase):
+    """v4 grounds only address fields and only zero addends (2026-11-21 review)."""
+
+    def rows(self, hexcode):
+        import binding
+        return binding.instructions(bytes.fromhex(hexcode))
+
+    def test_branch_ret_and_arithmetic_immediates_are_not_address_fields(self):
+        from binding import operand_field
+        for code, at in (("e83412", 1), ("e93412", 1), ("ca3412", 1), ("053412", 1)):
+            self.assertIsNone(operand_field(self.rows(code)[0], at), code)
+        self.assertEqual(operand_field(self.rows("b83412")[0], 1), "immediate")
+        self.assertEqual(operand_field(self.rows("8b873412")[0], 2), "displacement")
+
+    def test_nonzero_addend_is_refused(self):
+        from binding import OPERAND_MODE, data_equations
+        code = bytes.fromhex("b80900cb")  # mov ax, offset sym+9 ; retf
+        fix = {"segment": "T", "segment_offset": 1, "loc_type": 1, "field_width": 2, "self_relative": False,
+               "target": {"kind": "external", "method": 6, "name": "SYM"}, "displacement": None}
+        fix["frame"] = {"kind": "target_frame", "target": fix["target"]}
+        with self.assertRaisesRegex(ValueError, "witnessed members"):
+            data_equations([fix], {"SYM": {"offset": 0x6252}}, "T", code, bytes.fromhex("b85b62cb"),
+                           self.rows("b80900cb"), OPERAND_MODE, set())
