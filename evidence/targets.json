@@ -56225,6 +56225,143 @@
       "size": 288,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, preserves DI and SI, RETF.",
+      "boundary_evidence": [
+        "Root relocated CALL FAR at image 0xee2e (1280) reaches the DI/SI saves at 0c94, immediately after the previous RETF and NOP.",
+        "Guard exits converge at 0d53. RETF at 0d55 precedes the separate root-called entry 0d56."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69166,
+          "image_offset": 60974,
+          "kind": "far_call",
+          "relocated_segment_site": 60977,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Finds a gate in the current or neighboring cells, checks whether it blocks passage and compares its room-adjusted edges against the opponent."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0c94",
+      "offset": 3220,
+      "original_bytes_hex": "57569ad809cc023c0474189a5810cc023c04740fb001509a3010cc023c047403e99c00803e746209750a803e4945087503e98b00803e065c0c7503e981000ee8ccfb0bc07479a07562988bd8d1e38b87860d050e00a3cc2ca0746250a0756250a07662500ee88ef68bf8a0746250a0756250a07662500ee8b8f68bf0a074623806345e742a3806355e750b81ef400181ee4001eb1a90a074623806365e750b81c7400181c64001eb0690bfe7032bf63b3e82627d0a3b3680627e040ee8a1005e5fcb",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "e333a99b9e7dae2b7ae318a8c696591aa759a3b5e8e438ae279bd8c5fc48f8ca",
+      "size": 194,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Root relocated CALL FAR at image 0xec72 (1232) reaches 0d56, immediately after the RETF at 0d55.",
+        "Paths rejoin at RETF 0df2 and NOP 0df3 immediately before the near-called 0df4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68722,
+          "image_offset": 60530,
+          "kind": "far_call",
+          "relocated_segment_site": 60533,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Checks gate states at the player, chooses a sequence or trap-release call, or sounds a bump and moves the character."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0d56",
+      "offset": 3414,
+      "original_bytes_hex": "9ad809cc02833e195c767503e98d003c0474159a5810cc023c04740cb001509a3010cc023c047574803e7462097507803e4945087466a07562988bd88a87ae6a2287a46a3cff75540ee800fb0bc0744c833e075c6d7421833e716200741a803e105c017413833e195c327430b83200509a1600da25cb9090803e4745037515833e716200740e803e105c0174079a7c22da25cb900ee852fa0ee80200cb90",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "3ff039e54f81f223a9e4565a3312139486ca4f4e874984c4667cf19b65a36906",
+      "size": 158,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, preserves DI and SI, RETF.",
+      "boundary_evidence": [
+        "Original PUSH CS/CALL pairs at 0d4f/0d50 and 0dee/0def land at the DI save at 0df4.",
+        "RETF 0df2 and NOP 0df3 precede the entry. All paths join at 0e76 and restore SI/DI before RETF 0e81."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 207600,
+          "image_offset": 22832,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22831,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207759,
+          "image_offset": 22991,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22990,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Compares magnitudes of face and back gate distances and shifts character X by the nearer signed displacement."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0df4",
+      "offset": 3572,
+      "original_bytes_hex": "5756b00450a0746250a07562500ee83f020bc07c13b00450a0746250a07562500ee82c028bf0eb13b00450a0746250a07562500ee819028bf0f7deb00450a0746250a07562500ee87a020bc07c14b00450a0746250a07562500ee867028bf8eb1490b00450a0746250a07562500ee853028bf8f7df3bfe7e078bcef7d9eb03908bcf519a6003cc02a3025c5e5fcb",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "73d4c1f64ada8442991e13fec46dcb54d1b6859ef5e62962bd6f9724f629d423",
+      "size": 142,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, preserves DI and SI, RETF.",
+      "boundary_evidence": [
+        "Root relocated CALL FAR at image 0xee29 (1229) reaches the BP frame directly after RETF 0e81.",
+        "Early exits converge at 103d. The RETF 1042 and one NOP precede the reviewed near-called 1044 entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69161,
+          "image_offset": 60969,
+          "kind": "far_call",
+          "relocated_segment_site": 60972,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Reads a barrier at an enemy, evaluates signed distances and conditions the knockback or jump animation."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0e82",
+      "offset": 3714,
+      "original_bytes_hex": "558bec83ec085756803e065c07740b803e065c0874042bffeb03bf0100803e065c07740c803e065c087405ba0100eb022bd2a00b5c983bc2741c803e065c07740a803e065c087403e97001813e195ca4007503e96501803e115c007c070bff7503e95701803e105c017403e94d019ad809cc028846ff509afe288a070bc07535807eff0475080ee896f90bc07527b001509a3010cc028846ff509afe288a070bc07512807eff0475080ee873f90bc07504c646ff00807eff007503e9fd009aee0969010ee881fa8a46ff500ee8dbf50bc07503e9e500c746f8ffffa0706250a0746250a07562500ee84b018bf0a0706250a0746250a07562500ee8c5008946fa9933c22bc28bc88bc69933c22bc23bc87c048bd6eb038b76fa0bff740bff76fa9a16083e2c8946f8837ef8ff757583fe057d70a17e62f7d83bc67f67807eff0475060bf67e02f7de8bc6f7de568bf09a6003cc02a3025c0bf67c13807eff04750d0bff7509c746f84000eb3790900bff7417813e195c91007429813e195ca4007421833e245c01741a803e065c07740e803e065c087407c746f84100eb05c746f89e00837ef8ff7412ff76f89a1600da259a9403cc029a7e02cc025e5f8be55dcb90",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "d0ff8b66d5cd4e14d11a6ba7d7eb28122633a38fc14fd7698846a6a0739506b5",
+      "size": 450,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

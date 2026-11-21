@@ -1,3 +1,13 @@
+extern unsigned char resolved_room;
+struct adjacent_rooms {
+    unsigned char home, left, right;
+};
+#define KIND_SAME_ROW (collision_room_links.home)
+#define KIND_ROW_ABOVE (collision_room_links.left)
+#define KIND_ROW_BELOW (collision_room_links.right)
+
+extern struct adjacent_rooms collision_room_links;
+
 struct collision_row {
     unsigned char cell[10];
 };
@@ -30,7 +40,7 @@ int GetRightBarr(unsigned char room, signed char col, signed char row);
 extern int collision_x, empty_left_edge;
 extern int col_positions[];
 extern signed char left_offsets[], right_offsets[], resolved_col;
-extern unsigned char resolved_room, level, stage;
+extern unsigned char level, stage;
 extern signed char char_direction, char_alive;
 extern unsigned char char_sword, resolved_row, cell_type;
 extern unsigned int char_frame;
@@ -66,6 +76,7 @@ extern int gate_closed;
 void *memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 extern int sprite_index, sprite_x, sprite_y, sword_index, sword_table_id;
+
 
 void CheckBarr(void)
 {
@@ -143,7 +154,6 @@ void InitColDetBufs(void)
 
 int GetBarrCode(unsigned char cell)
 {
-    extern volatile unsigned char KIND_SAME_ROW;
     int code;
 
     switch (cell) {
@@ -297,10 +307,7 @@ int check_collision_tile(unsigned char cell)
     return blocked;
 }
 
-extern volatile unsigned char KIND_SAME_ROW;
-extern volatile unsigned char KIND_ROW_ABOVE;
 extern volatile unsigned char KIND_ROW_ABOVE_ALT;
-extern volatile unsigned char KIND_ROW_BELOW;
 extern volatile unsigned char KIND_ROW_BELOW_ALT;
 
 int far pascal AdjustRoom(unsigned char kind, int value)
@@ -353,6 +360,8 @@ void apply_air_bump(void)
     BumpSound();
 }
 
+extern int sequence_id;
+
 void apply_ground_bump(signed char direction)
 {
     int sequence;
@@ -374,8 +383,8 @@ void apply_ground_bump(signed char direction)
         return;
     if (char_sword == 1) {
         boundary = sword_room_boundary(char_room, char_row);
-        if (char_direction == direction) {
-            if (char_sequence == 55 && char_frame == 207)
+        if (!(char_direction ^ direction)) {
+            if (sequence_id == 55 && char_frame == 207)
                 char_x = shift_x(10);
             char_x = shift_x(2);
             sequence = 65;
@@ -686,11 +695,11 @@ void check_gate_for_opponent(void)
     collision_x = col_positions[resolved_col] + 14;
     left = GetLeftBarr(resolved_room, resolved_col, resolved_row);
     right = GetRightBarr(resolved_room, resolved_col, resolved_row);
-    if (KIND_SAME_ROW != resolved_room) {
-        if (KIND_ROW_ABOVE == resolved_room) {
+    if (collision_room_links.home != resolved_room) {
+        if (collision_room_links.left == resolved_room) {
             left -= 320;
             right -= 320;
-        } else if (KIND_ROW_BELOW == resolved_room) {
+        } else if (collision_room_links.right == resolved_room) {
             left += 320;
             right += 320;
         } else {
@@ -742,11 +751,12 @@ extern int jump_barrier_sequence(int distance);
 
 void collide_enemy_with_barrier(void)
 {
+    int back;
     int airborne, distance, front, sequence;
     unsigned char cell;
 
     airborne = char_action == 7 || char_action == 8;
-    if (char_kind != ((char_action == 7 || char_action == 8) ? 0 : 1) &&
+    if ((signed char)char_kind != ((char_action == 7 || char_action == 8) ? 0 : 1) &&
         ((char_action != 7 && char_action != 8) || char_sequence == 164))
         return;
     if ((char_alive >= 0 && !airborne) || char_sword != 1)
@@ -764,10 +774,9 @@ void collide_enemy_with_barrier(void)
     if (!check_collision_tile(cell))
         return;
     sequence = -1;
-    distance = barrier_distance_from_back(cell_type, resolved_room, resolved_col);
+    back = barrier_distance_from_back(cell_type, resolved_room, resolved_col);
     front = barrier_distance_from_face(cell_type, resolved_room, resolved_col);
-    if (abs(front) < abs(distance))
-        distance = front;
+    distance = abs(front) < abs(back) ? front : back;
     if (airborne)
         sequence = jump_barrier_sequence(front);
     if (sequence == -1 && distance < 5 && -sprite_width <= distance) {

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "527fa1febb154209046b6415c137e396843494ed43e01905e7957eb2390560ed",
+  "binding_sha256": "93942365c4dbf4b6f4c60f9763560c3bec49625468ea427c10bcd222f56a7c31",
   "claims": [
     {
       "fixup_count": 12,
@@ -179,6 +179,40 @@
       "target_id": "overlay-3:2802:0b22"
     },
     {
+      "fixup_count": 26,
+      "public": "CHECK_GATE_FOR_OPPONENT",
+      "relocation_indices": [
+        429,
+        456,
+        504
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:0c94"
+    },
+    {
+      "fixup_count": 20,
+      "public": "PUSH_AWAY_FROM_GATE",
+      "relocation_indices": [
+        478
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:0df4"
+    },
+    {
+      "fixup_count": 12,
+      "public": "BARRIER_DISTANCE_FROM_FACE",
+      "target_id": "overlay-3:2802:1044"
+    },
+    {
+      "fixup_count": 11,
+      "public": "BARRIER_DISTANCE_FROM_BACK",
+      "target_id": "overlay-3:2802:10b8"
+    },
+    {
       "fixup_count": 1,
       "public": "RESET_BARRIER_STATE",
       "target_id": "overlay-3:2802:111e"
@@ -214,28 +248,12 @@
       "public": "GET_FORWARD_DISTANCE"
     },
     {
-      "object_offset": 3206,
-      "public": "CHECK_GATE_FOR_OPPONENT"
-    },
-    {
-      "object_offset": 3404,
+      "object_offset": 3400,
       "public": "CHECK_GATE_FOR_PLAYER"
     },
     {
-      "object_offset": 3562,
-      "public": "PUSH_AWAY_FROM_GATE"
-    },
-    {
-      "object_offset": 3704,
+      "object_offset": 3700,
       "public": "COLLIDE_ENEMY_WITH_BARRIER"
-    },
-    {
-      "object_offset": 4150,
-      "public": "BARRIER_DISTANCE_FROM_FACE"
-    },
-    {
-      "object_offset": 4266,
-      "public": "BARRIER_DISTANCE_FROM_BACK"
     }
   ],
   "emitted_size": 4376,
@@ -253,12 +271,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "73e002655c4454e4f19eb1296dac7b9ec2623bf80de6a6890ea3350a467c58a1",
+  "object_sha256": "e5a4940db90453efc424a17d40a44bd1dfbf163c21ef6b039782c15082bc7740",
   "origin": 19438,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "e4cc81f18f4ab804c8c4c58e450b89397113fc006d7c7ef2c5dedc515bbcc76e",
+  "source_sha256": "cad03c94132964b7697543a66f3d564acc0b27e80a05db8a1290762d54c45bc4",
   "space": "overlay-3"
 }
