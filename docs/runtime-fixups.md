@@ -97,3 +97,73 @@ DGROUP `2274` with its DGROUP base word proven against overlay-17 relocation 84.
 
 Original TU, natural RTLink placement, library order and behaviour remain unproved;
 the placed DGROUP bytes are evidence, not owned data.
+
+## RTLink 6.10 overlay-manager members (rtlink-manager-v1)
+
+`tools/rtlink_fixups.py` pins whole members of RTLink/Plus 6.10 `RTLUTILS.LIB`
+(SHA-256 `c718bac0..`, the library recorded for the RTLink probe). They link into the
+public segments `$$OVLMGR` (frame `2203`) and `$$OVLMGR_UTILS` (frame `22e5`) rather than
+`_TEXT`/DGROUP. A recipe names `segment_class`; only the pinned RTLink library may own a
+`$$` manager class, and the member must have exactly that one public-combine segment at
+its declared alignment, initialized at both ends. Interior uninitialized LEDATA (MASM
+`4 dup (?)` in `ovlmgr_m.asm`) links as zero; a real 6.10 link (`PROBE.EXE`) and the
+original both hold zeros there. Fixup-free members use the literal mode.
+
+**Output-segment frames.** `segment_frames` grounds every segment a member names:
+
+- `far_call`: an original relocated CALL/JMP FAR outside the member, whose segment word
+  is the frame and whose offset lands exactly on a group-free public of another pinned
+  member of that segment name (an ungrouped public's far pointer stores its segment frame).
+- `site_record`: an original MZ relocation record outside the member, with that frame.
+  The site-frames probe shows that RTLink 6.10 stores the paragraph floor of the start of
+  the output segment holding the site. It does this for grouped segments too, such as
+  `$$OVLVEC` in group `$$OVLMGR`.
+  The output segment holding the site therefore starts in `[F*16, F*16+15]` and reaches
+  the site. If the site follows the start of a contribution that reaches past `F*16+15`
+  (the member itself or a named pinned member), that segment overlaps the contribution.
+  It is therefore the contribution's segment. For example, record 1975 (`0x221a6`) gives
+  `ovlmgr_m` frame `2203`, and record 2028 (`0x22e9e`) gives `cnv_val`'s segment `22e5`.
+  Records of other frames, such as 1946 `2202:0000`, refuse.
+
+The MZ entry `2203:0678` agrees, but it is not used as a witness. A start frame may be a
+group frame, and calls through the vectors use the `$$OVLMGR` group frame `2203`.
+
+**Equations** (A = LEDATA addend, D = FIXUPP displacement, `B(s)` = frame*16 of segment s;
+the FIXUPP frame (F0 own segment, F5, F2 = target) must be the target's own segment):
+
+| Field | Value |
+| --- | --- |
+| LOC1 self-relative rel16 (own segment, target inside member) | `p + D + A - B - (m + at + 2)` |
+| LOC1 offset, own segment / provider public | `p + D + A - B(own)` / `S + D + A - B(seg S)` |
+| LOC2 segment base (own segment / provider) | frame, plus an original relocation at the field |
+| LOC3 far pointer | `(target + D + A.lo - B) : frame`, original relocation at field+2 |
+
+Providers are named PINNED_RUNTIME recipes (`code_providers`), unique by public. Groups,
+communals, a start address, secondary storage, unbound/unused providers and foreign frames
+refuse. Original relocations inside the member must be exactly the generated words.
+
+### Pinned (7 members, 1,373 bytes)
+
+| Member | Root | Bytes | Fixups | Frame witness |
+| --- | --- | ---: | ---: | --- |
+| `dcache.asm` | `22e5:0005` | 2 | 0 | literal; three manager CALL FARs reach it |
+| `cnv_val.asm` | `22e5:0007` | 48 | 0 | literal |
+| `ddata.asm` | `22e5:020a` | 13 | 0 | literal |
+| `rtcomm_m.asm` | `22e5:0217` | 112 | 4 | far call `22e5:0007` (reloc 1965) to cnv_val |
+| `pathsrch.asm` | `22e5:0287` | 820 | 7 | same; `$$RTLPATHSEARCH_MESSAGES` from pathsr_m |
+| `pathsr_m.asm` | `22e5:05bb` | 50 | 3 | same; ends at the resident image end `0x2343d` |
+| `ovlmgr_m.asm` | `2203:0000` | 328 | 11 | site record 1975 |
+
+### Refused
+
+- `ovlmgr.asm` (`2203:0150`, 2,491 bytes, 346 fixups) has no pinned provider for
+  `$$MAIN`, `$$RTL_FATAL_ERROR`, `$$RTL_PRELOAD`, `$$RTL_REGISTER`, `$$RTL_TERM_INIT`,
+  `$$RTOVEXEOFFSET` or `$$RTLEXPANDSECTION`. A research-only run read the first six
+  provider positions back from the original far pointers: `22e5:0037..01b3` in the
+  rtcommon-like range, and `$$MAIN` = `1fe6:0074`. With those positions, every byte and
+  28 MZ relocations agree. The original stores `0000:0000` with no relocation for
+  `$$RTLEXPANDSECTION`, which is linker-defined or absent. Its frame `2203` is groundable
+  from record 1947, and `$$OVLMGR_UTILS` from record 2028 via cnv_val.
+- `rtcommon.asm` (root `0x22e87`-`0x2305a`) differs from the 6.10 member (495 versus 467
+  bytes; 135 non-fixup bytes differ). Linker-generated `0x22b3b`-`0x22e55` (`$$OVLINFO`,
+  descriptor table, filename record and `$$OVLVEC` vectors) stays unowned.

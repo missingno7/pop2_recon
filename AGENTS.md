@@ -52,7 +52,8 @@ as a worker recipe. Run `python tools/pin_runtime.py build/workers/NAME/recipe.j
 --verify-only` for a fresh check; the integrating writer publishes by removing
 `--verify-only`. The restricted resident F0/T6 near-offset mode uses independently
 anchored provider-public context; see docs/runtime-near-binding.md. Members with
-other fixups or DGROUP storage use runtime-symbolic-v1 (docs/runtime-fixups.md). Provider
+other fixups or DGROUP storage use runtime-symbolic-v1 (docs/runtime-fixups.md); RTLink
+6.10 manager members (`$$OVLMGR*` classes) use rtlink-manager-v1 there. Provider
 signatures grant zero ownership. A whole member with secondary storage cannot
 be promoted by selecting its matching prefix. Runtime recipes and any binding
 files are checked freshly by validation.
