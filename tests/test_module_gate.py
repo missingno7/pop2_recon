@@ -373,3 +373,41 @@ class RetiredPublicationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+class GroupFarCallTests(unittest.TestCase):
+    """The group gate reproduces the single-function far gate on accepted SetFont."""
+
+    def run_group(self, mutate=None):
+        from module_gate import compile_group
+        recipe = common.read_json(ROOT / "recipes/resc/set_font.json")
+        binding = dict(common.read_json(ROOT / recipe["binding"]), target_id="group:far_probe")
+        if mutate:
+            mutate(binding)
+        source = (ROOT / recipe["source"]).read_text()
+        return compile_group(source, recipe["profile"], recipe["flags"],
+                             [{"target_id": recipe["target_id"], "public": recipe["public"]}],
+                             ROOT / "build/workers/tests/group_far", binding=binding, group_id="group:far_probe")[1]
+
+    def test_far_calls_and_mz_relocations_are_proven_per_claim(self):
+        claim = self.run_group()["claims"][0]
+        self.assertEqual(claim["state"], "CODE_EXACT")
+        self.assertEqual(claim["covered_relocation_indices"], [1453, 1654])
+        self.assertEqual(claim["relocation_order"], "GROUPED")
+        self.assertEqual(sorted(e["kind"] for e in claim["equations"]), ["far-call", "far-call"])
+
+    def test_far_witness_inside_the_object_is_refused(self):
+        recipe = common.read_json(ROOT / "recipes/resc/set_font.json")
+        from match import get_target
+        from oracle import Oracle
+        target, space, raw = get_target(recipe["target_id"], Oracle.load())
+        at = space.position(target["segment"], target["offset"]) + 6  # the 9A inside the claim
+
+        def mutate(binding):
+            name = next(iter(binding["symbols"]))
+            binding["symbols"][name]["witnesses"].append(
+                {"space": "root", "image_offset": at, "bytes_hex": space.data[at:at+5].hex(),
+                 "relocation_index": 0, "file_offset": space.file_offset + at})
+        with self.assertRaises(ValueError):
+            self.run_group(mutate)

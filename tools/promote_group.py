@@ -84,8 +84,14 @@ def main():
     source_path = ROOT / "src" / (args.name + ".c")
     recipe_path = ROOT / "recipes" / (args.name + ".json")
     require(not source_path.exists() and not recipe_path.exists(), "Canonical publication would overwrite a file")
-    claims = [{"target_id": c["target_id"], "public": c["public"], "fixup_count": c["fixups"]}
-              for c in report["claims"]]
+    claims = []
+    for c in report["claims"]:
+        row = {"target_id": c["target_id"], "public": c["public"], "fixup_count": c["fixups"]}
+        if c.get("covered_relocation_indices"):
+            row["relocation_indices"] = c["covered_relocation_indices"]
+            row["relocation_order"] = c.get("relocation_order", "EXACT")
+            row["relocation_order_debt"] = c.get("relocation_order_debt", [])
+        claims.append(row)
     recipe = {"schema": 1, "kind": GROUP_KIND, "name": args.name, "group_id": group_id, "language": "c",
               "source": source_path.relative_to(ROOT).as_posix(), "source_sha256": sha(source_bytes),
               "profile": args.profile, "flags": list(result.flags), "object_sha256": report["object_sha256"],
@@ -101,7 +107,9 @@ def main():
         owner = {key: target[key] for key in ("space", "segment", "offset", "size")}
         owner.update(target_id=claim["target_id"], kind="MATCHING_C", state="CODE_EXACT",
                      recipe=recipe_path.relative_to(ROOT).as_posix(), group=args.name,
-                     relocation_count=0, fixup_count=claim["fixups"])
+                     relocation_count=claim["relocations"], fixup_count=claim["fixups"])
+        if claim.get("covered_relocation_indices"):
+            owner["relocation_indices"] = claim["covered_relocation_indices"]
         owners.append(owner)
     manifest["owners"] = kept + owners
     # Retire only files that no recipe in the final manifest still references.

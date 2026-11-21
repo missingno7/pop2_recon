@@ -41,9 +41,12 @@ def check_manifest(oracle, manifest):
         start = space.position(owner["segment"], owner["offset"])
         touched = [r["index"] for r in space.relocations
                    if start-1 <= r["image_offset"] < start+owner["size"]]
+        # A group recipe records relocation obligations per claim.
+        pinned = (next((c.get("relocation_indices", []) for c in recipe["claims"]
+                        if c["target_id"] == owner["target_id"]), None)
+                  if recipe.get("kind") == GROUP_KIND else recipe.get("relocation_indices", []))
         require(owner.get("relocation_indices", []) == touched and
-                owner.get("relocation_count", 0) == len(touched) and
-                recipe.get("relocation_indices", []) == touched,
+                owner.get("relocation_count", 0) == len(touched) and pinned == touched,
                 "Owner/recipe original relocation indices differ from extent obligations")
         span = set(range(start, start+owner["size"]))
         require(not owned.setdefault(space.name, set()).intersection(span), "Overlapping canonical owners")
@@ -144,8 +147,12 @@ def _validate(run_tests=True):
                 groups[owner["recipe"]] = verify_group(recipe)
                 accepted.append(groups[owner["recipe"]])
             claim = next(c for c in groups[owner["recipe"]]["claims"] if c["target_id"] == owner["target_id"])
+            pinned = next(c for c in recipe["claims"] if c["target_id"] == owner["target_id"])
             require(claim["exact"] and claim["fixups"] == owner["fixup_count"] and
-                    claim["relocations"] == owner.get("relocation_count", 0),
+                    claim["relocations"] == owner.get("relocation_count", 0) and
+                    claim.get("covered_relocation_indices", []) == owner.get("relocation_indices", []) and
+                    claim.get("relocation_order", "EXACT") == pinned.get("relocation_order", "EXACT") and
+                    claim.get("relocation_order_debt", []) == pinned.get("relocation_order_debt", []),
                     "Group claim no longer exact or its obligations changed")
             continue
         if owner["kind"] == "PINNED_RUNTIME":

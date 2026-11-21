@@ -25,6 +25,10 @@ import struct
 
 from binding import (IMMEDIATE_MODE, data_context, data_equations, declarations, fixes, ground,
                      instructions, preserve_segments)
+from far_binding import ground_symbol as far_ground, relocation_order
+
+DATA_MODES = ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
+              "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE)
 from common import require, sha
 from match import code_segment, get_target
 from omf import OmfReader
@@ -124,13 +128,26 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if frames:
         base = (next(iter(frames)) - space.link_segment) * 16
         window = (base, base + 0x10000)
-    symbols, mode = None, None
+    symbols, mode, far_symbols = None, None, {}
     if binding is not None:
         require(binding["fixups"] == obligations, "Ordered symbolic fixup obligations changed")
         require(binding["declarations"] == declarations(module), "Bound object declarations changed")
         require(group_id is not None and binding["target_id"] == group_id, "Binding belongs to another group")
         hull = dict(space.address(origin), id=group_id, size=len(actual))
-        symbols, mode = ground(binding, hull, oracle), binding["mode"]
+        # Far callees (other files) ground exactly as in the single-function far gate:
+        # a reviewed direct entry plus independent relocated CALL FAR witnesses, all
+        # outside the whole object. Data symbols use the DGROUP modes.
+        far_symbols = {n: s for n, s in binding["symbols"].items() if s.get("kind") == "far-code-entry"}
+        data_only = {n: s for n, s in binding["symbols"].items() if n not in far_symbols}
+        for name, symbol in far_symbols.items():
+            require(space.name == "root", "Group far calls are supported in root only")
+            far_ground(symbol, hull, oracle)
+        if data_only:
+            symbols = ground({**binding, "symbols": data_only}, hull, oracle)
+            mode = binding["mode"]
+        else:
+            require(binding["mode"] in ("external-far-call-v1",) + DATA_MODES, "Unsupported group binding mode")
+            symbols, mode = {}, binding["mode"]
 
     # Pass 1: extent, decoding, near equations. Pass 2: segment safety. Pass 3: data.
     states, reports = {}, []
@@ -145,8 +162,6 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             piece = actual[start:end]
             require(len(piece) == len(expected), "Claim extent differs from the reviewed target; trimming forbidden")
             position = origin + start
-            require(not any(position-1 <= r["image_offset"] < position+len(expected) for r in space.relocations),
-                    "Original MZ relocation obligations are outside the group gate")
             mine = [f for f in obligations if start <= f["segment_offset"] < end]
             require(all(f["segment_offset"] + f["field_width"] <= end for f in mine) and
                     not any(f["segment_offset"] < start < f["segment_offset"] + f["field_width"]
@@ -158,8 +173,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 rows = None
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
-                     "report": report}
+                     "near": [], "far": [], "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
+                     "report": report, "position": position,
+                     "relocations": [r for r in space.relocations
+                                     if position-1 <= r["image_offset"] < position+len(expected)]}
             for fix in mine:
                 at = fix["segment_offset"] - start
                 if fix["self_relative"]:
@@ -178,10 +195,17 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         state["differences"].append(at)
                     state["occupied"].update((at, at+1))
                     state["calls"][at - 1] = callee
+                elif fix["target"].get("name") in far_symbols:
+                    require(fix["target"]["name"] not in publics,
+                            "Far fixup target resolves to a CODE public of this object")
+                    state["far"].append(dict(fix, segment_offset=at))
+                    state["calls"][at - 1] = None  # a far callee, not a claim
                 else:
                     require(fix["target"].get("name") not in publics,
                             "Data fixup target resolves to a CODE public of this object")
                     state["data"].append(dict(fix, segment_offset=at))
+            require(not state["relocations"] or state["far"],
+                    "Original MZ relocations need far CALL fixups in the claim")
             states[claim["public"]] = state
         except ValueError as error:
             report.update(exact=False, state="REFUSED", reason=str(error))
@@ -223,7 +247,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         for public, state in states.items():
             if public in safe or state["rows"] is None:
                 continue
-            allowed = {at for at, callee in state["calls"].items() if callee in safe}
+            # Far callees in other files keep DS/SS per the MSC far-call ABI, as the
+            # single-function far gate also assumes; drafts and unproved claims do not.
+            allowed = {at for at, callee in state["calls"].items() if callee is None or callee in safe}
             try:
                 preserve_segments(state["rows"], allowed, es_ds=mode == IMMEDIATE_MODE)
                 _contained(state["rows"], len(state["piece"]))
@@ -232,17 +258,45 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             safe.add(public)
             changed = True
 
-    used_symbols = set()
+    used_symbols, used_far = set(), set()
     for report in reports:
         state = states.get(report["public"])
         if state is None:
             continue
         try:
+            relocation_proof = {}
+            if state["far"]:
+                sites = []
+                by_address = {i.address: i for i in state["rows"]}
+                for fix in state["far"]:
+                    at, ref = fix["segment_offset"], fix["target"]
+                    require(fix["loc_type"] == 3 and fix["field_width"] == 4 and not fix["self_relative"] and
+                            ref["kind"] == "external" and ref["method"] == 6 and fix["displacement"] is None and
+                            fix["frame"] == {"kind": "target_frame", "target": ref},
+                            "Unsupported far CALL fixup equation/frame/displacement")
+                    insn = by_address.get(at - 1)
+                    require(insn is not None and insn.size == 5 and bytes(insn.bytes)[:1] == b"\x9a",
+                            "Far fixup is not a complete unprefixed 9A CALL operand")
+                    require(state["piece"][at:at+4] == bytes(4), "Only zero encoded far addends are proven")
+                    symbol = far_symbols[ref["name"]]
+                    value = (symbol["offset"], symbol["segment"])
+                    observed = struct.unpack_from("<HH", state["expected"], at)
+                    state["equations"].append({"offset": at, "kind": "far-call", "symbol": ref["name"],
+                                               "linked_offset": value[0], "linked_segment": value[1],
+                                               "original_offset": observed[0], "original_segment": observed[1],
+                                               "equal": value == observed})
+                    if value != observed:
+                        state["differences"].append(at)
+                    state["occupied"].update(range(at, at+4))
+                    sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"]})
+                    used_far.add(ref["name"])
+                relocation_proof = relocation_order(state["relocations"], sites,
+                                                    [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
                 require(report["public"] in safe,
                         "DGROUP access after a call into code not proven to preserve segment context")
-                allowed = {at for at, callee in state["calls"].items() if callee in safe}
+                allowed = {at for at, callee in state["calls"].items() if callee is None or callee in safe}
                 data_context(module, state["rows"], allowed, mode=mode)
                 found, unequal = data_equations(state["data"], symbols, name, state["piece"], state["expected"],
                                                 state["rows"], mode, state["occupied"])
@@ -254,13 +308,18 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                                   if i not in occupied and piece[i] != expected[i]]
             report.update(exact=not differences, state="CODE_EXACT" if not differences else "CANDIDATE_C",
                           first_difference=min(differences, default=None),
-                          mismatch_count=len(differences), fixups=state["fixups"], relocations=0,
-                          equations=state["equations"], ordinary_bytes_compared=len(piece) - len(occupied))
+                          mismatch_count=len(differences), fixups=state["fixups"],
+                          relocations=len(state["relocations"]),
+                          covered_relocation_indices=[r["index"] for r in state["relocations"]],
+                          equations=state["equations"], ordinary_bytes_compared=len(piece) - len(occupied),
+                          **{k: v for k, v in relocation_proof.items()
+                             if k in ("relocation_order", "relocation_order_debt", "relocation_groups")})
         except ValueError as error:
             report.update(exact=False, state="REFUSED", reason=str(error))
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
+        require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
     claimed = {c["public"] for c in claims}
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
             "space": space.name, "origin": origin, "emitted_size": len(actual),
