@@ -170,7 +170,10 @@ def _check_placements(module, placements, uses, binding, space, oracle):
     DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree."""
     if not placements:
         return {}
-    require(space.name == "root" and binding and "frame" in binding, "Placed data needs a resident DGROUP frame")
+    # Overlay code runs with the same DS (the startup DGROUP load); it needs the grounded runtime
+    # DGROUP paragraph, since its own space does not hold DGROUP.
+    require(binding and "frame" in binding and (space.name == "root" or "dgroup_segment" in binding),
+            "Placed data needs the DGROUP frame (and dgroup_segment for overlay owners)")
     # The runtime DGROUP paragraph (the C runtime reloads DS with it before main) is
     # grounded by an original relocated word storing it; initialized DGROUP bytes live in
     # whichever space contains that paragraph (the preloaded overlay 17 in this image).

@@ -262,3 +262,6 @@ original bytes, object bytes, fixup equations or component extents.
 
 Placed-data fields may carry their offset in the FIXUPP displacement (MASM T0/T4
 with an explicit D) as well as in the LEDATA bytes; the proven value is P + D + A.
+Overlay owners may place file-private DGROUP data when the binding grounds the
+runtime DGROUP paragraph (`dgroup_segment`). Overlay code runs with the same DS,
+and initialized bytes are compared in whichever space holds that paragraph.
