@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "d94c9eec74771ad3fea477168dbe5455e413f9421ef2cec7dc61fa8a424cfbfc",
+  "binding_sha256": "e7fa8b792e317c12d46abb8417eb42aba6d51ee5efe6f4f33680ba6f470b9f59",
   "claims": [
     {
       "fixup_count": 1,
@@ -275,6 +275,32 @@
       "target_id": "overlay-10:29cf:15a8"
     },
     {
+      "fixup_count": 8,
+      "public": "DRAW_CRYSTAL",
+      "relocation_indices": [
+        101,
+        148
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:170e"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAW_GARGOYLE",
+      "relocation_indices": [
+        103,
+        149
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:1940"
+    },
+    {
       "fixup_count": 17,
       "public": "CHECK_FIREBALL_HIT_CHARACTER",
       "relocation_indices": [
@@ -423,20 +449,12 @@
       "public": "ANIMATE_CRYSTAL"
     },
     {
-      "object_offset": 5902,
-      "public": "DRAW_CRYSTAL"
-    },
-    {
       "object_offset": 6104,
       "public": "TRIGGER_CRYSTAL"
     },
     {
       "object_offset": 6186,
       "public": "ANIMATE_GARGOYLE"
-    },
-    {
-      "object_offset": 6464,
-      "public": "DRAW_GARGOYLE"
     },
     {
       "object_offset": 6666,
@@ -462,19 +480,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 10703,
   "group_id": "group:final/final",
   "kind": "same_source_group",
   "language": "c",
   "name": "final/final",
-  "object_sha256": "220612d9f59f477da9accdaed4db7600bdfa5e0a37fd7abee4f7e9d57ce7e572",
+  "object_sha256": "6c1888d75c36cd81f76286f9af26fb9523ea58dff406987e4c02e07d777b9156",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/final/final.c",
-  "source_sha256": "5762e3df4ae70be78518e5b6d4877dd5df0fa4d724d0009a05b7406e9496cb76",
+  "source_sha256": "f2c11907ba46fff29a882bae8a74ff70361edfdc8df3f61ea50bc4812f3ede6e",
   "space": "overlay-10"
 }

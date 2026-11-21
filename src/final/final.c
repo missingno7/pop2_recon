@@ -750,14 +750,11 @@ settle:
     goto done;
 
 run_left:
-    run_room_left();
-    goto done;
+    run_room_left(); goto done;
 halt_run:
-    sequence = 13;
-    goto done;
+    sequence = 13; goto done;
 step_right:
-    step_room_right();
-    goto done;
+    step_room_right(); goto done;
 climb_right:
     climb_room_right();
 done:
@@ -766,41 +763,34 @@ done:
 
 int far pascal jaffar_go_to_position_1(sbyte near *stance)
 {
-    int sequence = -1;
-    const PositionRule near *rule = &position_rules[stance[1]];
+    int sequence = -1; const PositionRule near *rule = &position_rules[stance[1]];
 
     if (stance[2] < stance[1]) {
         if (opponent_column == 0) {
-            if (char_direction == 0 && opponent_sequence != 5)
-                goto turn;
-            if (char_frame == 15)
-                cross_room_upper();
+            if (char_direction == 0 && opponent_sequence != 5) goto turn;
+            if (char_frame == 15) cross_room_upper();
         } else if (opponent_column == 1) {
             if ((unsigned int)char_frame >= 87 && (unsigned int)char_frame <= 91) {
                 cross_room_lower();
             } else if (char_frame == 15) {
-                if (char_direction != -1)
-                    goto turn;
+                if (char_direction != -1) goto turn;
                 goto run_left;
             } else if (char_frame == 109) {
                 sequence = 49;
             }
         } else if (opponent_column == 2) {
-            if (char_frame == 109)
-                sequence = 49;
+            if (char_frame == 109) sequence = 49;
             else
                 goto settle;
         }
     } else {
         sbyte x = opponent_room + ((opponent_kind == 8) ? 1 : 0) * 10;
 
-        if (x == position_rules[2].room_x && char_frame == 15)
-            goto run_left;
+        if (x == position_rules[2].room_x && char_frame == 15) goto run_left;
         if (x >= 6 && x <= 7) {
             start_room_climb(4);
         } else if (x > 10) {
-            if (char_frame == 7 && x >= rule->room_x - 1)
-                sequence = 13;
+            if (char_frame == 7 && x >= rule->room_x - 1) sequence = 13;
             else
                 goto settle;
         }
@@ -808,11 +798,9 @@ int far pascal jaffar_go_to_position_1(sbyte near *stance)
     goto done;
 
 turn:
-    sequence = 5;
-    goto done;
+    sequence = 5; goto done;
 run_left:
-    run_room_left();
-    goto done;
+    run_room_left(); goto done;
 settle:
     sequence = settle_jaffar_at_position(stance);
 done:
@@ -840,8 +828,7 @@ run_left:
         if (char_frame == 15) {
             if (char_direction == 0) {
 turn:
-                sequence = 5;
-                goto done;
+                sequence = 5; goto done;
             }
             cross_room_upper();
         }
@@ -849,16 +836,14 @@ turn:
         if ((unsigned int)char_frame >= 87 && (unsigned int)char_frame <= 91) {
             cross_room_lower();
         } else if (char_frame == 15) {
-            if (char_direction != -1)
-                goto turn;
+            if (char_direction != -1) goto turn;
             goto run_left;
         } else if (char_frame == 109) {
 jump_down:
             sequence = 49;
         }
     } else if (opponent_column == 2) {
-        if (char_frame != 109)
-            goto settle;
+        if (char_frame != 109) goto settle;
         sequence = 49;
     }
     goto done;
@@ -870,19 +855,16 @@ done:
 
 int far pascal jaffar_go_to_position_3(sbyte near *stance)
 {
-    int sequence = -1;
-    const PositionRule near *rule = &position_rules[stance[1]];
+    int sequence = -1; const PositionRule near *rule = &position_rules[stance[1]];
     sbyte x = opponent_room + ((opponent_kind == 8) ? 1 : 0) * 10;
 
     if (stance[2] == 0) {
         if (char_frame == 15) {
-            if (x > 10)
-                run_room_left();
+            if (x > 10) run_room_left();
             else if (x <= rule->room_x)
                 goto settle;
         } else if (char_frame == 7 || char_frame == 11) {
-            if (x <= rule->room_x)
-                sequence = 13;
+            if (x <= rule->room_x) sequence = 13;
             else if ((x >= 14 && x <= 15) || (x >= 9 && x <= 10))
                 start_room_climb(4);
         }
@@ -896,17 +878,13 @@ climb_right:
         }
     } else if (opponent_column == 1) {
         if (char_frame == 15) {
-            if (char_direction != 0)
-                goto step_right;
-            if (x == 6)
-                shift_character(32);
+            if (char_direction != 0) goto step_right;
+            if (x == 6) shift_character(32);
             else
                 sequence = 5;
         } else {
-            if (char_frame == 91)
-                goto climb_right;
-            if (char_frame == 109)
-                sequence = 49;
+            if (char_frame == 91) goto climb_right;
+            if (char_frame == 109) sequence = 49;
         }
     } else {
 settle:
@@ -1201,12 +1179,29 @@ typedef struct {
 } RoomImageTable;
 
 extern RoomImageTable near *room_image_table;
-extern byte crystal_frame_slot[];
-extern byte gargoyle_frame_slot[];
-extern unsigned long crystal_shapes[];
-extern unsigned long gargoyle_shapes[];
-extern byte crystal_layer[];
-extern byte gargoyle_layer[];
+/* Each frame selects a room image slot. Each shape pair packs two word offsets. */
+static byte crystal_frame_slot[] = {
+    0, 1, 2, 3, 2, 1, 0, 0
+};
+static unsigned long crystal_shapes[] = {
+    0x0136000aUL, 0x002f0048UL, 0x008a0054UL,
+    0x00ce0041UL, 0x00eb0054UL, 0x000e0082UL,
+    0x00340088UL, 0x008000a4UL, 0x010b009bUL
+};
+static byte crystal_layer[] = {
+    1, 0, 0, 0, 0, 1, 1, 1, 1, 0
+};
+static byte gargoyle_frame_slot[] = {
+    0, 1, 2, 4, 3, 4, 2, 1, 0, 0
+};
+static unsigned long gargoyle_shapes[] = {
+    0x00240043UL, 0x003f0043UL, 0x005e0043UL,
+    0x007b0043UL, 0x009a0043UL, 0x00710083UL,
+    0xffff0044UL, 0x0019007eUL, 0x00d60083UL
+};
+static byte gargoyle_layer[] = {
+    0, 0, 0, 0, 0, 1, 0, 1, 1, 0
+};
 extern void far pascal image_bounds(Rect far *output, Rect far *input, unsigned long shapes);
 extern void far _fastcall update_final_image(byte index, byte layer);
 
@@ -1367,12 +1362,13 @@ void far pascal draw_crystal(FinalObject near *object)
     bounds = image->bounds;
     shape = object->animation & 15;
     image->shape_list = crystal_shapes[shape];
-    image_bounds(&image->bounds, &image->bounds, image->shape_list);
+    image_bounds(&image->bounds, &image->bounds, *(volatile unsigned long near *)&image->shape_list);
     image->layer = crystal_layer[shape];
     update_final_image(index, crystal_layer[shape]);
     image->layer = 11;
     image->bounds = bounds;
-    image->shape_list = 0;
+    ((unsigned int near *)&image->shape_list)[0] = 0;
+    ((unsigned int near *)&image->shape_list)[1] = 0;
 }
 
 void far pascal trigger_crystal(sbyte row, sbyte col)
@@ -1440,12 +1436,13 @@ void far pascal draw_gargoyle(FinalObject near *object)
     bounds = image->bounds;
     shape = object->animation & 15;
     image->shape_list = gargoyle_shapes[shape];
-    image_bounds(&image->bounds, &image->bounds, image->shape_list);
+    image_bounds(&image->bounds, &image->bounds, *(volatile unsigned long near *)&image->shape_list);
     image->layer = gargoyle_layer[shape];
     update_final_image(index, gargoyle_layer[shape]);
     image->layer = 11;
     image->bounds = bounds;
-    image->shape_list = 0;
+    ((unsigned int near *)&image->shape_list)[0] = 0;
+    ((unsigned int near *)&image->shape_list)[1] = 0;
 }
 
 
