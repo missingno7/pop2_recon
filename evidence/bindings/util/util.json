@@ -4,7 +4,6 @@
       "WAIT_FOR_ACTION",
       "__aFulmul",
       "__aFulrem",
-      "RANDOM_SEEDED",
       "_memcpy",
       "FIND_RESOURCE",
       "LOAD_TEXT_IMAGE",
@@ -105,7 +104,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 0,
+        "length": 2,
         "name": "_DATA",
         "overlay": "",
         "use32": false
@@ -136,6 +135,16 @@
       }
     ]
   },
+  "dgroup_segment": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
+      }
+    ]
+  },
   "fixups": [
     {
       "displacement": null,
@@ -143,7 +152,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 11,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "IS_ACTION_PENDING",
@@ -157,7 +166,7 @@
       "segment_offset": 280,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "IS_ACTION_PENDING",
@@ -170,7 +179,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "SERVICE_EVENTS",
@@ -184,7 +193,7 @@
       "segment_offset": 274,
       "self_relative": false,
       "target": {
-        "index": 12,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "SERVICE_EVENTS",
@@ -197,7 +206,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 11,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "IS_ACTION_PENDING",
@@ -211,7 +220,7 @@
       "segment_offset": 265,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "IS_ACTION_PENDING",
@@ -268,7 +277,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "__bios_timeofday",
@@ -282,7 +291,7 @@
       "segment_offset": 232,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "__bios_timeofday",
@@ -457,14 +466,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 4,
-          "kind": "external",
-          "method": 6,
-          "name": "RANDOM_SEEDED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -473,10 +477,10 @@
       "segment_offset": 153,
       "self_relative": false,
       "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "RANDOM_SEEDED",
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
         "zero_displacement": true
       }
     },
@@ -486,7 +490,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "SETRNDSEED",
@@ -500,7 +504,7 @@
       "segment_offset": 149,
       "self_relative": true,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "SETRNDSEED",
@@ -511,14 +515,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 4,
-          "kind": "external",
-          "method": 6,
-          "name": "RANDOM_SEEDED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -527,10 +526,10 @@
       "segment_offset": 139,
       "self_relative": false,
       "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "RANDOM_SEEDED",
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
         "zero_displacement": true
       }
     },
@@ -540,7 +539,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 8,
           "kind": "external",
           "method": 6,
           "name": "SET_MEMORY_LIMIT_B",
@@ -554,7 +553,7 @@
       "segment_offset": 128,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 8,
         "kind": "external",
         "method": 6,
         "name": "SET_MEMORY_LIMIT_B",
@@ -567,7 +566,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "SET_MEMORY_LIMIT_A",
@@ -581,7 +580,7 @@
       "segment_offset": 115,
       "self_relative": false,
       "target": {
-        "index": 8,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "SET_MEMORY_LIMIT_A",
@@ -594,7 +593,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "LOAD_TEXT_IMAGE",
@@ -608,7 +607,7 @@
       "segment_offset": 95,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "LOAD_TEXT_IMAGE",
@@ -621,7 +620,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 5,
           "kind": "external",
           "method": 6,
           "name": "FIND_RESOURCE",
@@ -635,7 +634,7 @@
       "segment_offset": 89,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "FIND_RESOURCE",
@@ -648,7 +647,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "_memcpy",
@@ -662,7 +661,7 @@
       "segment_offset": 26,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "_memcpy",
@@ -685,10 +684,37 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_BSS": 27336
+    "_BSS": 27336,
+    "_DATA": 8382
   },
   "schema": 1,
   "symbols": {
+    "__aFulmul": {
+      "entry_sha256": "8c62adb4c675947443e01a6ed0c071c6226326bcf97f2e8dc07a2e3461f161d4",
+      "entry_target_id": "root:1fe6:1cae",
+      "kind": "far-code-entry",
+      "offset": 7342,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aae1ce61f",
+          "file_offset": 81587,
+          "image_offset": 73395,
+          "relocation_index": 1494,
+          "space": "root"
+        }
+      ]
+    },
+    "__aFulrem": {
+      "entry_sha256": "8b67ce939046f85985596229fc8cd44eb18b6ad797c5fa5fec197c4552a979a8",
+      "entry_target_id": "root:1fe6:1d6a",
+      "kind": "far-code-entry",
+      "offset": 7530,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": []
+    },
     "__bios_timeofday": {
       "entry_sha256": "a5a388a9bc9f8954a5af74a764840d4091e71cb0463f82a848826062575a6368",
       "entry_target_id": "root:1fe6:1b66",

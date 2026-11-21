@@ -4,7 +4,7 @@ typedef struct {
 } Rect;
 
 static unsigned long random_state;
-extern int random_seeded;
+static int random_seeded = 0;
 
 void far * far cdecl memcpy(void far *, const void far *, unsigned);
 int far pascal find_resource(unsigned long, int);
