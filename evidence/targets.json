@@ -6483,11 +6483,11 @@
     {
       "abi": "Far string BP+6/+8; RETF 4; BP frame, DI saved, no locals; forwards far pointer and scanned length; AX result hypothesis.",
       "boundary_evidence": [
-        "Preceding 16 original bytes: 04008f0783c302e2f90650cbff26e425. No adjacent RET reached by bounded predecessor CFG; relocated entry references and full local CFG provide separate boundary evidence.",
-        "Complete local CFG root [0x15ce2,0x15d00): RETF 4 at 0x15cfc. All local branches followed; no escaping branch/decode gap.",
-        "Original trailing 00 at 0x15cff is INCLUDED as even alignment.",
-        "Next original bytes at 0x15d00: 558bec83c4f857568b3ec025c475.",
-        "Incoming original relocation/call evidence: 6 relocated sites, 3 decoded PUSH CS/E8 sites; exact aliases retained separately from physical entry."
+        "BP frame at 4cd2. REPNE SCASB computes the length, then PUSH CS/E8 enters 4cf0. Sole RETF 4 at 4cec.",
+        "Complete extent 4cd2..4cef (exclusive).",
+        "00 at 4cef is unreachable and unreferenced, before independently entered word-aligned instruction 4cf0 (reached PUSH CS/E8 at 662f/6630 from the relocated 5352 entry).",
+        "Recursive descent found no instruction covering the byte or direct CS-relative operand reference. No relocation covers it or stores a 16:16 address naming it.",
+        "Independent CALL FAR at root+0x54b4."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -6537,25 +6537,25 @@
           "file_offset": 112817,
           "image_offset": 104625,
           "kind": "push_cs_near_call",
+          "pushed_cs_site": 104624,
           "relocated_segment_site": null,
-          "space": "root",
-          "pushed_cs_site": 104624
+          "space": "root"
         },
         {
           "file_offset": 115970,
           "image_offset": 107778,
           "kind": "push_cs_near_call",
+          "pushed_cs_site": 107777,
           "relocated_segment_site": null,
-          "space": "root",
-          "pushed_cs_site": 107777
+          "space": "root"
         },
         {
           "file_offset": 118120,
           "image_offset": 109928,
           "kind": "push_cs_near_call",
+          "pushed_cs_site": 109927,
           "relocated_segment_site": null,
-          "space": "root",
-          "pushed_cs_site": 109927
+          "space": "root"
         }
       ],
       "classification": "ASM_LIKELY",
@@ -6567,12 +6567,12 @@
       "entry_kind": "direct-code",
       "id": "root:1101:4cd2",
       "offset": 19666,
-      "original_bytes_hex": "558bec57c47e0606572bc0b9fffff2aef7d149510ee806005f5dca040000",
+      "original_bytes_hex": "558bec57c47e0606572bc0b9fffff2aef7d149510ee806005f5dca0400",
       "original_name": null,
       "segment": 4353,
       "semantic_name_hypothesis": "scan_string_then_process",
-      "sha256": "bc8bdb2eb726a66f07a65b9909c426eaba752079d944a2ec4c28386c09d77bca",
-      "size": 30,
+      "sha256": "e062c8a208acb901b6811c25ab046b5139758517042e72dfc5f956ec60e1c5c7",
+      "size": 29,
       "space": "root",
       "state": "ANALYZED"
     },
@@ -6755,12 +6755,11 @@
     {
       "abi": "Far string BP+6/+8; RETF 4; BP frame, DI saved, no locals; AX result hypothesis.",
       "boundary_evidence": [
-        "Preceding routine root:1000:6362 reaches 16387 ca0c00               retf 0xc immediately before entry/alignment.",
-        "Preceding routine root:1101:5352 reaches 16387 ca0c00               retf 0xc immediately before entry/alignment.",
-        "Complete local CFG root [0x1638a,0x163a8): RETF 4 at 0x163a4. All local branches followed; no escaping branch/decode gap.",
-        "Original trailing 00 at 0x163a7 is INCLUDED as even alignment.",
-        "Next original bytes at 0x163a8: 558bec83c4fc57562bff897efe89.",
-        "Incoming original relocation/call evidence: 2 relocated sites, 3 decoded PUSH CS/E8 sites; exact aliases retained separately from physical entry."
+        "BP frame at 537a. REPNE SCASB computes the length and PUSH CS/E8 enters 5400. RETF 4 at 5394.",
+        "Complete extent 537a..5397 (exclusive).",
+        "00 at 5397 is unreachable and unreferenced, before independently entered word-aligned instruction 5398 (reached PUSH CS/E8 at 656d/656e from the relocated 5352 entry).",
+        "Recursive descent found no instruction covering the byte or direct CS-relative operand reference. No relocation covers it or stores a 16:16 address naming it.",
+        "Independent CALL FAR at root+0x1d393."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -6782,25 +6781,25 @@
           "file_offset": 115884,
           "image_offset": 107692,
           "kind": "push_cs_near_call",
+          "pushed_cs_site": 107691,
           "relocated_segment_site": null,
-          "space": "root",
-          "pushed_cs_site": 107691
+          "space": "root"
         },
         {
           "file_offset": 117997,
           "image_offset": 109805,
           "kind": "push_cs_near_call",
+          "pushed_cs_site": 109804,
           "relocated_segment_site": null,
-          "space": "root",
-          "pushed_cs_site": 109804
+          "space": "root"
         },
         {
           "file_offset": 122577,
           "image_offset": 114385,
           "kind": "push_cs_near_call",
+          "pushed_cs_site": 114384,
           "relocated_segment_site": null,
-          "space": "root",
-          "pushed_cs_site": 114384
+          "space": "root"
         }
       ],
       "classification": "ASM_LIKELY",
@@ -6812,12 +6811,12 @@
       "entry_kind": "direct-code",
       "id": "root:1101:537a",
       "offset": 21370,
-      "original_bytes_hex": "558bec57c47e0606572bc0b9fffff2aef7d149510ee86e005f5dca040000",
+      "original_bytes_hex": "558bec57c47e0606572bc0b9fffff2aef7d149510ee86e005f5dca0400",
       "original_name": null,
       "segment": 4353,
       "semantic_name_hypothesis": "scan_string_then_process_alt",
-      "sha256": "91b9b44e03599c4328e3c2c452c3d1dcc783ce36f7fe43498c8952ee9e28b052",
-      "size": 30,
+      "sha256": "175a94a62efe397a6f87cd4c7f087335a5978e7aed276e59f29902f9a2a185cd",
+      "size": 29,
       "space": "root",
       "state": "ANALYZED"
     },
@@ -35330,6 +35329,764 @@
       "sha256": "50007c46c79fcd7ff423d262409636a8c3f172bb4fe63b2687b3e81a06b4415d",
       "size": 94,
       "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal handle then far pointer, AX status, RETF 6.",
+      "boundary_evidence": [
+        "Distinct BP frame at 2196. All three paths reach the sole RETF 6 at 21ca.",
+        "Complete extent 2196..21cd (exclusive).",
+        "00 at 21cd is unreachable and unreferenced, before independently entered word-aligned instruction 21ce (relocated CALL FAR at root+0x11a66 (index 1626)).",
+        "Recursive descent found no instruction covering the byte or direct CS-relative operand reference. No relocation covers it or stores a 16:16 address naming it.",
+        "Independent CALL FAR at root+0x11a7a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 80506,
+          "image_offset": 72314,
+          "kind": "far_call",
+          "relocated_segment_site": 72317,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2196",
+      "offset": 8598,
+      "segment": 4353,
+      "semantic_name_hypothesis": "attach_handle_payload",
+      "sha256": "5c490258d79c0fb470179e354090fbc938a58f593aae1eb6b97f16142ba4d9a4",
+      "size": 55,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal handle, DX:AX far pointer, RETF 2.",
+      "boundary_evidence": [
+        "Distinct BP frame at 21ce. The null tail at 21fd ends in JMP back to 21f9 and RETF 2 at 21fa. A separate relocated far entry starts at 2202.",
+        "Complete extent 21ce..2202 (exclusive).",
+        "Independent CALL FAR at root+0x11a66."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 80486,
+          "image_offset": 72294,
+          "kind": "far_call",
+          "relocated_segment_site": 72297,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:21ce",
+      "offset": 8654,
+      "segment": 4353,
+      "semantic_name_hypothesis": "detach_handle_payload",
+      "sha256": "7c1eafb996baae8ad3b5ea75747250f890f666b83ec7fface7e8faab3a387c6b",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "PUSH CS/CALL with far Pascal word, RETF 2.",
+      "boundary_evidence": [
+        "BP frame at 2248. The final JMP at 229e rejoins the far return at 2282. The independent far-entered BP frame at 22a0 follows.",
+        "Reached call at 22bf from root:1101:22a0.",
+        "Reached call at 24cd from root:1101:2502."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 86735,
+          "image_offset": 78543,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 78542,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 87261,
+          "image_offset": 79069,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 79068,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2248",
+      "offset": 8776,
+      "segment": 4353,
+      "semantic_name_hypothesis": "release_handle_storage",
+      "sha256": "563252b719b47257f32564ac37f93702f22cdfea8ee2834a975cedb19d935ff8",
+      "size": 88,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal far pointer, AX handle, RETF 4.",
+      "boundary_evidence": [
+        "BP frame at 25c6 follows RETF 2. Null and non-owned paths join the owned path at 25e0 and RETF 4 at 25e1. Separate relocated entry at 25e4.",
+        "Complete extent 25c6..25e4 (exclusive).",
+        "Independent CALL FAR at root+0x19135."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110901,
+          "image_offset": 102709,
+          "kind": "far_call",
+          "relocated_segment_site": 102712,
+          "space": "root"
+        },
+        {
+          "file_offset": 156772,
+          "image_offset": 836,
+          "kind": "far_call",
+          "relocated_segment_site": 839,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:25c6",
+      "offset": 9670,
+      "segment": 4353,
+      "semantic_name_hypothesis": "owner_of_payload",
+      "sha256": "51f335893b8179dd6db0159b04ae3e9be6ba6c3c3556b043e1cf444ddd7f6a31",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal far pointer; RETF 4.",
+      "boundary_evidence": [
+        "Separate BP frame follows RETF at 32e7. All device-match paths and the all-devices tail return through 3331; final JMP at 3340 returns to 3330, before the separately entered 3342.",
+        "Complete extent 32e8..3342 (exclusive).",
+        "Independent CALL FAR at root+0x193f3."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 111603,
+          "image_offset": 103411,
+          "kind": "far_call",
+          "relocated_segment_site": 103414,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:32e8",
+      "offset": 13032,
+      "segment": 4353,
+      "semantic_name_hypothesis": "flag_sound_payload",
+      "sha256": "ae62185819e8ba7d57f2df6143289ae41bcbf4baa465256e1d4cb2577c2c44df",
+      "size": 90,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal payload and callback, AX status, RETF 8.",
+      "boundary_evidence": [
+        "BP frame at 335b. The three format dispatch tails jump back to the RETF 8 epilogue at 337a. The last JMP at 33a0 is followed directly by the relocated 33a2 BP entry.",
+        "Complete extent 335b..33a2 (exclusive).",
+        "Independent CALL FAR at root+0x10af2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 76530,
+          "image_offset": 68338,
+          "kind": "far_call",
+          "relocated_segment_site": 68341,
+          "space": "root"
+        },
+        {
+          "file_offset": 89547,
+          "image_offset": 81355,
+          "kind": "far_call",
+          "relocated_segment_site": 81358,
+          "space": "root"
+        },
+        {
+          "file_offset": 110855,
+          "image_offset": 102663,
+          "kind": "far_call",
+          "relocated_segment_site": 102666,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:335b",
+      "offset": 13147,
+      "segment": 4353,
+      "semantic_name_hypothesis": "start_sound_payload",
+      "sha256": "bcb570434a4739abb70de3525945a2946c5fecc0936935b6fb6093553cc6bd92",
+      "size": 71,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Register ES:AX, near RET.",
+      "boundary_evidence": [
+        "PUSHF/CLI entry at 3568 and common POPF/RET at 3595/3596; all branches local.",
+        "Reached call at 3348 from root:1101:3342.",
+        "Reached call at 3613 from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3568",
+      "offset": 13672,
+      "segment": 4353,
+      "semantic_name_hypothesis": "release_first_device_sound",
+      "sha256": "a7b5b48b64b75516b628f1ad1f572332bfca6422776faef17d277005c2a1b54a",
+      "size": 47,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Register ES:AX, near RET.",
+      "boundary_evidence": [
+        "Distinct entry at 3597 after near RET. Both input cases return via RET at 35c5.",
+        "Reached call at 334e from root:1101:3342.",
+        "Reached call at 36b2 from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3597",
+      "offset": 13719,
+      "segment": 4353,
+      "semantic_name_hypothesis": "release_second_device_sound",
+      "sha256": "55fcc674376b25c54cffb9ddb6c8c8739032bef637dca362a2dcdb5ff832be36",
+      "size": 47,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Register ES:AX, near RET.",
+      "boundary_evidence": [
+        "PUSHF/CLI entry and POPF/RET tail at 3601/3602; nearby 3603 is independently entered by the 335b dispatcher.",
+        "Reached call at 3354 from root:1101:3342.",
+        "Reached call at 372f from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:35c6",
+      "offset": 13766,
+      "segment": 4353,
+      "semantic_name_hypothesis": "release_speaker_sound",
+      "sha256": "96e2d69cf02a04403e69bdb89a6f1b0f88faf351cd7c89805871a1089563997f",
+      "size": 61,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal far pointer, AX status, RETF 4.",
+      "boundary_evidence": [
+        "Distinct BP frame at 33f0. Device comparisons and null path converge at 3440 and RETF 4 at 3441, before a separate CLD/push entry.",
+        "Complete extent 33f0..3444 (exclusive).",
+        "Independent CALL FAR at root+0x190dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110812,
+          "image_offset": 102620,
+          "kind": "far_call",
+          "relocated_segment_site": 102623,
+          "space": "root"
+        },
+        {
+          "file_offset": 111752,
+          "image_offset": 103560,
+          "kind": "far_call",
+          "relocated_segment_site": 103563,
+          "space": "root"
+        },
+        {
+          "file_offset": 157363,
+          "image_offset": 1427,
+          "kind": "far_call",
+          "relocated_segment_site": 1430,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 177910,
+          "image_offset": 21974,
+          "kind": "far_call",
+          "relocated_segment_site": 21977,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 181560,
+          "image_offset": 25624,
+          "kind": "far_call",
+          "relocated_segment_site": 25627,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:33f0",
+      "offset": 13296,
+      "segment": 4353,
+      "semantic_name_hypothesis": "query_sound_payload",
+      "sha256": "683b03b56691fc4c1422aad5c86e9ae237327dd7bd8c62f87a8094ffa6f881ba",
+      "size": 84,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal one word, AX width, RETF 2.",
+      "boundary_evidence": [
+        "BP frame at 4c3e passes the address of its argument and count one to 5400. Sole RETF 2 at 4c4f, directly followed by separately entered 4c52.",
+        "Complete extent 4c3e..4c52 (exclusive).",
+        "Independent CALL FAR at root+0x1da0c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 129548,
+          "image_offset": 121356,
+          "kind": "far_call",
+          "relocated_segment_site": 121359,
+          "space": "root"
+        },
+        {
+          "file_offset": 129509,
+          "image_offset": 121317,
+          "kind": "far_call",
+          "relocated_segment_site": 121320,
+          "space": "root"
+        },
+        {
+          "file_offset": 130206,
+          "image_offset": 122014,
+          "kind": "far_call",
+          "relocated_segment_site": 122017,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4c3e",
+      "offset": 19518,
+      "segment": 4353,
+      "semantic_name_hypothesis": "measure_character",
+      "sha256": "0a4a3bc0059e1f06eb87cf6cd90fe1b6bbfdf468359820da1c0d1b9a702dacaf",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal pointer, DX:AX pointer result; retains four saved words on caller stack.",
+      "boundary_evidence": [
+        "Relocated entry saves context rectangle words before restoring the far-return stack and entering the BP frame internally at 4c6e. Null and intersection paths join at 4cac, sole RETF 4 at 4cb5, then separate relocated 4cb8 entry.",
+        "Complete extent 4c52..4cb8 (exclusive).",
+        "Independent CALL FAR at root+0x86f8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42744,
+          "image_offset": 34552,
+          "kind": "far_call",
+          "relocated_segment_site": 34555,
+          "space": "root"
+        },
+        {
+          "file_offset": 43505,
+          "image_offset": 35313,
+          "kind": "far_call",
+          "relocated_segment_site": 35316,
+          "space": "root"
+        },
+        {
+          "file_offset": 129066,
+          "image_offset": 120874,
+          "kind": "far_call",
+          "relocated_segment_site": 120877,
+          "space": "root"
+        },
+        {
+          "file_offset": 130583,
+          "image_offset": 122391,
+          "kind": "far_call",
+          "relocated_segment_site": 122394,
+          "space": "root"
+        },
+        {
+          "file_offset": 137690,
+          "image_offset": 129498,
+          "kind": "far_call",
+          "relocated_segment_site": 129501,
+          "space": "root"
+        },
+        {
+          "file_offset": 173288,
+          "image_offset": 17352,
+          "kind": "far_call",
+          "relocated_segment_site": 17355,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 180502,
+          "image_offset": 24566,
+          "kind": "far_call",
+          "relocated_segment_site": 24569,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4c52",
+      "offset": 19538,
+      "segment": 4353,
+      "semantic_name_hypothesis": "push_port_clip",
+      "sha256": "f2a124cb8a403ddd7a316ec535fd45f00d956f8a603bb8ff41b2d7b78751448e",
+      "size": 102,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry with four saved words, no BP frame.",
+      "boundary_evidence": [
+        "Pops the far-return pair and four saved clip words, restores the far-return pair and returns at 4ccd; 4cce separately enters the graphics dispatch.",
+        "Complete extent 4cb8..4cce (exclusive).",
+        "Independent CALL FAR at root+0x8723."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42787,
+          "image_offset": 34595,
+          "kind": "far_call",
+          "relocated_segment_site": 34598,
+          "space": "root"
+        },
+        {
+          "file_offset": 43547,
+          "image_offset": 35355,
+          "kind": "far_call",
+          "relocated_segment_site": 35358,
+          "space": "root"
+        },
+        {
+          "file_offset": 129220,
+          "image_offset": 121028,
+          "kind": "far_call",
+          "relocated_segment_site": 121031,
+          "space": "root"
+        },
+        {
+          "file_offset": 130677,
+          "image_offset": 122485,
+          "kind": "far_call",
+          "relocated_segment_site": 122488,
+          "space": "root"
+        },
+        {
+          "file_offset": 137706,
+          "image_offset": 129514,
+          "kind": "far_call",
+          "relocated_segment_site": 129517,
+          "space": "root"
+        },
+        {
+          "file_offset": 173342,
+          "image_offset": 17406,
+          "kind": "far_call",
+          "relocated_segment_site": 17409,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 180639,
+          "image_offset": 24703,
+          "kind": "far_call",
+          "relocated_segment_site": 24706,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4cb8",
+      "offset": 19640,
+      "segment": 4353,
+      "semantic_name_hypothesis": "pop_port_clip",
+      "sha256": "788ab19ec532879933e5407785f5e745f4b6313c1dfe8dfa45af1e7747b4b05d",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "PUSH CS/CALL with far string pointer then count, RETF 6.",
+      "boundary_evidence": [
+        "Distinct BP frame at 4cf0. Glyph-loop paths converge at 4d60; sole RETF 6 at 4d6b precedes the separate 4d6e BP frame.",
+        "Reached call at 4ce7 from root:1101:4cd2.",
+        "Reached call at 6630 from root:1101:5352."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 97527,
+          "image_offset": 89335,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 89334,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 104000,
+          "image_offset": 95808,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 95807,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4cf0",
+      "offset": 19696,
+      "segment": 4353,
+      "semantic_name_hypothesis": "draw_counted_text",
+      "sha256": "b0760a8909004cd7b08b150a7f94e1e72c719c9697c4e178d608177dc217f2d6",
+      "size": 126,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal two words. Fast path RETF 4; fallback tail jump preserves argument stack.",
+      "boundary_evidence": [
+        "BP frame at 5070. The matching-coordinate path ends in RETF 4 at 50b4. The other path restores BP and tail-dispatches through DS:25e6 without fallthrough.",
+        "Complete extent 5070..50b7 (exclusive).",
+        "00 at 50b7 is unreachable and unreferenced, before independently entered word-aligned instruction 50b8 (reached PUSH CS/E8 at 4c9a/4c9b and 4c9e/4c9f, from the relocated 4c52 entry).",
+        "Recursive descent found no instruction covering the byte or direct CS-relative operand reference. No relocation covers it or stores a 16:16 address naming it.",
+        "Independent CALL FAR at root+0x1090f."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 76047,
+          "image_offset": 67855,
+          "kind": "far_call",
+          "relocated_segment_site": 67858,
+          "space": "root"
+        },
+        {
+          "file_offset": 76183,
+          "image_offset": 67991,
+          "kind": "far_call",
+          "relocated_segment_site": 67994,
+          "space": "root"
+        },
+        {
+          "file_offset": 76195,
+          "image_offset": 68003,
+          "kind": "far_call",
+          "relocated_segment_site": 68006,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5070",
+      "offset": 20592,
+      "segment": 4353,
+      "semantic_name_hypothesis": "draw_axis_segment",
+      "sha256": "2c5f2c8c5582baf57fad2c4456ad649a2a30cfafac0ac39dfc86e51a375bcd7d",
+      "size": 71,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "PUSH CS/CALL with two far pointers, DX:AX destination pointer, RETF 8.",
+      "boundary_evidence": [
+        "Distinct BP frame and straight-line point transformation. RETF 8 at 50db is followed by separately relocated BP frame at 50de.",
+        "Reached call at 4c9b from root:1101:4c52.",
+        "Reached call at 4c9f from root:1101:4c52."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 97451,
+          "image_offset": 89259,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 89258,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 97455,
+          "image_offset": 89263,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 89262,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:50b8",
+      "offset": 20664,
+      "segment": 4353,
+      "semantic_name_hypothesis": "subtract_port_origin",
+      "sha256": "7847411aaf1828f29d5a8cf45b577cb3b1b60fffd4027c6c637cb810682d832b",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal far string pointer then count, AX width, RETF 6.",
+      "boundary_evidence": [
+        "Distinct BP frame at 5400. Zero-count and completed glyph-loop paths converge at 543c and end with RETF 6 at 5440. The following nonexecuted bytes begin 00 00 01 02 03 04.",
+        "Complete extent 5400..5443 (exclusive).",
+        "Independent CALL FAR at root+0x1d7ca."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 128970,
+          "image_offset": 120778,
+          "kind": "far_call",
+          "relocated_segment_site": 120781,
+          "space": "root"
+        },
+        {
+          "file_offset": 130165,
+          "image_offset": 121973,
+          "kind": "far_call",
+          "relocated_segment_site": 121976,
+          "space": "root"
+        },
+        {
+          "file_offset": 130140,
+          "image_offset": 121948,
+          "kind": "far_call",
+          "relocated_segment_site": 121951,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5400",
+      "offset": 21504,
+      "segment": 4353,
+      "semantic_name_hypothesis": "measure_counted_text",
+      "sha256": "1683408a4e5781e517e5e085a7cb72d597ad05b223662d46e84f87df55bb1123",
+      "size": 67,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal destination then packed source; DX:AX destination; RETF 8.",
+      "boundary_evidence": [
+        "BP frame at 8484. LODS/STOS bit codec uses BP for the destination limit, with a separately saved frame pointer. All paths return through 84f3, immediately before a distinct BP frame at 84f6.",
+        "Complete extent 8484..84f6 (exclusive).",
+        "Independent CALL FAR at root+0x19370."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 111472,
+          "image_offset": 103280,
+          "kind": "far_call",
+          "relocated_segment_site": 103283,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:8484",
+      "offset": 33924,
+      "segment": 4353,
+      "semantic_name_hypothesis": "unpack_delta_bits",
+      "sha256": "b27303fcdeaf4fadd26569023fb8ec52737d7ce7b34d3bbbc423ec66b23ed504",
+      "size": 114,
+      "space": "root",
       "state": "ANALYZED"
     }
   ],

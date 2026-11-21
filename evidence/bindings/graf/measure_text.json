@@ -1,6 +1,11 @@
 {
   "declarations": {
-    "externals": [],
+    "externals": [
+      "SECTRECT",
+      "MEASURE_COUNTED_TEXT",
+      "SUBTRACT_PORT_ORIGIN",
+      "CURRENT_CONTEXT"
+    ],
     "groups": [
       {
         "name": "DGROUP",
@@ -14,6 +19,33 @@
         "frame": null,
         "group_index": 0,
         "name": "MEASURE_TEXT",
+        "offset": 144,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "POP_PORT_CLIP",
+        "offset": 122,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "PUSH_PORT_CLIP",
+        "offset": 20,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MEASURE_CHARACTER",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -28,7 +60,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 4,
+        "length": 148,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -63,6 +95,28 @@
       "field_width": 2,
       "frame": {
         "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 14,
+      "self_relative": true,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "MEASURE_COUNTED_TEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
         "kind": "group",
         "name": "DGROUP"
       },
@@ -70,7 +124,117 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 2,
+      "segment_offset": 22,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_CONTEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 94,
+      "self_relative": true,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "SUBTRACT_PORT_ORIGIN",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 98,
+      "self_relative": true,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "SUBTRACT_PORT_ORIGIN",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 108,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "SECTRECT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 126,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_CONTEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 146,
       "self_relative": false,
       "target": {
         "index": 2,
@@ -99,7 +263,57 @@
     "_DATA": 9700
   },
   "schema": 1,
-  "symbols": {},
+  "symbols": {
+    "CURRENT_CONTEXT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "MEASURE_COUNTED_TEXT": {
+      "entry_sha256": "1683408a4e5781e517e5e085a7cb72d597ad05b223662d46e84f87df55bb1123",
+      "entry_target_id": "root:1101:5400",
+      "kind": "near-code-entry",
+      "offset": 21504,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "0ee8f5ed",
+          "entry": "root:1101:5352",
+          "image_offset": 95767,
+          "space": "root"
+        }
+      ]
+    },
+    "SECTRECT": {
+      "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
+      "entry_target_id": "root:1101:5284",
+      "kind": "near-code-entry",
+      "offset": 21124,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SUBTRACT_PORT_ORIGIN": {
+      "entry_sha256": "7847411aaf1828f29d5a8cf45b577cb3b1b60fffd4027c6c637cb810682d832b",
+      "entry_target_id": "root:1101:50b8",
+      "kind": "near-code-entry",
+      "offset": 20664,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    }
+  },
   "target_id": "group:graf/measure_text",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

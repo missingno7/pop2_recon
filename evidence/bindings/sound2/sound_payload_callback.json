@@ -1,9 +1,9 @@
 {
   "declarations": {
     "externals": [
-      "LOAD_TYPED_HANDLE",
-      "PROCESS_HANDLE",
-      "LOAD_AND_PROCESS_HANDLE"
+      "OWNER_OF_PAYLOAD",
+      "CLEAR_HANDLE_OWNED",
+      "SOUND_PAYLOAD_CALLBACK"
     ],
     "groups": [
       {
@@ -19,7 +19,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "LOAD_AND_PROCESS_HANDLE",
+        "name": "SOUND_PAYLOAD_CALLBACK",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -34,7 +34,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 24,
+        "length": 26,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -87,7 +87,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "PROCESS_HANDLE",
+          "name": "CLEAR_HANDLE_OWNED",
           "zero_displacement": true
         }
       },
@@ -95,13 +95,13 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 13,
+      "segment_offset": 16,
       "self_relative": false,
       "target": {
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "PROCESS_HANDLE",
+        "name": "CLEAR_HANDLE_OWNED",
         "zero_displacement": true
       }
     },
@@ -114,7 +114,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_TYPED_HANDLE",
+          "name": "OWNER_OF_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -122,116 +122,55 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 7,
+      "segment_offset": 10,
       "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_TYPED_HANDLE",
+        "name": "OWNER_OF_PAYLOAD",
         "zero_displacement": true
       }
     }
   ],
   "mode": "external-far-call-v1",
-  "relocation_indices": [
-    1588,
-    1611
-  ],
   "schema": 1,
-  "status": "ORIGINAL_ONLY_SKELETON: freeze fresh candidate declarations and ordered resolved fixups; this file is not promotion-ready",
   "symbols": {
-    "LOAD_TYPED_HANDLE": {
-      "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
-      "entry_target_id": "root:1101:807a",
+    "CLEAR_HANDLE_OWNED": {
+      "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
+      "entry_target_id": "root:1101:25b2",
       "kind": "far-code-entry",
-      "offset": 32890,
+      "offset": 9650,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 53608,
-          "image_offset": 45416,
-          "relocation_index": 956,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 53592,
-          "image_offset": 45400,
-          "relocation_index": 957,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 65470,
-          "image_offset": 57278,
-          "relocation_index": 1130,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 65815,
-          "image_offset": 57623,
-          "relocation_index": 1131,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 66262,
-          "image_offset": 58070,
-          "relocation_index": 1132,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 67845,
-          "image_offset": 59653,
-          "relocation_index": 1274,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 111579,
-          "image_offset": 103387,
-          "relocation_index": 1586,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 111639,
-          "image_offset": 103447,
-          "relocation_index": 1587,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 111723,
-          "image_offset": 103531,
-          "relocation_index": 1589,
+          "bytes_hex": "9ab2250111",
+          "file_offset": 27690,
+          "image_offset": 19498,
+          "relocation_index": 386,
           "space": "root"
         }
       ]
     },
-    "PROCESS_HANDLE": {
-      "entry_sha256": "e899d01859e3d81019f7290d59e0559859ff51e8a52206efc9baf889687aa057",
-      "entry_target_id": "root:1101:80b0",
+    "OWNER_OF_PAYLOAD": {
+      "entry_sha256": "51f335893b8179dd6db0159b04ae3e9be6ba6c3c3556b043e1cf444ddd7f6a31",
+      "entry_target_id": "root:1101:25c6",
       "kind": "far-code-entry",
-      "offset": 32944,
+      "offset": 9670,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ab0800111",
-          "file_offset": 66277,
-          "image_offset": 58085,
-          "relocation_index": 1136,
-          "space": "root"
+          "bytes_hex": "9ac6250111",
+          "file_offset": 156772,
+          "image_offset": 836,
+          "relocation_index": 49,
+          "space": "overlay-2"
         }
       ]
     }
   },
-  "target_id": "root:1000:943c",
+  "target_id": "group:sound2/sound_payload_callback",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }
