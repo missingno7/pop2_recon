@@ -344,21 +344,18 @@ extern void far pascal offset_sprite_clip(void far *destination, void far *sourc
 
 void far pascal float_flame_sword(void)
 {
-    volatile int row_y;
+    int row_y;
     int amount, drift, dy;
 
     if (sprite_frame == 4 || sprite_frame == 19 || sprite_frame == 20) {
         amount = 4;
-        row_y = Char.bytes[10] * 63;
-        if (row_y + 54 < CW(4)) {
-            drift = -2;
-            if (row_y + 58 > CW(4))
-                goto apply_drift;
+        if ((row_y = Char.bytes[10] * 63) + 54 >= CW(4)) {
+            drift = amount = 1;
         } else {
-            drift = 1;
+            drift = -2;
+            if (*(volatile int near *)&row_y + 58 <= CW(4))
+                amount = 1;
         }
-        amount = 1;
-apply_drift:
 
         dy = random_below(amount) + drift;
         CW(4) += dy;

@@ -67962,6 +67962,396 @@
           "relocated_segment_site": 55096
         }
       ]
+    },
+    {
+      "id": "root:1101:3a72",
+      "space": "root",
+      "segment": 4353,
+      "offset": 14962,
+      "size": 1227,
+      "sha256": "f454aae1ff4c06effdf2f557ba55f1cf45abaac700b3843cf9eacd9a605f0f96",
+      "original_bytes_hex": "558bec83c4d457568b5e10c476082bd226ad2b47047d01928946e22bc926ad2b47067d01918946e42bff26ad2b47087e0197897ee62bff26ad2b470a7e0197897ee88b5e12c4760c26ad2bc22b47047d052946e22bc09226ad2bc12b47067d052946e42bc09126ad2b46e63b47087e038b47082b47048946ee26ad2b46e83b470a7e038b470a2b47068946f03b1ec025752e8b47182bc27e0503d00146e28b471a2bc17e0503c80146e48b471c2b46ee7d030146ee8b471e2b46f07d030146f0894eec8956ea8b46ee2bc28946d87e272b4ee4ba030022ca8ae9f6d922ca7502b104d1e1894edcb8ffff8b7ef08b4eec2bf9897eda7f085e5f8be55dca0e0022ca750383ef04d2e8d2e8f7d923ca2bf97e138bcfd1efd1eff7d922ca7415d0e1d2e447eb0e8bcff7d923cad0e1d2e422c42bff897ef68946e0c446d80346e28946e68cc00346e48946e88bf5c4078d6cf2e806cb8b7c10c4058d6ceae8fbca8beec746de3d3fc746d401008b56e48bfa3b078b46ec75468cc13b4f02753f8b76e23b76ea7d0d8b4ed849014eea014ee2f75ed43bd07f268b4eda4903c103d18bfaf7dffd8b4edc84ed740586cd894edc8b4ee086cd894ee0c746de453f83e703d1e7897ef4b102d3e8d3eac40f03c18946ec8b470e8946f28b5e108b470e8946d6c50f03d18956e48b4edc8b5e0683e3072e8a974d3f83e303d1e3035ede2e8b078946deeb6b86c4d3c022c6f6d62622350ac6aa86cdd2c486cd4b7c46743084ed751b87d984d2750bd1e9f3a587d9731ea4eb1bac32c2aae2fa87d9eb11ac32c286c4d3c0aa86cdd2c486cd4b7fefac32c286c4d3c08a76e122c6f6d62622350ac6aaff4ed8743d8b46d40146ea0146e28b7eead1e7037ef2368b3d037eec8b76e2d1e60376d6368b340376e48b5ef68a76e02ae4ac32c23a4ef477058ae0ac32c2ff66defc161f0ee884c80ee880c8e944fed3e022e6f6d42620254786cdd3e086cd4b7c9d742984ed751187d9ac32c2f6d026200547e2f587d9eb14ac32c2d3e0f6d42620254786cdd3e086cd4b7fecac32c2d3e02266e1f6d4262025e962ffd3e022e62608254786cdd3e086cd4b7c32742584ed750f87d9ac32c226080547e2f787d9eb12ac32c2d3e02608254786cdd3e086cd4b7feeac32c2d3e02266e1260825e91cffd3e022e62630254786cdd3e086cd4b7c32742584ed750f87d9ac32c226300547e2f787d9eb12ac32c2d3e02630254786cdd3e086cd4b7feeac32c2d3e02266e1263025e9d6fe86c4d3c822c6f6d62622350ac6aa86cdd2cc86cd4b7c4a743484ed751f87d984d2750f4f4ed1e9f3a5474687d9731ea4eb1bac32c2aae2fa87d9eb11ac32c286c4d3c8aa86cdd2cc86cd4b7fefac32c286c4d3c88a76e122c6f6d62622350ac6aae972fed3c822e6f6d42620254f86cdd3c886cd4b7c38742984c9751187d9ac32c2f6d02620054fe2f587d9eb14ac32c2d3c8f6d42620254f86cdd3c886cd4b7fecac32c2d3c82266e1f6d4262025e924fed3c822e62608254f86cdd3c886cd4b7c32742584c9750f87d9ac32c22608054fe2f787d9eb12ac32c2d3c82608254f86cdd3c886cd4b7feeac32c2d3c82266e1260825e9defdd3c822e62630254f86cdd3c886cd4b7c32742584c9750f87d9ac32c22630054fe2f787d9eb12ac32c2d3c82630254f86cdd3c886cd4b7feeac32c2d3c82266e1263025e998fd",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Code starts immediately after the pattern bank at 3a32..3a72. All drawing exits use RETF 14 at 3b6e. The last raster path jumps back at 3f3a; 3f3d starts the eight-word CS dispatch table.",
+        "Original CS descriptor near offsets 1101:3a0a, 1101:3a28 store 1101:3a72.",
+        "Complete instruction extent [1101:3a72,1101:3f3d)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "3a75 uses ADD SP,-44 and 3a82 uses ES:LODSW. 3bab loads a far pointer with LES AX. 3d14 dispatches through a CS table into the same routine."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far Pascal-shaped, seven word slots, RETF 14.",
+      "original_name": null,
+      "semantic_name_hypothesis": "copy_packed_rectangle"
+    },
+    {
+      "id": "root:1101:3f55",
+      "space": "root",
+      "segment": 4353,
+      "offset": 16213,
+      "size": 36,
+      "sha256": "f89ea56700877685b24bd4440d29745ef2b1a239f08c0b860d59ba162f374e8f",
+      "original_bytes_hex": "57babf03b000eeb800b8b9c000bf3f3fe8c40c750bbad403e8a70cb8010074022bc05fcb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Begins after the copy raster tables ending at 3f55. The joined RETF at 3f78 ends immediately at the initialization entry 3f79.",
+        "Original CS descriptor near offset 1101:39fe store 1101:3f55.",
+        "Complete instruction extent [1101:3f55,1101:3f79)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 3f55; the OUT at 3f5b and the plain near register-ABI probes at 3f65/3f6d control the AX Boolean return."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far entry, register-only probe, returns AX Boolean, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "probe_cga"
+    },
+    {
+      "id": "root:1101:3f79",
+      "space": "root",
+      "segment": 4353,
+      "offset": 16249,
+      "size": 78,
+      "sha256": "8fa57a24a85bb232f3eddeefb96a0098ca587fccebe96678c2384bff1d8af086",
+      "original_bytes_hex": "57561eb90e00bec73fbfee251e070e1ff3a41fa1f625d1e0509a3b00e61f83c402a3fc2585c07423972bf68b0ef6251e078bc6d1e8f726fa25f7c601007403050020ab46e2ebb80400cd105e5fcb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "The separate mode initializer begins at 3f79 after the probe RETF. Its single RETF is at 3fc6 and MOV SI,OFFSET at 3f7f points to the geometry data immediately after it.",
+        "Original CS descriptor near offset 1101:3a00 store 1101:3f79.",
+        "Complete instruction extent [1101:3f79,1101:3fc7)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 3f79, REP MOVSB at 3f89, STOSW at 3fbb and BIOS INT 10h at 3fc2."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far lifecycle hook, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "initialize_cga"
+    },
+    {
+      "id": "root:1101:3fd5",
+      "space": "root",
+      "segment": 4353,
+      "offset": 16341,
+      "size": 556,
+      "sha256": "39320d1729e0584dd25d782e3aa7b8c2e56163a29d7ceb47558a41c6c45c570e",
+      "original_bytes_hex": "558bec83c4e057568b1ec0258b4728250f00b102d3e00306bc258946f48b7f2683e7032e8a853c428846e083e703d1e72e8b8534428946ea8b47068b4e08294608874f242bc8894ee40306c425250300d1e08946e88b47048b56062946068757222bd08956e2c456068cc1e8d2018846f7c456e28cc1e8c7018846f68a66f784e075070ae0750be996005e5f8be55dca04003c0075128646f78846f6874e08894ee48756068956e2a801741a8b7e082bf98b771a8976e42bf18b46062bc2e86b01014ee2ebaba802741a8b7e062bfa8b77188976e22bf28b46082bc1e84d01014ee4eb8da804741c8b7e082bf98b771e4e8976e42bf18b46062bc2e82e01014ee2e96dff8b7e062bfa8b771c4e8976e22bf28b46082bc1e81201014ee4e951ff3b4e087e0c874e08894ee48756068956e2c47e06894efa8c46feff46fe8bc23bc77e019747897efc8946f88bc20347040306c2258946e6be01008b46062bc27d04f7d8f7de8946f08bd6beffff8b7e082bf9740a8bf73bf073048bf0f7ded1fe897ef203f84787dfc405e86ac58b7d0e897eec8bf9d1efd1ef03c78946eeb803c022c8d2ccd2cc8a4ee88e1ebe25eb0f22e8f6d02622050ac5aa2ac04b7e442ac08b7ee683e703037ef48a2d326ee0d2cd8b7ee2d1e7037eec368b3d037eee0ac485f67c122b76f0d0ccd0cc72034b75eeff46eeff66ea0156e20156e60376f2ff66ea161f0ee8c4c3e97efe22c5f6d02620054b7fa9ebeb22c52608054b7f9febe122c52630054b7f95ebd7",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "The line renderer starts after the 14-byte CGA geometry record copied by 3f79. The raster tail at 41ff jumps to cleanup. The next entry at 4201 is independently called four times.",
+        "Original CS descriptor near offsets 1101:3a0c, 1101:3a2a store 1101:3fd5.",
+        "Complete instruction extent [1101:3fd5,1101:4201)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 3fd5 and ADD SP,-32 at 3fd8. LES DX at 403b and 4046 supplies the near register-ABI calls."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far Pascal-shaped, one far pointer in two word slots, RETF 4.",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_packed_line"
+    },
+    {
+      "id": "root:1101:4201",
+      "space": "root",
+      "segment": 4353,
+      "offset": 16897,
+      "size": 20,
+      "sha256": "36558791d3010a565d4869989713337d28d949da2412adae15761d8798274ad8",
+      "original_bytes_hex": "f7eef7ff8bc89985f67902f7def7fed1f82bc8c3",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Follows the line-rendering back edge at 41ff. The register helper ends at RET 4214 before the independently called entry at 4215.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:4093, 1101:40b1, 1101:40d0, 1101:40ec.",
+        "Complete instruction extent [1101:4201,1101:4215)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Plain near register-ABI calls from 4093, 40b1, 40d0 and 40ec. The helper consumes AX, SI and DI and delivers CX with plain RET at 4214."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Near register helper, inputs AX, SI and DI, returns CX, RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "scale_line_clip_delta"
+    },
+    {
+      "id": "root:1101:4215",
+      "space": "root",
+      "segment": 4353,
+      "offset": 16917,
+      "size": 31,
+      "sha256": "b85706f8e41cf07cef5fbf5d817d3c0c975682975fa7626f1255981155d8b200",
+      "original_bytes_hex": "2ac03b4f1a7d020c013b57187d020c023b4f1e7c020c043b571c7c020c08c3",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Distinct entry after RET 4214. Ends at RET 4233. The CS-indexed dispatch operand at 4005 points immediately past the RET to data at 4234.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:4040, 1101:404b.",
+        "Complete instruction extent [1101:4215,1101:4234)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 4215. Plain near calls at 4040 and 404b supply the endpoint in CX:DX and the clipping rectangle through BX. The helper uses AL for the outcode and returns with near RET at 4233."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Near register helper, inputs CX:DX and BX, returns AL, RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "classify_line_endpoint"
+    },
+    {
+      "id": "root:1101:4244",
+      "space": "root",
+      "segment": 4353,
+      "offset": 16964,
+      "size": 626,
+      "sha256": "14ab47e2adc975e9091d7fbc9a7065404a5f6b2086faaf20acbe61f7968bb59d",
+      "original_bytes_hex": "558bec83c4d657568b1ec025c4760e8b460c8b7f062bc7033ec425ba030023fad1e7897ede2bc98bf82b7f1a7d058b471a2bcf8946fa894ef08bf826037c022bf93b7f1e7e038b7f1e897efe2bf8897ef47e398b460a2b47042bc98bf82b7f187d058b47182bcf8946f8894ee48bf826033c2bf93b7f1c7e038b7f1c897efc034e0a894edc2bf8897ef27f0dc4460e8cc25e5f8be55dca0c008b46fa2b46f022c28ae0f6d822c27502b004d1e08946d8c407e8d3c38b7efa8bcfd1efd1ef03c78946ea8c46ec8b470e8946e8b0ff8b7ef4f7d923ca7502b1042bf97e138bcfd1efd1eff7d923ca741347d2e0d2e0eb0c8bcff7d923cad0e1d2e02bff897ef68846d78b4606d1e0d1e0253c00c43ebc2503c78946e08c46e28b5e0883e3072e8a87be448846d622dad1e32e8b87b644894608c5760e8b7ef08bcf23cad1efd1ef8b44048946daf766e4538bd8250f00d1ead1dbd1ead1dbd1ead1dbd1ead1db8cda03d38956e68eda5b05060003f003f78976e4d1e1894ef0b0ffd2e88846eeeb308ad08ac4f6d026220522e60ac4aa8ac286cdd3e086cdacd3e04b7de42266d78ac4f6d026220522e60ac4aaff4ef2745d8b46dcff46dc250300c47ee003f8268a358a4eded2c63276d6c47eea8b76f8ff46f8d1e60376e836033cc576e48b4eda034ee48bc183e10f894ee4b104d3e88cd903c18946e68b5ef68b4ed82ae4ac2246ee3a4ef077038ae0acff6608161f0ee84ac1e975fe22e62630254786cdd3e086cdacd3e04b7dee2266d722e6263025e978ff22e62608254786cdd3e086cdacd3e04b7dee2266d722e6260825e95bff22e6f6d42620254786cdd3e086cdacd3e04b7dec2266d722e6f6d4262025e93aff",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Starts after the line dispatch words and byte masks at 4234..4244. The last instruction at 44b3 jumps back into the bitmap renderer; its table named by 436e starts at 44b6.",
+        "Original CS descriptor near offsets 1101:3a0e, 1101:3a2c store 1101:4244.",
+        "Complete instruction extent [1101:4244,1101:44b6)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "LES SI and LODSW parse geometry at the entry, with LES AX at 42d0 and a plain register-ABI CALL at 42f6. CS dispatch reads the local operation table at 436e."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far Pascal-shaped, six word slots, RETF 12.",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_packed_bitmap"
+    },
+    {
+      "id": "root:1101:44c6",
+      "space": "root",
+      "segment": 4353,
+      "offset": 17606,
+      "size": 1,
+      "sha256": "383e5d7d58caa41ce723cf16af471b38f6ee9065c032d07fa6bef1678cb72f1d",
+      "original_bytes_hex": "cb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Starts immediately after the bitmap dispatch and mask tables. RETF itself occupies one byte. The next mode slot enters the BP prologue at 44c7.",
+        "Original CS descriptor near offset 1101:3a02 store 1101:44c6.",
+        "Complete instruction extent [1101:44c6,1101:44c7)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Single CB in the CGA teardown slot (word at 3a02); the next descriptor slot enters the odd-address framed routine at 44c7. This one-byte stub has no MSC word padding and sits between two table-driven ASM routines."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far no-op lifecycle hook, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "cga_mode_exit"
+    },
+    {
+      "id": "root:1101:44c7",
+      "space": "root",
+      "segment": 4353,
+      "offset": 17607,
+      "size": 452,
+      "sha256": "f2eade60bca4c5bbd935697c4e5a9acf99d9de1126bd28fd1218249252e81875",
+      "original_bytes_hex": "558bec83c4e657568b3ec025c4760a268b44028b5d062bc3ba0300031ec42523dad1e3895eea3b451a7d038b451a8946fa8bc8d1e8d1e88946f0268b5c062b5d063b5d1e7e038b5d1e895efe2bd97e2623ca750383eb04b8ffffd2e8d2e8f7d923ca2bd97c1d8bcbd1ebd1eb22cad0e1d2ecf6d4eb1dc4460a8cc25e5f8be55dca08008bcbf7d922cad0e1d2e422c42ae42bdb895ef6f7d08946f4268b048bd82b5d048bcb2b4d187d052bc18b5d18895ef80306c2258946e8268b74042b75043b751c7e038b751c8976fc2bf37ea7c405e831c10146f08c46f28b5d0e8b4606d1e0d1e0253c00c43ebc2503c78946ec8c46ee8b7e0883e7072e8a8593468846e623fad1e72e8b958b46eb28262005f6d022c4260805478ac4d1e9f3ab7301aa8a46f53cff740a262005f6d022c42608054e74308b46e8ff46e8250300c47eec03f8268a258a4eead2c43266e68a46f48b7ef8ff46f8d1e78b39c44ef003f98b4ef6ffe20ee873bfe90bfff6d022c426300547e30626302547e2fa8a46f534ff74af22c4263005eba8f6d022c426080547e30626082547e2fa8a46f534ff749122c4260805eb8a0ac426200547e30626202547e2fa8a46f53cff74050ac4262005e96dff",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Starts after the separate CGA exit RETF at 44c6. The last raster path jumps back at 4688; the table named by 45cc starts at 468b.",
+        "Original CS descriptor near offsets 1101:3a10, 1101:3a2e store 1101:44c7.",
+        "Complete instruction extent [1101:44c7,1101:468b)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 44c7, plain near register-ABI CALL at 4598 and JCXZ at 4658. At 4629 it dispatches through DX."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far Pascal-shaped, four word slots, RETF 8.",
+      "original_name": null,
+      "semantic_name_hypothesis": "fill_packed_rectangle"
+    },
+    {
+      "id": "root:1101:469b",
+      "space": "root",
+      "segment": 4353,
+      "offset": 18075,
+      "size": 941,
+      "sha256": "5fe52ec55c4a6a0a7f8fb115638164c2a6139663c1ed90a5baf1293b7f7a3642",
+      "original_bytes_hex": "558bec83c4e457568b1ec025c4760c8b460a2b47062bc98bf82b7f1a7d058b471a2bcf8946fa8bf826037c022bf93b7f1e7e038b7f1e897efe2bf8897ee67e308b46082b47042bd28bf82b7f187d058b47182bd78946f88956ec8bf826033c2bfa3b7f1c7e038b7f1c897efc2bf87f0dc4460c8cc25e5f8be55dca0a00897ee4c407e8acbf8b76fad1eed1ee03c68946f28b470e8946f0c5760c8b44048946eaf766ec8bd8250f00d1ead1dbd1ead1dbd1ead1dbd1ead1db8cda03d38eda05060003f08bc1ba030023cad1e8d1e803f08976ec8b46fa2bc122c28ae0f6d822c27502b004d1e0d1e18946e8894ef4b8ffff8b7ee68b4efa22ca750383ef04d2e8d2e8f7d923ca2bf97e138bcfd1efd1eff7d922ca7415d0e1d2e447eb0e8bcff7d923cad0e1d2e422c42bff897ef68846ee8866ef8b4ee88b5e0683fb08742283fb0a741883e3072e8a97504b80e303d1e32e8b87484b894606e98b00b8e049eb03b88d498946062ad2eb7c86c422c6f6d62622350ac6aa86cdd2c486cd4b7c46743084ed751b87d984d2750bd1e9f3a587d9731ea4eb1bac32c2aae2fa87d9eb11ac32c286c4d3c0aa86cdd2c486cd4b7fefac32c286c4d3c08a76ef22c6f6d62622350ac6aaff4ee4744a8b5eea035eec8bc383e30f895eecd1e8d1e8d1e8d1e88cdb03c38ed88b7ef8ff46f8d1e7037ef0368b3d037ef28b5ef68a76ee8b76ec2ae4ac32c23a4ef477058ae0ac32c2d3e0ff6606161f0ee8ecbce952fe22e6f6d42620254786cdd3e086cd4b7c97742984ed751187d9ac32c2f6d026200547e2f587d9eb14ac32c2d3e0f6d42620254786cdd3e086cd4b7fecac32c2d3e02266eff6d4262025e95cff22e62608254786cdd3e086cd4b7c32742584ed750f87d9ac32c226080547e2f787d9eb12ac32c2d3e02608254786cdd3e086cd4b7feeac32c2d3e02266ef260825e918ff22e62630254786cdd3e086cd4b7c32742584ed750f87d9ac32c226300547e2f787d9eb12ac32c2d3e02630254786cdd3e086cd4b7feeac32c2d3e02266ef263025e9d4fe86c422c68bd3bb484a2ed72620054786cdd2c486cd4a7c36742784ed750f87caac2ed726200547e2f787caeb14ac86c4d3c02ed72620054786cdd2c486cd4a7fecac86c4d3c02246ef2ed72620052ad2e981fe86c422c68a76ef558bebbb484a8ad02ed72622050ac2aa86cdd2c486cd4d7c42742f84ed751387cdac8ad02ed72622050ac2aae2f387cdeb18ac86c4d3c08ad02ed72622050ac2aa86cdd2c486cd4d7fe8ac86c4d3c022c68ad02ed72622050ac2aa5d2ad2e919fe",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Starts after the fill dispatch words/masks. The last raster path at 4a45 jumps back into the compositor. At 4993/49ea MOV BX names the 256-byte CS:XLAT mask table at 4a48.",
+        "Original CS descriptor near offsets 1101:3a12, 1101:3a30 store 1101:469b.",
+        "Complete instruction extent [1101:469b,1101:4a48)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 469b, the plain register-ABI cursor check at 471d, and CS:XLAT with the 2-bit-lane mask table beginning at 4a48."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far Pascal-shaped, five word slots, RETF 10.",
+      "original_name": null,
+      "semantic_name_hypothesis": "composite_packed_bitmap"
+    },
+    {
+      "id": "root:1101:4b58",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19288,
+      "size": 33,
+      "sha256": "2afc59063f26b9fa03aded1ff65b61e091141695501cc611c8f6b2177fa93f14",
+      "original_bytes_hex": "bab403e8b9007516baba03ec8ae0b90080ec2580803ac4e1f8b8010075022bc0cb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Starts after the compositor dispatch and mask tables ending at 4b58. The joined RETF at 4b78 ends at the independent initializer entry.",
+        "Original CS descriptor near offset 1101:3a1c store 1101:4b58.",
+        "Complete instruction extent [1101:4b58,1101:4b79)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "At 4b5b a plain near register-ABI call probes the CRTC, followed by IN at 4b63/4b69 and a hardware status-bit loop."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far entry, register-only probe, returns AX Boolean, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "probe_hercules"
+    },
+    {
+      "id": "root:1101:4b79",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19321,
+      "size": 125,
+      "sha256": "c42f94c5877c5ec08424b4e37c7f9ed22e04bc02792bf2c1cc49093d6426975e",
+      "original_bytes_hex": "57561eb90e00bef64bbfee251e070e1ff3a41fa1f625d1e0509a3b00e61f83c402a3fc2585c075035e5fcb972bf68b0ef6258bc6d1e8d1e8f726fa2589058bc6250300ba0020f7e20305ab46e2e48ec126c606490406babf03b001eebab803b002eebab4032bff8bc72e8aa5044cef4783ff0c72f2bab803b00aeeebab",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "After the probe RETF, the independent initializer starts at 4b79. It returns at 4ba3 and its final path jumps to that epilogue at 4bf4. Data named by MOV SI at 4b7f starts at 4bf6.",
+        "Original CS descriptor near offset 1101:3a1e store 1101:4b79.",
+        "Complete instruction extent [1101:4b79,1101:4bf6)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 4b79; REP MOVSB at 4b89, STOSW at 4bc3 and I/O at 4bd4, 4bda and 4be7."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far lifecycle hook, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "initialize_hercules"
+    },
+    {
+      "id": "root:1101:4c10",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19472,
+      "size": 7,
+      "sha256": "615f7249ee4b0a8adb7195cf686801d27daf003d57caf71b0da887902936f54d",
+      "original_bytes_hex": "babf03b000eecb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "The descriptor teardown slot begins after 14 bytes of geometry and 12 CRTC register bytes. RETF at 4c16 ends immediately before the independent near helper.",
+        "Original CS descriptor near offset 1101:3a20 store 1101:4c10.",
+        "Complete instruction extent [1101:4c10,1101:4c17)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Writes the Hercules configuration I/O port at 4c15 and returns via RETF at 4c16."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Far no-argument lifecycle hook, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "hercules_mode_exit"
+    },
+    {
+      "id": "root:1101:4c17",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19479,
+      "size": 21,
+      "sha256": "cbc45b1aa3613c2efb27a53f57b54cd86dc2ec24abfb869ff1f2355273d6ef36",
+      "original_bytes_hex": "b80f55ee42ec86c4eeb90001e2feec3c5586c4eec3",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Distinct entry after the Hercules teardown RETF; its separate RET at 4c2b precedes the independently called memory probe.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:3f6d, 1101:4b5b.",
+        "Complete instruction extent [1101:4c17,1101:4c2c)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry at 4c17, hardware IN/OUT, and plain near register-ABI calls at 3f6d and 4b5b, passing the port in DX and testing ZF."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Near register helper, DX port base, returns condition in ZF, RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "probe_crtc_register"
+    },
+    {
+      "id": "root:1101:4c2c",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19500,
+      "size": 17,
+      "sha256": "f26bf33db2ea31b536929f4508bcab18b9d3e5f1a05572b54dff6539b57007de",
+      "original_bytes_hex": "8ec051578ac1aae2fb5f598ac1aee1fbc3",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "Distinct entry after CRTC probe RET at 4c2b. Last RET at 4c3c is followed by one byte of zero fill and the neighbouring BP prologue at 4c3e.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:3f65.",
+        "Complete instruction extent [1101:4c2c,1101:4c3d)."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI passes AX, CX and DI at call 3f65; the helper sets ES, uses STOSB and SCASB, and returns to a JNE consuming ZF."
+      ],
+      "classification_status": "Reviewed DOS adapter routines",
+      "abi": "Near register helper, AX segment, DI offset and CX count, returns condition in ZF, RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "probe_video_ram"
     }
   ],
   "schema": 1,

@@ -2568,6 +2568,126 @@
       "evidence": [
         "Register-ABI plain near helper shares its parent frame. Writes [BP-2] and [BP-12h] directly and returns at 97ac."
       ]
+    },
+    "root:1101:3a72": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "3a75 uses ADD SP,-44 and 3a82 uses ES:LODSW. 3bab loads a far pointer with LES AX. 3d14 dispatches through a CS table into the same routine.",
+        "Original CS descriptor near offsets 1101:3a0a, 1101:3a28 store 1101:3a72."
+      ]
+    },
+    "root:1101:3f55": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 3f55; the OUT at 3f5b and the plain near register-ABI probes at 3f65/3f6d control the AX Boolean return.",
+        "Original CS descriptor near offset 1101:39fe store 1101:3f55."
+      ]
+    },
+    "root:1101:3f79": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 3f79, REP MOVSB at 3f89, STOSW at 3fbb and BIOS INT 10h at 3fc2.",
+        "Original CS descriptor near offset 1101:3a00 store 1101:3f79."
+      ]
+    },
+    "root:1101:3fd5": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 3fd5 and ADD SP,-32 at 3fd8. LES DX at 403b and 4046 supplies the near register-ABI calls.",
+        "Original CS descriptor near offsets 1101:3a0c, 1101:3a2a store 1101:3fd5."
+      ]
+    },
+    "root:1101:4201": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Plain near register-ABI calls from 4093, 40b1, 40d0 and 40ec. The helper consumes AX, SI and DI and delivers CX with plain RET at 4214.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:4093, 1101:40b1, 1101:40d0, 1101:40ec."
+      ]
+    },
+    "root:1101:4215": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 4215. Plain near calls at 4040 and 404b supply the endpoint in CX:DX and the clipping rectangle through BX. The helper uses AL for the outcode and returns with near RET at 4233.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:4040, 1101:404b."
+      ]
+    },
+    "root:1101:4244": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "LES SI and LODSW parse geometry at the entry, with LES AX at 42d0 and a plain register-ABI CALL at 42f6. CS dispatch reads the local operation table at 436e.",
+        "Original CS descriptor near offsets 1101:3a0e, 1101:3a2c store 1101:4244."
+      ]
+    },
+    "root:1101:44c6": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Single CB in the CGA teardown slot (word at 3a02); the next descriptor slot enters the odd-address framed routine at 44c7. This one-byte stub has no MSC word padding and sits between two table-driven ASM routines.",
+        "Original CS descriptor near offset 1101:3a02 store 1101:44c6."
+      ]
+    },
+    "root:1101:44c7": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 44c7, plain near register-ABI CALL at 4598 and JCXZ at 4658. At 4629 it dispatches through DX.",
+        "Original CS descriptor near offsets 1101:3a10, 1101:3a2e store 1101:44c7."
+      ]
+    },
+    "root:1101:469b": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 469b, the plain register-ABI cursor check at 471d, and CS:XLAT with the 2-bit-lane mask table beginning at 4a48.",
+        "Original CS descriptor near offsets 1101:3a12, 1101:3a30 store 1101:469b."
+      ]
+    },
+    "root:1101:4b58": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "At 4b5b a plain near register-ABI call probes the CRTC, followed by IN at 4b63/4b69 and a hardware status-bit loop.",
+        "Original CS descriptor near offset 1101:3a1c store 1101:4b58."
+      ]
+    },
+    "root:1101:4b79": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 4b79; REP MOVSB at 4b89, STOSW at 4bc3 and I/O at 4bd4, 4bda and 4be7.",
+        "Original CS descriptor near offset 1101:3a1e store 1101:4b79."
+      ]
+    },
+    "root:1101:4c10": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Writes the Hercules configuration I/O port at 4c15 and returns via RETF at 4c16.",
+        "Original CS descriptor near offset 1101:3a20 store 1101:4c10."
+      ]
+    },
+    "root:1101:4c17": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Odd entry at 4c17, hardware IN/OUT, and plain near register-ABI calls at 3f6d and 4b5b, passing the port in DX and testing ZF.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:3f6d, 1101:4b5b."
+      ]
+    },
+    "root:1101:4c2c": {
+      "verdict": "asm",
+      "group": "graf/packed_video_modes",
+      "evidence": [
+        "Register ABI passes AX, CX and DI at call 3f65; the helper sets ES, uses STOSB and SCASB, and returns to a JNE consuming ZF.",
+        "Plain near E8 call sites in descriptor-backed routines: 1101:3f65."
+      ]
     }
   },
   "summary": {

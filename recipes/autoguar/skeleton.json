@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autoguar/skeleton.json",
-  "binding_sha256": "0de554d56d5b56f715832f9a2a59665fe2f1ed88217c943f877329c611d04500",
+  "binding_sha256": "0cc37e79349c808d99e4fd816025f40582303cd83b9c38338edf3e38ffe40488",
   "claims": [
     {
       "fixup_count": 22,
@@ -113,10 +113,8 @@
         63,
         140
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "overlay-12:2c3e:1516"
     },
     {
@@ -156,6 +154,19 @@
       "target_id": "overlay-12:2c3e:15d8"
     },
     {
+      "fixup_count": 11,
+      "public": "FLOAT_FLAME_SWORD",
+      "relocation_indices": [
+        21,
+        77
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:1602"
+    },
+    {
       "fixup_count": 3,
       "public": "CHECK_JINNEE_COLUMN",
       "relocation_indices": [
@@ -193,10 +204,6 @@
       "public": "SHAKE_BONES"
     },
     {
-      "object_offset": 1168,
-      "public": "FLOAT_FLAME_SWORD"
-    },
-    {
       "object_offset": 1302,
       "public": "SETUP_JINNEE_SMOKE"
     }
@@ -208,19 +215,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 11326,
   "group_id": "group:autoguar/skeleton",
   "kind": "same_source_group",
   "language": "c",
   "name": "autoguar/skeleton",
-  "object_sha256": "42819ee428f1f7330c2249cada5bb31179556f1b089c5588b31e44dc96e3a3fb",
+  "object_sha256": "cacbcf1c8e73832b051a61140c8926d1268dd8376ea49d612fdf6f693ee6b3ed",
   "origin": 4466,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autoguar/skeleton.c",
-  "source_sha256": "de8073daccd4735cc65465b3ea8a7a0d383066dcafb13d17310e4d70b0803d43",
+  "source_sha256": "f030687683a8b97a6479faa24b5916729b5181e7452556209b75c0e9bd796fe9",
   "space": "overlay-12"
 }
