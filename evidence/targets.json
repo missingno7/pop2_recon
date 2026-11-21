@@ -35112,12 +35112,11 @@
       "state": "ANALYZED"
     },
     {
-      "abi": "Far fastcall, image and pass bytes in AL and DL; RETF.",
+      "abi": "Far fastcall, image/pass in AL/DL, RETF.",
       "boundary_evidence": [
-        "Original interval root:078a:0712 through 0b68 exclusive. The entry boundary window is e55dca020090558bec83ec12; the exit boundary window is 5f8be55dcb90558bec83ec02.",
-        "Full linear decode reaches 0b68. Far returns at 0857 retf, 0983 retf, 09d8 retf, 0b66 retf.",
-        "The direct branches stay on instruction boundaries in this extent.",
-        "Relocated incoming CALL FARs include root+0x4b66 (relocation 416), overlay-4+0x53a (relocation 50), overlay-4+0x5f9 (relocation 51), overlay-4+0x76a (relocation 52)."
+        "Locked root interval [0x7fb2,0x80f8).",
+        "BP frame starts at 0712 after RETF 2 and NOP of 0624. Relocated root and overlay-4 CALL FARs independently target 0712.",
+        "Only RETF is at 0857. All direct branches stay within the locked interval and land on instruction starts. A separate BP frame at 0858 is directly called by PUSH CS/CALL at 01dd/01de, 0262/0263, 034a/034b, and 03b9/03ba."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -35174,18 +35173,162 @@
           "relocated_segment_site": 2556,
           "relocation_index": 54,
           "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 211335,
+          "image_offset": 2471,
+          "kind": "far_call",
+          "relocated_segment_site": 2474,
+          "relocation_index": 55,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 211264,
+          "image_offset": 2400,
+          "kind": "far_call",
+          "relocated_segment_site": 2403,
+          "relocation_index": 56,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 213215,
+          "image_offset": 1295,
+          "kind": "far_call",
+          "relocated_segment_site": 1298,
+          "relocation_index": 63,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 213469,
+          "image_offset": 1549,
+          "kind": "far_call",
+          "relocated_segment_site": 1552,
+          "relocation_index": 64,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 213460,
+          "image_offset": 1540,
+          "kind": "far_call",
+          "relocated_segment_site": 1543,
+          "relocation_index": 65,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 213661,
+          "image_offset": 1741,
+          "kind": "far_call",
+          "relocated_segment_site": 1744,
+          "relocation_index": 66,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 213801,
+          "image_offset": 1881,
+          "kind": "far_call",
+          "relocated_segment_site": 1884,
+          "relocation_index": 67,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 245725,
+          "image_offset": 5309,
+          "kind": "far_call",
+          "relocated_segment_site": 5312,
+          "relocation_index": 146,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 245943,
+          "image_offset": 5527,
+          "kind": "far_call",
+          "relocated_segment_site": 5530,
+          "relocation_index": 147,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 246479,
+          "image_offset": 6063,
+          "kind": "far_call",
+          "relocated_segment_site": 6066,
+          "relocation_index": 148,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 247041,
+          "image_offset": 6625,
+          "kind": "far_call",
+          "relocated_segment_site": 6628,
+          "relocation_index": 149,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 263463,
+          "image_offset": 1831,
+          "kind": "far_call",
+          "relocated_segment_site": 1834,
+          "relocation_index": 42,
+          "space": "overlay-13"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 267747,
+          "image_offset": 1235,
+          "kind": "far_call",
+          "relocated_segment_site": 1238,
+          "relocation_index": 41,
+          "space": "overlay-15"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 267728,
+          "image_offset": 1216,
+          "kind": "far_call",
+          "relocated_segment_site": 1219,
+          "relocation_index": 42,
+          "space": "overlay-15"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 268199,
+          "image_offset": 1687,
+          "kind": "far_call",
+          "relocated_segment_site": 1690,
+          "relocation_index": 43,
+          "space": "overlay-15"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 268353,
+          "image_offset": 17,
+          "kind": "far_call",
+          "relocated_segment_site": 20,
+          "relocation_index": 12,
+          "space": "overlay-16"
         }
       ],
       "classification": "GAME_C",
       "classification_evidence": [
-        "Draw dispatch for a loaded custom piece, with 25-byte record indexing and shape/pass checks."
+        "Draw dispatch for a custom piece using the 25-byte record and shape/pass checks."
       ],
       "entry_kind": "direct-code",
       "id": "root:078a:0712",
       "offset": 1810,
       "segment": 1930,
-      "sha256": "bd81c7032323d12297a6a62e3b51bc950cc11fd66606645c6f85f1623188dc71",
-      "size": 1110,
+      "sha256": "64fa0dc6c9d0f94c1363d5723a4c5686a06bcf0c1fd52a3e3ba54d5edd78e3a9",
+      "size": 326,
       "space": "root",
       "state": "ANALYZED"
     },
@@ -41326,38 +41469,45 @@
       ]
     },
     {
-      "id": "root:078a:2108",
-      "space": "root",
-      "segment": 1930,
-      "offset": 8456,
-      "size": 49,
-      "entry_kind": "direct-code",
-      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal void(void), BP frame and eight-byte rectangle, RETF.",
       "boundary_evidence": [
-        "BP prologue directly after prior RETF. Builds a local rectangle and uses the game port, restores its frame and exits RETF at 2138.",
-        "Locked root [0x99a8,0x99d9); preceding bytes 01 11 8b e5 5d cb; closing bytes 90 4d 01 11 8b e5 5d cb; following bytes 90 55 8b ec 83 ec.",
-        "2 original relocated CALL FAR sites name 078a:2108."
+        "Locked root interval [0x99a8,0x99da).",
+        "New BP frame after RETF at 2107; relocated root and overlay-15 callers enter at 2108.",
+        "The sole RETF at 2138 is followed by the MSC alignment NOP at 2139. Direct callers independently target the fresh BP frame at 213a."
       ],
-      "sha256": "2c55c324343a25452cabc117df08460026549c8551c31411cdb23260b2eeb44d",
-      "original_bytes_hex": "558bec83ec088d46f81650b80e0a1e50a1100af7d8502bc0509a2a500111c746fe40018d46f816509a904d01118be55dcb",
+      "boundary_status": "REVIEWED",
       "call_sites": [
         {
-          "kind": "far_call",
-          "space": "root",
-          "image_offset": 22435,
+          "bytes_hex": "9a08218a07",
           "file_offset": 30627,
+          "image_offset": 22435,
+          "kind": "far_call",
           "relocated_segment_site": 22438,
-          "relocation_index": 576
+          "relocation_index": 576,
+          "space": "root"
         },
         {
-          "kind": "far_call",
-          "space": "overlay-15",
-          "image_offset": 44,
+          "bytes_hex": "9a08218a07",
           "file_offset": 266556,
+          "image_offset": 44,
+          "kind": "far_call",
           "relocated_segment_site": 47,
-          "relocation_index": 25
+          "relocation_index": 25,
+          "space": "overlay-15"
         }
-      ]
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Builds the life-bar rectangle, extends it across the screen and clears it."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:2108",
+      "offset": 8456,
+      "segment": 1930,
+      "sha256": "df2c229332e8ffafc3792db2b5033c09ca4549d0f3b629fbe0d55814f628866f",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
     },
     {
       "abi": "Far frameless entry after saving DI/SI, RETF.",
@@ -62275,6 +62425,201 @@
       ],
       "classification_status": "original-byte review and NIS module attribution",
       "entry_kind": "direct-code"
+    },
+    {
+      "abi": "Far Pascal void, two far pointers and five words, BP frame, RETF 18.",
+      "boundary_evidence": [
+        "Fresh BP frame after the middle-item RETF and pad. PUSH CS/CALL at 0e7f/0e80 and 1177/1178 independently enters 119e.",
+        "The CS-indexed eleven-word switch table at [1204,121a) targets only decoded instruction starts. All direct branches remain in the locked routine.",
+        "RETF 18 at 12e0 followed by a single alignment NOP at 12e3. A separate far-called frameless entry begins at 12e4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42784,
+          "image_offset": 34592,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 34591,
+          "space": "root"
+        },
+        {
+          "file_offset": 43544,
+          "image_offset": 35352,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35351,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches masked/flipped bitmap paths and optionally queues an intersected dirty rectangle."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:119e",
+      "offset": 4510,
+      "segment": 1930,
+      "sha256": "665b6a04c57f1d10dfdb4b4c13dd894c68484abb4d9de7e73c4e48b75c06bd11",
+      "size": 326,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), BP frame and two-byte local, RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x8b98,0x8c52).",
+        "Separate BP frame begins at 12f8 after RETF at 12f7. PUSH CS/CALL at 12f3/12f4 enters it.",
+        "All direct branches stay within the frame on instruction boundaries. The last call at 13ab targets 18c6 and returns to frame restoration and RETF at 13b1. DRAW_ALL begins at 13b2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 43924,
+          "image_offset": 35732,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35731,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Walks the room rows and top edge, dispatching cell redraws and drawing queued objects."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:12f8",
+      "offset": 4856,
+      "segment": 1930,
+      "sha256": "2e7fcabcda575279ac3f72ca0c0650072c7fae53fd93abc467fba335b0550ccb",
+      "size": 186,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), frameless, RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x9a2e,0x9a50).",
+        "Starts with a jump at 218e following the 218d NOP and a completed CLEAR_MESSAGE epilogue. Relocated CALL FAR at root+0xefce independently targets it.",
+        "Both loop branches land on internal instruction starts and the sole exit is RETF at 21af. A new BP frame begins at 21b0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8e218a07",
+          "file_offset": 69582,
+          "image_offset": 61390,
+          "kind": "far_call",
+          "relocated_segment_site": 61393,
+          "relocation_index": 1247,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Walks and clears the dirty rectangle table, copying each queued rectangle."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:218e",
+      "offset": 8590,
+      "segment": 1930,
+      "sha256": "9ee6ed1308b2cb39f42dc38c4dd84e037ac87acaa368fec27778c844b0c511ce",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), frameless with RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x9e30,0x9e68).",
+        "Independent relocated CALL FAR at root+0xef8c targets 2590, directly after the 258d RETF 4.",
+        "Both early bound checks branch to the kid-meter path. The return at 25c7 precedes a fresh BP frame independently called at 25c8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a90258a07",
+          "file_offset": 69516,
+          "image_offset": 61324,
+          "kind": "far_call",
+          "relocated_segment_site": 61327,
+          "relocation_index": 1285,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches the opponent meter when the guard index is valid, then draws the kid meter."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:2590",
+      "offset": 9616,
+      "segment": 1930,
+      "sha256": "ad2119f2ae698e4563768815920ea1f1f2a114fbe97db3e9d141f1407c3d9d55",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), BP frame with saved DI/SI, RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0xd3ba,0xd40c).",
+        "New BP frame at 1faa after the RETF ending the accepted 1f32 extent. Relocated root CALL FAR at +0x8b84 targets 0b41:1faa.",
+        "RETF at 1ffb ends its sole exit. A separate function at 1ffc is called by the PUSH CS/CALL at 1fd5/1fd6. Direct branches in 1faa stay within its extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aaa1f410b",
+          "file_offset": 43908,
+          "image_offset": 35716,
+          "kind": "far_call",
+          "relocated_segment_site": 35719,
+          "relocation_index": 789,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies and processes a counted list of 13-byte records through temporary DGROUP storage."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1faa",
+      "offset": 8106,
+      "segment": 2881,
+      "sha256": "76ec136b013fe0e449993ff0897f6cbea577c013cb323e71cac1112bd6369ae3",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl char *(char *), caller cleanup, pointer in AX.",
+      "boundary_evidence": [
+        "Locked root interval [0x217e6,0x21804).",
+        "BP frame after neighboring near RET and one zero pad. Original relocated CALL FAR at root+0x9919 (index 888) targets 1fe6:1986.",
+        "The loop uppercases ASCII lowercase letters in place and exits by RETF at 19a3. Manifest pins the entire 30-byte archive member under recipes/runtime/crt_strupr_medium.json."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8619e61f",
+          "file_offset": 47385,
+          "image_offset": 39193,
+          "kind": "far_call",
+          "relocated_segment_site": 39196,
+          "relocation_index": 888,
+          "space": "root"
+        }
+      ],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "Accepted whole medium-model MSC _strupr runtime member."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1986",
+      "offset": 6534,
+      "segment": 8166,
+      "sha256": "23152ba3155f20422bfc42caf9fac83063b4c02bbdd2974f25159f2a2f2ac926",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

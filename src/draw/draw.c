@@ -422,13 +422,13 @@ void far _fastcall draw_custom_room_image(char index, char pass)
         if ((level_style == 5 && drawn_room != 19 && drawn_room != 16 &&
              drawn_room != 15 && keep_image_in_back(image)) ||
             ((drawn_room == 19 || drawn_room == 16) && keep_gate_image(image))) {
-            entry = &back_queue[back_count++];
+            entry = &back_queue[(*(int *)redraw_flags)++];
             --fore_count;
         }
     } else {
         if (!image->upper)
             return;
-        entry = &back_queue[back_count++];
+        entry = &back_queue[(*(int *)redraw_flags)++];
     }
 queued:
     entry->y = image->y;
@@ -856,14 +856,14 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
                 copy_shape_special(image, x, y, flip);
                 break;
             }
-            /* Fall through to the ordinary image modes. */
+            if (mode == 3) {
+                copy_shape_mode(image, x, y, flip, flags);
+                break;
+            }
         case 2:
         case 3:
         case 8:
-            if (mode == 3)
-                copy_shape_mode(image, x, y, flip, flags);
-            else
-                copy_shape(image, x, y, flip);
+            copy_shape(image, x, y, flip);
             break;
         }
         size = *(BitmapSize far *)image;
@@ -1504,15 +1504,15 @@ void sort_fore_table(void)
         source = dest = 0;
         if (fore_count > 0) {
             first_offset = (int)&fore_queue[0];
-            shape_offset = first_offset + 2;
+            shape_offset = (int)&fore_queue[0].shape;
             do {
                 if (*(fore_queue_segment :> (int _based(void) *)shape_offset) == shape) {
                     if (source != dest) {
-                        item = *(fore_queue_segment :> (DrawEntry _based(void) *)(shape_offset - 2));
-                        move_far_memory(fore_queue_segment :> (void _based(void) *)(first_offset + sizeof(DrawEntry)),
-                                        fore_queue_segment :> (void _based(void) *)first_offset,
-                                        (source - dest) * sizeof(DrawEntry));
-                        *(fore_queue_segment :> (DrawEntry _based(void) *)first_offset) = item;
+                        item = *(((_segment)fore_queue) :> (DrawEntry _based(void) *)(shape_offset - 2));
+                        move_far_memory(((_segment)fore_queue) :> (void _based(void) *)(first_offset + sizeof(DrawEntry)),
+                                        ((_segment)fore_queue) :> (void _based(void) *)first_offset,
+                                        (source - dest) * (int)sizeof(DrawEntry));
+                        *(((_segment)fore_queue) :> (DrawEntry _based(void) *)first_offset) = item;
                     }
                     first_offset += sizeof(DrawEntry);
                     ++dest;
@@ -1525,7 +1525,8 @@ void sort_fore_table(void)
 
 extern DrawRect message_rect;
 extern int suppress_restart, restart_style, message_timeout, message_counter;
-extern char restart_message_a[], restart_message_b[];
+extern char restart_message_a[];
+static char restart_message_b[] = "PRESS KEY TO CONTINUE";
 extern void clear_message(int reset_timer);
 extern void clear_life_bar(void);
 extern void paint_text(DrawRect far *area, int color, int mode, const char far *text);
@@ -1573,7 +1574,7 @@ void clear_message(int reset_timer)
 {
     DrawRect area;
 
-    if (message_timeout == 600) {
+    if (message_counter == 600) {
         inset_rect(&area, &message_rect, -message_rect.left, 0);
         area.right = 320;
         draw_room_border(&area, 0);
@@ -1761,22 +1762,23 @@ extern void draw_opponent_meter(signed char guard, int life, int max_life);
 
 void draw_kid_meter(int life, int max_life)
 {
-    int x = 2, index;
+    int x = 2, index, visible, mode = 1;
     struct { DrawRect rect; volatile int blank_start, full_cells; } state;
 
-    if (life > 0) {
-        state.full_cells = life;
-        index = state.full_cells;
+    state.blank_start = 0;
+    if ((visible = life) > 0) {
+        state.full_cells = visible;
+        index = visible;
         do {
-            blit_meter_shape(meter_sheet, 216, x, 193, 0, 1);
+            blit_meter_shape(meter_sheet, 216, x, 193, 0, mode);
             x += 8;
         } while (--index);
     }
     if (life < max_life) {
+        index = max_life - life;
         state.blank_start = life;
-        index = max_life - state.blank_start;
         do {
-            blit_meter_shape(meter_sheet, 217, x, 193, 0, 1);
+            blit_meter_shape(meter_sheet, 217, x, 193, 0, mode);
             x += 8;
         } while (--index);
     }
@@ -1826,9 +1828,10 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
         guard_kind == 10 || guard_kind == 11 || guard_kind == 0 ||
         (guard_kind == 4 && level_number == 5 && guard_level_room == 1 &&
          (guard_action == 10 || guard_action == 7 || guard_action == 12))) {
-        rect = meter_strip;
         rect.top = 193;
         rect.left = 218;
+        rect.bottom = meter_strip.bottom;
+        rect.right = meter_strip.right;
         clear_text_area(&rect);
     } else if (game_tick_counter != 600) {
         x = 308;
@@ -1989,8 +1992,11 @@ void fill_palette_with_color(unsigned char color)
     palette = (PaletteColor far *)allocate_palette(768L);
     read_palette(color, 1, (unsigned char far *)palette);
     next = palette + 1;
-    for (remaining = 255; remaining; --remaining)
-        *next++ = *palette;
+    remaining = 255;
+    do {
+        *next = *palette;
+        ++next;
+    } while (--remaining);
     if (!saved_palette) {
         saved_palette = allocate_palette(720L);
         read_palette(16, 240, saved_palette);
@@ -2006,9 +2012,9 @@ void fill_palette_with_color(unsigned char color)
 int set_palette(int resource, int first, unsigned char count, unsigned char palette)
 {
     unsigned char total;
-    unsigned int handle;
-    unsigned char far *colors;
-    int current_count, success;
+    register unsigned int handle;
+    unsigned char far *volatile colors;
+    int success;
 
     total = get_total_pals(resource);
     handle = find_palette(0x50414c53UL, resource);
@@ -2016,14 +2022,14 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
         colors = (unsigned char far *)lock_resource(handle);
         if (first < 16) {
             if (saved_palette) {
-                current_count = count < 16 - first ? count : 16 - first;
-                if (count - current_count > 0)
-                    copy_palette_bytes(saved_palette, colors + (count * palette + current_count) * 3,
-                                       (count - current_count) * 3);
+                total = count < 16 - first ? count : 16 - first;
+                if (count - total > 0)
+                    copy_palette_bytes(saved_palette, colors + (count * palette + total) * 3,
+                                       (count - total) * 3);
             } else {
-                current_count = count;
+                total = count;
             }
-            write_palette(first, current_count, colors + count * palette * 3, 1);
+            write_palette(first, total, colors + count * palette * 3, 1);
         } else if (saved_palette) {
             copy_palette_bytes(saved_palette + first * 3 - 48, colors + count * palette * 3, count * 3);
         } else {
