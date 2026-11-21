@@ -49265,6 +49265,204 @@
       "size": 380,
       "space": "overlay-6",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, a near tile-draw record pointer at BP+6 and RETF 2. No result consumed by observed callers.",
+      "boundary_evidence": [
+        "The prior MOVETEMP frame ends at overlay-9+0xfd6 after a RETF and alignment NOP. DRAWTEMP enters with 55 8B EC at 2b4b:0006. 14 decoded PUSH CS / CALL pairs in the frame target the entry. The sole RETF 2 at 2b4b:01d5 falls directly before the independently framed entry at 01d8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 236348,
+          "image_offset": 4572,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4571,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 236716,
+          "image_offset": 4940,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4939,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 236860,
+          "image_offset": 5084,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5083,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 237326,
+          "image_offset": 5550,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5549,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 237620,
+          "image_offset": 5844,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5843,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 238020,
+          "image_offset": 6244,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6243,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 238214,
+          "image_offset": 6438,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6437,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 238328,
+          "image_offset": 6552,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6551,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 238454,
+          "image_offset": 6678,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6677,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 238650,
+          "image_offset": 6874,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6873,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 238796,
+          "image_offset": 7020,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7019,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239044,
+          "image_offset": 7268,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7267,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239275,
+          "image_offset": 7499,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7498,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239674,
+          "image_offset": 7898,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7897,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Masks a background kind and modifier, unions matching back-table clips, and falls back to background queue insertion with paired image handling. FM Towns DRAWTEMP orders DrawTempBackWall first."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0006",
+      "offset": 6,
+      "original_bytes_hex": "558bec83ec1657568b7e068a4507240f8846fd8a5d0683e31f7503e9ac0183fb14750dc746fe1300c746fa0100eb0990895efec746fa0000833e6662007403e9ba008a5501feca8a5d028b46fe9ac40769018bf08956f60bd07503e98e008d46ec16508bc68b56f6050a005250b836621e509a845201110bc07471c746f800008bc68b56f6050a0052505250b836621e509a9c640111837efa00746d8b46fe408a5501feca8a5d029ac40769018bf08956f60bd074538d46ec16508bc68b56f6050a005250b836621e509a845201110bc074368bc68b56f6050a0052505250b836621e509a9c640111eb1e902bc0998bf08956f6c746f80100eb0e90c746f800002bc0998bf08956f68b46f60bc67403e9b700837ef800751b807efd007415807d01ff7506807efd037609807d02037403e99600c746f801008b363662807d02007c428a4501508a4502509ab22c8a070bc075318a4502988bd8d1e38b87be0d8946ea3b0638627e1c3bc67d028bc6a33662b836621e509a6e4d01110bc07405c746f80000837ef800743b8046fd248a46fd50ff76fe8a4501508a4502502ac050509a22016901837efa0074198a46fd50b8feff508a4501508a4502502ac050509aa8016901893636625e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "semantic_name_hypothesis": "draw_temple_back_wall",
+      "sha256": "b6d5de7ba2693c3c4de86b7d4f7a1984b21b6ddbda770ed7362c14ca2c40be63",
+      "size": 466,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two byte arguments in word slots at BP+8 and BP+6, Boolean word AX, RETF 4.",
+      "boundary_evidence": [
+        "Independent relocated far entry from overlay 8 at image offset 11e2. BP frame at a552. Conditional branches join at a5c2 and RETF 4 at a5c8 followed by a NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 230703,
+          "image_offset": 4575,
+          "kind": "far_call",
+          "relocated_segment_site": 4578,
+          "relocation_index": 97,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 236161,
+          "image_offset": 4385,
+          "kind": "far_call",
+          "relocated_segment_site": 4388,
+          "relocation_index": 150,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239235,
+          "image_offset": 7459,
+          "kind": "far_call",
+          "relocated_segment_site": 7462,
+          "relocation_index": 151,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Queries neighboring cell IDs and tests type combinations before returning a Boolean."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "root:078a:2cb2",
+      "offset": 11442,
+      "original_bytes_hex": "558bec83ec02562bf68a4608508a4606509aec04770f8846ff500ee8f8fb0bc0754b807eff057445807eff06743f807eff037507803e49450d74328a4608508a4606509a7a05770f8846fe500ee8c6fb0bc07519807efe057413807efe06740d807eff03750a803e49450d7503be01008bc65e8be55dca040090",
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "test_back_neighbor",
+      "sha256": "5489b71768b81c2ccecb80ec040015fb2a2a0d3d0ff21da5f621ad524e913939",
+      "size": 122,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument routine, RETF, no return value consumed.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0d71 (root relocation 1993, descriptor 7) far-jumps to 2b4b:0f20 in overlay 9. Entry immediately follows the RETF 2 of 2b4b:0ee2. The store ends in RETF then one alignment NOP, before the eight zero overlay fill bytes."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "The DRAWTEMP overlay entry clears the same draw state as the DRAWRUIN overlay vector and returns."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0f20",
+      "offset": 3872,
+      "original_bytes_hex": "c706205e0000cb90",
+      "original_name": "LoadTempleDrawCode",
+      "original_name_evidence": [
+        "It is the final FM Towns DRAWTEMP public. Independently, the DOS RTLink loader vector lands on this overlay initialization routine."
+      ],
+      "segment": 11083,
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "size": 8,
+      "space": "overlay-9",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
