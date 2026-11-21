@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "30456ef93b2d72383038ee6c6b6320cbed9949a49f8633c4250d595c1e8c0c6c",
+  "binding_sha256": "d8cf16a63fe78e443d17d972f3f0512fda71e5c59eb456ec1e2de23ebb2a82a5",
   "claims": [
     {
       "fixup_count": 1,
@@ -11,6 +11,19 @@
       "fixup_count": 2,
       "public": "SETOPPMAXLIFEPTS",
       "target_id": "overlay-3:2344:0042"
+    },
+    {
+      "fixup_count": 9,
+      "public": "SET_SPECIAL_OPPONENT",
+      "relocation_indices": [
+        32,
+        122
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:0740"
     },
     {
       "fixup_count": 7,
@@ -76,6 +89,27 @@
       "target_id": "overlay-3:2344:0fae"
     },
     {
+      "fixup_count": 31,
+      "public": "CHECK_CUT",
+      "relocation_indices": [
+        16,
+        31,
+        41,
+        65,
+        71,
+        88,
+        89,
+        94,
+        102,
+        106
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:1088"
+    },
+    {
       "fixup_count": 6,
       "public": "CAN_ACTOR_FOLLOW",
       "target_id": "overlay-3:2344:12a0"
@@ -121,6 +155,23 @@
       "target_id": "overlay-3:2344:1f0e"
     },
     {
+      "fixup_count": 64,
+      "public": "TEST_ACTOR_STRIKE",
+      "relocation_indices": [
+        12,
+        54,
+        75,
+        86,
+        112,
+        117
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:1f76"
+    },
+    {
       "fixup_count": 1,
       "public": "IS_STRIKING_POSITION",
       "target_id": "overlay-3:2344:22e8"
@@ -162,12 +213,8 @@
       "public": "UPDATE_OPPONENT_RECORD"
     },
     {
-      "object_offset": 1704,
+      "object_offset": 1702,
       "public": "TRANSFER_OPPONENT_RECORD"
-    },
-    {
-      "object_offset": 1856,
-      "public": "SET_SPECIAL_OPPONENT"
     },
     {
       "object_offset": 1980,
@@ -196,10 +243,6 @@
     {
       "object_offset": 3602,
       "public": "GET_GENERATOR"
-    },
-    {
-      "object_offset": 4232,
-      "public": "CHECK_CUT"
     },
     {
       "object_offset": 4432,
@@ -238,10 +281,6 @@
       "public": "BEGIN_ACTOR_DEATH"
     },
     {
-      "object_offset": 8054,
-      "public": "TEST_ACTOR_STRIKE"
-    },
-    {
       "object_offset": 8572,
       "public": "@get_char_strike_ranges"
     }
@@ -262,12 +301,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "e7cfd8141f7afb1ff2ad318c551dea4d1f6d5599f9acae570656217978eb3549",
+  "object_sha256": "f1f5b6e0c1f0f7478d0c7ef92bb8a7ac92727814810ddf50e0be147a7452b0a3",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "1edef1d652d1dd82bb0c83697c7935f94bff4d80e5ccc57b43d9f1f41a7ca3e9",
+  "source_sha256": "8b165f9b84414406ba62a58e37c3dd39d39db0b947660a92c8b9cd7fe95f65d0",
   "space": "overlay-3"
 }

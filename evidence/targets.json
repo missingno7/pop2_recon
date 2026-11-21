@@ -61409,6 +61409,43 @@
         "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
       ],
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-3:2344:0740",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 1856,
+      "size": 124,
+      "sha256": "c980f4e70ce2a4b7ef56112df32b9de5be9939e262316b068bab9d1c576461b2",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original same-file PUSH CS; E8 calls at 056f and 0729 reach the BP prologue after the RETF at 073f.",
+        "The complete original extent ends with RETF 2 at 07b8 and the alignment NOP at 07bb. All branch destinations are inside the extent at instruction starts. The next BP frame at 07bc is the independently reviewed RemoveOppFromRoom."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 1391,
+          "pushed_cs_site": 1390,
+          "file_offset": 186159
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 1833,
+          "pushed_cs_site": 1832,
+          "file_offset": 186601
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Dispatches record initialization by actor kind, including two direct relocated overlay calls and a near-record saved-Y or appearance update."
+      ],
+      "abi": "Far Pascal void(near opponent record *), BP+6, RETF 2."
     }
   ],
   "schema": 1,

@@ -108,9 +108,9 @@ extern volatile unsigned char adjacent_actor_room;
 extern live_opponent actor_state;
 #define actor_index actor_state.index
 extern signed char tracked_actor_index;
-extern volatile signed char actor_direction;
-extern signed char hit_actor_column, hit_actor_direction;
 extern signed char actor_column, actor_row, actor_horizontal_speed, actor_vertical_speed;
+extern signed char hit_actor_column, hit_actor_direction;
+extern volatile signed char actor_direction;
 extern unsigned char current_room;
 #define actor_room current_room
 extern volatile int bank_mask;
@@ -352,6 +352,7 @@ int far pascal update_opponent_record(void)
     int removed = 0;
     opponent_record *record, *prior;
     unsigned char room;
+    struct vertical_positions { int saved, other, entry; };
     opponent_record copy;
 
     if (actor_direction == 86 || actor_flags == 5 || actor_flags == 4 || state_word == 196) {
@@ -394,9 +395,8 @@ int far pascal update_opponent_record(void)
                     copy.behavior_type = actor_behavior_type;
                     copy.appearance = prior->appearance;
                     copy.max_life = prior->max_life;
-                    copy.saved_y = prior->saved_y;
-                    copy.other_y = prior->other_y;
-                    copy.entry_y = prior->entry_y;
+                    *(struct vertical_positions *)&copy.saved_y =
+                        *(struct vertical_positions *)&prior->saved_y;
                     add_opponent_to_room(room, &copy);
                 } else if (actor_sequence_mode == 9 && room_style == 5) {
                     check_room_object(10025);
@@ -418,7 +418,10 @@ void far pascal transfer_opponent_record(void)
 {
     opponent_record copy;
 
-    copy = *GetOppInfoIdx(actor_room, actor_index);
+    opponent_record *record;
+
+    record = GetOppInfoIdx(actor_room, actor_index);
+    copy = *record;
     RemoveOppFromRoom(actor_room, actor_index);
     cut_actor(previous_actor);
     copy.tile = column_to_tile(actor_column);
