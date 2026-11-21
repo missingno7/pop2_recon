@@ -185,7 +185,7 @@ struct frame_info {
 
 extern struct frame_info current_frame;
 extern struct frame_info far default_frames[];
-extern signed char frame_set;
+extern volatile unsigned char character_kind;
 extern unsigned int frame_number;
 extern unsigned int frame_resource;
 extern void far *far pascal lock_frame_resource(unsigned int handle);
@@ -214,7 +214,7 @@ void far pascal get_frame_info(void)
     unsigned int adjust = 0;
     struct frame_info far *frames = lock_frame_resource(frame_resource);
 
-    switch (frame_set) {
+    switch ((signed char)character_kind) {
     case 0:
     case 1:
     case 6:
@@ -617,12 +617,14 @@ void far pascal Gravity(void)
     }
 }
 
+extern signed char horizontal_step;
+
 void far pascal add_char_velocity(void)
 {
     if (character_y < 2000) {
-        character_y += character_velocity_y;
-        if (character_fall == 4 || character_kind == 7 || character_kind == 8) {
-            char_x = offset_char_x(character_velocity_x);
+        character_y += vertical_step;
+        if (state_code == 4 || character_kind == 7 || character_kind == 8) {
+            char_x = offset_char_x(horizontal_step);
             reread_cells();
         }
     }
@@ -642,22 +644,26 @@ void far pascal ClearCharVel(void)
 extern signed char life_points;
 extern signed char life_delta;
 
-int far pascal decrement_life_points(signed char amount)
+int far pascal decrement_life_points(volatile signed char amount)
 {
     int lethal = 0;
 
-    if (!(character_kind == 4 && STATE_LEVEL == 5 && character_row == 1 &&
-          (character_room == 10 || character_room == 7 || character_room == 12))) {
-        if (life_points <= amount) {
-            if (-life_points < life_delta)
-                life_delta = -life_points;
-            ++lethal;
-        } else if (-life_delta < amount) {
-            life_delta = -amount;
-        } else {
-            lethal = (unsigned)(life_points + life_delta) < 1;
-        }
+    if (character_kind == 4 && STATE_LEVEL == 5 && character_row == 1 &&
+          (character_room == 10 || character_room == 7 || character_room == 12))
+        goto done;
+    if (life_points > amount)
+        goto pending;
+    if (-life_points < life_delta)
+        life_delta = -life_points;
+    lethal = 1;
+    goto done;
+pending:
+    if (-life_delta < amount) {
+        life_delta = -amount;
+        goto done;
     }
+    lethal = (unsigned)(life_points + life_delta) < 1;
+done:
     return lethal;
 }
 

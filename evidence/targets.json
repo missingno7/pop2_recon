@@ -19061,6 +19061,75 @@
       "size": 72,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "Original root+bb38 contains 9aea09cc02 with MZ index 1054. The previous RETF 09e8 and NOP 09e9 precede the BP frame 09ea.",
+        "All branches land inside the body. Two returns at 0a92 and 0a9b close the body before the separately entered 0a9c.",
+        "The four far-call segment fields at 0a0f, 0a40, 0a5f and 0a73 are its original MZ obligations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56120,
+          "image_offset": 47928,
+          "kind": "far_call",
+          "relocated_segment_site": 47931,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Queries the tile and additional mode-specific floor predicates before selecting a fall or correcting character X."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:09ea",
+      "offset": 2538,
+      "original_bytes_hex": "558bec83ec02f606165e407503e99e00803e065c0a7503e994000ee8d0ff8846ff509afe288a070bc07424807eff077517813e075cf6007208813e075c0501760e803e065c0b74070ee89a058846ff8a46ff509ac8288a070bc0750f807eff1e754ca07162240f3c027343803e47450575099a120acf290bc07533803e474502750db81000509a800a4e2a0bc0751f803e065c0b75140ee804062d2a00500ee8d4f8a3025c8be55dcb900ee804008be55dcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "on_ground",
+      "sha256": "9d698fa7fb753f0c80f98a042b82db55ded3e53b90bbc72c562b711712e7afde",
+      "size": 178,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One Pascal word at BP+6, Boolean result in AX, RETF 2.",
+      "boundary_evidence": [
+        "Independent original relocated overlay-3+3e87 and +525c call 2a4e:0a80 (indices 221 and 441).",
+        "Overlay 9 has a BP frame at 0a80 after RETF 0a7e and NOP 0a7f. Overlay 8 at the same alias instead starts inside a previously framed conditional path.",
+        "All local branches stay in the body and join the return at 0afe, ending with RETF 2 at 0b06 and NOP 0b09. A new BP frame starts at 0b0a.",
+        "The state-2 call at 02cc:0a70 supplies 16. The overlay-9 body reads one word and uses it in a room/row/column probe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200775,
+          "image_offset": 16007,
+          "kind": "far_call",
+          "relocated_segment_site": 16010,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calculates a coordinate interval from the current room tile and tests two directions against the supplied margin."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0a80",
+      "offset": 2688,
+      "original_bytes_hex": "558bec83ec065756c746fa00002ac050a0746250a07662500ee8ccf88bf00bf6745ca0756298b105d3e08946fc0520008946fe8b7e068b46fc2bc705200081ee8c003bc67f0c8b46fe2bc70520003bc67d27b0ff50a0746250a07662500ee887f88bf08b46fc2bc781ee8c003bc67f0e2b7efef7df3bfe7c05c746fa01008b46fa5e5f8be55dca020090",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "probe_chain_floor",
+      "sha256": "7c18f7a68080281517681c71e4060af04f909f4cc08237a2887be971b008d7af",
+      "size": 138,
+      "space": "overlay-9",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
