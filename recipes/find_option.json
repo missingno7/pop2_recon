@@ -1,0 +1,57 @@
+{
+  "binding": "evidence/bindings/find_option.json",
+  "binding_sha256": "a1bd07f70b096f1626f28695566b4b6a7d4888606c447d1b89cbda47179ad5e2",
+  "claims": [
+    {
+      "fixup_count": 6,
+      "public": "FIND_OPTION",
+      "relocation_indices": [
+        1582,
+        1644
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:29aa"
+    },
+    {
+      "fixup_count": 7,
+      "public": "LOAD_SOUND_SETTINGS",
+      "relocation_indices": [
+        1438,
+        1465,
+        1485,
+        1490,
+        1576,
+        1641
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:2a04"
+    }
+  ],
+  "drafts": [],
+  "emitted_size": 262,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oel",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 4353,
+  "group_id": "group:find_option",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "find_option",
+  "object_sha256": "9aca544c9217945cb5fc9e53f7909f08d7ed12a06d1f4926a00edec4eacc7344",
+  "origin": 80314,
+  "profile": "msc600a_bound",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/find_option.c",
+  "source_sha256": "11fdd7c9582fd2b4979bd93e0df7f3fb615b46f53ea59441413838a9afba30e3",
+  "space": "root"
+}

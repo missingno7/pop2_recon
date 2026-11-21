@@ -53892,6 +53892,333 @@
       ],
       "semantic_name_hypothesis": "wait_for_ready",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near pathname, AX near settings pointer, RETF 2.",
+      "boundary_evidence": [
+        "Independent overlay-2+185 relocation 26 enters the BP frame. All paths exit at RETF 2 at 2aac followed by the compiled NOP at 2aaf. A four-byte FFFFFFFF region precedes the distinct callback at 2ab4.",
+        "Complete extent 2a04..2ab0 (exclusive).",
+        "Independent CALL FAR at overlay-2+0x185."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156325,
+          "image_offset": 389,
+          "kind": "far_call",
+          "relocated_segment_site": 392,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 17 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2a04",
+      "offset": 10756,
+      "segment": 4353,
+      "semantic_name_hypothesis": "load_sound_settings",
+      "sha256": "45c5284829d075e97d7560912bfae30635ee9dbbb359f960df56c616ca37cef3",
+      "size": 172,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl DOS handle, DX:AX signed length, RETF.",
+      "boundary_evidence": [
+        "A relocated entry at root+5f25 (index 601) enters the BP frame. The three seek operations preserve the current position and return length. All branches converge at RETF 17ed immediately before the 17ee BP frame.",
+        "Original entry extent 1768..17ee (exclusive)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32549,
+          "image_offset": 24357,
+          "kind": "far_call",
+          "relocated_segment_site": 24360,
+          "space": "root"
+        },
+        {
+          "file_offset": 32521,
+          "image_offset": 24329,
+          "kind": "far_call",
+          "relocated_segment_site": 24332,
+          "space": "root"
+        },
+        {
+          "file_offset": 36549,
+          "image_offset": 28357,
+          "kind": "far_call",
+          "relocated_segment_site": 28360,
+          "space": "root"
+        },
+        {
+          "file_offset": 88631,
+          "image_offset": 80439,
+          "kind": "far_call",
+          "relocated_segment_site": 80442,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Original DOS runtime ABI and reached path."
+      ],
+      "classification_status": "Reviewed runtime entry for wave 17",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1768",
+      "offset": 5992,
+      "segment": 8166,
+      "semantic_name_hypothesis": "dos_file_length",
+      "sha256": "e5adee40090b0031d65734b4db6f9d04b29028b3054bd3cc6080829953adeb4e",
+      "size": 134,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl count and size, near AX pointer, RETF.",
+      "boundary_evidence": [
+        "Original relocated settings-loader caller at root+13a50 (index 1490). The entry starts with its own BP frame after RETF 17ed. Both multiply overflow and allocation/zeroing paths end in RETF 181b, before 181c.",
+        "Original entry extent 17ee..181c (exclusive)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 88656,
+          "image_offset": 80464,
+          "kind": "far_call",
+          "relocated_segment_site": 80467,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Original DOS runtime ABI and reached path."
+      ],
+      "classification_status": "Reviewed runtime entry for wave 17",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:17ee",
+      "offset": 6126,
+      "segment": 8166,
+      "semantic_name_hypothesis": "near_calloc",
+      "sha256": "6c041232cbb5020393e0483e34e8f59c9980f4801d66db75367d8328c24ffa26",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl DOS handle; tail through shared DOS result routine.",
+      "boundary_evidence": [
+        "The accepted runtime owner spans this exact thunk. It sets AH=3eh, invokes DOS and jumps to common exit 0604. Independent original call at root+5f78 (index 455).",
+        "Original entry extent 1b94..1ba1 (exclusive)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32632,
+          "image_offset": 24440,
+          "kind": "far_call",
+          "relocated_segment_site": 24443,
+          "space": "root"
+        },
+        {
+          "file_offset": 33056,
+          "image_offset": 24864,
+          "kind": "far_call",
+          "relocated_segment_site": 24867,
+          "space": "root"
+        },
+        {
+          "file_offset": 33408,
+          "image_offset": 25216,
+          "kind": "far_call",
+          "relocated_segment_site": 25219,
+          "space": "root"
+        },
+        {
+          "file_offset": 36630,
+          "image_offset": 28438,
+          "kind": "far_call",
+          "relocated_segment_site": 28441,
+          "space": "root"
+        },
+        {
+          "file_offset": 36995,
+          "image_offset": 28803,
+          "kind": "far_call",
+          "relocated_segment_site": 28806,
+          "space": "root"
+        },
+        {
+          "file_offset": 38087,
+          "image_offset": 29895,
+          "kind": "far_call",
+          "relocated_segment_site": 29898,
+          "space": "root"
+        },
+        {
+          "file_offset": 38191,
+          "image_offset": 29999,
+          "kind": "far_call",
+          "relocated_segment_site": 30002,
+          "space": "root"
+        },
+        {
+          "file_offset": 88716,
+          "image_offset": 80524,
+          "kind": "far_call",
+          "relocated_segment_site": 80527,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Original DOS runtime ABI and reached path."
+      ],
+      "classification_status": "Reviewed runtime entry for wave 17",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1b94",
+      "offset": 7060,
+      "segment": 8166,
+      "semantic_name_hypothesis": "dos_close",
+      "sha256": "2ffa060069b8535daa1e571b66ae66245b96c5db36f6951433341e8c95376a11",
+      "size": 13,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl near pathname, access mode and near handle out pointer.",
+      "boundary_evidence": [
+        "The accepted runtime owner spans this BP-framed thunk. It uses DOS AH=3dh and writes the successful result before tail-jumping to the common exit. Independent original call at root+5efa (index 513).",
+        "Original entry extent 1bcc..1be3 (exclusive)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32506,
+          "image_offset": 24314,
+          "kind": "far_call",
+          "relocated_segment_site": 24317,
+          "space": "root"
+        },
+        {
+          "file_offset": 32752,
+          "image_offset": 24560,
+          "kind": "far_call",
+          "relocated_segment_site": 24563,
+          "space": "root"
+        },
+        {
+          "file_offset": 33112,
+          "image_offset": 24920,
+          "kind": "far_call",
+          "relocated_segment_site": 24923,
+          "space": "root"
+        },
+        {
+          "file_offset": 36534,
+          "image_offset": 28342,
+          "kind": "far_call",
+          "relocated_segment_site": 28345,
+          "space": "root"
+        },
+        {
+          "file_offset": 38025,
+          "image_offset": 29833,
+          "kind": "far_call",
+          "relocated_segment_site": 29836,
+          "space": "root"
+        },
+        {
+          "file_offset": 38113,
+          "image_offset": 29921,
+          "kind": "far_call",
+          "relocated_segment_site": 29924,
+          "space": "root"
+        },
+        {
+          "file_offset": 88616,
+          "image_offset": 80424,
+          "kind": "far_call",
+          "relocated_segment_site": 80427,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Original DOS runtime ABI and reached path."
+      ],
+      "classification_status": "Reviewed runtime entry for wave 17",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1bcc",
+      "offset": 7116,
+      "segment": 8166,
+      "semantic_name_hypothesis": "dos_open",
+      "sha256": "8e72d48fd7a93e0ce5f4e53aa104fd48c5f879bcd314a3f3e7a212698209d4d7",
+      "size": 23,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl handle, far buffer, count and near bytes-read pointer.",
+      "boundary_evidence": [
+        "The relocated call at root+5f4a (index 679) enters a BP prologue and sets AH=3fh before tail-jumping to the shared Read/Write body at 1bf0. An independent prologue at 1beb sets AH=40h for the Write entry.",
+        "Original entry extent 1be4..1beb (exclusive)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32586,
+          "image_offset": 24394,
+          "kind": "far_call",
+          "relocated_segment_site": 24397,
+          "space": "root"
+        },
+        {
+          "file_offset": 32833,
+          "image_offset": 24641,
+          "kind": "far_call",
+          "relocated_segment_site": 24644,
+          "space": "root"
+        },
+        {
+          "file_offset": 36584,
+          "image_offset": 28392,
+          "kind": "far_call",
+          "relocated_segment_site": 28395,
+          "space": "root"
+        },
+        {
+          "file_offset": 38146,
+          "image_offset": 29954,
+          "kind": "far_call",
+          "relocated_segment_site": 29957,
+          "space": "root"
+        },
+        {
+          "file_offset": 88683,
+          "image_offset": 80491,
+          "kind": "far_call",
+          "relocated_segment_site": 80494,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Original DOS runtime ABI and reached path."
+      ],
+      "classification_status": "Reviewed runtime entry for wave 17",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1be4",
+      "offset": 7140,
+      "segment": 8166,
+      "semantic_name_hypothesis": "dos_read_thunk",
+      "sha256": "a822c2510e5f7801517877300c94184bf84b05504f4fee2e1d4d009b62e4ec59",
+      "size": 7,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
