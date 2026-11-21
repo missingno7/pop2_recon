@@ -552,12 +552,13 @@ extern void far pascal edit_slot_key(struct slot_editor far *, int);
 int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
 {
     char initials[26];
-    struct slot_editor far *editor = 0;
+    struct slot_editor far *editor;
     struct dialog_rect rect;
-    int result = -1;
-    int done = 0;
-    int previous = -1, slot = 0;
-    int key;
+    int result, done, previous, slot, key;
+
+    result = previous = -1;
+    done = slot = 0;
+    editor = 0;
 
     do {
         if (previous != slot) {
@@ -583,11 +584,7 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
         switch (key) {
         case 9:
             previous = slot;
-            if (slot == 9)
-                slot = 0;
-            else
-                ++slot;
-            break;
+            goto advance_slot;
         case 13:
             if ((saving == 0 && !_fstrlen(slots->initials[slot])) ||
                 (saving == 1 && !_fstrlen(initials))) {
@@ -615,13 +612,13 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
                 case 0x4800: slot = slot ? slot - 1 : 9; break;
                 case 0x4b00:
                 case 0x4d00:
-                    if (slot >= 5)
-                        slot -= 5;
-                    else
-                        slot += 5;
+                    slot += slot >= 5 ? -5 : 5;
                     break;
                 case 0x4f00: slot = 9; break;
-                case 0x5000: slot = slot == 9 ? 0 : slot + 1; break;
+                case 0x5000:
+                advance_slot:
+                    slot = slot == 9 ? 0 : slot + 1;
+                    break;
                 }
             }
             break;
