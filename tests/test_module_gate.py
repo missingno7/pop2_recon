@@ -493,6 +493,15 @@ class V4FieldTests(unittest.TestCase):
         self.assertEqual(operand_field(self.rows("053412")[0], 1, candidate=True), "immediate")
         self.assertIsNone(operand_field(self.rows("e83412")[0], 1, candidate=True))
 
+    def test_indirect_call_and_jump_through_memory_carry_a_data_address(self):
+        from binding import operand_field
+        # call far [1fe8], call [1fe8], jmp [1fe8]: the disp16 names the pointer's storage.
+        for code in ("ff1ee81f", "ff16e81f", "ff26e81f"):
+            self.assertEqual(operand_field(self.rows(code)[0], 2), "displacement", code)
+        # Register-indirect calls and direct far calls have no data address field.
+        self.assertIsNone(operand_field(self.rows("ffd3")[0], 1))
+        self.assertIsNone(operand_field(self.rows("9a34120000")[0], 1))
+
     def test_nonzero_addend_is_refused(self):
         from binding import OPERAND_MODE, data_equations
         code = bytes.fromhex("b80900cb")  # mov ax, offset sym+9 ; retf

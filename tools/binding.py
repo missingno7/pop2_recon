@@ -123,9 +123,16 @@ def operand_field(insn, at, *, candidate=False):
     For a candidate field the compiler's FIXUPP already marks it as an address, so any
     non-branch imm16 (ADD/SUB/CMP ... offset X) qualifies; an original witness has no
     FIXUPP, so only MOV/PUSH immediates count there."""
-    cs, _ = _capstone()
+    cs, xc = _capstone()
     if set(insn.groups).intersection((cs.CS_GRP_JUMP, cs.CS_GRP_CALL, cs.CS_GRP_RET,
                                       cs.CS_GRP_IRET, cs.CS_GRP_INT)):
+        # An indirect near/far CALL or JMP through memory (FF /2../5) reads a pointer stored at
+        # its disp16: that field is a data address like any other memory operand. Direct
+        # branch targets, returns and interrupts never are.
+        indirect = (insn.opcode[0] == 0xff and (insn.modrm >> 3) & 7 in (2, 3, 4, 5) and
+                    any(o.type == xc.X86_OP_MEM for o in insn.operands))
+        if indirect and insn.disp_size == 2 and insn.address + insn.disp_offset == at:
+            return "displacement"
         return None
     if insn.disp_size == 2 and insn.address + insn.disp_offset == at:
         return "displacement"

@@ -253,3 +253,11 @@ validation recomputes it. Single-function gates are unchanged.
 Root measurements: 306 BSS addresses at 0x2930 and above are reached as
 direct DS operands. 142 of them are used by one code frame only. Of those,
 65 have two or more sites, and 77 single-site addresses stay unprovable.
+
+## Indirect calls through memory (2026-11-21)
+
+The disp16 of an indirect CALL or JMP through memory (`FF /2`..`/5`, for example
+`call far [1fe8]`) addresses the stored pointer. v4 treats it as a data
+address field like any other memory operand, on both the candidate and the
+witness side. Direct branch targets, returns, interrupts and
+register-indirect calls have no such field.
