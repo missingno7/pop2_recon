@@ -25203,6 +25203,832 @@
       "size": 18,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "One near sequence handle in BX, sequence word in AX, bare RETF.",
+      "boundary_evidence": [
+        "Original root+3088/+3089 (02cc:03c8/03c9) holds PUSH CS and CALL near to 02cc:06be. AnimChar is independently entered via a relocated CALL FAR.",
+        "The BP-frame entry at 06be follows RETF 06bc and NOP 06bd. The sole branch stays in the body. The common RETF at 06ec and 06ed alignment NOP end the extent before the separately entered 06ee."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20617,
+          "image_offset": 12425,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12424,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "FM Towns CTRL @GetSeqOp at 1a18:07c2 checks the BX handle, locks it, reads a signed sequence word at the current position and increments the position.",
+        "Mac Characters 2 GetSeqOp at +305e reads one handle at 8(A6), dereferences it, reads a sequence word and increments the position."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:06be",
+      "offset": 1726,
+      "original_bytes_hex": "558bec83ec06560bdb741c539a6c2101118bf08ec28b1e155cd1e303de268b078946feff06155c8b46fe5e8be55dcb90",
+      "original_name": "GetSeqOp",
+      "segment": 716,
+      "semantic_name_hypothesis": "read_sequence_opcode",
+      "sha256": "eaf5bda84d4acb52688fdc221d1b5d9c55570813862d52f0977a9bec5fde3c6c",
+      "size": 48,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original interval 0169:1002-1053 starts with 558bec. Decoded control stays in the interval except calls and returns; the last return is at 1050.",
+        "Original relocated CALL FAR at overlay-3+55ed independently locates the entry relative to its caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 206765,
+          "image_offset": 21997,
+          "kind": "far_call",
+          "relocated_segment_site": 22000,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads record dimensions into a caller-supplied far destination."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:0169:1002",
+      "offset": 4098,
+      "original_bytes_hex": "558bec568b760c393642627509ff760a0ee8a0feeb1d39364462750aff760a0ee831ffeb0e90393646627507ff760a0ee8d9fd568b460a4050ff7608ff76069a8a06cf1e8946068956085e8be55dca080090",
+      "original_name": null,
+      "segment": 361,
+      "semantic_name_hypothesis": "sprite_dimensions",
+      "sha256": "34bc5ed0b5fb3d1539c5b43bfbff58bc2b74b8b1ad22860670de546b451dc8fb",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original interval 078a:20a8-2107 starts with 558bec. Decoded control stays in the interval except calls and returns; the last return is at 2107.",
+        "Original relocated CALL FAR at root+f09d independently locates the entry relative to its caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69789,
+          "image_offset": 61597,
+          "kind": "far_call",
+          "relocated_segment_site": 61600,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates display or control state from a changed timer."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:078a:20a8",
+      "offset": 8360,
+      "original_bytes_hex": "558bec83ec08833e2c5e00754f0ee84f008d46f81650b80e0a1e50a1100af7d8502bc0509a2a500111c746fe4001833ef42c0275118d46f816502bc050b8010050b85c0aeb0f8d46f816502bc050b8010050b8760a1e509a525301118be55dcb",
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "refresh_death_timer",
+      "sha256": "5bb8e5414ed11e5856194a1cdabf75bceb8955c153a2a887922637e0fff45f36",
+      "size": 96,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:07fc follows the preceding reviewed boundary; extent ends at 0832. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+9e42 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 48706,
+          "image_offset": 40514,
+          "kind": "far_call",
+          "relocated_segment_site": 40517,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Restores an actor slot and copies Kid/opponent records."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:07fc",
+      "offset": 2044,
+      "original_bytes_hex": "558bec5756807e06007c22807e06057d1c0ee883158a4606988bd8b106d3e3bf405c8db7c05c1e07b92000f3a55e5f8be55dca020090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "load_kid_with_opponent",
+      "sha256": "f8ab0a2d7d2aa5fb6e0f38811adcefafde10c8e7438ce5ef6f5c67650e123184",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:086a follows the preceding reviewed boundary; extent ends at 088c. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+ed85 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68997,
+          "image_offset": 60805,
+          "kind": "far_call",
+          "relocated_segment_site": 60808,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads an actor slot into the active character and copies the Kid record to the opponent."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:086a",
+      "offset": 2154,
+      "original_bytes_hex": "558bec57568a4606500ee8cb14bf405cbe805c1e07b92000f3a55e5f8be55dca0200",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "load_shadow_with_opponent",
+      "sha256": "6eb315b796a2fc25a21e83fb1ee50cf4a4c9efd749bb07e038cc1412136ffd98",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:088c follows the preceding reviewed boundary; extent ends at 08b0. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at overlay-3+19f4 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 191412,
+          "image_offset": 6644,
+          "kind": "far_call",
+          "relocated_segment_site": 6647,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Conditionally saves the active actor, then copies the opponent record to Kid."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:088c",
+      "offset": 2188,
+      "original_bytes_hex": "5756803e005c007c0b803e005c057d040ee85614bf805cbe405c1e07b92000f3a55e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "save_shadow_with_opponent",
+      "sha256": "dadd69276941fda1c9b04faca153b3cdc3845e980fe5031582f056f697d5cb5c",
+      "size": 36,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1092 follows the preceding reviewed boundary; extent ends at 10c0. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at overlay-3+4169 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 201513,
+          "image_offset": 16745,
+          "kind": "far_call",
+          "relocated_segment_site": 16748,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses facing and the remainder from the character-column helper to return an edge distance."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1092",
+      "offset": 4242,
+      "original_bytes_hex": "558bec56ff76060ee82300803e015c00750ca0d06c98be1f002bf0eb0790a0d06c988bf08bc65e8be55dca020090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_edge_distance_at",
+      "sha256": "6be56b1481cf7c3ddb2d22e36a8408c19e660f8fda8bf393d8ab23a7a3181cac",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:116e follows the preceding reviewed boundary; extent ends at 1282. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+ec26 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68646,
+          "image_offset": 60454,
+          "kind": "far_call",
+          "relocated_segment_site": 60457,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Runs the player-control helper and dispatches consequences of a death-frame state."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:116e",
+      "offset": 4462,
+      "original_bytes_hex": "560ee8f9ff0ee80b018bf083fefe7403e9fd00803e115c007d03e9f300ff36075c0ee863090bc07503e9e400833e3e5e00742d2bc0509af0830111a0935ca2945c0ee8e10bb80200509a1600da258306025c100ee8cff10ee8b5f09ac802560e803e065c00740a803e065c017403e99f00a10209051027509a448401110bc07415833e020904740e833e0209077407833e020936757ac7062e5e0000803e115c007c07803e115c067c62803e115c06750da0025e509a0a00d70deb509090803e115c07754ba10209051027509a448401110bc0753ba10409051027509a448401110bc0752b39062a5e750b9ae811560ebeffffeb1790813e425e5802740eb85802a3425ea3405e9aa8208a07fe06115c8bc65ecb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "ctrl_player",
+      "sha256": "8588da5a8175d95740504574632699f129d1720286597df5a87d19463df5902d",
+      "size": 276,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:12e2 follows the preceding reviewed boundary; extent ends at 12e4. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "A complete RETF and NOP separate this empty entry from the independently called ShadCtrl at 12e4 and the preceding PlayerCtrl ending at 12e2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Empty far hook with no arguments."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:12e2",
+      "offset": 4834,
+      "original_bytes_hex": "cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "unused_shadow_hook",
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1414 follows the preceding reviewed boundary; extent ends at 14ca. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original push_cs_near_call at root+3f8b enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24459,
+          "image_offset": 16267,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 16266,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates directional latches and the action latch from input state."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1414",
+      "offset": 5140,
+      "original_bytes_hex": "803e8c62007c1a803e305eff750e803e8c6200750cc6068c62ffeb05c6068c6200803e8d62007c1b803e305e01750f803e8d6200750dc6068d62ffeb0690c6068d6200803e8e62007c1b803e315eff750f803e8e6200750dc6068e62ffeb0690c6068e6200803e8f62007c1b803e315e01750f803e8f6200750dc6068f62ffeb0690c6068f6200803e325eff750e803e9062017420c6069062ffcb90803e325efe750d803e906202740bc6069062fecbc606906200cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "clrjoystick",
+      "sha256": "b797ee0b22c741b3dbe740beb3084233c31c4d8aaf218c8b62de4c36e7270e44",
+      "size": 182,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:14ca follows the preceding reviewed boundary; extent ends at 153e. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at overlay-3+3644 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198660,
+          "image_offset": 13892,
+          "kind": "far_call",
+          "relocated_segment_site": 13895,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests the ledge from four Pascal words, tile predicates and mode-specific exceptions."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:14ca",
+      "offset": 5322,
+      "original_bytes_hex": "558bec8a460c509ac8288a070bc0745a803e4745027506f6460880754d807e0a0b7406807e0a0f7506f646060f753b8a460a509a04288a070bc0742e807e0a04750df64606ff7507803e015cff741b803e474505750e803e0e5c0f7507803e0a5c007506ba0100eb03902bd28bc28be55dca0800",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "check_ledge",
+      "sha256": "a72407e08e9a45adaf350ccc4d212eb59b2c22f6ae29f31bb4e0399e68cc95f0",
+      "size": 116,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:153e follows the preceding reviewed boundary; extent ends at 1552. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+bbf4 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56308,
+          "image_offset": 48116,
+          "kind": "far_call",
+          "relocated_segment_site": 48119,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads a tile at the current column and previous row."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:153e",
+      "offset": 5438,
+      "original_bytes_hex": "a00e5c50a0095c50a00a5cfec8500ee8a0ebcb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_above",
+      "sha256": "c0f755e1b221a258bfa7c332ff4507cff99ea10ee7f34081fef5fe7af89acdbd",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1552 follows the preceding reviewed boundary; extent ends at 1570. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at overlay-3+3bf0 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200112,
+          "image_offset": 15344,
+          "kind": "far_call",
+          "relocated_segment_site": 15347,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads a tile at the previous row and the behind offset for the current direction."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1552",
+      "offset": 5458,
+      "original_bytes_hex": "a00e5c50a0015c988bd88a877b0d0206095c50a00a5cfec8500ee881ebcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_above_behind",
+      "sha256": "3966a330d88932eb066cd5cecb766b541d4bda552951f08bf3ed193386f44414",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1570 follows the preceding reviewed boundary; extent ends at 158e. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at overlay-3+3b94 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200020,
+          "image_offset": 15252,
+          "kind": "far_call",
+          "relocated_segment_site": 15255,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads a tile at the previous row and the forward offset for the current direction."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1570",
+      "offset": 5488,
+      "original_bytes_hex": "a00e5c50a0015c988bd88a87790d0206095c50a00a5cfec8500ee863ebcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_above_front",
+      "sha256": "7358454e14e2c68c6485ee61a9d069891b4ef75b943eebe9db47d5b48b213afe",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1892 follows the preceding reviewed boundary; extent ends at 190c. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+2238 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 16952,
+          "image_offset": 8760,
+          "kind": "far_call",
+          "relocated_segment_site": 8763,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Builds the character clip rectangle from the selected sprite dimensions."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1892",
+      "offset": 6290,
+      "original_bytes_hex": "558bec83ec045756833e5862ff74598a1e5a622affd1e3ffb73e62ff3658628d46fc16509a021069010bd0743ba156622b46fca35b62a1566240a35f62803e5362007512a15462a361622b46fea35d625e5f8be55dcba15462a35d620346fea361625e5f8be55dcbbf5b62bec0201e07a5a5a5a55e5f8be55dcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "makefcharcliprect",
+      "sha256": "dddfd183077d89595ab15eaca02efdfae8ebe8c2f9cd100e0239fe5877cae170",
+      "size": 122,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:190c follows the preceding reviewed boundary; extent ends at 1936. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+22da enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17114,
+          "image_offset": 8922,
+          "kind": "far_call",
+          "relocated_segment_site": 8925,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Adjusts character Y when standing over the special floor kind."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:190c",
+      "offset": 6412,
+      "original_bytes_hex": "803e065c0b7422803e065c07741b803e065c0874140ee8b3f03c06750cb03ff62e0a5c053900a3045ccb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "uneven_floor",
+      "sha256": "ea525d46d1793e5af31e9fc021ff999055534805c8d00174d965c410b7a3c1b6",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1936 follows the preceding reviewed boundary; extent ends at 1998. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+22e4 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17124,
+          "image_offset": 8932,
+          "kind": "far_call",
+          "relocated_segment_site": 8935,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Derives the cell index from the active character, its frame and action."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1936",
+      "offset": 6454,
+      "original_bytes_hex": "8b0e075ca00b5c988bd048750ba07a62a27662a07762eb09a00a5ca27662a0095ca2756281f98700720681f99500721483fa02740f83fa03740a83fa04740583fa06750ea0015c988bd88a877b0d00067562a0756250a07662500ee8c0e8a25262cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "indexchar",
+      "sha256": "11378762829ad4ba0b0f51100591fed1dd11831f08098e3e790af35df16ef370",
+      "size": 98,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1a98 follows the preceding reviewed boundary; extent ends at 1af6. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+1cd0 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 15568,
+          "image_offset": 7376,
+          "kind": "far_call",
+          "relocated_segment_site": 7379,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests animation classes and the cave-specific dead position."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1a98",
+      "offset": 6808,
+      "original_bytes_hex": "833e245c047451833e245c05744a833e245c067443833e245c07743c833e245c0a7435833e245c0c742e803e4745057521803e0e5c13741a803e0e5c107413803e0e5c0f740cff36075c0ee810000bc075062bd28bc2cb90ba01008bc2cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "is_char_non_viewable",
+      "sha256": "2a613f95c3a5351e4d2a1bedb67a57aafe456a2edabb36a168f4ef4068a4418d",
+      "size": 94,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1af6 follows the preceding reviewed boundary; extent ends at 1bd6. Original switch paths and non-table regions were reviewed independently of the object.",
+        "Independent original far_call at root+102b9 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 74425,
+          "image_offset": 66233,
+          "kind": "far_call",
+          "relocated_segment_site": 66236,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests death frame constants by character kind."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1af6",
+      "offset": 6902,
+      "original_bytes_hex": "558bec8b560681fab9007503e9bb00a0065c983d0b007503e9b5007603e9b6000ac074162c0274582c027503e989002c067503e98e00e99d009081faf200741c81faf300741681fab900741081fa0f01740a81fa0a0174042bdbeb03bb01000bdb7575803e494505756e803e0e5c037567803e115c007c5e833e245c0aeb4990803e684500750781fae400eb3b9081faf500743681faf800743081fafb00742a81fafc00742481fafd00741e81fafe00741881faff00eb1c81face00740c81facf00eb1081fad500750cbb0100eb099081fa110174f42bdb8bc38be55dca0200",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "is_dead_pos",
+      "sha256": "cedb0ea57d7d9a4fb5dcec25da7c4c696470a5521ae831a4bdecad7e7ea55993",
+      "size": 224,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1c02 follows the preceding reviewed boundary; extent ends at 1c3e. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original push_cs_near_call at root+48b9 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 26809,
+          "image_offset": 18617,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 18616,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resets the actor life, movement and direction fields."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1c02",
+      "offset": 7170,
+      "original_bytes_hex": "a0005c502bc050a0135c98509ac8258a07c606015c562ac0a20b5ca2115ca2125c3806005c7414a0005c3806b95c750bb001509af0084423a2b95ccb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "vanishchar",
+      "sha256": "1da00582909e425a2a8e83fe36ac28d365232a9cd1b0d7329dde035237b8a63e",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original interval 078a:293a-29a5 starts with a17c04. Decoded control stays in the interval except calls and returns; the last return is at 29a4.",
+        "Original relocated CALL FAR at root+5642 independently locates the entry relative to its caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30274,
+          "image_offset": 22082,
+          "kind": "far_call",
+          "relocated_segment_site": 22085,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Stops active sequence sound and clears or releases its resource handle."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:078a:293a",
+      "offset": 10554,
+      "original_bytes_hex": "a17c040b067a04742eb8100050b8f00050ff367c04ff367a04b80100509ac1790111ff367c04ff367a049ae42501112bc0a37c04a37a04a180040b067e04742a2bc050b9100051ff368004ff367e04509ac1790111ff368004ff367e049ae42501112bc0a38004a37e04cb90",
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "stop_sequence_music",
+      "sha256": "b54ef0b45d8c974a84391f03aab9d5b41b3384e596c5ed5110d738b15a89ad98",
+      "size": 108,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original interval 078a:2a22-2b09 starts with 558bec. Decoded control stays in the interval except calls and returns; the last return is at 2b06.",
+        "Original relocated CALL FAR at root+30eb independently locates the entry relative to its caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20715,
+          "image_offset": 12523,
+          "kind": "far_call",
+          "relocated_segment_site": 12526,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "BP frame consumes a byte argument and makes sound resource lookup and playback calls."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:078a:2a22",
+      "offset": 10786,
+      "original_bytes_hex": "558bec83ec1657568a46062ae450b8010050b800039952509a7c2901118bf08956f052508bf8897eea8956ec9a877901118b46ea8b56ec0503008946f28956f4c746faff008976ee8e46f48b46ee8b56f01e8bf08eda8b7ef2a5a41f8346f203ff4efa75e6a17c040b067a047524b8d0029952509a7c290111a37a0489167c04b8100050b8f0005052ff367a049a87790111a180040b067e047523b830009952509a7c290111a37e04891680042bc050b810005052ff367e049a877901118b76ee2bc050b80001508b46f05056b90100518bf89ac179011157569ae42501115e5f8be55dca020090",
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "play_sequence_music",
+      "sha256": "3085b2136ea5bfacff4000b35ada94f43be4d6cd26b09c686a82b0bb25cbdc55",
+      "size": 232,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original interval 0b41:0ec2-0f1d starts with 558bec. Decoded control stays in the interval except calls and returns; the last return is at 0f1d.",
+        "Original relocated CALL FAR at overlay-8+1370 independently locates the entry relative to its caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 231104,
+          "image_offset": 4976,
+          "kind": "far_call",
+          "relocated_segment_site": 4979,
+          "space": "overlay-8"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Redraws a changed cell by room, tile index and visible neighbor."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0ec2",
+      "offset": 3778,
+      "original_bytes_hex": "558bec83ec02a073628846ffa074623806345e743a3806355e7507806eff09eb2e90a074623806365e75078046ff09eb1e90a074623806375e7507806eff14eb0e90a074623806385e75048046ff148a46ff98500ee87cff8be55dcb",
+      "original_name": null,
+      "segment": 2881,
+      "semantic_name_hypothesis": "redraw_removed_object",
+      "sha256": "f48c07f5f6db79a4e2739e464f6427416bb970efb05c42dee2381d177a7d4537",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original interval 2c3e:1710-1839 starts with 558bec. Decoded control stays in the interval except calls and returns; the last return is at 1838.",
+        "Original relocated CALL FAR at root+31b7 independently locates the entry relative to its caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20919,
+          "image_offset": 12727,
+          "kind": "far_call",
+          "relocated_segment_site": 12730,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies actor records and sets the character state before resource effects."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "overlay-12:2c3e:1710",
+      "offset": 5904,
+      "original_bytes_hex": "558bec83ec065756b8805c8bf8be005c1e07b92000f3a5a0815c988bd8b055f6af790d0306825c8946fa509ad410cc028846fda08a5c8846fca08e5c2ae450b97400f7e98bd88a87f544fe87f544a2005c98509ab40844238946fec606065c0c8bd8c6470f09a08e5ca20e5c8a46fca20a5c509ac607cc020246fd8b5efe88079aa207cc028b46fa8b5efe894701a3025c8a46fda2095cb0ff884703a2015c2ac088470da2385c88470ea2395ca2235cc7062a5c00002bc0a3265ca3285ca3245cc706345c0400b001a20f5ca2105cc74705b400c747070000b8b400509a1600da25b8c400509ab001d70d8b5efec6471006539a080044238b5efec647040ac606115cff2bc0a39862a3466aa34e6a9a4409cc02c6060b5c019af61ccc029a941dcc025e5f8be55dcb90",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "show_animation_message",
+      "sha256": "fcc990f3d096860b5cc5248a59c818cf3dfbbba1025448da402a95bc577fda56",
+      "size": 298,
+      "space": "overlay-12",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:15a4 follows the preceding reviewed boundary; extent ends at 160a. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at overlay-3+3b25 enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 199909,
+          "image_offset": 15141,
+          "kind": "far_call",
+          "relocated_segment_site": 15144,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Records an object removal and redraws the affected cell."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:15a4",
+      "offset": 5540,
+      "original_bytes_hex": "558bec568b4606a33029c606906201803e474503750a8b36716281e6003feb14803e474504750b8b36716281e6000feb03902bf6833e280200740481ce00c0b01ef62674628bd8a073629803d8c687e42c01d1e3d1e389b74a309ac20e410b5e8be55dca0200",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "removeobj",
+      "sha256": "fbad291d9e37c310dba46d5ac350d7fe762f5964ca5645feffcaf6d2b3f57428",
+      "size": 102,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "boundary_evidence": [
+        "Original entry 02cc:1cf6 follows the preceding reviewed boundary; extent ends at 1d42. Original decoded branches stay within the extent and its last epilogue closes the interval.",
+        "Independent original far_call at root+06fa enters this address."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9978,
+          "image_offset": 1786,
+          "kind": "far_call",
+          "relocated_segment_site": 1789,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Saves an actor record to a checked slot or reports an invalid slot."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1cf6",
+      "offset": 7414,
+      "original_bytes_hex": "5756803e005c007c25803e005c057d1ea0005c988bd8b106d3e38dbfc05cbe005c8cd88ec0b92000f3a55e5fcb90b8f2011e509a4e00741f0bc0740db80100502bc050509a0c00e81d5e5fcb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "save_actor_slot",
+      "sha256": "62784221e9aab866888663625cd2c3a05c71ed80964f3475f96d942b9cac4ec3",
+      "size": 76,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

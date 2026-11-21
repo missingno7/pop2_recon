@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "81a1f8c824a1db8dc63acf0ef9ac302d312350c2b08c528bb6883823c9a0f8b7",
+  "binding_sha256": "7715a30fe4580ebe008eb06cf879d513008cf88f65c6efba02bccb57ade55f82",
   "claims": [
     {
       "fixup_count": 28,
@@ -43,9 +43,35 @@
       "target_id": "root:02cc:0288"
     },
     {
+      "fixup_count": 28,
+      "public": "GET_FRAME_INFO",
+      "relocation_indices": [
+        330,
+        374
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:0296"
+    },
+    {
+      "fixup_count": 2,
+      "public": "ADDCHARX",
+      "target_id": "root:02cc:0360"
+    },
+    {
       "fixup_count": 3,
       "public": "ADDFCHARX",
       "target_id": "root:0000:303a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "@GetSeqOp",
+      "relocation_indices": [
+        375
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:06be"
     },
     {
       "fixup_count": 1,
@@ -73,9 +99,24 @@
       "target_id": "root:02cc:07c6"
     },
     {
+      "fixup_count": 3,
+      "public": "LOAD_KID_WITH_OPPONENT",
+      "target_id": "root:02cc:07fc"
+    },
+    {
       "fixup_count": 7,
       "public": "SAVE_KID_WITH_OPPONENT",
       "target_id": "root:02cc:0832"
+    },
+    {
+      "fixup_count": 3,
+      "public": "LOAD_SHADOW_WITH_OPPONENT",
+      "target_id": "root:02cc:086a"
+    },
+    {
+      "fixup_count": 5,
+      "public": "SAVE_SHADOW_WITH_OPPONENT",
+      "target_id": "root:02cc:088c"
     },
     {
       "fixup_count": 2,
@@ -93,9 +134,34 @@
       "target_id": "root:02cc:08d6"
     },
     {
+      "fixup_count": 10,
+      "public": "ADD_CHAR_VELOCITY",
+      "target_id": "root:02cc:090e"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CLEARCHARVEL",
+      "target_id": "root:02cc:0944"
+    },
+    {
       "fixup_count": 4,
       "public": "GET_UNDER_FOOT",
       "target_id": "root:02cc:09d8"
+    },
+    {
+      "fixup_count": 19,
+      "public": "ON_GROUND",
+      "relocation_indices": [
+        304,
+        310,
+        345,
+        378
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:09ea"
     },
     {
       "fixup_count": 33,
@@ -160,50 +226,19 @@
       "target_id": "root:02cc:1088"
     },
     {
+      "fixup_count": 4,
+      "public": "GET_EDGE_DISTANCE_AT",
+      "target_id": "root:02cc:1092"
+    },
+    {
       "fixup_count": 1,
       "public": "GET_CHAR_COL",
       "target_id": "root:02cc:10c0"
     },
     {
-      "fixup_count": 28,
-      "public": "GET_FRAME_INFO",
-      "relocation_indices": [
-        330,
-        374
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:02cc:0296"
-    },
-    {
-      "fixup_count": 10,
-      "public": "ADD_CHAR_VELOCITY",
-      "target_id": "root:02cc:090e"
-    },
-    {
-      "fixup_count": 2,
-      "public": "CLEARCHARVEL",
-      "target_id": "root:02cc:0944"
-    },
-    {
-      "fixup_count": 19,
-      "public": "ON_GROUND",
-      "relocation_indices": [
-        304,
-        310,
-        345,
-        378
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:02cc:09ea"
-    },
-    {
-      "fixup_count": 2,
-      "public": "ADDCHARX",
-      "target_id": "root:02cc:0360"
+      "fixup_count": 1,
+      "public": "GET_COL",
+      "target_id": "root:02cc:10d4"
     },
     {
       "fixup_count": 0,
@@ -219,6 +254,187 @@
       "fixup_count": 0,
       "public": "PREPARE_PLAYER_CONTROL",
       "target_id": "root:02cc:116c"
+    },
+    {
+      "fixup_count": 40,
+      "public": "CTRL_PLAYER",
+      "relocation_indices": [
+        290,
+        292,
+        293,
+        294,
+        323,
+        336,
+        365,
+        369,
+        370
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:116e"
+    },
+    {
+      "fixup_count": 0,
+      "public": "UNUSED_SHADOW_HOOK",
+      "target_id": "root:02cc:12e2"
+    },
+    {
+      "fixup_count": 5,
+      "public": "FACEJOYSTICK",
+      "target_id": "root:0000:4052"
+    },
+    {
+      "fixup_count": 5,
+      "public": "INVERTJOYSTICK",
+      "target_id": "root:0000:4072"
+    },
+    {
+      "fixup_count": 4,
+      "public": "CLRALL",
+      "target_id": "root:02cc:13d2"
+    },
+    {
+      "fixup_count": 2,
+      "public": "SAVESELECT",
+      "target_id": "root:02cc:13e4"
+    },
+    {
+      "fixup_count": 2,
+      "public": "LOADSELECT",
+      "target_id": "root:02cc:13f4"
+    },
+    {
+      "fixup_count": 1,
+      "public": "INITINPUT",
+      "target_id": "root:02cc:1404"
+    },
+    {
+      "fixup_count": 27,
+      "public": "CLRJOYSTICK",
+      "target_id": "root:02cc:1414"
+    },
+    {
+      "fixup_count": 7,
+      "public": "CHECK_LEDGE",
+      "relocation_indices": [
+        356,
+        368
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:14ca"
+    },
+    {
+      "fixup_count": 4,
+      "public": "GET_ABOVE",
+      "target_id": "root:02cc:153e"
+    },
+    {
+      "fixup_count": 6,
+      "public": "GET_ABOVE_BEHIND",
+      "target_id": "root:02cc:1552"
+    },
+    {
+      "fixup_count": 6,
+      "public": "GET_ABOVE_FRONT",
+      "target_id": "root:02cc:1570"
+    },
+    {
+      "fixup_count": 1,
+      "public": "FACEDX",
+      "target_id": "root:02cc:158e"
+    },
+    {
+      "fixup_count": 12,
+      "public": "REMOVEOBJ",
+      "relocation_indices": [
+        334
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:15a4"
+    },
+    {
+      "fixup_count": 18,
+      "public": "MAKEFCHARCLIPRECT",
+      "relocation_indices": [
+        329
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:1892"
+    },
+    {
+      "fixup_count": 6,
+      "public": "UNEVEN_FLOOR",
+      "target_id": "root:02cc:190c"
+    },
+    {
+      "fixup_count": 16,
+      "public": "INDEXCHAR",
+      "target_id": "root:02cc:1936"
+    },
+    {
+      "fixup_count": 12,
+      "public": "IS_CHAR_NON_VIEWABLE",
+      "target_id": "root:02cc:1a98"
+    },
+    {
+      "fixup_count": 6,
+      "public": "IS_DEAD_POS",
+      "target_id": "root:02cc:1af6"
+    },
+    {
+      "fixup_count": 12,
+      "public": "VANISHCHAR",
+      "relocation_indices": [
+        301,
+        331
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:1c02"
+    },
+    {
+      "fixup_count": 2,
+      "public": "SAVEFCHAR",
+      "target_id": "root:02cc:1c3e"
+    },
+    {
+      "fixup_count": 2,
+      "public": "RESTOREFCHAR",
+      "target_id": "root:02cc:1c50"
+    },
+    {
+      "fixup_count": 8,
+      "public": "SAVE_ACTOR_SLOT",
+      "relocation_indices": [
+        307,
+        359
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:1cf6"
+    },
+    {
+      "fixup_count": 5,
+      "public": "LOAD_ACTOR_SLOT",
+      "relocation_indices": [
+        308,
+        360
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:1d42"
+    },
+    {
+      "fixup_count": 2,
+      "public": "COPY_KID_TO_CHAR",
+      "target_id": "root:02cc:1d94"
     }
   ],
   "drafts": [
@@ -227,24 +443,8 @@
       "public": "ANIMCHAR"
     },
     {
-      "object_offset": 1724,
-      "public": "@get_seq_op"
-    },
-    {
       "object_offset": 1790,
       "public": "ANIM_CHAR_TAP"
-    },
-    {
-      "object_offset": 2042,
-      "public": "LOAD_KID_WITH_OPPONENT"
-    },
-    {
-      "object_offset": 2152,
-      "public": "LOAD_SHADOW_WITH_OPPONENT"
-    },
-    {
-      "object_offset": 2186,
-      "public": "SAVE_SHADOW_WITH_OPPONENT"
     },
     {
       "object_offset": 2380,
@@ -259,54 +459,63 @@
       "public": "GRABTEST"
     },
     {
-      "object_offset": 4240,
-      "public": "GET_EDGE_DISTANCE_AT"
+      "object_offset": 4736,
+      "public": "PLAYERCTRL"
     },
     {
-      "object_offset": 4306,
-      "public": "GET_COL"
+      "object_offset": 4834,
+      "public": "SHAD_CTRL"
     },
     {
-      "object_offset": 4460,
-      "public": "GET_ABOVE"
+      "object_offset": 4934,
+      "public": "USERCTRL"
     },
     {
-      "object_offset": 4480,
-      "public": "GET_ABOVE_BEHIND"
+      "object_offset": 5640,
+      "public": "CLIPCHAR"
     },
     {
-      "object_offset": 4510,
-      "public": "GET_ABOVE_FRONT"
+      "object_offset": 6550,
+      "public": "POTIONEFFECT"
     },
     {
-      "object_offset": 4540,
-      "public": "SAVE_ACTOR_SLOT"
+      "object_offset": 6738,
+      "public": "IS_STATIC_FRAME"
     },
     {
-      "object_offset": 4616,
-      "public": "COPY_KID_TO_CHAR"
+      "object_offset": 7124,
+      "public": "REMOVE_CHAR"
+    },
+    {
+      "object_offset": 7264,
+      "public": "GUARD_CTRL"
+    },
+    {
+      "object_offset": 7338,
+      "public": "GET_OPP_DIST"
     }
   ],
-  "emitted_size": 4634,
+  "emitted_size": 7588,
   "flags": [
     "/c",
     "/AM",
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zd"
   ],
   "frame": 716,
   "group_id": "group:ctrl/ctrl",
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "e8131937f7187081c9096c0e226215f51dc96a6200951e199484b2fce8bbc644",
+  "object_sha256": "453fd698c10b13bc2925ab840b520f6480448c3d0fa3300e798047a0847e18b1",
   "origin": 11458,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "c7712d5c75e9331d7dcadbb14c65c595c696116e5978fe5538a9bd7041931082",
+  "source_sha256": "4e7a7dc0a8e62c86bc5b903bb2de79ec23c13686c347b882dfcb7c49faf2e8f4",
   "space": "root"
 }

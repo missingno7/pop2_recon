@@ -263,9 +263,11 @@ class FreshMSCImmediateTests(unittest.TestCase):
             self.assertEqual(report['fixups'], 2)
 
     def test_canonical_struct_copy_and_intrinsic_clear_from_fresh_objects(self):
-        for name in ('ctrl/save_f_char', 'ctrl/init_input'):
+        # Frozen copies of the two once-canonical v3 proofs (since absorbed into ctrl/ctrl),
+        # so this mode stays exercised whatever happens to the canonical files.
+        for name in ('save_f_char', 'init_input'):
             with self.subTest(name=name):
-                recipe = json.loads((ROOT / 'recipes' / (name + '.json')).read_text())
+                recipe = json.loads((ROOT / 'tests/fixtures/immediate' / (name + '.recipe.json')).read_text())
                 proof = json.loads((ROOT / recipe['binding']).read_text())
                 result, report = compile_and_check(ROOT / recipe['source'], recipe['profile'], recipe['public'],
                     recipe['target_id'], ROOT / 'build/workers/wave9_immediate_sol/tests' / name,
