@@ -694,21 +694,6 @@
     {
       "fixup_count": 2,
       "kind": "MATCHING_C",
-      "offset": 4870,
-      "recipe": "recipes/prince/go_weightless.json",
-      "relocation_count": 1,
-      "relocation_indices": [
-        70
-      ],
-      "segment": 0,
-      "size": 16,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:0000:1306"
-    },
-    {
-      "fixup_count": 2,
-      "kind": "MATCHING_C",
       "offset": 580,
       "recipe": "recipes/recorder/allocate_default_handle.json",
       "relocation_count": 1,
@@ -829,21 +814,6 @@
       "target_id": "root:1000:1898"
     },
     {
-      "fixup_count": 5,
-      "kind": "MATCHING_C",
-      "offset": 4830,
-      "recipe": "recipes/prince/toggle_invert_state.json",
-      "relocation_count": 1,
-      "relocation_indices": [
-        69
-      ],
-      "segment": 0,
-      "size": 40,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:0000:12de"
-    },
-    {
       "fixup_count": 2,
       "kind": "MATCHING_C",
       "offset": 7230,
@@ -866,32 +836,6 @@
       "space": "root",
       "state": "CODE_EXACT",
       "target_id": "root:02cc:1404"
-    },
-    {
-      "fixup_count": 3,
-      "group": "prince/boost_meter",
-      "kind": "MATCHING_C",
-      "offset": 3704,
-      "recipe": "recipes/prince/boost_meter.json",
-      "relocation_count": 0,
-      "segment": 0,
-      "size": 22,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:0000:0e78"
-    },
-    {
-      "fixup_count": 3,
-      "group": "prince/boost_meter",
-      "kind": "MATCHING_C",
-      "offset": 3726,
-      "recipe": "recipes/prince/boost_meter.json",
-      "relocation_count": 0,
-      "segment": 0,
-      "size": 12,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:0000:0e8e"
     },
     {
       "fixup_count": 2,
@@ -1379,6 +1323,137 @@
       "space": "root",
       "state": "CODE_EXACT",
       "target_id": "root:0f77:072e"
+    },
+    {
+      "fixup_count": 5,
+      "group": "prince/prince",
+      "kind": "MATCHING_C",
+      "offset": 4830,
+      "recipe": "recipes/prince/prince.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        69
+      ],
+      "segment": 0,
+      "size": 40,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:12de"
+    },
+    {
+      "fixup_count": 2,
+      "group": "prince/prince",
+      "kind": "MATCHING_C",
+      "offset": 4870,
+      "recipe": "recipes/prince/prince.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        70
+      ],
+      "segment": 0,
+      "size": 16,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:1306"
+    },
+    {
+      "fixup_count": 8,
+      "group": "prince/prince",
+      "kind": "MATCHING_C",
+      "offset": 4886,
+      "recipe": "recipes/prince/prince.json",
+      "relocation_count": 3,
+      "relocation_indices": [
+        33,
+        99,
+        117
+      ],
+      "segment": 0,
+      "size": 42,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:1316"
+    },
+    {
+      "fixup_count": 6,
+      "group": "prince/poll_and_clear_pending_state",
+      "kind": "MATCHING_C",
+      "offset": 528,
+      "recipe": "recipes/prince/poll_and_clear_pending_state.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        60
+      ],
+      "segment": 0,
+      "size": 50,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:0210"
+    },
+    {
+      "fixup_count": 4,
+      "group": "prince/toggle_sound",
+      "kind": "MATCHING_C",
+      "offset": 2650,
+      "recipe": "recipes/prince/toggle_sound.json",
+      "relocation_count": 3,
+      "relocation_indices": [
+        21,
+        127,
+        128
+      ],
+      "segment": 0,
+      "size": 42,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:0a5a"
+    },
+    {
+      "fixup_count": 3,
+      "group": "prince/boost_meter",
+      "kind": "MATCHING_C",
+      "offset": 3704,
+      "recipe": "recipes/prince/boost_meter.json",
+      "relocation_count": 0,
+      "segment": 0,
+      "size": 22,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:0e78"
+    },
+    {
+      "fixup_count": 3,
+      "group": "prince/boost_meter",
+      "kind": "MATCHING_C",
+      "offset": 3726,
+      "recipe": "recipes/prince/boost_meter.json",
+      "relocation_count": 0,
+      "segment": 0,
+      "size": 12,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:0e8e"
+    },
+    {
+      "fixup_count": 30,
+      "group": "prince/boost_meter",
+      "kind": "MATCHING_C",
+      "offset": 3738,
+      "recipe": "recipes/prince/boost_meter.json",
+      "relocation_count": 6,
+      "relocation_indices": [
+        20,
+        47,
+        48,
+        97,
+        121,
+        122
+      ],
+      "segment": 0,
+      "size": 214,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:0000:0e9a"
     }
   ],
   "schema": 1,

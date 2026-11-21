@@ -7553,7 +7553,8 @@
         "Predecessor RETF 2 at 0x4a50..0x4a52; alignment NOP at 0x4a53.",
         "RETF at 0x4a65; next BP prologue starts at 0x4a66.",
         "Complete independently decoded interval root+[0x4a54,0x4a66) contains 1 return instruction(s); every one of 0 direct branch targets lies inside. No original MZ relocation word touches the interval (including a word beginning one byte before it).",
-        "47 immediate far CALL sites independently decoded from original ordered relocation records; 2 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent."
+        "47 immediate far CALL sites independently decoded from original ordered relocation records; 2 PUSH CS / near CALL sites from original entry decodes. Call list records original bytes and per-space relocation indices. Incoming relocations are outside the owned extent.",
+        "Direct far-code entry: straight-line body root+0x4a54..0x4a66 ending RETF at 0x4a65 after a preceding RETF 2/NOP, with independent relocated callers including root+0x034b (wave_prince review)."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -7917,7 +7918,8 @@
       "sha256": "a2a62980f8508b634bf68774db21a40cacb768b10100046f1a5fcd12530f09c2",
       "size": 18,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "entry_kind": "direct-code"
     },
     {
       "abi": "Far no-argument entry, RETF; Pascal/cdecl indistinguishable with zero arguments. AL forwards the callee's byte result; the original caller ignores it. No BP frame, locals or saved SI/DI; DS/ES preserved.",
@@ -14710,6 +14712,1122 @@
       "sha256": "8561a2d56f74fd02d3f48a10486f328c0f4a9262d6831c2835e591c6bc560aa1",
       "size": 44,
       "space": "root"
+    },
+    {
+      "abi": "Far entry with no arguments, RETF; AX result unspecified.",
+      "boundary_evidence": [
+        "ResetGame's original PUSH CS at 0x98 and E8 at 0x99 target 0x1316.",
+        "GoWeightless ends with RETF at 0x1315. Three relocated CALL FARs and three global stores lead to RETF at 0x133f.",
+        "Following 0x1340 is a separate RETF 4 body, then NOP and the independently reviewed MCGA1 entry at 0x1344."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8345,
+          "image_offset": 153,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 152,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears display, initializes a port, clears peels, sets current level to -1 and clears the room word."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1316",
+      "offset": 4886,
+      "original_name": "ResetData",
+      "original_name_evidence": [
+        "FM Towns PRINCE.C ResetData also calls InitPort, clears peels and sets current level to -1; same position after GoWeightless."
+      ],
+      "segment": 0,
+      "sha256": "b057f08700f5d4218599e3e4c02025db4c7e5fadec46db37c7ff6af352719dae",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry with one word argument, RETF 2.",
+      "boundary_evidence": [
+        "Relocated 9A at root+0x3e64 enters the BP frame at root+0x19400. Previous RETF 2 and NOP end at 0x193ff.",
+        "In-range control flow reaches RETF 2 at 0x19438. NOP at 0x1943b precedes a new BP frame at 0x1943c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 9350,
+          "image_offset": 1158,
+          "kind": "far_call",
+          "relocated_segment_site": 1161,
+          "relocation_index": 114,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 9241,
+          "image_offset": 1049,
+          "kind": "far_call",
+          "relocated_segment_site": 1052,
+          "relocation_index": 115,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 12344,
+          "image_offset": 4152,
+          "kind": "far_call",
+          "relocated_segment_site": 4155,
+          "relocation_index": 116,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 13081,
+          "image_offset": 4889,
+          "kind": "far_call",
+          "relocated_segment_site": 4892,
+          "relocation_index": 117,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 24164,
+          "image_offset": 15972,
+          "kind": "far_call",
+          "relocated_segment_site": 15975,
+          "relocation_index": 369,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 30599,
+          "image_offset": 22407,
+          "kind": "far_call",
+          "relocated_segment_site": 22410,
+          "relocation_index": 660,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 57570,
+          "image_offset": 49378,
+          "kind": "far_call",
+          "relocated_segment_site": 49381,
+          "relocation_index": 1074,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 66185,
+          "image_offset": 57993,
+          "kind": "far_call",
+          "relocated_segment_site": 57996,
+          "relocation_index": 1137,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 66149,
+          "image_offset": 57957,
+          "kind": "far_call",
+          "relocated_segment_site": 57960,
+          "relocation_index": 1138,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 66768,
+          "image_offset": 58576,
+          "kind": "far_call",
+          "relocated_segment_site": 58579,
+          "relocation_index": 1139,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 68320,
+          "image_offset": 60128,
+          "kind": "far_call",
+          "relocated_segment_site": 60131,
+          "relocation_index": 1304,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 71500,
+          "image_offset": 63308,
+          "kind": "far_call",
+          "relocated_segment_site": 63311,
+          "relocation_index": 1305,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 73973,
+          "image_offset": 65781,
+          "kind": "far_call",
+          "relocated_segment_site": 65784,
+          "relocation_index": 1341,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 76546,
+          "image_offset": 68354,
+          "kind": "far_call",
+          "relocated_segment_site": 68357,
+          "relocation_index": 1418,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 172295,
+          "image_offset": 16359,
+          "kind": "far_call",
+          "relocated_segment_site": 16362,
+          "relocation_index": 572,
+          "space": "overlay-2"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 178445,
+          "image_offset": 22509,
+          "kind": "far_call",
+          "relocated_segment_site": 22512,
+          "relocation_index": 786,
+          "space": "overlay-2"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 186366,
+          "image_offset": 1598,
+          "kind": "far_call",
+          "relocated_segment_site": 1601,
+          "relocation_index": 110,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 195816,
+          "image_offset": 11048,
+          "kind": "far_call",
+          "relocated_segment_site": 11051,
+          "relocation_index": 361,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 212336,
+          "image_offset": 416,
+          "kind": "far_call",
+          "relocated_segment_site": 419,
+          "relocation_index": 72,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 213281,
+          "image_offset": 1361,
+          "kind": "far_call",
+          "relocated_segment_site": 1364,
+          "relocation_index": 73,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 233555,
+          "image_offset": 1779,
+          "kind": "far_call",
+          "relocated_segment_site": 1782,
+          "relocation_index": 71,
+          "space": "overlay-9"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 233847,
+          "image_offset": 2071,
+          "kind": "far_call",
+          "relocated_segment_site": 2074,
+          "relocation_index": 72,
+          "space": "overlay-9"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 234338,
+          "image_offset": 2562,
+          "kind": "far_call",
+          "relocated_segment_site": 2565,
+          "relocation_index": 73,
+          "space": "overlay-9"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 235143,
+          "image_offset": 3367,
+          "kind": "far_call",
+          "relocated_segment_site": 3370,
+          "relocation_index": 74,
+          "space": "overlay-9"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 247769,
+          "image_offset": 7353,
+          "kind": "far_call",
+          "relocated_segment_site": 7356,
+          "relocation_index": 154,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 248012,
+          "image_offset": 7596,
+          "kind": "far_call",
+          "relocated_segment_site": 7599,
+          "relocation_index": 155,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 263230,
+          "image_offset": 1598,
+          "kind": "far_call",
+          "relocated_segment_site": 1601,
+          "relocation_index": 45,
+          "space": "overlay-13"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "One-word display setup/helper reached by the pause and restart paths."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1101:83f0",
+      "offset": 33776,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with one near and one far pointer, RETF 6.",
+      "boundary_evidence": [
+        "Relocated 9A at root+0x148d1 enters the BP frame at root+0x15ff0 immediately after a RETF 2.",
+        "Local control ends at RETF 6 at 0x16036. The byte at 0x16039 is zero fill before the new BP frame at 0x1603a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ae04f0111",
+          "file_offset": 13095,
+          "image_offset": 4903,
+          "kind": "far_call",
+          "relocated_segment_site": 4906,
+          "relocation_index": 99,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae04f0111",
+          "file_offset": 92369,
+          "image_offset": 84177,
+          "kind": "far_call",
+          "relocated_segment_site": 84180,
+          "relocation_index": 1594,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ae04f0111",
+          "file_offset": 156577,
+          "image_offset": 641,
+          "kind": "far_call",
+          "relocated_segment_site": 644,
+          "relocation_index": 44,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Graphics port initialization: copies or initializes port fields using both pointer arguments."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4fe0",
+      "offset": 20448,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "2a75db8c36afaf8d60b0ca610f7dd9ccedc0cda29f00495ac9fab6ce414d6a60",
+      "size": 73,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry with no arguments; RETF.",
+      "boundary_evidence": [
+        "Relocated 9A at root+0x78a1 enters the SI/DI save at root+0x1e24 immediately after RETF.",
+        "Loop and skip path join at the register restores; RETF at 0x1e53 immediately precedes a new BP frame at 0x1e54."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a94076901",
+          "file_offset": 13103,
+          "image_offset": 4911,
+          "kind": "far_call",
+          "relocated_segment_site": 4914,
+          "relocation_index": 33,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a94076901",
+          "file_offset": 39073,
+          "image_offset": 30881,
+          "kind": "far_call",
+          "relocated_segment_site": 30884,
+          "relocation_index": 777,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a94076901",
+          "file_offset": 53874,
+          "image_offset": 45682,
+          "kind": "far_call",
+          "relocated_segment_site": 45685,
+          "relocation_index": 923,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a94076901",
+          "file_offset": 67262,
+          "image_offset": 59070,
+          "kind": "far_call",
+          "relocated_segment_site": 59073,
+          "relocation_index": 1212,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Repeats housekeeping over the peel list and clears its count; matches ResetData's FM Towns call role."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:0169:0794",
+      "offset": 1940,
+      "original_name": null,
+      "segment": 361,
+      "sha256": "5de3c077e2776745058d669fff2fc5dc620319ec149055afc7aba809e1e81c7c",
+      "size": 48,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry with no arguments, returns AX, RETF.",
+      "boundary_evidence": [
+        "Overlay-2 CALL FAR at 0x4b63 targets 0000:0a5a; its segment word is relocated at index 292.",
+        "The preceding routine terminates with RETF 2 at 0xa57. The two local branches join at 0xa7a, with RETF at 0xa82 and NOP at 0xa83 before the separate entry at 0xa84."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a5a0a0000",
+          "file_offset": 175235,
+          "image_offset": 19299,
+          "kind": "far_call",
+          "relocated_segment_site": 19302,
+          "relocation_index": 292,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Toggles the level passed to the resident sound driver wrapper and calls the options routine."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0a5a",
+      "offset": 2650,
+      "original_name": null,
+      "segment": 0,
+      "sha256": "0e34dfeb6e0f0a0ffbb60f8971dff5046914b983836fe9a83102e584a94f5de3",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with one signed byte in a word slot, RETF 2.",
+      "boundary_evidence": [
+        "Original relocated 9A at 0x751c enters a BP frame at 0x143b2.",
+        "All local branch targets were reviewed. Paths rejoin at 0x143fc with RETF 2 at 0x143fd; the next BP frame starts at 0x14400."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aa2330111",
+          "file_offset": 10867,
+          "image_offset": 2675,
+          "kind": "far_call",
+          "relocated_segment_site": 2678,
+          "relocation_index": 127,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aa2330111",
+          "file_offset": 10853,
+          "image_offset": 2661,
+          "kind": "far_call",
+          "relocated_segment_site": 2664,
+          "relocation_index": 128,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aa2330111",
+          "file_offset": 38172,
+          "image_offset": 29980,
+          "kind": "far_call",
+          "relocated_segment_site": 29983,
+          "relocation_index": 676,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aa2330111",
+          "file_offset": 38250,
+          "image_offset": 30058,
+          "kind": "far_call",
+          "relocated_segment_site": 30061,
+          "relocation_index": 677,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aa2330111",
+          "file_offset": 156563,
+          "image_offset": 627,
+          "kind": "far_call",
+          "relocated_segment_site": 630,
+          "relocation_index": 54,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Clamps to 15, updates the byte at DS:21f6 and dispatches via audio driver pointers or writes PC speaker port 61h."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1101:33a2",
+      "offset": 13218,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "f68a46fc4f9a60e3d396739cdf2020d0d9bd845788de6823720447ff18d66e8c",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry with no arguments, RETF.",
+      "boundary_evidence": [
+        "Relocated CALL FAR at root+0xe4d5 enters the BP frame at 0x745e after RETF 4 and NOP.",
+        "Local branches join the BP epilogue. RETF at 0x74cf immediately precedes the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8e212d05",
+          "file_offset": 10874,
+          "image_offset": 2682,
+          "kind": "far_call",
+          "relocated_segment_site": 2685,
+          "relocation_index": 21,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a8e212d05",
+          "file_offset": 66773,
+          "image_offset": 58581,
+          "kind": "far_call",
+          "relocated_segment_site": 58584,
+          "relocation_index": 1119,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident options routine; compares sound state and updates active audio/options fields."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:052d:218e",
+      "offset": 8590,
+      "original_name": null,
+      "segment": 1325,
+      "sha256": "91db59eeeebfcb2d7ff4127bf2e0fe14b0f8b7c26f237af5169a0a7ef10777d2",
+      "size": 114,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry with no arguments, RETF; saves SI/DI.",
+      "boundary_evidence": [
+        "Relocated 9A at root+0x195f and overlay-4+0x2c7 enter 0000:0e9a.",
+        "The prior delta routine has RETF/NOP at 0xe98..0xe99. Local branches join the register restores and RETF at 0xf6f, followed by the separate BP prologue at 0xf70."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a9a0e0000",
+          "file_offset": 14687,
+          "image_offset": 6495,
+          "kind": "far_call",
+          "relocated_segment_site": 6498,
+          "relocation_index": 150,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a9a0e0000",
+          "file_offset": 209575,
+          "image_offset": 711,
+          "kind": "far_call",
+          "relocated_segment_site": 714,
+          "relocation_index": 13,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a9a0e0000",
+          "file_offset": 241868,
+          "image_offset": 1452,
+          "kind": "far_call",
+          "relocated_segment_site": 1455,
+          "relocation_index": 24,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Refreshes the player and opponent meters, copying the 64-byte working character state."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0e9a",
+      "offset": 3738,
+      "original_name": "CheckMeters",
+      "original_name_evidence": [
+        "FM Towns PRINCE.C CheckMeters makes the same DrawKidMeter/DrawOppMeter calls and copies a 64-byte character record."
+      ],
+      "segment": 0,
+      "sha256": "83af52683e099eb8f98281298f5603871451525d4077c03a970b3c4d4fb6e59b",
+      "size": 214,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one signed-byte index in a word slot, RETF 2.",
+      "boundary_evidence": [
+        "Independent relocated CALL FAR at 0x73f to BP prologue at 0x4a02.",
+        "In-range branches join the epilogue with RETF 2 at 0x4a50, then NOP, then independently reviewed entry 0x4a54."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 10047,
+          "image_offset": 1855,
+          "kind": "far_call",
+          "relocated_segment_site": 1858,
+          "relocation_index": 18,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 9964,
+          "image_offset": 1772,
+          "kind": "far_call",
+          "relocated_segment_site": 1775,
+          "relocation_index": 19,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 12026,
+          "image_offset": 3834,
+          "kind": "far_call",
+          "relocated_segment_site": 3837,
+          "relocation_index": 20,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 15556,
+          "image_offset": 7364,
+          "kind": "far_call",
+          "relocated_segment_site": 7367,
+          "relocation_index": 155,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 16310,
+          "image_offset": 8118,
+          "kind": "far_call",
+          "relocated_segment_site": 8121,
+          "relocation_index": 156,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 41753,
+          "image_offset": 33561,
+          "kind": "far_call",
+          "relocated_segment_site": 33564,
+          "relocation_index": 736,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 48802,
+          "image_offset": 40610,
+          "kind": "far_call",
+          "relocated_segment_site": 40613,
+          "relocation_index": 737,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 63341,
+          "image_offset": 55149,
+          "kind": "far_call",
+          "relocated_segment_site": 55152,
+          "relocation_index": 1004,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 65264,
+          "image_offset": 57072,
+          "kind": "far_call",
+          "relocated_segment_site": 57075,
+          "relocation_index": 1118,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 68938,
+          "image_offset": 60746,
+          "kind": "far_call",
+          "relocated_segment_site": 60749,
+          "relocation_index": 1179,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 69358,
+          "image_offset": 61166,
+          "kind": "far_call",
+          "relocated_segment_site": 61169,
+          "relocation_index": 1180,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 69907,
+          "image_offset": 61715,
+          "kind": "far_call",
+          "relocated_segment_site": 61718,
+          "relocation_index": 1181,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 70979,
+          "image_offset": 62787,
+          "kind": "far_call",
+          "relocated_segment_site": 62790,
+          "relocation_index": 1182,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 188818,
+          "image_offset": 4050,
+          "kind": "far_call",
+          "relocated_segment_site": 4053,
+          "relocation_index": 26,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 189237,
+          "image_offset": 4469,
+          "kind": "far_call",
+          "relocated_segment_site": 4472,
+          "relocation_index": 27,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 191449,
+          "image_offset": 6681,
+          "kind": "far_call",
+          "relocated_segment_site": 6684,
+          "relocation_index": 28,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 191344,
+          "image_offset": 6576,
+          "kind": "far_call",
+          "relocated_segment_site": 6579,
+          "relocation_index": 29,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 194825,
+          "image_offset": 10057,
+          "kind": "far_call",
+          "relocated_segment_site": 10060,
+          "relocation_index": 135,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 195211,
+          "image_offset": 10443,
+          "kind": "far_call",
+          "relocated_segment_site": 10446,
+          "relocation_index": 136,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 198005,
+          "image_offset": 13237,
+          "kind": "far_call",
+          "relocated_segment_site": 13240,
+          "relocation_index": 214,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 202930,
+          "image_offset": 18162,
+          "kind": "far_call",
+          "relocated_segment_site": 18165,
+          "relocation_index": 215,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 209947,
+          "image_offset": 1083,
+          "kind": "far_call",
+          "relocated_segment_site": 1086,
+          "relocation_index": 16,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 241754,
+          "image_offset": 1338,
+          "kind": "far_call",
+          "relocated_segment_site": 1341,
+          "relocation_index": 46,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 241931,
+          "image_offset": 1515,
+          "kind": "far_call",
+          "relocated_segment_site": 1518,
+          "relocation_index": 47,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 242054,
+          "image_offset": 1638,
+          "kind": "far_call",
+          "relocated_segment_site": 1641,
+          "relocation_index": 48,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 244739,
+          "image_offset": 4323,
+          "kind": "far_call",
+          "relocated_segment_site": 4326,
+          "relocation_index": 49,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 251669,
+          "image_offset": 2949,
+          "kind": "far_call",
+          "relocated_segment_site": 2952,
+          "relocation_index": 26,
+          "space": "overlay-11"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 252944,
+          "image_offset": 4224,
+          "kind": "far_call",
+          "relocated_segment_site": 4227,
+          "relocation_index": 27,
+          "space": "overlay-11"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 255640,
+          "image_offset": 424,
+          "kind": "far_call",
+          "relocated_segment_site": 427,
+          "relocation_index": 36,
+          "space": "overlay-12"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 259238,
+          "image_offset": 4022,
+          "kind": "far_call",
+          "relocated_segment_site": 4025,
+          "relocation_index": 37,
+          "space": "overlay-12"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 259820,
+          "image_offset": 4604,
+          "kind": "far_call",
+          "relocated_segment_site": 4607,
+          "relocation_index": 38,
+          "space": "overlay-12"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 260033,
+          "image_offset": 4817,
+          "kind": "far_call",
+          "relocated_segment_site": 4820,
+          "relocation_index": 39,
+          "space": "overlay-12"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 264313,
+          "image_offset": 537,
+          "kind": "far_call",
+          "relocated_segment_site": 540,
+          "relocation_index": 15,
+          "space": "overlay-14"
+        },
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 266606,
+          "image_offset": 94,
+          "kind": "far_call",
+          "relocated_segment_site": 97,
+          "relocation_index": 9,
+          "space": "overlay-15"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Copy a 64-byte indexed character state to the working character record; out-of-range path uses the diagnostics."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:1d42",
+      "offset": 7490,
+      "original_name": null,
+      "segment": 716,
+      "sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two word arguments, RETF 4.",
+      "boundary_evidence": [
+        "Relocated CALL FAR at root+0xe96b enters the BP prologue at 0x9d8e.",
+        "Local branches stay inside this routine through RETF 4 at 0x9e2d. At 0x9e30, a separate body tests opponent index, calls back into this entry, and returns at 0x9e67."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aee248a07",
+          "file_offset": 11995,
+          "image_offset": 3803,
+          "kind": "far_call",
+          "relocated_segment_site": 3806,
+          "relocation_index": 121,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aee248a07",
+          "file_offset": 11954,
+          "image_offset": 3762,
+          "kind": "far_call",
+          "relocated_segment_site": 3765,
+          "relocation_index": 122,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aee248a07",
+          "file_offset": 67947,
+          "image_offset": 59755,
+          "kind": "far_call",
+          "relocated_segment_site": 59758,
+          "relocation_index": 1315,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aee248a07",
+          "file_offset": 194815,
+          "image_offset": 10047,
+          "kind": "far_call",
+          "relocated_segment_site": 10050,
+          "relocation_index": 166,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9aee248a07",
+          "file_offset": 266571,
+          "image_offset": 59,
+          "kind": "far_call",
+          "relocated_segment_site": 62,
+          "relocation_index": 47,
+          "space": "overlay-15"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Player-meter draw consuming previous and current health words."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:078a:24ee",
+      "offset": 9454,
+      "original_name": null,
+      "segment": 1930,
+      "sha256": "6d88f56d67f90060d88ec300541b28e0a4a54fb646476df7e48380002763e1aa",
+      "size": 162,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, byte and two words, RETF 6.",
+      "boundary_evidence": [
+        "Relocated CALL FAR at root+0x8b7 enters the BP frame at 0x9e68 after RETF at 0x9e67.",
+        "Local branches rejoin before RETF 6 at 0xa018. NOP at 0xa01b precedes the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 10423,
+          "image_offset": 2231,
+          "kind": "far_call",
+          "relocated_segment_site": 2234,
+          "relocation_index": 45,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 11866,
+          "image_offset": 3674,
+          "kind": "far_call",
+          "relocated_segment_site": 3677,
+          "relocation_index": 46,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 12136,
+          "image_offset": 3944,
+          "kind": "far_call",
+          "relocated_segment_site": 3947,
+          "relocation_index": 47,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 12073,
+          "image_offset": 3881,
+          "kind": "far_call",
+          "relocated_segment_site": 3884,
+          "relocation_index": 48,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 26830,
+          "image_offset": 18638,
+          "kind": "far_call",
+          "relocated_segment_site": 18641,
+          "relocation_index": 331,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 188963,
+          "image_offset": 4195,
+          "kind": "far_call",
+          "relocated_segment_site": 4198,
+          "relocation_index": 59,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 251660,
+          "image_offset": 2940,
+          "kind": "far_call",
+          "relocated_segment_site": 2943,
+          "relocation_index": 81,
+          "space": "overlay-11"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 252935,
+          "image_offset": 4215,
+          "kind": "far_call",
+          "relocated_segment_site": 4218,
+          "relocation_index": 82,
+          "space": "overlay-11"
+        },
+        {
+          "bytes_hex": "9ac8258a07",
+          "file_offset": 259791,
+          "image_offset": 4575,
+          "kind": "far_call",
+          "relocated_segment_site": 4578,
+          "relocation_index": 78,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Opponent-meter draw consuming a byte identifier and two health words."
+      ],
+      "classification_status": "Original DOS code and call/ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:078a:25c8",
+      "offset": 9672,
+      "original_name": null,
+      "segment": 1930,
+      "sha256": "850183977d6d2dc0008ad213c1bfed98118a3f84368d5f8738b7d29298aa8c8e",
+      "size": 436,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

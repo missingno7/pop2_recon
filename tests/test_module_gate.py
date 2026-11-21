@@ -35,7 +35,7 @@ char far pascal UPDATE_STEP_DELTA(void)
     return STATE_DELTA;
 }
 """
-BINDING = ROOT / "evidence/bindings/prince/boost_meter.json"  # canonical BoostMeter group binding
+BINDING = ROOT / "tests/fixtures/state_step_pair.binding.json"  # frozen pair binding (witnesses outside 0e78..0e9a)
 
 
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
