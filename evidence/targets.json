@@ -48347,6 +48347,924 @@
       "size": 282,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0de9, descriptor 12, names this entry; root JMP relocation index 2009.",
+        "Complete [0000,001e) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 001c.",
+        "Frame start and independent vector identify the entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calls the two character watch routines then passes both results to the floor-mask and break checks."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0000",
+      "offset": 0,
+      "segment": 11714,
+      "sha256": "90854d0d1f752a95d2de373e507fe1376522f5cb05cb3454369e0686eee39a64",
+      "size": 30,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 4 bytes via RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x0017. The original rel16 values land on this entry.",
+        "Complete [001e,0164) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0161.",
+        "The preceding original function closes before 001e; the next original entry is 0164."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 263799,
+          "image_offset": 23,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tracks consecutive nearby character positions and runs the bridge collapse and falling-tile sequence."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:001e",
+      "offset": 30,
+      "segment": 11714,
+      "sha256": "50fae6b148f5f0f318b3d29b4bf27bdb0bcfb0d5a181fb1d430a4d35c4598b19",
+      "size": 326,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x0003. The original rel16 values land on this entry.",
+        "Complete [0194,0206) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0205.",
+        "The preceding original function closes before 0194; the next original entry is 0206."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 263779,
+          "image_offset": 3,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads the current kid, checks and adjusts bridge Y, updates actor state and returns the bridge flag."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0194",
+      "offset": 404,
+      "segment": 11714,
+      "sha256": "6ff35d6ffb78dbdf261a86dd54c5f857621446cc0edcb47d720c28e775dd1a9a",
+      "size": 114,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x000a. The original rel16 values land on this entry.",
+        "Complete [0206,023c) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0234, 023b.",
+        "The preceding original function closes before 0206; the next original entry is 023c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 263786,
+          "image_offset": 10,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 9,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks room activity, loads the opponent, tests and adjusts bridge Y and saves the opponent."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0206",
+      "offset": 518,
+      "segment": 11714,
+      "sha256": "1207866c2c183a14200491befd5b53ded90584225d2f3e1f819b4e4ac49c7333",
+      "size": 54,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0dd5, descriptor 12, names this entry; root JMP relocation index 1995.",
+        "Complete [023c,0286) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0284.",
+        "The preceding original function closes before 023c; the next original entry is 0286."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Combines corrected column with direction and the plate result to decide whether to advance."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:023c",
+      "offset": 572,
+      "segment": 11714,
+      "sha256": "4adec096f10d3aab524d34d822f44130d26cb7a21b8d0e3763df8bb38f9c1cb4",
+      "size": 74,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0ddf, descriptor 12, names this entry; root JMP relocation index 2019.",
+        "Complete [0286,0324) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0323.",
+        "The preceding original function closes before 0286; the next original entry is 0324."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses actor direction, frame sequence and column to select the skeleton behavior."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0286",
+      "offset": 646,
+      "segment": 11714,
+      "sha256": "16d989e02ba50ff70bc742fb9242fdfe33a954b1a71e882cfd0eaabf8e9f2cb3",
+      "size": 158,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x0269, 0x02dc, 0x030f. The original rel16 values land on this entry.",
+        "Complete [0324,036c) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 036b.",
+        "The preceding original function closes before 0324; the next original entry is 036c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264393,
+          "image_offset": 617,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 616,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 264508,
+          "image_offset": 732,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 731,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 264559,
+          "image_offset": 783,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 782,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests the gate and corrected opponent column on either approach to the plate."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0324",
+      "offset": 804,
+      "segment": 11714,
+      "sha256": "e595d7500c55eb764a48c291c3f6ff03e73228a6a5298f1a276e37237740e7f1",
+      "size": 72,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x01d5, 0x033b. The original rel16 values land on this entry.",
+        "Complete [036c,0398) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0391, 0397.",
+        "The preceding original function closes before 036c; the next original entry is 0398."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264245,
+          "image_offset": 469,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 468,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 264603,
+          "image_offset": 827,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 826,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests the gate for room 7, cell 13 and accepts gate states 0 or 2."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:036c",
+      "offset": 876,
+      "segment": 11714,
+      "sha256": "bae2fb67b61a7d8d4e12d048cb84c4383d9bb189d51955559f1904086c42d686",
+      "size": 44,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Complete [0398,03ce) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 03cc.",
+        "The preceding original function closes before 0398; the next original entry is 03ce."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses corrected character column and direction for a bridge advance predicate."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0398",
+      "offset": 920,
+      "segment": 11714,
+      "sha256": "35f38b973aed0f0d6e6f6f7ef41b0771be0998e8c21df8086bd1158a45ab2bea",
+      "size": 54,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x01a2, 0x021f, 0x04d3. The original rel16 values land on this entry.",
+        "Complete [03ce,03ec) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 03e6, 03ea.",
+        "The preceding original function closes before 03ce; the next original entry is 03ec."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264194,
+          "image_offset": 418,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 417,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 264319,
+          "image_offset": 543,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 542,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 265011,
+          "image_offset": 1235,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1234,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads the character tile and returns whether it equals bridge tile 44."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:03ce",
+      "offset": 974,
+      "segment": 11714,
+      "sha256": "bbb849476f2d0fb45b498eee071dccb93ad19bd6b39a1d8cb8821b511449126d",
+      "size": 30,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0dc1, descriptor 12, names this entry; root JMP relocation index 2017.",
+        "Complete [03ec,041a) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0418.",
+        "The preceding original function closes before 03ec; the next original entry is 041a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads resource 3500 in level 5 room 10 and resets the bridge mask and wait counter."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:03ec",
+      "offset": 1004,
+      "segment": 11714,
+      "sha256": "8e3bda23e0906112fbf63c4659e981ab5d5e8b622660a508309c4dd66127c827",
+      "size": 46,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 4 bytes via RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x0011. The original rel16 values land on this entry.",
+        "Complete [041a,048c) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0489.",
+        "The preceding original function closes before 041a; the next original entry is 048c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 263793,
+          "image_offset": 17,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 16,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the floor mask from both characters and schedules a sound using a delay and bounded random."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:041a",
+      "offset": 1050,
+      "segment": 11714,
+      "sha256": "5ce4a01f6374060d39f1a227d04371e2210223a20499775af2ebc288532f8f09",
+      "size": 114,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 2 bytes via RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x0447. The original rel16 values land on this entry.",
+        "Complete [048c,04d2) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 04ce.",
+        "The preceding original function closes before 048c; the next original entry is 04d2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264871,
+          "image_offset": 1095,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1094,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clamps the range around one column and sets its bits in the bridge floor mask."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:048c",
+      "offset": 1164,
+      "segment": 11714,
+      "sha256": "3c4f789a735014abe345f8fccc4038a207934adf7f439505dac3637cadacb838",
+      "size": 70,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x01ad, 0x0229. The original rel16 values land on this entry.",
+        "Complete [04d2,053a) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 052f, 0539.",
+        "The preceding original function closes before 04d2; the next original entry is 053a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264205,
+          "image_offset": 429,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 428,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 264329,
+          "image_offset": 553,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 552,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Adjusts character Y by row, column and tile modifier when on a bridge tile."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:04d2",
+      "offset": 1234,
+      "segment": 11714,
+      "sha256": "d6a53c8bcecdf1a972e5dba26b14c08efafa9d047bdc37ad60cb61247b7dd1e2",
+      "size": 104,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Complete [053a,054e) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 054d.",
+        "The preceding original function closes before 053a; the next original entry is 054e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calls the same resource manager with resource 3500 and the unload flag."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:053a",
+      "offset": 1338,
+      "segment": 11714,
+      "sha256": "b3894ef43ed9b32a8af02d3d4a9636f6e8886e2419bc68db75c2a2f3eca26e2f",
+      "size": 20,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 2 bytes via RETF.",
+      "boundary_evidence": [
+        "Complete [05d6,061a) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0616.",
+        "The preceding original function closes before 05d6; the next original entry is 061a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws an animated bridge tile using a temporary offset to its image Y."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:05d6",
+      "offset": 1494,
+      "segment": 11714,
+      "sha256": "0170310e2d50c555c7a2ecc34a1dd0ac90c4098ad957c76118bc64df3e11dc13",
+      "size": 68,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register call. Image byte in AL, plus signed column byte in DL (offset) or saved Y word in DX (restore).",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x05f9, 0x06b5. The original rel16 values land on this entry.",
+        "Complete [061a,065e) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 065d.",
+        "The preceding original function closes before 061a; the next original entry is 065e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 265305,
+          "image_offset": 1529,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1528,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 265493,
+          "image_offset": 1717,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1716,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Offsets the selected packed image entry Y and rectangle and returns its previous Y."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:061a",
+      "offset": 1562,
+      "segment": 11714,
+      "sha256": "f53190132341f98c1b9e8c8f8090344b51d5a9ae8c6ba5228a5fa9038e294a56",
+      "size": 68,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register call. Image byte in AL, plus signed column byte in DL (offset) or saved Y word in DX (restore).",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x060e, 0x06fd. The original rel16 values land on this entry.",
+        "Complete [065e,0694) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0693.",
+        "The preceding original function closes before 065e; the next original entry is 0694."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 265326,
+          "image_offset": 1550,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1549,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 265565,
+          "image_offset": 1789,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1788,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Restores the selected image entry Y and translates its rectangle back."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:065e",
+      "offset": 1630,
+      "segment": 11714,
+      "sha256": "afbe07a6c1121699d1f759239984f1e6f3c05ca775df8d030dd6d8ec60f48fd2",
+      "size": 54,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 4 bytes via RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x05c5, 0x073c. The original rel16 values land on this entry.",
+        "Complete [0694,0708) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0705.",
+        "The preceding original function closes before 0694; the next original entry is 0708."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 265253,
+          "image_offset": 1477,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1476,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 265628,
+          "image_offset": 1852,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1851,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes the cell rectangle for the offset bridge image and calls the redraw dispatcher."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0694",
+      "offset": 1684,
+      "segment": 11714,
+      "sha256": "7ca078336e7f7842b15f09b420b7984eefb011eeb41eca67b573fc91e337554f",
+      "size": 116,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 4 bytes via RETF.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0df3, descriptor 12, names this entry; root JMP relocation index 1998.",
+        "Complete [0708,0748) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0744.",
+        "The preceding original function closes before 0708; the next original entry is 0748."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the modifier phase bits, changes the bridge tile and redraws the cell."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0708",
+      "offset": 1800,
+      "segment": 11714,
+      "sha256": "ce734388bc36003fdd7212543d54841d425eb6a1da24039ac3e0ff82b6ad880a",
+      "size": 64,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Complete [0748,0894) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0893.",
+        "The preceding original function closes before 0748; the next original entry is 0894. Root wrapper at 0b41:2046 calls 2dc2:0748 (root relocation 1078); the address is shared by other overlays. The original instructions at 0748 form the distinct BRIDGE routine and use the bridge-only phase tables."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Adjusts moving bridge tile coordinates for the displayed room and draws the falling tile."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0748",
+      "offset": 1864,
+      "segment": 11714,
+      "sha256": "93dc683a195e891b368c1e7197bd1a75bad190636503ee660b3a26981be1d7ff",
+      "size": 332,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 2 bytes via RETF.",
+      "boundary_evidence": [
+        "Original relocated far caller root+0x9642, relocation index 854; census resolves the frame to this overlay.",
+        "Complete [0894,08b8) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 08b5.",
+        "The preceding original function closes before 0894; the next original entry is 08b8. The terminal RETF 2 precedes the next room/level guard; the body enters the renderer with AL, DX and BX arguments plus two stack arguments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 46658,
+          "image_offset": 38466,
+          "kind": "far_call",
+          "relocated_segment_site": 38469,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches one bridge object draw with the selected phase image and current foreground state."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:0894",
+      "offset": 2196,
+      "segment": 11714,
+      "sha256": "8d528746a5a3c70ce15c87c5ce22d9dca9f13aa2c7c9c2fd5cb7956c7e1969d0",
+      "size": 36,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original relocated far caller root+0xcf70, relocation index 1058; census resolves the frame to this overlay.",
+        "Complete [08b8,090c) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 08f8, 090a.",
+        "The preceding original function closes before 08b8; the next original entry is 090c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61296,
+          "image_offset": 53104,
+          "kind": "far_call",
+          "relocated_segment_site": 53107,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances the falling tile modifier according to its speed and retires the finished object."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:08b8",
+      "offset": 2232,
+      "segment": 11714,
+      "sha256": "4fe39a3dcebfadd8ef2bcff406a2075c22e7f04d3d808afe2a85ea564777b77d",
+      "size": 84,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 4 bytes via RETF.",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS/CALL sites: 0x00fa. The original rel16 values land on this entry.",
+        "Complete [090c,09c8) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 09c4.",
+        "Previous function returns at 090a with NOP at 090b. Last function ends at 09c7 NOP; eight overlay paragraph-fill zeros follow."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264026,
+          "image_offset": 250,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 249,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the tile, initializes a falling bridge tile, and draws the initial frame."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:090c",
+      "offset": 2316,
+      "segment": 11714,
+      "sha256": "4440eb0a2b125c8c908ae5e8b04d75c35708a0bc99ced68c744ee69f2df99f38",
+      "size": 188,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 2 bytes via RETF.",
+      "boundary_evidence": [
+        "Original relocated far callers: overlay-9+0xdd6, overlay-14+0x85f.",
+        "Complete [218e,2264) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 2260.",
+        "Starts at its own BP frame after RETF/NOP. Independent near caller root:0b41:226f passes a stack-local rectangle."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 235318,
+          "image_offset": 3542,
+          "kind": "far_call",
+          "relocated_segment_site": 3545,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 265919,
+          "image_offset": 2143,
+          "kind": "far_call",
+          "relocated_segment_site": 2146,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes the moving tile rectangle through a near output pointer."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:218e",
+      "offset": 8590,
+      "segment": 2881,
+      "sha256": "e26ee4080048d1b3e9b43602debdfba5b9971ec5dfd5cfa217d176847a028fd5",
+      "size": 214,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 2 bytes via RETF.",
+      "boundary_evidence": [
+        "Original relocated far callers: overlay-6+0x1e0, overlay-8+0x18c, overlay-9+0x127, overlay-9+0xdc6, overlay-9+0xf4e, overlay-10+0x1b4c, overlay-14+0x84f, overlay-14+0x9bb.",
+        "Complete [2264,22aa) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 22a7.",
+        "Separate BP frame after RETF 2 and NOP. Three callback cases converge on the redraw dispatcher."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 215872,
+          "image_offset": 480,
+          "kind": "far_call",
+          "relocated_segment_site": 483,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 226524,
+          "image_offset": 396,
+          "kind": "far_call",
+          "relocated_segment_site": 399,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 232071,
+          "image_offset": 295,
+          "kind": "far_call",
+          "relocated_segment_site": 298,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 235302,
+          "image_offset": 3526,
+          "kind": "far_call",
+          "relocated_segment_site": 3529,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 235694,
+          "image_offset": 3918,
+          "kind": "far_call",
+          "relocated_segment_site": 3921,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 247404,
+          "image_offset": 6988,
+          "kind": "far_call",
+          "relocated_segment_site": 6991,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 265903,
+          "image_offset": 2127,
+          "kind": "far_call",
+          "relocated_segment_site": 2130,
+          "space": "overlay-14"
+        },
+        {
+          "file_offset": 266267,
+          "image_offset": 2491,
+          "kind": "far_call",
+          "relocated_segment_site": 2494,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes a moving tile rectangle and selects one of three resident marking callbacks."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:2264",
+      "offset": 8804,
+      "segment": 2881,
+      "sha256": "29a765b9be4189675b0ec639d3d93e83331cbec3f408ec851f477d7770c0d8d0",
+      "size": 70,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Original relocated far callers: overlay-14+0x316.",
+        "Complete [1f08,1f72) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 1f44, 1f70.",
+        "Prior entry ends RETF at 1f06 with NOP at 1f07, and next BP frame starts at 1f72. Census resolves the incoming call uniquely to the ACT frame in overlay 3."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 264566,
+          "image_offset": 790,
+          "kind": "far_call",
+          "relocated_segment_site": 793,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a character turn or fencing sequence using original action/frame and state checks."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1f08",
+      "offset": 7944,
+      "segment": 9690,
+      "sha256": "3a6e7389f869ae63aa0d86eb3d7e969451cc7d797cc7b7d36197dd313b1a5438",
+      "size": 106,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, callee removes 4 bytes via RETF.",
+      "boundary_evidence": [
+        "Original relocated far callers: root+0xc6ac, overlay-14+0x1e9.",
+        "Complete [0000,017c) decodes in original bytes. Direct branches land at instruction starts within it. Original far exits at 0179.",
+        "Overlay 6 starts with a separate BP frame. Room and cell slots and the gate lookup agree with overlay-14+01e9 and independent root+0xc6ac. Root sites +0x804a and +0xb562 use this shared alias with no arguments and are excluded. Next routine starts at 017c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59052,
+          "image_offset": 50860,
+          "kind": "far_call",
+          "relocated_segment_site": 50863,
+          "space": "root"
+        },
+        {
+          "file_offset": 264265,
+          "image_offset": 489,
+          "kind": "far_call",
+          "relocated_segment_site": 492,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses room and cell, looks up the plate-controlled gate and updates its state."
+      ],
+      "classification_status": "Original game code; descriptive source names where cross-platform names are unanchored.",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:29cf:0000",
+      "offset": 0,
+      "segment": 10703,
+      "sha256": "3e670decead36e7c8e048945f4e9705fcd0a1bf35c10637a2eb180c01c8cab42",
+      "size": 380,
+      "space": "overlay-6",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
