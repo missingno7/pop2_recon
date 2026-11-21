@@ -285,10 +285,12 @@ def _candidate_frames(oracle):
         frames = set()
         for space in oracle.spaces.values():
             for r in space.relocations:
-                frames.add(r["segment"])
-                if "stored_word" in r:
-                    frames.add(r["stored_word"])
-        frames.update(v["target_segment"] for v in _code_vectors(oracle).values())
+                if r.get("segment") is not None:
+                    frames.add(r["segment"])
+                if r.get("image_offset") is not None and r["image_offset"] + 2 <= len(space.data):
+                    frames.add(struct.unpack_from("<H", space.data, r["image_offset"])[0])
+        if getattr(oracle, "mz", None) is not None:  # RTLink vectors need the MZ image
+            frames.update(v["target_segment"] for v in _code_vectors(oracle).values())
         _CANDIDATE_FRAMES[key] = frames
     return _CANDIDATE_FRAMES[key]
 
@@ -910,8 +912,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         if not state["near"] and not state["own"] and not state["own_bases"]:
             continue
         position = state["position"]
-        if (public not in cs_proven and not state["own"] and not state["own_bases"] and
-                _frame_invariant(state, space, oracle)):
+        if (public not in cs_proven and space.name == "root" and not state["own"] and
+                not state["own_bases"] and _frame_invariant(state, space, oracle)):
             # Weaker class, recorded: no frame names this claim, but every frame the original
             # relocations store whose window holds the whole claim also holds every callee,
             # so each near call reaches the same code under any of them.

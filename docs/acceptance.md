@@ -53,7 +53,8 @@ bytes compare literally, except for these fixup fields:
   same code frame does not prove the CS its callers use (root frames such as
   `1000` and `1101` overlap linearly). External near callees are never assumed
   to preserve DS/ES/SS.
-  **Frame-invariant near calls (weaker class, recorded as `cs_frame`).** A claim
+  **Frame-invariant near calls (weaker class, recorded as `cs_frame`; resident
+  root only, overlays keep the stricter rules above).** A claim
   with no witnessed frame, no own-segment offset word and no own-segment base is
   accepted when every equal near call reaches its callee under every candidate
   frame: each paragraph the original stores as a relocation site frame, a

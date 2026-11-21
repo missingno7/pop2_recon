@@ -213,12 +213,15 @@ class SyntheticGroupTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "before the first public"):
             self.check(synthetic_object(b"\xcc\xcb", [("ENTRY", 1)]), oracle, inventory, [("entry", "ENTRY")])
 
-    def test_near_call_without_a_witnessed_frame_is_refused(self):
+    def test_near_call_without_a_witnessed_frame_is_only_frame_invariant(self):
+        # No reviewed far entry names the caller's CS, but the only frame the image stores
+        # (0000) reaches the callee: accepted as the recorded weaker class, not as witnessed.
         obj, oracle, inventory = self.near_fixture([(2, 1, True)])
         for row in inventory["functions"]:
             row["call_sites"] = []
         report = self.check(obj, oracle, inventory, [("caller", "CALLER"), ("callee", "CALLEE")])
-        self.assertIn("witnessed original frame", report["claims"][0]["reason"])
+        self.assertEqual(report["claims"][0]["state"], "CODE_EXACT", report["claims"][0])
+        self.assertEqual(report["claims"][0]["cs_frame"], "frame-invariant near calls")
 
     def test_claims_entered_through_different_frames_are_refused(self):
         # Linear placement agrees, but 0000:fff0's near call wraps to 0000:0000, not 1000:0000.
@@ -245,7 +248,9 @@ class SyntheticGroupTests(unittest.TestCase):
         image[16:21] = callee_call
         oracle, inventory = synthetic_oracle(image, [("caller", 0, base, 16, []), ("callee", 0x0fff, 0x0010, 1,
                                                                                      [callee_site])],
-                                             relocations=[{"image_offset": 19}])
+                                             # The site paragraph 0000 is a candidate CS whose window
+                                             # holds the caller but wraps the call to 0000:0000.
+                                             relocations=[{"image_offset": 19, "segment": 0}])
         obj = synthetic_object(bytes.fromhex("0ee80000cb") + b"\x90" * 11 + b"\xcb",
                                [("CALLER", 0), ("CALLEE", 16)], ["CALLEE"], [(2, 1, True)])
         report = self.check(obj, oracle, inventory, [("caller", "CALLER"), ("callee", "CALLEE")])
@@ -780,7 +785,8 @@ class SelfRelativeTests(unittest.TestCase):
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
         self.assertEqual([(e["kind"], e["push_cs"], e["symbol"]) for e in claim["equations"]],
                          [("same-object near16", False, "HELPER")])
-        self.assertIn("witnessed original frame", self.plain_call(sites=False)["claims"][0]["reason"])
+        unwitnessed = self.plain_call(sites=False)["claims"][0]
+        self.assertEqual(unwitnessed.get("cs_frame"), "frame-invariant near calls", unwitnessed)
 
     def external(self, witnesses=None, *, callee=0x60, frame_segment=4, accepted=False):
         """Candidate at 0x40 (PUSH CS; CALL OUTSIDE; RETF), entered by CALL FAR frame_segment:off.
@@ -996,7 +1002,8 @@ class FrameInvariantTests(unittest.TestCase):
 
     def run_check(self, frames, near, position=0x12000, size=0x40):
         import module_gate
-        space = SimpleNamespace(link_segment=0, relocations=[{"segment": f, "stored_word": f} for f in frames])
+        space = SimpleNamespace(name="root", link_segment=0, data=b"",
+                                relocations=[{"segment": f} for f in frames])
         oracle = SimpleNamespace(spaces={"root": space})
         state = {"near": near, "position": position, "piece": bytes(size)}
         with patch.object(module_gate, "_code_vectors", return_value={}), \
