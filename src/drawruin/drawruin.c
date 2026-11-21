@@ -109,33 +109,77 @@ void draw_ruin_block(RuinCell *cell)
     }
 }
 
-#pragma optimize("e", off)
 void draw_ruin_bones(RuinCell *cell)
 {
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
 
     switch (cell->pass) {
     case 0:
         draw_ruin_back_wall(cell);
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
-        add_image = (unsigned long)AddBFImgToBTable;
+        add_image = AddBFImgToBTable;
         break;
     }
     if (add_image) {
-        ((AddImage)add_image)(21, -2, cell->column, cell->row, 10, 0);
+        AddImage volatile draw = add_image;
+        draw(21, -2, cell->column, cell->row, 10, 0);
         draw_ruin_flaw(cell);
     }
 }
-#pragma optimize("e", on)
 
-extern int crevice_block_flags[];
+typedef struct ShapePosition {
+    int x, y, flags;
+} ShapePosition;
+
+static union RuinTables {
+    struct {
+        int crevice_flags[4];
+        int loose_odd[12], loose_even[12];
+        ShapePosition flaw_positions[15], exit_positions[2];
+    } rows;
+    int words[79];
+} ruin_tables = {
+    {
+        { 0, 2, 2, 0 },
+        { 0, 1, 0, 2, 2, 0, 0, 0, 1, 1, 1, 0 },
+        { 0, 2, 0, 1, 1, 0, 0, 2, 2, 2, 0, 2 },
+        {
+            { 76, 0, -32 },
+            { 77, 22, -7 },
+            { 67, 0, -3 },
+            { 67, -32, -3 },
+            { 68, -17, -6 },
+            { 69, -8, 18 },
+            { 70, 4, -32 },
+            { 71, -16, -5 },
+            { 72, 1, -4 },
+            { 73, 4, 31 },
+            { 74, 2, -25 },
+            { 75, 4, -27 },
+            { 78, -27, -7 },
+            { 79, -16, -20 },
+            { 80, 7, -31 }
+        },
+        {
+            { 62, -15, -16 },
+            { 65, 6, -60 }
+        }
+    }
+};
+#define exit_positions (ruin_tables.rows.exit_positions)
+
+/* Loose selectors index the shared word storage across the full nibble. */
+enum {
+    LOOSE_ODD_WORD = sizeof ruin_tables.rows.crevice_flags / sizeof(int),
+    LOOSE_EVEN_WORD = LOOSE_ODD_WORD + sizeof ruin_tables.rows.loose_odd / sizeof(int)
+};
 
 void draw_ruin_crevice(RuinCell *cell)
 {
@@ -155,7 +199,7 @@ void draw_ruin_crevice(RuinCell *cell)
         } else {
             block = *cell;
             block.modifier &= ~3;
-            block.modifier |= crevice_block_flags[pattern];
+            block.modifier |= ruin_tables.rows.crevice_flags[pattern];
             draw_ruin_block(&block);
         }
         draw_ruin_flaw(cell);
@@ -176,10 +220,9 @@ void draw_ruin_crevice(RuinCell *cell)
     }
 }
 
-#pragma optimize("e", off)
 void draw_ruin_exit_left(RuinCell *cell)
 {
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
     Byte layer = 10;
     int flaw = 1;
 
@@ -187,33 +230,31 @@ void draw_ruin_exit_left(RuinCell *cell)
     case 0:
         if (draw_pass_mode) {
             draw_ruin_back_wall(cell);
-            add_image = (unsigned long)AddBImgToBTable;
+            add_image = AddBImgToBTable;
         }
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         layer = 0;
         break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
-        /* Pass 2 shares the default flaw setting. */
-    default:
+        add_image = AddBFImgToFTable;
         flaw = 0;
         break;
     case 5:
-        add_image = (unsigned long)AddBFImgToBTable;
+        add_image = AddBFImgToBTable;
+        break;
+    default:
+        flaw = 0;
         break;
     }
-    if (add_image)
-        ((AddImage)add_image)(16, -2, cell->column, cell->row, layer, 0);
+    if (add_image) {
+        AddImage volatile draw = add_image;
+        draw(16, -2, cell->column, cell->row, layer, 0);
+    }
     if (flaw)
         draw_ruin_flaw(cell);
 }
-#pragma optimize("e", on)
-
-typedef struct ShapePosition {
-    int x, y, flags;
-} ShapePosition;
 
 #pragma pack(1)
 typedef struct RuinPositions {
@@ -234,10 +275,6 @@ typedef struct MovingExit {
 } MovingExit;
 
 extern RuinPositions *shape_offsets;
-static ShapePosition exit_positions[2] = {
-    { 62, -15, -16 },
-    { 65, 6, -60 }
-};
 extern DrawRect door_clip_rect;
 extern Byte drawn_room;
 extern unsigned int kid_frame;
@@ -310,7 +347,6 @@ void draw_ruin_exit_movable(RuinCell *cell)
     }
 }
 
-extern ShapePosition front_flaws[], back_flaws[], corner_flaws[];
 extern CellCoord hidden_flaw_column, hidden_flaw_row;
 extern int last_front_table_slot;
 extern _segment front_table_segment;
@@ -335,14 +371,14 @@ void draw_ruin_flaw(RuinCell *cell)
     if (cell->pass == 5) {
         flaw = cell->modifier >> 8 & 15;
         if (flaw == 11 || flaw == 12) {
-            shape_offsets->front_flaw = corner_flaws[flaw];
+            shape_offsets->front_flaw = ruin_tables.rows.flaw_positions[flaw - 11];
             shape_offsets->flip_flaw = flaw == 12 ? 1 : 0;
             AddBImgToBTable(18, -2, cell->column, cell->row, 10, 0);
         } else {
             flaw = cell->modifier & 0x3000;
             if (flaw) {
                 flaw >>= 12;
-                shape_offsets->back_flaw = back_flaws[flaw];
+                shape_offsets->back_flaw = ruin_tables.rows.flaw_positions[flaw + 11];
                 AddBFImgToBTable(18, -2, cell->column, cell->row, 10, 0);
             }
         }
@@ -352,7 +388,7 @@ void draw_ruin_flaw(RuinCell *cell)
             flaw = ((Byte *)&flags)[1];
             if (flaw != 2 || !draw_pass_mode) {
                 int emitted;
-                shape_offsets->back_flaw = front_flaws[flaw];
+                shape_offsets->back_flaw = ruin_tables.rows.flaw_positions[flaw + 1];
                 if (flaw == 3 && !draw_pass_mode &&
                     hidden_flaw_column == cell->column && hidden_flaw_row == cell->row)
                     emitted = 0;
@@ -454,15 +490,14 @@ void draw_ruin_gate_movable(RuinCell *cell)
     clip_rect = saved_clip;
 }
 
-extern int loose_odd[], loose_even[];
-
 void draw_ruin_loose(RuinCell *cell)
 {
     int image;
     RuinCell floor;
     image = cell->modifier & 15;
     if (image != 13)
-        image = cell->column % 2 ? loose_odd[image] : loose_even[image];
+        image = cell->column % 2 ? ruin_tables.words[LOOSE_ODD_WORD + image]
+                                 : ruin_tables.words[LOOSE_EVEN_WORD + image];
     if (!image) {
         floor = *cell;
         floor.modifier &= ~3;

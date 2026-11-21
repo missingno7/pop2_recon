@@ -204,10 +204,12 @@ void create_shadowman(void)
 {
     Spawn *entry;
     signed char id, zero, clear;
+    int room;
     if (current_char.room == 4 && altar_tile == 13) {
         opponent = current_char;
-        id = room_guard_counts[current_char.room * (int)sizeof(Room)]++;
-        entry = get_spawn(current_char.room, id);
+        room = current_char.room;
+        id = room_guard_counts[room * (int)sizeof(Room)]++;
+        entry = get_spawn(room, id);
         entry->position = row_offset(current_char.row) + current_char.col;
         entry->x = current_char.x;
         entry->direction = current_char.direction;

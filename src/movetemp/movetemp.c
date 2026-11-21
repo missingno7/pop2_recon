@@ -201,7 +201,9 @@ void draw_object_slide_rock(unsigned char kind)
     struct moving_rock *rock;
     int x, frame;
     rock = (struct moving_rock *)slide_rock_on_row(view_room, screen_tile_y / 63);
-    screen_rock_x = x = rock ? rock->screen_x : 320;
+    screen_rock_x = x = 320;
+    if (rock)
+        screen_rock_x = x = rock->screen_x;
     x -= screen_tile_x;
     switch (kind) {
     case 134: frame = 79; break;
@@ -221,7 +223,9 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
     signed char column;
     unsigned char tile;
 
-    if (rock) {
+    if (!rock)
+        return direction == -1 ? outside_barrier : 0;
+    {
         barrier = rock->x + 140;
         if (direction == -1) {
             int right;
@@ -237,8 +241,7 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
             }
         } else
             barrier += 35;
-    } else
-        barrier = direction == -1 ? outside_barrier : 0;
+    }
     return barrier;
 }
 
@@ -456,7 +459,6 @@ extern void rock_hit_spikes(void);
 extern void character_release_grip(void);
 extern int probe_chain_floor(int);
 extern int room_edge_x[], row_y[];
-extern unsigned char view_left, view_right, view_up, view_down;
 extern int trapdoor_sheet;
 extern int trapdoor_top, trapdoor_left;
 extern void add_moving_record(void);
@@ -558,6 +560,9 @@ stop_timer:
 done:;
 }
 
+extern struct { unsigned char left, right, up, down; } current_view;
+extern unsigned char view_left, view_right, view_up, view_down;
+
 int slide_rock_near_spikes(void)
 {
     struct tile_state saved = tile_state;
@@ -601,33 +606,31 @@ int far _fastcall get_slide_rock_x(unsigned char room, signed char row)
 
 void trigger_slide_rock(unsigned char room, signed char cell, unsigned char action)
 {
-    signed char row = cell / (signed char)10;
-    struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
+    struct { signed char row; signed char column; } location;
+    struct moving_rock *rock;
+    location.row = cell / (signed char)10;
+    rock = (struct moving_rock *)slide_rock_on_row(room, location.row);
     if (rock) {
-        switch (action) {
-        case 1:
+        if (action == 1) {
             if (rock->mode >= 0 && rock->mode != 100)
                 rock->mode = -1;
-            break;
-        case 2:
-            if (rock->mode == -1)
-                rock->mode = 1;
-            break;
-        }
+        } else if (action == 2 && rock->mode == -1)
+            rock->mode = 1;
     } else if (action == 1) {
         int x;
-        floor_at(room, cell % (signed char)10, row);
+        location.column = cell % (signed char)10;
+        floor_at(room, location.column, location.row);
         rock_motion_state = -1;
         moving_mode = 0;
         x = room_edge_x[tile_state.column];
-        if (x > 320 && room == view_left) {
+        if (x > 320 && (room == current_view.left)) {
             room = view_room;
             x -= 320;
         }
         movement_end = moving_x = x;
         moving_room = room;
         moving_y = row_y[tile_state.row] - 5;
-        moving_row = row;
+        moving_row = location.row;
         moving_kind = 6;
         add_moving_record();
     }
@@ -650,13 +653,13 @@ void move_trapdoor(void)
     } draw;
 
     if (room != view_room) {
-        if (room == view_down)
+        if (room == current_view.down)
             y += 191;
-        else if (moving_room == view_up)
+        else if (moving_room == current_view.up)
             y -= 191;
-        else if (moving_room == view_left)
+        else if (moving_room == current_view.left)
             x -= 320;
-        else if (moving_room == view_right)
+        else if (moving_room == current_view.right)
             x += 320;
         else
             goto draw;

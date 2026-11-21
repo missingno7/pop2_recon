@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawruin/drawruin.json",
-  "binding_sha256": "1be4912a7ab60b82759e41ddedfcdf112d1cd5d245be65a9e0ad557b6a0a914f",
+  "binding_sha256": "294e82acb345a4113bd2480f523e55076dd9e1cbdeb24628ce77ce32aedd2d12",
   "claims": [
     {
       "fixup_count": 15,
@@ -35,6 +35,20 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-8:2a74:01d6"
+    },
+    {
+      "fixup_count": 9,
+      "public": "DRAW_RUIN_CREVICE",
+      "relocation_indices": [
+        46,
+        90,
+        93
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-8:2a74:02f0"
     },
     {
       "fixup_count": 19,
@@ -117,11 +131,7 @@
       "public": "DRAW_RUIN_BONES"
     },
     {
-      "object_offset": 746,
-      "public": "DRAW_RUIN_CREVICE"
-    },
-    {
-      "object_offset": 1016,
+      "object_offset": 1010,
       "public": "DRAW_RUIN_EXIT_LEFT"
     },
     {
@@ -192,12 +202,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "drawruin/drawruin",
-  "object_sha256": "83cca312398754a6985b4a0b2555f93514a7876df09afcc249c4a6331c269763",
+  "object_sha256": "fbd59e2b2c10f540abbcc7057fd96422a2a11953a550fd351e6f0ec83b409eb5",
   "origin": 620,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawruin/drawruin.c",
-  "source_sha256": "ebf2405222f50a8ecfd98ebdc8dec77bdbc779a3ff3c425249436cd3281d9bdb",
+  "source_sha256": "4946cc89f962e6cdbec63c4cf7e3d05a539f334c9bee69315fd2b41e3c1535ff",
   "space": "overlay-8"
 }
