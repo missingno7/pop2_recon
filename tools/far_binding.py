@@ -84,10 +84,15 @@ def _accepted_entry(target_id, oracle):
     from common import ROOT, read_json
 
     def position(identifier):
-        space, segment, offset = identifier.split(":")
-        return space, oracle.spaces[space].position(int(segment, 16), int(offset, 16))
+        try:
+            space, segment, offset = identifier.split(":")
+            return space, oracle.spaces[space].position(int(segment, 16), int(offset, 16))
+        except (KeyError, ValueError):
+            return None  # not addressable in this oracle, so it cannot be the same entry
 
     wanted = position(target_id)
+    if wanted is None:
+        return False
     # Pinned runtime members are exact original library code matched to their archive,
     # so their entries are as well established as reconstructed ones.
     return any(owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME") and
