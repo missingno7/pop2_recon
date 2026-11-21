@@ -77,13 +77,21 @@ def _ground_far_data(symbol, target, oracle):
             "segment_witnesses": segment["witnesses"], "offset_witnesses": len(symbol.get("offset_witnesses", []))}
 
 
-def _accepted_entry(target_id):
-    """The target is a canonical CODE_EXACT/ASM_EXACT owner. (The caller has already
-    refused any entry inside the candidate, or inside the whole object for a group.)"""
+def _accepted_entry(target_id, oracle):
+    """The target's entry is the start of a canonical CODE_EXACT/ASM_EXACT owner or a pinned
+    runtime member (same space and position, whatever segment alias names it). The caller
+    has already refused any entry inside the candidate, or inside a group's whole object."""
     from common import ROOT, read_json
+
+    def position(identifier):
+        space, segment, offset = identifier.split(":")
+        return space, oracle.spaces[space].position(int(segment, 16), int(offset, 16))
+
+    wanted = position(target_id)
     # Pinned runtime members are exact original library code matched to their archive,
     # so their entries are as well established as reconstructed ones.
-    return any(owner["target_id"] == target_id and owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME")
+    return any(owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME") and
+               position(owner["target_id"]) == wanted
                for owner in read_json(ROOT / "layout/manifest.json")["owners"])
 
 
@@ -134,7 +142,7 @@ def ground_symbol(symbol, target, oracle):
     if not symbol.get("witnesses"):
         # Without an outside caller, the entry may instead be the start of accepted exact
         # code elsewhere: its reconstruction independently proves a function starts there.
-        require(kind != "rtlink-vector" and _accepted_entry(callee["id"]),
+        require(kind != "rtlink-vector" and _accepted_entry(callee["id"], oracle),
                 "Far callee has no independent original CALL witness or accepted exact entry")
         return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
                 "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted exact entry",
