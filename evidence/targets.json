@@ -32232,6 +32232,1123 @@
       "size": 30,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, no arguments; BP frame with four-byte local storage.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4bee..0x4d58 (362 bytes).",
+        "Previous ACT helper ends RETF 2802:000c plus NOP; own terminal RETF at 0177 is followed by independent PUSH CS/CALL destination 0178. Branches at 0021/002b/004c skip row rebuild and converge at 014d; room mismatch skips both nibble tests. Root relocated CALL at +ec68 index 1303 names 2802:000e. Overlay-2 at its alias starts inside different code. This input is not an RTLink vector.",
+        "Return instructions: 0177 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): [('4c1e', 433), ('4ce0', 465), ('4ccd', 466), ('4cba', 467), ('4c69', 480), ('4c57', 481), ('4c45', 482)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68712,
+          "image_offset": 60520,
+          "kind": "far_call",
+          "relocated_segment_site": 60523,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:000e",
+      "offset": 14,
+      "original_bytes_hex": "558bec83ec04b0ffa2a32ca2a22c803e0b5c077503e92701833e195c4e7503e91d01833e544500741aa00e5c8a160a5c9a26054e2a0bc0740a833e245c047503e9fc00a00a5ca2952c0ee86b01a0952ca2942cff3682629ac010cc02980504003d0b007f0dff3682629ac010cc020404eb02b00ba2a12cff3680629ac010cc022c02a2a02ca0952c50b8c22c50b8ae6a500ee83102a0952cfec050b8ae2c50b8962c500ee81f02a0952cfec850b8a42c50b88a2c500ee80d02833e5445007437a0952c50b8c22c50b8ae6a509a12044e2aa0952cfec050b8ae2c50b8962c509a12044e2aa0952cfec850b8a42c50b88a2c509a12044e2ac646ff098a46ff988bd880bfc22cff74328a87c22c3887b82c7528f687a46a0f750df687ae6a0f74068a46ffa2a22cf687a46af0750df687ae6af074068a46ffa2a32cfe4eff79bc803e065c007520803ea22cff7519803ea32cff7512833e905e00740b803e0b5c0475040ee804008be55dcb",
+      "original_name": "CheckBarr",
+      "original_name_evidence": [
+        "FM Towns 18d9:0004 @CheckBarr shares the -1 resets, 7/78 guards, row rebuild and three fills, reverse ten-column comparison and final conditional call to CheckWeightlessBarr."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "CheckBarr",
+      "sha256": "380c772b512431bb73df1528aa1c6254a2204a69c8916c997bba636f95b50362",
+      "size": 362,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, no arguments, no BP frame.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4d58..0x4da6 (78 bytes).",
+        "Same-frame PUSH CS/CALL at 0170/0171 from CheckBarr; prior RETF 0177; signed guard converges with cell predicate failure at RETF 01c4; NOP 01c5 precedes next BP frame.",
+        "Return instructions: 01c4 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): [('4d7b', 444), ('4d9f', 460), ('4d8e', 470), ('4d81', 483)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204561,
+          "image_offset": 19793,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19792,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0178",
+      "offset": 376,
+      "original_bytes_hex": "b03ff62e0a5c2d04008b0e045c2b0e7c623bc17e37a00e5c50a0095c50a00a5cfec8509af000cc02509ac8288a070bc0751ab8fcff509a6003cc02a3025cc6060c5c00b8e500509a1600da25cb90",
+      "original_name": "CheckWeightlessBarr",
+      "original_name_evidence": [
+        "FM Towns 18d9:0167 @CheckWeightlessBarr tests 63*row-4 against Y delta and reads previous row before clearing floor state and selecting sequence 229."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "CheckWeightlessBarr",
+      "sha256": "966da22a55e7f15c101987439750b77fbf1559b16bffc9fb3533a863ed2337b4",
+      "size": 78,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, no arguments; BP-2 word and saved DI/SI.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4da6..0x4e30 (138 bytes).",
+        "CheckBarr near CALL at 0058; prior RETF+NOP, next BP frame at 0250. Three row-difference paths converge at 0210 for two ten-byte copies and three ten-byte fills.",
+        "Return instructions: 024e cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204280,
+          "image_offset": 19512,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19511,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:01c6",
+      "offset": 454,
+      "original_bytes_hex": "558bec83ec025756a0952c3806942c7433a0942c988bc8a0952c982bc18946fe3dfdff741f3d0300741a3dffff740d3d02007408b9ae2cba962ceb0eb9a42cba8a2ceb06b9c22cbaae6ab8b82c8bf88bf11e07b90500f3a5b8a46a8bf88bf2b90500f3a5b8ff00bac22cb90a008bfaf3aabaa42cb90a008bfaf3aabfae2cb90a00f3aa5e5f8be55dcb90",
+      "original_name": "InitColDetBufs",
+      "original_name_evidence": [
+        "FM Towns 18d9:01e1 @InitColDetBufs chooses row pairs via identical row delta classes, copies two ten-byte buffers, fills three room rows with FF."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "InitColDetBufs",
+      "sha256": "722459298eb311244c0ebcf82609ae5c4ab6959bf09039eb9dcae790b64e618a",
+      "size": 138,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal with unsigned byte in BP+6 word; result AX, RETF 2.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4e30..0x4eb4 (132 bytes).",
+        "PUSH CS/CALL edges from 038a and 03c6 and original relocated CALL FAR sites in overlays 11 and 12. Preceding RETF and NOP at 024e/024f, return at 02d0 and NOP at 02d3 before next BP frame.",
+        "Return instructions: 02d0 ca0200",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252754,
+          "image_offset": 4034,
+          "kind": "far_call",
+          "relocated_segment_site": 4037,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 255901,
+          "image_offset": 685,
+          "kind": "far_call",
+          "relocated_segment_site": 688,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 255823,
+          "image_offset": 607,
+          "kind": "far_call",
+          "relocated_segment_site": 610,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 205121,
+          "image_offset": 20353,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20352,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205181,
+          "image_offset": 20413,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20412,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207151,
+          "image_offset": 22383,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22382,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207202,
+          "image_offset": 22434,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22433,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208412,
+          "image_offset": 23644,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23643,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208508,
+          "image_offset": 23740,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23739,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0250",
+      "offset": 592,
+      "original_bytes_hex": "558bec8a46062ae43d1900746b770e3c0774537f0d2c0274132c0274232bd2eb5a902c0c744c2c08744eebf1803e7162057345833ee00100743eba0300eb3c90803e4745037505ba0500eb2f803e345e09750d803e4945087506ba0800eb1c90ba0100eb1690833e7c62127f0bba0200eb09ba0600eb0490ba04008bc28be55dca020090",
+      "original_name": "GetBarrCode",
+      "original_name_evidence": [
+        "FM Towns 18d9:0267 @GetBarrCode maps the same six cell codes to barrier IDs, with matching crevice floor threshold and stage/room special cases."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "GetBarrCode",
+      "sha256": "3707d9aa51e5f4d3c183ecc87215a000e10ddf981bda3fa53bec1a4aade4d905",
+      "size": 132,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal; byte row BP+10 and two near pointers BP+8/+6; RETF 6.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4eb4..0x4f6a (182 bytes).",
+        "Three near CALLs from CheckBarr, preceding RETF 2 plus NOP; exits at RETF 6 0386 then NOP before 038a near-call entry.",
+        "Return instructions: 0386 ca0600",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204352,
+          "image_offset": 19584,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19583,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 204370,
+          "image_offset": 19602,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19601,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 204388,
+          "image_offset": 19620,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19619,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:02d4",
+      "offset": 724,
+      "original_bytes_hex": "558bec83ec045756a0a02c988bd8d1e38b87860d050e00a3cc2ca0a02c8846ff3806a12c7d03e98400a00e5c508a46ff508a4e0a510ee87d008bf0a00e5c508a46ff508a460a500ee8a7008bf8393682627e05b001eb03902ac08bc8d0e0d0e0d0e0d0e02ac18946fc393e80627d05b001eb03902ac0b104d2e0f6d80a46fc8bc8a07562988bd8035e06880fa07562988bd8035e08a0746288078306cc2c20a0a12cfe46ff3846ff7f03e97cff5e5f8be55dca060090",
+      "original_name": "GetColDetData",
+      "original_name_evidence": [
+        "FM Towns 18d9:02f7 @GetColDetData loops across the column interval, calls left and right barrier helpers and writes two resolved-column indexed arrays."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "GetColDetData",
+      "sha256": "5d02bcc5873c6d5cd9f218f60b8f80a8aa2bc9943d79eb6f20addb231b4cc768",
+      "size": 182,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; three byte slots BP+10/+8/+6, result AX, RETF 6.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4f6a..0x4fa6 (60 bytes).",
+        "Near call from 030a, preceding RETF 6 and NOP; shared return 03c2 and NOP before next similarly called entry.",
+        "Return instructions: 03c2 ca0600",
+        "Original outgoing relocated calls (space-relative sites and indices): [('4f7a', 445)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204970,
+          "image_offset": 20202,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20201,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205400,
+          "image_offset": 20632,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20631,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207513,
+          "image_offset": 22745,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22744,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:038a",
+      "offset": 906,
+      "original_bytes_hex": "558bec568a460a508a4608508a4606509af000cc02500ee8acfe8bf00bf6740e8a84c80d988bd00316cc2ceb05908b16a20d8bc25e8be55dca060090",
+      "original_name": "GetLeftBarr",
+      "original_name_evidence": [
+        "FM Towns 18d9:0384 @GetLeftBarr reads the cell, translates the barrier code, then adds the left offset to the current column origin."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "GetLeftBarr",
+      "sha256": "bf2ecd4319025abb82d61c906649991f870bc60a6e57d5b7187e1791ca34b2a0",
+      "size": 60,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; three byte slots BP+10/+8/+6, result AX, RETF 6.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4fa6..0x4fe2 (60 bytes).",
+        "Near call from 031c, preceding RETF 6 and NOP. Shared return at 03fe plus NOP before the entry independently called from root+ec6d.",
+        "Return instructions: 03fe ca0600",
+        "Original outgoing relocated calls (space-relative sites and indices): [('4fb6', 446)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204988,
+          "image_offset": 20220,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20219,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205312,
+          "image_offset": 20544,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20543,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207531,
+          "image_offset": 22763,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22762,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:03c6",
+      "offset": 966,
+      "original_bytes_hex": "558bec568a460a508a4608508a4606509af000cc02500ee870fe8bf00bf674108a84d20d988b16cc2c2bd083c21feb022bd28bc25e8be55dca060090",
+      "original_name": "GetRightBarr",
+      "original_name_evidence": [
+        "FM Towns 18d9:03c4 @GetRightBarr reads the cell, translates barrier code and calculates origin minus the right offset plus 31."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "GetRightBarr",
+      "sha256": "6502ec53d008f774deed8a7393071d9bca8983158f25fcb7aa4d9e8739a6f757",
+      "size": 60,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, frameless.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x5420..0x5428 (8 bytes).",
+        "Independent same-frame incoming CALL at 06c7 and 081e, both preceded by PUSH CS. Preceded by RETF 2 plus NOP; its RETF at 0846 and NOP precede root-called 0848.",
+        "Return instructions: 0846 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205927,
+          "image_offset": 21159,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 21158,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 206270,
+          "image_offset": 21502,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 21501,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207755,
+          "image_offset": 22987,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22986,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0840",
+      "offset": 2112,
+      "original_bytes_hex": "c70698620100cb90",
+      "original_name": "BumpSound",
+      "original_name_evidence": [
+        "FM Towns 18d9:091c @BumpSound occupies the same gap between GroundBump and InitCollisionDetection and sets the bump flag."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "BumpSound",
+      "sha256": "6cb7640698b9d9c0b392df65569047d388a98f8e2e559c252e334f8d279fedeb",
+      "size": 8,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, no args; DI preserved and ES loaded from DS for four fills.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x5428..0x545c (52 bytes).",
+        "Root+e659 index 1192 names 2802:0848 in RestartLevel. The overlay-2 alias starts inside a different routine. Preceded by BumpSound RETF/NOP; own RETF 087a then NOP precedes the near-call destination 087c.",
+        "Return instructions: 087a cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67161,
+          "image_offset": 58969,
+          "kind": "far_call",
+          "relocated_segment_site": 58972,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0848",
+      "offset": 2120,
+      "original_bytes_hex": "57b8ff00bab82cb90a008bfa1e07f3aabac22cb90a008bfaf3aabaae2cb90a008bfaf3aabfa42cb90a00f3aac606942cff5fcb90",
+      "original_name": "InitCollisionDetection",
+      "original_name_evidence": [
+        "FM Towns 18d9:092a @InitCollisionDetection fills the same four ten-byte room buffers with FF, then writes FF to the previous-row byte."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "InitCollisionDetection",
+      "sha256": "8c7441a80f8a68b6da61e9372f14ebfa8662f9dd9b7b2f92766d625bc0e94fb5",
+      "size": 52,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no args; AX boolean in two frameless exits.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x545c..0x5482 (38 bytes).",
+        "Same-frame PUSH CS/CALL at 0554/0555 names 087c; preceded by RETF+NOP; false return 089c, aligned true path 089e..08a1, next independent prologue/entry 08a2.",
+        "Return instructions: 089c cb, 08a1 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205557,
+          "image_offset": 20789,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20788,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:087c",
+      "offset": 2172,
+      "original_bytes_hex": "803e065c07741b803e065c087414833e7c62127f0da0716224033c0374042bc0cb90b80100cb",
+      "original_name": "CreviceBarr",
+      "original_name_evidence": [
+        "FM Towns 18d9:095f @CreviceBarr shares the action, height and two-bit cell flag tests."
+      ],
+      "segment": 10242,
+      "semantic_name_hypothesis": "CreviceBarr",
+      "sha256": "d1f2ca69d56fa28e8e10dc817f2f37f2c4be3a3fbbffd7f3082edeac29debfa9",
+      "size": 38,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, frameless.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x5cfe..0x5d06 (8 bytes).",
+        "Original RTLink vector root:2203:0d2b decodes to this entry in descriptor for overlay-3. Preceding RETF 6 ends at 111e. Its RETF at 1124 and alignment NOP are followed by overlay zero fill.",
+        "Return instructions: 1124 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:111e",
+      "offset": 4382,
+      "original_bytes_hex": "c706205e0000cb90",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "reset_barrier_state",
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "size": 8,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, three words, RETF 6",
+      "boundary_evidence": [
+        "Complete original extent overlay-9+0x368..0x412 (170 bytes).",
+        "Only overlay-9 alias has a BP prologue and matching argument usage. All branch paths close at the return within the interval. Following BP frame begins at end. Incoming overlay-3 relocation record(s) identify the alias, and overlay-3 and overlay-9 can coexist. FM Towns MOVETEMP.C name alignment supports role.",
+        "Return instructions: 040f ca0600",
+        "Original outgoing relocated calls (space-relative sites and indices): [('3bb', 28), ('393', 50), ('3a8', 64)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205339,
+          "image_offset": 20571,
+          "kind": "far_call",
+          "relocated_segment_site": 20574,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205429,
+          "image_offset": 20661,
+          "kind": "far_call",
+          "relocated_segment_site": 20664,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0368",
+      "offset": 872,
+      "original_bytes_hex": "558bec83ec0257568a46088a56060ee8ac018bf80bff747a8b3581c68c00807e0aff756883ee038d44e0509ac010cc028846ffb01ef665048bd88a450a508bfb9ac607cc020246ff988bd88a81e42c8846fe509afe288a070bc07506807efe04753e8a46ff988bd8d1e38b97880d83c218803e015c007509a182622b06806203d03bd67d028bd68bf2eb159083c623eb0f90807e0aff75068b36a20deb022bf68bc65e5f8be55dca0600",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "slide_rock_barrier",
+      "sha256": "fc3eb8e255ae52d4d6715037bd2f5c5d8632ead6120fff7efe3e05df14c0c33b",
+      "size": 170,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal; three word slots; RETF 6",
+      "boundary_evidence": [
+        "Complete original extent overlay-9+0x412..0x526 (276 bytes).",
+        "Only overlay-9 alias has a BP prologue and matching argument usage. All branch paths close at the return within the interval. Following BP frame begins at end. Incoming overlay-3 relocation record(s) identify the alias, and overlay-3 and overlay-9 can coexist. FM Towns MOVETEMP.C name alignment supports role.",
+        "Return instructions: 0522 ca0600",
+        "Original outgoing relocated calls (space-relative sites and indices): [('4e8', 51), ('4b3', 52), ('471', 53), ('43b', 54)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204448,
+          "image_offset": 19680,
+          "kind": "far_call",
+          "relocated_segment_site": 19683,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 204429,
+          "image_offset": 19661,
+          "kind": "far_call",
+          "relocated_segment_site": 19664,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 204410,
+          "image_offset": 19642,
+          "kind": "far_call",
+          "relocated_segment_site": 19645,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0412",
+      "offset": 1042,
+      "original_bytes_hex": "558bec83ec065756a00e5c8a560a0ee802018bf00bf67503e9f0008b040589008bf83b0682627d6c579ac010cc028846ff0ac07c173c0a7d13988bd8035e06800f0f8a4c048b5e0803d8880f837c076474428a460a38060a5c75398d4501509ac010cc023a46ff742b988bd881c3a46a895efa8a0f80e10f8bd08a46ff988bd8088fa46a8b5e0603daf6070f75068b5efa8027f08d45268946fc3b0680627e6b509ac010cc028846ff0ac07c153c0a7d11988bd88b7e068009f08a44048b7e088801837c076474438a460a38060a5c753a8b46fc40509ac010cc023a46ff742b988bd881c3a46a895efa8a0f80e1f08bd08a46ff988bd8088fa46a8bda8b7606f600f075068b5efa80270f5e5f8be55dca060090",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "slide_rock_collision_row",
+      "sha256": "a26e9aeceaa14b8b122f1f4d26baf39c0a2d7bc308d4c0155b793a338a4e4634",
+      "size": 276,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far fastcall, room in AL and row in DL; AX result, RETF",
+      "boundary_evidence": [
+        "Complete original extent overlay-9+0x526..0x56c (70 bytes).",
+        "Only overlay-9 alias has a BP prologue and matching argument usage. All branch paths close at the return within the interval. Following BP frame begins at end. Incoming overlay-3 relocation record(s) identify the alias, and overlay-3 and overlay-9 can coexist. FM Towns MOVETEMP.C name alignment supports role.",
+        "Return instructions: 056a cb",
+        "Original outgoing relocated calls (space-relative sites and indices): [('53d', 17)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 204254,
+          "image_offset": 19486,
+          "kind": "far_call",
+          "relocated_segment_site": 19489,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0526",
+      "offset": 1318,
+      "original_bytes_hex": "558bec83ec0252505756c746fe0000bf0100b0065057479ace19410b8bf00bf674108a46fa384404750d8a46fc38440a7505c746fe0100837efe0074d58bc65e5f8be55dcb90",
+      "original_name": null,
+      "segment": 10830,
+      "semantic_name_hypothesis": "slide_rock_on_row",
+      "sha256": "9e9b4de803b063971e7638ad603730f63780037a2e9b7c8f3a90de92abb3de52",
+      "size": 70,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no args; AX boolean, two frameless exits",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x5482..0x54da (88 bytes).",
+        "Distinct same-overlay original CALLs including overlay-3+0x37bb, relocation 230. Prior true branch ends RETF at 08a1. Next BP frame at 08fa, following RETF at 08f8 and NOP.",
+        "Return instructions: 08b7 cb, 08f8 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 199035,
+          "image_offset": 14267,
+          "kind": "far_call",
+          "relocated_segment_site": 14270,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 202262,
+          "image_offset": 17494,
+          "kind": "far_call",
+          "relocated_segment_site": 17497,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 202219,
+          "image_offset": 17451,
+          "kind": "far_call",
+          "relocated_segment_site": 17454,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 202107,
+          "image_offset": 17339,
+          "kind": "far_call",
+          "relocated_segment_site": 17342,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 203484,
+          "image_offset": 18716,
+          "kind": "far_call",
+          "relocated_segment_site": 18719,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 203448,
+          "image_offset": 18680,
+          "kind": "far_call",
+          "relocated_segment_site": 18683,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 216404,
+          "image_offset": 1012,
+          "kind": "far_call",
+          "relocated_segment_site": 1015,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 250641,
+          "image_offset": 1921,
+          "kind": "far_call",
+          "relocated_segment_site": 1924,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 250564,
+          "image_offset": 1844,
+          "kind": "far_call",
+          "relocated_segment_site": 1847,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 252769,
+          "image_offset": 4049,
+          "kind": "far_call",
+          "relocated_segment_site": 4052,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 259118,
+          "image_offset": 3902,
+          "kind": "far_call",
+          "relocated_segment_site": 3905,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 205551,
+          "image_offset": 20783,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20782,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207475,
+          "image_offset": 22707,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22706,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207679,
+          "image_offset": 22911,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22910,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208041,
+          "image_offset": 23273,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23272,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208076,
+          "image_offset": 23308,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23307,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208367,
+          "image_offset": 23599,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23598,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:08a2",
+      "offset": 2210,
+      "original_bytes_hex": "803e474501750fa07162241f3c137d42bb01008bc3cb803e065c0174358b161f5c2b161b5c803e065c07750683c21aeb0b90803e065c08750383c213a0716225fc00d0e8d0e80506008bca83c1073bc17cbe2bdb8bc3cb90",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "gate_blocks_passage",
+      "sha256": "3aeb7b9b9abd7ccecc103f21425cf6e0818e8167497d61e92ecf090bdb15b9ed",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no args; AX boolean, DI/SI preserved",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x54da..0x556e (148 bytes).",
+        "Same-overlay relocated CALL at +0x31db index 220. Previous RETF at 08f8 followed by NOP. All exits converge at 0986 and end RETF 098d, preceding near-call entry 098e.",
+        "Return instructions: 098d cb",
+        "Original outgoing relocated calls (space-relative sites and indices): [('54fe', 449), ('550a', 454), ('5528', 477), ('5513', 503)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197531,
+          "image_offset": 12763,
+          "kind": "far_call",
+          "relocated_segment_site": 12766,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:08fa",
+      "offset": 2298,
+      "original_bytes_hex": "558bec83ec0257562bf6803e0e5c097507803e4945087474a00e5c50a0095c50a00a5c509af000cc023c047415b001509a3010cc023c0474099a5810cc023c04754a8b3e716281e7ff00b8faff509a6003cc028bf083ee0e0bff742e81ffc8007328a07562988bd8d1e3895efe8b87860d050c003bc67f128b87880d0504003bc67c07be0100eb0490902bf68bc65e5f8be55dcb",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "gate_blocks_standing",
+      "sha256": "25c6901ccc8d1d6a9d2e635bacd59a40c682124f2243a369377620919c66dd2f",
+      "size": 148,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no arguments; boolean AX, frameless",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x556e..0x55aa (60 bytes).",
+        "Prior RETF at 098d ends at 098e; near CALL at 055f; positive/negative returns at 09c3/09c8, then NOP and independently same-overlay called BP entry 09ca. One outgoing overlay relocation 469 at +0x5598 names 29cf:03f2.",
+        "Return instructions: 09c3 cb, 09c8 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): [('5595', 469)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205567,
+          "image_offset": 20799,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20798,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:098e",
+      "offset": 2446,
+      "original_bytes_hex": "803e065c01742f803e065c077428803e065c087421803e065c0b741a833e7c62197e13ff3671629af203cf290bc07406ba01008bc2cb2bd28bc2cb90",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "scythe_blocks_passage",
+      "sha256": "81fd211d53a7e202afb090e4d82c671faeef13644c0ccc2c623ef0cbcbb308a9",
+      "size": 60,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, frameless.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x4fe2..0x5018 (54 bytes).",
+        "Root+0xec6d relocation index 1170 reaches the address between the calls to CheckBarr and the player gate check. Preceding RETF 6 and NOP, two exits at 042b and 0437; same-frame near call at 0434 reaches 0438.",
+        "Return instructions: 042b cb, 0437 cb",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68717,
+          "image_offset": 60525,
+          "kind": "far_call",
+          "relocated_segment_site": 60528,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0402",
+      "offset": 1026,
+      "original_bytes_hex": "803e0b5c02742e803e0b5c067427813e075c87007208813e075c91007217803ea22c007c050ee86500cb803ea32c007c040ee80100cb",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "collide_with_barriers",
+      "sha256": "bd693044433cf37b65c358e04bc23133a1a663abdd77fd47deb965e621af6d4b",
+      "size": 54,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, signed byte in BP+6, returns AX, RETF 2.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x50ca..0x510c (66 bytes).",
+        "Same-frame near calls at 044c and 04a4. Preceded by frameless RETF at 04e9. RETF 2 at 0528 and NOP before the independent near-call destination 052c.",
+        "Return instructions: 0528 ca0200",
+        "Original outgoing relocated calls (space-relative sites and indices): [('50fb', 447)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205292,
+          "image_offset": 20524,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20523,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205380,
+          "image_offset": 20612,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20611,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:04ea",
+      "offset": 1258,
+      "original_bytes_hex": "558bec83ec02a00a5c8846ff0ac07d048046ff03807eff037c04806eff038a4606988bd88a87c22c508a4606508a46ff509af000cc02500ee807008be55dca020090",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "check_collision_col",
+      "sha256": "a0b9325f5deae721d63ea68e78f1d223eb0102ba6d245d97cba9cab76cadf766",
+      "size": 66,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal; int BP+8, signed byte BP+6; RETF 4.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x51b8..0x527e (198 bytes).",
+        "Same-frame near calls at 048b and 04e5. Previous routine ends at the RETF 4 just before 05d8. Early and late returns at 068c and 069b; next independent near-call entry at 069e.",
+        "Return instructions: 068c ca0400, 069b ca0400",
+        "Original outgoing relocated calls (space-relative sites and indices): [('525c', 441), ('523c', 448), ('520a', 450), ('51f2', 451), ('5248', 484)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205355,
+          "image_offset": 20587,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20586,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205445,
+          "image_offset": 20677,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20676,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:05d8",
+      "offset": 1496,
+      "original_bytes_hex": "558bec83ec02803e115c007c03e9b000813e075cf2007503e9a500813e075cf3007503e99a008b46080106025ca070628846ff807e06ff7515509afe288a070bc07449a0746250fe0e7562eb2f908a46ff509afe288a070bc07431fe067562803e7462007512803e75620a750ba00e5ca27462c606756200a0746250a0756250a07662509af000cc028846ff8a46ff509ac8288a070bc0741f803e474502750db80800509a800a4e2a0bc0750b0ee815008be55dca0400908a4606500ee834008be55dca0400",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "apply_collision",
+      "sha256": "b13bba1041029a014f6f6fc24fa8ecc81f5fc99b22158cbb3544eaf422fdff25",
+      "size": 198,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, frameless.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x527e..0x52ac (46 bytes).",
+        "Same-frame near calls at 0686 and 06eb. Prior RETF 4 ends at 069e. Shared RETF at 06ca then NOP precedes independent near-call BP prologue at 06cc.",
+        "Return instructions: 06ca cb",
+        "Original outgoing relocated calls (space-relative sites and indices): [('529c', 461), ('5282', 471), ('52a1', 491)]"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205862,
+          "image_offset": 21094,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 21093,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 205963,
+          "image_offset": 21195,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 21194,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:069e",
+      "offset": 1694,
+      "original_bytes_hex": "b8f8ff509a6003cc02a3025c803e0b5c047507c6060c5c00eb0eb82d00509a1600da259a9403cc020ee87601cb90",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "apply_air_bump",
+      "sha256": "80238630cabb90e41b770295d5bee2649776e60508d93941e45fdd97fb07f6ce",
+      "size": 46,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, three byte arguments in word slots; AX result; RETF 6.",
+      "boundary_evidence": [
+        "Complete original extent overlay-3+0x5c98..0x5cfe (102 bytes).",
+        "Same-frame incoming near calls at 0e3b, 0e4e, 0e62, 0f6a. Preceding RETF 6 ends at 10b8. Its RETF 6 at 111b ends at RTLink vector target 111e.",
+        "Return instructions: 111b ca0600",
+        "Original outgoing relocated calls (space-relative sites and indices): []"
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 207835,
+          "image_offset": 23067,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23066,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207854,
+          "image_offset": 23086,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23085,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207874,
+          "image_offset": 23106,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23105,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208138,
+          "image_offset": 23370,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23369,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "COLLIDE frame and collision control flow; FM Towns symbol pairing is separate cross-build evidence."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:10b8",
+      "offset": 4280,
+      "original_bytes_hex": "558bec568a4608508a4606988bd8d1e38b87860d050e00500ee8c4f4a3cc2c8a460a500ee871f18bf00bf67505ba6300eb2b803e015c007c158a84d20d988bd02b16cc2c0316806283ea1feb10908a84c80d988bd02b1682620316cc2c8bc25e8be55dca0600",
+      "original_name": null,
+      "segment": 10242,
+      "semantic_name_hypothesis": "barrier_distance_from_back",
+      "sha256": "f3e8116c75837316dc0161da57856e0a2af934c0310ad6ac3e3f8faa563da8ed",
+      "size": 102,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
