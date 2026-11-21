@@ -453,3 +453,8 @@ table entry in preloaded DGROUP data. The linker wrote exactly N:O there.
 A far tail JMP (`EA ptr16:16`) to a grounded far callee uses the same pointer32
 equation and relocation proof as `CALL FAR`. Control does not return to the
 claim.
+
+An accepted exact entry may also be a secondary public of a pinned runtime
+member, for example `__dos_creat` at +7 of the `_dos_creatnew` member. Its offset
+comes from the hash-checked archive member's own PUBDEF record. Interior
+positions without a public are not entries.

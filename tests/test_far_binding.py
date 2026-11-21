@@ -546,3 +546,16 @@ class GenuineAsmTests(unittest.TestCase):
                    if str(p).endswith("asm-origin-review.json") else read_json(p)):
             with self.assertRaisesRegex(ValueError, "no reviewed evidence"):
                 require_genuine_asm([unpaired])
+
+
+class RuntimePublicEntryTests(unittest.TestCase):
+    """A pinned runtime member's secondary PUBDEF entries are accepted entries; other interior
+    positions are not."""
+
+    def test_second_public_of_a_pinned_member_is_an_accepted_entry(self):
+        from far_binding import _accepted_entry
+        from oracle import Oracle
+        oracle = Oracle.load()
+        self.assertTrue(_accepted_entry("root:1fe6:1ba2", oracle))   # __dos_creatnew, member start
+        self.assertTrue(_accepted_entry("root:1fe6:1ba9", oracle))   # __dos_creat, PUBDEF +7
+        self.assertFalse(_accepted_entry("root:1fe6:1baa", oracle))  # interior, no public

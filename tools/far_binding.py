@@ -124,9 +124,34 @@ def _accepted_entry(target_id, oracle):
         return False
     # Pinned runtime members are exact original library code matched to their archive,
     # so their entries are as well established as reconstructed ones.
-    return any(owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME") and
-               position(owner["target_id"]) == wanted
-               for owner in read_json(ROOT / "layout/manifest.json")["owners"])
+    owners = read_json(ROOT / "layout/manifest.json")["owners"]
+    if any(owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME") and
+           position(owner["target_id"]) == wanted for owner in owners):
+        return True
+    # A pinned member's other publics (e.g. `_dos_creat` at +7 of `_dos_creatnew`) are original
+    # entries too: their offsets come from the hash-checked archive member's own PUBDEF records.
+    return any(wanted in _runtime_public_positions(owner, position) for owner in owners
+               if owner["state"] == "PINNED_RUNTIME")
+
+
+def _runtime_public_positions(owner, position):
+    from pathlib import Path
+    from common import project_path, read_json, sha
+    from omf import OmfReader
+    try:
+        recipe = read_json(project_path(owner["recipe"]))
+        library = Path(recipe["library_path"]).read_bytes()
+        raw = library[recipe["archive_offset"]:recipe["archive_offset"] + recipe["member_extent"]]
+        if sha(library) != recipe["library_sha256"] or sha(raw) != recipe["member_sha256"]:
+            return set()
+        obj = OmfReader(overwrite_ledata=True, library_records=True).read(raw, recipe["name"])
+    except (OSError, KeyError, ValueError):
+        return set()
+    start = position(owner["target_id"])
+    if start is None:
+        return set()
+    return {(start[0], start[1] + p["offset"]) for p in obj.publics
+            if p.get("segment") == recipe["object_segment"] and not p.get("local")}
 
 STRUCTURAL_RETURNS = {0xc3: 1, 0xcb: 1, 0xc2: 3, 0xca: 3}  # RET, RETF, RET iw, RETF iw
 STRUCTURAL_PROLOGUE = bytes((0x55, 0x8b, 0xec))  # push bp; mov bp,sp
