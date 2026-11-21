@@ -1,0 +1,720 @@
+{
+  "declarations": {
+    "externals": [
+      "CYCLECOLORS",
+      "DEALLOCBACKPORT",
+      "FREE_RECORD_PAIR",
+      "ENCLOSERECT",
+      "EQUALRECT",
+      "DRAW_RECORD_BOUNDS",
+      "FORWARD_RECORD_FIELDS",
+      "GRAPHICS_PORT",
+      "ALLOCATION_MESSAGE",
+      "_malloc",
+      "_free",
+      "_memcpy",
+      "_memcmp",
+      "INITIALIZE_RECORD",
+      "REPORT_ERROR",
+      "ALLOCATE_COLORS",
+      "READ_COLORS",
+      "INSTALL_COLORS",
+      "RELEASE_FAR_BLOCK",
+      "DISPOSE_RECORD",
+      "DISPOSE_RECORD_PAIR",
+      "UNION_RECT",
+      "DRAW_RECORD",
+      "INITIALIZE_FAR_RECORD",
+      "ALLOCBACKPORT"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "CYCLECOLORS",
+        "offset": 58,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "DEALLOCBACKPORT",
+        "offset": 202,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "FREE_RECORD_PAIR",
+        "offset": 236,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "ENCLOSERECT",
+        "offset": 270,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "EQUALRECT",
+        "offset": 336,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "DRAW_RECORD_BOUNDS",
+        "offset": 374,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "FORWARD_RECORD_FIELDS",
+        "offset": 408,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "ALLOCBACKPORT",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 446,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 24,
+          "kind": "external",
+          "method": 6,
+          "name": "INITIALIZE_FAR_RECORD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 434,
+      "self_relative": false,
+      "target": {
+        "index": 24,
+        "kind": "external",
+        "method": 6,
+        "name": "INITIALIZE_FAR_RECORD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 23,
+          "kind": "external",
+          "method": 6,
+          "name": "DRAW_RECORD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 397,
+      "self_relative": false,
+      "target": {
+        "index": 23,
+        "kind": "external",
+        "method": 6,
+        "name": "DRAW_RECORD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 8,
+          "kind": "external",
+          "method": 6,
+          "name": "GRAPHICS_PORT",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 383,
+      "self_relative": false,
+      "target": {
+        "index": 8,
+        "kind": "external",
+        "method": 6,
+        "name": "GRAPHICS_PORT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 13,
+          "kind": "external",
+          "method": 6,
+          "name": "_memcmp",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 356,
+      "self_relative": false,
+      "target": {
+        "index": 13,
+        "kind": "external",
+        "method": 6,
+        "name": "_memcmp",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 13,
+          "kind": "external",
+          "method": 6,
+          "name": "_memcmp",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 314,
+      "self_relative": false,
+      "target": {
+        "index": 13,
+        "kind": "external",
+        "method": 6,
+        "name": "_memcmp",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 22,
+          "kind": "external",
+          "method": 6,
+          "name": "UNION_RECT",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 296,
+      "self_relative": false,
+      "target": {
+        "index": 22,
+        "kind": "external",
+        "method": 6,
+        "name": "UNION_RECT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 11,
+          "kind": "external",
+          "method": 6,
+          "name": "_free",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 255,
+      "self_relative": false,
+      "target": {
+        "index": 11,
+        "kind": "external",
+        "method": 6,
+        "name": "_free",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 21,
+          "kind": "external",
+          "method": 6,
+          "name": "DISPOSE_RECORD_PAIR",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 249,
+      "self_relative": false,
+      "target": {
+        "index": 21,
+        "kind": "external",
+        "method": 6,
+        "name": "DISPOSE_RECORD_PAIR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 11,
+          "kind": "external",
+          "method": 6,
+          "name": "_free",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 221,
+      "self_relative": false,
+      "target": {
+        "index": 11,
+        "kind": "external",
+        "method": 6,
+        "name": "_free",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 20,
+          "kind": "external",
+          "method": 6,
+          "name": "DISPOSE_RECORD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 215,
+      "self_relative": false,
+      "target": {
+        "index": 20,
+        "kind": "external",
+        "method": 6,
+        "name": "DISPOSE_RECORD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 19,
+          "kind": "external",
+          "method": 6,
+          "name": "RELEASE_FAR_BLOCK",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 189,
+      "self_relative": false,
+      "target": {
+        "index": 19,
+        "kind": "external",
+        "method": 6,
+        "name": "RELEASE_FAR_BLOCK",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 18,
+          "kind": "external",
+          "method": 6,
+          "name": "INSTALL_COLORS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 178,
+      "self_relative": false,
+      "target": {
+        "index": 18,
+        "kind": "external",
+        "method": 6,
+        "name": "INSTALL_COLORS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 12,
+          "kind": "external",
+          "method": 6,
+          "name": "_memcpy",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 147,
+      "self_relative": false,
+      "target": {
+        "index": 12,
+        "kind": "external",
+        "method": 6,
+        "name": "_memcpy",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 17,
+          "kind": "external",
+          "method": 6,
+          "name": "READ_COLORS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 104,
+      "self_relative": false,
+      "target": {
+        "index": 17,
+        "kind": "external",
+        "method": 6,
+        "name": "READ_COLORS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 16,
+          "kind": "external",
+          "method": 6,
+          "name": "ALLOCATE_COLORS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 89,
+      "self_relative": false,
+      "target": {
+        "index": 16,
+        "kind": "external",
+        "method": 6,
+        "name": "ALLOCATE_COLORS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 15,
+          "kind": "external",
+          "method": 6,
+          "name": "REPORT_ERROR",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 44,
+      "self_relative": false,
+      "target": {
+        "index": 15,
+        "kind": "external",
+        "method": 6,
+        "name": "REPORT_ERROR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 9,
+          "kind": "external",
+          "method": 6,
+          "name": "ALLOCATION_MESSAGE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 39,
+      "self_relative": false,
+      "target": {
+        "index": 9,
+        "kind": "external",
+        "method": 6,
+        "name": "ALLOCATION_MESSAGE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 14,
+          "kind": "external",
+          "method": 6,
+          "name": "INITIALIZE_RECORD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 26,
+      "self_relative": false,
+      "target": {
+        "index": 14,
+        "kind": "external",
+        "method": 6,
+        "name": "INITIALIZE_RECORD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 10,
+          "kind": "external",
+          "method": 6,
+          "name": "_malloc",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 9,
+      "self_relative": false,
+      "target": {
+        "index": 10,
+        "kind": "external",
+        "method": 6,
+        "name": "_malloc",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "schema": 1,
+  "symbols": {
+    "UNION_RECT": {
+      "entry_sha256": "133d52d3c840f5135c55060589bd21c1065daa19ac176fbf6de876a76f249705",
+      "entry_target_id": "root:1101:649c",
+      "kind": "far-code-entry",
+      "offset": 25756,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9c640111",
+          "file_offset": 39766,
+          "image_offset": 31574,
+          "relocation_index": 747,
+          "space": "root"
+        }
+      ]
+    },
+    "_memcmp": {
+      "entry_sha256": "ad9ce2b01cdf308c4f0836c8519ea524790908b86725daa870d5ca8986d892b8",
+      "entry_target_id": "root:1fe6:1dd4",
+      "kind": "far-code-entry",
+      "offset": 7636,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad41de61f",
+          "file_offset": 132569,
+          "image_offset": 124377,
+          "relocation_index": 1761,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "group:lgraf/lgraf",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}
