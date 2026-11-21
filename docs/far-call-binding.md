@@ -323,3 +323,6 @@ Real-image tests (`tests/test_overlay_group.py`) use byte-faithful synthetic
 objects at reviewed overlay-3 targets: `25da:0016` proves three far calls with
 overlay-3 relocations 207, 272, 354 and ten v4 fields; `2344:08f0` proves its near
 call in frame 2344 through the same-overlay call at overlay-3+0x2f77.
+The same draft-region rule applies to group `segment-base` and `far-data`
+witnesses: relocated segment words and offset instructions in an unclaimed
+draft region count, and those inside a claimed extent do not.

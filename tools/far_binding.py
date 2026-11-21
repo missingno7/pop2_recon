@@ -23,7 +23,7 @@ def _vector(oracle, segment, offset):
     return vectors[(segment, offset)]
 
 
-def _ground_segment(symbol, target, oracle):
+def _ground_segment(symbol, target, oracle, claimed=None):
     """A far data segment's paragraph N, grounded by original relocated words outside the
     candidate whose stored (link-time) value is N."""
     require(type(symbol.get("segment")) is int and 0 <= symbol["segment"] <= 65535 and symbol.get("witnesses"),
@@ -39,18 +39,21 @@ def _ground_segment(symbol, target, oracle):
         require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
                 struct.unpack_from("<H", wspace.data, at)[0] == symbol["segment"],
                 "Segment-base witness is not an original relocated word with that value")
-        require(wspace.name != space.name or not (start - 1 <= at < end), "Segment-base witness overlaps candidate")
+        # Groups: an original relocated word in an unclaimed draft region also counts.
+        spans = claimed if claimed is not None else [(start, end)]
+        require(wspace.name != space.name or not any(lo - 1 <= at < hi for lo, hi in spans),
+                "Segment-base witness overlaps candidate")
         receipts.append({"space": wspace.name, "image_offset": at, "relocation_index": relocs[0]["index"]})
     return {"kind": "segment-base", "segment": symbol["segment"], "witnesses": receipts}
 
 
-def _ground_far_data(symbol, target, oracle):
+def _ground_far_data(symbol, target, oracle, claimed=None):
     """A far data object at N:O. N is grounded like a segment base; O by reached original
     instructions whose address field equals O and that sit within 16 bytes of an original
     relocated word storing N (the same far-pointer construction in other code)."""
     from binding import instructions, operand_field, reachable_from_entry
     segment = _ground_segment({"segment": symbol["segment"], "witnesses": symbol["segment_witnesses"]},
-                              target, oracle)
+                              target, oracle, claimed)
     offset = symbol.get("offset")
     # Offset 0 (an object starting its own far segment) is not a free choice: it needs no
     # offset witness, and any mismatch is caught against the original field directly.
@@ -62,7 +65,9 @@ def _ground_far_data(symbol, target, oracle):
     for spec in symbol.get("offset_witnesses", []):
         wspace = oracle.spaces[spec["space"]]
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
-        require(wspace.data[at:at+len(raw)] == raw and (wspace.name != space.name or not (start <= at+len(raw) and at < end)),
+        spans = claimed if claimed is not None else [(start, end)]
+        require(wspace.data[at:at+len(raw)] == raw and
+                (wspace.name != space.name or not any(lo <= at+len(raw) and at < hi for lo, hi in spans)),
                 "Far data offset witness changed or overlaps candidate")
         rows = instructions(raw)
         require(len(rows) == 1 and operand_field(rows[0], spec["operand_offset"]) is not None and
@@ -196,9 +201,9 @@ def ground_symbol(symbol, target, oracle, claimed=None):
     kind = symbol.get("kind")
     require(kind in FAR_KINDS, "Unsupported far callee kind")
     if kind == "segment-base":
-        return _ground_segment(symbol, target, oracle)
+        return _ground_segment(symbol, target, oracle, claimed)
     if kind == "far-data":
-        return _ground_far_data(symbol, target, oracle)
+        return _ground_far_data(symbol, target, oracle, claimed)
     require(type(symbol["segment"]) is int and type(symbol["offset"]) is int and
             0 <= symbol["segment"] <= 65535 and 0 <= symbol["offset"] <= 65535,
             "Far code alias must be an exact 16:16 pair")

@@ -470,6 +470,18 @@ class SegmentBaseTests(unittest.TestCase):
         return ground_symbol({"kind": "segment-base", "segment": self.value, "witnesses": [witness]},
                              self.target, self.oracle)
 
+    def test_group_draft_region_segment_witness_counts_but_a_claimed_one_does_not(self):
+        from far_binding import _ground_segment
+        at = self.other["image_offset"]
+        root = self.oracle.spaces["root"]
+        hull = dict(root.address(at - 8), id="probe", size=16)
+        spec = {"space": "root", "image_offset": at, "relocation_index": self.other["index"]}
+        symbol = {"segment": self.value, "witnesses": [spec]}
+        lo = at - 8
+        self.assertEqual(_ground_segment(symbol, hull, self.oracle, claimed=[])["witnesses"][0]["image_offset"], at)
+        with self.assertRaisesRegex(ValueError, "overlaps candidate"):
+            _ground_segment(symbol, hull, self.oracle, claimed=[(lo, lo + 16)])
+
     def test_other_relocated_word_with_the_same_segment_grounds_it(self):
         w = {"space": "root", "image_offset": self.other["image_offset"], "relocation_index": self.other["index"]}
         self.assertEqual(self.ground(w)["segment"], self.value)
