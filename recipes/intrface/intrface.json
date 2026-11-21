@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/intrface/intrface.json",
-  "binding_sha256": "5eb567b71b797dcf4dd36225fc5255fb8303b41ef8ed47a5f2f95fd70e4e4a62",
+  "binding_sha256": "17a6aa00355d79cf09e49f323e5ddd3e03fa9f334049178ae45fe5433e825156",
   "claims": [
     {
       "fixup_count": 6,
@@ -114,6 +114,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1de8:0330"
+    },
+    {
+      "fixup_count": 2,
+      "public": "FILE_EXISTS",
+      "relocation_indices": [
+        1721,
+        1733
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1de8:0386"
     }
   ],
   "drafts": [
@@ -136,10 +149,6 @@
     {
       "object_offset": 874,
       "public": "STDRSRCVERIFY"
-    },
-    {
-      "object_offset": 890,
-      "public": "FILE_EXISTS"
     }
   ],
   "emitted_size": 940,
