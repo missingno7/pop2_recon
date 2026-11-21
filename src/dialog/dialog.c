@@ -1044,13 +1044,13 @@ void far pascal draw_notice_cursor(int index, int selected)
     struct { int * ink; struct dialog_rect rect; } state;
     int previous_ink;
 
-    previous_ink = current_port->foreground;
     state.ink = &current_port->foreground;
+    previous_ink = *state.ink;
 
     if (selected)
-        *(volatile int *)state.ink = 14;
+        *state.ink = 14;
     else
-        *(volatile int *)state.ink = 12;
+        *(unsigned *)state.ink = 12;
     ComputeSymbolPt((int *)&state.rect, index);
     state.rect.left -= 3;
     state.rect.right = state.rect.left + 35;
@@ -1068,8 +1068,8 @@ int far pascal read_notice_selection(void)
 {
     char typed[101];
     const char far *confirmation;
-    int confirmation_length = 0;
-    int typed_count = 0;
+    int confirmation_length;
+    int typed_count;
     int previous = -1;
     int index = 0;
     int done = 0;
@@ -1078,54 +1078,72 @@ int far pascal read_notice_selection(void)
     if (notice_keyboard_text) {
         confirmation = lock_string_handle(find_dialog_string(10));
         confirmation_length = _fstrlen(confirmation);
+        typed_count = 0;
     } else {
         confirmation = 0;
     }
     do {
-        if (previous != index) {
+        int current = index;
+        int remainder;
+        if (previous != current) {
             if (previous != -1)
                 draw_notice_cursor(previous, 0);
-            previous = index;
-            draw_notice_cursor(index, 1);
+            previous = current;
+            draw_notice_cursor(current, 1);
         }
+        index = current;
         key = read_key();
         switch (key) {
         case 9:
-            previous = index;
-            index = index == 9 ? 0 : index + 1;
-            break;
+            previous = current;
+            if (current == 9) {
+                index = 0;
+                continue;
+            }
+        next_symbol:
+            ++current;
+            goto update_index;
         case 13:
             done = 1;
-            break;
+            continue;
         case 17:
         case 0x1000:
             acknowledge_key(0, 0, 0);
             break;
         case 0x4700:
             index = 0;
-            break;
+            continue;
         case 0x4800:
         case 0x5000:
-            index += index >= 5 ? -5 : 5;
-            break;
+            if (current >= 5)
+                current -= 5;
+            else
+                current += 5;
+            goto update_index;
         case 0x4b00:
-            index += index % 5 == 0 ? 4 : -1;
-            break;
+            if (current % 5 == 0)
+                current += 4;
+            else
+                --current;
+            goto update_index;
         case 0x4d00:
-            index += index % 5 == 4 ? -4 : 1;
-            break;
+            remainder = current % 5;
+            if (remainder != 4)
+                goto next_symbol;
+            current -= remainder;
+        update_index:
+            index = current;
+            continue;
         case 0x4f00:
             index = 9;
-            break;
-        default:
-            if (key && confirmation && typed_count < 100)
-                typed[typed_count++] = (char)key;
-            break;
+            continue;
         }
+        if (key && confirmation && typed_count < 100)
+            typed[typed_count++] = (char)key;
     } while (!done);
     draw_notice_cursor(index, 0);
     if (confirmation) {
-        if (typed_count >= confirmation_length) {
+        if (confirmation_length <= typed_count) {
             typed[typed_count] = '\0';
             if (!_fstrcmp(confirmation, typed + typed_count - confirmation_length))
                 index = -2;
