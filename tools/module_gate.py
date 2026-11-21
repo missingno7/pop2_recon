@@ -131,7 +131,22 @@ def _check_placements(module, placements, uses, binding, space, oracle):
     if not placements:
         return {}
     require(space.name == "root" and binding and "frame" in binding, "Placed data needs a resident DGROUP frame")
-    dgroup = (binding["frame"]["segment"] - space.link_segment) * 16
+    # The runtime DGROUP paragraph (the C runtime reloads DS with it before main) is
+    # grounded by an original relocated word storing it; initialized DGROUP bytes live in
+    # whichever space contains that paragraph (the preloaded overlay 17 in this image).
+    if "dgroup_segment" in binding:
+        from far_binding import _ground_segment
+        seg_spec = binding["dgroup_segment"]
+        _ground_segment({"segment": seg_spec["segment"], "witnesses": seg_spec["witnesses"]},
+                        {"space": space.name, "segment": 0, "offset": 0, "size": 0}, oracle)
+        homes = [sp for sp in oracle.spaces.values()
+                 if 0 <= (seg_spec["segment"] - sp.link_segment) * 16 < sp.size]
+        require(len(homes) == 1, "DGROUP paragraph does not lie in exactly one space")
+        home = homes[0]
+        dgroup = (seg_spec["segment"] - home.link_segment) * 16
+    else:
+        home = space
+        dgroup = (binding["frame"]["segment"] - space.link_segment) * 16
     report = {}
     for seg in module.segment_defs:
         if seg["name"] not in placements:
@@ -141,12 +156,16 @@ def _check_placements(module, placements, uses, binding, space, oracle):
         content = module.segments.get(seg["name"])
         initialized = module.initialized_ranges.get(seg["name"], [])
         if initialized:
+            require("dgroup_segment" in binding,
+                    "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
             require(initialized == [(0, seg["length"])] and seg["length"] >= 2,
                     f"Placed segment {seg['name']} must be completely initialized")
             start = dgroup + p
-            require(start + seg["length"] <= space.size and space.data[start:start + seg["length"]] == content,
+            require(start + seg["length"] <= home.size and home.data[start:start + seg["length"]] == content,
                     f"Placed segment {seg['name']} content differs from the original DGROUP bytes")
-            basis = "initialized content equals original"
+            require(not any(start - 1 <= r["image_offset"] < start + seg["length"] for r in home.relocations),
+                    f"Placed segment {seg['name']} overlaps original relocated words")
+            basis = f"initialized content equals original {home.name}+{start:#x}"
         else:
             require(len(uses.get(seg["name"], set())) >= 2,
                     f"Uninitialized placed segment {seg['name']} needs two distinct proven addends")

@@ -69,7 +69,11 @@ bytes compare literally, except for these fixup fields:
   object's own `_DATA`/`CONST`/`_BSS` segments (`placements: {"_BSS": P, ...}`).
   Fields addressing them must equal `P + A`. Each placement must be
   over-determined:
-  - an initialized segment's bytes equal the original DGROUP bytes at `P`;
+  - an initialized segment's bytes equal the original DGROUP bytes at `P`. The
+    C runtime reloads DS with the relocated paragraph `30f3` before `main`, so
+    DGROUP's initialized data lives in the preloaded overlay 17. The binding names
+    that paragraph (`dgroup_segment`, grounded by an original relocated word
+    storing it). The compared range may contain no relocated word;
   - an uninitialized segment has at least two distinct addends among proven
     fields that agree on `P`.
 

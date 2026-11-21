@@ -549,8 +549,12 @@ class PlacementTests(unittest.TestCase):
             segment_defs=[{"name": n, "length": len(c) if c is not None else size} for n, c, size in segments],
             segments={n: c for n, c, _ in segments if c is not None},
             initialized_ranges={n: [(0, len(c))] for n, c, _ in segments if c is not None})
-        space = Space("root", 0, 0, bytes(0x100) + image, ())
-        return _check_placements(module, placements, uses, {"frame": {"segment": 0x10}}, space, None)
+        space = Space("root", 0, 0, bytes(0x100) + image + bytes((0x10, 0x00)), ({"index": 0, "image_offset": 0x100 + len(image)},))
+        oracle = SimpleNamespace(spaces={"root": space})
+        binding = {"frame": {"segment": 0x10},
+                   "dgroup_segment": {"segment": 0x10, "witnesses": [
+                       {"space": "root", "image_offset": 0x100 + len(image), "relocation_index": 0}]}}
+        return _check_placements(module, placements, uses, binding, space, oracle)
 
     def test_uninitialized_segment_needs_two_distinct_addends(self):
         with self.assertRaisesRegex(ValueError, "two distinct"):
