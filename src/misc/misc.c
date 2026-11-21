@@ -368,26 +368,28 @@ void SetLocVars(void)
 void SetSideRoomInfo(void)
 {
     sbyte row;
-    byte missing = view_room ? 20 : 0;
-    TileInfo *info;
+    struct {
+        TileInfo *info;
+        byte missing;
+    } state;
+    state.missing = view_room ? 20 : 0;
 
     select_room_arrays(left_room);
     for (row = 0; row < 3; ++row) {
         GetObject(left_room, 9, row, &left_tiles[row].tile,
-                  info = &left_tiles[row].info, missing);
+                  state.info = &left_tiles[row].info, state.missing);
         if (tile_override && (tile_override[1] != 31 || row != 2))
-            info->bytes[1] |= 0xc0;
+            state.info->bytes[1] |= 0xc0;
         else
-            info->bytes[1] &= 0x3f;
+            state.info->bytes[1] &= 0x3f;
     }
     select_room_arrays(right_room);
     for (row = 0; row < 3; ++row)
-        GetObject(right_room, 0, row, &right_tiles[row].tile, &right_tiles[row].info, missing);
+        GetObject(right_room, 0, row, &right_tiles[row].tile, &right_tiles[row].info, state.missing);
     select_room_arrays(view_room);
 }
 
-/* The next two DOS entries have no witnessed callers. Their file membership is
-   unresolved, but their original order and operation are visible. */
+/* The resident relocation sites of both memory handlers name the MISC frame. */
 
 typedef struct {
     unsigned int *handle;
@@ -402,45 +404,56 @@ typedef struct {
 } ImageTable;
 
 extern ImageTable * volatile first_image_table;
-extern ImageTable * volatile second_image_table;
+extern ImageTable *second_image_table;
 extern ImageTable * volatile fallback_image_table;
 extern int fallback_images_released;
 extern const char low_memory_message[];
-extern const char fatal_memory_message[];
+static const char fatal_memory_message[] = "Insufficient near Memory.";
 
 extern int resource_can_purge(int);
 extern void purge_resource(int);
 extern void mark_images_purgeable(ImageTable *, int, int);
 extern void mark_image_purgeable(unsigned int *);
-extern void save_cleanup_state(int, const char far *, int);
+extern void save_cleanup_state(int, const char far *, void *);
 extern void shutdown_with_message(int, const char far *);
 
+#pragma optimize("l", on)
 int release_discardable_images(void)
 {
     int i;
 
     if (resource_can_purge(0)) {
         purge_resource(0);
-    } else if (first_image_table && !(*first_image_table->image[0].handle & 0x4000)) {
+        goto done;
+    }
+    if (first_image_table && !(*first_image_table->image[0].handle & 0x4000)) {
         mark_images_purgeable(first_image_table, 0, first_image_table->count - 1);
-    } else if (second_image_table && !(*second_image_table->image[0].handle & 0x4000)) {
-        mark_images_purgeable(second_image_table, 0, second_image_table->count - 1);
-        for (i = 131; i <= 132; ++i)
-            if (second_image_table->image[i].handle)
-                mark_image_purgeable(second_image_table->image[i].handle);
-        for (i = 216; i <= 218; ++i)
-            if (second_image_table->image[i].handle)
-                mark_image_purgeable(second_image_table->image[i].handle);
-    } else if (fallback_image_table && !fallback_images_released) {
+        goto done;
+    }
+    if (!second_image_table || (*second_image_table->image[0].handle & 0x4000))
+        goto check_fallback;
+    mark_images_purgeable(second_image_table, 0, second_image_table->count - 1);
+    for (i = 131; i <= 132; ++i)
+        if (second_image_table->image[i].handle)
+            mark_image_purgeable(second_image_table->image[i].handle);
+    for (i = 216; i <= 218; ++i)
+        if (second_image_table->image[i].handle)
+            mark_image_purgeable(second_image_table->image[i].handle);
+    goto done;
+
+check_fallback:
+    if (fallback_image_table && !fallback_images_released) {
         mark_images_purgeable(fallback_image_table, 0, fallback_image_table->count - 1);
         fallback_images_released = 1;
-    } else {
-        save_cleanup_state(0, low_memory_message, 0);
-        shutdown_with_message(1, low_memory_message);
+        goto done;
     }
+    save_cleanup_state(0, low_memory_message, (void *)0);
+    shutdown_with_message(1, low_memory_message);
+done:
     return 1;
 }
 
+#pragma optimize("l", off)
 int report_fatal_memory(void)
 {
     shutdown_with_message(1, fatal_memory_message);
