@@ -1,7 +1,17 @@
 {
   "binding": "evidence/bindings/sound2/release_device_sounds.json",
-  "binding_sha256": "544228fa3fbcd1c7f8f6cebf7fccd9cdf4f3f91dab3352a5bf5017780a06e736",
+  "binding_sha256": "99f48e377f13b6c1b779b805a52352925cb2b83815ebfad101a3a56011c38d61",
   "claims": [
+    {
+      "fixup_count": 9,
+      "public": "SET_SOUND_LEVEL",
+      "target_id": "root:1101:33a2"
+    },
+    {
+      "fixup_count": 12,
+      "public": "QUERY_SOUND_PAYLOAD",
+      "target_id": "root:1101:33f0"
+    },
     {
       "fixup_count": 2,
       "public": "CALL_SOUND_COMPLETION",
@@ -26,22 +36,46 @@
       "fixup_count": 8,
       "public": "RELEASE_SPEAKER_SOUND",
       "target_id": "root:1101:35c6"
+    },
+    {
+      "fixup_count": 16,
+      "public": "START_DIGITAL_PAYLOAD",
+      "relocation_indices": [
+        1578
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:3603"
+    },
+    {
+      "fixup_count": 17,
+      "public": "START_MIDI_PAYLOAD",
+      "target_id": "root:1101:3686"
     }
   ],
-  "drafts": [],
-  "emitted_size": 201,
+  "drafts": [
+    {
+      "object_offset": 162,
+      "public": "DIGITAL_COMPLETION_INTERRUPT"
+    },
+    {
+      "object_offset": 314,
+      "public": "MIDI_COMPLETION_INTERRUPT"
+    }
+  ],
+  "emitted_size": 902,
   "flags": [],
   "frame": 4353,
   "group_id": "group:sound2/release_device_sounds",
   "kind": "same_source_group",
   "language": "asm",
   "name": "sound2/release_device_sounds",
-  "object_sha256": "1b3a46c32e6f94672d1eb0fd7dc190be58adabc834d3cae2352ae801ea27396a",
-  "origin": 83274,
+  "object_sha256": "2611c556c23c44aff4425ee7aab0dda1bb23271b44927250c48e885e8c257ccc",
+  "origin": 82866,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/sound2/release_device_sounds.asm",
-  "source_sha256": "bf2f23f9ff885478cbff85be3075af9d48371bee34997d68dad268ae7cf35ea0",
+  "source_sha256": "2524e33e62c7764c69198ad071df58e1cd99ddfeff8858a4c0932c55f02dc429",
   "space": "root"
 }

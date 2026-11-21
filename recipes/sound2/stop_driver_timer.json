@@ -1,27 +1,37 @@
 {
   "binding": "evidence/bindings/sound2/stop_driver_timer.json",
-  "binding_sha256": "c01c1076e4d84dff022932b0bf7fdbf9bf61b1d5053435627a9a504ac76537e6",
+  "binding_sha256": "1b51430a7a819fcae37092611a57851f9fadd1b938a661e3eb10a05174e5b218",
   "claims": [
+    {
+      "fixup_count": 28,
+      "public": "START_MIDI_SEQUENCE",
+      "target_id": "root:1101:2e14"
+    },
     {
       "fixup_count": 3,
       "public": "STOP_DRIVER_TIMER",
       "target_id": "root:1101:2f21"
     }
   ],
-  "drafts": [],
-  "emitted_size": 19,
+  "drafts": [
+    {
+      "object_offset": 288,
+      "public": "DRIVER_TIMER_INTERRUPT"
+    }
+  ],
+  "emitted_size": 450,
   "flags": [],
   "frame": 4353,
   "group_id": "group:sound2/stop_driver_timer",
   "kind": "same_source_group",
   "language": "asm",
   "name": "sound2/stop_driver_timer",
-  "object_sha256": "24f106971d926df768d9478040e55a91b6ea7ff09df31f2d6d76571228bca647",
-  "origin": 81713,
+  "object_sha256": "fd9ed424b522bba6d6139a0259d5a9bf5ee26e253572048292f9d5bb44bb3933",
+  "origin": 81444,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/sound2/stop_driver_timer.asm",
-  "source_sha256": "b1fd859cace1b3e077d72dcdc57e434c677afbefd74dd114d71c8fee87f25206",
+  "source_sha256": "153c7bf7b50178cbbe4c238f3459970ac592119ff11d42965e4f3c1670dd4b93",
   "space": "root"
 }

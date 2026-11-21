@@ -1,8 +1,13 @@
 {
   "declarations": {
     "externals": [
-      "DRIVER_STOP_CALLBACK",
-      "TIMER_DESCRIPTOR",
+      "CALLBACK_STACK_TOP",
+      "SOUND_DGROUP",
+      "INSTALL_TIMER_HOOK",
+      "PROCESS_MIDI_EVENTS",
+      "CALCULATE_SOUND_TIMER_STEP",
+      "DIVIDE_TIMER_INTERVAL",
+      "READ_SOUND_DELTA",
       "REMOVE_TIMER_HOOK"
     ],
     "groups": [
@@ -18,7 +23,25 @@
         "frame": null,
         "group_index": 0,
         "name": "STOP_DRIVER_TIMER",
+        "offset": 269,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "START_MIDI_SEQUENCE",
         "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "DRIVER_TIMER_INTERRUPT",
+        "offset": 288,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -32,7 +55,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 19,
+        "length": 450,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -44,16 +67,26 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 0,
+        "length": 201,
         "name": "_DATA",
         "overlay": "",
         "use32": false
       }
     ]
   },
+  "dgroup_segment": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
+      }
+    ]
+  },
   "fixups": [
     {
-      "displacement": null,
+      "displacement": 18,
       "field_width": 2,
       "frame": {
         "index": 1,
@@ -64,13 +97,350 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 3,
+      "segment_offset": 12,
       "self_relative": false,
       "target": {
         "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 20,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 16,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 183,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 20,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 185,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 25,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 18,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 45,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 38,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 58,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 40,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 62,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 42,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 65,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 169,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 95,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 2,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 121,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 4,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 125,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 171,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 130,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 173,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 134,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 137,
+      "self_relative": true,
+      "target": {
+        "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "TIMER_DESCRIPTOR",
+        "name": "CALCULATE_SOUND_TIMER_STEP",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 46,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 140,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 165,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 150,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 179,
+      "self_relative": true,
+      "target": {
+        "index": 7,
+        "kind": "external",
+        "method": 6,
+        "name": "READ_SOUND_DELTA",
         "zero_displacement": true
       }
     },
@@ -86,13 +456,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 9,
+      "segment_offset": 195,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "REMOVE_TIMER_HOOK",
+        "name": "PROCESS_MIDI_EVENTS",
         "zero_displacement": true
       }
     },
@@ -108,14 +478,692 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 15,
+      "segment_offset": 207,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 12,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 225,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 233,
+      "self_relative": true,
+      "target": {
+        "index": 6,
+        "kind": "external",
+        "method": 6,
+        "name": "DIVIDE_TIMER_INTERVAL",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 10,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 239,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 22,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 242,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 288,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 247,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 254,
+      "self_relative": true,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "INSTALL_TIMER_HOOK",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 14,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 260,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 16,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 264,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 112,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 267,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": 22,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 272,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 278,
+      "self_relative": true,
+      "target": {
+        "index": 8,
+        "kind": "external",
+        "method": 6,
+        "name": "REMOVE_TIMER_HOOK",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 18,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 284,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 2,
+        "kind": "external",
+        "name": "SOUND_DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 2,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 294,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "SOUND_DGROUP",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 10,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 300,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 12,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 306,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 18,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 314,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 6,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 317,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 4,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 321,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 8,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 324,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 169,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 339,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 46,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 342,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 40,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 346,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 364,
+      "self_relative": true,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "PROCESS_MIDI_EVENTS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 389,
       "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "DRIVER_STOP_CALLBACK",
+        "name": "CALLBACK_STACK_TOP",
         "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 269,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 393,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": 14,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 396,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 16,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 400,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 14,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 406,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 32,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 419,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 36,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 423,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 34,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 427,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 26,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 434,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
       }
     }
   ],
@@ -133,22 +1181,55 @@
     }
   },
   "mode": "external-dgroup-offset16-v4",
+  "placements": {
+    "_DATA": 8490
+  },
   "schema": 1,
   "symbols": {
-    "DRIVER_STOP_CALLBACK": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8508,
-      "witnesses": [
-        {
-          "bytes_hex": "a33c21",
-          "context": "mov word ptr [0x213c], ax reached from root:1101:335b",
-          "entry": "root:1101:335b",
-          "image_offset": 81455,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+    "CALCULATE_SOUND_TIMER_STEP": {
+      "entry_sha256": "152f9fe6077e9cca3a646b9aad06092bc0909e30c7110645f5e3fbc45a12d35c",
+      "entry_target_id": "root:1101:2fd6",
+      "kind": "near-code-entry",
+      "offset": 12246,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "DIVIDE_TIMER_INTERVAL": {
+      "entry_sha256": "e9e0f318ea70559611261d974ca852e86f65b3a3e30aca0e5e5eeaa75b3e95c7",
+      "entry_target_id": "root:1101:7c86",
+      "kind": "near-code-entry",
+      "offset": 31878,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "INSTALL_TIMER_HOOK": {
+      "entry_sha256": "8c21583b897ca327d7d7f6ec64a51fd63e926bfcf902ef169bb2a0aff2bfe723",
+      "entry_target_id": "root:1101:7d94",
+      "kind": "near-code-entry",
+      "offset": 32148,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "PROCESS_MIDI_EVENTS": {
+      "entry_sha256": "d600a1972285cfa96de8fac9bf40f9b004390f8968e79e694a78a7edd84e376b",
+      "entry_target_id": "root:1101:301c",
+      "kind": "near-code-entry",
+      "offset": 12316,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "READ_SOUND_DELTA": {
+      "entry_sha256": "d6a4e1b9f5b544a8962d9785bbdf0eeceb9ec2d6f36f2d6c63c9f59f4214132b",
+      "entry_target_id": "root:1101:31a2",
+      "kind": "near-code-entry",
+      "offset": 12706,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     },
     "REMOVE_TIMER_HOOK": {
       "entry_sha256": "b1c9f06207c3faddf5c23680a4bd705b469ea40869aa1066aabb3dbfd13230c4",
@@ -157,29 +1238,7 @@
       "offset": 32341,
       "segment": 4353,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "0ee80200",
-          "entry": "root:1101:7e41",
-          "image_offset": 101983,
-          "space": "root"
-        }
-      ]
-    },
-    "TIMER_DESCRIPTOR": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8512,
-      "witnesses": [
-        {
-          "bytes_hex": "ba4021",
-          "context": "mov dx, 0x2140 reached from root:1101:335b",
-          "entry": "root:1101:335b",
-          "image_offset": 81685,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     }
   },
   "target_id": "group:sound2/stop_driver_timer",
