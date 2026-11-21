@@ -229,6 +229,12 @@ def ground_symbol(symbol, target, oracle):
         entry = cspace.position(callee["segment"], callee["offset"])
         require(cspace.name != space.name or not (entry < end and start < entry+len(raw)),
                 "Far callee entry overlaps candidate")
+        if space.name != "root" and cspace.name not in ("root", space.name):
+            # A direct call from one overlay into another relies on both being resident; the
+            # manager evicts any section overlapping a new allocation, so they must not overlap.
+            from tu_census import can_coexist
+            require(can_coexist(space, cspace), "Direct far call into an overlay that cannot be "
+                    "resident together with the caller's overlay")
         _inside_accepted(oracle, cspace.name, entry, len(raw))
     if not symbol.get("witnesses"):
         # Without an outside caller, the entry may instead be the start of accepted exact

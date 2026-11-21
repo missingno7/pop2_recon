@@ -219,6 +219,8 @@ instruction shape:
   lists the reachable ones.
 - **Scope.** v4 proves code bytes only. Data extents, types and the runtime DS
   association are not claimed.
+- **Owners.** Root or overlay code (2026-11-21); the frame witness stays the root
+  startup DS load. See [overlay owners](far-call-binding.md#overlay-owners-in-groups).
 
 ## v4 internal consensus and draft-region witnesses in groups (2026-11-21)
 

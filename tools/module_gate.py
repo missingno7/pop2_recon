@@ -21,8 +21,9 @@ boundary, declarations outside the group, or link placement.
 Object-level rules (refusals, not claim failures): every public lies inside
 the initialized CODE segment and one public starts at offset 0; fixup fields
 are disjoint; a near call is proven only inside the original CS window named by
-an independently relocated CALL FAR into a claim, so 16-bit IP arithmetic and
-linear placement agree.
+an independently relocated CALL FAR into a claim (for overlay claims: a vector,
+a same-overlay call or an unshared cross-space call, see `_frame_evidence`), so
+16-bit IP arithmetic and linear placement agree.
 """
 import struct
 
@@ -213,14 +214,66 @@ def _check_placements(module, placements, uses, binding, space, oracle):
     return report
 
 
-def _witnessed_frames(target, oracle):
-    """Segment words of the reviewed, relocated CALL FARs that enter this target."""
-    frames = set()
-    for call in target.get("call_sites", []):
-        if call["kind"] == "far_call":
+def _code_vectors(oracle):
+    """The original RTLink vector records (tu_census decoding, checked against the manager)."""
+    from tu_census import overlay_vectors
+    overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    return overlay_vectors(oracle, overlays)
+
+
+def _frame_evidence(target, space, oracle, hull):
+    """(evidence, unusable): independent original far entries naming this claim's CS.
+
+    Root: the segment words of the reviewed, relocated CALL FARs that enter the target
+    (unchanged). An overlay claim's code runs only while its overlay is loaded at its
+    link address, so a far entry names its CS only if it provably reaches this overlay:
+    - an RTLink vector record whose decoded destination (descriptor index -> this
+      overlay, segment:offset -> the claim entry) is the claim; the manager loads the
+      section and far-jumps with that segment;
+    - a reviewed relocated CALL FAR inside the same overlay, relocated by that overlay's
+      own table and outside the whole object: its caller is resident, so its own section
+      is, and the destination lies in it;
+    - a reviewed relocated CALL FAR from another space, only when no other space holds
+      that link address (otherwise it may enter another overlay sharing the segment).
+    `hull` is the object's (start, end) in the claim's space."""
+    evidence, unusable = [], []
+    calls = [c for c in target.get("call_sites", []) if c["kind"] == "far_call"]
+    if space.name == "root":
+        for call in calls:
             caller = oracle.spaces[call["space"]]
-            frames.add(struct.unpack_from("<H", caller.data, call["image_offset"] + 3)[0])
-    return frames
+            evidence.append({"frame": struct.unpack_from("<H", caller.data, call["image_offset"] + 3)[0],
+                             "kind": "relocated CALL FAR", "space": caller.name,
+                             "image_offset": call["image_offset"]})
+        return evidence, unusable
+    entry = space.position(target["segment"], target["offset"])
+    for vector in _code_vectors(oracle).values():
+        if vector["target_space"] == space.name and vector["target_position"] == entry:
+            evidence.append({"frame": vector["target_segment"], "kind": "rtlink-vector",
+                             "vector": f"root:{vector['segment']:04x}:{vector['offset']:04x}",
+                             "descriptor_index": vector["descriptor_index"]})
+    lo, hi = hull
+    for call in calls:
+        caller = oracle.spaces[call["space"]]
+        at = call["image_offset"]
+        offset, segment = struct.unpack_from("<HH", caller.data, at + 1)
+        row = {"frame": segment, "space": caller.name, "image_offset": at}
+        if caller.name == space.name:
+            if at < hi and lo < at + 5:
+                unusable.append(dict(row, reason="same-overlay CALL FAR inside the object"))
+                continue
+            evidence.append(dict(row, kind="same-overlay CALL FAR",
+                                 relocation_index=next(r["index"] for r in caller.relocations
+                                                       if r["image_offset"] == at + 3)))
+            continue
+        # Memory extent (descriptor paragraphs), not just the file payload, can hold the address.
+        holders = sorted(n for n, s in oracle.spaces.items() if n != space.name and
+                         0 <= (segment - s.link_segment) * 16 + offset <
+                         max(s.size, 16 * (s.descriptor or {}).get("f8", 0)))
+        if holders:
+            unusable.append(dict(row, reason="link address also held by " + ", ".join(holders)))
+            continue
+        evidence.append(dict(row, kind="cross-space CALL FAR"))
+    return evidence, unusable
 
 
 def _check_unplaced(module, placements, symbols):
@@ -300,7 +353,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         require(not fields.intersection(span) and max(span) < len(actual),
                 "Fixup fields overlap or leave the CODE segment")
         fields.update(span)
-    resolved, origin, space, frames = [], None, None, set()
+    resolved, origin, space = [], None, None
     for claim in claims:
         require(claim["public"] in publics, f"Claimed public {claim['public']} is not emitted")
         target, target_space, expected = get_target(claim["target_id"], oracle)
@@ -311,9 +364,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         require(origin is None or position - start == origin,
                 "Claims do not share one object placement")
         origin = position - start
-        frames |= _witnessed_frames(target, oracle)
         resolved.append((claim, target, expected, start))
     require(0 <= origin and origin + len(actual) <= space.size, "Object placement escapes the space")
+    frame_rows = {claim["public"]: _frame_evidence(target, space, oracle, (origin, origin + len(actual)))
+                  for claim, target, _, _ in resolved}
+    frames = {row["frame"] for evidence, _ in frame_rows.values() for row in evidence}
     require(len(frames) <= 1, "Claims are entered through different original frames")
     window = None
     if frames:
@@ -334,8 +389,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         if s.get("kind") == NEAR_KIND}
         data_only = {n: s for n, s in binding["symbols"].items()
                      if n not in far_symbols and n not in near_symbols}
+        # Overlay owners too: the field equation depends only on the grounded 16:16 alias,
+        # and its segment word is relocated by the owner's own overlay table (bijection below).
         for symbol in far_symbols.values():
-            require(space.name == "root", "Group far calls are supported in root only")
             far_ground(symbol, hull, oracle)
         if data_only:
             claimed = [(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved]
@@ -359,6 +415,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         report = {"target_id": claim["target_id"], "public": claim["public"], "object_offset": start,
                   "expected_size": len(expected), "emitted_size": end - start,
                   "expected_sha256": sha(expected), "emitted_sha256": sha(actual[start:end])}
+        evidence, unusable = frame_rows[claim["public"]]
+        if space.name != "root":
+            report.update(frame_evidence=evidence, frame_evidence_refused=unusable)
         reports.append(report)
         try:
             piece = actual[start:end]
@@ -379,7 +438,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
                      "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "v4": [],
                      "proven_jumps": set(),
-                     "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
+                     "fixups": len(mine), "frames": {row["frame"] for row in evidence},
                      "report": report, "position": position,
                      "relocations": [r for r in space.relocations
                                      if position-1 <= r["image_offset"] < position+len(expected)]}
@@ -522,10 +581,14 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     state["differences"].append(own["offset"])
         if not state["near"] and not state["own"]:
             continue
+        position = state["position"]
         reason = ("Near call or own-segment word lacks an independently witnessed original frame"
                   if public not in cs_proven else
                   "Near call leaves the witnessed original CS window"
-                  if not all(in_window(n) for n in state["near"]) else None)
+                  if not all(in_window(n) for n in state["near"]) else
+                  "Own-segment word lies outside the witnessed original CS window"
+                  if state["own"] and not (window[0] <= position and
+                                           position + len(state["piece"]) <= window[1]) else None)
         if reason:
             state["report"].update(exact=False, state="REFUSED", reason=reason)
             del states[public]

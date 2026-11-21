@@ -247,3 +247,58 @@ as for same-object calls ([acceptance.md](acceptance.md)). External near callees
 are never assumed to preserve segment context. Limits: no overlay-to-root or
 cross-space near calls, no near jumps to external code, and no frame inferred
 for a component entered only by near calls.
+
+## Overlay owners in groups (2026-11-21)
+
+A same-source group may claim code in an RTLink code overlay (`overlay-N`). The
+single-function far gate (`external-far-call-v1`) and the structural-entry rule
+stay root-only; a one-claim group covers an overlay owner instead.
+
+**CS frame evidence.** Overlay code runs only while its section is loaded at its
+link address, and several overlays share link segments (2/3, 4–7/10, ...). A far
+entry therefore names an overlay claim's CS only if it provably reaches this
+overlay. `module_gate._frame_evidence` accepts, per claim:
+
+- an **RTLink vector record** (decoded by `tu_census.overlay_vectors`, the format
+  the manager checks at `2203:064c`) whose descriptor index names this overlay and
+  whose segment:offset is the claim entry. The manager loads that section and
+  far-jumps with that segment;
+- a reviewed **same-overlay CALL FAR**, relocated by this overlay's own table and
+  outside the whole object. Its caller is resident, and the manager evicts whole
+  sections, so the destination is this overlay's copy;
+- a reviewed **cross-space CALL FAR** (root or another overlay) only when no other
+  space holds that link address.
+
+Anything else is listed in the claim's `frame_evidence_refused` (for example
+`link address also held by overlay-2`) and grants nothing. A vector naming
+another entry does not witness this claim. All claims must agree on one frame;
+same-object near calls, external near calls and own-segment words then use that
+64 KB window exactly as in root (own-segment words additionally need the whole
+claim inside the window). Inheritance through equal near calls is unchanged.
+
+**Far calls.** `far-code-entry` (resident), `overlay-code-entry` and
+`rtlink-vector` callees ground as before (reviewed direct entry plus outside
+witnesses, or an accepted exact owner). A direct call into a *different* overlay
+must be to one that can be resident together with the caller's overlay
+(`tu_census.can_coexist`); otherwise the original call could not reach it. The
+field equation depends only on the grounded 16:16 alias. Its segment word is an
+obligation of the owner's **own overlay relocation table**: the claim's touching
+records (by overlay-table index) must biject to the generated segment words, with
+the same within-symbol FIXUPP order and `GROUPED` debt as root. The overlay
+tables show the same output-segment/target buckets as the MZ table (overlay 3:
+four frame runs, no interleaved target run). Recipes and metrics record these
+indices per space.
+
+**Data.** `external-dgroup-offset16-v4` now accepts overlay owners (groups and
+single functions): overlay code runs with the startup DGROUP in DS, the frame
+witness stays the root startup DS load, and witnesses follow the existing
+outside / draft-region / internal-consensus rules. Overlay witnesses still need
+an `entry` reached in their own overlay (vector destination, same-overlay
+relocated CALL FAR destination or reviewed entry). The older modes are unchanged:
+resident v1/v2/v3 refuse overlay owners, overlay v1 keeps its byte/word rule.
+Placed DGROUP segments remain root-only.
+
+Real-image tests (`tests/test_overlay_group.py`) use byte-faithful synthetic
+objects at reviewed overlay-3 targets: `25da:0016` proves three far calls with
+overlay-3 relocations 207, 272, 354 and ten v4 fields; `2344:08f0` proves its near
+call in frame 2344 through the same-overlay call at overlay-3+0x2f77.
