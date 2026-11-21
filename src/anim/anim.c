@@ -1,4 +1,5 @@
-/* ANIM.C. The first contribution is verified. The remaining routines are drafts. */
+/* ANIM.C. Exact contributions: anim_draw, draw_frame, paint_element,
+ * accumulate_element_bounds and reset_element. Other routines are drafts. */
 typedef struct
 {
     int top, left, bottom, right;
@@ -88,13 +89,12 @@ void anim_free(Animation *animation)
         release_fade(animation->fade);
     i = 0;
     if (i < animation->handle_count) {
-        handle = animation->handles;
-        do {
+        for (handle = animation->handles;; ++handle) {
             if (*handle)
                 dispose_handle(*handle);
-            ++handle;
-            ++i;
-        } while (i < animation->handle_count);
+            if (++i >= animation->handle_count)
+                break;
+        }
     }
     release_port(animation);
     release_buffer(animation->background.pixels);
@@ -118,22 +118,22 @@ extern unsigned char animation_wait_level;
 #define WORD_AT(p, n) (*(const int far *)((p) + (n)))
 #define LONG_AT(p, n) (*(const long far *)((p) + (n)))
 
+#pragma optimize("e", off)
 int anim_idle(Animation *animation)
 {
-    int saved_port = current_port;
+    int saved_port;
     int result = 0;
     const unsigned char far *command;
-    unsigned char opcode;
     int channel, old_flags;
     unsigned long saved_pixels;
     Element *element;
 
+    saved_port = current_port;
     current_port = (int)animation;
 
 next_command:
     command = animation->commands;
-    opcode = *command;
-    switch (opcode) {
+    switch (*command) {
     case 0:
         if (animation->deadline_base + animation->delay <= clock_ticks)
             result = 1;
@@ -187,15 +187,16 @@ next_command:
         ++animation->commands;
         break;
     default:
-        channel = opcode & 3;
-        if ((opcode & 0xfc) == 0x10) {
+        if (((channel = *command) & 0xfc) == 0x10) {
+            channel &= 3;
             if (animation->callbacks[channel] &&
                 animation->callbacks[channel](animation, WORD_AT(command, 1)))
                 result = 2;
             animation->commands += 3;
             goto next_command;
         }
-        if ((opcode & 0xfc) == 0x14) {
+        if (((channel = *command) & 0xfc) == 0x14) {
+            channel &= 3;
             if (animation->loops[channel]) {
                 if (!--animation->loops[channel]) {
                     animation->commands += 5;
@@ -207,8 +208,9 @@ next_command:
             animation->commands = command + WORD_AT(command, 3) + 3;
             goto next_command;
         }
-        element = &animation->elements[opcode & 31];
-        switch (opcode & 0xe0) {
+        channel = *command;
+        element = &animation->elements[channel & 31];
+        switch (channel & 0xe0) {
         case 0x20:
             old_flags = element->flags;
             element->flags &= WORD_AT(command, 1);
@@ -283,6 +285,7 @@ finish:
     return result;
 }
 
+#pragma optimize("e", on)
 extern void near *cdecl malloc(unsigned int);
 extern unsigned int cdecl allocation_size(void *);
 extern void near *cdecl memset(void near *, int, unsigned int);
@@ -312,22 +315,22 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
 {
     int old_sheet = retain_sheet(sheet);
     int count = last_shape - first_shape + 1;
-    int i, shape, saved_port;
+    int i, element_index, saved_port;
     unsigned char referenced[512];
     Animation *animation;
     ShapeHeader far *header;
     const unsigned char far *scan;
     unsigned char opcode;
-    char message[94];
+    char message[80];
 
     animation = malloc((0x260 + count) * 2);
     if (animation) {
         memset(animation, 0, allocation_size(animation));
         animation->destination = saved_port = current_port;
-        for (i = 0; i < 32; ++i)
-            reset_element(&animation->elements[i]);
+        for (element_index = 0; element_index < 32; ++element_index)
+            reset_element(&animation->elements[element_index]);
         for (i = 0; i < sizeof(referenced); ++i)
-            referenced[i] = (unsigned char)load_all_animation_shapes;
+            referenced[i] = (unsigned char)*(volatile int *)&load_all_animation_shapes;
         if (!load_all_animation_shapes) {
             scan = commands + 8;
             while ((opcode = *scan) != 0) {
@@ -339,11 +342,11 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                         ++i;
                         if ((opcode & 0xfc) != animation_command_codes[i]) {
                             if ((opcode & 0xe0) == 0x80 && WORD_AT(scan, 1)) {
-                                for (shape = WORD_AT(scan, 1); shape <= WORD_AT(scan, 3); ++shape) {
-                                    if (shape <= last_shape)
-                                        referenced[shape - 1] = 1;
+                                for (i = WORD_AT(scan, 1); i <= WORD_AT(scan, 3); ++i) {
+                                    if (i <= last_shape)
+                                        referenced[i - 1] = 1;
                                     else {
-                                        sprintf(message, bad_animation_shape, shape);
+                                        sprintf(message, bad_animation_shape, i);
                                         fatal_error(1, message);
                                     }
                                 }
@@ -366,17 +369,17 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                 prepare_sheet(sheet);
                 animation->sound_flag = header->sound;
             }
-            for (i = 0; i < animation->handle_count; ++i) {
-                if (referenced[i]) {
-                    animation->handles[i] = load_sheet_shape(sheet, i + first_shape,
-                                                             animation_color_mode ? 2 : 1);
-                    if (!animation->handles[i]) {
+            for (count = 0; count < animation->handle_count; ++count) {
+                if (referenced[count]) {
+                    animation->handles[count] = load_sheet_shape(sheet, count + first_shape,
+                                                             2 - (animation_color_mode < 1));
+                    if (!animation->handles[count]) {
                         if (animation->sound_flag)
                             header->sound = 0;
                         goto fail;
                     }
                 } else {
-                    animation->handles[i] = 0;
+                    animation->handles[count] = 0;
                 }
             }
             if (animation->sound_flag)
@@ -525,6 +528,7 @@ extern int clip_rect(Rect far *, const Rect far *, const Rect far *);
 extern int rect_is_empty(const Rect far *);
 extern void union_rect(Rect far *, const Rect far *, const Rect far *);
 
+#pragma optimize("g", on)
 void near accumulate_element_bounds(Animation *animation, Element *element)
 {
     Rect rect;
@@ -545,6 +549,7 @@ void near accumulate_element_bounds(Animation *animation, Element *element)
     }
 }
 
+#pragma optimize("g", off)
 void near reset_element(Element *element)
 {
     memset(element, 0, sizeof(*element));

@@ -59696,6 +59696,292 @@
       "size": 212,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:28a1:0040",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 64,
+      "size": 128,
+      "sha256": "be34046eca0fa6e733aa8c8e929031e0e549c74ec85890039f5683cc2ac0ff27",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0040,00c0); starts 558bec and terminates at 00bd with retf 2.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: anim_new at 28a1:0874, play_anim at 28a1:0df0.",
+        "Touching overlay relocation indices: [742, 743, 744, 750, 763]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, 2 argument bytes, callee cleanup. Releases the fade, handle list, ports and animation allocation.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Releases the fade, handle list, ports and animation allocation."
+      ],
+      "semantic_name_hypothesis": "anim_free",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 24132,
+          "file_offset": 180068,
+          "pushed_cs_site": 24131
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 25536,
+          "file_offset": 181472,
+          "pushed_cs_site": 25535
+        }
+      ]
+    },
+    {
+      "id": "overlay-2:28a1:00c0",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 192,
+      "size": 1164,
+      "sha256": "7671397cca7d49aaa19e4363dcff508ef15cf1daf223667173602876c2589baf",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [00c0,054c); starts 558bec and terminates at 0548 with retf 2 followed by one alignment NOP.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: play_anim at 28a1:0d38.",
+        "Touching overlay relocation indices: [738, 783, 786]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, 2 argument bytes, callee cleanup. Interprets the animation command stream and returns a completion code in AX.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Interprets the animation command stream and returns a completion code in AX."
+      ],
+      "semantic_name_hypothesis": "anim_idle",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 25352,
+          "file_offset": 181288,
+          "pushed_cs_site": 25351
+        }
+      ]
+    },
+    {
+      "id": "overlay-2:28a1:054c",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 1356,
+      "size": 844,
+      "sha256": "f1a8ac36035d7864b44b34e3b8098dbce4c97d69063b487df89df14fd37be2d7",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [054c,0898); starts 558bec and terminates at 0895 with retf 0xc.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: play_anim at 28a1:0c8f.",
+        "Decoded RTLink vector root:2203:0cef names this exact overlay-2 address.",
+        "Touching overlay relocation indices: [741, 745, 748, 754, 757, 767, 771, 773, 774, 777, 779, 787, 789, 798, 799, 800]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, 12 argument bytes, callee cleanup. Allocates and initializes an animation from a far resource pointer, loads shape handles, draws and returns its near pointer in AX.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Allocates and initializes an animation from a far resource pointer, loads shape handles, draws and returns its near pointer in AX."
+      ],
+      "semantic_name_hypothesis": "anim_new",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 25183,
+          "file_offset": 181119,
+          "pushed_cs_site": 25182
+        }
+      ]
+    },
+    {
+      "id": "overlay-2:28a1:0898",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 2200,
+      "size": 382,
+      "sha256": "9e685ad33a5262852344994ac0f6e61e9b63c9290b68f70c55da84db1cbcb353",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0898,0a16); starts 558bec and terminates at 0a13 with ret 2.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: anim_idle at 28a1:0146.",
+        "Touching overlay relocation indices: [759, 770]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Near Pascal, 2 argument bytes, callee cleanup. Advances element movements and frame indices, copies the dirty rectangle and returns the near animation pointer in AX.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Advances element movements and frame indices, copies the dirty rectangle and returns the near animation pointer in AX."
+      ],
+      "semantic_name_hypothesis": "advance_frame",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-2:28a1:0a16",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 2582,
+      "size": 192,
+      "sha256": "bcafb2cea3d7a13f51f163f147cec80431985a72a6067e9314c29b0eb8cbe1dd",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0a16,0ad6); starts 558bec and terminates at 0ad2 with retf 2 followed by one alignment NOP.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Relocated same-overlay CALL FAR at overlay-2+0x5574, overlay relocation 295, names 28a1:0a16.",
+        "Original decoded near call sites targeting this entry: anim_idle at 28a1:0274, anim_new at 28a1:086b, advance_frame at 28a1:08bb.",
+        "Touching overlay relocation indices: [734, 737, 756, 764, 769, 775]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, 2 argument bytes, callee cleanup. Clears the dirty rectangle, redraws the background and elements, and returns the supplied near animation pointer in AX.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Clears the dirty rectangle, redraws the background and elements, and returns the supplied near animation pointer in AX."
+      ],
+      "semantic_name_hypothesis": "draw_frame",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 21876,
+          "file_offset": 177812,
+          "relocated_segment_site": 21879
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 22596,
+          "file_offset": 178532,
+          "pushed_cs_site": 22595
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 24123,
+          "file_offset": 180059,
+          "pushed_cs_site": 24122
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 24203,
+          "file_offset": 180139,
+          "pushed_cs_site": 24202
+        }
+      ]
+    },
+    {
+      "id": "overlay-2:28a1:0ad6",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 2774,
+      "size": 110,
+      "sha256": "9f8acbd31cfb3e585d78ec5c683acfc9729c14e47b4edd8894c0ffc2e44a7c88",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0ad6,0b44); starts 558bec and terminates at 0b41 with ret 4.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: anim_idle at 28a1:0488, anim_idle at 28a1:04ae, anim_idle at 28a1:04d5, draw_frame at 28a1:0a66.",
+        "Touching overlay relocation indices: [758, 761, 790, 797]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Near Pascal, 4 argument bytes, callee cleanup. Tests an element shape index then paints its handle at its fixed-point coordinates.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Tests an element shape index then paints its handle at its fixed-point coordinates."
+      ],
+      "semantic_name_hypothesis": "paint_element",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-2:28a1:0b44",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 2884,
+      "size": 178,
+      "sha256": "0e173b721c28b9076c124149d51839a51be85cd7529b1274d5ef7000c40d1ecf",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0b44,0bf6); starts 558bec and terminates at 0bf3 with ret 4.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: anim_idle at 28a1:0390, anim_idle at 28a1:03b8, anim_idle at 28a1:03e2, anim_idle at 28a1:0403, advance_frame at 28a1:0937, advance_frame at 28a1:0992, advance_frame at 28a1:09c8, advance_frame at 28a1:09e5.",
+        "Touching overlay relocation indices: [746, 747, 755, 795, 796]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Near Pascal, 4 argument bytes, callee cleanup. Computes an element rectangle from shape dimensions and coordinates and merges the clipped extent into the animation dirty rectangle.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Computes an element rectangle from shape dimensions and coordinates and merges the clipped extent into the animation dirty rectangle."
+      ],
+      "semantic_name_hypothesis": "accumulate_element_bounds",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-2:28a1:0bf6",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 3062,
+      "size": 52,
+      "sha256": "e3c2d3eb4ba689a08026e18a8dc36299d5e012e115b96af113cbc9b786644037",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0bf6,0c2a); starts 558bec and terminates at 0c27 with ret 2.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Original decoded near call sites targeting this entry: anim_idle at 28a1:040d, anim_new at 28a1:05bc."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Near Pascal, 2 argument bytes, callee cleanup. Clears the element record and seeds its flags and fixed-point coordinates.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Clears the element record and seeds its flags and fixed-point coordinates."
+      ],
+      "semantic_name_hypothesis": "reset_element",
+      "state": "ANALYZED",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-2:28a1:0c2a",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 3114,
+      "size": 574,
+      "sha256": "b74dad82fb2eccd66f22a84c036a02a6c19c74993022e30531c2a881b2a09946",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, complete extent [0c2a,0e68); starts 558bec and terminates at 0e65 with retf 0x12.",
+        "The preceding reviewed original routine ends at the prologue, and the next distinct prologue begins at the end of this extent.",
+        "Decoded RTLink vector root:2203:0cf9 names this exact overlay-2 address.",
+        "Touching overlay relocation indices: [735, 736, 739, 740, 749, 751, 752, 753, 760, 762, 765, 766, 772, 776, 778, 780, 781, 782, 784, 785, 788, 791, 792, 793, 794]."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, 16 argument bytes, callee cleanup. Loads script and palette resources, plays and cleans them up, and returns the interrupted flag in AX.",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original frame and argument handling.",
+      "classification_evidence": [
+        "Original MSC-shaped prologue, BP-relative stack parameters and Pascal return. Loads script and palette resources, plays and cleans them up, and returns the interrupted flag in AX."
+      ],
+      "semantic_name_hypothesis": "play_anim",
+      "state": "ANALYZED",
+      "call_sites": []
     }
   ],
   "schema": 1,

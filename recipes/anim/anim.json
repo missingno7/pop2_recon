@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/anim/anim.json",
-  "binding_sha256": "50be60adfeef725af31aaff1c610a4195381722dcc7ea65073d9999fa6f9f888",
+  "binding_sha256": "015514b6a8a924d113d438fda6e9e902c4a9e64e5e8e6a9a447a2a6d90c19085",
   "claims": [
     {
       "fixup_count": 4,
@@ -11,6 +11,59 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-2:28a1:000c"
+    },
+    {
+      "fixup_count": 9,
+      "public": "DRAW_FRAME",
+      "relocation_indices": [
+        734,
+        737,
+        756,
+        764,
+        769,
+        775
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:28a1:0a16"
+    },
+    {
+      "fixup_count": 6,
+      "public": "PAINT_ELEMENT",
+      "relocation_indices": [
+        758,
+        761,
+        790,
+        797
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:28a1:0ad6"
+    },
+    {
+      "fixup_count": 5,
+      "public": "ACCUMULATE_ELEMENT_BOUNDS",
+      "relocation_indices": [
+        746,
+        747,
+        755,
+        795,
+        796
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:28a1:0b44"
+    },
+    {
+      "fixup_count": 0,
+      "public": "RESET_ELEMENT",
+      "target_id": "overlay-2:28a1:0bf6"
     }
   ],
   "drafts": [
@@ -19,43 +72,27 @@
       "public": "ANIM_FREE"
     },
     {
-      "object_offset": 178,
+      "object_offset": 180,
       "public": "ANIM_IDLE"
     },
     {
-      "object_offset": 1184,
+      "object_offset": 1360,
       "public": "ANIM_NEW"
     },
     {
-      "object_offset": 1996,
+      "object_offset": 2182,
       "public": "ADVANCE_FRAME"
     },
     {
-      "object_offset": 2384,
-      "public": "DRAW_FRAME"
-    },
-    {
-      "object_offset": 2576,
-      "public": "PAINT_ELEMENT"
-    },
-    {
-      "object_offset": 2686,
-      "public": "ACCUMULATE_ELEMENT_BOUNDS"
-    },
-    {
-      "object_offset": 2864,
-      "public": "RESET_ELEMENT"
-    },
-    {
-      "object_offset": 2916,
+      "object_offset": 3102,
       "public": "PLAY_ANIM"
     },
     {
-      "object_offset": 3500,
+      "object_offset": 3686,
       "public": "SWAP_RECORD_PAIRS"
     }
   ],
-  "emitted_size": 3550,
+  "emitted_size": 3736,
   "flags": [
     "/c",
     "/AM",
@@ -64,17 +101,17 @@
     "/Zl",
     "/Gc"
   ],
-  "frame": null,
+  "frame": 10401,
   "group_id": "group:anim/anim",
   "kind": "same_source_group",
   "language": "c",
   "name": "anim/anim",
-  "object_sha256": "56c2a930ba74d7f0ad8d0cc43e1f1d203a25237436c059cea12a06e804360114",
+  "object_sha256": "b77182c15b38a5f6e7d0838fe1219047d836a1ce305b1aa66362f0955add82ef",
   "origin": 21980,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/anim/anim.c",
-  "source_sha256": "9de95ecc48ffdac2ca5043d1b05cb3c7637965da34da5c4c3a9f4ee818dd9686",
+  "source_sha256": "002f1990455ae92517bddb27db8af2735fb4660a39951207da8801054ded99a9",
   "space": "overlay-2"
 }
