@@ -44897,6 +44897,747 @@
       "size": 74,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-10:29cf:0000",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 0,
+      "size": 76,
+      "sha256": "0683fd34ec5ca86f9b9bc7d1146cfcd0ec1cdd98be6b8af07efd7b1c68840184",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Object dispatch on DGROUP room markers and bit 0x10 of record byte +5. The four relocated far calls with alias 29cf:0000 are ambiguous between loaded overlays."
+      ],
+      "semantic_name_hypothesis": "draw_final_object",
+      "abi": "far Pascal; one near record pointer in [BP+6]; RETF 2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "First decoded instruction of overlay-10; BP prologue and saved SI at 0000..0003.",
+        "Distinct room predicates reach PUSH CS; CALL 170e at 0021 and PUSH CS; CALL 1940 at 0041, both with the same pointer argument.",
+        "Both branches converge on the epilogue at 0045; RETF 2 at 0049 ends at independent RTLink vector destination 004c.",
+        "Object dispatch on DGROUP room markers and bit 0x10 of record byte +5. The four relocated far calls with alias 29cf:0000 are ambiguous between loaded overlays."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:004c",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 76,
+      "size": 8,
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "The original reset word has independent accesses in resident code."
+      ],
+      "semantic_name_hypothesis": "load_final_code",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident RTLink vector 2203:0d85 (root relocation index 2007 on its jump) decodes to overlay-10 descriptor 8, target 29cf:004c.",
+        "Previous function ends in RETF 2 at 0049; this entry writes zero to word DS:5e20, returns at 0052 and ends with NOP at 0053.",
+        "A separate BP frame starts at 0054; there are no branches or relocations within this initializer.",
+        "The original reset word has independent accesses in resident code."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:0054",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 84,
+      "size": 210,
+      "sha256": "fd7461693194996354ae14f658277818033b09bac885a35e9ead96d490533bb0",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Original overlay-10 relocation sites ground the contained far calls. The routine tests the active character state and updates tile/counter state."
+      ],
+      "semantic_name_hypothesis": "check_dead_opponent",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Preceding vector target ends RETF/NOP at 0052/0053; BP frame, two-byte local, saved SI start here.",
+        "Branches from 0060/0062 split the tick-6 and delayed paths and meet within the extent, with epilogue at 0121 and RETF at 0125 before the next BP frame.",
+        "Original overlay-10 relocation sites ground the contained far calls. The routine tests the active character state and updates tile/counter state."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:0126",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 294,
+      "size": 148,
+      "sha256": "f003ce77e1bc2ac5c4b7de7b94ddbdb33c80afd41ebd59f37e34a5c77f0f8df0",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Opposite-room selection and randomized opponent spawn selector."
+      ],
+      "semantic_name_hypothesis": "check_new_opponent",
+      "abi": "far Pascal; signed byte argument in low byte at [BP+6]; RETF 2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Preceding RETF at 0125; BP frame and 2 bytes of locals at 0126..012b.",
+        "The PUSH CS/CALL pair at 0612/0613 supplies a signed count from BP-2 in the caller at 05c6.",
+        "Signed count >1 skips room choice; count ==1 uses the opposite nearby room unless sequence 238 or it is the current Kid room.",
+        "After room validation and random tests, PUSH CS; CALL at 01b0/01b1 goes to 01ba with two byte arguments.",
+        "Both skip and generate paths converge at 01b4; RETF 2 at 01b7 ends the extent exactly at the separate 01ba BP frame.",
+        "Opposite-room selection and randomized opponent spawn selector."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 241971,
+          "image_offset": 1555,
+          "pushed_cs_site": 1554
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:01ba",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 442,
+      "size": 298,
+      "sha256": "066ee994147b2692e6417134d4782653ee2b3b8983ef17f8c9af7f8343b154da",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Allocates and populates an opponent slot and mirrors its fields into active character state."
+      ],
+      "semantic_name_hypothesis": "generate_opponent",
+      "abi": "far Pascal; signed byte args at [BP+8] and [BP+6]; RETF 4",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Distinct prologue after the RETF 2 of 0126, and reached by its PUSH CS; CALL at 01b0..01b3.",
+        "RETF 4 at 02e0 with alignment NOP at 02e3, then a distinct RETF-only slot before the next routine at 02e6.",
+        "Allocates and populates an opponent slot and mirrors its fields into active character state."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 240849,
+          "image_offset": 433,
+          "pushed_cs_site": 432
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:02e4",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 740,
+      "size": 2,
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "This two-byte entry is an inert far-return slot in the FINAL.C run. Its purpose and incoming callers are unidentified."
+      ],
+      "semantic_name_hypothesis": "final_noop",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate RETF at 02e4 follows the preceding RETF 4 and its even alignment NOP at 02e3.",
+        "The NOP at 02e5 aligns the independently decoded guarded routine at 02e6.",
+        "This two-byte entry is an inert far-return slot in the FINAL.C run. Its purpose and incoming callers are unidentified."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:03e2",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 994,
+      "size": 56,
+      "sha256": "ad3037b2fe6ce44044458345469747935c5b4802d01d4ff47ef79b2bc8ca6b6a",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Room initialization, visual transition and local final-scene setup."
+      ],
+      "semantic_name_hypothesis": "enter_princess_room",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Follows the RETF/NOP at 03e0/03e1; starts with a word argument to relocated CALL FAR at 03e6.",
+        "Original PUSH CS; CALL at 0519/051a inside 04f6 targets 03e2. Inside 03e2, PUSH CS; CALL at 0414/0415 targets 0310.",
+        "Returns at 0418, alignment NOP at 0419 ends the extent before the distinct BP frame at 041a.",
+        "Room initialization, visual transition and local final-scene setup."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 241722,
+          "image_offset": 1306,
+          "pushed_cs_site": 1305
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0310",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 784,
+      "size": 108,
+      "sha256": "344ca4f4cae4227c63dd95e344b05dc2f51cc2cf01a22e21f3d68b7b6d67b833",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Transitions the active character state, copies a 64-byte record from DS:5c00 to DS:5c80."
+      ],
+      "semantic_name_hypothesis": "cut_kid_to_chess_room",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "At 0310, saved DI/SI follow RETF/NOP at 030e/030f. The PUSH CS; CALL at 0414/0415 targets this entry.",
+        "Restores SI/DI and RETF at 037a, alignment NOP at 037b; at 037c a new SI save begins the next routine.",
+        "Transitions the active character state, copies a 64-byte record from DS:5c00 to DS:5c80."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 241461,
+          "image_offset": 1045,
+          "pushed_cs_site": 1044
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:037c",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 892,
+      "size": 102,
+      "sha256": "dcf519fcfa666942643036ed0ea6f4a0ff1058b2cc4ee386762fdf7db1aba142",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Updates active characters, then chooses a room-specific music request when the sound predicate returns zero."
+      ],
+      "semantic_name_hypothesis": "run_final_frame",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Begins after RETF/NOP at 037a/037b, with saved SI and two PUSH CS; CALL pairs to 04f6 and 05c6.",
+        "Original relocated calls at 038c and 03da bracket the room-based music selection, with an exit at 03e0 and NOP at 03e1.",
+        "Updates active characters, then chooses a room-specific music request when the sound predicate returns zero."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:041a",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1050,
+      "size": 220,
+      "sha256": "a12bcbefbdc77291e20a74918c016845c8a6f304e3f776b2156396c2df3bde8b",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Moves 20-byte foreground records. The similar resident loop at root+986a reads the same table offsets and relocates the same segment."
+      ],
+      "semantic_name_hypothesis": "sort_foreground",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP frame at 041a follows RETF/NOP at 0418/0419, with a 28-byte local frame and saved DI and SI.",
+        "Reverse loop branches within the interval; the initial guard and signed loop exit join at 04f0.",
+        "RETF at 04f5 ends before fresh DI/SI saves and a distinct call at 04f6.",
+        "Moves 20-byte foreground records. The similar resident loop at root+986a reads the same table offsets and relocates the same segment."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:04f6",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1270,
+      "size": 208,
+      "sha256": "38e28dfe1f8f3ee731dd7c2eec2a6b0bc57d488f95a70870fd37276e65f164a6",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Checks the active room/cutscene prerequisites and updates the active and other character records."
+      ],
+      "semantic_name_hypothesis": "watch_kid",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts with DI/SI saves after the distinct RETF at 04f5. Original PUSH CS; CALL 037d/037e reaches this entry.",
+        "Several branch exits enter the 64-byte copy at 05b6 and the epilogue at 05c3. RETF at 05c5 ends before the new BP frame at 05c6.",
+        "Far calls at 0534 and 053f enter overlay-3. The TEST ES:[BX+6] at 057a uses the frame table selector loaded from DS:2848 at 0568.",
+        "Checks the active room/cutscene prerequisites and updates the active and other character records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 241310,
+          "image_offset": 894,
+          "pushed_cs_site": 893
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:05c6",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1478,
+      "size": 84,
+      "sha256": "1aefe02db391f340706b5f4d54785e705143a2eef724a3b210e8b72d08827274",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "RETF at 0619 precedes the independent 061a dispatcher. Enumerates the signed count of current room opponents."
+      ],
+      "semantic_name_hypothesis": "watch_opponents",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The preceding routine returns at 05c5, and the PUSH CS; CALL pair at 0381/0382 targets this BP frame.",
+        "The checked loop descends to the increment at 05f8 and branches back to 05e7. The 0612/0613 PUSH CS call reaches 0126.",
+        "RETF at 0619 precedes the independent 061a dispatcher. Enumerates the signed count of current room opponents."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 241314,
+          "image_offset": 898,
+          "pushed_cs_site": 897
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:0634",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1588,
+      "size": 122,
+      "sha256": "7bf4e3e0e14bd11f1205537dd105b8b8930ac74ff650975a079f619983dfc433",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Other active opponents with the relevant room, facing/state and frame are assigned sequence 240."
+      ],
+      "semantic_name_hypothesis": "dismiss_other_jaffars",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Two dispatch returns end at 0632/0633 before the new BP frame. It saves and restores a 64-byte active-character record.",
+        "The 0699 loop branch targets 0662, and all paths finish at the RETF at 06ad before the 06ae entry.",
+        "Other active opponents with the relevant room, facing/state and frame are assigned sequence 240."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:071a",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1818,
+      "size": 194,
+      "sha256": "2b77369c76243d0de38b8ae0a1880c1d0546ff3a38a3464565239df0e6333fe7",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Updates local opponent stance and conditionally triggers spell and movement helpers."
+      ],
+      "semantic_name_hypothesis": "jaffar_attack_in_escher",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "SI/DI saves at 071a follow the preceding RETF/NOP at 0718/0719.",
+        "A relocated CALL FAR to the slot helper precedes the stance checks; same-file near calls include the reviewed increment and decrement entries.",
+        "Both returns at 07d3 and 07db restore SI and DI; the next routine begins with a distinct SI save at 07dc.",
+        "Updates local opponent stance and conditionally triggers spell and movement helpers."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:07dc",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 2012,
+      "size": 96,
+      "sha256": "e999ee19d985605a2b90e7479e4619998cb9d71c00717879d645ce796b8f53ee",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "RETF and alignment NOP at 083a/083b precede the 083c BP frame. Tries the two stance directions in opposite-room movement."
+      ],
+      "semantic_name_hypothesis": "jaffar_flee_in_escher",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "New SI save at 07dc after 071a has returned; same-file calls at 0808, 0811, 081f and 0828 are reached from its guard.",
+        "Both stance paths converge before the optional call at 0835 and the single epilogue at 0839.",
+        "RETF and alignment NOP at 083a/083b precede the 083c BP frame. Tries the two stance directions in opposite-room movement."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:083c",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 2108,
+      "size": 192,
+      "sha256": "e44035d12d10399d5f0cf3a473560f86b60338834d7f551223597cee71c0b805",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Room/facing checks and two signed position windows determine a Boolean result."
+      ],
+      "semantic_name_hypothesis": "jaffar_has_clear_shot",
+      "abi": "far, no stack arguments, Boolean in AX; RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Frameless predecessor ends at 083a/083b. Original PUSH CS; CALL pairs at 0762, 0783 and 07c5 target this new BP frame.",
+        "Both RETF exits (08bd and 08fb) restore the same two-byte BP frame; 08fc is the reviewed next-position helper.",
+        "Room/facing checks and two signed position windows determine a Boolean result."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242307,
+          "image_offset": 1891,
+          "pushed_cs_site": 1890
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242340,
+          "image_offset": 1924,
+          "pushed_cs_site": 1923
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242406,
+          "image_offset": 1990,
+          "pushed_cs_site": 1989
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:06ae",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 1710,
+      "size": 108,
+      "sha256": "1f584edd4960fb92898460e8ef3ac0fdd4e0a305e402013abe03237963192f7b",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Selects attack/turn sequences for the final opponent."
+      ],
+      "semantic_name_hypothesis": "cast_jaffar_spell",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "New frameless entry after RETF at 06ad. PUSH CS; CALL at 078b/078c and 07cd/07ce in 071a targets 06ae.",
+        "Uses unsigned frame tests with closed ranges 1..14 and 49..56. The 15 case tests signed x and facing before choosing sequence 5 or 242.",
+        "Calls 25da:0016 for nonnegative selection and returns at 0718; NOP at 0719 precedes distinct SI/DI saves at 071a.",
+        "Selects attack/turn sequences for the final opponent."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242348,
+          "image_offset": 1932,
+          "pushed_cs_site": 1931
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-10",
+          "file_offset": 242414,
+          "image_offset": 1998,
+          "pushed_cs_site": 1997
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:02e6",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 742,
+      "size": 42,
+      "sha256": "e7e7f0f7ef468ee6395210403eeda5f6b47daad7b6aff7f3304c8200a63ade03",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "If the predicate is returned nonzero, the routine writes 119 to word DS:625f."
+      ],
+      "semantic_name_hypothesis": "clip_final_character",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "At 02e4..02e5 a RETF/NOP pair follows the 01ba epilogue.",
+        "Three DGROUP guards select a call to 02cc:1af6; all branches converge at 030e RETF, followed by NOP and new SI/DI saves at 0310.",
+        "If the predicate is returned nonzero, the routine writes 119 to word DS:625f."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "root:0b41:0e96",
+      "space": "root",
+      "segment": 2881,
+      "offset": 3734,
+      "size": 44,
+      "sha256": "96c35666a9737eb3f1dd9e1661270dfa05006e8c7dfe75e1be736c035fb9de46",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Marks an indexed update word DS:671c or dispatches an off-room cell to the same-file helper."
+      ],
+      "semantic_name_hypothesis": "refresh_cell",
+      "abi": "far Pascal, signed word at [BP+6]; RETF 2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts at root c2a6 after RETF 2 at c2a3. When the in-room tests fail, reached paths branch to the shared epilogue at c2ca. RETF 2 and NOP end at c2d2.",
+        "Original PUSH CS; CALL at c326/c327 reaches this entry. Relocated far call at overlay-10:00e2 supplies the same signed cell.",
+        "Marks an indexed update word DS:671c or dispatches an off-room cell to the same-file helper."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 226,
+          "file_offset": 240642,
+          "relocated_segment_site": 229,
+          "relocation_index": 170
+        }
+      ]
+    },
+    {
+      "id": "root:0b41:1168",
+      "space": "root",
+      "segment": 2881,
+      "offset": 4456,
+      "size": 70,
+      "sha256": "30d08754e9d3ce05ec37d14c4d0223d1bb173fa4d9488389ac0c2bba58914e4b",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Reseeds the low five bits of an animation word and marks the cell through a same-file call."
+      ],
+      "semantic_name_hypothesis": "mark_cell",
+      "abi": "far Pascal, two byte arguments; RETF 4",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root c578 starts a separate BP frame. RETF 4 at c5b9 ends it before the next prologue at c5be.",
+        "Caller pushes two byte arguments; BP+6 selects an indexed animation record and BP+8 is forwarded.",
+        "Reseeds the low five bits of an animation word and marks the cell through a same-file call."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 220,
+          "file_offset": 240636,
+          "relocated_segment_site": 223,
+          "relocation_index": 145
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:2587:037e",
+      "space": "overlay-3",
+      "segment": 9607,
+      "offset": 894,
+      "size": 64,
+      "sha256": "88b4061c69089daff340cf85e44f2a0f38fb6a9e5691833d33a7f2ff71232655",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "Returns the first slot meeting a signed-count and record-state predicate."
+      ],
+      "semantic_name_hypothesis": "selected_opponent_slot",
+      "abi": "far, no stack arguments, slot byte in AL, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Distinct overlay-3 BP frame at image offset 27ae follows the preceding RETF at 27ad.",
+        "The relocated CALL at overlay-10+0534 (index 79) and overlay-3 PUSH CS; CALL at 27ee/27ef both enter it.",
+        "Loop leaves to AL load and epilogue at 27e7, RETF at 27ed, with a distinct PUSH CS/call sequence beginning at 27ee.",
+        "Returns the first slot meeting a signed-count and record-state predicate."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 1332,
+          "file_offset": 241748,
+          "relocated_segment_site": 1335,
+          "relocation_index": 79
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:14ca",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5322,
+      "size": 174,
+      "sha256": "10cca4199189227e5d9df9efb619fdb3f36097d62c103794a2b571e137304bc2",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The preceding BP-framed draw entry ends RETF 2/NOP at 14c6/14c9.",
+        "New DI/SI saves at 14ca. Exit blocks at 156c and 1570 return at 156e and 1577.",
+        "Tests room-image kind 25 and updates the packed animation word at DS:5e48."
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests room-image kind 25 and updates the packed animation word at DS:5e48."
+      ],
+      "classification_status": "original flow and MSC code shape reviewed",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "animate_spider",
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 46538,
+          "file_offset": 54730,
+          "relocated_segment_site": 46541,
+          "relocation_index": 1046
+        }
+      ]
+    },
+    {
+      "id": "overlay-10:29cf:1578",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5496,
+      "size": 48,
+      "sha256": "4b03a59d727e2b4b5c6fde72497b4831941a3ff3d2e4450435ca9ee756f82eee",
+      "abi": "far Pascal, one near record pointer, RETF 2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Distinct BP prologue at 1578 after RETF at 1577. Incoming relocated data pointer in overlay-17 at 4624 hex (relocation index 127) names 29cf:1578.",
+        "Reads object kind and a word at record+4. The local guard joins the shared epilogue at 15a0, whose RETF 2 ends at 15a8.",
+        "Temporarily offsets a sprite base and calls the register-argument image helper."
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Temporarily offsets a sprite base and calls the register-argument image helper."
+      ],
+      "classification_status": "original flow and MSC code shape reviewed",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "draw_spider",
+      "entry_kind": "direct-code",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:15a8",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5544,
+      "size": 122,
+      "sha256": "a29be733d43d6fe031d4b87a7ef76333b17428b543ffd87124f4802a4e0a5c12",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The preceding RETF 2 ends at 15a8. Incoming relocated data pointer in overlay-17 at 4628 hex (relocation index 134) names 29cf:15a8.",
+        "Branches after the calls converge at 161b. RETF at 1621 is followed by the separate BP frame at 1622.",
+        "Configures room-dependent thresholds, animation counters and audiovisual transitions."
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Configures room-dependent thresholds, animation counters and audiovisual transitions."
+      ],
+      "classification_status": "original flow and MSC code shape reviewed",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "setup_crystal_room",
+      "entry_kind": "direct-code",
+      "call_sites": []
+    },
+    {
+      "id": "overlay-10:29cf:1622",
+      "space": "overlay-10",
+      "segment": 10703,
+      "offset": 5666,
+      "size": 236,
+      "sha256": "2954996483003941fbf60e05ecd1a94f66839cc684dd12ebf106eed3f31e5db0",
+      "abi": "far, no stack arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP-framed entry at 1622 follows the previous frameless RETF. It starts with a room-image kind 28 guard.",
+        "The ordinary and special return blocks terminate at 1701 and 170c, with alignment at 170d. The separate BP frame at 170e is a near-call destination of 0000.",
+        "Updates the packed animation word and dispatches time-dependent effects."
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the packed animation word and dispatches time-dependent effects."
+      ],
+      "classification_status": "original flow and MSC code shape reviewed",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "animate_crystal",
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 46546,
+          "file_offset": 54738,
+          "relocated_segment_site": 46549,
+          "relocation_index": 1079
+        }
+      ]
     }
   ],
   "schema": 1,

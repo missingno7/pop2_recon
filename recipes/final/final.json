@@ -1,0 +1,191 @@
+{
+  "binding": "evidence/bindings/final/final.json",
+  "binding_sha256": "1951a2083b46ddbdc9c476b462a87188ed23a50eef456a630c3b2c12c1fe8000",
+  "claims": [
+    {
+      "fixup_count": 1,
+      "public": "LOAD_FINAL_CODE",
+      "target_id": "overlay-10:29cf:004c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "CHECK_NEW_OPPONENT",
+      "relocation_indices": [
+        26,
+        27
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:29cf:0126"
+    },
+    {
+      "fixup_count": 38,
+      "public": "GENERATE_OPPONENT",
+      "relocation_indices": [
+        0,
+        11,
+        28,
+        42,
+        72,
+        80,
+        85,
+        120,
+        144,
+        160,
+        165
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:01ba"
+    },
+    {
+      "fixup_count": 0,
+      "public": "FINAL_NOOP",
+      "target_id": "overlay-10:29cf:02e4"
+    },
+    {
+      "fixup_count": 6,
+      "public": "CLIP_FINAL_CHARACTER",
+      "relocation_indices": [
+        138
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:29cf:02e6"
+    },
+    {
+      "fixup_count": 7,
+      "public": "ENTER_PRINCESS_ROOM",
+      "relocation_indices": [
+        60,
+        118,
+        150,
+        172,
+        174
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:03e2"
+    },
+    {
+      "fixup_count": 13,
+      "public": "CAST_JAFFAR_SPELL",
+      "relocation_indices": [
+        89
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:29cf:06ae"
+    },
+    {
+      "fixup_count": 0,
+      "public": "JAFFARSETTONEXTPOS",
+      "target_id": "overlay-10:29cf:08fc"
+    },
+    {
+      "fixup_count": 0,
+      "public": "JAFFARSETTOPREVPOS",
+      "target_id": "overlay-10:29cf:0918"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 0,
+      "public": "DRAW_FINAL_OBJECT"
+    },
+    {
+      "object_offset": 84,
+      "public": "CHECK_DEAD_OPPONENT"
+    },
+    {
+      "object_offset": 784,
+      "public": "CUT_KID_TO_CHESS_ROOM"
+    },
+    {
+      "object_offset": 892,
+      "public": "RUN_FINAL_FRAME"
+    },
+    {
+      "object_offset": 1050,
+      "public": "SORT_FOREGROUND"
+    },
+    {
+      "object_offset": 1270,
+      "public": "WATCH_KID"
+    },
+    {
+      "object_offset": 1478,
+      "public": "WATCH_OPPONENTS"
+    },
+    {
+      "object_offset": 1562,
+      "public": "RUN_JAFFAR"
+    },
+    {
+      "object_offset": 1588,
+      "public": "DISMISS_OTHER_JAFFARS"
+    },
+    {
+      "object_offset": 1818,
+      "public": "JAFFAR_ATTACK_IN_ESCHER"
+    },
+    {
+      "object_offset": 2012,
+      "public": "JAFFAR_FLEE_IN_ESCHER"
+    },
+    {
+      "object_offset": 2108,
+      "public": "JAFFAR_HAS_CLEAR_SHOT"
+    },
+    {
+      "object_offset": 2356,
+      "public": "SEND_JAFFAR_TO_POSITION"
+    },
+    {
+      "object_offset": 2448,
+      "public": "SETTLE_JAFFAR_AT_POSITION"
+    },
+    {
+      "object_offset": 2660,
+      "public": "FINISH_CASTING_AT_KID"
+    },
+    {
+      "object_offset": 2758,
+      "public": "SHADOW_IN_RANGE"
+    },
+    {
+      "object_offset": 2884,
+      "public": "DRAW_CRYSTAL"
+    },
+    {
+      "object_offset": 3086,
+      "public": "DRAW_GARGOYLE"
+    }
+  ],
+  "emitted_size": 3288,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 10703,
+  "group_id": "group:final/final",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "final/final",
+  "object_sha256": "7b8f5d6d8163f3e0d7784839153ad2eab3a917a452583754c509603d5cc79eba",
+  "origin": 0,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/final/final.c",
+  "source_sha256": "68da9b5e69a0508b16ae8074ab53f9aa241a804268e439bf474e12ef9ac377ce",
+  "space": "overlay-10"
+}
