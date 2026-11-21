@@ -16718,6 +16718,884 @@
       "size": 8,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0006",
+      "space": "root",
+      "segment": 361,
+      "offset": 6,
+      "size": 284,
+      "sha256": "fc9d8c0d3d99740e250e34fb10c5729169e8335175b1375e9526aeec0a6aed36",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x1696,0x17b2); last RETF at 0169:011f.",
+        "Next original bytes at 0x17b2 are 558bec83ec045756.",
+        "Same-file PUSH CS/CALL near at root+0x180c targets this entry.",
+        "Same-file PUSH CS/CALL near at root+0x189c targets this entry.",
+        "Same-file PUSH CS/CALL near at root+0x1926 targets this entry.",
+        "Same-file PUSH CS/CALL near at root+0x1a67 targets this entry.",
+        "First ADD entry follows the previous frame's RETF at root+0x1695."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 6157,
+          "file_offset": 14349,
+          "pushed_cs_site": 6156
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 6301,
+          "file_offset": 14493,
+          "pushed_cs_site": 6300
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 6439,
+          "file_offset": 14631,
+          "pushed_cs_site": 6438
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 6760,
+          "file_offset": 14952,
+          "pushed_cs_site": 6759
+        }
+      ],
+      "abi": "Far register call AX (set byte), DX (image word), BX (near placement pointer), then far item and four byte slots; RETF 12.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies three words into a far output entry, optionally overrides its image ID, locks the shape, clips an eight-byte rectangle, and fills the entry on success."
+      ],
+      "semantic_name_hypothesis": "add_image_info"
+    },
+    {
+      "id": "root:0169:0122",
+      "space": "root",
+      "segment": 361,
+      "offset": 290,
+      "size": 134,
+      "sha256": "455086fe14dd642d931ba414a4518211b913af4b30b418f77ef63b1c2d8feff2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x17b2,0x1838); last RETF at 0169:01a4.",
+        "Next original bytes at 0x1838 are 558bec83ec045756.",
+        "overlay-6+0xd71 has a direct CALL FAR to this exact alias, relocation 98.",
+        "overlay-6+0xd15 has a direct CALL FAR to this exact alias, relocation 99.",
+        "overlay-6+0xe53 has a direct CALL FAR to this exact alias, relocation 100.",
+        "overlay-6+0xead has a direct CALL FAR to this exact alias, relocation 101.",
+        "overlay-6+0xf5b has a direct CALL FAR to this exact alias, relocation 102.",
+        "overlay-6+0xf14 has a direct CALL FAR to this exact alias, relocation 103.",
+        "overlay-6+0xffd has a direct CALL FAR to this exact alias, relocation 104.",
+        "overlay-6+0xfb6 has a direct CALL FAR to this exact alias, relocation 105.",
+        "overlay-6+0x10ad has a direct CALL FAR to this exact alias, relocation 106.",
+        "overlay-6+0x11ac has a direct CALL FAR to this exact alias, relocation 107.",
+        "overlay-6+0x1260 has a direct CALL FAR to this exact alias, relocation 108.",
+        "overlay-6+0x122f has a direct CALL FAR to this exact alias, relocation 109.",
+        "overlay-6+0x18ce has a direct CALL FAR to this exact alias, relocation 110.",
+        "overlay-6+0x1a91 has a direct CALL FAR to this exact alias, relocation 111.",
+        "overlay-6+0x1b3b has a direct CALL FAR to this exact alias, relocation 112.",
+        "overlay-6+0x1d5e has a direct CALL FAR to this exact alias, relocation 113.",
+        "overlay-6+0x1d97 has a direct CALL FAR to this exact alias, relocation 114.",
+        "overlay-6+0x1e50 has a direct CALL FAR to this exact alias, relocation 115.",
+        "overlay-6+0x1f96 has a direct CALL FAR to this exact alias, relocation 116.",
+        "overlay-6+0x1f74 has a direct CALL FAR to this exact alias, relocation 117.",
+        "overlay-8+0x428 has a direct CALL FAR to this exact alias, relocation 59.",
+        "overlay-8+0x3ff has a direct CALL FAR to this exact alias, relocation 60.",
+        "overlay-8+0x3d8 has a direct CALL FAR to this exact alias, relocation 61.",
+        "overlay-8+0x49f has a direct CALL FAR to this exact alias, relocation 62.",
+        "overlay-8+0x8e0 has a direct CALL FAR to this exact alias, relocation 63.",
+        "overlay-8+0x8a7 has a direct CALL FAR to this exact alias, relocation 64.",
+        "overlay-8+0xa10 has a direct CALL FAR to this exact alias, relocation 65.",
+        "overlay-9+0x1178 has a direct CALL FAR to this exact alias, relocation 110.",
+        "overlay-9+0x151e has a direct CALL FAR to this exact alias, relocation 111.",
+        "overlay-9+0x14e5 has a direct CALL FAR to this exact alias, relocation 112.",
+        "overlay-9+0x1dc1 has a direct CALL FAR to this exact alias, relocation 113.",
+        "overlay-9+0x1e73 has a direct CALL FAR to this exact alias, relocation 114."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3441,
+          "file_offset": 218833,
+          "relocated_segment_site": 3444
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3349,
+          "file_offset": 218741,
+          "relocated_segment_site": 3352
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3667,
+          "file_offset": 219059,
+          "relocated_segment_site": 3670
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3757,
+          "file_offset": 219149,
+          "relocated_segment_site": 3760
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3931,
+          "file_offset": 219323,
+          "relocated_segment_site": 3934
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3860,
+          "file_offset": 219252,
+          "relocated_segment_site": 3863
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4093,
+          "file_offset": 219485,
+          "relocated_segment_site": 4096
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4022,
+          "file_offset": 219414,
+          "relocated_segment_site": 4025
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4269,
+          "file_offset": 219661,
+          "relocated_segment_site": 4272
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4524,
+          "file_offset": 219916,
+          "relocated_segment_site": 4527
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4704,
+          "file_offset": 220096,
+          "relocated_segment_site": 4707
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4655,
+          "file_offset": 220047,
+          "relocated_segment_site": 4658
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6350,
+          "file_offset": 221742,
+          "relocated_segment_site": 6353
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6801,
+          "file_offset": 222193,
+          "relocated_segment_site": 6804
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6971,
+          "file_offset": 222363,
+          "relocated_segment_site": 6974
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7518,
+          "file_offset": 222910,
+          "relocated_segment_site": 7521
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7575,
+          "file_offset": 222967,
+          "relocated_segment_site": 7578
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7760,
+          "file_offset": 223152,
+          "relocated_segment_site": 7763
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 8086,
+          "file_offset": 223478,
+          "relocated_segment_site": 8089
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 8052,
+          "file_offset": 223444,
+          "relocated_segment_site": 8055
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1064,
+          "file_offset": 227192,
+          "relocated_segment_site": 1067
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1023,
+          "file_offset": 227151,
+          "relocated_segment_site": 1026
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 984,
+          "file_offset": 227112,
+          "relocated_segment_site": 987
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1183,
+          "file_offset": 227311,
+          "relocated_segment_site": 1186
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2272,
+          "file_offset": 228400,
+          "relocated_segment_site": 2275
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2215,
+          "file_offset": 228343,
+          "relocated_segment_site": 2218
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2576,
+          "file_offset": 228704,
+          "relocated_segment_site": 2579
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4472,
+          "file_offset": 236248,
+          "relocated_segment_site": 4475
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 5406,
+          "file_offset": 237182,
+          "relocated_segment_site": 5409
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 5349,
+          "file_offset": 237125,
+          "relocated_segment_site": 5352
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 7617,
+          "file_offset": 239393,
+          "relocated_segment_site": 7620
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 7795,
+          "file_offset": 239571,
+          "relocated_segment_site": 7798
+        }
+      ],
+      "abi": "Far Pascal, six word slots (tile byte, image word, and four byte values); RETF 12.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks back count 130, pushes DS:012e (overlay-17 image+0x2a6e includes AddBImgToBTable), then calls the image helper with the record at tile offset 1."
+      ],
+      "semantic_name_hypothesis": "AddBImgToBTable",
+      "original_name": "AddBImgToBTable",
+      "original_name_evidence": [
+        "FM Towns ADD public order agrees with the DOS entry. The original DOS overflow dialog explicitly names the routine."
+      ]
+    },
+    {
+      "id": "root:0169:01a8",
+      "space": "root",
+      "segment": 361,
+      "offset": 424,
+      "size": 146,
+      "sha256": "400accae287b76442b90fabc76f62ba8bd5dd9fb180626962b742ae7ce8fbf55",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x1838,0x18ca); last RETF at 0169:0236.",
+        "Next original bytes at 0x18ca are 558bec83ec045756.",
+        "overlay-6+0xd4c has a direct CALL FAR to this exact alias, relocation 86.",
+        "overlay-6+0x12bd has a direct CALL FAR to this exact alias, relocation 87.",
+        "overlay-6+0x19db has a direct CALL FAR to this exact alias, relocation 88.",
+        "overlay-6+0x19a4 has a direct CALL FAR to this exact alias, relocation 89.",
+        "overlay-6+0x1aef has a direct CALL FAR to this exact alias, relocation 90.",
+        "overlay-6+0x1bbd has a direct CALL FAR to this exact alias, relocation 91.",
+        "overlay-8+0x62a has a direct CALL FAR to this exact alias, relocation 46.",
+        "overlay-8+0x778 has a direct CALL FAR to this exact alias, relocation 47.",
+        "overlay-8+0x9bf has a direct CALL FAR to this exact alias, relocation 48.",
+        "overlay-8+0xb59 has a direct CALL FAR to this exact alias, relocation 49.",
+        "overlay-8+0xde3 has a direct CALL FAR to this exact alias, relocation 50.",
+        "overlay-9+0x1197 has a direct CALL FAR to this exact alias, relocation 103.",
+        "overlay-9+0x18e7 has a direct CALL FAR to this exact alias, relocation 104.",
+        "overlay-9+0x1ea5 has a direct CALL FAR to this exact alias, relocation 105."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3404,
+          "file_offset": 218796,
+          "relocated_segment_site": 3407
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4797,
+          "file_offset": 220189,
+          "relocated_segment_site": 4800
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6619,
+          "file_offset": 222011,
+          "relocated_segment_site": 6622
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6564,
+          "file_offset": 221956,
+          "relocated_segment_site": 6567
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6895,
+          "file_offset": 222287,
+          "relocated_segment_site": 6898
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7101,
+          "file_offset": 222493,
+          "relocated_segment_site": 7104
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1578,
+          "file_offset": 227706,
+          "relocated_segment_site": 1581
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1912,
+          "file_offset": 228040,
+          "relocated_segment_site": 1915
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2495,
+          "file_offset": 228623,
+          "relocated_segment_site": 2498
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2905,
+          "file_offset": 229033,
+          "relocated_segment_site": 2908
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 3555,
+          "file_offset": 229683,
+          "relocated_segment_site": 3558
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4503,
+          "file_offset": 236279,
+          "relocated_segment_site": 4506
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 6375,
+          "file_offset": 238151,
+          "relocated_segment_site": 6378
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 7845,
+          "file_offset": 239621,
+          "relocated_segment_site": 7848
+        }
+      ],
+      "abi": "Far Pascal, six word slots; RETF 12. Returns zero without a table write if BP+0xe is zero.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the same back table; DS:015d maps to overlay-17 image+0x2a9d and includes AddBFImgToBTable. Uses tile member +7."
+      ],
+      "semantic_name_hypothesis": "AddBFImgToBTable",
+      "original_name": "AddBFImgToBTable",
+      "original_name_evidence": [
+        "FM Towns ADD public order agrees with the DOS entry. The original DOS overflow dialog explicitly names the routine."
+      ]
+    },
+    {
+      "id": "root:0169:023a",
+      "space": "root",
+      "segment": 361,
+      "offset": 570,
+      "size": 136,
+      "sha256": "ec9fc2f6a32fcb2e2fc0884989302869a4410c58ca20d736802508d577a1c7f9",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x18ca,0x1952); last RETF at 0169:02be.",
+        "Next original bytes at 0x1952 are 0ee868050ee83c06.",
+        "overlay-6+0x12a1 has a direct CALL FAR to this exact alias, relocation 152.",
+        "overlay-6+0x143d has a direct CALL FAR to this exact alias, relocation 153.",
+        "overlay-6+0x1970 has a direct CALL FAR to this exact alias, relocation 154.",
+        "overlay-6+0x1936 has a direct CALL FAR to this exact alias, relocation 155.",
+        "overlay-6+0x1ad3 has a direct CALL FAR to this exact alias, relocation 156.",
+        "overlay-6+0x1b95 has a direct CALL FAR to this exact alias, relocation 157.",
+        "overlay-8+0x606 has a direct CALL FAR to this exact alias, relocation 93.",
+        "overlay-8+0xaa6 has a direct CALL FAR to this exact alias, relocation 94.",
+        "overlay-8+0xb37 has a direct CALL FAR to this exact alias, relocation 95.",
+        "overlay-8+0xdb9 has a direct CALL FAR to this exact alias, relocation 96.",
+        "overlay-9+0x18bd has a direct CALL FAR to this exact alias, relocation 149."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4769,
+          "file_offset": 220161,
+          "relocated_segment_site": 4772
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 5181,
+          "file_offset": 220573,
+          "relocated_segment_site": 5184
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6512,
+          "file_offset": 221904,
+          "relocated_segment_site": 6515
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6454,
+          "file_offset": 221846,
+          "relocated_segment_site": 6457
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6867,
+          "file_offset": 222259,
+          "relocated_segment_site": 6870
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7061,
+          "file_offset": 222453,
+          "relocated_segment_site": 7064
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1542,
+          "file_offset": 227670,
+          "relocated_segment_site": 1545
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2726,
+          "file_offset": 228854,
+          "relocated_segment_site": 2729
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2871,
+          "file_offset": 228999,
+          "relocated_segment_site": 2874
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 3513,
+          "file_offset": 229641,
+          "relocated_segment_site": 3516
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 6333,
+          "file_offset": 238109,
+          "relocated_segment_site": 6336
+        }
+      ],
+      "abi": "Far Pascal, six word slots; RETF 12.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks front count 100, loads table offset 0x0a28, and passes DS:018d (overlay-17 image+0x2acd includes AddBFImgToFTable) on overflow."
+      ],
+      "semantic_name_hypothesis": "AddBFImgToFTable",
+      "original_name": "AddBFImgToFTable",
+      "original_name_evidence": [
+        "FM Towns ADD public order agrees with the DOS entry. The original DOS overflow dialog explicitly names the routine."
+      ]
+    },
+    {
+      "id": "root:0169:0e0e",
+      "space": "root",
+      "segment": 361,
+      "offset": 3598,
+      "size": 168,
+      "sha256": "5489d1dc32f44b34c51f2ae50ab3a0b9000624cbb281199f284e4222a962da5b",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x249e,0x2546); last RETF at 0169:0eb3.",
+        "Next original bytes at 0x2546 are 558bec83ec025756.",
+        "overlay-6+0x1e9d has a direct CALL FAR to this exact alias, relocation 159.",
+        "Same-file PUSH CS/CALL near at root+0x16d9 targets this entry.",
+        "Same-file PUSH CS/CALL near at root+0x26c1 targets this entry.",
+        "Same-file PUSH CS/CALL near at root+0x2719 targets this entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7837,
+          "file_offset": 223229,
+          "relocated_segment_site": 7840
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 5850,
+          "file_offset": 14042,
+          "pushed_cs_site": 5849
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9922,
+          "file_offset": 18114,
+          "pushed_cs_site": 9921
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 10010,
+          "file_offset": 18202,
+          "pushed_cs_site": 10009
+        }
+      ],
+      "abi": "Far Pascal, signed word in BP+6; RETF 2.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Negative index returns; otherwise checks the handle in a six-byte background record and conditionally reloads the resource."
+      ],
+      "semantic_name_hypothesis": "check_background_shape"
+    },
+    {
+      "id": "root:0169:11ac",
+      "space": "root",
+      "segment": 361,
+      "offset": 4524,
+      "size": 18,
+      "sha256": "60f4a2534a898b93cd887c33d684366692143f6e4b3abbcda7cc9298452b5074",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x283c,0x284e); last RETF at 0169:11bd.",
+        "Next original bytes at 0x284e are 558bec5756ff7608.",
+        "root+0x562f has a direct CALL FAR to this exact alias, relocation 528."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 22063,
+          "file_offset": 30255,
+          "relocated_segment_site": 22066
+        }
+      ],
+      "abi": "No-argument far leaf; RETF, BX scratch.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the first word of five consecutive 64-byte near records from DS:5ce6 up to DS:5e26."
+      ],
+      "semantic_name_hypothesis": "clear_row_handles"
+    },
+    {
+      "id": "root:1101:02c3",
+      "space": "root",
+      "segment": 4353,
+      "offset": 707,
+      "size": 51,
+      "sha256": "a3d1dc4baa029e341b1b9cb7f986b067f7f49bba33cec4d7caa41045a09d2b33",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x112d3,0x11306); last RETF at 1101:02f2.",
+        "Next original bytes at 0x11306 are a1c82585c07c2b74.",
+        "root+0x174d has a direct CALL FAR to this exact alias, relocation 209.",
+        "root+0x4fc6 has a direct CALL FAR to this exact alias, relocation 415.",
+        "overlay-4+0x51f has a direct CALL FAR to this exact alias, relocation 41.",
+        "overlay-4+0x8c7 has a direct CALL FAR to this exact alias, relocation 42.",
+        "overlay-4+0x863 has a direct CALL FAR to this exact alias, relocation 43.",
+        "overlay-4+0x9ef has a direct CALL FAR to this exact alias, relocation 44.",
+        "overlay-4+0x998 has a direct CALL FAR to this exact alias, relocation 45.",
+        "overlay-4+0x957 has a direct CALL FAR to this exact alias, relocation 46.",
+        "overlay-5+0x4e3 has a direct CALL FAR to this exact alias, relocation 61.",
+        "overlay-13+0x1ca has a direct CALL FAR to this exact alias, relocation 38.",
+        "overlay-13+0x4c1 has a direct CALL FAR to this exact alias, relocation 39.",
+        "overlay-13+0x54c has a direct CALL FAR to this exact alias, relocation 40.",
+        "overlay-15+0x67c has a direct CALL FAR to this exact alias, relocation 38.",
+        "00 after RETF is one byte of alignment, confirmed by the next entry's A1 global load."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 5965,
+          "file_offset": 14157,
+          "relocated_segment_site": 5968
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 20422,
+          "file_offset": 28614,
+          "relocated_segment_site": 20425
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-4",
+          "image_offset": 1311,
+          "file_offset": 210175,
+          "relocated_segment_site": 1314
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-4",
+          "image_offset": 2247,
+          "file_offset": 211111,
+          "relocated_segment_site": 2250
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-4",
+          "image_offset": 2147,
+          "file_offset": 211011,
+          "relocated_segment_site": 2150
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-4",
+          "image_offset": 2543,
+          "file_offset": 211407,
+          "relocated_segment_site": 2546
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-4",
+          "image_offset": 2456,
+          "file_offset": 211320,
+          "relocated_segment_site": 2459
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-4",
+          "image_offset": 2391,
+          "file_offset": 211255,
+          "relocated_segment_site": 2394
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-5",
+          "image_offset": 1251,
+          "file_offset": 213171,
+          "relocated_segment_site": 1254
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-13",
+          "image_offset": 458,
+          "file_offset": 262090,
+          "relocated_segment_site": 461
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-13",
+          "image_offset": 1217,
+          "file_offset": 262849,
+          "relocated_segment_site": 1220
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-13",
+          "image_offset": 1356,
+          "file_offset": 262988,
+          "relocated_segment_site": 1359
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-15",
+          "image_offset": 1660,
+          "file_offset": 268172,
+          "relocated_segment_site": 1663
+        }
+      ],
+      "abi": "Far Pascal, far rectangle destination, two signed coordinate words and far shape pointer; RETF 12, DX:AX result.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Builds a rectangle via two far pointers and initial coordinates."
+      ],
+      "semantic_name_hypothesis": "shape_rect"
+    },
+    {
+      "id": "root:1f74:004e",
+      "space": "root",
+      "segment": 8052,
+      "offset": 78,
+      "size": 46,
+      "sha256": "8dc445a4f00411bc37d183a6f967d5bd4aac690fb8c749bca9363693be2e9320",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original root extent [0x1f78e,0x1f7bc); last RETF at 1f74:0079.",
+        "Next original bytes at 0x1f7bc are 558bec83ec025756.",
+        "root+0x17c9 has a direct CALL FAR to this exact alias, relocation 205.",
+        "root+0x1856 has a direct CALL FAR to this exact alias, relocation 206.",
+        "root+0x18e0 has a direct CALL FAR to this exact alias, relocation 207.",
+        "root+0x1a20 has a direct CALL FAR to this exact alias, relocation 208.",
+        "root+0x49e9 has a direct CALL FAR to this exact alias, relocation 359.",
+        "root+0x4a35 has a direct CALL FAR to this exact alias, relocation 360."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 6089,
+          "file_offset": 14281,
+          "relocated_segment_site": 6092
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 6230,
+          "file_offset": 14422,
+          "relocated_segment_site": 6233
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 6368,
+          "file_offset": 14560,
+          "relocated_segment_site": 6371
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 6688,
+          "file_offset": 14880,
+          "relocated_segment_site": 6691
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 18921,
+          "file_offset": 27113,
+          "relocated_segment_site": 18924
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 18997,
+          "file_offset": 27189,
+          "relocated_segment_site": 19000
+        }
+      ],
+      "abi": "Far Pascal, one far pointer in BP+6/BP+8; both exits RETF 4, integer Boolean AX.",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Passes a far message pointer to a same-frame dialog routine and returns whether its reply was one."
+      ],
+      "semantic_name_hypothesis": "confirm_quit"
     }
   ],
   "schema": 1,
