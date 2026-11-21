@@ -50,6 +50,35 @@ def witnesses(oracle, offsets, exclude=()):
                     found[value].append({"space": "root", "image_offset": at, "bytes_hex": bytes(insn.bytes).hex(),
                                          "operand_offset": rel, "entry": entry,
                                          "context": f"{insn.mnemonic} {insn.op_str} reached from {entry}"})
+    # Overlay code reached from RTLink vector destinations and each overlay's own far entries.
+    from tu_census import overlay_vectors
+    overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    starts = {(v["target_space"], v["target_segment"], v["target_offset"])
+              for v in overlay_vectors(oracle, overlays).values()}
+    for name, space in overlays.items():
+        starts |= {(name, c["segment"], c["offset"]) for c in far_call_sites(space)
+                   if 0 <= (c["segment"] - space.link_segment) * 16 + c["offset"] < space.size}
+    for name, segment, offset in sorted(starts):
+        space = oracle.spaces[name]
+        entry = f"{name}:{segment:04x}:{offset:04x}"
+        try:
+            reach = reachable_from_entry(oracle, entry)
+        except ValueError:
+            continue
+        for at in sorted(reach):
+            if (name, at) in seen:
+                continue
+            seen.add((name, at))
+            insn = next(engine.disasm(space.data[at:at + 16], 0), None)
+            for kind, size, rel in (("displacement", insn.disp_size, insn.disp_offset),
+                                    ("immediate", insn.imm_size, insn.imm_offset)):
+                if size != 2 or operand_field(insn, rel) != kind:
+                    continue
+                value = int.from_bytes(space.data[at + rel:at + rel + 2], "little")
+                if value in found:
+                    found[value].append({"space": name, "image_offset": at, "bytes_hex": bytes(insn.bytes).hex(),
+                                         "operand_offset": rel, "entry": entry,
+                                         "context": f"{insn.mnemonic} {insn.op_str} in {name} from {entry}"})
     return found
 
 

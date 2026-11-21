@@ -52,14 +52,14 @@ def reachable_from_entry(oracle, entry):
     if key in _REACH:
         return _REACH[key]
     space_name, seg_text, off_text = entry.split(":")
-    require(space_name == "root", "v4 witness entries are resident only")
-    root = oracle.spaces["root"]
+    require(space_name in oracle.spaces, "Unknown v4 witness entry space")
+    root = oracle.spaces[space_name]  # the entry's own space (resident or one overlay)
     segment, offset = int(seg_text, 16), int(off_text, 16)
     start = root.position(segment, offset)
     def reviewed_entry():
         from common import ROOT, read_json
         for t in read_json(ROOT / "evidence/targets.json")["functions"]:
-            if (t["space"] == "root" and t.get("boundary_status") == "REVIEWED" and
+            if (t["space"] == space_name and t.get("boundary_status") == "REVIEWED" and
                     t.get("entry_kind", "direct-code") == "direct-code" and
                     0 <= (t["segment"] - root.link_segment) * 16 + t["offset"] == start):
                 return True
@@ -68,12 +68,22 @@ def reachable_from_entry(oracle, entry):
     far_entry = any(at >= 0 and root.data[at] == 0x9a and
                     root.data[at+1:at+5] == struct.pack("<HH", offset, segment)
                     for at in (r["image_offset"] - 3 for r in root.relocations))
-    require(far_entry or reviewed_entry(),
-            "v4 witness entry is neither a relocated CALL FAR destination nor a reviewed entry")
+
+    def vector_destination():
+        # An overlay entry named by an original RTLink vector record.
+        if space_name == "root":
+            return False
+        from tu_census import overlay_vectors
+        overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+        return any(v["target_space"] == space_name and (v["target_segment"], v["target_offset"]) == (segment, offset)
+                   for v in overlay_vectors(oracle, overlays).values())
+
+    require(far_entry or reviewed_entry() or vector_destination(),
+            "v4 witness entry is not a relocated CALL FAR destination, reviewed entry or vector target")
     cs, _ = _capstone()
     engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
     engine.detail = True
-    base = segment * 16
+    base = (segment - root.link_segment) * 16  # space-relative position of the CS window
     seen, work = set(), [start]
     while work:
         pos = work.pop()
@@ -246,12 +256,16 @@ def ground(binding, target, oracle):
     end = start + target["size"]
 
     def witness(spec):
-        require(spec["space"] == "root", "Unsupported cross-space data witness")
+        # v4 witnesses may sit in overlay code (reached from that overlay's own entries);
+        # every other mode and the DGROUP frame witness stay resident.
+        overlay_ok = binding["mode"] == OPERAND_MODE and "entry" in spec and spec["space"] in oracle.spaces
+        require(spec["space"] == "root" or overlay_ok, "Unsupported cross-space data witness")
+        wspace = oracle.spaces[spec["space"]]
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
-        require(raw and 0 <= at and at+len(raw) <= space.size and
+        require(raw and 0 <= at and at+len(raw) <= wspace.size and
                 not (spec["space"] == target["space"] and at < end and start < at+len(raw)),
-                "Binding witness overlaps candidate or escapes root")
-        require(space.data[at:at+len(raw)] == raw, "Original binding witness changed")
+                "Binding witness overlaps candidate or escapes its space")
+        require(wspace.data[at:at+len(raw)] == raw, "Original binding witness changed")
         return at, raw
 
     frame = binding["frame"]
@@ -295,7 +309,8 @@ def ground(binding, target, oracle):
                 if "entry" in spec:
                     # Immediates and indexed operands must be real code: reached by control flow
                     # from a relocated CALL FAR destination or a reviewed entry.
-                    require(at in reachable_from_entry(oracle, spec["entry"]),
+                    require(spec["entry"].split(":")[0] == spec["space"] and
+                            at in reachable_from_entry(oracle, spec["entry"]),
                             "v4 witness is not reached from its entry")
                 else:
                     # Without an entry, only the v1 witness shape: one unprefixed direct

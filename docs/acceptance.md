@@ -43,7 +43,9 @@ bytes compare literally, except for these fixup fields:
 - **Cross-file CALL FAR (root only).** The field is the operand of a decoded
   `9A` with zero addend, and it equals an independently witnessed, reviewed
   direct entry, as in the single-function far gate. The entry and every witness
-  lie outside the whole object. The claim's original MZ relocations must be
+  lie outside the whole object. A callee with no outside relocated caller may
+  instead be grounded by being the entry of an already accepted exact owner. The
+  claim's original MZ relocations must be
   exactly these segment words, with within-symbol FIXUPP order (`EXACT`, or
   `GROUPED` with recorded debt). Far callees are taken to preserve DS/SS per the
   MSC ABI, as the single-function far gate already assumes.

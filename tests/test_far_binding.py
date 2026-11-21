@@ -317,3 +317,26 @@ class FarCalleeKindTests(unittest.TestCase):
     def test_address_that_is_not_a_vector_is_refused(self):
         with self.assertRaisesRegex(ValueError, "not an original RTLink vector"):
             self.ground(kind="rtlink-vector", space="root", segment=0x2203, offset=0x0cdc)
+
+
+class AcceptedEntryTests(unittest.TestCase):
+    """A far callee with no outside caller is grounded only by an accepted exact entry."""
+
+    def ground(self, entry_target_id):
+        from far_binding import ground_symbol
+        from match import get_target
+        from oracle import Oracle
+        oracle = Oracle.load()
+        callee, _, _ = get_target(entry_target_id, oracle)
+        symbol = {"kind": "far-code-entry", "space": "root", "segment": callee["segment"],
+                  "offset": callee["offset"], "entry_target_id": entry_target_id,
+                  "entry_sha256": callee["sha256"], "witnesses": []}
+        target = {"id": "probe", "space": "root", "segment": 0, "offset": 0, "size": 2}
+        return ground_symbol(symbol, target, oracle)
+
+    def test_accepted_owner_grounds_its_entry(self):
+        self.assertEqual(self.ground("root:02cc:0002")["grounded_by"], "accepted exact entry")
+
+    def test_reviewed_but_unaccepted_entry_needs_a_witness(self):
+        with self.assertRaisesRegex(ValueError, "accepted exact entry"):
+            self.ground("root:1101:649c")

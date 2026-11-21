@@ -208,6 +208,8 @@ instruction shape:
   - A witness with an `entry` must be reached by recursive descent from a
     relocated CALL FAR destination or a reviewed direct-code entry. The descent
     follows branches, loops and direct near calls.
+  - Entries in overlays count too, within that overlay's own space: an RTLink
+    vector destination, or a relocated CALL FAR into the overlay.
   - A witness without an entry must be a v1-shape direct, unprefixed DS memory
     operand.
 - **Finding witnesses.** `python tools/dgroup_witness.py OFFSET --exclude START:END`

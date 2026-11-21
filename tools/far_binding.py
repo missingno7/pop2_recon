@@ -23,6 +23,14 @@ def _vector(oracle, segment, offset):
     return vectors[(segment, offset)]
 
 
+def _accepted_entry(target_id):
+    """The target is a canonical CODE_EXACT/ASM_EXACT owner. (The caller has already
+    refused any entry inside the candidate, or inside the whole object for a group.)"""
+    from common import ROOT, read_json
+    return any(owner["target_id"] == target_id and owner["state"] in ("CODE_EXACT", "ASM_EXACT")
+               for owner in read_json(ROOT / "layout/manifest.json")["owners"])
+
+
 def ground_symbol(symbol, target, oracle):
     """Ground one far callee alias S = SEG:OFF independently of the candidate.
 
@@ -63,7 +71,14 @@ def ground_symbol(symbol, target, oracle):
         entry = cspace.position(callee["segment"], callee["offset"])
         require(cspace.name != space.name or not (entry < end and start < entry+len(raw)),
                 "Far callee entry overlaps candidate")
-    require(symbol.get("witnesses"), "Far callee has no independent original CALL witness")
+    if not symbol.get("witnesses"):
+        # Without an outside caller, the entry may instead be the start of accepted exact
+        # code elsewhere: its reconstruction independently proves a function starts there.
+        require(kind != "rtlink-vector" and _accepted_entry(callee["id"]),
+                "Far callee has no independent original CALL witness or accepted exact entry")
+        return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
+                "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted exact entry",
+                "callee_owned_bytes": 0}
     receipts = []
     for spec in symbol["witnesses"]:
         # A witness may be resident or in an overlay: either way it is an original
