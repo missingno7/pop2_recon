@@ -124,7 +124,6 @@ def _own_segment(fix, code_name):
     target, frame = fix["target"], fix["frame"]
     own = {"kind": "segment", "name": code_name}
     return (not fix["self_relative"] and fix["loc_type"] == 1 and fix["field_width"] == 2 and
-            fix["displacement"] is None and
             {k: target.get(k) for k in ("kind", "name")} == own and
             (frame.get("kind") == "target_frame" or {k: frame.get(k) for k in ("kind", "name")} == own))
 
@@ -180,8 +179,9 @@ def _check_placements(module, placements, uses, binding, space, oracle):
     if "dgroup_segment" in binding:
         from far_binding import _ground_segment
         seg_spec = binding["dgroup_segment"]
+        # The paragraph witnesses are startup words in root; no candidate extent to avoid there.
         _ground_segment({"segment": seg_spec["segment"], "witnesses": seg_spec["witnesses"]},
-                        {"space": space.name, "segment": 0, "offset": 0, "size": 0}, oracle)
+                        {"space": "root", "segment": 0, "offset": 0, "size": 0}, oracle)
         homes = [sp for sp in oracle.spaces.values()
                  if 0 <= (seg_spec["segment"] - sp.link_segment) * 16 < sp.size]
         require(len(homes) == 1, "DGROUP paragraph does not lie in exactly one space")
@@ -598,7 +598,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                             (i.imm_size == 2 and i.address + i.imm_offset == at)
                                             for i in rows),
                             "Own-segment field is neither a jump-table word nor an operand field")
-                    addend = struct.unpack_from("<H", piece, at)[0]
+                    # MASM may carry the offset in the FIXUPP displacement: the linker adds D + A.
+                    addend = (struct.unpack_from("<H", piece, at)[0] + (fix["displacement"] or 0)) & 0xFFFF
                     if in_table:
                         # A table entry must point at an instruction start inside this claim.
                         require(start <= addend < end and (addend - start) in starts,
