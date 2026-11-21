@@ -2,7 +2,7 @@
 .DATA
 EXTRN CURRENT_CONTEXT:WORD
 .CODE
-PUBLIC SET_ORIGIN
+PUBLIC SET_ORIGIN, SET_RELATIVE_PEN_STATE
 
 SET_ORIGIN PROC FAR
     push bp
@@ -23,4 +23,24 @@ SET_ORIGIN PROC FAR
     pop bp
     retf 4
 SET_ORIGIN ENDP
+
+SET_RELATIVE_PEN_STATE PROC FAR
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push ds
+    mov cx, 8
+    mov di, CURRENT_CONTEXT
+    add di, 22h
+    push ds
+    pop es
+    lds si, DWORD PTR [bp+6]
+    rep movsb
+    pop ds
+    pop si
+    pop di
+    pop bp
+    retf 4
+SET_RELATIVE_PEN_STATE ENDP
 END

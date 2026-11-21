@@ -20,6 +20,15 @@
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SET_RELATIVE_PEN_STATE",
+        "offset": 46,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
       }
     ],
     "segments": [
@@ -30,7 +39,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 46,
+        "length": 76,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -63,6 +72,28 @@
       "segment": "UNIT_TEXT",
       "segment_index": 1,
       "segment_offset": 10,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_CONTEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 57,
       "self_relative": false,
       "target": {
         "index": 1,

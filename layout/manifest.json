@@ -1256,19 +1256,6 @@
     },
     {
       "fixup_count": 4,
-      "group": "resize_dos_heap",
-      "kind": "MATCHING_ASM",
-      "offset": 5871,
-      "recipe": "recipes/resize_dos_heap.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 240,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:16ef"
-    },
-    {
-      "fixup_count": 4,
       "group": "graf/finish_port",
       "kind": "MATCHING_ASM",
       "offset": 14778,
@@ -3255,19 +3242,6 @@
       "space": "root",
       "state": "ASM_EXACT",
       "target_id": "root:1101:513a"
-    },
-    {
-      "fixup_count": 1,
-      "group": "ptool/set_origin",
-      "kind": "MATCHING_ASM",
-      "offset": 21254,
-      "recipe": "recipes/ptool/set_origin.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 46,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:5306"
     },
     {
       "fixup_count": 5,
@@ -6005,19 +5979,6 @@
       "target_id": "root:1101:7bd2"
     },
     {
-      "fixup_count": 2,
-      "group": "check_dos_drive",
-      "kind": "MATCHING_ASM",
-      "offset": 31468,
-      "recipe": "recipes/check_dos_drive.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 57,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:7aec"
-    },
-    {
       "fixup_count": 7,
       "group": "resc/load_resource_copy",
       "kind": "MATCHING_ASM",
@@ -7095,67 +7056,6 @@
       "target_id": "root:1101:7d04"
     },
     {
-      "fixup_count": 9,
-      "group": "timer_hooks",
-      "kind": "MATCHING_ASM",
-      "offset": 32148,
-      "recipe": "recipes/timer_hooks.json",
-      "relocation_count": 1,
-      "relocation_indices": [
-        1519
-      ],
-      "segment": 4353,
-      "size": 173,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:7d94"
-    },
-    {
-      "fixup_count": 4,
-      "group": "timer_hooks",
-      "kind": "MATCHING_ASM",
-      "offset": 32321,
-      "recipe": "recipes/timer_hooks.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 20,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:7e41"
-    },
-    {
-      "fixup_count": 8,
-      "group": "timer_hooks",
-      "kind": "MATCHING_ASM",
-      "offset": 32341,
-      "recipe": "recipes/timer_hooks.json",
-      "relocation_count": 1,
-      "relocation_indices": [
-        1520
-      ],
-      "segment": 4353,
-      "size": 176,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:7e55"
-    },
-    {
-      "fixup_count": 9,
-      "group": "timer_hooks",
-      "kind": "MATCHING_ASM",
-      "offset": 32517,
-      "recipe": "recipes/timer_hooks.json",
-      "relocation_count": 1,
-      "relocation_indices": [
-        1521
-      ],
-      "segment": 4353,
-      "size": 65,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:7f05"
-    },
-    {
       "fixup_count": 3,
       "group": "autoguar/trigger_jinnee",
       "kind": "MATCHING_C",
@@ -7825,6 +7725,262 @@
       "space": "root",
       "state": "CODE_EXACT",
       "target_id": "root:0284:03f0"
+    },
+    {
+      "fixup_count": 4,
+      "group": "timer_hooks",
+      "kind": "MATCHING_ASM",
+      "offset": 32120,
+      "recipe": "recipes/timer_hooks.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 28,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7d78"
+    },
+    {
+      "fixup_count": 9,
+      "group": "timer_hooks",
+      "kind": "MATCHING_ASM",
+      "offset": 32148,
+      "recipe": "recipes/timer_hooks.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        1519
+      ],
+      "segment": 4353,
+      "size": 173,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7d94"
+    },
+    {
+      "fixup_count": 4,
+      "group": "timer_hooks",
+      "kind": "MATCHING_ASM",
+      "offset": 32321,
+      "recipe": "recipes/timer_hooks.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 20,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7e41"
+    },
+    {
+      "fixup_count": 8,
+      "group": "timer_hooks",
+      "kind": "MATCHING_ASM",
+      "offset": 32341,
+      "recipe": "recipes/timer_hooks.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        1520
+      ],
+      "segment": 4353,
+      "size": 176,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7e55"
+    },
+    {
+      "fixup_count": 9,
+      "group": "timer_hooks",
+      "kind": "MATCHING_ASM",
+      "offset": 32517,
+      "recipe": "recipes/timer_hooks.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        1521
+      ],
+      "segment": 4353,
+      "size": 65,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7f05"
+    },
+    {
+      "fixup_count": 0,
+      "group": "dos_set_directory",
+      "kind": "MATCHING_ASM",
+      "offset": 31802,
+      "recipe": "recipes/dos_set_directory.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 32,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7c3a"
+    },
+    {
+      "fixup_count": 1,
+      "group": "dos_set_directory",
+      "kind": "MATCHING_ASM",
+      "offset": 31834,
+      "recipe": "recipes/dos_set_directory.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 44,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7c5a"
+    },
+    {
+      "fixup_count": 0,
+      "group": "check_dos_drive",
+      "kind": "MATCHING_ASM",
+      "offset": 31422,
+      "recipe": "recipes/check_dos_drive.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 8,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7abe"
+    },
+    {
+      "fixup_count": 1,
+      "group": "check_dos_drive",
+      "kind": "MATCHING_ASM",
+      "offset": 31430,
+      "recipe": "recipes/check_dos_drive.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 38,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7ac6"
+    },
+    {
+      "fixup_count": 2,
+      "group": "check_dos_drive",
+      "kind": "MATCHING_ASM",
+      "offset": 31468,
+      "recipe": "recipes/check_dos_drive.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 57,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:7aec"
+    },
+    {
+      "fixup_count": 1,
+      "group": "ptool/set_origin",
+      "kind": "MATCHING_ASM",
+      "offset": 21254,
+      "recipe": "recipes/ptool/set_origin.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 46,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:5306"
+    },
+    {
+      "fixup_count": 1,
+      "group": "ptool/set_origin",
+      "kind": "MATCHING_ASM",
+      "offset": 21300,
+      "recipe": "recipes/ptool/set_origin.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 30,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:5334"
+    },
+    {
+      "fixup_count": 9,
+      "group": "sound2/calculate_sound_timer_step",
+      "kind": "MATCHING_ASM",
+      "offset": 12246,
+      "recipe": "recipes/sound2/calculate_sound_timer_step.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 70,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2fd6"
+    },
+    {
+      "fixup_count": 6,
+      "group": "resize_dos_heap",
+      "kind": "MATCHING_ASM",
+      "offset": 5558,
+      "recipe": "recipes/resize_dos_heap.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 313,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:15b6"
+    },
+    {
+      "fixup_count": 4,
+      "group": "resize_dos_heap",
+      "kind": "MATCHING_ASM",
+      "offset": 5871,
+      "recipe": "recipes/resize_dos_heap.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 240,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:16ef"
+    },
+    {
+      "fixup_count": 4,
+      "group": "discard_queued_events",
+      "kind": "MATCHING_ASM",
+      "offset": 47913,
+      "recipe": "recipes/discard_queued_events.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 97,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:bb29"
+    },
+    {
+      "fixup_count": 2,
+      "group": "read_mouse_event_position",
+      "kind": "MATCHING_ASM",
+      "offset": 48233,
+      "recipe": "recipes/read_mouse_event_position.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 41,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:bc69"
+    },
+    {
+      "fixup_count": 1,
+      "group": "event_dispatch_helpers",
+      "kind": "MATCHING_ASM",
+      "offset": 48671,
+      "recipe": "recipes/event_dispatch_helpers.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 16,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:be1f"
+    },
+    {
+      "fixup_count": 3,
+      "group": "event_dispatch_helpers",
+      "kind": "MATCHING_ASM",
+      "offset": 48687,
+      "recipe": "recipes/event_dispatch_helpers.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 15,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:be2f"
     }
   ],
   "schema": 1,

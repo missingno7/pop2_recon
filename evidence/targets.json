@@ -43356,6 +43356,317 @@
       "size": 2640,
       "space": "overlay-2",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Near register DX:AX input; stores the timer step; RET.",
+      "boundary_evidence": [
+        "Saves DI and SI after the timer IRQ IRET at 2fd5. Three fixed-point divisions produce the globals. RET at 301b precedes independent event-decoder entry at 301c.",
+        "Reached call at 2e9c from root:1101:335b.",
+        "Reached call at 319d from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2fd6",
+      "offset": 12246,
+      "segment": 4353,
+      "semantic_name_hypothesis": "calculate_sound_timer_step",
+      "sha256": "152f9fe6077e9cca3a646b9aad06092bc0909e30c7110645f5e3fbc45a12d35c",
+      "size": 70,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal far pointer; RETF 4.",
+      "boundary_evidence": [
+        "Separate BP entry copies eight bytes to the port state. Sole RETF 4 at 534f, followed by independently relocated 5352.",
+        "Complete extent 5334..5352 (exclusive).",
+        "Independent CALL FAR at root+0x1d8ce."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 129230,
+          "image_offset": 121038,
+          "kind": "far_call",
+          "relocated_segment_site": 121041,
+          "space": "root"
+        },
+        {
+          "file_offset": 130687,
+          "image_offset": 122495,
+          "kind": "far_call",
+          "relocated_segment_site": 122498,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5334",
+      "offset": 21300,
+      "segment": 4353,
+      "semantic_name_hypothesis": "set_relative_pen_state",
+      "sha256": "682048deb123e019acd71fac5b02907d134607ce48413fa6476f480983f50a0f",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No arguments; AX holds an ASCII drive letter; RETF.",
+      "boundary_evidence": [
+        "DOS service at 7ac0 returns the drive number. The conversion ends with RETF at 7ac5 before the separately relocated BP entry 7ac6.",
+        "Reached call at 7acc from root:1101:7ac6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 109276,
+          "image_offset": 101084,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 101083,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7abe",
+      "offset": 31422,
+      "segment": 4353,
+      "semantic_name_hypothesis": "get_current_dos_drive_letter",
+      "sha256": "43ac2976227b7c3d6af3ae9ae857b35d5d778a1a2de74f7bea9d75b390610189",
+      "size": 8,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal output string pointer, AX DOS error or zero; RETF 4.",
+      "boundary_evidence": [
+        "Separate BP frame calls 7abe, prefixes the path with the drive letter and uses INT 21h/AH=47h. Both branches join and return at 7ae9 before separately entered 7aec.",
+        "Complete extent 7ac6..7aec (exclusive).",
+        "Independent CALL FAR at root+0x1f80e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 137230,
+          "image_offset": 129038,
+          "kind": "far_call",
+          "relocated_segment_site": 129041,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7ac6",
+      "offset": 31430,
+      "segment": 4353,
+      "semantic_name_hypothesis": "get_current_dos_directory",
+      "sha256": "ec26b08186d1c492b8ce713cc9269f98959dfcc5c5a9b6af86265705d3d29c80",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal ASCII drive letter word, AX DOS error or zero; RETF 2.",
+      "boundary_evidence": [
+        "Separate BP frame after the previously reviewed alignment byte at 7c39. DOS drive selection and query both precede the common RETF 2 at 7c57 before the separately relocated 7c5a.",
+        "Reached call at 7c74 from root:1101:7c5a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 109700,
+          "image_offset": 101508,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 101507,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7c3a",
+      "offset": 31802,
+      "segment": 4353,
+      "semantic_name_hypothesis": "set_current_dos_drive",
+      "sha256": "9c6525521cfaa736b6900f86cdea0a818aa5750daf3004caab405a82f3b846c8",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal path pointer, AX DOS error or zero; RETF 4.",
+      "boundary_evidence": [
+        "Separate BP frame uses DOS directory change and optionally selects the path drive. All paths reach the shared RETF 4 at 7c83, directly before independently entered 7c86.",
+        "Complete extent 7c5a..7c86 (exclusive).",
+        "Independent CALL FAR at root+0x1f832."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 137266,
+          "image_offset": 129074,
+          "kind": "far_call",
+          "relocated_segment_site": 129077,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7c5a",
+      "offset": 31834,
+      "segment": 4353,
+      "semantic_name_hypothesis": "set_current_dos_directory",
+      "sha256": "1d9e4c9ad42d039240f8f6e6f6f0ad11107fc1b972dfeb0588ec709a54975bb4",
+      "size": 44,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal event mask word; RETF 2.",
+      "boundary_evidence": [
+        "Separate BP frame. Under CLI compacts the original 14-byte event records; after POPF optionally drains keyboard input or clears pending window events. RETF 2 at bb87 before separate bb8a entry.",
+        "Complete extent bb29..bb8a (exclusive).",
+        "Independent CALL FAR at root+0x1f847."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 137287,
+          "image_offset": 129095,
+          "kind": "far_call",
+          "relocated_segment_site": 129098,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:bb29",
+      "offset": 47913,
+      "segment": 4353,
+      "semantic_name_hypothesis": "discard_queued_events",
+      "sha256": "d97c59cd5e6c19261e1e69807b7bd23b4e1c8f63c41649a3d432d85b2c8d0fab",
+      "size": 97,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near point output pointer, returns it in AX; RETF 2.",
+      "boundary_evidence": [
+        "BP frame runs BIOS mouse function 3 if installed, adjusts horizontal units for mode width, writes the point and returns at bc8f before the vector-save code at bc92.",
+        "Reached call at bd36 from root:1101:8f21.",
+        "Reached call at bc2e from root:1101:8f56."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 126278,
+          "image_offset": 118086,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 118085,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 126014,
+          "image_offset": 117822,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 117821,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:bc69",
+      "offset": 48233,
+      "segment": 4353,
+      "semantic_name_hypothesis": "read_mouse_event_position",
+      "sha256": "edfb745dd4bfd9b9d4ae6d65dfef39825b2e45e3cdadaa8d404cf0138ed1e03a",
+      "size": 41,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near register DI input; CX result; RET.",
+      "boundary_evidence": [
+        "Frameless entry after preceding RETF 2. Reads the linked window list until the event target is found or the list ends. RET at be2e before another independent E8 target.",
+        "Reached call at bc4e from root:1101:8f56.",
+        "Reached call at bc57 from root:1101:8f56."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:be1f",
+      "offset": 48671,
+      "segment": 4353,
+      "semantic_name_hypothesis": "find_event_window",
+      "sha256": "2820c52c714ec3a9c1a6891262a2f4559af15f8ea53f8ca112850da26992d013",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near register DI input; invokes a far hook if installed; RET.",
+      "boundary_evidence": [
+        "Frameless routine following the be1f RET. Tests both hook words; both paths return at be3d before the next interrupt handler.",
+        "Reached call at bc31 from root:1101:8f56."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:be2f",
+      "offset": 48687,
+      "segment": 4353,
+      "semantic_name_hypothesis": "notify_event_hook",
+      "sha256": "c1774e9c84b3f9a7dd85f7368c10915aad2aafc6023a18572ef6fed4015d3191",
+      "size": 15,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

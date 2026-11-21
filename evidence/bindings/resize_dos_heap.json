@@ -1,8 +1,10 @@
 {
   "declarations": {
     "externals": [
+      "COALESCE_FREE_BLOCKS",
       "ROUND_BYTES_TO_PARAGRAPHS",
-      "HEAP_DESCRIPTOR"
+      "HEAP_DESCRIPTOR",
+      "MOVE_HUGE_BYTES"
     ],
     "groups": [
       {
@@ -16,8 +18,17 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "RESIZE_DOS_HEAP",
+        "name": "COMPACT_HEAP_BLOCKS",
         "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "RESIZE_DOS_HEAP",
+        "offset": 313,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -31,7 +42,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 240,
+        "length": 553,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -63,10 +74,32 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 17,
+      "segment_offset": 67,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 113,
+      "self_relative": false,
+      "target": {
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "HEAP_DESCRIPTOR",
@@ -85,10 +118,118 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 30,
+      "segment_offset": 164,
       "self_relative": true,
       "target": {
         "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "COALESCE_FREE_BLOCKS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 87,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 226,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 263,
+      "self_relative": true,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "MOVE_HUGE_BYTES",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 163,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 311,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 330,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 343,
+      "self_relative": true,
+      "target": {
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "ROUND_BYTES_TO_PARAGRAPHS",
@@ -107,10 +248,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 102,
+      "segment_offset": 415,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "HEAP_DESCRIPTOR",
@@ -129,10 +270,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 236,
+      "segment_offset": 549,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "HEAP_DESCRIPTOR",
@@ -156,6 +297,15 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
+    "COALESCE_FREE_BLOCKS": {
+      "entry_sha256": "372bd19412252f361df313218ac219be2419ed6919436e2a87294b034a9af5b6",
+      "entry_target_id": "root:1101:1f3c",
+      "kind": "near-code-entry",
+      "offset": 7996,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "HEAP_DESCRIPTOR": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -170,6 +320,15 @@
           "space": "root"
         }
       ]
+    },
+    "MOVE_HUGE_BYTES": {
+      "entry_sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
+      "entry_target_id": "root:1101:1b7c",
+      "kind": "near-code-entry",
+      "offset": 7036,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     },
     "ROUND_BYTES_TO_PARAGRAPHS": {
       "entry_sha256": "0932941229bb55eeb9a6620e1245fe49383ce5f879330df3bf20ac7132227512",
