@@ -56362,6 +56362,365 @@
       "size": 450,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), bare RETF, two signed loop bytes.",
+      "boundary_evidence": [
+        "The complete original interval [0fae,1088) closes at 1087 retf. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: root+eba7.",
+        "Previous original RETF at 0fad precedes this BP frame. Direction 86, Y below 384, and the matching index in style 5 each skip processing and reach 1076. The normal path calls 04d2 at 101b; the special branch skips it when 5e38 is set. The next distinct entry at 1088 saves DI/SI without a BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68519,
+          "image_offset": 60327,
+          "kind": "far_call",
+          "relocated_segment_site": 60330,
+          "relocation_index": 1322,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Walks actors in the room and updates opponent records and life displays."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0fae",
+      "offset": 4014,
+      "segment": 9028,
+      "sha256": "4a105492112139f77d3015117b1ac563fc4869db504fe8674c12e9e0b625c4ae",
+      "size": 218,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned room byte in BP+6 word slot and RETF 2.",
+      "boundary_evidence": [
+        "The complete original interval [0a52,0aa8) closes at 0aa5 retf 2. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: root+eb5a.",
+        "Original adjacent routines end with RETF at 0a50 and NOP at 0a51, and start a new BP frame at 0aa8. If the initial two DS guards pass, 0a6d enters 0c6e, a nonzero returned pointer permits 0a7c to 0d00, and only a zero delay permits 0a8f to 0aa8. No overlay relocation word touches the extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68442,
+          "image_offset": 60250,
+          "kind": "far_call",
+          "relocated_segment_site": 60253,
+          "relocation_index": 1226,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Looks up a generator point, checks whether generation is allowed, and updates its delays and count."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0a52",
+      "offset": 2642,
+      "segment": 9028,
+      "sha256": "ad394d1eafd6e1bbe8d4351e0f48ed458bcd2a33486049d714166f802725c229",
+      "size": 86,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed direction word in BP+6. AX opposite direction, RETF 2.",
+      "boundary_evidence": [
+        "The complete original interval [1454,14de) closes at 14db retf 2. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: overlay-3+06df, overlay-3+180e.",
+        "Previous register_actor_room has RETF 1452 and NOP 1453. The local cases converge at 14d5 and RETF 2 at 14db before BP frame 14de. The near calls at 06df and 180e enter exactly 1454. The four far relocation sites equal the calls to 02cc:10c0 and 02cc:1102."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 186527,
+          "image_offset": 1759,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1758,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 190926,
+          "image_offset": 6158,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6157,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates room and adjusts the matching coordinate for the traversed side; returns the opposite side."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:1454",
+      "offset": 5204,
+      "segment": 9028,
+      "sha256": "aeccfa3acb6b353819fd372a0b64cc77c97c929f0ff935f032ba859bb1c1eacf",
+      "size": 138,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, AX boolean and bare RETF.",
+      "boundary_evidence": [
+        "The complete original interval [12a0,12f2) closes at 12ea retf, 12f1 retf. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: overlay-3+123a.",
+        "The original 1150 call at 123a enters 12a0 exactly, followed by OR AX,AX and a conditional exit. All branches stay within [12a0,12f2), ending in RETF at 12ea or 12f1. The next distinct prologue begins at 12f2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 189434,
+          "image_offset": 4666,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4665,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests whether the destination room has capacity and whether this opponent can follow."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:12a0",
+      "offset": 4768,
+      "segment": 9028,
+      "sha256": "7320c282eb38ac7b27329471c441e45c90dac26f7971a0b1995c780fe14497dc",
+      "size": 82,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, void source hypothesis; preserves DI/SI and has bare RETF.",
+      "boundary_evidence": [
+        "The complete original interval [1088,1150) closes at 1097 retf, 10d5 retf, 114f retf. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: root+eb93.",
+        "Original last RETF of 0fae is at 1087. New DI/SI-save prologue at 1088. Local fast paths return at 1097 or 10d5 and the common tail returns at 114f. Next BP prologue at 1150."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68499,
+          "image_offset": 60307,
+          "kind": "far_call",
+          "relocated_segment_site": 60310,
+          "relocation_index": 1255,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates opponent-room state, dispatching to the position and transfer checks."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:1088",
+      "offset": 4232,
+      "segment": 9028,
+      "sha256": "a414b441dc94875c892545b02a3614f592e2e39506ed74082d1fe6ab9b9c78a6",
+      "size": 200,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, AX boolean, bare RETF.",
+      "boundary_evidence": [
+        "The complete original interval [12f2,133a) closes at 1330 retf, 1339 retf. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: overlay-3+11c1.",
+        "Original same-file near caller at 11c1 tests AX; far entry starts at 12f2 and both exits return before the next frame at 133a. Original copies span 64 bytes; the original near call at 130a reaches 133a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 189313,
+          "image_offset": 4545,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4544,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks actor room adjustment on a saved copy and restores the actor record."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:12f2",
+      "offset": 4850,
+      "segment": 9028,
+      "sha256": "9cfb386cf7023f6db130cf71561a6255f58253e7c32e1a68d644fda69529f2cf",
+      "size": 72,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one word at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "The original PUSH CS at root+318f and E8 at root+3190, reached via the AnimChar switch entry at root+30b0 in accepted root:02cc:0394, enter exactly root+33c0.",
+        "The original BP frame at root+33c0 starts a closed interval ending at RETF 2 at root+3442, followed by one NOP and the distinct BP frame of reviewed root:02cc:0786.",
+        "All original non-call branch targets in the interval are instruction starts within it."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20880,
+          "image_offset": 12688,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12687,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches a sound from a word selector and adjusts actor position for guard-room conditions."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0700",
+      "offset": 1792,
+      "segment": 716,
+      "sha256": "11bfaec32f4701067fcdf6b4567d40230dbc4240ff049acc45c2b5700ad2297d",
+      "size": 134,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal signed kind byte and unsigned action word. AX boolean, RETF 4.",
+      "boundary_evidence": [
+        "The complete original interval [22e8,237e) closes at 237b retf 4. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: overlay-3+5359, overlay-3+1fcc.",
+        "Distinct BP frame after RETF 22e6 and NOP 22e7. Original near call 1fcc is preceded by PUSH CS at 1fcb and the byte kind and word action pushes. Branches converge at 2376 with RETF 4 at 237b before independently reviewed 237e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 206105,
+          "image_offset": 21337,
+          "kind": "far_call",
+          "relocated_segment_site": 21340,
+          "relocation_index": 494,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 192908,
+          "image_offset": 8140,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8139,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Classifies strike actions by actor type and state."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:22e8",
+      "offset": 8936,
+      "segment": 9028,
+      "sha256": "daefa89af4978b5fb11fa0572afe81277928cc860ec417be3fbeae97c5372239",
+      "size": 150,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register-call routine, near pointer maximum in AX and minimum in BX, saves DI/SI and uses bare RETF.",
+      "boundary_evidence": [
+        "The complete original interval [217c,22e8) closes at 21e8 retf, 21fb retf, 221d retf, 222f retf, 223a retf, 22e6 retf. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: overlay-12+0389, overlay-12+07f8, overlay-12+0c66, overlay-3+20f3.",
+        "Original same-file E8 at 20f3 follows LEA BX,[BP-4], LEA AX,[BP-2], PUSH CS. Output pointers are written upon entry; the local branches all end in restores and bare RETF. The previous routine returns at 217b and the next BP frame begins at 22e8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 256121,
+          "image_offset": 905,
+          "kind": "far_call",
+          "relocated_segment_site": 908,
+          "relocation_index": 125,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 257256,
+          "image_offset": 2040,
+          "kind": "far_call",
+          "relocated_segment_site": 2043,
+          "relocation_index": 126,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 258390,
+          "image_offset": 3174,
+          "kind": "far_call",
+          "relocated_segment_site": 3177,
+          "relocation_index": 127,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 193203,
+          "image_offset": 8435,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8434,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes the minimum and maximum strike distance based on actor types, relative directions, and state."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:217c",
+      "offset": 8572,
+      "segment": 9028,
+      "sha256": "d257fb22a6ce8ebfa5d29b9fb485fe883dcf0dafe79c8daa38ec7ac801005d39",
+      "size": 364,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal no arguments, bare RETF.",
+      "boundary_evidence": [
+        "The complete original interval [1f76,217c) closes at 217b retf. All local branch destinations are decoded instruction starts.",
+        "Original incoming call sites: overlay-3+1f4c, overlay-3+1f5e.",
+        "Original far procedure at 1f0e reaches E8 1f4c and E8 1f5e with PUSH CS. The preceding RETF at 1f74 and NOP 1f75 close the prior entry. Internal exits join at 2177 and return at 217b before 217c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 192780,
+          "image_offset": 8012,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8011,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 192798,
+          "image_offset": 8030,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 8029,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests whether a pair of actors meets strike conditions and selects a reaction."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:1f76",
+      "offset": 8054,
+      "segment": 9028,
+      "sha256": "915637b117acf5dc0774154c07bd9af0240e996b75dbce255ac676816af16702",
+      "size": 518,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

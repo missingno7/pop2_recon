@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "e551c30fc1abb9ff771d1b0e6e7145b3883c7e21608f2ebaa60641e599e72c71",
+  "binding_sha256": "30456ef93b2d72383038ee6c6b6320cbed9949a49f8633c4250d595c1e8c0c6c",
   "claims": [
     {
       "fixup_count": 1,
@@ -13,6 +13,11 @@
       "target_id": "overlay-3:2344:0042"
     },
     {
+      "fixup_count": 7,
+      "public": "CHECK_GENERATOR_POINTS",
+      "target_id": "overlay-3:2344:0a52"
+    },
+    {
       "fixup_count": 3,
       "public": "FIND_ACTIVE_GENERATOR",
       "target_id": "overlay-3:2344:0c6e"
@@ -21,6 +26,16 @@
       "fixup_count": 1,
       "public": "IS_ACTIVE_GENERATOR",
       "target_id": "overlay-3:2344:0cbe"
+    },
+    {
+      "fixup_count": 18,
+      "public": "SHOULD_GENERATE",
+      "relocation_indices": [
+        127
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2344:0d00"
     },
     {
       "fixup_count": 3,
@@ -42,6 +57,91 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-3:2344:0f4e"
+    },
+    {
+      "fixup_count": 26,
+      "public": "CUT_ROOM_OPPONENTS",
+      "relocation_indices": [
+        9,
+        13,
+        23,
+        26,
+        59,
+        121
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:0fae"
+    },
+    {
+      "fixup_count": 6,
+      "public": "CAN_ACTOR_FOLLOW",
+      "target_id": "overlay-3:2344:12a0"
+    },
+    {
+      "fixup_count": 4,
+      "public": "ACTOR_FOLLOWS_TO_ADJACENT_ROOM",
+      "target_id": "overlay-3:2344:12f2"
+    },
+    {
+      "fixup_count": 25,
+      "public": "REGISTER_ACTOR_ROOM",
+      "target_id": "overlay-3:2344:133a"
+    },
+    {
+      "fixup_count": 19,
+      "public": "CUT_ACTOR",
+      "relocation_indices": [
+        80,
+        81,
+        97,
+        98
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:1454"
+    },
+    {
+      "fixup_count": 11,
+      "public": "DISPATCH_GUARD_REACTION",
+      "relocation_indices": [
+        34,
+        62,
+        92,
+        105
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:1f0e"
+    },
+    {
+      "fixup_count": 1,
+      "public": "IS_STRIKING_POSITION",
+      "target_id": "overlay-3:2344:22e8"
+    },
+    {
+      "fixup_count": 1,
+      "public": "ISTHESTRIKEPOS",
+      "target_id": "overlay-3:2344:237e"
+    },
+    {
+      "fixup_count": 5,
+      "public": "CAN_CONTINUE_RUN_JUMP",
+      "relocation_indices": [
+        0,
+        85
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:23d6"
     }
   ],
   "drafts": [
@@ -86,27 +186,67 @@
       "public": "PICK_HIDDEN_ACTOR"
     },
     {
-      "object_offset": 2608,
+      "object_offset": 2606,
       "public": "IS_SELECTED_ACTOR"
     },
     {
-      "object_offset": 2644,
-      "public": "CHECK_GENERATOR_POINTS"
-    },
-    {
-      "object_offset": 2730,
+      "object_offset": 2728,
       "public": "GENERATE_OPPONENT"
-    },
-    {
-      "object_offset": 3328,
-      "public": "SHOULD_GENERATE"
     },
     {
       "object_offset": 3602,
       "public": "GET_GENERATOR"
+    },
+    {
+      "object_offset": 4232,
+      "public": "CHECK_CUT"
+    },
+    {
+      "object_offset": 4432,
+      "public": "TRANSFER_ROOM_ACTORS"
+    },
+    {
+      "object_offset": 5342,
+      "public": "CHOOSE_CUT_SIDE"
+    },
+    {
+      "object_offset": 6184,
+      "public": "UPDATE_AUTOMATIC_ACTOR"
+    },
+    {
+      "object_offset": 6338,
+      "public": "RESET_ACTOR_INPUTS"
+    },
+    {
+      "object_offset": 6364,
+      "public": "RUN_SHADOW_SCRIPT"
+    },
+    {
+      "object_offset": 6384,
+      "public": "RUN_GUARD_SCRIPT"
+    },
+    {
+      "object_offset": 6534,
+      "public": "CHECK_STAB"
+    },
+    {
+      "object_offset": 6766,
+      "public": "STAB_ACTOR"
+    },
+    {
+      "object_offset": 7484,
+      "public": "BEGIN_ACTOR_DEATH"
+    },
+    {
+      "object_offset": 8054,
+      "public": "TEST_ACTOR_STRIKE"
+    },
+    {
+      "object_offset": 8572,
+      "public": "@get_char_strike_ranges"
     }
   ],
-  "emitted_size": 4014,
+  "emitted_size": 9268,
   "flags": [
     "/c",
     "/AM",
@@ -122,12 +262,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "319b77366bcb9769c6b6902b5e7d6d63c2767729b387974bf720649e473afe06",
+  "object_sha256": "e7cfd8141f7afb1ff2ad318c551dea4d1f6d5599f9acae570656217978eb3549",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "ccaaa13dc10f2aeef187c94f592d801a57718ed715436beb0196520e50f3cf0c",
+  "source_sha256": "1edef1d652d1dd82bb0c83697c7935f94bff4d80e5ccc57b43d9f1f41a7ca3e9",
   "space": "overlay-3"
 }
