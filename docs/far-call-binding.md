@@ -158,3 +158,27 @@ inside each chunk and continue in LEDATA traversal order across chunks. MASM's
 probe references ascend. Sorting by site, globally reversing FIXUPPs, or
 requiring a universal descending sequence would therefore be incorrect.
 All non-order v1 restrictions and the root-only scope remain in force.
+
+
+## RTLink relocation order and debug line info (2026-11-21)
+
+Source-only RTLink 6.10 controls ([rule](../evidence/rtlink-probe/bucket-order/rule.md))
+show the order of MZ relocation records:
+
+- **Within one linked output segment,** RTLink groups records into buckets by
+  resolved target: an external symbol, a group or an input SEGDEF.
+- **Inside a bucket** it keeps raw FIXUPP traversal order, LOC2 before LOC3.
+  This is the within-symbol rule the gate already checks.
+- **The bucket permutation depends on link context.** Two links with identical
+  load images produced different bucket orders, so between-bucket order stays
+  recorded `GROUPED` debt.
+
+The original CHECKNIS.C within-bucket orders match when the same source is
+compiled with `/Zd`, or `/Zi`, because line-number records split MSC's LEDATA
+chunks and so change FIXUPP traversal. The code bytes are unchanged. The
+original game was therefore very likely built with debug line information.
+
+The strict gate accepts `/Zd` LINNUM records (`0x94`), which carry no code or
+fixups. Use `/Zd` when a within-symbol relocation order is refused. `/Zi`
+(CodeView `$$SYMBOLS`/`$$TYPES` segments) is not yet supported by the OMF
+reader.
