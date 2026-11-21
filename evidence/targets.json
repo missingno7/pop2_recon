@@ -63970,6 +63970,36 @@
       "size": 336,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal byte result in AL, byte argument in a word slot, RETF 2.",
+      "boundary_evidence": [
+        "Locked root interval [0x9d58,0x9d8e). A fresh BP frame follows DrawFlask's RETF and alignment NOP.",
+        "Reached same-frame PUSH CS at 243f followed by CALL at 2440 enters 24b8. The caller stores AL.",
+        "All direct branches stay on decoded instruction starts within the interval. RETF 2 at 24ea and the alignment NOP at 24ed precede the distinct meter routine at 24ee."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 48352,
+          "image_offset": 40160,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 40159,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Masks tile appearance attributes, selects one of three palette indices, and the flask caller consumes AL."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:24b8",
+      "offset": 9400,
+      "segment": 1930,
+      "sha256": "71c4a2d61c8fce1f191e94a265b2907cd204caa7969dec0013a284f5f9f1bee3",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

@@ -372,7 +372,7 @@ unsigned char back_image_start_pass(void)
 
 void draw_custom_room_images(char pass)
 {
-    signed char image;
+    volatile signed char image;
     unsigned int sheet;
     unsigned int draw_images = 0;
 
@@ -405,6 +405,12 @@ void draw_custom_room_images(char pass)
     }
 }
 
+
+/* The foreground queue follows 130 background entries in the shared segment. */
+typedef struct DrawQueueStorage {
+    DrawEntry background[130];
+    DrawEntry foreground[100];
+} DrawQueueStorage;
 void far _fastcall draw_custom_room_image(char index, char pass)
 {
     RoomImage *image;
@@ -416,7 +422,8 @@ void far _fastcall draw_custom_room_image(char index, char pass)
         !intersect_rect(&clip, &image->clip, &clip_rect))
         return;
     if (pass != 0 && pass != 5 && pass != 11) {
-        entry = &fore_queue[fore_count++];
+        entry = ((_segment)fore_queue) :>
+            (DrawEntry _based(void) *)&((DrawQueueStorage near *)0)->foreground[fore_count++];
         if (level_style != 5)
             goto queued;
         if ((level_style == 5 && drawn_room != 19 && drawn_room != 16 &&
@@ -1736,16 +1743,16 @@ unsigned char flask_bubble_color(unsigned char attributes)
 {
     unsigned char color;
 
-    switch ((unsigned char)(attributes & 0xe0)) {
+    switch ((unsigned int)attributes & 0xe0) {
+    default:
+        color = 0xec;
+        break;
     case 0x20:
     case 0x40:
         color = 0xea;
         break;
     case 0xa0:
         color = 0xee;
-        break;
-    default:
-        color = 0xec;
         break;
     }
     return color;
