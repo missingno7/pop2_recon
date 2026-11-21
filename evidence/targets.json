@@ -18616,6 +18616,379 @@
       "size": 138,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:02c2",
+      "space": "root",
+      "segment": 361,
+      "offset": 706,
+      "size": 20,
+      "sha256": "3a28ab3af71ed9175e5bbb7887fb861be012507be7b91017ef60e68e545ee84a",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Decoded root extent [0x1952,0x1966); final RETF at 0169:02d4.",
+        "Following entry begins 558bec83ec025057.",
+        "Direct relocated original 9A caller at root+0x8b89, relocation 822."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches two ADD.C character routines and two external appenders."
+      ],
+      "abi": "Far, no stack arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 35721,
+          "file_offset": 43913,
+          "relocated_segment_site": 35724
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:02d6",
+      "space": "root",
+      "segment": 361,
+      "offset": 726,
+      "size": 130,
+      "sha256": "f26ef223b47b2221d2aa4460e6884d10eeabad10ff6fa1632ca886cdec1d2e1c",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Decoded root extent [0x1966,0x19e8); final RETF at 0169:0356.",
+        "Following entry begins 558bec83ec065756.",
+        "Direct relocated original 9A caller at overlay-3+0x2946, relocation 137.",
+        "Direct relocated original 9A caller at overlay-10+0x1421, relocation 57.",
+        "Direct relocated original 9A caller at overlay-12+0x16f0, relocation 45.",
+        "Direct relocated original 9A caller at overlay-13+0x4c8, relocation 17."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Appends a 23-byte object and transfers current actor state into it."
+      ],
+      "abi": "Far register call, AL kind and no stack arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 10566,
+          "file_offset": 195334,
+          "relocated_segment_site": 10569
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 5153,
+          "file_offset": 245569,
+          "relocated_segment_site": 5156
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 5872,
+          "file_offset": 261088,
+          "relocated_segment_site": 5875
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-13",
+          "image_offset": 1224,
+          "file_offset": 262856,
+          "relocated_segment_site": 1227
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8768,
+          "file_offset": 16960,
+          "pushed_cs_site": 8767
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8875,
+          "file_offset": 17067,
+          "pushed_cs_site": 8874
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8956,
+          "file_offset": 17148,
+          "pushed_cs_site": 8955
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9199,
+          "file_offset": 17391,
+          "pushed_cs_site": 9198
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9343,
+          "file_offset": 17535,
+          "pushed_cs_site": 9342
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 10264,
+          "file_offset": 18456,
+          "pushed_cs_site": 10263
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0358",
+      "space": "root",
+      "segment": 361,
+      "offset": 856,
+      "size": 170,
+      "sha256": "bdce76d09235ca62e0d8c5ec9734d268ccba2de46782d4df8f7b6105ff538ee1",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Decoded root extent [0x19e8,0x1a92); final RETF at 0169:03ff.",
+        "Following entry begins 558bec83ec085352.",
+        "Direct relocated original 9A caller at root+0x9d4a, relocation 867.",
+        "Direct relocated original 9A caller at root+0x9d29, relocation 868.",
+        "Direct relocated original 9A caller at root+0x9caa, relocation 869.",
+        "Direct relocated original 9A caller at root+0xa097, relocation 870."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Picks image sets for tile IDs 10, 60 and 22, checks the front count, and passes DS:01bb for the generic foreground-overflow dialog."
+      ],
+      "abi": "Far Pascal, six word slots, RETF 12.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 40266,
+          "file_offset": 48458,
+          "relocated_segment_site": 40269
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 40233,
+          "file_offset": 48425,
+          "relocated_segment_site": 40236
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 40106,
+          "file_offset": 48298,
+          "relocated_segment_site": 40109
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 41111,
+          "file_offset": 49303,
+          "relocated_segment_site": 41114
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3282,
+          "file_offset": 218674,
+          "relocated_segment_site": 3285
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3239,
+          "file_offset": 218631,
+          "relocated_segment_site": 3242
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3524,
+          "file_offset": 218916,
+          "relocated_segment_site": 3527
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3613,
+          "file_offset": 219005,
+          "relocated_segment_site": 3616
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3693,
+          "file_offset": 219085,
+          "relocated_segment_site": 3696
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 3789,
+          "file_offset": 219181,
+          "relocated_segment_site": 3792
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 4731,
+          "file_offset": 220123,
+          "relocated_segment_site": 4734
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6401,
+          "file_offset": 221793,
+          "relocated_segment_site": 6404
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6670,
+          "file_offset": 222062,
+          "relocated_segment_site": 6673
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6735,
+          "file_offset": 222127,
+          "relocated_segment_site": 6738
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 6829,
+          "file_offset": 222221,
+          "relocated_segment_site": 6832
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7027,
+          "file_offset": 222419,
+          "relocated_segment_site": 7030
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 7907,
+          "file_offset": 223299,
+          "relocated_segment_site": 7910
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1213,
+          "file_offset": 227341,
+          "relocated_segment_site": 1216
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 1460,
+          "file_offset": 227588,
+          "relocated_segment_site": 1463
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 2837,
+          "file_offset": 228965,
+          "relocated_segment_site": 2840
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 3469,
+          "file_offset": 229597,
+          "relocated_segment_site": 3472
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4781,
+          "file_offset": 236557,
+          "relocated_segment_site": 4784
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4717,
+          "file_offset": 236493,
+          "relocated_segment_site": 4720
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4653,
+          "file_offset": 236429,
+          "relocated_segment_site": 4656
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 6289,
+          "file_offset": 238065,
+          "relocated_segment_site": 6292
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 7224,
+          "file_offset": 239000,
+          "relocated_segment_site": 7227
+        }
+      ],
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "add_foreground_image"
+    },
+    {
+      "id": "root:078a:1eae",
+      "space": "root",
+      "segment": 1930,
+      "offset": 7854,
+      "size": 36,
+      "sha256": "dbbe91cd0fa0bb6183f61021a59b2ae295b593a9f9ea2f92e7cfc148ed092453",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Decoded root extent [0x974e,0x9772); final RETF at 078a:1ecf.",
+        "Following entry begins 558bec83ec1c5756.",
+        "Direct relocated original 9A caller at root+0x19d0, relocation 149.",
+        "Direct relocated original 9A caller at root+0xd713, relocation 991."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Indexes a 23-byte object, writes DS:6252 to field +0x13, and marks an in-range slot."
+      ],
+      "abi": "Far Pascal, signed byte slot in BP+6, RETF 2.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 6608,
+          "file_offset": 14800,
+          "relocated_segment_site": 6611
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 55059,
+          "file_offset": 63251,
+          "relocated_segment_site": 55062
+        }
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

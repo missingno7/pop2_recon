@@ -136,7 +136,9 @@ def ground_symbol(symbol, target, oracle):
                 "Resident far-code-entry refuses overlay/vector aliases (use overlay-code-entry or rtlink-vector)")
         callee, cspace, raw = get_target(symbol["entry_target_id"], oracle)
         expected_space = "root" if kind == "far-code-entry" else symbol.get("space")
-        require(callee.get("entry_kind") == "direct-code" and callee["space"] == expected_space and
+        # An accepted exact owner's entry is direct code by its own reconstruction.
+        require((callee.get("entry_kind") == "direct-code" or _accepted_entry(callee["id"], oracle)) and
+                callee["space"] == expected_space and
                 (kind == "far-code-entry") == (expected_space == "root") and
                 (callee["segment"], callee["offset"]) == (symbol["segment"], symbol["offset"]) and
                 callee["sha256"] == symbol["entry_sha256"],
