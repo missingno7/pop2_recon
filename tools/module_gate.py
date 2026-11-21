@@ -390,6 +390,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                                     [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
+                missing = sorted({f["target"].get("name") for f in state["data"]} - set(symbols))
+                require(not missing, "DGROUP fixup targets lack grounded binding symbols: " + ", ".join(map(str, missing)))
                 # v4 proves offset bytes only and claims no DS association, so it needs no
                 # segment-context proof; the older modes keep theirs.
                 require(mode == OPERAND_MODE or report["public"] in safe,
