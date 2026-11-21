@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound/sound.json",
-  "binding_sha256": "8dc232414b35509e3683495f74f26ec3663afec38a5042dc8dd289af2a515f9b",
+  "binding_sha256": "9f0994aaa9bd45967e21a8fc9d3ca936a5dbe4f5cc675c6b0758db6760adb900",
   "claims": [
     {
       "fixup_count": 2,
@@ -74,6 +74,21 @@
       "fixup_count": 4,
       "public": "SELECT_SPECIAL_AMBIENT",
       "target_id": "root:0dd7:0606"
+    },
+    {
+      "fixup_count": 9,
+      "public": "SPECIAL_NO_AMBIENT_CASE",
+      "relocation_indices": [
+        1128
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0dd7:0638"
+    },
+    {
+      "fixup_count": 1,
+      "public": "REMEMBER_AMBIENT_SONG",
+      "target_id": "root:0dd7:0776"
     }
   ],
   "drafts": [
@@ -110,20 +125,12 @@
       "public": "SHOULD_REPLACE_EFFECT"
     },
     {
-      "object_offset": 1582,
-      "public": "SPECIAL_NO_AMBIENT_CASE"
-    },
-    {
       "object_offset": 1658,
       "public": "@should_change_ambient"
     },
     {
       "object_offset": 1818,
       "public": "TOGGLE_AMBIENT"
-    },
-    {
-      "object_offset": 1900,
-      "public": "REMEMBER_AMBIENT_SONG"
     },
     {
       "object_offset": 1954,
@@ -137,14 +144,15 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 3543,
   "group_id": "group:sound/sound",
   "kind": "same_source_group",
   "language": "c",
   "name": "sound/sound",
-  "object_sha256": "cb963937e4236bf03b660ec9a52ce8e004f7d708b4e3652aba2320a299ece326",
+  "object_sha256": "38266db2fbfdc1943c64f571e72c1cf3d4cd126e9f6f675fc8d6df7572051165",
   "origin": 56698,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
