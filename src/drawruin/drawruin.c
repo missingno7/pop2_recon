@@ -234,7 +234,10 @@ typedef struct MovingExit {
 } MovingExit;
 
 extern RuinPositions *shape_offsets;
-extern ShapePosition exit_closed, exit_open;
+static ShapePosition exit_positions[2] = {
+    { 62, -15, -16 },
+    { 65, 6, -60 }
+};
 extern DrawRect door_clip_rect;
 extern Byte drawn_room;
 extern unsigned int kid_frame;
@@ -255,7 +258,7 @@ void draw_ruin_exit_right(RuinCell *cell)
         if (draw_pass_mode) {
             draw_ruin_back_wall(cell);
         } else {
-            shape_offsets->exit = exit_closed;
+            shape_offsets->exit = exit_positions[0];
             AddBFImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             add_image = 0;
         }
@@ -297,10 +300,10 @@ void draw_ruin_exit_movable(RuinCell *cell)
             moving = find_moving_exit(cell->column + FirstInRow(drawn_room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
-            shape_offsets->exit_y = -(19 + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
+            shape_offsets->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             add_image = kid_frame >= 217 && kid_frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
-            shape_offsets->exit = exit_open;
+            shape_offsets->exit = exit_positions[1];
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
         clip_rect = saved_clip;
