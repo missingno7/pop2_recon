@@ -28624,6 +28624,2674 @@
       "size": 4,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, far ShapeInfo pointer, RETF 4",
+      "boundary_evidence": [
+        "Root [0x1ecfc,0x1ed30) decoded from 1ecf:000c. Linear decode ends with RETF at root+0x1ed2d, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x8744 enters this exact boundary.",
+        "Next reviewed entry starts at 0040 in this frame.",
+        "Preceding instruction at 1ecf:000b is the prior routine's RETF; original prologue at 000c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42820,
+          "image_offset": 34628,
+          "kind": "far_call",
+          "relocated_segment_site": 34631,
+          "space": "root"
+        },
+        {
+          "file_offset": 43568,
+          "image_offset": 35376,
+          "kind": "far_call",
+          "relocated_segment_site": 35379,
+          "space": "root"
+        },
+        {
+          "file_offset": 135966,
+          "image_offset": 127774,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 127773,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:000c",
+      "offset": 12,
+      "original_name": "FreeShpInfo",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:000d: Tests shape bytes +0 and +1, disposes the handle at +4, then clears +4 and +0."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "free_shape_info",
+      "sha256": "735e6e17e0f7faa16acaad1c6d6261f6daeb66a694a53cce4f38a202a77fe919",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 6",
+      "boundary_evidence": [
+        "Root [0x1ed30,0x1edd4) decoded from 1ecf:0040. Linear decode ends with RETF at root+0x1edd0, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x580f enters this exact boundary.",
+        "Next reviewed entry starts at 00e4 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30735,
+          "image_offset": 22543,
+          "kind": "far_call",
+          "relocated_segment_site": 22546,
+          "space": "root"
+        },
+        {
+          "file_offset": 31152,
+          "image_offset": 22960,
+          "kind": "far_call",
+          "relocated_segment_site": 22963,
+          "space": "root"
+        },
+        {
+          "file_offset": 181083,
+          "image_offset": 25147,
+          "kind": "far_call",
+          "relocated_segment_site": 25150,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 134714,
+          "image_offset": 126522,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 126521,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0040",
+      "offset": 64,
+      "original_name": "hGetNMapShpList",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:002f: Finds the list by id, initializes the nullable mapping at +4 from byte +6, ORs the mapping flags, and conditionally prepares the address at +4."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "get_mapped_shape_list",
+      "sha256": "0107b13dec5078abcd12b0730e9dd37ef1a3a035ad685172d2ac2a2865da27e3",
+      "size": 164,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 4",
+      "boundary_evidence": [
+        "Root [0x1edd4,0x1ee26) decoded from 1ecf:00e4. Linear decode ends with RETF at root+0x1ee22, followed by 1 alignment byte(s).",
+        "Original far_call at root+0xaa71 enters this exact boundary.",
+        "Next reviewed entry starts at 0136 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51825,
+          "image_offset": 43633,
+          "kind": "far_call",
+          "relocated_segment_site": 43636,
+          "space": "root"
+        },
+        {
+          "file_offset": 52363,
+          "image_offset": 44171,
+          "kind": "far_call",
+          "relocated_segment_site": 44174,
+          "space": "root"
+        },
+        {
+          "file_offset": 53191,
+          "image_offset": 44999,
+          "kind": "far_call",
+          "relocated_segment_site": 45002,
+          "space": "root"
+        },
+        {
+          "file_offset": 136309,
+          "image_offset": 128117,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 128116,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:00e4",
+      "offset": 228,
+      "original_name": "IsOverlayLoaded",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:00ab: Tests count at +4, indexes six-byte entries, reads the handle at index*6+10, then tests the first word of the resolved payload."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "is_overlay_loaded",
+      "sha256": "4303892db7207749f41a7dfdc3b339d317678894323ad4ef9198a5bd00a5c505",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 8",
+      "boundary_evidence": [
+        "Root [0x1ee26,0x1ef84) decoded from 1ecf:0136. Linear decode ends with RETF at root+0x1ef81, followed by 0 alignment byte(s).",
+        "Original far_call at root+0xabdc enters this exact boundary.",
+        "Next reviewed entry starts at 0294 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 52188,
+          "image_offset": 43996,
+          "kind": "far_call",
+          "relocated_segment_site": 43999,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0136",
+      "offset": 310,
+      "segment": 7887,
+      "semantic_name_hypothesis": "load_shape_list",
+      "sha256": "5475394523ff88743c4bca5a4f37a48323c885e185996a3299e7810a03160a62",
+      "size": 350,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 0xa",
+      "boundary_evidence": [
+        "Root [0x1ef84,0x1f07c) decoded from 1ecf:0294. Linear decode ends with RETF at root+0x1f079, followed by 0 alignment byte(s).",
+        "Original far_call at root+0xa6db enters this exact boundary.",
+        "Next reviewed entry starts at 038c in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 50907,
+          "image_offset": 42715,
+          "kind": "far_call",
+          "relocated_segment_site": 42718,
+          "space": "root"
+        },
+        {
+          "file_offset": 51857,
+          "image_offset": 43665,
+          "kind": "far_call",
+          "relocated_segment_site": 43668,
+          "space": "root"
+        },
+        {
+          "file_offset": 52391,
+          "image_offset": 44199,
+          "kind": "far_call",
+          "relocated_segment_site": 44202,
+          "space": "root"
+        },
+        {
+          "file_offset": 53219,
+          "image_offset": 45027,
+          "kind": "far_call",
+          "relocated_segment_site": 45030,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0294",
+      "offset": 660,
+      "segment": 7887,
+      "semantic_name_hypothesis": "overlay_shape_list",
+      "sha256": "43d593a9ca732156c65937e2486b7c7e84a2332d820d092f1202c9313c12d1d5",
+      "size": 248,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 6",
+      "boundary_evidence": [
+        "Root [0x1f07c,0x1f0d0) decoded from 1ecf:038c. Linear decode ends with RETF at root+0x1f0cd, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x1014e enters this exact boundary.",
+        "Next reviewed entry starts at 03e0 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 74062,
+          "image_offset": 65870,
+          "kind": "far_call",
+          "relocated_segment_site": 65873,
+          "space": "root"
+        },
+        {
+          "file_offset": 74018,
+          "image_offset": 65826,
+          "kind": "far_call",
+          "relocated_segment_site": 65829,
+          "space": "root"
+        },
+        {
+          "file_offset": 74166,
+          "image_offset": 65974,
+          "kind": "far_call",
+          "relocated_segment_site": 65977,
+          "space": "root"
+        },
+        {
+          "file_offset": 135407,
+          "image_offset": 127215,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 127214,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:038c",
+      "offset": 908,
+      "original_name": "PrinceMarkImgsPurgeable",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0383: Checks count and inclusive first/last bounds; walks six-byte entries checking the word at index*6+10. DOS calls a purge helper in this loop."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "mark_images_purgeable",
+      "sha256": "6b80e4772499778f3a04eb4ca441482e157c266d701b403aec4824eb5bed1e3a",
+      "size": 84,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near list and two near word-array pointers, RETF 6",
+      "boundary_evidence": [
+        "Root [0x1f0d0,0x1f104) decoded from 1ecf:03e0. Linear decode ends with RETF at root+0x1f100, followed by 1 alignment byte(s).",
+        "Original far_call at root+0xa69d enters this exact boundary.",
+        "Next reviewed entry starts at 0414 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 50845,
+          "image_offset": 42653,
+          "kind": "far_call",
+          "relocated_segment_site": 42656,
+          "space": "root"
+        },
+        {
+          "file_offset": 52329,
+          "image_offset": 44137,
+          "kind": "far_call",
+          "relocated_segment_site": 44140,
+          "space": "root"
+        },
+        {
+          "file_offset": 53029,
+          "image_offset": 44837,
+          "kind": "far_call",
+          "relocated_segment_site": 44840,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:03e0",
+      "offset": 992,
+      "original_name": "PrinceMarkRangesPurgeable",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:03cb: Walks two word arrays until the first array reaches -1, calling the preceding image-range helper for each pair."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "mark_ranges_purgeable",
+      "sha256": "d91ce5c1b0d8b04b3534dc2d6d39493c488a8ac25681308fa16be493f4e04edf",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 0xa",
+      "boundary_evidence": [
+        "Root [0x1f104,0x1f28c) decoded from 1ecf:0414. Linear decode ends with RETF at root+0x1f288, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x2520 enters this exact boundary.",
+        "Next reviewed entry starts at 059c in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17696,
+          "image_offset": 9504,
+          "kind": "far_call",
+          "relocated_segment_site": 9507,
+          "space": "root"
+        },
+        {
+          "file_offset": 17838,
+          "image_offset": 9646,
+          "kind": "far_call",
+          "relocated_segment_site": 9649,
+          "space": "root"
+        },
+        {
+          "file_offset": 18027,
+          "image_offset": 9835,
+          "kind": "far_call",
+          "relocated_segment_site": 9838,
+          "space": "root"
+        },
+        {
+          "file_offset": 261863,
+          "image_offset": 231,
+          "kind": "far_call",
+          "relocated_segment_site": 234,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 267919,
+          "image_offset": 1407,
+          "kind": "far_call",
+          "relocated_segment_site": 1410,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 134929,
+          "image_offset": 126737,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 126736,
+          "space": "root"
+        },
+        {
+          "file_offset": 135208,
+          "image_offset": 127016,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 127015,
+          "space": "root"
+        },
+        {
+          "file_offset": 136027,
+          "image_offset": 127835,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 127834,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0414",
+      "offset": 1044,
+      "original_name": "PrinceNewShpItem",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0403: Identical resource-tag, reused-image and encoded-format decisions. DOS has an explicit PrinceNewShpItem() error string."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "new_shape_list_item",
+      "sha256": "359fa2e28599cb090ef35cabb3c53b607d6d7f2cf7bf4227f24770d78f97c2ee",
+      "size": 392,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 0xc",
+      "boundary_evidence": [
+        "Root [0x1f28c,0x1f32a) decoded from 1ecf:059c. Linear decode ends with RETF at root+0x1f326, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x9df1 enters this exact boundary.",
+        "Next reviewed entry starts at 063a in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 48625,
+          "image_offset": 40433,
+          "kind": "far_call",
+          "relocated_segment_site": 40436,
+          "space": "root"
+        },
+        {
+          "file_offset": 48576,
+          "image_offset": 40384,
+          "kind": "far_call",
+          "relocated_segment_site": 40387,
+          "space": "root"
+        },
+        {
+          "file_offset": 49075,
+          "image_offset": 40883,
+          "kind": "far_call",
+          "relocated_segment_site": 40886,
+          "space": "root"
+        },
+        {
+          "file_offset": 49024,
+          "image_offset": 40832,
+          "kind": "far_call",
+          "relocated_segment_site": 40835,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:059c",
+      "offset": 1436,
+      "original_name": "PrincePaintShapeIdx",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0548: Fetches list item index+1, tests its active and format bytes for drawing, and frees its temporary ShapeInfo."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "paint_shape_index",
+      "sha256": "3b13b42adc5c38d86761d2e6ccbeb692a721865d6f118bf603c6d576aecae223",
+      "size": 158,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 8",
+      "boundary_evidence": [
+        "Root [0x1f32a,0x1f37a) decoded from 1ecf:063a. Linear decode ends with RETF at root+0x1f376, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x2727 enters this exact boundary.",
+        "Next reviewed entry starts at 068a in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 18215,
+          "image_offset": 10023,
+          "kind": "far_call",
+          "relocated_segment_site": 10026,
+          "space": "root"
+        },
+        {
+          "file_offset": 135842,
+          "image_offset": 127650,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 127649,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:063a",
+      "offset": 1594,
+      "segment": 7887,
+      "semantic_name_hypothesis": "get_list_item",
+      "sha256": "2a23321eb29988a769da8a603e2838d07ab24be63d24b6b6441e6af6090704af",
+      "size": 80,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 8",
+      "boundary_evidence": [
+        "Root [0x1f37a,0x1f3d8) decoded from 1ecf:068a. Linear decode ends with RETF at root+0x1f3d4, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x26d1 enters this exact boundary.",
+        "Next reviewed entry starts at 06e8 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 18129,
+          "image_offset": 9937,
+          "kind": "far_call",
+          "relocated_segment_site": 9940,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:068a",
+      "offset": 1674,
+      "original_name": "PrinceGetnShapeItemSize",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0679: Reads item handle from six-byte records; copies the first two words of the resolved data to a far result and returns null on failure."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "get_list_item_size",
+      "sha256": "ef2612ef456409df3d5936baa28c3e11ed1a4afe7b2f73acb58bd1c5c604f2db",
+      "size": 94,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 2",
+      "boundary_evidence": [
+        "Root [0x1f3d8,0x1f400) decoded from 1ecf:06e8. Linear decode ends with RETF at root+0x1f3fc, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x2539 enters this exact boundary.",
+        "Next reviewed entry starts at 0710 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17721,
+          "image_offset": 9529,
+          "kind": "far_call",
+          "relocated_segment_site": 9532,
+          "space": "root"
+        },
+        {
+          "file_offset": 18052,
+          "image_offset": 9860,
+          "kind": "far_call",
+          "relocated_segment_site": 9863,
+          "space": "root"
+        },
+        {
+          "file_offset": 261898,
+          "image_offset": 266,
+          "kind": "far_call",
+          "relocated_segment_site": 269,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 267941,
+          "image_offset": 1429,
+          "kind": "far_call",
+          "relocated_segment_site": 1432,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 134940,
+          "image_offset": 126748,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 126747,
+          "space": "root"
+        },
+        {
+          "file_offset": 135220,
+          "image_offset": 127028,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 127027,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:06e8",
+      "offset": 1768,
+      "original_name": "PrinceFreeShp",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:06e4: Uses resource tag SHAP with one id, disposing of a returned nonzero handle."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "free_shape_resource",
+      "sha256": "8507fc073a2c01241037acf74c0f47bb436883561d20be938b831e9cda2d964b",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, word handle, word mode, far mapping pointer, RETF 8; AX handle result",
+      "boundary_evidence": [
+        "Root [0x1f400,0x1f464) decoded from 1ecf:0710. Linear decode ends with RETF at root+0x1f461, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x4c1c enters this exact boundary.",
+        "Next reviewed entry starts at 0774 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 27676,
+          "image_offset": 19484,
+          "kind": "far_call",
+          "relocated_segment_site": 19487,
+          "space": "root"
+        },
+        {
+          "file_offset": 28542,
+          "image_offset": 20350,
+          "kind": "far_call",
+          "relocated_segment_site": 20353,
+          "space": "root"
+        },
+        {
+          "file_offset": 212963,
+          "image_offset": 1043,
+          "kind": "far_call",
+          "relocated_segment_site": 1046,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 213023,
+          "image_offset": 1103,
+          "kind": "far_call",
+          "relocated_segment_site": 1106,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0710",
+      "offset": 1808,
+      "original_name": "PrinceUnpackShape",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:070a: Resolves and unpacks a shape with a mapping pointer advanced by four bytes; the DOS error text names PrinceUnpackShape()."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "unpack_shape",
+      "sha256": "508fe141b6c42ce7851b916a42356854d3106ab7b93301c4b5d510be86f94eb0",
+      "size": 100,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 6",
+      "boundary_evidence": [
+        "Root [0x1f464,0x1f4e0) decoded from 1ecf:0774. Linear decode ends with RETF at root+0x1f4dd, followed by 0 alignment byte(s).",
+        "Original far_call at root+0xaaac enters this exact boundary.",
+        "Next reviewed entry starts at 07f0 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51884,
+          "image_offset": 43692,
+          "kind": "far_call",
+          "relocated_segment_site": 43695,
+          "space": "root"
+        },
+        {
+          "file_offset": 52410,
+          "image_offset": 44218,
+          "kind": "far_call",
+          "relocated_segment_site": 44221,
+          "space": "root"
+        },
+        {
+          "file_offset": 53287,
+          "image_offset": 45095,
+          "kind": "far_call",
+          "relocated_segment_site": 45098,
+          "space": "root"
+        },
+        {
+          "file_offset": 54201,
+          "image_offset": 46009,
+          "kind": "far_call",
+          "relocated_segment_site": 46012,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0774",
+      "offset": 1908,
+      "segment": 7887,
+      "semantic_name_hypothesis": "unload_overlay",
+      "sha256": "7d64b77ff608d1bb4dd83799d94497af0403e9217f9d15a4ebf512a6b6fcc2ab",
+      "size": 124,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near list pointer, RETF 2",
+      "boundary_evidence": [
+        "Root [0x1f4e0,0x1f53a) decoded from 1ecf:07f0. Linear decode ends with RETF at root+0x1f537, followed by 0 alignment byte(s).",
+        "Original far_call at root+0xb408 enters this exact boundary.",
+        "Next reviewed entry starts at 084a in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54280,
+          "image_offset": 46088,
+          "kind": "far_call",
+          "relocated_segment_site": 46091,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:07f0",
+      "offset": 2032,
+      "original_name": "UnloadShapeList",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0826: Disposes and clears each image handle at index*6+10, then finds and releases the list resource and frees the list."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "unload_shape_list",
+      "sha256": "ffe91c49a23a06d53f2d71d3e2c5d2ac74ce15c66d5fecde779786587295e32c",
+      "size": 90,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, five word parameters, RETF 10",
+      "boundary_evidence": [
+        "Root [0x1f53a,0x1f576) decoded from 1ecf:084a. Linear decode ends with RETF at root+0x1f573, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x56e6 enters this exact boundary.",
+        "Next reviewed entry starts at 0886 in this frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30438,
+          "image_offset": 22246,
+          "kind": "far_call",
+          "relocated_segment_site": 22249,
+          "space": "root"
+        },
+        {
+          "file_offset": 30420,
+          "image_offset": 22228,
+          "kind": "far_call",
+          "relocated_segment_site": 22231,
+          "space": "root"
+        },
+        {
+          "file_offset": 34805,
+          "image_offset": 26613,
+          "kind": "far_call",
+          "relocated_segment_site": 26616,
+          "space": "root"
+        },
+        {
+          "file_offset": 157715,
+          "image_offset": 1779,
+          "kind": "far_call",
+          "relocated_segment_site": 1782,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 157684,
+          "image_offset": 1748,
+          "kind": "far_call",
+          "relocated_segment_site": 1751,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 157934,
+          "image_offset": 1998,
+          "kind": "far_call",
+          "relocated_segment_site": 2001,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158615,
+          "image_offset": 2679,
+          "kind": "far_call",
+          "relocated_segment_site": 2682,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158387,
+          "image_offset": 2451,
+          "kind": "far_call",
+          "relocated_segment_site": 2454,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158355,
+          "image_offset": 2419,
+          "kind": "far_call",
+          "relocated_segment_site": 2422,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159657,
+          "image_offset": 3721,
+          "kind": "far_call",
+          "relocated_segment_site": 3724,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159636,
+          "image_offset": 3700,
+          "kind": "far_call",
+          "relocated_segment_site": 3703,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159612,
+          "image_offset": 3676,
+          "kind": "far_call",
+          "relocated_segment_site": 3679,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159455,
+          "image_offset": 3519,
+          "kind": "far_call",
+          "relocated_segment_site": 3522,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159430,
+          "image_offset": 3494,
+          "kind": "far_call",
+          "relocated_segment_site": 3497,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159405,
+          "image_offset": 3469,
+          "kind": "far_call",
+          "relocated_segment_site": 3472,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159267,
+          "image_offset": 3331,
+          "kind": "far_call",
+          "relocated_segment_site": 3334,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159242,
+          "image_offset": 3306,
+          "kind": "far_call",
+          "relocated_segment_site": 3309,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159221,
+          "image_offset": 3285,
+          "kind": "far_call",
+          "relocated_segment_site": 3288,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158996,
+          "image_offset": 3060,
+          "kind": "far_call",
+          "relocated_segment_site": 3063,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158971,
+          "image_offset": 3035,
+          "kind": "far_call",
+          "relocated_segment_site": 3038,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158946,
+          "image_offset": 3010,
+          "kind": "far_call",
+          "relocated_segment_site": 3013,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160266,
+          "image_offset": 4330,
+          "kind": "far_call",
+          "relocated_segment_site": 4333,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160135,
+          "image_offset": 4199,
+          "kind": "far_call",
+          "relocated_segment_site": 4202,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160114,
+          "image_offset": 4178,
+          "kind": "far_call",
+          "relocated_segment_site": 4181,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159872,
+          "image_offset": 3936,
+          "kind": "far_call",
+          "relocated_segment_site": 3939,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159847,
+          "image_offset": 3911,
+          "kind": "far_call",
+          "relocated_segment_site": 3914,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159826,
+          "image_offset": 3890,
+          "kind": "far_call",
+          "relocated_segment_site": 3893,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161050,
+          "image_offset": 5114,
+          "kind": "far_call",
+          "relocated_segment_site": 5117,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161026,
+          "image_offset": 5090,
+          "kind": "far_call",
+          "relocated_segment_site": 5093,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161005,
+          "image_offset": 5069,
+          "kind": "far_call",
+          "relocated_segment_site": 5072,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160984,
+          "image_offset": 5048,
+          "kind": "far_call",
+          "relocated_segment_site": 5051,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160960,
+          "image_offset": 5024,
+          "kind": "far_call",
+          "relocated_segment_site": 5027,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160936,
+          "image_offset": 5000,
+          "kind": "far_call",
+          "relocated_segment_site": 5003,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160912,
+          "image_offset": 4976,
+          "kind": "far_call",
+          "relocated_segment_site": 4979,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160803,
+          "image_offset": 4867,
+          "kind": "far_call",
+          "relocated_segment_site": 4870,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160782,
+          "image_offset": 4846,
+          "kind": "far_call",
+          "relocated_segment_site": 4849,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160757,
+          "image_offset": 4821,
+          "kind": "far_call",
+          "relocated_segment_site": 4824,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160732,
+          "image_offset": 4796,
+          "kind": "far_call",
+          "relocated_segment_site": 4799,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160707,
+          "image_offset": 4771,
+          "kind": "far_call",
+          "relocated_segment_site": 4774,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160682,
+          "image_offset": 4746,
+          "kind": "far_call",
+          "relocated_segment_site": 4749,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160657,
+          "image_offset": 4721,
+          "kind": "far_call",
+          "relocated_segment_site": 4724,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160632,
+          "image_offset": 4696,
+          "kind": "far_call",
+          "relocated_segment_site": 4699,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160608,
+          "image_offset": 4672,
+          "kind": "far_call",
+          "relocated_segment_site": 4675,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160584,
+          "image_offset": 4648,
+          "kind": "far_call",
+          "relocated_segment_site": 4651,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161755,
+          "image_offset": 5819,
+          "kind": "far_call",
+          "relocated_segment_site": 5822,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161730,
+          "image_offset": 5794,
+          "kind": "far_call",
+          "relocated_segment_site": 5797,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161705,
+          "image_offset": 5769,
+          "kind": "far_call",
+          "relocated_segment_site": 5772,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161684,
+          "image_offset": 5748,
+          "kind": "far_call",
+          "relocated_segment_site": 5751,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161866,
+          "image_offset": 5930,
+          "kind": "far_call",
+          "relocated_segment_site": 5933,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161848,
+          "image_offset": 5912,
+          "kind": "far_call",
+          "relocated_segment_site": 5915,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162425,
+          "image_offset": 6489,
+          "kind": "far_call",
+          "relocated_segment_site": 6492,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162871,
+          "image_offset": 6935,
+          "kind": "far_call",
+          "relocated_segment_site": 6938,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162849,
+          "image_offset": 6913,
+          "kind": "far_call",
+          "relocated_segment_site": 6916,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162827,
+          "image_offset": 6891,
+          "kind": "far_call",
+          "relocated_segment_site": 6894,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162805,
+          "image_offset": 6869,
+          "kind": "far_call",
+          "relocated_segment_site": 6872,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162783,
+          "image_offset": 6847,
+          "kind": "far_call",
+          "relocated_segment_site": 6850,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162765,
+          "image_offset": 6829,
+          "kind": "far_call",
+          "relocated_segment_site": 6832,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162744,
+          "image_offset": 6808,
+          "kind": "far_call",
+          "relocated_segment_site": 6811,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163344,
+          "image_offset": 7408,
+          "kind": "far_call",
+          "relocated_segment_site": 7411,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163892,
+          "image_offset": 7956,
+          "kind": "far_call",
+          "relocated_segment_site": 7959,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 164066,
+          "image_offset": 8130,
+          "kind": "far_call",
+          "relocated_segment_site": 8133,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 164043,
+          "image_offset": 8107,
+          "kind": "far_call",
+          "relocated_segment_site": 8110,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 166194,
+          "image_offset": 10258,
+          "kind": "far_call",
+          "relocated_segment_site": 10261,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 168254,
+          "image_offset": 12318,
+          "kind": "far_call",
+          "relocated_segment_site": 12321,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172493,
+          "image_offset": 16557,
+          "kind": "far_call",
+          "relocated_segment_site": 16560,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 173337,
+          "image_offset": 17401,
+          "kind": "far_call",
+          "relocated_segment_site": 17404,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 173312,
+          "image_offset": 17376,
+          "kind": "far_call",
+          "relocated_segment_site": 17379,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 173278,
+          "image_offset": 17342,
+          "kind": "far_call",
+          "relocated_segment_site": 17345,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174018,
+          "image_offset": 18082,
+          "kind": "far_call",
+          "relocated_segment_site": 18085,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 173753,
+          "image_offset": 17817,
+          "kind": "far_call",
+          "relocated_segment_site": 17820,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 175092,
+          "image_offset": 19156,
+          "kind": "far_call",
+          "relocated_segment_site": 19159,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 175004,
+          "image_offset": 19068,
+          "kind": "far_call",
+          "relocated_segment_site": 19071,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 175479,
+          "image_offset": 19543,
+          "kind": "far_call",
+          "relocated_segment_site": 19546,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 175447,
+          "image_offset": 19511,
+          "kind": "far_call",
+          "relocated_segment_site": 19514,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 177382,
+          "image_offset": 21446,
+          "kind": "far_call",
+          "relocated_segment_site": 21449,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:084a",
+      "offset": 2122,
+      "original_name": "PaintRLEShapeItem",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0883: Requests a new item in mode 1, resolves it, passes the payload to the RLE painter, and disposes the item."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "paint_rle_shape_item",
+      "sha256": "8bb9e5be61dadd7180a40da51ff97cabcae6a924c61160ff44c5120fac25af0d",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, six word parameters, RETF 12",
+      "boundary_evidence": [
+        "Root [0x1f576,0x1f5da) decoded from 1ecf:0886. Linear decode ends with RETF at root+0x1f5d6, followed by 1 alignment byte(s).",
+        "Original far_call at overlay-2+0x15a8 enters this exact boundary.",
+        "Next reviewed entry starts at 08ea in this frame.",
+        "The 0886 routine ends before the uncalled 08ea prologue. Do not fold the latter routine into this extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 161480,
+          "image_offset": 5544,
+          "kind": "far_call",
+          "relocated_segment_site": 5547,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174419,
+          "image_offset": 18483,
+          "kind": "far_call",
+          "relocated_segment_site": 18486,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:0886",
+      "offset": 2182,
+      "original_name": "PaintShapeItem",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:08d2: Requests mode 1, guards the handle, conditionally reverses pixel bytes at payload+6 using fields +0/+4, paints, and disposes the item."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "paint_shape_item",
+      "sha256": "4c8259ce98f27ce60a85f43acb7bf9444e4d424045ad5ed12f2a424cef351a36",
+      "size": 100,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, six word parameters, RETF 12",
+      "boundary_evidence": [
+        "Root [0x1f5da,0x1f61a) decoded from 1ecf:08ea. Linear decode ends with RETF at root+0x1f616, followed by 1 alignment byte(s).",
+        "Unreferenced prologue 558bec5756 immediately after the preceding RETF and NOP; next module begins at 1f61:000a.",
+        "Next entry is the independently relocated 1f61:000a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "FM Towns behavior and independent DOS adjacent return and prologue boundaries",
+      "entry_kind": "direct-code",
+      "id": "root:1ecf:08ea",
+      "offset": 2282,
+      "original_name": "Paint4BitShapeItem",
+      "original_name_evidence": [
+        "FM Towns SHAPE entry 3611:0941: Requests mode 2, resolves then paints with one extra mode word, and disposes the item. The DOS entry has no direct caller in the reviewed census."
+      ],
+      "segment": 7887,
+      "semantic_name_hypothesis": "paint_4bit_shape_item",
+      "sha256": "3296717c81573d9b272bd79fbea2315dfd68090c8a2e683d973f5df5fe990653",
+      "size": 64,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 2",
+      "boundary_evidence": [
+        "Root [0x18fa6,0x18fc6) decoded from 1101:7f96. Linear decode ends with RETF at root+0x18fc2, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x59e0 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 31200,
+          "image_offset": 23008,
+          "kind": "far_call",
+          "relocated_segment_site": 23011,
+          "space": "root"
+        },
+        {
+          "file_offset": 31119,
+          "image_offset": 22927,
+          "kind": "far_call",
+          "relocated_segment_site": 22930,
+          "space": "root"
+        },
+        {
+          "file_offset": 37836,
+          "image_offset": 29644,
+          "kind": "far_call",
+          "relocated_segment_site": 29647,
+          "space": "root"
+        },
+        {
+          "file_offset": 47772,
+          "image_offset": 39580,
+          "kind": "far_call",
+          "relocated_segment_site": 39583,
+          "space": "root"
+        },
+        {
+          "file_offset": 135058,
+          "image_offset": 126866,
+          "kind": "far_call",
+          "relocated_segment_site": 126869,
+          "space": "root"
+        },
+        {
+          "file_offset": 134460,
+          "image_offset": 126268,
+          "kind": "far_call",
+          "relocated_segment_site": 126271,
+          "space": "root"
+        },
+        {
+          "file_offset": 136472,
+          "image_offset": 128280,
+          "kind": "far_call",
+          "relocated_segment_site": 128283,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7f96",
+      "offset": 32662,
+      "segment": 4353,
+      "semantic_name_hypothesis": "find_shape_list",
+      "sha256": "f164e7cfd177d6668064815f8d5d6894948b6810abcbfdd044a137ff62361d7b",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 2",
+      "boundary_evidence": [
+        "Root [0x11898,0x118e2) decoded from 1101:0888. Linear decode ends with RETF at root+0x118df, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x18ff8 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110584,
+          "image_offset": 102392,
+          "kind": "far_call",
+          "relocated_segment_site": 102395,
+          "space": "root"
+        },
+        {
+          "file_offset": 134551,
+          "image_offset": 126359,
+          "kind": "far_call",
+          "relocated_segment_site": 126362,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:0888",
+      "offset": 2184,
+      "segment": 4353,
+      "semantic_name_hypothesis": "load_mapping",
+      "sha256": "891c638bf115e8435c96b16b2705ff43a6bf3b87d40a6c1d21548be6de73f60a",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 4",
+      "boundary_evidence": [
+        "Root [0x11aaa,0x11b06) decoded from 1101:0a9a. Linear decode ends with RETF at root+0x11b02, followed by 1 alignment byte(s).",
+        "Original far_call at root+0x19011 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110609,
+          "image_offset": 102417,
+          "kind": "far_call",
+          "relocated_segment_site": 102420,
+          "space": "root"
+        },
+        {
+          "file_offset": 134587,
+          "image_offset": 126395,
+          "kind": "far_call",
+          "relocated_segment_site": 126398,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:0a9a",
+      "offset": 2714,
+      "segment": 4353,
+      "semantic_name_hypothesis": "prepare_mapping",
+      "sha256": "f1e699812457823d57a4a7310845f264a8346b54651b399fa8082f9c7c353fdf",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 2",
+      "boundary_evidence": [
+        "Root [0x134a6,0x134ba) decoded from 1101:2496. Linear decode ends with RETF at root+0x134b7, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x10187 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 74119,
+          "image_offset": 65927,
+          "kind": "far_call",
+          "relocated_segment_site": 65930,
+          "space": "root"
+        },
+        {
+          "file_offset": 74086,
+          "image_offset": 65894,
+          "kind": "far_call",
+          "relocated_segment_site": 65897,
+          "space": "root"
+        },
+        {
+          "file_offset": 110522,
+          "image_offset": 102330,
+          "kind": "far_call",
+          "relocated_segment_site": 102333,
+          "space": "root"
+        },
+        {
+          "file_offset": 110624,
+          "image_offset": 102432,
+          "kind": "far_call",
+          "relocated_segment_site": 102435,
+          "space": "root"
+        },
+        {
+          "file_offset": 135260,
+          "image_offset": 127068,
+          "kind": "far_call",
+          "relocated_segment_site": 127071,
+          "space": "root"
+        },
+        {
+          "file_offset": 134970,
+          "image_offset": 126778,
+          "kind": "far_call",
+          "relocated_segment_site": 126781,
+          "space": "root"
+        },
+        {
+          "file_offset": 157094,
+          "image_offset": 1158,
+          "kind": "far_call",
+          "relocated_segment_site": 1161,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 179879,
+          "image_offset": 23943,
+          "kind": "far_call",
+          "relocated_segment_site": 23946,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2496",
+      "offset": 9366,
+      "segment": 4353,
+      "semantic_name_hypothesis": "mark_fixed",
+      "sha256": "19a6043408f0f3b289bdc976c837e7b2482332a2e569fd6dd74ca36912594690",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 2",
+      "boundary_evidence": [
+        "Root [0x134ba,0x134ce) decoded from 1101:24aa. Linear decode ends with RETF at root+0x134cb, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x252f enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17711,
+          "image_offset": 9519,
+          "kind": "far_call",
+          "relocated_segment_site": 9522,
+          "space": "root"
+        },
+        {
+          "file_offset": 17880,
+          "image_offset": 9688,
+          "kind": "far_call",
+          "relocated_segment_site": 9691,
+          "space": "root"
+        },
+        {
+          "file_offset": 18042,
+          "image_offset": 9850,
+          "kind": "far_call",
+          "relocated_segment_site": 9853,
+          "space": "root"
+        },
+        {
+          "file_offset": 42850,
+          "image_offset": 34658,
+          "kind": "far_call",
+          "relocated_segment_site": 34661,
+          "space": "root"
+        },
+        {
+          "file_offset": 47872,
+          "image_offset": 39680,
+          "kind": "far_call",
+          "relocated_segment_site": 39683,
+          "space": "root"
+        },
+        {
+          "file_offset": 65489,
+          "image_offset": 57297,
+          "kind": "far_call",
+          "relocated_segment_site": 57300,
+          "space": "root"
+        },
+        {
+          "file_offset": 65829,
+          "image_offset": 57637,
+          "kind": "far_call",
+          "relocated_segment_site": 57640,
+          "space": "root"
+        },
+        {
+          "file_offset": 135357,
+          "image_offset": 127165,
+          "kind": "far_call",
+          "relocated_segment_site": 127168,
+          "space": "root"
+        },
+        {
+          "file_offset": 174179,
+          "image_offset": 18243,
+          "kind": "far_call",
+          "relocated_segment_site": 18246,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174770,
+          "image_offset": 18834,
+          "kind": "far_call",
+          "relocated_segment_site": 18837,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 261878,
+          "image_offset": 246,
+          "kind": "far_call",
+          "relocated_segment_site": 249,
+          "space": "overlay-13"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:24aa",
+      "offset": 9386,
+      "segment": 4353,
+      "semantic_name_hypothesis": "mark_purgeable",
+      "sha256": "9a80e9f09e2df9a0f690ab345b823d0faa696c6042f603292ef35501a0b57b89",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry via DS-indirect near jump. Cleanup is performed by the selected drawing implementation.",
+      "boundary_evidence": [
+        "Root [0x16146,0x1614a) decoded from 1101:5136. Exactly one indirect JMP at root+0x16146; no fallthrough. End at root+0x1614a.",
+        "Original far_call at root+0x8b24 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 43812,
+          "image_offset": 35620,
+          "kind": "far_call",
+          "relocated_segment_site": 35623,
+          "space": "root"
+        },
+        {
+          "file_offset": 135884,
+          "image_offset": 127692,
+          "kind": "far_call",
+          "relocated_segment_site": 127695,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5136",
+      "offset": 20790,
+      "segment": 4353,
+      "semantic_name_hypothesis": "paint_four_bit",
+      "sha256": "de6a491ae9d58797e5c29a1f450b81a93fd992508aad01fec596a56e557cb42e",
+      "size": 4,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far assembly entry, RETF 12 at 07b2.",
+      "boundary_evidence": [
+        "Root [0x1173a,0x11894) decoded from 1101:072a. Branch at 07a6 reaches the block at 07b5. Terminal loop backedge at 0882 jumps to 081b; independent relocated entry 0884 starts immediately after it.",
+        "Original far_call at root+0x2ca7 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19623,
+          "image_offset": 11431,
+          "kind": "far_call",
+          "relocated_segment_site": 11434,
+          "space": "root"
+        },
+        {
+          "file_offset": 43750,
+          "image_offset": 35558,
+          "kind": "far_call",
+          "relocated_segment_site": 35561,
+          "space": "root"
+        },
+        {
+          "file_offset": 76426,
+          "image_offset": 68234,
+          "kind": "far_call",
+          "relocated_segment_site": 68237,
+          "space": "root"
+        },
+        {
+          "file_offset": 135936,
+          "image_offset": 127744,
+          "kind": "far_call",
+          "relocated_segment_site": 127747,
+          "space": "root"
+        },
+        {
+          "file_offset": 136710,
+          "image_offset": 128518,
+          "kind": "far_call",
+          "relocated_segment_site": 128521,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:072a",
+      "offset": 1834,
+      "segment": 4353,
+      "semantic_name_hypothesis": "paint_mode",
+      "sha256": "49ef1ac9332d4796229a24ea6047b000d6642c8e39cf1d1ed933e6f237bc86a9",
+      "size": 346,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry via DS-indirect near jump. Cleanup is performed by the selected drawing implementation.",
+      "boundary_evidence": [
+        "Root [0x1614a,0x1614e) decoded from 1101:513a. Exactly one indirect JMP at root+0x1614a; no fallthrough. End at root+0x1614e.",
+        "Original far_call at root+0x741f enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 37919,
+          "image_offset": 29727,
+          "kind": "far_call",
+          "relocated_segment_site": 29730,
+          "space": "root"
+        },
+        {
+          "file_offset": 43769,
+          "image_offset": 35577,
+          "kind": "far_call",
+          "relocated_segment_site": 35580,
+          "space": "root"
+        },
+        {
+          "file_offset": 76400,
+          "image_offset": 68208,
+          "kind": "far_call",
+          "relocated_segment_site": 68211,
+          "space": "root"
+        },
+        {
+          "file_offset": 135955,
+          "image_offset": 127763,
+          "kind": "far_call",
+          "relocated_segment_site": 127766,
+          "space": "root"
+        },
+        {
+          "file_offset": 136646,
+          "image_offset": 128454,
+          "kind": "far_call",
+          "relocated_segment_site": 128457,
+          "space": "root"
+        },
+        {
+          "file_offset": 180775,
+          "image_offset": 24839,
+          "kind": "far_call",
+          "relocated_segment_site": 24842,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:513a",
+      "offset": 20794,
+      "segment": 4353,
+      "semantic_name_hypothesis": "paint_plain",
+      "sha256": "4af1e1a83a8e75cf1b8e068ae44987a2c61d32fc16c66faab1f116d3db8c3e72",
+      "size": 4,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style entry, RETF 2",
+      "boundary_evidence": [
+        "Root [0x18f56,0x18fa6) decoded from 1101:7f46. Linear decode ends with RETF at root+0x18fa3, followed by 0 alignment byte(s).",
+        "Original far_call at root+0x5776 enters this exact boundary."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30582,
+          "image_offset": 22390,
+          "kind": "far_call",
+          "relocated_segment_site": 22393,
+          "space": "root"
+        },
+        {
+          "file_offset": 34411,
+          "image_offset": 26219,
+          "kind": "far_call",
+          "relocated_segment_site": 26222,
+          "space": "root"
+        },
+        {
+          "file_offset": 136484,
+          "image_offset": 128292,
+          "kind": "far_call",
+          "relocated_segment_site": 128295,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Resident SHAPE module or directly called graphics/resource support."
+      ],
+      "classification_status": "reviewed semantic hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7f46",
+      "offset": 32582,
+      "segment": 4353,
+      "semantic_name_hypothesis": "release_shape_list",
+      "sha256": "963c1e94d544dac2abe97f99409dd5b81268b5280de7ba3b28a66e8db7f2c7f3",
+      "size": 80,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0526",
+      "space": "root",
+      "offset": 1318,
+      "segment": 361,
+      "size": 174,
+      "sha256": "e1ec3f6680ff27d156f596d4b71d5f9dda9b2205f2686d0f8359ef7273477415",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1bb6,0x1c64) decodes completely. All direct branches stay in the extent. Last RETF at 0169:05d1, followed by 0 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0523; following entry 0169:05d4 begins 558bec568a.",
+        "Relocated original 9A caller at root+0x4a90, relocation 393.",
+        "Relocated original 9A caller at root+0x89e1, relocation 740.",
+        "Relocated original 9A caller at overlay-5+0x7bd, relocation 30."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Builds an eight-byte rectangle, saves its pixels, and appends a six-byte peel."
+      ],
+      "abi": "Fastcall AX y, DX bottom, BX x; three stack words, RETF 6.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 19088,
+          "file_offset": 27280,
+          "relocated_segment_site": 19091,
+          "relocation_index": 393
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 35297,
+          "file_offset": 43489,
+          "relocated_segment_site": 35300,
+          "relocation_index": 740
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-5",
+          "image_offset": 1981,
+          "file_offset": 213901,
+          "relocated_segment_site": 1984,
+          "relocation_index": 30
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-13",
+          "image_offset": 550,
+          "file_offset": 262182,
+          "relocated_segment_site": 553,
+          "relocation_index": 16
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:05d4",
+      "space": "root",
+      "offset": 1492,
+      "segment": 361,
+      "size": 44,
+      "sha256": "d27eeed2f2908eecd46489fdb7d1164d7b2ac603cd7757f6e02702e33a1ca3ab",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1c64,0x1c90) decodes completely. All direct branches stay in the extent. Last RETF at 0169:05fc, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:05d1; following entry 0169:0600 begins 558bec83ec.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x27a1.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x27ac."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Looks up an actor's peel and marks the matching six-byte record for retention."
+      ],
+      "abi": "Far Pascal, actor and occurrence in two words; RETF 4.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 10146,
+          "file_offset": 18338,
+          "pushed_cs_site": 10145
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 10157,
+          "file_offset": 18349,
+          "pushed_cs_site": 10156
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0600",
+      "space": "root",
+      "offset": 1536,
+      "segment": 361,
+      "size": 124,
+      "sha256": "de9f4f7b5d4923f6f5fb500c6c81953c81e964946ee1689214f113b6510ed492",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1c90,0x1d0c) decodes completely. All direct branches stay in the extent. Last RETF at 0169:067a, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:05fc; following entry 0169:067c begins 558bec5756.",
+        "Relocated original 9A caller at root+0x8b8e, relocation 853."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Walks peel records backward and schedules callbacks for eligible actors."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 35726,
+          "file_offset": 43918,
+          "relocated_segment_site": 35729,
+          "relocation_index": 853
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:067c",
+      "space": "root",
+      "offset": 1660,
+      "segment": 361,
+      "size": 62,
+      "sha256": "bf1fab38795745977955b6e6c63d6e3387ab04c12468ebc0fcd419fb9ee082ce",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1d0c,0x1d4a) decodes completely. All direct branches stay in the extent. Last RETF at 0169:06b6, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:067a; following entry 0169:06ba begins 558bec83ec.",
+        "Relocated original 9A caller at root+0x50e4, relocation 414.",
+        "Relocated original 9A caller at overlay-5+0x928, relocation 60.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1c71."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans the six-byte peel records and returns the matching occurrence index or -1."
+      ],
+      "abi": "Far Pascal, signed byte actor and word occurrence; returns index in AX, RETF 4.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 20708,
+          "file_offset": 28900,
+          "relocated_segment_site": 20711,
+          "relocation_index": 414
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-5",
+          "image_offset": 2344,
+          "file_offset": 214264,
+          "relocated_segment_site": 2347,
+          "relocation_index": 60
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 7282,
+          "file_offset": 15474,
+          "pushed_cs_site": 7281
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:06ba",
+      "space": "root",
+      "offset": 1722,
+      "segment": 361,
+      "size": 218,
+      "sha256": "399b9c57ea6ed892733cc8bcfcf0cdf8254a3b2f515f78db38543142081a0b60",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1d4a,0x1e24) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0793, followed by 0 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:06b6; following entry 0169:0794 begins 57568b3e44.",
+        "Relocated original 9A caller at root+0x8cac, relocation 731."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Restores or retains peel handles, then compacts their six-byte records."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 36012,
+          "file_offset": 44204,
+          "relocated_segment_site": 36015,
+          "relocation_index": 731
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:07c4",
+      "space": "root",
+      "offset": 1988,
+      "segment": 361,
+      "size": 106,
+      "sha256": "92a6c0644dcf5ece94757f88d5af25778b4f628f6d6ff55e6cca49f12b46f098",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1e54,0x1ebe) decodes completely. All direct branches stay in the extent. Last RETF at 0169:082c, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:07c3; following entry 0169:082e begins 9a941dcc02.",
+        "Relocated original 9A caller at overlay-8+0x2ff, relocation 21.",
+        "Relocated original 9A caller at overlay-8+0x29e, relocation 22.",
+        "Relocated original 9A caller at overlay-9+0x107e, relocation 77."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Searches twenty-byte back-table rows and restores the DGROUP segment before return."
+      ],
+      "abi": "Fastcall AX image, DL flags and BL palette; returns far pointer in DX:AX, RETF.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 767,
+          "file_offset": 226895,
+          "relocated_segment_site": 770,
+          "relocation_index": 21
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-8",
+          "image_offset": 670,
+          "file_offset": 226798,
+          "relocated_segment_site": 673,
+          "relocation_index": 22
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4222,
+          "file_offset": 235998,
+          "relocated_segment_site": 4225,
+          "relocation_index": 77
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 4131,
+          "file_offset": 235907,
+          "relocated_segment_site": 4134,
+          "relocation_index": 78
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:082e",
+      "space": "root",
+      "offset": 2094,
+      "segment": 361,
+      "size": 216,
+      "sha256": "6b121ea86fac3e36fcbb06a6300c3f612a40c59f5794d7fc3ef475a761ca7c17",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1ebe,0x1f96) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0904, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:082c; following entry 0169:0906 begins 558bec83ec.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1952."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects Kid and dispatches same-frame drawing and equipment helpers."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 6483,
+          "file_offset": 14675,
+          "pushed_cs_site": 6482
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0906",
+      "space": "root",
+      "offset": 2310,
+      "segment": 361,
+      "size": 232,
+      "sha256": "48bd9900e34f164d0423ee4f17dd2613b06e38c28c2a49c7ba47b6273a3b21d5",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x1f96,0x207e) decodes completely. All direct branches stay in the extent. Last RETF at 0169:09ec, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0904; following entry 0169:09ee begins 569ab008cc.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1956."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Iterates the current room's actors, testing character state before drawing effects."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 6487,
+          "file_offset": 14679,
+          "pushed_cs_site": 6486
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:09ee",
+      "space": "root",
+      "offset": 2542,
+      "segment": 361,
+      "size": 216,
+      "sha256": "cf8bc71da1068d1632796b50072c7b213a0a9d1142031a90d308a485a273b9b2",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x207e,0x2156) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0ac4, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:09ec; following entry 0169:0ac6 begins 568b36075c.",
+        "Relocated original 9A caller at root+0xec55, relocation 1195.",
+        "Relocated original 9A caller at root+0xee13, relocation 1196.",
+        "Relocated original 9A caller at overlay-3+0x109d, relocation 31."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Derives display coordinates and shape-set selection from the current actor."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60501,
+          "file_offset": 68693,
+          "relocated_segment_site": 60504,
+          "relocation_index": 1195
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60947,
+          "file_offset": 69139,
+          "relocated_segment_site": 60950,
+          "relocation_index": 1196
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 4253,
+          "file_offset": 189021,
+          "relocated_segment_site": 4256,
+          "relocation_index": 31
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 22364,
+          "file_offset": 207132,
+          "relocated_segment_site": 22367,
+          "relocation_index": 442
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 23328,
+          "file_offset": 208096,
+          "relocated_segment_site": 23331,
+          "relocation_index": 443
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8919,
+          "file_offset": 17111,
+          "pushed_cs_site": 8918
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 10055,
+          "file_offset": 18247,
+          "pushed_cs_site": 10054
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0ac6",
+      "space": "root",
+      "offset": 2758,
+      "segment": 361,
+      "size": 264,
+      "sha256": "63d71cda7815ee294c6e6bfd9bef24545cc32ccfaf1f6b2ba6bd6b9c2bcb0ca0",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x2156,0x225e) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0bcd, followed by 0 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0ac4; following entry 0169:0bce begins 57569a3e1c.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1eeb.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x200c."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Chooses a comic overlay image and offsets, appends the object, and schedules a redraw."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 7916,
+          "file_offset": 16108,
+          "pushed_cs_site": 7915
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8205,
+          "file_offset": 16397,
+          "pushed_cs_site": 8204
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0bce",
+      "space": "root",
+      "offset": 3022,
+      "segment": 361,
+      "size": 108,
+      "sha256": "7d33fbe428cd45365cdbf72e60c30b129ad69c9c4baefe2f2e9bb60b4ad4c661",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x225e,0x22ca) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0c39, followed by 0 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0bcd; following entry 0169:0c3a begins 833e075c00.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1f66."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads a four-byte equipment entry, updates the object coordinates, and appends an object."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8039,
+          "file_offset": 16231,
+          "pushed_cs_site": 8038
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0c3a",
+      "space": "root",
+      "offset": 3130,
+      "segment": 361,
+      "size": 54,
+      "sha256": "3006bd88bb09d612f19780069f2272d868e32bf8d86c56b4d23e7d48bcbcf14d",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x22ca,0x2300) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0c6f, followed by 0 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0c39; following entry 0169:0c70 begins 558bec83ec.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1ed9."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calls same-frame setup and append routines with the active actor's character byte."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 7898,
+          "file_offset": 16090,
+          "pushed_cs_site": 7897
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0c70",
+      "space": "root",
+      "offset": 3184,
+      "segment": 361,
+      "size": 278,
+      "sha256": "5585cdb0737b9d0d07530b0d3fbc7d1e3859689fb6e307fa52af967e29bcf841",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x2300,0x2416) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0d83, followed by 2 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0c6f; following entry 0169:0d86 begins 558bec83ec.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1f7f.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x2020."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a sword entry by frame, applies offsets and appends a character object."
+      ],
+      "abi": "Far fastcall, object kind in AL; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8064,
+          "file_offset": 16256,
+          "pushed_cs_site": 8063
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8225,
+          "file_offset": 16417,
+          "pushed_cs_site": 8224
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0d86",
+      "space": "root",
+      "offset": 3462,
+      "segment": 361,
+      "size": 136,
+      "sha256": "e9081d85cb6fc892f224ed5a3ff605dff5f11105dd009c56cdb7aa566d423ab0",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x2416,0x249e) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0e0c, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0d83; following entry 0169:0e0e begins 558bec83ec.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1f83."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Looks up equipment frames 145 through 168 and appends a flask object."
+      ],
+      "abi": "Far, no arguments; RETF.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8068,
+          "file_offset": 16260,
+          "pushed_cs_site": 8067
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0eb6",
+      "space": "root",
+      "offset": 3766,
+      "segment": 361,
+      "size": 160,
+      "sha256": "4bb79efe456049f939760ccbaca91daace14039617d524cc9f5b266f71e6d268",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x2546,0x25e6) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0f52, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0eb3; following entry 0169:0f56 begins 558bec83ec.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x26a2.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x26f6."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests a Kid shape handle, resolves alternate resource ranges and retains the handle."
+      ],
+      "abi": "Far Pascal, one signed index word; RETF 2.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9891,
+          "file_offset": 18083,
+          "pushed_cs_site": 9890
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9975,
+          "file_offset": 18167,
+          "pushed_cs_site": 9974
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0f56",
+      "space": "root",
+      "offset": 3926,
+      "segment": 361,
+      "size": 172,
+      "sha256": "8acb9fec973c7df202e34eb8d97e929e97677dff3e7aa28dddc944d06b169dad",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x25e6,0x2692) decodes completely. All direct branches stay in the extent. Last RETF at 0169:0ffe, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:0f52; following entry 0169:1002 begins 558bec568b.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x26b1.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x2707."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads missing opponent shape data, with outfit-dependent image ranges."
+      ],
+      "abi": "Far Pascal, one signed index word; RETF 2.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9906,
+          "file_offset": 18098,
+          "pushed_cs_site": 9905
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 9992,
+          "file_offset": 18184,
+          "pushed_cs_site": 9991
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:1054",
+      "space": "root",
+      "offset": 4180,
+      "segment": 361,
+      "size": 86,
+      "sha256": "0f298291dab95dd43169bddb3f84701dce75afc61c26d8b7a150208ce8df081a",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x26e4,0x273a) decodes completely. All direct branches stay in the extent. Last RETF at 0169:10a6, followed by 1 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:1050; following entry 0169:10aa begins 558bec83ec.",
+        "Relocated original 9A caller at root+0x8507, relocation 715.",
+        "Relocated original 9A caller at root+0x882a, relocation 716."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the appropriate shape set before forwarding the shape request."
+      ],
+      "abi": "Far Pascal, set and image words plus far size pointer; RETF 8, DX:AX return.",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 34055,
+          "file_offset": 42247,
+          "relocated_segment_site": 34058,
+          "relocation_index": 715
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 34858,
+          "file_offset": 43050,
+          "relocated_segment_site": 34861,
+          "relocation_index": 716
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:10aa",
+      "space": "root",
+      "offset": 4266,
+      "segment": 361,
+      "size": 258,
+      "sha256": "63409ef4d16d5433defcb3e9792caf4726ab711179c85761d3c1333c223f59e3",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root [0x273a,0x283c) decodes completely. All direct branches stay in the extent. Last RETF at 0169:11ab, followed by 0 NOP byte(s).",
+        "Preceding entry's last RETF at 0169:10a6; following entry 0169:11ac begins bbe65c83c3.",
+        "Decoded PUSH CS; CALL near entering this offset at root+0x1fca."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks saved opponent state to retain peels or append a fresh character object."
+      ],
+      "abi": "Far, no stack arguments; RETF, Boolean return in AX. Callers pass AL.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 8139,
+          "file_offset": 16331,
+          "pushed_cs_site": 8138
+        }
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
