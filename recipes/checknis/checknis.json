@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/checknis/checknis.json",
-  "binding_sha256": "92be437ecdce2c05c41ca5aa0eaf9a74b4c4ebf86e9865158e46c2d30dea25d4",
+  "binding_sha256": "8886e109439153fdd03e914ed81286fc906408925afdc1561944ea1127ecfdb2",
   "claims": [
     {
       "fixup_count": 2,
@@ -46,6 +46,31 @@
       "target_id": "root:0284:0226"
     },
     {
+      "fixup_count": 33,
+      "public": "DRAW_ROOM_FROM_NIS",
+      "relocation_indices": [
+        239,
+        241,
+        244,
+        249,
+        250,
+        253,
+        260,
+        261,
+        263,
+        266,
+        272,
+        274,
+        276,
+        278
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0284:0326"
+    },
+    {
       "fixup_count": 11,
       "public": "DRAW_DEAD_KID",
       "relocation_indices": [
@@ -68,10 +93,6 @@
     {
       "object_offset": 216,
       "public": "ISTIMEFORNIS"
-    },
-    {
-      "object_offset": 792,
-      "public": "DRAW_ROOM_FROM_NIS"
     }
   ],
   "emitted_size": 1140,
@@ -82,19 +103,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 644,
   "group_id": "group:checknis/checknis",
   "kind": "same_source_group",
   "language": "c",
   "name": "checknis/checknis",
-  "object_sha256": "fdc8ed6aa55f72a73b75c4004e0e987f467fbd896ca7d602a7de7a6dcbafbc85",
+  "object_sha256": "00cf7a3200fc16f72171a07231b5627ae03718bb691118c72dc9532ee9ee49e4",
   "origin": 10318,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/checknis/checknis.c",
-  "source_sha256": "ebb6dcb1f565c45b5cca0b23fcb630d2316b3b202ef15cba9030ef99df8065e9",
+  "source_sha256": "a1ea0d3d26233cdd86fef05a93355fb929e8f6b107f8de7ceadfdcf1e33d2857",
   "space": "root"
 }

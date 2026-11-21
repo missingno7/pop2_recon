@@ -62,7 +62,7 @@ int far pascal IsLevelStartWithNISScreen(void)
 
 extern signed char cinematics_enabled, quote_index;
 extern int remaining_time, debug_options;
-extern int intro_music, default_music, special_music;
+extern int level_resource_files[];
 extern char *find_option(const char far *option);
 extern int cdecl atoi(const char *value);
 extern void start_music(int sound);
@@ -106,13 +106,13 @@ int IsTimeForNIS(int level, int previous_level)
         if ((options.arg = find_option("NIS")) != 0) {
             sequence = atoi(options.arg + 3);
             if (sequence == 1) {
-                start_music(intro_music);
+                start_music(level_resource_files[3]);
                 report_option(10034);
             } else if (sequence == 5 || sequence == 11) {
-                prepare_music(special_music);
-                start_music(special_music);
+                prepare_music(level_resource_files[6]);
+                start_music(level_resource_files[6]);
             } else {
-                start_music(default_music);
+                start_music(level_resource_files[4]);
             }
         } else if ((options.arg = find_option("TREE")) != 0) {
             quote_index = atoi(options.arg + 4);
@@ -123,7 +123,6 @@ int IsTimeForNIS(int level, int previous_level)
 }
 
 extern int playing_nis, pending_sound;
-extern unsigned char current_room;
 extern char screen_rect[];
 extern void set_draw_mode(int mode);
 extern void clear_dialog(void);
@@ -136,6 +135,8 @@ extern int play_story_vector(int sequence);
 extern int play_other_vector(int sequence);
 extern void finish_drawing(void);
 extern void redraw_room(unsigned char room);
+
+extern unsigned char current_room;
 
 int play_nis(int sequence)
 {
@@ -184,7 +185,6 @@ int play_nis(int sequence)
 extern signed char room_to_draw;
 extern unsigned char room_tile, level_redraw_flag;
 extern int room_to_draw_word, nis_sound;
-extern int room_music[];
 extern void begin_room_drawing(void);
 extern void select_room(signed char room);
 extern void set_room_visibility(int visible);
@@ -209,13 +209,10 @@ void draw_room_from_nis(signed char room, signed char level)
     saved_sound = pending_sound;
     pending_sound = nis_sound;
     select_room(room);
-    start_music(room_music[current_room]);
+    start_music(level_resource_files[current_room]);
     set_room_visibility(!IsLevelStartWithNISScreen());
-    {
-        unsigned char room_delta = current_room ^ old_room;
-        if (room_delta)
-            update_room();
-    }
+    if (old_room != current_room)
+        update_room();
     draw_room_tiles(current_room, room_tile);
     place_room_objects(current_room);
     level_redraw_flag = 0;
@@ -225,7 +222,7 @@ void draw_room_from_nis(signed char room, signed char level)
     draw_room_pass(4);
     draw_room_pass(1);
     present_room();
-    prepare_music(room_music[current_room]);
+    prepare_music(level_resource_files[current_room]);
     current_room = 0;
     pending_sound = saved_sound;
     restore_room_vector();

@@ -64935,6 +64935,44 @@
       "size": 148,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "BP-framed far Pascal, low byte of one word argument, RETF 2.",
+      "boundary_evidence": [
+        "The root CALL FAR at 0x2bd5 names 0a5c:0556, with MZ relocation 276 at 0x2bd8. A separate PUSH CS; CALL rel16 at 0xa866/0xa867 in root:0a5c:01b4 reaches the same entry.",
+        "The BP prologue at 0xab16 follows the final RETF at 0xab15 of reviewed root:0a5c:052c. The straight-line body ends with RETF 2 at 0xab40 and alignment NOP at 0xab43. The next reviewed entry root:0a5c:0584 starts at 0xab44."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19413,
+          "image_offset": 11221,
+          "kind": "far_call",
+          "relocated_segment_site": 11224,
+          "space": "root"
+        },
+        {
+          "file_offset": 51303,
+          "image_offset": 43111,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43110,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses the unsigned byte argument to index two arrays and install three words of room state."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0556",
+      "offset": 1366,
+      "segment": 2652,
+      "semantic_name_hypothesis": "place_room_objects",
+      "sha256": "076c3d0f903c89f9d6cc2e667f7fc66527480135a39889d075423a0c19a451e5",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
