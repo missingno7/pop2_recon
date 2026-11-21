@@ -1,26 +1,24 @@
 {
   "declarations": {
     "externals": [
-      "REDRAW_LEFT",
       "BRIDGE_BREAK",
-      "FALLING_FLOORS",
       "BRIDGE_WATCH_KID",
-      "BRIDGE_Y",
+      "FALLING_FLOORS",
       "BRIDGE_WATCH_OPPONENT",
-      "BRIDGE_IMAGES",
+      "BRIDGE_Y",
       "MARK_BRIDGE_FLOORS_FOR_CHARS",
-      "FLOOR_X",
+      "BRIDGE_IMAGES",
       "BRIDGE_CHECK_BREAK",
-      "ROW_Y",
+      "FLOOR_X",
       "TRIGGER_BRIDGE_FLOOR_MOB",
-      "FLOOR_Y_ADJUSTMENT",
+      "ROW_Y",
       "BRIDGE_CHAR_ON_FLOOR",
-      "FLOOR_X_ADJUSTMENT",
+      "FLOOR_Y_ADJUSTMENT",
       "TWEAK_CHAR_Y_ON_BRIDGE",
-      "TILE_STATE",
+      "FLOOR_X_ADJUSTMENT",
       "BRIDGE_SKELETON_PROGRESS",
       "BRIDGE_GATE_OPEN",
-      "FLOOR_CELLS",
+      "TILE_STATE",
       "BRIDGE_SKELETON_AT_PLATE",
       "ROOM_TILES",
       "MARK_BRIDGE_FOR_COL",
@@ -61,6 +59,7 @@
       "LOAD_TILE_ROW",
       "BRIDGE_SKELETON_CAN_ADVANCE",
       "GET_CELL",
+      "ROOM_FOREGROUNDS",
       "IMAGE_BOUNDS",
       "DRAW_MOB",
       "GET_MOB_RECT",
@@ -71,36 +70,37 @@
       "FOREGROUND_TILES",
       "FOREGROUND_INDEX",
       "FOREGROUND_MODIFIER",
-      "CURRENT_CHAR",
       "ANIMATION_MODIFIER",
-      "KID",
+      "CURRENT_CHAR",
       "ANIMATION_CELL",
       "LOAD_BRIDGE_CODE",
-      "OPPONENT",
+      "KID",
       "ANIMATION_ACTIVE",
-      "SKELETON",
+      "OPPONENT",
       "MOB_X",
-      "STATE_LEVEL",
+      "SKELETON",
       "MOB_Y",
-      "CURRENT_ROOM",
-      "ROOM_BELOW",
+      "STATE_LEVEL",
       "MOB_INDEX",
+      "CURRENT_ROOM",
       "MOB_SLOT",
+      "ROOM_BELOW",
       "ROOM_ABOVE",
       "MOB_ROOM",
-      "ROOM_LEFT",
       "MOB_TYPE",
-      "ROOM_RIGHT",
+      "ROOM_LEFT",
       "TRIGGER_BRIDGE_FLOOR",
+      "ROOM_RIGHT",
       "MOB_ROW",
-      "ROOM_FLAGS",
       "MOB_MODIFIER",
-      "BRIDGE_ROOM_FLAGS",
       "BRIDGE_SKELETON_MUST_ADVANCE",
+      "ROOM_FLAGS",
       "FLOOR_CELL",
-      "FLOOR_MASK",
+      "BRIDGE_ROOM_FLAGS",
       "REDRAW_TOP",
       "ANIMATE_BRIDGE_MOB",
+      "FLOOR_MASK",
+      "REDRAW_LEFT",
       "BRIDGE_WAIT"
     ],
     "groups": [
@@ -434,7 +434,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 64,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "BRIDGEGETCHARCOL",
@@ -448,7 +448,7 @@
       "segment_offset": 937,
       "self_relative": true,
       "target": {
-        "index": 64,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "BRIDGEGETCHARCOL",
@@ -515,7 +515,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "GET_GATE",
@@ -529,7 +529,7 @@
       "segment_offset": 885,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "GET_GATE",
@@ -596,7 +596,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 19,
+          "index": 17,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_GATE_OPEN",
@@ -610,7 +610,7 @@
       "segment_offset": 828,
       "self_relative": true,
       "target": {
-        "index": 19,
+        "index": 17,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_GATE_OPEN",
@@ -623,7 +623,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 64,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "BRIDGEGETCHARCOL",
@@ -637,7 +637,7 @@
       "segment_offset": 821,
       "self_relative": true,
       "target": {
-        "index": 64,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "BRIDGEGETCHARCOL",
@@ -704,7 +704,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 39,
           "kind": "external",
           "method": 6,
           "name": "TURN_TO_GUARD",
@@ -718,7 +718,7 @@
       "segment_offset": 791,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 39,
         "kind": "external",
         "method": 6,
         "name": "TURN_TO_GUARD",
@@ -731,7 +731,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 21,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_SKELETON_AT_PLATE",
@@ -745,7 +745,7 @@
       "segment_offset": 784,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_SKELETON_AT_PLATE",
@@ -758,7 +758,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 42,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "SET_SEQUENCE",
@@ -772,7 +772,7 @@
       "segment_offset": 775,
       "self_relative": false,
       "target": {
-        "index": 42,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "SET_SEQUENCE",
@@ -839,7 +839,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "WAIT_SKELETON",
@@ -853,7 +853,7 @@
       "segment_offset": 740,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "WAIT_SKELETON",
@@ -866,7 +866,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 21,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_SKELETON_AT_PLATE",
@@ -880,7 +880,7 @@
       "segment_offset": 733,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_SKELETON_AT_PLATE",
@@ -893,7 +893,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -907,7 +907,7 @@
       "segment_offset": 727,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -1028,7 +1028,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 39,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "TURN_SKELETON",
@@ -1042,7 +1042,7 @@
       "segment_offset": 693,
       "self_relative": false,
       "target": {
-        "index": 39,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "TURN_SKELETON",
@@ -1136,7 +1136,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 64,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "BRIDGEGETCHARCOL",
@@ -1150,7 +1150,7 @@
       "segment_offset": 663,
       "self_relative": true,
       "target": {
-        "index": 64,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "BRIDGEGETCHARCOL",
@@ -1217,7 +1217,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 21,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_SKELETON_AT_PLATE",
@@ -1231,7 +1231,7 @@
       "segment_offset": 618,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_SKELETON_AT_PLATE",
@@ -1271,7 +1271,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 64,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "BRIDGEGETCHARCOL",
@@ -1285,7 +1285,7 @@
       "segment_offset": 589,
       "self_relative": true,
       "target": {
-        "index": 64,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "BRIDGEGETCHARCOL",
@@ -1352,7 +1352,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 33,
           "kind": "external",
           "method": 6,
           "name": "SAVE_OPPONENT",
@@ -1366,7 +1366,7 @@
       "segment_offset": 557,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "SAVE_OPPONENT",
@@ -1379,7 +1379,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "TWEAK_CHAR_Y_ON_BRIDGE",
@@ -1393,7 +1393,7 @@
       "segment_offset": 554,
       "self_relative": true,
       "target": {
-        "index": 16,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "TWEAK_CHAR_Y_ON_BRIDGE",
@@ -1406,7 +1406,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_CHAR_ON_FLOOR",
@@ -1420,7 +1420,7 @@
       "segment_offset": 544,
       "self_relative": true,
       "target": {
-        "index": 14,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_CHAR_ON_FLOOR",
@@ -1433,7 +1433,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT",
@@ -1447,7 +1447,7 @@
       "segment_offset": 538,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT",
@@ -1460,7 +1460,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 94,
           "kind": "external",
           "method": 6,
           "name": "ROOM_FLAGS",
@@ -1474,7 +1474,7 @@
       "segment_offset": 529,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 94,
         "kind": "external",
         "method": 6,
         "name": "ROOM_FLAGS",
@@ -1541,7 +1541,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -1555,7 +1555,7 @@
       "segment_offset": 495,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -1568,7 +1568,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "TRIGGER_GATE_WITH_REVERSE_PLATE",
@@ -1582,7 +1582,7 @@
       "segment_offset": 490,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "TRIGGER_GATE_WITH_REVERSE_PLATE",
@@ -1622,7 +1622,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 19,
+          "index": 17,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_GATE_OPEN",
@@ -1636,7 +1636,7 @@
       "segment_offset": 470,
       "self_relative": true,
       "target": {
-        "index": 19,
+        "index": 17,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_GATE_OPEN",
@@ -1757,7 +1757,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "TWEAK_CHAR_Y_ON_BRIDGE",
@@ -1771,7 +1771,7 @@
       "segment_offset": 430,
       "self_relative": true,
       "target": {
-        "index": 16,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "TWEAK_CHAR_Y_ON_BRIDGE",
@@ -1784,7 +1784,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_CHAR_ON_FLOOR",
@@ -1798,7 +1798,7 @@
       "segment_offset": 419,
       "self_relative": true,
       "target": {
-        "index": 14,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_CHAR_ON_FLOOR",
@@ -1811,7 +1811,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "LOAD_KID",
@@ -1825,7 +1825,7 @@
       "segment_offset": 413,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "LOAD_KID",
@@ -1892,7 +1892,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_BREAK",
@@ -1906,7 +1906,7 @@
       "segment_offset": 346,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_BREAK",
@@ -1946,7 +1946,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -1960,7 +1960,7 @@
       "segment_offset": 328,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2000,7 +2000,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "GET_SEQUENCE",
@@ -2014,7 +2014,7 @@
       "segment_offset": 320,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "GET_SEQUENCE",
@@ -2081,7 +2081,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "LOAD_KID",
@@ -2095,7 +2095,7 @@
       "segment_offset": 297,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "LOAD_KID",
@@ -2108,7 +2108,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_BREAK",
@@ -2122,7 +2122,7 @@
       "segment_offset": 292,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_BREAK",
@@ -2135,7 +2135,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -2149,7 +2149,7 @@
       "segment_offset": 285,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2162,7 +2162,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 31,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "STOP_SOUND",
@@ -2176,7 +2176,7 @@
       "segment_offset": 273,
       "self_relative": false,
       "target": {
-        "index": 31,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "STOP_SOUND",
@@ -2189,7 +2189,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "PLAY_SOUND",
@@ -2203,7 +2203,7 @@
       "segment_offset": 264,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "PLAY_SOUND",
@@ -2216,7 +2216,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "TRIGGER_BRIDGE_FLOOR_MOB",
@@ -2230,7 +2230,7 @@
       "segment_offset": 251,
       "self_relative": true,
       "target": {
-        "index": 12,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "TRIGGER_BRIDGE_FLOOR_MOB",
@@ -2270,7 +2270,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_BREAK",
@@ -2284,7 +2284,7 @@
       "segment_offset": 204,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_BREAK",
@@ -2297,7 +2297,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_BREAK",
@@ -2311,7 +2311,7 @@
       "segment_offset": 194,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_BREAK",
@@ -2432,7 +2432,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_BREAK",
@@ -2446,7 +2446,7 @@
       "segment_offset": 148,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_BREAK",
@@ -2459,7 +2459,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -2473,7 +2473,7 @@
       "segment_offset": 138,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2540,7 +2540,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -2554,7 +2554,7 @@
       "segment_offset": 108,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2567,7 +2567,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -2581,7 +2581,7 @@
       "segment_offset": 98,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2648,7 +2648,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -2662,7 +2662,7 @@
       "segment_offset": 67,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2702,7 +2702,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_BREAK",
@@ -2716,7 +2716,7 @@
       "segment_offset": 40,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_BREAK",
@@ -2729,7 +2729,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 8,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_CHECK_BREAK",
@@ -2743,7 +2743,7 @@
       "segment_offset": 24,
       "self_relative": true,
       "target": {
-        "index": 10,
+        "index": 8,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_CHECK_BREAK",
@@ -2756,7 +2756,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "MARK_BRIDGE_FLOORS_FOR_CHARS",
@@ -2770,7 +2770,7 @@
       "segment_offset": 18,
       "self_relative": true,
       "target": {
-        "index": 8,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "MARK_BRIDGE_FLOORS_FOR_CHARS",
@@ -2783,7 +2783,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_WATCH_OPPONENT",
@@ -2797,7 +2797,7 @@
       "segment_offset": 11,
       "self_relative": true,
       "target": {
-        "index": 6,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_WATCH_OPPONENT",
@@ -2810,7 +2810,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_WATCH_KID",
@@ -2824,7 +2824,7 @@
       "segment_offset": 4,
       "self_relative": true,
       "target": {
-        "index": 4,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_WATCH_KID",
@@ -2864,7 +2864,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROOM",
@@ -2878,7 +2878,7 @@
       "segment_offset": 1881,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROOM",
@@ -2891,7 +2891,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "MOB_Y",
@@ -2905,7 +2905,7 @@
       "segment_offset": 1878,
       "self_relative": false,
       "target": {
-        "index": 81,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "MOB_Y",
@@ -2918,7 +2918,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "MOB_X",
@@ -2932,7 +2932,7 @@
       "segment_offset": 1874,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "MOB_X",
@@ -2945,7 +2945,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "REDRAW_BRIDGE_FLOOR",
@@ -2959,7 +2959,7 @@
       "segment_offset": 1853,
       "self_relative": true,
       "target": {
-        "index": 25,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "REDRAW_BRIDGE_FLOOR",
@@ -2972,7 +2972,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 57,
+          "index": 55,
           "kind": "external",
           "method": 6,
           "name": "CHANGE_TILE",
@@ -2986,7 +2986,7 @@
       "segment_offset": 1842,
       "self_relative": false,
       "target": {
-        "index": 57,
+        "index": 55,
         "kind": "external",
         "method": 6,
         "name": "CHANGE_TILE",
@@ -2999,7 +2999,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 20,
           "kind": "external",
           "method": 6,
           "name": "ROOM_TILES",
@@ -3013,7 +3013,7 @@
       "segment_offset": 1817,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "ROOM_TILES",
@@ -3026,7 +3026,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "@restore_bridge_floor_y",
@@ -3040,7 +3040,7 @@
       "segment_offset": 1790,
       "self_relative": true,
       "target": {
-        "index": 28,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "@restore_bridge_floor_y",
@@ -3053,7 +3053,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "REDRAW_CELLS",
@@ -3067,7 +3067,7 @@
       "segment_offset": 1779,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "REDRAW_CELLS",
@@ -3080,7 +3080,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 54,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "MARK_BRIDGE_TOP",
@@ -3094,7 +3094,7 @@
       "segment_offset": 1767,
       "self_relative": false,
       "target": {
-        "index": 54,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "MARK_BRIDGE_TOP",
@@ -3107,7 +3107,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 54,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "MARK_BRIDGE_TOP",
@@ -3121,7 +3121,7 @@
       "segment_offset": 1764,
       "self_relative": false,
       "target": {
-        "index": 54,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "MARK_BRIDGE_TOP",
@@ -3134,7 +3134,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "CALC_TILE_RECT",
@@ -3148,7 +3148,7 @@
       "segment_offset": 1756,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "CALC_TILE_RECT",
@@ -3161,7 +3161,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 22,
           "kind": "external",
           "method": 6,
           "name": "IMAGE_TABLE",
@@ -3175,7 +3175,7 @@
       "segment_offset": 1733,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 22,
         "kind": "external",
         "method": 6,
         "name": "IMAGE_TABLE",
@@ -3188,7 +3188,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "@offset_bridge_floor_y",
@@ -3202,7 +3202,7 @@
       "segment_offset": 1718,
       "self_relative": true,
       "target": {
-        "index": 26,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "@offset_bridge_floor_y",
@@ -3215,7 +3215,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "TRANSLATE_RECT",
@@ -3229,7 +3229,7 @@
       "segment_offset": 1674,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "TRANSLATE_RECT",
@@ -3242,7 +3242,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 22,
           "kind": "external",
           "method": 6,
           "name": "IMAGE_TABLE",
@@ -3256,7 +3256,7 @@
       "segment_offset": 1645,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 22,
         "kind": "external",
         "method": 6,
         "name": "IMAGE_TABLE",
@@ -3269,7 +3269,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "TRANSLATE_RECT",
@@ -3283,7 +3283,7 @@
       "segment_offset": 1618,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "TRANSLATE_RECT",
@@ -3323,7 +3323,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 22,
           "kind": "external",
           "method": 6,
           "name": "IMAGE_TABLE",
@@ -3337,7 +3337,7 @@
       "segment_offset": 1580,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 22,
         "kind": "external",
         "method": 6,
         "name": "IMAGE_TABLE",
@@ -3350,7 +3350,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "@restore_bridge_floor_y",
@@ -3364,7 +3364,7 @@
       "segment_offset": 1551,
       "self_relative": true,
       "target": {
-        "index": 28,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "@restore_bridge_floor_y",
@@ -3377,7 +3377,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 49,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "DRAW_TILE",
@@ -3391,7 +3391,7 @@
       "segment_offset": 1540,
       "self_relative": false,
       "target": {
-        "index": 49,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "DRAW_TILE",
@@ -3404,7 +3404,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "@offset_bridge_floor_y",
@@ -3418,7 +3418,7 @@
       "segment_offset": 1530,
       "self_relative": true,
       "target": {
-        "index": 26,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "@offset_bridge_floor_y",
@@ -3431,7 +3431,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 77,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "ANIMATION_ACTIVE",
@@ -3445,7 +3445,7 @@
       "segment_offset": 1486,
       "self_relative": false,
       "target": {
-        "index": 77,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "ANIMATION_ACTIVE",
@@ -3458,7 +3458,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "REDRAW_BRIDGE_FLOOR",
@@ -3472,7 +3472,7 @@
       "segment_offset": 1478,
       "self_relative": true,
       "target": {
-        "index": 25,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "REDRAW_BRIDGE_FLOOR",
@@ -3485,7 +3485,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 74,
+          "index": 72,
           "kind": "external",
           "method": 6,
           "name": "ANIMATION_CELL",
@@ -3499,7 +3499,7 @@
       "segment_offset": 1473,
       "self_relative": false,
       "target": {
-        "index": 74,
+        "index": 72,
         "kind": "external",
         "method": 6,
         "name": "ANIMATION_CELL",
@@ -3512,7 +3512,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "ANIMATION_MODIFIER",
@@ -3526,7 +3526,7 @@
       "segment_offset": 1456,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "ANIMATION_MODIFIER",
@@ -3539,7 +3539,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 25,
           "kind": "external",
           "method": 6,
           "name": "RANDOM_RANGE",
@@ -3553,7 +3553,7 @@
       "segment_offset": 1429,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 25,
         "kind": "external",
         "method": 6,
         "name": "RANDOM_RANGE",
@@ -3566,7 +3566,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 98,
+          "index": 99,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_MASK",
@@ -3580,7 +3580,7 @@
       "segment_offset": 1410,
       "self_relative": false,
       "target": {
-        "index": 98,
+        "index": 99,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_MASK",
@@ -3593,7 +3593,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 74,
+          "index": 72,
           "kind": "external",
           "method": 6,
           "name": "ANIMATION_CELL",
@@ -3607,7 +3607,7 @@
       "segment_offset": 1392,
       "self_relative": false,
       "target": {
-        "index": 74,
+        "index": 72,
         "kind": "external",
         "method": 6,
         "name": "ANIMATION_CELL",
@@ -3620,7 +3620,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "ANIMATION_MODIFIER",
@@ -3634,7 +3634,7 @@
       "segment_offset": 1388,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "ANIMATION_MODIFIER",
@@ -3647,7 +3647,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "ANIMATION_MODIFIER",
@@ -3661,7 +3661,7 @@
       "segment_offset": 1379,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "ANIMATION_MODIFIER",
@@ -3728,7 +3728,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 44,
           "kind": "external",
           "method": 6,
           "name": "SET_RESOURCE",
@@ -3742,7 +3742,7 @@
       "segment_offset": 1353,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 44,
         "kind": "external",
         "method": 6,
         "name": "SET_RESOURCE",
@@ -3809,7 +3809,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 17,
+          "index": 18,
           "kind": "external",
           "method": 6,
           "name": "TILE_STATE",
@@ -3823,7 +3823,7 @@
       "segment_offset": 1313,
       "self_relative": false,
       "target": {
-        "index": 17,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "TILE_STATE",
@@ -3863,7 +3863,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 95,
+          "index": 96,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_ROOM_FLAGS",
@@ -3877,7 +3877,7 @@
       "segment_offset": 1294,
       "self_relative": false,
       "target": {
-        "index": 95,
+        "index": 96,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_ROOM_FLAGS",
@@ -3890,7 +3890,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 34,
           "kind": "external",
           "method": 6,
           "name": "UPDATE_CHAR",
@@ -3904,7 +3904,7 @@
       "segment_offset": 1288,
       "self_relative": false,
       "target": {
-        "index": 36,
+        "index": 34,
         "kind": "external",
         "method": 6,
         "name": "UPDATE_CHAR",
@@ -4106,7 +4106,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "BRIDGE_CHAR_ON_FLOOR",
@@ -4120,7 +4120,7 @@
       "segment_offset": 1236,
       "self_relative": true,
       "target": {
-        "index": 14,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "BRIDGE_CHAR_ON_FLOOR",
@@ -4133,7 +4133,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 98,
+          "index": 99,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_MASK",
@@ -4147,7 +4147,7 @@
       "segment_offset": 1214,
       "self_relative": false,
       "target": {
-        "index": 98,
+        "index": 99,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_MASK",
@@ -4160,7 +4160,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "PLAY_SOUND",
@@ -4174,7 +4174,7 @@
       "segment_offset": 1153,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "PLAY_SOUND",
@@ -4187,7 +4187,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 25,
           "kind": "external",
           "method": 6,
           "name": "RANDOM_RANGE",
@@ -4201,7 +4201,7 @@
       "segment_offset": 1140,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 25,
         "kind": "external",
         "method": 6,
         "name": "RANDOM_RANGE",
@@ -4214,7 +4214,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "SOUND_IS_PLAYING",
@@ -4228,7 +4228,7 @@
       "segment_offset": 1123,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "SOUND_IS_PLAYING",
@@ -4268,7 +4268,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 23,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "MARK_BRIDGE_FOR_COL",
@@ -4282,7 +4282,7 @@
       "segment_offset": 1096,
       "self_relative": true,
       "target": {
-        "index": 23,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "MARK_BRIDGE_FOR_COL",
@@ -4295,7 +4295,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -4309,7 +4309,7 @@
       "segment_offset": 1091,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -4322,7 +4322,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 98,
+          "index": 99,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_MASK",
@@ -4336,7 +4336,7 @@
       "segment_offset": 1077,
       "self_relative": false,
       "target": {
-        "index": 98,
+        "index": 99,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_MASK",
@@ -4349,7 +4349,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 98,
+          "index": 99,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_MASK",
@@ -4363,7 +4363,7 @@
       "segment_offset": 1059,
       "self_relative": false,
       "target": {
-        "index": 98,
+        "index": 99,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_MASK",
@@ -4403,7 +4403,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 98,
+          "index": 99,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_MASK",
@@ -4417,7 +4417,7 @@
       "segment_offset": 1039,
       "self_relative": false,
       "target": {
-        "index": 98,
+        "index": 99,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_MASK",
@@ -4430,7 +4430,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 44,
           "kind": "external",
           "method": 6,
           "name": "SET_RESOURCE",
@@ -4444,7 +4444,7 @@
       "segment_offset": 1033,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 44,
         "kind": "external",
         "method": 6,
         "name": "SET_RESOURCE",
@@ -4511,7 +4511,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "GET_TILE",
@@ -4525,7 +4525,7 @@
       "segment_offset": 987,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "GET_TILE",
@@ -4619,7 +4619,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 61,
           "kind": "external",
           "method": 6,
           "name": "DRAW_MOB",
@@ -4633,7 +4633,7 @@
       "segment_offset": 2492,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 61,
         "kind": "external",
         "method": 6,
         "name": "DRAW_MOB",
@@ -4646,7 +4646,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 66,
+          "index": 65,
           "kind": "external",
           "method": 6,
           "name": "ADD_MOB",
@@ -4660,7 +4660,7 @@
       "segment_offset": 2484,
       "self_relative": false,
       "target": {
-        "index": 66,
+        "index": 65,
         "kind": "external",
         "method": 6,
         "name": "ADD_MOB",
@@ -4673,7 +4673,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 89,
+          "index": 87,
           "kind": "external",
           "method": 6,
           "name": "MOB_TYPE",
@@ -4687,7 +4687,7 @@
       "segment_offset": 2480,
       "self_relative": false,
       "target": {
-        "index": 89,
+        "index": 87,
         "kind": "external",
         "method": 6,
         "name": "MOB_TYPE",
@@ -4700,7 +4700,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "MOB_Y",
@@ -4714,7 +4714,7 @@
       "segment_offset": 2476,
       "self_relative": false,
       "target": {
-        "index": 81,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "MOB_Y",
@@ -4754,7 +4754,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "MOB_Y",
@@ -4768,7 +4768,7 @@
       "segment_offset": 2463,
       "self_relative": false,
       "target": {
-        "index": 81,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "MOB_Y",
@@ -4808,7 +4808,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 91,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROW",
@@ -4822,7 +4822,7 @@
       "segment_offset": 2451,
       "self_relative": false,
       "target": {
-        "index": 92,
+        "index": 91,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROW",
@@ -4835,7 +4835,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROOM",
@@ -4849,7 +4849,7 @@
       "segment_offset": 2445,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROOM",
@@ -4862,7 +4862,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -4876,7 +4876,7 @@
       "segment_offset": 2439,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -4916,7 +4916,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -4930,7 +4930,7 @@
       "segment_offset": 2414,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -4943,7 +4943,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -4957,7 +4957,7 @@
       "segment_offset": 2402,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -4970,7 +4970,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 25,
           "kind": "external",
           "method": 6,
           "name": "RANDOM_RANGE",
@@ -4984,7 +4984,7 @@
       "segment_offset": 2392,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 25,
         "kind": "external",
         "method": 6,
         "name": "RANDOM_RANGE",
@@ -4997,7 +4997,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "MOB_X",
@@ -5011,7 +5011,7 @@
       "segment_offset": 2385,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "MOB_X",
@@ -5051,7 +5051,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 84,
+          "index": 81,
           "kind": "external",
           "method": 6,
           "name": "MOB_INDEX",
@@ -5065,7 +5065,7 @@
       "segment_offset": 2350,
       "self_relative": false,
       "target": {
-        "index": 84,
+        "index": 81,
         "kind": "external",
         "method": 6,
         "name": "MOB_INDEX",
@@ -5078,7 +5078,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 83,
           "kind": "external",
           "method": 6,
           "name": "MOB_SLOT",
@@ -5092,7 +5092,7 @@
       "segment_offset": 2347,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 83,
         "kind": "external",
         "method": 6,
         "name": "MOB_SLOT",
@@ -5105,7 +5105,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 17,
+          "index": 18,
           "kind": "external",
           "method": 6,
           "name": "TILE_STATE",
@@ -5119,7 +5119,7 @@
       "segment_offset": 2340,
       "self_relative": false,
       "target": {
-        "index": 17,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "TILE_STATE",
@@ -5132,10 +5132,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_CELLS",
+          "name": "ROOM_FOREGROUNDS",
           "zero_displacement": true
         }
       },
@@ -5146,10 +5146,10 @@
       "segment_offset": 2331,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_CELLS",
+        "name": "ROOM_FOREGROUNDS",
         "zero_displacement": true
       }
     },
@@ -5159,7 +5159,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 84,
+          "index": 81,
           "kind": "external",
           "method": 6,
           "name": "MOB_INDEX",
@@ -5173,7 +5173,7 @@
       "segment_offset": 2310,
       "self_relative": false,
       "target": {
-        "index": 84,
+        "index": 81,
         "kind": "external",
         "method": 6,
         "name": "MOB_INDEX",
@@ -5186,7 +5186,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -5200,7 +5200,7 @@
       "segment_offset": 2294,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -5213,7 +5213,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -5227,7 +5227,7 @@
       "segment_offset": 2286,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -5240,7 +5240,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -5254,7 +5254,7 @@
       "segment_offset": 2255,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -5267,7 +5267,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -5281,7 +5281,7 @@
       "segment_offset": 2248,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -5348,7 +5348,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 66,
           "kind": "external",
           "method": 6,
           "name": "@draw_shape",
@@ -5362,7 +5362,7 @@
       "segment_offset": 2225,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 66,
         "kind": "external",
         "method": 6,
         "name": "@draw_shape",
@@ -5375,7 +5375,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 67,
           "kind": "external",
           "method": 6,
           "name": "FOREGROUND_TILES",
@@ -5389,7 +5389,7 @@
       "segment_offset": 2222,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 67,
         "kind": "external",
         "method": 6,
         "name": "FOREGROUND_TILES",
@@ -5429,7 +5429,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 70,
+          "index": 69,
           "kind": "external",
           "method": 6,
           "name": "FOREGROUND_MODIFIER",
@@ -5443,7 +5443,7 @@
       "segment_offset": 2206,
       "self_relative": false,
       "target": {
-        "index": 70,
+        "index": 69,
         "kind": "external",
         "method": 6,
         "name": "FOREGROUND_MODIFIER",
@@ -5456,7 +5456,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 69,
+          "index": 68,
           "kind": "external",
           "method": 6,
           "name": "FOREGROUND_INDEX",
@@ -5470,7 +5470,7 @@
       "segment_offset": 2197,
       "self_relative": false,
       "target": {
-        "index": 69,
+        "index": 68,
         "kind": "external",
         "method": 6,
         "name": "FOREGROUND_INDEX",
@@ -5483,7 +5483,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "MOB_Y",
@@ -5497,7 +5497,7 @@
       "segment_offset": 2188,
       "self_relative": false,
       "target": {
-        "index": 81,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "MOB_Y",
@@ -5510,7 +5510,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "MOB_X",
@@ -5524,7 +5524,7 @@
       "segment_offset": 2182,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "MOB_X",
@@ -5537,7 +5537,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 64,
           "kind": "external",
           "method": 6,
           "name": "UPDATE_MOB_Y",
@@ -5551,7 +5551,7 @@
       "segment_offset": 2174,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 64,
         "kind": "external",
         "method": 6,
         "name": "UPDATE_MOB_Y",
@@ -5564,7 +5564,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "REDRAW_CELLS",
@@ -5578,7 +5578,7 @@
       "segment_offset": 2168,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "REDRAW_CELLS",
@@ -5591,7 +5591,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 53,
           "kind": "external",
           "method": 6,
           "name": "MARK_BRIDGE_FLOOR",
@@ -5605,7 +5605,7 @@
       "segment_offset": 2156,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 53,
         "kind": "external",
         "method": 6,
         "name": "MARK_BRIDGE_FLOOR",
@@ -5618,7 +5618,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 53,
           "kind": "external",
           "method": 6,
           "name": "MARK_BRIDGE_FLOOR",
@@ -5632,7 +5632,7 @@
       "segment_offset": 2153,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 53,
         "kind": "external",
         "method": 6,
         "name": "MARK_BRIDGE_FLOOR",
@@ -5645,7 +5645,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 63,
+          "index": 62,
           "kind": "external",
           "method": 6,
           "name": "GET_MOB_RECT",
@@ -5659,7 +5659,7 @@
       "segment_offset": 2144,
       "self_relative": false,
       "target": {
-        "index": 63,
+        "index": 62,
         "kind": "external",
         "method": 6,
         "name": "GET_MOB_RECT",
@@ -5672,7 +5672,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 84,
+          "index": 81,
           "kind": "external",
           "method": 6,
           "name": "MOB_INDEX",
@@ -5686,7 +5686,7 @@
       "segment_offset": 2134,
       "self_relative": false,
       "target": {
-        "index": 84,
+        "index": 81,
         "kind": "external",
         "method": 6,
         "name": "MOB_INDEX",
@@ -5699,7 +5699,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 61,
           "kind": "external",
           "method": 6,
           "name": "DRAW_MOB",
@@ -5713,7 +5713,7 @@
       "segment_offset": 2128,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 61,
         "kind": "external",
         "method": 6,
         "name": "DRAW_MOB",
@@ -5726,7 +5726,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
+          "index": 100,
           "kind": "external",
           "method": 6,
           "name": "REDRAW_LEFT",
@@ -5740,7 +5740,7 @@
       "segment_offset": 2122,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 100,
         "kind": "external",
         "method": 6,
         "name": "REDRAW_LEFT",
@@ -5753,7 +5753,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 99,
+          "index": 97,
           "kind": "external",
           "method": 6,
           "name": "REDRAW_TOP",
@@ -5767,7 +5767,7 @@
       "segment_offset": 2115,
       "self_relative": false,
       "target": {
-        "index": 99,
+        "index": 97,
         "kind": "external",
         "method": 6,
         "name": "REDRAW_TOP",
@@ -5780,7 +5780,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "IMAGE_BOUNDS",
@@ -5794,7 +5794,7 @@
       "segment_offset": 2102,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "IMAGE_BOUNDS",
@@ -5807,7 +5807,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "MOB_X",
@@ -5821,7 +5821,7 @@
       "segment_offset": 2090,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "MOB_X",
@@ -5861,7 +5861,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "MOB_X",
@@ -5875,7 +5875,7 @@
       "segment_offset": 2079,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "MOB_X",
@@ -5888,7 +5888,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "MOB_Y",
@@ -5902,7 +5902,7 @@
       "segment_offset": 2074,
       "self_relative": false,
       "target": {
-        "index": 81,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "MOB_Y",
@@ -5942,7 +5942,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "MOB_Y",
@@ -5956,7 +5956,7 @@
       "segment_offset": 2061,
       "self_relative": false,
       "target": {
-        "index": 81,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "MOB_Y",
@@ -6023,7 +6023,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 94,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "MOB_MODIFIER",
@@ -6037,7 +6037,7 @@
       "segment_offset": 2029,
       "self_relative": false,
       "target": {
-        "index": 94,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "MOB_MODIFIER",
@@ -6050,7 +6050,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 58,
+          "index": 56,
           "kind": "external",
           "method": 6,
           "name": "LOAD_TILE_ROW",
@@ -6064,7 +6064,7 @@
       "segment_offset": 2023,
       "self_relative": false,
       "target": {
-        "index": 58,
+        "index": 56,
         "kind": "external",
         "method": 6,
         "name": "LOAD_TILE_ROW",
@@ -6077,7 +6077,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 91,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROW",
@@ -6091,7 +6091,7 @@
       "segment_offset": 2019,
       "self_relative": false,
       "target": {
-        "index": 92,
+        "index": 91,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROW",
@@ -6104,7 +6104,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 95,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_CELL",
@@ -6118,7 +6118,7 @@
       "segment_offset": 2015,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 95,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_CELL",
@@ -6131,7 +6131,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 95,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_CELL",
@@ -6145,7 +6145,7 @@
       "segment_offset": 2008,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 95,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_CELL",
@@ -6158,7 +6158,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 95,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_CELL",
@@ -6172,7 +6172,7 @@
       "segment_offset": 2004,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 95,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_CELL",
@@ -6185,7 +6185,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 95,
           "kind": "external",
           "method": 6,
           "name": "FLOOR_CELL",
@@ -6199,7 +6199,7 @@
       "segment_offset": 1990,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 95,
         "kind": "external",
         "method": 6,
         "name": "FLOOR_CELL",
@@ -6212,7 +6212,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 60,
+          "index": 58,
           "kind": "external",
           "method": 6,
           "name": "GET_CELL",
@@ -6226,7 +6226,7 @@
       "segment_offset": 1985,
       "self_relative": false,
       "target": {
-        "index": 60,
+        "index": 58,
         "kind": "external",
         "method": 6,
         "name": "GET_CELL",
@@ -6293,7 +6293,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROOM",
@@ -6307,7 +6307,7 @@
       "segment_offset": 1937,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROOM",
@@ -6347,7 +6347,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROOM",
@@ -6361,7 +6361,7 @@
       "segment_offset": 1921,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROOM",
@@ -6374,7 +6374,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 86,
+          "index": 85,
           "kind": "external",
           "method": 6,
           "name": "ROOM_ABOVE",
@@ -6388,7 +6388,7 @@
       "segment_offset": 1909,
       "self_relative": false,
       "target": {
-        "index": 86,
+        "index": 85,
         "kind": "external",
         "method": 6,
         "name": "ROOM_ABOVE",
@@ -6401,7 +6401,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "MOB_ROOM",
@@ -6415,7 +6415,7 @@
       "segment_offset": 1905,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "MOB_ROOM",
@@ -6428,7 +6428,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "ROOM_BELOW",
@@ -6442,7 +6442,7 @@
       "segment_offset": 1894,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "ROOM_BELOW",
@@ -6466,6 +6466,23 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
+    "@draw_shape": {
+      "entry_sha256": "9c22bb1c83498ed94d0c1d48e35d1a7d17ae4542e29de2fc5614ff45f57a2318",
+      "entry_target_id": "root:0169:0402",
+      "kind": "far-code-entry",
+      "offset": 1026,
+      "segment": 361,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a02046901",
+          "file_offset": 46511,
+          "image_offset": 38319,
+          "relocation_index": 804,
+          "space": "root"
+        }
+      ]
+    },
     "ANIMATION_ACTIVE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6513,6 +6530,20 @@
       "kind": "dgroup-offset",
       "offset": 27290,
       "witnesses": []
+    },
+    "BRIDGE_IMAGES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7676,
+      "witnesses": [
+        {
+          "bytes_hex": "8a85fc1d",
+          "entry": "overlay-14:2dc2:0748",
+          "image_offset": 2034,
+          "operand_offset": 2,
+          "space": "overlay-14"
+        }
+      ]
     },
     "BRIDGE_ROOM_FLAGS": {
       "group": "DGROUP",
@@ -6744,6 +6775,48 @@
       "kind": "dgroup-offset",
       "offset": 11486,
       "witnesses": []
+    },
+    "FOREGROUND_INDEX": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25174,
+      "witnesses": [
+        {
+          "bytes_hex": "a15662",
+          "entry": "root:0169:02c2",
+          "image_offset": 6558,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "FOREGROUND_MODIFIER": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25176,
+      "witnesses": [
+        {
+          "bytes_hex": "a15862",
+          "entry": "root:0169:02c2",
+          "image_offset": 6570,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "FOREGROUND_TILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25172,
+      "witnesses": [
+        {
+          "bytes_hex": "01165462",
+          "entry": "root:0000:303a",
+          "image_offset": 12361,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "GET_GATE": {
       "entry_sha256": "a172ccc7edf065a36a439c9dc76f19d4ece71a5d072cf16ca2d3c3fd7afba04e",

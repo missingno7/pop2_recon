@@ -60,7 +60,6 @@ extern signed char bridge_images[];
 extern int floor_x[], row_y[];
 extern int floor_y_adjustment[], floor_x_adjustment[];
 extern Tile tile_state[];
-extern unsigned char floor_cells[];
 extern Tile near *room_tiles;
 extern ImageTable near *image_table;
 extern int random_range(int);
@@ -550,12 +549,14 @@ void step_bridge_mob(void)
     }
 }
 
+extern unsigned char room_foregrounds[][30];
+
 void trigger_bridge_floor_mob(unsigned char room, signed char cell)
 {
     signed char col, row;
     int speed;
 
-    floor_cells[cell] = 0;
+    room_foregrounds[10][cell] = 0;
     tile_state[cell].modifier = 0xc000;
     mob_index = mob_slot = 0;
     col = cell % (signed char)10;
