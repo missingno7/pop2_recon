@@ -401,3 +401,14 @@ caller, so it cannot introduce a conflicting alias for claims that already
 have one. Overlay claims use the overlay rules above.
 The same F2-equals-target rule applies to LOC2 segment-base fields
 (`mov ax, SEG X` with X external): X's own frame is the linked value.
+
+### Far words resolved into another overlay (2026-11-21)
+
+A relocated far word that lands inside an overlay claim's object with a
+frame F' other than the claim's site frame F does not refuse the claim when
+both of these hold: another code overlay holds that link address, and that
+overlay's own monotone relocation sites bracket the position with exactly
+F'. A far word stores its target segment's frame (probe), and the claim's
+overlay has no segment of frame F' there, so the linker resolved the
+reference into the other overlay's segment. Any other mismatching frame
+remains an alias refusal.

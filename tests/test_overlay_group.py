@@ -131,9 +131,15 @@ class RealOverlayTests(unittest.TestCase):
         found, refused = evidence("overlay-3:25da:000e")
         self.assertEqual(([e["kind"] for e in found], refused[-1]["reason"]),
                          (["rtlink-vector"], "no relocation records of one site frame bracket the claim"))
-        # Root CALL FAR 29cf:0a80 (root+0xc132) lands in overlay 9's 2a4e frame: alias refused.
+        # Root CALL FAR 29cf:0a80 (root+0xc132) lands in overlay 9's 2a4e frame, but overlays
+        # holding that address bracket it with site frame 29cf: the linker resolved it there.
+        self.assertTrue(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
+                                                         0x29cf, 0x0a80))
         found, refused = evidence("overlay-9:2a4e:0368")
-        self.assertIn("root+0xc134 enters the object with frame 29cf", refused[-1]["reason"])
+        self.assertEqual([(e["kind"], e["frame"]) for e in found], [("overlay site frame", 0x2a4e)])
+        # A frame no other overlay brackets at that address stays an alias.
+        self.assertFalse(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
+                                                          0x2a4f, 0x0a70))
 
     def test_vector_witnesses_only_its_own_destination(self):
         import module_gate
@@ -143,7 +149,7 @@ class RealOverlayTests(unittest.TestCase):
         def run(position):
             fake = {(0x2203, 0x0d0d): dict(vector, target_segment=0x2344, target_offset=position,
                                            target_position=position)}
-            with patch.object(module_gate, "_code_vectors", return_value=fake):
+            with patch.object(module_gate, "_code_vectors", return_value=fake),                     patch.object(module_gate, "_site_frame", return_value=None):
                 return check(self.near_object(), self.oracle, [("overlay-3:2344:08f0", "AUTO_08F0")],
                              inventory=self.without_calls())["claims"][0]
         claim = run(0x8f0)

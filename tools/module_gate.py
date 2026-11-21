@@ -222,6 +222,33 @@ def _code_vectors(oracle):
     return overlay_vectors(oracle, overlays)
 
 
+def _bracket_frame(space, position):
+    """The site frame bracketing `position` in a monotone overlay relocation table, else None."""
+    rows = sorted(space.relocations, key=lambda r: r["image_offset"])
+    if any(a["segment"] > b["segment"] for a, b in zip(rows, rows[1:])):
+        return None
+    before = [r for r in rows if r["image_offset"] <= position]
+    after = [r for r in rows if r["image_offset"] >= position]
+    if before and after and before[-1]["segment"] == after[0]["segment"]:
+        return before[-1]["segment"]
+    return None
+
+
+def _other_overlay_frame(oracle, space, segment, offset):
+    """A relocated far word segment:offset that lands inside an overlay claim with a frame other
+    than the claim's names another overlay's segment when another code overlay holds that link
+    address and its own relocation sites bracket that position with exactly `segment`. A far
+    word stores its target segment's frame (probe), and the claim's own sites name a different
+    frame there, so the linker resolved the reference into the other overlay's segment."""
+    for other in oracle.spaces.values():
+        if other.name == space.name or not (other.descriptor and other.descriptor["flags"] == 4):
+            continue
+        position = (segment - other.link_segment) * 16 + offset
+        if 0 <= position < other.size and _bracket_frame(other, position) == segment:
+            return True
+    return False
+
+
 def _site_frame(target, space, oracle, hull, grouped=False):
     """("evidence"|"refused", row): the CS frame named by the overlay's own relocation sites.
 
@@ -270,6 +297,8 @@ def _site_frame(target, space, oracle, hull, grouped=False):
             segment = record["stored_word"]
             linked = (segment - space.link_segment) * 16 + struct.unpack_from("<H", source.data, at - 2)[0]
             if lo <= linked < hi and segment != frame:
+                if _other_overlay_frame(oracle, space, segment, struct.unpack_from("<H", source.data, at - 2)[0]):
+                    continue  # the linker resolved it into another overlay's segment of frame `segment`
                 return "refused", dict(row, reason=f"relocated far word {source.name}+{at - 2:#x} "
                                                    f"enters the object with frame {segment:04x}")
     return "evidence", row
