@@ -1,0 +1,114 @@
+{
+  "binding": "evidence/bindings/recorder/recorder.json",
+  "binding_sha256": "a126dc4cb9182abcf03955eb58e3a35e544d43841c175ca7aed45d8e8214378b",
+  "claims": [
+    {
+      "fixup_count": 10,
+      "public": "CHECKFORENDOFRECORDING",
+      "relocation_indices": [
+        1090,
+        1098
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0da4:0002"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CHECKRECORDEDGAMEPLAYER",
+      "target_id": "root:0da4:0122"
+    },
+    {
+      "fixup_count": 5,
+      "public": "CONVERTRECDIRTODIR",
+      "target_id": "root:0da4:0196"
+    },
+    {
+      "fixup_count": 2,
+      "public": "ALLOCATE_DEFAULT_HANDLE",
+      "relocation_indices": [
+        1097
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0da4:0244"
+    },
+    {
+      "fixup_count": 16,
+      "public": "RESET_RECORDED_PLAYBACK",
+      "relocation_indices": [
+        1088,
+        1091,
+        1095,
+        1096
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0da4:0252"
+    },
+    {
+      "fixup_count": 2,
+      "public": "TOGGLE_RECORDING_PLAYER",
+      "target_id": "root:0da4:02b8"
+    },
+    {
+      "fixup_count": 6,
+      "public": "TURNRECORDEDGAMEPLAYEROFF",
+      "relocation_indices": [
+        1092
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0da4:02d0"
+    },
+    {
+      "fixup_count": 11,
+      "public": "TURNRECORDEDGAMEPLAYERON",
+      "relocation_indices": [
+        1093,
+        1100
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0da4:02ee"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 78,
+      "public": "CHECKRECORDEDDIRFORCHAR"
+    },
+    {
+      "object_offset": 302,
+      "public": "CONVERTDIRTORECDIR"
+    },
+    {
+      "object_offset": 482,
+      "public": "INCRECORDEDGAMETONEXTFRAME"
+    }
+  ],
+  "emitted_size": 824,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 3492,
+  "group_id": "group:recorder/recorder",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "recorder/recorder",
+  "object_sha256": "bdd359ec663d0734d1591237bf96d60661729d0f44aea5776d0cce879a88d79b",
+  "origin": 55874,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/recorder/recorder.c",
+  "source_sha256": "33b43f1c62270223d4aee6285fd6254380b9846fd3c45cef770ee92a500dac5a",
+  "space": "root"
+}
