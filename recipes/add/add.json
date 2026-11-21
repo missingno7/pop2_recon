@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "119ed5392cd308dcfdc023be368425a16c77b559bf7457933ffad9913e7d2155",
+  "binding_sha256": "a7a8a364bdb248ff12dc268962b21275800e697e89427d879fb9f2bd96b972f9",
   "claims": [
     {
       "fixup_count": 4,
@@ -23,6 +23,11 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0169:02d6"
+    },
+    {
+      "fixup_count": 2,
+      "public": "SAVE_CHARACTER_PEEL",
+      "target_id": "root:0169:05d4"
     },
     {
       "fixup_count": 8,
@@ -104,6 +109,24 @@
       "target_id": "root:0169:0bce"
     },
     {
+      "fixup_count": 11,
+      "public": "SETUP_KID",
+      "relocation_indices": [
+        139,
+        151,
+        168,
+        177,
+        200,
+        216,
+        226
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:0c3a"
+    },
+    {
       "fixup_count": 33,
       "public": "@setup_sword",
       "relocation_indices": [
@@ -120,6 +143,22 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0169:0c70"
+    },
+    {
+      "fixup_count": 16,
+      "public": "SETUP_FLASK",
+      "relocation_indices": [
+        147,
+        173,
+        185,
+        214,
+        237
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:0d86"
     }
   ],
   "drafts": [
@@ -152,10 +191,6 @@
       "public": "@add_peel"
     },
     {
-      "object_offset": 1486,
-      "public": "SAVE_CHARACTER_PEEL"
-    },
-    {
       "object_offset": 1654,
       "public": "FIND_CHARACTER_PEEL"
     },
@@ -176,43 +211,35 @@
       "public": "SETUP_CHAR"
     },
     {
-      "object_offset": 3124,
-      "public": "SETUP_KID"
-    },
-    {
-      "object_offset": 3456,
-      "public": "SETUP_FLASK"
-    },
-    {
       "object_offset": 3592,
       "public": "CHECK_BACKGROUND_SHAPE"
     },
     {
-      "object_offset": 3768,
+      "object_offset": 3758,
       "public": "CHECK_KID_SHAPE"
     },
     {
-      "object_offset": 3928,
+      "object_offset": 3918,
       "public": "CHECK_OPPONENT_SHAPE"
     },
     {
-      "object_offset": 4100,
+      "object_offset": 4090,
       "public": "GET_SET_IMAGE_SIZE"
     },
     {
-      "object_offset": 4182,
+      "object_offset": 4172,
       "public": "GET_SET_SHAPE_ITEM"
     },
     {
-      "object_offset": 4268,
+      "object_offset": 4258,
       "public": "@setup_opponent"
     },
     {
-      "object_offset": 4524,
+      "object_offset": 4514,
       "public": "CLEAR_ROW_HANDLES"
     }
   ],
-  "emitted_size": 4542,
+  "emitted_size": 4532,
   "flags": [
     "/c",
     "/AM",
@@ -228,12 +255,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "b96451d718f60c27d5d8fceb1af055cc920a945daa1bd02a518a27da52936015",
+  "object_sha256": "2428e7b500707384e9c39bcc4557637e6e00a4c70d7a549b876e783c61e0cb57",
   "origin": 5782,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "ed7f6384f3057a80be8722e1471db4f995ed0a5a380045102013830b1cdad29c",
+  "source_sha256": "187c1d75aaa0cf2c4e386934626f64fe4a0379f1e83385c892cd0fcda4799262",
   "space": "root"
 }

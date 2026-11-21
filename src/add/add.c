@@ -824,18 +824,16 @@ void setup_flask(void)
 {
     unsigned int frame;
     EquipmentPlacement far *entries;
-    EquipmentPlacement far *entry;
 
     if (actor_equipment < 145 || actor_equipment > 168)
         return;
     frame = actor_equipment;
     entries = (EquipmentPlacement far *)lock_shape(object_position_handle);
-    entry = &entries[frame];
-    if (entry->image == -1)
+    if (entries[frame].image == -1)
         return;
-    actor_image = entry->image;
-    adjust_actor_x(entry->x);
-    actor_y += entry->y;
+    actor_image = entries[frame].image;
+    adjust_actor_x(entries[frame].x);
+    actor_y += entries[frame].y;
     actor_set = 1;
     update_actor_clip();
     add_char_object(3);
@@ -844,16 +842,15 @@ void setup_flask(void)
 
 void check_background_shape(int index)
 {
-    volatile unsigned int handle;
+    unsigned int handle;
     int image;
 
     if (index < 0)
         return;
-    handle = background_shapes->images[index].handle;
-    if (handle && find_locked_shape(handle))
+    if ((handle = background_shapes->images[index].handle) &&
+        find_locked_shape(background_shapes->images[index].handle))
         return;
-    handle = background_shapes->images[index].handle;
-    if (handle) {
+    if ((handle = background_shapes->images[index].handle) != 0) {
         release_shape(handle);
         background_shapes->images[index].handle = 0;
     }

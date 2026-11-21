@@ -63896,6 +63896,80 @@
       "state": "ANALYZED",
       "original_bytes_hex": "ff36075c0ee89a000bc075323906075c742c833e075c0f7425833e075c6d741e813e075ca6007416813e075cab00740e813e075ce50074062bd28bc2cb90ba01008bc2cb",
       "sha256": "292b028d3da4e263046eb846294f4abb69fd1da82cf1f2011099eb045051b07e"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments; RETF.",
+      "boundary_evidence": [
+        "BP-frame prologue at root+0x42ca follows the preceding reviewed 02cc:15a4 (ends at 42ca with RETF 2).",
+        "Original block [0x42ca,0x4552) has six reached RETF exits; the shared exit is at 0x4550, followed by one NOP. Next reviewed routine 02cc:1892 starts at 0x4552.",
+        "Relocated immediate CALL FAR sites root+0x22f3 (MZ 226), root+0x275e (MZ 227) are reached by direct flow from root:0169:02c2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17139,
+          "image_offset": 8947,
+          "kind": "far_call",
+          "relocated_segment_site": 8950,
+          "space": "root"
+        },
+        {
+          "file_offset": 18270,
+          "image_offset": 10078,
+          "kind": "far_call",
+          "relocated_segment_site": 10081,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Compiler-shaped saved registers, conditional control flow, and balanced far-Pascal returns in resident game code."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:02cc:160a",
+      "offset": 5642,
+      "segment": 716,
+      "sha256": "ccc5ec5d4530bd836c47c9a69fc8732b18e9fa765b300fb5eba722ef83263130",
+      "size": 648,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments; RETF.",
+      "boundary_evidence": [
+        "Starts PUSH SI at root+0xf16e immediately after the reviewed 0e56:0bf2 RETF. The conditional branches past the first RETF at f1a0 stay in this function.",
+        "Reached exits at 0xf1a0, 0xf247, and 0xf2bc; final RETF is followed by one NOP before the adjacent PUSH DI; PUSH SI prologue at 0xf2be.",
+        "Relocated immediate CALL FAR sites root+0x22ee (MZ 200), root+0x2759 (MZ 201) are reached by direct flow from root:0169:02c2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17134,
+          "image_offset": 8942,
+          "kind": "far_call",
+          "relocated_segment_site": 8945,
+          "space": "root"
+        },
+        {
+          "file_offset": 18265,
+          "image_offset": 10073,
+          "kind": "far_call",
+          "relocated_segment_site": 10076,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Compiler-shaped saved registers, conditional control flow, and balanced far-Pascal returns in resident game code."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0c0e",
+      "offset": 3086,
+      "segment": 3670,
+      "sha256": "f7f4c0f23cd0834c6cf632b61eab65d3aff7b02be006491cba45561d576d98c4",
+      "size": 336,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
