@@ -393,15 +393,16 @@ def ground(binding, target, oracle):
     return symbols
 
 
-def data_context(module, rows, allowed_calls=(), *, mode=None):
+def data_context(module, rows, allowed_calls=(), *, mode=None, placed=()):
     """Preserve DS; only explicit v3 permits the adjacent ES:=DS pair (v4: hygiene only)."""
     if mode == OPERAND_MODE:
         # Byte-level mode: the same DGROUP hygiene as v1, but no DS association is claimed.
         groups = [g for g in module.groups if g["name"] == "DGROUP"]
         require(len(groups) == 1 and groups[0]["segments"] and
-                all(1 <= i <= len(module.segment_defs) and module.segment_defs[i-1]["length"] == 0
+                all(1 <= i <= len(module.segment_defs) and
+                    (module.segment_defs[i-1]["length"] == 0 or module.segment_defs[i-1]["name"] in placed)
                     for i in groups[0]["segments"]),
-                "External data binding needs an empty declared DGROUP")
+                "External data binding needs an empty declared DGROUP (except placed segments)")
         return
     groups = [g for g in module.groups if g["name"] == "DGROUP"]
     require(len(groups) == 1 and groups[0]["segments"] and

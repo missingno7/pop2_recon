@@ -507,7 +507,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 require(mode == OPERAND_MODE or report["public"] in safe,
                         "DGROUP access after a call into code not proven to preserve segment context")
                 allowed = {at for at, callee in state["calls"].items() if callee is None or callee in safe}
-                data_context(module, state["rows"], allowed, mode=mode)
+                data_context(module, state["rows"], allowed, mode=mode, placed=tuple(placements))
                 found, unequal = data_equations(state["data"], symbols, name, state["piece"], state["expected"],
                                                 state["rows"], mode, state["occupied"])
                 state["equations"] += [dict(e, kind="DGROUP offset16") for e in found]

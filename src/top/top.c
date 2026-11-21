@@ -1017,10 +1017,9 @@ void check_alert(void)
 
 void call_level_frame_proc(void)
 {
-    frame_proc proc;
-    proc = level_frame_procs[stage_set];
-    if (proc)
-        proc();
+    unsigned long address = (unsigned long)level_frame_procs[stage_set];
+    if (address)
+        ((frame_proc)address)();
 }
 
 signed char reset_level(void)

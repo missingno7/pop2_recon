@@ -19303,6 +19303,102 @@
       "size": 810,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal one byte argument in BP+6, AX result, RETF 2",
+      "boundary_evidence": [
+        "Root+0xae relocated far CALL enters the frame immediately after the preceding procedure's RETF 4.",
+        "The three stat-setting predicates join at 005d. The second same-file call returns AL, which is sign-extended before RETF 2 at 006c. A NOP at 006f precedes the next prologue.",
+        "The entry initializes session counters and then calls the restart path. It passes the original DS:09f8 command option to the argument scanner."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8366,
+          "image_offset": 174,
+          "kind": "far_call",
+          "relocated_segment_site": 177,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The entry initializes session counters and then calls the restart path. It passes the original DS:09f8 command option to the argument scanner."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0006",
+      "offset": 6,
+      "segment": 3670,
+      "semantic_name_hypothesis": "start_game",
+      "sha256": "ddad2ff34c80131c861cc30d08e6aebab0819d875fdc4adf6aa68cd75d2176f2",
+      "size": 106,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original root+e569 CALL with MZ index 1309 enters 0a5c:004e. Previous routine ends in RETF 4 followed by a NOP.",
+        "The word test and optional load converge at RETF 0062. A NOP at 0063 precedes the next BP frame.",
+        "The guarded path passes DS:09fe to the resource routine and stores AX as a resident state word."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 66921,
+          "image_offset": 58729,
+          "kind": "far_call",
+          "relocated_segment_site": 58732,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The guarded path passes DS:09fe to the resource routine and stores AX as a resident state word."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:004e",
+      "offset": 78,
+      "segment": 2652,
+      "semantic_name_hypothesis": "initialize_room_sound_offset",
+      "sha256": "613ac97115995c0c5098537866672154ca9fad0a4d48c5bab13465c4931a44c1",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal far pointer input in BP+8:BP+6, near pointer result in AX, RETF 4",
+      "boundary_evidence": [
+        "Relocated original root+004e CALL enters a BP frame at 1101:29aa after the preceding routine's tail pad.",
+        "The argument scan reads both pointer halves at BP+8/BP+6. Loop recurrence at 29ea and match/empty branches converge at 29fc. RETF 4 at 2a01 precedes a new frame.",
+        "The entry walks the argument vector and returns the matched near argument or zero."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8270,
+          "image_offset": 78,
+          "kind": "far_call",
+          "relocated_segment_site": 81,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "The entry walks the argument vector and returns the matched near argument or zero."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:1101:29aa",
+      "offset": 10666,
+      "segment": 4353,
+      "semantic_name_hypothesis": "find_option",
+      "sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551",
+      "size": 90,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
