@@ -107,8 +107,12 @@ def reachable_from_entry(oracle, entry):
 _ADDRESS_IMMEDIATE = ("mov", "push")
 
 
-def operand_field(insn, at):
-    """The 16-bit address field (memory disp16 or address-carrying imm16) starting at `at`."""
+def operand_field(insn, at, *, candidate=False):
+    """The 16-bit address field (memory disp16 or address-carrying imm16) starting at `at`.
+
+    For a candidate field the compiler's FIXUPP already marks it as an address, so any
+    non-branch imm16 (ADD/SUB/CMP ... offset X) qualifies; an original witness has no
+    FIXUPP, so only MOV/PUSH immediates count there."""
     cs, _ = _capstone()
     if set(insn.groups).intersection((cs.CS_GRP_JUMP, cs.CS_GRP_CALL, cs.CS_GRP_RET,
                                       cs.CS_GRP_IRET, cs.CS_GRP_INT)):
@@ -116,7 +120,7 @@ def operand_field(insn, at):
     if insn.disp_size == 2 and insn.address + insn.disp_offset == at:
         return "displacement"
     if (insn.imm_size == 2 and insn.address + insn.imm_offset == at and
-            insn.mnemonic.split()[-1] in _ADDRESS_IMMEDIATE):
+            (candidate or insn.mnemonic.split()[-1] in _ADDRESS_IMMEDIATE)):
         return "immediate"
     return None
 
@@ -411,7 +415,7 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
                 "Overlapping/out-of-range bound fields")
         symbol = symbols[target_ref["name"]]
         if mode == OPERAND_MODE:
-            fields = [operand_field(i, at) for i in rows if operand_field(i, at)]
+            fields = [operand_field(i, at, candidate=True) for i in rows if operand_field(i, at, candidate=True)]
             require(len(fields) == 1, "v4 FIXUPP is not the disp16/imm16 field of one decoded instruction")
             addend = struct.unpack_from("<H", actual, at)[0]
             # A non-zero addend must be a member whose own address S+k is independently

@@ -488,6 +488,9 @@ class V4FieldTests(unittest.TestCase):
             self.assertIsNone(operand_field(self.rows(code)[0], at), code)
         self.assertEqual(operand_field(self.rows("b83412")[0], 1), "immediate")
         self.assertEqual(operand_field(self.rows("8b873412")[0], 2), "displacement")
+        # A candidate's FIXUPP marks ADD ax, offset X as an address; branches never qualify.
+        self.assertEqual(operand_field(self.rows("053412")[0], 1, candidate=True), "immediate")
+        self.assertIsNone(operand_field(self.rows("e83412")[0], 1, candidate=True))
 
     def test_nonzero_addend_is_refused(self):
         from binding import OPERAND_MODE, data_equations
