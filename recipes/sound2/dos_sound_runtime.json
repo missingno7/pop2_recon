@@ -1,0 +1,165 @@
+{
+  "binding": "evidence/bindings/sound2/dos_sound_runtime.json",
+  "binding_sha256": "7b2ac5969bbe9289d3d76ba98fb1e89c9c65ffbc0e706f2a21a35bd9390d91be",
+  "claims": [
+    {
+      "fixup_count": 28,
+      "public": "START_MIDI_SEQUENCE",
+      "target_id": "root:1101:2e14"
+    },
+    {
+      "fixup_count": 3,
+      "public": "STOP_DRIVER_TIMER",
+      "target_id": "root:1101:2f21"
+    },
+    {
+      "fixup_count": 20,
+      "public": "DRIVER_TIMER_INTERRUPT",
+      "relocation_indices": [
+        1514
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:2f34"
+    },
+    {
+      "fixup_count": 9,
+      "public": "CALCULATE_SOUND_TIMER_STEP",
+      "target_id": "root:1101:2fd6"
+    },
+    {
+      "fixup_count": 26,
+      "public": "PROCESS_MIDI_EVENTS",
+      "target_id": "root:1101:301c"
+    },
+    {
+      "fixup_count": 0,
+      "public": "READ_SOUND_DELTA",
+      "target_id": "root:1101:31a2"
+    },
+    {
+      "fixup_count": 3,
+      "public": "PROBE_FIRST_SOUND_DRIVER",
+      "target_id": "root:1101:31bc"
+    },
+    {
+      "fixup_count": 3,
+      "public": "PROBE_SECOND_SOUND_DRIVER",
+      "target_id": "root:1101:31e0"
+    },
+    {
+      "fixup_count": 7,
+      "public": "RESET_SOUND_DRIVERS",
+      "target_id": "root:1101:32bd"
+    },
+    {
+      "fixup_count": 12,
+      "public": "FLAG_SOUND_PAYLOAD",
+      "target_id": "root:1101:32e8"
+    },
+    {
+      "fixup_count": 3,
+      "public": "DISPATCH_RESOURCE_POINTER",
+      "target_id": "root:1101:3342"
+    },
+    {
+      "fixup_count": 3,
+      "public": "START_SOUND_PAYLOAD",
+      "target_id": "root:1101:335b"
+    },
+    {
+      "fixup_count": 9,
+      "public": "SET_SOUND_LEVEL",
+      "target_id": "root:1101:33a2"
+    },
+    {
+      "fixup_count": 12,
+      "public": "QUERY_SOUND_PAYLOAD",
+      "target_id": "root:1101:33f0"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CALL_SOUND_COMPLETION",
+      "relocation_indices": [
+        1517
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:353a"
+    },
+    {
+      "fixup_count": 6,
+      "public": "RELEASE_FIRST_DEVICE_SOUND",
+      "target_id": "root:1101:3568"
+    },
+    {
+      "fixup_count": 7,
+      "public": "RELEASE_SECOND_DEVICE_SOUND",
+      "target_id": "root:1101:3597"
+    },
+    {
+      "fixup_count": 8,
+      "public": "RELEASE_SPEAKER_SOUND",
+      "target_id": "root:1101:35c6"
+    },
+    {
+      "fixup_count": 16,
+      "public": "START_DIGITAL_PAYLOAD",
+      "relocation_indices": [
+        1578
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:3603"
+    },
+    {
+      "fixup_count": 17,
+      "public": "START_MIDI_PAYLOAD",
+      "target_id": "root:1101:3686"
+    },
+    {
+      "fixup_count": 18,
+      "public": "START_SPEAKER_PAYLOAD",
+      "target_id": "root:1101:3728"
+    },
+    {
+      "fixup_count": 33,
+      "public": "SPEAKER_TIMER_INTERRUPT",
+      "relocation_indices": [
+        1518
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:3799"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 1008,
+      "public": "CONFIGURE_SOUND_DEVICES"
+    },
+    {
+      "object_offset": 1584,
+      "public": "DIGITAL_COMPLETION_INTERRUPT"
+    },
+    {
+      "object_offset": 1736,
+      "public": "MIDI_COMPLETION_INTERRUPT"
+    }
+  ],
+  "emitted_size": 2713,
+  "flags": [],
+  "frame": 4353,
+  "group_id": "group:sound2/dos_sound_runtime",
+  "kind": "same_source_group",
+  "language": "asm",
+  "name": "sound2/dos_sound_runtime",
+  "object_sha256": "472a1f75518c01cfeadb8cd6384b10e5bd701b6befe6755299c7fef25d2661da",
+  "origin": 81444,
+  "profile": "masm510",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "asm/sound2/dos_sound_runtime.asm",
+  "source_sha256": "190fb57c468085b625ec84ea1ce3a70040f879ac20021db6e7847c9377fc8abc",
+  "space": "root"
+}

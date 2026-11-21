@@ -68352,6 +68352,105 @@
       "abi": "Near register helper, AX segment, DI offset and CX count, returns condition in ZF, RET.",
       "original_name": null,
       "semantic_name_hypothesis": "probe_video_ram"
+    },
+    {
+      "id": "root:1101:032d",
+      "space": "root",
+      "segment": 4353,
+      "offset": 813,
+      "size": 258,
+      "sha256": "32ad9669477dbf6d2edf7eb693a311f066a6e9d7b8ffb60df0e34c52a3ef5d1b",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS byte-level review",
+      "semantic_name_hypothesis": "build_cursor_images",
+      "original_name": null,
+      "abi": "Far Pascal RETF 2. BP+6 is the resource handle. Preserves SI and DI.",
+      "classification_evidence": [
+        "Odd entry 032d, ADD SP,-2a at 0330, LDS/SI and LODSW/STOSW conversion loops at 036b and 0394."
+      ],
+      "boundary_evidence": [
+        "The previous routine has its final RETF at 032c. PUSH CS/E8 at 059a/059b calls this BP frame with the resource result in AX pushed as a word.",
+        "The early failure and late success paths converge at 03b4 and RETF 2 at 03bd. The last short jump at 042d returns to 03b4. 042f starts a separately reached initializer."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 71083,
+          "file_offset": 79275,
+          "pushed_cs_site": 71082,
+          "relocated_segment_site": null
+        }
+      ]
+    },
+    {
+      "id": "root:1101:04f1",
+      "space": "root",
+      "segment": 4353,
+      "offset": 1265,
+      "size": 94,
+      "sha256": "a948a34c245ab75c0aa77361cca7b6e524a7b41b1426a0e1a09c0d41ee96a2b5",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS byte-level review",
+      "semantic_name_hypothesis": "position_mouse_cursor",
+      "original_name": null,
+      "abi": "Far Pascal RETF 4. The two coordinate words at BP+6 and BP+8 are passed to the clamp routine as a far pointer.",
+      "classification_evidence": [
+        "JCXZ at 0534 and LES DX at 0539, then DOS mouse INT 33h at 0549."
+      ],
+      "boundary_evidence": [
+        "The initializer finishes with RETF at 04f0 and reaches this BP frame via PUSH CS/E8 at 04ea/04eb after pushing the centered coordinate pair.",
+        "All exits converge at POP BP 054b and RETF 4 at 054c. The separately called shutdown routine starts at 054f."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 70907,
+          "file_offset": 79099,
+          "pushed_cs_site": 70906,
+          "relocated_segment_site": null
+        }
+      ]
+    },
+    {
+      "id": "root:1101:0586",
+      "space": "root",
+      "segment": 4353,
+      "offset": 1414,
+      "size": 28,
+      "sha256": "496304157cc43a9057044ce354153ddbf9c92680d19a30aabdcbee2fa45ea07c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "ASM_LIKELY",
+      "classification_status": "DOS byte-level review",
+      "semantic_name_hypothesis": "load_cursor_resource",
+      "original_name": null,
+      "abi": "Far Pascal RETF 2. Resource index at BP+6. Marshals tag words and passes the returned handle on.",
+      "classification_evidence": [
+        "Adjacent DOS mouse initialization and rendering assembly. The immediate RSCU tag words and resource index reach the allocation entry in the separate DOS resource catalog at 6f6a by PUSH CS/E8 at 0595/0596. The loader then passes the handle to the odd-entry DOS ASM bitmap worker at 032d by PUSH CS/E8 at 059a/059b. These assembler-style same-frame transfers cross the partition into the resource backend."
+      ],
+      "boundary_evidence": [
+        "The preceding shutdown routine finishes at RETF 0585. PUSH CS/E8 at 04a7/04a8 reaches this BP frame with a zero resource index; the initializer reaches that call on its common path, before the mouse-present check.",
+        "The routine has no branches. RETF 2 at 059f ends before the independently relocated entry 05a2."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 70840,
+          "file_offset": 79032,
+          "pushed_cs_site": 70839,
+          "relocated_segment_site": null
+        }
+      ]
     }
   ],
   "schema": 1,

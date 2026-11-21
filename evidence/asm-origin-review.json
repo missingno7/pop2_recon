@@ -661,7 +661,7 @@
     },
     "root:1101:2e14": {
       "verdict": "asm",
-      "group": "sound2/stop_driver_timer",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "2e17 add sp, -4 frame allocation (MSC allocates with sub sp,n)",
         "2e1c les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
@@ -672,7 +672,7 @@
     },
     "root:1101:2f21": {
       "verdict": "asm",
-      "group": "sound2/stop_driver_timer",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "odd entry address 2f21 (every MSC function here starts even)",
         "2f21 pushf",
@@ -682,7 +682,7 @@
     },
     "root:1101:2fd6": {
       "verdict": "asm",
-      "group": "sound2/calculate_sound_timer_step",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "2ff4 xchg di, ax",
         "301b near ret"
@@ -690,7 +690,7 @@
     },
     "root:1101:301c": {
       "verdict": "asm",
-      "group": "sound2/read_sound_delta",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "301c xchg word ptr [di + 4], si",
         "301f lodsb",
@@ -701,7 +701,7 @@
     },
     "root:1101:31a2": {
       "verdict": "asm",
-      "group": "sound2/read_sound_delta",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "31ab lodsb",
         "31b9 rcr ax, 1",
@@ -710,7 +710,7 @@
     },
     "root:1101:31bc": {
       "verdict": "asm",
-      "group": "sound2/read_sound_delta",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "31c0 xor si, si (MSC zeroes with sub)",
         "31d4 test ax, ax (MSC tests with or r,r)",
@@ -719,7 +719,7 @@
     },
     "root:1101:31e0": {
       "verdict": "asm",
-      "group": "sound2/read_sound_delta",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "31e4 xor si, si (MSC zeroes with sub)",
         "31f8 test ax, ax (MSC tests with or r,r)",
@@ -728,7 +728,7 @@
     },
     "root:1101:32bd": {
       "verdict": "asm",
-      "group": "sound2/sound_driver_routes",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "odd entry address 32bd (every MSC function here starts even)",
         "32bd xor ax, ax (MSC zeroes with sub)"
@@ -736,7 +736,7 @@
     },
     "root:1101:32e8": {
       "verdict": "asm",
-      "group": "sound2/sound_driver_routes",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "32eb les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
         "32f0 null test of a far pointer via mov r,es; or dx, ax after les"
@@ -744,7 +744,7 @@
     },
     "root:1101:3342": {
       "verdict": "asm",
-      "group": "sound2/sound_driver_routes",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "3345 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
         "3348 plain near call 3568 without push cs",
@@ -755,7 +755,7 @@
     },
     "root:1101:335b": {
       "verdict": "asm",
-      "group": "sound2/start_sound_payload",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "odd entry address 335b (every MSC function here starts even)",
         "3363 null test of a far pointer via mov r,es; or ax, bx after les",
@@ -766,7 +766,7 @@
     },
     "root:1101:33a2": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "33db jcxz 0x33ec",
         "33dd in al, 0x61",
@@ -776,7 +776,7 @@
     },
     "root:1101:33f0": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "33f3 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
         "33f8 null test of a far pointer via mov r,es; or dx, ax after les"
@@ -784,7 +784,7 @@
     },
     "root:1101:353a": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "3552 mov ss, dx",
         "3557 les dx, ptr [bx + 4] (MSC never loads a far pointer with les into dx)",
@@ -794,7 +794,7 @@
     },
     "root:1101:3568": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "3568 pushf",
         "3569 cli",
@@ -805,7 +805,7 @@
     },
     "root:1101:3597": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "odd entry address 3597 (every MSC function here starts even)",
         "3599 null test of a far pointer via mov r,es; or dx, ax after les",
@@ -816,7 +816,7 @@
     },
     "root:1101:35c6": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "35c6 pushf",
         "35c7 cli",
@@ -827,7 +827,7 @@
     },
     "root:1101:3603": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "odd entry address 3603 (every MSC function here starts even)",
         "360f xor ax, ax (MSC zeroes with sub)",
@@ -838,7 +838,7 @@
     },
     "root:1101:3686": {
       "verdict": "asm",
-      "group": "sound2/release_device_sounds",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "3689 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
         "36a3 repe cmpsb",
@@ -849,7 +849,7 @@
     },
     "root:1101:3728": {
       "verdict": "asm",
-      "group": "sound2/start_speaker_payload",
+      "group": "sound2/dos_sound_runtime",
       "evidence": [
         "372f plain near call 35c6 without push cs",
         "3736 jcxz 0x3746",
@@ -2687,6 +2687,57 @@
       "evidence": [
         "Register ABI passes AX, CX and DI at call 3f65; the helper sets ES, uses STOSB and SCASB, and returns to a JNE consuming ZF.",
         "Plain near E8 call sites in descriptor-backed routines: 1101:3f65."
+      ]
+    },
+    "root:1101:2f34": {
+      "verdict": "asm",
+      "group": "sound2/dos_sound_runtime",
+      "evidence": [
+        "Original 2f0a-2f11 passes CS:2f34 to the timer installer. The independent body switches SS:SP and ends in IRET at 2fd5."
+      ]
+    },
+    "root:1101:3799": {
+      "verdict": "asm",
+      "group": "sound2/dos_sound_runtime",
+      "evidence": [
+        "The timer installer receives CS:3799 from the registered playback path. The separate handler uses direct port I/O at 37cd and IRET at 37d4."
+      ]
+    },
+    "root:1101:032d": {
+      "verdict": "asm",
+      "group": "graf/cursor_and_bitmap_frontend",
+      "evidence": [
+        "Odd entry 032d, ADD SP,-2a at 0330, LDS/SI and LODSW/STOSW conversion loops at 036b and 0394."
+      ]
+    },
+    "root:1101:04f1": {
+      "verdict": "asm",
+      "group": "graf/cursor_and_bitmap_frontend",
+      "evidence": [
+        "JCXZ at 0534 and LES DX at 0539, then DOS mouse INT 33h at 0549."
+      ]
+    },
+    "root:1101:0586": {
+      "verdict": "asm",
+      "group": "graf/cursor_and_bitmap_frontend",
+      "evidence": [
+        "Adjacent DOS mouse initialization and rendering assembly. The immediate RSCU tag words and resource index reach the allocation entry in the separate DOS resource catalog at 6f6a by PUSH CS/E8 at 0595/0596. The loader then passes the handle to the odd-entry DOS ASM bitmap worker at 032d by PUSH CS/E8 at 059a/059b. These assembler-style same-frame transfers cross the partition into the resource backend."
+      ]
+    },
+    "root:1101:042f": {
+      "verdict": "asm",
+      "group": "graf/cursor_and_bitmap_frontend",
+      "evidence": [
+        "At 0434 the original issues DOS INT 21h to test the mouse vector, then uses INT 33h at 043e, 044f, 04c4, 04cf and 04dc.",
+        "The original uses LES AX at 0451 and REP MOVSB at 046c, and registers CS:DX pointing to the resident assembly mouse callback."
+      ]
+    },
+    "root:1101:064a": {
+      "verdict": "asm",
+      "group": "graf/cursor_and_bitmap_frontend",
+      "evidence": [
+        "Far mouse-driver register ABI without a BP frame. The original compares and writes a CS-local semaphore at 06c3, and switches SS:SP at 069e before restoring it at 06ac.",
+        "A reached conditional transfer at 0689 skips the semaphore byte into the 06c4 write-and-branch tail."
       ]
     }
   },
