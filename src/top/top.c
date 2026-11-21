@@ -1,5 +1,6 @@
 /* TOP.C candidate, DOS frame 0e56. Definitions follow original order.
  * Address comments identify the observed operands behind external declarations. */
+extern signed char level;                          /* ds:0a18 */
 #pragma pack(1)
 struct box { int left, top, right, bottom; };
 struct character {
@@ -43,7 +44,6 @@ extern signed char entry_cell;                     /* ds:4563 */
 extern signed char entry_facing;                   /* ds:4564 */
 extern signed char guard_start_delay;             /* ds:5c63 */
 extern signed char end_room;                       /* ds:4568 */
-extern signed char level;                          /* ds:0a18 */
 extern signed char game_request;                   /* ds:6ccc */
 extern signed char room_to_draw;                   /* ds:6ccd */
 extern signed char starting_health;                /* ds:6cd1 */
@@ -294,7 +294,7 @@ int restart_level(signed char requested)
                 game_request = previous_request;
                 reload = 1;
             }
-            if ((signed char)(requested ^ level))
+            if (requested != level)
                 reload = 1;
         } else {
             reload = 1;

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "f3d87b8c45dc234cff8f72fb80b358c4637e1d52799f813d4c262f907fe7b1cf",
+  "binding_sha256": "8345ec148da56ce72b22617288aa05177257b4dd4bec3fc1c3bd374f9e2787be",
   "claims": [
     {
       "fixup_count": 16,
@@ -12,6 +12,41 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0e56:0006"
+    },
+    {
+      "fixup_count": 38,
+      "public": "RESTART_LEVEL",
+      "relocation_indices": [
+        1145,
+        1178,
+        1192,
+        1211,
+        1212,
+        1249,
+        1262,
+        1263,
+        1308
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:0070"
+    },
+    {
+      "fixup_count": 4,
+      "public": "RESET_LEVEL_OVERLAYS",
+      "relocation_indices": [
+        1153,
+        1218,
+        1268,
+        1283
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:0192"
     },
     {
       "fixup_count": 18,
@@ -40,6 +75,23 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0e56:035a"
+    },
+    {
+      "fixup_count": 17,
+      "public": "FIRST_FRAME",
+      "relocation_indices": [
+        1190,
+        1204,
+        1234,
+        1245,
+        1300,
+        1315
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:03b0"
     },
     {
       "fixup_count": 5,
@@ -92,24 +144,12 @@
   ],
   "drafts": [
     {
-      "object_offset": 106,
-      "public": "RESTART_LEVEL"
-    },
-    {
-      "object_offset": 396,
-      "public": "RESET_LEVEL_OVERLAYS"
-    },
-    {
       "object_offset": 418,
       "public": "START_KID"
     },
     {
       "object_offset": 804,
       "public": "SPECIAL_ENTRANCE"
-    },
-    {
-      "object_offset": 938,
-      "public": "FIRST_FRAME"
     },
     {
       "object_offset": 1068,
@@ -182,12 +222,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "62bcb410f9b0349116954c0ceadf67192c9fc4998087d7c4e473e3887e39a60d",
+  "object_sha256": "f1345bf78425e09d924e051572e5b6a8feb327982c7b4799c5d0d413c765b508",
   "origin": 58726,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "29b26227fd2e8444cefb239f0101d1f2f5c77cb55f7d83c9df07c6167cb6f64b",
+  "source_sha256": "4c75efc6cf688dfbc88fdbd0c7441ea3d3fa437ed71b8e0dbfeeb2b9ac98a14b",
   "space": "root"
 }

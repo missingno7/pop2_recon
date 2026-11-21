@@ -33800,6 +33800,373 @@
       "size": 4,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal byte in BP+6, signed result AX, RETF 2",
+      "boundary_evidence": [
+        "Original 0006 entry is reached by root+00ae relocated CALL into TOP.C. Its PUSH CS at 0061 and CALL at 0062 reach this routine at 0070.",
+        "Original request-zero, minus-one and above-14 paths converge at 0186. RETF 2 at 018e and alignment NOP at 0191 end the extent. The next entry at 0192 makes four vector calls.",
+        "Loads or reinitializes the requested level, then runs its frame loop and optional recording."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67010,
+          "image_offset": 58818,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58817,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads or reinitializes the requested level, then runs its frame loop and optional recording."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0070",
+      "offset": 112,
+      "segment": 3670,
+      "semantic_name_hypothesis": "restart_level",
+      "sha256": "1c510650e8dab4fd0d818f63ff49942ff3e98c748b0f55273e9359dcb0ec7e92",
+      "size": 290,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal byte argument, RETF 2",
+      "boundary_evidence": [
+        "Root+e645 and relocated overlay-10 and overlay-16 CALLs name 01b4, which starts with the BP frame.",
+        "All original paths converge through the 02aa stack restore to the sole RETF 2 at 02ad. The next BP frame is at 02b0.",
+        "Loads level resources, updates current level state and initializes room state."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67141,
+          "image_offset": 58949,
+          "kind": "far_call",
+          "relocated_segment_site": 58952,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads level resources, updates current level state and initializes room state."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:01b4",
+      "offset": 436,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_level",
+      "sha256": "bf0a2c73013cbc4c562db0f32894904deda72a3edd709f35f0f81198691a6019",
+      "size": 252,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal byte argument, RETF 2",
+      "boundary_evidence": [
+        "Original root+2b90 relocated CALL (index 272) anchors the 02b0 BP frame.",
+        "Option-dependent paths converge at 02cf and end at the RETF 2 at 02f1 before the 02f4 BP frame.",
+        "Selects a numbered level resource using the low argument byte."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19344,
+          "image_offset": 11152,
+          "kind": "far_call",
+          "relocated_segment_site": 11155,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a numbered level resource using the low argument byte."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:02b0",
+      "offset": 688,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_level_resource",
+      "sha256": "0d86b1d96bb16748fde6899e5c2181cc0bae060e8d77b8faacc97ba6522761bf",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal byte argument, RETF 2",
+      "boundary_evidence": [
+        "Original root+e650 CALL (index 1262) names 02f4, immediately after the independently reviewed predecessor return.",
+        "The entry forwards the low byte to its setup path. RETF 2 at 0323 marks the end before the next BP frame at 0326.",
+        "Loads minimum state for the requested level and refreshes the display."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67152,
+          "image_offset": 58960,
+          "kind": "far_call",
+          "relocated_segment_site": 58963,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads minimum state for the requested level and refreshes the display."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:02f4",
+      "offset": 756,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_level_minimum",
+      "sha256": "983702aac202d1ce132cf29c6a38903db5b342202c9d5d950987b51b88a3e332",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal byte argument in BP+6, word result AX, RETF 2",
+      "boundary_evidence": [
+        "The original PUSH CS/CALL at 013c/013d enters the 03b0 BP frame, after the prior RETF and NOP.",
+        "Result other than minus two bypasses the scene setup. Both setup branches and the delay loop reach the 0429 epilogue. RETF 2 at 042f ends before the 0432 entry.",
+        "Runs initial frame input, transition, health update and a timed delay."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67229,
+          "image_offset": 59037,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 59036,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Runs initial frame input, transition, health update and a timed delay."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:03b0",
+      "offset": 944,
+      "segment": 3670,
+      "semantic_name_hypothesis": "first_frame",
+      "sha256": "5187a6d223f4d9e6aa741f054af118bd922250f5ce77aa8887857aadbad9af5c",
+      "size": 130,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal word argument, AX result, RETF 2",
+      "boundary_evidence": [
+        "Original relocated root+2be9 CALL (index 250) and other callers enter the BP frame at 0dd4.",
+        "The early room tests and room-change path join at 0e6d. RETF 2 at 0e74 and NOP at 0e77 precede the next entry.",
+        "Transitions to a changed room and returns minus two."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19433,
+          "image_offset": 11241,
+          "kind": "far_call",
+          "relocated_segment_site": 11244,
+          "space": "root"
+        },
+        {
+          "file_offset": 30263,
+          "image_offset": 22071,
+          "kind": "far_call",
+          "relocated_segment_site": 22074,
+          "space": "root"
+        },
+        {
+          "file_offset": 67883,
+          "image_offset": 59691,
+          "kind": "far_call",
+          "relocated_segment_site": 59694,
+          "space": "root"
+        },
+        {
+          "file_offset": 68507,
+          "image_offset": 60315,
+          "kind": "far_call",
+          "relocated_segment_site": 60318,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Transitions to a changed room and returns minus two."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0dd4",
+      "offset": 3540,
+      "segment": 0,
+      "semantic_name_hypothesis": "check_frame_input",
+      "sha256": "69c7e60e9af078a65c4496debf9af842f7f312728d988dff60711b6461697005",
+      "size": 164,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal word argument, RETF 2",
+      "boundary_evidence": [
+        "Original relocated root+07dd CALL (index 109) names the 213a BP frame.",
+        "Both rect paths converge at 2170 and the optional sequence reset joins at 2187. RETF 2 at 218a and NOP at 218d end the function.",
+        "Updates the display and conditionally clears the pending sequence and delay."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 10205,
+          "image_offset": 2013,
+          "kind": "far_call",
+          "relocated_segment_site": 2016,
+          "space": "root"
+        },
+        {
+          "file_offset": 12358,
+          "image_offset": 4166,
+          "kind": "far_call",
+          "relocated_segment_site": 4169,
+          "space": "root"
+        },
+        {
+          "file_offset": 67920,
+          "image_offset": 59728,
+          "kind": "far_call",
+          "relocated_segment_site": 59731,
+          "space": "root"
+        },
+        {
+          "file_offset": 69669,
+          "image_offset": 61477,
+          "kind": "far_call",
+          "relocated_segment_site": 61480,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the display and conditionally clears the pending sequence and delay."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:078a:213a",
+      "offset": 8506,
+      "segment": 1930,
+      "semantic_name_hypothesis": "update_display",
+      "sha256": "999cb5fd95f7e3f8b1a4d9dcc5a810559d9c5493a5841da2df822459b9727356",
+      "size": 84,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original PUSH CS/CALL pairs at 000e/000f and 00dd/00de reach the entry after the 0191 alignment NOP.",
+        "Four original relocated calls to RTLink vectors lead to RETF at 01a6, then NOP at 01a7 before the next TOP.C function.",
+        "Resets four overlay-specific copies of the state word."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8693,
+          "image_offset": 501,
+          "kind": "far_call",
+          "relocated_segment_site": 504,
+          "space": "root"
+        },
+        {
+          "file_offset": 19309,
+          "image_offset": 11117,
+          "kind": "far_call",
+          "relocated_segment_site": 11120,
+          "space": "root"
+        },
+        {
+          "file_offset": 66927,
+          "image_offset": 58735,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58734,
+          "space": "root"
+        },
+        {
+          "file_offset": 67134,
+          "image_offset": 58942,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58941,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resets four overlay-specific copies of the state word."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0192",
+      "offset": 402,
+      "segment": 3670,
+      "semantic_name_hypothesis": "reset_level_overlays",
+      "sha256": "0299e2e600c57b7592d870eab01c063f5a550f35d4ebae00a26b0e3a04435540",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "The original RTLink vector 2203:0d0d has a relocated overlay-3 jump to this exact entry.",
+        "The direct store has a single RETF at 0006, followed by an alignment NOP at 0007.",
+        "Clears the original word at DS:5e20."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the original word at DS:5e20."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0000",
+      "offset": 0,
+      "segment": 9028,
+      "semantic_name_hypothesis": "reset_overlay_state",
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "size": 8,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "The original RTLink vector 2203:0d17 has a relocated overlay-3 jump to this exact entry.",
+        "The direct store has a single RETF at 053c, followed by an alignment NOP at 053d.",
+        "Clears the original word at DS:5e20."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the original word at DS:5e20."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2587:0536",
+      "offset": 1334,
+      "segment": 9607,
+      "semantic_name_hypothesis": "reset_overlay_state",
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "size": 8,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
