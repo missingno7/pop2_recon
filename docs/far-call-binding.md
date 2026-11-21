@@ -433,3 +433,12 @@ skipped. Only a group frame could alias the claim's segment. MSC medium-model
 code segments are never grouped, and a candidate that groups its CODE segment
 is refused. The scan also skips any word whose 64K window cannot reach the
 object.
+
+### Near JMPs (2026-11-21)
+
+A near JMP keeps CS exactly as a near CALL does. A reached original `E9 rel16`
+landing on a root claim entry therefore also supplies reached-near frame
+evidence. A claim may end in a tail JMP (`E9`) to a grounded external
+`near-code-entry`, with the same rel16 equation and CS-window check as a
+near call. Control does not return to the claim, so the jump is a proven
+exit for containment.

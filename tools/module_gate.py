@@ -93,7 +93,9 @@ def _self_relative(fix, code_name, publics, near_symbols, piece, at, rows, start
     require(target.get("kind") == "external" and target.get("method") == 6 and fix["displacement"] is None,
             "Unsupported self-relative fixup shape")
     require(addend == 0, "Only zero encoded near-call addends are proven")
-    require(kind == "call", "Only near CALLs may name a public or external near entry")
+    # A near CALL, or a tail JMP (E9) to a grounded external near entry: both keep CS.
+    require(kind == "call" or (kind == "jmp" and target["name"] in near_symbols and target["name"] not in publics),
+            "Only near CALLs (or a tail JMP to an external near entry) may name a near entry")
     if target["name"] in publics:
         return "public", target["name"], (kind, insn_at, push_cs)
     require(target["name"] in near_symbols,
@@ -358,7 +360,7 @@ def _reached_near_frames(target, space, oracle, hull):
         except ValueError:
             continue
         for at in reached:
-            if data[at] != 0xe8 or (at < hi and lo < at + 3):
+            if data[at] not in (0xe8, 0xe9) or (at < hi and lo < at + 3):  # near CALL or JMP keep CS
                 continue
             rel = struct.unpack_from("<H", data, at + 1)[0]
             if base + ((at - base + 3 + rel) & 0xFFFF) == entry:
@@ -650,7 +652,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                               "callee_at": callee_at, "equal": value == observed})
                         # A same-object callee must itself be proven safe; an external near
                         # callee is never assumed to preserve segment context.
-                        state["calls"][insn_at] = dest if kind == "public" else EXTERNAL_NEAR
+                        if branch == "jmp":
+                            state["proven_jumps"].add(insn_at)  # a tail jump: control ends here
+                        else:
+                            state["calls"][insn_at] = dest if kind == "public" else EXTERNAL_NEAR
                     state["equations"].append(row)
                     if value != observed:
                         state["differences"].append(at)
