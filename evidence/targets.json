@@ -50904,6 +50904,119 @@
       "size": 470,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far interrupt-style driver callback; restores the saved registers and stack; IRET.",
+      "boundary_evidence": [
+        "The reached format-1 path from relocated entry 335b supplies literal 1101:3444 to the driver at 3663/3666. The callback repeats the same address at 34a9/34ac, with an original MZ relocation on the segment. All branches complete at IRET at 34db, before the separately addressed callback 34dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 15 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3444",
+      "offset": 13380,
+      "segment": 4353,
+      "semantic_name_hypothesis": "digital_completion_interrupt",
+      "sha256": "ed2e2db8f046554ec97a24240ad0750d489333e3d92d2daed7b9ae481fb4d2c3",
+      "size": 152,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near Pascal, far payload and far callback; returns AX; RET 8.",
+      "boundary_evidence": [
+        "Independent plain near call from the format-1 route of 335b. The BP frame has a single RET 8 at 3683 immediately before a distinct BP frame 3686.",
+        "Reached call at 3391 from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 15 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3603",
+      "offset": 13827,
+      "segment": 4353,
+      "semantic_name_hypothesis": "start_digital_payload",
+      "sha256": "22010dabac71477e8a1f21bc0a4e56a19371b8eea8e81a82ec06d3045fb7220a",
+      "size": 131,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near Pascal, far payload and far callback; returns AX; RET 8.",
+      "boundary_evidence": [
+        "Independent format-2 route of 335b, a distinct local frame and a RET 8 epilogue. The alternate tail at 3726 rejoins that epilogue at 36f2 before the independently entered 3728.",
+        "Reached call at 339d from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 15 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3686",
+      "offset": 13958,
+      "segment": 4353,
+      "semantic_name_hypothesis": "start_midi_payload",
+      "sha256": "0140ecaaec0d931624f73e524255a7558641b5647d2590aed0ec96d76b496783",
+      "size": 162,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near Pascal, far payload and far callback; returns AX; RET 8.",
+      "boundary_evidence": [
+        "Independent format-0 route of 335b. The BP frame returns at 3796 exactly before the separate interrupt entry 3799 whose CS-relative offset it passes to the timer installer.",
+        "Reached call at 3385 from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 15 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3728",
+      "offset": 14120,
+      "segment": 4353,
+      "semantic_name_hypothesis": "start_speaker_payload",
+      "sha256": "f49c667db0bd7ebcac847a43480db1f15dafa50cfd2a5ee872abeec215bb9653",
+      "size": 113,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Interrupt callback installed by 7d94; returns with IRET.",
+      "boundary_evidence": [
+        "The reached speaker route loads 3799 at 376c, pushes CS, and passes it to 7d94 at 3776. The installer writes the interrupt vector. The restored-register IRET is at 37d4. Branches following it complete through that epilogue. The final JMP at 38aa returns to the event reader. Original 00 fill at 38ad is outside the reached code and before the independently entered 38ae. The original reachability audit found no reference or execution at 38ad."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 15 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:3799",
+      "offset": 14233,
+      "segment": 4353,
+      "semantic_name_hypothesis": "speaker_timer_interrupt",
+      "sha256": "c54d5a8570d0046314270300bfa71811ef384cbbfd6dca64512190758b7e6688",
+      "size": 276,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

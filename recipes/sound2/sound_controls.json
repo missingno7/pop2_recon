@@ -1,7 +1,21 @@
 {
   "binding": "evidence/bindings/sound2/sound_controls.json",
-  "binding_sha256": "20eb72421387f370d1268a0017384b02e4cba31bcfd6e7a94d0074922e1c45a4",
+  "binding_sha256": "8476c1037ed9383dc292d7b269e8748e8f7edee5818eeb61f3b0306989e58f59",
   "claims": [
+    {
+      "fixup_count": 3,
+      "public": "FLAG_SOUND_RESOURCE",
+      "relocation_indices": [
+        1482,
+        1586,
+        1633
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:83b4"
+    },
     {
       "fixup_count": 3,
       "public": "DISPATCH_SOUND",
@@ -45,7 +59,7 @@
     }
   ],
   "drafts": [],
-  "emitted_size": 148,
+  "emitted_size": 208,
   "flags": [
     "/c",
     "/AM",
@@ -59,12 +73,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "sound2/sound_controls",
-  "object_sha256": "8e1ccdba3bb8992067165a93e78a75e16a744a2f455b5058c9b772e188e4d378",
-  "origin": 103424,
+  "object_sha256": "5e1e8fb0b0cf47c8a3fded36bec80d9b1eeb26e10d1e8dbe464b16589b29db6a",
+  "origin": 103364,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/sound2/sound_controls.c",
-  "source_sha256": "0de6d2854494c9c63e3a18de79ed231cc42b89af6c12a3ac0f6bdd6a9c52e5c9",
+  "source_sha256": "08d6d1525ea8211fd7cb2903724e9dc758116f1fd1a2e417c9b505604dbf4ef5",
   "space": "root"
 }

@@ -1,14 +1,16 @@
 {
   "declarations": {
     "externals": [
+      "QUERY_SOUND",
       "HGETSND",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "DISPATCH_RESOURCE_POINTER",
       "PROCESS_SOUND_HANDLE",
       "QUERY_SOUND_PAYLOAD",
+      "FLAG_SOUND_PAYLOAD",
+      "FLAG_SOUND_RESOURCE",
       "DISPATCH_SOUND",
-      "PLAY_SOUND",
-      "QUERY_SOUND"
+      "PLAY_SOUND"
     ],
     "groups": [
       {
@@ -24,7 +26,16 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "DISPATCH_SOUND",
+        "name": "QUERY_SOUND",
+        "offset": 144,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "FLAG_SOUND_RESOURCE",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -33,7 +44,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "PLAY_SOUND",
+        "name": "DISPATCH_SOUND",
         "offset": 60,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -42,8 +53,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "QUERY_SOUND",
-        "offset": 84,
+        "name": "PLAY_SOUND",
+        "offset": 120,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -57,7 +68,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 148,
+        "length": 208,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -107,7 +118,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "QUERY_SOUND_PAYLOAD",
@@ -118,10 +129,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 137,
+      "segment_offset": 197,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "QUERY_SOUND_PAYLOAD",
@@ -134,7 +145,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -145,10 +156,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 114,
+      "segment_offset": 174,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -161,7 +172,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "HGETSND",
@@ -172,10 +183,64 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 108,
+      "segment_offset": 168,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "HGETSND",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 5,
+          "kind": "external",
+          "method": 6,
+          "name": "PROCESS_SOUND_HANDLE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 133,
+      "self_relative": false,
+      "target": {
+        "index": 5,
+        "kind": "external",
+        "method": 6,
+        "name": "PROCESS_SOUND_HANDLE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "HGETSND",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 127,
+      "self_relative": false,
+      "target": {
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "HGETSND",
@@ -191,60 +256,6 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "PROCESS_SOUND_HANDLE",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 73,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "PROCESS_SOUND_HANDLE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 1,
-          "kind": "external",
-          "method": 6,
-          "name": "HGETSND",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 67,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "HGETSND",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 3,
-          "kind": "external",
-          "method": 6,
           "name": "DISPATCH_RESOURCE_POINTER",
           "zero_displacement": true
         }
@@ -253,10 +264,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 48,
+      "segment_offset": 108,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "DISPATCH_RESOURCE_POINTER",
@@ -269,7 +280,88 @@
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 3,
+          "kind": "external",
+          "method": 6,
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 90,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
           "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "HGETSND",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 84,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "HGETSND",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 7,
+          "kind": "external",
+          "method": 6,
+          "name": "FLAG_SOUND_PAYLOAD",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 48,
+      "self_relative": false,
+      "target": {
+        "index": 7,
+        "kind": "external",
+        "method": 6,
+        "name": "FLAG_SOUND_PAYLOAD",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -283,7 +375,7 @@
       "segment_offset": 30,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -296,7 +388,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "HGETSND",
@@ -310,7 +402,7 @@
       "segment_offset": 24,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "HGETSND",
@@ -337,6 +429,15 @@
           "space": "root"
         }
       ]
+    },
+    "FLAG_SOUND_PAYLOAD": {
+      "entry_sha256": "ae62185819e8ba7d57f2df6143289ae41bcbf4baa465256e1d4cb2577c2c44df",
+      "entry_target_id": "root:1101:32e8",
+      "kind": "far-code-entry",
+      "offset": 13032,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     },
     "HGETSND": {
       "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",

@@ -6,6 +6,19 @@ extern void far pascal dispatch_resource_pointer(void far *payload);
 extern int far pascal process_sound_handle(Handle handle);
 extern int far pascal query_sound_payload(void far *payload);
 
+extern void far pascal flag_sound_payload(void far *payload);
+
+void far pascal flag_sound_resource(unsigned id)
+{
+    void far *payload = 0;
+    if (id) {
+        payload = resolve_handle_to_far_payload(hGetSnd(id));
+        if (payload == 0)
+            return;
+    }
+    flag_sound_payload(payload);
+}
+
 void far pascal dispatch_sound(unsigned id)
 {
     void far *payload = 0;

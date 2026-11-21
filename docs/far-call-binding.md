@@ -442,3 +442,5 @@ evidence. A claim may end in a tail JMP (`E9`) to a grounded external
 `near-code-entry`, with the same rel16 equation and CS-window check as a
 near call. Control does not return to the claim, so the jump is a proven
 exit for containment.
+Far-data offset halves (LOC1/LOC5) also accept F2 naming the same external as their
+T6 target, like far calls and segment bases.

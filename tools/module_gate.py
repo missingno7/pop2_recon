@@ -851,8 +851,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     # LOC5 (loader-resolved offset16) writes the same value as LOC1 here.
                     if symbol.get("kind") == "far-data" and fix["loc_type"] in (1, 5) and not fix["self_relative"]:
                         # Offset half of a far data pointer: O within the object's own segment.
+                        same_ext = {k: fix["frame"].get(k) for k in ("kind", "index", "name")} ==                             {"kind": "external", "index": ref.get("index"), "name": ref.get("name")}
                         require(fix["field_width"] == 2 and ref["kind"] == "external" and fix["displacement"] is None and
-                                fix["frame"] == {"kind": "target_frame", "target": ref},
+                                (fix["frame"] == {"kind": "target_frame", "target": ref} or same_ext),
                                 "Unsupported far data offset fixup shape")
                         addend = struct.unpack_from("<H", state["piece"], at)[0]
                         require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
