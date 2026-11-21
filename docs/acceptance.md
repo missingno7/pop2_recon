@@ -259,3 +259,6 @@ and pins that copy; worker input is unchanged. JSON output uses explicit UTF-8
 bytes. Source/runtime publication refuse CRLF binding files so Git cannot
 silently change their pinned identity. This file-format rule does not change
 original bytes, object bytes, fixup equations or component extents.
+
+Placed-data fields may carry their offset in the FIXUPP displacement (MASM T0/T4
+with an explicit D) as well as in the LEDATA bytes; the proven value is P + D + A.

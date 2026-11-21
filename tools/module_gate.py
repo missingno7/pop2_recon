@@ -645,8 +645,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     if far_symbols[fix["target"]["name"]].get("kind") not in ("segment-base", "far-data"):
                         state["calls"][at - 1] = None  # a far callee, not a claim
                 elif (fix["target"].get("kind") == "segment" and fix["target"].get("name") in placements and
-                      fix["loc_type"] == 1 and not fix["self_relative"] and fix["field_width"] == 2 and
-                      fix["displacement"] is None):
+                      fix["loc_type"] == 1 and not fix["self_relative"] and fix["field_width"] == 2):
                     # A field addressing this object's own placed DGROUP segment: P + A. Only
                     # the DGROUP frame (F1, MSC and MASM `ASSUME DS:DGROUP`) adds P; a segment
                     # or target frame would write A alone, so it is refused.
@@ -656,7 +655,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     require(any(operand_field_of(i, at, candidate=True) for i in rows),
                             "Placed-data fixup is not the address field of one decoded instruction")
                     seg_name = fix["target"]["name"]
-                    addend = struct.unpack_from("<H", piece, at)[0]
+                    # MASM may carry the offset in the FIXUPP displacement (T0/T4 with D) instead of
+                    # the LEDATA bytes; the linker adds both: P + D + A.
+                    addend = (struct.unpack_from("<H", piece, at)[0] + (fix["displacement"] or 0)) & 0xFFFF
                     value = (placements[seg_name] + addend) & 0xFFFF
                     observed = struct.unpack_from("<H", expected, at)[0]
                     state["equations"].append({"offset": at, "kind": "placed data", "segment": seg_name,
