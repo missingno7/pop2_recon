@@ -24392,6 +24392,817 @@
       "size": 107,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF; saves BP and SI.",
+      "boundary_evidence": [
+        "Overlay-4:29cf:063e starts with a BP frame just after RETF 2 at 063b. The complete decoded routine ends at the shared RETF at 06f5 and the next BP frame begins at 06f6.",
+        "The reviewed resident AnimTrob dispatch for kind 37 uses CALL FAR 29cf:063e at root+0xb5b2, relocation 1055. The code in the ROOFTOPS overlay advances animation state and marks the pillar redraw. The matched FM Towns order identifies the corresponding AnimRoofPillar routine.",
+        "A returning CALL at 0645 is followed by TEST-equivalent OR AX,AX at 064a and the nonzero branch to 0651; its fall-through instructions reach MOV AL,[67cf] at 0674."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54706,
+          "image_offset": 46514,
+          "kind": "far_call",
+          "relocated_segment_site": 46517,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the low animation nibble and conditionally marks pillar geometry for redraw."
+      ],
+      "classification_status": "Overlay game code",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:063e",
+      "offset": 1598,
+      "segment": 10703,
+      "sha256": "6ddd0dc9c5244d17b89d79e80b2a2ae439ab9b1d016885a8ff908672e8ea4a0a",
+      "size": 184,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, Boolean AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:0d04 through 0d14 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "AnimExit has just returned. Two relocated overlay callers enter the comparison against 42, the height that completes AnimExit. The two RETFs are followed by the GetTorchFrame BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198508,
+          "image_offset": 13740,
+          "kind": "far_call",
+          "relocated_segment_site": 13743,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 260435,
+          "image_offset": 5219,
+          "kind": "far_call",
+          "relocated_segment_site": 5222,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "AnimExit has just returned. Two relocated overlay callers enter the comparison against 42, the height that completes AnimExit. The two RETFs are followed by the GetTorchFrame BP prologue."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0d04",
+      "offset": 3332,
+      "original_name": "IsExitOpen",
+      "original_name_evidence": [
+        "AnimExit has just returned. Two relocated overlay callers enter the comparison against 42, the height that completes AnimExit. The two RETFs are followed by the GetTorchFrame BP prologue.",
+        "FM Towns MOVE names @IsExitOpen."
+      ],
+      "segment": 2881,
+      "sha256": "7fcf8a58a4b8a446df5a5a529d7608dc3cb98865bcd9e4a63fd75c363a3eae26",
+      "size": 16,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, cell word and near clipping-box pointer",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:0d38 through 0dd0 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "MarkMove's same-CS call enters the BP frame at 0d38. It handles negative row-above cell coordinates, clips the computed cell rectangle, and updates the top-room redraw slots. The shared exit RETF 4 ends before MarkMove."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 57882,
+          "image_offset": 49690,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 49689,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MarkMove's same-CS call enters the BP frame at 0d38. It handles negative row-above cell coordinates, clips the computed cell rectangle, and updates the top-room redraw slots. The shared exit RETF 4 ends before MarkMove."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0d38",
+      "offset": 3384,
+      "segment": 2881,
+      "sha256": "2d505f2ea3ee9472fcaf4c3b130b07f3cc32cc4d862d5fa3225849f43ed8f26a",
+      "size": 152,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, cell byte and near rectangle pointer",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:0dd0 through 0e1c exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Relocated callers enter this BP frame after MarkTop. The signed cell chooses a move buffer entry or MarkTop before the guard update. RETF 4 precedes MarkFloor."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 213380,
+          "image_offset": 1460,
+          "kind": "far_call",
+          "relocated_segment_site": 1463,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 213368,
+          "image_offset": 1448,
+          "kind": "far_call",
+          "relocated_segment_site": 1451,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 213356,
+          "image_offset": 1436,
+          "kind": "far_call",
+          "relocated_segment_site": 1439,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 213344,
+          "image_offset": 1424,
+          "kind": "far_call",
+          "relocated_segment_site": 1427,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 213593,
+          "image_offset": 1673,
+          "kind": "far_call",
+          "relocated_segment_site": 1676,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 213733,
+          "image_offset": 1813,
+          "kind": "far_call",
+          "relocated_segment_site": 1816,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214221,
+          "image_offset": 2301,
+          "kind": "far_call",
+          "relocated_segment_site": 2304,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214206,
+          "image_offset": 2286,
+          "kind": "far_call",
+          "relocated_segment_site": 2289,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214191,
+          "image_offset": 2271,
+          "kind": "far_call",
+          "relocated_segment_site": 2274,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 217808,
+          "image_offset": 2416,
+          "kind": "far_call",
+          "relocated_segment_site": 2419,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 217776,
+          "image_offset": 2384,
+          "kind": "far_call",
+          "relocated_segment_site": 2387,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 217761,
+          "image_offset": 2369,
+          "kind": "far_call",
+          "relocated_segment_site": 2372,
+          "space": "overlay-6"
+        },
+        {
+          "file_offset": 54870,
+          "image_offset": 46678,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46677,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated callers enter this BP frame after MarkTop. The signed cell chooses a move buffer entry or MarkTop before the guard update. RETF 4 precedes MarkFloor."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0dd0",
+      "offset": 3536,
+      "segment": 2881,
+      "sha256": "9be5777265562d1cd48afa98b0bc593bd106cb968830f2266869f9f6ffff54e3",
+      "size": 76,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, cell byte and near rectangle pointer",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:0e1c through 0e60 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "The BP frame is entered at a relocated call and uses the floor rectangle slots; its two far-return paths end before MarkHalf."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 70313,
+          "image_offset": 62121,
+          "kind": "far_call",
+          "relocated_segment_site": 62124,
+          "space": "root"
+        },
+        {
+          "file_offset": 70253,
+          "image_offset": 62061,
+          "kind": "far_call",
+          "relocated_segment_site": 62064,
+          "space": "root"
+        },
+        {
+          "file_offset": 70196,
+          "image_offset": 62004,
+          "kind": "far_call",
+          "relocated_segment_site": 62007,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The BP frame is entered at a relocated call and uses the floor rectangle slots; its two far-return paths end before MarkHalf."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0e1c",
+      "offset": 3612,
+      "segment": 2881,
+      "sha256": "99410184830bc9dd257908688e51bf28059941e1da352d26edcab7ae654ae728",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed cell byte",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:0e60 through 0e96 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Relocated callers enter the BP frame immediately after MarkFloor. The local room path marks HalfBuf and the row-above path calls MarkTop. Two RETF 2 epilogues stop before MarkRedraw."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 70042,
+          "image_offset": 61850,
+          "kind": "far_call",
+          "relocated_segment_site": 61853,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated callers enter the BP frame immediately after MarkFloor. The local room path marks HalfBuf and the row-above path calls MarkTop. Two RETF 2 epilogues stop before MarkRedraw."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0e60",
+      "offset": 3680,
+      "segment": 2881,
+      "sha256": "3de840a560b0b6aef9f66d814c85b32acc6b0729a2c1922f633d247744a27ac0",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, cell byte and near rectangle pointer",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:0f1e through 0f62 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Relocated callers enter the BP frame after MarkCellRedraw. The routine chooses FRedrawBuf or MarkTop. Its second RETF 4 immediately precedes the independently called rectangle sweep."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 44603,
+          "image_offset": 36411,
+          "kind": "far_call",
+          "relocated_segment_site": 36414,
+          "space": "root"
+        },
+        {
+          "file_offset": 45234,
+          "image_offset": 37042,
+          "kind": "far_call",
+          "relocated_segment_site": 37045,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Relocated callers enter the BP frame after MarkCellRedraw. The routine chooses FRedrawBuf or MarkTop. Its second RETF 4 immediately precedes the independently called rectangle sweep."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0f1e",
+      "offset": 3870,
+      "segment": 2881,
+      "sha256": "0d060a84b9adb106d2fa95ee9123a02ee972d810903df3f655b211e0942e1454",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near mark-slot pointer, cell word, near clip pointer",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:107a through 10e8 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "A BP frame follows the previous return and alignment. MarkMove and the other redraw wrappers call this entry after choosing a buffer slot. The routine clips the tile rectangle and initializes or unions the slot. RETF 6 immediately precedes the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 57866,
+          "image_offset": 49674,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 49673,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 57940,
+          "image_offset": 49748,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 49747,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 58198,
+          "image_offset": 50006,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 50005,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "A BP frame follows the previous return and alignment. MarkMove and the other redraw wrappers call this entry after choosing a buffer slot. The routine clips the tile rectangle and initializes or unions the slot. RETF 6 immediately precedes the next BP frame."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:107a",
+      "offset": 4218,
+      "segment": 2881,
+      "sha256": "9654ed7f20a828371ec0382a9203e96ecff499d1c61277d8576e84cf149fe960",
+      "size": 110,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, room, column, row and signed step bytes, result AL",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:14a2 through 14dc exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Three relocated calls enter the BP frame after ZeroBuffers. The loop adds the signed step to the column, tests the tile class, and repeats only for columns 0 through 10. RETF 8 is followed by alignment and a far-entered push-SI routine at 14dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 188191,
+          "image_offset": 3423,
+          "kind": "far_call",
+          "relocated_segment_site": 3426,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 253750,
+          "image_offset": 5030,
+          "kind": "far_call",
+          "relocated_segment_site": 5033,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 253727,
+          "image_offset": 5007,
+          "kind": "far_call",
+          "relocated_segment_site": 5010,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Three relocated calls enter the BP frame after ZeroBuffers. The loop adds the signed step to the column, tests the tile class, and repeats only for columns 0 through 10. RETF 8 is followed by alignment and a far-entered push-SI routine at 14dc."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:14a2",
+      "offset": 5282,
+      "segment": 2881,
+      "sha256": "db1ddb5c15c3ced633ee1ab224f5142f3effb9be50491f0142c8a8d13b696787",
+      "size": 58,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one index word, zero-extended AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:14f6 through 150e exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Trigger's same-CS call at 1155 enters a BP frame. It reads byte 4 of the five-byte link record. The preceding and next entries are separated by far returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 58725,
+          "image_offset": 50533,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 50532,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Trigger's same-CS call at 1155 enters a BP frame. It reads byte 4 of the five-byte link record. The preceding and next entries are separated by far returns."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:14f6",
+      "offset": 5366,
+      "segment": 2881,
+      "sha256": "5c3ba2d7f13f0114d20856033e5ebb2ffa1b19703682532f7572986a2dc67756",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one index word, zero-extended AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:150e through 1526 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "PushPlate and AnimPlate select this BP frame at the start of their timer read/update sequences. It reads the same field that ChangeLinkTimer writes."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59883,
+          "image_offset": 51691,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51690,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 60116,
+          "image_offset": 51924,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51923,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "PushPlate and AnimPlate select this BP frame at the start of their timer read/update sequences. It reads the same field that ChangeLinkTimer writes."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:150e",
+      "offset": 5390,
+      "original_name": "GetLinkTimer",
+      "original_name_evidence": [
+        "PushPlate and AnimPlate select this BP frame at the start of their timer read/update sequences. It reads the same field that ChangeLinkTimer writes.",
+        "FM Towns MOVE names @GetLinkTimer."
+      ],
+      "segment": 2881,
+      "sha256": "4f617890874d6cdb88d319c39f44acfe56c01ccad98d7a6dfa143da0f30a1ba5",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, index word and timer byte, zero-extended AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:1526 through 1542 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "PushPlate, JamPlate and AnimPlate target this BP frame to update the timer they just examined. It stores and returns byte 2 of the five-byte record."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59921,
+          "image_offset": 51729,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51728,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 60078,
+          "image_offset": 51886,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51885,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 60131,
+          "image_offset": 51939,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51938,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "PushPlate, JamPlate and AnimPlate target this BP frame to update the timer they just examined. It stores and returns byte 2 of the five-byte record."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1526",
+      "offset": 5414,
+      "original_name": "ChangeLinkTimer",
+      "original_name_evidence": [
+        "PushPlate, JamPlate and AnimPlate target this BP frame to update the timer they just examined. It stores and returns byte 2 of the five-byte record.",
+        "FM Towns MOVE names @ChangeLinkTimer."
+      ],
+      "segment": 2881,
+      "sha256": "a5ef7b2d337dd9a2526ee442c116570cc3ed09f6ee14cda8a94a13384c4fc2f3",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one index word, sign-extended AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:1542 through 155a exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Trigger's direct same-CS call at 1118 enters this BP frame. It reads and sign-extends the cell byte before TriggerObject."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 58664,
+          "image_offset": 50472,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 50471,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Trigger's direct same-CS call at 1118 enters this BP frame. It reads and sign-extends the cell byte before TriggerObject."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1542",
+      "offset": 5442,
+      "segment": 2881,
+      "sha256": "770739964b8132ef5650529dea44354ce64b52f545068bf0c2e264077a6d38e8",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one index word, Boolean AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:155a through 157c exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "New BP frame follows the link-cell RETF and pad. Both branches return, and the next independent BP-framed predicate reads the adjacent link field. Ordered FM MOVE LinkBefore is a naming lead."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "New BP frame follows the link-cell RETF and pad. Both branches return, and the next independent BP-framed predicate reads the adjacent link field. Ordered FM MOVE LinkBefore is a naming lead."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:155a",
+      "offset": 5466,
+      "segment": 2881,
+      "sha256": "508046ffaa472235affd13de33dc732c06fa27ab514f4f88c9509ff6098b3cf8",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one index word, Boolean AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:157c through 159e exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "New BP frame follows both previous-link returns. Both branches return before the independently called room getter. Ordered FM MOVE LinkMore is a naming lead."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "New BP frame follows both previous-link returns. Both branches return before the independently called room getter. Ordered FM MOVE LinkMore is a naming lead."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:157c",
+      "offset": 5500,
+      "segment": 2881,
+      "sha256": "e4747fa87f7cef797b4b22f5522a555fae923cb2dc6fe5c9c13bfa4ecb2e258f",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one index word, byte AL",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:159e through 15b4 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Trigger enters the BP frame at two same-CS call sites, compares returned AL to zero, and selects the room. The following BP frame belongs to PushPlate."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 58629,
+          "image_offset": 50437,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 50436,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 58650,
+          "image_offset": 50458,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 50457,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Trigger enters the BP frame at two same-CS call sites, compares returned AL to zero, and selects the room. The following BP frame belongs to PushPlate."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:159e",
+      "offset": 5534,
+      "segment": 2881,
+      "sha256": "e192cd3ba7876b304b522f10b2f512060b7edb45fd2eeb273e7eae79e27fe5ff",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, room byte and signed cell byte",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:17ec through 183e exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "Original relocated callers and the same-frame AnimLoose and KnockLoose paths enter the BP frame. Clears the room cell type, then sets original object state based on level and room. A RETF 4 precedes the next BP-framed BreakLoose entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 226497,
+          "image_offset": 369,
+          "kind": "far_call",
+          "relocated_segment_site": 372,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 262952,
+          "image_offset": 1320,
+          "kind": "far_call",
+          "relocated_segment_site": 1323,
+          "space": "overlay-13"
+        },
+        {
+          "file_offset": 60316,
+          "image_offset": 52124,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 52123,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 62097,
+          "image_offset": 53905,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53904,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original relocated callers and the same-frame AnimLoose and KnockLoose paths enter the BP frame. Clears the room cell type, then sets original object state based on level and room. A RETF 4 precedes the next BP-framed BreakLoose entry."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:17ec",
+      "offset": 6124,
+      "segment": 2881,
+      "sha256": "857fcc7a2ab1da9641496b93766899a90b30c0d45ee2720bc648e505bb7f600f",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, far return",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:1f0a through 1f32 exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "MobLoose and KnockLoose branch to the same-CS call pairs at 1c67 and 1ed7. The frameless routine wraps the row and vertical coordinate and follows the lower room link. RETF at 1f31 immediately precedes the BP frame of the plate test."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61559,
+          "image_offset": 53367,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53366,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 62183,
+          "image_offset": 53991,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53990,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MobLoose and KnockLoose branch to the same-CS call pairs at 1c67 and 1ed7. The frameless routine wraps the row and vertical coordinate and follows the lower room link. RETF at 1f31 immediately precedes the BP frame of the plate test."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1f0a",
+      "offset": 7946,
+      "original_name": "PassThru",
+      "original_name_evidence": [
+        "MobLoose and KnockLoose branch to the same-CS call pairs at 1c67 and 1ed7. The frameless routine wraps the row and vertical coordinate and follows the lower room link. RETF at 1f31 immediately precedes the BP frame of the plate test.",
+        "FM Towns MOVE names @PassThru."
+      ],
+      "segment": 2881,
+      "sha256": "ce90349da6f81cad41c85d572feacb7c072c1c0e46d3fe794d003e6e49bce836",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near opponent pointer, Boolean AX",
+      "boundary_evidence": [
+        "Complete decoded interval 0b41:2492 through 250a exclusive. Every direct branch remains in range and the last non-padding instruction is RETF.",
+        "The CheckLooseCrush call pair at 2389\u2013238c enters a new BP frame after its preceding exit. The body compares the cell row height and x column with the current mobile object. RETF 2 precedes the independently called AddGateSound entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 63386,
+          "image_offset": 55194,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 55193,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The CheckLooseCrush call pair at 2389\u2013238c enters a new BP frame after its preceding exit. The body compares the cell row height and x column with the current mobile object. RETF 2 precedes the independently called AddGateSound entry."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:2492",
+      "offset": 9362,
+      "segment": 2881,
+      "sha256": "f1e3e67557f4176e9a4f29a2da622d9a9af11759397a853036192815c17812ef",
+      "size": 120,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments; far return, AX=1.",
+      "boundary_evidence": [
+        "Earlier routine restores SI/DI, SP and BP then returns at root+0x101ea and aligns at 0x101eb. The following 18 bytes form a frameless routine with no inward or outward branches, pushing a literal word then DS:d3a and calling the original relocated 1de8:000c at 0x101f5. It returns AX=1 with RETF at root+0x101fd. The next original BP frame 101f:000e is entered by the relocated CALL FAR at root+0xd444. The preceding framed routine and following BP frame are independently separated by their return/entry conventions."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "A constant argument wrapper around the original far text-provider call; no original public name is claimed."
+      ],
+      "classification_status": "Resident C helper hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:0a7c",
+      "offset": 2684,
+      "segment": 3959,
+      "sha256": "907e4f1060fdf6ae1e5531439e71e3386fbf03c9b332a87ccc4eb44020ac74b8",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
