@@ -63374,6 +63374,27 @@
       ],
       "original_name": null,
       "semantic_name_hypothesis": "move_trapdoor"
+    },
+    {
+      "abi": "Far Pascal hypothesis, no parameters, RETF with AX=1.",
+      "boundary_evidence": [
+        "Fresh BP frame at root+0x100de immediately follows SetSideRoomInfo RETF at +0x100dd. Linear decode of [0x100de,0x101ec) is complete; all conditional and unconditional branch targets are in-extent instruction starts. Common zero-argument epilogue returns at +0x101ea, with one alignment NOP at +0x101eb; separately reviewed frameless wrapper starts at +0x101ec.",
+        "Nine relocation records in the extent have the source site segment 0f77 (indices 1325, 1326, 1338, 1339, 1340, 1341, 1343, 1344, 1345); the following wrapper has the same site frame at index 1327. The next independently entered file starts at 101f:000e.",
+        "No relocated far caller or reached direct near caller identified. The preceding and following returns and the resident relocation site frame establish boundary and file placement."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Room image memory recovery with resource, image-table, and DOS shutdown calls. Source membership follows the original relocation site frame."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:0f77:096e",
+      "offset": 2414,
+      "segment": 3959,
+      "sha256": "7271325a9c8527036269949e321247c7d29b8310cecb4c429ec7145533447a21",
+      "size": 270,
+      "space": "root"
     }
   ],
   "schema": 1,

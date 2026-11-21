@@ -2,49 +2,49 @@
   "declarations": {
     "externals": [
       "SHOW_ERROR",
-      "UNLOAD_OVERLAY",
       "NEW_SHAPE_ITEM",
       "GET_HANDLE_FLAGS",
       "GET_HANDLE_ADDRESS",
       "REVERSE_BLOCK_BYTES",
       "LOAD_MAPPING",
+      "UNLOAD_OVERLAY",
       "BUILTIN_MAPPING",
       "PREPARE_MAPPING",
       "LOADED_MAPPING_FLAGS",
       "SET_HANDLE_FLAGS",
-      "UNLOADSHAPELIST",
       "RESOLVE_HANDLE",
       "LOCK_HANDLE",
       "PRINCENEWSHPITEM",
       "PRINCEFREESHP",
       "OVERLAY_SHAPE_LIST",
+      "UNLOADSHAPELIST",
       "GET_LIST_ITEM",
-      "PRINCEPAINTSHAPEIDX",
       "__fmemset",
       "FREESHPINFO",
       "LOAD_SHAPE_RESOURCE",
+      "PRINCEPAINTSHAPEIDX",
       "MARK_FIXED",
-      "PAINTRLESHAPEITEM",
       "HGETNMAPSHPLIST",
       "MARK_PURGEABLE",
       "DEREF_HANDLE",
+      "PAINTRLESHAPEITEM",
       "UNPACK_SHAPE_DATA",
       "PRINCEMARKIMGSPURGEABLE",
-      "PAINTSHAPEITEM",
-      "PRINCEGETNSHAPEITEMSIZE",
       "PAINT_FOUR_BIT",
       "ISOVERLAYLOADED",
+      "PAINTSHAPEITEM",
+      "PRINCEGETNSHAPEITEMSIZE",
       "PAINT_RLE",
       "DISPOSE_HANDLE",
-      "PAINT4BITSHAPEITEM",
-      "PRINCEMARKRANGESPURGEABLE",
       "FIND_SHAPE_LIST",
       "PAINT_MODE",
-      "PRINCEUNPACKSHAPE",
+      "PRINCEMARKRANGESPURGEABLE",
       "LOAD_SHAPE_LIST",
+      "PAINT4BITSHAPEITEM",
       "PAINT_PLAIN",
       "_malloc",
       "RELEASE_SHAPE_LIST",
+      "PRINCEUNPACKSHAPE",
       "_sprintf",
       "_free"
     ],
@@ -71,17 +71,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "UNLOADSHAPELIST",
-        "offset": 2020,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 0
-      },
-      {
-        "frame": null,
-        "group_index": 0,
         "name": "PRINCENEWSHPITEM",
-        "offset": 1034,
+        "offset": 1032,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -107,8 +98,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "GET_LIST_ITEM",
-        "offset": 1582,
+        "name": "UNLOADSHAPELIST",
+        "offset": 2020,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -116,8 +107,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "PRINCEPAINTSHAPEIDX",
-        "offset": 1424,
+        "name": "GET_LIST_ITEM",
+        "offset": 1582,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -134,8 +125,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "PAINTRLESHAPEITEM",
-        "offset": 2110,
+        "name": "PRINCEPAINTSHAPEIDX",
+        "offset": 1424,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -152,8 +143,26 @@
       {
         "frame": null,
         "group_index": 0,
+        "name": "PAINTRLESHAPEITEM",
+        "offset": 2110,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
         "name": "PRINCEMARKIMGSPURGEABLE",
-        "offset": 908,
+        "offset": 898,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "ISOVERLAYLOADED",
+        "offset": 216,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -179,8 +188,17 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "ISOVERLAYLOADED",
-        "offset": 216,
+        "name": "PRINCEMARKRANGESPURGEABLE",
+        "offset": 980,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "LOAD_SHAPE_LIST",
+        "offset": 302,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -197,26 +215,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "PRINCEMARKRANGESPURGEABLE",
-        "offset": 990,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 0
-      },
-      {
-        "frame": null,
-        "group_index": 0,
         "name": "PRINCEUNPACKSHAPE",
         "offset": 1796,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 0
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "LOAD_SHAPE_LIST",
-        "offset": 302,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -301,7 +301,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 872,
+      "segment_offset": 867,
       "self_relative": false,
       "target": {
         "index": 23,
@@ -317,7 +317,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SHAPE_RESOURCE",
@@ -328,10 +328,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 866,
+      "segment_offset": 861,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SHAPE_RESOURCE",
@@ -344,7 +344,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "PRINCEFREESHP",
@@ -355,10 +355,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 830,
+      "segment_offset": 827,
       "self_relative": true,
       "target": {
-        "index": 16,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "PRINCEFREESHP",
@@ -371,7 +371,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "PRINCENEWSHPITEM",
@@ -382,10 +382,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 818,
+      "segment_offset": 815,
       "self_relative": true,
       "target": {
-        "index": 15,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "PRINCENEWSHPITEM",
@@ -409,7 +409,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 781,
+      "segment_offset": 784,
       "self_relative": false,
       "target": {
         "index": 35,
@@ -425,7 +425,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -439,7 +439,7 @@
       "segment_offset": 676,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -452,7 +452,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "FIND_SHAPE_LIST",
@@ -466,7 +466,7 @@
       "segment_offset": 670,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "FIND_SHAPE_LIST",
@@ -506,7 +506,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -520,7 +520,7 @@
       "segment_offset": 592,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -560,7 +560,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SHAPE_RESOURCE",
@@ -574,7 +574,7 @@
       "segment_offset": 573,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SHAPE_RESOURCE",
@@ -587,7 +587,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "PRINCEFREESHP",
@@ -601,7 +601,7 @@
       "segment_offset": 549,
       "self_relative": true,
       "target": {
-        "index": 16,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "PRINCEFREESHP",
@@ -614,7 +614,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "PRINCENEWSHPITEM",
@@ -628,7 +628,7 @@
       "segment_offset": 538,
       "self_relative": true,
       "target": {
-        "index": 15,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "PRINCENEWSHPITEM",
@@ -641,7 +641,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "__fmemset",
@@ -655,7 +655,7 @@
       "segment_offset": 436,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "__fmemset",
@@ -695,7 +695,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "_malloc",
@@ -709,7 +709,7 @@
       "segment_offset": 373,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "_malloc",
@@ -722,7 +722,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_ADDRESS",
@@ -736,7 +736,7 @@
       "segment_offset": 344,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_ADDRESS",
@@ -749,7 +749,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 13,
           "kind": "external",
           "method": 6,
           "name": "LOCK_HANDLE",
@@ -763,7 +763,7 @@
       "segment_offset": 338,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 13,
         "kind": "external",
         "method": 6,
         "name": "LOCK_HANDLE",
@@ -776,7 +776,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_FLAGS",
@@ -790,7 +790,7 @@
       "segment_offset": 329,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_FLAGS",
@@ -803,7 +803,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "HGETNMAPSHPLIST",
@@ -817,7 +817,7 @@
       "segment_offset": 323,
       "self_relative": true,
       "target": {
-        "index": 25,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "HGETNMAPSHPLIST",
@@ -830,7 +830,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -844,7 +844,7 @@
       "segment_offset": 263,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -938,7 +938,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "LOAD_MAPPING",
@@ -952,7 +952,7 @@
       "segment_offset": 156,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "LOAD_MAPPING",
@@ -965,7 +965,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_ADDRESS",
@@ -979,7 +979,7 @@
       "segment_offset": 124,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_ADDRESS",
@@ -992,7 +992,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_FLAGS",
@@ -1006,7 +1006,7 @@
       "segment_offset": 115,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_FLAGS",
@@ -1073,7 +1073,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "_malloc",
@@ -1087,7 +1087,7 @@
       "segment_offset": 85,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "_malloc",
@@ -1122,7 +1122,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "FIND_SHAPE_LIST",
@@ -1136,7 +1136,7 @@
       "segment_offset": 65,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "FIND_SHAPE_LIST",
@@ -1279,7 +1279,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_ADDRESS",
@@ -1293,7 +1293,7 @@
       "segment_offset": 1819,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_ADDRESS",
@@ -1306,7 +1306,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 13,
           "kind": "external",
           "method": 6,
           "name": "LOCK_HANDLE",
@@ -1320,7 +1320,7 @@
       "segment_offset": 1813,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 13,
         "kind": "external",
         "method": 6,
         "name": "LOCK_HANDLE",
@@ -1360,7 +1360,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SHAPE_RESOURCE",
@@ -1374,7 +1374,7 @@
       "segment_offset": 1772,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SHAPE_RESOURCE",
@@ -1387,7 +1387,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -1398,10 +1398,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1699,
+      "segment_offset": 1695,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -1414,7 +1414,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "PRINCENEWSHPITEM",
@@ -1428,7 +1428,7 @@
       "segment_offset": 1632,
       "self_relative": true,
       "target": {
-        "index": 15,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "PRINCENEWSHPITEM",
@@ -1441,7 +1441,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 21,
+          "index": 20,
           "kind": "external",
           "method": 6,
           "name": "FREESHPINFO",
@@ -1455,7 +1455,7 @@
       "segment_offset": 1571,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "FREESHPINFO",
@@ -1468,7 +1468,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 42,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "PAINT_PLAIN",
@@ -1482,7 +1482,7 @@
       "segment_offset": 1560,
       "self_relative": false,
       "target": {
-        "index": 42,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "PAINT_PLAIN",
@@ -1495,7 +1495,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 39,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "PAINT_MODE",
@@ -1509,7 +1509,7 @@
       "segment_offset": 1541,
       "self_relative": false,
       "target": {
-        "index": 39,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "PAINT_MODE",
@@ -1549,7 +1549,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "PAINT_FOUR_BIT",
@@ -1563,7 +1563,7 @@
       "segment_offset": 1489,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "PAINT_FOUR_BIT",
@@ -1576,7 +1576,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -1590,7 +1590,7 @@
       "segment_offset": 1459,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -1819,7 +1819,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_ADDRESS",
@@ -1830,10 +1830,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1215,
+      "segment_offset": 1213,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_ADDRESS",
@@ -1846,7 +1846,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_FLAGS",
@@ -1857,10 +1857,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1206,
+      "segment_offset": 1204,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_FLAGS",
@@ -1884,7 +1884,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1200,
+      "segment_offset": 1198,
       "self_relative": false,
       "target": {
         "index": 1,
@@ -1911,7 +1911,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1183,
+      "segment_offset": 1181,
       "self_relative": false,
       "target": {
         "index": 45,
@@ -1933,7 +1933,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1175,
+      "segment_offset": 1173,
       "self_relative": false,
       "target": {
         "index": 2,
@@ -1949,7 +1949,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SHAPE_RESOURCE",
@@ -1960,10 +1960,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1147,
+      "segment_offset": 1145,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SHAPE_RESOURCE",
@@ -1987,7 +1987,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1123,
+      "segment_offset": 1121,
       "self_relative": false,
       "target": {
         "index": 35,
@@ -2003,7 +2003,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "DEREF_HANDLE",
@@ -2014,10 +2014,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1085,
+      "segment_offset": 1083,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "DEREF_HANDLE",
@@ -2030,7 +2030,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_ADDRESS",
@@ -2041,10 +2041,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1060,
+      "segment_offset": 1058,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_ADDRESS",
@@ -2057,7 +2057,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "GET_HANDLE_FLAGS",
@@ -2068,10 +2068,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1049,
+      "segment_offset": 1047,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "GET_HANDLE_FLAGS",
@@ -2095,7 +2095,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1015,
+      "segment_offset": 1012,
       "self_relative": true,
       "target": {
         "index": 29,
@@ -2111,7 +2111,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 25,
           "kind": "external",
           "method": 6,
           "name": "MARK_PURGEABLE",
@@ -2122,10 +2122,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 972,
+      "segment_offset": 962,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 25,
         "kind": "external",
         "method": 6,
         "name": "MARK_PURGEABLE",
@@ -2165,7 +2165,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 39,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "PAINT_MODE",
@@ -2179,7 +2179,7 @@
       "segment_offset": 2315,
       "self_relative": false,
       "target": {
-        "index": 39,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "PAINT_MODE",
@@ -2192,7 +2192,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -2206,7 +2206,7 @@
       "segment_offset": 2296,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -2219,7 +2219,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "NEW_SHAPE_ITEM",
@@ -2233,7 +2233,7 @@
       "segment_offset": 2288,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "NEW_SHAPE_ITEM",
@@ -2273,7 +2273,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 42,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "PAINT_PLAIN",
@@ -2287,7 +2287,7 @@
       "segment_offset": 2251,
       "self_relative": false,
       "target": {
-        "index": 42,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "PAINT_PLAIN",
@@ -2300,7 +2300,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 5,
           "kind": "external",
           "method": 6,
           "name": "REVERSE_BLOCK_BYTES",
@@ -2314,7 +2314,7 @@
       "segment_offset": 2233,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "REVERSE_BLOCK_BYTES",
@@ -2327,7 +2327,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -2341,7 +2341,7 @@
       "segment_offset": 2201,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -2354,7 +2354,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "NEW_SHAPE_ITEM",
@@ -2368,7 +2368,7 @@
       "segment_offset": 2189,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "NEW_SHAPE_ITEM",
@@ -2435,7 +2435,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -2449,7 +2449,7 @@
       "segment_offset": 2136,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -2462,7 +2462,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "NEW_SHAPE_ITEM",
@@ -2476,7 +2476,7 @@
       "segment_offset": 2128,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "NEW_SHAPE_ITEM",
@@ -2516,7 +2516,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_SHAPE_LIST",
@@ -2530,7 +2530,7 @@
       "segment_offset": 2089,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_SHAPE_LIST",
@@ -2543,7 +2543,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "FIND_SHAPE_LIST",
@@ -2557,7 +2557,7 @@
       "segment_offset": 2077,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "FIND_SHAPE_LIST",
@@ -2624,7 +2624,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "RESOLVE_HANDLE",
@@ -2638,7 +2638,7 @@
       "segment_offset": 1962,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE",
@@ -2651,7 +2651,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "ISOVERLAYLOADED",
@@ -2665,7 +2665,7 @@
       "segment_offset": 1915,
       "self_relative": true,
       "target": {
-        "index": 33,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "ISOVERLAYLOADED",
