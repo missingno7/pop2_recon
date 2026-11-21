@@ -1,8 +1,10 @@
 {
   "declarations": {
     "externals": [
+      "FIND_SHAPE_METADATA",
       "FIND_RESOURCE_ENTRY",
-      "DISPOSE_HANDLE"
+      "DISPOSE_HANDLE",
+      "MATERIALIZE_RESOURCE"
     ],
     "groups": [
       {
@@ -13,6 +15,24 @@
       }
     ],
     "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "HGETRSRC",
+        "offset": 72,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "UNLINK_SHAPE_METADATA",
+        "offset": 38,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
       {
         "frame": null,
         "group_index": 0,
@@ -31,7 +51,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 38,
+        "length": 103,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -66,7 +86,7 @@
       "segment_offset": 15,
       "self_relative": true,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "FIND_RESOURCE_ENTRY",
@@ -88,10 +108,76 @@
       "segment_offset": 29,
       "self_relative": true,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "DISPOSE_HANDLE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 48,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "FIND_SHAPE_METADATA",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 87,
+      "self_relative": true,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "FIND_RESOURCE_ENTRY",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 94,
+      "self_relative": true,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "MATERIALIZE_RESOURCE",
         "zero_displacement": true
       }
     }
@@ -137,9 +223,41 @@
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "e8e205",
-          "entry": "root:1101:6f6a",
-          "image_offset": 98184,
+          "bytes_hex": "e8ba05",
+          "entry": "root:1101:6f8a",
+          "image_offset": 98224,
+          "space": "root"
+        }
+      ]
+    },
+    "FIND_SHAPE_METADATA": {
+      "entry_sha256": "8ba5e8cdfe9bbc710296adade9a0e4b9754fe6a89615ea779e4682bc6dd5b3c8",
+      "entry_target_id": "root:1101:7364",
+      "kind": "near-code-entry",
+      "offset": 29540,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "e8fd72",
+          "entry": "root:1101:0058",
+          "image_offset": 69748,
+          "space": "root"
+        }
+      ]
+    },
+    "MATERIALIZE_RESOURCE": {
+      "entry_sha256": "0f27d05b3b9733a92ad7116ebd7cd170588cb502305d41d9a803138b7a190f96",
+      "entry_target_id": "root:1101:73fa",
+      "kind": "near-code-entry",
+      "offset": 29690,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "e86101",
+          "entry": "root:1101:719c",
+          "image_offset": 98982,
           "space": "root"
         }
       ]

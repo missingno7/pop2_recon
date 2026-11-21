@@ -1,13 +1,15 @@
 {
   "declarations": {
     "externals": [
-      "FIND_RESOURCE_ENTRY",
-      "MATERIALIZE_RESOURCE"
+      "MIDI_DRIVER_FLAG",
+      "GET_MIDI_DRIVER_FLAG"
     ],
     "groups": [
       {
         "name": "DGROUP",
         "segments": [
+          3,
+          4,
           2
         ]
       }
@@ -16,7 +18,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "HGETRSRC",
+        "name": "GET_MIDI_DRIVER_FLAG",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -31,7 +33,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 31,
+        "length": 4,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -47,6 +49,30 @@
         "name": "_DATA",
         "overlay": "",
         "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
       }
     ]
   },
@@ -55,43 +81,26 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "MIDI_DRIVER_FLAG",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 15,
-      "self_relative": true,
+      "segment_offset": 1,
+      "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "FIND_RESOURCE_ENTRY",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 22,
-      "self_relative": true,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "MATERIALIZE_RESOURCE",
+        "name": "MIDI_DRIVER_FLAG",
         "zero_displacement": true
       }
     }
@@ -112,39 +121,20 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "FIND_RESOURCE_ENTRY": {
-      "entry_sha256": "826ec55e98dd4de8780d178ac8611867dd36d19948a6fac695043bf00783ff12",
-      "entry_target_id": "root:1101:755d",
-      "kind": "near-code-entry",
-      "offset": 30045,
-      "segment": 4353,
-      "space": "root",
+    "MIDI_DRIVER_FLAG": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8484,
       "witnesses": [
         {
-          "bytes_hex": "e82a06",
-          "entry": "root:1101:6f22",
-          "image_offset": 98112,
-          "space": "root"
-        }
-      ]
-    },
-    "MATERIALIZE_RESOURCE": {
-      "entry_sha256": "0f27d05b3b9733a92ad7116ebd7cd170588cb502305d41d9a803138b7a190f96",
-      "entry_target_id": "root:1101:73fa",
-      "kind": "near-code-entry",
-      "offset": 29690,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "e86101",
-          "entry": "root:1101:719c",
-          "image_offset": 98982,
+          "bytes_hex": "c70624210100",
+          "image_offset": 81259,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
     }
   },
-  "target_id": "group:resc/h_get_rsrc",
+  "target_id": "group:get_midi_driver_flag",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

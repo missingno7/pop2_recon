@@ -399,3 +399,5 @@ Descent and near calls never change CS, so the claim is entered with
 CS = F. This evidence is consulted only when the claim has no relocated far
 caller, so it cannot introduce a conflicting alias for claims that already
 have one. Overlay claims use the overlay rules above.
+The same F2-equals-target rule applies to LOC2 segment-base fields
+(`mov ax, SEG X` with X external): X's own frame is the linked value.

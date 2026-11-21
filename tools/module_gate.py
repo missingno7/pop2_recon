@@ -749,9 +749,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     if symbol.get("kind") in ("segment-base", "far-data") and fix["loc_type"] == 2:
                         # LOC2 base16 of an external far segment (`mov ax, seg Table`): the
                         # linker writes that segment's paragraph, relocated in MZ at the field.
+                        # F5, or F2 naming the same external (MASM `mov ax, SEG X`): X's own frame.
+                        same_external = {k: fix["frame"].get(k) for k in ("kind", "index", "name")} ==                             {"kind": "external", "index": ref.get("index"), "name": ref.get("name")}
                         require(fix["loc_type"] == 2 and fix["field_width"] == 2 and not fix["self_relative"] and
                                 ref["kind"] == "external" and fix["displacement"] is None and
-                                fix["frame"] == {"kind": "target_frame", "target": ref},
+                                (fix["frame"] == {"kind": "target_frame", "target": ref} or same_external),
                                 "Unsupported segment-base fixup shape")
                         require(state["piece"][at:at+2] == bytes(2), "Only zero encoded segment addends are proven")
                         observed = struct.unpack_from("<H", state["expected"], at)[0]
