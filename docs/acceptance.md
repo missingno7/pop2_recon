@@ -265,3 +265,8 @@ with an explicit D) as well as in the LEDATA bytes; the proven value is P + D + 
 Overlay owners may place file-private DGROUP data when the binding grounds the
 runtime DGROUP paragraph (`dgroup_segment`). Overlay code runs with the same DS,
 and initialized bytes are compared in whichever space holds that paragraph.
+A claim may end in data it addresses itself, for example a literal after the
+final RET reached by `mov si, OFFSET lit`. The tail from the lowest own-segment
+field target T counts as data when the code before T decodes completely and
+ends in a return or JMP, and no own-segment field lies inside the tail. The
+tail bytes are compared exactly as ordinary bytes.

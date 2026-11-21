@@ -1,8 +1,9 @@
 .MODEL MEDIUM
 .DATA
 EXTRN heap_descriptor:DWORD
+EXTRN heap_descriptor_segment:WORD
 .CODE
-PUBLIC RESIZE_DOS_HEAP
+PUBLIC RESIZE_DOS_HEAP, INITIALIZE_DOS_HEAP
 EXTRN ROUND_BYTES_TO_PARAGRAPHS:NEAR
 
 PUBLIC COMPACT_HEAP_BLOCKS
@@ -278,4 +279,148 @@ map_page:
     lds di, DWORD PTR ss:heap_descriptor
     jmp short add_to_heap_total
 RESIZE_DOS_HEAP ENDP
+
+minimum_paragraphs EQU WORD PTR [bp-102h]
+
+INITIALIZE_DOS_HEAP PROC FAR
+    push bp
+    mov bp, sp
+    add sp, -102h
+    push di
+    push si
+    push ds
+    sub ax, ax
+    mov WORD PTR heap_descriptor, ax
+    mov heap_descriptor_segment, ax
+    les ax, DWORD PTR [bp+6]
+    mov dx, es
+    call ROUND_BYTES_TO_PARAGRAPHS
+    cmp ax, 3
+    jae choose_heap_size
+    mov ax, 3
+choose_heap_size:
+    mov minimum_paragraphs, ax
+    xchg bx, ax
+allocate_paragraphs:
+    mov ah, 48h
+    int 21h
+    jnc check_heap_segment
+    test bx, bx
+    jnz try_available_paragraphs
+    sub ax, ax
+    jmp return_heap_size
+try_available_paragraphs:
+    mov ah, 48h
+    int 21h
+check_heap_segment:
+    mov dx, ds
+    cmp ax, dx
+    ja initialize_descriptor
+    mov es, ax
+    mov ah, 49h
+    int 21h
+    inc bx
+    jmp SHORT allocate_paragraphs
+initialize_descriptor:
+    mov heap_descriptor_segment, ax
+    mov es, ax
+    sub ax, ax
+    mov cx, 11
+    sub di, di
+    rep stosw
+    lds di, heap_descriptor
+    mov [di+8], bx
+    mov [di+0ah], bx
+    mov si, 6
+    mov dx, ds
+    add dx, 1
+    mov [di+4], si
+    mov [di], si
+    mov [di+6], dx
+    mov [di+2], dx
+    mov ds, dx
+    mov ax, 2
+    add bx, -2
+    mov [si], ax
+    mov [si+2], bx
+    shl ax, 1
+    add si, ax
+    add dx, bx
+    mov ds, dx
+    mov WORD PTR [si], 4003h
+    mov WORD PTR [si+2], 0
+    mov ax, 3567h
+    int 21h
+    mov cx, 8
+    mov di, 0ah
+    mov si, OFFSET ems_signature
+    push cs
+    pop ds
+    repe cmpsb
+    jne ensure_heap_size
+    mov ah, 46h
+    int 67h
+    test ah, ah
+    jne ensure_heap_size
+    cmp al, 40h
+    jb ensure_heap_size
+    lea di, [bp-100h]
+    push ss
+    pop es
+    mov ax, 5800h
+    int 67h
+    mov si, di
+    push ss
+    pop ds
+look_for_mapping:
+    lodsw
+    xchg dx, ax
+    lodsw
+    test ax, ax
+    loopne look_for_mapping
+    inc cx
+count_adjacent_pages:
+    inc ax
+    add dx, 400h
+    cmp dx, [si]
+    lea si, [si+4]
+    loope count_adjacent_pages
+    xchg bx, ax
+    mov ah, 43h
+    int 67h
+    test ah, ah
+    jne ensure_heap_size
+    lds di, heap_descriptor
+    mov [di+0ch], dx
+ensure_heap_size:
+    lds di, DWORD PTR ss:[heap_descriptor]
+    mov ax, minimum_paragraphs
+    sub ax, [di+8]
+    jbe read_heap_size
+    mov cl, 4
+    rol ax, cl
+    mov dx, ax
+    and al, 0f0h
+    and dx, 0fh
+    push dx
+    push ax
+    push cs
+    call NEAR PTR RESIZE_DOS_HEAP
+read_heap_size:
+    mov ax, [di+8]
+return_heap_size:
+    mov cl, 4
+    rol ax, cl
+    mov dx, ax
+    and al, 0f0h
+    and dx, 0fh
+    pop ds
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
+    retf 4
+
+ems_signature DB 'EMSXXXX0'
+INITIALIZE_DOS_HEAP ENDP
 END

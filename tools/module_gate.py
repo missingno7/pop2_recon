@@ -485,6 +485,29 @@ def _internal_support(symbols, states, reports):
                 changed = True
 
 
+def _data_tail(piece, own_targets, tables, start):
+    """Rows for a claim whose code ends in a return/JMP before data it addresses itself (e.g. a
+    literal after the RET, `mov si, offset Lit`): the tail from the lowest own-segment field
+    target T inside the claim is data when [0, T) decodes completely (around any tables) and
+    ends in a return or JMP. The tail bytes are still compared exactly as ordinary bytes."""
+    cs, _ = _capstone()
+    # own_targets: claim-relative field offset -> object offset it addresses (LEDATA + FIXUPP D).
+    targets = sorted({value - start for value in own_targets.values() if 0 < value - start < len(piece)})
+    for t in targets:
+        if any(lo < t < hi for lo, hi in tables) or any(at >= t for at in own_targets):
+            continue
+        try:
+            rows = _decode(piece, [r for r in tables if r[1] <= t] + [(t, len(piece))])
+        except ValueError:
+            continue
+        code = [i for i in rows if i.address < t]
+        last = [i for i in code if bytes(i.bytes) != bytes((0x90,))][-1:] if code else []
+        if last and (set(last[0].groups).intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or
+                     last[0].mnemonic == "jmp"):
+            return code
+    return None
+
+
 def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     """Judge every claim; never raises for a claim-level mismatch, only for object-level refusal."""
     module = OmfReader().read(obj_data, "candidate")
@@ -592,8 +615,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             try:
                 rows = _decode(piece, tables) if tables else instructions(piece)
             except ValueError:
-                require(not mine, "Fixup-bearing claim does not decode completely")
-                rows = None
+                own_targets = {f["segment_offset"] - start: (struct.unpack_from("<H", piece, f["segment_offset"] - start)[0]
+                                                             + (f["displacement"] or 0)) & 0xFFFF
+                               for f in mine if _own_segment(f, name)}
+                rows = _data_tail(piece, own_targets, tables, start) if mine else None
+                require(rows is not None or not mine, "Fixup-bearing claim does not decode completely")
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
                      "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "v4": [],

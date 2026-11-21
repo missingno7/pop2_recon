@@ -4,7 +4,8 @@
       "COALESCE_FREE_BLOCKS",
       "ROUND_BYTES_TO_PARAGRAPHS",
       "HEAP_DESCRIPTOR",
-      "MOVE_HUGE_BYTES"
+      "MOVE_HUGE_BYTES",
+      "HEAP_DESCRIPTOR_SEGMENT"
     ],
     "groups": [
       {
@@ -27,6 +28,15 @@
       {
         "frame": null,
         "group_index": 0,
+        "name": "INITIALIZE_DOS_HEAP",
+        "offset": 553,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
         "name": "RESIZE_DOS_HEAP",
         "offset": 313,
         "segment": "UNIT_TEXT",
@@ -42,7 +52,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 553,
+        "length": 844,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -279,6 +289,223 @@
         "name": "HEAP_DESCRIPTOR",
         "zero_displacement": true
       }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 566,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 569,
+      "self_relative": false,
+      "target": {
+        "index": 5,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR_SEGMENT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 577,
+      "self_relative": true,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "ROUND_BYTES_TO_PARAGRAPHS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 816,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 605,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 627,
+      "self_relative": false,
+      "target": {
+        "index": 5,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR_SEGMENT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 642,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 836,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 711,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 777,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 785,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "HEAP_DESCRIPTOR",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 313,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 811,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 0,
+        "name": "UNIT_TEXT"
+      }
     }
   ],
   "frame": {
@@ -320,6 +547,12 @@
           "space": "root"
         }
       ]
+    },
+    "HEAP_DESCRIPTOR_SEGMENT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8398,
+      "witnesses": []
     },
     "MOVE_HUGE_BYTES": {
       "entry_sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
