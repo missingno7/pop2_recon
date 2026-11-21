@@ -30,21 +30,25 @@ def ground_symbol(symbol, target, oracle):
     require(symbol.get("witnesses"), "Far callee has no independent original CALL witness")
     receipts = []
     for spec in symbol["witnesses"]:
-        require(spec["space"] == "root", "Far entry witness must be resident")
+        # A witness may be resident or in an overlay: either way it is an original
+        # CALL FAR whose segment word is relocated by that space's own table.
+        require(spec["space"] in oracle.spaces, "Unknown far entry witness space")
+        wspace = oracle.spaces[spec["space"]]
         at, witness = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
         require(type(at) is int and len(witness) == 5 and witness[0] == 0x9a and
-                0 <= at <= space.size-5 and space.data[at:at+5] == witness,
+                0 <= at <= wspace.size-5 and wspace.data[at:at+5] == witness,
                 "Far entry witness is not an original CALL FAR")
-        require(not (at < end and start < at+5), "Far entry witness overlaps candidate")
+        require(wspace.name != space.name or not (at < end and start < at+5),
+                "Far entry witness overlaps candidate")
         offset, segment = struct.unpack_from("<HH", witness, 1)
         require((segment, offset) == (symbol["segment"], symbol["offset"]),
                 "Independent far CALL does not ground the exact callee alias")
-        relocs = [r for r in space.relocations if at-1 <= r["image_offset"] < at+5]
+        relocs = [r for r in wspace.relocations if at-1 <= r["image_offset"] < at+5]
         require(len(relocs) == 1 and relocs[0]["image_offset"] == at+3 and
                 relocs[0]["index"] == spec["relocation_index"] and
-                spec["file_offset"] == space.file_offset+at,
+                spec["file_offset"] == wspace.file_offset+at,
                 "Independent far CALL relocation/file provenance differs")
-        receipts.append({"image_offset": at, "relocation_index": relocs[0]["index"]})
+        receipts.append({"space": wspace.name, "image_offset": at, "relocation_index": relocs[0]["index"]})
     return {"entry_target_id": callee["id"], "segment": symbol["segment"],
             "offset": symbol["offset"], "witnesses": receipts, "callee_owned_bytes": 0}
 

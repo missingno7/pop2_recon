@@ -167,8 +167,18 @@ class FarBindingTests(unittest.TestCase):
             with self.assertRaises(ValueError): self.check()
             w.clear(); w.update(original)
         self.space = replace(self.space, relocations=self.space.relocations[1:])
+        self.oracle.spaces['root'] = self.space  # witnesses are read from the oracle by space
         with self.assertRaisesRegex(ValueError, 'provenance'):
             self.check()
+
+    def test_relocated_overlay_call_is_an_independent_witness(self):
+        overlay = Space('overlay-2', 0x40, 2000, bytes(16) + self.expected[:5] + bytes(11),
+                        ({'index': 7, 'image_offset': 19},))
+        self.oracle.spaces['overlay-2'] = overlay
+        self.proof['symbols']['_callee']['witnesses'] = [
+            {'space': 'overlay-2', 'image_offset': 16, 'bytes_hex': self.expected[:5].hex(),
+             'relocation_index': 7, 'file_offset': 2016}]
+        self.assertTrue(self.check()['exact'])
 
     def test_full_extent_no_trimming_and_ordered_declarations_remain_frozen(self):
         for key in ('fixups', 'declarations', 'relocation_indices'):
