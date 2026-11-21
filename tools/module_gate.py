@@ -89,19 +89,25 @@ def _own_segment(fix, code_name):
             (frame.get("kind") == "target_frame" or {k: frame.get(k) for k in ("kind", "name")} == own))
 
 
-def _tables(fields):
-    """Runs of two or more consecutive own-segment words: compiler jump tables in CODE."""
-    runs, run = [], []
-    for at in sorted(fields):
-        if run and at == run[-1] + 2:
-            run.append(at)
+def _tables(fields, piece, start):
+    """Jump tables: a run of consecutive own-segment words that another own-segment field
+    (the `jmp cs:[bx+T]` displacement) points at. `fields` are claim-relative offsets;
+    addends are object offsets, so T - start locates the table inside the claim."""
+    present = set(fields)
+    starts = sorted({struct.unpack_from("<H", piece, at)[0] - start for at in fields} & present)
+    runs = []
+    for first in starts:
+        last = first
+        while last + 2 in present:
+            last += 2
+        runs.append((first, last + 2))
+    merged = []
+    for lo, hi in sorted(runs):
+        if merged and lo < merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(hi, merged[-1][1]))
         else:
-            if len(run) >= 2:
-                runs.append((run[0], run[-1] + 2))
-            run = [at]
-    if len(run) >= 2:
-        runs.append((run[0], run[-1] + 2))
-    return runs
+            merged.append((lo, hi))
+    return merged
 
 
 def _decode(piece, tables):
@@ -209,7 +215,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     not any(f["segment_offset"] < start < f["segment_offset"] + f["field_width"]
                             for f in obligations), "Fixup field crosses the claim boundary")
             own_fields = [f["segment_offset"] - start for f in mine if _own_segment(f, name)]
-            tables = _tables(own_fields)
+            tables = _tables(own_fields, piece, start)
             try:
                 rows = _decode(piece, tables) if tables else instructions(piece)
             except ValueError:
@@ -227,7 +233,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 at = fix["segment_offset"] - start
                 if _own_segment(fix, name):
                     in_table = any(lo <= at < hi for lo, hi in tables)
-                    require(in_table or any(operand_field_of(i, at) for i in rows),
+                    # Any decoded disp16/imm16 field qualifies here, including the indirect
+                    # `jmp cs:[bx+T]` displacement that selects the jump table.
+                    require(in_table or any((i.disp_size == 2 and i.address + i.disp_offset == at) or
+                                            (i.imm_size == 2 and i.address + i.imm_offset == at)
+                                            for i in rows),
                             "Own-segment field is neither a jump-table word nor an operand field")
                     addend = struct.unpack_from("<H", piece, at)[0]
                     if in_table:

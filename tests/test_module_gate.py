@@ -501,3 +501,39 @@ class V4FieldTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "witnessed members"):
             data_equations([fix], {"SYM": {"offset": 0x6252}}, "T", code, bytes.fromhex("b85b62cb"),
                            self.rows("b80900cb"), OPERAND_MODE, set())
+
+
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+class SwitchTableTests(unittest.TestCase):
+    """A real MSC jump table: the CS: displacement and table words are own-segment fields."""
+
+    SOURCE = """
+int far pascal Sw(int k)
+{
+    switch (k) {
+    case 1: return 5;  case 2: return 9;  case 3: return 12; case 4: return 20;
+    case 5: return 1;  case 6: return 3;  case 7: return 8;  case 8: return 2;
+    }
+    return 0;
+}
+"""
+
+    def test_dense_switch_is_exact_and_the_jump_is_not_cut(self):
+        from module_gate import check_group
+        obj = compile_c(self.SOURCE, "msc600", FLAGS, workdir=ROOT / "build/workers/tests/switch").obj_bytes
+        from omf import OmfReader
+        module = OmfReader().read(obj)
+        code = next(s for s in module.segment_defs if s["class"] == "CODE")
+        raw = module.segments[code["name"]]
+        base = 0x100  # file starts on a paragraph: own-segment values equal their addends
+        call, site = far_call(0x10, base // 16, 0)
+        image = bytearray(base) + raw
+        image[0x10:0x15] = call
+        oracle, inventory = synthetic_oracle(image, [("sw", base // 16, 0, len(raw), [site])],
+                                             relocations=[{"image_offset": 0x13}])
+        import match
+        with patch.object(match, "read_json", return_value=inventory):
+            report = check_group(obj, [{"target_id": "sw", "public": "SW"}], oracle)
+        claim = report["claims"][0]
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        self.assertGreaterEqual(sum(e["kind"] == "own-segment offset16" for e in claim["equations"]), 9)
