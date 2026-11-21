@@ -122,25 +122,22 @@ unsigned int poll_user(void)
     return key;
 }
 
-void wait_timer(int timer)
+#pragma optimize("l", on)
+int wait_timer(int timer)
 {
-    volatile int * volatile count;
     int key;
-    timer = (int)(timers + timer);
-    count = (volatile int *)timer;
     do {
         key = check_wait_function();
-    } while (*count && !key);
+    } while (timers[timer] && !key);
+    return key;
 }
 
 void wait_timer_no_poll(int timer)
 {
-    volatile int * volatile count;
-    timer = (int)(timers + timer);
-    count = (volatile int *)timer;
-    while (*count)
+    while (timers[timer])
         ;
 }
+#pragma optimize("l", off)
 
 void wait_ticks(int timer, int ticks)
 {
@@ -209,7 +206,7 @@ ResourceMap find_resource_map(const char *name)
 
 void open_level_resources(const char **names)
 {
-    volatile int level;
+
     if (!(resource_flags & 2) || !(resource_flags & 1)) {
         if (names[0])
             open_verified_resource(names[0]);
@@ -217,16 +214,12 @@ void open_level_resources(const char **names)
     if ((resource_flags & 1) && names[1])
         open_verified_resource(names[1]);
     if (resource_flags & 2) {
-        switch (level = level_state->level) {
-        default:
+        if (level_state->level != 0x20 && level_state->level != 0x29) {
             if (names[2])
                 open_verified_resource(names[2]);
-            break;
-        case 0x20:
-        case 0x29:
+        } else {
             if (names[5])
                 open_verified_resource(names[5]);
-            break;
         }
         if (!(resource_flags & 1) && resources_can_change()) {
             if (names[0])
@@ -239,20 +232,18 @@ void open_level_resources(const char **names)
     }
 }
 
+#pragma optimize("l", on)
 void close_level_resources(const char **names)
 {
-    int count;
-    const char **name;
+    int index;
     if (!sound_playing(0)) {
-        name = names;
-        count = 5;
-        do {
-            if (*name)
-                close_resource_file(*name);
-            ++name;
-        } while (--count > 0);
+        for (index = 0; index < 5; ++index) {
+            if (names[index])
+                close_resource_file(names[index]);
+        }
     }
 }
+#pragma optimize("l", off)
 
 int StdRsrcError(FarName name)
 {
