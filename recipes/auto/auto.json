@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "d8cf16a63fe78e443d17d972f3f0512fda71e5c59eb456ec1e2de23ebb2a82a5",
+  "binding_sha256": "91f27c2690002b792a2bdd53d35be31780a399f8fd1161cf8df7a583e5974fe5",
   "claims": [
     {
       "fixup_count": 1,
@@ -11,6 +11,33 @@
       "fixup_count": 2,
       "public": "SETOPPMAXLIFEPTS",
       "target_id": "overlay-3:2344:0042"
+    },
+    {
+      "fixup_count": 55,
+      "public": "UPDATE_OPPONENT_RECORD",
+      "relocation_indices": [
+        4,
+        8,
+        35,
+        99,
+        108,
+        110
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:04d2"
+    },
+    {
+      "fixup_count": 22,
+      "public": "TRANSFER_OPPONENT_RECORD",
+      "relocation_indices": [
+        100
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2344:06a6"
     },
     {
       "fixup_count": 9,
@@ -24,6 +51,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:2344:0740"
+    },
+    {
+      "fixup_count": 2,
+      "public": "ADD_OPPONENT_TO_ROOM",
+      "target_id": "overlay-3:2344:086c"
     },
     {
       "fixup_count": 7,
@@ -209,31 +241,19 @@
       "public": "CHECK_SIDE_ROOMS"
     },
     {
-      "object_offset": 1234,
-      "public": "UPDATE_OPPONENT_RECORD"
-    },
-    {
-      "object_offset": 1702,
-      "public": "TRANSFER_OPPONENT_RECORD"
-    },
-    {
       "object_offset": 1980,
       "public": "REMOVEOPPFROMROOM"
     },
     {
-      "object_offset": 2154,
-      "public": "ADD_OPPONENT_TO_ROOM"
-    },
-    {
-      "object_offset": 2220,
+      "object_offset": 2228,
       "public": "GETOPPINFOIDX"
     },
     {
-      "object_offset": 2280,
+      "object_offset": 2288,
       "public": "PICK_HIDDEN_ACTOR"
     },
     {
-      "object_offset": 2606,
+      "object_offset": 2607,
       "public": "IS_SELECTED_ACTOR"
     },
     {
@@ -294,19 +314,20 @@
     "/Zl",
     "/Gc",
     "/Og",
-    "/Ol"
+    "/Ol",
+    "/Zi"
   ],
   "frame": 9028,
   "group_id": "group:auto/auto",
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "f1f5b6e0c1f0f7478d0c7ef92bb8a7ac92727814810ddf50e0be147a7452b0a3",
+  "object_sha256": "d865437abfdda65d0131be7a39d5c8caccc0b97f19beba7a3d5e262ebb203156",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "8b165f9b84414406ba62a58e37c3dd39d39db0b947660a92c8b9cd7fe95f65d0",
+  "source_sha256": "f49ed8af96fbc0e89e5c23b57057a5a8677be4df8b4de532b1d0710444528843",
   "space": "overlay-3"
 }

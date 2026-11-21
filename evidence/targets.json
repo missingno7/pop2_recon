@@ -64755,6 +64755,96 @@
       "size": 158,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-3:2344:04d2",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 1234,
+      "size": 468,
+      "sha256": "3da5f6d3cb9df6af1b8a540ee74e632aa942b3848637cec6d1d735acf3fb53e7",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL near at 101b, reached from overlay-3:2344:0fae, names the BP prologue.",
+        "The early RETF paths and final RETF at 06a5 bound the routine; the next frame starts at 06a6."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 4123,
+          "pushed_cs_site": 4122,
+          "file_offset": 188891
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "AUTO.C frame and MSC-shaped near-record handling and Pascal far return."
+      ],
+      "abi": "Far Pascal int(void); tested return AX, RETF with no argument cleanup."
+    },
+    {
+      "id": "overlay-3:2344:06a6",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 1702,
+      "size": 154,
+      "sha256": "d01101ca3c7c163d9dccc8146780d4a039722d0789de30ad27db0b1a666464d7",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL near at 127d, reached from overlay-3:2344:1088, names the BP prologue.",
+        "The final RETF at 073f is followed by the reviewed 0740 BP prologue; no intervening fill."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 4733,
+          "pushed_cs_site": 4732,
+          "file_offset": 189501
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "AUTO.C frame and MSC-shaped near-record handling and Pascal far return."
+      ],
+      "abi": "Far Pascal void(void); RETF with no argument cleanup."
+    },
+    {
+      "id": "overlay-3:2344:086c",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 2156,
+      "size": 72,
+      "sha256": "3801831fbcde7597b83d471fe26bf4d5261ddc7587f21b9c4d157094ac95238b",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL near at 049d, reached from overlay-3:2344:0064, names the BP prologue.",
+        "The preceding 07bc body ends with RETF 4 and two NOPs. This body's RETF 4 ends at the independently reviewed 08b4 BP prologue."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 1181,
+          "pushed_cs_site": 1180,
+          "file_offset": 185949
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "AUTO.C frame and MSC-shaped near-record handling and Pascal far return."
+      ],
+      "abi": "Far Pascal void(int room, near opponent record *); BP+8 and BP+6, RETF 4."
     }
   ],
   "schema": 1,

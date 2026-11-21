@@ -459,7 +459,7 @@ void far pascal RemoveOppFromRoom(unsigned char room, int index)
     room_opponents *list = &opponent_rooms[room_index];
     signed char count = list->count;
     opponent_record *record;
-    live_opponent *live;
+    live_opponent *live, *next;
 
     if (count > index) {
         if (count > index + 1) {
@@ -469,7 +469,8 @@ void far pascal RemoveOppFromRoom(unsigned char room, int index)
                 *record = *GetOppInfoIdx(room_index, index + 1);
                 record->index = index;
                 if (room_number == room) {
-                    *live = live[1];
+                    next = &live[1];
+                    *live = *next;
                     live->index = index;
                 }
                 ++live;
@@ -486,7 +487,7 @@ void far pascal add_opponent_to_room(int room, opponent_record *record)
 
     if (index < 5) {
         record->index = index;
-        ++list->count;
+        ++opponent_rooms[room].count;
         *GetOppInfoIdx(room, index) = *record;
     }
 }
@@ -502,6 +503,7 @@ opponent_record *far pascal GetOppInfoIdx(int room, int index)
     return result;
 }
 
+#pragma optimize("s", on)
 signed char far pascal pick_hidden_actor(signed char direction)
 {
     signed char best = -1, index, count;
@@ -520,8 +522,8 @@ signed char far pascal pick_hidden_actor(signed char direction)
                 !((actor->kind == 7 || actor->kind == 8) && (unsigned char)record->saved_y == 2)) {
                 if (direction == 1) {
                     dx = abs(kid_x - actor->x);
-                } else if (direction == -1 && actor->x <= (kx = kid_x)) {
-                    dx = kx - actor->x;
+                } else if (direction == -1 && actor->x <= kid_x) {
+                    dx = kid_x - actor->x;
                     goto clamp_distance;
                 } else if (direction == 0 && actor->x > kid_x) {
                     dx = actor->x - kid_x;
@@ -541,10 +543,8 @@ clamp_distance:
                     best_dx = abs(live_opponents[best].x - kid_x);
                     best_dy = abs(live_opponents[best].y - kid_y);
                     dy_difference = abs(dy - best_dy);
-                    if (dy_difference > 43) {
-                        if (dy < best_dy)
-                            best = index;
-                    } else if (dy_difference < 43 && dx < best_dx)
+                    if ((dy_difference > 43 && dy < best_dy) ||
+                        (dy_difference < 43 && best_dx > dx))
                         best = index;
                 }
             }
@@ -553,6 +553,7 @@ clamp_distance:
     return best;
 }
 
+#pragma optimize("", on)
 int far pascal is_selected_actor(void)
 {
     if (pick_hidden_actor(kid_x >= actor_x ? -1 : 0) == actor_index)
@@ -783,13 +784,11 @@ void far pascal load_opponent_banks(void)
 
     if (preferred_opponent != 0 && preferred_opponent != 5 && preferred_opponent != 6) {
         if (preferred_opponent == 2) {
-            load_opponent_bank(750, 48, 16, 0);
-            return;
+            load_opponent_bank(750, 48, 16, 0); return;
         }
     } else {
         for (slot = 0, start = 32; start < 64; ++slot, start += 16) {
-            if (bank_opponents[slot] != 0)
-                load_opponent_bank(750, start, 16, bank_opponents[slot] - 1);
+            if (bank_opponents[slot] != 0) load_opponent_bank(750, start, 16, bank_opponents[slot] - 1);
         }
     }
 }
