@@ -359,8 +359,8 @@ void draw_ruin_flaw(RuinCell *cell)
                 else
                     emitted = AddBFImgToFTable(18, -2, cell->column, cell->row, 10, 0);
                 if (emitted && flaw == 4)
-                    *((DrawRect far *)(front_table_segment :>
-                        (void _based(void) *)&((FrontImageBank near *)0)->images[last_front_table_slot].clip)) =
+                    ((FrontImageBank far *)(front_table_segment :>
+                        (void _based(void) *)(last_front_table_slot * sizeof(FrontImage))))->images[0].clip =
                         door_clip_rect;
             }
         }
@@ -393,24 +393,25 @@ void draw_ruin_gate_movable(RuinCell *cell);
 
 void draw_ruin_gate(RuinCell *cell)
 {
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
 
     switch (cell->pass) {
     case 0:
         draw_ruin_back_wall(cell);
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
-        add_image = (unsigned long)AddBFImgToBTable;
+        add_image = AddBFImgToBTable;
         break;
     }
     if (add_image) {
-        ((AddImage)add_image)(4, -2, cell->column, cell->row, 10, 0);
+        AddImage volatile draw = add_image;
+        draw(4, -2, cell->column, cell->row, 10, 0);
         draw_ruin_gate_movable(cell);
         draw_ruin_flaw(cell);
     }
@@ -743,9 +744,9 @@ void ruin_change_crevices(int reveal, CellCoord room, CellCoord column, CellCoor
         while (select_tile(tile_room, tile_column - 1, tile_row) == 7)
             ;
         select_tile(tile_room, tile_column + 1, tile_row);
-        do {
+        do
             ruin_set_crevice_revealed(reveal);
-        } while (select_tile(tile_room, tile_column + 1, tile_row) == 7);
+        while (select_tile(tile_room, tile_column + 1, tile_row) == 7);
     }
 }
 
@@ -781,11 +782,3 @@ void ruin_set_crevice_revealed(int reveal)
         cell_states[(Byte)tile_room * 30 + tile_index].flags = flags;
     }
 }
-
-
-
-
-
-
-
-

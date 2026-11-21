@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawruin/drawruin.json",
-  "binding_sha256": "7b4d4d93e7f6784ef2df476d10ce35e9c358e018f5c1ecca39c24d6d2f97cfa0",
+  "binding_sha256": "1be4912a7ab60b82759e41ddedfcdf112d1cd5d245be65a9e0ad557b6a0a914f",
   "claims": [
     {
       "fixup_count": 15,
@@ -53,6 +53,20 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-8:2a74:05aa"
+    },
+    {
+      "fixup_count": 5,
+      "public": "DRAW_RUIN_FLOOR",
+      "relocation_indices": [
+        49,
+        91,
+        95
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-8:2a74:0878"
     },
     {
       "fixup_count": 8,
@@ -119,11 +133,7 @@
       "public": "DRAW_RUIN_FLAW"
     },
     {
-      "object_offset": 2158,
-      "public": "DRAW_RUIN_FLOOR"
-    },
-    {
-      "object_offset": 2304,
+      "object_offset": 2302,
       "public": "DRAW_RUIN_GATE"
     },
     {
@@ -174,19 +184,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 10868,
   "group_id": "group:drawruin/drawruin",
   "kind": "same_source_group",
   "language": "c",
   "name": "drawruin/drawruin",
-  "object_sha256": "7d572a659d67fdc0423462cc86c68beb222c5763833a83173594c3286696c9f9",
+  "object_sha256": "83cca312398754a6985b4a0b2555f93514a7876df09afcc249c4a6331c269763",
   "origin": 620,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawruin/drawruin.c",
-  "source_sha256": "9d99cd84513193387132be9f62df5cb360cdb97faff11cad646bbd5a3c5a9231",
+  "source_sha256": "ebf2405222f50a8ecfd98ebdc8dec77bdbc779a3ff3c425249436cd3281d9bdb",
   "space": "overlay-8"
 }
