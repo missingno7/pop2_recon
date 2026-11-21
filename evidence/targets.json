@@ -43731,6 +43731,1172 @@
       "size": 74,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0000 through 0012 exclusive. Bytes preceding entry: overlay start. Bytes following extent: a15f623d7e00.",
+        "Complete linear decode. Far returns at 0010 retf.",
+        "First instruction in the overlay. The far return and its alignment NOP precede the direct DS load at 0012. A same-frame near call in the desert frame routine reaches this exact entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212428,
+          "image_offset": 508,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 507,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214010,
+          "image_offset": 2090,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2089,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214687,
+          "image_offset": 2767,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2766,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a0000cf29",
+          "file_offset": 41034,
+          "image_offset": 32842,
+          "kind": "far_call",
+          "relocated_segment_site": 32845,
+          "relocation_index": 841,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a0000cf29",
+          "file_offset": 59052,
+          "image_offset": 50860,
+          "kind": "far_call",
+          "relocated_segment_site": 50863,
+          "relocation_index": 981,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a0000cf29",
+          "file_offset": 54626,
+          "image_offset": 46434,
+          "kind": "far_call",
+          "relocated_segment_site": 46437,
+          "relocation_index": 1069,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests bit 1 of the sound flags and conditionally queues sound 251."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0000",
+      "offset": 0,
+      "segment": 10703,
+      "sha256": "cb71a5b7e05b0dddefd26e49bde7db45ce0b9d8ce875f04932cc208da538ff6d",
+      "size": 18,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0012 through 002a exclusive. Bytes preceding entry: b001d70dcb90. Bytes following extent: 558bec83ec08.",
+        "Complete linear decode. Far returns at 0029 retf.",
+        "The previous RETF/NOP ends at 0012. The routine returns at 0029, immediately before the separate BP frame at 002a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a1200cf29",
+          "file_offset": 25902,
+          "image_offset": 17710,
+          "kind": "far_call",
+          "relocated_segment_site": 17713,
+          "relocation_index": 303,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clamps two edges of the actor clip rectangle at coordinate 126."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0012",
+      "offset": 18,
+      "segment": 10703,
+      "sha256": "520c700a4e119237d69525e1fd8bd5929f806dfd53c704c692953b3f4a0e5957",
+      "size": 24,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:002a through 011a exclusive. Bytes preceding entry: 7d03a35b62cb. Bytes following extent: 833ef62c0075.",
+        "Complete linear decode. Far returns at 0119 retf.",
+        "Preceding return at 0029. The 0119 RETF ends this routine before the separately called routine at 011a. Same-frame call at 016f names 002a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212287,
+          "image_offset": 367,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 366,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the desert exit cell states and queues door animation/sound."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:002a",
+      "offset": 42,
+      "segment": 10703,
+      "sha256": "cecb27700c60bfb526213ea991d42d6dd00c4cf10cb54061159ca5e13c431dc4",
+      "size": 240,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:011a through 0166 exclusive. Bytes preceding entry: 5e5f8be55dcb. Bytes following extent: 0ee8b0ff0ee8.",
+        "Complete linear decode. Far returns at 0165 retf.",
+        "The preceding RETF ends here. At 0165 the routine returns before a separate call sequence at 0166. Same-frame call at 0167 names 011a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212279,
+          "image_offset": 359,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 358,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Rotates the three desert palette ranges every third frame when conditions allow."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:011a",
+      "offset": 282,
+      "segment": 10703,
+      "sha256": "9117bb8cd59427af54f44849014eabe25c2dcfd345f71bc06c3c00913b11e570",
+      "size": 76,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0166 through 0200 exclusive. Bytes preceding entry: 9a4400ad1ecb. Bytes following extent: 57569a941dcc.",
+        "Complete linear decode. Far returns at 01a5 retf, 01ff retf.",
+        "The preceding routine returns at 0165. This routine has returns at 01a5 and 01ff, and no branch enters 0200. Its near call at 016b independently names the 0200 routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Runs palette and room checks and manages desert sound."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0166",
+      "offset": 358,
+      "segment": 10703,
+      "sha256": "ec96efd75bdee08b4026e90c3e4a7c5fa4ad436427738b5f597aa0a1d986311b",
+      "size": 154,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0200 through 031a exclusive. Bytes preceding entry: 040ee801fecb. Bytes following extent: c6060c16ffcb.",
+        "Complete linear decode. Far returns at 0318 retf.",
+        "After the 01ff RETF, the near target at 0200 starts by saving DI and SI. It returns at 0318 with trailing 0319 NOP; 031a is a distinct leaf."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212283,
+          "image_offset": 363,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 362,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks kid coordinates and state to trigger desert transitions and copies the actor record."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0200",
+      "offset": 512,
+      "segment": 10703,
+      "sha256": "5db80c522596f69f9820332d786b72a9ab9a1e9e53197731f797ba9036a4b5e4",
+      "size": 282,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:031a through 0320 exclusive. Bytes preceding entry: f3a55e5fcb90. Bytes following extent: 558bec8b5606.",
+        "Complete linear decode. Far returns at 031f retf.",
+        "Previous RETF and NOP end immediately here; writes one byte and returns at 031f, immediately before the independently called 0320 function."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a1a03cf29",
+          "file_offset": 51293,
+          "image_offset": 43101,
+          "kind": "far_call",
+          "relocated_segment_site": 43104,
+          "relocation_index": 950,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resets the desert shape variant sentinel."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:031a",
+      "offset": 794,
+      "segment": 10703,
+      "sha256": "03f6e7f8e6fe49305b7e41e361848b28f00f7e7d23539b5a0e0d7b9fcf7164e6",
+      "size": 6,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0370 through 0468 exclusive. Bytes preceding entry: e55dca020090. Bytes following extent: 558bec83ec0c.",
+        "Complete linear decode. Far returns at 0467 retf.",
+        "RTLink vector destination 29cf:0370 is in overlay 5. Preceding RETF 2 and NOP at 036f; 0467 RETF ends immediately before another BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resolves desert template 6 and loads randomized desert shape variants."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0370",
+      "offset": 880,
+      "original_name": "LoadDsrtCode",
+      "original_name_evidence": [
+        "RTLink vector identifies the DESERT entry. This routine independently identifies desert template 6 and loads randomized SHAP variants, corroborating the FM Towns DESERT name."
+      ],
+      "segment": 10703,
+      "sha256": "1f800146d6434b90f28f6f45ff3e3e3baf2aefa35e6abb6a37bbc989f874703e",
+      "size": 248,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0468 through 052e exclusive. Bytes preceding entry: 5e5f8be55dcb. Bytes following extent: 57569ad40441.",
+        "Complete linear decode. Far returns at 052c retf.",
+        "BP prologue follows 0467 RETF; return and alignment NOP at 052c?052d precede a separate animation routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a6804cf29",
+          "file_offset": 16153,
+          "image_offset": 7961,
+          "kind": "far_call",
+          "relocated_segment_site": 7964,
+          "relocation_index": 192,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates and draws a sand piece while temporarily replacing the drawing clip."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0468",
+      "offset": 1128,
+      "segment": 10703,
+      "sha256": "2a759bcbc695586b70cb46f548531da7aca6e85db078a35d933aa299a32bf0b0",
+      "size": 198,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:052e through 05c4 exclusive. Bytes preceding entry: 5f8be55dcb90. Bytes following extent: 558bec57568b.",
+        "Complete linear decode. Far returns at 05c3 retf.",
+        "After the return and NOP at 052c?052d, saves DI and SI and calls the animation update. RETF at 05c3 immediately precedes a BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a2e05cf29",
+          "file_offset": 54585,
+          "image_offset": 46393,
+          "kind": "far_call",
+          "relocated_segment_site": 46396,
+          "relocation_index": 1037,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances the desert exit and marks the affected tile bounds for redraw."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:052e",
+      "offset": 1326,
+      "segment": 10703,
+      "sha256": "f508b12e4788d6a8a44188aa30d2dcebb4798807ad7b7763e82531db078064bc",
+      "size": 150,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near piece pointer, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:05c4 through 061a exclusive. Bytes preceding entry: 06a6045e5fcb. Bytes following extent: a0ea30251f00.",
+        "Complete linear decode. Far returns at 0617 retf 2.",
+        "Fresh BP frame at 05c4, return at 0617 ends just before a separate DS load leaf named by the near call at 01f4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Positions and draws the desert exit pieces from an animation frame."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:05c4",
+      "offset": 1476,
+      "segment": 10703,
+      "sha256": "d0cd32cab566b2775ad89741ba42aabab93ccba12d6d99b2311ecde42d1667ed",
+      "size": 86,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, unsigned word in AX, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:061a through 0622 exclusive. Bytes preceding entry: 8be55dca0200. Bytes following extent: 558bec8a4608.",
+        "Complete linear decode. Far returns at 0620 retf.",
+        "Near call at 01f4 names the entry immediately after RETF 2. Ends at 0621 alignment NOP followed by a new BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212420,
+          "image_offset": 500,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 499,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns the low five bits of the desert exit state."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:061a",
+      "offset": 1562,
+      "segment": 10703,
+      "sha256": "beedcfd7aebb8e45da57afc40b08502e72a0d91dde5c523427d895338e833a23",
+      "size": 8,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two byte arguments in word slots, RETF 4.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0622 through 065a exclusive. Bytes preceding entry: 30251f00cb90. Bytes following extent: 9ad404410b0b.",
+        "Complete linear decode. Far returns at 0656 retf 4.",
+        "Near call at 008c names 0622. Ends at 0656 with RETF 4 and 0659 with NOP before an animation routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212060,
+          "image_offset": 140,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 139,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts the animation and queues sound when no matching tile animation is active."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0622",
+      "offset": 1570,
+      "segment": 10703,
+      "sha256": "7f17058d18a1bc9e26ded59c1bbb41802e58c728c620cb02ceee3b0952d17f65",
+      "size": 56,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:065a through 0690 exclusive. Bytes preceding entry: e55dca040090. Bytes following extent: 558bec83ec0a.",
+        "Complete linear decode. Far returns at 068e retf.",
+        "Preceding RETF 4 and NOP end here; 068e RETF and 068f NOP precede another BP prologue. The original body is duplicated at 06e6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a5a06cf29",
+          "file_offset": 54674,
+          "image_offset": 46482,
+          "kind": "far_call",
+          "relocated_segment_site": 46485,
+          "relocation_index": 1062,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances a 3-bit animation cycle and redraws a desert piece."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:065a",
+      "offset": 1626,
+      "segment": 10703,
+      "sha256": "015bd4006d21f0c28f6d8bc0b3141350924ff5b1198845b693a9cf97ff6bb42a",
+      "size": 54,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near piece pointer, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0690 through 06e6 exclusive. Bytes preceding entry: d00d410bcb90. Bytes following extent: 9ad404410b0b.",
+        "Complete linear decode. Far returns at 06e3 retf 2.",
+        "BP prologue follows the 068e RETF and NOP. Its 06e3 RETF 2 ends immediately before the next animation update call. The original body is duplicated at 071c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws a desert piece indexed by its packed frame under the temporary screen clip."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0690",
+      "offset": 1680,
+      "segment": 10703,
+      "sha256": "9053a5161346c4acfd37ee04c3d84b6b3409e0b10549a35524b1e1705ddc0668",
+      "size": 86,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:06e6 through 071c exclusive. Bytes preceding entry: 8be55dca0200. Bytes following extent: 558bec83ec0a.",
+        "Complete linear decode. Far returns at 071a retf.",
+        "The previous RETF 2 ends at 06e6. The routine returns at 071a with one NOP before 071c. Original body duplicates 065a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ae606cf29",
+          "file_offset": 54666,
+          "image_offset": 46474,
+          "kind": "far_call",
+          "relocated_segment_site": 46477,
+          "relocation_index": 1033,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances a 3-bit animation cycle and redraws a desert piece."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:06e6",
+      "offset": 1766,
+      "segment": 10703,
+      "sha256": "015bd4006d21f0c28f6d8bc0b3141350924ff5b1198845b693a9cf97ff6bb42a",
+      "size": 54,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near piece pointer, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:071c through 0772 exclusive. Bytes preceding entry: d00d410bcb90. Bytes following extent: 558bec83ec0c.",
+        "Complete linear decode. Far returns at 076f retf 2.",
+        "BP prologue at 071c follows a RETF/NOP. The 076f RETF 2 ends immediately before the reviewed 0772 prologue. Original body duplicates 0690."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws a desert piece indexed by its packed frame under the temporary screen clip."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:071c",
+      "offset": 1820,
+      "segment": 10703,
+      "sha256": "9053a5161346c4acfd37ee04c3d84b6b3409e0b10549a35524b1e1705ddc0668",
+      "size": 86,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:07d0 through 0874 exclusive. Bytes preceding entry: 8be55dca0200. Bytes following extent: 558bec57568b.",
+        "Complete linear decode. Far returns at 0853 retf, 0872 retf.",
+        "Preceding RETF 2 ends exactly at 07d0. Near call at 09d5 lands here. No branch crosses the 0872 RETF and NOP into a new BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 214437,
+          "image_offset": 2517,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2516,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9ad007cf29",
+          "file_offset": 54682,
+          "image_offset": 46490,
+          "kind": "far_call",
+          "relocated_segment_site": 46493,
+          "relocation_index": 1083,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Advances desert stone movement and delays and triggers a redraw."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:07d0",
+      "offset": 2000,
+      "segment": 10703,
+      "sha256": "163f8b5d552af61fd80e32447e50084d60590ce3ac61a1def859832f61f38d66",
+      "size": 164,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near piece pointer, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0874 through 08c0 exclusive. Bytes preceding entry: 16485e5ecb90. Bytes following extent: 558bec83ec08.",
+        "Complete linear decode. Far returns at 08bc retf 2.",
+        "New BP prologue follows the 0872 RETF and NOP. RETF 2 at 08bc and NOP end before the separate 08c0 BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws desert stone shapes based on the packed animation stage."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0874",
+      "offset": 2164,
+      "segment": 10703,
+      "sha256": "6c33b3d101e0edf6463ffc56f9d9a8e2b60c0b5eb8887ad6203f41dd9e6a36b6",
+      "size": 76,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:08c0 through 0906 exclusive. Bytes preceding entry: e55dca020090. Bytes following extent: 558bec83ec08.",
+        "Complete linear decode. Far returns at 0905 retf.",
+        "Near call at 084f lands here, following RETF 2 and NOP. After its 0905 RETF a fresh BP frame begins."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 214047,
+          "image_offset": 2127,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2126,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Gets the stone bounds and requests redraws of the neighboring tiles."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:08c0",
+      "offset": 2240,
+      "segment": 10703,
+      "sha256": "53ee2f258e3cb0f8e10bf739f1ecf9933d7f134d5e0ac9efab0c56b9900ee6bd",
+      "size": 70,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one byte in word slot, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0906 through 09a0 exclusive. Bytes preceding entry: 410b8be55dcb. Bytes following extent: 558bec83ec02.",
+        "Complete linear decode. Far returns at 099c retf 2.",
+        "Near call at 0afc lands on the BP frame. The 099c RETF 2 and 099f NOP precede a fresh BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 214732,
+          "image_offset": 2812,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2811,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Searches stored peels for the affected stone column and marks one or two inactive."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0906",
+      "offset": 2310,
+      "segment": 10703,
+      "sha256": "b027f615d0201ede7cf4543c42c7db975d81a84aade55574d55811d8b5d64793",
+      "size": 154,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one byte in word slot, word result, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:09a0 through 09f0 exclusive. Bytes preceding entry: e55dca020090. Bytes following extent: 803ed12cff74.",
+        "Complete linear decode. Far returns at 09ed retf 2.",
+        "Near calls from 00fa, 023b, 0a0c and 0a16 name entry. RETF 2 at 09ed ends before 09f0 standalone state test."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 212170,
+          "image_offset": 250,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 249,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 212491,
+          "image_offset": 571,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 570,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214492,
+          "image_offset": 2572,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2571,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 214502,
+          "image_offset": 2582,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2581,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Triggers the stone at a cell and runs its first animation update."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:09a0",
+      "offset": 2464,
+      "segment": 10703,
+      "sha256": "e7b16cafa119a29c3ad5e015e113a03953cd63ae46e0e5de36c7d2e6661aac0b",
+      "size": 80,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "void far Pascal, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:09f0 through 0a1a exclusive. Bytes preceding entry: 8be55dca0200. Bytes following extent: 558bec83ec06.",
+        "Complete linear decode. Far returns at 0a19 retf.",
+        "Previous RETF 2 ends at 09f0. Two PUSH CS/near calls target 09a0. Its RETF at 0a19 ends before the independently called BP frame at 0a1a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9af009cf29",
+          "file_offset": 22866,
+          "image_offset": 14674,
+          "kind": "far_call",
+          "relocated_segment_site": 14677,
+          "relocation_index": 280,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Triggers the active and previous desert stones based on column state."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:09f0",
+      "offset": 2544,
+      "segment": 10703,
+      "sha256": "b1fb0d568f2f5400fa34baaeb6aee6e595068a86c0ce51f1769cfe7b2e447265",
+      "size": 42,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, three byte args in word slots, word result, RETF 6.",
+      "boundary_evidence": [
+        "The reviewed original interval is overlay-5:29cf:0a1a through 0b0a exclusive. Bytes preceding entry: 500ee887ffcb. Bytes following extent: 000000000000.",
+        "Complete linear decode. Far returns at 0b06 retf 6.",
+        "Near call at 09b3 names 0a1a. The 0b06 RETF 6 and following one NOP end the CODE extent. The remainder of the physical overlay is six zero fill bytes."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 214403,
+          "image_offset": 2483,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2482,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a1a0acf29",
+          "file_offset": 11405,
+          "image_offset": 3213,
+          "kind": "far_call",
+          "relocated_segment_site": 3216,
+          "relocation_index": 132,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests the stone state and starts or cancels the appropriate tile animation."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0a1a",
+      "offset": 2586,
+      "segment": 10703,
+      "sha256": "aeaa75e85d47c68a3b745fed054d341f2e94ea060283e8a32a5afe230ac36917",
+      "size": 240,
+      "space": "overlay-5",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two near pointers, RETF 4.",
+      "boundary_evidence": [
+        "The reviewed original interval is root:0b41:045a through 0494 exclusive. Bytes preceding entry: e55dca020090. Bytes following extent: 558bec83ec02.",
+        "Complete linear decode. Far returns at 0491 retf 4.",
+        "A relocated caller in overlays 5, 6, 7 and 13 names this BP prologue after the previous RETF 2 and NOP. The RETF 4 at 0491 ends before a fresh BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a5a04410b",
+          "file_offset": 214174,
+          "image_offset": 2254,
+          "kind": "far_call",
+          "relocated_segment_site": 2257,
+          "relocation_index": 28,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a5a04410b",
+          "file_offset": 217744,
+          "image_offset": 2352,
+          "kind": "far_call",
+          "relocated_segment_site": 2355,
+          "relocation_index": 22,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9a5a04410b",
+          "file_offset": 224547,
+          "image_offset": 851,
+          "kind": "far_call",
+          "relocated_segment_site": 854,
+          "relocation_index": 5,
+          "space": "overlay-7"
+        },
+        {
+          "bytes_hex": "9a5a04410b",
+          "file_offset": 263510,
+          "image_offset": 1878,
+          "kind": "far_call",
+          "relocated_segment_site": 1881,
+          "relocation_index": 11,
+          "space": "overlay-13"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes a rectangle/tile bound in terms of current animation coordinates."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:045a",
+      "offset": 1114,
+      "segment": 2881,
+      "sha256": "2e1b4291607f5ff2d841bf60573fd58ea2b49dbc66d03c086beaf4c6b5b96688",
+      "size": 58,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, AL result, RETF.",
+      "boundary_evidence": [
+        "The reviewed original interval is root:0b41:053c through 05c2 exclusive. Bytes preceding entry: ff8be55dcb90. Bytes following extent: 558bec83ec02.",
+        "Complete linear decode. Far returns at 05c1 retf.",
+        "A relocated caller in overlay 6 names this BP frame after the preceding RETF and NOP. Branches converge at 05bb and the body returns at 05c0, then one alignment NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a3c05410b",
+          "file_offset": 214196,
+          "image_offset": 2276,
+          "kind": "far_call",
+          "relocated_segment_site": 2279,
+          "relocation_index": 62,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a3c05410b",
+          "file_offset": 217798,
+          "image_offset": 2406,
+          "kind": "far_call",
+          "relocated_segment_site": 2409,
+          "relocation_index": 62,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9a3c05410b",
+          "file_offset": 217766,
+          "image_offset": 2374,
+          "kind": "far_call",
+          "relocated_segment_site": 2377,
+          "relocation_index": 63,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Computes the next animation cell relative to the current room."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:053c",
+      "offset": 1340,
+      "segment": 2881,
+      "sha256": "35f3e1ae87a395216a4e63dd351ba79e0880cfd73106b9f7906f7b9e4b23581b",
+      "size": 134,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, four byte arguments, RETF 8.",
+      "boundary_evidence": [
+        "The reviewed original interval is root:0b41:13f4 through 1456 exclusive. Bytes preceding entry: e55dca040090. Bytes following extent: 572bc0ba1c67.",
+        "Complete linear decode. Far returns at 1452 retf 8.",
+        "Relocated callers in the root and multiple overlays name the BP frame after the preceding RETF 4 and NOP. The single RETF 8 at 1452 and NOP end before the next routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 11387,
+          "image_offset": 3195,
+          "kind": "far_call",
+          "relocated_segment_site": 3198,
+          "relocation_index": 80,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 213525,
+          "image_offset": 1605,
+          "kind": "far_call",
+          "relocated_segment_site": 1608,
+          "relocation_index": 57,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 214709,
+          "image_offset": 2789,
+          "kind": "far_call",
+          "relocated_segment_site": 2792,
+          "relocation_index": 58,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 216688,
+          "image_offset": 1296,
+          "kind": "far_call",
+          "relocated_segment_site": 1299,
+          "relocation_index": 57,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 218124,
+          "image_offset": 2732,
+          "kind": "far_call",
+          "relocated_segment_site": 2735,
+          "relocation_index": 58,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 224817,
+          "image_offset": 1121,
+          "kind": "far_call",
+          "relocated_segment_site": 1124,
+          "relocation_index": 20,
+          "space": "overlay-7"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 246588,
+          "image_offset": 6172,
+          "kind": "far_call",
+          "relocated_segment_site": 6175,
+          "relocation_index": 130,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 247150,
+          "image_offset": 6734,
+          "kind": "far_call",
+          "relocated_segment_site": 6737,
+          "relocation_index": 131,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 265617,
+          "image_offset": 1841,
+          "kind": "far_call",
+          "relocated_segment_site": 1844,
+          "relocation_index": 33,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Finds, adds or replaces an entry in the four-byte tile animation queue."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:13f4",
+      "offset": 5108,
+      "segment": 2881,
+      "sha256": "88a4e6273aac4130a606efd2797947c56a41b3ec69ba2c82bbe9ad8f4ea65e42",
+      "size": 98,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, byte plus word arguments, AX result, RETF 4.",
+      "boundary_evidence": [
+        "The reviewed original interval is root:0b41:255c through 259a exclusive. Bytes preceding entry: 8be55dca0200. Bytes following extent: 558bec83ec02.",
+        "Complete linear decode. Far returns at 2597 retf 4.",
+        "Root and overlay callers independently name this BP frame. Its RETF 4 at 2597 ends exactly before the next reviewed entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 33790,
+          "image_offset": 25598,
+          "kind": "far_call",
+          "relocated_segment_site": 25601,
+          "relocation_index": 573,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 213502,
+          "image_offset": 1582,
+          "kind": "far_call",
+          "relocated_segment_site": 1585,
+          "relocation_index": 48,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 214621,
+          "image_offset": 2701,
+          "kind": "far_call",
+          "relocated_segment_site": 2704,
+          "relocation_index": 49,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 215450,
+          "image_offset": 58,
+          "kind": "far_call",
+          "relocated_segment_site": 61,
+          "relocation_index": 46,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 217613,
+          "image_offset": 2221,
+          "kind": "far_call",
+          "relocated_segment_site": 2224,
+          "relocation_index": 47,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 218053,
+          "image_offset": 2661,
+          "kind": "far_call",
+          "relocated_segment_site": 2664,
+          "relocation_index": 48,
+          "space": "overlay-6"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 228302,
+          "image_offset": 2174,
+          "kind": "far_call",
+          "relocated_segment_site": 2177,
+          "relocation_index": 52,
+          "space": "overlay-8"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 237086,
+          "image_offset": 5310,
+          "kind": "far_call",
+          "relocated_segment_site": 5313,
+          "relocation_index": 107,
+          "space": "overlay-9"
+        },
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 264660,
+          "image_offset": 884,
+          "kind": "far_call",
+          "relocated_segment_site": 887,
+          "relocation_index": 27,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Finds an existing tile animation entry by room and cell."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:255c",
+      "offset": 9564,
+      "segment": 2881,
+      "sha256": "a172ccc7edf065a36a439c9dc76f19d4ece71a5d072cf16ca2d3c3fd7afba04e",
+      "size": 62,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two byte arguments, AX result, RETF 4.",
+      "boundary_evidence": [
+        "The reviewed original interval is root:0b41:259a through 25e4 exclusive. Bytes preceding entry: 8be55dca0400. Bytes following extent: 558bec8a4608.",
+        "Complete linear decode. Far returns at 25e1 retf 4.",
+        "Relocated calls from overlay 5 name this BP prologue immediately after the preceding RETF 4 at 2597. Own RETF 4 at 25e1 ends before the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a9a25410b",
+          "file_offset": 212410,
+          "image_offset": 490,
+          "kind": "far_call",
+          "relocated_segment_site": 493,
+          "relocation_index": 25,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a9a25410b",
+          "file_offset": 214000,
+          "image_offset": 2080,
+          "kind": "far_call",
+          "relocated_segment_site": 2083,
+          "relocation_index": 26,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a9a25410b",
+          "file_offset": 214677,
+          "image_offset": 2757,
+          "kind": "far_call",
+          "relocated_segment_site": 2760,
+          "relocation_index": 27,
+          "space": "overlay-5"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans animation entries for a selected ordinal and subtype."
+      ],
+      "classification_status": "Game C classification based on original decoded behavior and module placement.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:259a",
+      "offset": 9626,
+      "segment": 2881,
+      "sha256": "30f8f6ae1f8f6e249d08227a9b146634c9c84d3a5ea405e8c27923654eb1402e",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
