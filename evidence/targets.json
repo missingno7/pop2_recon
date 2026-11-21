@@ -36543,6 +36543,1000 @@
       "size": 194,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+36A2 begins after the predecessor RETF/alignment NOP at +36A0/+36A1. The routine sets X and facing, calls the existing JumpSeq entry at +2976, and returns at +36C1 before the next BP frame at +36C2.",
+        "ACT Up's original PUSH CS/CALL near at +35B5 enters +36A2; the near sequence call inside the target is at +36BD."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198518,
+          "image_offset": 13750,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13749,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0d42",
+      "offset": 3394,
+      "original_bytes_hex": "a07562988bd8d1e38b87840d051000a3025cc606015cffb84600500ee8b5f2cb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "enter_stairs",
+      "sha256": "9cca225c027923540b5f604c8e9b424519b9f9cf524ce4c499bd017123ebbda6",
+      "size": 32,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+381A starts with PUSH SI after RETF at +3819. Original body calls the COLLIDE distance check at +381B, dispatches to one of two same-TU routines, then restores SI and returns at +384F.",
+        "Standing's original PUSH CS/CALL near at +355B reaches +381A."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 243196,
+          "image_offset": 2780,
+          "kind": "far_call",
+          "relocated_segment_site": 2783,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 243550,
+          "image_offset": 3134,
+          "kind": "far_call",
+          "relocated_segment_site": 3137,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 243780,
+          "image_offset": 3364,
+          "kind": "far_call",
+          "relocated_segment_site": 3367,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 244046,
+          "image_offset": 3630,
+          "kind": "far_call",
+          "relocated_segment_site": 3633,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 198428,
+          "image_offset": 13660,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13659,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0eba",
+      "offset": 3770,
+      "original_bytes_hex": "569a700b02288bf0803ed46c01751583fe127d10803e8c62007d112bc0500ee88a00eb08b80100500ee830f19ad213cc02a28c625ecb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "start_running",
+      "sha256": "0667de299ecbb4470756bb0ccd88e1deb19a120cc883def977926c2f525432a3",
+      "size": 54,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+3850 reads forward/back state immediately after the preceding RETF at +384F. Its branches converge on RETF at +38C5; the next BP frame is at +38C6.",
+        "GenCtrl's original PUSH CS/CALL near at +2E8D enters +3850. Calls dispatch to local RunJump and JumpSeq."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196686,
+          "image_offset": 11918,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11917,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0ef0",
+      "offset": 3824,
+      "original_bytes_hex": "803e8c62007523803e8d6200751c833e075c077407833e075c0b750e9ad213cc02a28c62b80d00eb3b90803e8d6200740d9ad213cc02a28d62b80600eb26803e8e6200740d7d22b80400500ee8f907eb1890803e8f62007d109ad213cc02a28f62b81a00500ee8bdf0803e8c62007d05c6068c6201cb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_running",
+      "sha256": "9f821ecd1a0d4ec31e5abda7b248460e83c50c94fbd9a8c1802aae03372ce4e1",
+      "size": 118,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+3B3C begins after the preceding RETF/NOP at +3B3A/+3B3B. The function resets two input latches, optionally calls +3B66, and returns at +3B59. The next entry starts at +3B5A.",
+        "GenCtrl's original PUSH CS/CALL near at +2E6E reaches +3B3C."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196655,
+          "image_offset": 11887,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11886,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:11dc",
+      "offset": 4572,
+      "original_bytes_hex": "803e8e62007d16803e8c62007d0f9ad213cc02a28c62a28e620ee80d00cb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_starting",
+      "sha256": "f8dca15d2a2a142e713f7347efeda37eab6b35625fd0a1ee452dde5c4cb2442c",
+      "size": 30,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+3B5A starts just after RETF at +3B59. It guards the near call to +3B66 on the forward latch and ends in RETF at +3B65.",
+        "GenCtrl's original PUSH CS/CALL near at +2E80 reaches +3B5A."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196673,
+          "image_offset": 11905,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11904,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:11fa",
+      "offset": 4602,
+      "original_bytes_hex": "803e8c620074040ee80100cb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "begin_standing_jump",
+      "sha256": "3ae9a05b4e1c42df59aea49d850e5716a993d4f6d1edc94a74d1bfa37f80faf8",
+      "size": 12,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+3B66 starts with MOV AL,1 following RETF at +3B65. It stores AL to both input latches and calls JumpSeq before RETF at +3B76, aligned by NOP before the next BP frame at +3B78.",
+        "Original PUSH CS/CALL near at +3B55 and +3B61 both reach +3B66."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 243160,
+          "image_offset": 2744,
+          "kind": "far_call",
+          "relocated_segment_site": 2747,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 199958,
+          "image_offset": 15190,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15189,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 199970,
+          "image_offset": 15202,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15201,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1206",
+      "offset": 4614,
+      "original_bytes_hex": "b001a28c62a28e62b80300500ee800eecb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "standing_jump",
+      "sha256": "43b78d7291d5ee7f22db042cf76c6929d2b02b1f9912523a098ec7bfacf89f4c",
+      "size": 18,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no parameters, bare RETF.",
+      "boundary_evidence": [
+        "Overlay-3+3C8E starts with a relocated get_above call after the previous RETF/NOP at +3C8C/+3C8D. It computes the X offset from the ledge and calls the accepted JumpSeq entry, then RETF at +3CAC and NOP at +3CAD before the next BP frame.",
+        "Original PUSH CS/CALL near at +3C6B reaches +3C8E."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200236,
+          "image_offset": 15468,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15467,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:132e",
+      "offset": 4910,
+      "original_bytes_hex": "9a3e15cc029a8810cc022d1800509a6003cc02a3025cb81000500ee8caeccb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "jump_edge",
+      "sha256": "d886ac3f4d603f7445db606f429a5d9f79d74166c036c0c69dbc94bc98fbe181",
+      "size": 32,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+357C, entry at +357E, last return at +35CA, and next entry at +35CC.",
+        "Checks the upward and stairs actions, then dispatches through original same-CS calls.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+34CF, overlay-3+3540."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198288,
+          "image_offset": 13520,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13519,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198401,
+          "image_offset": 13633,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13632,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0c1e",
+      "offset": 3102,
+      "original_bytes_hex": "a062453806345e7433803e065c00752c9ad809cc023c1174159a5810cc023c11740cb001509a3010cc023c11750e9a040d410b0bc074050ee8e900cb803e8c620074050ee8a105cb0ee8ae05cb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "actor_up",
+      "sha256": "eafcb9c5918c084d400d6fa82f600e6f8c5a4d40cd3d37b92ce0999aa7a1b1bc",
+      "size": 78,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+35CA, entry at +35CC, last return at +36A0, and next entry at +36A2.",
+        "Checks the ledge using two tile bytes and two modifiers before calling the crouch and sequence helpers.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+34DD, overlay-3+354D."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 243498,
+          "image_offset": 3082,
+          "kind": "far_call",
+          "relocated_segment_site": 3085,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 243866,
+          "image_offset": 3450,
+          "kind": "far_call",
+          "relocated_segment_site": 3453,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 198302,
+          "image_offset": 13534,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13533,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198414,
+          "image_offset": 13646,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13645,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0c6c",
+      "offset": 3180,
+      "original_bytes_hex": "558bec83ec025756bf0100b001a28f62509a3010cc02509ac8288a070bc0741e9a8810cc023d03007d14b80a00509a6003cc02a3025c9a7e02cc02e987009a5810cc02509ac8288a070bc0747a9a8810cc023d08007c709a5810cc028846ff8b3671629ad809cc028846fe8a46ff508a46fe5056ff3671629aca14cc020bc07446803e015c0074139ad809cc023c04750aa1716224fc3d1800722c9a8810cc028bf0803e015c011bc9f7d9d1e1d1e12bc12d1300509a6003cc02a3025cb84400500ee8e5f22bff0bff74040ee8d3005e5f8be55dcb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "actor_down",
+      "sha256": "f22c32d191e25a0136cad783bacdc4338f988af5a780f117d93daa4429e4bafe",
+      "size": 214,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+3B76, entry at +3B78, last return at +3C3B, and next entry at +3C3C.",
+        "Tests two ledge positions using the modifiers and calls the local hanging, back, or high-jump functions.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+35C6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 243305,
+          "image_offset": 2889,
+          "kind": "far_call",
+          "relocated_segment_site": 2892,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 244158,
+          "image_offset": 3742,
+          "kind": "far_call",
+          "relocated_segment_site": 3745,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 198535,
+          "image_offset": 13767,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13766,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1218",
+      "offset": 4632,
+      "original_bytes_hex": "558bec83ec0257569ad213cc02a28e629a3e15cc028846ff8b3671629a7015cc028846fe3c047506c7067162c800a00e5c8a160a5c9adc14410b8bf80bff74102b06025c9933c22bc23d20007e022bff0bff75248a46ff508a46fe5056ff3671629aca14cc020bc0740e2bc0500ee849045e5f8be55dcb909a5215cc028846ff8b3671629a3e15cc028846fe3c047506c7067162c8000bff75208a46ff508a46fe5056ff3671629aca14cc020bc0740a0ee810005e5f8be55dcb0ee878005e5f8be55dcb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "jump_up",
+      "sha256": "71759b4a94b338eedab370a8081119397e7981135a1fff18479045cf2d125f2e",
+      "size": 196,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+3C3B, entry at +3C3C, last return at +3C8C, and next entry at +3C8E.",
+        "Checks edge distance then branches to one of three original near jump handlers.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+3C28."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200169,
+          "image_offset": 15401,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15400,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:12dc",
+      "offset": 4828,
+      "original_bytes_hex": "569a8810cc028bf0a00e5c8a160a5c9adc14410b83fe107d070ee855005ecb909a5810cc02509ac8288a070bc074070ee81f005ecb908d44e0509a6003cc02a3025c9a7e02cc02b80100500ee8a7035ecb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "jump_back",
+      "sha256": "2342d3e4238a9b06c05b870b28c0c192c8fb279a7d6de4c13e171b3543c38512",
+      "size": 82,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+3D7C, entry at +3D7E, last return at +3E23, and next entry at +3E24.",
+        "Routes hanging inputs to climbing, dropping, or sequence selection.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+2EA8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196713,
+          "image_offset": 11945,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11944,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:141e",
+      "offset": 5150,
+      "original_bytes_hex": "558bec83ec02803e115c007c03e98e00833e9e6200750f803e8e620074080ee884008be55dcb803e906200746b833e245c0b74649ad809cc028846ff803e0b5c06740a509afe288a070bc0751b803e015cff7506807eff04740e803e4745057515803e0e5c0f750eb81900500ee888eb8be55dcb90909a3e15cc02509ac8288a070bc0741d803e47450575129a540acf290bc0750deb0790c706245c00000ee8aa008be55dcb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_hanging",
+      "sha256": "0b9d6101cc16199d51b16691f76ac9a28ae85a344020721366ba8e4da8faecfa",
+      "size": 166,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one input word, RETF 2.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+4031, entry at +4032, last return at +4094, and next entry at +4098.",
+        "Takes a word flag at BP+6 and adjusts ACT X before selecting a hanging sequence.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+3BE5, overlay-3+3C87."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200102,
+          "image_offset": 15334,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15333,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 200264,
+          "image_offset": 15496,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15495,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:16d2",
+      "offset": 5842,
+      "original_bytes_hex": "558bec569a8810cc028bf0837e0600740783fe2075022bf683fe047d1f9a700b02283d04007d15803ed46c01740e569a6003cc02a3025cb80800eb1d803e015cff7505b80700eb03b809002bf0569a6003cc02a3025cb81800500ee8e6e85e8be55dca020090",
+      "segment": 9690,
+      "semantic_name_hypothesis": "jump_hang",
+      "sha256": "11fe9c56174367d2e55cb97c866a0d9130d21825e0e805b559d542d960d1a68d",
+      "size": 102,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one input word, RETF 2.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+4094, entry at +4098, last return at +41CD, and next entry at +41D0.",
+        "Takes the sequence word at BP+6, scans eligible tiles and returns a Boolean in AX.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+389B."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 243249,
+          "image_offset": 2833,
+          "kind": "far_call",
+          "relocated_segment_site": 2836,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 243654,
+          "image_offset": 3238,
+          "kind": "far_call",
+          "relocated_segment_site": 3241,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 243811,
+          "image_offset": 3395,
+          "kind": "far_call",
+          "relocated_segment_site": 3398,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 244136,
+          "image_offset": 3720,
+          "kind": "far_call",
+          "relocated_segment_site": 3723,
+          "space": "overlay-10"
+        },
+        {
+          "file_offset": 257085,
+          "image_offset": 1869,
+          "kind": "far_call",
+          "relocated_segment_site": 1872,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 266855,
+          "image_offset": 343,
+          "kind": "far_call",
+          "relocated_segment_site": 346,
+          "space": "overlay-15"
+        },
+        {
+          "file_offset": 199260,
+          "image_offset": 14492,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 14491,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1738",
+      "offset": 5944,
+      "original_bytes_hex": "558bec83ec0c57568b7e0683ff04750e833e075c077422833e075c0b741b83ff647403e90601813e075cc000740b813e075cc4007403e9f30083ff047506b80b00eb0490b809008946f4509a6003cc028946f6509ac010cc028846fe2bf68976f8c746fc01008976fa8b76fc8b7efa0bf67451a00e5c50a0015c988bd88a87790d0046fe8a46fe50a00a5c509af000cc028846ff509ac8288a070bc0751e8a46ff50ff3671629ad62344230bc0740d4783ff027509c746f80100eb022bf6837ef80074ab897efa8b7e060bf6754bff76f69a9210cc028bf0b1058b46fad3e003f083ff047506b81f00eb0490b823002bf083feed7c0583fe0a7c120bf67d0983ff0475042bc0eb288b76f4f7de0376f4569a6003cc02a3025c570ee8c0e79ad213cc02a28e62be0100eb03902bf68bc65e5f8be55dca0200",
+      "segment": 9690,
+      "semantic_name_hypothesis": "run_jump",
+      "sha256": "afdc35374136a7ae2f7768eb9b9b594ef5e20b56623f4035cbb87b701c66216d",
+      "size": 312,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+4219, entry at +421A, last return at +4276, and next entry at +4278.",
+        "Selects a sequence for the current actor kind and resets its forward latch.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+47F7."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 203192,
+          "image_offset": 18424,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 18423,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:18ba",
+      "offset": 6330,
+      "original_bytes_hex": "8b16075c803e065c077451803e065c08744a803e065c0b744381fa9e00740c81faaa00740681faab007531803e065c00741a803e065c017413803e065c0a7506b96c00eb0a90b95600eb0490b93800510ee808e79ad213cc02a28c62cb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "advance_actor",
+      "sha256": "ed050a174a0a0b7594d9a7306068d8a1e592b47108eaaae851b4cb07fa6846c4",
+      "size": 94,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+4276, entry at +4278, last return at +42D6, and next entry at +42D8.",
+        "Sets weapon state, calls the local sequence selection, and starts the selected sequence.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+343E, overlay-3+349E."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 26965,
+          "image_offset": 18773,
+          "kind": "far_call",
+          "relocated_segment_site": 18776,
+          "space": "root"
+        },
+        {
+          "file_offset": 198143,
+          "image_offset": 13375,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13374,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198239,
+          "image_offset": 13471,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13470,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1918",
+      "offset": 6424,
+      "original_bytes_hex": "558bec83ec02569ad213cc02a28c62c606906202c606105c01803e065c00742a803e065c017423803e065c077416803e065c08740f8b76fe803e065c017411be5a00eb0cbeffffeb07900ee812008bf083feff7405560ee8a4e65e8be55dcb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "engage_weapon",
+      "sha256": "a845c6c0b865774bd962c86bc042012329b85820e83497a7b01e46b08cc21db7",
+      "size": 96,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, tile byte BP+8, modifier word BP+6, AX Boolean, RETF 4.",
+      "boundary_evidence": [
+        "Previous RETF 4 ends immediately before the BP frame at +23D6. Its predicates test tile 4 and modifier 0x70, then converge on RETF 4 at +2430 and NOP at +2433. The next BP frame starts at +2434.",
+        "Independently relocated far callers use exactly this alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 26945,
+          "image_offset": 18753,
+          "kind": "far_call",
+          "relocated_segment_site": 18756,
+          "space": "root"
+        },
+        {
+          "file_offset": 201470,
+          "image_offset": 16702,
+          "kind": "far_call",
+          "relocated_segment_site": 16705,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 256828,
+          "image_offset": 1612,
+          "kind": "far_call",
+          "relocated_segment_site": 1615,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 256558,
+          "image_offset": 1342,
+          "kind": "far_call",
+          "relocated_segment_site": 1345,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 257349,
+          "image_offset": 2133,
+          "kind": "far_call",
+          "relocated_segment_site": 2136,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 258043,
+          "image_offset": 2827,
+          "kind": "far_call",
+          "relocated_segment_site": 2830,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 257649,
+          "image_offset": 2433,
+          "kind": "far_call",
+          "relocated_segment_site": 2436,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 257624,
+          "image_offset": 2408,
+          "kind": "far_call",
+          "relocated_segment_site": 2411,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 257599,
+          "image_offset": 2383,
+          "kind": "far_call",
+          "relocated_segment_site": 2386,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original room and actor state tests."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:23d6",
+      "offset": 9174,
+      "original_bytes_hex": "558bec56807e0804750a807e067073042bf6eb03be01000bf67439803e065c0a74328a4608509a30288a073d01001bf6f7de0bf6741e803e065c077417803e065c0874108a4608509ac8288a073d01001bf6f7de8bc65e8be55dca040090",
+      "segment": 9028,
+      "semantic_name_hypothesis": "can_continue_run_jump",
+      "sha256": "fcbdd2281b72ad038dc5a382885aff01f38c41636d8b3fe74b214057ec540fc7",
+      "size": 94,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register-call forwarding AL/DL on the mode-2 path, AX result, RETF.",
+      "boundary_evidence": [
+        "Preceding RETF 8 and NOP end at +C8EC. The new routine saves SI, forwards the registers on mode 2 and returns through RETF at +C8FE or +C905. The following BP frame starts at +C906.",
+        "Independently relocated far callers use exactly this alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200045,
+          "image_offset": 15277,
+          "kind": "far_call",
+          "relocated_segment_site": 15280,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 200203,
+          "image_offset": 15435,
+          "kind": "far_call",
+          "relocated_segment_site": 15438,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 202039,
+          "image_offset": 17271,
+          "kind": "far_call",
+          "relocated_segment_site": 17274,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 206034,
+          "image_offset": 21266,
+          "kind": "far_call",
+          "relocated_segment_site": 21269,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original room and actor state tests."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:14dc",
+      "offset": 5340,
+      "original_bytes_hex": "56803e474502750c9a0a0b4e2a8bf08bc65ecb902bf68bc65ecb",
+      "segment": 2881,
+      "semantic_name_hypothesis": "probe_jump_anchor",
+      "sha256": "77b0188d3bf7bc5f84079834486a26994e07f33f05c138bce1bab05c5c5c487f",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte argument in the word slot at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "The preceding reviewed target 0B41:17EC ends in RETF 4 at root+CC4B. The BP frame at +CC4E tests the speed byte and loose-floor modifier and converges on RETF 2 at +CCAC, followed by a NOP and the next entry at +CCB0. Independent original PUSH CS/CALL near at root+BC08 enters +CC4E.",
+        "Independently relocated far callers use exactly this alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 195708,
+          "image_offset": 10940,
+          "kind": "far_call",
+          "relocated_segment_site": 10943,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 56329,
+          "image_offset": 48137,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48136,
+          "space": "root"
+        },
+        {
+          "file_offset": 56418,
+          "image_offset": 48226,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48225,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original room and actor state tests."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:183e",
+      "offset": 6206,
+      "original_bytes_hex": "558bec5756803e065c01750c807e060075060ee84c00eb418b36716283e6bf807e060074088bc624fb0c0b8bf0a07362988bd8d1e3d1e38b3e92628931a0746250a07362508a460650b00b500ee866fbb81400509ace01d70d5e5f8be55dca020090",
+      "segment": 2881,
+      "semantic_name_hypothesis": "break_floor",
+      "sha256": "2a9b99daa7b968a4b3050a7a9482e86a87356b1098bc8f67b2d46953c725544e",
+      "size": 98,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "Predecessor closes with RETF/NOP/NOP at overlay-8+0123..0125. The entry at +0126 computes spike coordinates from the room cell and converges on RETF at +0196 and NOP at +0197 before a new procedure. Calls root+BC19 and +BC70 both take the original tile-0F path. The same alias in overlay 9 is inside a BP-framed code path, beginning at a PUSH of its live AX followed by a call and later BP-local reads.",
+        "Independently relocated far callers use exactly this alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56432,
+          "image_offset": 48240,
+          "kind": "far_call",
+          "relocated_segment_site": 48243,
+          "space": "root"
+        },
+        {
+          "file_offset": 56345,
+          "image_offset": 48153,
+          "kind": "far_call",
+          "relocated_segment_site": 48156,
+          "space": "root"
+        },
+        {
+          "file_offset": 60770,
+          "image_offset": 52578,
+          "kind": "far_call",
+          "relocated_segment_site": 52581,
+          "space": "root"
+        },
+        {
+          "file_offset": 61454,
+          "image_offset": 53262,
+          "kind": "far_call",
+          "relocated_segment_site": 53265,
+          "space": "root"
+        },
+        {
+          "file_offset": 195722,
+          "image_offset": 10954,
+          "kind": "far_call",
+          "relocated_segment_site": 10957,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original room and actor state tests."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-8:2a4e:0126",
+      "offset": 294,
+      "original_bytes_hex": "56b10aa0736298f6f98ac498b105d3e0a3be67b03ff62e7662054200a3c067a07462a2c2672bc0a3c567a3c367c606c76703a07662a2c867c706c96700009a9219410ba0746250a07362509aec17410b8b36be67a0c2673806355e7506812ebe6740012ac0509a6422410b8936be675ecb90",
+      "segment": 10830,
+      "semantic_name_hypothesis": "fall_spikes",
+      "sha256": "8140d6d507dd96449f73dee459cf2f0c7dcc17a5437173816ae4ec78d636b9ec",
+      "size": 114,
+      "space": "overlay-8",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "After RETF at overlay-9+0E89, the +0E8A entry checks tile modifier bit 0x40. All paths restore SI and return at +0EC5. The next BP frame is at +0EC6. Root+CD6A independently uses the exact alias in the blade-tile branch.",
+        "Independently relocated far callers use exactly this alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 60778,
+          "image_offset": 52586,
+          "kind": "far_call",
+          "relocated_segment_site": 52589,
+          "space": "root"
+        },
+        {
+          "file_offset": 195736,
+          "image_offset": 10968,
+          "kind": "far_call",
+          "relocated_segment_site": 10971,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original room and actor state tests."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0e8a",
+      "offset": 3722,
+      "original_bytes_hex": "56f6067162407532a07362b10a98f6f93a26095c7418a07362988bd8d1e3d1e38b369262800e716240a171628900a0746250a07362500ee802005ecb",
+      "segment": 10830,
+      "semantic_name_hypothesis": "fall_blades",
+      "sha256": "ead8f504e588b27bfe4a7baa1721cbb58bdf7a2b4da418ad310a40ba900da946",
+      "size": 60,
+      "space": "overlay-9",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Previous final return at overlay-3+41CD, entry at +41D0, last return at +4219, and next entry at +421A.",
+        "Selects a retreat sequence for eligible actor kinds and frames, then resets its back latch.",
+        "Independently decoded original PUSH CS/CALL near enters from overlay-3+480C, overlay-3+4A5D."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 203213,
+          "image_offset": 18445,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 18444,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 203806,
+          "image_offset": 19038,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19037,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control frame 25DA and original game-state use."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1870",
+      "offset": 6256,
+      "original_bytes_hex": "568b16075c803e065c07743c803e065c087435803e065c0b742e81fa9e00740c81faaa00740681faab00751c803e065c0a7505be6800eb03be3900560ee866e79ad213cc02a28d625ecb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "retreat_actor",
+      "sha256": "6572b919de90d1e9475037b9a28ae69df5085fdece91f8a08bbadebf016e9f1a",
+      "size": 74,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
