@@ -59982,6 +59982,635 @@
       "semantic_name_hypothesis": "play_anim",
       "state": "ANALYZED",
       "call_sites": []
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x11a8 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1319 and any following alignment NOP end at +0x131c, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1d86, +0x1da8.",
+        "Original overlay-17 relocation 113 at +0x4490 stores the segment of the pointer to 2b4b:01d8.",
+        "Original overlay-17 relocation 114 at +0x447c stores the segment of the pointer to 2b4b:01d8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 239334,
+          "image_offset": 7558,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7557,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239368,
+          "image_offset": 7592,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7591,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:01d8",
+      "offset": 472,
+      "original_bytes_hex": "558bec83ec0857568b76068a042ae40bc07415487424487503e9f0002d03007503e9e800e9450190833e6662007503e93a01560ee8f7fde932018a4c0483e10783c11883f9197e1c833e666200750f8b1e1011c7878b01e0ff4949eb1190b9ffffeb0b908b1e1011c7878b01000083f9ff7417b01450518a4401508a440250b00a502ac0509a580369018b7c0483e70783c7188a4401508a4402509ab006770f8846ff83ff197f22509afe288a070bc07418b01450b83d00508a4401508a4402502ac050509a580369018a4401508a4402509a0e06770f509afe288a070bc07503e988008a46ff509afe288a073d01001bff83c73fb01450578a4401508a4402502ac050509a58036901eb608a540483e20783c21883fa18740583fa197e4d8a4401508a4402509a2e07770f509afe288a070bc07536803c057509b8a801ba6901eb0790b83a02ba69018bf8b01450b8feff508a4401508a440250b00a502ac0508bc28946fa897ef8ff5ef85e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "4649265d4a766ff4dec7053a55cd0920a222ead1c7890b30281923330579d12a",
+      "size": 372,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x131c prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x13a9 and any following alignment NOP end at +0x13ac, the next function prologue.",
+        "Original overlay-17 relocation 78 at +0x446c stores the segment of the pointer to 2b4b:034c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:034c",
+      "offset": 844,
+      "original_bytes_hex": "558bec83ec0a57568b7e062bc0998bf08956fc8a052ae40bc0740d4874184874272d0300742aeb37393666627431570ee887fceb2a90b85803ba69018bf08956fcc646ff00eb1890b83a02ba6901eb06b8a801ba69018bf08956fcc646ff0a8b46fc0bc67422b01050b8feff508a4501508a4502508a46ff502ac0508b46fc8946f88976f6ff5ef65e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "953a2093dad8df5a1119a857bc4fe529ea38f4c32903bbfc55dce2b86a3d0fc5",
+      "size": 144,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x13ac prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1447 and any following alignment NOP end at +0x144a, the next function prologue.",
+        "Original overlay-17 relocation 46 at +0x4470 stores the segment of the pointer to 2b4b:03dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:03dc",
+      "offset": 988,
+      "original_bytes_hex": "558bec83ec0a57568b76062bc0998bf88956fc8a042ae40bc0740d48741c48742b2d0300742eeb3b393e66627435560ee8f7fb560ee86600eb29b85803ba69018bf88956fcc646ff00eb1890b83a02ba6901eb06b8a801ba69018bf88956fcc646ff0a8b46fc0bc7742cb01150b8feff508a4401508a4402508a46ff502ac0508b46fc8946f8897ef6ff5ef6803c057505560ee808005e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "2dbefff45267d99f83207ba47582eda6ad96190653dcdff25e0e8324f3c524d1",
+      "size": 158,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x144a prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x157b and any following alignment NOP end at +0x157e, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x13e1, +0x143f."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 236865,
+          "image_offset": 5089,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5088,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 236959,
+          "image_offset": 5183,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5182,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:047a",
+      "offset": 1146,
+      "original_bytes_hex": "558bec83ec1857568b5e06803f057403e919018d7eecbe36628cd08ec0a5a5a5a58d7ef4befe098cd0a5a5a5a58b5e06b03ff66f022d05008946f4b836621e501e508d46f416509a845201110bc07503e9cd00a0345e508b5e068a4702509ac607cc028b5e068bc88a4701988bd08ac19803d0529a5c25410b8bf00bf67421807c02047c1bb01150b8feff508b5e068a4701508a4702502ac050509a220169018b5e068a47042ae42d2a001bc923c1052a002dedfff7d88b36101189844004b03950b8feff508a4701508a470250b00a502ac0509a22016901813e875cd9007211813e875ce2007709b83a02ba6901eb0790b8a801ba69018bc88956feb03950b8feff508b5e068a4701508a470250b00a502ac0508bc28946ea894ee8ff5ee8bf36628d76ec1e07a5a5a5a55e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "2831d377d699b9e1b1ac00a7cfe69351910c917d20c6188d70b9cb8965883f1b",
+      "size": 308,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x157e prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x161f and any following alignment NOP end at +0x1622, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x18f3, +0x1e5a, +0x1e7f, +0x1e8c, +0x1ee6.",
+        "Original overlay-17 relocation 103 at +0x4430 stores the segment of the pointer to 2b4b:05ae."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 238163,
+          "image_offset": 6387,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6386,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239546,
+          "image_offset": 7770,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7769,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239583,
+          "image_offset": 7807,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7806,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239596,
+          "image_offset": 7820,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7819,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239686,
+          "image_offset": 7910,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7909,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:05ae",
+      "offset": 1454,
+      "original_bytes_hex": "558bec83ec0c57568b7606c746fc00002bc0998bf88956fa8a042ae40bc0740e4874134874222d03007425eb3b90560ee825faeb3390b85803ba69018bf88956fac646ff00eb2190b83a02ba6901eb06b8a801ba69018bf88956fac646ff0a8a44042503008946fc8b46fa0bc7742db00150b8feff508a4401508a4402508a46ff502ac0508b46fa8946f6897ef4ff5ef4837efc007405560ee808005e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "ddd4b50e4ad938254795be1952c1655b362528890acd4fbc49f8bf9cc9699e76",
+      "size": 164,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1622 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x16a6 and any following alignment NOP end at +0x16aa, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1617, +0x1c7c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 237431,
+          "image_offset": 5655,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5654,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239068,
+          "image_offset": 7292,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7291,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0652",
+      "offset": 1618,
+      "original_bytes_hex": "558bec83ec0e57568b5e06803f057508b8a801ba6901eb11803f027509b83a02ba6901eb04902bc0998946f88956fa0bd0744c8b1e10118d7ef28d771a8cd08ec0a5a5a58b1e10118d7f1a8d77148cd88ec0a5a5a5b00150b8feff508b5e068a4701508a4702502ac05050ff5ef88b1e10118d7f1a8d76f28cd88ec0a5a5a55e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "ffa1039cff6ff87243a1988ff387636857281d851e51806d17058d6bf356a32a",
+      "size": 136,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x16aa prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1727 and any following alignment NOP end at +0x172a, the next function prologue.",
+        "Original overlay-17 relocation 133 at +0x443c stores the segment of the pointer to 2b4b:06da."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:06da",
+      "offset": 1754,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc0998bf08956fe8a052ae40bc0740d4874124874172d0300741aeb23570ee8fff8eb1c90b85803ba6901eb0eb83a02ba6901eb06b8a801ba69018bf08956fe8b46fe0bc67426b00450b8feff508a4501508a450250b00a502ac0508b46fe8946fa8976f8ff5ef8570ee808005e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "9638dae06a8374c6047e5747f5ec58e465d713dfcd9e05347477cfc1045eefe9",
+      "size": 128,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x172a prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x17f3 and any following alignment NOP end at +0x17f6, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x171f.",
+        "Original overlay-17 relocation 71 at +0x2e36 stores the segment of the pointer to 2b4b:075a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 237695,
+          "image_offset": 5919,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5918,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:075a",
+      "offset": 1882,
+      "original_bytes_hex": "558bec83ec1857568d7eecbe36628cd08ec0a5a5a5a58d7ef4befe098cd0a5a5a5a58b5e06b03ff66f022d0a008946f4b836621e501e508d46f416509a845201110bc074738b5e068a470425fc00d0e8d0e82d32001bc923c10532002dfcfff7d88b361011898420048a072ae44848740b2d0300740e2bc099eb0f90b83a02ba6901eb06b8a801ba69018bc88956fe8bc20bc17423b03750b8feff508b5e068a4701508a470250b00a502ac0508bc28946ea894ee8ff5ee8bf36628d76ec1e07a5a5a5a55e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "0fd5f6b08fca2d6f6665533b89d09bb7771b75dfd3debe70b226a661f45ac045",
+      "size": 204,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x17f6 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x18fb and any following alignment NOP end at +0x18fe, the next function prologue.",
+        "Original overlay-17 relocation 89 at +0x4458 stores the segment of the pointer to 2b4b:0826."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0826",
+      "offset": 2086,
+      "original_bytes_hex": "558bec83ec0a57568b5e068a4704250f008946fe3d0d0074238a4701b10298f6f90ae4740b8b5efed1e38b87ba1aeb098b5efed1e38b87d21a8946fe0bc075128b46068d7ef68bf01607a5a5a5a58066fafc8b5e068a072ae40bc0740f4874144874412d03007466e9950090530ee86ff7e98c008b7efe83ff0d7503e981000bff7475b00b508d4523508b5e068a4701508a470250b00a502ac0509a58036901eb5e90908b7efe83ff0d74540bff74488bf3b00b508d4521508a4401508a440250b00a502ac0509a3a026901eb328b7efe83ff0d742a0bff741e8bf3b00b508d4521508a4401508a440250b00a502ac0509aa8016901eb088d46f6500ee888fc5e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "5ca7962443394f8599f9ca92ee71ecefa7dcd506978821b1cb1ce167668d0ca8",
+      "size": 264,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x18fe prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x196c and any following alignment NOP end at +0x1970, the next function prologue.",
+        "Original overlay-17 relocation 60 at +0x444c stores the segment of the pointer to 2b4b:092e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:092e",
+      "offset": 2350,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc0998bf08956fe8a052ae40bc0740b4874102d04007413eb1c90570ee8adf6eb1490b85803ba6901eb06b82201ba69018bf08956fe8b46fe0bc67421b00850b8feff508a4501508a450250b00a502ac0508b46fe8946fa8976f8ff5ef85e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "066d1290994ff6aba21fe536adaa87e88eeb0e73ff490a6d5a941dc7cb9dac6c",
+      "size": 114,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1970 prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x19de and any following alignment NOP end at +0x19e2, the next function prologue.",
+        "Original overlay-17 relocation 143 at +0x4450 stores the segment of the pointer to 2b4b:09a0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:09a0",
+      "offset": 2464,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc0998bf08956fe8a052ae40bc0740b4874102d04007413eb1c90570ee83bf6eb1490b85803ba6901eb06b82201ba69018bf08956fe8b46fe0bc67421b00950b8feff508a4501508a450250b00a502ac0508b46fe8946fa8976f8ff5ef85e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "d80a813ed41aa8dc2506c468d54536656a746a99a0197875282367dce42633da",
+      "size": 114,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x19e2 prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1a96 and any following alignment NOP end at +0x1a9a, the next function prologue.",
+        "Original overlay-17 relocation 68 at +0x4444 stores the segment of the pointer to 2b4b:0a12."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0a12",
+      "offset": 2578,
+      "original_bytes_hex": "558bec83ec1057568b7e068a6d0581e100082bc0998bf08956f68a052ae40bc074104874154874342d0300742f8b4ef8eb57570ee8bdf5ebf49083f9011ac024ff04068846ffbe2100c746f45803c746f669018976f88b76f4ebd2900bc9740ac646ff06b91f00eb0890c646ff01b9feff803d057508b8a801ba6901eb06b83a02ba69018bf08956f68b46f60bc6741f8a46ff50518a4501508a450250b00a502ac0508b46f68946f28976f0ff5ef05e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "7dd4c93698614a8b0ba04c20be74a66ec94e6454ee789603947bcc6a6a92bf59",
+      "size": 184,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1a9a prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1b37 and any following alignment NOP end at +0x1b3a, the next function prologue.",
+        "Original overlay-17 relocation 33 at +0x4440 stores the segment of the pointer to 2b4b:0aca."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0aca",
+      "offset": 2762,
+      "original_bytes_hex": "558bec83ec0c57568b76068a64052500083d01001ac0fec004058846fd2bc0998bf88956fa8a042ae40bc074114874164874232d0300741e8b4efeeb3590560ee8f9f4ebf390b85803ba69018bf88956fab92000eb1c803c057509b8a801ba6901eb0790b83a02ba69018bf88956fab91e008b46fa0bc7741f8a46fd50518a4401508a440250b00a502ac0508b46fa8946f6897ef4ff5ef45e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "6882a1426be25afebbfcc39b7a11fad7c48da99407e2daf4f8fb8bb398536384",
+      "size": 160,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1b3a prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1c53 and any following alignment NOP end at +0x1c56, the next function prologue.",
+        "Original overlay-17 relocation 99 at +0x4438 stores the segment of the pointer to 2b4b:0b6a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0b6a",
+      "offset": 2922,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc08946fa8946f88b750483e6038a052ae40bc0740f4874144874572d03007462eb719090570ee867f4eb68900bf67510c746f85803c746fa6901be2c00eb5490833e666200740583fe017547c746f85803c746fa69018b1e1011c74748000083fe0275088b1e1011836f4820be1a00eb22900bf6751dc746f83a02c746fa6901eb0e0bf6750dc746f8a801c746fa6901be2b008b46fa0b46f8746db00350568a4501508a450250b00a502ac050ff5ef883fe1a75538b1e1011837f480075408a4501508a4502509ab006770f3c03742f8b1e10118bb78d0183af8d0136b01450b82600508a4501508a450250b00a502ac0509a580369018b1e101189b78d018b1e1011c74748ffff5e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "944cb663ac32233fc1ef6190aaf8b92a11ccf894ca6236c0c99b132b7e220849",
+      "size": 284,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1c56 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1c88 and any following alignment NOP end at +0x1c8c, the next function prologue.",
+        "Original overlay-17 relocation 112 at +0x4464 stores the segment of the pointer to 2b4b:0c86."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0c86",
+      "offset": 3206,
+      "original_bytes_hex": "558bec568b7606803c007508560ee86ff3eb1690803c057405803c02750bf64404037405560ee8a3f9560ee808005e8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "75fca88b931f4d2339954360b52e8b680b71a31c11853cb7ef33e7d9aec6d1fd",
+      "size": 54,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1c8c prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1cec and any following alignment NOP end at +0x1cf0, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1c81, +0x1ddc.",
+        "Original relocated CALL FAR at overlay-7+0x04a3 stores 2b4b:0cbc, relocation 22 at +0x04a6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 239073,
+          "image_offset": 7297,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7296,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239420,
+          "image_offset": 7644,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7643,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 224883,
+          "image_offset": 1187,
+          "kind": "far_call",
+          "relocated_segment_site": 1190,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0cbc",
+      "offset": 3260,
+      "original_bytes_hex": "558bec83ec08568b76068a042ae448740d4874122d030074152bc099eb16b85803ba6901eb0eb83a02ba6901eb06b8a801ba69018bc88bc20bc17420b00e50b8feff508a4401508a440250b00a502ac0508bc28946fa894ef8ff5ef85e8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "8faf33a67aee53cd7b35ec8010fcf27ff11307fdfcab8294cc339d6c548b8420",
+      "size": 100,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1cf0 prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1d53 and any following alignment NOP end at +0x1d56, the next function prologue.",
+        "Original overlay-17 relocation 45 at +0x442c stores the segment of the pointer to 2b4b:0d20."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0d20",
+      "offset": 3360,
+      "original_bytes_hex": "558bec57568b7606803c0075512bffa0ce6c3844027505bf0100eb1ea0ce6c988bc88a4402982bc148750f8a4401508a4402509ab22c8a078bf80bff7517803ece6cff7510a0d26c509ac8288a070bc07403bf01000bff7405560ee888f25e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "ec45291f20bd5d9e163a56a6228bb25285645f805da4aceb3808f3b4724e6142",
+      "size": 102,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1d56 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1dcb and any following alignment NOP end at +0x1dce, the next function prologue.",
+        "Original overlay-17 relocation 142 at +0x4434 stores the segment of the pointer to 2b4b:0d86."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0d86",
+      "offset": 3462,
+      "original_bytes_hex": "558bec83ec0857568b5e068a072ae44874082d0400741feb57908bc38d7ef88bf01607a5a5a5a58066fcf88d46f8500ee81ff4eb3b90807f010974348bc38d7ef88bf01607a5a5a5a58066fcf88d4ef8510ee8fdf3b00250b8feff508b5e068a4701508a4702502ac050509a220169015e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "111ca3f960216a181eaa80a6a0ff3dd52bc8e60d6754d2e30d5b9069bb5a923a",
+      "size": 120,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1dce prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1de3 and any following alignment NOP end at +0x1de6, the next function prologue.",
+        "Original overlay-17 relocation 79 at +0x44ac stores the segment of the pointer to 2b4b:0dfe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0dfe",
+      "offset": 3582,
+      "original_bytes_hex": "558bec568b7606560ee80c00560ee8adfe5e8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "13acf531db5891efca0efe28c3104042cebebc82a7dd59ffd0ac9cbf8610f2f8",
+      "size": 24,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1de6 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1eaf and any following alignment NOP end at +0x1eb2, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1dd7.",
+        "Original overlay-17 relocation 98 at +0x4478 stores the segment of the pointer to 2b4b:0e16."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 239415,
+          "image_offset": 7639,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7638,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0e16",
+      "offset": 3606,
+      "original_bytes_hex": "558bec83ec1257568b5e068a47042ae48946fe8d7ef68bf38cd08ec0a5a5a5a52bc08946fa8946fc8a072ae40bc07412487d03e98e00487e5b2d03007460e98300908d46ee50b94a08518b5e068a470198508a470298509a6401770f8d46ee1650b836621e509a1801ad1e0bc075558d46f6500ee821f7b01350b8feff508b5e068a4701508a4702502ac050509a22016901eb308d46f6500ee8fcf6eb268b76068d46f6500ee8eff6b013508b46fe053300508a4401508a4402502ac050509aa80169015e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "12056b8d55991514218f0dd992f2c5129fc9aef1b98297647ec9d5fc099a7fae",
+      "size": 204,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1eb2 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1eed and any following alignment NOP end at +0x1ef0, the frameless original initializer (C7 06 20 5E 00 00 CB 90) named by RTLink vector 2203:0d71.",
+        "Original overlay-17 relocation 69 at +0x4494 stores the segment of the pointer to 2b4b:0ee2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0ee2",
+      "offset": 3810,
+      "original_bytes_hex": "558bec568b76068a540483e21f8a042ae40bc0740d487c1f487e132d0300740eeb150bd2740c560ee8f9f0eb0a900bd27505560ee895f65e8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "268792b77801bc4f711d00afb7eab9cda357a3d347e0062c5e399a518a08818c",
+      "size": 62,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
     }
   ],
   "schema": 1,
