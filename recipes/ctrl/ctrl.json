@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "38ba55f1cff59f9570896ce50537f3389fef89464bd1fde1d15a9735220489bb",
+  "binding_sha256": "9d915fbd97623aa8a3ae1756bf024d2d95b368c797e6c63402bb36012aefdfaa",
   "claims": [
     {
       "fixup_count": 28,
@@ -184,6 +184,21 @@
       "fixup_count": 2,
       "public": "CLEARCHARVEL",
       "target_id": "root:02cc:0944"
+    },
+    {
+      "fixup_count": 19,
+      "public": "ON_GROUND",
+      "relocation_indices": [
+        304,
+        310,
+        345,
+        378
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:09ea"
     }
   ],
   "drafts": [
@@ -218,10 +233,6 @@
     {
       "object_offset": 2380,
       "public": "DECREMENT_LIFE_POINTS"
-    },
-    {
-      "object_offset": 2536,
-      "public": "ON_GROUND"
     },
     {
       "object_offset": 2714,
