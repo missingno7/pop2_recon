@@ -1,9 +1,21 @@
 {
+  "binding": "evidence/bindings/fade/palette_tail.json",
+  "binding_sha256": "ccfef50c64ed666ad31aa13dcb507e3f8894702a431999b64746cd5995d9617a",
   "claims": [
     {
       "fixup_count": 0,
       "public": "STORE_THREE_COMPONENT_BYTES",
       "target_id": "root:1e23:07ac"
+    },
+    {
+      "fixup_count": 1,
+      "public": "ADD_THREE_COMPONENTS",
+      "relocation_indices": [
+        1774
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1e23:07d2"
     },
     {
       "fixup_count": 0,
@@ -65,10 +77,6 @@
       "public": "BLEND_PALETTE"
     },
     {
-      "object_offset": 1884,
-      "public": "ADD_THREE_COMPONENTS"
-    },
-    {
       "object_offset": 2032,
       "public": "FADE_OUT_AND_RESTORE_PALETTE"
     }
@@ -88,12 +96,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "fade/palette_tail",
-  "object_sha256": "c17f30baa490502d9fb82d076b7ef165cb640364cfe7d4c7c94cf644fcabc6bd",
+  "object_sha256": "9f1b5e8418ca59213b34f106e3a2ed42251c9d91d92564d73f5be2f20bbe0571",
   "origin": 123558,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/fade/palette_tail.c",
-  "source_sha256": "64f3a6c351e88ff51efcc7271714e0d0c6798ec3b5f213e7f42281683f7fd9fb",
+  "source_sha256": "4151098806f927d9d35f390e28b0d64a94fb1aa12160297090d4bd4da871ee9d",
   "space": "root"
 }

@@ -56,13 +56,14 @@ void far pascal scale_three_component_bytes63(component far *, component far *, 
 
 int far pascal fade_in_port(fade_header near *port, unsigned blocks)
 {
+    int result = 0;
     fade_state far *state = init_fade_in((int)port,
         (fade_header near *)((char near *)port + 16), blocks);
 
     while (!fade_in_step(state))
         ;
     quit_fade_in(state);
-    return 0;
+    return result;
 }
 
 fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsigned blocks)
