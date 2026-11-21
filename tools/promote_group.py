@@ -33,6 +33,8 @@ def main():
                         help="TARGET_ID=PUBLIC, repeated in any order")
     parser.add_argument("--binding", help="Reviewed group binding under evidence/bindings")
     parser.add_argument("--verify-only", action="store_true")
+    parser.add_argument("--stage", help="verify-only: staging directory (a worker's own build/workers/NAME/...)")
+    parser.add_argument("--extra-asm-review", help="verify-only: worker asm-review.json (origin evidence before merge)")
     parser.add_argument("--extra-targets", help="verify-only: worker-proposed reviewed targets JSON (list or "
                         "{'functions': [...]}) for research before canonical review")
     args = parser.parse_args()
@@ -42,6 +44,11 @@ def main():
         require(args.verify_only, "Proposed targets are for --verify-only research runs only")
         extra = read_json(project_path(args.extra_targets))
         match.EXTRA_TARGETS[:] = extra["functions"] if isinstance(extra, dict) else extra
+    if args.extra_asm_review:
+        import origin
+        require(args.verify_only, "Worker ASM review evidence is for --verify-only runs only")
+        origin.EXTRA_REVIEW.update(read_json(project_path(args.extra_asm_review)).get("targets", {}))
+    require(not args.stage or args.verify_only, "--stage is for --verify-only runs only")
     require_idle(ROOT)
     oracle = Oracle.load()
     manifest_before = (ROOT / "layout/manifest.json").read_bytes()
@@ -56,7 +63,7 @@ def main():
         binding_bytes = binding_path.read_bytes()
         require(b"\r" not in binding_bytes, "Canonical binding proof must use LF newlines")
     source_bytes = project_path(args.source).read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
-    stage = ROOT / "build/workers/promotion" / args.name
+    stage = project_path(args.stage) if args.stage else ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
     (stage / ("CAND.ASM" if args.language == "asm" else "CAND.C")).write_bytes(source_bytes)
     result, report = compile_group(source_bytes.decode("ascii"), args.profile, args.flags, args.claim,

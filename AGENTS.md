@@ -121,6 +121,12 @@ search still compiles freshly, and promotion/validation never consume a cache.
 Stop when requested by the card. Do not retry a stagnant target without a new
 reasoning lead; inspect the existing negative receipts first.
 
+Workers hand off one `build/workers/NAME/submission.json` (groups, proposed targets, ASM origin
+review and a `blocked` list with kind and needed target; schema in tools/submission.py) and check it
+with `python tools/submission.py build/workers/NAME/submission.json --verify-only`. The integrating
+writer publishes it by dropping `--verify-only`. `python tools/blocker_ledger.py` ranks the targets
+that open blocked work and lists blocked functions whose need has since been accepted.
+
 Collect worker summaries, review full objects and independent original evidence,
 then run fresh `promote.py --verify-only` and serial publication. Run full
 validation at the wave boundary. Keep one canonical source/recipe and concise

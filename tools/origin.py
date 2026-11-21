@@ -8,6 +8,8 @@ debt in evidence/asm-origin-audit.json (to be replaced by C reconstructions).
 """
 from common import ROOT, read_json, require
 
+EXTRA_REVIEW = {}  # verify-only: a worker's own asm-review.json entries, never used for publication
+
 
 def _pairs():
     fm = read_json(ROOT / "evidence/fmtowns/symbols.json")
@@ -36,7 +38,7 @@ def require_genuine_asm(target_ids):
     pairs = _pairs()
     audit = read_json(ROOT / "evidence/asm-origin-audit.json")
     debt, native = set(audit["c_origin_debt"]), set(audit.get("dos_native_asm", {}))
-    review = read_json(ROOT / "evidence/asm-origin-review.json").get("targets", {})
+    review = dict(read_json(ROOT / "evidence/asm-origin-review.json").get("targets", {}), **EXTRA_REVIEW)
     for tid in target_ids:
         module, source = pairs.get(tid, (None, ""))
         if source.upper().endswith(".ASM"):
