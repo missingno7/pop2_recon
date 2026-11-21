@@ -1,0 +1,65 @@
+{
+  "binding": "evidence/bindings/autoguar/trigger_jinnee.json",
+  "binding_sha256": "cfd70a6ac828a80d9ecaa7f85febef3478a3380eb5b80e7228916afc0c3c069c",
+  "claims": [
+    {
+      "fixup_count": 3,
+      "public": "CHECK_JINNEE_COLUMN",
+      "relocation_indices": [
+        3
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-12:2c3e:1674"
+    },
+    {
+      "fixup_count": 42,
+      "public": "TRIGGERJINNEE",
+      "relocation_indices": [
+        7,
+        32,
+        50,
+        76,
+        91,
+        94,
+        117,
+        120,
+        136,
+        142
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:1710"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 20,
+      "public": "SETUP_JINNEE_SMOKE"
+    }
+  ],
+  "emitted_size": 454,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 11326,
+  "group_id": "group:autoguar/trigger_jinnee",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "autoguar/trigger_jinnee",
+  "object_sha256": "ec34a3cb145529986c207313313775bfb08e1ba28be51b1a7aecadd78739722d",
+  "origin": 5748,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/autoguar/trigger_jinnee.c",
+  "source_sha256": "431bb6061804089bd631491966df664d8dd90722e30849addf6ccaa54d3dfb0f",
+  "space": "overlay-12"
+}

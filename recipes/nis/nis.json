@@ -1,7 +1,23 @@
 {
   "binding": "evidence/bindings/nis/nis.json",
-  "binding_sha256": "9deb0c9da6d74f0aca2ed1477e9f80d0cc6f5d3863fbf7cf36555c2fec27145b",
+  "binding_sha256": "a54740adac7f79d98b486c4a6a264712dac34304137fa735d8504a48559ecf86",
   "claims": [
+    {
+      "fixup_count": 6,
+      "public": "HGETSL",
+      "relocation_indices": [
+        289,
+        383,
+        520,
+        686,
+        724
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:238a:000c"
+    },
     {
       "fixup_count": 2,
       "public": "GETSTRLCT",
@@ -74,6 +90,34 @@
       "target_id": "overlay-2:238a:018a"
     },
     {
+      "fixup_count": 41,
+      "public": "DRAW_NIS_TEXT",
+      "relocation_indices": [
+        164,
+        173,
+        294,
+        307,
+        318,
+        319,
+        345,
+        437,
+        438,
+        522,
+        685,
+        688,
+        718,
+        719,
+        720,
+        732,
+        733
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:238a:01a6"
+    },
+    {
       "fixup_count": 1,
       "public": "PAINT_RUINS_SKY",
       "relocation_indices": [
@@ -96,14 +140,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "HGETSL"
-    },
-    {
-      "object_offset": 410,
-      "public": "DRAW_NIS_TEXT"
-    },
     {
       "object_offset": 888,
       "public": "FLIP_HORSES"
@@ -135,12 +171,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "nis/nis",
-  "object_sha256": "8cc4797096916b414ffced01602d897e87c67a8542e205468f76bb8011a76a22",
+  "object_sha256": "45cef6557e8148c3d65c9b62a5246c9a4b8d9231e52259b4c92ca6b9c3517de6",
   "origin": 1132,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/nis/nis.c",
-  "source_sha256": "7d7b63ee23c18c15113ba1707923a88b20f48eef55cec3c7ccd256ea51988860",
+  "source_sha256": "a035189a8e21e6ad6a71813bb76796409b2eab20c3c76a708275357ef0c9cfa8",
   "space": "overlay-2"
 }

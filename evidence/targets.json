@@ -41357,6 +41357,1841 @@
           "relocation_index": 25
         }
       ]
+    },
+    {
+      "abi": "Far frameless entry after saving DI/SI, RETF.",
+      "boundary_evidence": [
+        "Overlay-2+38c uses relocated CALL FAR to 1101:4ea8. The matching init path ends in PUSH CS/E8 at 4f06/4f07 into this entry. Original register saves and mouse callbacks all reach RETF at 04f0 before separate BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:042f",
+      "offset": 1071,
+      "segment": 4353,
+      "semantic_name_hypothesis": "initialize_mouse_graphics",
+      "sha256": "a5e4e9a37530f0682973bdf4d42992e7facbf7cab78a2bb1c5671db4086ad9b8",
+      "size": 194,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far frameless entry, RETF.",
+      "boundary_evidence": [
+        "Entry starts with signed state check, then releases the temporary graphics storage and handles. Ordinary paths return at 0585; separate BP entry follows.",
+        "Reached call at 4f2c from root:1101:4f10."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 98108,
+          "image_offset": 89916,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 89915,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:054f",
+      "offset": 1359,
+      "segment": 4353,
+      "semantic_name_hypothesis": "shutdown_mouse_graphics",
+      "sha256": "1e299851c2d31de865f9d5a19afec5f4fb83e8e8cb76db69c04fc92c3ef205e1",
+      "size": 55,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "PUSH CS/CALL, far frameless entry, RETF.",
+      "boundary_evidence": [
+        "PUSHF/CLI begins the entry, calls the timer helper and the indirect driver callback. POPF and RETF at 2f32 and 2f33 precede the timer interrupt entry.",
+        "Reached call at 35b9 from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 91593,
+          "image_offset": 83401,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 83400,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2f21",
+      "offset": 12065,
+      "segment": 4353,
+      "semantic_name_hypothesis": "stop_driver_timer",
+      "sha256": "e13feb8111d93429f91268c46b49729fd70d3bc702b5d08f48cab40f296389ac",
+      "size": 19,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Hardware interrupt entry; no Pascal arguments; IRET.",
+      "boundary_evidence": [
+        "An original relocated CALL FAR names 335b. Its reached near chain to 2e14 enters 2f0a, which loads DX=2f34, pushes CS and DX, then calls installer 7d94 at 2f11.",
+        "At 7e06 the installer loads the far callback from BP+8 and exchanges its two words into the interrupt vector at 0000:0020 and 0000:0022.",
+        "Separate entry after RETF at 2f33, saves registers, and ends on its sole IRET at 2fd5 before the following PUSH DI/SI routine. The reached body switches to DGROUP stack top 6dd6 at 2f98."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original DOS timer interrupt installation and IRET epilogue."
+      ],
+      "classification_status": "Reviewed interrupt callback hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2f34",
+      "offset": 12084,
+      "segment": 4353,
+      "semantic_name_hypothesis": "timer_interrupt",
+      "sha256": "981e918e6e8c4f98b4c073098d8f83e1b508c126c8f3e9d8704f66697c0f84d2",
+      "size": 162,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal mode word, RETF 2.",
+      "boundary_evidence": [
+        "Independent BP frame entered by overlay-2+38c. Saves BIOS mode state, dispatches the selected mode and initializes port and mouse state. RETF 2 at 4f0d is followed by separate relocated 4f10.",
+        "Complete extent 4ea8..4f10 (exclusive).",
+        "Independent CALL FAR at overlay-2+0x38c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156844,
+          "image_offset": 908,
+          "kind": "far_call",
+          "relocated_segment_site": 911,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4ea8",
+      "offset": 20136,
+      "segment": 4353,
+      "semantic_name_hypothesis": "initialize_graphics_mode",
+      "sha256": "37778dd370e04b69d4230a223e980fba6f390072f4082abe1865b8538e08558f",
+      "size": 104,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal optional mode word, AX mode, RETF 2.",
+      "boundary_evidence": [
+        "Independent BP frame. Explicit or fallback mode search returns via 4f73. The final JMP at 4f82 goes back to the common exit. The local near mode helper starts at 4f84.",
+        "Complete extent 4f5e..4f84 (exclusive).",
+        "Independent CALL FAR at overlay-2+0x35a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156794,
+          "image_offset": 858,
+          "kind": "far_call",
+          "relocated_segment_site": 861,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4f5e",
+      "offset": 20318,
+      "segment": 4353,
+      "semantic_name_hypothesis": "select_graphics_mode",
+      "sha256": "f722dfc0849350a5857d02780c0aa36d4501f1a2f6879340c68c296d12c19237",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near DI mode, CF success, RET.",
+      "boundary_evidence": [
+        "E8 at 4f69 and 4f7a within the independently relocated 4f5e BP function enters this frameless near routine. Every branch exits via RET at 4fa6, including the failure tail at 4fa7. Separate far-entered BP frame at 4faa."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4f84",
+      "offset": 20356,
+      "segment": 4353,
+      "semantic_name_hypothesis": "check_graphics_mode",
+      "sha256": "c4713b97afc9079728f7fccb6861674dd2b88420f9e8df095d9a9b5d2105fdf4",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal two signed dwords, fixed-point DX:AX result; RETF 8.",
+      "boundary_evidence": [
+        "Separate BP frame and fixed-point shift/subtract loop. Returns through 7d00. Zero at 7d03 is unexecuted, before the distinct 7d04 entry.",
+        "Reached call at 2efc from root:1101:335b.",
+        "Reached call at 7dcc from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 89868,
+          "image_offset": 81676,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 81675,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 110044,
+          "image_offset": 101852,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 101851,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7c86",
+      "offset": 31878,
+      "segment": 4353,
+      "semantic_name_hypothesis": "divide_timer_interval",
+      "sha256": "e9e0f318ea70559611261d974ca852e86f65b3a3e30aca0e5e5eeaa75b3e95c7",
+      "size": 125,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal two signed dwords, fixed-point DX:AX result; RETF 8.",
+      "boundary_evidence": [
+        "Separate BP frame at 7d04. Accumulates four partial products; both sign paths use RETF 8 at 7d75 before another BP frame.",
+        "Reached call at 7ec1 from root:1101:7e41."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110289,
+          "image_offset": 102097,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 102096,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7d04",
+      "offset": 32004,
+      "segment": 4353,
+      "semantic_name_hypothesis": "multiply_timer_interval",
+      "sha256": "90f1c07b21d48043453c0bbcf17c159af9cb2002fc839eb9114ca5144dbae99a",
+      "size": 116,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal rate word; RETF 2.",
+      "boundary_evidence": [
+        "Relocated overlay-2 CALL at +0250, index 32, enters the BP frame. Loads the default descriptor and CS:7f05 callback before calling 7d94. RETF 2 at 7d91 precedes the next frame.",
+        "Complete extent 7d78..7d94 (exclusive).",
+        "Independent CALL FAR at overlay-2+0x250."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156528,
+          "image_offset": 592,
+          "kind": "far_call",
+          "relocated_segment_site": 595,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 6 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7d78",
+      "offset": 32120,
+      "segment": 4353,
+      "semantic_name_hypothesis": "install_default_timer",
+      "sha256": "4cf6fd238dbe08df31c17feb1837e46d368fd6aebe3f4723c6953f7e98fbacdf",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal descriptor pointer, handler and rate; RETF 10.",
+      "boundary_evidence": [
+        "Separate BP frame. Saves old vector and sets period in a critical section. Restores stack and returns at 7e3e before far-entered 7e41.",
+        "Reached call at 2f11 from root:1101:335b.",
+        "Reached call at 3776 from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 89889,
+          "image_offset": 81697,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 81696,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 92038,
+          "image_offset": 83846,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 83845,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7d94",
+      "offset": 32148,
+      "segment": 4353,
+      "semantic_name_hypothesis": "install_timer_hook",
+      "sha256": "8c21583b897ca327d7d7f6ec64a51fd63e926bfcf902ef169bb2a0aff2bfe723",
+      "size": 173,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal pointer to hook descriptor; RETF 4.",
+      "boundary_evidence": [
+        "Separate BP frame follows RETF at 7e54. Switches stack, updates timer chain or vector, rejoins at 7efa and returns through 7f02; independent interrupt entry follows.",
+        "Reached call at 7e50 from root:1101:7e41.",
+        "Reached call at 35ef from root:1101:335b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110176,
+          "image_offset": 101984,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 101983,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 91647,
+          "image_offset": 83455,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 83454,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7e55",
+      "offset": 32341,
+      "segment": 4353,
+      "semantic_name_hypothesis": "remove_timer_hook",
+      "sha256": "b1c9f06207c3faddf5c23680a4bd705b469ea40869aa1066aabb3dbfd13230c4",
+      "size": 176,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "IRQ 0 hardware callback; IRET.",
+      "boundary_evidence": [
+        "The independently entered 7d78 passes CS:7f05 to installer 7d94; the installer at 7e06 exchanges the argument into the interrupt vector. Register-save entry after the 7e55 far return; both branches join immediately before IRET at 7f45. The next BP frame starts at 7f46."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 7 reviewed hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7f05",
+      "offset": 32517,
+      "segment": 4353,
+      "semantic_name_hypothesis": "default_timer_interrupt",
+      "sha256": "daa0a95ad3ab01731b75686d924f841a1afd0a314ce225d2f9b1f15211ecd2fa",
+      "size": 65,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-12:2c3e:0000",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 0,
+      "size": 2,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Decoded RTLink vector names overlay-12:2c3e:0000. RETF with one-byte word alignment before the following externally called slot."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "unused_guard_entry",
+      "state": "ANALYZED",
+      "original_bytes_hex": "cb90",
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c"
+    },
+    {
+      "id": "overlay-12:2c3e:0002",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 2,
+      "size": 10,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated root caller at +0x2100 and local callers; paired byte writes and RETF plus alignment."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 8448,
+          "file_offset": 16640,
+          "relocated_segment_site": 8451
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 62,
+          "file_offset": 255278,
+          "pushed_cs_site": 61
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 633,
+          "file_offset": 255849,
+          "pushed_cs_site": 632
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 977,
+          "file_offset": 256193,
+          "pushed_cs_site": 976
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 2111,
+          "file_offset": 257327,
+          "pushed_cs_site": 2110
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 2732,
+          "file_offset": 257948,
+          "pushed_cs_site": 2731
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 3416,
+          "file_offset": 258632,
+          "pushed_cs_site": 3415
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "auto_forward",
+      "state": "ANALYZED",
+      "original_bytes_hex": "b0ffa2305ea28c62cb90",
+      "sha256": "0e5a9e1a2d764c0878b14aac2f470fe4f7bfd6f94d3d0833b624fdc90e4a137f"
+    },
+    {
+      "id": "overlay-12:2c3e:000c",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 12,
+      "size": 12,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL from 0033, 0307, 0862, 0b14 and 0bd6. Two byte stores end in RETF plus alignment."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 52,
+          "file_offset": 255268,
+          "pushed_cs_site": 51
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 776,
+          "file_offset": 255992,
+          "pushed_cs_site": 775
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 2147,
+          "file_offset": 257363,
+          "pushed_cs_site": 2146
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 2837,
+          "file_offset": 258053,
+          "pushed_cs_site": 2836
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 3031,
+          "file_offset": 258247,
+          "pushed_cs_site": 3030
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "auto_back",
+      "state": "ANALYZED",
+      "original_bytes_hex": "c6068d62ffc606305e01cb90",
+      "sha256": "8fda2338c2e5a20ea1e06ae175051934f185dd43d990c7f73df5273b028ec06e"
+    },
+    {
+      "id": "overlay-12:2c3e:0018",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 24,
+      "size": 10,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 0dd0; paired byte stores end in RETF plus alignment."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 3537,
+          "file_offset": 258753,
+          "pushed_cs_site": 3536
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "auto_up",
+      "state": "ANALYZED",
+      "original_bytes_hex": "b0ffa2315ea28e62cb90",
+      "sha256": "0bfe70a7e277f9e31143cc0a416dd908a2183ecbaf9514e0a6d29d77ea5fe077"
+    },
+    {
+      "id": "overlay-12:2c3e:0022",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 34,
+      "size": 12,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 041c; two byte stores end in RETF plus alignment."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 1053,
+          "file_offset": 256269,
+          "pushed_cs_site": 1052
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "auto_down",
+      "state": "ANALYZED",
+      "original_bytes_hex": "c6068f62ffc606315e01cb90",
+      "sha256": "96be7c56f7144e9ee645703e492e03ce0e15cfc2fdcf523cdeb447692168b942"
+    },
+    {
+      "id": "overlay-12:2c3e:002e",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 46,
+      "size": 10,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 07c6. Body sets a byte, calls entry 000c, and ends in RETF."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 1991,
+          "file_offset": 257207,
+          "pushed_cs_site": 1990
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "auto_run_away",
+      "state": "ANALYZED",
+      "original_bytes_hex": "c6068f62ff0ee8d5ffcb",
+      "sha256": "98d3d50de5e8014b7e0d60b6639affe36eb8f627811daecad35b8f967e196af8"
+    },
+    {
+      "id": "overlay-12:2c3e:0038",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 56,
+      "size": 10,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 042d. Body sets a byte, calls entry 0002, and ends in RETF before reviewed 0042."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 1070,
+          "file_offset": 256286,
+          "pushed_cs_site": 1069
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "auto_en_garde",
+      "state": "ANALYZED",
+      "original_bytes_hex": "c6068f62ff0ee8c1ffcb",
+      "sha256": "6d34bbe5a6deaa3013b2e1fd3a0d2b5f5f737dc9fa5a848b7dd853b7dcab0b81"
+    },
+    {
+      "id": "overlay-12:2c3e:0052",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 82,
+      "size": 40,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent relocated calls from root+edb7 and overlay-3+02ee. Both branch paths close on the same RETF immediately before the local callee."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60855,
+          "file_offset": 69047,
+          "relocated_segment_site": 60858
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 750,
+          "file_offset": 185518,
+          "relocated_segment_site": 753
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "check_multiple_dead_bodies",
+      "state": "ANALYZED",
+      "original_bytes_hex": "56813e075cb900751da06845500ee817008bf00bf6740b569a1600da259a9403cc02fe06115c5ecb",
+      "sha256": "46addc411491b34fd610b2878bc4a604d5185a5f0e83f0c1a44ee3de1cefd6eb"
+    },
+    {
+      "id": "overlay-12:2c3e:007a",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 122,
+      "size": 92,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS; CALL at 005f enters BP-framed callee. The decoded branches join at its frame-teardown block, ending in RETF 2 and alignment before the next far entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 96,
+          "file_offset": 255312,
+          "pushed_cs_site": 95
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "get_opponent_death_sequence",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0657562bf68976fc807e06077509bebf00bf0400eb1d90807e060074068b7efeeb11908b7efe803e4745067406bec300bf01000bf67414a0005c988d4d0199f7f90bd2740603f24e8976fc8b46fc5e5f8be55dca020090",
+      "sha256": "ea5fc3e870eadf79a75b00b035c87957827eaf4d9ff38de372225cca3e05b8f4"
+    },
+    {
+      "id": "overlay-12:2c3e:00d6",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 214,
+      "size": 30,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent overlay-14 relocated caller at +02e3 and local calls at 0a2f and 0c45; both sequence branches join and end at RETF."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-14",
+          "image_offset": 739,
+          "file_offset": 264515,
+          "relocated_segment_site": 742
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 2607,
+          "file_offset": 257823,
+          "pushed_cs_site": 2606
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 3141,
+          "file_offset": 258357,
+          "pushed_cs_site": 3140
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "start_opponent_running",
+      "state": "ANALYZED",
+      "original_bytes_hex": "803e065c047505b86600eb03b85400509a1600da252ac0a2105ca2235ccb",
+      "sha256": "f84e0f7851e016a78e750e2bf261d4eecd241cdac0fdd6c7c042d6aec975b4ae"
+    },
+    {
+      "id": "overlay-12:2c3e:00f4",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 244,
+      "size": 322,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original relocated overlay-3 CALL at +1e58, BP-framed target; branch paths converge at the exit at 022d and close before the independently called entry 0236."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 7768,
+          "file_offset": 192536,
+          "relocated_segment_site": 7771
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "check_opponent_tumble",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec445756803e4745057524803e0e5c137450803e0e5c1074499a5810cc02509ac8288a070bc07407803e015cff74332bf60bf67403e9fd00a00e5c509a520e44230bc07503e9ed000ee8cc018846ffb80300509a9000611f3a46ff7f0bb80100eb08be0100ebca902bc08946fc0bc07403e98000807eff00747a8d7ebcbe005c8cd08ec0b92000f3a5c646ff00b074f626345e8bd88a87f5448846fe0ac07e458b76fc0bf6753b8a46ff3846bc7428509a421dcc028a46c638060a5c75198a46c53806095c7510ff36075c9af61acc020bc07403be01008a46fefe46ff3846ff7cc18976fcb8005c8bf88d76bc1e07b92000f3a5837efc00740ca0015c3806415c7509eb2e908b76fceb2a909ad809cc028846ff3c03741b3c0874173c0474139a5810cc028846ff3c0374078b76fc3c0875022bf68bc65e5f8be55dcb90",
+      "sha256": "399004013f4f256109bb4057b024187f30c3690d43d728f9579d7e64447b0d5f"
+    },
+    {
+      "id": "overlay-12:2c3e:0236",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 566,
+      "size": 218,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Local PUSH CS; CALL at 07b4 independently enters the BP frame. Early exits converge on the frame teardown at 030b; RETF at 030f before next BP-framed entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 1973,
+          "file_offset": 257189,
+          "pushed_cs_site": 1972
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "check_guard_step",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0256803e4b5c027503e9c400803e4b5c067503e9ba002bf6b001509a3010cc028846ff509a500202280bc07403e98f008a46ff509ac8288a070bc075080ee886fdeb7f9090a0746250a0756250fe067662a07662509af000cc028846ff509a30288a070bc07407803e065c0a75518a46ff509a500202280bc075448a46ff509ac8288a070bc07537a04a5c988bc8a00a5c982bc140752839364a45741aa0746250a07562fec850a07662509af000cc023c027503be01000bf67507e97fff90be01000bf6740ac7069a6200000ee801fd5e8be55dcb",
+      "sha256": "6691a265e843ac768075fc53cd6cb544a1e3ea9a4746a38b971606b596b415b8"
+    },
+    {
+      "id": "overlay-12:2c3e:0310",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 784,
+      "size": 72,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original local PUSH CS; CALL at 0140 selects BP frame. Count loop and all exits stay inside the extent; RETF at 0356 and alignment before next frame."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 321,
+          "file_offset": 255537,
+          "pushed_cs_site": 320
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "count_live_opponents",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec04b074f626345e8bd88a87f5448846fe2ac9884efd884eff0ac07e1f8a46ff988bd8b106d3e380bfd15c007c03fe46fd8a46fefe46ff3846ff7ce18a46fd8be55dcb90",
+      "sha256": "a5acf1971ac127b8c73b7241882567a090adfde879ac60de763f343e76ff5f6f"
+    },
+    {
+      "id": "overlay-12:2c3e:0358",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 856,
+      "size": 130,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP frame follows 0356 RETF and one-byte pad. Local branches all end at its three RETF 2 exits; next routine begins with saved SI at 03da."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 2204,
+          "file_offset": 257420,
+          "pushed_cs_site": 2203
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "check_guard_range",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec04803e505c017517a0015c3806415c740eff76060ee8e1088be55dca020090833e4e6a0075518d5efc8d46fe9a7c2144238b46063946fe7e0eb0fe500ee8a5fc8be55dca020090803e4945057525803e0a5c01751e803e0e5c0a740e803e0e5c077407803e0e5c0c75099a9803c22d0bc074040ee82efc8be55dca0200",
+      "sha256": "f0ac20d42f7014686632903d19e54f0bf22c27ef7e83bda41a951d63c67ffa75"
+    },
+    {
+      "id": "overlay-12:2c3e:03da",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 986,
+      "size": 90,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original relocated CALL FAR at overlay-3+193c names 03da, immediately after the completed 0358 frame."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 6460,
+          "file_offset": 191228,
+          "relocated_segment_site": 6463
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "alert_opponent",
+      "state": "ANALYZED",
+      "original_bytes_hex": "56803e515c007d4f9aac1ccc028bf0a00a5c38064a5c751a0bf67d1683feee7c11803e235c027c2f813e075ca6007527eb21833e986200740f0bf67d1a83fefc7d150ee802fc5ecb0bf67c0b803e235c0074040ee807fc5ecb90",
+      "sha256": "bb89061570d648d94ee100115cbb3bd4bbeb37195e7526c1f547f128db1406e7"
+    },
+    {
+      "id": "overlay-12:2c3e:0434",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 1076,
+      "size": 564,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original relocated far call from overlay-3+1931 names the BP-framed start at 0434.",
+        "The preceding function closes on RETF at 0432 with one alignment byte. This entry has separate closed exits at 0481 and 0666 and one alignment byte before independently called 0668."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 6449,
+          "file_offset": 191217,
+          "relocated_segment_site": 6452
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Frame-number, facing and row tests select a run, jump or chase sequence for the current actor."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "chase_opponent",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec045756813e075cc200720f813e075cc7007707f606075c01752f813e075cd4007427803e385c017d03e9fc01813e075cc000740b813e075cc4007403e9e9010ee8ec015e5f8be55dcba0015cf6d0509af00844238846ff3806005c7418988bd8b106d3e3a1025c2b87c25c9933c22bc28bf8eb0490bf7900b001509a3010cc028846ffa1025c2b06825c9933c22bc28bf0833e875c017207833e875c0e761c833e875c317207833e875c38760e833e875c227215833e875c2c770ea0015c3806815c740c83ee20eb0a803e905c01740383c620a00e5c2ae450a0005c98509ab40844238946fca00a5c38068a5c740ea08a5c8b5efc3847157403e9ba008a46ff50ff3671629ad62344230bc07503e9a600a00a5c38068a5c7544a0015c3806415c7531833e475c017207833e475c0e761c833e475c317207833e475c38760e833e475c22720e833e475c2c7707803e4b5c07750a83ff787e2583fe787e20803e015cff7509a0095c3806895c7f10803e015c007512a0095c3806895c7d09c606235c02eb6b9090803e915c007d5d833ea45c0d7456a00e5c500ee82e0c0bc0741083fe507f0bb95700c606105c01eb4390b9ffffeb3d909a8810cc028bf0a00a5c38068a5c740ba08a5c8b5efc384715751983fe1b7d07803e385c017d0d803e385c017c06807eff0475c6c606235c00b9650083f9ff7430519a1600da259a5810cc028846ff813e075cd400751a50ff3671629ad62344230bc0750cb80a00509a6003cc02a3025c5e5f8be55dcb90",
+      "sha256": "29f284ace1ff9d24f4a1f163fc534a690da9f1486ae831c2c333f693b75459e3"
+    },
+    {
+      "id": "overlay-12:2c3e:0668",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 1640,
+      "size": 268,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original local PUSH CS; CALL from the preceding chase routine enters the BP frame at 0668. Loop, branch and exit targets stay inside the routine; RETF at 0772 with pad at 0773 closes before independently called 0774."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 1145,
+          "file_offset": 256361,
+          "pushed_cs_site": 1144
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "try_opponent_run_jump",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0456b001509a3010cc028846fdb002509a3010cc028846fc509ac8288a070bc07503e9dc008a46fd509ac8288a070bc07407c646fe01eb0b90c646fe028a46fc8846fdc646ff008a46fd509ac8288a070bc07437807eff057d31a00e5c50a0015c988bd88a87790dfe46ff8a4eff024efef6e90206095c50a00a5c509af000cc02509ac8288a070bc075c9807eff047c44750fa0385c9848509a9000611f0bc07433803e0e5c0d750e803e49450d7507833ea45c0d751ea00e5c2ae450a0005c98509ab40844238bf00bf6741ca00a5c3844157414b901000bc97411b86400509a3817da258bf0eb062bc9ebeb2bf60bf6750eb86500509a1600da25c606235c025e8be55dcb90",
+      "sha256": "e22a07677b7b43239918c164d695edf08fd00712b31d5d8fa8a3155500671226"
+    },
+    {
+      "id": "overlay-12:2c3e:1172",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 4466,
+      "size": 146,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated original CALL FAR at root+0758 and overlay-3+1d5b, and original PUSH CS; CALL at 1125, name the saved-SI entry. RETF at 1202 and alignment close it before reviewed 1204."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 1880,
+          "file_offset": 10072,
+          "relocated_segment_site": 1883
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 7515,
+          "file_offset": 192283,
+          "relocated_segment_site": 7518
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 11459,
+          "file_offset": 196227,
+          "relocated_segment_site": 11462
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 19245,
+          "file_offset": 204013,
+          "relocated_segment_site": 19248
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 4390,
+          "file_offset": 259606,
+          "pushed_cs_site": 4389
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "bones_fall",
+      "state": "ANALYZED",
+      "original_bytes_hex": "56b87800509a1600da25b84c00509ace01d70dc6060f5c01c606105c00803e115c007d05c606115c00803e015c00752c9a5810cc02509ac8288a070bc0741d9a8810cc02be20002bf083fe237f0e83ee23f7de569a6003cc02a3025c9af61ccc02a0005c502bc050a0135c98509ac8258a07a0005c50b87800500ee87a00a0005c500ee83400a0005c509a421dcc025ecb90",
+      "sha256": "a5e5a2c888a5bb4f0e506ab48579db43b92d9c39ef88fb143b8cc4a9436926b8"
+    },
+    {
+      "id": "overlay-12:2c3e:122c",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 4652,
+      "size": 62,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original local PUSH CS; CALL at 1373, separate BP frame and guarded record write. All exits converge at 1262; final RETF 2 and pad before 126a."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 4597,
+          "file_offset": 259813,
+          "pushed_cs_site": 4596
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 4980,
+          "file_offset": 260196,
+          "pushed_cs_site": 4979
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "set_skeleton_shakes",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec56a0345e2ae4508a460698509ab40844238bf00bf6741c807c040074128a44042ae440b9020099f7f9885416eb0590c64416035e8be55dca020090",
+      "sha256": "0bddf8b18c579884761ec646d25ecd10d643013beedcfea68ba60961363d4e66"
+    },
+    {
+      "id": "overlay-12:2c3e:126a",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 4714,
+      "size": 54,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated original CALL FAR at root+076f and overlay-3+031d, plus local PUSH CS calls. Shared RETF 4 at 129c, word alignment before the next independently named entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 1903,
+          "file_offset": 10095,
+          "relocated_segment_site": 1906
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 797,
+          "file_offset": 185565,
+          "relocated_segment_site": 800
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 4589,
+          "file_offset": 259805,
+          "pushed_cs_site": 4588
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 5334,
+          "file_offset": 260550,
+          "pushed_cs_site": 5333
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 5610,
+          "file_offset": 260826,
+          "pushed_cs_site": 5609
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "set_skeleton_timer",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec56803e6845027407803ec65c0a751ca0345e2ae4508a460898509ab40844238bf00bf674068b46068944135e8be55dca040090",
+      "sha256": "47ba787c88090d7f5e24f3b5952f42556143fef140f2c68c9369fdcc84a0e30c"
+    },
+    {
+      "id": "overlay-12:2c3e:12a0",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 4768,
+      "size": 148,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated original root CALL FAR at +cd87, BP-framed save and restore; loop closes and RETF 4 ends immediately before separately referenced 1334."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 52615,
+          "file_offset": 60807,
+          "relocated_segment_site": 52618
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "shake_bones",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec4257568d7ebebe005c8cd08ec0b92000f3a5c646ff00b074f666088bd88a87f5448846fe0ac07e528a46ff509a421dcc028a460638060a5c7535813e075cce00752d833e245c057426a00e5c2ae450a0005c98509ab40844238bd8837f1100750eb87000509a1600da259af61ccc028a46fefe46ff3846ff7caebf005c8d76be1e07b92000f3a55e5f8be55dca0400",
+      "sha256": "3d854e271ed26dedcbdffd4c851b5c3dc2e725d86836cb7ba92b62ef8486bfdf"
+    },
+    {
+      "id": "overlay-12:2c3e:1334",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 4916,
+      "size": 192,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated overlay-3 call at +0204 enters BP frame. Guard branches converge on sequence-position reset and shared RETF 2; 13f4 is separately far-called."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 516,
+          "file_offset": 185284,
+          "relocated_segment_site": 519
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "initialize_skeleton",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec57568b7e06837d1101750ec745053f00c606105c01e98f0090803e005c00750d837d11007507c745057000eb05c7450577008b4511894513a0005c500ee8b5fec606105c00803e015cff7512b001509a3010cc02509ac8288a070bc07516803e015c0075429a5810cc02509ac8288a070bc074339a8810cc028bf0803e015c007507b820002bc68bf083fe237f19b823002bc68bf0803e015cff7502f7de569a6003cc02a3025cc745070000c706345c08008bc75e5f8be55dca020090",
+      "sha256": "f4e532a76e1fe963a1d98cf08f571de34200cab7f4fb8d9aea6378e356e14acd"
+    },
+    {
+      "id": "overlay-12:2c3e:13f4",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5108,
+      "size": 38,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated root call at +10514 enters the first AX-immediate push. Both local paths close on RETF, the latter followed by one-byte alignment before 141a."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 66836,
+          "file_offset": 75028,
+          "relocated_segment_site": 66839
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "impale_skeleton",
+      "state": "ANALYZED",
+      "original_bytes_hex": "b001509a4e09cc020bc074069a401d4423cbb87e00509a1600da25b84800509ace01d70dcb90",
+      "sha256": "fc30c8f3d9728392c29408e3057abbbb016c98034de6fa1aafdcdafdd2b77b1f"
+    },
+    {
+      "id": "overlay-12:2c3e:141a",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5146,
+      "size": 202,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP-framed local entry followed by a shared RETF 2 at 14e0 and alignment. Independent near call sites and distinct following helper at 14e4 bound the routine."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 4133,
+          "file_offset": 259349,
+          "pushed_cs_site": 4132
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "skeleton_finished_shaking",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0457568b76fca0345e2ae4508a460698509ab40844238bf80bff7503e99b002bf68976fe837d11ff7474a00e5c500ee8b3fd0bc07459b01650b00450b002509af000cc029a040d410b0bc0742ca00e5c38068e5c7523a1025c3906825c7d1ab87a27509a448401110bc0752fb86a00509ab001d70deb249090397513750d833e195c707506ba0100eb17902bd2eb12807d16007406fe4d16ebeb90be01008b56fe0bd274158a460650b81e00509a9000611f050f00500ee891fd8bc65e5f8be55dca020090",
+      "sha256": "c836ed502450b41434d66b549e0ca75ddb1782bdc4770b5111aed4d95c5fe44d"
+    },
+    {
+      "id": "overlay-12:2c3e:14e4",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5348,
+      "size": 50,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original local PUSH CS; CALL at 113e names the frameless facing branch. All exits join at RETF 1514 with alignment before the next routine."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 4415,
+          "file_offset": 259631,
+          "pushed_cs_site": 4414
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "face_kid_for_skeleton",
+      "state": "ANALYZED",
+      "original_bytes_hex": "a1025c3906825c7e0f803e015c007420c606015c00eb0d90803e015cff7411c606015cffb80a00509a6003cc02a3025ccb90",
+      "sha256": "60766240cfd7efd6669d06fe33bd1b216178f7b01b945bced0f7d24b069aec9d"
+    },
+    {
+      "id": "overlay-12:2c3e:1516",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5398,
+      "size": 118,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated original root CALL FAR at +212a enters this register-saving routine after the preceding RETF and pad. Both RETF epilogues and the alignment byte close the routine before 158c."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 8490,
+          "file_offset": 16682,
+          "relocated_segment_site": 8493
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "setup_flame_sword",
+      "state": "ANALYZED",
+      "original_bytes_hex": "5756ff3668629a6c2101118bf08ec28b1e125ed1e3d1e3268a400298508bfa9a7a03cc028b1e125ed1e3d1e38ec7268a40039801065662833e586204740e833e5862137407833e5862147526803e3a5c00740ca03a5c982d1200f7d8a35862803e3a5cfc7f08c6063a5c005e5fcbfe0e3a5c5e5fcb90",
+      "sha256": "75a8fc133cbef3e8f345b080041ef46617f211efb4d27cf99a10c23f188c687b"
+    },
+    {
+      "id": "overlay-12:2c3e:158c",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5516,
+      "size": 38,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated overlay-3 CALL FAR at +20b5 enters saved-SI prologue. Original near call to 15b2 and separate shared RETF at 15b0 with word alignment bound it."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 8373,
+          "file_offset": 193141,
+          "relocated_segment_site": 8376
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "block_flame_sword",
+      "state": "ANALYZED",
+      "original_bytes_hex": "56b001500ee81e003d01001bf683e66883c6ffb80c00509ace01d70d9aa207cc028bc65ecb90",
+      "sha256": "77337501ed42738481c3059f64ae8e3a70d4a906f9705b276b949195834f8611"
+    },
+    {
+      "id": "overlay-12:2c3e:15b2",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5554,
+      "size": 38,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 1590 enters BP frame. Both Boolean paths join at SI-to-AX transfer, ending RETF 2 with pad at 15d7."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 5521,
+          "file_offset": 260737,
+          "pushed_cs_site": 5520
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "reduce_flame_sword_life",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec568a4606509a4e09cc020bc074090ee81100be0100eb022bf68bc65e8be55dca020090",
+      "sha256": "faa87b93e56cab09061cbcf3e011045ec9983ea3f85785a8469df93b5ef4674d"
+    },
+    {
+      "id": "overlay-12:2c3e:15d8",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5592,
+      "size": 42,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 15c3 names the frameless entry. Straight-line instructions end RETF at 1600 with alignment before BP-frame entry 1602."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "image_offset": 5572,
+          "file_offset": 260788,
+          "pushed_cs_site": 5571
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "drop_flame_sword",
+      "state": "ANALYZED",
+      "original_bytes_hex": "b86b00509a1600da25a0005c50b8f000500ee87dfcb8c000509ab001d70dc606115c00c6060f5c01cb90",
+      "sha256": "8ec09da28f641f22ebc8d410742c91e70e6f5fb4f1f02ccabb3a4d6b3f7cf65b"
+    },
+    {
+      "id": "overlay-12:2c3e:1674",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5748,
+      "size": 20,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocation 1248 at root+0xeea2 names 1674; preceding RETF at 1673. Both paths converge on RETF at 1687 before the distinct BP-framed entry 1688."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61087,
+          "file_offset": 69279,
+          "relocated_segment_site": 61090
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "check_jinnee_column",
+      "state": "ANALYZED",
+      "original_bytes_hex": "803e095cff7c07803e095c0a7e059ad61bcc02cb",
+      "sha256": "36b673ce266c35a260bf4a902aa49ce77f989dd7df56ce8e653035c44d8ff54e"
+    },
+    {
+      "id": "overlay-12:2c3e:1688",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5768,
+      "size": 136,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocation 233 at root+0x202e names 1688; all branches close at the shared RETF at 170f before the independently relocated call entry 1710."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 8235,
+          "file_offset": 16427,
+          "relocated_segment_site": 8238
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original decoded overlay instructions and entry order fit the AUTOGUAR.C input and guard-control run."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "setup_jinnee_smoke",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec085756813e125eab007272813e125ec700776a8b36125eff3668629a6c2101118ec28bd88bfb8bc6d1e0d1e003d8895ef88c46fa26833fff7443268b07a35862268a470298509a7a03cc02c45ef8268a47039801065662c6065a62039a9218cc02b0099ad6026901b81e0fba410b5250b85b6250a0005c509a620f410b5e5f8be55dcb",
+      "sha256": "0b34e507b487f08dcca7d50cb226015a2f140387946f49ccfd3bb1f85cfe4f23"
+    },
+    {
+      "id": "overlay-3:2344:1d40",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 7488,
+      "size": 462,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP-frame at 1d40 follows RETF at 1d3f. RETF at 1f0d closes final branch and is followed by independent 558bec at 1f0e.",
+        "Two original relocated calls push no arguments. Overlay-2 alias 1d40 lies inside another function with RETF 4, incompatible with these call sites.",
+        "Original switch dispatch at 1e85 indexes ten words at 1e8a..1e9e; all targets point into the reviewed interval."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 1172,
+          "file_offset": 216564,
+          "relocated_segment_site": 1175
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 5120,
+          "file_offset": 260336,
+          "relocated_segment_site": 5123
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Character-kind dispatch selects death-related poses or clears actor state; one branch calls the AUTOGUAR bone-fall routine."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "begin_actor_death",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0256c606235c00c6060f5c01beffff803e065c0475099a72113e2ce97d0190803e065c077503e96201803e065c087503e95801803e065c0b7507beae00e95b0190803e065c067507bec400e94d01909a5810cc028846ff803e065c00744d803e015cff75463c0474099ad809cc023c0475399a2a11cc028846ff803e7062047406b80100eb03902bc08bc88a46ff988bd82bd9d1e38b87860d050e00a3025cb81400509a6003cc02a3025c803e065c00753f813e075cf6007237813e075c0501772fbe6200803e465c0b750bb84500509ace01d70deb54803e465c07740d803e465c087406b80e00ebe590b85900ebdf90803e465c0b7505be6100ebcf803e465c0675059a3406cf29be5500803e065c0074189af4003e2c0bc0740fbeb900b8f8ff509a6003cc02a3025c803e065c007569a0465c9848483d0900771cd1e0932effa78a1ea41e9e1e9e1e9e1e9e1eb41eb41e9e1eba1ec01ec646ff02eb20803e6845011ac02404040a8846ffeb10c646ff06eb0ac646ff0ceb04c646ff078a46ff509a8607cc02eb1190a0815cf6d0a2015cc606125c00be9a00803e465c007407803e465c0175109a8c08cc02a0415c500ee8f5e9a2795c83feff7406569a1600da255e8be55dcb",
+      "sha256": "2d709977ce4c6644296a7bc45009528fb010d760def8083164b5c89a400da46a"
+    },
+    {
+      "id": "overlay-3:2344:1f0e",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 7950,
+      "size": 104,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated root+eb77 CALL FAR names the BP-frame start at 1f0e, after the previous RETF, ending RETF at 1f74 with one alignment byte.",
+        "Two original near calls at 1f4c and 1f5e enter 1f76. That callee reaches byte CMP DS:5c51 at +1fd6, a potential outside DGROUP witness for AUTOGUAR:03da."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60279,
+          "file_offset": 68471,
+          "relocated_segment_site": 60282
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Static actor-control context in independently reviewed original code."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "dispatch_guard_reaction",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec02833e875c007456813e875cdb007208813e875ce5007246c646ff00b074f626345e8bd88a87f5448846fe0ac07e2f8a46ff509a6a08cc020ee827009a8c08cc028a46ff509afc07cc020ee815009a3208cc028a46fefe46ff3846ff7cd18be55dcb90",
+      "sha256": "ce7d663179a447f4aa7d87e2c73c835e5dd1ce51ef3512b6906ea32ea5270841"
+    },
+    {
+      "id": "root:02cc:037a",
+      "space": "root",
+      "segment": 716,
+      "offset": 890,
+      "size": 26,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated outside CALL FAR at root+2196 and other overlays. Original BP frame starts immediately after RETF 2 of 0360, and last RETF 2 at root+3051 closes before AnimChar at root+3054.",
+        "A byte polarity flag selects the sign of the supplied delta. The routine updates and returns the sprite x coordinate."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 8598,
+          "file_offset": 16790,
+          "relocated_segment_site": 8601
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 8755,
+          "file_offset": 16947,
+          "relocated_segment_site": 8758
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 8851,
+          "file_offset": 17043,
+          "relocated_segment_site": 8854
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 9156,
+          "file_offset": 17348,
+          "relocated_segment_site": 9159
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 9313,
+          "file_offset": 17505,
+          "relocated_segment_site": 9316
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 10554,
+          "file_offset": 195322,
+          "relocated_segment_site": 10557
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 5124,
+          "file_offset": 245540,
+          "relocated_segment_site": 5127
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 5429,
+          "file_offset": 260645,
+          "relocated_segment_site": 5432
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 5843,
+          "file_offset": 261059,
+          "relocated_segment_site": 5846
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-15",
+          "image_offset": 1603,
+          "file_offset": 268115,
+          "relocated_segment_site": 1606
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Static actor-control context in independently reviewed original code."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "offset_sprite_x",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec8b5606803e5362007402f7da01165462a154625dca0200",
+      "sha256": "c1e5941e372941b8f36f175bd5522f08375ec5ec2cdd4623aab98c98caee25b7"
+    },
+    {
+      "id": "root:02cc:1bd6",
+      "space": "root",
+      "segment": 716,
+      "offset": 7126,
+      "size": 44,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated outside CALL FAR in overlays 3, 12, 14 and 15.",
+        "Original interval root+4896..48c2 closes on RETF and is followed by its separate local callee, called by PUSH CS; CALL at 48b8."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 10448,
+          "file_offset": 195216,
+          "relocated_segment_site": 10451
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 5762,
+          "file_offset": 260978,
+          "relocated_segment_site": 5765
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-14",
+          "image_offset": 692,
+          "file_offset": 264468,
+          "relocated_segment_site": 695
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-15",
+          "image_offset": 99,
+          "file_offset": 266611,
+          "relocated_segment_site": 102
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original instructions branch over a level/room-specific call, then call same-file helper and clear actor room."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "remove_char",
+      "state": "ANALYZED",
+      "original_bytes_hex": "803e0e5c06751b803e4745067514813e195cf000750c803e915c007d059ace12cf290ee80600c6060e5c00cb",
+      "sha256": "a632da722cb2a6c2449b937b8935c7b735438b33f31603aaff448820bbfb57b6"
+    },
+    {
+      "id": "root:02cc:1cac",
+      "space": "root",
+      "segment": 716,
+      "offset": 7340,
+      "size": 74,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated CALL FAR at root+f449 and other overlays. The function has a closed RETF at root+49b5 before the reviewed save-slot entry at offset 1cf6.",
+        "Original gates compare the other actor's active flag, room, row and facing. The common exit returns signed relative x distance or 999."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 62537,
+          "file_offset": 70729,
+          "relocated_segment_site": 62540
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 8200,
+          "file_offset": 192968,
+          "relocated_segment_site": 8203
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 13423,
+          "file_offset": 198191,
+          "relocated_segment_site": 13426
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 17802,
+          "file_offset": 202570,
+          "relocated_segment_site": 17805
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 19027,
+          "file_offset": 203795,
+          "relocated_segment_site": 19030
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 4045,
+          "file_offset": 244461,
+          "relocated_segment_site": 4048
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-10",
+          "image_offset": 4247,
+          "file_offset": 244663,
+          "relocated_segment_site": 4250
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-11",
+          "image_offset": 2716,
+          "file_offset": 251436,
+          "relocated_segment_site": 2719
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-11",
+          "image_offset": 4656,
+          "file_offset": 253376,
+          "relocated_segment_site": 4659
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 994,
+          "file_offset": 256210,
+          "relocated_segment_site": 997
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 2002,
+          "file_offset": 257218,
+          "relocated_segment_site": 2005
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Static actor-control context in independently reviewed original code."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "opponent_distance",
+      "state": "ANALYZED",
+      "original_bytes_hex": "803e525c00743da00e5c38064e5c7534a00a5c38064a5c752b803e415c5674248b16425c2b16025c803e015c007402f7da0bd27c12a0015c3806415c740983c20d8bc2cbbae7038bc2cb",
+      "sha256": "94abb8dfa16a1d115a07d2440ef144eb914b0ba738867ae2262e91bc219b010d"
     }
   ],
   "schema": 1,

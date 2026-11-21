@@ -11,7 +11,7 @@ extern Handle make_fixed(Handle handle);
 extern void far *lock_handle(Handle handle);
 extern int cdecl sprintf(char *destination, const char *format, ...);
 extern void fatal_error(int status, const char far *message);
-extern const char shape_list_error[];
+static const char shape_list_error[] = "hGetSL(%d)";
 
 Handle hGetSL(int resource_id, int mode)
 {

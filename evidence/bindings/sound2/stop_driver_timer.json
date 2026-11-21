@@ -1,16 +1,14 @@
 {
   "declarations": {
     "externals": [
-      "STATE_A",
-      "STATE_B",
-      "SET_OVERLAY_STATE_BYTES"
+      "DRIVER_STOP_CALLBACK",
+      "TIMER_DESCRIPTOR",
+      "REMOVE_TIMER_HOOK"
     ],
     "groups": [
       {
         "name": "DGROUP",
         "segments": [
-          3,
-          4,
           2
         ]
       }
@@ -19,7 +17,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "SET_OVERLAY_STATE_BYTES",
+        "name": "STOP_DRIVER_TIMER",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -34,7 +32,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 16,
+        "length": 19,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -50,30 +48,6 @@
         "name": "_DATA",
         "overlay": "",
         "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "CONST",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "CONST",
-        "overlay": "",
-        "use32": false
-      },
-      {
-        "alignment": 2,
-        "big": false,
-        "class": "BSS",
-        "combine": 2,
-        "frame": null,
-        "frame_offset": null,
-        "length": 0,
-        "name": "_BSS",
-        "overlay": "",
-        "use32": false
       }
     ]
   },
@@ -82,26 +56,21 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "STATE_B",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 10,
+      "segment_offset": 3,
       "self_relative": false,
       "target": {
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "STATE_B",
+        "name": "TIMER_DESCRIPTOR",
         "zero_displacement": true
       }
     },
@@ -109,26 +78,43 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 1,
-          "kind": "external",
-          "method": 6,
-          "name": "STATE_A",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
       },
       "kind": "fixup",
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 7,
+      "segment_offset": 9,
+      "self_relative": true,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "REMOVE_TIMER_HOOK",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 15,
       "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "STATE_A",
+        "name": "DRIVER_STOP_CALLBACK",
         "zero_displacement": true
       }
     }
@@ -146,40 +132,56 @@
       "space": "root"
     }
   },
-  "mode": "external-overlay-dgroup-offset16-v1",
+  "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "STATE_A": {
+    "DRIVER_STOP_CALLBACK": {
       "group": "DGROUP",
-      "kind": "near-data-alias",
-      "offset": 24114,
-      "width": 1,
+      "kind": "dgroup-offset",
+      "offset": 8508,
       "witnesses": [
         {
-          "bytes_hex": "803e325e00",
-          "context": "Independent root byte CMP in BP-framed entry 0x242, immediately after far-call result assignment.",
-          "image_offset": 602,
-          "operand_offset": 2,
+          "bytes_hex": "a33c21",
+          "context": "mov word ptr [0x213c], ax reached from root:1101:335b",
+          "entry": "root:1101:335b",
+          "image_offset": 81455,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
     },
-    "STATE_B": {
-      "group": "DGROUP",
-      "kind": "near-data-alias",
-      "offset": 25232,
-      "width": 1,
+    "REMOVE_TIMER_HOOK": {
+      "entry_sha256": "b1c9f06207c3faddf5c23680a4bd705b469ea40869aa1066aabb3dbfd13230c4",
+      "entry_target_id": "root:1101:7e55",
+      "kind": "near-code-entry",
+      "offset": 32341,
+      "segment": 4353,
+      "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "803e906200",
-          "context": "Independent root direct byte CMP after PUSH SI at separately far-referenced entry 02cc:0ee8 (root position 0x3ba8).",
-          "image_offset": 15273,
-          "operand_offset": 2,
+          "bytes_hex": "0ee80200",
+          "entry": "root:1101:7e41",
+          "image_offset": 101983,
+          "space": "root"
+        }
+      ]
+    },
+    "TIMER_DESCRIPTOR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8512,
+      "witnesses": [
+        {
+          "bytes_hex": "ba4021",
+          "context": "mov dx, 0x2140 reached from root:1101:335b",
+          "entry": "root:1101:335b",
+          "image_offset": 81685,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
     }
   },
-  "target_id": "overlay-12:2c3e:0042",
+  "target_id": "group:sound2/stop_driver_timer",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

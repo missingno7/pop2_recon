@@ -7,6 +7,21 @@ EXTRN COALESCE_FREE_BLOCKS:NEAR
 EXTRN EVICT_MOVABLE_BLOCK:NEAR
 PUBLIC PREPARE_BACKING_ALLOCATION, MOVE_HUGE_BYTES
 
+
+PUBLIC RELEASE_HEAP_SEGMENT
+RELEASE_HEAP_SEGMENT PROC FAR
+    les bx, HEAP_STATE
+    mov dx, es:[0ch]
+    test dx, dx
+    jz release_dos_block
+    mov ah, 45h
+    int 67h
+release_dos_block:
+    mov ah, 49h
+    int 21h
+    retf
+RELEASE_HEAP_SEGMENT ENDP
+
 PREPARE_BACKING_ALLOCATION PROC FAR
     push bp
     mov bp, sp

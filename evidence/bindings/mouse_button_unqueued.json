@@ -3,6 +3,7 @@
     "externals": [
       "MOUSE_BUTTON_DOWN",
       "EVENT_RECORDS",
+      "MOUSE_PRESENT",
       "EVENT_COUNT"
     ],
     "groups": [
@@ -17,8 +18,17 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "MOUSE_BUTTON_UNQUEUED",
+        "name": "RESTORE_DOS_VECTORS",
         "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOUSE_BUTTON_UNQUEUED",
+        "offset": 53,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -32,7 +42,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 49,
+        "length": 102,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -44,14 +54,131 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 0,
+        "length": 16,
         "name": "_DATA",
         "overlay": "",
         "use32": false
       }
     ]
   },
+  "dgroup_segment": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
+      }
+    ]
+  },
   "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 3,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": 4,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 13,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 8,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 23,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": 12,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 33,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "segment",
+        "method": 0,
+        "name": "_DATA"
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 43,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "MOUSE_PRESENT",
+        "zero_displacement": true
+      }
+    },
     {
       "displacement": null,
       "field_width": 2,
@@ -64,7 +191,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 8,
+      "segment_offset": 61,
       "self_relative": true,
       "target": {
         "index": 1,
@@ -86,10 +213,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 16,
+      "segment_offset": 69,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "EVENT_COUNT",
@@ -108,7 +235,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 21,
+      "segment_offset": 74,
       "self_relative": false,
       "target": {
         "index": 2,
@@ -133,6 +260,9 @@
     }
   },
   "mode": "external-dgroup-offset16-v4",
+  "placements": {
+    "_DATA": 10114
+  },
   "schema": 1,
   "symbols": {
     "EVENT_COUNT": {
@@ -173,6 +303,21 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "MOUSE_PRESENT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9678,
+      "witnesses": [
+        {
+          "bytes_hex": "8b0ece25",
+          "context": "mov cx, word ptr [0x25ce] reached from root:1101:4f10",
+          "entry": "root:1101:4f10",
+          "image_offset": 71051,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:mouse_button_unqueued",
