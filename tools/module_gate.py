@@ -25,7 +25,7 @@ import struct
 
 from binding import (IMMEDIATE_MODE, OPERAND_MODE, data_context, data_equations, declarations, fixes, ground,
                      instructions, preserve_segments)
-from far_binding import ground_symbol as far_ground, relocation_order
+from far_binding import FAR_KINDS, ground_symbol as far_ground, relocation_order
 
 DATA_MODES = ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
               "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE, OPERAND_MODE)
@@ -137,7 +137,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         # Far callees (other files) ground exactly as in the single-function far gate:
         # a reviewed direct entry plus independent relocated CALL FAR witnesses, all
         # outside the whole object. Data symbols use the DGROUP modes.
-        far_symbols = {n: s for n, s in binding["symbols"].items() if s.get("kind") == "far-code-entry"}
+        far_symbols = {n: s for n, s in binding["symbols"].items() if s.get("kind") in FAR_KINDS}
         data_only = {n: s for n, s in binding["symbols"].items() if n not in far_symbols}
         for symbol in far_symbols.values():
             require(space.name == "root", "Group far calls are supported in root only")

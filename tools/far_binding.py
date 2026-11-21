@@ -11,22 +11,58 @@ from common import require, sha
 from disasm import _capstone
 
 
+FAR_KINDS = ("far-code-entry", "rtlink-vector", "overlay-code-entry")
+
+
+def _vector(oracle, segment, offset):
+    """The original RTLink vector record at root SEGMENT:OFFSET, decoded by the census rules."""
+    from tu_census import overlay_vectors
+    overlays = {n: s for n, s in oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+    vectors = overlay_vectors(oracle, overlays)
+    require((segment, offset) in vectors, "Far callee alias is not an original RTLink vector")
+    return vectors[(segment, offset)]
+
+
 def ground_symbol(symbol, target, oracle):
+    """Ground one far callee alias S = SEG:OFF independently of the candidate.
+
+    far-code-entry: a reviewed resident direct-code entry. overlay-code-entry: a
+    reviewed direct-code entry in a named overlay (the call relies on that overlay
+    being loaded, as the original's direct call does). rtlink-vector: an original
+    RTLink vector record in root, whose decoded destination is recorded. In every
+    case independent relocated CALL FAR witnesses outside the candidate name S.
+    """
     from match import get_target
-    require(symbol.get("kind") == "far-code-entry" and symbol.get("space") == "root",
-            "Far binding refuses overlay/vector/unknown code aliases")
+    kind = symbol.get("kind")
+    require(kind in FAR_KINDS, "Unsupported far callee kind")
     require(type(symbol["segment"]) is int and type(symbol["offset"]) is int and
             0 <= symbol["segment"] <= 65535 and 0 <= symbol["offset"] <= 65535,
             "Far code alias must be an exact 16:16 pair")
-    callee, space, raw = get_target(symbol["entry_target_id"], oracle)
-    require(callee.get("entry_kind") == "direct-code" and callee["space"] == "root" and
-            (callee["segment"], callee["offset"]) == (symbol["segment"], symbol["offset"]) and
-            callee["sha256"] == symbol["entry_sha256"],
-            "Far callee is not the frozen reviewed direct-code entry (vectors refused)")
+    space = oracle.spaces[target["space"]]
     start = space.position(target["segment"], target["offset"])
     end = start+target["size"]
-    entry = space.position(callee["segment"], callee["offset"])
-    require(not (entry < end and start < entry+len(raw)), "Far callee entry overlaps candidate")
+    destination = None
+    if kind == "rtlink-vector":
+        require(symbol.get("space") == "root", "RTLink vectors are resident")
+        vector = _vector(oracle, symbol["segment"], symbol["offset"])
+        entry, size = vector["position"], 10
+        require(target["space"] != "root" or not (entry < end and start < entry+size),
+                "Far callee vector overlaps candidate")
+        destination = {k: vector[k] for k in ("target_space", "target_segment", "target_offset", "descriptor_index")}
+        callee = {"id": f"root:{symbol['segment']:04x}:{symbol['offset']:04x}"}
+    else:
+        require(kind != "far-code-entry" or symbol.get("space") == "root",
+                "Resident far-code-entry refuses overlay/vector aliases (use overlay-code-entry or rtlink-vector)")
+        callee, cspace, raw = get_target(symbol["entry_target_id"], oracle)
+        expected_space = "root" if kind == "far-code-entry" else symbol.get("space")
+        require(callee.get("entry_kind") == "direct-code" and callee["space"] == expected_space and
+                (kind == "far-code-entry") == (expected_space == "root") and
+                (callee["segment"], callee["offset"]) == (symbol["segment"], symbol["offset"]) and
+                callee["sha256"] == symbol["entry_sha256"],
+                "Far callee is not the frozen reviewed direct-code entry")
+        entry = cspace.position(callee["segment"], callee["offset"])
+        require(cspace.name != space.name or not (entry < end and start < entry+len(raw)),
+                "Far callee entry overlaps candidate")
     require(symbol.get("witnesses"), "Far callee has no independent original CALL witness")
     receipts = []
     for spec in symbol["witnesses"]:
@@ -49,8 +85,9 @@ def ground_symbol(symbol, target, oracle):
                 spec["file_offset"] == wspace.file_offset+at,
                 "Independent far CALL relocation/file provenance differs")
         receipts.append({"space": wspace.name, "image_offset": at, "relocation_index": relocs[0]["index"]})
-    return {"entry_target_id": callee["id"], "segment": symbol["segment"],
-            "offset": symbol["offset"], "witnesses": receipts, "callee_owned_bytes": 0}
+    return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
+            "offset": symbol["offset"], "witnesses": receipts, "callee_owned_bytes": 0,
+            **({"vector_destination": destination} if destination else {})}
 
 
 ORDER_DEBT = ["Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"]
@@ -108,7 +145,7 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
     symbols = binding["symbols"]
     require(set(symbols) == {f["target"].get("name") for f in obligations},
             "Missing or unused grounded far/data symbol")
-    far_symbols = {n: s for n, s in symbols.items() if s.get("kind") == "far-code-entry"}
+    far_symbols = {n: s for n, s in symbols.items() if s.get("kind") in FAR_KINDS}
     data_symbols = {n: s for n, s in symbols.items() if s.get("kind") == "near-data-alias"}
     require(far_symbols and len(far_symbols)+len(data_symbols) == len(symbols),
             "Far binding refuses overlay/vector/unknown code aliases")

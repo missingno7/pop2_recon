@@ -297,3 +297,23 @@ class FarBindingTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class FarCalleeKindTests(unittest.TestCase):
+    """RTLink vectors and overlay entries ground like resident entries; nothing else does."""
+
+    def ground(self, **symbol):
+        from far_binding import ground_symbol
+        from oracle import Oracle
+        target = {"id": "probe", "space": "root", "segment": 0, "offset": 0, "size": 2}
+        base = {"witnesses": [{"space": "root", "image_offset": 10987, "bytes_hex": "9adb0c0322",
+                               "relocation_index": 248, "file_offset": 8192 + 10987}]}
+        return ground_symbol({**base, **symbol}, target, Oracle.load())
+
+    def test_original_rtlink_vector_is_grounded_with_its_destination(self):
+        result = self.ground(kind="rtlink-vector", space="root", segment=0x2203, offset=0x0cdb)
+        self.assertEqual(result["vector_destination"]["target_space"], "overlay-2")
+
+    def test_address_that_is_not_a_vector_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "not an original RTLink vector"):
+            self.ground(kind="rtlink-vector", space="root", segment=0x2203, offset=0x0cdc)
