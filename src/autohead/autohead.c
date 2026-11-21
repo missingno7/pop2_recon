@@ -54,7 +54,10 @@ extern int current_sprite_frame, snake_distance;
 extern unsigned char collision_room, collision_column, collision_row;
 extern unsigned char room_opponents[][116];
 extern signed char first_chomp[], last_chomp[];
-extern int flee_length[], cell_x[];
+static const int flee_length[12] = {
+    70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15
+};
+extern int cell_x[];
 extern signed char move_with_facing[], move_against_facing[];
 
 extern signed char far pascal read_tile(unsigned char room, signed char column, signed char row);
@@ -118,7 +121,7 @@ void far pascal unused_head_entry(void)
 void far pascal align_head_on_kid_neck(void)
 {
     signed char neck_x;
-    SpriteBounds bounds;
+    volatile SpriteBounds bounds;
     register HeadSprite near *body;
     register NeckPoint far *neck;
 
@@ -130,7 +133,7 @@ void far pascal align_head_on_kid_neck(void)
     if (body_facing != actor_facing)
         neck_x = neck[body->frame].y;
     else {
-        sprite_dimensions(kid_sheet, kid_frame, &bounds);
+        sprite_dimensions(kid_sheet, kid_frame, (SpriteBounds far *)&bounds);
         neck_x = -((actor_kind == 7 ? 10 : 16) + neck[body->frame].y + bounds.top);
     }
     if (actor_kind == 8)
@@ -150,10 +153,8 @@ int far pascal head_visibility(void)
     int clear = 1;
     int result;
 
-    if (target_column == actor_column && target_row == actor_row) {
-        result = 4;
-        goto done;
-    }
+    if (target_column == actor_column && target_row == actor_row)
+        return 4;
 
     row = actor_row * 2;
     column = actor_column * 2;
@@ -164,10 +165,16 @@ int far pascal head_visibility(void)
     if ((target_x - 130) % 32 > 16)
         ++end_column;
 
-    rows = abs((int)end_row - (int)row);
+    {
+        int delta = end_row - row;
+        rows = delta < 0 ? -delta : delta;
+    }
     step_column = column < end_column ? 1 : -1;
     step_row = row < end_row ? 1 : -1;
-    columns = abs((int)end_column - (int)column);
+    {
+        int delta = end_column - column;
+        columns = delta < 0 ? -delta : delta;
+    }
 
     if (rows < columns) {
         error = rows * 2 - columns;
@@ -229,7 +236,6 @@ int far pascal head_visibility(void)
             result = step_column > 0 ? 1 : 0;
     } else
         result = -1;
-done:
     return result;
 }
 
@@ -304,8 +310,14 @@ void far pascal head_attack_prog(HeadPlan near *plan)
         return;
     }
     plan->direction = 1;
-    dx = abs(actor_column - target_column);
-    dy = abs(actor_row - target_row);
+    {
+        int delta = actor_column - target_column;
+        dx = delta < 0 ? -delta : delta;
+    }
+    {
+        int delta = actor_row - target_row;
+        dy = delta < 0 ? -delta : delta;
+    }
     if (dy == 0 && dx < 2) {
         vertical_sequence = target_x > actor_x;
         if (dx == 0 || head_clear_in_dir(vertical_sequence)) {
@@ -559,14 +571,14 @@ int far pascal head_go_to_dest(HeadPlan near *plan)
                 select_animation_sequence(sequence);
         }
         if (!clear && plan->column != actor_column) {
-            sequence = plan->column > actor_column ? 1 : 0;
+            sequence = actor_column >= plan->column ? 0 : 1;
             clear = head_clear_in_dir(sequence);
             if (clear && actor_sequence != 142)
                 select_animation_sequence(142);
         }
     }
     if (!clear)
-        head_get_peaceful(plan);
+        head_get_peaceful(*(HeadPlan near *volatile *)&plan);
     return clear;
 }
 
@@ -726,7 +738,7 @@ done:
 
 int far pascal is_able_to_flee_in_room(unsigned char room)
 {
-    signed char slot, count;
+    signed char count, slot;
     int room_number = room;
     int available;
 
@@ -734,7 +746,7 @@ int far pascal is_able_to_flee_in_room(unsigned char room)
     if (count > 1) {
         available = 1;
         slot = 0;
-        while (slot < count &&
+        while (count > slot &&
                (available = get_opponent_info(*(volatile int *)&room_number, slot)->mode != 2,
                 ++slot, available))
             ;
@@ -756,12 +768,12 @@ int far pascal just_start_vertical_seq(void)
 {
     int baseline = actor_row * 63 + 37;
     int result;
-    if (actor_sequence == 144) {
-        if (actor_y > baseline)
+    if (actor_sequence != 144) {
+        if (actor_sequence == 143 && actor_y < baseline)
             result = 1;
         else
             result = 0;
-    } else if (actor_sequence == 143 && actor_y < baseline)
+    } else if (actor_y > baseline)
         result = 1;
     else
         result = 0;
@@ -838,7 +850,7 @@ void far pascal snake_attack(OpponentRecord near *record)
 
 void far pascal snake_come_out_of_hole(OpponentRecord near *record)
 {
-    signed char tile;
+    signed char tile, column;
     volatile signed char left, right;
     if (--record->mode > 0)
         return;
@@ -846,8 +858,9 @@ void far pascal snake_come_out_of_hole(OpponentRecord near *record)
     left = last_clear_column(actor_room, actor_column, actor_row, -1);
     right = last_clear_column(actor_room, actor_column, actor_row, 1);
     tile = tile_under_actor();
+    column = actor_column;
     if (target_room == actor_room && actor_row == target_row &&
-        actor_column > left && actor_column < right) {
+        column > left && column < right) {
         if (actor_column <= target_column &&
             (!tile_blocks_head(tile) || tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128))))
             actor_facing = 0;
