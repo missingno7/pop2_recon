@@ -18514,6 +18514,108 @@
       "size": 68,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry without stack arguments or a consumed result, bare RETF.",
+      "boundary_evidence": [
+        "Independent original root+0e3c is 9a64004423 with MZ index 124. The overlay-3 alias starts with a BP frame after RETF 2 and NOP 0063. The same coordinate in overlay 2 is an internal JMP, not this entry.",
+        "Decoded control from 0064 stays within the interval and converges at the DI/SI restore and RETF at 03df. Another BP frame starts at 03e0.",
+        "The original branch from 0138 reaches the indexed actor record and the horizontal and vertical velocity stores at 0151 and 0156 on character kind 6, nonzero record Y, and sequence 12."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 11836,
+          "image_offset": 3644,
+          "kind": "far_call",
+          "relocated_segment_site": 3647,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Installs actor records during room setup."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0064",
+      "offset": 100,
+      "original_bytes_hex": "558bec83ec0257560ee870032bffb074f626345e8bd88a87f5448846ff0ac07f03e90603a0345e2ae450570ee821088bf0803e6845057425803e684506741e807c0f017418807c0f097412807c0f0a740c807c0f037406a0684588440f8a440f988bd88a875a00a2065ca0f00638440f742c803e6845057425803e684506741e803e065c0b7417803e065c007410803e065c0674098a440f509a42085c0a8bc7a2005ca0345ea20e5c8a04b10a98f6f9a20a5c803c007d04fe0e0a5c803e065c027511837c0564740275098b4411a3045ceb2c90803e065c06751f837c150074198b4415a3045c837c050c7512c6060c5c02c6060d5c12eb06909aa207cc028b4401a3025c509ac010cc02a2095c8a4403a2015c8a440da2385c8a440ea2395cc7062a5c00002bc0a3265ca3285ca3245c2ac0a2235ca23a5c3806065c7509c706345c0200eb4890803e065c06751bc706345c0400b8a96150b8200050b01050b007509a0a2b8a07eb25803e6845007417803e6845057410803e6845067409c706345c0400eb08908a44090ee8b70c837c07007403e9a000803e065c047509569a34133e2ceb7f90803e065c077471803e065c08746a803e065c0b7463803e065c0a75409ad809cc02509a04288a070bc0740dc744056900c606105c00eb4990c744056a00c606105c01c606235c03a1025c3906825c7f04b0ffeb022ac0a2015ceb2590803e065c067507c744050200eb16837c051674c0c744054d00ebb990569a1a043e2c8bf0ff74059a1600da25560ee86ffdeb3390c6060f5c018b4405a3175c8b4407a3155c8b4405a3195c8a440ba2105c8a440ca2145ca2125c803e065c007405560ee874fd9a9403cc02ff36075c9af61acc020bc07444803e065c00743d803e065c0275059a52003e2cc606115c072ac0a20f5ca2125ca0135cf6d8a2145c803e065c047407803e065c0a7533a0005c502bc0509a6a123e2ceb25c606115cff2bc0a39862a3466aa34e6a803e065c0b750e813e075c08017506c706245c0600803e065c06750e833e195c0c7507c6060b5c04eb1f9a4409cc02803e065c07740e803e065c087407c6060b5c01eb05c6060b5c009af61ccc028a46ff98473bc77e03e9fafc807eff007546803e49450c7519803e345e0b7407803e345e13750b803ef006017404b001eb20b022f626345e8bd880bfd953007417a068453806f006740e3c05740a3c067406509a42085c0a5e5f8be55dcb",
+      "original_name": null,
+      "segment": 9028,
+      "semantic_name_hypothesis": "initialize_room_actors",
+      "sha256": "04b2d7c5f0bb33a5025da382ecac214f71648380c27d638ea918ce5c852c7efb",
+      "size": 892,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry without stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "Independent original root+ec50 is 9a0e09cc02 with MZ index 1292.",
+        "Gravity ends at RETF 090d. The next comparison starts at 090e. Both directions of the final guard reach RETF 0943, followed by the ClearCharVel entry at 0944.",
+        "PUSH CS/CALL pairs target 0360 and 027e. No original MZ word touches the extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68688,
+          "image_offset": 60496,
+          "kind": "far_call",
+          "relocated_segment_site": 60499,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Applies signed vertical velocity and conditionally adjusts and refreshes the horizontal position."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:090e",
+      "offset": 2318,
+      "original_bytes_hex": "813e045cd0077d2da00d5c980106045c803e0b5c04740e803e065c077407803e065c087510a00c5c98500ee824faa3025c0ee83bf9cb",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "add_char_velocity",
+      "sha256": "3c1ab6d6103b8f06962e0a9ba2b1c1f54b7ef239933a8ba1a187feb7d336cc65",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Signed byte amount in a Pascal word slot at BP+6. AX boolean and RETF 2.",
+      "boundary_evidence": [
+        "Independent relocated 9A at root+10572, relocation index 1366.",
+        "Prior RETF 094c and NOP 094d. New BP frame at 094e. Branches converge on the return preparation at 09cf, followed by RETF 2 at 09d4 and NOP 09d7 before the independently entered 09d8.",
+        "No touching original MZ relocations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 75122,
+          "image_offset": 66930,
+          "kind": "far_call",
+          "relocated_segment_site": 66933,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clamps a signed pending damage value and reports exhausted life, with a state-dependent exemption."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:094e",
+      "offset": 2382,
+      "original_bytes_hex": "558bec2bd2803e065c047523803e494505751c803e0a5c017515803e0e5c0a7460803e0e5c077459803e0e5c0c74528a46063806125c7f1ea0125c98f7d88bc8a0145c983bc87d08a0125cf6d8a2145cba0100eb2c90a0145c98f7d88bc88a4606983bc87d08f6d8a2145ceb1490a0125c988bc8a0145c9803c883f9011bd2f7da8bc28be55dca020090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "decrement_life_points",
+      "sha256": "9bdfa1c302b1c3f0b0ec29549795bd2da5d6f481ee8b3730a44ad37718496498",
+      "size": 138,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

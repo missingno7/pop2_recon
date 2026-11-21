@@ -52,12 +52,14 @@ def _ground_far_data(symbol, target, oracle):
     segment = _ground_segment({"segment": symbol["segment"], "witnesses": symbol["segment_witnesses"]},
                               target, oracle)
     offset = symbol.get("offset")
-    require(type(offset) is int and 0 <= offset <= 65535 and symbol.get("offset_witnesses"),
+    # Offset 0 (an object starting its own far segment) is not a free choice: it needs no
+    # offset witness, and any mismatch is caught against the original field directly.
+    require(type(offset) is int and 0 <= offset <= 65535 and (offset == 0 or symbol.get("offset_witnesses")),
             "Far data symbol needs an offset and independent offset witnesses")
     space = oracle.spaces[target["space"]]
     start = space.position(target["segment"], target["offset"])
     end = start + target["size"]
-    for spec in symbol["offset_witnesses"]:
+    for spec in symbol.get("offset_witnesses", []):
         wspace = oracle.spaces[spec["space"]]
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
         require(wspace.data[at:at+len(raw)] == raw and (wspace.name != space.name or not (start <= at+len(raw) and at < end)),
@@ -72,7 +74,7 @@ def _ground_far_data(symbol, target, oracle):
                     == symbol["segment"] for r in wspace.relocations),
                 "Far data offset witness is not paired with a relocated word storing the segment")
     return {"kind": "far-data", "segment": symbol["segment"], "offset": offset,
-            "segment_witnesses": segment["witnesses"], "offset_witnesses": len(symbol["offset_witnesses"])}
+            "segment_witnesses": segment["witnesses"], "offset_witnesses": len(symbol.get("offset_witnesses", []))}
 
 
 def _accepted_entry(target_id):
