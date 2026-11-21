@@ -13140,6 +13140,990 @@
       "size": 146,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal: unsigned byte in BP+6 word slot; RETF 2; no result used.",
+      "boundary_evidence": [
+        "Original root interval [0xf772,0xf7a6) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xf7a6.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:0032; original alignment NOP retained where present.",
+        "Incoming far_call at root+0x2de7 encodes this original entry.",
+        "Zero-extends a room byte, writes the word room index, and selects a byte tile base with stride 30 and a four-byte info base with stride 120 when room is nonzero."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0200770f",
+          "file_offset": 19943,
+          "image_offset": 11751,
+          "kind": "far_call",
+          "relocated_segment_site": 11754,
+          "relocation_index": 306,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:0002",
+      "offset": 2,
+      "segment": 3959,
+      "sha256": "1fd4a78cb4294ace8c159fe2256530af90f1c99cd25751b4e238fb61ddbf22a5",
+      "size": 52,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: room byte BP+8, signed cell word BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xf7a6,0xf81a) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xf81a.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:00a6; original alignment NOP retained where present.",
+        "Incoming far_call at root+0xb87d encodes this original entry.",
+        "Signed IDIV 10 takes DL as column. Local, above and below rooms retain that value; left and right groups substitute -1 or 11 only at the two edges. Other cells return 30."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a3600770f",
+          "file_offset": 55421,
+          "image_offset": 47229,
+          "kind": "far_call",
+          "relocated_segment_site": 47232,
+          "relocation_index": 983,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:0036",
+      "offset": 54,
+      "original_name": "CellToCol",
+      "original_name_evidence": [
+        "FM Towns MISC.C @CellToCol at 293d:000e, paired by the original DOS operation and argument use.",
+        "Signed IDIV 10 takes DL as column. Local, above and below rooms retain that value; left and right groups substitute -1 or 11 only at the two edges. Other cells return 30."
+      ],
+      "segment": 3959,
+      "sha256": "f3b13c654924c8afe07097a3b822448439448d03186e6cf2e21fc78d09287e3d",
+      "size": 116,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: room byte BP+8, signed cell word BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xf81a,0xf878) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xf878.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:0104; original alignment NOP retained where present.",
+        "Incoming far_call at root+0xb891 encodes this original entry.",
+        "Signed IDIV 10 takes AL as row. Left, current and right rooms retain it; the above-room last and below-room first rows adjust to -1 and 3. Other cells return 30."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aaa00770f",
+          "file_offset": 55441,
+          "image_offset": 47249,
+          "kind": "far_call",
+          "relocated_segment_site": 47252,
+          "relocation_index": 1030,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:00aa",
+      "offset": 170,
+      "original_name": "CellToRow",
+      "original_name_evidence": [
+        "FM Towns MISC.C @CellToRow at 293d:0078, paired by the original DOS operation and argument use.",
+        "Signed IDIV 10 takes AL as row. Left, current and right rooms retain it; the above-room last and below-room first rows adjust to -1 and 3. Other cells return 30."
+      ],
+      "segment": 3959,
+      "sha256": "279c98abfe80574b2e143cd2fe2a60833fd102457ffad6bf5683b098dd98ae27",
+      "size": 94,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: far Rect pointer BP+10/BP+12 and two signed words BP+8/BP+6; RETF 8.",
+      "boundary_evidence": [
+        "Original root interval [0xf878,0xf8d4) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xf8d4.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:0161; original alignment NOP retained where present.",
+        "Incoming far_call at root+0xc175 encodes this original entry.",
+        "Two indexed word tables produce the four rectangle edges using height 32 and width 63. Calls the rectangle intersection helper and may adjust the left edge by 3."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0801770f",
+          "file_offset": 57717,
+          "image_offset": 49525,
+          "kind": "far_call",
+          "relocated_segment_site": 49528,
+          "relocation_index": 1028,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:0108",
+      "offset": 264,
+      "original_name": "ComputeClipRect",
+      "original_name_evidence": [
+        "FM Towns MISC.C @ComputeClipRect at 293d:00b8, paired by the original DOS operation and argument use.",
+        "Two indexed word tables produce the four rectangle edges using height 32 and width 63. Calls the rectangle intersection helper and may adjust the left edge by 3."
+      ],
+      "segment": 3959,
+      "sha256": "d853cfc8fe7e06d6ec82771cf528daf8299015640ec6d97991de8efc61a07028",
+      "size": 92,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: near output and input pointers BP+12/BP+10, signed words BP+8/BP+6, near result AX; RETF 8.",
+      "boundary_evidence": [
+        "Original root interval [0xf8d4,0xf920) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xf920.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:01ac; original alignment NOP retained where present.",
+        "Incoming far_call at root+0xb898 encodes this original entry.",
+        "Rejects either coordinate equal to 30. Offsets a rectangle by 32 and 63 times its coordinates, intersects it with the screen rectangle, and returns the near destination or null."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a6401770f",
+          "file_offset": 55448,
+          "image_offset": 47256,
+          "kind": "far_call",
+          "relocated_segment_site": 47259,
+          "relocation_index": 1049,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:0164",
+      "offset": 356,
+      "original_name": "ComputeOffsetCellRect",
+      "original_name_evidence": [
+        "FM Towns MISC.C @ComputeOffsetCellRect at 293d:010d, paired by the original DOS operation and argument use.",
+        "Rejects either coordinate equal to 30. Offsets a rectangle by 32 and 63 times its coordinates, intersects it with the screen rectangle, and returns the near destination or null."
+      ],
+      "segment": 3959,
+      "sha256": "240b4d30c7994b56bd14c36bdc0428e4e0f3cf3c1b85a58a3ca5f550418f8361",
+      "size": 76,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: no arguments, RETF.",
+      "boundary_evidence": [
+        "Original root interval [0xf920,0xfa64) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfa64.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:02f2; original alignment NOP retained where present.",
+        "Incoming far_call at root+0x7a28 encodes this original entry.",
+        "Skips when the view row is -1. Selects the current or above room and fills edge slots 1 through 10, then the left slot 0, before restoring room state."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ab001770f",
+          "file_offset": 39464,
+          "image_offset": 31272,
+          "kind": "far_call",
+          "relocated_segment_site": 31275,
+          "relocation_index": 720,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:01b0",
+      "offset": 432,
+      "original_name": "GetAboveAry",
+      "original_name_evidence": [
+        "FM Towns MISC.C @GetAboveAry at 293d:015c, paired by the original DOS operation and argument use.",
+        "Skips when the view row is -1. Selects the current or above room and fills edge slots 1 through 10, then the left slot 0, before restoring room state."
+      ],
+      "segment": 3959,
+      "sha256": "8907ab37adf33879ef25abf93f423c20a62a07dfa77d65b7fcd3ee9faf40029c",
+      "size": 324,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: no arguments, RETF.",
+      "boundary_evidence": [
+        "Original root interval [0xfa64,0xfb0e) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfb0e.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:039d; original alignment NOP retained where present.",
+        "Incoming far_call at root+0x7a2d encodes this original entry.",
+        "Selects the current or below room, fills edge slots 1 through 10 and the left slot 0, then restores the current room."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9af402770f",
+          "file_offset": 39469,
+          "image_offset": 31277,
+          "kind": "far_call",
+          "relocated_segment_site": 31280,
+          "relocation_index": 756,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:02f4",
+      "offset": 756,
+      "original_name": "GetBelowAry",
+      "original_name_evidence": [
+        "FM Towns MISC.C @GetBelowAry at 293d:035f, paired by the original DOS operation and argument use.",
+        "Selects the current or below room, fills edge slots 1 through 10 and the left slot 0, then restores the current room."
+      ],
+      "segment": 3959,
+      "sha256": "b317b860b6bb745b53ca22d7c54bfc423b978350b41535100a15841fbdeba6cf",
+      "size": 170,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: room, column and row low bytes BP+16/BP+14/BP+12, near output pointers BP+10/BP+8, fallback byte BP+6, result AL; RETF 12.",
+      "boundary_evidence": [
+        "Original root interval [0xfb0e,0xfc5c) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfc5c.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:04e8; original alignment NOP retained where present.",
+        "Incoming push_cs_near_call at root+0xf9bf encodes this original entry.",
+        "Looks up a tile byte and a four-byte info field across cached side columns, active-room cells or level-specific fallback paths, and returns the byte."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "0ee84c01",
+          "file_offset": 72127,
+          "image_offset": 63935,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 63934,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:039e",
+      "offset": 926,
+      "original_name": "GetObject",
+      "original_name_evidence": [
+        "FM Towns MISC.C @GetObject at 293d:0469, paired by the original DOS operation and argument use.",
+        "Looks up a tile byte and a four-byte info field across cached side columns, active-room cells or level-specific fallback paths, and returns the byte."
+      ],
+      "segment": 3959,
+      "sha256": "44e6dd3bd8d24d9859abe534daa48a09d38c89f570ecc8f5f9cb0b58fdbc77ff",
+      "size": 334,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: signed column and row bytes BP+8/BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xfc5c,0xfcea) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfcea.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:0577; original alignment NOP retained where present.",
+        "Incoming far_call at root+0xa563 encodes this original entry.",
+        "Steps up a row or crosses to the above room, resolves either horizontal crossing, and returns a tile byte or 1."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aec04770f",
+          "file_offset": 50531,
+          "image_offset": 42339,
+          "kind": "far_call",
+          "relocated_segment_site": 42342,
+          "relocation_index": 743,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:04ec",
+      "offset": 1260,
+      "original_name": "PieceAboveId",
+      "original_name_evidence": [
+        "FM Towns MISC.C @PieceAboveId at 293d:060b, paired by the original DOS operation and argument use.",
+        "Steps up a row or crosses to the above room, resolves either horizontal crossing, and returns a tile byte or 1."
+      ],
+      "segment": 3959,
+      "sha256": "5eefa83b7507520721a83645acdf1260268d95722af9711868fc05332b557381",
+      "size": 142,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: signed column and row bytes BP+8/BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xfcea,0xfd7e) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfd7e.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:060b; original alignment NOP retained where present.",
+        "Incoming far_call at root+0xa595 encodes this original entry.",
+        "Steps up and right, handling both horizontal boundary cases and substituting 1 for a missing room."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a7a05770f",
+          "file_offset": 50581,
+          "image_offset": 42389,
+          "kind": "far_call",
+          "relocated_segment_site": 42392,
+          "relocation_index": 809,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:057a",
+      "offset": 1402,
+      "original_name": "PieceAboveRightId",
+      "original_name_evidence": [
+        "FM Towns MISC.C @PieceAboveRightId at 293d:06b0, paired by the original DOS operation and argument use.",
+        "Steps up and right, handling both horizontal boundary cases and substituting 1 for a missing room."
+      ],
+      "segment": 3959,
+      "sha256": "3e842ed519dedfd395b34b602864d3c77c7e464c55fc7f65637267c0dcc19813",
+      "size": 148,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: signed column and row bytes BP+8/BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xfd7e,0xfe20) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfe20.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:06ad; original alignment NOP retained where present.",
+        "Incoming far_call at overlay-9+0x127a encodes this original entry.",
+        "Steps down, handles the below room and both horizontal crossings, and substitutes 20 for a missing room."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0e06770f",
+          "file_offset": 236506,
+          "image_offset": 4730,
+          "kind": "far_call",
+          "relocated_segment_site": 4733,
+          "relocation_index": 79,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:060e",
+      "offset": 1550,
+      "original_name": "PieceBelowId",
+      "original_name_evidence": [
+        "FM Towns MISC.C @PieceBelowId at 293d:075f, paired by the original DOS operation and argument use.",
+        "Steps down, handles the below room and both horizontal crossings, and substitutes 20 for a missing room."
+      ],
+      "segment": 3959,
+      "sha256": "35f72e937dfbd87c6e5422652ad6ef854511759a68b774fba092930d711d4c03",
+      "size": 162,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: signed column and row bytes BP+8/BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xfe20,0xfe9e) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xfe9e.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:072b; original alignment NOP retained where present.",
+        "Incoming far_call at overlay-6+0x1188 encodes this original entry.",
+        "Steps left and resolves the left room and below-left corner. Returns the tile byte or 20."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ab006770f",
+          "file_offset": 219880,
+          "image_offset": 4488,
+          "kind": "far_call",
+          "relocated_segment_site": 4491,
+          "relocation_index": 124,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:06b0",
+      "offset": 1712,
+      "original_name": "PieceLeftId",
+      "original_name_evidence": [
+        "FM Towns MISC.C @PieceLeftId at 293d:0819, paired by the original DOS operation and argument use.",
+        "Steps left and resolves the left room and below-left corner. Returns the tile byte or 20."
+      ],
+      "segment": 3959,
+      "sha256": "c01d568c741120b4c29dda45189c6475911fc455439987822f2459c7d31aecaa",
+      "size": 126,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: signed column and row bytes BP+8/BP+6, result AL; RETF 4.",
+      "boundary_evidence": [
+        "Original root interval [0xfe9e,0xff3a) starts with a fresh BP frame after a closed return; the next BP prologue is at 0xff3a.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:07c7; original alignment NOP retained where present.",
+        "Incoming far_call at overlay-6+0xcec encodes this original entry.",
+        "Steps right and resolves the right room and diagonal cases. Returns the tile byte or 20."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a2e07770f",
+          "file_offset": 218700,
+          "image_offset": 3308,
+          "kind": "far_call",
+          "relocated_segment_site": 3311,
+          "relocation_index": 92,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:072e",
+      "offset": 1838,
+      "original_name": "PieceRightId",
+      "original_name_evidence": [
+        "FM Towns MISC.C @PieceRightId at 293d:08ae, paired by the original DOS operation and argument use.",
+        "Steps right and resolves the right room and diagonal cases. Returns the tile byte or 20."
+      ],
+      "segment": 3959,
+      "sha256": "645828ae661d982ace94d3c7d4aeeaf12584ac646fe27e63b887cdb934311a9f",
+      "size": 156,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: no arguments, RETF.",
+      "boundary_evidence": [
+        "Original root interval [0xff3a,0x1001c) starts with a fresh BP frame after a closed return; the next BP prologue is at 0x1001c.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:08aa; original alignment NOP retained where present.",
+        "Incoming far_call at root+0x7a3c encodes this original entry.",
+        "Chooses the clipping rectangle and missing tile code, reads current/left/right tiles, and conditionally sets high info bits."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aca07770f",
+          "file_offset": 39484,
+          "image_offset": 31292,
+          "kind": "far_call",
+          "relocated_segment_site": 31295,
+          "relocation_index": 856,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:07ca",
+      "offset": 1994,
+      "original_name": "SetLocVars",
+      "original_name_evidence": [
+        "FM Towns MISC.C @SetLocVars at 293d:0963, paired by the original DOS operation and argument use.",
+        "Chooses the clipping rectangle and missing tile code, reads current/left/right tiles, and conditionally sets high info bits."
+      ],
+      "segment": 3959,
+      "sha256": "49e48a7f4b27c11c025afa441aa33842bbcdfa163cc02ff554fa216cde4d0409",
+      "size": 226,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal: no arguments, RETF.",
+      "boundary_evidence": [
+        "Original root interval [0x1001c,0x100de) starts with a fresh BP frame after a closed return; the next BP prologue is at 0x100de.",
+        "Complete decode with all jump destinations at in-extent instruction starts. RETF at 0f77:096d; original alignment NOP retained where present.",
+        "Incoming far_call at root+0x7a1e encodes this original entry.",
+        "Selects left and right rooms in turn, fills three cache entries each, and restores the active room."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9aac08770f",
+          "file_offset": 39454,
+          "image_offset": 31262,
+          "kind": "far_call",
+          "relocated_segment_site": 31265,
+          "relocation_index": 816,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_CODE",
+      "entry_kind": "direct-code",
+      "id": "root:0f77:08ac",
+      "offset": 2220,
+      "original_name": "SetSideRoomInfo",
+      "original_name_evidence": [
+        "FM Towns MISC.C @SetSideRoomInfo at 293d:0a53, paired by the original DOS operation and argument use.",
+        "Selects left and right rooms in turn, fills three cache entries each, and restores the active room."
+      ],
+      "segment": 3959,
+      "sha256": "287bcf8f4de9739ca387597babe4180bc72defabef8ffa48a1c7afe5d32f01c9",
+      "size": 194,
+      "space": "root"
+    },
+    {
+      "id": "root:101f:000e",
+      "space": "root",
+      "segment": 4127,
+      "offset": 14,
+      "size": 146,
+      "sha256": "420dc4cd9db15709f3393b32b306fdbe683232b4725c9d62e1c20cba2c1cb130",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:000e ends with RETF at 101f:009f.",
+        "The next procedure entry starts at resident image 0x10290. The preceding procedure has already returned.",
+        "The preceding frame returns at root image 0x101fd, so 101f:000e is the first byte of this DOS file.",
+        "Original root far_call at image 0x0d444 targets 101f:000e."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 54340,
+          "file_offset": 62532,
+          "relocated_segment_site": 54343
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments; RETF",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Signed x / 32, adjacent-room column 10 wrap and a paired sprite submission with x/y adjustments."
+      ],
+      "state": "ANALYZED",
+      "original_name": "ATMSpikes",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @ATMSpikes in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Signed x / 32, adjacent-room column 10 wrap and a paired sprite submission with x/y adjustments."
+      ]
+    },
+    {
+      "id": "root:101f:00a0",
+      "space": "root",
+      "segment": 4127,
+      "offset": 160,
+      "size": 270,
+      "sha256": "265de714fd311a249d7eb4b6a49517e12bef5eb645bddb44f413ccc090388f19",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:00a0 ends with RETF at 101f:01ac. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x1039e. The preceding procedure has already returned.",
+        "Original root far_call at image 0x0eca5 targets 101f:00a0.",
+        "Original root far_call at image 0x0ecd5 targets 101f:00a0.",
+        "Original root far_call at image 0x0ee5c targets 101f:00a0.",
+        "Original root far_call at image 0x0ee78 targets 101f:00a0."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60581,
+          "file_offset": 68773,
+          "relocated_segment_site": 60584
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60629,
+          "file_offset": 68821,
+          "relocated_segment_site": 60632
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61020,
+          "file_offset": 69212,
+          "relocated_segment_site": 61023
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61048,
+          "file_offset": 69240,
+          "relocated_segment_site": 61051
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments; RETF",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Exit on 0x55, action 4/1, then inspect two columns for tile 2, phase 2, frame range 0x79..0x84 and an impale call."
+      ],
+      "state": "ANALYZED",
+      "original_name": "CheckImpale",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @CheckImpale in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Exit on 0x55, action 4/1, then inspect two columns for tile 2, phase 2, frame range 0x79..0x84 and an impale call."
+      ]
+    },
+    {
+      "id": "root:101f:01ae",
+      "space": "root",
+      "segment": 4127,
+      "offset": 430,
+      "size": 124,
+      "sha256": "b3350d7b84a575cf8af35160746a81fdd63f85979dee488ec6f7d37b7faaf340",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:01ae ends with RETF at 101f:0228. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x1041a. The preceding procedure has already returned.",
+        "Original root far_call at image 0x0ec94 targets 101f:01ae.",
+        "Original root far_call at image 0x0ecc4 targets 101f:01ae.",
+        "Original root far_call at image 0x0ee52 targets 101f:01ae.",
+        "Original root far_call at image 0x0ee6e targets 101f:01ae."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60564,
+          "file_offset": 68756,
+          "relocated_segment_site": 60567
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60612,
+          "file_offset": 68804,
+          "relocated_segment_site": 60615
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61010,
+          "file_offset": 69202,
+          "relocated_segment_site": 61013
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61038,
+          "file_offset": 69230,
+          "relocated_segment_site": 61041
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments; RETF",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Inspect the adjacent column for tile 2, compare row * 63 + 18, then call TriggerSpikes with the queried room/index."
+      ],
+      "state": "ANALYZED",
+      "original_name": "CheckSpikes",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @CheckSpikes in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Inspect the adjacent column for tile 2, compare row * 63 + 18, then call TriggerSpikes with the queried room/index."
+      ]
+    },
+    {
+      "id": "root:101f:022a",
+      "space": "root",
+      "segment": 4127,
+      "offset": 554,
+      "size": 132,
+      "sha256": "502c156f630138a3b787a9fa30da31496eb1139bea57662c2ba0e2b115f7f054",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:022a ends with RETF at 101f:02ab.",
+        "The next procedure entry starts at resident image 0x1049e. The preceding procedure has already returned.",
+        "Original root far_call at image 0x00c2d targets 101f:022a."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 3117,
+          "file_offset": 11309,
+          "relocated_segment_site": 3120
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, room byte and cell index word; RETF 4",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Divide cell index by 10, look up a mobile by room and row, and create one for phase 0xf0 when absent."
+      ],
+      "state": "ANALYZED",
+      "original_name": "CheckSpikesJammed",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @CheckSpikesJammed in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Divide cell index by 10, look up a mobile by room and row, and create one for phase 0xf0 when absent."
+      ]
+    },
+    {
+      "id": "root:101f:02ae",
+      "space": "root",
+      "segment": 4127,
+      "offset": 686,
+      "size": 226,
+      "sha256": "3021eb866ef363f825dcf6c3dfa5b663301c73fd7f328cdaed1761914ccf3f5b",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:02ae ends with RETF at 101f:038e. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x10580. The preceding procedure has already returned.",
+        "Original overlay-9 far_call at image 0x008e9 targets 101f:02ae.",
+        "Original root push_cs_near_call at image 0x10354 targets 101f:02ae."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-9",
+          "image_offset": 2281,
+          "file_offset": 234057,
+          "relocated_segment_site": 2284
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 66388,
+          "file_offset": 74580,
+          "pushed_cs_site": 66387
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments; RETF",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Set the impaled phase 0xf0, update the room mobile, and choose death handling from actor action."
+      ],
+      "state": "ANALYZED",
+      "original_name": "DoImpale",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @DoImpale in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Set the impaled phase 0xf0, update the room mobile, and choose death handling from actor action."
+      ]
+    },
+    {
+      "id": "root:101f:0390",
+      "space": "root",
+      "segment": 4127,
+      "offset": 912,
+      "size": 108,
+      "sha256": "dc2dc46db1b590c07c3fe24d23e33b87a8c9bcad4c4550af51c737a6d1c9fe31",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:0390 ends with RETF at 101f:03f8. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x105ec. The preceding procedure has already returned.",
+        "Original root far_call at image 0x09612 targets 101f:0390."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 38418,
+          "file_offset": 46610,
+          "relocated_segment_site": 38421
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, object byte; RETF 2",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Remap spike phase 0xf0 to 8 and the raised bit to 5, then select an image table for object 0x84 or 0x85."
+      ],
+      "state": "ANALYZED",
+      "original_name": "DrawObjSpikes",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @DrawObjSpikes in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Remap spike phase 0xf0 to 8 and the raised bit to 5, then select an image table for object 0x84 or 0x85."
+      ]
+    },
+    {
+      "id": "root:101f:03fc",
+      "space": "root",
+      "segment": 4127,
+      "offset": 1020,
+      "size": 32,
+      "sha256": "87ac0e71d9a276b249e2ec020ab4fc15b051253e41f68e883ebbfc69cb170c57",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:03fc ends with RETF at 101f:0418. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x1060c. The preceding procedure has already returned.",
+        "No incoming relocated CALL FAR or decoded same-frame PUSH CS/CALL near was found. Isolated BP frame, two RETF 2 exit paths and the next BP prologue bound the extent."
+      ],
+      "call_sites": [],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, one word argument returning AX; RETF 2",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "The named FM Towns body tests input bit 0x80 and selects between 5 and the low three bits, matching both DOS return paths."
+      ],
+      "state": "ANALYZED",
+      "original_name": "GetSpikeIdx",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @GetSpikeIdx in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. The named FM Towns body tests input bit 0x80 and selects between 5 and the low three bits, matching both DOS return paths."
+      ]
+    },
+    {
+      "id": "root:101f:041c",
+      "space": "root",
+      "segment": 4127,
+      "offset": 1052,
+      "size": 70,
+      "sha256": "1151c29b3be68c182d8adb49026dd1f528f13ff5fb8a8c43a8200c1873e6e705",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:041c ends with RETF at 101f:045e. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x10652. The preceding procedure has already returned.",
+        "Original root push_cs_near_call at image 0x10360 targets 101f:041c.",
+        "Original root push_cs_near_call at image 0x10436 targets 101f:041c.",
+        "Original root push_cs_near_call at image 0x107c7 targets 101f:041c."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 66400,
+          "file_offset": 74592,
+          "pushed_cs_site": 66399
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 66614,
+          "file_offset": 74806,
+          "pushed_cs_site": 66613
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 67527,
+          "file_offset": 75719,
+          "pushed_cs_site": 67526
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, room byte and row byte, returns near pointer; RETF 4",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Iterate the kind-4 mobile list and stop on NULL or the first room/row match."
+      ],
+      "state": "ANALYZED",
+      "original_name": "GetSpikeMobRoomRow",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @GetSpikeMobRoomRow in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Iterate the kind-4 mobile list and stop on NULL or the first room/row match."
+      ]
+    },
+    {
+      "id": "root:101f:0462",
+      "space": "root",
+      "segment": 4127,
+      "offset": 1122,
+      "size": 46,
+      "sha256": "a96a3a8ef17df3cf747bc513ed08525c4fcf4baaede617a19ff1217e03c802b1",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:0462 ends with RETF at 101f:048e. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x10680. The preceding procedure has already returned.",
+        "Original root push_cs_near_call at image 0x102ef targets 101f:0462."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 66287,
+          "file_offset": 74479,
+          "pushed_cs_site": 66286
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments, AX result; RETF",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "The FM Towns body returns 0 for phase zero/0xf0, 1 for the raised bit, 2 for the remaining values less than 5, and 0 otherwise."
+      ],
+      "state": "ANALYZED",
+      "original_name": "GetSpikes",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @GetSpikes in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. The FM Towns body returns 0 for phase zero/0xf0, 1 for the raised bit, 2 for the remaining values less than 5, and 0 otherwise."
+      ]
+    },
+    {
+      "id": "root:101f:0490",
+      "space": "root",
+      "segment": 4127,
+      "offset": 1168,
+      "size": 166,
+      "sha256": "2d1a9c66316dff3ef5a2688a04f43ba464a852765a3649d7de2ef394b0e7a0fe",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:0490 ends with RETF at 101f:0535.",
+        "The next procedure entry starts at resident image 0x10726. The preceding procedure has already returned.",
+        "Original root far_call at image 0x0cf58 targets 101f:0490."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 53080,
+          "file_offset": 61272,
+          "relocated_segment_site": 53083
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments; RETF",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Update mobile phase; phase 0xf0 skips, the raised counter expires to 6, phase 5 starts 0x8f, and phase 8 stops."
+      ],
+      "state": "ANALYZED",
+      "original_name": "MobSpikes",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @MobSpikes in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Update mobile phase; phase 0xf0 skips, the raised counter expires to 6, phase 5 starts 0x8f, and phase 8 stops."
+      ]
+    },
+    {
+      "id": "root:101f:0536",
+      "space": "root",
+      "segment": 4127,
+      "offset": 1334,
+      "size": 182,
+      "sha256": "ff5340ab322a5425908b57560901163d7c03d6c8790981473507a83f4cf9c9e5",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident decoded control at 101f:0536 ends with RETF at 101f:05e8. One following alignment NOP.",
+        "The next procedure entry starts at resident image 0x107dc. The preceding procedure has already returned.",
+        "Original root push_cs_near_call at image 0x10414 targets 101f:0536."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 66580,
+          "file_offset": 74772,
+          "pushed_cs_site": 66579
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, room byte and cell index word; RETF 4",
+      "classification": "GAME_C",
+      "classification_status": "anchored",
+      "classification_evidence": [
+        "Read cell phase and, for idle cells, divide index by ten and start a new mobile. For a raised non-0xf0 phase, set 0x8f and refresh the matching mobile."
+      ],
+      "state": "ANALYZED",
+      "original_name": "TriggerSpikes",
+      "original_name_evidence": [
+        "FM Towns MOVESPIK.C @TriggerSpikes in segment 2dbf. DOS and FM Towns agree on this distinctive behavior. Read cell phase and, for idle cells, divide index by ten and start a new mobile. For a raised non-0xf0 phase, set 0x8f and refresh the matching mobile."
+      ]
+    },
+    {
+      "id": "root:0dd7:01ce",
+      "space": "root",
+      "segment": 3543,
+      "offset": 462,
+      "size": 58,
+      "sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated direct CALL FAR at root image 0x033e5.",
+        "BP frame, conditional paths within [0x0df3e, 0x0df78), and RETF 2 before next BP frame at 0x0df78."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 13285,
+          "file_offset": 21477,
+          "relocated_segment_site": 13288
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, one word stack slot; RETF 2",
+      "classification": "GAME_C",
+      "classification_status": "strong game-helper hypothesis",
+      "classification_evidence": [
+        "Read the current sound ID sentinel and priority table, then conditionally queue the one stack argument."
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

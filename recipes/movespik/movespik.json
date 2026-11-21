@@ -1,0 +1,85 @@
+{
+  "binding": "evidence/bindings/movespik/movespik.json",
+  "binding_sha256": "49f848f0b0d9afd5f4cb523e18de8f0a516846db80fa900fa61531d14ed5ba7c",
+  "claims": [
+    {
+      "fixup_count": 1,
+      "public": "GETSPIKES",
+      "target_id": "root:101f:0462"
+    },
+    {
+      "fixup_count": 13,
+      "public": "MOBSPIKES",
+      "relocation_indices": [
+        1350,
+        1356,
+        1357
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:101f:0490"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 0,
+      "public": "ATMSPIKES"
+    },
+    {
+      "object_offset": 148,
+      "public": "CHECKIMPALE"
+    },
+    {
+      "object_offset": 418,
+      "public": "CHECKSPIKES"
+    },
+    {
+      "object_offset": 542,
+      "public": "CHECKSPIKESJAMMED"
+    },
+    {
+      "object_offset": 672,
+      "public": "DOIMPALE"
+    },
+    {
+      "object_offset": 898,
+      "public": "DRAWOBJSPIKES"
+    },
+    {
+      "object_offset": 1006,
+      "public": "GETSPIKEIDX"
+    },
+    {
+      "object_offset": 1038,
+      "public": "GETSPIKEMOBROOMROW"
+    },
+    {
+      "object_offset": 1320,
+      "public": "TRIGGERSPIKES"
+    }
+  ],
+  "emitted_size": 1500,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 4127,
+  "group_id": "group:movespik/movespik",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "movespik/movespik",
+  "object_sha256": "c914e0309d056c1fa097c26244bcbe7750daaa9d44518759510177e66d1206bc",
+  "origin": 66046,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/movespik/movespik.c",
+  "source_sha256": "c7c249a659ff07b3e8690ffa256a3cd12ef738907eeea98d6753f2472675466c",
+  "space": "root"
+}

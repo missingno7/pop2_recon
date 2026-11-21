@@ -23,12 +23,12 @@ linear placement agree.
 """
 import struct
 
-from binding import (IMMEDIATE_MODE, data_context, data_equations, declarations, fixes, ground,
+from binding import (IMMEDIATE_MODE, OPERAND_MODE, data_context, data_equations, declarations, fixes, ground,
                      instructions, preserve_segments)
 from far_binding import ground_symbol as far_ground, relocation_order
 
 DATA_MODES = ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
-              "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE)
+              "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE, OPERAND_MODE)
 from common import require, sha
 from match import code_segment, get_target
 from omf import OmfReader
@@ -139,7 +139,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         # outside the whole object. Data symbols use the DGROUP modes.
         far_symbols = {n: s for n, s in binding["symbols"].items() if s.get("kind") == "far-code-entry"}
         data_only = {n: s for n, s in binding["symbols"].items() if n not in far_symbols}
-        for name, symbol in far_symbols.items():
+        for symbol in far_symbols.values():
             require(space.name == "root", "Group far calls are supported in root only")
             far_ground(symbol, hull, oracle)
         if data_only:
@@ -294,7 +294,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                                     [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
-                require(report["public"] in safe,
+                # v4 proves offset bytes only and claims no DS association, so it needs no
+                # segment-context proof; the older modes keep theirs.
+                require(mode == OPERAND_MODE or report["public"] in safe,
                         "DGROUP access after a call into code not proven to preserve segment context")
                 allowed = {at for at, callee in state["calls"].items() if callee is None or callee in safe}
                 data_context(module, state["rows"], allowed, mode=mode)

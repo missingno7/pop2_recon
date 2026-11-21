@@ -32,6 +32,66 @@ def direct_operand(insn):
 
 
 IMMEDIATE_MODE = "external-dgroup-offset16-v3"
+# v4: byte-level DGROUP offset fields. Any decoded disp16/imm16 operand field, any
+# encoded addend: the linker writes S + A. S (the symbol's DGROUP offset) is grounded
+# by an outside original instruction whose disp16/imm16 field equals it exactly.
+# Proves code bytes only; data extents, types and the runtime DS association are not claimed.
+OPERAND_MODE = "external-dgroup-offset16-v4"
+
+
+_REACH = {}
+
+
+def reachable_from_entry(oracle, entry):
+    """Instruction starts reached from a root entry that some original relocated CALL FAR targets.
+
+    Recursive descent within the entry's 64K CS window: conditional branches and loops
+    follow both edges, JMP follows its target, calls fall through, returns and indirect
+    jumps stop. Result is cached per entry."""
+    if entry in _REACH:
+        return _REACH[entry]
+    space_name, seg_text, off_text = entry.split(":")
+    require(space_name == "root", "v4 witness entries are resident only")
+    root = oracle.spaces["root"]
+    segment, offset = int(seg_text, 16), int(off_text, 16)
+    start = root.position(segment, offset)
+    require(any(at >= 0 and root.data[at] == 0x9a and
+                root.data[at+1:at+5] == struct.pack("<HH", offset, segment)
+                for at in (r["image_offset"] - 3 for r in root.relocations)),
+            "v4 witness entry is not an original relocated CALL FAR destination")
+    cs, _ = _capstone()
+    engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
+    engine.detail = True
+    base = segment * 16
+    seen, work = set(), [start]
+    while work:
+        pos = work.pop()
+        while base <= pos < min(base + 0x10000, root.size) and pos not in seen:
+            insn = next(engine.disasm(root.data[pos:pos + 16], pos - base), None)
+            if insn is None:
+                break
+            seen.add(pos)
+            groups = set(insn.groups)
+            if groups.intersection((cs.CS_GRP_RET, cs.CS_GRP_IRET)) or insn.mnemonic in ("ljmp", "hlt"):
+                break
+            if cs.CS_GRP_JUMP in groups:
+                op = insn.operands[0] if insn.operands else None
+                if op is not None and op.type == 2:  # immediate near target
+                    work.append(base + (op.imm & 0xFFFF))
+                if insn.mnemonic == "jmp":
+                    break
+            pos += insn.size
+    _REACH[entry] = seen
+    return seen
+
+
+def operand_field(insn, at):
+    """The 16-bit disp or imm field of a decoded instruction that starts at `at`."""
+    if insn.disp_size == 2 and insn.address + insn.disp_offset == at:
+        return "displacement"
+    if insn.imm_size == 2 and insn.address + insn.imm_offset == at:
+        return "immediate"
+    return None
 
 
 def immediate_base(insn):
@@ -141,7 +201,8 @@ def fixes(module):
 def ground(binding, target, oracle):
     """Recheck frozen original witnesses outside the contribution being judged."""
     require(binding["schema"] == 1 and binding["mode"] in ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
-                                                        "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE),
+                                                        "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE,
+                                                        OPERAND_MODE),
             "Unsupported binding proof mode")
     require(binding["target_id"] == target["id"] and
             binding["target_sha256"] == sha(oracle.data), "Binding belongs to another target/oracle")
@@ -184,6 +245,26 @@ def ground(binding, target, oracle):
     symbols = binding["symbols"]
     spans = set()
     for name, symbol in symbols.items():
+        if binding["mode"] == OPERAND_MODE:
+            offset = symbol["offset"]
+            require(symbol["kind"] == "dgroup-offset" and symbol["group"] == "DGROUP" and
+                    type(offset) is int and 0 <= offset < 65536, "Unsupported v4 DGROUP symbol")
+            require(offset not in spans, "Two v4 symbols share one DGROUP offset")
+            spans.add(offset)
+            require(symbol.get("witnesses"), "DGROUP symbol has no independent witness")
+            for spec in symbol["witnesses"]:
+                at, raw = witness(spec)
+                rows = instructions(raw)
+                require(len(rows) == 1, "Witness must be one complete instruction")
+                # The witness must be real code: an instruction reached by control flow from an
+                # original far-call entry (a relocated CALL FAR destination), not bytes from data.
+                require(at in reachable_from_entry(oracle, spec["entry"]),
+                        "v4 witness is not reached from its original far-call entry")
+                field = operand_field(rows[0], spec["operand_offset"])
+                require(field is not None and
+                        struct.unpack_from("<H", raw, spec["operand_offset"])[0] == offset,
+                        "Witness operand field does not equal this DGROUP offset")
+            continue
         if binding["mode"] == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias":
             offset = symbol["offset"]
             require(symbol["group"] == "DGROUP" and type(offset) is int and 0 <= offset < 65536 and
@@ -255,6 +336,12 @@ def ground(binding, target, oracle):
 
 
 def data_context(module, rows, allowed_calls=(), *, mode=None):
+    if mode == OPERAND_MODE:
+        # Byte-level mode: only object hygiene; no DS association is claimed.
+        groups = [g for g in module.groups if g["name"] == "DGROUP"]
+        require(len(groups) == 1 and all(module.segment_defs[i-1]["length"] == 0 for i in groups[0]["segments"]),
+                "External data binding needs an empty declared DGROUP")
+        return
     """Preserve DS; only explicit v3 permits the adjacent ES:=DS pair."""
     groups = [g for g in module.groups if g["name"] == "DGROUP"]
     require(len(groups) == 1 and groups[0]["segments"] and
@@ -282,6 +369,19 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
         require(0 <= at <= len(actual)-2 and not occupied.intersection((at, at+1)),
                 "Overlapping/out-of-range bound fields")
         symbol = symbols[target_ref["name"]]
+        if mode == OPERAND_MODE:
+            fields = [operand_field(i, at) for i in rows if operand_field(i, at)]
+            require(len(fields) == 1, "v4 FIXUPP is not the disp16/imm16 field of one decoded instruction")
+            addend = struct.unpack_from("<H", actual, at)[0]
+            value = (symbol["offset"] + addend) & 0xFFFF
+            observed = struct.unpack_from("<H", expected, at)[0]
+            if value != observed:
+                differences.append(at)
+            equations.append({"offset": at, "symbol": target_ref["name"], "operand": fields[0],
+                              "encoded_addend": addend, "grounded_dgroup_offset": symbol["offset"],
+                              "linked_value": value, "original_value": observed, "equal": value == observed})
+            occupied.update((at, at+1))
+            continue
         address_alias = mode == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias"
         insns = ([i for i in rows if i.address+i.imm_offset == at and i.imm_size == 2]
                  if address_alias else

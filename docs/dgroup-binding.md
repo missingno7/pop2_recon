@@ -189,3 +189,17 @@ the original data mode and startup frame; the combined `symbols` table keeps
 each independent witness. Proven CALL FAR operands may coexist with data
 fields, and only their segment words create original MZ obligations. The
 standalone data modes, including overlay v1, keep their existing refusals.
+
+
+## v4: byte-level offset fields (2026-11-21)
+
+`external-dgroup-offset16-v4` proves the bytes of any DGROUP offset field: the
+FIXUPP (LOC1, F5/T6, no displacement) must be the disp16 or imm16 field of exactly
+one decoded instruction, and the linked value is `S + A` (mod 64K) for any
+encoded addend `A`. Each symbol (`kind: dgroup-offset`) is grounded by original
+instructions outside the candidate whose disp16/imm16 field equals `S` exactly
+and which are reached by control flow from an original relocated CALL FAR entry
+(`entry`), so the witness is real code. `python tools/dgroup_witness.py OFFSET
+--exclude START:END` lists such witnesses. v4 proves code bytes only: data
+extents, types and the runtime DS association are not claimed, so it needs no
+segment-context proof. It works in single-function and group bindings.
