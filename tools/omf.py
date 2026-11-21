@@ -28,7 +28,15 @@ class ObjectModule:
         return self.segment_lengths.get(name)
 
 class OmfReader:
-    """Decode 16-bit OMF structure and data; reject unknown records and truncation."""
+    """Decode 16-bit OMF structure and data; reject unknown records and truncation.
+
+    `overwrite_ledata=True` applies a later LEDATA over an earlier one (LINK's
+    last-write-wins), which MASM uses to back-patch; it is reserved for pinned
+    runtime members and counts the overwritten bytes in `overwritten_bytes`."""
+
+    def __init__(self, *, overwrite_ledata=False):
+        self.overwrite_ledata = overwrite_ledata
+        self.overwritten_bytes = 0
     _IGNORED = {0x94}
     # Width in bytes of the 16-bit OMF LOCAT field.  These are field widths,
     # not a request to apply the relocation.  6/7/8/10/12/14/15 are reserved.
@@ -191,7 +199,9 @@ class OmfReader:
                 old_ranges = ranges.setdefault(seg_i, [])
                 for lo, hi in old_ranges:
                     if offset < hi and lo < offset + len(payload):
-                        raise OmfError(f"overlapping LEDATA/LIDATA for {seg_name}")
+                        if not self.overwrite_ledata:
+                            raise OmfError(f"overlapping LEDATA/LIDATA for {seg_name}")
+                        self.overwritten_bytes += min(hi, offset + len(payload)) - max(lo, offset)
                 buf[offset:offset+len(payload)] = payload
                 old_ranges.append((offset, offset+len(payload)))
                 last_data = (seg_i, offset, payload, iterated)
@@ -220,8 +230,8 @@ class OmfReader:
         for i, spans in ranges.items():
             merged = []
             for start, end in sorted(spans):
-                if merged and start == merged[-1][1]:
-                    merged[-1] = (merged[-1][0], end)
+                if merged and start <= merged[-1][1]:
+                    merged[-1] = (merged[-1][0], max(end, merged[-1][1]))
                 else:
                     merged.append((start, end))
             initialized[seg_defs[i-1]["name"]] = merged

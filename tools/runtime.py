@@ -12,7 +12,8 @@ def verify_member(recipe, oracle):
     require(0 <= at and at+extent <= len(library), "Runtime member outside pinned archive")
     raw = library[at:at+extent]
     require(sha(raw) == recipe["member_sha256"], "Pinned runtime member identity changed")
-    obj = OmfReader().read(raw, recipe["name"])
+    reader = OmfReader(overwrite_ledata=True)
+    obj = reader.read(raw, recipe["name"])
     code_defs = [s for s in obj.segment_defs if s["class"] == "CODE"]
     require(len(code_defs) == 1 and code_defs[0]["name"] == recipe["object_segment"],
             "Runtime pin must own a complete single CODE segment")
@@ -26,6 +27,10 @@ def verify_member(recipe, oracle):
             obj.initialized_ranges.get(segment["name"]) == [(0, len(actual))],
             "Runtime member extent is incomplete or trimmed")
     actual_fixes = [e for r in obj.fixups for e in r["decoded"] if e["kind"] == "fixup"]
+    # MASM back-patching (a later LEDATA overwriting bytes) is accepted only for
+    # fixup-free members, where LINK's last-write-wins leaves no ambiguity.
+    require(not reader.overwritten_bytes or not actual_fixes,
+            "Overwritten LEDATA in a fixup-bearing runtime member is not supported")
     require(not actual_fixes or "binding" in recipe,
             "Runtime member requires unsupported symbolic fixup proof")
     require(actual_fixes or "binding" not in recipe, "Unused runtime binding proof")

@@ -275,3 +275,16 @@ class CompilerScratchTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OverwriteLedataTests(unittest.TestCase):
+    """MASM back-patching: strict readers refuse overlaps; the runtime reader applies the last write."""
+
+    def test_overlap_is_refused_strictly_and_last_write_wins_for_runtime(self):
+        raw = fixture(length=2, chunks=((0, b"\x90\xc3"), (1, b"\xcb")))
+        with self.assertRaisesRegex(Exception, "overlapping"):
+            OmfReader().read(raw)
+        reader = OmfReader(overwrite_ledata=True)
+        module = reader.read(raw)
+        self.assertEqual(next(iter(module.segments.values())), b"\x90\xcb")
+        self.assertEqual(reader.overwritten_bytes, 1)
