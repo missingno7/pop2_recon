@@ -301,3 +301,6 @@ accepted MSC 6.00 C component produces (odd entries, `add sp,-n`, `pop di; pop b
 them, while the later FM port has C versions. They are recorded as `dos_native_asm` with evidence.
 Only EmptyRect (4d6e) remains C-origin debt. An ASM claim is accepted only with an FM `.ASM` pair,
 a recorded `dos_native_asm` entry, or (for unpaired routines) a reviewed `asm` verdict.
+A LOC2 base field whose target is a DGROUP member segment (for example
+`mov ax, seg _DATA`), framed by group DGROUP, links to the DGROUP paragraph like
+`mov ax, DGROUP`. It uses the same grounded-frame equation and relocation proof.

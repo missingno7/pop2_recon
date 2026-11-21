@@ -729,7 +729,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     if value == observed:  # only proven fields over-determine a placement
                         placed_uses.setdefault(seg_name, set()).add(addend)
                 elif (fix["loc_type"] == 2 and not fix["self_relative"] and fix["field_width"] == 2 and
-                      fix["target"].get("kind") == "group" and fix["target"].get("name") == "DGROUP"):
+                      ((fix["target"].get("kind") == "group" and fix["target"].get("name") == "DGROUP") or
+                       (fix["target"].get("kind") == "segment" and fix["target"].get("name") in dgroup_members and
+                        {k: fix["frame"].get(k) for k in ("kind", "name")} == {"kind": "group", "name": "DGROUP"}))):
+                    # `mov ax, DGROUP` or `mov ax, seg _DATA` framed by DGROUP: both link to the DGROUP
+                    # paragraph (the frame decides a base fixup's value).
                     # `mov ax, DGROUP`: the DGROUP paragraph, grounded by the binding's startup
                     # DS-load frame witness; relocated in MZ at the field itself.
                     require(binding is not None and "frame" in binding and fix["displacement"] is None,
