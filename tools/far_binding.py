@@ -48,7 +48,9 @@ def _accepted_entry(target_id):
     """The target is a canonical CODE_EXACT/ASM_EXACT owner. (The caller has already
     refused any entry inside the candidate, or inside the whole object for a group.)"""
     from common import ROOT, read_json
-    return any(owner["target_id"] == target_id and owner["state"] in ("CODE_EXACT", "ASM_EXACT")
+    # Pinned runtime members are exact original library code matched to their archive,
+    # so their entries are as well established as reconstructed ones.
+    return any(owner["target_id"] == target_id and owner["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME")
                for owner in read_json(ROOT / "layout/manifest.json")["owners"])
 
 
