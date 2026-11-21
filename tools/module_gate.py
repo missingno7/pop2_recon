@@ -622,7 +622,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 require(rows is not None or not mine, "Fixup-bearing claim does not decode completely")
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "v4": [],
+                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "v4": [],
                      "proven_jumps": set(),
                      "fixups": len(mine), "frames": {row["frame"] for row in evidence},
                      "report": report, "position": position,
@@ -645,6 +645,17 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         # A table entry must point at an instruction start inside this claim.
                         require(start <= addend < end and (addend - start) in starts,
                                 "Jump-table entry does not target an instruction of the claim")
+                    state["own"].append({"offset": at, "addend": addend})
+                    state["occupied"].update((at, at+1))
+                elif (not fix["self_relative"] and fix["loc_type"] in (1, 5) and fix["field_width"] == 2 and
+                      fix["target"].get("kind") == "external" and fix["target"].get("name") in publics and
+                      fix["frame"] == {"kind": "target_frame", "target": fix["target"]} and
+                      any(i.imm_size == 2 and i.address + i.imm_offset == at for i in rows or ())):
+                    # `mov ax, offset Func` / `push offset Func` naming a public of this object (a
+                    # callback address, an immediate only: a DS memory operand naming code stays
+                    # refused below): the own-segment offset16 equation, addend = Func + A + D.
+                    addend = (publics[fix["target"]["name"]] + struct.unpack_from("<H", piece, at)[0] +
+                              (fix["displacement"] or 0)) & 0xFFFF
                     state["own"].append({"offset": at, "addend": addend})
                     state["occupied"].update((at, at+1))
                 elif fix["self_relative"]:
@@ -732,11 +743,22 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         state["differences"].append(at)
                     state["occupied"].update((at, at+1))
                     state["group_bases"].append(at)
+                elif (fix["loc_type"] == 2 and not fix["self_relative"] and fix["field_width"] == 2 and
+                      fix["displacement"] is None and
+                      ((fix["target"].get("kind") == "external" and fix["target"].get("name") in publics) or
+                       {k: fix["target"].get(k) for k in ("kind", "name")} == {"kind": "segment", "name": name}) and
+                      (fix["frame"].get("kind") == "target_frame" or
+                       {k: fix["frame"].get(k) for k in ("kind", "name")} == {"kind": "segment", "name": name})):
+                    # `mov ax, SEG Func` naming this object's own code: the CS frame paragraph of the
+                    # witnessed window (checked once the claim's frame is proven below).
+                    require(piece[at:at+2] == bytes(2), "Only zero encoded own-segment base addends are proven")
+                    state["own_bases"].append(at)
+                    state["occupied"].update((at, at+1))
                 else:
                     require(fix["target"].get("name") not in publics,
                             "Data fixup target resolves to a CODE public of this object")
                     state["data"].append(dict(fix, segment_offset=at))
-            require(not state["relocations"] or state["far"] or state["group_bases"],
+            require(not state["relocations"] or state["far"] or state["group_bases"] or state["own_bases"],
                     "Original MZ relocations need far CALL fixups in the claim")
             states[claim["public"]] = state
         except ValueError as error:
@@ -770,7 +792,16 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                            "original_value": observed, "equal": value == observed})
                 if value != observed:
                     state["differences"].append(own["offset"])
-        if not state["near"] and not state["own"]:
+        if state["own_bases"] and public in cs_proven and window is not None:
+            # Own-segment base = the witnessed CS frame paragraph itself.
+            for at in state["own_bases"]:
+                value = next(iter(frames))
+                observed = struct.unpack_from("<H", state["expected"], at)[0]
+                state["equations"].append({"offset": at, "kind": "own-segment base", "linked_segment": value,
+                                           "original_segment": observed, "equal": value == observed})
+                if value != observed:
+                    state["differences"].append(at)
+        if not state["near"] and not state["own"] and not state["own_bases"]:
             continue
         position = state["position"]
         reason = ("Near call or own-segment word lacks an independently witnessed original frame"
@@ -879,12 +910,14 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"]})
                     used_far.add(ref["name"])
                 sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]]
+                sites += [{"site": state["position"] + g, "offset": g, "symbol": name} for g in state["own_bases"]]
                 relocation_proof = relocation_order(state["relocations"], sites,
                                                     [r["index"] for r in state["relocations"]])
-            if state["group_bases"] and not state["far"]:
+            if (state["group_bases"] or state["own_bases"]) and not state["far"]:
                 relocation_proof = relocation_order(
                     state["relocations"],
-                    [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]],
+                    [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]] +
+                    [{"site": state["position"] + g, "offset": g, "symbol": name} for g in state["own_bases"]],
                     [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")

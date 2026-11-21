@@ -1,7 +1,27 @@
 {
   "binding": "evidence/bindings/get_midi_driver_flag.json",
-  "binding_sha256": "25ca62a39e94349ff7556157533339d202ea8d33387466e05e77e8efd147191b",
+  "binding_sha256": "4c474f670a76572a65691831e3d221dbd8c708f33881a0fce6826781e946344c",
   "claims": [
+    {
+      "fixup_count": 46,
+      "public": "_initialize_sound_drivers",
+      "relocation_indices": [
+        1432,
+        1473,
+        1483,
+        1484,
+        1491,
+        1579,
+        1580,
+        1584,
+        1613
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:2c9a"
+    },
     {
       "fixup_count": 4,
       "public": "FINISH_SOUND_STARTUP",
@@ -24,7 +44,7 @@
     }
   ],
   "drafts": [],
-  "emitted_size": 34,
+  "emitted_size": 378,
   "flags": [
     "/c",
     "/AM",
@@ -38,12 +58,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "get_midi_driver_flag",
-  "object_sha256": "c5562cba56986559e62dfa6e8217b2d950c3ee68bbc64086f0535fe2b275e968",
-  "origin": 81410,
+  "object_sha256": "36cd173c818aca2b144f5f9848f9a5cc29c3ffb07ef84660cd58b7217695e4fe",
+  "origin": 81066,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/get_midi_driver_flag.c",
-  "source_sha256": "159b91abaabb6442493b1ca73e7f6d279dafc016d63997804988dcd2fabcf4cc",
+  "source_sha256": "a31ed39deef473d3a5dbc445cdeb82793887f27a6d5f263c3ac08b010246e05c",
   "space": "root"
 }

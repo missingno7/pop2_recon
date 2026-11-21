@@ -270,3 +270,9 @@ final RET reached by `mov si, OFFSET lit`. The tail from the lowest own-segment
 field target T counts as data when the code before T decodes completely and
 ends in a return or JMP, and no own-segment field lies inside the tail. The
 tail bytes are compared exactly as ordinary bytes.
+A claim may take the address of a public of its own object (a callback). The
+offset half (`mov ax, offset F`, LOC1/LOC5 immediates only; a DS memory operand
+naming code stays refused) uses the own-segment offset16 equation with
+addend = F's object offset + A + D. The segment half (`mov ax, SEG F`, LOC2) must
+equal the claim's witnessed CS frame paragraph and counts among the claim's
+relocation sites.
