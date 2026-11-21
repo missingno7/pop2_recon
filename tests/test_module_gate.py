@@ -537,3 +537,28 @@ int far pascal Sw(int k)
         claim = report["claims"][0]
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
         self.assertGreaterEqual(sum(e["kind"] == "own-segment offset16" for e in claim["equations"]), 9)
+
+
+class PlacementTests(unittest.TestCase):
+    """A file's own DGROUP segment is placed only when over-determined."""
+
+    def check(self, segments, uses, placements, image=b""):
+        from module_gate import _check_placements
+        from oracle import Space
+        module = SimpleNamespace(
+            segment_defs=[{"name": n, "length": len(c) if c is not None else size} for n, c, size in segments],
+            segments={n: c for n, c, _ in segments if c is not None},
+            initialized_ranges={n: [(0, len(c))] for n, c, _ in segments if c is not None})
+        space = Space("root", 0, 0, bytes(0x100) + image, ())
+        return _check_placements(module, placements, uses, {"frame": {"segment": 0x10}}, space, None)
+
+    def test_uninitialized_segment_needs_two_distinct_addends(self):
+        with self.assertRaisesRegex(ValueError, "two distinct"):
+            self.check([("_BSS", None, 4)], {"_BSS": {0}}, {"_BSS": 8})
+        self.assertEqual(self.check([("_BSS", None, 4)], {"_BSS": {0, 2}}, {"_BSS": 8})["_BSS"]["placement"], 8)
+
+    def test_initialized_segment_must_equal_the_original_bytes(self):
+        image = bytes(8) + b"\x12\x34"
+        self.assertTrue(self.check([("_DATA", b"\x12\x34", 2)], {}, {"_DATA": 8}, image))
+        with self.assertRaisesRegex(ValueError, "differs"):
+            self.check([("_DATA", b"\x12\x35", 2)], {}, {"_DATA": 8}, image)

@@ -125,6 +125,37 @@ def _decode(piece, tables):
     return rows
 
 
+def _check_placements(module, placements, uses, binding, space, oracle):
+    """Each placed DGROUP segment must be over-determined: initialized bytes equal the original
+    DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree."""
+    if not placements:
+        return {}
+    require(space.name == "root" and binding and "frame" in binding, "Placed data needs a resident DGROUP frame")
+    dgroup = (binding["frame"]["segment"] - space.link_segment) * 16
+    report = {}
+    for seg in module.segment_defs:
+        if seg["name"] not in placements:
+            continue
+        p = placements[seg["name"]]
+        require(type(p) is int and 0 <= p and p + seg["length"] <= 0x10000, "Placement outside DGROUP")
+        content = module.segments.get(seg["name"])
+        initialized = module.initialized_ranges.get(seg["name"], [])
+        if initialized:
+            require(initialized == [(0, seg["length"])] and seg["length"] >= 2,
+                    f"Placed segment {seg['name']} must be completely initialized")
+            start = dgroup + p
+            require(start + seg["length"] <= space.size and space.data[start:start + seg["length"]] == content,
+                    f"Placed segment {seg['name']} content differs from the original DGROUP bytes")
+            basis = "initialized content equals original"
+        else:
+            require(len(uses.get(seg["name"], set())) >= 2,
+                    f"Uninitialized placed segment {seg['name']} needs two distinct proven addends")
+            basis = "two or more distinct addends agree"
+        report[seg["name"]] = {"placement": p, "length": seg["length"], "basis": basis}
+    require(set(report) == set(placements), "Placement for a segment the object does not declare")
+    return report
+
+
 def _witnessed_frames(target, oracle):
     """Segment words of the reviewed, relocated CALL FARs that enter this target."""
     frames = set()
@@ -138,7 +169,8 @@ def _witnessed_frames(target, oracle):
 def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     """Judge every claim; never raises for a claim-level mismatch, only for object-level refusal."""
     module = OmfReader().read(obj_data, "candidate")
-    segment, name, actual = code_segment(module)
+    placements = (binding or {}).get("placements", {})
+    segment, name, actual = code_segment(module, placed=tuple(placements))
     publics = {}
     for public in module.publics:
         require(public["segment"] == name, "Public outside the CODE segment")
@@ -201,7 +233,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             symbols, mode = {}, binding["mode"]
 
     # Pass 1: extent, decoding, near equations. Pass 2: segment safety. Pass 3: data.
-    states, reports = {}, []
+    states, reports, placed_uses = {}, [], {}
     for claim, target, expected, start in resolved:
         later = [o for o in offsets if o > start]
         end = later[0] if later else len(actual)
@@ -271,6 +303,25 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     state["far"].append(dict(fix, segment_offset=at))
                     if far_symbols[fix["target"]["name"]].get("kind") not in ("segment-base", "far-data"):
                         state["calls"][at - 1] = None  # a far callee, not a claim
+                elif (fix["target"].get("kind") == "segment" and fix["target"].get("name") in placements and
+                      fix["loc_type"] == 1 and not fix["self_relative"] and fix["field_width"] == 2 and
+                      fix["displacement"] is None):
+                    # A field addressing this object's own placed DGROUP segment: P + A.
+                    require(any(operand_field_of(i, at, candidate=True) for i in rows),
+                            "Placed-data fixup is not the address field of one decoded instruction")
+                    seg_name = fix["target"]["name"]
+                    addend = struct.unpack_from("<H", piece, at)[0]
+                    value = (placements[seg_name] + addend) & 0xFFFF
+                    observed = struct.unpack_from("<H", expected, at)[0]
+                    state["equations"].append({"offset": at, "kind": "placed data", "segment": seg_name,
+                                               "encoded_addend": addend, "placement": placements[seg_name],
+                                               "linked_value": value, "original_value": observed,
+                                               "equal": value == observed})
+                    if value != observed:
+                        state["differences"].append(at)
+                    state["occupied"].update((at, at+1))
+                    if value == observed:  # only proven fields over-determine a placement
+                        placed_uses.setdefault(seg_name, set()).add(addend)
                 elif (fix["loc_type"] == 2 and not fix["self_relative"] and fix["field_width"] == 2 and
                       fix["target"].get("kind") == "group" and fix["target"].get("name") == "DGROUP"):
                     # `mov ax, DGROUP`: the DGROUP paragraph, grounded by the binding's startup
@@ -459,8 +510,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
         require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
+    placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle)
     claimed = {c["public"] for c in claims}
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
+            "placements": placement_report,
             "space": space.name, "origin": origin, "emitted_size": len(actual),
             "frame": next(iter(frames)) if frames else None,
             "segment": segment, "claims": reports,

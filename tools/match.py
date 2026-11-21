@@ -62,15 +62,18 @@ def get_target(identifier, oracle=None):
     return target, space, raw
 
 
-def code_segment(module):
-    """The single complete CODE segment; refuses secondary storage and unknown records."""
+def code_segment(module, placed=()):
+    """The single complete CODE segment; refuses secondary storage and unknown records.
+
+    `placed` names the object's own DGROUP segments that a group binding places; they may
+    be non-empty and initialized (their content is checked by the group gate)."""
     code = [s for s in module.segment_defs if s["class"] == "CODE"]
     require(len(code) == 1, "Bootstrap gate requires exactly one CODE segment")
     segment = code[0]
     name = segment["name"]
     require(not segment["use32"] and not segment["big"] and segment["alignment"] != 0,
             "Unsupported code segment declaration")
-    require(all(s["length"] == 0 for s in module.segment_defs if s["name"] != name),
+    require(all(s["length"] == 0 for s in module.segment_defs if s["name"] != name and s["name"] not in placed),
             "Unowned DATA/BSS/secondary declarations are not accepted")
     # Independently establish LEDATA coverage; OmfReader payload gaps must never become authority.
     initialized = set()
@@ -86,7 +89,9 @@ def code_segment(module):
         import struct
         offset = struct.unpack_from("<H", body, at)[0]
         segment_name = module.segment_defs[index-1]["name"]
-        require(segment_name == name, "Initialized secondary segment is unowned")
+        require(segment_name == name or segment_name in placed, "Initialized secondary segment is unowned")
+        if segment_name != name:
+            continue
         span = set(range(offset, offset + len(body) - at - 2))
         require(not span.intersection(initialized), "Overlapping initialized object data")
         initialized.update(span)
