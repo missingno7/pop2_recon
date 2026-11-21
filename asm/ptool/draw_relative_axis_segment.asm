@@ -1,0 +1,19 @@
+.MODEL MEDIUM
+.DATA
+EXTRN CURRENT_PORT:WORD
+.CODE
+EXTRN DRAW_AXIS_SEGMENT:FAR
+PUBLIC DRAW_RELATIVE_AXIS_SEGMENT
+
+DRAW_RELATIVE_AXIS_SEGMENT PROC FAR
+    push bp
+    mov bp, sp
+    mov bx, CURRENT_PORT
+    mov ax, [bx+24h]
+    add [bp+8], ax
+    mov ax, [bx+22h]
+    add [bp+6], ax
+    pop bp
+    jmp DRAW_AXIS_SEGMENT
+DRAW_RELATIVE_AXIS_SEGMENT ENDP
+END

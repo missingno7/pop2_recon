@@ -449,3 +449,7 @@ A far-data offset witness may also be an original relocated far pointer
 index). Its relocated word must store N, the word before it must store O (or
 O+k for a member), and it must lie outside every claim, for example a `dd`
 table entry in preloaded DGROUP data. The linker wrote exactly N:O there.
+
+A far tail JMP (`EA ptr16:16`) to a grounded far callee uses the same pointer32
+equation and relocation proof as `CALL FAR`. Control does not return to the
+claim.

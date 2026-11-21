@@ -896,8 +896,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                             (fix["frame"] == {"kind": "target_frame", "target": ref} or same_external),
                             "Unsupported far CALL fixup equation/frame/displacement")
                     insn = by_address.get(at - 1)
-                    require(insn is not None and insn.size == 5 and bytes(insn.bytes)[:1] == b"\x9a",
-                            "Far fixup is not a complete unprefixed 9A CALL operand")
+                    # CALL FAR (9A) or a far tail JMP (EA): the same pointer32 equation; a JMP never returns.
+                    require(insn is not None and insn.size == 5 and insn.bytes[0] in (0x9a, 0xea),
+                            "Far fixup is not a complete unprefixed 9A CALL or EA JMP operand")
                     require(state["piece"][at:at+4] == bytes(4), "Only zero encoded far addends are proven")
                     value = (symbol["offset"], symbol["segment"])
                     observed = struct.unpack_from("<HH", state["expected"], at)
