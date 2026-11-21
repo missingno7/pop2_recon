@@ -1,0 +1,141 @@
+{
+  "binding": "evidence/bindings/intrface/intrface.json",
+  "binding_sha256": "b98b620877bc5f22acf6b77703cf3c6680e78dc62bb20f19d0c249f441dc7717",
+  "claims": [
+    {
+      "fixup_count": 6,
+      "public": "ABORT_WITH_MESSAGE",
+      "relocation_indices": [
+        1723,
+        1732,
+        1735
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1de8:000c"
+    },
+    {
+      "fixup_count": 4,
+      "public": "POLL_USER",
+      "relocation_indices": [
+        1738,
+        1739,
+        1740
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1de8:00e0"
+    },
+    {
+      "fixup_count": 2,
+      "public": "WAIT_TICKS",
+      "target_id": "root:1de8:017e"
+    },
+    {
+      "fixup_count": 3,
+      "public": "WAIT_SOUND",
+      "relocation_indices": [
+        1727,
+        1728
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1de8:019c"
+    },
+    {
+      "fixup_count": 1,
+      "public": "WAIT_KEY",
+      "target_id": "root:1de8:01ce"
+    },
+    {
+      "fixup_count": 3,
+      "public": "FIND_RESOURCE_MAP",
+      "relocation_indices": [
+        1737,
+        1746
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1de8:022a"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 66,
+      "public": "RESET_INTERFACE"
+    },
+    {
+      "object_offset": 142,
+      "public": "CHECK_WAIT_FUNCTION"
+    },
+    {
+      "object_offset": 168,
+      "public": "REPORT_SYSTEM_ERROR"
+    },
+    {
+      "object_offset": 194,
+      "public": "ABORT_PROGRAM"
+    },
+    {
+      "object_offset": 286,
+      "public": "WAIT_TIMER"
+    },
+    {
+      "object_offset": 334,
+      "public": "WAIT_TIMER_NO_POLL"
+    },
+    {
+      "object_offset": 464,
+      "public": "CLOSE_RESOURCE_FILE"
+    },
+    {
+      "object_offset": 494,
+      "public": "OPEN_VERIFIED_RESOURCE"
+    },
+    {
+      "object_offset": 634,
+      "public": "OPEN_LEVEL_RESOURCES"
+    },
+    {
+      "object_offset": 804,
+      "public": "CLOSE_LEVEL_RESOURCES"
+    },
+    {
+      "object_offset": 854,
+      "public": "STDRSRCERROR"
+    },
+    {
+      "object_offset": 874,
+      "public": "STDRSRCVERIFY"
+    },
+    {
+      "object_offset": 890,
+      "public": "FILE_EXISTS"
+    }
+  ],
+  "emitted_size": 940,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oeg",
+    "/Gs",
+    "/Zl",
+    "/Gc",
+    "/Zd"
+  ],
+  "frame": 7656,
+  "group_id": "group:intrface/intrface",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "intrface/intrface",
+  "object_sha256": "e8934352d52dec73f360522266cf93e0016af212adffd1adabd4f05b5abac95d",
+  "origin": 122508,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/intrface/intrface.c",
+  "source_sha256": "a653fa72cd9d97797f8227e3150049fbd0b1093f1897ddefbbe48c5d039c753c",
+  "space": "root"
+}
