@@ -438,11 +438,12 @@ class VectorRecordTests(unittest.TestCase):
         cls.oracle = Oracle.load()
         overlays = {n: s for n, s in cls.oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
         cls.extents = _extents(cls.oracle)
-        starts = {(name, lo) for name, lo, _, _, _ in cls.extents}
         vectors = overlay_vectors(cls.oracle, overlays)
-        cls.unreviewed, record = next((k, v) for k, v in vectors.items()
-                                      if (v["target_space"], v["target_position"]) not in starts)
-        # A reviewed row at that destination (injected: rows are added as overlays are reviewed).
+        # Any vector: its destination row is removed for the unreviewed case and injected for the
+        # reviewed one, so the test does not depend on how many overlays are reviewed yet.
+        cls.unreviewed, record = next(iter(vectors.items()))
+        destination = (record["target_space"], record["target_position"])
+        cls.extents = [e for e in cls.extents if (e[0], e[1]) != destination]
         cls.with_row = cls.extents + [(record["target_space"], record["target_position"],
                                        record["target_position"] + 2, "probe-destination", False)]
 

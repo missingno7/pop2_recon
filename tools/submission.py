@@ -32,6 +32,7 @@ from pathlib import Path
 
 from common import ROOT, read_json, require
 
+IDENTITY = ("sha256", "size")  # a row's extent; descriptive evidence may differ between reviewers
 KINDS = ("callee", "data", "codegen", "reloc_order", "cs_frame", "boundary", "other")
 
 
@@ -134,6 +135,8 @@ def publish(base, sub):
         for row in _rows(base / sub["targets"]):
             if row["id"] in existing:
                 old = inventory["functions"][existing[row["id"]]]
+                if all(old.get(k) == row.get(k) for k in IDENTITY):
+                    continue  # same reviewed extent: the canonical row and its evidence stay
                 if old != row:
                     require(row["id"] in replace, f"Submission changes existing row {row['id']} "
                                                   "without listing it in target_replacements")
