@@ -1080,8 +1080,8 @@ void far pascal run_guard_script(void);
 
 int far pascal choose_cut_side(void)
 {
-    int y = actor_y;
-    volatile int mode = (signed char)actor_sequence_mode;
+    volatile int y = actor_y;
+    volatile unsigned int mode = actor_sequence_mode;
     unsigned int action = actor_action;
     int none = -1;
     int side;
@@ -1089,7 +1089,9 @@ int far pascal choose_cut_side(void)
     if (current_level != generator_level || state_word == 70 ||
         (actor_kind == 1 && action == 185))
         goto leave_unchanged;
-    if (mode != 5 && mode != 4 && mode != 3 && y < 10 && y >= -16) {
+    if (mode == 5 || mode == 4 || mode == 3)
+        goto check_lower_exit;
+    if (y < 10 && y >= -16) {
         if (encounter_type == 5) {
             side = none;
             if (actor_room == 3)
@@ -1098,6 +1100,7 @@ int far pascal choose_cut_side(void)
         side = 2;
         goto check_side;
     }
+check_lower_exit:
     if (y >= 231 &&
         (room_links[actor_room].below || y >= lower_exit_margin + 231) &&
         (room_style != 5 || actor_index != cut_blocked_index)) {
@@ -1207,7 +1210,8 @@ void far pascal update_automatic_actor(void)
 
     switch (kind) {
       default:
-        if (actor_kind == 0) run_actor_kind_eleven();
+        kind = actor_kind;
+        if (kind == 0) run_actor_kind_eleven();
         else run_guard_script();
         return;
       case 1:
@@ -1275,8 +1279,7 @@ typedef struct {
     unsigned char head[6];
     unsigned char flags;
 } hit_action_record;
-extern unsigned int hit_action_segment;
-#define hit_action_table ((hit_action_record far *)((unsigned long)hit_action_segment << 16))
+extern _segment hit_action_segment;
 extern unsigned char hit_actor_flags, hit_actor_draw_mode;
 extern unsigned char hit_actor_kind, hit_actor_number;
 
@@ -1323,15 +1326,15 @@ int far pascal select_shadow_reaction(void);
 int far pascal select_guard_reaction(void);
 int far pascal tile_prevents_advance(signed char tile);
 
+extern unsigned char kid_strike_mode;
+
 void far pascal check_stab(void)
 {
     signed char index = 0;
     signed char count = opponent_rooms[room_number].count;
 
     for (; index < count; ++index) {
-        load_live_actor(index);
-        if (actor_sequence_mode == 99) {
-            select_active_actor_pair(index);
+        load_live_actor(index); if (actor_sequence_mode == 99) { select_active_actor_pair(index);
             if (hit_actor_flags == 99)
                 hit_actor_flags = 1;
             stab_actor();
@@ -1341,7 +1344,7 @@ void far pascal check_stab(void)
         }
     }
 
-    if (kid_motion == 99) {
+    if (kid_strike_mode == 99) {
         for (index = 0; index < count; ++index) {
             load_live_actor(index);
             if (actor_kind == 7 || actor_kind == 8) {
@@ -1361,8 +1364,8 @@ void far pascal check_stab(void)
 void far pascal stab_actor(void)
 {
     signed char damage;
-    int next_action = -1;
-    int sound;
+    int next_action;
+    int sound, default_action = -1;
 
     if ((signed char)actor_move_mode >= 0)
         return;
@@ -1380,13 +1383,15 @@ void far pascal stab_actor(void)
             if (damage < (signed char)opponent_life)
                 flash_death_effect();
         } else if (actor_kind == 11 || hit_actor_kind == 11) {
+            next_action = default_action;
             damage = 100;
         } else {
             damage = (actor_kind == 6 || hit_actor_kind == 6) ? 100 : 1;
             next_action = hit_actor_direction != actor_direction ? 74 : 94;
             if (hit_actor_kind == 7 || hit_actor_kind == 8) {
                 if (actor_combat_mode != 1 &&
-                    !(hit_action_table[hit_actor_action].flags & 64))
+                    !((hit_action_segment :> (hit_action_record _based(void) *)
+                              (hit_actor_action * sizeof(hit_action_record)))->flags & 64))
                     next_action = 45;
                 else if ((unsigned)actor_action >= 246u && (unsigned)actor_action <= 261u) {
                     if (stage_blocks_impact(current_stage_byte()))
@@ -1470,7 +1475,7 @@ void far pascal begin_actor_death(void)
     } else {
         index = current_stage_byte();
         if (actor_kind != 0 && actor_direction == -1 &&
-            (index == 4 || current_stage() == 4)) {
+            (index == 4 || (signed char)current_stage() == 4)) {
             index = impact_column();
             actor_x = landing_x[index - (cliff_style_for_impact != 4)] + 14;
             actor_x = shift_actor_x(20);
@@ -1502,7 +1507,9 @@ record_sound:
         if (actor_kind == 0) {
             switch (hit_actor_kind) {
               case 2:
-                index = preferred_opponent < 1 ? 14 : 10;
+                index = 10;
+                if (preferred_opponent == 0)
+                    index = 14;
                 break;
               case 7:
               case 8:

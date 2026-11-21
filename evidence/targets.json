@@ -66942,6 +66942,1026 @@
       ],
       "abi": "Far entry, callee pops 2 argument bytes.",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:8738",
+      "space": "root",
+      "segment": 4353,
+      "offset": 34616,
+      "size": 574,
+      "sha256": "63864746c0fde20e848cd0292a45587770c561dab5287ce1a6287f4e028ae9fd",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "default_item_handler",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Previous RETF 8 ends at 8738. Overlay-17 far pointer at +1320 uses relocation 0; 8e6d/8e74 and 8edb/8ee2 compare the complete 1101:8738 pointer. Creation branches back from 8973 to the epilogue after skipping port restore. The next independent BP frame starts at 8976.",
+        "Original root relocation indices in complete extent: [1557]."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, item near pointer at BP+0ah, word command at BP+8, payload at BP+6, AX result, RETF 6.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "873b ADD SP,-16h, 87c3 JCXZ, 8934 LODSW, and 8959 ES:LODSW are native ASM markers."
+      ]
+    },
+    {
+      "id": "root:1101:8998",
+      "space": "root",
+      "segment": 4353,
+      "offset": 35224,
+      "size": 56,
+      "sha256": "4da724f16ab7c04104ce15c51841c204a22e81375cca4e98bdfc7077acb26945",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "set_item_enabled",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Previous RETF 4 ends at 8998. Original DOS INT 24h code uses PUSH CS/CALL at beea and bf04. Both paths meet at 89c9 and leave by RETF 4 at 89cd, followed by the distinct 89d0 BP frame.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 118522,
+          "file_offset": 126714,
+          "pushed_cs_site": 118521,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 118548,
+          "file_offset": 126740,
+          "pushed_cs_site": 118547,
+          "relocated_segment_site": null
+        }
+      ],
+      "abi": "Far Pascal, item pointer at BP+8 and enable word at BP+6, AX item, RETF 4.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "89a3 atomic-style XCHG of record field with SI and 89b3 far callback with a live SI payload; 89ca pops SI and DI directly before BP without MOV SP,BP."
+      ]
+    },
+    {
+      "id": "root:1101:8ce7",
+      "space": "root",
+      "segment": 4353,
+      "offset": 36071,
+      "size": 34,
+      "sha256": "de2bc9bf1d9d92db6cc7b1e5319d6fafcc0e9b201f7927227eaaad6461ef606d",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "show_window_item",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The 8ce4 RETF 4 ends at a new BP frame. An item already shown branches to 8d03, otherwise the callback at 8d00 paints the item. Both paths restore DI/BP and return at 8d06 before the independent 8d09 BP frame.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, near item pointer at BP+6, AX item, RETF 2.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "8ce7 odd entry, 8cf4 TEST AX,AX, and POP DI/POP BP at 8d04/8d05."
+      ]
+    },
+    {
+      "id": "root:1101:8d50",
+      "space": "root",
+      "segment": 4353,
+      "offset": 36176,
+      "size": 122,
+      "sha256": "ba4bcbd12d6b093c564efddbafbb4be048c1784df7bb33a0cd7d4df629a95a3e",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "run_modal_resource_window",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The 8d4e near RET is followed by one zero alignment byte. A new frame opens and runs a modal resource window, with both paths meeting at the port restore at 8dbb. Its RETF 2 at 8dc7 ends at the independently reviewed 8dca frame.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, resource id at BP+6, AX modal result, RETF 2.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "8d53 ADD SP,-4 plus 8d79/8da3 plain near calls to register-ABI helpers."
+      ]
+    },
+    {
+      "id": "root:1101:8ef1",
+      "space": "root",
+      "segment": 4353,
+      "offset": 36593,
+      "size": 48,
+      "sha256": "c451dc8d52f8a793ae532f76b3394913b816eb71ed652ad4470395b24117d678",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "repaint_window_item",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The 8eef back edge closes the preceding event dispatcher. New BP frame uses window pointer, switches ports, invokes its callback and restores the old port. RETF 2 at 8f1e ends at relocated entry 8f21.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, near window pointer at BP+6, RETF 2.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "8ef1 odd entry and 8f1c POP DI followed by POP BP after the callback."
+      ]
+    },
+    {
+      "id": "root:1101:9041",
+      "space": "root",
+      "segment": 4353,
+      "offset": 36929,
+      "size": 51,
+      "sha256": "9b7f384af280e153efc39e723c76fd24a3ea8b1c72b9dc2524af95de18cc29c9",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "find_window_at_rect",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original E8 at 8d79 and beca names this BP frame. A carry result leaves through RET at 906e. The 906f block follows the window link and jumps back at 9072. Overlay-17 pointer relocation 1 independently identifies next entry 9074.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI, AX first window and ES:BX rectangle, CF hit.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "9041 odd entry, 9044 ADD SP,-8, 9050 JCXZ, and returns a hit in CF after STC/flag-setting branches."
+      ]
+    },
+    {
+      "id": "root:1101:9074",
+      "space": "root",
+      "segment": 4353,
+      "offset": 36980,
+      "size": 226,
+      "sha256": "3b1f61b0f08871bde7cdac8c425d704b39b7857a19192b6d04bfe266d92a898e",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "window_frame_item_handler",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Overlay-17 pointer at +1330 uses relocation 1. The 9074 far callback dispatches commands 1, 3 and 2 and all paths return through the epilogue at 9098. Its last jump at 9153 reaches that epilogue. The next pointer independently places 9156.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, item pointer, command and payload words, AX result, RETF 6.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "90af REP MOVSB and 9109 JCXZ. Direct POP SI/POP DI/POP BP in epilogue after multiple calls."
+      ]
+    },
+    {
+      "id": "root:1101:9156",
+      "space": "root",
+      "segment": 4353,
+      "offset": 37206,
+      "size": 664,
+      "sha256": "1a25dafc2ccecc27a2fb527daa0236f0169cee5e1b40c4f2431b074a5d06e0b9",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "list_item_handler",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Overlay-17 pointer at +1340 uses relocation 2. The function stores OFFSET 9156 and CS at 9281/9286. RETF 6 at 91d6 is followed by dispatch branches and command bodies. Last branch at 93eb returns to the common epilogue. Calls at 91ed and 9372 enter the next body at 93ee.",
+        "Original root relocation indices in complete extent: [1558, 1623]."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, item pointer, command and payload words, AX result, RETF 6.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "9159 ADD SP,-0ch; 91eb JCXZ; 9272 LODSW; 9281 stores its own symbolic callback offset."
+      ]
+    },
+    {
+      "id": "root:1101:93ee",
+      "space": "root",
+      "segment": 4353,
+      "offset": 37870,
+      "size": 6,
+      "sha256": "3606c0dac0ca2941887d711f4c8408f9e98778826774542e72bf2b5971b53d91",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "show_list_cursor",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Plain near calls at 91ed and 9372 enter this six-byte routine. JCXZ at 93f1 tail-branches into 93fb, otherwise RET at 93f3. 93f4 has independent callers.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI with DI item. Preserves original flags-dependent tail path.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "93f1 JCXZ tail transfer to a DI-register helper; near RET at 93f3."
+      ]
+    },
+    {
+      "id": "root:1101:93f4",
+      "space": "root",
+      "segment": 4353,
+      "offset": 37876,
+      "size": 7,
+      "sha256": "7cbd78265fb5179a3eaad700a259728a388f27f18a8254f12fbfd22ddad53ad4",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "hide_list_cursor",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls at 91f2 and 930c enter this seven-byte routine. JNE at 93f8 tail-branches to 93fb, otherwise RET at 93fa. The next entry has both tail edges and ordinary near calls.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI with DI item. Tests the cursor word before near return or tail branch.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "93f4 tests a DI-register argument; 93f8 tail transfer to a plain near helper."
+      ]
+    },
+    {
+      "id": "root:1101:93fb",
+      "space": "root",
+      "segment": 4353,
+      "offset": 37883,
+      "size": 117,
+      "sha256": "19f2a8704436dcb5f38dc5fdadae4fe1da14f4a0d6f4fb297f42b19a8d653933",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "toggle_list_cursor",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls at 9244 and 9503 and the tail transfers from 93f1 and 93f8 enter the 93fb BP frame. Its common RET at 946f ends at 9470, independently named by five near sites.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI with DI item, AX computed cursor word, SI preserved.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "93fb odd entry and 93fe ADD SP,-8 with a plain near DI-register ABI."
+      ]
+    },
+    {
+      "id": "root:1101:9470",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38000,
+      "size": 155,
+      "sha256": "374f017905ebe7e8996fcf7acb939c042aebfb295a5344ce150aa09fdc698711",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "repaint_list_item",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls at 9204, 9213, 9221, 922f and 936c name the new BP frame. All branches rejoin for the RET at 950a. Calls at 91f9 and 921e target the next routine.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI with DI item and CX cursor state, SI preserved.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "9473 ADD SP,-8, 94e3 JCXZ, and plain near register ABI."
+      ]
+    },
+    {
+      "id": "root:1101:950b",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38155,
+      "size": 18,
+      "sha256": "37dc309e3dc98fe2b68e392dbc597de3ddb3e43606673d7c5e203563f65418e8",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "rebuild_list_text_handle",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls at 91f9 and 921e enter 950b after the 9470 RET. Rebuilds an item string handle and disposes the previous handle, then returns at 951c. Calls at 921b and 93c1 identify the next entry.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI with DI item, RET.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "950b odd entry and no stack frame. Reads the caller-provided DI register and returns near."
+      ]
+    },
+    {
+      "id": "root:1101:951d",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38173,
+      "size": 40,
+      "sha256": "284ad9fee18051d6476ca5fd3e7107ba3ff59771dc730b09b611379ff24a9120",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "copy_list_text",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls at 921b and 93c1 target the SI save and bounded string copy. The RET at 9544 is followed by a zero byte at 9545. Overlay-17 relocation 3 names next entry 9546.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near register ABI with DI item and DX:AX far source, SI preserved, RET.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "951d odd entry, 952c ES:LODSB, and input in registers DX:AX/DI."
+      ]
+    },
+    {
+      "id": "root:1101:9546",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38214,
+      "size": 544,
+      "sha256": "f2206201c27c0e18f5a8e4e80e8f42611f199061dc40fe8b8edd506409849b51",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "grid_item_handler",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Overlay-17 pointer at +1350 uses relocation 3. RETF 6 at 9576 is followed by command cases that branch back to 956d. Last jump is 9763 and near calls at 95e8/962e enter the next helper.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, item pointer, command and payload words, AX result, RETF 6.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "9549 ADD SP,-18h, and plain near helpers at 95e8 and 962e using caller BP."
+      ]
+    },
+    {
+      "id": "root:1101:9766",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38758,
+      "size": 71,
+      "sha256": "fff1d5ead407e02dcf62c87433e485d0042adc5b4bbe521a13576c40eff83fd8",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "update_grid_item_bounds",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Plain E8 calls at 95e8 and 962e enter a continuation helper sharing the parent BP/DI. RET at 97ac is followed by a zero alignment byte at 97ad and then the separate 97ae frame.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Near shared parent frame helper, DI item, scratch BP, RET.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "Register-ABI plain near helper shares its parent frame. Writes [BP-2] and [BP-12h] directly and returns at 97ac."
+      ]
+    },
+    {
+      "id": "root:1101:97ae",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38830,
+      "size": 44,
+      "sha256": "5f31ea2fe1ecca4330cf74ce452b4d88737cd300e9626a8cf00c2da7f5e0d90c",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "paint_grid_items",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original PUSH CS/CALL at 9b57 and a8b2 enter this BP frame. Both grid loop back edges stay inside; RETF 2 at 97d7 ends at the separate 97da frame.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 109415,
+          "file_offset": 117607,
+          "pushed_cs_site": 109414,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 112834,
+          "file_offset": 121026,
+          "pushed_cs_site": 112833,
+          "relocated_segment_site": null
+        }
+      ],
+      "abi": "Far Pascal, DI loads near grid at BP+6, RETF 2.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "97b9 loop saves coordinates in CX:DX around a plain near call to a register-ABI helper at 97c4. POP DI directly before POP BP at 97d5."
+      ]
+    },
+    {
+      "id": "root:1101:97da",
+      "space": "root",
+      "segment": 4353,
+      "offset": 38874,
+      "size": 64,
+      "sha256": "bfbad12ef704cb7a0959f8d0a3e9411cc892d59995c066552042f4e124ab2b2e",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_indexed_item",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate BP frame follows the 97d7 RETF 2. Near call at 980e uses register/stack arguments. The empty and populated paths join the RETF 6 at 9817. Next frame at 981a is the CRT free wrapper.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "abi": "Far Pascal, three word arguments from BP+0ah, BP+8 and BP+6, RETF 6.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "97e4 JCXZ, plain near register-ABI calls, POP DI directly before POP BP at 9815."
+      ]
+    },
+    {
+      "id": "root:1101:c0ec",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49388,
+      "size": 20,
+      "sha256": "3b003ac17f66dcda7d3618571d2ae46d1ec98ce4c47f2ba42e3165325e071051",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_character",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate BP frame after the preceding function, near CALL sites 887c, 8897, 9e9a and 9ec6. Passes one character as a one-byte string and exits RETF 2 at c0fd before c100.",
+        "Original root relocation indices in complete extent: [].",
+        "Original 1101:b089 is reached from the preloaded 1101:ae62 callback, whose pointer is at overlay-17+1390 (relocation 7)."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 104588,
+          "file_offset": 112780,
+          "pushed_cs_site": 104587,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 104615,
+          "file_offset": 112807,
+          "pushed_cs_site": 104614,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 110250,
+          "file_offset": 118442,
+          "pushed_cs_site": 110249,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 110294,
+          "file_offset": 118486,
+          "pushed_cs_site": 110293,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 114841,
+          "file_offset": 123033,
+          "pushed_cs_site": 114840,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 114908,
+          "file_offset": 123100,
+          "pushed_cs_site": 114907,
+          "relocated_segment_site": null
+        }
+      ],
+      "abi": "Plain near helper as entered by the original independent caller.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "The original caller form and independent extent review specify the source hypothesis."
+      ]
+    },
+    {
+      "id": "root:1101:c126",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49446,
+      "size": 28,
+      "sha256": "fdd8a90fbac9afb8f54852cd21796f46f62dfde359127b927d196528807470af",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "toggle_rect_effect",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Separate BP frame after c123 RETF 8. Calls at 88e6/8908/963c/9d7b; LES AX loads far rectangle. RETF 4 at c13f ends at the distinct c142 frame.",
+        "Original root relocation indices in complete extent: [].",
+        "Original 1101:b11a is reached through 1101:af39 from preloaded 1101:ae62 (overlay-17 relocation 7)."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 104694,
+          "file_offset": 112886,
+          "pushed_cs_site": 104693,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 104728,
+          "file_offset": 112920,
+          "pushed_cs_site": 104727,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 108108,
+          "file_offset": 116300,
+          "pushed_cs_site": 108107,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 109963,
+          "file_offset": 118155,
+          "pushed_cs_site": 109962,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 113887,
+          "file_offset": 122079,
+          "pushed_cs_site": 113886,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 114986,
+          "file_offset": 123178,
+          "pushed_cs_site": 114985,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 115001,
+          "file_offset": 123193,
+          "pushed_cs_site": 115000,
+          "relocated_segment_site": null
+        }
+      ],
+      "abi": "Plain near helper as entered by the original independent caller.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "The original caller form and independent extent review specify the source hypothesis."
+      ]
+    },
+    {
+      "id": "root:1101:c16a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49514,
+      "size": 17,
+      "sha256": "1369044509894b39f9a17aa751b0a304d69bfa20ef1c8bbce75df07984b40061",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "apply_default_pen_state",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Frameless direct entry from 8766, 917d, 964e and 9c74. Two pen attributes are set on the current graphics port. RETF at c17a followed by zero fill at c17b and next target at c17c.",
+        "Original root relocation indices in complete extent: [].",
+        "Original 1101:a554 is reached from the preloaded 1101:a526 callback, whose pointer is at overlay-17+1360 (relocation 4)."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 104310,
+          "file_offset": 112502,
+          "pushed_cs_site": 104309,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 106893,
+          "file_offset": 115085,
+          "pushed_cs_site": 106892,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 108126,
+          "file_offset": 116318,
+          "pushed_cs_site": 108125,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 109700,
+          "file_offset": 117892,
+          "pushed_cs_site": 109699,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 111972,
+          "file_offset": 120164,
+          "pushed_cs_site": 111971,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 112889,
+          "file_offset": 121081,
+          "pushed_cs_site": 112888,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 113548,
+          "file_offset": 121740,
+          "pushed_cs_site": 113547,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 114036,
+          "file_offset": 122228,
+          "pushed_cs_site": 114035,
+          "relocated_segment_site": null
+        }
+      ],
+      "abi": "Plain near helper as entered by the original independent caller.",
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "The original caller form and independent extent review specify the source hypothesis."
+      ]
+    },
+    {
+      "id": "root:1fe6:2162",
+      "space": "root",
+      "segment": 8166,
+      "offset": 8546,
+      "size": 41,
+      "sha256": "035ad47ddae9b512f38fe3759c5df5fa0e12c0dfdeeaf71d52c6919d3bdb40f5",
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "compare_far_strings",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original relocated CALL FAR at 1101:93af, MZ index 1623, names 1fe6:2162. The same physical entry is the published root:2000:1fc2 owner, whose complete extent ends at 21feb.",
+        "Original root relocation indices in complete extent: []."
+      ],
+      "entry_kind": "direct-code",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 107455,
+          "file_offset": 115647,
+          "relocated_segment_site": 107458,
+          "relocation_index": 1623
+        }
+      ],
+      "abi": "Far C ABI, two far string pointers, AX signed comparison, caller removes eight argument bytes.",
+      "classification": "RUNTIME_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "The entire same-position CRT _strcmp member is pinned in recipes/runtime/crt_strcmp.json."
+      ]
+    },
+    {
+      "id": "overlay-3:2344:18ca",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 6346,
+      "size": 26,
+      "sha256": "b9ecd057374d2c96a19ac918ef18c368005d5102e127737711745561847a5bee",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The dispatcher at 1830 starts with PUSH CS; CALL at 1837 to 18ca. This frameless helper has two REP STOSB runs, a RETF at 18e2 and one alignment NOP before the independently entered 18e4."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 6199,
+          "pushed_cs_site": 6198,
+          "file_offset": 190967
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "AUTO.C frame, far returns, and original actor-state updates and dispatch."
+      ],
+      "abi": "Far Pascal void(void), RETF with no argument cleanup."
+    },
+    {
+      "id": "overlay-3:2344:18e4",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 6372,
+      "size": 20,
+      "sha256": "fbefd14fdffbdf81352e20aa27f937a3ec09b8722ee722a49f291352a14f4f6a",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The CS switch table at 1874 names case 1 at 189a, which enters 18e4 with PUSH CS; CALL. Its two tests join at the RETF at 18f7, followed by the separately called 18f8."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 6299,
+          "pushed_cs_site": 6298,
+          "file_offset": 191067
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "AUTO.C frame, far returns, and original actor-state updates and dispatch."
+      ],
+      "abi": "Far Pascal void(void), RETF with no argument cleanup."
+    },
+    {
+      "id": "overlay-3:2344:18f8",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 6392,
+      "size": 150,
+      "sha256": "a063c7e6d3fa766acd08bf8c9819020e4b384b0e4e3289aeab94a7aea53b45c1",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Default dispatcher path at 188a enters 18f8 through the PUSH CS; CALL at 1892. Overlay-12+1148 names the same segment address in a relocated far CALL. This region ends at RETF 198d, directly before the next BP frame."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 6290,
+          "pushed_cs_site": 6289,
+          "file_offset": 191058
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-12",
+          "image_offset": 4424,
+          "relocated_segment_site": 4427,
+          "file_offset": 259640
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "AUTO.C frame, far returns, and original actor-state updates and dispatch."
+      ],
+      "abi": "Far Pascal void(void), RETF with no argument cleanup."
+    },
+    {
+      "id": "overlay-3:25da:1e08",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 7688,
+      "size": 180,
+      "sha256": "280297c63d5a55b51358992cd0a0c61d9843b3b637b5e3e95bcde7ee6d21a127",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "on_alert",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "Uses actor frame and input state to dispatch the strike, block and movement helpers inside ACT.C."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Decoded 1e08..1ebc exhaustively in the original ACT frame. Every branch stays inside the extent and lands on a decoded instruction.",
+        "Original prior tail 5e5f8be55dcb precedes the start. The final far return and optional alignment NOP end at the next decoded entry 1ebc.",
+        "The reviewed original call operands encode this start exactly."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 17821,
+          "file_offset": 202589,
+          "pushed_cs_site": 17820
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 18045,
+          "file_offset": 202813,
+          "pushed_cs_site": 18044
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:1ebc",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 7868,
+      "size": 76,
+      "sha256": "8227caec5bfef7c72b3e6f1ad037b7ecd8a7823c1df4cd3caad305674bac7be3",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "sheathe_weapon",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "Clears contact and down input, chooses one of four sequences from actor kind and opponent readiness."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Decoded 1ebc..1f08 exhaustively in the original ACT frame. Every branch stays inside the extent and lands on a decoded instruction.",
+        "Original prior tail 0d3e2c5e5fcb precedes the start. The final far return and optional alignment NOP end at the next decoded entry 1f08.",
+        "The reviewed original call operands encode this start exactly."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 18035,
+          "file_offset": 202803,
+          "pushed_cs_site": 18034
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 18395,
+          "file_offset": 203163,
+          "pushed_cs_site": 18394
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:1f72",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 8050,
+      "size": 146,
+      "sha256": "a9b1994c60e018a3a09fde10bc72955c722c91c50b443659d9fa750b769f90a2",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "turn_kid_engarde",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "Uses terrain and distance checks before playing sequence 127."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, preserves SI/DI, RETF.",
+      "boundary_evidence": [
+        "Decoded 1f72..2004 exhaustively in the original ACT frame. Every branch stays inside the extent and lands on a decoded instruction.",
+        "Original prior tail 0ee8a6e0cb90 precedes the start. The final far return and optional alignment NOP end at the next decoded entry 2004.",
+        "The reviewed original call operands encode this start exactly."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 18593,
+          "file_offset": 203361,
+          "pushed_cs_site": 18592
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:2004",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 8196,
+      "size": 140,
+      "sha256": "18b0abf2bd421fd92a6919f09c645bd58ddbcf925b64919257e4903d0df3f5d2",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "strike_actor",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "Picks the strike sequence from frame and actor/opponent kinds and clears the held input."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Decoded 2004..2090 exhaustively in the original ACT frame. Every branch stays inside the extent and lands on a decoded instruction.",
+        "Original prior tail 5f8be55dcb90 precedes the start. The final far return and optional alignment NOP end at the next decoded entry 2090.",
+        "The reviewed original call operands encode this start exactly."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 18359,
+          "file_offset": 203127,
+          "pushed_cs_site": 18358
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:2152",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 8530,
+      "size": 206,
+      "sha256": "0a0d3c8670b569ec0acb5114bafeab8d5b101aca78cf0e3ab619ef35a78d2c61",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "crush_actor",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "Relocated resident callers name the ACT BP-frame entry, which guards by actor state and frame, then adjusts life and issues an animation sequence."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, saved SI, RETF.",
+      "boundary_evidence": [
+        "Decoded 2152..2220 exhaustively in the original ACT frame. Every branch stays inside the extent and lands on a decoded instruction.",
+        "Original prior tail 5f8be55dcb90 precedes the start. The final far return and optional alignment NOP end at the next decoded entry 2220.",
+        "The reviewed original call operands encode this start exactly."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 55162,
+          "file_offset": 63354,
+          "relocated_segment_site": 55165
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 55093,
+          "file_offset": 63285,
+          "relocated_segment_site": 55096
+        }
+      ]
     }
   ],
   "schema": 1,

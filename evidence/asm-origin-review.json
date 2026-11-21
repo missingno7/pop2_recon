@@ -11,14 +11,14 @@
     },
     "root:1000:99fc": {
       "verdict": "asm",
-      "group": "window_keyboard",
+      "group": "windisp/windisp",
       "evidence": [
         "9a04 jcxz 0x9a15"
       ]
     },
     "root:1000:9b99": {
       "verdict": "asm",
-      "group": "selectable_items",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 9b99 (every MSC function here starts even)",
         "9ba6 test bx, bx (MSC tests with or r,r)"
@@ -1481,7 +1481,7 @@
     },
     "root:1101:8976": {
       "verdict": "asm",
-      "group": "dispatch_linked_items",
+      "group": "windisp/windisp",
       "evidence": [
         "8982 test di, di (MSC tests with or r,r)",
         "8993 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
@@ -1489,7 +1489,7 @@
     },
     "root:1101:89d0": {
       "verdict": "asm",
-      "group": "window_keyboard",
+      "group": "windisp/windisp",
       "evidence": [
         "89d9 test bx, bx (MSC tests with or r,r)",
         "89e8 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
@@ -1497,7 +1497,7 @@
     },
     "root:1101:8a09": {
       "verdict": "asm",
-      "group": "window_keyboard",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8a09 (every MSC function here starts even)",
         "8a17 test si, si (MSC tests with or r,r)",
@@ -1508,7 +1508,7 @@
     },
     "root:1101:8a8e": {
       "verdict": "asm",
-      "group": "paint_window_items",
+      "group": "windisp/windisp",
       "evidence": [
         "8a9f test si, si (MSC tests with or r,r)",
         "8aa6 jcxz 0x8a9d",
@@ -1519,7 +1519,7 @@
     },
     "root:1101:8ac9": {
       "verdict": "asm",
-      "group": "find_item_at_point",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8ac9 (every MSC function here starts even)",
         "8ad5 test di, di (MSC tests with or r,r)",
@@ -1530,7 +1530,7 @@
     },
     "root:1101:8af9": {
       "verdict": "asm",
-      "group": "dispose_window_item",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8af9 (every MSC function here starts even)",
         "8b1a jcxz 0x8b24",
@@ -1540,7 +1540,7 @@
     },
     "root:1101:8ba5": {
       "verdict": "asm",
-      "group": "selectable_items",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8ba5 (every MSC function here starts even)",
         "8bd5 xchg di, ax",
@@ -1551,7 +1551,7 @@
     },
     "root:1101:8bff": {
       "verdict": "asm",
-      "group": "selectable_items",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8bff (every MSC function here starts even)",
         "8c1d pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
@@ -1559,7 +1559,7 @@
     },
     "root:1101:8c22": {
       "verdict": "asm",
-      "group": "selectable_items",
+      "group": "windisp/windisp",
       "evidence": [
         "8c2a test bx, bx (MSC tests with or r,r)",
         "8c34 test si, si (MSC tests with or r,r)",
@@ -1570,7 +1570,7 @@
     },
     "root:1101:8c76": {
       "verdict": "asm",
-      "group": "selectable_items",
+      "group": "windisp/windisp",
       "evidence": [
         "8c88 test di, di (MSC tests with or r,r)",
         "8c8f jcxz 0x8cc5",
@@ -1581,7 +1581,7 @@
     },
     "root:1101:8cce": {
       "verdict": "asm",
-      "group": "selectable_items",
+      "group": "windisp/windisp",
       "evidence": [
         "two Pascal near calls, then pop bp with no mov sp,bp: 255/256 accepted MSC functions with a Pascal call restore SP via mov sp,bp (the one exception is a call-free path)",
         "8ce3 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
@@ -1589,7 +1589,7 @@
     },
     "root:1101:8d09": {
       "verdict": "asm",
-      "group": "dispatch_item_character",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8d09 (every MSC function here starts even)",
         "8d12 jcxz 0x8d25",
@@ -1600,7 +1600,7 @@
     },
     "root:1101:8d2a": {
       "verdict": "asm",
-      "group": "dispatch_item_character",
+      "group": "windisp/windisp",
       "evidence": [
         "8d2d xchg word ptr [0x25c0], ax",
         "8d4e near ret"
@@ -1608,7 +1608,7 @@
     },
     "root:1101:8dca": {
       "verdict": "asm",
-      "group": "dispatch_window_event",
+      "group": "windisp/windisp",
       "evidence": [
         "8dcd add sp, -4 frame allocation (MSC allocates with sub sp,n)",
         "8dd7 xchg word ptr [0x25c0], ax",
@@ -1619,7 +1619,7 @@
     },
     "root:1101:8f21": {
       "verdict": "asm",
-      "group": "create_window_from_resource",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8f21 (every MSC function here starts even)",
         "8f34 test ax, ax (MSC tests with or r,r)",
@@ -1630,7 +1630,7 @@
     },
     "root:1101:8f56": {
       "verdict": "asm",
-      "group": "wait_for_window_result",
+      "group": "windisp/windisp",
       "evidence": [
         "8f59 add sp, -0x16 frame allocation (MSC allocates with sub sp,n)",
         "8f99 jcxz 0x8faa",
@@ -1641,7 +1641,7 @@
     },
     "root:1101:8fed": {
       "verdict": "asm",
-      "group": "create_window_from_definition",
+      "group": "windisp/windisp",
       "evidence": [
         "odd entry address 8fed (every MSC function here starts even)",
         "8ff0 add sp, -0xe frame allocation (MSC allocates with sub sp,n)",
@@ -2490,6 +2490,83 @@
       "group": "winlife/events",
       "evidence": [
         "Original DOS odd entry bfed, CLD at bffc and DOS mouse callback register ABI."
+      ]
+    },
+    "root:1101:8998": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "89a3 atomic-style XCHG of record field with SI and 89b3 far callback with a live SI payload; 89ca pops SI and DI directly before BP without MOV SP,BP."
+      ]
+    },
+    "root:1101:8b52": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "8b5e JCXZ and 8b84 POP DI immediately followed by POP BP support DOS-native ASM."
+      ]
+    },
+    "root:1101:8ce7": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "8ce7 odd entry, 8cf4 TEST AX,AX, and POP DI/POP BP at 8d04/8d05."
+      ]
+    },
+    "root:1101:8ef1": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "8ef1 odd entry and 8f1c POP DI followed by POP BP after the callback."
+      ]
+    },
+    "root:1101:9041": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "9041 odd entry, 9044 ADD SP,-8, 9050 JCXZ, and returns a hit in CF after STC/flag-setting branches."
+      ]
+    },
+    "root:1101:93ee": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "93f1 JCXZ tail transfer to a DI-register helper; near RET at 93f3."
+      ]
+    },
+    "root:1101:93f4": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "93f4 tests a DI-register argument; 93f8 tail transfer to a plain near helper."
+      ]
+    },
+    "root:1101:93fb": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "93fb odd entry and 93fe ADD SP,-8 with a plain near DI-register ABI."
+      ]
+    },
+    "root:1101:9470": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "9473 ADD SP,-8, 94e3 JCXZ, and plain near register ABI."
+      ]
+    },
+    "root:1101:951d": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "951d odd entry, 952c ES:LODSB, and input in registers DX:AX/DI."
+      ]
+    },
+    "root:1101:9766": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "Register-ABI plain near helper shares its parent frame. Writes [BP-2] and [BP-12h] directly and returns at 97ac."
       ]
     }
   },

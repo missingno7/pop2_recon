@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/movecave/movecave.json",
-  "binding_sha256": "fb9d44540b6b4a246c398ce402fb1d359b3e4fc19864db347c710acd2f5c99b0",
+  "binding_sha256": "92133a2982291ef97e394bbaa649000b036696eed78e1434faa983ab58d18286",
   "claims": [
     {
       "fixup_count": 5,
@@ -16,9 +16,30 @@
         49,
         60
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "overlay-6:29cf:01a2"
+    },
+    {
+      "fixup_count": 42,
+      "public": "MOVE_DART_MOB",
+      "relocation_indices": [
+        3,
+        4,
+        5,
+        25,
+        26,
+        32,
+        33,
+        55
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:29cf:02ac"
     },
     {
       "fixup_count": 18,
@@ -82,6 +103,25 @@
       "target_id": "overlay-6:29cf:06e8"
     },
     {
+      "fixup_count": 24,
+      "public": "DO_LAVA_BOIL",
+      "relocation_indices": [
+        10,
+        11,
+        12,
+        42,
+        43,
+        52,
+        53,
+        65
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:29cf:0756"
+    },
+    {
       "fixup_count": 3,
       "public": "GET_FREE_LAVA_SLOT",
       "relocation_indices": [
@@ -90,6 +130,35 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-6:29cf:0806"
+    },
+    {
+      "fixup_count": 2,
+      "public": "GET_LAVA_INFO",
+      "target_id": "overlay-6:29cf:0846"
+    },
+    {
+      "fixup_count": 5,
+      "public": "GET_LAVA_TROB",
+      "relocation_indices": [
+        28,
+        29,
+        47
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:29cf:087a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "CLEAR_LAVA_SLOTS",
+      "relocation_indices": [
+        21
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:29cf:08c6"
     },
     {
       "fixup_count": 14,
@@ -191,28 +260,8 @@
       "public": "CHECK_DART_HIT"
     },
     {
-      "object_offset": 684,
-      "public": "MOVE_DART_MOB"
-    },
-    {
       "object_offset": 1456,
       "public": "ANIMATE_LAVA"
-    },
-    {
-      "object_offset": 1878,
-      "public": "DO_LAVA_BOIL"
-    },
-    {
-      "object_offset": 2118,
-      "public": "GET_LAVA_INFO"
-    },
-    {
-      "object_offset": 2168,
-      "public": "GET_LAVA_TROB"
-    },
-    {
-      "object_offset": 2244,
-      "public": "CLEAR_LAVA_SLOTS"
     }
   ],
   "emitted_size": 3146,
@@ -222,19 +271,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 10703,
   "group_id": "group:movecave/movecave",
   "kind": "same_source_group",
   "language": "c",
   "name": "movecave/movecave",
-  "object_sha256": "1b88819254c5c10116dfb1854831af886958615c8d83e796d1de52f5386824c7",
+  "object_sha256": "faf2777f812bc081746a93689e607ef20b8e74aacd65df0fc78680443d7fab0d",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/movecave/movecave.c",
-  "source_sha256": "8d59b47d388ca3eeb8cc3be2276f08b15b6903190753b8b3ab0ea71c8d4a019d",
+  "source_sha256": "8db483dbb6d314fa7ba4eb16fab9230953084323fcbe9a826889a5e3569b3d8f",
   "space": "overlay-6"
 }

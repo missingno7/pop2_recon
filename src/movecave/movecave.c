@@ -308,12 +308,15 @@ void check_dart_hit(void)
     }
 }
 
+#pragma optimize("g", on)
 void move_dart_mob(void)
 {
-    int x;
+    union {
+        int x;
+        ubyte tile[2];
+    } motion;
     int next_col;
     register int y;
-    ubyte tile;
 
     if (dart.velocity_y == -2) {
         dart.velocity_y = -1;
@@ -321,11 +324,11 @@ void move_dart_mob(void)
     }
     if (dart.velocity_y != -1) {
         y = dart.y + dart.velocity_y;
-        x = dart.velocity_x + dart.x;
-        if (x > 320) {
+        motion.x = dart.velocity_x + dart.x;
+        if (motion.x > 320) {
             if ((ubyte)right_room == dart.room) {
                 dart.room = room_number;
-                x -= 320;
+                motion.x -= 320;
             } else {
                 if (!room_links[dart.room].link[0])
                     queue_move_sound(82);
@@ -343,15 +346,15 @@ void move_dart_mob(void)
             }
         }
         if (dart.velocity_y != -2) {
-            int next_x = x;
+            register int next_x = motion.x;
             if (63 * dart.row + 3 >= y) {
                 if (!blocks_dart(get_tile(dart.room, next_x / 32, --dart.row)))
                     dart.velocity_y = -2;
             } else {
                 *(volatile int *)&next_col = next_x / 32;
                 if (dart.x / 32 != next_col) {
-                    tile = get_tile(dart.room, next_col, dart.row);
-                    if (stops_dart(tile) || (tile == 4 && gate_blocks_dart()))
+                    motion.tile[1] = get_tile(dart.room, next_col, dart.row);
+                    if (stops_dart(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_dart()))
                         dart.velocity_y = -2;
                 }
             }
@@ -362,6 +365,7 @@ void move_dart_mob(void)
         }
     }
 }
+#pragma optimize("", on)
 
 void hit_actor_with_dart(void)
 {
@@ -517,13 +521,10 @@ void do_lava_boil(void)
         pool->prefix = 0x80;
         if (actor_id == 0 && random_word(3) == 0) {
             start_sequence(116);
-            pool->prefix |= 64;
-            queue_move_sound(99);
+            pool->prefix |= 64; queue_move_sound(99);
         } else {
-            if (actor_id == 0)
-                queue_move_sound(99);
-            else
-                queue_move_sound(98);
+            if (actor_id == 0) queue_move_sound(99);
+            else queue_move_sound(98);
             start_sequence(115);
         }
         actor_action = 0;
@@ -555,13 +556,20 @@ ubyte get_free_lava_slot(void)
     return slot;
 }
 
+#pragma optimize("g", on)
 struct list *get_lava_info(sbyte room, sbyte col, sbyte row)
 {
+    struct list *result;
     LavaTrob *trob;
 
     trob = get_lava_trob(room, col, row);
-    return trob ? lava_slots[trob->slot] : 0;
+    if (trob)
+        result = lava_slots[trob->slot];
+    else
+        result = 0;
+    return result;
 }
+#pragma optimize("", on)
 
 LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
 {
@@ -578,19 +586,19 @@ LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
     return trob;
 }
 
+#pragma optimize("gl", on)
 void clear_lava_slots(void)
 {
-    struct list **slot;
+    int i;
 
-    struct list **volatile end = lava_slots + 4;
-    slot = lava_slots;
-    for (; slot < end; ++slot) {
-        if (*slot) {
-            free(*slot);
-            *slot = 0;
+    for (i = 0; i < 4; ++i) {
+        if (lava_slots[i]) {
+            free(lava_slots[i]);
+            lava_slots[i] = 0;
         }
     }
 }
+#pragma optimize("", on)
 
 void redraw_lava(void)
 {

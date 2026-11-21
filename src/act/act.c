@@ -1337,7 +1337,7 @@ extern void far pascal sheathe_weapon(void);
 void far pascal control_fighting(void)
 {
     signed char target;
-    int gap, react;
+    int gap, react, eligible, out_of_range, opponent_can_react;
 
     if (actor_character == 10) {
         kid_actor_record = *(struct saved_actor *)&actor_character;
@@ -1360,9 +1360,11 @@ void far pascal control_fighting(void)
         react = 1;
         {
             signed char tile = get_under_foot();
-            if (tile == 11 || tile == 15 || opponent_health >= 2) {
+            eligible = tile == 11 || tile == 15 || opponent_health >= 2;
+            if (eligible) {
                 gap = actor_spacing();
-                if (gap < -10 || gap >= 205)
+                out_of_range = gap < -10 || gap >= 205;
+                if (out_of_range)
                     goto distant_opponent;
 alert:
                 on_alert();
@@ -1386,11 +1388,19 @@ after_reaction:
 distant_opponent:
         if (gap >= 0)
             goto after_reaction;
-        if (gap >= -4 || (gap >= -30 && (opponent_kind == 7 || opponent_kind == 8)))
+        if (gap >= -4)
             goto alert;
+        if (gap >= -30) {
+            switch (opponent_kind) {
+            case 7:
+            case 8:
+                goto alert;
+            }
+        }
         if (actor_kind == 11)
             goto reacted;
-        if ((actor_character == 10 && !next_opponent_toggle) || opponent_kind == 6)
+        opponent_can_react = (actor_character == 10 && !next_opponent_toggle) || opponent_kind == 6;
+        if (opponent_can_react)
             goto alert;
         turn_engarde();
         goto reacted;
@@ -1437,7 +1447,7 @@ struct opponent_list {
     struct opponent opponents[5];
 };
 
-extern struct actor_state actor;
+extern signed char actor_presence;
 extern unsigned char opponent_list_index;
 extern struct opponent_list opponent_lists[];
 
@@ -1454,18 +1464,18 @@ int far pascal OppToFight(void)
     struct opponent near *opponent;
 
     ready = 0;
-    saved_actor = actor;
+    saved_actor = *(struct actor_state near *)&actor_character;
     copy_kid_to_char();
-    if (actor.animation_contact != 13 && actor.kind != 1 &&
-        actor.state_code != 3 && actor.state_code != 4 && !is_dead_pos(actor.frame)) {
+    if (animation_contact != 13 && actor_kind != 1 &&
+        state_code != 3 && state_code != 4 && !is_dead_pos(actor_frame)) {
         index = 0;
         do {
             if (index >= opponent_lists[opponent_list_index].count)
                 break;
             load_actor_slot(index);
-            if (actor.fall_latch < 0 && actor.field_23 > 0 && actor.kind != 11) {
-                if (actor.kind == 7 || actor.kind == 8) {
-                    opponent = GetOppInfoIdx(actor.room, actor.slot);
+            if (fall_latch < 0 && actor_presence > 0 && actor_kind != 11) {
+                if (actor_kind == 7 || actor_kind == 8) {
+                    opponent = GetOppInfoIdx((unsigned char)actor_room, actor_character);
                     if (opponent->attitude != 1 && opponent->attitude != 3) {
                         ready = 0;
                         goto next_opponent;
@@ -1477,7 +1487,7 @@ next_opponent:
             index++;
         } while (!ready);
     }
-    actor = saved_actor;
+    *(struct actor_state near *)&actor_character = saved_actor;
     return ready;
 }
 
@@ -1533,22 +1543,19 @@ void far pascal on_alert(void)
 /* 25da:1ebc */
 void far pascal sheathe_weapon(void)
 {
-    int sequence;
-
     floor_contact = 0;
     direction_down = ClrAll();
     if (actor_kind == 0 || actor_kind == 1) {
         sheathe_delay = 9;
         if (OppToFight())
-            sequence = 93;
+            JumpSeq(93);
         else
-            sequence = 92;
+            JumpSeq(92);
     } else if (actor_kind == 10) {
-        sequence = 90;
+        JumpSeq(90);
     } else {
-        sequence = 77;
+        JumpSeq(77);
     }
-    JumpSeq(sequence);
 }
 
 /* 25da:1f08 */
@@ -1634,28 +1641,25 @@ void far pascal block_actor(void)
         sequence = 62;
         advance = 0;
         frame = actor_frame;
-        switch (frame) {
-        case 158:
-        case 170:
-        case 171:
-        case 168:
-        case 165:
+        if (frame == 158 || frame == 170 || frame == 171 || frame == 168 || frame == 165) {
             if (kind == 0 || kind == 1) {
                 if (threat_frame == 168)
                     sequence = -1;
-                else if (threat_frame == 153)
+                else if (threat_frame == 152 || threat_frame == 162) {
+                    /* Keep the default block sequence. */
+                } else if (threat_frame == 153) {
                     advance = 1;
+                }
             } else if (actor_spacing() >= 51) {
                 retreat_actor();
-                sequence = -1;
+                goto cannot_block;
             } else if (threat_frame != 152) {
-                sequence = -1;
+                goto cannot_block;
             }
-            break;
-        case 167:
+        } else if (frame == 167) {
             sequence = 61;
-            break;
-        default:
+        } else {
+cannot_block:
             sequence = -1;
         }
         if (sequence != -1) {
@@ -1672,21 +1676,20 @@ void far pascal crush_actor(void)
 {
     signed char state = state_code;
     int frame = actor_frame;
-    int sequence;
 
     if ((frame < 5 || frame >= 15) && frame != 109 &&
         (state < 2 || state == 7) && actor_kind != 1) {
         reset_char_y();
         if (decrement_life_points(actor_kind == 0 ? 1 : 100)) {
             if (actor_kind == 11)
-                sequence = 169;
+                JumpSeq(169);
             else if (actor_kind == 7 || actor_kind == 8)
-                sequence = 146;
+                JumpSeq(146);
             else if (actor_kind == 4) {
                 play_guard_landing();
                 return;
             } else {
-                sequence = 22;
+                JumpSeq(22);
             }
         } else {
             if (frame == 109)
@@ -1695,9 +1698,8 @@ void far pascal crush_actor(void)
                 actor_x = AddCharX(-4);
             animation_contact = 8;
             AddSound(10);
-            sequence = 52;
+            JumpSeq(52);
         }
-        JumpSeq(sequence);
     }
 }
 
