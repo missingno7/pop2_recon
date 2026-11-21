@@ -61,7 +61,8 @@ extern CustomRoom *custom_room;
 extern unsigned char level_style, room_style, room_number;
 extern unsigned char room_specific_ready, custom_room_enabled;
 extern ShapeHandle room_specific_handle;
-extern char room_specific_resource[];
+/* Rectangle passed to StrokePortRect for the style-4 border. */
+static const int _based(_segname("_CONST")) room_specific_border[4] = {0, 0, 3, 320};
 extern AboveCell custom_above[];
 extern PeelRecord peel_records[];
 extern RoomTemplate *template_table[];
@@ -74,7 +75,7 @@ extern void far custom_floor_image(void);
 extern void far _fastcall add_peel(int top, int bottom, int left, int width,
                                    unsigned char id, unsigned char kind);
 extern int restore_peel(unsigned char id, int restore);
-extern void load_room_specific_resource(char far *);
+extern void stroke_port_rect(const int far *rect);
 extern void check_rooftops_room(void);
 extern void check_style_six_room(void);
 extern void free_shape(ShapeHandle handle);
@@ -119,7 +120,7 @@ void CheckRoomSpecific(void)
     switch (level_style) {
     case 4:
         if (!room_specific_ready)
-            load_room_specific_resource(room_specific_resource);
+            stroke_port_rect(room_specific_border);
         break;
     case 5:
         check_rooftops_room();
@@ -276,6 +277,7 @@ void LoadCustomRoomData(unsigned char room_number_arg)
     }
 }
 
+#pragma optimize("l", on)
 void LoadCustomRoomShapes(CustomRoom *room)
 {
     int i, old_count, bytes, shape_base, position;
@@ -286,6 +288,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
     void far *bitmap;
     CustomPiece *piece;
     CustomRect rect;
+    CustomRect far *clip;
 
     if (custom_room) {
         if (custom_room->shape_base == (shape_base = room->shape_base)) {
@@ -301,7 +304,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
                     CustomRoom *indexed = (CustomRoom *)((char *)custom_room + offset);
                     if (indexed->pieces[0].handle) {
                         piece = &indexed->pieces[0];
-                        old_shapes[piece->shape] = indexed->pieces[0].handle;
+                        old_shapes[piece->shape] = piece->handle;
                         indexed->pieces[0].handle = 0;
                     }
                     offset += sizeof(CustomPiece);
@@ -337,8 +340,8 @@ void LoadCustomRoomShapes(CustomRoom *room)
                 piece->handle = new_shapes[piece->shape];
                 bitmap = locate_shape(piece->handle);
                 shape_rect(&rect, piece->x, piece->y, bitmap);
-                if (rect_is_empty(&piece->rect)) {
-                    piece->rect = rect;
+                if (rect_is_empty(clip = &piece->rect)) {
+                    *clip = rect;
                 } else {
                     offset_rect(&piece->rect, &piece->rect, piece->y, piece->x);
                     unite_rect(&piece->rect, &piece->rect, &rect);
@@ -365,6 +368,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
     }
     free(new_shapes);
 }
+#pragma optimize("l", off)
 
 int NeedDrawRoomBelowCustom(void)
 {

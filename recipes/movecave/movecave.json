@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/movecave/movecave.json",
-  "binding_sha256": "2a73b7e1b882ed0cb489c16d24b5b3ece75181058e9a1a18f730a715c608dcfe",
+  "binding_sha256": "fb9d44540b6b4a246c398ce402fb1d359b3e4fc19864db347c710acd2f5c99b0",
   "claims": [
     {
       "fixup_count": 5,
@@ -82,6 +82,16 @@
       "target_id": "overlay-6:29cf:06e8"
     },
     {
+      "fixup_count": 3,
+      "public": "GET_FREE_LAVA_SLOT",
+      "relocation_indices": [
+        15
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:29cf:0806"
+    },
+    {
       "fixup_count": 14,
       "public": "REDRAW_LAVA",
       "relocation_indices": [
@@ -121,6 +131,18 @@
       "fixup_count": 0,
       "public": "TRIGGERLAVABUBBLE",
       "target_id": "overlay-6:29cf:0ab8"
+    },
+    {
+      "fixup_count": 19,
+      "public": "MOVE_CAVE_GATE",
+      "relocation_indices": [
+        31,
+        59,
+        61
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-6:29cf:0b10"
     },
     {
       "fixup_count": 1,
@@ -181,10 +203,6 @@
       "public": "DO_LAVA_BOIL"
     },
     {
-      "object_offset": 2054,
-      "public": "GET_FREE_LAVA_SLOT"
-    },
-    {
       "object_offset": 2118,
       "public": "GET_LAVA_INFO"
     },
@@ -195,10 +213,6 @@
     {
       "object_offset": 2244,
       "public": "CLEAR_LAVA_SLOTS"
-    },
-    {
-      "object_offset": 2832,
-      "public": "MOVE_CAVE_GATE"
     }
   ],
   "emitted_size": 3146,
@@ -215,12 +229,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "movecave/movecave",
-  "object_sha256": "a0ce4dd2fcb9a1922114d683b299ad067b39c91023a53634ebe1289dfc9cf643",
+  "object_sha256": "1b88819254c5c10116dfb1854831af886958615c8d83e796d1de52f5386824c7",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/movecave/movecave.c",
-  "source_sha256": "5ff7bae911dadd7409fbbe81e616311ce59f4f2000727c1ad895e52b854af3e0",
+  "source_sha256": "8d59b47d388ca3eeb8cc3be2276f08b15b6903190753b8b3ab0ea71c8d4a019d",
   "space": "overlay-6"
 }

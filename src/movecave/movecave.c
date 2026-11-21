@@ -125,7 +125,7 @@ static struct {
     }
 };
 
-extern char too_many_lava_pools[];
+static const char _based(_segname("_CONST")) too_many_lava_pools[] = "All global lava info structs have been used.";
 static struct {
     int ticks;
     ubyte state[8];
