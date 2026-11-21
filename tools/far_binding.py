@@ -11,7 +11,7 @@ from common import require, sha
 from disasm import _capstone
 
 
-FAR_KINDS = ("far-code-entry", "rtlink-vector", "overlay-code-entry", "segment-base")
+FAR_KINDS = ("far-code-entry", "rtlink-vector", "overlay-code-entry", "segment-base", "far-data")
 
 
 def _vector(oracle, segment, offset):
@@ -44,6 +44,37 @@ def _ground_segment(symbol, target, oracle):
     return {"kind": "segment-base", "segment": symbol["segment"], "witnesses": receipts}
 
 
+def _ground_far_data(symbol, target, oracle):
+    """A far data object at N:O. N is grounded like a segment base; O by reached original
+    instructions whose address field equals O and that sit within 16 bytes of an original
+    relocated word storing N (the same far-pointer construction in other code)."""
+    from binding import instructions, operand_field, reachable_from_entry
+    segment = _ground_segment({"segment": symbol["segment"], "witnesses": symbol["segment_witnesses"]},
+                              target, oracle)
+    offset = symbol.get("offset")
+    require(type(offset) is int and 0 <= offset <= 65535 and symbol.get("offset_witnesses"),
+            "Far data symbol needs an offset and independent offset witnesses")
+    space = oracle.spaces[target["space"]]
+    start = space.position(target["segment"], target["offset"])
+    end = start + target["size"]
+    for spec in symbol["offset_witnesses"]:
+        wspace = oracle.spaces[spec["space"]]
+        at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
+        require(wspace.data[at:at+len(raw)] == raw and (wspace.name != space.name or not (start <= at+len(raw) and at < end)),
+                "Far data offset witness changed or overlaps candidate")
+        rows = instructions(raw)
+        require(len(rows) == 1 and operand_field(rows[0], spec["operand_offset"]) is not None and
+                struct.unpack_from("<H", raw, spec["operand_offset"])[0] == offset,
+                "Far data offset witness field does not equal the offset")
+        require(spec["entry"].split(":")[0] == spec["space"] and at in reachable_from_entry(oracle, spec["entry"]),
+                "Far data offset witness is not reached code")
+        require(any(abs(r["image_offset"] - at) <= 16 and struct.unpack_from("<H", wspace.data, r["image_offset"])[0]
+                    == symbol["segment"] for r in wspace.relocations),
+                "Far data offset witness is not paired with a relocated word storing the segment")
+    return {"kind": "far-data", "segment": symbol["segment"], "offset": offset,
+            "segment_witnesses": segment["witnesses"], "offset_witnesses": len(symbol["offset_witnesses"])}
+
+
 def _accepted_entry(target_id):
     """The target is a canonical CODE_EXACT/ASM_EXACT owner. (The caller has already
     refused any entry inside the candidate, or inside the whole object for a group.)"""
@@ -68,6 +99,8 @@ def ground_symbol(symbol, target, oracle):
     require(kind in FAR_KINDS, "Unsupported far callee kind")
     if kind == "segment-base":
         return _ground_segment(symbol, target, oracle)
+    if kind == "far-data":
+        return _ground_far_data(symbol, target, oracle)
     require(type(symbol["segment"]) is int and type(symbol["offset"]) is int and
             0 <= symbol["segment"] <= 65535 and 0 <= symbol["offset"] <= 65535,
             "Far code alias must be an exact 16:16 pair")
