@@ -194,7 +194,7 @@ extern unsigned char base_cell;
 int far pascal get_base_x(void);
 char far pascal get_char_col(int x);
 char far pascal get_col(int x);
-int far pascal offset_char_x(int value);
+int far pascal AddCharX(int value);
 void far pascal get_frame_info(void);
 void far pascal reread_base_cell(void);
 
@@ -242,12 +242,11 @@ void far pascal get_frame_info(void)
 extern unsigned char char_direction;
 extern int char_x;
 
-int far pascal offset_char_x(int value)
+int far pascal AddCharX(int value)
 {
-    int x = value;
     if (char_direction)
-        x = -value;
-    return x + char_x;
+        value = -value;
+    return value + char_x;
 }
 
 /* Semantic names are hypotheses only; direct addresses are established separately. */
@@ -418,7 +417,7 @@ void far pascal AnimChar(void)
             character_y += get_seq_op(sequence);
             break;
         case -5:
-            char_x = offset_char_x(get_seq_op(sequence));
+            char_x = AddCharX(get_seq_op(sequence));
             break;
         case -4:
             ++character_row;
@@ -428,7 +427,7 @@ void far pascal AnimChar(void)
             break;
         case -2:
             if (character_kind == 10)
-                char_x = offset_char_x(25);
+                char_x = AddCharX(25);
             char_direction = ~char_direction;
             break;
         case -1:
@@ -484,7 +483,7 @@ void far pascal anim_char_tap(int sound)
         if (STATE_MODE != 1 && !(animation_tick & 3)) {
             play_step(sound_steps % 2 + 23);
             if (character_kind == 4 && should_shift_step(character_room))
-                char_x = offset_char_x(character_width - 1);
+                char_x = AddCharX(character_width - 1);
         }
         /* Fall through. */
     case 0:
@@ -538,12 +537,13 @@ struct CharacterRecord {
     char bytes[64];
 };
 
+extern unsigned char hidden_facing;
 extern struct CharacterRecord Char, Kid;
 extern struct CharacterRecord opponent, actor_slots[];
 
 void copy_kid_to_char(void);
 void far pascal save_actor_slot(void);
-void far pascal load_actor_slot(signed char slot);
+void far pascal load_actor_slot(int slot);
 
 void far pascal load_kid_with_opponent(signed char slot)
 {
@@ -561,7 +561,7 @@ void far pascal save_kid_with_opponent(void)
     }
 }
 
-void far pascal load_shadow_with_opponent(signed char slot)
+void far pascal load_shadow_with_opponent(int slot)
 {
     load_actor_slot(slot);
     opponent = Kid;
@@ -624,7 +624,7 @@ void far pascal add_char_velocity(void)
     if (character_y < 2000) {
         character_y += vertical_step;
         if (state_code == 4 || character_kind == 7 || character_kind == 8) {
-            char_x = offset_char_x(horizontal_step);
+            char_x = AddCharX(horizontal_step);
             reread_cells();
         }
     }
@@ -680,7 +680,6 @@ extern signed char behind_offsets[];
 extern signed char floor_contact;
 extern signed char fall_latch;
 extern unsigned char grab_enabled;
-extern unsigned char hidden_facing;
 extern unsigned int crouch_fall;
 extern unsigned int grab_delay;
 extern unsigned int ledge_hold;
@@ -729,7 +728,7 @@ void far pascal on_ground(void)
             if (STATE_MODE == 2 && chain_floor_blocks_fall(16))
                 return;
             if (character_kind == 11)
-                char_x = offset_char_x(get_edge_distance() - 42);
+                char_x = AddCharX(get_edge_distance() - 42);
             else
                 start_fall();
         }
@@ -809,9 +808,9 @@ void far pascal start_fall(void)
             !tile_has_floor(get_above_behind())) {
             distance = get_edge_distance();
             if (distance <= 7)
-                char_x = offset_char_x(distance - 11);
+                char_x = AddCharX(distance - 11);
             else if (distance >= 25)
-                char_x = offset_char_x(distance - 21);
+                char_x = AddCharX(distance - 21);
             if (!tile_has_floor(get_above()) || !tile_has_floor(get_above_front())) {
                 min_y = (signed char)63 * character_row + 1;
                 if (min_y > character_y)
@@ -838,9 +837,9 @@ void far pascal start_fall(void)
             !tile_has_floor(get_above_behind())) {
             distance = get_edge_distance();
             if (distance <= 7)
-                char_x = offset_char_x(distance - 11);
+                char_x = AddCharX(distance - 11);
             else if (distance >= 25)
-                char_x = offset_char_x(distance - 21);
+                char_x = AddCharX(distance - 21);
             if (!tile_has_floor(get_above()) || !tile_has_floor(get_above_front())) {
                 min_y = (signed char)63 * character_row + 1;
                 if (min_y > character_y)
@@ -856,7 +855,7 @@ void far pascal start_fall(void)
             animation_event(114);
             AnimChar();
         } else {
-            char_x = offset_char_x(-2);
+            char_x = AddCharX(-2);
         }
         reread_cells();
     }
@@ -912,7 +911,7 @@ void far pascal FallOn(void)
     if (grab_enabled && vertical_step < 32 && fall_latch < 0 &&
         (signed char)63 * character_row + 56 <= character_y + 25) {
         position = char_x;
-        char_x = offset_char_x(-16);
+        char_x = AddCharX(-16);
         reread_cells();
         if (!GrabTest()) {
             char_x = position;
@@ -924,7 +923,7 @@ void far pascal FallOn(void)
             position -= 7;
         else
             position -= 9;
-        char_x = offset_char_x(position);
+        char_x = AddCharX(position);
         reset_char_y();
         vertical_step = 0;
         animation_event(15);
@@ -960,7 +959,7 @@ char far pascal inside_cell(void)
             distance += 11;
         else
             distance = 15 - distance;
-        char_x = offset_char_x(distance);
+        char_x = AddCharX(distance);
         reread_cells();
     }
     return get_under_foot();
@@ -985,7 +984,7 @@ extern signed char column_remainder;
 
 int far pascal get_base_x(void)
 {
-    return offset_char_x((signed char)(frame_x - (frame_flags & 31)));
+    return AddCharX((signed char)(frame_x - (frame_flags & 31)));
 }
 
 int far pascal get_edge_distance(void)
@@ -1014,6 +1013,39 @@ char far pascal get_col(int x)
     x -= 4;
     column_remainder = x % 32;
     return x / 32 - 4;
+}
+
+char far pascal GetRow(int value)
+{
+    int shifted = value - 3;
+    char result = shifted / 63;
+
+    if (shifted <= 0)
+        --result;
+
+    return result;
+}
+
+extern unsigned char state_left_room;
+extern unsigned char state_right_room;
+extern unsigned char state_other_room;
+
+char far pascal GetCellCol(void)
+{
+    signed char col = cell_column;
+
+    if (cell_room != STATE_KIND && cell_room != state_other_room && cell_room != STATE_FLAG) {
+        if (cell_room == state_left_room)
+            col -= 10;
+        else if (cell_room == state_right_room)
+            col += 10;
+    }
+
+    return col;
+}
+
+void far pascal prepare_player_control(void)
+{
 }
 
 /* Later CTRL.C bodies are incomplete. These are same-file callee drafts. */
@@ -1046,14 +1078,6 @@ void far pascal save_actor_slot(void)
         return;
     }
     if (report_slot_error((char far *)bad_save_slot))
-        stop_on_slot_error(1, 0, 0);
-}
-
-void far pascal load_actor_slot(signed char slot)
-{
-    if (slot >= 0 && slot < 5)
-        Char = actor_slots[slot];
-    else if (report_slot_error((char far *)bad_load_slot))
         stop_on_slot_error(1, 0, 0);
 }
 

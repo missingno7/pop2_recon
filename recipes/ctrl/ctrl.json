@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "9d915fbd97623aa8a3ae1756bf024d2d95b368c797e6c63402bb36012aefdfaa",
+  "binding_sha256": "81a1f8c824a1db8dc63acf0ef9ac302d312350c2b08c528bb6883823c9a0f8b7",
   "claims": [
     {
       "fixup_count": 28,
@@ -199,13 +199,29 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:02cc:09ea"
+    },
+    {
+      "fixup_count": 2,
+      "public": "ADDCHARX",
+      "target_id": "root:02cc:0360"
+    },
+    {
+      "fixup_count": 0,
+      "public": "GETROW",
+      "target_id": "root:02cc:1102"
+    },
+    {
+      "fixup_count": 8,
+      "public": "GETCELLCOL",
+      "target_id": "root:02cc:112a"
+    },
+    {
+      "fixup_count": 0,
+      "public": "PREPARE_PLAYER_CONTROL",
+      "target_id": "root:02cc:116c"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 862,
-      "public": "OFFSET_CHAR_X"
-    },
     {
       "object_offset": 914,
       "public": "ANIMCHAR"
@@ -251,31 +267,27 @@
       "public": "GET_COL"
     },
     {
-      "object_offset": 4350,
+      "object_offset": 4460,
       "public": "GET_ABOVE"
     },
     {
-      "object_offset": 4370,
+      "object_offset": 4480,
       "public": "GET_ABOVE_BEHIND"
     },
     {
-      "object_offset": 4400,
+      "object_offset": 4510,
       "public": "GET_ABOVE_FRONT"
     },
     {
-      "object_offset": 4430,
+      "object_offset": 4540,
       "public": "SAVE_ACTOR_SLOT"
     },
     {
-      "object_offset": 4506,
-      "public": "LOAD_ACTOR_SLOT"
-    },
-    {
-      "object_offset": 4588,
+      "object_offset": 4616,
       "public": "COPY_KID_TO_CHAR"
     }
   ],
-  "emitted_size": 4606,
+  "emitted_size": 4634,
   "flags": [
     "/c",
     "/AM",
@@ -289,12 +301,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "8df4cb09b3dae62b2267f2ae8b839466010b625c5c2c334e883aa9b35c47707d",
+  "object_sha256": "e8131937f7187081c9096c0e226215f51dc96a6200951e199484b2fce8bbc644",
   "origin": 11458,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "b72c490e0b8d15fba77dbcda7bca1036e52e4cba07ba5da146c3258bc0beed46",
+  "source_sha256": "c7712d5c75e9331d7dcadbb14c65c595c696116e5978fe5538a9bd7041931082",
   "space": "root"
 }

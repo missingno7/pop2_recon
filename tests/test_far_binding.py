@@ -338,8 +338,17 @@ class AcceptedEntryTests(unittest.TestCase):
         self.assertEqual(self.ground("root:02cc:0002")["grounded_by"], "accepted exact entry")
 
     def test_reviewed_but_unaccepted_entry_needs_a_witness(self):
+        # Any reviewed root direct-code entry that no canonical owner starts at, chosen at run time
+        # because accepted owners grow with every wave.
+        from common import ROOT, read_json
+        from far_binding import _accepted_entry
+        from oracle import Oracle
+        oracle = Oracle.load()
+        unaccepted = next(t["id"] for t in read_json(ROOT / "evidence/targets.json")["functions"]
+                          if t["space"] == "root" and t.get("entry_kind") == "direct-code" and
+                          not _accepted_entry(t["id"], oracle))
         with self.assertRaisesRegex(ValueError, "accepted exact entry"):
-            self.ground("root:1101:649c")
+            self.ground(unaccepted)
 
 
 class SegmentBaseTests(unittest.TestCase):

@@ -19471,6 +19471,853 @@
       "size": 68,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, one far pointer, RETF 4.",
+      "boundary_evidence": [
+        "Reads a four-byte descriptor via DS:SI and returns a normalized far pointer in DX:AX, preserving DS/ES/SI. RETF 4 at 1101:002f; independently relocated next BP frame at 0032. Preceding frame returns and pads at root+0x11010..0x11013.",
+        "Original relocated CALL FAR at root+0x10d97, relocation 1371."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 77207,
+          "image_offset": 69015,
+          "kind": "far_call",
+          "relocated_segment_site": 69018,
+          "relocation_index": 1371,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Reads a four-byte descriptor via DS:SI and returns a normalized far pointer in DX:AX, preserving DS/ES/SI. RETF 4 at 1101:002f; independently relocated next BP frame at 0032. Preceding frame returns and pads at root+0x11010..0x11013."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:0004",
+      "offset": 4,
+      "segment": 4353,
+      "semantic_name_hypothesis": "normalize_banked_pointer",
+      "sha256": "22f2cd94c1556f050427fe15777ae101b8671d370e24e9ef25bcb1a8b7dcbc46",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, one far pointer, RETF 4.",
+      "boundary_evidence": [
+        "Reads the descriptor through DS:SI, computes paragraph count times 16 plus twice the low three tag bits minus six, and returns AX, preserving DS/ES/SI. RETF 4 at 1101:0055; following BP frame at 0058.",
+        "Original relocated CALL FAR at root+0x10c4b, relocation 1372."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 76875,
+          "image_offset": 68683,
+          "kind": "far_call",
+          "relocated_segment_site": 68686,
+          "relocation_index": 1372,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Reads the descriptor through DS:SI, computes paragraph count times 16 plus twice the low three tag bits minus six, and returns AX, preserving DS/ES/SI. RETF 4 at 1101:0055; following BP frame at 0058."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:0032",
+      "offset": 50,
+      "segment": 4353,
+      "semantic_name_hypothesis": "banked_pointer_capacity",
+      "sha256": "dc993dfcd5da2ba5450f0f43b6b67bcd76c578ed564aa71a171aa298ce4a475d",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one unsigned bank count, RETF 2. Saves DI/SI, result unspecified.",
+      "boundary_evidence": [
+        "Begins at root+0x118e2 directly after the complete canonically owned AllocBanks ends with RETF 2. Independent BP frame saves DI/SI and clears DS:20c8.",
+        "The initial short jump enters the count test; the loop backedge targets the OR into DS:20c8 and high-edge bit shift. All entry-local control stays in the 42-byte extent. Sole RETF 2 at 1101:08f8, then alignment NOP.",
+        "Next BP frame at 1101:08fc is independently entered by PUSH CS/CALL near at root+0x11e25 and 0x121bf. No relocated or direct PUSH CS/CALL near entry was found for 08d2 itself."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Word bitmap writes, compiler-shaped countdown loop, ordinary Pascal frame and compiler NOP alignment."
+      ],
+      "classification_status": "Reviewed engine C hypothesis.",
+      "id": "root:1101:08d2",
+      "offset": 2258,
+      "original_name": "ResetBanks",
+      "original_name_evidence": [
+        "evidence/modules.json frame root:1101 anchors XLATGRAF ResetBanks after AllocBanks: clears shared occupancy bitmap, then marks one bit per bank using a low-to-high scan."
+      ],
+      "segment": 4353,
+      "semantic_name_hypothesis": "reset_banks",
+      "sha256": "9eb8cee065769703c4d6afa6bd87a880e9b5649ecdd4323644090b4637bb28d3",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, far destination and source, unsigned long count, DX:AX and RETF 12.",
+      "boundary_evidence": [
+        "Normalizes both 16:16 pointers, detects overlap, and copies forward or backward via REP MOVSW plus an odd byte. RETF 12 at 1c05 is reached when byte count is exhausted; final JMP at 1c8e returns to the backward loop. A separate near arithmetic routine starts at 1c90.",
+        "Original relocated CALL FAR at root+0x1935f, relocation 1573."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 111455,
+          "image_offset": 103263,
+          "kind": "far_call",
+          "relocated_segment_site": 103266,
+          "relocation_index": 1573,
+          "space": "root"
+        },
+        {
+          "file_offset": 111214,
+          "image_offset": 103022,
+          "kind": "far_call",
+          "relocated_segment_site": 103025,
+          "relocation_index": 1574,
+          "space": "root"
+        },
+        {
+          "file_offset": 112210,
+          "image_offset": 104018,
+          "kind": "far_call",
+          "relocated_segment_site": 104021,
+          "relocation_index": 1575,
+          "space": "root"
+        },
+        {
+          "file_offset": 130365,
+          "image_offset": 122173,
+          "kind": "far_call",
+          "relocated_segment_site": 122176,
+          "relocation_index": 1697,
+          "space": "root"
+        },
+        {
+          "file_offset": 130343,
+          "image_offset": 122151,
+          "kind": "far_call",
+          "relocated_segment_site": 122154,
+          "relocation_index": 1698,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Normalizes both 16:16 pointers, detects overlap, and copies forward or backward via REP MOVSW plus an odd byte. RETF 12 at 1c05 is reached when byte count is exhausted; final JMP at 1c8e returns to the backward loop. A separate near arithmetic routine starts at 1c90."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:1b7c",
+      "offset": 7036,
+      "segment": 4353,
+      "semantic_name_hypothesis": "move_far_bytes",
+      "sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
+      "size": 276,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, near handle, DX:AX, RETF 2.",
+      "boundary_evidence": [
+        "Returns a far payload in DX:AX. Checked-null and direct-handle branches reach RETF 2 at 230c; external-handle path goes through 2665, 1df1, 2749 and 2616 then jumps back to 22ee. JMP at 235f terminates the 127-byte body. Original zero at 2361 precedes the next relocated far entry 2362.",
+        "Original relocated CALL FAR at root+0x24ca, relocation 134."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17610,
+          "image_offset": 9418,
+          "kind": "far_call",
+          "relocated_segment_site": 9421,
+          "relocation_index": 134,
+          "space": "root"
+        },
+        {
+          "file_offset": 17770,
+          "image_offset": 9578,
+          "kind": "far_call",
+          "relocated_segment_site": 9581,
+          "relocation_index": 135,
+          "space": "root"
+        },
+        {
+          "file_offset": 17935,
+          "image_offset": 9743,
+          "kind": "far_call",
+          "relocated_segment_site": 9746,
+          "relocation_index": 136,
+          "space": "root"
+        },
+        {
+          "file_offset": 27611,
+          "image_offset": 19419,
+          "kind": "far_call",
+          "relocated_segment_site": 19422,
+          "relocation_index": 384,
+          "space": "root"
+        },
+        {
+          "file_offset": 47719,
+          "image_offset": 39527,
+          "kind": "far_call",
+          "relocated_segment_site": 39530,
+          "relocation_index": 703,
+          "space": "root"
+        },
+        {
+          "file_offset": 65429,
+          "image_offset": 57237,
+          "kind": "far_call",
+          "relocated_segment_site": 57240,
+          "relocation_index": 1101,
+          "space": "root"
+        },
+        {
+          "file_offset": 65789,
+          "image_offset": 57597,
+          "kind": "far_call",
+          "relocated_segment_site": 57600,
+          "relocation_index": 1102,
+          "space": "root"
+        },
+        {
+          "file_offset": 65777,
+          "image_offset": 57585,
+          "kind": "far_call",
+          "relocated_segment_site": 57588,
+          "relocation_index": 1103,
+          "space": "root"
+        },
+        {
+          "file_offset": 66248,
+          "image_offset": 58056,
+          "kind": "far_call",
+          "relocated_segment_site": 58059,
+          "relocation_index": 1104,
+          "space": "root"
+        },
+        {
+          "file_offset": 110944,
+          "image_offset": 102752,
+          "kind": "far_call",
+          "relocated_segment_site": 102755,
+          "relocation_index": 1430,
+          "space": "root"
+        },
+        {
+          "file_offset": 112140,
+          "image_offset": 103948,
+          "kind": "far_call",
+          "relocated_segment_site": 103951,
+          "relocation_index": 1431,
+          "space": "root"
+        },
+        {
+          "file_offset": 135478,
+          "image_offset": 127286,
+          "kind": "far_call",
+          "relocated_segment_site": 127289,
+          "relocation_index": 1795,
+          "space": "root"
+        },
+        {
+          "file_offset": 174734,
+          "image_offset": 18798,
+          "kind": "far_call",
+          "relocated_segment_site": 18801,
+          "relocation_index": 59,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 261719,
+          "image_offset": 87,
+          "kind": "far_call",
+          "relocated_segment_site": 90,
+          "relocation_index": 0,
+          "space": "overlay-13"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Returns a far payload in DX:AX. Checked-null and direct-handle branches reach RETF 2 at 230c; external-handle path goes through 2665, 1df1, 2749 and 2616 then jumps back to 22ee. JMP at 235f terminates the 127-byte body. Original zero at 2361 precedes the next relocated far entry 2362."
+      ],
+      "classification_status": "Original engine support code, reviewed instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:22e2",
+      "offset": 8930,
+      "segment": 4353,
+      "semantic_name_hypothesis": "deref_handle",
+      "sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
+      "size": 127,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, near handle, AX and RETF 2.",
+      "boundary_evidence": [
+        "Loads the near handle through BP, conditionally sets bit 0x2000 of SS:[BP], returns the handle in AX, and terminates at the next BP frame after RETF 2 at 238d.",
+        "Original relocated CALL FAR at root+0x11a84, relocation 1538."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 80516,
+          "image_offset": 72324,
+          "kind": "far_call",
+          "relocated_segment_site": 72327,
+          "relocation_index": 1538,
+          "space": "root"
+        },
+        {
+          "file_offset": 111513,
+          "image_offset": 103321,
+          "kind": "far_call",
+          "relocated_segment_site": 103324,
+          "relocation_index": 1539,
+          "space": "root"
+        },
+        {
+          "file_offset": 111333,
+          "image_offset": 103141,
+          "kind": "far_call",
+          "relocated_segment_site": 103144,
+          "relocation_index": 1540,
+          "space": "root"
+        },
+        {
+          "file_offset": 112236,
+          "image_offset": 104044,
+          "kind": "far_call",
+          "relocated_segment_site": 104047,
+          "relocation_index": 1541,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Loads the near handle through BP, conditionally sets bit 0x2000 of SS:[BP], returns the handle in AX, and terminates at the next BP frame after RETF 2 at 238d."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:237c",
+      "offset": 9084,
+      "segment": 4353,
+      "semantic_name_hypothesis": "mark_handle_converted",
+      "sha256": "acd58479c7db44f27fe8728be1702c9e4005e38d2f5be76f532c382ee1e4d71d",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, near handle and long size, AX, RETF 6.",
+      "boundary_evidence": [
+        "Manipulates handle metadata, uses direct near calls and PUSH CS/CALL pairs, and rejoins the RETF 6 at 2585. Tail JMP at 2592 targets the restore sequence; next relocated entry starts at 2594.",
+        "Original relocated CALL FAR at root+0x12324, relocation 1527."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 82724,
+          "image_offset": 74532,
+          "kind": "far_call",
+          "relocated_segment_site": 74535,
+          "relocation_index": 1527,
+          "space": "root"
+        },
+        {
+          "file_offset": 82234,
+          "image_offset": 74042,
+          "kind": "far_call",
+          "relocated_segment_site": 74045,
+          "relocation_index": 1528,
+          "space": "root"
+        },
+        {
+          "file_offset": 83090,
+          "image_offset": 74898,
+          "kind": "far_call",
+          "relocated_segment_site": 74901,
+          "relocation_index": 1529,
+          "space": "root"
+        },
+        {
+          "file_offset": 111507,
+          "image_offset": 103315,
+          "kind": "far_call",
+          "relocated_segment_site": 103318,
+          "relocation_index": 1530,
+          "space": "root"
+        },
+        {
+          "file_offset": 111390,
+          "image_offset": 103198,
+          "kind": "far_call",
+          "relocated_segment_site": 103201,
+          "relocation_index": 1531,
+          "space": "root"
+        },
+        {
+          "file_offset": 111325,
+          "image_offset": 103133,
+          "kind": "far_call",
+          "relocated_segment_site": 103136,
+          "relocation_index": 1532,
+          "space": "root"
+        },
+        {
+          "file_offset": 111140,
+          "image_offset": 102948,
+          "kind": "far_call",
+          "relocated_segment_site": 102951,
+          "relocation_index": 1533,
+          "space": "root"
+        },
+        {
+          "file_offset": 112230,
+          "image_offset": 104038,
+          "kind": "far_call",
+          "relocated_segment_site": 104041,
+          "relocation_index": 1534,
+          "space": "root"
+        },
+        {
+          "file_offset": 112171,
+          "image_offset": 103979,
+          "kind": "far_call",
+          "relocated_segment_site": 103982,
+          "relocation_index": 1535,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Manipulates handle metadata, uses direct near calls and PUSH CS/CALL pairs, and rejoins the RETF 6 at 2585. Tail JMP at 2592 targets the restore sequence; next relocated entry starts at 2594."
+      ],
+      "classification_status": "Original engine support code, reviewed instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2502",
+      "offset": 9474,
+      "segment": 4353,
+      "semantic_name_hypothesis": "resize_handle",
+      "sha256": "c8edafc61150b7dd7ed96e9da2dc0a3b24f239c4f25d28126af9fdb3313c4b83",
+      "size": 146,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, near port pointer, RETF 2.",
+      "boundary_evidence": [
+        "Enters via a relocated CALL FAR after the create_port caller. Exchanges the active record, calls two same-frame rectangle routines and restores that record before its sole RETF 2 at 39f2. No fallthrough into the following table payload. This sole relocated witness is inside 38ae.",
+        "Original relocated CALL FAR at root+0x149b3, relocation 1653."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 92595,
+          "image_offset": 84403,
+          "kind": "far_call",
+          "relocated_segment_site": 84406,
+          "relocation_index": 1653,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Enters via a relocated CALL FAR after the create_port caller. Exchanges the active record, calls two same-frame rectangle routines and restores that record before its sole RETF 2 at 39f2. No fallthrough into the following table payload. This sole relocated witness is inside 38ae."
+      ],
+      "classification_status": "Original engine support code, reviewed instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:39ba",
+      "offset": 14778,
+      "segment": 4353,
+      "semantic_name_hypothesis": "finish_port",
+      "sha256": "a33c4f79d52a93b8c95dc332507ccf8d3eaa7f46357a671d8e16f915274ddfe5",
+      "size": 59,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, two coordinate words, RETF 4.",
+      "boundary_evidence": [
+        "Loads two origin coordinates, applies their deltas to eight words of the active record, and terminates at RETF 4 at 5331. Relocated outside caller is in overlay 2.",
+        "Original relocated CALL FAR at root+0x149ad, relocation 1488."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 92589,
+          "image_offset": 84397,
+          "kind": "far_call",
+          "relocated_segment_site": 84400,
+          "relocation_index": 1488,
+          "space": "root"
+        },
+        {
+          "file_offset": 179939,
+          "image_offset": 24003,
+          "kind": "far_call",
+          "relocated_segment_site": 24006,
+          "relocation_index": 754,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Loads two origin coordinates, applies their deltas to eight words of the active record, and terminates at RETF 4 at 5331. Relocated outside caller is in overlay 2."
+      ],
+      "classification_status": "Original engine support code, reviewed instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5306",
+      "offset": 21254,
+      "segment": 4353,
+      "semantic_name_hypothesis": "set_origin",
+      "sha256": "3e54f4bb9a1f72895f60cfa4dc8fe62c94e13f3d675ab30a61304bf8235fc7eb",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, destination and source far pointers and one word; AX, RETF 10.",
+      "boundary_evidence": [
+        "Horizontal RLE decoder with bounded REP MOVSB/STOSB runs, returns consumed bytes in AX. Exit RETF 10 at 7683; relocated next BP frame at 7686.",
+        "Original relocated CALL FAR at root+0x11b53, relocation 1605."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 80723,
+          "image_offset": 72531,
+          "kind": "far_call",
+          "relocated_segment_site": 72534,
+          "relocation_index": 1605,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Horizontal RLE decoder with bounded REP MOVSB/STOSB runs, returns consumed bytes in AX. Exit RETF 10 at 7683; relocated next BP frame at 7686."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:763e",
+      "offset": 30270,
+      "original_name": "UNPACKRLEH",
+      "original_name_evidence": [
+        "evidence/modules.json frame root:1101 anchors this FM Towns assembly public by corresponding decoding direction and pixel format."
+      ],
+      "segment": 4353,
+      "semantic_name_hypothesis": "unpack_rle_h",
+      "sha256": "c55f261e46fb18872dc82f8e80af75fce924911ccd1a98317dfafe6c52611ea5",
+      "size": 72,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, destination and source far pointers and three words; AX, RETF 14.",
+      "boundary_evidence": [
+        "Vertical RLE decoder advances destination by stride and wraps at column boundaries, returns consumed bytes in AX. RETF 14 at 76f2; next entry has a distinct BP frame at 76f5.",
+        "Original relocated CALL FAR at root+0x11b6d, relocation 1448."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 80749,
+          "image_offset": 72557,
+          "kind": "far_call",
+          "relocated_segment_site": 72560,
+          "relocation_index": 1448,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Vertical RLE decoder advances destination by stride and wraps at column boundaries, returns consumed bytes in AX. RETF 14 at 76f2; next entry has a distinct BP frame at 76f5."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7686",
+      "offset": 30342,
+      "original_name": "UNPACKRLEV",
+      "original_name_evidence": [
+        "evidence/modules.json frame root:1101 anchors this FM Towns assembly public by corresponding decoding direction and pixel format."
+      ],
+      "segment": 4353,
+      "semantic_name_hypothesis": "unpack_rle_v",
+      "sha256": "edd871dda9b0c5b0fde563abadd447b5d5ecd0db84ca0d49949b14aa11d2b73e",
+      "size": 111,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, two far pointers and two near translation-table offsets, RETF 12.",
+      "boundary_evidence": [
+        "Distinct BP frame immediately after UNPACKRLEV RETF 14 at 76f2. Loads dimensions from a far header, selects a different SS translation table based on row parity, and maps pixels in place until RETF 12 at 772d. Next relocated far entry at 7730. No relocated or direct PUSH CS/CALL near incoming call was found."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Distinct BP frame immediately after UNPACKRLEV RETF 14 at 76f2. Loads dimensions from a far header, selects a different SS translation table based on row parity, and maps pixels in place until RETF 12 at 772d. Next relocated far entry at 7730. No relocated or direct PUSH CS/CALL near incoming call was found."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:76f5",
+      "offset": 30453,
+      "segment": 4353,
+      "semantic_name_hypothesis": "map_alternating_scanlines",
+      "sha256": "4090f478d7dd16a3b0925b2d99eed357e2901a4efd884faeaa4ad307c4d7a2a2",
+      "size": 59,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, far descriptor and byte-buffer pointers, RETF 8.",
+      "boundary_evidence": [
+        "Loads three words from a far descriptor. Expands mask bits to 00/ff in place from the end, restores DF with CLD and ends with RETF 8 at 777f, before the next relocated BP frame at 7782.",
+        "Original relocated CALL FAR at root+0x11d41, relocation 1602."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 81217,
+          "image_offset": 73025,
+          "kind": "far_call",
+          "relocated_segment_site": 73028,
+          "relocation_index": 1602,
+          "space": "root"
+        },
+        {
+          "file_offset": 82108,
+          "image_offset": 73916,
+          "kind": "far_call",
+          "relocated_segment_site": 73919,
+          "relocation_index": 1603,
+          "space": "root"
+        },
+        {
+          "file_offset": 82920,
+          "image_offset": 74728,
+          "kind": "far_call",
+          "relocated_segment_site": 74731,
+          "relocation_index": 1604,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Loads three words from a far descriptor. Expands mask bits to 00/ff in place from the end, restores DF with CLD and ends with RETF 8 at 777f, before the next relocated BP frame at 7782."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7730",
+      "offset": 30512,
+      "original_name": "MASKTOMCGA",
+      "original_name_evidence": [
+        "evidence/modules.json frame root:1101 anchors this FM Towns assembly public by corresponding decoding direction and pixel format."
+      ],
+      "segment": 4353,
+      "semantic_name_hypothesis": "mask_to_mcga",
+      "sha256": "b28ee1c6a8b849265ef0ef3d11588453c2b164e9ff21dc39f6dda5254e037459",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, far descriptor and byte-buffer pointers and one palette-bank word, RETF 10.",
+      "boundary_evidence": [
+        "Loads dimensions from a far header, expands packed nibbles in place, adds a palette bank to nonzero colors, and clears DF on the common RETF 10 path. Next distinct BP frame starts at 77ec.",
+        "Original relocated CALL FAR at root+0x12078, relocation 1624."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 82040,
+          "image_offset": 73848,
+          "kind": "far_call",
+          "relocated_segment_site": 73851,
+          "relocation_index": 1624,
+          "space": "root"
+        },
+        {
+          "file_offset": 82894,
+          "image_offset": 74702,
+          "kind": "far_call",
+          "relocated_segment_site": 74705,
+          "relocation_index": 1625,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Loads dimensions from a far header, expands packed nibbles in place, adds a palette bank to nonzero colors, and clears DF on the common RETF 10 path. Next distinct BP frame starts at 77ec."
+      ],
+      "classification_status": "Reviewed x86 assembly hypothesis from original instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7782",
+      "offset": 30594,
+      "original_name": "TGATOMCGA",
+      "original_name_evidence": [
+        "evidence/modules.json frame root:1101 anchors this FM Towns assembly public by corresponding decoding direction and pixel format."
+      ],
+      "segment": 4353,
+      "semantic_name_hypothesis": "tga_to_mcga",
+      "sha256": "dcae3e9533082f2e92b5695f80083f314d612750ca035a4bef40d8bacd9b2cd8",
+      "size": 106,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two far pointers, DX:AX, RETF 8.",
+      "boundary_evidence": [
+        "Starts at a separate BP frame after RETF 2 immediately before 8670. Decodes variable-width codes and returns the output far pointer in DX:AX; all exits reach RETF 8 at 8735, followed by the next BP frame at 8738. Its sole relocated caller is inside 85d8.",
+        "Original relocated CALL FAR at root+0x19659, relocation 1585."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 112217,
+          "image_offset": 104025,
+          "kind": "far_call",
+          "relocated_segment_site": 104028,
+          "relocation_index": 1585,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Starts at a separate BP frame after RETF 2 immediately before 8670. Decodes variable-width codes and returns the output far pointer in DX:AX; all exits reach RETF 8 at 8735, followed by the next BP frame at 8738. Its sole relocated caller is inside 85d8."
+      ],
+      "classification_status": "Original engine support code, reviewed instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:8670",
+      "offset": 34416,
+      "original_name": "XlatTxt4",
+      "original_name_evidence": [
+        "evidence/modules.json frame root:1101, anchored XLATTXT4 correspondence. The DOS routine reads a count, fixed-width codes with an escape code, and a lookup table; returns the output far pointer."
+      ],
+      "segment": 4353,
+      "semantic_name_hypothesis": "decode_packed_text",
+      "sha256": "8080951d633656940089b4d3af41375c9f83a902ea7ea2dabbefd81df8a6f5d9",
+      "size": 200,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, near handle, DX:AX, RETF 2.",
+      "boundary_evidence": [
+        "Tests handle and flag bits, invokes a near register helper on the live path and returns DX:AX. The null leg at c057 rejoins the RETF 2 at c054; last JMP ends at distinct BP frame c05c.",
+        "Original relocated CALL FAR at root+0x19188, relocation 1598."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 110984,
+          "image_offset": 102792,
+          "kind": "far_call",
+          "relocated_segment_site": 102795,
+          "relocation_index": 1598,
+          "space": "root"
+        },
+        {
+          "file_offset": 112127,
+          "image_offset": 103935,
+          "kind": "far_call",
+          "relocated_segment_site": 103938,
+          "relocation_index": 1599,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Tests handle and flag bits, invokes a near register helper on the live path and returns DX:AX. The null leg at c057 rejoins the RETF 2 at c054; last JMP ends at distinct BP frame c05c."
+      ],
+      "classification_status": "Original engine support code, reviewed instruction and ABI shapes.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:c030",
+      "offset": 49200,
+      "segment": 4353,
+      "semantic_name_hypothesis": "text_expansion_size",
+      "sha256": "a557c8c0a5bed1cc42e9277d0b5df2ff17ab5958ca061a7d4a7c36a011de1d62",
+      "size": 44,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments, column byte in AL, bare RETF.",
+      "boundary_evidence": [
+        "The relocated root+103d3 CALL FAR names 02cc:112a (MZ index 1359). The preceding GetRow ends with RETF 2 and an alignment NOP.",
+        "All conditional paths join at 1165, then the single RETF at 116b. The distinct 116c helper is independently entered by a PUSH CS; CALL near from 116e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 74707,
+          "image_offset": 66515,
+          "kind": "far_call",
+          "relocated_segment_site": 66518,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "FM Towns CTRL @GetCellCol at 1a18:1352 shares the room comparisons and the -10/+10 adjustment to the current column before returning."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:112a",
+      "offset": 4394,
+      "original_bytes_hex": "558bec83ec02a075628846ffa074623806345e74263806385e74203806375e741a3806355e7507806eff0aeb0e90a074623806365e75048046ff0a8a46ff8be55dcb",
+      "original_name": "GetCellCol",
+      "segment": 716,
+      "semantic_name_hypothesis": "get_cell_col",
+      "sha256": "c0f5702603a289904c1dffc3996e5f5142786cc4357e9320f9ab56a73c1a87e5",
+      "size": 66,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No arguments, immediate RETF and word-alignment NOP.",
+      "boundary_evidence": [
+        "GetCellCol ends at the RETF at 116b. The next RETF at 116c and NOP at 116d precede a distinct PUSH SI entry at 116e.",
+        "Root+3e30 (02cc:1170) is a PUSH CS; CALL near to 02cc:116c. Its caller begins at 116e, entered by original root+ec26 and root+ed00 far CALLs (MZ indices 1173 and 1174)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24112,
+          "image_offset": 15920,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15919,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Empty far helper called unconditionally at the start of the game-control entry 116e."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:116c",
+      "offset": 4460,
+      "original_bytes_hex": "cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "prepare_player_control",
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

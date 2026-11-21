@@ -23,3 +23,15 @@ unsigned int far pascal AllocBanks(unsigned char request)
     ALLOCATED_UNIT_BITS |= selected;
     return selected;
 }
+
+void far pascal ResetBanks(unsigned int banks)
+{
+    register unsigned int bit;
+
+    ALLOCATED_UNIT_BITS = 0;
+    bit = 1;
+    while (banks--) {
+        ALLOCATED_UNIT_BITS |= bit;
+        bit <<= 1;
+    }
+}
