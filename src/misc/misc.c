@@ -98,8 +98,10 @@ sbyte CellToRow(byte room, int cell)
 
 void ComputeClipRect(Rect far *rect, int col, int row)
 {
-    rect->top = row_y[col];
-    rect->bottom = rect->top + 32;
+    int top = row_y[col];
+
+    rect->top = top;
+    rect->bottom = top + 32;
     rect->right = col_x[row];
     rect->left = rect->right - 63;
     intersect_rect(rect, rect, &screen_clip);
@@ -124,18 +126,22 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
 void GetAboveAry(void)
 {
     sbyte col, row;
-    byte room, missing, side_room, saved_below;
+    byte room, missing;
+    struct {
+        byte saved_below;
+        byte side_room;
+    } query;
     TileInfo *info;
 
     if (view_row != -1) {
-        saved_below = below_room;
+        query.saved_below = below_room;
         if (view_row == 0) {
             room = above_room;
-            side_room = below_left_room;
+            query.side_room = below_left_room;
             below_room = view_room;
         } else {
             room = view_room;
-            side_room = left_room;
+            query.side_room = left_room;
         }
         row = view_row - 1;
         missing = (!clip_left_edge && level_style != 4 && level_style != 5) ? 1 : 0;
@@ -145,15 +151,16 @@ void GetAboveAry(void)
                       info = &above_tiles[col].info, missing);
             if (clip_left_edge && view_row == 0 && level_style == 3 &&
                 tile_has_upper_edge(room_tiles[view_room][col - 1])) {
-                info->words.low = (info->words.low & 0x3fff) | 0x4000;
+                TileInfo *field = *(TileInfo * volatile *)&info;
+                field->words.low = (field->words.low & 0x3fff) | 0x4000;
             }
         }
-        select_room_arrays(side_room);
-        GetObject(side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
+        select_room_arrays(query.side_room);
+        GetObject(query.side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
         if (tile_override && view_row == 0)
             above_tiles[0].info.words.low = above_tiles[col].info.words.low | 0xc000;
         select_room_arrays(view_room);
-        below_room = saved_below;
+        below_room = query.saved_below;
     }
 }
 

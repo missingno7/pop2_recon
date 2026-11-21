@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/misc/misc.json",
-  "binding_sha256": "ba09a5859ce213cad7fdc27aaa6bdd6b1c8c3a2d4d950107517d9a1c40f582ee",
+  "binding_sha256": "35ecf6ba90d778fe3c89182519ade5c7f6239e69fa97233564c0bfd903d4fc08",
   "claims": [
     {
       "fixup_count": 9,
@@ -11,6 +11,67 @@
       "fixup_count": 5,
       "public": "CELLTOROW",
       "target_id": "root:0f77:00aa"
+    },
+    {
+      "fixup_count": 3,
+      "public": "COMPUTEOFFSETCELLRECT",
+      "relocation_indices": [
+        1330,
+        1331
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:0164"
+    },
+    {
+      "fixup_count": 6,
+      "public": "PIECEABOVEID",
+      "relocation_indices": [
+        1333
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:04ec"
+    },
+    {
+      "fixup_count": 6,
+      "public": "PIECEABOVERIGHTID",
+      "relocation_indices": [
+        1334
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:057a"
+    },
+    {
+      "fixup_count": 8,
+      "public": "PIECEBELOWID",
+      "relocation_indices": [
+        1335
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:060e"
+    },
+    {
+      "fixup_count": 8,
+      "public": "PIECELEFTID",
+      "relocation_indices": [
+        1336
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:06b0"
+    },
+    {
+      "fixup_count": 11,
+      "public": "PIECERIGHTID",
+      "relocation_indices": [
+        1337
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:072e"
     }
   ],
   "drafts": [
@@ -23,63 +84,39 @@
       "public": "COMPUTECLIPRECT"
     },
     {
-      "object_offset": 352,
-      "public": "COMPUTEOFFSETCELLRECT"
-    },
-    {
-      "object_offset": 428,
+      "object_offset": 430,
       "public": "GETABOVEARY"
     },
     {
-      "object_offset": 750,
+      "object_offset": 754,
       "public": "GETBELOWARY"
     },
     {
-      "object_offset": 920,
+      "object_offset": 924,
       "public": "GETOBJECT"
     },
     {
-      "object_offset": 1254,
-      "public": "PIECEABOVEID"
-    },
-    {
-      "object_offset": 1390,
-      "public": "PIECEABOVERIGHTID"
-    },
-    {
-      "object_offset": 1530,
-      "public": "PIECEBELOWID"
-    },
-    {
-      "object_offset": 1686,
-      "public": "PIECELEFTID"
-    },
-    {
-      "object_offset": 1806,
-      "public": "PIECERIGHTID"
-    },
-    {
-      "object_offset": 1956,
+      "object_offset": 1992,
       "public": "SETLOCVARS"
     },
     {
-      "object_offset": 2182,
+      "object_offset": 2218,
       "public": "SETSIDEROOMINFO"
     },
     {
-      "object_offset": 2370,
+      "object_offset": 2406,
       "public": "RELEASE_DISCARDABLE_IMAGES"
     },
     {
-      "object_offset": 2672,
+      "object_offset": 2694,
       "public": "REPORT_FATAL_MEMORY"
     }
   ],
-  "emitted_size": 2690,
+  "emitted_size": 2712,
   "flags": [
     "/c",
     "/AM",
-    "/Oe",
+    "/Oeg",
     "/Gs",
     "/Zl",
     "/Gc"
@@ -89,12 +126,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "misc/misc",
-  "object_sha256": "cfbf8c2f172568e0c4261aa0c982ab40869e9ea665c9849fdebaf46c210e910d",
+  "object_sha256": "57db2dafb26606d0e15ca90da446929f9ae8e21c15cc71aa84b42f802457fd35",
   "origin": 63346,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/misc/misc.c",
-  "source_sha256": "01045e9da9ba8f345e86ec4bb54fc637ac4607ca067a097b827effeaeb7298f2",
+  "source_sha256": "dbc831873baae10b00e9903e58b42fb2ceebf1f8e4090168e570874b544924e7",
   "space": "root"
 }
