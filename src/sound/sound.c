@@ -44,11 +44,11 @@ extern int sound_playing(int resource);
 extern int check_story_music(void);
 extern int check_room_music(signed char section, signed char room);
 extern void queue_actor_sound(signed char sound);
-extern unsigned long get_sound_data(SoundHandle handle);
+extern SoundData get_sound_data(SoundHandle handle);
 extern void release_sound(SoundHandle handle);
 extern SoundHandle read_sound(int resource);
 extern SoundHandle prepare_sound(SoundHandle handle);
-extern unsigned long lock_sound_data(SoundHandle handle);
+extern SoundData lock_sound_data(SoundHandle handle);
 extern int command_option(const char far *option);
 extern void advance_sound(void);
 extern int random_below(int limit);
@@ -63,7 +63,7 @@ extern void *memset(void *, int, unsigned int);
 void AddSong(int song);
 void AddSound(int effect);
 int GetLeaveLevelSongId(void);
-unsigned long load_song(int song);
+SoundData load_song(int song);
 void release_song_range(int first, int last);
 void load_song_range(int first, int last);
 int _fastcall should_change_ambient(AmbientState *state);
@@ -152,26 +152,27 @@ void AddSong(int song)
 
 void AddSound(int effect)
 {
-    
-    if ((pending_effect == -1 ||
-         sound_rules[pending_effect].priority - sound_rules[effect].priority >= 0) &&
+    int old = pending_effect;
+
+    if ((old == -1 || sound_rules[effect].priority <= sound_rules[old].priority) &&
         !sound_inhibit)
         pending_effect = effect;
 }
 
-unsigned long load_song(int song)
+SoundData load_song(int song)
 {
-    unsigned long data;
-    volatile SoundHandle *handle = &sound_handles[song];
+    SoundData data;
+    SoundHandle *handle = &sound_handles[song];
 
-    data = *handle ? get_sound_data(*handle) : 0L;
-    if (!data) {
+    data = *handle ? get_sound_data(*handle) : (SoundData)0;
+    if ((unsigned long)data == 0) {
         if (*handle)
             release_sound(*handle);
         *handle = read_sound(song + 10000);
         if (*handle) {
-            *handle = prepare_sound(*handle);
-            data = lock_sound_data(*handle);
+            SoundHandle prepared = prepare_sound(*(*(SoundHandle *volatile *)&handle));
+            *handle = prepared;
+            data = lock_sound_data(prepared);
         }
     }
     return data;
@@ -208,10 +209,13 @@ int is_leave_level_music_on(void)
 {
     int playing;
     int song = GetLeaveLevelSongId();
-    if (song != -1)
-        playing = sound_playing(song + 10000);
-    else
+
+    if (song != -1) {
+        song += 10000;
+        playing = sound_playing(song);
+    } else {
         playing = 0;
+    }
     return playing;
 }
 
@@ -352,6 +356,7 @@ int _fastcall should_change_ambient(AmbientState *state)
 {
     int change = 0;
     int special;
+    signed char cue;
 
     if (state->enabled && stage < 0 && !special_no_ambient_case(state)) {
         if (!sound_playing(state->song + 10000)) {
@@ -360,10 +365,13 @@ int _fastcall should_change_ambient(AmbientState *state)
             special = check_story_music();
             if (special && ambient_special[level] == -1)
                 special = 0;
-            if ((special && ambient_special[level] > state->cue) ||
-                (!special && ambient_special[level] <= state->cue &&
-                 ambient_special[level] != -1 && !check_room_music(kid_section, kid_room)))
+            if (special && ambient_special[level] > state->cue)
                 change = 1;
+            else if (!special) {
+                cue = ambient_special[level];
+                if (cue <= state->cue && cue != -1 && !check_room_music(kid_section, kid_room))
+                    change = 1;
+            }
         }
     }
     return change;

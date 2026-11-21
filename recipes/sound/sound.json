@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound/sound.json",
-  "binding_sha256": "932ca59f19c2e5a73a2646b16421ec23f93b4c4a13a457a62b5c0b0849795512",
+  "binding_sha256": "f706230e8c819978f87ae443071c8f5bdb1ddaf689518c4bd58254436d7e585c",
   "claims": [
     {
       "fixup_count": 2,
@@ -28,6 +28,11 @@
       "target_id": "root:0dd7:016c"
     },
     {
+      "fixup_count": 3,
+      "public": "ADDSONG",
+      "target_id": "root:0dd7:01b0"
+    },
+    {
       "fixup_count": 1,
       "public": "GETLEAVELEVELSONGID",
       "target_id": "root:0dd7:0284"
@@ -36,6 +41,16 @@
       "fixup_count": 1,
       "public": "INIT_AMBIENT",
       "target_id": "root:0dd7:02ac"
+    },
+    {
+      "fixup_count": 2,
+      "public": "IS_LEAVE_LEVEL_MUSIC_ON",
+      "relocation_indices": [
+        1110
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0dd7:02ce"
     },
     {
       "fixup_count": 4,
@@ -49,20 +64,12 @@
       "public": "ADD_OPPONENT_DEATH_SONG"
     },
     {
-      "object_offset": 422,
-      "public": "ADDSONG"
-    },
-    {
       "object_offset": 452,
       "public": "ADDSOUND"
     },
     {
-      "object_offset": 516,
+      "object_offset": 510,
       "public": "LOAD_SONG"
-    },
-    {
-      "object_offset": 708,
-      "public": "IS_LEAVE_LEVEL_MUSIC_ON"
     },
     {
       "object_offset": 746,
@@ -97,19 +104,19 @@
       "public": "@should_change_ambient"
     },
     {
-      "object_offset": 1822,
+      "object_offset": 1818,
       "public": "TOGGLE_AMBIENT"
     },
     {
-      "object_offset": 1904,
+      "object_offset": 1900,
       "public": "REMEMBER_AMBIENT_SONG"
     },
     {
-      "object_offset": 1958,
+      "object_offset": 1954,
       "public": "RELEASE_SONG_RANGE"
     }
   ],
-  "emitted_size": 2032,
+  "emitted_size": 2028,
   "flags": [
     "/c",
     "/AM",
@@ -123,12 +130,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "sound/sound",
-  "object_sha256": "dc9c87bacbf13854c273b03c34cd5a5136da7854b90d2f47ca051293cc97b427",
+  "object_sha256": "9ed466cd04d44ac6b03bbe794af2ebb0e9e73dfe5ac1d55a9c63d1be37f504db",
   "origin": 56698,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/sound/sound.c",
-  "source_sha256": "c57dd071acbb462341ec413e15801ce344a4fe913cbc9decdedda1c58e155bd2",
+  "source_sha256": "05e9a682fdac3eda4f6602eca3e033d7086ff2ef72937aa51c88065bcb8b6692",
   "space": "root"
 }
