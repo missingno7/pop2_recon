@@ -14377,6 +14377,186 @@
       "size": 26,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:0169:0402",
+      "space": "root",
+      "segment": 361,
+      "offset": 1026,
+      "size": 292,
+      "sha256": "9c22bb1c83498ed94d0c1d48e35d1a7d17ae4542e29de2fc5614ff45f57a2318",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original BP prologue at root image 0x01a92 and bounded routine through RETF at 0x01bb3.",
+        "The next BP prologue starts at root image 0x01bb6.",
+        "root image 0x095af is an original relocated CALL FAR to this exact alias, relocation 804.",
+        "root image 0x09574 is an original relocated CALL FAR to this exact alias, relocation 805."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 38319,
+          "file_offset": 46511,
+          "relocated_segment_site": 38322
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 38260,
+          "file_offset": 46452,
+          "relocated_segment_site": 38263
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far register call with AX, DX and BX plus two stack words; RETF 4",
+      "classification": "GAME_C",
+      "classification_status": "strong game-helper hypothesis",
+      "classification_evidence": [
+        "Appends a middle-layer image record and increments its count. Checks image index in DX, then writes image ID, kind and position into a 20-byte record."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0b41:1992",
+      "space": "root",
+      "segment": 2881,
+      "offset": 6546,
+      "size": 60,
+      "sha256": "01ef3a320292b1f73570fa900fbcbba9c073dcab3ffff5b9ec1dc8ca1337e33c",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original BP prologue at root image 0x0cda2 and bounded routine through RETF at 0x0cddc.",
+        "The next BP prologue starts at root image 0x0cdde.",
+        "root image 0x10491 is an original relocated CALL FAR to this exact alias, relocation 1346.",
+        "root image 0x1079a is an original relocated CALL FAR to this exact alias, relocation 1347.",
+        "overlay-6 image 0x00595 is an original relocated CALL FAR to this exact alias, relocation 2."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 66705,
+          "file_offset": 74897,
+          "relocated_segment_site": 66708
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 67482,
+          "file_offset": 75674,
+          "relocated_segment_site": 67485
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 1429,
+          "file_offset": 216821,
+          "relocated_segment_site": 1432
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no stack arguments; RETF",
+      "classification": "GAME_C",
+      "classification_status": "strong game-helper hypothesis",
+      "classification_evidence": [
+        "When the mobile queue has room, appends a 13-byte record from DS:67be, copying six words and one byte."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0b41:19ce",
+      "space": "root",
+      "segment": 2881,
+      "offset": 6606,
+      "size": 66,
+      "sha256": "062fcac7e42bd2db2454fa6f87130171402552f0de260a7277622a51c766913e",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original BP prologue at root image 0x0cdde and bounded routine through RETF at 0x0ce1d.",
+        "The next BP prologue starts at root image 0x0ce20.",
+        "root image 0x104d5 is an original relocated CALL FAR to this exact alias, relocation 1352.",
+        "root image 0x10621 is an original relocated CALL FAR to this exact alias, relocation 1353.",
+        "overlay-6 image 0x0021c is an original relocated CALL FAR to this exact alias, relocation 23."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 66773,
+          "file_offset": 74965,
+          "relocated_segment_site": 66776
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 67105,
+          "file_offset": 75297,
+          "relocated_segment_site": 67108
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 540,
+          "file_offset": 215932,
+          "relocated_segment_site": 543
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, kind byte and index word, near pointer or NULL in AX; RETF 4",
+      "classification": "GAME_C",
+      "classification_status": "strong game-helper hypothesis",
+      "classification_evidence": [
+        "Scans the 13-byte mobile list, selects the indexed active record with a matching kind, and returns its near address."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:0b41:22aa",
+      "space": "root",
+      "segment": 2881,
+      "offset": 8874,
+      "size": 102,
+      "sha256": "85ef4e26a43b5e98a2ca46587ea2d405ad0091a1c0ae597c662257f26cc22b30",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original BP prologue at root image 0x0d6ba and bounded routine through RETF at 0x0d71d.",
+        "The next BP prologue starts at root image 0x0d720.",
+        "root image 0x10278 is an original relocated CALL FAR to this exact alias, relocation 1361.",
+        "root image 0x10260 is an original relocated CALL FAR to this exact alias, relocation 1362.",
+        "overlay-6 image 0x001e9 is an original relocated CALL FAR to this exact alias, relocation 36."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 66168,
+          "file_offset": 74360,
+          "relocated_segment_site": 66171
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 66144,
+          "file_offset": 74336,
+          "relocated_segment_site": 66147
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-6",
+          "image_offset": 489,
+          "file_offset": 215881,
+          "relocated_segment_site": 492
+        }
+      ],
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, one y-coordinate word; RETF 2",
+      "classification": "GAME_C",
+      "classification_status": "strong game-helper hypothesis",
+      "classification_evidence": [
+        "Appends a 23-byte sprite record, using mobile state for x/kind and the stack argument for y."
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

@@ -29,12 +29,36 @@ typedef struct Mobile {
 } Mobile;
 #pragma pack()
 
-extern int mob_x, mob_y;
-extern Byte mob_room, mob_kind;
-extern SByte mob_row;
-extern int mob_slot, mob_delay;
-extern Word mob_spikes_state;
-extern Byte current_room, right_room;
+#pragma pack(1)
+typedef struct MobileState {
+    int x;
+    int y;
+    Byte room;
+    int slot;
+    int delay;
+    Byte kind;
+    SByte row;
+    Word spikes_state;
+} MobileState;
+#pragma pack()
+
+/* The mobile scratch record is copied as a packed 13-byte contribution. */
+extern MobileState mobile_state;
+#define mob_x mobile_state.x
+#define mob_y mobile_state.y
+#define mob_room mobile_state.room
+#define mob_slot mobile_state.slot
+#define mob_delay mobile_state.delay
+#define mob_kind mobile_state.kind
+#define mob_row mobile_state.row
+#define mob_spikes_state mobile_state.spikes_state
+struct RoomNeighbors {
+    Byte current;
+    Byte right;
+};
+extern struct RoomNeighbors rooms;
+#define current_room rooms.current
+#define right_room rooms.right
 
 extern SByte actor_direction, actor_column, actor_row;
 extern int actor_x, actor_y;
@@ -43,9 +67,12 @@ extern Word actor_frame, actor_sequence;
 extern Byte level;
 
 extern SByte tile_column, tile_row;
-extern Byte tile_room, tile_flags, tile_object;
+extern Byte tile_room;
+extern SpikeState tile_state;
+#define tile_flags tile_state.byte.flags
+#define tile_object tile_state.byte.phase
+#define tile_state_word tile_state.word
 extern Byte render_column;
-extern Word tile_state_word;
 extern int render_x;
 extern SpikeState render_spikes;
 extern int render_context;
@@ -72,7 +99,7 @@ extern void set_actor_health(Byte amount);
 extern void advance_actor(void);
 extern void snap_actor_to_floor(void);
 extern void set_room_state(Byte room);
-/* Assembly sprite entry consumes kind, image and context in AX, DX and BX. */
+/* The sprite entry consumes kind, image and context in AX, DX and BX. */
 extern void _fastcall draw_spike_sprite(Byte kind, int image, int context, int x, Byte height);
 
 int GetSpikes(void);
@@ -114,6 +141,7 @@ void CheckImpale(void)
     SByte column;
     volatile Mobile *mob;
     int x;
+    SByte last_column;
 
     if (actor_sequence == 0x55 || actor_action == 4 || actor_action == 1
         || immune_frame(actor_frame))
@@ -137,7 +165,9 @@ void CheckImpale(void)
                     }
                 }
             }
-        } while (actor_column >= ++column);
+            last_column = actor_column;
+            ++column;
+        } while (column <= last_column);
     }
 }
 
@@ -167,11 +197,12 @@ void CheckSpikesJammed(Byte room, int index)
     Word state;
     int zero;
 
+    row.storage = 0;
     if (GetSpikeMobRoomRow(room, row.value = index / 10) == 0) {
         state = room_state[room * 30 + index].spikes.word;
         if ((Byte)state == 0xf0) {
             mob_x = (index % 10) * 32 + 46;
-            mob_y = 63 * (int)row.value + 47;
+            mob_y = (row.value = (SByte)row.storage) * 63 + 47;
             mob_row = row.value;
             mob_room = room;
             zero = 0;
@@ -251,12 +282,12 @@ void DrawObjSpikes(Byte object)
 int GetSpikeIdx(Word state)
 {
     int index;
-    int phase = state;
-
-    if (phase & 0x80)
+    if (state & 0x80) {
         index = 5;
-    else
-        index = phase & 7;
+    } else {
+        state &= 7;
+        index = state;
+    }
     return index;
 }
 
