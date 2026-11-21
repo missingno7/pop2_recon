@@ -108,7 +108,7 @@ typedef struct {
 
 typedef struct {
     signed char count;
-    unsigned char tail[115];
+    unsigned char records[5][23];
 } GuardRoom;
 
 extern GuardActor Char, actor_slots[];
@@ -255,8 +255,7 @@ void far pascal check_guard_range(int distance)
     int horizontal, vertical;
 
     if (target_visible == 1 && target_facing != actor_facing) {
-        generic_fight(distance);
-        return;
+        generic_fight(distance); return;
     }
 
     if (fight_timeout == 0) {
@@ -280,8 +279,7 @@ void far pascal alert_opponent(void)
     if (target_life < 0) {
         distance = opponent_distance();
         if (target_row == actor_row && distance < 0 && distance >= -18) {
-            if ((signed char)alert_state >= 2 && death_frame == 166)
-                goto engage;
+            if ((signed char)alert_state >= 2 && death_frame == 166) goto engage;
         } else if (guard_counter) {
             if (distance < 0 && distance < -4) {
                 auto_down();
@@ -320,7 +318,7 @@ extern int abs(int value);
 void far pascal chase_opponent(void)
 {
     signed char tile;
-    Opponent near *opponent;
+    Opponent near *volatile opponent;
     int nearest, kid_distance;
     int sequence;
 
@@ -334,18 +332,14 @@ void far pascal chase_opponent(void)
     }
 
     tile = actor_in_direction(~actor_facing);
-    if (tile != guard_id)
-        nearest = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(actor_slots[tile], 2));
-    else
-        nearest = 121;
+    nearest = tile == guard_id ? 121 : abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(actor_slots[tile], 2));
 
     tile = get_tile_ahead(1);
     kid_distance = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(Kid, 2));
     if ((kid_frame >= 1 && kid_frame <= 14) ||
         (kid_frame >= 49 && kid_frame <= 56) ||
         (kid_frame >= 34 && kid_frame <= 44)) {
-        if (kid_facing != actor_facing)
-            kid_distance -= 32;
+        if (kid_facing != actor_facing) kid_distance -= 32;
         else
             kid_distance += 32;
     } else if (kid_action != 1) {
@@ -391,9 +385,8 @@ keep_pose:
 select:
     if (sequence != -1) {
         select_animation_sequence(sequence);
-        tile = get_tile_below();
-        if (death_frame == 212 && !guard_can_cross(tile, cell_modifier))
-            ACTOR_WORD(Char, 2) = offset_char_x(10);
+        *(volatile signed char near *)&tile = get_tile_below();
+        if (death_frame == 212 && !guard_can_cross(tile, cell_modifier)) ACTOR_WORD(Char, 2) = offset_char_x(10);
     }
 }
 
@@ -408,9 +401,7 @@ void far pascal try_opponent_run_jump(void)
     Opponent near *opponent;
     int attempt, selected;
 
-    tile1 = get_tile_ahead(1);
-    tile2 = get_tile_ahead(2);
-    if (tile_is_solid(tile2)) {
+    if (tile1 = get_tile_ahead(1), tile_is_solid(tile2 = get_tile_ahead(2))) {
         if (tile_is_solid(tile1))
             start = 1;
         else {
@@ -445,3 +436,278 @@ void far pascal try_opponent_run_jump(void)
     }
 }
 
+
+extern void far pascal guard_no_jump(void);
+extern void far pascal wait_en_garde(void);
+extern int far pascal room_allows_guard_advance(void);
+extern int fight_timeout;
+
+void far pascal guard_en_garde(void)
+{
+    signed char tile;
+    int upper, lower;
+    unsigned int frame = death_frame;
+    unsigned int pose;
+    int distance;
+
+    if (alert_state == 1 || alert_state == 2 || frame == 166 || frame < 150)
+        goto wait;
+
+    if (alert_state == 0) {
+        if (guard_wait) {
+            check_guard_step();
+            goto done;
+        }
+        if (actor_kind != 4)
+            auto_run_away();
+        goto done;
+    }
+
+    pose = target_frame;
+    distance = opponent_distance();
+    if (distance >= 27 && pose >= 102 && pose < 118 && target_action == 5)
+        goto done;
+
+    measure_guard_range(&upper, &lower);
+    if (lower + 12 > distance) {
+        if (upper > distance) {
+            if (level_number == 5 && actor_row == 1 &&
+                (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+                room_allows_guard_advance()) {
+advance:
+                auto_forward();
+                return;
+            }
+
+            tile = get_tile_below();
+            if (guard_can_cross(tile, cell_modifier) && distance > 0) {
+                auto_back();
+                return;
+            }
+            if (level_number != 5 || actor_row != 1 ||
+                (actor_room != 10 && actor_room != 7 && actor_room != 12))
+                goto advance;
+            if (!check_skeleton_room())
+                goto done;
+            goto advance;
+        }
+        check_guard_range(distance);
+        return;
+    }
+
+    if (fight_timeout != 0)
+        goto done;
+    if (target_facing == actor_facing)
+        goto no_jump;
+    if (pose >= 7 && pose < 15) {
+        if (distance >= 71)
+            goto done;
+    } else {
+        if (pose < 34 || pose >= 44)
+            goto no_jump;
+        if (distance >= 94)
+            goto done;
+    }
+    set_overlay_state_bytes(254);
+    return;
+
+no_jump:
+    guard_no_jump();
+    return;
+
+wait:
+    if (alert_state == 1 || alert_state == 2)
+        wait_en_garde();
+done:
+    return;
+}
+
+extern int far pascal opponent_spacing(void);
+extern int target_x;
+extern void far pascal maybe_advance(void);
+#define RUNNING_FRAME(frame) \
+    (((frame) >= 1 && (frame) <= 14) || \
+     ((frame) >= 49 && (frame) <= 56) || \
+     ((frame) >= 34 && (frame) <= 44))
+
+void far pascal wait_en_garde(void)
+{
+    signed char tile, slot;
+    int spacing, distance, can_stand;
+
+    slot = actor_in_direction(~actor_facing);
+    if (slot == -1)
+        slot = actor_in_direction(1);
+    if (slot == -1)
+        goto done;
+    if (slot == guard_id)
+        goto player;
+
+    can_stand = 0;
+    if (guard_can_cross(tile = get_tile_ahead(1), cell_modifier) &&
+        guard_can_cross(tile = get_tile_ahead(2), cell_modifier) &&
+        guard_can_cross(tile = get_tile_ahead(3), cell_modifier))
+        can_stand = 1;
+
+    distance = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(actor_slots[slot], 2));
+    spacing = opponent_spacing();
+    if (spacing + 24 < distance ||
+        (actor_slots[slot].bytes[1] == actor_facing && ACTOR_WORD(actor_slots[slot], 25) == 84))
+        goto close_path;
+
+    if (can_stand && target_facing == actor_facing &&
+        RUNNING_FRAME(target_frame) && target_action != 7 && steps &&
+        ((ACTOR_WORD(Char, 2) < target_x && target_facing == 0) ||
+         (ACTOR_WORD(Char, 2) > target_x && target_facing == -1))) {
+start_run:
+        start_opponent_running();
+        return;
+    }
+
+    if (distance < spacing)
+        goto back_up;
+    goto done;
+
+close_path:
+    if (!can_stand || ACTOR_WORD(Char, 25) == 84)
+        goto done;
+    if (((ACTOR_WORD(actor_slots[slot], 25) == 84 && actor_slots[slot].bytes[1] == actor_facing) ||
+         (target_facing == actor_facing && RUNNING_FRAME(target_frame) && target_action != 7)) &&
+        steps)
+        goto start_run;
+    auto_forward();
+    return;
+
+player:
+    distance = abs(ACTOR_WORD(Kid, 2) - ACTOR_WORD(Char, 2));
+    if (distance >= 64)
+        goto done;
+    tile = get_tile_ahead(distance < 32 ? 1 : 2);
+    if (!tile_is_ledge(tile) && !tile_is_solid(tile) &&
+        (tile != 4 || (unsigned char)cell_modifier >= 112))
+        goto done;
+back_up:
+    if (guard_can_cross(get_tile_below(), cell_modifier))
+        auto_back();
+done:
+    return;
+}
+
+int far pascal opponent_spacing(void)
+{
+    int spacing = 96;
+    signed char index, count;
+
+    count = guard_rooms[room_to_check].count;
+    index = guard_id + 1;
+    if (count > index) {
+        do {
+            if (abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(actor_slots[index], 2)) < 24)
+                spacing += 24;
+        } while (++index < count);
+    }
+    return spacing;
+}
+
+void far pascal guard_no_jump(void)
+{
+    signed char front, further;
+
+    front = get_tile_ahead(1);
+    further = get_tile_ahead(2);
+    if (tile_is_solid(front) && tile_is_solid(further)) {
+        if (!(level_number == 5 && actor_row == 1 &&
+              (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+              room_allows_guard_advance()))
+            auto_back();
+        return;
+    }
+
+    if (target_facing == actor_facing && RUNNING_FRAME(target_frame) &&
+        target_action != 7 && steps &&
+        (level_number != 5 || actor_row != 1 ||
+         (actor_room != 10 && actor_room != 7 && actor_room != 12))) {
+        start_opponent_running();
+        return;
+    }
+    maybe_advance();
+}
+
+extern unsigned int advance_chance[], block_chance[], quick_block_chance[];
+extern unsigned int strike_chance[], quick_strike_chance[];
+extern int effect_x, effect_y, advance_timer;
+void far pascal maybe_block(void);
+void far pascal maybe_strike(void);
+
+void far pascal generic_fight(int distance)
+{
+    int upper, lower;
+
+    measure_guard_range(&upper, &lower);
+    if (upper <= distance && distance < lower &&
+        !(level_number == 5 && actor_row == 1 &&
+          (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+          room_allows_guard_advance())) {
+        maybe_block();
+        if (effect_y == 0)
+            maybe_strike();
+    } else {
+        maybe_advance();
+    }
+}
+
+void far pascal maybe_advance(void)
+{
+    unsigned char skill = guard_rooms[actor_room].records[guard_id][4];
+
+    if (level_number == 5 && actor_row == 1 &&
+        (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+        room_allows_guard_advance())
+        goto advance;
+    if (skill && advance_timer)
+        return;
+    if (level_number == 5 && actor_row == 1 &&
+        (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+        !check_skeleton_room())
+        return;
+
+    if (advance_chance[skill] > random_below_word(255)) {
+advance:
+        auto_forward();
+    }
+}
+
+void far pascal maybe_block(void)
+{
+    unsigned char skill;
+    int block;
+
+    if (actor_kind == 10 ||
+        (target_frame != 152 && target_frame != 153 && target_frame != 162))
+        return;
+    skill = guard_rooms[actor_room].records[guard_id][4];
+
+    if (effect_x)
+        block = quick_block_chance[skill] > random_below_word(255);
+    else
+        block = block_chance[skill] > random_below_word(255);
+    if (block)
+        auto_up();
+}
+
+void far pascal maybe_strike(void)
+{
+    unsigned char skill;
+    int strike;
+
+    if (target_frame == 169 || target_frame == 151)
+        return;
+    skill = guard_rooms[actor_room].records[guard_id][4];
+    if (actor_kind != 7 && actor_kind != 8 &&
+        (death_frame == 161 || death_frame == 150))
+        strike = quick_strike_chance[skill] > random_below_word(255);
+    else
+        strike = strike_chance[skill] > random_below_word(255);
+    if (strike)
+        set_overlay_state_bytes(254);
+}

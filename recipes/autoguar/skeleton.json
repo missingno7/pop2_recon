@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autoguar/skeleton.json",
-  "binding_sha256": "d3081a49356bd6b13327121b7f2cc8d0c1d6b6b64819d2efd577d459767dac66",
+  "binding_sha256": "0de554d56d5b56f715832f9a2a59665fe2f1ed88217c943f877329c611d04500",
   "claims": [
     {
       "fixup_count": 22,
@@ -78,15 +78,130 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-12:2c3e:13f4"
+    },
+    {
+      "fixup_count": 15,
+      "public": "SKELETON_FINISHED_SHAKING",
+      "relocation_indices": [
+        12,
+        20,
+        31,
+        44,
+        46,
+        92
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:141a"
+    },
+    {
+      "fixup_count": 8,
+      "public": "FACE_KID_FOR_SKELETON",
+      "relocation_indices": [
+        84
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-12:2c3e:14e4"
+    },
+    {
+      "fixup_count": 15,
+      "public": "SETUP_FLAME_SWORD",
+      "relocation_indices": [
+        63,
+        140
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:1516"
+    },
+    {
+      "fixup_count": 3,
+      "public": "BLOCK_FLAME_SWORD",
+      "relocation_indices": [
+        11,
+        49
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:158c"
+    },
+    {
+      "fixup_count": 2,
+      "public": "REDUCE_FLAME_SWORD_LIFE",
+      "relocation_indices": [
+        89
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-12:2c3e:15b2"
+    },
+    {
+      "fixup_count": 6,
+      "public": "DROP_FLAME_SWORD",
+      "relocation_indices": [
+        75,
+        93
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:15d8"
+    },
+    {
+      "fixup_count": 3,
+      "public": "CHECK_JINNEE_COLUMN",
+      "relocation_indices": [
+        3
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-12:2c3e:1674"
+    },
+    {
+      "fixup_count": 42,
+      "public": "TRIGGERJINNEE",
+      "relocation_indices": [
+        7,
+        32,
+        50,
+        76,
+        91,
+        94,
+        117,
+        120,
+        136,
+        142
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:1710"
     }
   ],
   "drafts": [
     {
       "object_offset": 302,
       "public": "SHAKE_BONES"
+    },
+    {
+      "object_offset": 1168,
+      "public": "FLOAT_FLAME_SWORD"
+    },
+    {
+      "object_offset": 1302,
+      "public": "SETUP_JINNEE_SMOKE"
     }
   ],
-  "emitted_size": 680,
+  "emitted_size": 1736,
   "flags": [
     "/c",
     "/AM",
@@ -100,12 +215,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "autoguar/skeleton",
-  "object_sha256": "7bcf9838481ade57dd910fd42bdc2de6c8d58182bbe768946bdb980f6f6dd46f",
+  "object_sha256": "42819ee428f1f7330c2249cada5bb31179556f1b089c5588b31e44dc96e3a3fb",
   "origin": 4466,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autoguar/skeleton.c",
-  "source_sha256": "7880b690acc41877f8445cdd3b30d23aee9df01416ee967598269428928e7f2f",
+  "source_sha256": "de8073daccd4735cc65465b3ea8a7a0d383066dcafb13d17310e4d70b0803d43",
   "space": "overlay-12"
 }
