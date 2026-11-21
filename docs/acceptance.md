@@ -53,6 +53,16 @@ bytes compare literally, except for these fixup fields:
   same code frame does not prove the CS its callers use (root frames such as
   `1000` and `1101` overlap linearly). External near callees are never assumed
   to preserve DS/ES/SS.
+  **Frame-invariant near calls (weaker class, recorded as `cs_frame`).** A claim
+  with no witnessed frame, no own-segment offset word and no own-segment base is
+  accepted when every equal near call reaches its callee under every candidate
+  frame: each paragraph the original stores as a relocation site frame, a
+  relocated segment word (any space) or an RTLink vector destination, whose 64 KB
+  window holds the whole claim, must also hold the whole call and its callee, and
+  at least one such frame must exist. Candidate frames are a superset of the code
+  frames CS can hold (data frames only add constraints), so the call reaches the
+  same code whichever of them is CS; this answers the 1000/1101 overlap without
+  naming one. Own-segment words still need the exact witnessed frame.
 - **External DGROUP offset16.** The existing modes apply. The group binding is
   pinned to `group:NAME`, and every data witness must lie outside the whole
   emitted object, not just outside the claim. A data fixup whose symbol is also a

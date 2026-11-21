@@ -273,6 +273,39 @@ def _placed_support(placement_report, states, reports):
                 changed = True
 
 
+_CANDIDATE_FRAMES = {}
+
+
+def _candidate_frames(oracle):
+    """Every paragraph the original stores as a frame: relocation site frames, relocated
+    segment words of every space, and RTLink vector destinations. A superset of the code
+    frames CS can hold (data frames only add windows, i.e. constraints)."""
+    key = id(oracle)
+    if key not in _CANDIDATE_FRAMES:
+        frames = set()
+        for space in oracle.spaces.values():
+            for r in space.relocations:
+                frames.add(r["segment"])
+                if "stored_word" in r:
+                    frames.add(r["stored_word"])
+        frames.update(v["target_segment"] for v in _code_vectors(oracle).values())
+        _CANDIDATE_FRAMES[key] = frames
+    return _CANDIDATE_FRAMES[key]
+
+
+def _frame_invariant(state, space, oracle):
+    """True when every equal near call of the claim reaches its callee under every candidate
+    frame whose 64K window holds the whole claim, and at least one such frame exists."""
+    near = state["near"]
+    if not near or not all(n["equal"] for n in near):
+        return False
+    lo, hi = state["position"], state["position"] + len(state["piece"])
+    windows = [base for base in ((f - space.link_segment) * 16 for f in _candidate_frames(oracle))
+               if base <= lo and hi <= base + 0x10000]
+    return bool(windows) and all(base <= n["pair_start"] and n["field_end"] <= base + 0x10000 and
+                                 base <= n["callee_at"] < base + 0x10000 for base in windows for n in near)
+
+
 def _code_vectors(oracle):
     """The original RTLink vector records (tu_census decoding, checked against the manager)."""
     from tu_census import overlay_vectors
@@ -877,6 +910,13 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         if not state["near"] and not state["own"] and not state["own_bases"]:
             continue
         position = state["position"]
+        if (public not in cs_proven and not state["own"] and not state["own_bases"] and
+                _frame_invariant(state, space, oracle)):
+            # Weaker class, recorded: no frame names this claim, but every frame the original
+            # relocations store whose window holds the whole claim also holds every callee,
+            # so each near call reaches the same code under any of them.
+            state["report"]["cs_frame"] = "frame-invariant near calls"
+            continue
         reason = ("Near call or own-segment word lacks an independently witnessed original frame"
                   if public not in cs_proven else
                   "Near call leaves the witnessed original CS window"

@@ -988,3 +988,34 @@ class OwnBaseBucketTests(unittest.TestCase):
         self.assertEqual(claim["state"], "CODE_EXACT", claim.get("reason"))
         self.assertEqual(sorted(g["symbol"] for g in claim["relocation_groups"]),
                          ["MARK_FLOOR", "MARK_FOREGROUND", "MARK_MOVE"])
+
+
+class FrameInvariantTests(unittest.TestCase):
+    """A claim without its own frame witness: its near calls are proven only when every frame
+    the original stores whose window holds the claim also holds each callee."""
+
+    def run_check(self, frames, near, position=0x12000, size=0x40):
+        import module_gate
+        space = SimpleNamespace(link_segment=0, relocations=[{"segment": f, "stored_word": f} for f in frames])
+        oracle = SimpleNamespace(spaces={"root": space})
+        state = {"near": near, "position": position, "piece": bytes(size)}
+        with patch.object(module_gate, "_code_vectors", return_value={}), \
+                patch.dict(module_gate._CANDIDATE_FRAMES, clear=True):
+            return module_gate._frame_invariant(state, space, oracle)
+
+    def call(self, callee_at, equal=True):
+        return {"pair_start": 0x12010, "field_end": 0x12014, "callee_at": callee_at, "equal": equal}
+
+    def test_callee_inside_every_window_is_proven(self):
+        self.assertTrue(self.run_check([0x1000, 0x1101], [self.call(0x12100)]))
+
+    def test_a_window_that_wraps_away_from_the_callee_refuses(self):
+        # Frame 0x1101's window ends at 0x21010; frame 0x0300's window ends at 0x13000, so a
+        # callee at 0x13100 is reached under 0x1101 but wraps under 0x0300.
+        self.assertFalse(self.run_check([0x1101, 0x0300], [self.call(0x13100)]))
+
+    def test_no_stored_frame_holding_the_claim_refuses(self):
+        self.assertFalse(self.run_check([0x3000], [self.call(0x12100)]))
+
+    def test_unequal_near_call_refuses(self):
+        self.assertFalse(self.run_check([0x1000], [self.call(0x12100, equal=False)]))
