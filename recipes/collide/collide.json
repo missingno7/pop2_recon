@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "0874df18a342c7d2ea3542d3b201dcf8fff1c23a927924dbeab52c6bc01c8f44",
+  "binding_sha256": "527fa1febb154209046b6415c137e396843494ed43e01905e7957eb2390560ed",
   "claims": [
     {
       "fixup_count": 12,
@@ -24,8 +24,88 @@
     },
     {
       "fixup_count": 5,
+      "public": "GETLEFTBARR",
+      "relocation_indices": [
+        445
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:038a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "GETRIGHTBARR",
+      "relocation_indices": [
+        446
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:03c6"
+    },
+    {
+      "fixup_count": 8,
+      "public": "COLLIDE_WITH_BARRIERS",
+      "target_id": "overlay-3:2802:0402"
+    },
+    {
+      "fixup_count": 15,
+      "public": "LEFT_COLLISION",
+      "relocation_indices": [
+        490
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:0490"
+    },
+    {
+      "fixup_count": 4,
+      "public": "CHECK_COLLISION_COL",
+      "relocation_indices": [
+        447
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:04ea"
+    },
+    {
+      "fixup_count": 9,
+      "public": "CHECK_COLLISION_TILE",
+      "target_id": "overlay-3:2802:052c"
+    },
+    {
+      "fixup_count": 5,
       "public": "ADJUSTROOM",
       "target_id": "overlay-3:2344:5178"
+    },
+    {
+      "fixup_count": 24,
+      "public": "APPLY_COLLISION",
+      "relocation_indices": [
+        441,
+        448,
+        450,
+        451,
+        484
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:05d8"
+    },
+    {
+      "fixup_count": 7,
+      "public": "APPLY_AIR_BUMP",
+      "relocation_indices": [
+        461,
+        471,
+        491
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:069e"
     },
     {
       "fixup_count": 1,
@@ -118,40 +198,8 @@
       "public": "GETCOLDETDATA"
     },
     {
-      "object_offset": 892,
-      "public": "GETLEFTBARR"
-    },
-    {
-      "object_offset": 952,
-      "public": "GETRIGHTBARR"
-    },
-    {
-      "object_offset": 1012,
-      "public": "COLLIDE_WITH_BARRIERS"
-    },
-    {
       "object_offset": 1066,
       "public": "RIGHT_COLLISION"
-    },
-    {
-      "object_offset": 1154,
-      "public": "LEFT_COLLISION"
-    },
-    {
-      "object_offset": 1244,
-      "public": "CHECK_COLLISION_COL"
-    },
-    {
-      "object_offset": 1310,
-      "public": "CHECK_COLLISION_TILE"
-    },
-    {
-      "object_offset": 1482,
-      "public": "APPLY_COLLISION"
-    },
-    {
-      "object_offset": 1680,
-      "public": "APPLY_AIR_BUMP"
     },
     {
       "object_offset": 1726,

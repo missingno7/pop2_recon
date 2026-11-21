@@ -36088,6 +36088,113 @@
       "size": 114,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no args; SI preserved, RETF.",
+      "boundary_evidence": [
+        "Previous RETF at 0437 ends exactly at 0438; PUSH CS/CALL at 0433/0434 reaches 0438.",
+        "All original branches converge at 048e and RETF 048f. The next original SI-saving entry at 0490 has a distinct incoming PUSH CS/CALL from 0427/0428."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205268,
+          "image_offset": 20500,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20499,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Right barrier edge read, optional slide-rock fallback and signed collision displacement."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0438",
+      "offset": 1080,
+      "original_bytes_hex": "56803e105c017407803e015c007447a0a32c500ee89b000bc0743ba0746250a0756250a07662500ee863ff8bf00bf67f19833e54450074122ac050a0746250a07662509a68034e2a8bf02b368062562ac0500ee84a015ecb",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "f992dfaf626d3394ad3617cd76b2cb89e4bbf786969efa2f4e9d860e0ff117ca",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no args; SI preserved, RETF.",
+      "boundary_evidence": [
+        "PUSH CS/CALL 0427/0428 reaches 0490 immediately after the preceding RETF at 048f. All paths reach the common restore and RETF at 04e9.",
+        "Next BP entry at 04ea is independently reached by original near calls at 044c and 04a4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205256,
+          "image_offset": 20488,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20487,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Left barrier edge read, optional slide-rock fallback and signed collision displacement."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0490",
+      "offset": 1168,
+      "original_bytes_hex": "56803e105c017407803e015cff7449a0a22c500ee843000bc0743da0746250a0756250a07662500ee8cffe8bf03936a20d7f19833e5445007412b0ff50a0746250a07662509a68034e2a8bf02b36826256b0ff500ee8f0005ecb",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "0850988c196100c5d3632d9af05c454b0a9377b9188715a01ff7479c2ef88c75",
+      "size": 90,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, byte BP+6, AX result and RETF 2.",
+      "boundary_evidence": [
+        "Previous RETF 2 at 0528 followed by NOP 052b; original PUSH CS/CALL at 0521/0522 enters 052c. Another near call from EnemyCollide enters the same start.",
+        "Switch exits converge on a shared epilogue and RETF 2 ending at 0598, independently established as AdjustRoom."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 205506,
+          "image_offset": 20738,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20737,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208110,
+          "image_offset": 23342,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23341,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Classifies blocking tiles and projects the collision column coordinate to its room."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:052c",
+      "offset": 1324,
+      "original_bytes_hex": "558bec568a46062ae43d0c007424770c2c04740e2c0374102c037412be0100eb17900ee85003eb0e0ee82403eb082bf6eb060ee82c048bf00bf67409803e065c0b75022bf60bf6741aa0746250a07562988bd8d1e3ffb7860d0ee80f00050e00a3cc2c8bc65e8be55dca0200",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "25bb553de42f59b6377791d172514d8c2ffab1ba6c2d1a8e932a9caf57ee156c",
+      "size": 108,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
