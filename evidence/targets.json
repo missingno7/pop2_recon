@@ -51486,6 +51486,1638 @@
       "size": 2,
       "space": "overlay-6",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-13:2dc2:0000",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 0,
+      "size": 18,
+      "sha256": "fcfc5ef26a18a3a7f3ecb7d721378fea42414150b8f2578636e766a75175d1f9",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "RTLink vector 2203:0da3 loads overlay 13 at offset zero. Calls the palette setup, the ten-image loader, then starts sound 33.",
+        "Final RETF at 0011 ends the range. Next original entry at 0012.",
+        "Decoded RTLink vector 2203:0da3, descriptor 11, names this entry."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "load_carpet_code",
+      "original_name": "LoadCarpetCode",
+      "original_name_evidence": [
+        "FM Towns CUSTCVCA public order and DOS caller/operation evidence in the reviewed boundary."
+      ]
+    },
+    {
+      "id": "overlay-13:2dc2:0012",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 18,
+      "size": 24,
+      "sha256": "24a43dcb9ae14ec2d14701a4fe13062c26cf1c92db7d7d1fd8dcef2644475c9f",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry immediately after the first RETF. Calls the ten-image release loop, then restores the palette using resource 750.",
+        "Final RETF at 0029 ends the range. Next original entry at 002a."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "unload_carpet_code",
+      "original_name": "UnloadCarpetCode",
+      "original_name_evidence": [
+        "FM Towns CUSTCVCA public order and DOS caller/operation evidence in the reviewed boundary."
+      ]
+    },
+    {
+      "id": "overlay-13:2dc2:002a",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 42,
+      "size": 256,
+      "sha256": "f1c947e8a6bc40de50e76dcb5895085afe5a8b53fd530b573a451f35575033f8",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS calls from 03ac and 03ea. Tests six-byte indexed image entries, recreates a missing shape and returns its handle.",
+        "Final RETF at 0126 ends the range with one NOP at 0129. Next original entry at 012a."
+      ],
+      "abi": "far Pascal, signed word index at BP+6, returns handle in AX, RETF 2",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 966,
+          "file_offset": 262598,
+          "pushed_cs_site": 965
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1038,
+          "file_offset": 262670,
+          "pushed_cs_site": 1037
+        }
+      ],
+      "semantic_name_hypothesis": "check_carpet_image"
+    },
+    {
+      "id": "overlay-13:2dc2:012a",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 298,
+      "size": 188,
+      "sha256": "6d4127e7c3266c9b7e18a819fc9b90c223aeeb1d5aa15c61ddb0f094214775ed",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Four guards converge on 01de. Enqueues a 20-byte far draw record with sheet 4, palette offset 62d7, and a computed shape rectangle.",
+        "Final RETF at 01e3 ends the range. Next original entry at 01e6."
+      ],
+      "abi": "far Pascal, near tile pointer at BP+6, RETF 2",
+      "call_sites": [],
+      "semantic_name_hypothesis": "draw_carpet"
+    },
+    {
+      "id": "overlay-13:2dc2:01e6",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 486,
+      "size": 84,
+      "sha256": "317b5a8d837d35dd8553483e94d59673513d6f9d596f53341ff0ff24181c769b",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Both guards converge on 0234. Obtains the shape at index zero and sets the underlay-saved word at state offset 40h.",
+        "Final RETF at 0238 ends the range with one NOP at 0239. Next original entry at 023a."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "save_under_carpet"
+    },
+    {
+      "id": "overlay-13:2dc2:023a",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 570,
+      "size": 294,
+      "sha256": "15cf15e97d4417e165a33805118edf574ac46c000953523e2160364e92f3e24d",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Initial guards jump to 0358. Writes one 20-byte mid-list record and increments the animation frame.",
+        "Final RETF at 035d ends the range. Next original entry at 0360."
+      ],
+      "abi": "far Pascal, one word stack argument unused, RETF 2",
+      "call_sites": [],
+      "semantic_name_hypothesis": "draw_obj_carpet"
+    },
+    {
+      "id": "overlay-13:2dc2:0360",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 864,
+      "size": 76,
+      "sha256": "04ec99d9539cd5c693020d857bc2644841dccda6a890df29095ba699377f22ec",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS calls at 0273 and 0460. Three epilogues return the cycling frame, a fallback stack word, or a frame clamped to nine.",
+        "Final RETF at 03ab ends the range. Next original entry at 03ac."
+      ],
+      "abi": "far Pascal, no arguments, signed word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 627,
+          "file_offset": 262259,
+          "pushed_cs_site": 626
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1120,
+          "file_offset": 262752,
+          "pushed_cs_site": 1119
+        }
+      ],
+      "semantic_name_hypothesis": "get_carpet_frame"
+    },
+    {
+      "id": "overlay-13:2dc2:03ac",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 940,
+      "size": 62,
+      "sha256": "485df6101f60e35ad9266b7b69c6dc194d361ce14b1f15f895c6c2d453e2f1f1",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Five local calls provide the entry. Sets shape metadata then resolves the indexed handle to a far pointer, or returns zero.",
+        "Final RETF at 03e9 ends the range. Next original entry at 03ea."
+      ],
+      "abi": "far MSC fastcall, AX index and BX near descriptor, DX:AX far result",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 424,
+          "file_offset": 262056,
+          "pushed_cs_site": 423
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 516,
+          "file_offset": 262148,
+          "pushed_cs_site": 515
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 648,
+          "file_offset": 262280,
+          "pushed_cs_site": 647
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1188,
+          "file_offset": 262820,
+          "pushed_cs_site": 1187
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1331,
+          "file_offset": 262963,
+          "pushed_cs_site": 1330
+        }
+      ],
+      "semantic_name_hypothesis": "get_carpet_shape_info"
+    },
+    {
+      "id": "overlay-13:2dc2:03ea",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1002,
+      "size": 62,
+      "sha256": "2749ccfb46f795f6cf049ec0b32b16f81c28ad77aec5df9a196c61ce71476ac4",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Local call at 0005. Allocates and clears 66 bytes, checks ten images, and registers a sound range.",
+        "Final RETF at 0426 ends the range with one NOP at 0427. Next original entry at 0428."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 5,
+          "file_offset": 261637,
+          "pushed_cs_site": 4
+        }
+      ],
+      "semantic_name_hypothesis": "load_carpet_data"
+    },
+    {
+      "id": "overlay-13:2dc2:0428",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1064,
+      "size": 20,
+      "sha256": "02ef3d9bce103527b6e7b38a5430fd18e5033a7b111561f539bd23f7d8308268",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Local call at 0001. Pushes palette base, length 16, color count 32, and zero to the resident palette routine.",
+        "Final RETF at 043b ends the range. Next original entry at 043c."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1,
+          "file_offset": 261633,
+          "pushed_cs_site": 0
+        }
+      ],
+      "semantic_name_hypothesis": "map_carpet_colors"
+    },
+    {
+      "id": "overlay-13:2dc2:043c",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1084,
+      "size": 176,
+      "sha256": "9356ce3521bf4f3a50c5fad7227039fcc4c703916ce281a9a6558aef4489ad9c",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Initial guards converge on 04e6. Reads a frame-indexed offset/delta table, moves actor coordinates and redraws shape bounds.",
+        "Final RETF at 04ea ends the range with one NOP at 04eb. Next original entry at 04ec."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "setup_carpet"
+    },
+    {
+      "id": "overlay-13:2dc2:04ec",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1260,
+      "size": 238,
+      "sha256": "2193cfa765ee462d6903b505cd30839f9a8387d031f17139ad15ee3ef186fe1d",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Multiple returns after the landing-tile trigger, the low-height transition, and the final seated-state path. Initial guard jumps to 05d4.",
+        "Final RETF at 05d8 ends the range with one NOP at 05d9. Next original entry at 05da."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "sitting_on_carpet"
+    },
+    {
+      "id": "overlay-13:2dc2:05da",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1498,
+      "size": 58,
+      "sha256": "878af91496f68c84481dc832f4bd0974edab95ba0000b6998ee1f5892c0c0653",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Begins after aligned 04ec extent, and sets sequence 128, character X and one of sounds 34/35 based on the gate state.",
+        "Final RETF at 0613 ends the range. Next original entry at 0614."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "trigger_char_on_carpet"
+    },
+    {
+      "id": "overlay-13:2dc2:0614",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1556,
+      "size": 84,
+      "sha256": "ff3cb0fbf1a227b9ef639a6fd6eb149524946e4a8a1ee75fc3a866a71634c9e8",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Local call at 0013. Releases image handles in a six-byte-stride loop, frees the state block, and zeros its pointer.",
+        "Final RETF at 0667 ends the range. Next original entry at 0668."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 19,
+          "file_offset": 261651,
+          "pushed_cs_site": 18
+        }
+      ],
+      "semantic_name_hypothesis": "unload_carpet_data"
+    },
+    {
+      "id": "overlay-13:2dc2:06c0",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1728,
+      "size": 32,
+      "sha256": "f6fa19128278477d87127461fc9bc00ee74b3b839962c642f676c2da4fe481a9",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Local calls at 0578 and 05fe. Tests whether the tile modifier low three bits are at least three.",
+        "Final RETF at 06de ends the range with one NOP at 06df. Next original entry at 06e0."
+      ],
+      "abi": "far Pascal, no arguments, Boolean word in AX",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1400,
+          "file_offset": 263032,
+          "pushed_cs_site": 1399
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1534,
+          "file_offset": 263166,
+          "pushed_cs_site": 1533
+        }
+      ],
+      "semantic_name_hypothesis": "cave_bars_open"
+    },
+    {
+      "id": "overlay-13:2dc2:06e0",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1760,
+      "size": 104,
+      "sha256": "85f1c20889c2d9639b4f2ae67fdd4fb9c73c4fca218deb1f2c87d529f0f3ba38",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Checks tile kind and column, applies a temporary clip rectangle and draws one bar image.",
+        "Final RETF at 0744 ends the range with one NOP at 0747. Next original entry at 0748."
+      ],
+      "abi": "far Pascal, one near pointer at BP+6, RETF 2",
+      "call_sites": [],
+      "semantic_name_hypothesis": "draw_cave_bars"
+    },
+    {
+      "id": "overlay-13:2dc2:0748",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1864,
+      "size": 48,
+      "sha256": "82f7030f61bf831aaefc3edec591b4b1ea219814386cfaaf2b0d204da7e379fb",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Local calls at 0696 and the closing path via 0691. Computes an 8-byte affected rectangle and redraws through resident callback.",
+        "Final RETF at 0776 ends the range with one NOP at 0777. Next original entry at 0778."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-13",
+          "image_offset": 1686,
+          "file_offset": 263318,
+          "pushed_cs_site": 1685
+        }
+      ],
+      "semantic_name_hypothesis": "redraw_cave_bars"
+    },
+    {
+      "id": "overlay-13:2dc2:0778",
+      "space": "overlay-13",
+      "segment": 11714,
+      "offset": 1912,
+      "size": 70,
+      "sha256": "b99fa04251177a78b10dab9ec85aa58398844fde07de90bc0501014c5f9f4308",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Carpet and cave-bar overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "RTLink vector 2203:0dad names 0778. Reads a four-byte entry in a room-by-30 tile table and returns tri-state result.",
+        "Final RETF at 07ba ends the range with one NOP at 07bd. Two zero bytes follow in the overlay allocation.",
+        "Decoded RTLink vector 2203:0dad, descriptor 11, names this entry."
+      ],
+      "abi": "far Pascal, room byte at BP+8, signed cell byte at BP+6, AL result, RETF 4",
+      "call_sites": [],
+      "semantic_name_hypothesis": "trigger_cave_bars"
+    },
+    {
+      "id": "overlay-15:2dc2:0000",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 0,
+      "size": 120,
+      "sha256": "e7be6b0aa798963cef5739ee11170d2f312801ed08aad76d1d57d0922cb688b9",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS call at 01e8. Saves the character id, changes the shadow sequence to 231, reinstates character state and starts sound 60.",
+        "Final RETF at 0076 ends the range with one NOP at 0077. Next original entry at 0078."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-15",
+          "image_offset": 488,
+          "file_offset": 267000,
+          "pushed_cs_site": 487
+        }
+      ],
+      "semantic_name_hypothesis": "altar_kid_rises_from_death"
+    },
+    {
+      "id": "overlay-15:2dc2:0078",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 120,
+      "size": 410,
+      "sha256": "10fa8369262fa108383f1048cd6d878ea6a2449de45e3c7a2af9d8c959f59402",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts after the first RETF plus NOP. Handles the frame/column-dependent altar sequence and converges on 020f.",
+        "Final RETF at 0210 ends the range with one NOP at 0211. Next original entry at 0212."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "altar_shadow_progress"
+    },
+    {
+      "id": "overlay-15:2dc2:0212",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 530,
+      "size": 174,
+      "sha256": "20e3e832af11513c1afabf649654c0ca83150b0fb0a4a2f3ee6899246d49ffe0",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts after frame-conditional sequence dispatch. Watches row 1, sets sequence 230 near the altar, and spawns the shadow through 02c0.",
+        "Final RETF at 02be ends the range with one NOP at 02bf. Next original entry at 02c0."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "altar_watch_kid"
+    },
+    {
+      "id": "overlay-15:2dc2:02c0",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 704,
+      "size": 230,
+      "sha256": "5f155ae15e164b03ac56dac6a0560be8d62d7c33703c826a7b27697477a0b661",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS call at 02a6. Room 4 and altar tile 13 guard lead to construction of the shadow actor and replacement of character state.",
+        "Final RETF at 03a5 ends the range. Next original entry at 03a6."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-15",
+          "image_offset": 678,
+          "file_offset": 267190,
+          "pushed_cs_site": 677
+        }
+      ],
+      "semantic_name_hypothesis": "create_shadowman"
+    },
+    {
+      "id": "overlay-15:2dc2:03a6",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 934,
+      "size": 64,
+      "sha256": "9ecfdd8acebbcc89662584e9d0bf6bc19cbf676853246bf1e4c804ed086f1291",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "RTLink vector 2203:0e11 names this offset. Tests byte 6 of 64-byte records in the active character list.",
+        "Final RETF at 03e4 ends the range with one NOP at 03e5. Next original entry at 03e6.",
+        "Decoded RTLink vector 2203:0e11, descriptor 13, names this entry."
+      ],
+      "abi": "far Pascal, no arguments, AX Boolean",
+      "call_sites": [],
+      "semantic_name_hypothesis": "altar_shadow_active"
+    },
+    {
+      "id": "overlay-15:2dc2:0462",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 1122,
+      "size": 138,
+      "sha256": "598e319b6a9904477be65dd4c008889abf205aad97e28ce6b647d9954cb02cda",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Checks type 11, saves and restores the 8-byte clip rectangle, and draws a flame tile.",
+        "Final RETF at 04e9 ends the range. Next original entry at 04ec."
+      ],
+      "abi": "far Pascal, one near tile pointer, RETF 2",
+      "call_sites": [],
+      "semantic_name_hypothesis": "draw_temp_sacred_flame"
+    },
+    {
+      "id": "overlay-15:2dc2:04ec",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 1260,
+      "size": 236,
+      "sha256": "70620577462390faadf5454a746be115cb53b0d4988afc0951eee4a0f1e65276",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "RTLink vector 2203:0dfd names this offset. Copies a 103-byte image payload and creates 28 room piece shapes.",
+        "Final RETF at 05d6 ends the range with one NOP at 05d7. Next original entry at 05d8.",
+        "Decoded RTLink vector 2203:0dfd, descriptor 13, names this entry."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "load_altar_room"
+    },
+    {
+      "id": "overlay-15:2dc2:05d8",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 1496,
+      "size": 228,
+      "sha256": "86e631769d8b9a2b156e32ddbe0374e00f3bd9069b50d2d7c907e78abd1c3a46",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Checks room 4 and altar tile 13, adjusts one indexed flame piece, draws it and restores clip.",
+        "Final RETF at 06bb ends the range. Next original entry at 06bc."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "setup_flame"
+    },
+    {
+      "id": "overlay-15:2dc2:06bc",
+      "space": "overlay-15",
+      "segment": 11714,
+      "offset": 1724,
+      "size": 20,
+      "sha256": "4c9255e451dee325b3f1160564494f1bf957c802d08ec706f9ecfa23d5953f2a",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Altar shadow and sacred-flame overlay; medium-model MSC call, control-flow and ABI shapes."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "After preceding RETF, clears palette resource 3000; RETF at 06cf ends the payload.",
+        "Final RETF at 06cf ends the range. End of the overlay allocation."
+      ],
+      "abi": "far Pascal, no arguments",
+      "call_sites": [],
+      "semantic_name_hypothesis": "unload_altar_room"
+    },
+    {
+      "id": "overlay-16:2dc2:0000",
+      "space": "overlay-16",
+      "segment": 11714,
+      "offset": 0,
+      "size": 28,
+      "sha256": "1de4f2413c86e4d083472e20d349a8ac638527b89319aceb7beb4e2a95bdd069",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Sets byte 5 of record at offset cb in the room tile data, draws tile 7 in pass 1, then clears it.",
+        "Complete linear instruction decode ends in RETF at 001b."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Throne-room room-specific overlay, established by RTLink entry and FM Towns public order."
+      ],
+      "semantic_name_hypothesis": "draw_throne_room_gate_in_fore"
+    },
+    {
+      "id": "overlay-16:2dc2:001c",
+      "space": "overlay-16",
+      "segment": 11714,
+      "offset": 28,
+      "size": 42,
+      "sha256": "daa4599927e78244f4f4494de9b09d5c50aaaa410e098e0aef35091a21a37bf9",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "RTLink vector 2203:0e1b names the entry. Loads palette resource 3500 with mode 2 and chooses sound 253 or 152.",
+        "Complete linear instruction decode ends in RETF at 0045."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Throne-room room-specific overlay, established by RTLink entry and FM Towns public order."
+      ],
+      "semantic_name_hypothesis": "load_throne_room"
+    },
+    {
+      "id": "overlay-16:2dc2:0046",
+      "space": "overlay-16",
+      "segment": 11714,
+      "offset": 70,
+      "size": 28,
+      "sha256": "47b781952b9813aa66748fef1deaa33f210500564e734c08dd2d49b46b1e3c1f",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts after the sound request return. Both guard paths reach 0060 RETF; resets resource 3500 if the scene is idle.",
+        "Complete linear instruction decode ends in RETF at 0060 and its NOP alignment byte at 0061."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Throne-room room-specific overlay, established by RTLink entry and FM Towns public order."
+      ],
+      "semantic_name_hypothesis": "unload_throne_room"
+    },
+    {
+      "id": "overlay-16:2dc2:0062",
+      "space": "overlay-16",
+      "segment": 11714,
+      "offset": 98,
+      "size": 222,
+      "sha256": "96bd385462c17912548c07b6c419a5025b2420666396084bca2e567c89a16e25",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "far Pascal, no arguments, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Copies a 12025-byte room-state block, runs the throne-room scene and restores the block and character state. Ends in RETF at 013f, last overlay byte.",
+        "Complete linear instruction decode ends in RETF at 013f."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_status": "strong MSC game C hypothesis",
+      "classification_evidence": [
+        "Throne-room room-specific overlay, established by RTLink entry and FM Towns public order."
+      ],
+      "semantic_name_hypothesis": "play_throne_room_nis"
+    },
+    {
+      "id": "overlay-8:2a74:000c",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 12,
+      "size": 458,
+      "sha256": "cb012005ed98b8f6e14fe3767cc50714bed00b785d73ca7b3c6e56617d54a87e",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Back-wall drawing from packed cell modifiers and intersected clip rectangles."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins at the first BP frame after the MOVERUIN RETF at overlay-8+0x26a and its alignment NOP. A decoded PUSH CS; near CALL at 2a74:01fb independently resolves to the entry.",
+        "overlay-8 image [0x26c,0x436) decodes throughout. Final RETF at 2a74:01d2, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 1115,
+          "file_offset": 227243,
+          "pushed_cs_site": 1114
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 1274,
+          "file_offset": 227402,
+          "pushed_cs_site": 1273
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:01d6",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 470,
+      "size": 154,
+      "sha256": "33c3d0fe382024a7b36cf2f4757685c0fe90b6b31053cc17611e20112595bea1",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Paints a block and dispatches to the back-wall and flaw routines."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x436. A decoded PUSH CS; near CALL at 2a74:037e independently resolves to the entry.",
+        "overlay-8 image [0x436,0x4d0) decodes throughout. Final RETF at 2a74:026c, followed by 1 alignment NOP byte(s).",
+        "Preloaded overlay-17 relocation 135 at +0x437e fixes the segment half of a pointer to 2a74:01d6."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 1502,
+          "file_offset": 227630,
+          "pushed_cs_site": 1501
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 1619,
+          "file_offset": 227747,
+          "pushed_cs_site": 1618
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0270",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 624,
+      "size": 128,
+      "sha256": "c067ffd86bc2783066a97a7e8a4d9c8df25c2d0eb7c605e29a7f96cfd6e06282",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a drawing table by pass and submits the bones tile."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x4d0.",
+        "overlay-8 image [0x4d0,0x550) decodes throughout. Final RETF at 2a74:02ed, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:02f0",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 752,
+      "size": 270,
+      "sha256": "98eb5a47274efacee4eca4f3820acc9f9516dfba64e8fcbe413d4082368af48c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Paints a revealed crevice, or copies its packed block record and draws a replacement."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x550.",
+        "overlay-8 image [0x550,0x65e) decodes throughout. Final RETF at 2a74:03fb, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:03fe",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 1022,
+      "size": 178,
+      "sha256": "636c1a19f83f8c49471f46d42e2e88290eb4ad09d3abd5822c09e86853f52780",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a table and layer for the left exit tile."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x65e.",
+        "overlay-8 image [0x65e,0x710) decodes throughout. Final RETF at 2a74:04ac, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:04b0",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 1200,
+      "size": 250,
+      "sha256": "526b1abc60f585a21877c93e20036789d5faa4f4fe86a4f1ce70f39560366dad",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a table and layer for the right exit tile and its movable part."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x710.",
+        "overlay-8 image [0x710,0x80a) decodes throughout. Final RETF at 2a74:05a7, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:05aa",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 1450,
+      "size": 324,
+      "sha256": "97f87837e6d2ab309b07379262b14acfbdaae5bf7f37f3b61899c8c7bee9ac6a",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clips and draws the moving exit using its current height."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x80a. A decoded PUSH CS; near CALL at 2a74:059f independently resolves to the entry.",
+        "overlay-8 image [0x80a,0x94e) decodes throughout. Final RETF at 2a74:06ea, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 2047,
+          "file_offset": 228175,
+          "pushed_cs_site": 2046
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:06ee",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 1774,
+      "size": 394,
+      "sha256": "7952673cb3d507e2e18eadf3e0249a9c751acb8326f14065e2cc76687a82fed5",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws front and back flaws from the packed upper modifier."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x94e. A decoded PUSH CS; near CALL at 2a74:0264 independently resolves to the entry.",
+        "overlay-8 image [0x94e,0xad8) decodes throughout. Final RETF at 2a74:0874, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 1220,
+          "file_offset": 227348,
+          "pushed_cs_site": 1219
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 1349,
+          "file_offset": 227477,
+          "pushed_cs_site": 1348
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0878",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 2168,
+      "size": 146,
+      "sha256": "a6a4a057b915d6b103cb83877fcdd2410dcdb59d5f3821244f0e81638a7e0995",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws floor layers and flaws from the two low modifier bits."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xad8. A decoded PUSH CS; near CALL at 2a74:0b03 independently resolves to the entry.",
+        "overlay-8 image [0xad8,0xb6a) decodes throughout. Final RETF at 2a74:0907, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 3427,
+          "file_offset": 229555,
+          "pushed_cs_site": 3426
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 4357,
+          "file_offset": 230485,
+          "pushed_cs_site": 4356
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:090a",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 2314,
+      "size": 134,
+      "sha256": "82852795f2e3f125e996b7b83893332c8e1a3832d53e9821c64e055a217cf4ba",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects the gate table and invokes the movable gate and flaw routines."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xb6a.",
+        "overlay-8 image [0xb6a,0xbf0) decodes throughout. Final RETF at 2a74:098c, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0990",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 2448,
+      "size": 236,
+      "sha256": "0502b118d29e3da8fc8070c3b724d771e6e543c1da28eac712e2090dca19cab1",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses a height-dependent clip and vertical offset to draw the moving gate."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xbf0. A decoded PUSH CS; near CALL at 2a74:097f independently resolves to the entry.",
+        "overlay-8 image [0xbf0,0xcdc) decodes throughout. Final RETF at 2a74:0a78, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 3039,
+          "file_offset": 229167,
+          "pushed_cs_site": 3038
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0a7c",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 2684,
+      "size": 282,
+      "sha256": "209d08e1fac7b43c46db4510a8807780f1cb3dd1de6e4865a800c356968bcfa4",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects loose-floor artwork or draws a copied ordinary floor."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xcdc.",
+        "overlay-8 image [0xcdc,0xdf6) decodes throughout. Final RETF at 2a74:0b92, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0b96",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 2966,
+      "size": 104,
+      "sha256": "19a5d93661168a685edd3d92b91f891b87fe49ff3c91b5d04207afeeaf503fda",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the lower pillar and its flaw."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xdf6.",
+        "overlay-8 image [0xdf6,0xe5e) decodes throughout. Final RETF at 2a74:0bfa, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0bfe",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3070,
+      "size": 102,
+      "sha256": "f1dd111653fcac311d5de0819ecb4850157ce2e1ac2e2b6c4246ce82942c652b",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the upper pillar and its flaw."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xe5e.",
+        "overlay-8 image [0xe5e,0xec4) decodes throughout. Final RETF at 2a74:0c60, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0c64",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3172,
+      "size": 172,
+      "sha256": "020adc6f752b0696601e3985df8d19dba7e062c2921035649b5bed18ae6d5522",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the down plate and switches tile ID for the pressed flag."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xec4. A decoded PUSH CS; near CALL at 2a74:0e9b independently resolves to the entry.",
+        "overlay-8 image [0xec4,0xf70) decodes throughout. Final RETF at 2a74:0d0d, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 4347,
+          "file_offset": 230475,
+          "pushed_cs_site": 4346
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0d10",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3344,
+      "size": 172,
+      "sha256": "089a95e79c4dfbe7e65a1132b9520221505f0e6ecc94c5b17c6f4481a69e401d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the up plate and switches tile ID for the pressed flag."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0xf70. A decoded PUSH CS; near CALL at 2a74:0e84 independently resolves to the entry.",
+        "overlay-8 image [0xf70,0x101c) decodes throughout. Final RETF at 2a74:0db9, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 4324,
+          "file_offset": 230452,
+          "pushed_cs_site": 4323
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0dbc",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3516,
+      "size": 146,
+      "sha256": "0f059563511bfd651780852e190f2c26d4238370a7d34a17af5af5b1d8538f0f",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects and draws the posts and flaws by pass."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x101c.",
+        "overlay-8 image [0x101c,0x10ae) decodes throughout. Final RETF at 2a74:0e4b, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0e4e",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3662,
+      "size": 124,
+      "sha256": "30b35d35d819f942359ba34e214cdf7cf6fc708570e18861194d4bf86a36d583",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Chooses a plate or floor underneath a rubble tile."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x10ae.",
+        "overlay-8 image [0x10ae,0x112a) decodes throughout. Final RETF at 2a74:0ec7, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0eca",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3786,
+      "size": 130,
+      "sha256": "1cf94a0133f0a766b1eb6ddedc764d4076023cf5fadf597e1779d3789da4300d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws rubble pieces from modifier bits 4 and 5."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x112a. A decoded PUSH CS; near CALL at 2a74:0eb8 independently resolves to the entry.",
+        "overlay-8 image [0x112a,0x11ac) decodes throughout. Final RETF at 2a74:0f48, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 4376,
+          "file_offset": 230504,
+          "pushed_cs_site": 4375
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0f4c",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 3916,
+      "size": 108,
+      "sha256": "6aa99e8ba18100a71824f8fb11cf378eacf472424b7fd676ea8665a5f17002f5",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks neighboring cells before drawing a wall behind empty space."
+      ],
+      "abi": "Far Pascal, near cell pointer in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x11ac.",
+        "overlay-8 image [0x11ac,0x1218) decodes throughout. Final RETF at 2a74:0fb4, followed by 1 alignment NOP byte(s).",
+        "Preloaded overlay-17 relocation 80 at +0x432e fixes the segment half of a pointer to 2a74:0f4c."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:0fb8",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 4024,
+      "size": 8,
+      "sha256": "259b40e20f71951471ac9786349912901bf1e7e1d40e396cece0613c87d30067",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Initializes the ruins drawing overlay by clearing its draw state."
+      ],
+      "abi": "Far Pascal, bare RETF.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x1218. RTLink vector 2203:0d5d independently selects overlay 8 and enters at 0fb8.",
+        "overlay-8 image [0x1218,0x1220) decodes throughout. Final RETF at 2a74:0fbe, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [],
+      "original_name": "LoadRuinsDrawCode",
+      "original_name_evidence": [
+        "RTLink vector 2203:0d5d selects the ruins drawing overlay. Its draw-state initializer occupies the unpaired LoadRuinsDrawCode public in DRAWRUIN.C."
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:0fc0",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 4032,
+      "size": 162,
+      "sha256": "ad681d27885f5bb18cf5962c0bcb1a7cc4d95dd52d072cdc0292e85886f18902",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Walks neighboring crevice cells and updates the reveal state."
+      ],
+      "abi": "Far Pascal, four word slots (three byte values), RETF 8.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x1220. A decoded PUSH CS; near CALL at 2a74:108f independently resolves to the entry.",
+        "overlay-8 image [0x1220,0x12c2) decodes throughout. Final RETF at 2a74:105e, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 4847,
+          "file_offset": 230975,
+          "pushed_cs_site": 4846
+        }
+      ]
+    },
+    {
+      "id": "overlay-8:2a74:1062",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 4194,
+      "size": 50,
+      "sha256": "08694ecf854a96aad6c491fe4b15aa6b228315040e2c89c81c73e6bb1f370360",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the actor and tile modifier before updating neighboring crevices."
+      ],
+      "abi": "Far Pascal, bare RETF.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x12c2.",
+        "overlay-8 image [0x12c2,0x12f4) decodes throughout. Final RETF at 2a74:1092, followed by 1 alignment NOP byte(s).",
+        "Three original relocated calls from the COLLIDE frame in overlay 3 name this alias in the crevice handling path."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a74:1094",
+      "space": "overlay-8",
+      "segment": 10868,
+      "offset": 4244,
+      "size": 178,
+      "sha256": "786db6f146a23ac143101d9f98b4d8ca797a0ad29725f3b03e15a76fdd9f0ef0",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Changes one crevice reveal bit and queues redraws where applicable."
+      ],
+      "abi": "Far Pascal, word flag in one slot, RETF 2.",
+      "boundary_evidence": [
+        "Begins immediately after the preceding reviewed return and any alignment NOPs, at overlay-8+0x12f4. The RETF 2 and single NOP are followed by ten zero bytes of overlay alignment fill. A decoded PUSH CS; near CALL at 2a74:1040 independently resolves to the entry.",
+        "overlay-8 image [0x12f4,0x13a6) decodes throughout. Final RETF at 2a74:1142, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-8",
+          "image_offset": 4768,
+          "file_offset": 230896,
+          "pushed_cs_site": 4767
+        }
+      ]
+    },
+    {
+      "id": "root:0e56:032a",
+      "space": "root",
+      "segment": 3670,
+      "offset": 810,
+      "size": 48,
+      "sha256": "04e619de12abcb7bdf9ee926f948140cb44c56c4510c3633372a452e119ad619",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Sets two room-dependent byte pairs and one word in the start-room state."
+      ],
+      "abi": "Far, no stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "The reviewed root:0e56:02c8 extent ends at 032a. From 032a a conditional jump selects two straight-line store arms with bare RETF at 0344 and 0359. The latter directly precedes the 035a BP prologue.",
+        "root image [0xe88a,0xe8ba) decodes throughout. Final RETF at 0e56:0359, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a4e:0000",
+      "space": "overlay-8",
+      "segment": 10830,
+      "offset": 0,
+      "size": 294,
+      "sha256": "80530c71287019c3ed75189cded510a69a9574cc78cbeb6bd3408b40173e15dc",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Room and floor clipping for actor types 7 and 8."
+      ],
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Overlay begins with this BP frame. Root+0x453a is a relocated far call to 2a4e:0000 in the unambiguous no-argument path. Final RETF at 0123 is followed by two NOPs before the independently called 0126 prologue.",
+        "overlay-8 image [0x0,0x126) decodes throughout. Final RETF at 2a4e:0123, followed by 2 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a4e:0198",
+      "space": "overlay-8",
+      "segment": 10830,
+      "offset": 408,
+      "size": 86,
+      "sha256": "c78a2ed3f623b37038653c532edc90707e5939094cccbb3f5796e44bd4f6c049",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Initializes a scripted actor, copies the 64-byte actor state, and updates the Kid."
+      ],
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Starts with DI/SI saves after the 0126 function RETF and pad. Overlay-3+0x1823 has a relocated call to this entry; the next frameless procedure starts after this RETF.",
+        "overlay-8 image [0x198,0x1ee) decodes throughout. Final RETF at 2a4e:01ed, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a4e:01ee",
+      "space": "overlay-8",
+      "segment": 10830,
+      "offset": 494,
+      "size": 20,
+      "sha256": "8ee5e7f004c248fe5b73b15889fd7bdfe62f819f2dda79e01306418ffb1d3763",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Passes the ruins-start PALS resource ID 3500 to the loader with final argument 1."
+      ],
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "The preceding function restores SI and DI and returns immediately before 01ee. A straight-line four-argument Pascal call ends immediately before the conditional unload procedure. The relocated pointer at overlay-17+0x2bda uses alias 2a4e:01ee (segment-word relocation 124 at 0x2bdc).",
+        "overlay-8 image [0x1ee,0x202) decodes throughout. Final RETF at 2a4e:0201, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a4e:0202",
+      "space": "overlay-8",
+      "segment": 10830,
+      "offset": 514,
+      "size": 34,
+      "sha256": "5d08d500de213ca51d881cc9708fe77879c104a6c3bfe7d2ea7724d222b05b4c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Conditionally passes the ruins-start PALS resource ID 3500 to the same loader with final argument 0."
+      ],
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Preceded by the matching loader call and RETF. Both local conditions reach RETF at 0223, immediately before the vector entry. The relocated pointer at overlay-17+0x2bde uses alias 2a4e:0202 (segment-word relocation 39 at 0x2be0).",
+        "overlay-8 image [0x202,0x224) decodes throughout. Final RETF at 2a4e:0223, followed by 0 alignment NOP byte(s)."
+      ],
+      "call_sites": []
+    },
+    {
+      "id": "overlay-8:2a4e:0224",
+      "space": "overlay-8",
+      "segment": 10830,
+      "offset": 548,
+      "size": 2,
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The ruins movement overlay registration entry is a no-op."
+      ],
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "The preceding routine returns at 0223; the vector entry consists of a bare RETF and a NOP before the next room check. RTLink vector 2203:0d67 independently selects overlay 8 and enters at 0224.",
+        "overlay-8 image [0x224,0x226) decodes throughout. Final RETF at 2a4e:0224, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": [],
+      "original_name": "LoadRuinsMoveCode",
+      "original_name_evidence": [
+        "RTLink vector 2203:0d67 selects the ruins movement overlay. The empty registration entry is the unpaired LoadRuinsMoveCode public in MOVERUIN.C."
+      ]
+    },
+    {
+      "id": "overlay-8:2a4e:0226",
+      "space": "overlay-8",
+      "segment": 10830,
+      "offset": 550,
+      "size": 70,
+      "sha256": "96e55e72c05cb911916ec8a6a9ff989992061b48fb6116171275ffaea30c749f",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Triggers the plateau room event after room, column and level tests."
+      ],
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Starts immediately after the vector RETF and its alignment NOP. Branches reach two bare RETFs at 0244 and 026a. A single NOP at 026b precedes the BP frame of DRAWRUIN at overlay-8+0x26c. The relocated pointer at overlay-17+0x2bf6 uses alias 2a4e:0226 (segment-word relocation 76 at 0x2bf8).",
+        "overlay-8 image [0x226,0x26c) decodes throughout. Final RETF at 2a4e:026a, followed by 1 alignment NOP byte(s)."
+      ],
+      "call_sites": []
     }
   ],
   "schema": 1,

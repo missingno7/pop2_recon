@@ -1,0 +1,81 @@
+{
+  "binding": "evidence/bindings/throne/throne.json",
+  "binding_sha256": "21a69c65810e85533bc580597d1636e349daa2d4652c9c45c1c8f312dafea099",
+  "claims": [
+    {
+      "fixup_count": 2,
+      "public": "DRAW_THRONE_ROOM_GATE_IN_FORE",
+      "relocation_indices": [
+        12
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-16:2dc2:0000"
+    },
+    {
+      "fixup_count": 2,
+      "public": "UNLOAD_THRONE_ROOM",
+      "relocation_indices": [
+        2
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-16:2dc2:0046"
+    },
+    {
+      "fixup_count": 29,
+      "public": "PLAY_THRONE_ROOM_NIS",
+      "relocation_indices": [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-16:2dc2:0062"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 28,
+      "public": "LOAD_THRONE_ROOM"
+    }
+  ],
+  "emitted_size": 320,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc",
+    "/Zd"
+  ],
+  "frame": 11714,
+  "group_id": "group:throne/throne",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "throne/throne",
+  "object_sha256": "6ebf27ad8861b0863bca3675be21c74eb507d066bdc5062e676f9fa08a14801a",
+  "origin": 0,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/throne/throne.c",
+  "source_sha256": "fb5d11939b69e0862869706e44ae613962b74443a6009a63b24a891ddc1ac157",
+  "space": "overlay-16"
+}
