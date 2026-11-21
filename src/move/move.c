@@ -10,7 +10,7 @@ typedef struct {
 
 extern int trob_count;
 extern Trob current_trob;
-static Trob trobs[20];
+extern Trob trobs[20];
 
 extern byte level_type;
 typedef struct {
@@ -209,31 +209,29 @@ int is_visible_room_cell(byte room, sbyte cell);
 
 void redraw_torch(void)
 {
-    MoveRect rect;
-    sbyte cell;
-    int cave = (level_type == 2);
+    struct { MoveRect rect; union { int cave; struct { byte pad; sbyte cell; } bytes; } tail; } work;
+    work.tail.cave = (level_type == 2);
 
-    rect = *(cave ? &cave_torch_rect : &torch_rect);
-    if (compute_trob_move_rect(&rect, &rect)) {
-        if (cave) {
-            mark_move(current_trob.cell, &rect);
-            mark_move(cell = check_trob_above(), &rect);
-            mark_move(check_trob_above_right(), &rect);
+    work.rect = *(work.tail.cave ? &cave_torch_rect : &torch_rect);
+    if (compute_trob_move_rect(&work.rect, &work.rect)) {
+        if (work.tail.cave) {
+            mark_move(current_trob.cell, &work.rect);
+            work.tail.bytes.cell = check_trob_above(); mark_move(work.tail.bytes.cell, &work.rect);
+            mark_move(check_trob_above_right(), &work.rect);
         }
-        mark_move(check_trob_right(), &rect);
+        mark_move(check_trob_right(), &work.rect);
     }
 }
 
 void redraw_exit(void)
 {
-    MoveRect rect;
-    sbyte cell;
+    struct { MoveRect rect; byte pad; sbyte cell; } work;
 
-    if (compute_trob_move_rect(&rect, exit_rects[level_type])) {
-        mark_move(current_trob.cell, &rect);
-        mark_move(cell = check_trob_right(), &rect);
-        mark_move(cell = check_trob_above(), &rect);
-        mark_move(check_trob_above_right(), &rect);
+    if (compute_trob_move_rect(&work.rect, exit_rects[level_type])) {
+        mark_move(current_trob.cell, &work.rect);
+        work.cell = check_trob_right(); mark_move(work.cell, &work.rect);
+        work.cell = check_trob_above(); mark_move(work.cell, &work.rect);
+        mark_move(check_trob_above_right(), &work.rect);
     }
 }
 
@@ -260,44 +258,41 @@ void redraw_plate(void)
 
 void redraw_loose(void)
 {
-    MoveRect rect;
-    sbyte cell;
+    struct { MoveRect rect; byte pad; sbyte cell; } work;
 
-    if (compute_trob_move_rect(&rect, loose_rects[level_type])) {
-        mark_move(cell = check_trob(), &rect);
-        mark_move(check_trob_right(), &rect);
+    if (compute_trob_move_rect(&work.rect, loose_rects[level_type])) {
+        mark_move(work.cell = check_trob(), &work.rect);
+        mark_move(check_trob_right(), &work.rect);
         if (level_type == 3)
-            mark_move(check_trob_below(), &rect);
+            mark_move(check_trob_below(), &work.rect);
     }
 }
 
 void redraw_gate(void)
 {
-    MoveRect rect;
-    sbyte cell;
+    struct { MoveRect rect; byte pad; sbyte cell; } work;
 
     if (level_type == 3)
-        rect = temple_gate_rect;
+        work.rect = temple_gate_rect;
     else
-        rect = gate_rect;
-    cell = check_trob_above_right();
-    if (cell != 30 && cell >= 0 && !tile_has_gate(room_tiles[viewed_room][cell]))
-        rect.edges[0] = 0;
-    if (compute_trob_move_rect(&rect, &rect)) {
-        mark_move(current_trob.cell, &rect);
-        mark_move(cell = check_trob_right(), &rect);
-        mark_move(check_trob_above_right(), &rect);
+        work.rect = gate_rect;
+    work.cell = check_trob_above_right();
+    if (work.cell != 30 && work.cell >= 0 && !tile_has_gate(room_tiles[viewed_room][work.cell]))
+        work.rect.edges[0] = 0;
+    if (compute_trob_move_rect(&work.rect, &work.rect)) {
+        mark_move(current_trob.cell, &work.rect);
+        work.cell = check_trob_right(); mark_move(work.cell, &work.rect);
+        mark_move(check_trob_above_right(), &work.rect);
     }
 }
 
 void redraw_trob(MoveRect *base)
 {
-    MoveRect rect;
-    sbyte cell;
+    struct { MoveRect rect; byte pad; sbyte cell; } work;
 
-    if (base && compute_trob_move_rect(&rect, base)) {
-        mark_move(cell = check_trob(), &rect);
-        mark_move(check_trob_right(), &rect);
+    if (base && compute_trob_move_rect(&work.rect, base)) {
+        mark_move(work.cell = check_trob(), &work.rect);
+        mark_move(check_trob_right(), &work.rect);
     }
 }
 
@@ -392,7 +387,7 @@ sbyte check_trob_above_right(void)
 
     if (viewed_room == current_trob.room) {
         if (cell % 10 == 9)
-            cell = 30;
+            return cell = 30;
         else if (cell < 10)
             cell = -2 - cell;
         else
@@ -504,7 +499,7 @@ void check_press(void)
         else if (frame == 0x4f && kind == 15)
             damage_press_tile();
         else
-            kind = (current_tile_flags & 0x40) ? locate_press_tile() : 0;
+            kind = !(current_tile_flags & 0x40) ? 0 : locate_press_tile();
     } else
         kind = 0;
 
@@ -671,10 +666,10 @@ void stop_gate(int height)
 void check_gate_fingers(void)
 {
     if (player_room == current_trob.room && (player_action == 2 || player_action == 6)) {
-        int cell = (sbyte)(row_first_cell(player_row) + player_column);
-        int delta = current_trob.cell - cell;
-        if (delta == -10 || delta == -11)
-            play_move_sound(31);
+        int delta = current_trob.cell - (sbyte)(row_first_cell(player_row) + player_column);
+        if (delta != -10 && delta != -11)
+            return;
+        play_move_sound(31);
     }
 }
 
@@ -712,11 +707,15 @@ int did_player_escape_guard(void)
             if (guard->row == row && guard->direction < 0 && guard->room == player_room) {
                 if ((player_column > col && guard->column > col)
                         || (player_column <= col && guard->column <= col))
-                    return 0;
+                    goto caught;
                 escaped = 1;
             }
         }
     }
+    goto done;
+caught:
+    escaped = 0;
+done:
     return escaped;
 }
 
@@ -774,8 +773,8 @@ typedef struct {
     MoveRect rect;
 } MarkedRect;
 
-extern MarkedRect top_marks[], move_marks[], floor_marks[], foreground_marks[];
-extern int half_marks[], redraw_marks[];
+extern MarkedRect top_marks[10], move_marks[30], floor_marks[30], foreground_marks[30];
+extern int half_marks[30], redraw_marks[];
 extern volatile byte marked_room;
 extern sbyte marked_cell;
 
@@ -986,7 +985,8 @@ extern sbyte trigger_style_gate(byte room, sbyte cell);
 sbyte trigger_gate(byte room, sbyte cell, int action)
 {
     sbyte state = -1;
-    unsigned value = room_objects[cell].state;
+    RoomObject *object = &room_objects[cell];
+    unsigned value = object->state;
     unsigned height = value & 255;
     unsigned flags = value & 0xff00U;
 
@@ -995,13 +995,13 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
         if (height == 255)
             break;
         if (height >= 200) {
-            room_objects[cell].state = flags + 250;
+            object->state = flags + 250;
             if (actor_direction >= 0 || (gate_lock_room && gate_lock_room != actor_room)) {
                 room_objects[cell].state = flags + 255;
                 state = 3;
             }
         } else {
-            room_objects[cell].state = flags + ((height + 3) & 0xfc);
+            object->state = flags + ((height + 3) & 0xfc);
             if (actor_direction >= 0 || (gate_lock_room && gate_lock_room != actor_room))
                 state = 3;
             else
@@ -1016,7 +1016,7 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
         if (height < 200)
             state = 3;
         else
-            room_objects[cell].state = flags + 255;
+            object->state = flags + 255;
         break;
     case 34:
         state = trigger_style_gate(room, cell);
@@ -1073,9 +1073,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
 void trigger_torch(byte room, sbyte cell)
 {
     unsigned phase = random_below(level_type == 3 ? 8 : 3);
-    unsigned state = room_objects[cell].state;
-    state &= 0xff00U;
-    state += phase;
+    unsigned state = (room_objects[cell].state & 0xff00U) + phase;
     room_objects[cell].state = state;
     add_trob(room, cell, 1, 19);
 }
@@ -1100,12 +1098,12 @@ void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
 extern unsigned int RedrawBuf[30];
-extern unsigned int MoveBuf[150];
-extern unsigned int FRedrawBuf[150];
-extern unsigned int FloorBuf[150];
-extern unsigned int HalfBuf[30];
+#define MoveBuf move_marks
+#define FRedrawBuf foreground_marks
+#define FloorBuf floor_marks
+#define HalfBuf half_marks
 extern unsigned char ObjBuf[30];
-extern unsigned int TopBuf[50];
+#define TopBuf top_marks
 
 void ZeroBuffers(void)
 {
@@ -1150,7 +1148,7 @@ typedef struct {
     byte timer, prev, next;
 } TileLink;
 
-extern TileLink links[];
+static TileLink links[256];
 
 int get_link_next(int link)
 {
@@ -1193,6 +1191,51 @@ byte get_link_room(int link)
 
 /* PushPlate and JamPlate at 15b4 through 16ac are pending. */
 
+extern byte pressed_kind;
+extern unsigned pressed_state;
+extern RoomObject room_records[][30];
+
+void push_plate(sbyte kind, int link)
+{
+    sbyte previous_timer;
+    sbyte cell;
+    byte room;
+    unsigned state;
+
+    if (!kind)
+        kind = pressed_kind;
+    if (link == -1)
+        link = pressed_state & 255;
+    previous_timer = (sbyte)GetLinkTimer(link);
+    if (previous_timer != 31) {
+        cell = marked_cell;
+        state = pressed_state | 0x0800U;
+        room = marked_room;
+        ChangeLinkTimer(link, 5);
+        if (previous_timer < 2) {
+            add_trob(marked_room, marked_cell, 1, kind);
+            if (actor_frame != 185 && (marked_room != 4 || current_level != 13))
+                play_move_sound(3);
+            redraw_plate();
+            trigger_link(link, (byte)kind);
+            drew_pressed_tile = 1;
+        } else {
+            trigger_link(link, (byte)kind);
+        }
+        room_records[room][cell].state = state;
+    } else {
+        trigger_link(link, (byte)kind);
+    }
+}
+
+void jam_plate(void)
+{
+    int link = pressed_state & 255;
+
+    ChangeLinkTimer(link, 31);
+    push_plate(pressed_kind, link);
+}
+
 void animate_plate(void)
 {
     if (current_trob.state >= 0) {
@@ -1213,6 +1256,15 @@ void animate_plate(void)
 
 /* CloseExit at 16fa is pending. */
 
+void close_exit(byte room, sbyte cell)
+{
+    if (level_type != 1) {
+        RoomObject *object = &room_objects[cell];
+        object->state = ((unsigned)((byte *)&object->state)[1] << 8) + 42;
+        add_trob(room, cell, 4, 17);
+    }
+}
+
 #pragma pack(1)
 typedef struct {
     int x, y;
@@ -1227,11 +1279,14 @@ typedef struct {
 extern Mob current_mob;
 void make_space(byte room, sbyte cell);
 void add_mob(void);
+extern Mob mobs[];
+extern int mob_count;
 
 void animate_loose_floor(void)
 {
     int frame;
     int kind;
+    sbyte row;
 
     ++room_object.state;
     frame = room_object.state & 15;
@@ -1246,12 +1301,13 @@ void animate_loose_floor(void)
             make_space(current_trob.room, current_trob.cell);
             room_object.state = kind + 3;
             current_mob.x = (current_trob.cell % 10) * 32;
-            current_mob.row = current_trob.cell / 10;
-            current_mob.y = current_mob.row * 63 + 66;
+            row = current_trob.cell / 10;
+            current_mob.y = row * 63 + 66;
             current_mob.room = current_trob.room;
-            current_mob.auxiliary = 0;
+            *(volatile int *)&current_mob.auxiliary = 0;
             current_mob.speed = current_trob.state;
             current_mob.kind = kind;
+            current_mob.row = row;
             current_mob.flags = 0;
             add_mob();
             current_trob.state = -1;
@@ -1276,6 +1332,13 @@ void make_space(unsigned char room, signed char cell)
 }
 
 /* Loose-floor and mobile-list bodies at 183e through 1a10 are pending. */
+
+void add_mob(void)
+{
+    Mob *destination = &mobs[mob_count++];
+
+    *destination = current_mob;
+}
 
 void select_trob_cell(int cell)
 {
