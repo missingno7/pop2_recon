@@ -70,3 +70,27 @@ does not let those calls create frames, so most overlays show at most one frame.
 Overlay module boundaries need RTLink's own call resolution (vectors or descriptor
 data, see [rtlink.md](rtlink.md)). Until then, overlay modules stay out of scope,
 as the plan's first gate version already assumes.
+
+## Overlays resolved — 2026-11-21
+
+`tools/tu_census.py` now also bounds overlay code frames from each overlay's own
+relocation records. Those records are scoped to their source overlay, and their
+site segments are the code frames. It also decodes the RTLink vectors:
+
+- **Vectors.** The manager's checker at `2203:064c` validates
+  `E8 rel16; EA off16 seg16; index16`. There are 36 ten-byte vectors at
+  `2203:0cbd..0e24`, with jump-segment MZ relocations 1992–2027. Each carries a
+  descriptor index naming its overlay.
+- **Overlay frames.** Overlays 2–16 contain 25 code frames. All 1,048 overlay
+  near calls stay within their frame, so frame = file holds there as in root.
+  Six internal boundaries are reviewed byte windows in the tool.
+- **Calls still ambiguous.** 260 of the 382 previously ambiguous direct far calls
+  are attributed: through vectors, or because a direct call targets the caller's
+  own loaded overlay. The other 122 cross overlays that share a link segment.
+  Resolving them needs load-state or call-path evidence.
+- **Overlay 17** is preloaded data and driver payload, with its code frames
+  unclassified.
+
+[evidence/modules.json](../evidence/modules.json) maps these frames to original
+source modules (overlay 3 = AUTO, AUTOSHAD, ACT, COLLIDE; overlay 6 = MOVECAVE,
+DRAWCAVE; and so on).
