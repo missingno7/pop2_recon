@@ -852,3 +852,45 @@ END
         self.assertEqual([c["state"] for c in report["claims"]], ["ASM_EXACT", "ASM_EXACT"], report["claims"])
         self.assertEqual(sorted(e["kind"] for e in report["claims"][0]["equations"]),
                          ["own-segment rel16", "same-object near16"])
+
+
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+class DraftRegionFarWitnessTests(unittest.TestCase):
+    """In a group, an original relocated CALL FAR in an unclaimed draft region may witness a far
+    callee (an original fact the claims are not judged on); one inside a claim may not."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.oracle = Oracle.load()
+        recipe = common.read_json(ROOT / "recipes/ctrl/ctrl.json")
+        result = compile_c((ROOT / recipe["source"]).read_text(encoding="utf-8"), recipe["profile"],
+                           recipe["flags"], workdir=ROOT / "build/workers/tests/far_draft")
+        assert result.ok, result.log
+        cls.obj, cls.recipe = result.obj_bytes, recipe
+        cls.binding = common.read_json(ROOT / recipe["binding"])
+        cls.root = cls.oracle.spaces["root"]
+
+    def witness(self, at):
+        relocation = next(r for r in self.root.relocations if r["image_offset"] == at + 3)
+        return {"space": "root", "image_offset": at, "bytes_hex": self.root.data[at:at+5].hex(),
+                "relocation_index": relocation["index"], "file_offset": self.root.file_offset + at}
+
+    def check(self, at):
+        from module_gate import check_group
+        binding = copy.deepcopy(self.binding)
+        binding["symbols"]["TILE_HAS_FLOOR"]["witnesses"] = [self.witness(at)]
+        claims = [{"target_id": c["target_id"], "public": c["public"]} for c in self.recipe["claims"]]
+        return check_group(self.obj, claims, self.oracle, binding=binding, group_id=self.recipe["group_id"])
+
+    def test_call_in_an_unclaimed_draft_region_witnesses_the_callee(self):
+        self.assertTrue(self.check(0x39e6)["exact"])  # a draft of CTRL.C, relocation 346
+
+    def test_call_inside_a_claim_is_refused(self):
+        report = self.check(0x39e6)
+        claimed = next(c for c in report["claims"] for e in c["equations"]
+                       if e.get("kind") == "far-call" and e.get("symbol") == "TILE_HAS_FLOOR")
+        at = report["origin"] + claimed["object_offset"] + next(
+            e["offset"] for e in claimed["equations"] if e.get("symbol") == "TILE_HAS_FLOOR") - 1
+        with self.assertRaisesRegex(ValueError, "overlaps candidate"):
+            self.check(at)

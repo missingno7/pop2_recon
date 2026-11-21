@@ -336,7 +336,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                      if n not in far_symbols and n not in near_symbols}
         for symbol in far_symbols.values():
             require(space.name == "root", "Group far calls are supported in root only")
-            far_ground(symbol, hull, oracle)
+            far_ground(symbol, hull, oracle,
+                       claimed=[(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved])
         if data_only:
             claimed = [(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved]
             symbols = ground({**binding, "symbols": data_only}, hull, oracle,

@@ -257,3 +257,14 @@ The decoded destination must start a reviewed target row, or an accepted
 owner, in the destination overlay, so the destination has independent
 boundary review. An outside caller would add nothing beyond the record
 itself. A destination without a reviewed row is refused.
+
+## Draft-region far witnesses in groups (2026-11-21)
+
+In a same-source group, an independent relocated CALL FAR witness must lie
+outside every claimed extent rather than outside the whole compiled object.
+A call in an unclaimed draft region is an original fact the claims are not
+judged on, matching the v4 draft-region rule in docs/dgroup-binding.md.
+When the group later claims that region, the witness is refused and the
+binding must switch to another grounding. The callee entry itself must
+still lie outside the whole object. Structural-entry frame witnesses keep
+the whole-object rule.

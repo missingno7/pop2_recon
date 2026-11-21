@@ -183,7 +183,7 @@ def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
     return {"anchor": anchors[0], "frame_witness": frames[0], "frame_witnesses": len(frames)}
 
 
-def ground_symbol(symbol, target, oracle):
+def ground_symbol(symbol, target, oracle, claimed=None):
     """Ground one far callee alias S = SEG:OFF independently of the candidate.
 
     far-code-entry: a reviewed resident direct-code entry. overlay-code-entry: a
@@ -269,7 +269,11 @@ def ground_symbol(symbol, target, oracle):
         require(type(at) is int and len(witness) == 5 and witness[0] == 0x9a and
                 0 <= at <= wspace.size-5 and wspace.data[at:at+5] == witness,
                 "Far entry witness is not an original CALL FAR")
-        require(wspace.name != space.name or not (at < end and start < at+5),
+        # In a same-source group (claimed = positions of the claimed extents) an original
+        # relocated CALL FAR in an unclaimed draft region is an original fact the claims are
+        # not judged on, as for v4 data witnesses; claiming that region later refuses it.
+        spans = claimed if claimed is not None else [(start, end)]
+        require(wspace.name != space.name or not any(at < hi and lo < at+5 for lo, hi in spans),
                 "Far entry witness overlaps candidate")
         offset, segment = struct.unpack_from("<HH", witness, 1)
         require((segment, offset) == (symbol["segment"], symbol["offset"]),
