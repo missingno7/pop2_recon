@@ -12892,6 +12892,254 @@
       "size": 94,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Two int inputs, far Pascal RETF 4; AX result",
+      "boundary_evidence": [
+        "Prior RETF at root+0x284d abuts the two relocated callers' entry at root+0x284e. Both internal edges join before RETF 4 at root+0x2875; next independent BP prologue at 0x2878."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8462,
+          "image_offset": 270,
+          "kind": "far_call",
+          "relocated_segment_site": 273,
+          "space": "root"
+        },
+        {
+          "file_offset": 67075,
+          "image_offset": 58883,
+          "kind": "far_call",
+          "relocated_segment_site": 58886,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "IsTimeForNIS receives both inputs. Zero returns zero, nonzero calls PlayNIS with the returned sequence and passes back its result."
+      ],
+      "classification_status": "original behavior and C origin reviewed; source reconstruction hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0284:000e",
+      "offset": 14,
+      "original_name": "CheckPlayNIS",
+      "original_name_evidence": [
+        "FM Towns 188d:0007 calls 188d:0104 with two inputs and dispatches nonzero sequence to 188d:01a8. Mac CODE 2 has the CheckPlayNIS label."
+      ],
+      "segment": 644,
+      "semantic_name_hypothesis": "check_play_nis",
+      "sha256": "5a7b591e41499974892865c17b4c13925f5ac1d9d1d300db6ac2a23dd0360a67",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One int input, far Pascal RETF 2; AX Boolean",
+      "boundary_evidence": [
+        "Previous RETF 2 at root+0x28a5 ends at entry root+0x28a8. All conditional edges stay in the function and join before RETF 2 at 0x28d3. Next prologue-free far entry at 0x28d6 has four incoming relocated callers."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19117,
+          "image_offset": 10925,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 10924,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "PlayNIS calls this predicate immediately before conditional screen fill/erase. Cases 1, 100 and 6 and a stack word equal to 4 suppress erasure."
+      ],
+      "classification_status": "original behavior and C origin reviewed; source reconstruction hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0284:0068",
+      "offset": 104,
+      "original_name": "EraseScreenBeforeNIS",
+      "original_name_evidence": [
+        "FM Towns 188d:0066 returns 0 for 1, 4, 6 and 1 otherwise. DOS retains the 100 exception and reads a local word for its 4 check. Mac CODE 2 provides the same name."
+      ],
+      "segment": 644,
+      "semantic_name_hypothesis": "erase_screen_before_nis",
+      "sha256": "204707830b2b9b07b0884f3b2dfb45899afbb89e2bcd8f6f4efa8d15efdc409a",
+      "size": 46,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Two int inputs, far Pascal RETF 4; AX sequence",
+      "boundary_evidence": [
+        "RETF at 0x2924 and alignment NOP at 0x2925 precede the near-call entry 0x2926. Switch table 0x295a..0x2973 independently decodes as 13 in-frame destinations. All exits join at 0x2a5d; RETF 4 at 0x2a63 ends at the relocated PlayNIS entry 0x2a66."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 18522,
+          "image_offset": 10330,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 10329,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Maps levels 1/3/5/9/13 to 9/10/1/2/3; gates exceptional quote selection on the result and level at least 4."
+      ],
+      "classification_status": "original behavior and C origin reviewed; source reconstruction hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0284:00e6",
+      "offset": 230,
+      "original_name": "IsTimeForNIS",
+      "original_name_evidence": [
+        "FM Towns 188d:0104 maps the same levels to the same results, checks previous level, and gates a signed-byte quote index and time-based quote selection on the same primary conditions."
+      ],
+      "segment": 644,
+      "semantic_name_hypothesis": "is_time_for_nis",
+      "sha256": "3c33aaf1031b01707bb3892ea89c610bc809116b164b44a2718e98497107f09d",
+      "size": 320,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One int input, far Pascal RETF 2; AX status",
+      "boundary_evidence": [
+        "IsTimeForNIS RETF 4 at 0x2a63 ends at the relocated incoming PlayNIS entry 0x2a66. Internal control joins before RETF 2 at 0x2b63; next independently called BP prologue at 0x2b66."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8418,
+          "image_offset": 226,
+          "kind": "far_call",
+          "relocated_segment_site": 229,
+          "space": "root"
+        },
+        {
+          "file_offset": 8619,
+          "image_offset": 427,
+          "kind": "far_call",
+          "relocated_segment_site": 430,
+          "space": "root"
+        },
+        {
+          "file_offset": 8635,
+          "image_offset": 443,
+          "kind": "far_call",
+          "relocated_segment_site": 446,
+          "space": "root"
+        },
+        {
+          "file_offset": 8651,
+          "image_offset": 459,
+          "kind": "far_call",
+          "relocated_segment_site": 462,
+          "space": "root"
+        },
+        {
+          "file_offset": 71509,
+          "image_offset": 63317,
+          "kind": "far_call",
+          "relocated_segment_site": 63320,
+          "space": "root"
+        },
+        {
+          "file_offset": 18533,
+          "image_offset": 10341,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 10340,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Sequence 100 and 20+ enter different playback paths; internal predicates gate erase work. Returns status 2 for a successful story/other playback, otherwise 1."
+      ],
+      "classification_status": "original behavior and C origin reviewed; source reconstruction hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0284:0226",
+      "offset": 550,
+      "segment": 644,
+      "semantic_name_hypothesis": "play_nis",
+      "sha256": "351649759090ce8e4a186c71fea150d65eaff6dbdbf5e91a899b2c4c898ff663",
+      "size": 256,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Two low-byte inputs in word slots, far Pascal RETF 4",
+      "boundary_evidence": [
+        "Preceding RETF 2 at 0x2b63 ends at the BP prologue 0x2b66 targeted by two overlay-2 relocations. Sole RETF 4 at 0x2c2d ends at the next independently targeted prologue at 0x2c30."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 161187,
+          "image_offset": 5251,
+          "kind": "far_call",
+          "relocated_segment_site": 5254,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160479,
+          "image_offset": 4543,
+          "kind": "far_call",
+          "relocated_segment_site": 4546,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Saves current room and a sound handle, stages a room and level, invokes the level-start predicate, renders and restores sound state."
+      ],
+      "classification_status": "original behavior and C origin reviewed; source reconstruction hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0284:0326",
+      "offset": 806,
+      "segment": 644,
+      "semantic_name_hypothesis": "draw_room_from_nis",
+      "sha256": "47f8823ec5e459ebe2dcc3fd567e45a74586014590887ee33eb01ad203fb01a8",
+      "size": 202,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "No arguments, far RETF; AX incidental",
+      "boundary_evidence": [
+        "Preceding RETF 4 at 0x2c2d ends at the BP prologue 0x2c30 targeted by two overlay-2 relocations. The failed-image branch joins the success path at the shared epilogue. RETF at root+0x2cc1 precedes a new BP prologue at root+0x2cc2, two bytes into the next census frame 02cc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 161871,
+          "image_offset": 5935,
+          "kind": "far_call",
+          "relocated_segment_site": 5938,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162876,
+          "image_offset": 6940,
+          "kind": "far_call",
+          "relocated_segment_site": 6943,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Two resource acquisitions precede a conditional mirrored draw and two releases."
+      ],
+      "classification_status": "original behavior and C origin reviewed; source reconstruction hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0284:03f0",
+      "offset": 1008,
+      "segment": 644,
+      "semantic_name_hypothesis": "draw_dead_kid",
+      "sha256": "11d3023594b8935be6fbf690622f9cdf1fc7f17da35d4a2bdb92af4d61a8263c",
+      "size": 146,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
