@@ -1,8 +1,8 @@
 {
   "declarations": {
     "externals": [
-      "SCREEN_WIDTH",
-      "MOUSE_PRESENT"
+      "INVALIDATE_WINDOW_RECTANGLE",
+      "WINDOW_HEAD"
     ],
     "groups": [
       {
@@ -16,7 +16,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "READ_MOUSE_EVENT_POSITION",
+        "name": "SET_WINDOW_EVENT_STATE",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -31,7 +31,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 41,
+        "length": 66,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -63,13 +63,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 7,
+      "segment_offset": 36,
       "self_relative": false,
       "target": {
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "MOUSE_PRESENT",
+        "name": "WINDOW_HEAD",
         "zero_displacement": true
       }
     },
@@ -78,20 +78,20 @@
       "field_width": 2,
       "frame": {
         "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "segment",
+        "name": "UNIT_TEXT"
       },
       "kind": "fixup",
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 20,
-      "self_relative": false,
+      "segment_offset": 59,
+      "self_relative": true,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_WIDTH",
+        "name": "INVALIDATE_WINDOW_RECTANGLE",
         "zero_displacement": true
       }
     }
@@ -112,37 +112,38 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "MOUSE_PRESENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9678,
+    "INVALIDATE_WINDOW_RECTANGLE": {
+      "entry_sha256": "0ab20d688af88b386e833376a706afa8a1bee83678fdf2dac52b8defe8486677",
+      "entry_target_id": "root:1101:b4d6",
+      "kind": "near-code-entry",
+      "offset": 46294,
+      "segment": 4353,
+      "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "8b0ece25",
-          "context": "mov cx, word ptr [0x25ce] reached from root:1101:054f",
-          "entry": "root:1101:054f",
-          "image_offset": 71051,
-          "operand_offset": 2,
+          "bytes_hex": "0ee8c502",
+          "entry": "root:1101:8f21",
+          "image_offset": 115229,
           "space": "root"
         }
       ]
     },
-    "SCREEN_WIDTH": {
+    "WINDOW_HEAD": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 9682,
+      "offset": 10098,
       "witnesses": [
         {
-          "bytes_hex": "a1d225",
-          "context": "mov ax, word ptr [0x25d2] reached from root:1101:4f5e",
-          "entry": "root:1101:4f5e",
-          "image_offset": 90022,
+          "bytes_hex": "b87227",
+          "context": "mov ax, 0x2772 reached from root:0dd7:0070",
+          "entry": "root:0dd7:0070",
+          "image_offset": 56970,
           "operand_offset": 1,
           "space": "root"
         }
       ]
     }
   },
-  "target_id": "group:read_mouse_event_position",
+  "target_id": "group:set_window_event_state",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

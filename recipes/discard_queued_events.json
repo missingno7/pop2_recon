@@ -1,27 +1,42 @@
 {
   "binding": "evidence/bindings/discard_queued_events.json",
-  "binding_sha256": "2dfc52f1d455652289d887b7f4c67b0b6b162f1a1f22bec3ea47631d5bb0b042",
+  "binding_sha256": "c35b9a59d44231473f9c0de553035a8881aaf523ec973f7bef76b010ef8cb388",
   "claims": [
     {
       "fixup_count": 4,
       "public": "DISCARD_QUEUED_EVENTS",
       "target_id": "root:1101:bb29"
+    },
+    {
+      "fixup_count": 14,
+      "public": "READ_QUEUED_EVENT",
+      "relocation_indices": [
+        1571
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:bb8a"
+    },
+    {
+      "fixup_count": 2,
+      "public": "READ_MOUSE_EVENT_POSITION",
+      "target_id": "root:1101:bc69"
     }
   ],
   "drafts": [],
-  "emitted_size": 97,
+  "emitted_size": 361,
   "flags": [],
   "frame": 4353,
   "group_id": "group:discard_queued_events",
   "kind": "same_source_group",
   "language": "asm",
   "name": "discard_queued_events",
-  "object_sha256": "664c0b4dddc21fdde589306e0a625d59ecfe08e8ed6e16e26c06ac5e881ddbbc",
+  "object_sha256": "303ad45446fde8bf0bbf227413dfa0511844637d87b667829e8b2f3f52008bae",
   "origin": 117561,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/discard_queued_events.asm",
-  "source_sha256": "1195ba4107437783c9ad7d1d5d2cecb6f799897db4d9a2d1416b546a466d0685",
+  "source_sha256": "ee1208d10f4ddbd2fede8be96ffa5c8aa230dabb5571c2d869ff943a1236e152",
   "space": "root"
 }
