@@ -55892,6 +55892,339 @@
       "size": 32,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Preceding routine returns at overlay-3+32D2; entry is overlay-3+32D4.",
+        "Original push_cs_near_call at overlay-3+2F51 enters 25DA:0974.",
+        "Complete linear decode to RETF at overlay-3+33C7, with only the observed alignment if present before the next entry at +33C8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196881,
+          "image_offset": 12113,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12112,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests the actor's death frame, handles shadow merge, and updates the kid's life.",
+        "Successive function in the overlay-3 ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0974",
+      "offset": 2420,
+      "original_bytes_hex": "558bec83ec025756ff36075c9af61acc020bc0747b803e4745017516813e075cb900750e803e125c007407a0125ce9b70090803e065c017535803e0f5c007403e9ab009abe0387250bc07c089abe038725eb08909abe038725f7d83d02007c03e98b009a7e0487255e5f8be55dcb803e0e5c097579803e4945087572813e195ced00756a9a6200c22d5e5f8be55dcb90803e065c007557803e005c0a7450813e075cb3007448813e075cb7007440a0005c8846ff9af61ccc029a941dcc02b001509a4e09cc020bc07504fe0e135cb8805c8bf8be005c1e07b92000f3a58a46ff509a421dcc02b001509a4e09cc025e5f8be55dcb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_dead",
+      "sha256": "050d3174cc893ffa982190ecab52394f23ec59a9eb7f2e1781246b1f6144b9c3",
+      "size": 244,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Preceding routine returns at overlay-3+3718; entry is overlay-3+371A.",
+        "Original push_cs_near_call at overlay-3+2E5E enters 25DA:0DBA.",
+        "Complete linear decode to RETF at overlay-3+376C, with only the observed alignment if present before the next entry at +376E."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196638,
+          "image_offset": 11870,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11869,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects turning sequences from the actor identity, state and current frame.",
+        "Successive function in the overlay-3 ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0dba",
+      "offset": 3514,
+      "original_bytes_hex": "803e005c0a750c833e195c0575059aa6018725833e075c307538803e9062007c31803e8c6200742a803e8e62007523803e8f6200751cb82b00500ee81ef2803e065c00750d833e345c007406c706345c0000cb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_turning",
+      "sha256": "49d2b9d54ce3be6409b60fd75116f47d0d77f5112fd8aeaaffc6885c5391c86a",
+      "size": 84,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Preceding routine returns at overlay-3+376C; entry is overlay-3+376E.",
+        "Original push_cs_near_call at overlay-3+3698 enters 25DA:0E0E.",
+        "Complete linear decode to RETF at overlay-3+3799, with only the observed alignment if present before the next entry at +379A."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198744,
+          "image_offset": 13976,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13975,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 199720,
+          "image_offset": 14952,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 14951,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a crouch sequence and clears the action input.",
+        "Successive function in the overlay-3 ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0e0e",
+      "offset": 3598,
+      "original_bytes_hex": "56803e065c01750a9a040087258bf0eb0490beffff83feff7503be3200560ee8e6f19ad213cc02a28f625ecb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "crouch_actor",
+      "sha256": "9f8bfccf7fd2d089671ae862fdf402a526ef2de81d92dd0d4c1c981d80d2c953",
+      "size": 44,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Preceding routine returns at overlay-3+3799; entry is overlay-3+379A.",
+        "Original push_cs_near_call at overlay-3+348B enters 25DA:0E3A.",
+        "Complete linear decode to RETF at overlay-3+3819, with only the observed alignment if present before the next entry at +381A."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 198219,
+          "image_offset": 13451,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13450,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198275,
+          "image_offset": 13507,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13506,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198380,
+          "image_offset": 13612,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13611,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the adjacent gate and edge distance, then changes the actor's turn sequence.",
+        "Successive function in the overlay-3 ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0e3a",
+      "offset": 3642,
+      "original_bytes_hex": "569ad213cc02a28d62c6060f5c019a8810cc028bf0b001509a3010cc023c04753b9aa20802280bc07432803e4745037505b90700eb17803e345e09750d803e4945087506b99cffeb0490b904003bce7e0b2bf1569a6003cc02a3025c803e4745027407803e47450675059a72008725833e195c477408b80500500ee85ef15ecb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "turn_actor",
+      "sha256": "4995b52669a9a891cce0a6511468a51bc8cbf0277a8e19571b7d0f5c64f9d371",
+      "size": 128,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Preceding routine returns at overlay-3+3E23; entry is overlay-3+3E24.",
+        "Original push_cs_near_call at overlay-3+3D9D enters 25DA:14C4.",
+        "Complete linear decode to RETF at overlay-3+3EC9, with only the observed alignment if present before the next entry at +3ECA."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 200541,
+          "image_offset": 15773,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15772,
+          "space": "overlay-3"
+        },
+        {
+          "bytes_hex": "9ac414da25",
+          "file_offset": 243319,
+          "image_offset": 2903,
+          "kind": "far_call",
+          "relocated_segment_site": 2906,
+          "relocation_index": 76,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9ac414da25",
+          "file_offset": 244173,
+          "image_offset": 3757,
+          "kind": "far_call",
+          "relocated_segment_site": 3760,
+          "relocation_index": 77,
+          "space": "overlay-10"
+        },
+        {
+          "bytes_hex": "9ac414da25",
+          "file_offset": 266908,
+          "image_offset": 396,
+          "kind": "far_call",
+          "relocated_segment_site": 399,
+          "relocation_index": 17,
+          "space": "overlay-15"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Handles ledge ascent, sound and the special gate case before changing the actor's position.",
+        "Successive function in the overlay-3 ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:14c4",
+      "offset": 5316,
+      "original_bytes_hex": "56803e4945057522803e0e5c0a751b803e105cff7414beec00c606105cffb81300509ace01d70deb0490be0a009ad213cc02a29062a28e629a3e15cc02803e065c0174153c047511803e015cff750aa1716224fc3d18007213803e47450275122bc0509a800a4e2a0bc07406be4900eb1490803e474505750c9a540acf290bc07403be3b00560ee8c8ea803e015c007407803e474503740cb8feff509a6003cc02a3025c5ecb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "climb_up",
+      "sha256": "d679b2e1295231d94b91744820ebfbe9a5b519d1771bee6c796e46507242b79c",
+      "size": 166,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, saves DI/SI, returns with bare RETF.",
+      "boundary_evidence": [
+        "The Dead routine returns at overlay-3+33C7. Standing starts at +33C8 with PUSH DI; PUSH SI.",
+        "The PUSH CS / CALL near at overlay-3+2F56/+2F57 enters +33C8 in ACT frame 25DA.",
+        "The sentinel state reset is followed by POP SI; POP DI; RETF at +357A..357C and one alignment NOP before Actor Up at +357E."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196887,
+          "image_offset": 12119,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12118,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Actor-control dispatch and standing input handling in ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0a68",
+      "offset": 2664,
+      "original_bytes_hex": "5756803e4745027407803e47450675059aa6018725bf0100803e9062ff750b0ee88b050bc07403e9b000803e005c0a7403e99400803e105cff750e803e4745067550803e065c017549803e9062fe7542803e8c6200753b803e8d62007534803e8e6200752d803e8f62007526c6069062029ad213cc020ee8360ea0015c509af0084423a2395c3cff7550c606395c00eb4990803e635c027c43803e065c01743c833e245c0d74359aac1ccc028bf083fef67c2981fecd007d230bf67d1f83fef27c1a0ee80c03eb12803e8f62007d0d803e8c62007d060ee8d60d2bff0bff7503e9b400803e9062ff7407803e90620175532bff803e8d62007d060ee8d402eb44803e8e62007d070ee8ab00eb3790803e8f62007d070ee8eb00eb2990803e8c62007d17803e8e62007510803e8f620075092bc0500ee8c603eb0a803e8c62007503bf01000bff744f803e8c62007d0d803e8e62007d3d0ee84406eb3b803e8d62007d070ee86b02eb2e90803e8e62007d0d803e8c62007cde0ee83a00eb19803e8f62007d070ee87b00eb0c90803e8c620074040ee8bb02833e195c057414803e065c00750d833e345c007406c706345c00005e5fcb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_standing",
+      "sha256": "6f10511793651ba57527fdad59f9489d6a7074486f5aac6fa2615c50d116b100",
+      "size": 438,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF, integer result in AX.",
+      "boundary_evidence": [
+        "The preceding routine returns at overlay-3+3972; new BP frame starts at +3976.",
+        "Original PUSH CS / CALL near at overlay-3+31C6/+31C7 enters 1016 in frame 25DA.",
+        "Complete linear decode ends in RETF at overlay-3+39E6, with only the observed alignment if present before the next entry at +39E8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197511,
+          "image_offset": 12743,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12742,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 198056,
+          "image_offset": 13288,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 13287,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the tile underfoot and ahead for sword or potion types before calling the neighboring pickup helper.",
+        "Neighboring input handlers belong to ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:1016",
+      "offset": 4118,
+      "original_bytes_hex": "558bec83ec0e5756c746fe00009ad809cc028846fd3c0a74043c1675258d7ef2be70628cd08ec0b90500f3a5a4c746fe0100b870628bf88d76f21e07b90500f3a5a4837efe00751bb001509a3010cc023c0a740f8b76feb001509a3010cc023c1675060ee80b008bf08bc65e5f8be55dcb90",
+      "segment": 9690,
+      "semantic_name_hypothesis": "try_pick_up",
+      "sha256": "d2b3c7ca8dc9124bfea64f736b704a5597b6d02ae081d90d749cec8e416d17a7",
+      "size": 114,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "The preceding routine returns at overlay-3+3EC9; new BP frame starts at +3ECA.",
+        "Original PUSH CS / CALL near at overlay-3+2EBC/+2EBD enters 156A in frame 25DA.",
+        "Complete linear decode ends in RETF at overlay-3+3FE9, with only the observed alignment if present before the next entry at +3FEA."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196733,
+          "image_offset": 11965,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11964,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 200669,
+          "image_offset": 15901,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15900,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests the supporting tiles on both sides of the actor, selects the drop sequence and may adjust the actor X coordinate.",
+        "Neighboring input handlers belong to ACT frame 25DA."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:156a",
+      "offset": 5482,
+      "original_bytes_hex": "558bec83ec0857569ad213cc02a28f62c746f800009a5810cc028846fe9ad809cc028846ff8a46fe509ac8288a070bc074208a46ff509ac8288a070bc074130ee8dd003d01001bf683e6b483c663e9c400908a46ff509a6c288a078bf88a46fe509a6c288a078946fc0bff75423bc7753e8a46fe509a04288a070bc074148a46ff509afe288a070bc07407c746fc0100eb1d8a46ff509a04288a070bc074108a46fe509afe288a070bc07403bf01008a46ff509afe288a070bc07412bff2ff837efc011bf683e60c83c60beb3b900bff750e397efc7409bff8ffbe0b00eb29900bff740c837efc007506bf0600ebeb908bd70bd2740c837efc007406be0b00eb0490be17008b7ef80bff7409579a6003cc02a3025c560ee892e95e5f8be55dcb",
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_drop",
+      "sha256": "db3876d1623efe0482f2fb70b6dfe21408694a442853d7c7e565d3322f8e6f28",
+      "size": 288,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

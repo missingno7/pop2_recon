@@ -475,7 +475,7 @@ struct saved_actor {
     signed char bytes[64];
 };
 
-extern struct saved_actor current_actor_record, kid_actor_record;
+extern struct saved_actor kid_actor_record;
 extern signed char actor_life, actor_max_life;
 extern int far pascal shadow_distance(void);
 extern void far pascal merge_shadow(void);
@@ -507,13 +507,13 @@ void far pascal control_dead(void)
         copy_kid_to_char();
         if (!decrement_life_points(1))
             actor_max_life--;
-        kid_actor_record = current_actor_record;
+        kid_actor_record = *(struct saved_actor *)&actor_character;
         load_actor_slot(slot);
         decrement_life_points(1);
     }
 }
 
-extern signed char sword_input, selected_opponent, opponent_health;
+extern signed char selected_opponent, opponent_health;
 extern signed char area_number, current_area, exit_column;
 extern signed char ledge_input, actor_health_slot;
 extern int animation_contact, guard_turn_counter, gate_override;
@@ -535,18 +535,19 @@ extern void far pascal crouch_actor(void);
 /* 25da:0a68 */
 void far pascal control_standing(void)
 {
-    int act_on_input = 1;
+    int act_on_input;
     int gap;
 
     if (state_mode == 2 || state_mode == 6)
         check_turn_sequences();
-    if (sword_input == -1 && try_pick_up())
+    act_on_input = 1;
+    if (direction_action == -1 && try_pick_up())
         goto acted;
     if (actor_character == 10) {
         if ((floor_contact != -1 || (state_mode == 6 && actor_kind == 1)) &&
-            sword_input == -2 && !direction_forward && !direction_back &&
+            direction_action == -2 && !direction_forward && !direction_back &&
             !direction_up && !direction_down) {
-            sword_input = 2;
+            direction_action = 2;
             ClrAll();
             engage_weapon();
             selected_opponent = pick_hidden_actor(actor_direction);
@@ -568,7 +569,7 @@ acted:
     }
 
     if (act_on_input) {
-        if (sword_input == -1 || sword_input == 1) {
+        if (direction_action == -1 || direction_action == 1) {
             act_on_input = 0;
             if (direction_back < 0)
                 turn_actor();
@@ -686,7 +687,7 @@ void far pascal control_turning(void)
 {
     if (actor_character == 10 && repeat_sequence_id == 5)
         check_turn_sequences();
-    if (actor_frame == 48 && sword_input >= 0 &&
+    if (actor_frame == 48 && direction_action >= 0 &&
         direction_forward && !direction_up && !direction_down) {
         JumpSeq(43);
         if (actor_kind == 0 && guard_turn_counter)
@@ -840,9 +841,13 @@ int far pascal try_pick_up(void)
         here = 1;
         current_tile = saved_tile;
     }
+    if (here || get_cells_ahead(1) == 10)
+        goto pickup;
     result = here;
-    if (here || get_cells_ahead(1) == 10 || get_cells_ahead(1) == 22)
+    if (get_cells_ahead(1) == 22) {
+pickup:
         result = pick_it_up();
+    }
     return result;
 }
 
@@ -1092,11 +1097,11 @@ void far pascal climb_up(void)
 /* 25da:156a */
 void far pascal control_drop(void)
 {
-    signed char behind, under;
-    int sequence, front_drop, back_drop;
-    int adjustment = 0;
+    signed char under, behind;
+    int adjustment, back_drop, front_drop, sequence;
 
     direction_down = ClrAll();
+    adjustment = 0;
     behind = get_behind();
     under = get_under_foot();
     if (is_six_kind(behind) && is_six_kind(under)) {
@@ -1353,7 +1358,7 @@ void far pascal control_fighting(void)
     int gap, react;
 
     if (actor_character == 10) {
-        kid_actor_record = current_actor_record;
+        kid_actor_record = *(struct saved_actor *)&actor_character;
         target = -1;
         if (selected_opponent != -1 && selected_opponent < fight_lists[(unsigned char)actor_room].count) {
             load_kid_with_opponent(selected_opponent);
@@ -1610,15 +1615,10 @@ void far pascal strike_actor(void)
     int frame, sequence;
     if (actor_kind != 7 && actor_kind != 8) {
         frame = actor_frame;
-        switch (frame) {
-        case 157:
-        case 158:
-        case 170:
-        case 171:
-        case 165:
+        if (frame == 157 || frame == 158 || frame == 170 || frame == 171 || frame == 165) {
             switch (actor_kind) {
-            case 0:
             case 1:
+            case 0:
                 sequence = opponent_kind == 11 ? 96 : 75;
                 break;
             case 10:
@@ -1626,13 +1626,11 @@ void far pascal strike_actor(void)
                 break;
             default:
                 sequence = 58;
+                break;
             }
-            break;
-        case 150:
-        case 161:
+        } else if (frame == 150 || frame == 161) {
             sequence = 66;
-            break;
-        default:
+        } else {
             sequence = -1;
         }
         if (sequence != -1) {
