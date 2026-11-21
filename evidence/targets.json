@@ -64259,6 +64259,502 @@
       "classification_evidence": [
         "Register and stack use reviewed from locked original code."
       ]
+    },
+    {
+      "abi": "One far edit-field pointer; far Pascal RETF 4.",
+      "boundary_evidence": [
+        "Entry at root+0x1d76c: 55 8b ec after predecessor RETF at root+0x1d768 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d76c,0x1d784); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0400 at root+0x1d780; following entry at root+0x1d784 begins 558bec.",
+        "Original entry calls: root+0x5d51, root+0x6cfa."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32081,
+          "image_offset": 23889,
+          "kind": "far_call",
+          "relocated_segment_site": 23892,
+          "space": "root"
+        },
+        {
+          "file_offset": 36090,
+          "image_offset": 27898,
+          "kind": "far_call",
+          "relocated_segment_site": 27901,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:000c",
+      "offset": 12,
+      "original_bytes_hex": "558becff7608ff7606b80100500ee881008be55dca040090",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "show_edit_caret",
+      "sha256": "b998b26c097a9b24632335c5e882db6557af7d0d7813fb87a3d640eb627d2124",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One far edit-field pointer; far Pascal RETF 4; saves DI/SI and spills the pointer pair.",
+      "boundary_evidence": [
+        "Entry at root+0x1d784: 55 8b ec after predecessor RETF at root+0x1d780 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d784,0x1d7e8); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0400 at root+0x1d7e5; following entry at root+0x1d7e8 begins 558bec.",
+        "Original entry calls: root+0x1da83, root+0x1db1f, root+0x1db36, root+0x1dccc, root+0x1dde2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 129667,
+          "image_offset": 121475,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121474,
+          "space": "root"
+        },
+        {
+          "file_offset": 129823,
+          "image_offset": 121631,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121630,
+          "space": "root"
+        },
+        {
+          "file_offset": 129846,
+          "image_offset": 121654,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121653,
+          "space": "root"
+        },
+        {
+          "file_offset": 130252,
+          "image_offset": 122060,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 122059,
+          "space": "root"
+        },
+        {
+          "file_offset": 130530,
+          "image_offset": 122338,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 122337,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:0024",
+      "offset": 36,
+      "original_bytes_hex": "558bec83ec0457568b76068b460850562bc9518bf80ee861008bc68bd78b1ec0258b7f2a8ec28bd826ff77028976fc8956fe9aca4f0111c45efc26ff772826ff772626ff771a9a00540111c45efc2603470e2689471e579aca4f01115e5f8be55dca0400",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "update_edit_caret",
+      "sha256": "30baae7b2e49f9b9d58ac3d88b2c2a9f77d70428144ad1d7898fa4bb12d76615",
+      "size": 100,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One far edit-field pointer; far Pascal RETF 4.",
+      "boundary_evidence": [
+        "Entry at root+0x1d7e8: 55 8b ec after predecessor RETF at root+0x1d7e5 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d7e8,0x1d7fe); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0400 at root+0x1d7fb; following entry at root+0x1d7fe begins 558bec.",
+        "Entry supported by adjacent complete return and fresh BP frame, with no incoming call in the reviewed frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:0088",
+      "offset": 136,
+      "original_bytes_hex": "558becff7608ff76062bc0500ee806008be55dca0400",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "hide_edit_caret",
+      "sha256": "3c9c68936c8cb69e6f9ba7d012a528ba7373a0442586da2d112e33885ef39179",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far edit-field pointer and word flag; far Pascal RETF 6; preserves SI/DI.",
+      "boundary_evidence": [
+        "Entry at root+0x1d7fe: 55 8b ec after predecessor RETF at root+0x1d7fb and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d7fe,0x1d8dc); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0600 at root+0x1d8d8; following entry at root+0x1d8dc begins 558bec.",
+        "Original entry calls: root+0x1d77a, root+0x1d79a, root+0x1d7f5, root+0x1d977, root+0x1d9c3, root+0x1dbce, root+0x1dc21, root+0x1dcda."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 128890,
+          "image_offset": 120698,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 120697,
+          "space": "root"
+        },
+        {
+          "file_offset": 128922,
+          "image_offset": 120730,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 120729,
+          "space": "root"
+        },
+        {
+          "file_offset": 129013,
+          "image_offset": 120821,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 120820,
+          "space": "root"
+        },
+        {
+          "file_offset": 129399,
+          "image_offset": 121207,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121206,
+          "space": "root"
+        },
+        {
+          "file_offset": 129475,
+          "image_offset": 121283,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121282,
+          "space": "root"
+        },
+        {
+          "file_offset": 129998,
+          "image_offset": 121806,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121805,
+          "space": "root"
+        },
+        {
+          "file_offset": 130081,
+          "image_offset": 121889,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121888,
+          "space": "root"
+        },
+        {
+          "file_offset": 130266,
+          "image_offset": 122074,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 122073,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:009e",
+      "offset": 158,
+      "original_bytes_hex": "558bec83ec0e57568b7e068b76088d46f616509a8e4e01118bc68b560a8bc88bda050c005250894ef2895ef49a524c0111c45ef226ff771e26ff771c9af65001110bff75218e460a26897c208b1ec0258b47288946fe8bc3268b1c8b4f208bd8894f28eb0a908e460a26c7442001002bc0508e460a268b4c10262b4c0c41519a565001110bff753e8b46fe8b1ec0258947288e460a268b4430260b442e7409065626ff5c2eeb1f908cc18d440451508ec126ff7414b801005026ff742826ff74269a525301119ab84c01118d46f616509a345301115e5f8be55dca060090",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "paint_edit_caret",
+      "sha256": "3c5c3ec5c51cd0c0f14f1696738528c14bd7a3d8c12b38bda49de6fa47e87f14",
+      "size": 222,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far edit-field pointer and word style; far Pascal RETF 6; eight-byte stack rectangle.",
+      "boundary_evidence": [
+        "Entry at root+0x1d8dc: 55 8b ec after predecessor RETF at root+0x1d8d8 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d8dc,0x1d922); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0600 at root+0x1d91f; following entry at root+0x1d922 begins 558bec.",
+        "Entry supported by adjacent complete return and fresh BP frame, with no incoming call in the reviewed frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:017c",
+      "offset": 380,
+      "original_bytes_hex": "558bec83ec08568b1ec0258b77288b46068947288d46f816508b46088b560a050c005250b8ffff50509a2a5001118d46f816509aac4d01118b1ec0258977285e8be55dca0600",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "frame_edit_field",
+      "sha256": "4be88952e001c0ac9134fd5f3a0527a0d018a054713f8b70265ec0a71c7c63ad",
+      "size": 70,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One far edit-field pointer; far Pascal RETF 4; unsigned 32-bit elapsed-tick computation.",
+      "boundary_evidence": [
+        "Entry at root+0x1d936: 55 8b ec after predecessor RETF at root+0x1d933 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d936,0x1d994); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0400 at root+0x1d990; following entry at root+0x1d994 begins 558bec.",
+        "Original entry calls: root+0x5d64, root+0x6d06."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32100,
+          "image_offset": 23908,
+          "kind": "far_call",
+          "relocated_segment_site": 23911,
+          "space": "root"
+        },
+        {
+          "file_offset": 36102,
+          "image_offset": 27910,
+          "kind": "far_call",
+          "relocated_segment_site": 27913,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:01d6",
+      "offset": 470,
+      "original_bytes_hex": "558bec57568b7606a154268b1656268e4608262b4422261b54248b0e4a26d1e92bdb3bd3722f77043bc176298cc0505626837c20011bc9f7d926894c20518bf80ee884fea154268b1656268ec726894422268954245e5f8be55dca040090",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "blink_edit_caret",
+      "sha256": "a8f04a979450015aa0d7ae71618b7e5b43ad7e3b12e6114dc34a4e7009ffd2fc",
+      "size": 94,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far edit-field pointer and 16-bit key; far Pascal RETF 6; result in AX.",
+      "boundary_evidence": [
+        "Entry at root+0x1d994: 55 8b ec after predecessor RETF at root+0x1d990 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1d994,0x1dbdc); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0600 at root+0x1dbd9; following entry at root+0x1dbdc begins 558bec.",
+        "Original entry calls: root+0x5dba, root+0x6d55."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32186,
+          "image_offset": 23994,
+          "kind": "far_call",
+          "relocated_segment_site": 23997,
+          "space": "root"
+        },
+        {
+          "file_offset": 36181,
+          "image_offset": 27989,
+          "kind": "far_call",
+          "relocated_segment_site": 27992,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:0234",
+      "offset": 564,
+      "original_bytes_hex": "558bec83ec1457568b76062bc08946f68946f48946f20bf67503e9dd008b7e08f7c600ff7403e9e100ff760a57500ee838fe8e460a26ff75029a6c2101118946f88956faf684bb24577503e9bc008bc6509a3e4c0111c45ef8263b47087503e9a8008e5e0a8b452c39452a7503e99000b8f3308ed88bc6509a3e4c01118e460a26ff752826ff75268946f0897eec8c46ee9a7a5301110346f0c45eec268b4f12262b4f0e3bc87c5d8e5e0a8b452c408bc83b451a76148bf0c45d2603de268a47ff2688074e39751a72eeb8f3308ed88e460a268b751a8cc026c45d268a4e062688088ec026ff452c26ff451a50570ee8fefcc746f40100eb11908b7e08eb0b90b8f3308ed8c746f60100837ef6007403e9c900837ef4007403e9c0008b46063d004b7503e981007f172d080074402df84674632d0001745e2d00017459eb26902d004d74732d00027503e99f002d00017503e997002d00017503e98f002d00027503e995008b46068946f2eb6f908e460a26837d1a00745f065726ff4d1a26ff751a8cc60ee8c00056570ee862fcc746f40100eb47908e460a26c7451a000006570ee84bfceb35908e460a26837d1a00742526ff4d1aebe78e5e0a8b452c39451a740fb8f3308ed88e460a26ff451aebce90b8f3308ed8c746f60100837ef400743aff760a570ee87002eb3f8e460a268b452c2689451aeba6908e5e0a8b452c39451a74cdb8f3308ed8ff760a578e460a26ff751a0ee82f00e972ff837ef6007409b8feff509a2c840111837e0600740cff760a57b80100500ee82dfc8b46f25e5f8be55dca0600",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "handle_edit_key",
+      "sha256": "b562158e29cb4808641b1e80b68e1ccb9ff0cdde7adfe7e0ec27f5366236c3f1",
+      "size": 584,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far edit-field pointer and word index; far Pascal RETF 6; LDS loads the field and its segment is reset before return.",
+      "boundary_evidence": [
+        "Entry at root+0x1dbdc: 55 8b ec after predecessor RETF at root+0x1dbd9 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1dbdc,0x1dc0e); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0600 at root+0x1dc0b; following entry at root+0x1dc0e begins 558bec.",
+        "Original entry calls: root+0x1db19, root+0x1dbaa."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 129817,
+          "image_offset": 121625,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121624,
+          "space": "root"
+        },
+        {
+          "file_offset": 129962,
+          "image_offset": 121770,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121769,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:047c",
+      "offset": 1148,
+      "original_bytes_hex": "558bec5756c57e088b760639752c7612c45d2603de268a47012688074639752c77eeff4d2cb9f3308ed95e5f8be55dca0600",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "delete_edit_character",
+      "sha256": "fb809044b52a290dcfaf01a4d1762104ffc62bc9ae23deb133e9f9a6783d137e",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far edit-field pointer and near point pointer; far Pascal RETF 6.",
+      "boundary_evidence": [
+        "Entry at root+0x1dc0e: 55 8b ec after predecessor RETF at root+0x1dc0b and any one-byte alignment pad.",
+        "Original linear decode covers [0x1dc0e,0x1dce6); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0600 at root+0x1dce2; following entry at root+0x1dce6 begins 558bec.",
+        "Entry supported by adjacent complete return and fresh BP frame, with no incoming call in the reviewed frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:04ae",
+      "offset": 1198,
+      "original_bytes_hex": "558bec83ec0c57568b7608ff760a562bc0500ee8dafb8d46f816501eff76068bc68b560a8bda05040052508bfe897ef4895ef69a3e510111c45ef4268b47062946fa26ff772826ff772626ff772c9a005401113b46fa7f178e460a26ff742826ff742626ff742c9a005401118946fa2bc9894efc8e460a26394c2c7434894efe8bf98b5e0826c45f26035efc268a07509a3e4c01118bf0d1e803c73b46fa7f1103feff46fc8b46fcc45e082639472c77d18b46fcc45e082689471a06530ee8b5faff760aff7608b80100500ee821fb5e5f8be55dca060090",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "click_edit_field",
+      "sha256": "a17a8b2cb092c8cbf4ea5407368c564483f10d45ff66047dcd4f54497a664fe1",
+      "size": 216,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Three far pointers followed by a word capacity; far Pascal RETF 14; far pointer result in DX:AX.",
+      "boundary_evidence": [
+        "Entry at root+0x1dce6: 55 8b ec after predecessor RETF at root+0x1dce2 and any one-byte alignment pad.",
+        "Original linear decode covers [0x1dce6,0x1ddae); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0e00 at root+0x1ddab; following entry at root+0x1ddae begins 558bec.",
+        "Original entry calls: root+0x5d34, root+0x6cde."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32052,
+          "image_offset": 23860,
+          "kind": "far_call",
+          "relocated_segment_site": 23863,
+          "space": "root"
+        },
+        {
+          "file_offset": 36062,
+          "image_offset": 27870,
+          "kind": "far_call",
+          "relocated_segment_site": 27873,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:0586",
+      "offset": 1414,
+      "original_bytes_hex": "558bec83ec0857568b7e10b832009952509a7c2901118bf08b1ec0258ec226891c8b472a268944028d440406508b46125057b908002bd25251897ef88946fa8cc79a7c1b01118d440c5750ff760eff760cb808009952509a7c1b01118ec78b46062689442a26c74414ffff2bc026894418268944162689441ac45ef8268b4f02498ec726894c1ec45e0c268b0f8ec726894c1c26894420a154268b16562626894422268954242bc0268944302689442e5756ff760aff76080ee80c008bc68bd75e5f8be55dca0e00",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "create_edit_field",
+      "sha256": "5f5804f89cc3f369490db02fd6607d13a4900ca0797f5599fa42930603529d65",
+      "size": 200,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far edit-field pointer and far string pointer; far Pascal RETF 8.",
+      "boundary_evidence": [
+        "Entry at root+0x1ddae: 55 8b ec after predecessor RETF at root+0x1ddab and any one-byte alignment pad.",
+        "Original linear decode covers [0x1ddae,0x1ddee); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0800 at root+0x1ddea; following entry at root+0x1ddee begins 558bec.",
+        "Original entry calls: root+0x1dd9f."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130463,
+          "image_offset": 122271,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 122270,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:064e",
+      "offset": 1614,
+      "original_bytes_hex": "558bec57568b760a8b46068b56088e460c268944262689542852508cc79ad41ee61f83c4048ec72689442c26c7441a000057560ee89ff95e5f8be55dca080090",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "replace_edit_text",
+      "sha256": "3797832cf49a06a47cf5a6158428f3a3f12b33a4b765a0adf2a8910ae13b3456",
+      "size": 64,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "One far edit-field pointer; far Pascal RETF 4.",
+      "boundary_evidence": [
+        "Entry at root+0x1ddee: 55 8b ec after predecessor RETF at root+0x1ddea and any one-byte alignment pad.",
+        "Original linear decode covers [0x1ddee,0x1de8c); all direct branch targets are decoded starts in that extent.",
+        "Only return is ca0400 at root+0x1de89; following entry at root+0x1de8c begins 558bec.",
+        "Original entry calls: root+0x1db7b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 129915,
+          "image_offset": 121723,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 121722,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original MSC-style BP frame, word alignment, far Pascal ABI and calls among the edit-field routines."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1d76:068e",
+      "offset": 1678,
+      "original_bytes_hex": "558bec83ec0c57568b76068d46f816509a8e4e01118bc68b56088bda050c0052508bfe897ef4895ef69a524c01118b46f48b56f605040052509a904d0111c45ef426ff770626ff77089af6500111c45ef4268b4730260b472e740dff7608568e460826ff5c2eeb1f8b4e088d440451508ec126ff7414b801005026ff742826ff74269a525301119ab84c01118d46f816509a345301115e5f8be55dca0400",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "redraw_edit_text",
+      "sha256": "5567cee96668d746cfa12248b8a78f8c259a112a71585d7e414dab7a314de719",
+      "size": 158,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
