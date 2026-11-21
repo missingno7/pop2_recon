@@ -200,10 +200,11 @@ void far pascal clip_character_at_water(void)
         limit = 172;
         if (STATE_KIND == 9)
             limit = 186;
-        limit = (limit <= water_clip_bottom) ? limit : water_clip_bottom;
+        if (limit > water_clip_bottom)
+            limit = water_clip_bottom;
         water_clip_bottom = limit;
         if (limit < character_clip_bottom)
-            character_clip_bottom = limit;
+            character_clip_bottom = water_clip_bottom;
     }
 }
 
