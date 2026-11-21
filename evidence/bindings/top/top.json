@@ -12388,7 +12388,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 3495,
+      "segment_offset": 3493,
       "self_relative": false,
       "target": {
         "index": 172,
@@ -17212,6 +17212,54 @@
               "space": "root"
             }
           ]
+        },
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a2015c",
+              "entry": "root:0000:1000",
+              "image_offset": 1949,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "a1025c",
+              "entry": "root:0000:1000",
+              "image_offset": 2333,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 7,
+          "witnesses": [
+            {
+              "bytes_hex": "a1075c",
+              "entry": "root:0169:02c2",
+              "image_offset": 6613,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 13,
+          "witnesses": [
+            {
+              "bytes_hex": "fe060d5c",
+              "entry": "root:02cc:08d6",
+              "image_offset": 13739,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
         }
       ],
       "offset": 23552,
@@ -17302,6 +17350,15 @@
         }
       ]
     },
+    "DISTANCE_TO_GUARD": {
+      "entry_sha256": "94abb8dfa16a1d115a07d2440ef144eb914b0ba738867ae2262e91bc219b010d",
+      "entry_target_id": "root:02cc:1cac",
+      "kind": "far-code-entry",
+      "offset": 7340,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
+    },
     "DRAW_FLOOR_FOREGROUND": {
       "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
       "entry_target_id": "root:0b41:0f62",
@@ -17361,11 +17418,92 @@
           "image_offset": 38218,
           "operand_offset": 2,
           "space": "root"
+        }
+      ]
+    },
+    "FCHAR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "803e415c56",
+              "entry": "root:02cc:1cac",
+              "image_offset": 18821,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
         },
         {
-          "bytes_hex": "a1bc67",
-          "entry": "root:078a:12e4",
-          "image_offset": 38225,
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "803e465c0b",
+              "entry": "root:0169:02c2",
+              "image_offset": 8643,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 7,
+          "witnesses": [
+            {
+              "bytes_hex": "8b36475c",
+              "entry": "overlay-3:25da:047e",
+              "image_offset": 18956,
+              "operand_offset": 2,
+              "space": "overlay-3"
+            }
+          ]
+        },
+        {
+          "offset": 11,
+          "witnesses": [
+            {
+              "bytes_hex": "803e4b5c02",
+              "entry": "overlay-12:2c3e:0236",
+              "image_offset": 573,
+              "operand_offset": 2,
+              "space": "overlay-12"
+            }
+          ]
+        },
+        {
+          "offset": 16,
+          "witnesses": [
+            {
+              "bytes_hex": "803e505c01",
+              "entry": "overlay-12:2c3e:0358",
+              "image_offset": 862,
+              "operand_offset": 2,
+              "space": "overlay-12"
+            }
+          ]
+        },
+        {
+          "offset": 25,
+          "witnesses": [
+            {
+              "bytes_hex": "833e595c6e",
+              "entry": "overlay-3:2344:1f0e",
+              "image_offset": 8190,
+              "operand_offset": 2,
+              "space": "overlay-3"
+            }
+          ]
+        }
+      ],
+      "offset": 23616,
+      "witnesses": [
+        {
+          "bytes_hex": "bf405c",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13531,
           "operand_offset": 1,
           "space": "root"
         }
@@ -17396,6 +17534,23 @@
       "segment": 361,
       "space": "root",
       "witnesses": []
+    },
+    "FINISH_LEVEL_SCENE": {
+      "entry_sha256": "e5052bfbe5aac6a314e4da485fe199e0b2d5083bc02606b90d6d4c2f3c06d3dd",
+      "entry_target_id": "root:052d:109e",
+      "kind": "far-code-entry",
+      "offset": 4254,
+      "segment": 1325,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9e102d05",
+          "file_offset": 19088,
+          "image_offset": 10896,
+          "relocation_index": 257,
+          "space": "root"
+        }
+      ]
     },
     "FINISH_RECORDING": {
       "entry_sha256": "874232edd17757ae62fd328c40410946f5d4c257c0039660175c19a409d687f2",
@@ -17438,13 +17593,6 @@
           "image_offset": 1119,
           "operand_offset": 2,
           "space": "root"
-        },
-        {
-          "bytes_hex": "c7063e5e1400",
-          "entry": "root:0000:1000",
-          "image_offset": 1998,
-          "operand_offset": 2,
-          "space": "root"
         }
       ]
     },
@@ -17459,15 +17607,31 @@
           "image_offset": 60,
           "operand_offset": 1,
           "space": "root"
-        },
-        {
-          "bytes_hex": "803ecc6c00",
-          "entry": "root:0000:0000",
-          "image_offset": 156,
-          "operand_offset": 2,
-          "space": "root"
         }
       ]
+    },
+    "GUARD_START_DELAY": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23651,
+      "witnesses": [
+        {
+          "bytes_hex": "803e635c02",
+          "entry": "overlay-3:25da:047e",
+          "image_offset": 13402,
+          "operand_offset": 2,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "GUARD_START_X": {
+      "entry_sha256": "799cb16539e0656097f123e25da9fae2adecad39728c9db41f60e2e3672426d3",
+      "entry_target_id": "root:02cc:0360",
+      "kind": "far-code-entry",
+      "offset": 864,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
     },
     "GUARD_TIMER": {
       "group": "DGROUP",
@@ -17510,13 +17674,6 @@
           "bytes_hex": "b8fe09",
           "entry": "root:0000:1000",
           "image_offset": 1424,
-          "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "befe09",
-          "entry": "root:02cc:08b0",
-          "image_offset": 13685,
           "operand_offset": 1,
           "space": "root"
         }
@@ -17639,15 +17796,17 @@
           "image_offset": 549,
           "operand_offset": 1,
           "space": "root"
-        },
-        {
-          "bytes_hex": "c606180aff",
-          "entry": "root:0000:0000",
-          "image_offset": 4916,
-          "operand_offset": 2,
-          "space": "root"
         }
       ]
+    },
+    "LIMIT_FRAME_RATE": {
+      "entry_sha256": "b334ceef9d1ecf747f870fec1fedf4aec5506a9b6692dc313ca01993b03cd389",
+      "entry_target_id": "root:107d:000c",
+      "kind": "far-code-entry",
+      "offset": 12,
+      "segment": 4221,
+      "space": "root",
+      "witnesses": []
     },
     "LOADING_NAME": {
       "group": "DGROUP",
@@ -17716,13 +17875,6 @@
           "entry": "root:0284:0326",
           "image_offset": 11135,
           "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "3b06465e",
-          "entry": "root:02cc:116e",
-          "image_offset": 16238,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -17899,6 +18051,20 @@
         }
       ]
     },
+    "RESOURCE_INDEX": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2306,
+      "witnesses": [
+        {
+          "bytes_hex": "a10209",
+          "entry": "root:02cc:116e",
+          "image_offset": 16031,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "RESTART_REQUEST": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -17908,13 +18074,6 @@
           "bytes_hex": "c7062c5e0000",
           "entry": "root:0000:0000",
           "image_offset": 558,
-          "operand_offset": 2,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "c7062c5e0100",
-          "entry": "root:0000:1000",
-          "image_offset": 1149,
           "operand_offset": 2,
           "space": "root"
         }
@@ -17959,6 +18118,20 @@
           "image_offset": 3547,
           "operand_offset": 2,
           "space": "root"
+        }
+      ]
+    },
+    "SCRIPT_STATUS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11510,
+      "witnesses": [
+        {
+          "bytes_hex": "833ef62c00",
+          "entry": "overlay-4:29cf:01ce",
+          "image_offset": 462,
+          "operand_offset": 2,
+          "space": "overlay-4"
         }
       ]
     },
@@ -18011,6 +18184,15 @@
         }
       ]
     },
+    "SET_FRAME_WAIT": {
+      "entry_sha256": "d8a76032818dc9515e6dc6abed74937f683e8e6d36dc996dc5b45fae77334b7f",
+      "entry_target_id": "root:1de8:015a",
+      "kind": "far-code-entry",
+      "offset": 346,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": []
+    },
     "SHADOWS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -18052,6 +18234,15 @@
           "space": "root"
         }
       ]
+    },
+    "SOUND_BUSY": {
+      "entry_sha256": "31673caee0b63a9d5c603cb289b3d3867ca4674406f04b78bb9f4eeb710cc5ac",
+      "entry_target_id": "root:0dd7:02ce",
+      "kind": "far-code-entry",
+      "offset": 718,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": []
     },
     "SPECIAL_SEQUENCE": {
       "group": "DGROUP",
@@ -18109,6 +18300,15 @@
         }
       ]
     },
+    "START_LEVEL_TRACK": {
+      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
+      "entry_target_id": "root:1101:8444",
+      "kind": "far-code-entry",
+      "offset": 33860,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "START_NAMED_EFFECT": {
       "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
       "entry_target_id": "root:1101:4d90",
@@ -18135,6 +18335,15 @@
       "space": "root",
       "witnesses": []
     },
+    "START_SEQUENCE": {
+      "entry_sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
+      "entry_target_id": "overlay-3:25da:0016",
+      "kind": "overlay-code-entry",
+      "offset": 22,
+      "segment": 9690,
+      "space": "overlay-3",
+      "witnesses": []
+    },
     "STOP_SOUND": {
       "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
       "entry_target_id": "root:1101:83f0",
@@ -18158,10 +18367,10 @@
       "offset": 9806,
       "witnesses": [
         {
-          "bytes_hex": "833e4e2600",
+          "bytes_hex": "a34e26",
           "entry": "root:0e56:0006",
-          "image_offset": 60163,
-          "operand_offset": 2,
+          "image_offset": 61639,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

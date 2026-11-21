@@ -444,3 +444,8 @@ near call. Control does not return to the claim, so the jump is a proven
 exit for containment.
 Far-data offset halves (LOC1/LOC5) also accept F2 naming the same external as their
 T6 target, like far calls and segment bases.
+A far-data offset witness may also be an original relocated far pointer
+(`kind: relocated-far-pointer`, the segment word's image offset and relocation
+index). Its relocated word must store N, the word before it must store O (or
+O+k for a member), and it must lie outside every claim, for example a `dd`
+table entry in preloaded DGROUP data. The linker wrote exactly N:O there.

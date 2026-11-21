@@ -875,10 +875,10 @@ void check_rebirth_points(void)
     int index;
     const struct rebirth_point *point;
 
-    if (Kid.room && Kid.floor == 4 && Kid.alive < 0 && abs(Kid.pushed) < Kid.max_hp &&
+    if (Kid.room && Kid.floor != 4 && Kid.alive < 0 && abs(Kid.pushed) < Kid.max_hp &&
         Kid.action != 1 && (Kid.room != 9 || stage_number != 8 || start_facing == 1)) {
-        index = 0;
         point = rebirth_points;
+        index = 0;
         do {
             if (Kid.room == point->room && first_in_row(Kid.row) + Kid.column == point->cell &&
                 (!rebirth_data || *rebirth_data - index != 1))

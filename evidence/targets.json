@@ -54219,6 +54219,148 @@
       "size": 7,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original 0e/e8 pair immediately before the collision calls at TOP:0705 reaches 0e52. The prior timer routine ends with RETF at 0e51.",
+        "Multiple return paths stay in the extent. The final call and RETF/NOP at 0f2e/0f2f lead to the distinct 0f30 BP frame.",
+        "Sets the current guard facing and opening sequence in relation to the Kid."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68709,
+          "image_offset": 60517,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60516,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Sets the current guard facing and opening sequence in relation to the Kid."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0e52",
+      "offset": 3666,
+      "segment": 3670,
+      "semantic_name_hypothesis": "face_first_guard",
+      "sha256": "ce697162ef6507f98662a43cacfb7e683d27cf2f9844b36c29d49a0cfe8005ae",
+      "size": 222,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), signed result in AX, RETF",
+      "boundary_evidence": [
+        "Original PUSH CS at 0153 and CALL at 0154 enter its BP frame after the prior RETF and NOP.",
+        "Level transitions and ordinary frame handling join at 05c2. The back edge returns to 050c on result minus two. RETF at 05d7 precedes the saved-SI entry at 05d8.",
+        "Runs frame updates until a restart, scene transition or exit."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67252,
+          "image_offset": 59060,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 59059,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Runs frame updates until a restart, scene transition or exit."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0506",
+      "offset": 1286,
+      "segment": 3670,
+      "semantic_name_hypothesis": "run_frames",
+      "sha256": "9375724d3c5ba5e763eb357b1a490dff81a3bd171199713111faac5fccd3459e",
+      "size": 210,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original root+eb22 relocated CALL names the 000c BP frame after the reviewed TriggerSpikes RETF 4 and alignment NOP.",
+        "The option and timing branches converge at RETF at 005f, before the distinct BP frame at 0060.",
+        "Checks runtime options and throttles the frame loop."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68386,
+          "image_offset": 60194,
+          "kind": "far_call",
+          "relocated_segment_site": 60197,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks runtime options and throttles the frame loop."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:107d:000c",
+      "offset": 12,
+      "segment": 4221,
+      "semantic_name_hypothesis": "limit_frame_rate",
+      "sha256": "b334ceef9d1ecf747f870fec1fedf4aec5506a9b6692dc313ca01993b03cd389",
+      "size": 84,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal four word slots, RETF 8",
+      "boundary_evidence": [
+        "Relocated original root+0074 CALL enters a BP frame at 0340 after RETF 2 and alignment. Original relocated calls at root+07f7 and 101cf agree on the frame.",
+        "The setup and error paths join the RETF 8 at 0640. An independent relocated CALL names the following 0644 entry.",
+        "Handles sound configuration options and prepares setup arguments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 8308,
+          "image_offset": 116,
+          "kind": "far_call",
+          "relocated_segment_site": 119,
+          "space": "root"
+        },
+        {
+          "file_offset": 10231,
+          "image_offset": 2039,
+          "kind": "far_call",
+          "relocated_segment_site": 2042,
+          "space": "root"
+        },
+        {
+          "file_offset": 74191,
+          "image_offset": 65999,
+          "kind": "far_call",
+          "relocated_segment_site": 66002,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Handles sound configuration options and prepares setup arguments."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:107d:0340",
+      "offset": 832,
+      "segment": 4221,
+      "semantic_name_hypothesis": "initialize_sound_configuration",
+      "sha256": "7fc4812d301a7f00f61c1ebf3fb45d392bdf2f73bcb9b117b549862f17e65a34",
+      "size": 772,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

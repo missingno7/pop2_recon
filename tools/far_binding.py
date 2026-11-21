@@ -64,6 +64,18 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
     end = start + target["size"]
     def witnessed(spec, value):
         wspace = oracle.spaces[spec["space"]]
+        if spec.get("kind") == "relocated-far-pointer":
+            # An original `dd N:O` far pointer (offset word, then its relocated segment word),
+            # e.g. in preloaded DGROUP data: the linker wrote exactly N:O.
+            at = spec["image_offset"]  # the segment word
+            relocs = [r for r in wspace.relocations if r["image_offset"] == at]
+            spans = claimed if claimed is not None else [(start, end)]
+            require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and at >= 2 and
+                    struct.unpack_from("<H", wspace.data, at)[0] == symbol["segment"] and
+                    struct.unpack_from("<H", wspace.data, at - 2)[0] == value and
+                    (wspace.name != space.name or not any(lo <= at and at - 2 < hi for lo, hi in spans)),
+                    "Far data pointer witness is not an original relocated N:O pair outside the claims")
+            return
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
         spans = claimed if claimed is not None else [(start, end)]
         require(wspace.data[at:at+len(raw)] == raw and
