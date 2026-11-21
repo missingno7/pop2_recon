@@ -79,7 +79,8 @@ extern int render_context;
 extern int screen_edge;
 extern int side_offset;
 extern const volatile int column_x[];
-extern const int spike_images_a[], spike_images_b[];
+static const int spike_images_a[] = {0, 116, 117, 118, 119, 120, 117, 116, 120};
+static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
 extern TileState room_state[];
 extern TileState *current_room_state;
 
@@ -193,16 +194,16 @@ void CheckSpikes(void)
 /* CheckSpikesJammed */
 void CheckSpikesJammed(Byte room, int index)
 {
-    union { SByte value; Word storage; } row;
+    union { SByte value; Byte raw; Word storage; } row;
     Word state;
     int zero;
 
-    row.storage = 0;
     if (GetSpikeMobRoomRow(room, row.value = index / 10) == 0) {
         state = room_state[room * 30 + index].spikes.word;
         if ((Byte)state == 0xf0) {
             mob_x = (index % 10) * 32 + 46;
-            mob_y = (row.value = (SByte)row.storage) * 63 + 47;
+            /* Narrow the stored byte before multiplying. */
+            mob_y = (row.value = (SByte)row.raw) * 63 + 47;
             mob_row = row.value;
             mob_room = room;
             zero = 0;
@@ -224,7 +225,8 @@ void DoImpale(void)
 
     state = &room_state[tile_room * 30 + tile_column].spikes;
     if (actor_action != 4) {
-        state->word = 0xf0 + ((Word)(tile_flags & 8) << 8);
+        Byte flags = tile_flags & 8;
+        state->word = 0xf0 + ((Word)flags << 8);
     } else {
         state->word = 0x8f;
     }
@@ -239,10 +241,10 @@ void DoImpale(void)
         actor_facing = 1;
         actor_x = column_x[tile_to_actor_column()] + 27;
         if (actor_direction == 0) {
-            sequence = actor_action == 0 ? 0x136 : 0xbd;
+            sequence = actor_action == 0 ? 0x36 : 0xbd;
             actor_direction = -1;
         } else {
-            sequence = actor_action == 0 ? 0x133 : 0xbc;
+            sequence = actor_action == 0 ? 0x33 : 0xbc;
         }
         select_sequence(sequence);
         play_sound(77);
@@ -368,7 +370,8 @@ void TriggerSpikes(Byte room, int index)
     int zero;
 
     spikes = &current_room_state[index].spikes;
-    state = spikes->byte.phase;
+    /* Taking the addresses of the pointer locals affects MSC allocation. */
+    state = (*(&spikes))->byte.phase;
     if (state == 0 || (state & 0x80)) {
         if (state == 0) {
             mob_x = (index % 10) * 32 + 46;
@@ -381,15 +384,16 @@ void TriggerSpikes(Byte room, int index)
             mob_slot = zero;
             mob_kind = 4;
             next = spikes->word + 1;
-            mob_spikes_state = (spikes->word = next);
+            spikes->word = next;
+            mob_spikes_state = next;
             add_mobile();
             play_sound(78);
         } else if (state != 0xf0) {
-            next = (tile_state_word & 0x800) + 0x8f;
+            next = (*(volatile Word *)&tile_state_word & 0x800) + 0x8f;
             spikes->word = next;
             mob = GetSpikeMobRoomRow(actor_room, actor_row);
             if (mob)
-                mob->spikes.word = next;
+                (*(&mob))->spikes.word = next;
         }
     }
 }

@@ -1,11 +1,76 @@
 {
   "binding": "evidence/bindings/movespik/movespik.json",
-  "binding_sha256": "41d63086271267d8682ec70554e7b0b8b9642b9f72a13c26b4a54e2417d07466",
+  "binding_sha256": "0d5362040800e4ba1572fa4805d59591c1383aa0bae444fe14b19ef9ed142ff7",
   "claims": [
+    {
+      "fixup_count": 22,
+      "public": "ATMSPIKES",
+      "relocation_indices": [
+        1361,
+        1362,
+        1368
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:101f:000e"
+    },
+    {
+      "fixup_count": 18,
+      "public": "CHECKSPIKES",
+      "relocation_indices": [
+        1348,
+        1355,
+        1359
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:101f:01ae"
+    },
+    {
+      "fixup_count": 11,
+      "public": "CHECKSPIKESJAMMED",
+      "relocation_indices": [
+        1346
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:101f:022a"
+    },
+    {
+      "fixup_count": 26,
+      "public": "DOIMPALE",
+      "relocation_indices": [
+        1349,
+        1352,
+        1358,
+        1360,
+        1364,
+        1366,
+        1369,
+        1370
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:101f:02ae"
+    },
     {
       "fixup_count": 0,
       "public": "GETSPIKEIDX",
       "target_id": "root:101f:03fc"
+    },
+    {
+      "fixup_count": 1,
+      "public": "GETSPIKEMOBROOMROW",
+      "relocation_indices": [
+        1353
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:101f:041c"
     },
     {
       "fixup_count": 1,
@@ -25,62 +90,52 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:101f:0490"
+    },
+    {
+      "fixup_count": 15,
+      "public": "TRIGGERSPIKES",
+      "relocation_indices": [
+        1347,
+        1351
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:101f:0536"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "ATMSPIKES"
-    },
     {
       "object_offset": 146,
       "public": "CHECKIMPALE"
     },
     {
-      "object_offset": 416,
-      "public": "CHECKSPIKES"
-    },
-    {
-      "object_offset": 540,
-      "public": "CHECKSPIKESJAMMED"
-    },
-    {
-      "object_offset": 672,
-      "public": "DOIMPALE"
-    },
-    {
       "object_offset": 898,
       "public": "DRAWOBJSPIKES"
-    },
-    {
-      "object_offset": 1038,
-      "public": "GETSPIKEMOBROOMROW"
-    },
-    {
-      "object_offset": 1320,
-      "public": "TRIGGERSPIKES"
     }
   ],
-  "emitted_size": 1500,
+  "emitted_size": 1502,
   "flags": [
     "/c",
     "/AM",
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 4127,
   "group_id": "group:movespik/movespik",
   "kind": "same_source_group",
   "language": "c",
   "name": "movespik/movespik",
-  "object_sha256": "9429b4d0438611a5fd5fd3e62ec0757ff4fef478edb3d16fc4332131c04b4aca",
+  "object_sha256": "59605ad42b269907986b5cedeeebb6d3e72a5a3eac9ca323b0e3f27ede5df727",
   "origin": 66046,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/movespik/movespik.c",
-  "source_sha256": "cf4382c317b3b4588d565e5d46327a97d933f841841a05c4cbf838e803d48d0f",
+  "source_sha256": "1801b0a28b2b5c7a91e69d2ca025ad6eb1cdc69167e84ff5c2d906a8d82f92eb",
   "space": "root"
 }
