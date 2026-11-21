@@ -60611,6 +60611,77 @@
       "size": 62,
       "space": "overlay-9",
       "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "far Pascal, no arguments, AX boolean, RETF",
+      "boundary_evidence": [
+        "Overlay-7+0380..03f2 is 114 bytes. The previous routine ends in RETF 2 at 037c and alignment NOP at 037f. Entry 0380 starts 55 8b ec 83 ec 02 56.",
+        "All local paths converge at the return sequence 03ea..03f0 and RETF at 03f0, with NOP at 03f1 and the independently near-called BP-frame entry at 03f2.",
+        "The two overlay-3 ACT callers supply no arguments and consume AX as boolean on gate and crawl paths. Their exact relocated targets are the same 29cf:0380 alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197274,
+          "image_offset": 12506,
+          "kind": "far_call",
+          "relocated_segment_site": 12509,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 197546,
+          "image_offset": 12778,
+          "kind": "far_call",
+          "relocated_segment_site": 12781,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The BP frame, saved SI and far-return ABI are MSC-shaped. Looks up gate tile kinds 12/13 and checks the modifier through the same-frame helper at 03f2. The other overlays at the link alias contain interior instructions or operands."
+      ],
+      "classification_status": "Original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0380",
+      "offset": 896,
+      "segment": 10703,
+      "semantic_name_hypothesis": "gate_is_open",
+      "sha256": "bc3decd800478dde3fcf3ebf9e8123abca30e588db46e2b8f606885e98d0fd8d",
+      "size": 114,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no arguments, RETF, SI preserved",
+      "boundary_evidence": [
+        "GenCtrl's PUSH CS at 0588 and near CALL at 0589 land at 0650. The preceding GenCtrl routine ends in RETF at 064f.",
+        "Complete linear decode extends from the BP prologue at 0650 through the final RETF at 0801. The early return at 07f7 and all local branch destinations are inside the extent. The next BP-frame entry at 0802 is independently called from 056a.",
+        "The overlay-3 original relocation table has 17 records within this extent, all in frame 25da."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196777,
+          "image_offset": 12009,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12008,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "In the ACT.C frame. The handler dispatches crawl poses 246..261 and uses the current and adjacent tiles, ClrAll and JumpSeq. The entry and epilogues use standard MSC medium-model frames."
+      ],
+      "classification_status": "Original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0650",
+      "offset": 1616,
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_crawling",
+      "sha256": "fbae97134d82b7900e43ba4a7c03c2b70bc50b0f2e6c136c5621e5e6c54b5af3",
+      "size": 434,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
