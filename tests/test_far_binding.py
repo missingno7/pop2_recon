@@ -344,9 +344,18 @@ class AcceptedEntryTests(unittest.TestCase):
         from far_binding import _accepted_entry
         from oracle import Oracle
         oracle = Oracle.load()
+        from far_binding import _structural_entry
+
+        def structural(t):
+            try:
+                at = oracle.spaces["root"].position(t["segment"], t["offset"])
+                _structural_entry(oracle, at, t["segment"], t["offset"], t["size"], "root", 0, 0)
+                return True
+            except ValueError:
+                return False
         unaccepted = next(t["id"] for t in read_json(ROOT / "evidence/targets.json")["functions"]
                           if t["space"] == "root" and t.get("entry_kind") == "direct-code" and
-                          not _accepted_entry(t["id"], oracle))
+                          not _accepted_entry(t["id"], oracle) and not structural(t))
         with self.assertRaisesRegex(ValueError, "accepted exact entry"):
             self.ground(unaccepted)
 
@@ -498,3 +507,16 @@ class SegmentBaseTests(unittest.TestCase):
         site = next(r for r in self.oracle.spaces["root"].relocations if r["index"] == 330)
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
             self.ground({"space": "root", "image_offset": site["image_offset"], "relocation_index": 330})
+
+
+class AnchorInsidePadTests(unittest.TestCase):
+    """A reviewed anchor whose extent already ends with its single alignment NOP after the
+    return counts as the one pad byte (ROOFTOPS' callee 1101:83b4)."""
+
+    def test_anchor_including_its_nop_pad_grounds_the_next_entry(self):
+        from far_binding import _structural_entry
+        from oracle import Oracle
+        oracle = Oracle.load()
+        at = oracle.spaces["root"].position(0x1101, 0x83b4)
+        anchor = _structural_entry(oracle, at, 0x1101, 0x83b4, 4, "root", 0, 0)["anchor"]
+        self.assertEqual((anchor["pad"], anchor.get("pad_inside_anchor")), (1, True))

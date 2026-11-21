@@ -174,11 +174,17 @@ def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
             if hi != stop or lo >= hi:
                 continue
             try:
-                last = instructions(data[lo:hi])[-1]
+                rows_ = instructions(data[lo:hi])
             except ValueError:
                 continue  # an extent that does not decode linearly cannot anchor
+            last = rows_[-1]
             if STRUCTURAL_RETURNS.get(last.bytes[0]) == last.size:
                 anchors.append({"anchor": ident, "pad": pad})
+            elif (pad == 0 and len(rows_) >= 2 and list(last.bytes) == [0x90] and
+                  STRUCTURAL_RETURNS.get(rows_[-2].bytes[0]) == rows_[-2].size):
+                # The reviewed extent already includes its one alignment NOP after the return:
+                # the same single pad byte, counted inside the anchor.
+                anchors.append({"anchor": ident, "pad": 1, "pad_inside_anchor": True})
     require(anchors, "Structural entry is not preceded by a decoded return ending a reviewed extent")
     starts = {(lo, ident) for _, lo, _, ident, _ in extents}
     frames = []

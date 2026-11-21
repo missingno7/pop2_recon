@@ -416,3 +416,8 @@ The other overlay may also hold the position at the start of its F' segment,
 before that segment's first relocation record. That holds when its next record
 names F', every earlier record names a smaller frame, and the position is at or
 above F's paragraph. Only the F' segment can be the target there.
+
+The structural anchor may already include its single alignment NOP: when the
+anchor's linear decode ends in RET/RETF[ iw] followed by one `90` that the
+reviewed extent covers, that NOP is the one allowed pad byte. No further pad
+byte may follow it.
