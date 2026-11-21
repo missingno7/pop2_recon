@@ -91,15 +91,24 @@ bytes compare literally, except for these fixup fields:
   object's own `_DATA`/`CONST`/`_BSS` segments (`placements: {"_BSS": P, ...}`).
   Fields addressing them must use the F1 DGROUP frame (MSC and MASM both do) of
   a DGROUP member and equal `P + A`; any other frame would write `A` alone and
-  is refused. Each placement must be
-  over-determined:
+  is refused. The placement is checked:
   - an initialized segment's bytes equal the original DGROUP bytes at `P`. The
     C runtime reloads DS with the relocated paragraph `30f3` before `main`, so
     DGROUP's initialized data lives in the preloaded overlay 17. The binding names
     that paragraph (`dgroup_segment`, grounded by an original relocated word
     storing it). The compared range may contain no relocated word;
-  - an uninitialized segment has at least two distinct addends among proven
-    fields that agree on `P`.
+  - content that occurs exactly once in the DGROUP image fixes `P` for every field
+    into it. Repeated content (zero words, short constants) fixes nothing, and an
+    uninitialized segment never proves itself: its layout (array sizes, order) is the
+    source's choice. Each field into such a segment is proven only by internal
+    consensus, the same `(segment, addend)` at two or more distinct original
+    instruction starts inside CODE_EXACT claims; different addends never support each
+    other (as for v4). A claim with an unsupported field is refused. Data that another
+    file also addresses is better bound as an extern v4 symbol with an outside witness.
+  - Claims accepted before 2026-11-21 under the earlier rule (content equality alone,
+    two distinct uninitialized addends) are listed in `evidence/placement-debt.json` and
+    report their unsupported fields as `placement_debt`. The list only shrinks:
+    validation refuses stale or unlisted entries.
 
   This proves code bytes only; the data bytes are not owned yet.
 

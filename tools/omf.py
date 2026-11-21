@@ -27,6 +27,9 @@ class ObjectModule:
     def segment_length(self, name: str) -> int | None:
         return self.segment_lengths.get(name)
 
+DEBUG_CLASSES = ("DEBSYM", "DEBTYP")  # MSC CodeView $$SYMBOLS / $$TYPES
+
+
 class OmfReader:
     """Decode 16-bit OMF structure and data; reject unknown records and truncation.
 
@@ -227,6 +230,12 @@ class OmfReader:
                 if not seg_i or seg_i > len(seg_defs):
                     raise OmfError(f"data references undeclared segment {seg_i}")
                 seg_name, seg_len = seg_defs[seg_i-1]["name"], seg_defs[seg_i-1]["length"]
+                if seg_defs[seg_i-1]["class"] in DEBUG_CLASSES:
+                    # MSC /Zi CodeView symbols/types: not part of the program image (RTLink without
+                    # /CO links the stripped object byte-identically). Its records may overlap; its
+                    # FIXUPPs are checked below and then set aside.
+                    last_data = (seg_i, offset, payload, iterated)
+                    continue
                 if offset + len(payload) > seg_len:
                     raise OmfError(f"data extends past SEGDEF extent for {seg_name}")
                 buf = contents.setdefault(seg_i, bytearray(seg_len))
@@ -274,6 +283,19 @@ class OmfReader:
                     merged.append((start, end))
             initialized[seg_defs[i-1]["name"]] = merged
         self._resolve_fixups(fixups, seg_defs, group_defs, externals)
+        debug = {i for i, d in enumerate(seg_defs, 1) if d["class"] in DEBUG_CLASSES}
+        if debug:
+            if any(i in debug for g in group_defs for i in g["segments"]):
+                raise OmfError("CodeView debug segment in a group")
+            for fix in fixups:
+                if fix["segment_index"] in debug:
+                    for item in fix.get("resolved", []):
+                        target = item.get("target") or {}
+                        if item.get("kind") == "fixup" and not (
+                                target.get("kind") == "external" or
+                                (target.get("kind") == "segment" and target.get("index") in range(1, len(seg_defs) + 1))):
+                            raise OmfError("CodeView FIXUPP targets something other than own segments or externals")
+            fixups = [f for f in fixups if f["segment_index"] not in debug]
         module = ObjectModule(module_name, segments, lengths, seg_defs, publics,
                               externals, group_defs, fixups, recs, initialized)
         if self.library_records:

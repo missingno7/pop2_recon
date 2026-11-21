@@ -179,9 +179,28 @@ chunks and so change FIXUPP traversal. The code bytes are unchanged. The
 original game was therefore very likely built with debug line information.
 
 The strict gate accepts `/Zd` LINNUM records (`0x94`), which carry no code or
-fixups. Use `/Zd` when a within-symbol relocation order is refused. `/Zi`
-(CodeView `$$SYMBOLS`/`$$TYPES` segments) is not yet supported by the OMF
-reader.
+fixups, and `/Zi` CodeView objects: `$$SYMBOLS`/`$$TYPES` (class `DEBSYM`/`DEBTYP`)
+records are set aside by the OMF reader (they may overlap; their FIXUPPs may target
+only the object's own segments or externals; a debug segment in a group is refused).
+A control link with RTLink 6.10 gave a byte-identical EXE and the same MZ records for
+a /Zi object and the same object with its CodeView records removed.
+
+MSC 6.00 CODE LEDATA flush rule (2026-11-21, build/workers/research_reloc in the
+integration worktree): a record is flushed at 944 data bytes, at 149 fixups, with `/Zd`
+or `/Zi` every 52 line-number events, and with `/Zi` also at every function start,
+after the prologue of a function with a frame, and at every C goto label (not nested
+blocks or case labels). Fixups of one record are emitted in descending order, so
+same-target sites read descending inside one record and ascending across a boundary.
+Original facts: cross-function same-target pairs are 322 ascending to 18 descending,
+so the game modules were built with **`/Zi`**; DISSOLVE, SHAPE, LGRAF and INTRFACE
+match plain flags (non-debug modules). `/Zd` only imitates the 52-line flushes.
+Line-event counts (code-generating lines before a point, mod 52) are file-wide; a
+draft-formatting change that satisfies them is a hypothesis about layout, not history.
+
+Own-object `SEG` bases are bucketed by target identity: an EXTDEF that resolves to a
+public of the object (`mov ax, SEG MarkMove`) is its own bucket; only SEGDEF (T4)
+targets share the segment bucket (MOVE MarkMobRedraw: three buckets, original
+relocations 1025/1026, 1059, 1087).
 
 ## Grounding a callee with no outside caller (2026-11-21)
 

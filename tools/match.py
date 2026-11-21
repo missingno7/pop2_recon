@@ -73,7 +73,10 @@ def code_segment(module, placed=()):
     name = segment["name"]
     require(not segment["use32"] and not segment["big"] and segment["alignment"] != 0,
             "Unsupported code segment declaration")
-    require(all(s["length"] == 0 for s in module.segment_defs if s["name"] != name and s["name"] not in placed),
+    from omf import DEBUG_CLASSES
+    debug = {s["name"] for s in module.segment_defs if s["class"] in DEBUG_CLASSES}
+    require(all(s["length"] == 0 for s in module.segment_defs
+                if s["name"] != name and s["name"] not in placed and s["name"] not in debug),
             "Unowned DATA/BSS/secondary declarations are not accepted")
     # Independently establish LEDATA coverage; OmfReader payload gaps must never become authority.
     initialized = set()
@@ -89,6 +92,8 @@ def code_segment(module, placed=()):
         import struct
         offset = struct.unpack_from("<H", body, at)[0]
         segment_name = module.segment_defs[index-1]["name"]
+        if segment_name in debug:
+            continue  # CodeView records (OmfReader sets them aside)
         require(segment_name == name or segment_name in placed, "Initialized secondary segment is unowned")
         if segment_name != name:
             continue

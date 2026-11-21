@@ -36,7 +36,7 @@ from far_binding import FAR_KINDS, NEAR_KIND, ground_near_entry as near_ground, 
 
 DATA_MODES = ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
               "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE, OPERAND_MODE)
-from common import require, sha
+from common import ROOT, read_json, require, sha
 from match import code_segment, get_target
 from omf import OmfReader
 
@@ -210,14 +210,67 @@ def _check_placements(module, placements, uses, binding, space, oracle):
                     f"Placed segment {seg['name']} content differs from the original DGROUP bytes")
             require(not any(start - 1 <= r["image_offset"] < start + seg["length"] for r in home.relocations),
                     f"Placed segment {seg['name']} overlaps original relocated words")
-            basis = f"initialized content equals original {home.name}+{start:#x}"
+            hits, at = 0, home.data.find(content, dgroup)
+            while at >= 0 and hits < 2:
+                hits, at = hits + 1, home.data.find(content, at + 1)
+            # Content found once in the whole DGROUP image fixes P independently of any one field;
+            # repeated content (zero words, short constants) fixes nothing, so each field then needs
+            # its own support (_placed_support), like an unwitnessed v4 address.
+            unique = hits == 1
+            basis = (f"initialized content equals original {home.name}+{start:#x}" +
+                     ("" if unique else ", repeated content: per-field consensus"))
         else:
-            require(len(uses.get(seg["name"], set())) >= 2,
-                    f"Uninitialized placed segment {seg['name']} needs two distinct proven addends")
-            basis = "two or more distinct addends agree"
-        report[seg["name"]] = {"placement": p, "length": seg["length"], "basis": basis}
+            # Uninitialized layout (array sizes, order) is chosen by the source, so distinct addends
+            # never support each other; each field needs its own support (_placed_support).
+            unique = False
+            basis = "uninitialized: per-field consensus"
+        report[seg["name"]] = {"placement": p, "length": seg["length"], "basis": basis, "unique": unique}
     require(set(report) == set(placements), "Placement for a segment the object does not declare")
     return report
+
+
+PLACEMENT_DEBT = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
+
+
+def _placed_support(placement_report, states, reports):
+    """Fields into a placed segment without unique initialized content are proven only by
+    internal consensus: the same (segment, addend) at two or more distinct original instruction
+    starts inside CODE_EXACT claims (as _internal_support for v4). Different addends never support
+    each other: P + A is one unknown per field once the layout is the source's choice. Runs to a
+    fixpoint, since a refused claim withdraws its sites.
+
+    Claims accepted under the earlier rule (content equality alone, or two distinct uninitialized
+    addends) are listed in evidence/placement-debt.json; they keep their state but report the
+    unsupported fields as `placement_debt`. The list may only shrink: validation refuses stale
+    entries, and a claim not listed gets no exemption."""
+    weak = {name for name, r in placement_report.items() if not r["unique"]}
+    if not weak:
+        return
+    by_public = {r["public"]: r for r in reports}
+    for state in states.values():
+        for field in state["placed"]:
+            for equation in state["equations"]:
+                if equation.get("kind") == "placed data" and equation["offset"] == field["offset"]:
+                    equation["support"] = "internal consensus" if field["key"][0] in weak else "unique content"
+    changed = True
+    while changed:
+        changed = False
+        exact = [p for p in states if by_public[p].get("exact")]
+        sites = {}
+        for public in exact:
+            for field in states[public]["placed"]:
+                if field["key"][0] in weak and field["equal"]:
+                    sites.setdefault(field["key"], set()).add(field["insn"])
+        for public in exact:
+            lacking = sorted({f["key"] for f in states[public]["placed"]
+                              if f["key"][0] in weak and len(sites.get(f["key"], ())) < 2})
+            if lacking and by_public[public]["target_id"] in PLACEMENT_DEBT:
+                by_public[public]["placement_debt"] = [f"{n}+{k}" for n, k in lacking]
+            elif lacking:
+                by_public[public].update(exact=False, state="REFUSED",
+                                         reason="placed field without unique content lacks a second equal "
+                                                "claimed site: " + ", ".join(f"{n}+{k}" for n, k in lacking))
+                changed = True
 
 
 def _code_vectors(oracle):
@@ -622,7 +675,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 require(rows is not None or not mine, "Fixup-bearing claim does not decode completely")
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "v4": [],
+                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "own_base_labels": {}, "v4": [], "placed": [],
                      "proven_jumps": set(),
                      "fixups": len(mine), "frames": {row["frame"] for row in evidence},
                      "report": report, "position": position,
@@ -726,8 +779,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     if value != observed:
                         state["differences"].append(at)
                     state["occupied"].update((at, at+1))
-                    if value == observed:  # only proven fields over-determine a placement
+                    if value == observed:
                         placed_uses.setdefault(seg_name, set()).add(addend)
+                    insn = next(i for i in rows if i.address <= at < i.address + i.size)
+                    state["placed"].append({"key": (seg_name, addend), "equal": value == observed,
+                                            "insn": state["position"] + insn.address, "offset": at})
                 elif (fix["loc_type"] == 2 and not fix["self_relative"] and fix["field_width"] == 2 and
                       ((fix["target"].get("kind") == "group" and fix["target"].get("name") == "DGROUP") or
                        (fix["target"].get("kind") == "segment" and fix["target"].get("name") in dgroup_members and
@@ -766,6 +822,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     # witnessed window (checked once the claim's frame is proven below).
                     require(piece[at:at+2] == bytes(2), "Only zero encoded own-segment base addends are proven")
                     state["own_bases"].append(at)
+                    # RTLink buckets relocations by target identity: an EXTDEF resolving to a public
+                    # of this object is its own bucket; the segment itself (T4) is another.
+                    state["own_base_labels"][at] = (fix["target"]["name"] if fix["target"].get("kind") == "external"
+                                                    else name)
                     state["occupied"].update((at, at+1))
                 else:
                     require(fix["target"].get("name") not in publics,
@@ -925,14 +985,16 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"]})
                     used_far.add(ref["name"])
                 sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]]
-                sites += [{"site": state["position"] + g, "offset": g, "symbol": name} for g in state["own_bases"]]
+                sites += [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g]}
+                          for g in state["own_bases"]]
                 relocation_proof = relocation_order(state["relocations"], sites,
                                                     [r["index"] for r in state["relocations"]])
             if (state["group_bases"] or state["own_bases"]) and not state["far"]:
                 relocation_proof = relocation_order(
                     state["relocations"],
                     [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]] +
-                    [{"site": state["position"] + g, "offset": g, "symbol": name} for g in state["own_bases"]],
+                    [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g]}
+                          for g in state["own_bases"]],
                     [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
@@ -976,6 +1038,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle)
+    _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
             "placements": placement_report,

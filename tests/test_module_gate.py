@@ -566,16 +566,48 @@ class PlacementTests(unittest.TestCase):
                        {"space": "root", "image_offset": 0x100 + len(image), "relocation_index": 0}]}}
         return _check_placements(module, placements, uses, binding, space, oracle)
 
-    def test_uninitialized_segment_needs_two_distinct_addends(self):
-        with self.assertRaisesRegex(ValueError, "two distinct"):
-            self.check([("_BSS", None, 4)], {"_BSS": {0}}, {"_BSS": 8})
-        self.assertEqual(self.check([("_BSS", None, 4)], {"_BSS": {0, 2}}, {"_BSS": 8})["_BSS"]["placement"], 8)
+    def test_uninitialized_segment_is_never_self_proving(self):
+        # Distinct addends do not support each other: the source chooses the layout.
+        self.assertFalse(self.check([("_BSS", None, 4)], {"_BSS": {0, 2}}, {"_BSS": 8})["_BSS"]["unique"])
 
     def test_initialized_segment_must_equal_the_original_bytes(self):
         image = bytes(8) + b"\x12\x34"
-        self.assertTrue(self.check([("_DATA", b"\x12\x34", 2)], {}, {"_DATA": 8}, image))
+        self.assertTrue(self.check([("_DATA", b"\x12\x34", 2)], {}, {"_DATA": 8}, image)["_DATA"]["unique"])
         with self.assertRaisesRegex(ValueError, "differs"):
             self.check([("_DATA", b"\x12\x35", 2)], {}, {"_DATA": 8}, image)
+
+    def test_repeated_content_fixes_no_placement(self):
+        # Zero words occur everywhere in DGROUP; matching one proves nothing about P.
+        image = bytes(8) + b"\x12\x34"
+        self.assertFalse(self.check([("_DATA", b"\x00\x00", 2)], {}, {"_DATA": 2}, image)["_DATA"]["unique"])
+
+
+class PlacedSupportTests(unittest.TestCase):
+    """Fields into a placed segment without unique content need two equal claimed sites."""
+
+    def run_support(self, sites, debt=()):
+        import module_gate
+        states = {f"P{i}": {"placed": [{"key": ("_BSS", k), "equal": True, "insn": 0x100 * i + 4, "offset": 5}],
+                            "equations": []} for i, k in enumerate(sites)}
+        reports = [{"public": f"P{i}", "target_id": f"t{i}", "exact": True, "state": "CODE_EXACT"}
+                   for i in range(len(sites))]
+        with patch.object(module_gate, "PLACEMENT_DEBT", set(debt)):
+            module_gate._placed_support({"_BSS": {"unique": False}}, states, reports)
+        return [r["state"] for r in reports], reports
+
+    def test_single_site_refused(self):
+        self.assertEqual(self.run_support([0])[0], ["REFUSED"])
+
+    def test_distinct_addends_do_not_support_each_other(self):
+        self.assertEqual(self.run_support([0, 2])[0], ["REFUSED", "REFUSED"])
+
+    def test_same_key_at_two_sites_is_consensus(self):
+        self.assertEqual(self.run_support([0, 0])[0], ["CODE_EXACT", "CODE_EXACT"])
+
+    def test_listed_debt_keeps_claim_and_reports_it(self):
+        states, reports = self.run_support([0], debt={"t0"})
+        self.assertEqual(states, ["CODE_EXACT"])
+        self.assertEqual(reports[0]["placement_debt"], ["_BSS+0"])
 
 
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
@@ -933,3 +965,25 @@ class ReachedNearFrameTests(unittest.TestCase):
         hi = max(at + 3, self.entry + self.size)
         others = [f for f in self.frames((lo, hi)) if f["image_offset"] == at]
         self.assertEqual(others, [])
+
+
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+class OwnBaseBucketTests(unittest.TestCase):
+    """RTLink buckets relocations by target identity: `mov ax, SEG MarkMove` style LOC2 bases of
+    three different publics of this object are three buckets, not one segment bucket."""
+
+    def test_move_mark_mob_redraw_buckets_by_public(self):
+        from module_gate import check_group
+        from oracle import Oracle
+        recipe = common.read_json(ROOT / "recipes/move/move.json")
+        result = compile_c((ROOT / recipe["source"]).read_text(encoding="utf-8"), recipe["profile"],
+                           recipe["flags"], workdir=ROOT / "build/workers/tests/own_base_buckets")
+        self.assertTrue(result.ok, result.log)
+        claims = [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]]
+        claims.append({"target_id": "root:0b41:2264", "public": "MARK_MOB_REDRAW"})
+        report = check_group(result.obj_bytes, claims, Oracle.load(),
+                             binding=common.read_json(ROOT / recipe["binding"]), group_id=recipe["group_id"])
+        claim = next(c for c in report["claims"] if c["public"] == "MARK_MOB_REDRAW")
+        self.assertEqual(claim["state"], "CODE_EXACT", claim.get("reason"))
+        self.assertEqual(sorted(g["symbol"] for g in claim["relocation_groups"]),
+                         ["MARK_FLOOR", "MARK_FOREGROUND", "MARK_MOVE"])

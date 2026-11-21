@@ -182,6 +182,11 @@ def _validate(run_tests=True):
                 "Fresh original relocation index coverage changed")
         check_relocation_order(recipe, report)
         accepted.append(report)
+    # Placement debt may only shrink: every listed claim must still be owned and still need it.
+    debt = {c["target_id"] for g in groups.values() for c in g["claims"] if c.get("placement_debt")}
+    listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])
+    require(debt == listed, "evidence/placement-debt.json differs from the claims that still need it: "
+            f"stale {sorted(listed - debt)}, unlisted {sorted(debt - listed)}")
     # Live canonical files must still carry their pins after all compilation, so a
     # PASS never certifies files edited while proofs ran on earlier snapshots.
     check_manifest(oracle, manifest)
@@ -189,7 +194,7 @@ def _validate(run_tests=True):
         result = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"], cwd=ROOT)
         require(result.returncode == 0, "Focused invariant tests failed")
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
-              "metrics": metrics(oracle, manifest),
+              "metrics": metrics(oracle, manifest), "placement_debt_claims": len(debt),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
                          "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses, exact MZ site coverage and within-symbol order; GROUPED reports retain between-symbol order as structural debt"]}
     return report
@@ -237,7 +242,8 @@ def main():
     print(f"PASS: {report['metrics']['exact_function_count']} freshly recompiled exact functions; "
           f"{report['metrics']['matching_c_bytes']} C bytes; "
           f"{report['metrics']['matching_asm_bytes']} ASM bytes; "
-          f"{report['metrics']['pinned_runtime_bytes']} pinned runtime bytes; structural link UNRECOVERED")
+          f"{report['metrics']['pinned_runtime_bytes']} pinned runtime bytes; "
+          f"{report['placement_debt_claims']} claims with placement debt; structural link UNRECOVERED")
 
 
 if __name__ == "__main__":

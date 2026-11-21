@@ -288,3 +288,57 @@ class OverwriteLedataTests(unittest.TestCase):
         module = reader.read(raw)
         self.assertEqual(next(iter(module.segments.values())), b"\x90\xcb")
         self.assertEqual(reader.overwritten_bytes, 1)
+
+
+def codeview_fixture(*, grouped=False):
+    """CODE _TEXT plus a CodeView $$SYMBOLS (class DEBSYM) segment with overlapping records and a
+    FIXUPP into the code segment, as MSC /Zi writes."""
+    names = b"\x05_TEXT\x04CODE\x09$$SYMBOLS\x06DEBSYM\x06DGROUP"
+    rows = [record(0x80, b"\x04test"), record(0x96, names),
+            record(0x98, b"\x28" + struct.pack("<H", 2) + b"\x01\x02\x00"),
+            record(0x98, b"\x48" + struct.pack("<H", 8) + b"\x03\x04\x00")]
+    if grouped:
+        rows.append(record(0x9a, b"\x05\xff\x02"))
+    rows += [record(0xA0, b"\x01" + struct.pack("<H", 0) + b"\x90\xcb"),
+             record(0xA0, b"\x02" + struct.pack("<H", 0) + bytes(6)),
+             record(0xA0, b"\x02" + struct.pack("<H", 2) + bytes(6)),
+             record(0x9c, b"\xc4\x00\x54\x01"),  # LOC1 at +0, F5/T4 own _TEXT
+             record(0x8a)]
+    return b"".join(rows)
+
+
+class CodeViewTests(unittest.TestCase):
+    """MSC /Zi debug segments are not program image: set aside, never trusted, never in a group."""
+
+    def test_debug_segment_records_and_fixups_are_set_aside(self):
+        module = OmfReader().read(codeview_fixture(), "cv.obj")
+        self.assertEqual(module.segments, {"_TEXT": b"\x90\xcb"})
+        self.assertEqual(module.fixups, [])
+
+    def test_debug_segment_in_a_group_is_refused(self):
+        with self.assertRaisesRegex(OmfError, "debug segment in a group"):
+            OmfReader().read(codeview_fixture(grouped=True), "cv.obj")
+
+
+class CodeViewCompileTests(unittest.TestCase):
+    """/Zi changes LEDATA chunking only: same CODE bytes and the same code fixups as plain."""
+
+    def test_zi_object_matches_plain_code_and_fixups(self):
+        from compiler import load_lock
+        if not Path(load_lock()["runner"]["path"]).is_file():
+            self.skipTest("Pinned historical runner unavailable")
+        from match import code_segment
+        source = ("extern int far pascal f(int);\nextern int g;\n"
+                  "int far pascal h(int a) { if (a) goto out; g = f(a); out: return f(g) + g; }\n")
+        objs = {}
+        for label, extra in (("plain", []), ("zi", ["/Zi"])):
+            result = compile_c(source, "msc600", ["/c", "/AM", "/Oe", "/Gs", "/Zl", "/Gc"] + extra,
+                               workdir=ROOT / "build/workers/tests/codeview" / label)
+            self.assertTrue(result.ok, result.log)
+            module = OmfReader().read(result.obj_bytes)
+            code_segment(module)
+            fixes = sorted((i["segment_offset"], i["loc_type"], str(i["target"].get("name")))
+                           for f in module.fixups for i in f["resolved"] if i["kind"] == "fixup")
+            code = next(s["name"] for s in module.segment_defs if s["class"] == "CODE")
+            objs[label] = (module.segments[code], fixes)
+        self.assertEqual(objs["plain"], objs["zi"])
