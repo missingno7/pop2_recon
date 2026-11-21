@@ -421,3 +421,15 @@ The structural anchor may already include its single alignment NOP: when the
 anchor's linear decode ends in RET/RETF[ iw] followed by one `90` that the
 reviewed extent covers, that NOP is the one allowed pad byte. No further pad
 byte may follow it.
+
+### Segment loads are not far pointers (2026-11-21)
+
+The site-frame alias scan reads a relocated word together with the word before
+it as a far pointer. That holds for CALL/JMP FAR operands and `dd` pointers,
+but not for a `mov r16, SEG X` load (opcode B8+r), where the preceding bytes
+are an opcode. A relocated segment value is the frame of its target's segment
+(probe), so a segment load of another frame refers to another segment and is
+skipped. Only a group frame could alias the claim's segment. MSC medium-model
+code segments are never grouped, and a candidate that groups its CODE segment
+is refused. The scan also skips any word whose 64K window cannot reach the
+object.

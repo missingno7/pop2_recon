@@ -310,12 +310,25 @@ def _site_frame(target, space, oracle, hull, grouped=False):
             if at < 2 or (source.name == "root" and at in elsewhere):
                 continue
             segment = record["stored_word"]
-            linked = (segment - space.link_segment) * 16 + struct.unpack_from("<H", source.data, at - 2)[0]
-            if lo <= linked < hi and segment != frame:
-                if _other_overlay_frame(oracle, space, segment, struct.unpack_from("<H", source.data, at - 2)[0]):
-                    continue  # the linker resolved it into another overlay's segment of frame `segment`
-                return "refused", dict(row, reason=f"relocated far word {source.name}+{at - 2:#x} "
-                                                   f"enters the object with frame {segment:04x}")
+            base_f = (segment - space.link_segment) * 16
+            if segment == frame or base_f >= hi or base_f + 0x10000 <= lo:
+                continue  # same frame, or no offset under this segment can reach the object
+            # `mov r16, SEG X` (B8+r imm16): the bytes before the word are an opcode, not an offset,
+            # so its offset is unknown; every other relocated word (CALL/JMP FAR operand, `dd`
+            # pointer) stores its offset in the word before it.
+            # A relocated segment value is the frame of its target's segment (probe), so a segment
+            # load of another frame refers to another segment; only a group frame could alias ours,
+            # and MSC medium-model code segments are never grouped (a grouping candidate is refused).
+            if at >= 1 and 0xb8 <= source.data[at - 1] <= 0xbf:
+                continue
+            linked = base_f + struct.unpack_from("<H", source.data, at - 2)[0]
+            if not lo <= linked < hi:
+                continue
+            offset = struct.unpack_from("<H", source.data, at - 2)[0]
+            if _other_overlay_frame(oracle, space, segment, offset):
+                continue  # the linker resolved it into another overlay's segment of frame `segment`
+            return "refused", dict(row, reason=f"relocated far word {source.name}+{at - 2:#x} "
+                                               f"enters the object with frame {segment:04x}")
     return "evidence", row
 
 
