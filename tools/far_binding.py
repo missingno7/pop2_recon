@@ -99,6 +99,89 @@ def _accepted_entry(target_id, oracle):
                position(owner["target_id"]) == wanted
                for owner in read_json(ROOT / "layout/manifest.json")["owners"])
 
+STRUCTURAL_RETURNS = {0xc3: 1, 0xcb: 1, 0xc2: 3, 0xca: 3}  # RET, RETF, RET iw, RETF iw
+STRUCTURAL_PROLOGUE = bytes((0x55, 0x8b, 0xec))  # push bp; mov bp,sp
+
+
+def _extents(oracle):
+    """(space, start, end, id, accepted) for every reviewed target, accepted marked by the
+    canonical CODE_EXACT/ASM_EXACT/PINNED_RUNTIME owners naming it."""
+    from common import ROOT, read_json
+    from match import EXTRA_TARGETS
+    owners = {o["target_id"] for o in read_json(ROOT / "layout/manifest.json")["owners"]
+              if o["state"] in ("CODE_EXACT", "ASM_EXACT", "PINNED_RUNTIME")}
+    rows = []
+    for f in read_json(ROOT / "evidence/targets.json")["functions"] + EXTRA_TARGETS:
+        try:
+            lo = oracle.spaces[f["space"]].position(f["segment"], f["offset"])
+        except (KeyError, ValueError):
+            continue
+        rows.append((f["space"], lo, lo + f["size"], f["id"], f["id"] in owners))
+    return rows
+
+
+def _inside_accepted(oracle, space, entry, size):
+    """Refuse a callee entry strictly inside, or a callee extent overlapping, accepted code
+    that does not itself start at the entry."""
+    for name, lo, hi, ident, accepted in _extents(oracle):
+        require(not (accepted and name == space and lo != entry and lo < entry + size and entry < hi),
+                f"Far callee entry lies inside or overlaps accepted owner {ident}")
+
+
+def _structural_entry(oracle, entry, segment, offset, size, space, start, end):
+    """Candidate-independent original-byte proof that a resident routine begins at ENTRY,
+    for a reviewed callee whose only relocated caller lies in the candidate. Weaker than an
+    outside CALL FAR or an accepted owner, so it is recorded as structural-entry debt.
+
+    All of: the entry precedes the RTLink manager/vector region; it starts with a BP-frame
+    prologue; it lies strictly inside no reviewed or accepted extent; a reviewed or accepted
+    extent ends at entry-pad (pad <= 1 byte of 90/00 without relocation) and its linear
+    decode ends exactly there with RET/RETF[ iw]; and another relocated CALL FAR outside the
+    candidate object uses the same segment word for a different reviewed entry."""
+    root = oracle.spaces["root"]
+    data = root.data
+    require(entry < root.position(0x2203, 0), "Structural entry refuses the RTLink manager and vector region")
+    require(data[entry:entry + 3] == STRUCTURAL_PROLOGUE, "Structural entry needs a BP-frame prologue")
+    extents = [e for e in _extents(oracle) if e[0] == "root"]
+    require(not any(lo < entry < hi for _, lo, hi, _, _ in extents),
+            "Structural entry lies inside a reviewed or accepted extent")
+    require(not any(accepted and lo != entry and lo < entry + size and entry < hi
+                    for _, lo, hi, _, accepted in extents), "Structural entry extent overlaps accepted code")
+    anchors = []
+    for pad in (0, 1):
+        stop = entry - pad
+        if pad and (data[stop] not in (0x90, 0x00) or
+                    any(stop - 1 <= r["image_offset"] <= stop for r in root.relocations)):
+            continue
+        for _, lo, hi, ident, _ in extents:
+            if hi != stop or lo >= hi:
+                continue
+            try:
+                last = instructions(data[lo:hi])[-1]
+            except ValueError:
+                continue  # an extent that does not decode linearly cannot anchor
+            if STRUCTURAL_RETURNS.get(last.bytes[0]) == last.size:
+                anchors.append({"anchor": ident, "pad": pad})
+    require(anchors, "Structural entry is not preceded by a decoded return ending a reviewed extent")
+    starts = {(lo, ident) for _, lo, _, ident, _ in extents}
+    frames = []
+    for r in root.relocations:
+        at = r["image_offset"] - 3
+        if at < 0 or data[at] != 0x9a or (space == "root" and at < end and start < at + 5):
+            continue
+        woff, wseg = struct.unpack_from("<HH", data, at + 1)
+        if wseg != segment or woff == offset:
+            continue
+        try:
+            wpos = root.position(wseg, woff)
+        except ValueError:
+            continue
+        names = [ident for lo, ident in starts if lo == wpos]
+        if names:
+            frames.append({"image_offset": at, "relocation_index": r["index"], "entry": names[0]})
+    require(frames, "Structural entry segment word has no independent relocated CALL FAR to another reviewed entry")
+    return {"anchor": anchors[0], "frame_witness": frames[0], "frame_witnesses": len(frames)}
+
 
 def ground_symbol(symbol, target, oracle):
     """Ground one far callee alias S = SEG:OFF independently of the candidate.
@@ -146,14 +229,27 @@ def ground_symbol(symbol, target, oracle):
         entry = cspace.position(callee["segment"], callee["offset"])
         require(cspace.name != space.name or not (entry < end and start < entry+len(raw)),
                 "Far callee entry overlaps candidate")
+        _inside_accepted(oracle, cspace.name, entry, len(raw))
     if not symbol.get("witnesses"):
         # Without an outside caller, the entry may instead be the start of accepted exact
         # code elsewhere: its reconstruction independently proves a function starts there.
-        require(kind != "rtlink-vector" and _accepted_entry(callee["id"], oracle),
-                "Far callee has no independent original CALL witness or accepted exact entry")
+        require(kind != "rtlink-vector", "Far callee has no independent original CALL witness or accepted exact entry")
+        if _accepted_entry(callee["id"], oracle):
+            return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
+                    "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted exact entry",
+                    "callee_owned_bytes": 0}
+        # Last resort for a resident callee whose only caller is the candidate: structural
+        # original-byte proof that a routine starts there (weaker; recorded as such).
+        require(kind == "far-code-entry", "Far callee has no independent original CALL witness or accepted exact entry")
+        try:
+            receipt = _structural_entry(oracle, entry, symbol["segment"], symbol["offset"], len(raw),
+                                        space.name, start, end)
+        except ValueError as exc:
+            raise ValueError("Far callee has no independent original CALL witness, accepted exact "
+                             f"entry or structural entry ({exc})") from exc
         return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
-                "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted exact entry",
-                "callee_owned_bytes": 0}
+                "offset": symbol["offset"], "witnesses": [], "grounded_by": "structural-entry",
+                "structural": receipt, "callee_owned_bytes": 0}
     receipts = []
     for spec in symbol["witnesses"]:
         # A witness may be resident or in an overlay: either way it is an original

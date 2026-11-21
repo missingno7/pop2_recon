@@ -351,6 +351,72 @@ class AcceptedEntryTests(unittest.TestCase):
             self.ground(unaccepted)
 
 
+class StructuralEntryTests(unittest.TestCase):
+    """A resident callee whose only caller is the candidate may be grounded by original-byte
+    structure alone; every refusal below is a shape measured in the real image."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        from far_binding import _extents, _structural_entry
+        cls.oracle = Oracle.load()
+        cls.extents = _extents(cls.oracle)
+        cls.check = staticmethod(_structural_entry)
+        cls.entry = None
+        for space, lo, hi, ident, accepted in cls.extents:
+            if space != "root" or accepted:
+                continue
+            _, seg, off = ident.split(":")
+            try:
+                cls.check(cls.oracle, lo, int(seg, 16), int(off, 16), hi - lo, "root", 0, 0)
+            except ValueError:
+                continue
+            cls.entry = (lo, int(seg, 16), int(off, 16), hi - lo)
+            break
+
+    def ground(self, entry=None, start=0, end=0, extents=None):
+        from far_binding import _structural_entry
+        lo, seg, off, size = entry or self.entry
+        with patch("far_binding._extents", return_value=extents if extents is not None else self.extents):
+            return _structural_entry(self.oracle, lo, seg, off, size, "root", start, end)
+
+    def test_a_qualifying_entry_records_its_anchor_and_frame_witness(self):
+        receipt = self.ground()
+        self.assertIn(receipt["anchor"]["pad"], (0, 1))
+        self.assertGreaterEqual(receipt["frame_witnesses"], 1)
+
+    def test_mid_routine_retf_nop_label_is_refused(self):
+        # MSC duplicates frameless epilogues: 078a:2830 has `retf 2; nop; mov ax,1` at 0xa104.
+        with self.assertRaisesRegex(ValueError, "prologue"):
+            self.ground((0xa104, 0x078a, 0xa104 - 0x78a0, 4))
+
+    def test_entry_inside_another_extent_is_refused(self):
+        lo = self.entry[0]
+        with self.assertRaisesRegex(ValueError, "inside a reviewed or accepted extent"):
+            self.ground(extents=self.extents + [("root", lo - 2, lo + 2, "probe", False)])
+
+    def test_entry_overlapping_accepted_code_is_refused(self):
+        lo = self.entry[0]
+        with self.assertRaisesRegex(ValueError, "overlaps accepted code"):
+            self.ground(extents=self.extents + [("root", lo + 1, lo + 3, "probe", True)])
+
+    def test_without_a_reviewed_return_anchor_it_is_refused(self):
+        lo = self.entry[0]
+        kept = [e for e in self.extents if e[0] != "root" or e[2] not in (lo, lo - 1)]
+        with self.assertRaisesRegex(ValueError, "decoded return"):
+            self.ground(extents=kept)
+
+    def test_frame_witness_must_lie_outside_the_candidate(self):
+        root = self.oracle.spaces["root"]
+        with self.assertRaisesRegex(ValueError, "segment word"):
+            self.ground(start=0, end=root.size)
+
+    def test_rtlink_region_is_refused(self):
+        root = self.oracle.spaces["root"]
+        with self.assertRaisesRegex(ValueError, "RTLink"):
+            self.ground((root.position(0x2203, 0x0cbd), 0x2203, 0x0cbd, 10))
+
+
 class SegmentBaseTests(unittest.TestCase):
     """A far data segment N is grounded by other original relocated words storing N."""
 

@@ -182,3 +182,39 @@ The strict gate accepts `/Zd` LINNUM records (`0x94`), which carry no code or
 fixups. Use `/Zd` when a within-symbol relocation order is refused. `/Zi`
 (CodeView `$$SYMBOLS`/`$$TYPES` segments) is not yet supported by the OMF
 reader.
+
+## Grounding a callee with no outside caller (2026-11-21)
+
+When a reviewed resident `far-code-entry` callee has no original relocated
+CALL FAR outside the candidate object, `ground_symbol` accepts, in order:
+
+1. **accepted exact entry**: a canonical CODE_EXACT, ASM_EXACT or
+   PINNED_RUNTIME owner starts at the same position (the strongest form,
+   reached by matching callees first);
+2. **structural entry** (`grounded_by: structural-entry`, weaker, recorded as
+   such with its anchor and frame witness). Every condition must hold:
+   - the entry precedes the RTLink manager/vector region (`2203:0000`);
+   - it starts with the BP-frame prologue `55 8B EC`, so frameless callees
+     still need an outside caller or an accepted owner;
+   - it lies strictly inside no reviewed or accepted extent, and its own
+     extent overlaps no accepted owner;
+   - a reviewed or accepted extent (the anchor) ends at `entry - pad`, where
+     pad is 0, or one `90`/`00` byte touched by no relocation. The anchor's
+     linear decode ends exactly there with RET, RETF, RET iw or RETF iw;
+   - another relocated `9A` outside the candidate object uses the same
+     segment word for a different reviewed entry. This witnesses the 16:16
+     representation independently of the candidate.
+
+These conditions come from measurements on the original image. Of the 493
+relocated far-call targets, 84% are preceded by a return plus at most one pad
+byte. Accepted C, however, contains 11 `RETF n; NOP` labels in the middle of a
+routine, because MSC duplicates frameless epilogues (e.g. `078a:2830` at
+`0xa104`). Raw byte matching also fires at 2.25% of root positions. None of
+the 24 such interior boundaries starts with `55 8B EC`, and no prologue
+preceded by a return lies inside a reviewed or accepted extent. A missing
+anchor is supplied by reviewing the preceding routine as a target, not by
+pattern matching. Overlay callees and RTLink vectors keep the outside-witness
+or accepted-owner rule.
+
+Every far-code-entry and overlay-code-entry callee must also lie outside
+accepted owners, except one that starts exactly at the entry.
