@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "61ab47b01b3f47194f20d2ddd52dfd68bc2238580677e54381ecf3d1ba93a5e3",
+  "binding_sha256": "48b4317d4d157a1e67ceaf0e3449755b1858f13b43553233861eee54c45e5da4",
   "claims": [
     {
       "fixup_count": 13,
@@ -99,10 +99,8 @@
         1012,
         1071
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "root:0b41:0f62"
     },
     {
@@ -116,6 +114,11 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0b41:107a"
+    },
+    {
+      "fixup_count": 12,
+      "public": "ADD_TROB",
+      "target_id": "root:0b41:13f4"
     },
     {
       "fixup_count": 7,
@@ -186,6 +189,16 @@
       "target_id": "root:0b41:1690"
     },
     {
+      "fixup_count": 8,
+      "public": "ANIMATE_PLATE",
+      "target_id": "root:0b41:16ac"
+    },
+    {
+      "fixup_count": 27,
+      "public": "ANIMATE_LOOSE_FLOOR",
+      "target_id": "root:0b41:1734"
+    },
+    {
       "fixup_count": 4,
       "public": "MAKE_SPACE",
       "target_id": "root:0b41:17ec"
@@ -231,6 +244,20 @@
       "target_id": "root:0b41:218e"
     },
     {
+      "fixup_count": 8,
+      "public": "MARK_MOB_REDRAW",
+      "relocation_indices": [
+        1026,
+        1059,
+        1087
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:2264"
+    },
+    {
       "fixup_count": 3,
       "public": "OPP_UNDER_MOB",
       "target_id": "root:0b41:2492"
@@ -258,20 +285,6 @@
       "fixup_count": 4,
       "public": "IS_VISIBLE_ROOM_CELL",
       "target_id": "root:0b41:25e4"
-    },
-    {
-      "fixup_count": 8,
-      "public": "MARK_MOB_REDRAW",
-      "relocation_indices": [
-        1026,
-        1059,
-        1087
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:0b41:2264"
     }
   ],
   "drafts": [
@@ -396,24 +409,12 @@
       "public": "TRIGGER_TORCH"
     },
     {
-      "object_offset": 5096,
-      "public": "ADD_TROB"
-    },
-    {
       "object_offset": 5328,
       "public": "GET_SLIDE_ROCK_X"
     },
     {
-      "object_offset": 5792,
-      "public": "ANIMATE_PLATE"
-    },
-    {
       "object_offset": 5870,
       "public": "CLOSE_EXIT"
-    },
-    {
-      "object_offset": 5928,
-      "public": "ANIMATE_LOOSE_FLOOR"
     },
     {
       "object_offset": 6292,
@@ -485,19 +486,20 @@
     "/Zl",
     "/Gc",
     "/Og",
-    "/Ol"
+    "/Ol",
+    "/Zi"
   ],
   "frame": 2881,
   "group_id": "group:move/move",
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "fcfccb72080ebde0def6571af2753ac1242874152d14da31b9ba7f07429d0a8f",
+  "object_sha256": "5a68840550744979fd731c09c59f8cfc195c70ca3247e309cbccb2dedd24f157",
   "origin": 46108,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "38b4ab8afa8a32b6ad22583d0d5eaebd2e874b25b6d275c1c64b539de7d227fa",
+  "source_sha256": "1eb71cce69bb31867a3a427fbbb66494653eb4c4a8ae673153ea03bdfb6f7a9c",
   "space": "root"
 }

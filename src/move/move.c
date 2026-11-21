@@ -1086,15 +1086,17 @@ void add_trob(byte room, sbyte cell, sbyte state, byte kind)
 {
     Trob *found = get_trob_room_cell(room, cell);
 
-    if (found) {
+    if (!found) {
+        if (trob_count < 20) {
+            current_trob.room = room;
+            current_trob.cell = cell;
+            current_trob.state = state;
+            current_trob.kind = kind;
+            trobs[trob_count] = current_trob;
+            ++trob_count;
+        }
+    } else {
         found->state = state;
-    } else if (trob_count < 20) {
-        current_trob.room = room;
-        current_trob.cell = cell;
-        current_trob.state = state;
-        current_trob.kind = kind;
-        trobs[trob_count] = current_trob;
-        ++trob_count;
     }
 }
 

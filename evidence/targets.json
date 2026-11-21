@@ -64845,6 +64845,96 @@
         "AUTO.C frame and MSC-shaped near-record handling and Pascal far return."
       ],
       "abi": "Far Pascal void(int room, near opponent record *); BP+8 and BP+6, RETF 4."
+    },
+    {
+      "abi": "Far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original call at 0b41:014b enters 0b41:1734. Boundary window before and at start is 5dca040090 / 56ff06485e8a.",
+        "All immediate branches stay on decoded boundaries within the routine. RETF at 17eb. Tail ends at 0b41:17ec (exclusive), before the next routine's 558bec83ec02."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54619,
+          "image_offset": 46427,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46426,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the loose-floor animation phase, can make room for a mobile object, then requests redraw."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1734",
+      "offset": 5940,
+      "segment": 2881,
+      "sha256": "9061a09af68ba8d3c441e8528180569a6320b4009d9647af3a38356e6801352c",
+      "size": 184,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original call at 0b41:1b2d enters 0b41:1b6c. Boundary window before and at start is 481dcf29cb / 558bec83ec02.",
+        "All immediate branches stay on decoded boundaries within the routine. RETF at 1bb7, 1c65, 1c6d. Tail ends at 0b41:1c6e (exclusive), before the next routine's 558bec83ec08."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61245,
+          "image_offset": 53053,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53052,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the falling mobile object and dispatches floor impact effects, crush and pass-through handling."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1b6c",
+      "offset": 7020,
+      "segment": 2881,
+      "sha256": "c76a092fd9f5ba71a54bf7a173e3eeac1c67c6b4b40c7bff63f588a2036a37e9",
+      "size": 258,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original call at 0b41:1bf2 enters 0b41:1e76. Boundary window before and at start is 5e8be55dcb / 5756a0746250.",
+        "All immediate branches stay on decoded boundaries within the routine. RETF at 1f08. Tail ends at 0b41:1f0a (exclusive), before the next routine's fe06c867803e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61442,
+          "image_offset": 53250,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53249,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks capacity, adds another falling mobile object and requests mobile redraw."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1e76",
+      "offset": 7798,
+      "segment": 2881,
+      "sha256": "9dd992e4e58bb9313af99d792c1083b2571a7804d4a451f8d61cafc14869bb9e",
+      "size": 148,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
