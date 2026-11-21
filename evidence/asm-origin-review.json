@@ -1,0 +1,2082 @@
+{
+ "method": "Original bytes of all 204 ASM_EXACT owners without a DOS-FM pair (layout/manifest.json minus evidence/modules.json pairs) decoded with the pinned Capstone 5.0.3 (tools/disasm.py). Each marker was calibrated against all 567 accepted MSC 6.00 CODE_EXACT components in the same image: a marker is counted as strong only if it occurs in 0 of the 567 C components (exceptions noted). Strong markers: odd entry address (all 567 C entries are even); pop si/di/ds/es directly before pop bp (MSC restores through mov sp,bp); pop bp without mov sp,bp after a Pascal call (255/256 C functions comply, the exception is a call-free path); add sp,-n frame allocation (C uses sub sp,n 181 times); les/lds into ax/cx/dx; mov r,es; or ax,bx null tests; jcxz/loop/xlat/lods/stos/scas/cmps (lone); cli/sti/pushf/popf/in/out/int/iret/std/stc/clc/rcr; xor r,r zeroing (MSC uses sub r,r); test r,r (MSC uses or r,r); plain E8 near calls without push cs and near RET (register-argument helpers); mov bp,[bp+n]/BP as a general register; xchg other than MSC's xchg bx,ax; lea [bp..]; push ds (MSC pushes ss); carry-flag results tested after calls; frameless mov bx,sp argument access; jmp word ptr [DGROUP vector] stubs; far tail jumps. Weak markers (seen in C too: push es, cmc, CS: switch tables, mov ds,r) are listed only as supplements. MSC-like frames (push bp; mov bp,sp; push di; push si; retf n) were not taken as C evidence because FM-confirmed genuine assembly (UNPACK.ASM, TGATOMCG.ASM, XLATTXT4.ASM) uses the same frame shape.",
+ "targets": {
+  "root:0000:15d1": {
+   "verdict": "asm",
+   "group": "prince/flush_bios_keyboard",
+   "evidence": [
+    "odd entry address 15d1 (every MSC function here starts even)",
+    "15d6 int 0x21"
+   ]
+  },
+  "root:1000:99fc": {
+   "verdict": "asm",
+   "group": "window_keyboard",
+   "evidence": [
+    "9a04 jcxz 0x9a15"
+   ]
+  },
+  "root:1000:9b99": {
+   "verdict": "asm",
+   "group": "selectable_items",
+   "evidence": [
+    "odd entry address 9b99 (every MSC function here starts even)",
+    "9ba6 test bx, bx (MSC tests with or r,r)"
+   ]
+  },
+  "root:1000:cd1a": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "sister routine ce1b (toupper twin) starts at an odd address; both are in the install_dos_vectors asm run",
+    "cd20 word argument loaded to AX then compared as AL (MSC loads char args with mov al)"
+   ]
+  },
+  "root:1000:ce1b": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "odd entry address ce1b (every MSC function here starts even)",
+    "ce21 word argument loaded to AX then compared as AL (MSC loads char args with mov al)"
+   ]
+  },
+  "root:1101:0004": {
+   "verdict": "asm",
+   "group": "normalize_banked_pointer",
+   "evidence": [
+    "000d les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "002d pop es directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "0007 push es"
+   ]
+  },
+  "root:1101:0032": {
+   "verdict": "asm",
+   "group": "banked_pointer_capacity",
+   "evidence": [
+    "003b les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "0053 pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "0037 push es"
+   ]
+  },
+  "root:1101:0058": {
+   "verdict": "asm",
+   "group": "lookup_shape_metadata",
+   "evidence": [
+    "005f pushf",
+    "0064 plain near call 7364 without push cs",
+    "0067 test ax, ax (MSC tests with or r,r)",
+    "0081 popf",
+    "0085 pop es directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:008a": {
+   "verdict": "asm",
+   "group": "graf/copy_dithered_port_region",
+   "evidence": [
+    "008d add sp, -0x1c frame allocation (MSC allocates with sub sp,n)",
+    "00a0 lodsw",
+    "00a7 xchg dx, ax",
+    "00ad lodsw",
+    "00b4 xchg cx, ax"
+   ]
+  },
+  "root:1101:0256": {
+   "verdict": "asm",
+   "group": "flip_rows",
+   "evidence": [
+    "0259 add sp, 0xfebc frame allocation (MSC allocates with sub sp,n)",
+    "02b8 loop 0x27c",
+    "029e mov ds, ax"
+   ]
+  },
+  "root:1101:02f6": {
+   "verdict": "asm",
+   "group": "graf/update_message_display",
+   "evidence": [
+    "02f9 test ax, ax (MSC tests with or r,r)",
+    "0307 xchg word ptr [0x25c0], ax"
+   ]
+  },
+  "root:1101:054f": {
+   "verdict": "asm",
+   "group": "graf/shutdown_mouse_graphics",
+   "evidence": [
+    "odd entry address 054f (every MSC function here starts even)",
+    "055d xchg word ptr [0x1e40], dx",
+    "0561 xchg word ptr [0x1e3e], ax",
+    "057f jcxz 0x585",
+    "0583 int 0x33"
+   ]
+  },
+  "root:1101:05a2": {
+   "verdict": "asm",
+   "group": "graf/show_mouse_graphics",
+   "evidence": [
+    "05a6 jcxz 0x5c6",
+    "05b6 xchg word ptr [0x1e6e], cx",
+    "05ba jcxz 0x5c6",
+    "05cc xchg word ptr [0x25c0], ax",
+    "0615 les ax, ptr [0x1e42] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:06cc": {
+   "verdict": "asm",
+   "group": "graf/check_cursor_overlap",
+   "evidence": [
+    "06d7 near ret",
+    "06eb les dx, ptr [0x25f2] (MSC never loads a far pointer with les into dx)",
+    "06f1 les ax, ptr [0x1e46] (MSC never loads a far pointer with les into ax)",
+    "0705 les ax, ptr [0x1e42] (MSC never loads a far pointer with les into ax)",
+    "0728 near ret"
+   ]
+  },
+  "root:1101:072a": {
+   "verdict": "asm",
+   "group": "graf/paint_indexed_shape",
+   "evidence": [
+    "072d add sp, -0x18 frame allocation (MSC allocates with sub sp,n)",
+    "07a8 les ax, ptr [bp + 0xe] (MSC never loads a far pointer with les into ax)",
+    "07cb les ax, ptr [bx] (MSC never loads a far pointer with les into ax)",
+    "07cd plain near call 06cc without push cs",
+    "07f6 rcr bx, 1"
+   ]
+  },
+  "root:1101:0884": {
+   "verdict": "asm",
+   "group": "graf/paint_indexed_shape",
+   "evidence": [
+    "0884 plain near call 06cc without push cs"
+   ]
+  },
+  "root:1101:15b6": {
+   "verdict": "asm",
+   "group": "resize_dos_heap",
+   "evidence": [
+    "15b9 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "15bf les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "15ff les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "1631 les ax, ptr [bp - 4] (MSC never loads a far pointer with les into ax)",
+    "1659 plain near call 1f3c without push cs"
+   ]
+  },
+  "root:1101:16ef": {
+   "verdict": "asm",
+   "group": "resize_dos_heap",
+   "evidence": [
+    "odd entry address 16ef (every MSC function here starts even)",
+    "16f2 add sp, -4 frame allocation (MSC allocates with sub sp,n)",
+    "1707 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "170c plain near call 1c90 without push cs",
+    "171f int 0x21"
+   ]
+  },
+  "root:1101:17df": {
+   "verdict": "asm",
+   "group": "resize_dos_heap",
+   "evidence": [
+    "odd entry address 17df (every MSC function here starts even)",
+    "bytes not decodable as straight code after +122 (embedded data)",
+    "17e2 add sp, 0xfefe frame allocation (MSC allocates with sub sp,n)",
+    "17f1 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "17f6 plain near call 1c90 without push cs"
+   ]
+  },
+  "root:1101:1902": {
+   "verdict": "asm",
+   "group": "prepare_backing_allocation",
+   "evidence": [
+    "1905 add sp, -0xe frame allocation (MSC allocates with sub sp,n)",
+    "190b les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "195a les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "1999 les ax, ptr [bp - 4] (MSC never loads a far pointer with les into ax)",
+    "19c4 plain near call 1a27 without push cs"
+   ]
+  },
+  "root:1101:1a54": {
+   "verdict": "asm",
+   "group": "prepare_backing_allocation",
+   "evidence": [
+    "1a5d test dx, dx (MSC tests with or r,r)",
+    "1a63 int 0x67",
+    "1a67 int 0x21"
+   ]
+  },
+  "root:1101:1a6a": {
+   "verdict": "asm",
+   "group": "prepare_backing_allocation",
+   "evidence": [
+    "1a6d add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "1a73 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "1ab3 les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "1ad9 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "1af3 les ax, ptr [bp - 4] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:1b7c": {
+   "verdict": "asm",
+   "group": "prepare_backing_allocation",
+   "evidence": [
+    "1bfc les ax, ptr [bp + 0xe] (MSC never loads a far pointer with les into ax)",
+    "1c03 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "1c2d xchg si, ax",
+    "1c3c std"
+   ]
+  },
+  "root:1101:1c90": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "1caa near ret"
+   ]
+  },
+  "root:1101:1cab": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "odd entry address 1cab (every MSC function here starts even)",
+    "1cae add sp, -0xe frame allocation (MSC allocates with sub sp,n)",
+    "1cf2 les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "1d19 plain near call 1f3c without push cs",
+    "1d8b stc"
+   ]
+  },
+  "root:1101:1df1": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "odd entry address 1df1 (every MSC function here starts even)",
+    "1dfa plain near call 1cab without push cs",
+    "1e06 near ret"
+   ]
+  },
+  "root:1101:1e07": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "odd entry address 1e07 (every MSC function here starts even)",
+    "1e0a add sp, -0xc frame allocation (MSC allocates with sub sp,n)",
+    "1e27 clc",
+    "1e48 les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "1e6f plain near call 1f3c without push cs"
+   ]
+  },
+  "root:1101:1f0d": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "odd entry address 1f0d (every MSC function here starts even)",
+    "1f0d les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "1f3b near ret"
+   ]
+  },
+  "root:1101:1f3c": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "1f74 near ret"
+   ]
+  },
+  "root:1101:1f75": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "odd entry address 1f75 (every MSC function here starts even)",
+    "1f76 mov bp, word ptr [si + 4] (BP as general register)",
+    "1f89 plain near call 1f0d without push cs",
+    "1f99 plain near call 1e07 without push cs",
+    "1f9c jb on carry returned by call"
+   ]
+  },
+  "root:1101:1fdd": {
+   "verdict": "asm",
+   "group": "movable_blocks",
+   "evidence": [
+    "odd entry address 1fdd (every MSC function here starts even)",
+    "1fde mov bp, word ptr [si + 4] (BP as general register)",
+    "1fe8 plain near call 1f0d without push cs",
+    "2031 stc",
+    "2032 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:204c": {
+   "verdict": "asm",
+   "group": "resolve_handle_to_far_payload",
+   "evidence": [
+    "204f add sp, -0xc frame allocation (MSC allocates with sub sp,n)",
+    "2078 xchg cx, ax",
+    "207f les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "20e3 stc",
+    "20f1 les ax, ptr [bp - 0xc] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:216c": {
+   "verdict": "asm",
+   "group": "resolve_handle_to_far_payload",
+   "evidence": [
+    "216f mov bp, word ptr [bp + 6] (BP as general register)",
+    "2172 test bp, bp (MSC tests with or r,r)",
+    "2176 les ax, ptr [bp] (MSC never loads a far pointer with les into ax)",
+    "2183 null test of a far pointer via mov r,es; or dx, ax after les"
+   ]
+  },
+  "root:1101:2196": {
+   "verdict": "asm",
+   "group": "attach_handle_payload",
+   "evidence": [
+    "21a0 test ax, ax (MSC tests with or r,r)",
+    "21a9 null test of a far pointer via mov r,es; or ax, bx after les",
+    "21ad mov bp, word ptr [bp + 0xa] (BP as general register)",
+    "21c9 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:21ce": {
+   "verdict": "asm",
+   "group": "detach_handle_payload",
+   "evidence": [
+    "21d1 mov bp, word ptr [bp + 6] (BP as general register)",
+    "21f9 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:2202": {
+   "verdict": "asm",
+   "group": "dispose_handle",
+   "evidence": [
+    "220e les ax, ptr [si] (MSC never loads a far pointer with les into ax)",
+    "2237 mov ds, di"
+   ]
+  },
+  "root:1101:2248": {
+   "verdict": "asm",
+   "group": "dispose_handle",
+   "evidence": [
+    "224e mov bp, word ptr [bp + 6] (BP as general register)",
+    "2251 test bp, bp (MSC tests with or r,r)",
+    "2263 xchg word ptr [bp + 2], ax",
+    "227a stc",
+    "2280 pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:22a0": {
+   "verdict": "asm",
+   "group": "dispose_handle",
+   "evidence": [
+    "22a7 test bx, bx (MSC tests with or r,r)",
+    "22ca pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:22d0": {
+   "verdict": "asm",
+   "group": "save_handle_flags",
+   "evidence": [
+    "22d3 mov bp, word ptr [bp + 6] (BP as general register)",
+    "22d9 test bp, bp (MSC tests with or r,r)",
+    "22dd xchg bp, ax"
+   ]
+  },
+  "root:1101:22e2": {
+   "verdict": "asm",
+   "group": "materialize_handle",
+   "evidence": [
+    "22e7 mov bp, word ptr [bp + 6] (BP as general register)",
+    "22ea test bp, bp (MSC tests with or r,r)",
+    "22ee les ax, ptr [bp] (MSC never loads a far pointer with les into ax)",
+    "230a pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "232f plain near call 1df1 without push cs"
+   ]
+  },
+  "root:1101:2362": {
+   "verdict": "asm",
+   "group": "locked_handle",
+   "evidence": [
+    "2365 mov bp, word ptr [bp + 6] (BP as general register)",
+    "2378 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:237c": {
+   "verdict": "asm",
+   "group": "locked_handle",
+   "evidence": [
+    "237f mov bp, word ptr [bp + 6] (BP as general register)",
+    "2382 test bp, bp (MSC tests with or r,r)",
+    "238b xchg bp, ax"
+   ]
+  },
+  "root:1101:2390": {
+   "verdict": "asm",
+   "group": "relocate_handle_payload",
+   "evidence": [
+    "2393 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "239c test di, di (MSC tests with or r,r)",
+    "23a0 xchg di, ax",
+    "23b3 xchg si, ax",
+    "23c3 plain near call 1f0d without push cs"
+   ]
+  },
+  "root:1101:2436": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "243b plain near call 2472 without push cs",
+    "2441 xchg bp, ax",
+    "2446 plain near call 1df1 without push cs",
+    "2449 jae on carry returned by call",
+    "245c xchg bp, ax"
+   ]
+  },
+  "root:1101:2472": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "2495 near ret"
+   ]
+  },
+  "root:1101:2496": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "2499 mov bp, word ptr [bp + 6] (BP as general register)",
+    "249c test bp, bp (MSC tests with or r,r)",
+    "24a5 xchg bp, ax"
+   ]
+  },
+  "root:1101:24aa": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "24ad mov bp, word ptr [bp + 6] (BP as general register)",
+    "24b0 test bp, bp (MSC tests with or r,r)",
+    "24b9 xchg bp, ax"
+   ]
+  },
+  "root:1101:24be": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "24c7 test di, di (MSC tests with or r,r)",
+    "24d0 test ax, ax (MSC tests with or r,r)",
+    "24d4 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "24d9 plain near call 1df1 without push cs",
+    "24dc jae on carry returned by call"
+   ]
+  },
+  "root:1101:2502": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "251a les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "251f plain near call 204c without push cs",
+    "2522 jb on carry returned by call",
+    "2532 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "2537 plain near call 1df1 without push cs"
+   ]
+  },
+  "root:1101:2594": {
+   "verdict": "asm",
+   "group": "handle_flags",
+   "evidence": [
+    "259a mov bp, word ptr [bp + 8] (BP as general register)",
+    "259d test bp, bp (MSC tests with or r,r)",
+    "25ac xchg bp, ax"
+   ]
+  },
+  "root:1101:25b2": {
+   "verdict": "asm",
+   "group": "handle_ownership",
+   "evidence": [
+    "25b5 mov bp, word ptr [bp + 6] (BP as general register)",
+    "25b8 test bp, bp (MSC tests with or r,r)",
+    "25c1 xchg bp, ax"
+   ]
+  },
+  "root:1101:25c6": {
+   "verdict": "asm",
+   "group": "handle_ownership",
+   "evidence": [
+    "25ce null test of a far pointer via mov r,es; or ax, bx after les"
+   ]
+  },
+  "root:1101:25e4": {
+   "verdict": "asm",
+   "group": "payload_header",
+   "evidence": [
+    "25ec null test of a far pointer via mov r,es; or ax, bx after les"
+   ]
+  },
+  "root:1101:25fa": {
+   "verdict": "asm",
+   "group": "payload_header",
+   "evidence": [
+    "260c plain near call 1f0d without push cs",
+    "2610 pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:2616": {
+   "verdict": "asm",
+   "group": "backing_records",
+   "evidence": [
+    "2625 les dx, ptr [bp + 6] (MSC never loads a far pointer with les into dx)",
+    "262a null test of a far pointer via mov r,es; or ax, dx after les",
+    "2636 plain near call 2969 without push cs",
+    "2639 plain near call 2937 without push cs",
+    "2644 plain near call 2972 without push cs"
+   ]
+  },
+  "root:1101:2665": {
+   "verdict": "asm",
+   "group": "backing_records",
+   "evidence": [
+    "odd entry address 2665 (every MSC function here starts even)",
+    "2674 les dx, ptr [bp + 6] (MSC never loads a far pointer with les into dx)",
+    "2679 null test of a far pointer via mov r,es; or ax, dx after les",
+    "2685 plain near call 2969 without push cs",
+    "2688 plain near call 2937 without push cs"
+   ]
+  },
+  "root:1101:26a6": {
+   "verdict": "asm",
+   "group": "backing_records",
+   "evidence": [
+    "26ae jae on carry returned by call",
+    "26b3 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:26b7": {
+   "verdict": "asm",
+   "group": "transfer_backing_record",
+   "evidence": [
+    "odd entry address 26b7 (every MSC function here starts even)",
+    "26ba add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "26d0 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "26d5 null test of a far pointer via mov r,es; or dx, ax after les",
+    "26e6 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:2731": {
+   "verdict": "asm",
+   "group": "transfer_backing_record",
+   "evidence": [
+    "odd entry address 2731 (every MSC function here starts even)"
+   ]
+  },
+  "root:1101:2749": {
+   "verdict": "asm",
+   "group": "transfer_backing_record",
+   "evidence": [
+    "odd entry address 2749 (every MSC function here starts even)",
+    "2764 les dx, ptr [bp + 0x10] (MSC never loads a far pointer with les into dx)",
+    "276e les dx, ptr [bp + 0xc] (MSC never loads a far pointer with les into dx)",
+    "2774 plain near call 2969 without push cs",
+    "2778 les dx, ptr [bp + 8] (MSC never loads a far pointer with les into dx)"
+   ]
+  },
+  "root:1101:2788": {
+   "verdict": "asm",
+   "group": "backing_callbacks",
+   "evidence": [
+    "278b add sp, -2 frame allocation (MSC allocates with sub sp,n)",
+    "27b2 les dx, ptr [0x20d4] (MSC never loads a far pointer with les into dx)",
+    "27bf plain near call 2937 without push cs",
+    "27cf xchg cx, ax",
+    "27e2 xchg cx, ax"
+   ]
+  },
+  "root:1101:2937": {
+   "verdict": "asm",
+   "group": "backing_callbacks",
+   "evidence": [
+    "odd entry address 2937 (every MSC function here starts even)",
+    "294f near ret"
+   ]
+  },
+  "root:1101:2950": {
+   "verdict": "asm",
+   "group": "backing_callbacks",
+   "evidence": [
+    "2968 near ret"
+   ]
+  },
+  "root:1101:2969": {
+   "verdict": "asm",
+   "group": "backing_callbacks",
+   "evidence": [
+    "odd entry address 2969 (every MSC function here starts even)",
+    "2971 near ret"
+   ]
+  },
+  "root:1101:2972": {
+   "verdict": "asm",
+   "group": "backing_callbacks",
+   "evidence": [
+    "297a near ret"
+   ]
+  },
+  "root:1101:297c": {
+   "verdict": "asm",
+   "group": "allocate_pinned_payload",
+   "evidence": [
+    "2981 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "298a les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "298f plain near call 1df1 without push cs",
+    "2992 jae on carry returned by call",
+    "299b xchg si, ax"
+   ]
+  },
+  "root:1101:2ab4": {
+   "verdict": "asm",
+   "group": "sound2/load_sound_driver",
+   "evidence": [
+    "module context: bytes 2ab0..2ab3 are an in-code dword FFFFFFFF (data in code) immediately before this stub; the stub B8 FF FF CB is referenced by the asm loader at 2bb4/2bba as mov ax,2ab4h / mov [20f2h],cs (segment taken from CS, not a SEG fixup), so it is a label inside the load_sound_driver asm module; bytes alone are MSC-producible"
+   ]
+  },
+  "root:1101:2ab8": {
+   "verdict": "asm",
+   "group": "sound2/load_sound_driver",
+   "evidence": [
+    "2ac1 xor ax, ax (MSC zeroes with sub)",
+    "2acf lds dx, ptr [bp + 6] (MSC never loads a far pointer with lds into dx)",
+    "2ad5 int 0x21",
+    "2adc xor ax, ax (MSC zeroes with sub)",
+    "2ae4 xor dx, dx (MSC zeroes with sub)"
+   ]
+  },
+  "root:1101:2c0c": {
+   "verdict": "asm",
+   "group": "read_dos_file_to_buffer",
+   "evidence": [
+    "2c15 xor ax, ax (MSC zeroes with sub)",
+    "2c1d lds dx, ptr [bp + 6] (MSC never loads a far pointer with lds into dx)",
+    "2c23 int 0x21",
+    "2c2f xor cx, cx (MSC zeroes with sub)",
+    "2c31 xor dx, dx (MSC zeroes with sub)"
+   ]
+  },
+  "root:1101:2c8a": {
+   "verdict": "asm",
+   "group": "read_dos_file_to_buffer",
+   "evidence": [
+    "2c97 pop es directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "2c8d push es",
+    "2c91 push es"
+   ]
+  },
+  "root:1101:2e14": {
+   "verdict": "asm",
+   "group": "sound2/stop_driver_timer",
+   "evidence": [
+    "2e17 add sp, -4 frame allocation (MSC allocates with sub sp,n)",
+    "2e1c les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
+    "2e3b loop 0x2e32",
+    "2e57 repe cmpsb",
+    "2e5b xchg si, ax"
+   ]
+  },
+  "root:1101:2f21": {
+   "verdict": "asm",
+   "group": "sound2/stop_driver_timer",
+   "evidence": [
+    "odd entry address 2f21 (every MSC function here starts even)",
+    "2f21 pushf",
+    "2f22 cli",
+    "2f32 popf"
+   ]
+  },
+  "root:1101:2fd6": {
+   "verdict": "asm",
+   "group": "sound2/calculate_sound_timer_step",
+   "evidence": [
+    "2ff4 xchg di, ax",
+    "301b near ret"
+   ]
+  },
+  "root:1101:301c": {
+   "verdict": "asm",
+   "group": "sound2/read_sound_delta",
+   "evidence": [
+    "301c xchg word ptr [di + 4], si",
+    "301f lodsb",
+    "302f test al, al (MSC tests with or r,r)",
+    "3056 xlatb",
+    "307b plain near call 31a2 without push cs"
+   ]
+  },
+  "root:1101:31a2": {
+   "verdict": "asm",
+   "group": "sound2/read_sound_delta",
+   "evidence": [
+    "31ab lodsb",
+    "31b9 rcr ax, 1",
+    "31bb near ret"
+   ]
+  },
+  "root:1101:31bc": {
+   "verdict": "asm",
+   "group": "sound2/read_sound_delta",
+   "evidence": [
+    "31c0 xor si, si (MSC zeroes with sub)",
+    "31d4 test ax, ax (MSC tests with or r,r)",
+    "31db pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:31e0": {
+   "verdict": "asm",
+   "group": "sound2/read_sound_delta",
+   "evidence": [
+    "31e4 xor si, si (MSC zeroes with sub)",
+    "31f8 test ax, ax (MSC tests with or r,r)",
+    "31ff pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:32bd": {
+   "verdict": "asm",
+   "group": "sound2/sound_driver_routes",
+   "evidence": [
+    "odd entry address 32bd (every MSC function here starts even)",
+    "32bd xor ax, ax (MSC zeroes with sub)"
+   ]
+  },
+  "root:1101:32e8": {
+   "verdict": "asm",
+   "group": "sound2/sound_driver_routes",
+   "evidence": [
+    "32eb les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "32f0 null test of a far pointer via mov r,es; or dx, ax after les"
+   ]
+  },
+  "root:1101:3342": {
+   "verdict": "asm",
+   "group": "sound2/sound_driver_routes",
+   "evidence": [
+    "3345 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "3348 plain near call 3568 without push cs",
+    "334b les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "334e plain near call 3597 without push cs",
+    "3351 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:335b": {
+   "verdict": "asm",
+   "group": "sound2/start_sound_payload",
+   "evidence": [
+    "odd entry address 335b (every MSC function here starts even)",
+    "3363 null test of a far pointer via mov r,es; or ax, bx after les",
+    "3378 xor ax, ax (MSC zeroes with sub)",
+    "3380 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "3385 plain near call 3728 without push cs"
+   ]
+  },
+  "root:1101:33a2": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "33db jcxz 0x33ec",
+    "33dd in al, 0x61",
+    "33ea out 0x61, al",
+    "33ec pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:33f0": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "33f3 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "33f8 null test of a far pointer via mov r,es; or dx, ax after les"
+   ]
+  },
+  "root:1101:353a": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "3552 mov ss, dx",
+    "3557 les dx, ptr [bx + 4] (MSC never loads a far pointer with les into dx)",
+    "3560 mov ss, di",
+    "3567 near ret"
+   ]
+  },
+  "root:1101:3568": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "3568 pushf",
+    "3569 cli",
+    "356c null test of a far pointer via mov r,es; or dx, ax after les",
+    "3580 xchg word ptr [0x21f8], cx",
+    "3584 jcxz 0x3595"
+   ]
+  },
+  "root:1101:3597": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "odd entry address 3597 (every MSC function here starts even)",
+    "3599 null test of a far pointer via mov r,es; or dx, ax after les",
+    "35ad xchg word ptr [0x220e], cx",
+    "35b1 jcxz 0x35c5",
+    "35c2 plain near call 353a without push cs"
+   ]
+  },
+  "root:1101:35c6": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "35c6 pushf",
+    "35c7 cli",
+    "35ca null test of a far pointer via mov r,es; or dx, ax after les",
+    "35de xchg word ptr [0x2220], cx",
+    "35e2 jcxz 0x3601"
+   ]
+  },
+  "root:1101:3603": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "odd entry address 3603 (every MSC function here starts even)",
+    "360f xor ax, ax (MSC zeroes with sub)",
+    "3613 plain near call 3568 without push cs",
+    "3622 les ax, ptr [bp + 4] (MSC never loads a far pointer with les into ax)",
+    "364e jcxz 0x3658"
+   ]
+  },
+  "root:1101:3686": {
+   "verdict": "asm",
+   "group": "sound2/release_device_sounds",
+   "evidence": [
+    "3689 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "36a3 repe cmpsb",
+    "36b2 plain near call 3597 without push cs",
+    "36bd les ax, ptr [bp + 4] (MSC never loads a far pointer with les into ax)",
+    "36d3 les ax, ptr [0x2212] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:3728": {
+   "verdict": "asm",
+   "group": "sound2/start_speaker_payload",
+   "evidence": [
+    "372f plain near call 35c6 without push cs",
+    "3736 jcxz 0x3746",
+    "3743 plain near call 3568 without push cs",
+    "3746 les ax, ptr [bp + 4] (MSC never loads a far pointer with les into ax)",
+    "3750 pushf"
+   ]
+  },
+  "root:1101:39ba": {
+   "verdict": "asm",
+   "group": "graf/finish_port",
+   "evidence": [
+    "39c2 xchg word ptr [0x25c0], ax"
+   ]
+  },
+  "root:1101:4c3e": {
+   "verdict": "asm",
+   "group": "graf/measure_text",
+   "evidence": [
+    "4c41 lea ax, [bp + 6]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "4c4e pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:4c52": {
+   "verdict": "asm",
+   "group": "graf/measure_text",
+   "evidence": [
+    "4c66 loop 0x4c60",
+    "4c7c null test of a far pointer via mov r,es; or ax, bx after les",
+    "4c89 lea ax, [bp - 8]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "4cac les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:4cb8": {
+   "verdict": "asm",
+   "group": "graf/measure_text",
+   "evidence": [
+    "4cc9 loop 0x4cc4",
+    "4ccb push es"
+   ]
+  },
+  "root:1101:4cce": {
+   "verdict": "asm",
+   "group": "graf/measure_text",
+   "evidence": [
+    "4cce jmp word ptr [0x25e4]: frameless dispatch through a DGROUP code vector"
+   ]
+  },
+  "root:1101:4cd2": {
+   "verdict": "asm",
+   "group": "ptool/draw_nul_terminated_text",
+   "evidence": [
+    "4ce0 repne scasb",
+    "4cea pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "4cd9 push es"
+   ]
+  },
+  "root:1101:4cf0": {
+   "verdict": "asm",
+   "group": "ptool/draw_counted_text",
+   "evidence": [
+    "4cf3 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "4d0f xchg si, ax",
+    "4d22 lodsb"
+   ]
+  },
+  "root:1101:4d90": {
+   "verdict": "asm",
+   "group": "ptool/stroke_port_rect",
+   "evidence": [
+    "4d93 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "4da7 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
+    "4d96 push es"
+   ]
+  },
+  "root:1101:4e8e": {
+   "verdict": "asm",
+   "group": "graf/copy_current_port_origin",
+   "evidence": [
+    "4ea3 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:4f10": {
+   "verdict": "asm",
+   "group": "graf/graphics_mode",
+   "evidence": [
+    "4f12 xchg word ptr [0x25d0], cx",
+    "4f16 jcxz 0x4f5d",
+    "4f2f push cs not for a near call",
+    "4f36 xchg word ptr [0x25fc], ax",
+    "4f5b int 0x10"
+   ]
+  },
+  "root:1101:4f5e": {
+   "verdict": "asm",
+   "group": "graf/graphics_mode",
+   "evidence": [
+    "4f65 test di, di (MSC tests with or r,r)",
+    "4f69 plain near call 4f84 without push cs",
+    "4f6c jb on carry returned by call",
+    "4f70 xchg di, ax",
+    "4f71 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:4f84": {
+   "verdict": "asm",
+   "group": "graf/graphics_mode",
+   "evidence": [
+    "4f92 test bx, bx (MSC tests with or r,r)",
+    "4f9f push cs not for a near call",
+    "4fa6 near ret",
+    "4fa7 clc"
+   ]
+  },
+  "root:1101:5056": {
+   "verdict": "asm",
+   "group": "ptool/draw_relative_axis_segment",
+   "evidence": [
+    "506a far tail jump 0x1101:0x5070 (MSC 6 emits no tail calls)"
+   ]
+  },
+  "root:1101:50b8": {
+   "verdict": "asm",
+   "group": "ptool/subtract_port_origin",
+   "evidence": [
+    "50c3 les ax, ptr es:[di] (MSC never loads a far pointer with les into ax)",
+    "50d1 stosw",
+    "50d2 xchg cx, ax",
+    "50d3 stosw",
+    "50d9 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:5136": {
+   "verdict": "asm",
+   "group": "graf/paint_four_bit",
+   "evidence": [
+    "5136 jmp word ptr [0x25e8]: frameless dispatch through a DGROUP code vector"
+   ]
+  },
+  "root:1101:513a": {
+   "verdict": "asm",
+   "group": "graf/paint_plain",
+   "evidence": [
+    "513a jmp word ptr [0x25ec]: frameless dispatch through a DGROUP code vector"
+   ]
+  },
+  "root:1101:513e": {
+   "verdict": "asm",
+   "group": "ptool/clamp_point_to_rect",
+   "evidence": [
+    "5173 stosw",
+    "5174 xchg cx, ax",
+    "5175 stosw",
+    "517c pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:5182": {
+   "verdict": "asm",
+   "group": "graf/dispose_bitmap_port",
+   "evidence": [
+    "5189 les ax, ptr [bx] (MSC never loads a far pointer with les into ax)",
+    "51ad pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
+    "518b push es"
+   ]
+  },
+  "root:1101:51b2": {
+   "verdict": "asm",
+   "group": "graf/allocate_clipped_port",
+   "evidence": [
+    "51b5 add sp, -0x1a frame allocation (MSC allocates with sub sp,n)",
+    "51c3 lea di, [bp - 0x18]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "51f5 lea ax, [bp - 0x14]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "51fa lea ax, [bp - 8]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "5223 test ax, ax (MSC tests with or r,r)"
+   ]
+  },
+  "root:1101:5334": {
+   "verdict": "asm",
+   "group": "ptool/set_origin",
+   "evidence": [
+    "534d pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:5352": {
+   "verdict": "asm",
+   "group": "ptool/set_origin",
+   "evidence": [
+    "5356 les ax, ptr [bp + 0xe] (MSC never loads a far pointer with les into ax)",
+    "536b repne scasb",
+    "5375 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:537a": {
+   "verdict": "asm",
+   "group": "ptool/set_origin",
+   "evidence": [
+    "5388 repne scasb",
+    "5392 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "5381 push es"
+   ]
+  },
+  "root:1101:5398": {
+   "verdict": "asm",
+   "group": "ptool/fit_text_prefix",
+   "evidence": [
+    "539b add sp, -4 frame allocation (MSC allocates with sub sp,n)",
+    "53c5 lodsb",
+    "53f3 test ax, ax (MSC tests with or r,r)",
+    "53f7 xchg di, ax"
+   ]
+  },
+  "root:1101:5400": {
+   "verdict": "asm",
+   "group": "ptool/measure_counted_text",
+   "evidence": [
+    "5419 jcxz 0x543c",
+    "541f lodsb",
+    "5439 loop 0x541f",
+    "543b xchg dx, ax",
+    "543e pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:64ec": {
+   "verdict": "asm",
+   "group": "graf/release_buffer",
+   "evidence": [
+    "64f0 jcxz 0x64f4",
+    "64f7 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "6500 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:6504": {
+   "verdict": "asm",
+   "group": "graf/allocate_buffer",
+   "evidence": [
+    "6508 jcxz 0x650c",
+    "650f les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "6518 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:651c": {
+   "verdict": "asm",
+   "group": "ptool/draw_counted_text_in_rect",
+   "evidence": [
+    "651f add sp, -0x14 frame allocation (MSC allocates with sub sp,n)",
+    "6571 test ax, ax (MSC tests with or r,r)",
+    "658b xchg di, ax",
+    "6642 les ax, ptr [bp + 0x10] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:6650": {
+   "verdict": "asm",
+   "group": "graf/set_record_range",
+   "evidence": [
+    "6653 les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
+    "6663 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
+    "6656 push es"
+   ]
+  },
+  "root:1101:6f1e": {
+   "verdict": "asm",
+   "group": "graf/stroke_rectangle",
+   "evidence": [
+    "6f1e jmp word ptr [0x25ea]: frameless dispatch through a DGROUP code vector"
+   ]
+  },
+  "root:1101:6f22": {
+   "verdict": "asm",
+   "group": "resc/release_tagged_resource",
+   "evidence": [
+    "6f28 les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
+    "6f30 plain near call 755d without push cs",
+    "6f33 jae on carry returned by call",
+    "6f37 xchg word ptr [di + 9], cx",
+    "6f3a jcxz 0x6f41"
+   ]
+  },
+  "root:1101:6f48": {
+   "verdict": "asm",
+   "group": "resc/release_tagged_resource",
+   "evidence": [
+    "6f51 plain near call 7364 without push cs",
+    "6f54 test ax, ax (MSC tests with or r,r)",
+    "6f5d xchg bp, ax",
+    "6f65 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:6f8a": {
+   "verdict": "asm",
+   "group": "resc/load_resource_copy",
+   "evidence": [
+    "6f8d add sp, -4 frame allocation (MSC allocates with sub sp,n)",
+    "6f98 les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
+    "6fa0 plain near call 755d without push cs",
+    "6fa3 jae on carry returned by call",
+    "6fa5 plain near call 73c4 without push cs"
+   ]
+  },
+  "root:1101:701c": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "701f add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "702d les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
+    "7035 plain near call 755d without push cs",
+    "7038 jae on carry returned by call",
+    "703a plain near call 73c4 without push cs"
+   ]
+  },
+  "root:1101:70ac": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "70b2 les ax, ptr [bp + 0x10] (MSC never loads a far pointer with les into ax)",
+    "70ba plain near call 755d without push cs",
+    "70bd jae on carry returned by call",
+    "70bf plain near call 73c4 without push cs",
+    "70dc xchg cx, ax"
+   ]
+  },
+  "root:1101:7112": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "711d test di, di (MSC tests with or r,r)",
+    "712b xchg si, ax",
+    "7145 jcxz 0x714d",
+    "714b int 0x21",
+    "7153 xchg si, ax"
+   ]
+  },
+  "root:1101:719c": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "719f add sp, -0x4e frame allocation (MSC allocates with sub sp,n)",
+    "71aa lds dx, ptr [bp + 6] (MSC never loads a far pointer with lds into dx)",
+    "71b2 int 0x21",
+    "71c4 int 0x21",
+    "71d8 xchg cx, ax"
+   ]
+  },
+  "root:1101:72a9": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "odd entry address 72a9 (every MSC function here starts even)",
+    "72ab mov bp, word ptr [si - 2] (BP as general register)",
+    "72b8 xchg word ptr [si + 2], cx",
+    "72bb jcxz 0x72c3",
+    "72c1 int 0x21"
+   ]
+  },
+  "root:1101:72e0": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "72e2 mov bp, word ptr [si - 2] (BP as general register)",
+    "7303 int 0x21",
+    "7312 test ax, ax (MSC tests with or r,r)",
+    "7316 xchg di, ax",
+    "731c xchg di, ax"
+   ]
+  },
+  "root:1101:7364": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "736c jcxz 0x73a4",
+    "736e xchg si, ax",
+    "7374 xchg si, ax",
+    "739c pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
+    "739d near ret"
+   ]
+  },
+  "root:1101:73c4": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "73c5 mov bp, word ptr [si - 2] (BP as general register)",
+    "73d4 test ax, ax (MSC tests with or r,r)",
+    "73d8 xchg bp, ax",
+    "73e7 xchg dx, ax",
+    "73e8 xchg cx, ax"
+   ]
+  },
+  "root:1101:73fa": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "73fb mov bp, word ptr [si - 2] (BP as general register)",
+    "7409 plain near call 73c4 without push cs",
+    "741c xchg cx, ax",
+    "741d jcxz 0x742b",
+    "743f plain near call 7483 without push cs"
+   ]
+  },
+  "root:1101:7483": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "odd entry address 7483 (every MSC function here starts even)",
+    "7486 add sp, -0xe frame allocation (MSC allocates with sub sp,n)",
+    "74a7 les ax, ptr [di + 2] (MSC never loads a far pointer with les into ax)",
+    "74b7 plain near call 72e0 without push cs",
+    "74ba test ax, ax (MSC tests with or r,r)"
+   ]
+  },
+  "root:1101:755d": {
+   "verdict": "asm",
+   "group": "resc/catalog_lookup",
+   "evidence": [
+    "odd entry address 755d (every MSC function here starts even)",
+    "7560 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "7573 jcxz 0x75e7",
+    "757a xchg si, ax",
+    "7580 jcxz 0x7571"
+   ]
+  },
+  "root:1101:762a": {
+   "verdict": "asm",
+   "group": "ptool/normalize_ptr",
+   "evidence": [
+    "762a frameless argument access via mov bx,sp"
+   ]
+  },
+  "root:1101:76f5": {
+   "verdict": "asm",
+   "group": "map_alternating_scanlines",
+   "evidence": [
+    "odd entry address 76f5 (every MSC function here starts even)",
+    "76fe lodsw",
+    "7709 lodsw",
+    "771f lodsb",
+    "7720 xlatb"
+   ]
+  },
+  "root:1101:7987": {
+   "verdict": "asm",
+   "group": "palette_io",
+   "evidence": [
+    "odd entry address 7987 (every MSC function here starts even)",
+    "798c pushf",
+    "7995 cli",
+    "799c out dx, al",
+    "79a5 in al, dx"
+   ]
+  },
+  "root:1101:79c1": {
+   "verdict": "asm",
+   "group": "palette_io",
+   "evidence": [
+    "odd entry address 79c1 (every MSC function here starts even)",
+    "79d9 out dx, al",
+    "79e8 out dx, al",
+    "79ed out dx, al",
+    "79f2 out dx, al"
+   ]
+  },
+  "root:1101:7a44": {
+   "verdict": "asm",
+   "group": "palette_io",
+   "evidence": [
+    "7a56 in al, dx",
+    "7a5c in al, dx"
+   ]
+  },
+  "root:1101:7abe": {
+   "verdict": "asm",
+   "group": "check_dos_drive",
+   "evidence": [
+    "7ac0 int 0x21"
+   ]
+  },
+  "root:1101:7ac6": {
+   "verdict": "asm",
+   "group": "check_dos_drive",
+   "evidence": [
+    "7ae0 int 0x21",
+    "7ae7 pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:7aec": {
+   "verdict": "asm",
+   "group": "check_dos_drive",
+   "evidence": [
+    "7aef add sp, -2 frame allocation (MSC allocates with sub sp,n)",
+    "7af2 les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
+    "7b10 test ax, ax (MSC tests with or r,r)"
+   ]
+  },
+  "root:1101:7b26": {
+   "verdict": "asm",
+   "group": "dos_paths",
+   "evidence": [
+    "7b29 add sp, 0xff7a frame allocation (MSC allocates with sub sp,n)",
+    "7b31 int 0x21",
+    "7b40 int 0x21",
+    "7b53 int 0x21",
+    "7b77 stosb"
+   ]
+  },
+  "root:1101:7bd2": {
+   "verdict": "asm",
+   "group": "dos_paths",
+   "evidence": [
+    "7bde lodsw",
+    "7be9 int 0x21",
+    "7bef stosw",
+    "7bf4 xchg dx, ax",
+    "7bfb stosb"
+   ]
+  },
+  "root:1101:7c3a": {
+   "verdict": "asm",
+   "group": "dos_set_directory",
+   "evidence": [
+    "7c48 int 0x21",
+    "7c4c int 0x21"
+   ]
+  },
+  "root:1101:7c5a": {
+   "verdict": "asm",
+   "group": "dos_set_directory",
+   "evidence": [
+    "7c65 int 0x21",
+    "7c81 pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:7c86": {
+   "verdict": "asm",
+   "group": "divide_timer_interval",
+   "evidence": [
+    "7cdc loop 0x7cbd",
+    "7cde xchg word ptr [bp + 0xa], di",
+    "7ce1 xchg word ptr [bp + 0xc], ax",
+    "7ce4 xchg bx, dx",
+    "7cef xchg di, ax"
+   ]
+  },
+  "root:1101:7d04": {
+   "verdict": "asm",
+   "group": "multiply_timer_interval",
+   "evidence": [
+    "7d07 add sp, -0xa frame allocation (MSC allocates with sub sp,n)",
+    "7d61 les ax, ptr [bp - 8] (MSC never loads a far pointer with les into ax)",
+    "7d67 jcxz 0x7d70"
+   ]
+  },
+  "root:1101:7d78": {
+   "verdict": "asm",
+   "group": "timer_hooks",
+   "evidence": [
+    "7d83 push cs not for a near call",
+    "7d90 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:7d94": {
+   "verdict": "asm",
+   "group": "timer_hooks",
+   "evidence": [
+    "7da0 frameless argument access via mov bx,sp",
+    "7da6 mov ss, ax",
+    "7dc0 xchg cx, ax",
+    "7dc3 les dx, ptr [0x266c] (MSC never loads a far pointer with les into dx)",
+    "7dcf pushf"
+   ]
+  },
+  "root:1101:7e41": {
+   "verdict": "asm",
+   "group": "timer_hooks",
+   "evidence": [
+    "odd entry address 7e41 (every MSC function here starts even)",
+    "7e41 pushf",
+    "7e42 cli",
+    "7e53 popf"
+   ]
+  },
+  "root:1101:7e55": {
+   "verdict": "asm",
+   "group": "timer_hooks",
+   "evidence": [
+    "odd entry address 7e55 (every MSC function here starts even)",
+    "7e5a pushf",
+    "7e62 frameless argument access via mov bx,sp",
+    "7e68 mov ss, ax",
+    "7e6f cli"
+   ]
+  },
+  "root:1101:7f05": {
+   "verdict": "asm",
+   "group": "timer_hooks",
+   "evidence": [
+    "odd entry address 7f05 (every MSC function here starts even)",
+    "7f39 out 0x20, al",
+    "7f3d pushf",
+    "7f45 iret"
+   ]
+  },
+  "root:1101:8484": {
+   "verdict": "asm",
+   "group": "unpack/delta_bits",
+   "evidence": [
+    "8491 lodsw",
+    "8494 xchg bp, ax",
+    "8499 lodsb",
+    "849a stosb",
+    "84ba test bl, bl (MSC tests with or r,r)"
+   ]
+  },
+  "root:1101:84f6": {
+   "verdict": "asm",
+   "group": "sound2/resample_sound",
+   "evidence": [
+    "84f9 add sp, -2 frame allocation (MSC allocates with sub sp,n)",
+    "8535 test bl, bl (MSC tests with or r,r)",
+    "853d xchg ah, al",
+    "8547 stosb",
+    "8556 test ch, ch (MSC tests with or r,r)"
+   ]
+  },
+  "root:1101:857a": {
+   "verdict": "asm",
+   "group": "skip_nul_strings",
+   "evidence": [
+    "858d repne scasb",
+    "8594 xchg di, ax"
+   ]
+  },
+  "root:1101:8976": {
+   "verdict": "asm",
+   "group": "dispatch_linked_items",
+   "evidence": [
+    "8982 test di, di (MSC tests with or r,r)",
+    "8993 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:89d0": {
+   "verdict": "asm",
+   "group": "window_keyboard",
+   "evidence": [
+    "89d9 test bx, bx (MSC tests with or r,r)",
+    "89e8 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:8a09": {
+   "verdict": "asm",
+   "group": "window_keyboard",
+   "evidence": [
+    "odd entry address 8a09 (every MSC function here starts even)",
+    "8a17 test si, si (MSC tests with or r,r)",
+    "8a5e test si, si (MSC tests with or r,r)",
+    "8a65 jcxz 0x8a5c",
+    "8a6a jcxz 0x8a5c"
+   ]
+  },
+  "root:1101:8a8e": {
+   "verdict": "asm",
+   "group": "paint_window_items",
+   "evidence": [
+    "8a9f test si, si (MSC tests with or r,r)",
+    "8aa6 jcxz 0x8a9d",
+    "8ab8 test bx, bx (MSC tests with or r,r)",
+    "8abc plain near call 8d2a without push cs",
+    "8ac4 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:8ac9": {
+   "verdict": "asm",
+   "group": "find_item_at_point",
+   "evidence": [
+    "odd entry address 8ac9 (every MSC function here starts even)",
+    "8ad5 test di, di (MSC tests with or r,r)",
+    "8adc jcxz 0x8ad3",
+    "8ae1 jcxz 0x8ad3",
+    "8af0 xchg cx, ax"
+   ]
+  },
+  "root:1101:8af9": {
+   "verdict": "asm",
+   "group": "dispose_window_item",
+   "evidence": [
+    "odd entry address 8af9 (every MSC function here starts even)",
+    "8b1a jcxz 0x8b24",
+    "8b27 xchg word ptr [0x25c0], ax",
+    "8b4d pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:8ba5": {
+   "verdict": "asm",
+   "group": "selectable_items",
+   "evidence": [
+    "odd entry address 8ba5 (every MSC function here starts even)",
+    "8bd5 xchg di, ax",
+    "8bd6 test di, di (MSC tests with or r,r)",
+    "8be5 jcxz 0x8beb",
+    "8bf8 xchg di, ax"
+   ]
+  },
+  "root:1101:8bff": {
+   "verdict": "asm",
+   "group": "selectable_items",
+   "evidence": [
+    "odd entry address 8bff (every MSC function here starts even)",
+    "8c1d pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:8c22": {
+   "verdict": "asm",
+   "group": "selectable_items",
+   "evidence": [
+    "8c2a test bx, bx (MSC tests with or r,r)",
+    "8c34 test si, si (MSC tests with or r,r)",
+    "8c3c pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
+    "8c43 test bx, bx (MSC tests with or r,r)",
+    "8c4d jcxz 0x8c41"
+   ]
+  },
+  "root:1101:8c76": {
+   "verdict": "asm",
+   "group": "selectable_items",
+   "evidence": [
+    "8c88 test di, di (MSC tests with or r,r)",
+    "8c8f jcxz 0x8cc5",
+    "8c94 jcxz 0x8cc5",
+    "8c96 test si, si (MSC tests with or r,r)",
+    "8c9c plain near call 8d2a without push cs"
+   ]
+  },
+  "root:1101:8cce": {
+   "verdict": "asm",
+   "group": "selectable_items",
+   "evidence": [
+    "two Pascal near calls, then pop bp with no mov sp,bp: 255/256 accepted MSC functions with a Pascal call restore SP via mov sp,bp (the one exception is a call-free path)",
+    "8ce3 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:8d09": {
+   "verdict": "asm",
+   "group": "dispatch_item_character",
+   "evidence": [
+    "odd entry address 8d09 (every MSC function here starts even)",
+    "8d12 jcxz 0x8d25",
+    "8d17 jcxz 0x8d25",
+    "8d24 xchg cx, ax",
+    "8d25 xchg cx, ax"
+   ]
+  },
+  "root:1101:8d2a": {
+   "verdict": "asm",
+   "group": "dispatch_item_character",
+   "evidence": [
+    "8d2d xchg word ptr [0x25c0], ax",
+    "8d4e near ret"
+   ]
+  },
+  "root:1101:8dca": {
+   "verdict": "asm",
+   "group": "dispatch_window_event",
+   "evidence": [
+    "8dcd add sp, -4 frame allocation (MSC allocates with sub sp,n)",
+    "8dd7 xchg word ptr [0x25c0], ax",
+    "8e4d xchg si, ax",
+    "8e4e test si, si (MSC tests with or r,r)",
+    "8e5a xchg cx, ax"
+   ]
+  },
+  "root:1101:8f21": {
+   "verdict": "asm",
+   "group": "create_window_from_resource",
+   "evidence": [
+    "odd entry address 8f21 (every MSC function here starts even)",
+    "8f34 test ax, ax (MSC tests with or r,r)",
+    "8f38 xchg di, ax",
+    "8f4b xchg di, ax",
+    "8f50 xchg di, ax"
+   ]
+  },
+  "root:1101:8f56": {
+   "verdict": "asm",
+   "group": "wait_for_window_result",
+   "evidence": [
+    "8f59 add sp, -0x16 frame allocation (MSC allocates with sub sp,n)",
+    "8f99 jcxz 0x8faa",
+    "8fbe test ax, ax (MSC tests with or r,r)",
+    "8fd2 jcxz 0x8fd9",
+    "8fdc jcxz 0x8f66"
+   ]
+  },
+  "root:1101:8fed": {
+   "verdict": "asm",
+   "group": "create_window_from_definition",
+   "evidence": [
+    "odd entry address 8fed (every MSC function here starts even)",
+    "8ff0 add sp, -0xe frame allocation (MSC allocates with sub sp,n)",
+    "900c xchg di, ax",
+    "900d test di, di (MSC tests with or r,r)",
+    "9018 xchg word ptr [di + 0x1e], ax"
+   ]
+  },
+  "root:1101:b12e": {
+   "verdict": "asm",
+   "group": "bring_window_forward",
+   "evidence": [
+    "b13e loop 0xb139",
+    "b14e xchg word ptr [0x25c0], ax",
+    "b159 jcxz 0xb193",
+    "b197 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:b19c": {
+   "verdict": "asm",
+   "group": "bring_window_forward",
+   "evidence": [
+    "b19f add sp, -0x12 frame allocation (MSC allocates with sub sp,n)",
+    "b1b7 lea ax, [bp - 0x12]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "b1ca xchg cx, ax",
+    "b1cb jcxz 0xb1af",
+    "b1d8 xchg word ptr [bp - 2], cx"
+   ]
+  },
+  "root:1101:b219": {
+   "verdict": "asm",
+   "group": "close_window",
+   "evidence": [
+    "odd entry address b219 (every MSC function here starts even)",
+    "b220 xchg word ptr [0x25c0], ax",
+    "b22b xchg word ptr [di + 0x1e], ax",
+    "b232 jcxz 0xb239",
+    "b23c jcxz 0xb245"
+   ]
+  },
+  "root:1101:b3ab": {
+   "verdict": "asm",
+   "group": "restore_window_clip",
+   "evidence": [
+    "odd entry address b3ab (every MSC function here starts even)",
+    "b3bd loop 0xb3b8",
+    "b3bf push es"
+   ]
+  },
+  "root:1101:b3c2": {
+   "verdict": "asm",
+   "group": "locate_window_at_point",
+   "evidence": [
+    "b3d3 xchg cx, ax",
+    "b3d4 jcxz 0xb3dd",
+    "b3e6 test di, di (MSC tests with or r,r)",
+    "b3ff pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:b404": {
+   "verdict": "asm",
+   "group": "dispose_window",
+   "evidence": [
+    "Pascal call to b219 then cdecl free, epilogue pop bp with no mov sp,bp: MSC emits mov sp,bp in 255/256 C functions containing a Pascal call; neighbouring close_window/bring_window_forward use jcxz and pop di;pop bp",
+    "b419 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:b41d": {
+   "verdict": "asm",
+   "group": "set_window_event_state",
+   "evidence": [
+    "odd entry address b41d (every MSC function here starts even)",
+    "b427 test cx, cx (MSC tests with or r,r)",
+    "b429 xchg word ptr [di + 0x34], cx",
+    "b42c jcxz 0xb432",
+    "b45a pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:b45f": {
+   "verdict": "asm",
+   "group": "initialize_window_draw_port",
+   "evidence": [
+    "odd entry address b45f (every MSC function here starts even)"
+   ]
+  },
+  "root:1101:b4d6": {
+   "verdict": "asm",
+   "group": "invalidate_window_rectangle",
+   "evidence": [
+    "b4d9 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "b4de lea si, [bp - 8]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "b4fc xchg word ptr [0x25c0], ax",
+    "b513 jcxz 0xb566",
+    "b520 jcxz 0xb52c"
+   ]
+  },
+  "root:1101:b7ad": {
+   "verdict": "asm",
+   "group": "create_window",
+   "evidence": [
+    "odd entry address b7ad (every MSC function here starts even)",
+    "b7bc test ax, ax (MSC tests with or r,r)",
+    "b7c4 les ax, ptr [bp + 0xc] (MSC never loads a far pointer with les into ax)",
+    "b7cc les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "b7d5 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:b7d9": {
+   "verdict": "asm",
+   "group": "create_window",
+   "evidence": [
+    "odd entry address b7d9 (every MSC function here starts even)",
+    "b7e0 xchg word ptr [0x25c0], ax",
+    "b7e9 les ax, ptr [bp + 0xc] (MSC never loads a far pointer with les into ax)",
+    "b7fb xchg di, ax",
+    "b813 les ax, ptr es:[bx] (MSC never loads a far pointer with les into ax)"
+   ]
+  },
+  "root:1101:b878": {
+   "verdict": "asm",
+   "group": "create_window",
+   "evidence": [
+    "b87b add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "b8cd xchg si, ax"
+   ]
+  },
+  "root:1101:b8d6": {
+   "verdict": "asm",
+   "group": "create_window",
+   "evidence": [
+    "b906 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:ba31": {
+   "verdict": "asm",
+   "group": "trim_pending_window_updates",
+   "evidence": [
+    "odd entry address ba31 (every MSC function here starts even)",
+    "ba3b test di, di (MSC tests with or r,r)",
+    "ba42 jcxz 0xba38",
+    "ba61 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:bac2": {
+   "verdict": "asm",
+   "group": "mouse_button_down",
+   "evidence": [
+    "bad0 int 0x33",
+    "bad4 stc"
+   ]
+  },
+  "root:1101:bb29": {
+   "verdict": "asm",
+   "group": "discard_queued_events",
+   "evidence": [
+    "odd entry address bb29 (every MSC function here starts even)",
+    "bb2e pushf",
+    "bb2f cli",
+    "bb37 jcxz 0xbb5d",
+    "bb4d xchg cx, ax"
+   ]
+  },
+  "root:1101:bb8a": {
+   "verdict": "asm",
+   "group": "discard_queued_events",
+   "evidence": [
+    "bb95 pushf",
+    "bb96 cli",
+    "bb9b jcxz 0xbbc9",
+    "bbad xchg cx, ax",
+    "bbbb xchg cx, ax"
+   ]
+  },
+  "root:1101:bc69": {
+   "verdict": "asm",
+   "group": "discard_queued_events",
+   "evidence": [
+    "odd entry address bc69 (every MSC function here starts even)",
+    "bc72 jcxz 0xbc85",
+    "bc79 int 0x33"
+   ]
+  },
+  "root:1101:bc92": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "bc95 int 0x21",
+    "bca2 int 0x21",
+    "bcaf int 0x21",
+    "bcbc int 0x21",
+    "bcc7 push cs not for a near call"
+   ]
+  },
+  "root:1101:bd1e": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "bd21 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "bd26 les ax, ptr [0x2654] (MSC never loads a far pointer with les into ax)",
+    "bd3d pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:bd41": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "odd entry address bd41 (every MSC function here starts even)",
+    "bd53 pushf",
+    "bd54 cli",
+    "bd59 jcxz 0xbd8f",
+    "bd62 loop 0xbd5b"
+   ]
+  },
+  "root:1101:bda5": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "odd entry address bda5 (every MSC function here starts even)",
+    "bda6 lds dx, ptr [0x2782] (MSC never loads a far pointer with lds into dx)",
+    "bdad int 0x21",
+    "bdaf lds dx, ptr ss:[0x2786] (MSC never loads a far pointer with lds into dx)",
+    "bdb7 int 0x21"
+   ]
+  },
+  "root:1101:bdda": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "bde4 test ax, ax (MSC tests with or r,r)",
+    "bdec jcxz 0xbe07",
+    "be05 loop 0xbdf4",
+    "be07 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)"
+   ]
+  },
+  "root:1101:be1f": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "odd entry address be1f (every MSC function here starts even)",
+    "be27 jcxz 0xbe2e",
+    "be2e near ret"
+   ]
+  },
+  "root:1101:be2f": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "odd entry address be2f (every MSC function here starts even)",
+    "be3d near ret"
+   ]
+  },
+  "root:1101:be3e": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "be4b pushf",
+    "be51 iret",
+    "be43 mov ds, ax"
+   ]
+  },
+  "root:1101:c02f": {
+   "verdict": "asm",
+   "group": "install_dos_vectors",
+   "evidence": [
+    "odd entry address c02f (every MSC function here starts even)",
+    "c02f iret"
+   ]
+  },
+  "root:1101:c030": {
+   "verdict": "asm",
+   "group": "query_handle_size",
+   "evidence": [
+    "c035 mov bp, word ptr [bp + 6] (BP as general register)",
+    "c038 test bp, bp (MSC tests with or r,r)",
+    "c04e plain near call 1f0d without push cs",
+    "c052 pop si directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:c05c": {
+   "verdict": "asm",
+   "group": "cliprect/subtract_rectangle_strip",
+   "evidence": [
+    "c05f add sp, -8 frame allocation (MSC allocates with sub sp,n)",
+    "c065 lea ax, [bp - 8]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
+    "c06a les ax, ptr [bp + 0xa] (MSC never loads a far pointer with les into ax)",
+    "c06f les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
+    "c07e xchg cx, ax"
+   ]
+  },
+  "root:1101:c100": {
+   "verdict": "asm",
+   "group": "ptool/add_port_origin",
+   "evidence": [
+    "c10b les ax, ptr es:[di] (MSC never loads a far pointer with les into ax)",
+    "c119 stosw",
+    "c11a xchg cx, ax",
+    "c11b stosw",
+    "c121 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:1101:c17c": {
+   "verdict": "asm",
+   "group": "cliprect/point_in_rectangle",
+   "evidence": [
+    "c1a1 pop ds directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
+   ]
+  },
+  "root:21fe:000c": {
+   "verdict": "asm",
+   "group": "cpu_probe",
+   "evidence": [
+    "000c pushf",
+    "000d xor ax, ax (MSC zeroes with sub)",
+    "0010 popf",
+    "0011 pushf",
+    "001f popf"
+   ]
+  }
+ },
+ "summary": {
+  "asm": 204,
+  "c": 0,
+  "uncertain": 0,
+  "c_groups": [],
+  "asm_groups": [
+   "allocate_pinned_payload",
+   "attach_handle_payload",
+   "backing_callbacks",
+   "backing_records",
+   "banked_pointer_capacity",
+   "bring_window_forward",
+   "check_dos_drive",
+   "cliprect/point_in_rectangle",
+   "cliprect/subtract_rectangle_strip",
+   "close_window",
+   "cpu_probe",
+   "create_window",
+   "create_window_from_definition",
+   "create_window_from_resource",
+   "detach_handle_payload",
+   "discard_queued_events",
+   "dispatch_item_character",
+   "dispatch_linked_items",
+   "dispatch_window_event",
+   "dispose_handle",
+   "dispose_window",
+   "dispose_window_item",
+   "divide_timer_interval",
+   "dos_paths",
+   "dos_set_directory",
+   "find_item_at_point",
+   "flip_rows",
+   "graf/allocate_buffer",
+   "graf/allocate_clipped_port",
+   "graf/check_cursor_overlap",
+   "graf/copy_current_port_origin",
+   "graf/copy_dithered_port_region",
+   "graf/dispose_bitmap_port",
+   "graf/finish_port",
+   "graf/graphics_mode",
+   "graf/measure_text",
+   "graf/paint_four_bit",
+   "graf/paint_indexed_shape",
+   "graf/paint_plain",
+   "graf/release_buffer",
+   "graf/set_record_range",
+   "graf/show_mouse_graphics",
+   "graf/shutdown_mouse_graphics",
+   "graf/stroke_rectangle",
+   "graf/update_message_display",
+   "handle_flags",
+   "handle_ownership",
+   "initialize_window_draw_port",
+   "install_dos_vectors",
+   "invalidate_window_rectangle",
+   "locate_window_at_point",
+   "locked_handle",
+   "lookup_shape_metadata",
+   "map_alternating_scanlines",
+   "materialize_handle",
+   "mouse_button_down",
+   "movable_blocks",
+   "multiply_timer_interval",
+   "normalize_banked_pointer",
+   "paint_window_items",
+   "palette_io",
+   "payload_header",
+   "prepare_backing_allocation",
+   "prince/flush_bios_keyboard",
+   "ptool/add_port_origin",
+   "ptool/clamp_point_to_rect",
+   "ptool/draw_counted_text",
+   "ptool/draw_counted_text_in_rect",
+   "ptool/draw_nul_terminated_text",
+   "ptool/draw_relative_axis_segment",
+   "ptool/fit_text_prefix",
+   "ptool/measure_counted_text",
+   "ptool/normalize_ptr",
+   "ptool/set_origin",
+   "ptool/stroke_port_rect",
+   "ptool/subtract_port_origin",
+   "query_handle_size",
+   "read_dos_file_to_buffer",
+   "relocate_handle_payload",
+   "resc/catalog_lookup",
+   "resc/load_resource_copy",
+   "resc/release_tagged_resource",
+   "resize_dos_heap",
+   "resolve_handle_to_far_payload",
+   "restore_window_clip",
+   "save_handle_flags",
+   "selectable_items",
+   "set_window_event_state",
+   "skip_nul_strings",
+   "sound2/calculate_sound_timer_step",
+   "sound2/load_sound_driver",
+   "sound2/read_sound_delta",
+   "sound2/release_device_sounds",
+   "sound2/resample_sound",
+   "sound2/sound_driver_routes",
+   "sound2/start_sound_payload",
+   "sound2/start_speaker_payload",
+   "sound2/stop_driver_timer",
+   "timer_hooks",
+   "transfer_backing_record",
+   "trim_pending_window_updates",
+   "unpack/delta_bits",
+   "wait_for_window_result",
+   "window_keyboard"
+  ],
+  "mixed_or_uncertain_groups": [],
+  "notes": [
+   "No unpaired owner shows an MSC-only signature set; every one carries at least one marker absent from all 567 accepted MSC components, and every recipe group is internally consistent (all asm).",
+   "The platform library in frame 1101 (handle/heap manager 15b6-2616, backing records 2616-297c, sound driver loader/timers 2ab0-3797 and 7c86-7f44, DOS file/path/drive 7abe-7c86, window manager 8976-ba64 and b12e-b8f4, event queue bb29-bc92, DOS vector install bc92-c02f, port/text helpers 4c3e-5400 and 64ec-6650, resource catalog 6f22-7627) uses one consistent hand-assembly idiom set: les ax,[bp+n]; mov dx,es, test r,r, jcxz, xchg, mov bp,[bp+6], pop di; pop bp, add sp,-n, carry-flag returns and register-argument near helpers.",
+   "Caveat for the recorded c_origin_debt: 11 of the 12 FM-.C-paired DOS owners carry the same non-MSC markers (InsetRect/OffsetRect lodsw/stosw with pop di;pop bp, MakeShapeRect odd entry with pushf/popf, FrameRect add sp,-0ch, DrawString frameless jmp [25e6], hGetRsrc plain near calls, SetOrigin/MoveTo les dx/ax); only EmptyRect 4d6e lacks a marker. The DOS build appears to have reimplemented these PTOOL/CLIPRECT/GRAF/RESC routines in assembly, so FM .C source names may not settle the DOS source language for them; MSC 6.00 is unlikely to reproduce lone lodsw/stosw or MASM epilogues from C."
+  ]
+ }
+}

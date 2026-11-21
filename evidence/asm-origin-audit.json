@@ -11,19 +11,22 @@
     "root:1101:78a5"
   ],
   "c_origin_debt": [
-    "root:1101:649c",
-    "root:1101:5284",
-    "root:1101:510a",
-    "root:1101:4fe0",
-    "root:1101:502a",
-    "root:1101:50f6",
-    "root:1101:02c3",
-    "root:1101:4dac",
-    "root:1101:5070",
-    "root:1101:6f6a",
-    "root:1101:5306",
     "root:1101:4d6e"
   ],
-  "c_origin_debt_note": "MASM transcriptions of routines from FM CLIPRECT.C, PTOOL.C, GRAF.C and RESC.C. They stay accepted only until C reconstructions replace them at the same entries (many groups ground calls on them); no new ASM claim from a .C module is accepted.",
-  "unpaired_asm_note": "ASM owners without an FM pair (mostly DOS-only platform code in frame 1101) are under independent review of their source language."
+  "c_origin_debt_note": "EmptyRect (FM PTOOL.C) shows only MSC-compatible code and remains a MASM transcription to be replaced by C.",
+  "unpaired_asm_note": "Unpaired ASM owners must be listed with verdict asm in evidence/asm-origin-review.json (byte-level non-MSC evidence).",
+  "dos_native_asm": {
+    "root:1101:649c": "UnionRect: non-MSC markers per evidence/asm-origin-review.json method (MASM USES-style epilogue/register idioms)",
+    "root:1101:5284": "SectRect: non-MSC markers (lodsw/stosw sequences, pop di; pop bp epilogue)",
+    "root:1101:510a": "OffsetRect: lodsw/stosw with pop di; pop bp (no MSC 6.00 C component emits these)",
+    "root:1101:4fe0": "InitPort: non-MSC markers per review method",
+    "root:1101:502a": "InsetRect: push ds; lds si,[bp+0a]; ... pop di; pop bp without mov sp,bp (verified 2026-11-21)",
+    "root:1101:50f6": "MoveTo: non-MSC markers per review method",
+    "root:1101:02c3": "MakeShapeRect: odd entry address and pushf/popf (never in MSC 6.00 C components)",
+    "root:1101:4dac": "FrameRect: locals via add sp,-0Ch (MSC emits sub sp,n; verified 2026-11-21)",
+    "root:1101:5070": "DrawAxisSegment: non-MSC markers per review method",
+    "root:1101:6f6a": "hGetRsrc: plain E8 near calls without PUSH CS to register-ABI helpers",
+    "root:1101:5306": "SetOrigin: non-MSC markers per review method; group with register-ABI helpers 5334/5352/537a"
+  },
+  "dos_native_asm_note": "Paired with an FM Towns .C module, but the DOS bytes carry markers no accepted MSC 6.00 C component produces (evidence/asm-origin-review.json method): the DOS build hand-assembled these routines; the later FM port has C versions."
 }

@@ -288,3 +288,11 @@ lists the 12 existing C-origin MASM owners as debt. They stay accepted only unti
 reconstructions replace them at the same entries, because many groups ground calls on
 them. It also lists the FM-confirmed genuine assembly. ASM owners without an FM pair
 (DOS-only platform code) are under source-language review.
+
+Revision after the byte-level review (evidence/asm-origin-review.json). The DOS bytes are the
+stronger evidence about the DOS source: 11 routines paired with FM `.C` modules carry markers no
+accepted MSC 6.00 C component produces (odd entries, `add sp,-n`, `pop di; pop bp` without
+`mov sp,bp`, lodsw/stosw, plain near calls to register-ABI helpers). The DOS build hand-assembled
+them, while the later FM port has C versions. They are recorded as `dos_native_asm` with evidence.
+Only EmptyRect (4d6e) remains C-origin debt. An ASM claim is accepted only with an FM `.ASM` pair,
+a recorded `dos_native_asm` entry, or (for unpaired routines) a reviewed `asm` verdict.

@@ -535,3 +535,14 @@ class GenuineAsmTests(unittest.TestCase):
                 require_genuine_asm([c_target])
         asm_target = next(t for t, (m, src) in pairs.items() if src.upper().endswith(".ASM"))
         require_genuine_asm([asm_target])
+
+    def test_unpaired_asm_claim_needs_a_reviewed_asm_verdict(self):
+        from origin import require_genuine_asm, _pairs
+        pairs = _pairs()
+        from common import ROOT, read_json
+        targets = [t["id"] for t in read_json(ROOT / "evidence/targets.json")["functions"]]
+        unpaired = next(t for t in targets if t not in pairs and t.startswith("root:1101:"))
+        with patch("origin.read_json", side_effect=lambda p: {"targets": {}}
+                   if str(p).endswith("asm-origin-review.json") else read_json(p)):
+            with self.assertRaisesRegex(ValueError, "no reviewed evidence"):
+                require_genuine_asm([unpaired])

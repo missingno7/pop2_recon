@@ -27,10 +27,24 @@ def _pairs():
 
 
 def require_genuine_asm(target_ids):
-    """Refuse ASM claims whose original module is C, unless recorded as replacement debt."""
+    """Accept an ASM claim only with evidence that the DOS original was assembly:
+    - an FM Towns `.ASM` pair; or
+    - an FM `.C` pair recorded in evidence/asm-origin-audit.json `dos_native_asm` (the DOS bytes
+      carry non-MSC markers: the DOS build hand-assembled it) or listed as C-origin replacement debt;
+    - no FM pair: listed with verdict `asm` in evidence/asm-origin-review.json (byte-level review).
+    Anything else must be reconstructed as C."""
     pairs = _pairs()
-    debt = set(read_json(ROOT / "evidence/asm-origin-audit.json")["c_origin_debt"])
+    audit = read_json(ROOT / "evidence/asm-origin-audit.json")
+    debt, native = set(audit["c_origin_debt"]), set(audit.get("dos_native_asm", {}))
+    review = read_json(ROOT / "evidence/asm-origin-review.json").get("targets", {})
     for tid in target_ids:
         module, source = pairs.get(tid, (None, ""))
-        require(not source.upper().endswith(".C") or tid in debt,
-                f"{tid} belongs to original C module {source}: reconstruct it as C, not MASM")
+        if source.upper().endswith(".ASM"):
+            continue
+        if source.upper().endswith(".C"):
+            require(tid in native or tid in debt,
+                    f"{tid} belongs to original C module {source}: reconstruct it as C, not MASM")
+            continue
+        require(review.get(tid, {}).get("verdict") == "asm",
+                f"{tid} has no reviewed evidence that its original source is assembly "
+                "(evidence/asm-origin-review.json): reconstruct it as C or record the review")
