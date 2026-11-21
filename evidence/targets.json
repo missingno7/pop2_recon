@@ -14635,8 +14635,10 @@
     {
       "abi": "Far Pascal: three far rectangle pointers, BP+6/BP+10/BP+14; RETF 12, result AX.",
       "boundary_evidence": [
-        "Takes the overlapping rectangle, or clears four words and returns zero. RETF 12 at 52ea, alignment zero at 52ed, and the next BP prologue at 52ee.",
-        "Independent original relocated CALL FAR at root+0x5013."
+        "All local paths terminate at RETF 12 at 1101:52ea..52ec. The empty-result branches at 52a9 and 52ce join the clear loop at 52dd and then the common return. The sole byte 00 at 52ed lies outside that CFG, before the separate BP entry 52ee. Relocated original CALL FAR at root+0x5476 (MZ index 612) names 1101:52ee independently.",
+        "Relocated original CALL FAR at root+0x5013 independently enters this routine at 1101:5284.",
+        "Recursive descent from 650 relocated resident entry pairs or reviewed direct-code entries across 31 CS windows found no reached instruction covering the intervening byte, no reached direct edge to it, and no decoded CS-relative operand naming it. All 4,716 original relocation records were screened for a 16:16 pointer to the byte, and no relocation touches it.",
+        "The excluded odd-address zero is consistent with word-alignment fill before the separate even entry. The canonically accepted UnionRect ends in RETF 12 at 64e8..64ea, followed by the same zero/even-entry pattern at 64eb/64ec. The executable does not identify which build stage emitted this one-byte fill."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -14655,15 +14657,17 @@
       "id": "root:1101:5284",
       "offset": 21124,
       "segment": 4353,
-      "sha256": "4c9784db0426b7cbe424f1d0593ac40683c111616bbb7aa9dbf46e4a4af61a84",
-      "size": 106,
+      "sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
+      "size": 105,
       "space": "root"
     },
     {
       "abi": "Far Pascal: two far pointers and two word deltas; RETF 12, DX:AX returns destination.",
       "boundary_evidence": [
-        "Four LODSW/STOSW pairs add alternating deltas. RETF 12 at 5132; one alignment byte before the FF 26 jump stub at 5136.",
-        "Independent original relocated CALL FAR at root+0x5005."
+        "The nonbranching function terminates at RETF 12 at 1101:5132..5134. The sole byte 00 at 5135 lies outside that CFG. The next original entry is the distinct four-byte FF 26 e8 25 dispatch at 5136, independently named by relocated CALL FARs at root+0x8b24 (MZ index 840) and root+0x1f2cc (MZ index 1840).",
+        "Relocated original CALL FAR at root+0x5005 independently enters this routine at 1101:510a.",
+        "Recursive descent from 650 relocated resident entry pairs or reviewed direct-code entries across 31 CS windows found no reached instruction covering the intervening byte, no reached direct edge to it, and no decoded CS-relative operand naming it. All 4,716 original relocation records were screened for a 16:16 pointer to the byte, and no relocation touches it.",
+        "The excluded odd-address zero is consistent with word-alignment fill before the separate even entry. The canonically accepted UnionRect ends in RETF 12 at 64e8..64ea, followed by the same zero/even-entry pattern at 64eb/64ec. The executable does not identify which build stage emitted this one-byte fill."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -14682,8 +14686,8 @@
       "id": "root:1101:510a",
       "offset": 20746,
       "segment": 4353,
-      "sha256": "08813f01b201b6ea3abda8a2af437af521496996e4236b27c8c8afbc732c3697",
-      "size": 44,
+      "sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
+      "size": 43,
       "space": "root"
     },
     {
