@@ -39159,6 +39159,692 @@
       "size": 218,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far fastcall, one near piece pointer in BX; caller tests AX; bare RETF.",
+      "boundary_evidence": [
+        "The root draw path loads BX from its piece pointer at root+0x8047, calls 29cf:0000 at 0x804a (MZ relocation 841), and immediately tests AX. The room dispatch and the next call to 29cf:077e constrain the overlay attribution. The two exits at 0050 and 0059 both return a Boolean."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0000cf29",
+          "file_offset": 41034,
+          "image_offset": 32842,
+          "kind": "far_call",
+          "relocated_segment_site": 32845,
+          "relocation_index": 841,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The root draw path loads BX from its piece pointer at root+0x8047, calls 29cf:0000 at 0x804a (MZ relocation 841), and immediately tests AX. The room dispatch and the next call to 29cf:077e constrain the overlay attribution. The two exits at 0050 and 0059 both return a Boolean."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0000",
+      "offset": 0,
+      "segment": 10703,
+      "sha256": "dc8fa11203f5f13cb5622e73e7837144163cacaaf15e3bedc6bfbf5fe954ab68",
+      "size": 90,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far routine, no stack arguments, bare RETF.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0d35, descriptor index 2, enters 29cf:005a in overlay 4. The entry resets splash frame and both character and palette selectors, then returns with no fallthrough."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "RTLink vector 2203:0d35, descriptor index 2, enters 29cf:005a in overlay 4. The entry resets splash frame and both character and palette selectors, then returns with no fallthrough."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:005a",
+      "offset": 90,
+      "original_name": "LoadRoofCode",
+      "original_name_evidence": [
+        "FM Towns ROOFTOPS.C @LoadRoofCode combined with independent DOS load-vector entry and state reset."
+      ],
+      "segment": 10703,
+      "sha256": "593e9fc589b9a457835cad23fd69a25b3eead7ff4aebe16775ace497c8a7ca46",
+      "size": 14,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The PUSH CS/CALL pairs with E8 at 03d3 and 0457 enter this state routine. Both paths at 0068 branch on the water-character sentinel; exits at 00a6, 0120 and 0126 terminate the region."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209843,
+          "image_offset": 979,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 978,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 209975,
+          "image_offset": 1111,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1110,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The PUSH CS/CALL pairs with E8 at 03d3 and 0457 enter this state routine. Both paths at 0068 branch on the water-character sentinel; exits at 00a6, 0120 and 0126 terminate the region."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0068",
+      "offset": 104,
+      "segment": 10703,
+      "sha256": "7afe27f8ee05678705593014521c91b04522816fb1c60124cc130e5937910a07",
+      "size": 192,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one byte in a word slot, RETF 2.",
+      "boundary_evidence": [
+        "The call at 018b follows the push of DS:5e34; the callee compares only BP+6 low byte and ends with RETF 2 at 0182 plus a NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209259,
+          "image_offset": 395,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 394,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call at 018b follows the push of DS:5e34; the callee compares only BP+6 low byte and ends with RETF 2 at 0182 plus a NOP."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0128",
+      "offset": 296,
+      "segment": 10703,
+      "sha256": "2f2780aa3967134a92361341b8a0c1b414ea4f59a33e838199df3e0dc4d7267b",
+      "size": 94,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The four instructions from 0186 start after the prior RETF 2 and its pad. They load the current room, call 0128 with one byte, and return at 018e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The four instructions from 0186 start after the prior RETF 2 and its pad. They load the current room, call 0128 with one byte, and return at 018e."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0186",
+      "offset": 390,
+      "segment": 10703,
+      "sha256": "ff0b5e0200b66d42de827105a7e4f43b3b8de21b32e88c47454c00367b2e5834",
+      "size": 10,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "Starting after the pad at 018f, all room and water-state guards join the sole return at 01cd. It computes a limit of 172 or 186 and clips both bottom edges."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starting after the pad at 018f, all room and water-state guards join the sole return at 01cd. It computes a limit of 172 or 186 and clips both bottom edges."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0190",
+      "offset": 400,
+      "segment": 10703,
+      "sha256": "f1206712cbae49c6031e01af64e5d4018e5f336ca782ec4919997ec837e127f0",
+      "size": 62,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The same-overlay call at 0229 enters 01ce. The modulo-three guard reaches three palette rotations or the common RETF at 0226, followed by a NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209417,
+          "image_offset": 553,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 552,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The same-overlay call at 0229 enters 01ce. The modulo-three guard reaches three palette rotations or the common RETF at 0226, followed by a NOP."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:01ce",
+      "offset": 462,
+      "segment": 10703,
+      "sha256": "50f4f8926a34a35895817066a915cdb0fa52d2c4cd7353e92da9a3b317f8a7b0",
+      "size": 90,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The entry immediately follows the 01ce extent. Three PUSH CS/CALL near pairs reach 01ce, 03b6 and 0416 before the return at 0234 and a NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The entry immediately follows the 01ce extent. Three PUSH CS/CALL near pairs reach 01ce, 03b6 and 0416 before the return at 0234 and a NOP."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0228",
+      "offset": 552,
+      "segment": 10703,
+      "sha256": "118f804a1b1c083283da8523b117f31e980b328f92e536169754fc8fbc9828c9",
+      "size": 14,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, BP frame, RETF.",
+      "boundary_evidence": [
+        "Starts with a new BP frame after the wrapper return at 0234. Signed X guard or scene loop reaches the non-fallthrough exits at 0278 and 02fa; the next BP frame begins at 02fc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts with a new BP frame after the wrapper return at 0234. Signed X guard or scene loop reaches the non-fallthrough exits at 0278 and 02fa; the next BP frame begins at 02fc."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0236",
+      "offset": 566,
+      "segment": 10703,
+      "sha256": "1e61c9866f675dba6ff79952b3100796f169384a0948041f193e2afe7372a4b4",
+      "size": 198,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near output rectangle pointer; return AX, RETF 2.",
+      "boundary_evidence": [
+        "Near calls at 0671 and 07a8 push the local rectangle address. The active and inactive paths initialize four words and return the pointer at 0352, followed by RETF 2 and NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 210513,
+          "image_offset": 1649,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1648,
+          "space": "overlay-4"
+        },
+        {
+          "file_offset": 210824,
+          "image_offset": 1960,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1959,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Near calls at 0671 and 07a8 push the local rectangle address. The active and inactive paths initialize four words and return the pointer at 0352, followed by RETF 2 and NOP."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:02fc",
+      "offset": 764,
+      "segment": 10703,
+      "sha256": "2a4aaf4bfb35dac54b6fd68f0be41099d13963f1ba895d06efd0199e44340f5a",
+      "size": 98,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, RETF.",
+      "boundary_evidence": [
+        "The call at 00a3 pushes no stack arguments. The original frame-first guard either exits at 03b5 or initializes splash state then calls the resident sound routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209027,
+          "image_offset": 163,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 162,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call at 00a3 pushes no stack arguments. The original frame-first guard either exits at 03b5 or initializes splash state then calls the resident sound routine."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:035e",
+      "offset": 862,
+      "segment": 10703,
+      "sha256": "e77ddccc68097da4d8d615afae53b27f9a7f1d01a03f91315c7bcc1ee122a015",
+      "size": 88,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, RETF; saves SI and DI.",
+      "boundary_evidence": [
+        "The argument-free call at 022d enters this watch routine. All paths join the register restores at 0413 and RETF at 0415 just before the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209421,
+          "image_offset": 557,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 556,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The argument-free call at 022d enters this watch routine. All paths join the register restores at 0413 and RETF at 0415 just before the next BP frame."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:03b6",
+      "offset": 950,
+      "segment": 10703,
+      "sha256": "6c8a85cfa41db0fd9ee2f05d15360070885feef08624e95827f565d61abf8efe",
+      "size": 96,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, BP frame, RETF.",
+      "boundary_evidence": [
+        "The argument-free call at 0231 reaches a signed-byte opponent loop. The same exit at 046a serves both the early room-count check and the loop."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 209425,
+          "image_offset": 561,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 560,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The argument-free call at 0231 reaches a signed-byte opponent loop. The same exit at 046a serves both the early room-count check and the loop."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0416",
+      "offset": 1046,
+      "segment": 10703,
+      "sha256": "5f690504f33dd6e26ccd883f79643ce3022336596a1107235e6855601aba147c",
+      "size": 88,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, BP frame, RETF.",
+      "boundary_evidence": [
+        "Independent BP frame starts after the RETF at 046d. The character, splash, and draw-bank guards join the same register restore and RETF at 0575, with no branch traversing the next entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Independent BP frame starts after the RETF at 046d. The character, splash, and draw-bank guards join the same register restore and RETF at 0575, with no branch traversing the next entry."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:046e",
+      "offset": 1134,
+      "segment": 10703,
+      "sha256": "52e81189a4327dd85a88fb4ae2f253fcd4f289012dbcadd0e2a6c8c314339ef1",
+      "size": 264,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, RETF.",
+      "boundary_evidence": [
+        "Starts immediately after RETF at 0575. The frame >=11 path sets the animation removal byte and exits; the fallthrough increments the frame and marks geometry, ending RETF at 05b9."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts immediately after RETF at 0575. The frame >=11 path sets the animation removal byte and exits; the fallthrough increments the frame and marks geometry, ending RETF at 05b9."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0576",
+      "offset": 1398,
+      "segment": 10703,
+      "sha256": "b2652012301fd44d215c9529909b4ba4886f9bdf503cdaf57444b45aace36a71",
+      "size": 68,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near animation pointer, RETF 2.",
+      "boundary_evidence": [
+        "New BP frame immediately after RETF 05b9. The kind/frame guards and optional redraw join the same exit at 0636; RETF 2 ends at 063e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "New BP frame immediately after RETF 05b9. The kind/frame guards and optional redraw join the same exit at 0636; RETF 2 ends at 063e."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:05ba",
+      "offset": 1466,
+      "segment": 10703,
+      "sha256": "7be7620d310712843a46de087d06b31fd79ec822e8ef3959ac9d6c39548dd4df",
+      "size": 132,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near animation pointer, RETF 2.",
+      "boundary_evidence": [
+        "The BP frame begins after the reviewed 063e extent. Guards and the draw path join restores at 0777 and RETF 2 at 077b; the next entry has a new BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The BP frame begins after the reviewed 063e extent. Guards and the draw path join restores at 0777 and RETF 2 at 077b; the next entry has a new BP frame."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:06f6",
+      "offset": 1782,
+      "segment": 10703,
+      "sha256": "235857b24fa03fc6898511a4467cb571cc07f83937819721202892f858b972af",
+      "size": 136,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near piece pointer, Boolean AX, RETF 2.",
+      "boundary_evidence": [
+        "The incoming E8 at 0751 follows one near pointer push; caller tests AX. The water guard and rectangle comparison join the common exit at 07c3 and the trailing alignment byte at 07cd."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 210737,
+          "image_offset": 1873,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1872,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The incoming E8 at 0751 follows one near pointer push; caller tests AX. The water guard and rectangle comparison join the common exit at 07c3 and the trailing alignment byte at 07cd."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:077e",
+      "offset": 1918,
+      "segment": 10703,
+      "sha256": "0d71347c6384e42a01394b37598531faf4d8ce0c3dd3df8e62cbdd1701179474",
+      "size": 80,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args, BP frame, RETF.",
+      "boundary_evidence": [
+        "The prior selector ends with RETF 4 at 0811. This frame increments the animation counter and returns early at 0830 or from the geometry path at 08e7."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The prior selector ends with RETF 4 at 0811. This frame increments the animation counter and returns early at 0830 or from the geometry path at 08e7."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0814",
+      "offset": 2068,
+      "segment": 10703,
+      "sha256": "5683676e8f8b80b7a8fc21776c6f1f284160228783d4b88bf5c136159130fabb",
+      "size": 212,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near animation pointer, RETF 2.",
+      "boundary_evidence": [
+        "BP frame immediately after RETF at 08e7. Kind and unsigned frame bounds gate the draw and redraw work; all paths exit at 0a0f with RETF 2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "BP frame immediately after RETF at 08e7. Kind and unsigned frame bounds gate the draw and redraw work; all paths exit at 0a0f with RETF 2."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:08e8",
+      "offset": 2280,
+      "segment": 10703,
+      "sha256": "6aefcfeeeb5fb731e058e3265989dd4d1c84d22b656465b7c7af500ce531d44a",
+      "size": 298,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack args; Boolean in AX, RETF.",
+      "boundary_evidence": [
+        "After the 0a12 predicate and its pad, an initial zero in DX is conditionally replaced with 1 and returned at 0a52, then a pad precedes the distinct 0a54 predicate."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "After the 0a12 predicate and its pad, an initial zero in DX is conditionally replaced with 1 and returned at 0a52, then a pad precedes the distinct 0a54 predicate."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0a2c",
+      "offset": 2604,
+      "segment": 10703,
+      "sha256": "a48c0020b11f8160b79f17337cd0f305e2f26e587ccc438392faa19cafd23428",
+      "size": 40,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, signed byte then word, RETF 4.",
+      "boundary_evidence": [
+        "The call at 088f pushes signed slot and rectangle bottom. The BP frame starts after the 0a54 pad. All exits join at 0aae; RETF 4 and its NOP end the module at 0ab6 before zero fill."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 211055,
+          "image_offset": 2191,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2190,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call at 088f pushes signed slot and rectangle bottom. The BP frame starts after the 0a54 pad. All exits join at 0aae; RETF 4 and its NOP end the module at 0ab6 before zero fill."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "overlay-4:29cf:0a84",
+      "offset": 2692,
+      "segment": 10703,
+      "sha256": "0e4d40a383aad6541a7b55272acee89bb9e476095107b9697bec872b4be284c9",
+      "size": 50,
+      "space": "overlay-4",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, low-byte argument in one word slot, RETF 2.",
+      "boundary_evidence": [
+        "MZ-relocated callers reach the BP frame after a RETF 2 and pad. It reads the low byte at BP+6, conditionally stores DS:5e02 and returns at root+0x345e with RETF 2; its NOP precedes another entry at 3462."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8607cc02",
+          "file_offset": 189154,
+          "image_offset": 4386,
+          "kind": "far_call",
+          "relocated_segment_site": 4389,
+          "relocation_index": 16,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MZ-relocated callers reach the BP frame after a RETF 2 and pad. It reads the low byte at BP+6, conditionally stores DS:5e02 and returns at root+0x345e with RETF 2; its NOP precedes another entry at 3462."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0786",
+      "offset": 1926,
+      "segment": 716,
+      "sha256": "1e4bc05b7aa92809dcc62dacaccdff187ae24328c80538e4d9823c0f234af73d",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, Boolean-like AX, RETF.",
+      "boundary_evidence": [
+        "Reviewed predecessor root:0b41:0494 ends immediately before PUSH SI at root+0xb8e4. Relocated calls enter there; the no-argument body passes two state bytes to a same-frame call, tests AX, and returns at b8fd, followed by a BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ad404410b",
+          "file_offset": 210469,
+          "image_offset": 1605,
+          "kind": "far_call",
+          "relocated_segment_site": 1608,
+          "relocation_index": 15,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reviewed predecessor root:0b41:0494 ends immediately before PUSH SI at root+0xb8e4. Relocated calls enter there; the no-argument body passes two state bytes to a same-frame call, tests AX, and returns at b8fd, followed by a BP frame."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:04d4",
+      "offset": 1236,
+      "segment": 2881,
+      "sha256": "6310c75698caf48eec5cc67ca5455015080d2a8e3fcaebad6a186ecf68c920b6",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, RETF.",
+      "boundary_evidence": [
+        "The reviewed CheckMeters extent ends at root+0x0f70, where relocated calls enter a fresh BP frame. A signed HP update and opponent loop join one epilogue ending at root+0x1000."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a700f0000",
+          "file_offset": 68568,
+          "image_offset": 60376,
+          "kind": "far_call",
+          "relocated_segment_site": 60379,
+          "relocation_index": 1275,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The reviewed CheckMeters extent ends at root+0x0f70, where relocated calls enter a fresh BP frame. A signed HP update and opponent loop join one epilogue ending at root+0x1000."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "root:0000:0f70",
+      "offset": 3952,
+      "segment": 0,
+      "sha256": "029f4274cfc412d33ad043f706a23c03a27ddede1059e9d817c346889074b898",
+      "size": 144,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near word argument, RETF 2.",
+      "boundary_evidence": [
+        "The reviewed root:1101:8136 extent ends at root+0x193c4. The BP frame checks BP+6, obtains a far pointer and passes it to cleanup before RETF 2 at 193fc, plus NOP before the BP frame at 19400."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ab4830111",
+          "file_offset": 209616,
+          "image_offset": 752,
+          "kind": "far_call",
+          "relocated_segment_site": 755,
+          "relocation_index": 19,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The reviewed root:1101:8136 extent ends at root+0x193c4. The BP frame checks BP+6, obtains a far pointer and passes it to cleanup before RETF 2 at 193fc, plus NOP before the BP frame at 19400."
+      ],
+      "classification_status": "Game C inferred from original behavior and module context",
+      "entry_kind": "direct-code",
+      "id": "root:1101:83b4",
+      "offset": 33716,
+      "segment": 4353,
+      "sha256": "94e0d1927774a9e0106d69d3b850b63c321a4dff88d0b0b59c40160a1f126ef1",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
