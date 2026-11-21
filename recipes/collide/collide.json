@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "366698c32767698696d1812930dab77d09f7853c08fc4fb78a289b79e1e830f9",
+  "binding_sha256": "0874df18a342c7d2ea3542d3b201dcf8fff1c23a927924dbeab52c6bc01c8f44",
   "claims": [
     {
       "fixup_count": 12,
@@ -21,6 +21,82 @@
       "fixup_count": 6,
       "public": "GETBARRCODE",
       "target_id": "overlay-3:2802:0250"
+    },
+    {
+      "fixup_count": 5,
+      "public": "ADJUSTROOM",
+      "target_id": "overlay-3:2344:5178"
+    },
+    {
+      "fixup_count": 1,
+      "public": "BUMPSOUND",
+      "target_id": "overlay-3:2802:0840"
+    },
+    {
+      "fixup_count": 5,
+      "public": "INITCOLLISIONDETECTION",
+      "target_id": "overlay-3:2802:0848"
+    },
+    {
+      "fixup_count": 4,
+      "public": "CREVICEBARR",
+      "target_id": "overlay-3:2802:087c"
+    },
+    {
+      "fixup_count": 13,
+      "public": "GATE_BLOCKS_STANDING",
+      "relocation_indices": [
+        449,
+        454,
+        477,
+        503
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:08fa"
+    },
+    {
+      "fixup_count": 7,
+      "public": "SCYTHE_BLOCKS_PASSAGE",
+      "relocation_indices": [
+        469
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:098e"
+    },
+    {
+      "fixup_count": 53,
+      "public": "GET_CHAR_EDGES",
+      "relocation_indices": [
+        468,
+        487,
+        488,
+        499,
+        500,
+        501,
+        502
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:09ca"
+    },
+    {
+      "fixup_count": 8,
+      "public": "GET_SWORD_WIDTH",
+      "relocation_indices": [
+        486,
+        498
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:0b22"
     },
     {
       "fixup_count": 1,
@@ -70,59 +146,27 @@
       "public": "CHECK_COLLISION_TILE"
     },
     {
-      "object_offset": 1418,
-      "public": "ADJUSTROOM"
-    },
-    {
-      "object_offset": 1480,
+      "object_offset": 1482,
       "public": "APPLY_COLLISION"
     },
     {
-      "object_offset": 1678,
+      "object_offset": 1680,
       "public": "APPLY_AIR_BUMP"
     },
     {
-      "object_offset": 1724,
+      "object_offset": 1726,
       "public": "APPLY_GROUND_BUMP"
     },
     {
-      "object_offset": 2096,
-      "public": "BUMPSOUND"
-    },
-    {
-      "object_offset": 2104,
-      "public": "INITCOLLISIONDETECTION"
-    },
-    {
-      "object_offset": 2156,
-      "public": "CREVICEBARR"
-    },
-    {
-      "object_offset": 2194,
+      "object_offset": 2196,
       "public": "GATE_BLOCKS_PASSAGE"
     },
     {
-      "object_offset": 2278,
-      "public": "GATE_BLOCKS_STANDING"
-    },
-    {
-      "object_offset": 2426,
-      "public": "SCYTHE_BLOCKS_PASSAGE"
-    },
-    {
-      "object_offset": 2486,
-      "public": "GET_CHAR_EDGES"
-    },
-    {
-      "object_offset": 2830,
-      "public": "GET_SWORD_WIDTH"
-    },
-    {
-      "object_offset": 2910,
+      "object_offset": 2914,
       "public": "GET_FORWARD_DISTANCE"
     },
     {
-      "object_offset": 3210,
+      "object_offset": 3206,
       "public": "CHECK_GATE_FOR_OPPONENT"
     },
     {
@@ -161,12 +205,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "dd2bd50d012a465284444bb3c90eddbde2e19b4edfd10f7a5de3ef43445b59d6",
+  "object_sha256": "73e002655c4454e4f19eb1296dac7b9ec2623bf80de6a6890ea3350a467c58a1",
   "origin": 19438,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "fc25da65be2a2091c7a76ce11b9cf5230831c5da24343b7a4a285533b1d25b51",
+  "source_sha256": "e4cc81f18f4ab804c8c4c58e450b89397113fc006d7c7ef2c5dedc515bbcc76e",
   "space": "overlay-3"
 }

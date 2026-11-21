@@ -30,14 +30,14 @@ int GetRightBarr(unsigned char room, signed char col, signed char row);
 extern int collision_x, empty_left_edge;
 extern int col_positions[];
 extern signed char left_offsets[], right_offsets[], resolved_col;
-extern unsigned char resolved_room, cell_flags, level, stage;
-extern unsigned char room_kind;
+extern unsigned char resolved_room, level, stage;
 extern signed char char_direction, char_alive;
 extern unsigned char char_sword, resolved_row, cell_type;
 extern unsigned int char_frame;
 extern signed char char_fall;
 extern unsigned char char_sword_frame;
 extern unsigned int gate_opening;
+#define cell_flags (*(unsigned char *)&gate_opening)
 
 extern int slide_rock_barrier(signed char direction, unsigned char room, signed char row);
 extern int slide_rock_has_floor(int cell);
@@ -65,6 +65,7 @@ extern int gate_closed;
 
 void *memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
+extern int sprite_index, sprite_x, sprite_y, sword_index, sword_table_id;
 
 void CheckBarr(void)
 {
@@ -142,6 +143,7 @@ void InitColDetBufs(void)
 
 int GetBarrCode(unsigned char cell)
 {
+    extern volatile unsigned char KIND_SAME_ROW;
     int code;
 
     switch (cell) {
@@ -154,7 +156,7 @@ int GetBarrCode(unsigned char cell)
     case 4:
         if (level == 3)
             code = 5;
-        else if (room_kind == 9 && stage == 8)
+        else if (KIND_SAME_ROW == 9 && stage == 8)
             code = 8;
         else
             code = 1;
@@ -440,25 +442,29 @@ extern int char_top, char_bottom;
 
 int gate_blocks_passage(void)
 {
-    int height;
-    int result;
+    int height, clearance, result;
 
-    if (level == 1) {
-        if ((cell_flags & 31) < 19) {
+    if (level != 1)
+        goto general;
+    if ((signed char)(cell_flags & 31) >= 19)
+        goto passable;
 blocked:
-            result = 1;
-            return result;
-        }
-    } else if (char_action != 1) {
-        height = char_bottom - char_top;
-        if (char_action == 7)
-            height += 26;
-        else if (char_action == 8)
-            height += 19;
-        if (((cell_flags & 252) >> 2) + 6 < height + 7)
-            goto blocked;
-    }
+    result = 1;
+    goto finished;
+general:
+    if (char_action == 1)
+        goto passable;
+    height = char_bottom - char_top;
+    if (char_action == 7)
+        height += 26;
+    else if (char_action == 8)
+        height += 19;
+    clearance = ((((int)(signed char)cell_flags) & 252) >> 2) + 6;
+    if (clearance < height + 7)
+        goto blocked;
+passable:
     result = 0;
+finished:
     return result;
 }
 
@@ -519,7 +525,6 @@ struct sword_frame {
 };
 
 extern struct collision_box char_box, empty_box;
-extern int sprite_index, sprite_x, sprite_y, sword_index, sword_table_id;
 extern unsigned char sprite_bank, top_collision_row, bottom_collision_row;
 extern unsigned char collision_first_col, collision_last_col, collision_flags;
 extern int sprite_tables[], sprite_width, sprite_left, sprite_right, sprite_top;
@@ -565,7 +570,10 @@ void get_char_edges(void)
     bottom_collision_row = get_sprite_row(sprite_y);
     if (bottom_collision_row == 255)
         bottom_collision_row = 3;
-    collision_first_col = get_sprite_col(sprite_left) < 0 ? 0 : get_sprite_col(sprite_left);
+    if (get_sprite_col(sprite_left) < 0)
+        collision_first_col = 0;
+    else
+        collision_first_col = get_sprite_col(sprite_left);
     if (get_sprite_col(sprite_right) <= 9)
         collision_last_col = get_sprite_col(sprite_right);
     else
@@ -586,8 +594,7 @@ int get_sword_width(void)
         if (sword_index != width) {
             frames = get_sword_table(sword_table_id);
             width = frames[sword_index].width;
-            if ((width -= 2) < 0)
-                width = 0;
+            width = width - 2 < 0 ? 0 : width - 2;
         }
     }
     return width;
@@ -629,30 +636,40 @@ int get_forward_distance(void)
     }
     if ((is_open_cell(cell) || is_floor_cell(cell) || cell == 30) && cell != 24) {
         forward_barrier_kind = 0;
-        return cell_forward_distance();
-    }
-    if (cell == 6 || cell == 22 || cell == 2 || cell == 34) {
         distance = cell_forward_distance();
-        if (distance != 0) {
-            forward_barrier_kind = 0;
-            return distance - 1;
-        }
-    } else if (cell == 24) {
+        goto done;
+    }
+    if (cell == 6 || cell == 22 || cell == 2 || cell == 34)
+        goto partial;
+    if (cell != 24)
+        goto fallback;
+    goto facing_left;
+partial:
+    if ((distance = cell_forward_distance()) == 0)
+        goto fallback;
+    --distance;
+    forward_barrier_kind = 0;
+    goto done;
 facing_left:
-        if (char_direction == -1) {
-            distance = cell_forward_distance();
-            return distance + (char_col == resolved_col ? -15 : 17);
-        }
+    if (char_direction == -1) {
+        distance = cell_forward_distance();
+        if (char_col == resolved_col)
+            distance -= 15;
+        else
+            distance += 17;
+        goto done;
     }
     goto fallback;
 barrier:
     if (distance < 32) {
         forward_barrier_kind = 1;
-        return distance;
+        goto done;
     }
 fallback:
     forward_barrier_kind = 2;
-    return 28;
+    distance = 28;
+done:
+    return distance;
 }
 
 extern void push_away_from_gate(void);
