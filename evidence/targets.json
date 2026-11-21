@@ -63395,6 +63395,448 @@
       "sha256": "7271325a9c8527036269949e321247c7d29b8310cecb4c429ec7145533447a21",
       "size": 270,
       "space": "root"
+    },
+    {
+      "id": "root:107d:0060",
+      "segment": 4221,
+      "offset": 96,
+      "space": "root",
+      "size": 62,
+      "sha256": "d66f2323a337377e03457c6ed5ea009f6f7352871df64fdb5289d30db6cca271",
+      "original_bytes_hex": "558bec83ec64833e4a1100742bff365626ff365426ff7606b86811508d469c509a0e17e61f83c40a2bc0508d469c1650b80100500ee8a8028be55dca0200",
+      "semantic_name_hypothesis": "report_ticks",
+      "abi": "Far Pascal void (near char *); RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "After RETF at 005f, BP frame with 100-byte local. Format call and same-frame call to 0340; RETF 2 at 009b, then distinct procedure."
+      ],
+      "call_sites": [],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:009e",
+      "segment": 4221,
+      "offset": 158,
+      "space": "root",
+      "size": 52,
+      "sha256": "fce3e3cc6b913a5af97b55a71da9bc1365237889632d8f16745dea2511b25b9c",
+      "original_bytes_hex": "558bec57568b7606803e015c0075098b3e866203feeb07908b3e84622bfe81ef820057b80e00500ee839005e5f8be55dca020090",
+      "semantic_name_hypothesis": "plot_edge_offset",
+      "abi": "Far Pascal void (int); RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Begins after RETF 2 at 009b. Reads one stack argument, then joins the facing branches at 00bc; terminates at 00ce and aligns to 00d2."
+      ],
+      "call_sites": [],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:00d2",
+      "segment": 4221,
+      "offset": 210,
+      "space": "root",
+      "size": 48,
+      "sha256": "e5798ec76d45f810a93ab9f358c1cc235639f8023a3a68745db3d391e8b4f2e0",
+      "original_bytes_hex": "558bec569a7410cc028bf081ee8200803e015c007506037606eb04902b760656b80a00500ee808005e8be55dca020090",
+      "semantic_name_hypothesis": "plot_actor_offset",
+      "abi": "Far Pascal void (int); RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Framed entry follows RETF 2 at 00ce and NOP at 00d1. Two facing branches join at 00f1 and RETF 2 at 00fe plus NOP at 0101 terminate the routine."
+      ],
+      "call_sites": [],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0102",
+      "segment": 4221,
+      "offset": 258,
+      "space": "root",
+      "size": 88,
+      "sha256": "a24bb74e755802d4e55a489c746c21faf8c262253641a818aac1e44716ea6640",
+      "original_bytes_hex": "558bec83ec0257568b3ec025c706c025625ea18a5e8946fea00a5c988bd8d1e38bb7c00d83ee058b4606a38a5eff7608569af6500111ff76088d4402509a705001118b46fe8b1ec025894728893ec0255e5f8be55dca0400",
+      "semantic_name_hypothesis": "plot_position",
+      "abi": "Far Pascal void (int, int); RETF 4.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-frame operands from 00c6, 00f7, 081e and 083f land exactly on the post-RETF aligned BP frame at 0102. RETF 4 at 0157 ends before 015a.",
+        "Original call sites: root+0x10896 (push_cs_near_call), root+0x108c7 (push_cs_near_call), root+0x10fee (push_cs_near_call), root+0x1100f (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 67734,
+          "file_offset": 75926,
+          "pushed_cs_site": 67733
+        },
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 67783,
+          "file_offset": 75975,
+          "pushed_cs_site": 67782
+        },
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69614,
+          "file_offset": 77806,
+          "pushed_cs_site": 69613
+        },
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69647,
+          "file_offset": 77839,
+          "pushed_cs_site": 69646
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:015a",
+      "segment": 4221,
+      "offset": 346,
+      "space": "root",
+      "size": 220,
+      "sha256": "022ee5bc7bab36c766a869a35f110e980e540433085821fe585d6f42fd5d26cd",
+      "original_bytes_hex": "558bec83ec125756a1c0258946f8c706c025625ea18a5e8946faa18c5e8946fcb86400509aee520111a00a5c988bd8d1e38b87c00d2d05008bf82bf6897efe8bc6b9020099f7f983fa011bc024fd050c008b1ec02589472856579af65001118bc6b90a0099f7f90bd2740956579a70500111eb43568d4501509a705001118bc6b9140099f7f90bd2752d568d450f509af6500111b80a00508d46ee508bc6b9140099f7f9509ac616e61f83c4068d46ee16509ad24c01114681fe40017c818b46fa8b1ec025894728ff76fc9aca4f01118b46f8a3c0255e5f8be55dcb",
+      "semantic_name_hypothesis": "draw_ruler_marks",
+      "abi": "Far Pascal void (void); RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-frame CALL at 0829 enters the BP frame at 015a, following RETF 4 at 0157. Loop exits to sole RETF at 0235, before next prologue.",
+        "Original call sites: root+0x10ff9 (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69625,
+          "file_offset": 77817,
+          "pushed_cs_site": 69624
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0236",
+      "segment": 4221,
+      "offset": 566,
+      "space": "root",
+      "size": 266,
+      "sha256": "530892a49adcffc1ca8fe7a685a7fde4aa68790ab5c10df562ad7a04b1b89a3c",
+      "original_bytes_hex": "558bec83ec0857568b7e06579a6c2101118bf08956fe833e801100750ab8e01f1e509a904d01118e46fe26813cc8007c03e99e0026817c0240017c03e9930026833c007503e98a0026837c02007503e98000c706c025625e8cc050562bc951ff368011518976f88946fa9a3a510111ff76faff76f8b8640050ff3680112bc050b90080519a2a070111ff76faff76f8b8c80050ff3680112bc0509a04003a1dc45ef8268b0701068011813e801118017e212bc050b92c01519af6500111b878111e509ad24c01119ace01e81dc70680110000579a6c2101118ec28bd88bf026803f02771d8cc050562bc050509a5b3301112bc0509a9c01e81d2bc0509af08301115e5f8be55dca020090",
+      "semantic_name_hypothesis": "preview_resource",
+      "abi": "Far Pascal void (int); RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-frame CALL at 05c0 targets 0236 after RETF at 0235. One word input serves both handle lookups. Both paths join RETF 2 at 033c, padded to 0340.",
+        "Original call sites: root+0x10d90 (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69008,
+          "file_offset": 77200,
+          "pushed_cs_site": 69007
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0644",
+      "segment": 4221,
+      "offset": 1604,
+      "space": "root",
+      "size": 240,
+      "sha256": "dee7a6c7741b722b8326954578832ac8f8edfb4f123e14dab1ec7855601eec21",
+      "original_bytes_hex": "558bec81ec960057560ee8f5000bc074678db66aff1e078b7e06b9ffff33c0f2aef7d12bf987fed1e9f3a513c9f3a48dbe6aff1607b9ffff33c0f2aef7d14983f9787328bf88128db66aff1e07b9ffff33c0f2aef7d12bf98bd987feb9fffff2ae4f8bcbd1e9f3a513c9f3a4508d866aff16509a0c00e81d0ee874000bc074678db66aff1e078b7e06b9ffff33c0f2aef7d12bf987fed1e9f3a513c9f3a48dbe6aff1607b9ffff33c0f2aef7d14983f9787328bf9b128db66aff1e07b9ffff33c0f2aef7d12bf98bd987feb9fffff2ae4f8bcbd1e9f3a513c9f3a4508d866aff16509a0c00e81d5e5f8be55dca020090",
+      "semantic_name_hypothesis": "check_heaps",
+      "abi": "Far Pascal void (near char *); RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Starts after 0340's RETF 8 and NOP. Returns at 0730 after both corruption tests, NOP at 0733; the second call targets the following 0734.",
+        "Original call sites: root+0x5b (far_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 91,
+          "file_offset": 8283,
+          "relocated_segment_site": 94
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0734",
+      "segment": 4221,
+      "offset": 1844,
+      "space": "root",
+      "size": 18,
+      "sha256": "a6d6410fada3e8edea811f39c131041bce64822472d78bde5ca3e7f564b338f2",
+      "original_bytes_hex": "9a1c18e61f3dfeff7404b80100cb2bc0cb90",
+      "semantic_name_hypothesis": "check_near_heap",
+      "abi": "Far Pascal int (void); AX result, RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS; CALL near at 06bc enters far CRT call at 0734. Result is either one or zero via 0741/0744 RETFs, then one NOP before next called entry.",
+        "Original call sites: root+0x10e8d (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69261,
+          "file_offset": 77453,
+          "pushed_cs_site": 69260
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0746",
+      "segment": 4221,
+      "offset": 1862,
+      "space": "root",
+      "size": 6,
+      "sha256": "edbce22b914cb7c61bb38e46e578e6010f1458dd97867778b95b9f0bf7428679",
+      "original_bytes_hex": "9a02220111cb",
+      "semantic_name_hypothesis": "check_far_heap",
+      "abi": "Far Pascal int (void); AX result, RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS; CALL near at 064d targets 0746, immediately after the preceding routine's aligned return. Calls 1101:2202, then RETF at 074b.",
+        "Original call sites: root+0x10e1e (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69150,
+          "file_offset": 77342,
+          "pushed_cs_site": 69149
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:074c",
+      "segment": 4221,
+      "offset": 1868,
+      "space": "root",
+      "size": 20,
+      "sha256": "d260c6d05a5e7bbd566413e3f55f401c0dd38394f8a1974437169e4d48d872ca",
+      "original_bytes_hex": "5756bf402c2bd28bf21e07b92100f3a55e5fcb90",
+      "semantic_name_hypothesis": "snapshot_null_area",
+      "abi": "Far Pascal void (void); RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Overlay-2 relocated far call enters at 074c, immediately after RETF at 074b. A 66-byte copy and only RETF at 075e, then NOP at 075f.",
+        "Original call sites: overlay-2+0x235 (far_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "overlay-2",
+          "kind": "far_call",
+          "image_offset": 565,
+          "file_offset": 156501,
+          "relocated_segment_site": 568
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0760",
+      "segment": 4221,
+      "offset": 1888,
+      "space": "root",
+      "size": 38,
+      "sha256": "a0791a46da92930047b866d7ffe2cd8882dc9261251dd3ab32ca82bd6283344d",
+      "original_bytes_hex": "5756b8402c2bd2b942008bfa8bf01e0733c0f3a674051bc01dffff3d01001bc0f7d85e5fcb90",
+      "semantic_name_hypothesis": "null_area_matches",
+      "abi": "Far Pascal int (void); AX result, RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS; CALL at 078f targets aligned, frameless entry immediately after snapshot routine. Compare returns Boolean via RETF at 0784, NOP at 0785.",
+        "Original call sites: root+0x10f60 (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 69472,
+          "file_offset": 77664,
+          "pushed_cs_site": 69471
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0786",
+      "segment": 4221,
+      "offset": 1926,
+      "space": "root",
+      "size": 126,
+      "sha256": "34c71c9b120df2c3c52ea377083305b804a830cc6b904d9dd3745d579d036ee5",
+      "original_bytes_hex": "558bec81ec960057560ee8cdff0bc075658db66aff1e078b7e06b9ffff33c0f2aef7d12bf987fed1e9f3a513c9f3a48dbe6aff1607b9ffff33c0f2aef7d14983f9787328bfaf128db66aff1e07b9ffff33c0f2aef7d12bf98bd987feb9fffff2ae4f8bcbd1e9f3a513c9f3a4501eff76069a0c00e81d5e5f8be55dca0200",
+      "semantic_name_hypothesis": "check_null_area",
+      "abi": "Far Pascal void (near char *); RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated far call from ResetGame enters 0786 after aligned return. Single common RETF 2 at 0801 immediately precedes same-frame target 0804.",
+        "Original call sites: root+0x64 (far_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 100,
+          "file_offset": 8292,
+          "relocated_segment_site": 103
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:107d:0804",
+      "segment": 4221,
+      "offset": 2052,
+      "space": "root",
+      "size": 64,
+      "sha256": "1b6539d07ffc6e677850222b359ad685e0f46ebf695b99bd3fd3bfbae6a07231",
+      "original_bytes_hex": "833e52110074169a9602cc029a7410cc022d820050b80c00500ee8e1f8833e58110074040ee82ef9833e4c1100740fa1025c2d820050b80900500ee8c0f8cb90",
+      "semantic_name_hypothesis": "draw_frame_diagnostics",
+      "abi": "Far Pascal void (void); RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS; CALL at 001f enters at 0804, after RETF 2 at 0801. Three flag guards converge on RETF at 0842, NOP at 0843. New module begins with a distinct BP frame at 1101:0004.",
+        "Original call sites: root+0x107ef (push_cs_near_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "push_cs_near_call",
+          "image_offset": 67567,
+          "file_offset": 75759,
+          "pushed_cs_site": 67566
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Pascal cleanup and MSC generated code in the resident diagnostics file."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fe6:181c",
+      "segment": 8166,
+      "offset": 6172,
+      "space": "root",
+      "size": 18,
+      "sha256": "0dba7fcc14985636b217b949d75abac8f95f4bccb41896c4f587f035064a5ba5",
+      "original_bytes_hex": "558bec5657b9ff7fbb5c22e884005f5e5dcb",
+      "semantic_name_hypothesis": "near_heap_check",
+      "abi": "Far cdecl, no arguments, returns status in AX, RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Reviewed calloc ends at 181c after RETF at 181b. Entry saves BP/SI/DI and calls the near heap validator at 18ae; RETF at 182d, with a distinct BP frame at 182e.",
+        "Original call sites: root+0x10f04 (far_call)."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 69380,
+          "file_offset": 77572,
+          "relocated_segment_site": 69383
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "RUNTIME",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Medium-model MSC runtime helper."
+      ],
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
