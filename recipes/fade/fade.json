@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/fade/fade.json",
-  "binding_sha256": "c55a2130ef3896bd70dd3500151c3550e6deba7d7a00ad5b2aba41bd3bf09342",
+  "binding_sha256": "d924c7b91b83aaca2b365c9d8aba68bf81469448bfdd12c11cb44b29b8505385",
   "claims": [
     {
       "fixup_count": 2,
@@ -23,6 +23,27 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1e23:0290"
+    },
+    {
+      "fixup_count": 5,
+      "public": "FADE_TO",
+      "relocation_indices": [
+        1748,
+        1761
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1e23:0378"
+    },
+    {
+      "fixup_count": 1,
+      "public": "QUITFADETO",
+      "relocation_indices": [
+        1764
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1e23:04c6"
     }
   ],
   "drafts": [
@@ -43,19 +64,11 @@
       "public": "QUIT_FADE_IN"
     },
     {
-      "object_offset": 834,
-      "public": "FADE_TO"
-    },
-    {
-      "object_offset": 936,
+      "object_offset": 938,
       "public": "INIT_FADE_TO"
     },
     {
-      "object_offset": 1162,
-      "public": "QUITFADETO"
-    },
-    {
-      "object_offset": 1182,
+      "object_offset": 1188,
       "public": "FADE_TO_STEP"
     },
     {
@@ -83,27 +96,28 @@
       "public": "SCALE_THREE_COMPONENT_BYTES63"
     },
     {
-      "object_offset": 2024,
+      "object_offset": 2032,
       "public": "FADE_OUT_AND_RESTORE_PALETTE"
     }
   ],
-  "emitted_size": 2092,
+  "emitted_size": 2100,
   "flags": [
     "/c",
     "/AM",
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Og"
   ],
   "frame": 7715,
   "group_id": "group:fade/fade",
   "kind": "same_source_group",
   "language": "c",
   "name": "fade/fade",
-  "object_sha256": "0b17b471eee65020fa31db5a4c38f73f6ca78d10fd4f4e277290517867e5fd2d",
+  "object_sha256": "c17f30baa490502d9fb82d076b7ef165cb640364cfe7d4c7c94cf644fcabc6bd",
   "origin": 123494,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/fade/fade.c",

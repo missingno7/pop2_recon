@@ -18989,6 +18989,78 @@
         }
       ],
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far cdecl RETF, far destination BP+6/+8, byte in word BP+0a, unsigned count BP+0c. Returns original pointer DX:AX.",
+      "boundary_evidence": [
+        "Original root interval [0x21d82,0x21dca). RETF at 0x21d81 closes the preceding routine and a new BP frame begins at 0x21dca.",
+        "CX loads the count. JCXZ selects the common pointer-return tail. The remaining reachable paths set ES:DI, fill a span in words and bytes, and optionally continue across a segment wrap. Both routes converge before RETF at 0x21dc9.",
+        "Six original relocated CALL FAR witnesses enter 1fe6:1f22, including independent root+0x5f9b (MZ 629). No MZ relocation touches this body."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32667,
+          "image_offset": 24475,
+          "kind": "far_call",
+          "relocated_segment_site": 24478,
+          "relocation_index": 629,
+          "space": "root"
+        },
+        {
+          "file_offset": 33209,
+          "image_offset": 25017,
+          "kind": "far_call",
+          "relocated_segment_site": 25020,
+          "relocation_index": 630,
+          "space": "root"
+        },
+        {
+          "file_offset": 131828,
+          "image_offset": 123636,
+          "kind": "far_call",
+          "relocated_segment_site": 123639,
+          "relocation_index": 1766,
+          "space": "root"
+        },
+        {
+          "file_offset": 132827,
+          "image_offset": 124635,
+          "kind": "far_call",
+          "relocated_segment_site": 124638,
+          "relocation_index": 1767,
+          "space": "root"
+        },
+        {
+          "file_offset": 132724,
+          "image_offset": 124532,
+          "kind": "far_call",
+          "relocated_segment_site": 124535,
+          "relocation_index": 1768,
+          "space": "root"
+        },
+        {
+          "file_offset": 134827,
+          "image_offset": 126635,
+          "kind": "far_call",
+          "relocated_segment_site": 126638,
+          "relocation_index": 1839,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Byte fill for a counted far buffer, DX:AX pointer return, and caller cleanup. Proposed only as a direct-entry provider for the palette module."
+      ],
+      "classification_status": "runtime memset behavior hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1f22",
+      "offset": 7970,
+      "segment": 8166,
+      "sha256": "9aa543a1c2988e7c9b4d76600c0a4a503e6e008eeb21b780a4d0c407a757812a",
+      "size": 72,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
