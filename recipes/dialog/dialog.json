@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "cf770950d8954b2fffdd9f4840aa8609ebcfb83b57fdbc5924b993038799bcb2",
+  "binding_sha256": "59dc85b99e9d3a18a17d802a4a69d503fc6bf49d810ad6a7ddddc412a840b903",
   "claims": [
     {
       "fixup_count": 4,
@@ -123,6 +123,26 @@
       "target_id": "root:052d:03de"
     },
     {
+      "fixup_count": 20,
+      "public": "INITDIALOG",
+      "relocation_indices": [
+        447,
+        521,
+        576,
+        615,
+        616,
+        633,
+        654,
+        655,
+        660
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:04b4"
+    },
+    {
       "fixup_count": 3,
       "public": "ISVALIDTIMEFORDIALOG",
       "target_id": "root:052d:0518"
@@ -138,9 +158,43 @@
       "target_id": "root:052d:0536"
     },
     {
+      "fixup_count": 24,
+      "public": "LOAD_GAME_DIALOG",
+      "relocation_indices": [
+        584,
+        634,
+        635
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:0546"
+    },
+    {
+      "fixup_count": 16,
+      "public": "SAVE_GAME_DIALOG",
+      "relocation_indices": [
+        585,
+        636
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:0614"
+    },
+    {
       "fixup_count": 0,
       "public": "COMPUTE_SAVE_SLOT_RECT",
       "target_id": "root:052d:074c"
+    },
+    {
+      "fixup_count": 5,
+      "public": "DRAW_SAVE_SLOT",
+      "relocation_indices": [
+        620,
+        691
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:07a4"
     },
     {
       "fixup_count": 3,
@@ -156,9 +210,122 @@
       "target_id": "root:052d:0820"
     },
     {
+      "fixup_count": 20,
+      "public": "DRAW_SAVE_SLOTS",
+      "relocation_indices": [
+        471,
+        472,
+        473,
+        474,
+        505,
+        506,
+        507,
+        564,
+        565
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:085a"
+    },
+    {
+      "fixup_count": 7,
+      "public": "POST_SAVE_MESSAGE",
+      "relocation_indices": [
+        571,
+        572,
+        574
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:097c"
+    },
+    {
       "fixup_count": 3,
       "public": "ISVALIDTIMEFORSAVEGAME",
       "target_id": "root:052d:0cde"
+    },
+    {
+      "fixup_count": 29,
+      "public": "RESUMEGAME",
+      "relocation_indices": [
+        427,
+        428,
+        448,
+        456,
+        514,
+        537,
+        551,
+        552,
+        587,
+        680
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:0cfc"
+    },
+    {
+      "fixup_count": 25,
+      "public": "SAVEGAME",
+      "relocation_indices": [
+        429,
+        449,
+        450,
+        457,
+        515,
+        538,
+        553,
+        588,
+        630,
+        645
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:0e64"
+    },
+    {
+      "fixup_count": 33,
+      "public": "SAVEREBIRTHPTSTATUS",
+      "relocation_indices": [
+        539,
+        540,
+        541,
+        542,
+        554
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:0fc4"
+    },
+    {
+      "fixup_count": 7,
+      "public": "REMOVEREBIRTHPT",
+      "relocation_indices": [
+        589
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:109e"
+    },
+    {
+      "fixup_count": 20,
+      "public": "SETREBIRTHPTLEVELSTATUS",
+      "relocation_indices": [
+        543,
+        544,
+        545,
+        546
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:11aa"
     }
   ],
   "drafts": [
@@ -171,32 +338,8 @@
       "public": "DIALOGRESETTOGAMEPLAY"
     },
     {
-      "object_offset": 1190,
-      "public": "INITDIALOG"
-    },
-    {
-      "object_offset": 1336,
-      "public": "LOAD_GAME_DIALOG"
-    },
-    {
-      "object_offset": 1542,
-      "public": "SAVE_GAME_DIALOG"
-    },
-    {
       "object_offset": 1682,
       "public": "MAIN_MENU_DIALOG"
-    },
-    {
-      "object_offset": 1942,
-      "public": "DRAW_SAVE_SLOT"
-    },
-    {
-      "object_offset": 2124,
-      "public": "DRAW_SAVE_SLOTS"
-    },
-    {
-      "object_offset": 2414,
-      "public": "POST_SAVE_MESSAGE"
     },
     {
       "object_offset": 2474,
@@ -207,90 +350,75 @@
       "public": "READ_SAVE_SLOT_TABLE"
     },
     {
-      "object_offset": 3310,
-      "public": "RESUMEGAME"
-    },
-    {
-      "object_offset": 3670,
-      "public": "SAVEGAME"
-    },
-    {
-      "object_offset": 4018,
-      "public": "SAVEREBIRTHPTSTATUS"
-    },
-    {
-      "object_offset": 4236,
-      "public": "REMOVEREBIRTHPT"
-    },
-    {
-      "object_offset": 4268,
+      "object_offset": 4272,
       "public": "PREPARE_SAVED_ROOM_OBJECTS"
     },
     {
-      "object_offset": 4478,
-      "public": "SETREBIRTHPTLEVELSTATUS"
-    },
-    {
-      "object_offset": 4616,
+      "object_offset": 4646,
       "public": "SETREBIRTHPTKIDSTATUS"
     },
     {
-      "object_offset": 4710,
+      "object_offset": 4740,
+      "public": "SHOW_DIALOG_NOTICE"
+    },
+    {
+      "object_offset": 5078,
       "public": "COMPUTESYMBOLPT"
     },
     {
-      "object_offset": 4766,
+      "object_offset": 5134,
       "public": "COMPUTEHALLPLAYERRECT"
     },
     {
-      "object_offset": 4822,
+      "object_offset": 5190,
       "public": "MAKE_INDEX_RECT"
     },
     {
-      "object_offset": 4900,
+      "object_offset": 5268,
       "public": "MAIN_MENU_CHOICE"
     },
     {
-      "object_offset": 5212,
+      "object_offset": 5580,
       "public": "DRAW_MAIN_MENU"
     },
     {
-      "object_offset": 5420,
+      "object_offset": 5788,
       "public": "DRAW_MENU_LABEL"
     },
     {
-      "object_offset": 5638,
+      "object_offset": 6006,
       "public": "DRAW_MENU_ICON"
     },
     {
-      "object_offset": 5826,
+      "object_offset": 6194,
       "public": "SAVEOPTIONSTODISK"
     },
     {
-      "object_offset": 5940,
+      "object_offset": 6308,
       "public": "SETOPTIONSFROMDISK"
     }
   ],
-  "emitted_size": 6042,
+  "emitted_size": 6412,
   "flags": [
     "/c",
     "/AM",
     "/Oeg",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zd"
   ],
   "frame": 1325,
   "group_id": "group:dialog/dialog",
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "7316516778e36da1bb6a3bf91e4299758bf1188c27a2d3ee7722de632e846796",
+  "object_sha256": "5be362cda0aa05c6369ae714909003d479690ccbb24fdf6564b365b7360744ac",
   "origin": 21214,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "745c44c3286ed68a3a26a1a1254b21548177ac964fee86a726cd057b61aae81f",
+  "source_sha256": "0478b9a66aef04713cc4a3ba0338901abe89dba271c3649806408b18924efbf7",
   "space": "root"
 }

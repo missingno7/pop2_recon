@@ -320,7 +320,8 @@ extern int requested_level, resume_selected, dialog_timer, dialog_timer_copy;
 extern void far pascal dispose_buffer(void far *);
 extern void far pascal prepare_main_menu(void);
 extern int far pascal lock_resource(int);
-extern const char save_success_text[], save_failure_text[];
+static char save_success_text[] = "GAME SAVED\0";
+static char save_failure_text[] = "UNABLE TO SAVE GAME";
 extern void far pascal play_menu_message(const char *);
 extern void far pascal request_level_change(int);
 extern unsigned far cdecl _fstrlen(const char far *);
@@ -356,7 +357,7 @@ int far pascal load_game_dialog(void)
         current_port = &dialog_port;
         DialogFadeIn();
         free_port(dialog_port_handle);
-        dialog_port_handle = selection;
+        *(volatile int *)&dialog_port_handle = selection;
         selection = select_save_slot(slots, 0);
         if (selection != -1) {
             loaded = ResumeGame(slots, selection);
@@ -386,6 +387,7 @@ int far pascal save_game_dialog(void)
 {
     struct save_slot_table far *slots;
     int selection = 0;
+    int chosen;
 
     InitDialog();
     DrawDialogFrame(0);
@@ -396,9 +398,9 @@ int far pascal save_game_dialog(void)
         DialogFadeIn();
         free_port(dialog_port_handle);
         dialog_port_handle = selection;
-        selection = select_save_slot(slots, 1);
-        if (selection != -1)
-            selection = SaveGame(slots, selection);
+        chosen = select_save_slot(slots, 1);
+        if (chosen != -1)
+            selection = SaveGame(slots, chosen);
         else
             selection = -1;
         dispose_buffer(slots);
@@ -459,17 +461,15 @@ void far pascal draw_save_slot_frame(struct dialog_rect *rect, int selected);
 
 void far pascal draw_save_slot(struct save_slot_table far *slots, int index, int selected)
 {
-    struct { const char far *text; } initials;
     struct dialog_rect rect;
     int style;
 
     compute_save_slot_rect(&rect, index);
     draw_save_slot_frame(&rect, selected);
     style = selected != 0;
-    initials.text = slots->initials[index];
-    if (_fstrlen(initials.text)) {
+    if (_fstrlen(slots->initials[index])) {
         draw_bevel_rect(&rect, &rect, 2, 2);
-        DialogDrawStr(initials.text, 10, style, 0, &rect, 0);
+        DialogDrawStr(slots->initials[index], 10, style, 0, &rect, 0);
     }
 }
 
@@ -495,28 +495,20 @@ void far pascal draw_save_slots(struct save_slot_table far *slots, int saving)
     int light_font, dark_font;
     struct dialog_range range;
 
-    light_font = hGetFont(12);
-    dark_font = hGetFont(13);
+    light_font = hGetFont(12); dark_font = hGetFont(13);
     range.first = range.last = 0;
     if (!saving) {
         title = 8004;
         action = 8013;
     } else {
-        title = 8000;
-        action = 8003;
+        title = 8000; action = 8003;
     }
     DialogDrawStrId(title, 12, 0, 0, &save_heading, &range);
-    release_handle(light_font);
-    release_handle(dark_font);
-    light_font = hGetFont(10);
-    hGetFont(11);
-    OffsetRect(&save_description, &save_description, 0, -18);
-    DialogDrawStrId(8001, 10, 0, 0, &save_description, &range);
-    OffsetRect(&save_description, &save_description, 0, 18);
-    range.last = -1;
-    DialogDrawStrId(action, 10, 0, 0, &save_description, &range);
-    range.last = 1;
-    DialogDrawStrId(8002, 10, 0, 0, &save_description, &range);
+    release_handle(light_font); release_handle(dark_font);
+    light_font = hGetFont(10); hGetFont(11);
+    OffsetRect(&save_description, &save_description, 0, -18); DialogDrawStrId(8001, 10, 0, 0, &save_description, &range);
+    OffsetRect(&save_description, &save_description, 0, 18); range.last = -1; DialogDrawStrId(action, 10, 0, 0, &save_description, &range);
+    range.last = 1; DialogDrawStrId(8002, 10, 0, 0, &save_description, &range);
     i = 0;
     do {
         draw_save_slot(slots, i, 0);
@@ -716,7 +708,7 @@ struct character {
     char unused3a[6];
 };
 
-extern struct character Char;
+extern struct character Char, Kid;
 extern signed char room_to_draw, starting_health, start_facing;
 extern signed char kid_max_health, cutscene_flags, current_room_state, live_direction;
 extern int saved_game_active, level_flags;
@@ -771,7 +763,7 @@ int far pascal ResumeGame(struct save_slot_table far *slots, int slot)
 int far pascal SaveGame(struct save_slot_table far *slots, int slot)
 {
     int result = 0;
-    unsigned size;
+    int size;
     int file;
     unsigned transferred;
     struct rebirth_record far *saved;
@@ -806,6 +798,7 @@ int far pascal SaveGame(struct save_slot_table far *slots, int slot)
     return result;
 }
 
+extern signed char stage_number;
 void far pascal prepare_saved_room_objects(void);
 
 void far pascal SaveRebirthPtStatus(int point_id)
@@ -817,9 +810,9 @@ void far pascal SaveRebirthPtStatus(int point_id)
     _fmemcpy(rebirth_data->room_links, room_links, sizeof(room_links));
     _fmemcpy(rebirth_data->room_objects, room_objects, sizeof(room_objects));
     _fmemcpy(rebirth_data->level_state, level_state, sizeof(level_state));
-    rebirth_data->level = saved_level;
+    rebirth_data->level = stage_number;
     rebirth_data->health = kid_max_health;
-    rebirth_data->direction = live_direction;
+    rebirth_data->direction = Kid.direction;
     rebirth_data->level_flags = level_flags;
     rebirth_data->facing = start_facing;
     prepare_saved_room_objects();
@@ -848,35 +841,54 @@ extern struct room_control *far pascal find_room_control(unsigned char, int);
 
 void far pascal prepare_saved_room_objects(void)
 {
-    unsigned char room;
+    unsigned char room = 0;
     signed char tile;
-    unsigned base;
-    struct room_object far *object;
+    unsigned room_start;
+    int tile_index;
+    union {
+        unsigned word;
+        struct { unsigned char low, high; } bytes;
+    } saved;
     struct room_control *control;
-    unsigned state, low;
+    unsigned value, old_low;
 
-    for (room = 0; room < rooms_in_level; ++room) {
-        base = room * 30;
-        for (tile = 0; tile < 30; ++tile) {
-            object = (struct room_object far *)rebirth_data->room_links + base + tile;
-            switch ((unsigned char)rebirth_data->rooms[base + tile]) {
-            case 4:
-                state = object->state;
-                low = state & 0xff;
-                control = find_room_control(room + 1, tile);
-                if (control && control->state == 3)
-                    low = 200;
-                else if (control)
-                    low = 0;
-                object->state = (state & 0xff00) | low;
-                break;
-            case 17:
-                state = object->state;
-                if (state & 0xff)
-                    object->state = (state & 0xff00) | 42;
-                break;
-            }
-        }
+    if (rooms_in_level != 0) {
+        do {
+            tile = 0;
+            room_start = room * 30;
+            do {
+                tile_index = tile;
+                switch ((unsigned char)(rebirth_data->rooms + room_start)[tile_index]) {
+                case 4:
+                    saved.word = ((struct room_object far *)rebirth_data->room_links)
+                                 [room_start + tile_index].state;
+                    old_low = saved.bytes.low;
+                    control = find_room_control(room + 1, tile_index);
+                    if (control && control->state == 3)
+                        value = 200;
+                    else {
+                        value = old_low;
+                        if (control)
+                            value = 0;
+                    }
+                    saved.bytes.low = 0;
+                    value |= saved.word;
+                    goto store_state;
+                case 17:
+                    value = ((struct room_object far *)rebirth_data->room_links)
+                            [room_start + tile_index].state;
+                    if (!((unsigned char far *)&((struct room_object far *)rebirth_data->room_links)
+                          [room_start + tile_index].state)[0])
+                        break;
+                    value &= 0xff00;
+                    value |= 42;
+                store_state:
+                    ((struct room_object far *)rebirth_data->room_links)
+                    [room_start + tile_index].state = value;
+                    break;
+                }
+            } while (++tile < 30);
+        } while (++room < rooms_in_level);
     }
 }
 
@@ -913,7 +925,78 @@ int far pascal SetRebirthPtKidStatus(void)
 }
 #pragma pack()
 
-/* The intervening copy-protection and hall-of-fame routines are still open. */
+/* The sibling DOS image preserves the guard before the challenge setup. */
+struct notice_record {
+    unsigned symbol, detail;
+};
+
+struct notice_table {
+    unsigned count;
+    struct notice_record records[1];
+};
+
+extern int dialog_notice_done;
+extern char notice_port[];
+extern const char notice_failure[];
+extern int far pascal find_notice_table(int, int, int);
+extern unsigned far pascal random_below(unsigned);
+extern void far pascal show_notice_error(int, const char far *);
+
+void far pascal draw_notice_symbols(unsigned, DialogAsset, int);
+int far pascal read_notice_selection(void);
+
+void far pascal show_dialog_notice(int reason)
+{
+    int passed = 1;
+    int attempt;
+    unsigned previous;
+    unsigned index;
+    unsigned count;
+    int table_handle;
+    DialogAsset asset;
+    struct notice_table far *table;
+    struct notice_record prompt;
+
+    if (!dialog_notice_done) {
+        dialog_notice_done = passed;
+        InitDialog();
+        asset = load_frame_asset();
+        DrawDialogFrame(asset);
+        attempt = 0;
+        previous = -1;
+        table_handle = find_notice_table(0, 0, 8000);
+        table = (struct notice_table far *)lock_string_handle(table_handle);
+        count = table->count;
+        do {
+            index = random_below(count - 1);
+            if (index == previous)
+                index = (random_below(count - 2) + index + 1) % count;
+            previous = index;
+            _fmemcpy(&prompt, &table->records[index], sizeof(prompt));
+            current_port = (struct dialog_port *)dialog_port_handle;
+            draw_notice_symbols(prompt.symbol, asset, attempt);
+            current_port = &dialog_port;
+            if (!attempt)
+                DialogFadeIn();
+            else
+                save_dialog_port(&dialog_port, dialog_port_handle, notice_port, notice_port, 0);
+            index = read_notice_selection();
+            passed = index == prompt.symbol || index == (unsigned)-2;
+        } while (!passed && ++attempt != 3);
+        release_handle(table_handle);
+        dispose_dialog_asset(asset);
+        if (dialog_port_handle) {
+            free_port(dialog_port_handle);
+            dialog_port_handle = 0;
+        }
+        DialogFadeOut();
+        DialogResetToGamePlay(0);
+    }
+    if (!passed)
+        show_notice_error(1, notice_failure);
+}
+
+/* The intervening symbol and hall-of-fame routines are still open. */
 
 int * far pascal ComputeSymbolPt(int *p, int index)
 {
@@ -1120,7 +1203,7 @@ void far pascal SetOptionsFromDisk(void)
     struct menu_options options;
     unsigned transferred;
     int file;
-    unsigned size;
+    int size;
 
     if (!_dos_open(options_path, 0, &file)) {
         size = sizeof(options);

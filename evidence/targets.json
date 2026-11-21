@@ -57125,6 +57125,277 @@
       "original_bytes_hex": "558bec83ec025756833e586204740e833e5862137407833e586214754fbe0400b03ff62e0a5c8946fe0536003b06045c7c08bf01008bf7eb1390bffeff8b46fe053a003b06045c7f03be0100569a9000611f03c70106045c01065662b95b621e511e512bc951509a0a5101115e5f8be55dcb",
       "sha256": "edd6ee9dfdb61b1bfba5c0dbdf8768e875a54d74a75b3e281c1e215460b220db",
       "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "root:052d:07a4",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1956,
+      "size": 124,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS call sites at 0963, 09ed and 0a12 pass a far save-slot table and two words. Uses the slot rectangle, tests the length of the name, and closes at 081c with RETF 8 and alignment NOP.",
+        "Locked root [0x5a74,0x5af0); preceding bytes e5 5d ca 06 00 90; closing bytes 5f 8b e5 5d ca 08 00 90; following bytes 55 8b ec 56 83 7e."
+      ],
+      "sha256": "4b8f68276bf8f439354ca07f79b1b44f75692c33f977fa70373837679baa5a96",
+      "original_bytes_hex": "558bec83ec0c57568b76088d46f81650560ee893ff8d46f850ff76060ee85c00837e06011bff478bc6b91900f7e903460a8b560c40408946f48956f652509ad41ee61f83c4040bc074298d46f816501650b8020050509a2a500111ff76f6ff76f4b80a0050572bc0508d4ef81651500ee89ff85e5f8be55dca080090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23603,
+          "file_offset": 31795,
+          "pushed_cs_site": 23602
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23741,
+          "file_offset": 31933,
+          "pushed_cs_site": 23740
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23778,
+          "file_offset": 31970,
+          "pushed_cs_site": 23777
+        }
+      ]
+    },
+    {
+      "id": "root:052d:0cfc",
+      "space": "root",
+      "segment": 1325,
+      "offset": 3324,
+      "size": 360,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The load dialog's PUSH CS / CALL at 05a2 names this BP prologue. The save-file open, seek, full-size read and state restoration close with RETF 6 plus an alignment NOP before the separate file-write prologue at 0e64.",
+        "Locked root [0x5fcc,0x6134); preceding bytes 2b d2 8b c2 cb 90; closing bytes 5f 8b e5 5d ca 06 00 90; following bytes 55 8b ec 83 ec 0c."
+      ],
+      "sha256": "f720b31d7b7681fbd40c6e613efbbfb2b2ee008e79e3fe676a1ed7acdcbc7684",
+      "original_bytes_hex": "558bec83ec0e57568b7e06c746fa000083ff0a7c03e944018d46f450b8020050b8f403509acc1be61f83c4060bc07403e92901b897259952509a7c2901118bf08956f88bc7b99725f7e905fc0083d2008946fc8956fe2bc9515250ff76f49ab610e61f83c4088d46f250b8972550ff76f856ff76f49ae41be61f83c40a0bc07403e9c300817ef297257403e9b9008e46f82639047436a1fe5b0b06fc5b7512b897259952509a7c290111a3fc5b8916fe5bb8972550ff76f856ff36fe5bff36fc5b9a301ee61f83c40aeb05900ee8d2028e46f8268b4404a32a5e268b4406a3445e268a4408a2180a268a4409a2d16ca2925ca2935c268a440ba2035e268a440ca2045e268b440fa38e5e268a4411a2d601c706005e01002bc050ff76feff76fcff76f48cc79ab610e61f83c4088d46f250b89725505756ff76f49aeb1be61f83c40ac746fa01008b46f850569ae4250111ff76f49a941be61f83c4028b46fa5e5f8be55dca060090",
+      "call_sites": [],
+      "original_name": "ResumeGame",
+      "original_name_evidence": [
+        "DOS and FM Towns DIALOG2 both open PRINCE.SAV, read the selected record and restore state. See evidence/modules.json."
+      ]
+    },
+    {
+      "id": "root:052d:0e64",
+      "space": "root",
+      "segment": 1325,
+      "offset": 3684,
+      "size": 352,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The save dialog's same-CS call at 0672 enters this BP prologue. The target opens or creates PRINCE.SAV, writes its directory and selected record, and terminates with RETF 6 and one alignment NOP immediately before independent far entry 0fc4.",
+        "Locked root [0x6134,0x6294); preceding bytes e5 5d ca 06 00 90; closing bytes 5f 8b e5 5d ca 06 00 90; following bytes 55 8b ec a1 fe 5b."
+      ],
+      "sha256": "bc5f8b9e7487519e30a0ab533e4d3a9836503b4f1c94fdd563eefae20e4034fe",
+      "original_bytes_hex": "558bec83ec0c57568b7e06c746fe000083ff0a7c03e93c018d46fa50b8010050b8f403509acc1be61f83c4060bc0741a8d46fa502bc050b9f403519aa91be61f83c4060bc07403e90a01b897259952509a7c2901118bf08956f6a1fe5b0b06fc5b7419b8972550ff36fe5bff36fc5b52569a301ee61f83c40aeb2a90b89725502bc05052569a221fe61f83c408a0180a8e46f626884408a0d16c26884409a064452688440aa12a5e8e46f626894404a1445e26894406a0035e2688440ba0045e2688440ca18e5e2689440fa0d60126884411c746fcfc008d46f850b8fc0050ff760aff7608ff76fa9aeb1be61f83c40a0bc0754b817ef8fc007544c746fc9725b80100508bc7b99725f7e95250ff76fa9ab610e61f83c4088d46f850b8972550ff76f656ff76fa9aeb1be61f83c40a0bc0750c817ef897257505c746fe01008b46f650569ae4250111ff76fa9a941be61f83c4028b46fe5e5f8be55dca060090",
+      "call_sites": [],
+      "original_name": "SaveGame",
+      "original_name_evidence": [
+        "DOS and FM Towns DIALOG2 both open or create PRINCE.SAV and write the selected record. See evidence/modules.json."
+      ]
+    },
+    {
+      "id": "root:052d:0fc4",
+      "space": "root",
+      "segment": 1325,
+      "offset": 4036,
+      "size": 218,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "A relocated CALL FAR at root+0xf34a names this BP prologue. Its first argument is the rebirth point ID. The four saved array copies and status stores lead to the near call at 1094; RETF 2 and alignment NOP precede the distinct far entry at 109e.",
+        "Locked root [0x6294,0x636e); preceding bytes e5 5d ca 06 00 90; closing bytes 00 8b e5 5d ca 02 00 90; following bytes a1 fe 5b 0b 06 fc.",
+        "1 original relocated CALL FAR sites name 052d:0fc4."
+      ],
+      "sha256": "08eef313f5ae460856bffa94aa44724d3f603d313a7731a88060773758ca7dd5",
+      "original_bytes_hex": "558beca1fe5b0b06fc5b7512b897259952509a7c290111a3fc5b8916fe5b8b4606c41efc5b268907b8c00350b8022d1e50a1fc5b8b16fe5b05170052509a301ee61f8be5b8000f50b8c2301e50a1fc5b8b16fe5b05d70352509a301ee61f8be5b8800e50b869451e50a1fc5b8b16fe5b05d71252509a301ee61f8be5b8400450b8fb531e50a1fc5b8b16fe5b05572152509a301ee61f8be5a04945c41efc5b26884708a0935cc41efc5b26884709a0815cc41efc5b2688470aa18e5ec41efc5b2689470fa0045ec41efc5b2688470c0ee827008be55dca020090",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 62282,
+          "file_offset": 70474,
+          "relocated_segment_site": 62285,
+          "relocation_index": 1265
+        }
+      ]
+    },
+    {
+      "id": "root:1fe6:10b6",
+      "space": "root",
+      "segment": 8166,
+      "offset": 4278,
+      "size": 122,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Canonical PINNED_RUNTIME crt_lseek_medium covers the complete 122-byte member at this far entry.",
+        "Locked root [0x20f16,0x20f90); preceding bytes 9f 22 00 e9 46 f5; closing bytes 80 a7 9f 22 fd e9 e1 f4; following bytes 55 8b ec 83 ec 04.",
+        "6 original relocated CALL FAR sites name 1fe6:10b6."
+      ],
+      "sha256": "303e0e704b36e5127a93c862dd1ff9e5df975eb4f637dec3b93a9d10578a46cf",
+      "original_bytes_hex": "558bec83ec048b5e063b1e9d227205b80009eb2af7460a00807448837e0c00741a33c98bd1b80142cd21724bf7460c0200750e03460813560a7928b80016f9eb368956fe8946fc8bd1b80242cd2103460813560a790d8b4efe8b56fcb80042cd21ebd88b56088b4e0a8a460cb442cd21720580a79f22fde9e1f4",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 24817,
+          "file_offset": 33009,
+          "relocated_segment_site": 24820,
+          "relocation_index": 427
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 24618,
+          "file_offset": 32810,
+          "relocated_segment_site": 24621,
+          "relocation_index": 428
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 25156,
+          "file_offset": 33348,
+          "relocated_segment_site": 25159,
+          "relocation_index": 429
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 136763,
+          "file_offset": 144955,
+          "relocated_segment_site": 136766,
+          "relocation_index": 1904
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 136729,
+          "file_offset": 144921,
+          "relocated_segment_site": 136732,
+          "relocation_index": 1905
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 136689,
+          "file_offset": 144881,
+          "relocated_segment_site": 136692,
+          "relocation_index": 1906
+        }
+      ]
+    },
+    {
+      "id": "root:1fe6:1ba9",
+      "space": "root",
+      "segment": 8166,
+      "offset": 7081,
+      "size": 35,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Pinned crt_d_creat_medium second public _dos_creat at +7, selected by the separate BP prologue and AH=3c DOS create path; falls into common body and near-jumps to dosret at 0604 before independent 1bcc.",
+        "Locked root [0x21a09,0x21a2c); preceding bytes 8b ec b7 5b eb 05; closing bytes 8b 5e 0a 89 07 e9 38 ea; following bytes 55 8b ec 8b 56 06.",
+        "3 original relocated CALL FAR sites name 1fe6:1ba9.",
+        "The independent archive/member hashes in recipes/runtime/crt_d_creat_medium.json were rechecked. OMF declares __dos_creatnew at +0 and __dos_creat at +7."
+      ],
+      "sha256": "9515cca4780fcb1a7c7a8b5db95567afd6eaa837d3c3afa5ec17a8d58e68655d",
+      "original_bytes_hex": "558becb73c8b56068b4e088ae7cd21730a3d5000f97509b411eb058b5e0a8907e938ea",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 24943,
+          "file_offset": 33135,
+          "relocated_segment_site": 24946,
+          "relocation_index": 645
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 28740,
+          "file_offset": 36932,
+          "relocated_segment_site": 28743,
+          "relocation_index": 646
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 29856,
+          "file_offset": 38048,
+          "relocated_segment_site": 29859,
+          "relocation_index": 647
+        }
+      ]
+    },
+    {
+      "id": "root:1fe6:1beb",
+      "space": "root",
+      "segment": 8166,
+      "offset": 7147,
+      "size": 41,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "C runtime _dos_write far entry has a new BP prologue at 1beb after the _dos_read wrapper's JMP; AH=40 selects DOS write, a successful byte count is written through BP+0e, and a tail JMP at 1c10 reaches shared dosret at 0604. One zero alignment byte precedes the separate BP prologue at 1c14.",
+        "Locked root [0x21a4b,0x21a74); preceding bytes 8b ec b4 3f eb 05; closing bytes 5e 0e 89 07 e9 f1 e9 00; following bytes 55 8b ec 57 56 53.",
+        "5 original relocated CALL FAR sites name 1fe6:1beb."
+      ],
+      "sha256": "cf63135f166370d05499ea5f26fab9321e46584c6e3ea6ccc6bc406b34021cde",
+      "original_bytes_hex": "558becb4408b5e068b4e0c813e1628d6d67504ff1618281ec55608cd211f72058b5e0e8907e9f1e900",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 24838,
+          "file_offset": 33030,
+          "relocated_segment_site": 24841,
+          "relocation_index": 448
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 25179,
+          "file_offset": 33371,
+          "relocated_segment_site": 25182,
+          "relocation_index": 449
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 25116,
+          "file_offset": 33308,
+          "relocated_segment_site": 25119,
+          "relocation_index": 450
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 28778,
+          "file_offset": 36970,
+          "relocated_segment_site": 28781,
+          "relocation_index": 451
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 29884,
+          "file_offset": 38076,
+          "relocated_segment_site": 29887,
+          "relocation_index": 452
+        }
+      ]
     }
   ],
   "schema": 1,
