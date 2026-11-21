@@ -1,0 +1,95 @@
+{
+  "binding": "evidence/bindings/install_dos_vectors.json",
+  "binding_sha256": "cf0660272cbc0f1f1c2514731bd58c1bf0aea016a26dea4bfed4695c8700bea7",
+  "claims": [
+    {
+      "fixup_count": 16,
+      "public": "INSTALL_DOS_VECTORS",
+      "target_id": "root:1101:bc92"
+    },
+    {
+      "fixup_count": 0,
+      "public": "LOWERCASE_EVENT_CHARACTER",
+      "target_id": "root:1000:cd1a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "POST_POINTER_EVENT",
+      "target_id": "root:1101:bd1e"
+    },
+    {
+      "fixup_count": 4,
+      "public": "INSERT_QUEUED_EVENT",
+      "target_id": "root:1101:bd41"
+    },
+    {
+      "fixup_count": 5,
+      "public": "RESTORE_DOS_VECTORS",
+      "target_id": "root:1101:bda5"
+    },
+    {
+      "fixup_count": 3,
+      "public": "MOUSE_BUTTON_UNQUEUED",
+      "target_id": "root:1101:bdda"
+    },
+    {
+      "fixup_count": 0,
+      "public": "UPPERCASE_EVENT_CHARACTER",
+      "target_id": "root:1000:ce1b"
+    },
+    {
+      "fixup_count": 1,
+      "public": "FIND_EVENT_WINDOW",
+      "target_id": "root:1101:be1f"
+    },
+    {
+      "fixup_count": 3,
+      "public": "NOTIFY_EVENT_HOOK",
+      "target_id": "root:1101:be2f"
+    },
+    {
+      "fixup_count": 2,
+      "public": "VIDEO_INTERRUPT_FILTER",
+      "relocation_indices": [
+        1522
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:be3e"
+    },
+    {
+      "fixup_count": 0,
+      "public": "IGNORE_LEGACY_INTERRUPT",
+      "target_id": "root:1101:c02f"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 448,
+      "public": "KEYBOARD_INTERRUPT_FILTER"
+    },
+    {
+      "object_offset": 512,
+      "public": "DOS_CRITICAL_ERROR"
+    },
+    {
+      "object_offset": 859,
+      "public": "DOS_MOUSE_EVENT"
+    }
+  ],
+  "emitted_size": 926,
+  "flags": [],
+  "frame": 4353,
+  "group_id": "group:install_dos_vectors",
+  "kind": "same_source_group",
+  "language": "asm",
+  "name": "install_dos_vectors",
+  "object_sha256": "518fa94d14169cb365ca29c87b59dc54d3962dd9195c690cd0e627867d2d0c4b",
+  "origin": 117922,
+  "profile": "masm510",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "asm/install_dos_vectors.asm",
+  "source_sha256": "6cffa0657bc60ea9e95294281b24e2ddc464f9be7bba51a237bfe89703531d1d",
+  "space": "root"
+}

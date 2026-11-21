@@ -55188,6 +55188,148 @@
       "size": 2,
       "space": "overlay-9",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no stack arguments; DOS and mouse vector setup; RETF.",
+      "boundary_evidence": [
+        "The original relocated overlay-2+2c6 call (relocation 0) enters a separate routine. It saves four vectors, installs CS-relative replacements and optionally installs the mouse handler. Both paths reach RETF bd09 immediately before the distinct bd0a character helper.",
+        "Complete extent bc92..bd0a (exclusive).",
+        "Independent CALL FAR at overlay-2+0x2c6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 156646,
+          "image_offset": 710,
+          "kind": "far_call",
+          "relocated_segment_site": 713,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Original instruction and ABI evidence in the boundary review."
+      ],
+      "classification_status": "Wave 18 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:bc92",
+      "offset": 48274,
+      "segment": 4353,
+      "semantic_name_hypothesis": "install_dos_vectors",
+      "sha256": "2a58b5e20f1f443caa78fe6a3de4cf528b8a332f6f887455a2b4336f5c4a3e90",
+      "size": 120,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 10h register/interrupt ABI; IRET.",
+      "boundary_evidence": [
+        "The original bc92 entry loads DS from CS, sets DX=be3e at bcd1 and passes AX=2510h to INT 21h at bcd7. The separate filter preserves DS, chains other video requests and ends at IRET be51 before the independently installed be52."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 18 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:be3e",
+      "offset": 48702,
+      "segment": 4353,
+      "semantic_name_hypothesis": "video_interrupt_filter",
+      "sha256": "20bc81ec6d0f0a7b07438b13c75471d2041e6da682586fa75167335b00fa0eb2",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 16h register/interrupt ABI; IRET or RETF to chained handler.",
+      "boundary_evidence": [
+        "The original bc92 entry installs CS:be52 at bcd9/bcdf using DOS 2516h. The chain path explicitly addresses the CS scratch word at be90. The word belongs to the reviewed extent; separate INT 24h handler starts be92."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 18 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:be52",
+      "offset": 48722,
+      "segment": 4353,
+      "semantic_name_hypothesis": "keyboard_interrupt_filter",
+      "sha256": "a8bea32fb30e9733d54419ca5e6da8cff07926be276a6c421a92aae3cec95f29",
+      "size": 64,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 24h register/error ABI; AL result and IRET.",
+      "boundary_evidence": [
+        "The original bc92 entry passes DS=CS, DX=be92 and AX=2524h to INT 21h at bcef. The common exit restores registers at bfd0..bfe1. The final JMP at bfea retries within the handler. The mouse handler begins independently at bfed."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 18 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:be92",
+      "offset": 48786,
+      "segment": 4353,
+      "semantic_name_hypothesis": "dos_critical_error",
+      "sha256": "6bcf450a7f920b074689ce7c10c09d6c3b3f4271cde0a6b6cf62b9003206ded0",
+      "size": 347,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 33h far callback registers; RETF.",
+      "boundary_evidence": [
+        "The original bc92 entry loads ES=CS and DX=bfed for INT 33h function 000ch at bd03. Both paths reach RETF c02e before distinct installed IRET c02f."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 18 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:bfed",
+      "offset": 49133,
+      "segment": 4353,
+      "semantic_name_hypothesis": "dos_mouse_event",
+      "sha256": "1f3fa86c215a8a70e63405de8bf16b15914e2842b9a51942f0b6bdcdbee430db",
+      "size": 66,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Installed software interrupt, IRET.",
+      "boundary_evidence": [
+        "The original bc92 entry installs CS:c02f twice at bcc9/bccf and bce1/bce7 using DOS interrupt vector functions 2505h and 2523h. The single IRET at c02f ends immediately before the independent c030 BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Register ABI, stack and segment manipulation in original instructions."
+      ],
+      "classification_status": "Wave 18 reviewed ASM hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1101:c02f",
+      "offset": 49199,
+      "segment": 4353,
+      "semantic_name_hypothesis": "ignore_legacy_interrupt",
+      "sha256": "7a4a4b50f5121ed5310ece45a7eeb7af5545af63ee2ae52add4f37788f075b1d",
+      "size": 1,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
