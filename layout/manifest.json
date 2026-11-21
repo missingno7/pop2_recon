@@ -4157,35 +4157,6 @@
       "target_id": "root:1101:6f6a"
     },
     {
-      "fixup_count": 1,
-      "group": "dispose_handle",
-      "kind": "MATCHING_ASM",
-      "offset": 8776,
-      "recipe": "recipes/dispose_handle.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 88,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:2248"
-    },
-    {
-      "fixup_count": 3,
-      "group": "dispose_handle",
-      "kind": "MATCHING_ASM",
-      "offset": 8864,
-      "recipe": "recipes/dispose_handle.json",
-      "relocation_count": 1,
-      "relocation_indices": [
-        1454
-      ],
-      "segment": 4353,
-      "size": 47,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:22a0"
-    },
-    {
       "fixup_count": 4,
       "group": "materialize_handle",
       "kind": "MATCHING_ASM",
@@ -4249,19 +4220,6 @@
       "space": "root",
       "state": "ASM_EXACT",
       "target_id": "root:1101:857a"
-    },
-    {
-      "fixup_count": 1,
-      "group": "get_midi_driver_flag",
-      "kind": "MATCHING_C",
-      "offset": 11792,
-      "recipe": "recipes/get_midi_driver_flag.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 4,
-      "space": "root",
-      "state": "CODE_EXACT",
-      "target_id": "root:1101:2e10"
     },
     {
       "fixup_count": 2,
@@ -5626,32 +5584,6 @@
       "space": "root",
       "state": "ASM_EXACT",
       "target_id": "root:1101:2594"
-    },
-    {
-      "fixup_count": 5,
-      "group": "transfer_backing_record",
-      "kind": "MATCHING_ASM",
-      "offset": 10033,
-      "recipe": "recipes/transfer_backing_record.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 24,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:2731"
-    },
-    {
-      "fixup_count": 4,
-      "group": "transfer_backing_record",
-      "kind": "MATCHING_ASM",
-      "offset": 10057,
-      "recipe": "recipes/transfer_backing_record.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 63,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:2749"
     },
     {
       "fixup_count": 5,
@@ -8021,19 +7953,6 @@
       "target_id": "root:1101:0af6"
     },
     {
-      "fixup_count": 0,
-      "group": "sound2/read_sound_delta",
-      "kind": "MATCHING_ASM",
-      "offset": 12706,
-      "recipe": "recipes/sound2/read_sound_delta.json",
-      "relocation_count": 0,
-      "segment": 4353,
-      "size": 26,
-      "space": "root",
-      "state": "ASM_EXACT",
-      "target_id": "root:1101:31a2"
-    },
-    {
       "fixup_count": 1,
       "group": "cliprect/subtract_rectangle_strip",
       "kind": "MATCHING_ASM",
@@ -10229,6 +10148,328 @@
       "space": "overlay-9",
       "state": "CODE_EXACT",
       "target_id": "overlay-9:2b4b:0f20"
+    },
+    {
+      "fixup_count": 0,
+      "group": "ptool/clamp_point_to_rect",
+      "kind": "MATCHING_ASM",
+      "offset": 20798,
+      "recipe": "recipes/ptool/clamp_point_to_rect.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 67,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:513e"
+    },
+    {
+      "fixup_count": 4,
+      "group": "graf/dispose_bitmap_port",
+      "kind": "MATCHING_ASM",
+      "offset": 20866,
+      "recipe": "recipes/graf/dispose_bitmap_port.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        1457
+      ],
+      "segment": 4353,
+      "size": 47,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:5182"
+    },
+    {
+      "fixup_count": 8,
+      "group": "graf/allocate_clipped_port",
+      "kind": "MATCHING_ASM",
+      "offset": 20914,
+      "recipe": "recipes/graf/allocate_clipped_port.json",
+      "relocation_count": 2,
+      "relocation_indices": [
+        1458,
+        1554
+      ],
+      "segment": 4353,
+      "size": 209,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:51b2"
+    },
+    {
+      "fixup_count": 0,
+      "group": "sound2/read_sound_delta",
+      "kind": "MATCHING_ASM",
+      "offset": 12706,
+      "recipe": "recipes/sound2/read_sound_delta.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 26,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:31a2"
+    },
+    {
+      "fixup_count": 3,
+      "group": "sound2/read_sound_delta",
+      "kind": "MATCHING_ASM",
+      "offset": 12732,
+      "recipe": "recipes/sound2/read_sound_delta.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 36,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:31bc"
+    },
+    {
+      "fixup_count": 3,
+      "group": "sound2/read_sound_delta",
+      "kind": "MATCHING_ASM",
+      "offset": 12768,
+      "recipe": "recipes/sound2/read_sound_delta.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 36,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:31e0"
+    },
+    {
+      "fixup_count": 17,
+      "group": "read_dos_file_to_buffer",
+      "kind": "MATCHING_ASM",
+      "offset": 11276,
+      "recipe": "recipes/read_dos_file_to_buffer.json",
+      "relocation_count": 2,
+      "relocation_indices": [
+        1512,
+        1513
+      ],
+      "segment": 4353,
+      "size": 126,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2c0c"
+    },
+    {
+      "fixup_count": 1,
+      "group": "read_dos_file_to_buffer",
+      "kind": "MATCHING_ASM",
+      "offset": 11402,
+      "recipe": "recipes/read_dos_file_to_buffer.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 16,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2c8a"
+    },
+    {
+      "fixup_count": 28,
+      "group": "graf/show_mouse_graphics",
+      "kind": "MATCHING_ASM",
+      "offset": 1442,
+      "recipe": "recipes/graf/show_mouse_graphics.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 168,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:05a2"
+    },
+    {
+      "fixup_count": 9,
+      "group": "graf/check_cursor_overlap",
+      "kind": "MATCHING_ASM",
+      "offset": 1740,
+      "recipe": "recipes/graf/check_cursor_overlap.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 93,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:06cc"
+    },
+    {
+      "fixup_count": 4,
+      "group": "graf/paint_indexed_shape",
+      "kind": "MATCHING_ASM",
+      "offset": 1834,
+      "recipe": "recipes/graf/paint_indexed_shape.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 346,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:072a"
+    },
+    {
+      "fixup_count": 1,
+      "group": "graf/paint_indexed_shape",
+      "kind": "MATCHING_ASM",
+      "offset": 2180,
+      "recipe": "recipes/graf/paint_indexed_shape.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 4,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:0884"
+    },
+    {
+      "fixup_count": 1,
+      "group": "dispose_handle",
+      "kind": "MATCHING_ASM",
+      "offset": 8706,
+      "recipe": "recipes/dispose_handle.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 70,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2202"
+    },
+    {
+      "fixup_count": 1,
+      "group": "dispose_handle",
+      "kind": "MATCHING_ASM",
+      "offset": 8776,
+      "recipe": "recipes/dispose_handle.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 88,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2248"
+    },
+    {
+      "fixup_count": 3,
+      "group": "dispose_handle",
+      "kind": "MATCHING_ASM",
+      "offset": 8864,
+      "recipe": "recipes/dispose_handle.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        1454
+      ],
+      "segment": 4353,
+      "size": 47,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:22a0"
+    },
+    {
+      "fixup_count": 9,
+      "group": "transfer_backing_record",
+      "kind": "MATCHING_ASM",
+      "offset": 9911,
+      "recipe": "recipes/transfer_backing_record.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 122,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:26b7"
+    },
+    {
+      "fixup_count": 5,
+      "group": "transfer_backing_record",
+      "kind": "MATCHING_ASM",
+      "offset": 10033,
+      "recipe": "recipes/transfer_backing_record.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 24,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2731"
+    },
+    {
+      "fixup_count": 4,
+      "group": "transfer_backing_record",
+      "kind": "MATCHING_ASM",
+      "offset": 10057,
+      "recipe": "recipes/transfer_backing_record.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 63,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2749"
+    },
+    {
+      "fixup_count": 0,
+      "group": "sound2/load_sound_driver",
+      "kind": "MATCHING_ASM",
+      "offset": 10932,
+      "recipe": "recipes/sound2/load_sound_driver.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 4,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2ab4"
+    },
+    {
+      "fixup_count": 37,
+      "group": "sound2/load_sound_driver",
+      "kind": "MATCHING_ASM",
+      "offset": 10936,
+      "recipe": "recipes/sound2/load_sound_driver.json",
+      "relocation_count": 4,
+      "relocation_indices": [
+        1451,
+        1509,
+        1510,
+        1511
+      ],
+      "segment": 4353,
+      "size": 310,
+      "space": "root",
+      "state": "ASM_EXACT",
+      "target_id": "root:1101:2ab8"
+    },
+    {
+      "fixup_count": 4,
+      "group": "get_midi_driver_flag",
+      "kind": "MATCHING_C",
+      "offset": 11762,
+      "recipe": "recipes/get_midi_driver_flag.json",
+      "relocation_count": 1,
+      "relocation_indices": [
+        1642
+      ],
+      "segment": 4353,
+      "size": 26,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:1101:2df2"
+    },
+    {
+      "fixup_count": 1,
+      "group": "get_midi_driver_flag",
+      "kind": "MATCHING_C",
+      "offset": 11788,
+      "recipe": "recipes/get_midi_driver_flag.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 4,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:1101:2e0c"
+    },
+    {
+      "fixup_count": 1,
+      "group": "get_midi_driver_flag",
+      "kind": "MATCHING_C",
+      "offset": 11792,
+      "recipe": "recipes/get_midi_driver_flag.json",
+      "relocation_count": 0,
+      "segment": 4353,
+      "size": 4,
+      "space": "root",
+      "state": "CODE_EXACT",
+      "target_id": "root:1101:2e10"
     }
   ],
   "schema": 1,

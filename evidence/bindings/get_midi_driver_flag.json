@@ -1,6 +1,11 @@
 {
   "declarations": {
     "externals": [
+      "STARTUP_PRESETS",
+      "SOUND_STARTUP_FINISHED",
+      "_release_driver_payload",
+      "FINISH_SOUND_STARTUP",
+      "GET_SOUND_STARTUP_FLAG",
       "MIDI_DRIVER_FLAG",
       "GET_MIDI_DRIVER_FLAG"
     ],
@@ -18,8 +23,26 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "GET_MIDI_DRIVER_FLAG",
+        "name": "FINISH_SOUND_STARTUP",
         "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "GET_SOUND_STARTUP_FLAG",
+        "offset": 26,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "GET_MIDI_DRIVER_FLAG",
+        "offset": 30,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -33,7 +56,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 4,
+        "length": 34,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -83,7 +106,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "MIDI_DRIVER_FLAG",
@@ -94,13 +117,148 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1,
+      "segment_offset": 31,
+      "self_relative": false,
+      "target": {
+        "index": 6,
+        "kind": "external",
+        "method": 6,
+        "name": "MIDI_DRIVER_FLAG",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "SOUND_STARTUP_FINISHED",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 27,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "SOUND_STARTUP_FINISHED",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "SOUND_STARTUP_FINISHED",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 18,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "SOUND_STARTUP_FINISHED",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 3,
+          "kind": "external",
+          "method": 6,
+          "name": "_release_driver_payload",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 9,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "_release_driver_payload",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STARTUP_PRESETS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 6,
       "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "MIDI_DRIVER_FLAG",
+        "name": "STARTUP_PRESETS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "STARTUP_PRESETS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "STARTUP_PRESETS",
         "zero_displacement": true
       }
     }
@@ -133,6 +291,57 @@
           "space": "root"
         }
       ]
+    },
+    "SOUND_STARTUP_FINISHED": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11488,
+      "witnesses": [
+        {
+          "bytes_hex": "c706e02c0100",
+          "entry": "root:1101:2c9a",
+          "image_offset": 81314,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "STARTUP_PRESETS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "89162821",
+              "entry": "root:1101:2c9a",
+              "image_offset": 81294,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 8486,
+      "witnesses": [
+        {
+          "bytes_hex": "a32621",
+          "entry": "root:1101:2c9a",
+          "image_offset": 81291,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "_release_driver_payload": {
+      "entry_sha256": "7cd6f31b93fccbd3652de3616b3841e831e568b0d59e4525e799341d66cc966a",
+      "entry_target_id": "root:1101:2c8a",
+      "kind": "far-code-entry",
+      "offset": 11402,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     }
   },
   "target_id": "group:get_midi_driver_flag",

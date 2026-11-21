@@ -1,7 +1,9 @@
 {
   "declarations": {
     "externals": [
+      "READ_BACKING_HEADER",
       "BACKING_DRIVER",
+      "WRITE_BACKING_HEADER",
       "BACKING_DRIVER_SEGMENT",
       "SELECT_BACKING_POSITION"
     ],
@@ -17,8 +19,17 @@
       {
         "frame": null,
         "group_index": 0,
+        "name": "INITIALIZE_BACKING_DRIVER",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
         "name": "TRANSFER_BACKING_RECORD",
-        "offset": 24,
+        "offset": 146,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -27,7 +38,7 @@
         "frame": null,
         "group_index": 0,
         "name": "SHUTDOWN_BACKING_DRIVER",
-        "offset": 0,
+        "offset": 122,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -41,7 +52,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 87,
+        "length": 209,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -73,101 +84,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 5,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER_SEGMENT",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 13,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 18,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKING_DRIVER",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
       "segment_offset": 21,
       "self_relative": false,
       "target": {
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "BACKING_DRIVER_SEGMENT",
+        "name": "BACKING_DRIVER",
         "zero_displacement": true
       }
     },
@@ -183,10 +106,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 31,
+      "segment_offset": 51,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "BACKING_DRIVER",
@@ -205,10 +128,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 36,
+      "segment_offset": 55,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "BACKING_DRIVER_SEGMENT",
@@ -227,10 +150,296 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 68,
+      "segment_offset": 63,
       "self_relative": true,
       "target": {
         "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "WRITE_BACKING_HEADER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 72,
+      "self_relative": true,
+      "target": {
+        "index": 5,
+        "kind": "external",
+        "method": 6,
+        "name": "SELECT_BACKING_POSITION",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 77,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "READ_BACKING_HEADER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 94,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 99,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 102,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER_SEGMENT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 123,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 127,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER_SEGMENT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 135,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 140,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 143,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER_SEGMENT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 153,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 158,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "BACKING_DRIVER_SEGMENT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 190,
+      "self_relative": true,
+      "target": {
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "SELECT_BACKING_POSITION",
@@ -249,10 +458,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 79,
+      "segment_offset": 201,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "BACKING_DRIVER",
@@ -306,6 +515,15 @@
         }
       ]
     },
+    "READ_BACKING_HEADER": {
+      "entry_sha256": "eeb8a91be989d3e56dabe091835e90009cf6ab32df473564b657d64dc2694282",
+      "entry_target_id": "root:1101:2937",
+      "kind": "near-code-entry",
+      "offset": 10551,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "SELECT_BACKING_POSITION": {
       "entry_sha256": "8d64aef0dd71ded21fead3ed9c35875841a656a6b73c7229a9c6f56f70dc048b",
       "entry_target_id": "root:1101:2969",
@@ -321,6 +539,15 @@
           "space": "root"
         }
       ]
+    },
+    "WRITE_BACKING_HEADER": {
+      "entry_sha256": "f6300f73f2f9d17ad80ac85069ab5128dba473a37a7d92a8897d0560c64f6b9e",
+      "entry_target_id": "root:1101:2950",
+      "kind": "near-code-entry",
+      "offset": 10576,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     }
   },
   "target_id": "group:transfer_backing_record",

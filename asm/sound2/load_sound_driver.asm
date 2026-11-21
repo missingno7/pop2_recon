@@ -1,0 +1,158 @@
+.MODEL MEDIUM
+EXTRN DOS_DGROUP:BYTE
+.DATA
+driver_allocation DD 0
+driver_entry DD 0
+driver_file DW 0
+driver_header DD 0
+.CODE
+EXTRN ALLOCATE_PINNED_PAYLOAD:NEAR
+EXTRN CLEAR_PAYLOAD_HEADER:NEAR
+EXTRN CPU_PROBE:FAR
+PUBLIC INVALID_DRIVER_STUB, LOAD_SOUND_DRIVER
+
+INVALID_DRIVER_STUB PROC FAR
+    mov ax, -1
+    retf
+INVALID_DRIVER_STUB ENDP
+
+LOAD_SOUND_DRIVER PROC FAR
+    push bp
+    mov bp, sp
+    push ds
+    mov ax, SEG DOS_DGROUP
+    mov ds, ax
+    xor ax, ax
+    mov WORD PTR driver_allocation, ax
+    mov WORD PTR [driver_allocation+2], ax
+    mov WORD PTR driver_header, ax
+    mov WORD PTR [driver_header+2], ax
+    lds dx, DWORD PTR [bp+6]
+    mov ax, 3d00h
+    int 21h
+    mov driver_file, ax
+    jnc get_driver_header
+    xor ax, ax
+    mov driver_file, ax
+    jmp invalid_driver
+get_driver_header:
+    xor dx, dx
+    mov ax, 0c4h
+    or ax, ax
+    jz store_driver_header
+    push dx
+    push ax
+    push cs
+    call ALLOCATE_PINNED_PAYLOAD
+store_driver_header:
+    mov WORD PTR driver_header, ax
+    mov WORD PTR [driver_header+2], dx
+    mov cx, ax
+    or cx, dx
+    jne read_header
+header_failed:
+    jmp invalid_driver
+read_header:
+    mov cx, 0c4h
+    mov bx, driver_file
+    push ds
+    mov ds, dx
+    mov dx, ax
+    mov ah, 3fh
+    int 21h
+    pop ds
+    jc header_failed
+    les bx, driver_header
+    mov ax, es:[bx+90h]
+    cmp ax, 9876h
+    jne header_failed
+    mov ax, es:[bx+92h]
+    cmp ax, 1234h
+    jne header_failed
+    call CPU_PROBE
+    cmp ax, es:[bx+96h]
+    jl invalid_driver
+    push bx
+    mov bx, driver_file
+    mov ax, 4200h
+    xor cx, cx
+    mov dx, 100h
+    int 21h
+    pop bx
+    jc invalid_driver
+    push es
+    push bx
+    xor dx, dx
+    mov ax, es:[bx+9ah]
+    or ax, ax
+    jz store_driver_allocation
+    add ax, 20h
+    push dx
+    push ax
+    push cs
+    call ALLOCATE_PINNED_PAYLOAD
+store_driver_allocation:
+    pop bx
+    pop es
+    mov WORD PTR driver_allocation, ax
+    mov WORD PTR [driver_allocation+2], dx
+    mov cx, ax
+    or cx, dx
+    jz invalid_driver
+    mov cl, 4
+    shr ax, cl
+    add dx, ax
+    mov ax, 100h
+    sub dx, 0eh
+    mov WORD PTR driver_entry, ax
+    mov WORD PTR [driver_entry+2], dx
+    push es
+    push bx
+    mov es, dx
+    mov bx, ax
+    mov ax, WORD PTR driver_allocation
+    mov es:[bx-4], ax
+    mov ax, WORD PTR [driver_allocation+2]
+    mov es:[bx-2], ax
+    mov ax, es
+    mov dx, bx
+    pop bx
+    pop es
+    mov cx, es:[bx+9ah]
+    mov bx, driver_file
+    mov ds, ax
+    mov ah, 3fh
+    int 21h
+    jnc close_driver_file
+invalid_driver:
+    mov ax, SEG DOS_DGROUP
+    mov ds, ax
+    mov ax, OFFSET INVALID_DRIVER_STUB
+    mov WORD PTR driver_entry, ax
+    mov WORD PTR [driver_entry+2], cs
+close_driver_file:
+    mov ax, SEG DOS_DGROUP
+    mov ds, ax
+    mov bx, driver_file
+    or bx, bx
+    jz free_driver_header
+    mov ah, 3eh
+    int 21h
+free_driver_header:
+    mov ax, WORD PTR driver_header
+    or ax, WORD PTR [driver_header+2]
+    jz return_driver_entry
+    mov ax, WORD PTR [driver_header+2]
+    push ax
+    mov ax, WORD PTR driver_header
+    push ax
+    push cs
+    call CLEAR_PAYLOAD_HEADER
+return_driver_entry:
+    mov ax, WORD PTR driver_entry
+    mov dx, WORD PTR [driver_entry+2]
+    pop ds
+    pop bp
+    retf
+LOAD_SOUND_DRIVER ENDP
+END

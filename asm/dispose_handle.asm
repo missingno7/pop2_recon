@@ -1,9 +1,54 @@
 .MODEL MEDIUM
+.DATA
+EXTRN HEAP_STATE:DWORD
 .CODE
 EXTRN RELEASE_BACKING_RECORD:NEAR
 EXTRN UNLINK_SHAPE_METADATA:NEAR
 EXTRN FREE_NEAR_HEAP:FAR
 PUBLIC RELEASE_HANDLE_STORAGE, DISPOSE_HANDLE
+
+PUBLIC CHECK_HEAP_CHAIN
+CHECK_HEAP_CHAIN PROC FAR
+    push di
+    push si
+    push ds
+    lds si, DWORD PTR ss:[HEAP_STATE]
+    lds si, DWORD PTR [si]
+    mov di, ds
+inspect_block:
+    les ax, DWORD PTR [si]
+    mov dx, es
+    and ax, 0c007h
+    shl ax, 1
+    jnc check_last_block
+    and ax, 0fh
+advance_block:
+    add si, ax
+    or ax, dx
+    jz chain_bad
+    mov ax, si
+    and si, 0fh
+    REPT 4
+        shr ax, 1
+    ENDM
+    add di, ax
+    jc chain_bad
+    add di, dx
+    jc chain_bad
+    mov ds, di
+    jmp SHORT inspect_block
+check_last_block:
+    jns advance_block
+    sub ax, ax
+chain_done:
+    pop ds
+    pop si
+    pop di
+    retf
+chain_bad:
+    mov ax, 1
+    jmp SHORT chain_done
+CHECK_HEAP_CHAIN ENDP
 
 RELEASE_HANDLE_STORAGE PROC FAR
     push bp

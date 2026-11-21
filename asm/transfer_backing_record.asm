@@ -7,6 +7,65 @@ EXTRN SELECT_BACKING_POSITION:NEAR
 PUBLIC TRANSFER_BACKING_RECORD
 
 
+EXTRN READ_BACKING_HEADER:NEAR
+EXTRN WRITE_BACKING_HEADER:NEAR
+PUBLIC INITIALIZE_BACKING_DRIVER
+INITIALIZE_BACKING_DRIVER PROC FAR
+    push bp
+    mov bp, sp
+    add sp, -8
+    push di
+    sub ax, ax
+    mov [bp-8], ax
+    mov [bp-6], ax
+    mov cx, 7
+    push ds
+    pop es
+    mov di, OFFSET BACKING_DRIVER
+    rep stosw
+    les ax, DWORD PTR [bp+6]
+    mov dx, es
+    or dx, ax
+    jz backing_ready
+    mov al, 1
+    call DWORD PTR [bp+6]
+    mov [bp-8], ax
+    mov [bp-6], dx
+    jc backing_ready
+    les ax, DWORD PTR [bp+6]
+    mov WORD PTR BACKING_DRIVER, ax
+    mov BACKING_DRIVER_SEGMENT, es
+    mov ax, 4000h
+    sub dx, dx
+    call WRITE_BACKING_HEADER
+    jc close_failed_driver
+    sub cx, cx
+    sub dx, dx
+    call SELECT_BACKING_POSITION
+    jc close_failed_driver
+    call READ_BACKING_HEADER
+    jc close_failed_driver
+    cmp ax, 4000h
+    jne close_failed_driver
+    test dx, dx
+    jz backing_ready
+close_failed_driver:
+    mov al, 2
+    call BACKING_DRIVER
+    sub ax, ax
+    mov WORD PTR BACKING_DRIVER, ax
+    mov BACKING_DRIVER_SEGMENT, ax
+    mov [bp-8], ax
+    mov [bp-6], ax
+backing_ready:
+    les ax, DWORD PTR [bp-8]
+    mov dx, es
+    pop di
+    mov sp, bp
+    pop bp
+    retf 4
+INITIALIZE_BACKING_DRIVER ENDP
+
 PUBLIC SHUTDOWN_BACKING_DRIVER
 SHUTDOWN_BACKING_DRIVER PROC FAR
     mov ax, WORD PTR BACKING_DRIVER
