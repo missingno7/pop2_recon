@@ -247,3 +247,13 @@ as for same-object calls ([acceptance.md](acceptance.md)). External near callees
 are never assumed to preserve segment context. Limits: no overlay-to-root or
 cross-space near calls, no near jumps to external code, and no frame inferred
 for a component entered only by near calls.
+
+## RTLink vectors without an outside caller (2026-11-21)
+
+An `rtlink-vector` callee with empty `witnesses` is grounded by its own
+record (`grounded_by: vector-record`). The census decoder checks the record's
+manager-intercept CALL, the relocated far JMP and the overlay descriptor.
+The decoded destination must start a reviewed target row, or an accepted
+owner, in the destination overlay, so the destination has independent
+boundary review. An outside caller would add nothing beyond the record
+itself. A destination without a reviewed row is refused.

@@ -417,6 +417,41 @@ class StructuralEntryTests(unittest.TestCase):
             self.ground((root.position(0x2203, 0x0cbd), 0x2203, 0x0cbd, 10))
 
 
+class VectorRecordTests(unittest.TestCase):
+    """An RTLink vector with no outside caller is grounded by its own decoded record when the
+    destination starts a reviewed target; otherwise it is refused."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        from far_binding import _extents
+        from tu_census import overlay_vectors
+        cls.oracle = Oracle.load()
+        overlays = {n: s for n, s in cls.oracle.spaces.items() if s.descriptor and s.descriptor["flags"] == 4}
+        cls.extents = _extents(cls.oracle)
+        starts = {(name, lo) for name, lo, _, _, _ in cls.extents}
+        vectors = overlay_vectors(cls.oracle, overlays)
+        cls.unreviewed, record = next((k, v) for k, v in vectors.items()
+                                      if (v["target_space"], v["target_position"]) not in starts)
+        # A reviewed row at that destination (injected: rows are added as overlays are reviewed).
+        cls.with_row = cls.extents + [(record["target_space"], record["target_position"],
+                                       record["target_position"] + 2, "probe-destination", False)]
+
+    def ground(self, key, extents=None):
+        from far_binding import ground_symbol
+        symbol = {"kind": "rtlink-vector", "space": "root", "segment": key[0], "offset": key[1], "witnesses": []}
+        with patch("far_binding._extents", return_value=extents if extents is not None else self.extents):
+            return ground_symbol(symbol, {"id": "probe", "space": "root", "segment": 0, "offset": 0, "size": 2},
+                                 self.oracle)
+
+    def test_vector_to_a_reviewed_destination_is_grounded_by_its_record(self):
+        self.assertEqual(self.ground(self.unreviewed, self.with_row)["grounded_by"], "vector-record")
+
+    def test_vector_to_an_unreviewed_destination_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "does not start a reviewed target"):
+            self.ground(self.unreviewed)
+
+
 class SegmentBaseTests(unittest.TestCase):
     """A far data segment N is grounded by other original relocated words storing N."""
 

@@ -233,7 +233,16 @@ def ground_symbol(symbol, target, oracle):
     if not symbol.get("witnesses"):
         # Without an outside caller, the entry may instead be the start of accepted exact
         # code elsewhere: its reconstruction independently proves a function starts there.
-        require(kind != "rtlink-vector", "Far callee has no independent original CALL witness or accepted exact entry")
+        if kind == "rtlink-vector":
+            # The vector record is itself original evidence of an entry: the census decoder
+            # checks its manager-intercept call, relocated far jump and overlay descriptor.
+            # Its decoded destination must start a reviewed target (or accepted owner).
+            starts = {(name, lo) for name, lo, _, _, _ in _extents(oracle)}
+            require((destination["target_space"], vector["target_position"]) in starts,
+                    "RTLink vector destination does not start a reviewed target")
+            return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
+                    "offset": symbol["offset"], "witnesses": [], "grounded_by": "vector-record",
+                    "callee_owned_bytes": 0, "vector_destination": destination}
         if _accepted_entry(callee["id"], oracle):
             return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
                     "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted exact entry",
