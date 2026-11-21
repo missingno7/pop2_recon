@@ -11,7 +11,7 @@ from common import require, sha
 from disasm import _capstone
 
 
-FAR_KINDS = ("far-code-entry", "rtlink-vector", "overlay-code-entry")
+FAR_KINDS = ("far-code-entry", "rtlink-vector", "overlay-code-entry", "segment-base")
 
 
 def _vector(oracle, segment, offset):
@@ -21,6 +21,27 @@ def _vector(oracle, segment, offset):
     vectors = overlay_vectors(oracle, overlays)
     require((segment, offset) in vectors, "Far callee alias is not an original RTLink vector")
     return vectors[(segment, offset)]
+
+
+def _ground_segment(symbol, target, oracle):
+    """A far data segment's paragraph N, grounded by original relocated words outside the
+    candidate whose stored (link-time) value is N."""
+    require(type(symbol.get("segment")) is int and 0 <= symbol["segment"] <= 65535 and symbol.get("witnesses"),
+            "Segment-base symbol needs a segment and independent relocated witnesses")
+    space = oracle.spaces[target["space"]]
+    start = space.position(target["segment"], target["offset"])
+    end = start + target["size"]
+    receipts = []
+    for spec in symbol["witnesses"]:
+        wspace = oracle.spaces[spec["space"]]
+        at = spec["image_offset"]
+        relocs = [r for r in wspace.relocations if r["image_offset"] == at]
+        require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
+                struct.unpack_from("<H", wspace.data, at)[0] == symbol["segment"],
+                "Segment-base witness is not an original relocated word with that value")
+        require(wspace.name != space.name or not (start - 1 <= at < end), "Segment-base witness overlaps candidate")
+        receipts.append({"space": wspace.name, "image_offset": at, "relocation_index": relocs[0]["index"]})
+    return {"kind": "segment-base", "segment": symbol["segment"], "witnesses": receipts}
 
 
 def _accepted_entry(target_id):
@@ -43,6 +64,8 @@ def ground_symbol(symbol, target, oracle):
     from match import get_target
     kind = symbol.get("kind")
     require(kind in FAR_KINDS, "Unsupported far callee kind")
+    if kind == "segment-base":
+        return _ground_segment(symbol, target, oracle)
     require(type(symbol["segment"]) is int and type(symbol["offset"]) is int and
             0 <= symbol["segment"] <= 65535 and 0 <= symbol["offset"] <= 65535,
             "Far code alias must be an exact 16:16 pair")

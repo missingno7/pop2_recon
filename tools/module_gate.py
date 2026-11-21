@@ -266,7 +266,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     require(fix["target"]["name"] not in publics,
                             "Far fixup target resolves to a CODE public of this object")
                     state["far"].append(dict(fix, segment_offset=at))
-                    state["calls"][at - 1] = None  # a far callee, not a claim
+                    if far_symbols[fix["target"]["name"]].get("kind") != "segment-base":
+                        state["calls"][at - 1] = None  # a far callee, not a claim
                 else:
                     require(fix["target"].get("name") not in publics,
                             "Data fixup target resolves to a CODE public of this object")
@@ -347,6 +348,25 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 by_address = {i.address: i for i in state["rows"]}
                 for fix in state["far"]:
                     at, ref = fix["segment_offset"], fix["target"]
+                    symbol = far_symbols[ref["name"]]
+                    if symbol.get("kind") == "segment-base":
+                        # LOC2 base16 of an external far segment (`mov ax, seg Table`): the
+                        # linker writes that segment's paragraph, relocated in MZ at the field.
+                        require(fix["loc_type"] == 2 and fix["field_width"] == 2 and not fix["self_relative"] and
+                                ref["kind"] == "external" and fix["displacement"] is None and
+                                fix["frame"] == {"kind": "target_frame", "target": ref},
+                                "Unsupported segment-base fixup shape")
+                        require(state["piece"][at:at+2] == bytes(2), "Only zero encoded segment addends are proven")
+                        observed = struct.unpack_from("<H", state["expected"], at)[0]
+                        state["equations"].append({"offset": at, "kind": "segment-base", "symbol": ref["name"],
+                                                   "linked_segment": symbol["segment"], "original_segment": observed,
+                                                   "equal": symbol["segment"] == observed})
+                        if symbol["segment"] != observed:
+                            state["differences"].append(at)
+                        state["occupied"].update(range(at, at+2))
+                        sites.append({"site": state["position"] + at, "offset": at, "symbol": ref["name"]})
+                        used_far.add(ref["name"])
+                        continue
                     require(fix["loc_type"] == 3 and fix["field_width"] == 4 and not fix["self_relative"] and
                             ref["kind"] == "external" and ref["method"] == 6 and fix["displacement"] is None and
                             fix["frame"] == {"kind": "target_frame", "target": ref},
@@ -355,7 +375,6 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     require(insn is not None and insn.size == 5 and bytes(insn.bytes)[:1] == b"\x9a",
                             "Far fixup is not a complete unprefixed 9A CALL operand")
                     require(state["piece"][at:at+4] == bytes(4), "Only zero encoded far addends are proven")
-                    symbol = far_symbols[ref["name"]]
                     value = (symbol["offset"], symbol["segment"])
                     observed = struct.unpack_from("<HH", state["expected"], at)
                     state["equations"].append({"offset": at, "kind": "far-call", "symbol": ref["name"],

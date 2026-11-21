@@ -340,3 +340,31 @@ class AcceptedEntryTests(unittest.TestCase):
     def test_reviewed_but_unaccepted_entry_needs_a_witness(self):
         with self.assertRaisesRegex(ValueError, "accepted exact entry"):
             self.ground("root:1101:649c")
+
+
+class SegmentBaseTests(unittest.TestCase):
+    """A far data segment N is grounded by other original relocated words storing N."""
+
+    def setUp(self):
+        from oracle import Oracle
+        self.oracle = Oracle.load()
+        root = self.oracle.spaces["root"]
+        site = next(r for r in root.relocations if r["index"] == 330)
+        self.value = struct.unpack_from("<H", root.data, site["image_offset"])[0]
+        self.other = next(r for r in root.relocations if r["index"] != 330 and
+                          struct.unpack_from("<H", root.data, r["image_offset"])[0] == self.value)
+        self.target = {"id": "probe", "space": "root", "segment": 0, "offset": site["image_offset"] - 1, "size": 4}
+
+    def ground(self, witness):
+        from far_binding import ground_symbol
+        return ground_symbol({"kind": "segment-base", "segment": self.value, "witnesses": [witness]},
+                             self.target, self.oracle)
+
+    def test_other_relocated_word_with_the_same_segment_grounds_it(self):
+        w = {"space": "root", "image_offset": self.other["image_offset"], "relocation_index": self.other["index"]}
+        self.assertEqual(self.ground(w)["segment"], self.value)
+
+    def test_the_candidates_own_relocation_cannot_ground_it(self):
+        site = next(r for r in self.oracle.spaces["root"].relocations if r["index"] == 330)
+        with self.assertRaisesRegex(ValueError, "overlaps candidate"):
+            self.ground({"space": "root", "image_offset": site["image_offset"], "relocation_index": 330})
