@@ -26029,6 +26029,162 @@
       "size": 76,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, far output pointer and word lookup ID, DX:AX result, RETF 6.",
+      "boundary_evidence": [
+        "Entry follows the separate RETF 4 at 0055. Both result branches from the immediate near call at 0064 converge at POPF 0081. RETF 6 at 0087 ends at the next BP frame, 008a.",
+        "Original relocated CALL FAR at root+0x10cca, MZ relocation 1416."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 77002,
+          "image_offset": 68810,
+          "kind": "far_call",
+          "relocated_segment_site": 68813,
+          "relocation_index": 1416,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Entry follows the separate RETF 4 at 0055. Both result branches from the immediate near call at 0064 converge at POPF 0081. RETF 6 at 0087 ends at the next BP frame, 008a."
+      ],
+      "classification_status": "Original engine support code; hand assembly hypothesis.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:0058",
+      "offset": 88,
+      "segment": 4353,
+      "semantic_name_hypothesis": "lookup_shape_metadata",
+      "sha256": "50b383a0d3d9feb53a98e216819be161b13b4439bcde30c993dcf9d72638a5de",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near register ABI, unsigned byte count DX:AX, AX result; clobbers BX, CL and DX, returns with RET.",
+      "boundary_evidence": [
+        "Previous MoveFarBytes ends with its backward-loop JMP at 1c8e. Entered by plain E8 at 170c from relocated far entry 1101:16ef, whose caller root+1f68c is MZ relocation 1876. Both saturation branches and the normal add reach RET at 1caa. Distinct BP frame at 1cab."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Previous MoveFarBytes ends with its backward-loop JMP at 1c8e. Entered by plain E8 at 170c from relocated far entry 1101:16ef, whose caller root+1f68c is MZ relocation 1876. Both saturation branches and the normal add reach RET at 1caa. Distinct BP frame at 1cab."
+      ],
+      "classification_status": "Original engine support code; hand assembly hypothesis.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:1c90",
+      "offset": 7312,
+      "segment": 4353,
+      "semantic_name_hypothesis": "round_bytes_to_paragraphs",
+      "sha256": "0932941229bb55eeb9a6620e1245fe49383ce5f879330df3bf20ac7132227512",
+      "size": 27,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near register ABI, search key in AX; returns AX status and DS:SI/DI/BX register results.",
+      "boundary_evidence": [
+        "Independent plain E8 at 6f51 is reached from 1101:22a0 and resolves to 7364. Also called at 0064 by the independently relocated 0058 entry. The register lookup uses the 262c list or scans a second segment. Both paths converge on RET at 739d; final JMP at 73c2 returns to that exit. Distinct next BP frame at 73c4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Independent plain E8 at 6f51 is reached from 1101:22a0 and resolves to 7364. Also called at 0064 by the independently relocated 0058 entry. The register lookup uses the 262c list or scans a second segment. Both paths converge on RET at 739d; final JMP at 73c2 returns to that exit. Distinct next BP frame at 73c4."
+      ],
+      "classification_status": "Original engine support code; hand assembly hypothesis.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7364",
+      "offset": 29540,
+      "segment": 4353,
+      "semantic_name_hypothesis": "find_shape_metadata",
+      "sha256": "8ba5e8cdfe9bbc710296adade9a0e4b9754fe6a89615ea779e4682bc6dd5b3c8",
+      "size": 96,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, one button index word in BP+6, AX Boolean, RETF 2.",
+      "boundary_evidence": [
+        "Previous near routine ends in C3 at bac0 and a zero at bac1. The new BP frame tests DS:25ce before DOS mouse INT 33h function 3 and tests the requested BX button bit. Disabled, not pressed and pressed paths converge on RETF 2 at bae2. The next separate BP frame begins immediately at bae5.",
+        "Original relocated CALL FAR at root+0x1df9a, MZ relocation 1738.",
+        "Original relocated CALL FAR at root+0x1df86, MZ relocation 1739."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130970,
+          "image_offset": 122778,
+          "kind": "far_call",
+          "relocated_segment_site": 122781,
+          "relocation_index": 1738,
+          "space": "root"
+        },
+        {
+          "file_offset": 130950,
+          "image_offset": 122758,
+          "kind": "far_call",
+          "relocated_segment_site": 122761,
+          "relocation_index": 1739,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Previous near routine ends in C3 at bac0 and a zero at bac1. The new BP frame tests DS:25ce before DOS mouse INT 33h function 3 and tests the requested BX button bit. Disabled, not pressed and pressed paths converge on RETF 2 at bae2. The next separate BP frame begins immediately at bae5."
+      ],
+      "classification_status": "Original engine support code; hand assembly hypothesis.",
+      "entry_kind": "direct-code",
+      "id": "root:1101:bac2",
+      "offset": 47810,
+      "segment": 4353,
+      "semantic_name_hypothesis": "mouse_button_down",
+      "sha256": "510e94724c214c7e798aa8527802f336c22fc5534540e9caf32b2a3b71b26fbb",
+      "size": 35,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal-style, two-word size, DX:AX result, RETF 4 for the default allocator.",
+      "boundary_evidence": [
+        "Follows RETF 4 of the separate 64ec dispatcher. Starts with DS:25e2 callback test. JCXZ reaches the local BP frame at 650c while nonzero callback tail-jumps via CX. Default path reaches RETF 4 at 6519. Next separate BP frame starts at 651c. Uses an external near CALL to reviewed 297c.",
+        "Relocated far calls at root+0x14959 (index 1581) and overlay-2+0x5e11 (index 777) resolve the distinct 1101:6504 alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 92505,
+          "image_offset": 84313,
+          "kind": "far_call",
+          "relocated_segment_site": 84316,
+          "relocation_index": 1581,
+          "space": "root"
+        },
+        {
+          "file_offset": 180017,
+          "image_offset": 24081,
+          "kind": "far_call",
+          "relocated_segment_site": 24084,
+          "relocation_index": 777,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Callback tail dispatch via CX followed by a default PUSH CS/CALL near and far ABI epilogue."
+      ],
+      "classification_status": "Reviewed hand-assembly callback dispatcher.",
+      "id": "root:1101:6504",
+      "offset": 25860,
+      "segment": 4353,
+      "semantic_name_hypothesis": "allocate_buffer",
+      "sha256": "406d0822f967ba2571bf258a64f58e4a5531d3bd9962e856fa69964176472b4b",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

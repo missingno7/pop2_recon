@@ -1,0 +1,180 @@
+{
+  "declarations": {
+    "externals": [
+      "MOUSE_BUTTON_DOWN",
+      "EVENT_RECORDS",
+      "EVENT_COUNT"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOUSE_BUTTON_UNQUEUED",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 49,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 8,
+      "self_relative": true,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "MOUSE_BUTTON_DOWN",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 16,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "EVENT_COUNT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 21,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "EVENT_RECORDS",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "segment": 8707,
+    "witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    }
+  },
+  "mode": "external-dgroup-offset16-v4",
+  "schema": 1,
+  "symbols": {
+    "EVENT_COUNT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 10244,
+      "witnesses": [
+        {
+          "bytes_hex": "8b0e0428",
+          "context": "mov cx, word ptr [0x2804] reached from root:1101:8f21",
+          "entry": "root:1101:8f21",
+          "image_offset": 117571,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "EVENT_RECORDS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 10132,
+      "witnesses": [
+        {
+          "bytes_hex": "bf9427",
+          "context": "mov di, 0x2794 reached from root:1101:8f21",
+          "entry": "root:1101:8f21",
+          "image_offset": 117568,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "MOUSE_BUTTON_DOWN": {
+      "entry_sha256": "510e94724c214c7e798aa8527802f336c22fc5534540e9caf32b2a3b71b26fbb",
+      "entry_target_id": "root:1101:bac2",
+      "kind": "near-code-entry",
+      "offset": 47810,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    }
+  },
+  "target_id": "group:mouse_button_unqueued",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}
