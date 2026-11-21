@@ -193,6 +193,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         if data_only:
             symbols = ground({**binding, "symbols": data_only}, hull, oracle)
             mode = binding["mode"]
+        elif "frame" in binding:
+            # Verify the DGROUP frame witness even without data symbols (DGROUP base fields).
+            ground({**binding, "mode": OPERAND_MODE, "symbols": {}}, hull, oracle)
         else:
             require(binding["mode"] in ("external-far-call-v1",) + DATA_MODES, "Unsupported group binding mode")
             symbols, mode = {}, binding["mode"]
@@ -223,7 +226,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 rows = None
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "own": [], "tables": tables,
+                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [],
                      "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
                      "report": report, "position": position,
                      "relocations": [r for r in space.relocations
@@ -268,11 +271,26 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     state["far"].append(dict(fix, segment_offset=at))
                     if far_symbols[fix["target"]["name"]].get("kind") not in ("segment-base", "far-data"):
                         state["calls"][at - 1] = None  # a far callee, not a claim
+                elif (fix["loc_type"] == 2 and not fix["self_relative"] and fix["field_width"] == 2 and
+                      fix["target"].get("kind") == "group" and fix["target"].get("name") == "DGROUP"):
+                    # `mov ax, DGROUP`: the DGROUP paragraph, grounded by the binding's startup
+                    # DS-load frame witness; relocated in MZ at the field itself.
+                    require(binding is not None and "frame" in binding and fix["displacement"] is None,
+                            "DGROUP base needs a binding with a grounded DGROUP frame")
+                    require(piece[at:at+2] == bytes(2), "Only zero encoded DGROUP base addends are proven")
+                    value = binding["frame"]["segment"]
+                    observed = struct.unpack_from("<H", expected, at)[0]
+                    state["equations"].append({"offset": at, "kind": "DGROUP base", "linked_segment": value,
+                                               "original_segment": observed, "equal": value == observed})
+                    if value != observed:
+                        state["differences"].append(at)
+                    state["occupied"].update((at, at+1))
+                    state["group_bases"].append(at)
                 else:
                     require(fix["target"].get("name") not in publics,
                             "Data fixup target resolves to a CODE public of this object")
                     state["data"].append(dict(fix, segment_offset=at))
-            require(not state["relocations"] or state["far"],
+            require(not state["relocations"] or state["far"] or state["group_bases"],
                     "Original MZ relocations need far CALL fixups in the claim")
             states[claim["public"]] = state
         except ValueError as error:
@@ -401,8 +419,14 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     state["occupied"].update(range(at, at+4))
                     sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"]})
                     used_far.add(ref["name"])
+                sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]]
                 relocation_proof = relocation_order(state["relocations"], sites,
                                                     [r["index"] for r in state["relocations"]])
+            if state["group_bases"] and not state["far"]:
+                relocation_proof = relocation_order(
+                    state["relocations"],
+                    [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]],
+                    [r["index"] for r in state["relocations"]])
             if state["data"]:
                 require(symbols is not None, "DGROUP fixups require a grounded group binding")
                 missing = sorted({f["target"].get("name") for f in state["data"]} - set(symbols))
