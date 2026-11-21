@@ -633,12 +633,15 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         require(fix["field_width"] == 2 and ref["kind"] == "external" and fix["displacement"] is None and
                                 fix["frame"] == {"kind": "target_frame", "target": ref},
                                 "Unsupported far data offset fixup shape")
-                        require(state["piece"][at:at+2] == bytes(2), "Only zero encoded far data addends are proven")
+                        addend = struct.unpack_from("<H", state["piece"], at)[0]
+                        require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
+                                "Far data addends must be zero or independently witnessed members")
+                        linked = (symbol["offset"] + addend) & 0xFFFF
                         observed = struct.unpack_from("<H", state["expected"], at)[0]
                         state["equations"].append({"offset": at, "kind": "far-data offset", "symbol": ref["name"],
-                                                   "linked_offset": symbol["offset"], "original_offset": observed,
-                                                   "equal": symbol["offset"] == observed})
-                        if symbol["offset"] != observed:
+                                                   "encoded_addend": addend, "linked_offset": linked,
+                                                   "original_offset": observed, "equal": linked == observed})
+                        if linked != observed:
                             state["differences"].append(at)
                         state["occupied"].update(range(at, at+2))
                         used_far.add(ref["name"])

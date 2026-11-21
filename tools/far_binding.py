@@ -62,7 +62,7 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
     space = oracle.spaces[target["space"]]
     start = space.position(target["segment"], target["offset"])
     end = start + target["size"]
-    for spec in symbol.get("offset_witnesses", []):
+    def witnessed(spec, value):
         wspace = oracle.spaces[spec["space"]]
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
         spans = claimed if claimed is not None else [(start, end)]
@@ -71,13 +71,25 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
                 "Far data offset witness changed or overlaps candidate")
         rows = instructions(raw)
         require(len(rows) == 1 and operand_field(rows[0], spec["operand_offset"]) is not None and
-                struct.unpack_from("<H", raw, spec["operand_offset"])[0] == offset,
+                struct.unpack_from("<H", raw, spec["operand_offset"])[0] == value,
                 "Far data offset witness field does not equal the offset")
         require(spec["entry"].split(":")[0] == spec["space"] and at in reachable_from_entry(oracle, spec["entry"]),
                 "Far data offset witness is not reached code")
         require(any(abs(r["image_offset"] - at) <= 16 and struct.unpack_from("<H", wspace.data, r["image_offset"])[0]
                     == symbol["segment"] for r in wspace.relocations),
                 "Far data offset witness is not paired with a relocated word storing the segment")
+
+    for spec in symbol.get("offset_witnesses", []):
+        witnessed(spec, offset)
+    # A member O+k (k > 0, e.g. ES:[BX+1] into a far table) is proven only by its own
+    # independent offset witnesses, as v4 members are: a free addend would re-fit O.
+    members = symbol.get("members", [])
+    require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and m.get("offset_witnesses")
+                for m in members) and len({m["offset"] for m in members}) == len(members),
+            "Every far data member needs a positive offset and its own offset witnesses")
+    for member in members:
+        for spec in member["offset_witnesses"]:
+            witnessed(spec, (offset + member["offset"]) & 0xFFFF)
     return {"kind": "far-data", "segment": symbol["segment"], "offset": offset,
             "segment_witnesses": segment["witnesses"], "offset_witnesses": len(symbol.get("offset_witnesses", []))}
 

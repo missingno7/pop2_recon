@@ -326,3 +326,12 @@ call in frame 2344 through the same-overlay call at overlay-3+0x2f77.
 The same draft-region rule applies to group `segment-base` and `far-data`
 witnesses: relocated segment words and offset instructions in an unclaimed
 draft region count, and those inside a claimed extent do not.
+
+## Far data members (2026-11-21)
+
+A `far-data` symbol may list `members: [{offset: k, offset_witnesses: [...]}]`.
+A candidate offset field with encoded addend `k > 0` (for example
+`ES:[BX+1]` into a far table) is proven only when `O + k` has its own
+independent offset witnesses, under the same rules as `O`: reached,
+paired with a relocated segment word, outside every claim. A free addend
+would re-fit `O`, as in the v4 member rule.

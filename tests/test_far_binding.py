@@ -470,6 +470,14 @@ class SegmentBaseTests(unittest.TestCase):
         return ground_symbol({"kind": "segment-base", "segment": self.value, "witnesses": [witness]},
                              self.target, self.oracle)
 
+    def test_far_data_member_needs_its_own_offset_witness(self):
+        from far_binding import _ground_far_data
+        spec = {"space": "root", "image_offset": self.other["image_offset"], "relocation_index": self.other["index"]}
+        symbol = {"segment": self.value, "segment_witnesses": [spec], "offset": 0,
+                  "members": [{"offset": 1, "offset_witnesses": []}]}
+        with self.assertRaisesRegex(ValueError, "member needs"):
+            _ground_far_data(symbol, self.target, self.oracle)
+
     def test_group_draft_region_segment_witness_counts_but_a_claimed_one_does_not(self):
         from far_binding import _ground_segment
         at = self.other["image_offset"]
