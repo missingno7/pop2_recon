@@ -56,14 +56,19 @@ def reachable_from_entry(oracle, entry):
     root = oracle.spaces["root"]
     segment, offset = int(seg_text, 16), int(off_text, 16)
     start = root.position(segment, offset)
-    from common import ROOT, read_json
-    reviewed = any(t["space"] == "root" and t.get("boundary_status") == "REVIEWED" and
-                   t.get("entry_kind", "direct-code") == "direct-code" and
-                   root.position(t["segment"], t["offset"]) == start
-                   for t in read_json(ROOT / "evidence/targets.json")["functions"])
-    require(reviewed or any(at >= 0 and root.data[at] == 0x9a and
-                            root.data[at+1:at+5] == struct.pack("<HH", offset, segment)
-                            for at in (r["image_offset"] - 3 for r in root.relocations)),
+    def reviewed_entry():
+        from common import ROOT, read_json
+        for t in read_json(ROOT / "evidence/targets.json")["functions"]:
+            if (t["space"] == "root" and t.get("boundary_status") == "REVIEWED" and
+                    t.get("entry_kind", "direct-code") == "direct-code" and
+                    0 <= (t["segment"] - root.link_segment) * 16 + t["offset"] == start):
+                return True
+        return False
+
+    far_entry = any(at >= 0 and root.data[at] == 0x9a and
+                    root.data[at+1:at+5] == struct.pack("<HH", offset, segment)
+                    for at in (r["image_offset"] - 3 for r in root.relocations))
+    require(far_entry or reviewed_entry(),
             "v4 witness entry is neither a relocated CALL FAR destination nor a reviewed entry")
     cs, _ = _capstone()
     engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
