@@ -61446,6 +61446,835 @@
         "Dispatches record initialization by actor kind, including two direct relocated overlay calls and a near-record saved-Y or appearance update."
       ],
       "abi": "Far Pascal void(near opponent record *), BP+6, RETF 2."
+    },
+    {
+      "id": "overlay-2:238a:1264",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 4708,
+      "size": 960,
+      "sha256": "74fbf302ca2e77ffd3c73ab715862670212ebac6aa82122e5c72996cb78d1a99",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:1264 immediately after RETF 2 at 238A:1260 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 2 at 238A:1621. The next entry is at 238A:1624.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:10AD."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 5390,
+          "file_offset": 161326,
+          "pushed_cs_site": 5389
+        }
+      ],
+      "abi": "Far Pascal, callee pops 2 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Throne-room scene opens temporary ports, plays cues, and composites the scene.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:1ada",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 6874,
+      "size": 2162,
+      "sha256": "4506885192bc8cb49025491ed55aec84396753fc4876f36efa4a9ba1298f9069",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:1ADA immediately after RETF 2 at 238A:1AD6 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:234A followed by one 90h alignment byte. The next entry is at 238A:234C.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:3E0D."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 17006,
+          "file_offset": 172942,
+          "pushed_cs_site": 17005
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Large scene sequence with palette and shape operations. The NIS dispatcher selects it for sequence 9.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:234c",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 9036,
+      "size": 2074,
+      "sha256": "8533caad84dfee6fc4022be5780fe6c71efd3734c8bd4dc6b930ce11e8b5988d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:234C immediately after RETF at 238A:234A followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:2B64 followed by one 90h alignment byte. The next entry is at 238A:2B66.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:3DF5."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 16982,
+          "file_offset": 172918,
+          "pushed_cs_site": 16981
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "First opening scene sequence, selected by the NIS dispatcher for sequence 7.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:2b66",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 11110,
+      "size": 4260,
+      "sha256": "36165a0dbcaf105e918431282936be40d694a10ab9e99f602e36c3f48670f400",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:2B66 immediately after RETF at 238A:2B64 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:3C08 followed by one 90h alignment byte. The next entry is at 238A:3C0A.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:3E01."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 16994,
+          "file_offset": 172930,
+          "pushed_cs_site": 16993
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Second opening scene sequence, selected by the NIS dispatcher for sequence 8.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3c0a",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15370,
+      "size": 38,
+      "sha256": "132275d91472d2289f3ff6d6c03864c93bfd268fe72e891a36d54802ec354389",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3C0A immediately after RETF at 238A:3C08 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 4 at 238A:3C2D. The next entry is at 238A:3C30.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:1C1A, 238A:1D76, 238A:1ECD."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8315,
+          "file_offset": 164251,
+          "pushed_cs_site": 8314
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8663,
+          "file_offset": 164599,
+          "pushed_cs_site": 8662
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 9006,
+          "file_offset": 164942,
+          "pushed_cs_site": 9005
+        }
+      ],
+      "abi": "Far Pascal, callee pops 4 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Saves and restores the active drawing port around a solid rectangle fill.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3c30",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15408,
+      "size": 46,
+      "sha256": "2bc420890f3b50b2dc90ab05f23ca6f32d8edf9f118626046990d99e73828971",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3C30 immediately after RETF 4 at 238A:3C2D.",
+        "Own linear code ends in RETF 0xc at 238A:3C5A followed by one 90h alignment byte. The next entry is at 238A:3C5E.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:1C34, 238A:1C4F, 238A:1D90."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8341,
+          "file_offset": 164277,
+          "pushed_cs_site": 8340
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8368,
+          "file_offset": 164304,
+          "pushed_cs_site": 8367
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8689,
+          "file_offset": 164625,
+          "pushed_cs_site": 8688
+        }
+      ],
+      "abi": "Far Pascal, callee pops 12 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Saves and restores the active port around a handle/item RLE draw.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3c5e",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15454,
+      "size": 50,
+      "sha256": "9feacb203ed19fae951cdd09ab0139c4d13ad0f46d917413fcc2daa2970c880e",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3C5E immediately after RETF 0xc at 238A:3C5A followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 0xa at 238A:3C8C followed by one 90h alignment byte. The next entry is at 238A:3C90.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:32C8, 238A:32FA, 238A:3311."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 14121,
+          "file_offset": 170057,
+          "pushed_cs_site": 14120
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 14171,
+          "file_offset": 170107,
+          "pushed_cs_site": 14170
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 14194,
+          "file_offset": 170130,
+          "pushed_cs_site": 14193
+        }
+      ],
+      "abi": "Far Pascal, callee pops 10 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Locks the supplied shape handle and draws to the supplied port, restoring the old port.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3c90",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15504,
+      "size": 76,
+      "sha256": "cec729f6c2e14a6711ec08f55eb50e7cbc247f15dcb993b7092b87f8b3d71bfe",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3C90 immediately after RETF 0xa at 238A:3C8C followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 2 at 238A:3CD9. The next entry is at 238A:3CDC.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:1EF8, 238A:2006, 238A:31FE."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 9049,
+          "file_offset": 164985,
+          "pushed_cs_site": 9048
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 9319,
+          "file_offset": 165255,
+          "pushed_cs_site": 9318
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 13919,
+          "file_offset": 169855,
+          "pushed_cs_site": 13918
+        }
+      ],
+      "abi": "Far Pascal, callee pops 2 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clears the palette, copies a rectangle, waits, and restores the palette from a locked handle.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3cdc",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15580,
+      "size": 32,
+      "sha256": "736d458e3f8734223ff0c90e438af115229143d1a59fdaf8dd3692be1a871eeb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3CDC immediately after RETF 2 at 238A:3CD9.",
+        "Own linear code ends in RETF 2 at 238A:3CF8 followed by one 90h alignment byte. The next entry is at 238A:3CFC.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:1E27, 238A:1F99, 238A:202A."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8840,
+          "file_offset": 164776,
+          "pushed_cs_site": 8839
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 9210,
+          "file_offset": 165146,
+          "pushed_cs_site": 9209
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 9355,
+          "file_offset": 165291,
+          "pushed_cs_site": 9354
+        }
+      ],
+      "abi": "Far Pascal, callee pops 2 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies matching rectangles between ports without the palette operations.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3cfc",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15612,
+      "size": 80,
+      "sha256": "d8fc5e1383f98ce44afcf2285633698d28cd932dd709fbda8b78d605749ce92e",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3CFC immediately after RETF 2 at 238A:3CF8 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 4 at 238A:3D48 followed by one 90h alignment byte. The next entry is at 238A:3D4C.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:1C6F, 238A:1DA9, 238A:21C9."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8400,
+          "file_offset": 164336,
+          "pushed_cs_site": 8399
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 8714,
+          "file_offset": 164650,
+          "pushed_cs_site": 8713
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 9770,
+          "file_offset": 165706,
+          "pushed_cs_site": 9769
+        }
+      ],
+      "abi": "Far Pascal, callee pops 4 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Fades out, copies the rectangle if uninterrupted, then fades the saved palette in.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3d4c",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15692,
+      "size": 118,
+      "sha256": "75078ec2fd200bdc5552273b6bc68d14cbf7a0e8c0355c3875339df348c94e56",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3D4C immediately after RETF 4 at 238A:3D48 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 8 at 238A:3DBF. The next entry is at 238A:3DC2.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:2460, 238A:24AB, 238A:2510."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 10433,
+          "file_offset": 166369,
+          "pushed_cs_site": 10432
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 10508,
+          "file_offset": 166444,
+          "pushed_cs_site": 10507
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 10609,
+          "file_offset": 166545,
+          "pushed_cs_site": 10608
+        }
+      ],
+      "abi": "Far Pascal, callee pops 8 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Stages a clipped temporary port and returns the result of the animation vector.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3e5e",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 15966,
+      "size": 44,
+      "sha256": "7a444d3e7291246d1cd93e589dca7337c22220510a38a9171e2d03d345d0e7d1",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3E5E immediately after RETF 2 at 238A:3E5B.",
+        "Own linear code ends in RETF 8 at 238A:3E86 followed by one 90h alignment byte. The next entry is at 238A:3E8A.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:0489, 238A:05B4, 238A:05CE."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 2282,
+          "file_offset": 158218,
+          "pushed_cs_site": 2281
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 2581,
+          "file_offset": 158517,
+          "pushed_cs_site": 2580
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 2607,
+          "file_offset": 158543,
+          "pushed_cs_site": 2606
+        }
+      ],
+      "abi": "Far Pascal, callee pops 8 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Adds the resource and voice words, prepares the sound, draws the line, and plays timed music.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3e8a",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 16010,
+      "size": 110,
+      "sha256": "a0d8ac5d89ee7834e75af7276917a36b1d6f44fb4742e2955f05491453b0df4f",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3E8A immediately after RETF 8 at 238A:3E86 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 0xc at 238A:3EF4 followed by one 90h alignment byte. The next entry is at 238A:3EF8.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:2442, 238A:249A, 238A:24F2."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 10403,
+          "file_offset": 166339,
+          "pushed_cs_site": 10402
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 10491,
+          "file_offset": 166427,
+          "pushed_cs_site": 10490
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 10579,
+          "file_offset": 166515,
+          "pushed_cs_site": 10578
+        }
+      ],
+      "abi": "Far Pascal, callee pops 12 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads the shape resource dimensions and writes four fields of a caller-supplied far rectangle.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:3ef8",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 16120,
+      "size": 1164,
+      "sha256": "5d3c64d5d4ca21c0eebef31d147f0c6b41b67377770cfb4d14f03df5708dd5ea",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:3EF8 immediately after RETF 0xc at 238A:3EF4 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:4383. The next entry is at 238A:4384.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:3E2A."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 17035,
+          "file_offset": 172971,
+          "pushed_cs_site": 17034
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Ending-scene controller with relocated callback and palette references. Dispatcher sequence 11.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:4384",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 17284,
+      "size": 208,
+      "sha256": "e3a6d76fa5cd0545529894f92675884da16a16bf9298b35650603be892374ead",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:4384 immediately after RETF at 238A:4383.",
+        "Own linear code ends in RETF at 238A:4452 followed by one 90h alignment byte. The next entry is at 238A:4454.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:3F00."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 17249,
+          "file_offset": 173185,
+          "pushed_cs_site": 17248
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Standalone no-argument drawing and animation helper called by the ending-scene controller.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:4454",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 17492,
+      "size": 588,
+      "sha256": "1550debc46542cd95250b7d3cfcda5daf4397a7230bb604eb890c6aeb21f093c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:4454 immediately after RETF at 238A:4452 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 4 at 238A:469D. The next entry is at 238A:46A0.",
+        "At 4074/4077, MOV CX,4454h and MOV DX,238Ah form the callback pointer. Overlay relocation 722 covers the segment word at 4078, and the pair is pushed."
+      ],
+      "call_sites": [],
+      "abi": "Far Pascal, callee pops 4 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Ending callback entered through a relocated address passed to the animation provider.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:46e0",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 18144,
+      "size": 104,
+      "sha256": "c7bda760033cb80852b2c2aae0ef581b4bbf6ac58b9ebeaa40a85f8a350d2c61",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:46E0 immediately after RETF 6 at 238A:46DC followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:4746 followed by one 90h alignment byte. The next entry is at 238A:4748.",
+        "At 4756 and 475C the installer stores 46E0h and relocated 238Ah into adjacent words 1FE8h and 1FEAh. Overlay relocation 335 covers the segment at 4760."
+      ],
+      "call_sites": [],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Input callback checks keys and a latched button, then returns interrupt status in AX.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:4748",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 18248,
+      "size": 44,
+      "sha256": "b019de95b4ccbd74476bb22678da0a90f5a6994d0a570b187c3c3a6ca07d9f8c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:4748 immediately after RETF at 238A:4746 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:4772 followed by one 90h alignment byte. The next entry is at 238A:4774.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:04CF, 238A:0710, 238A:3DD6."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 2352,
+          "file_offset": 158288,
+          "pushed_cs_site": 2351
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 2929,
+          "file_offset": 158865,
+          "pushed_cs_site": 2928
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 16951,
+          "file_offset": 172887,
+          "pushed_cs_site": 16950
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Saves and installs the input callback and stores a one-word button latch.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:4774",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 18292,
+      "size": 1996,
+      "sha256": "a904586a19b8b689f43ee0cf281cf60a8d2be89777ba3e08097c49acb8010562",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:4774 immediately after RETF at 238A:4772 followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:4F3E followed by one 90h alignment byte. The next entry is at 238A:4F40.",
+        "Decoded same-frame PUSH CS; CALL rel16 reaches this exact entry from 238A:3E19."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 17018,
+          "file_offset": 172954,
+          "pushed_cs_site": 17017
+        }
+      ],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Discovery-scene controller selected by the NIS dispatcher for sequence 10.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:4f40",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 20288,
+      "size": 58,
+      "sha256": "953e2371010dd6e1be88b42cadfe76395ceb4da35a6ddeb50be3e8915c31e08a",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:4F40 immediately after RETF at 238A:4F3E followed by one 90h alignment byte.",
+        "Own linear code ends in RETF 4 at 238A:4F77. The next entry is at 238A:4F7A.",
+        "At 4EB4/4EB7, MOV CX,4F40h and MOV DX,238Ah form a callback argument. Overlay relocation 159 covers the segment word at 4EB8, and the pair is pushed."
+      ],
+      "call_sites": [],
+      "abi": "Far Pascal, callee pops 4 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Callback sets up playback coordinates, paints a shape, and restores the coordinates.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:4f7a",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 20346,
+      "size": 502,
+      "sha256": "49f3a33614fac77d9e7847c341c9484e79dfde4d9edb1c79cf6a0ea9e312f5c5",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:4F7A immediately after RETF 4 at 238A:4F77.",
+        "Own linear code ends in RETF 4 at 238A:516C followed by one 90h alignment byte. The next entry is at 238A:5170.",
+        "At 07F1/07F4, MOV CX,4F7Ah and MOV DX,238Ah form a callback argument. Overlay relocation 717 covers the segment word at 07F5, and the pair is pushed.",
+        "A 15-word jump table occupies 5002h..501Fh. All its destinations decode within this entry."
+      ],
+      "call_sites": [],
+      "abi": "Far Pascal, callee pops 4 argument bytes",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Title callback dispatches MIDI phase through a CS jump table and tests the playback fade at exit.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:5170",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 20848,
+      "size": 2,
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:5170 immediately after RETF 4 at 238A:516C followed by one 90h alignment byte.",
+        "Own linear code ends in RETF at 238A:5170 followed by one 90h alignment byte. The next entry is at 238A:5172.",
+        "RTLink vector 2203:0D03 names overlay-2:238A:5170. Root relocation 2003 covers its far-jump segment word."
+      ],
+      "call_sites": [],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS RTLink entry whose entire body is one far return and one alignment NOP.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
+    },
+    {
+      "id": "overlay-2:238a:5172",
+      "space": "overlay-2",
+      "segment": 9098,
+      "offset": 20850,
+      "size": 10,
+      "sha256": "dcd7dab6c3eb272d535d8641d2f07d3fe2a96ebd13a5f3038940a4d0ff4c6810",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Entry starts at 238A:5172 immediately after RETF at 238A:5170 followed by one 90h alignment byte.",
+        "Own RETF at 238A:517B ends the NIS frame; the next reviewed entry is 28A1:000C.",
+        "At 5176, an original relocated CALL FAR to 1101:33F0 follows two zero word pushes. At 517C the next reviewed overlay frame begins with 55 8B EC 57 (28A1:000C)."
+      ],
+      "call_sites": [],
+      "abi": "Far return, no stack arguments popped",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Final frameless wrapper passes a null far pointer to the sound query and returns its AX result.",
+        "Original overlay NIS.C frame, corroborated by FM Towns NIS module order and DOS call/return evidence."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code"
     }
   ],
   "schema": 1,

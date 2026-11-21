@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/nis/nis.json",
-  "binding_sha256": "b2580abf4916a83fea6f44f33d876a192d06305b7450ed3522b7f766d27abebe",
+  "binding_sha256": "3857323f8d3c6c2f24d8e5a902bb7dffc589d2204dfb3f36ec6a7784bbfba7a8",
   "claims": [
     {
       "fixup_count": 6,
@@ -276,6 +276,24 @@
       "target_id": "overlay-2:238a:17c4"
     },
     {
+      "fixup_count": 21,
+      "public": "TRANSITION_SCENE_FIVE",
+      "relocation_indices": [
+        77,
+        78,
+        124,
+        125,
+        308,
+        322,
+        492
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:238a:180e"
+    },
+    {
       "fixup_count": 2,
       "public": "TRANSITION_SCENE_SIX",
       "relocation_indices": [
@@ -376,42 +394,87 @@
       "public": "TRANS_THRONE_ROOM"
     },
     {
-      "object_offset": 6146,
-      "public": "TRANSITION_SCENE_FIVE"
+      "object_offset": 6862,
+      "public": "CLEAR_NIS"
     },
     {
-      "object_offset": 6862,
+      "object_offset": 6900,
+      "public": "ADD_NIS"
+    },
+    {
+      "object_offset": 6946,
+      "public": "ADD_SHAPE_NIS"
+    },
+    {
+      "object_offset": 6996,
+      "public": "COPY_NIS"
+    },
+    {
+      "object_offset": 7072,
+      "public": "CUT_NIS"
+    },
+    {
+      "object_offset": 7104,
+      "public": "FADE_NIS"
+    },
+    {
+      "object_offset": 7184,
+      "public": "DISSOLVE_NIS"
+    },
+    {
+      "object_offset": 7302,
       "public": "RUN_NIS_DIALOG"
     },
     {
-      "object_offset": 6916,
+      "object_offset": 7356,
+      "public": "GET_SHAPE_RECT"
+    },
+    {
+      "object_offset": 7466,
+      "public": "DRAW_HAPPY_DIALOG"
+    },
+    {
+      "object_offset": 7530,
       "public": "CHECK_NIS_INPUT"
     },
     {
-      "object_offset": 7020,
+      "object_offset": 7634,
       "public": "INSTALL_NIS_INPUT"
+    },
+    {
+      "object_offset": 7678,
+      "public": "DISCOVERY_CALLBACK"
+    },
+    {
+      "object_offset": 7736,
+      "public": "NIS_NOOP"
+    },
+    {
+      "object_offset": 7738,
+      "public": "QUERY_NIS_SOUND"
     }
   ],
-  "emitted_size": 7072,
+  "emitted_size": 7748,
   "flags": [
     "/c",
     "/AM",
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zd"
   ],
   "frame": 9098,
   "group_id": "group:nis/nis",
   "kind": "same_source_group",
   "language": "c",
   "name": "nis/nis",
-  "object_sha256": "578a42c42722859c483ca3a0895a8255dca3c3e23ac67f4d7879d656781982ea",
+  "object_sha256": "9e53dcf3ed887d0c7f3a52e81939697bef5ecee4d5ef761f3666f40d1280aa4e",
   "origin": 1132,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/nis/nis.c",
-  "source_sha256": "f61a31e832e265a940d794453a8a13cb7ec0bf0924932b7d381c52e858905953",
+  "source_sha256": "7a206641b5e7d119d086a99c0520d075e452bec93bf0df200a72710f867540a5",
   "space": "overlay-2"
 }

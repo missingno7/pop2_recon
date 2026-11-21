@@ -410,6 +410,11 @@ void draw_princess_room(Handle shapes);
 #define PLAY_TRANSITION(script, mode, callback) \
     play_nis_animation(transition_shapes, TRANSITION_RESOURCE, script, mode, callback, 0, 0, 1)
 
+#define NIS_ITEM(item, x, y, mode) \
+    PaintRLEShapeItem(transition_shapes, item, x, y, mode)
+#define BACKDROP_ITEM(item, x, y, mode) \
+    PaintRLEShapeItem(background_shapes, item, x, y, mode)
+
 int Transition(int scene)
 {
     int interrupted;
@@ -430,9 +435,7 @@ int Transition(int scene)
         if (!is_sound_playing(TRANSITION_RESOURCE + 11))
             play_sound(TRANSITION_RESOURCE + 16);
         fill_rect(&screen_bounds, 16);
-        PaintRLEShapeItem(transition_shapes, 320, 118, 0, 10);
-        PaintRLEShapeItem(transition_shapes, 321, 73, 60, 10);
-        PaintRLEShapeItem(transition_shapes, 322, -41, 32, 10);
+        NIS_ITEM(320, 118, 0, 10); NIS_ITEM(321, 73, 60, 10); NIS_ITEM(322, -41, 32, 10);
         title_left = load_shape_item(transition_shapes, 312, 1);
         title_right = load_shape_item(transition_shapes, 313, 1);
         transition_palette = TRANSITION_COLORS(2);
@@ -449,9 +452,7 @@ int Transition(int scene)
         open_data_file(caverns_file);
         open_data_file(ruins_file);
         fill_rect(&viewport_bounds, 48);
-        PaintRLEShapeItem(transition_shapes, 358, -127, -34, 0);
-        PaintRLEShapeItem(transition_shapes, 354, 0, 105, 0);
-        PaintRLEShapeItem(transition_shapes, 369, 185, 46, 10);
+        NIS_ITEM(358, -127, -34, 0); NIS_ITEM(354, 0, 105, 0); NIS_ITEM(369, 185, 46, 10);
         transition_palette = TRANSITION_COLORS(1);
         interrupted = PLAY_TRANSITION(scene, scene, transition_scene_one);
         dispose_handle(transition_palette);
@@ -459,9 +460,7 @@ int Transition(int scene)
             set_palette(0, 256, 0L, (signed char)scene);
             fill_rect(&screen_bounds, 0);
             fill_rect(&viewport_bounds, 16);
-            PaintRLEShapeItem(transition_shapes, 320, 117, 0, 10);
-            PaintRLEShapeItem(transition_shapes, 321, 73, 60, 10);
-            PaintRLEShapeItem(transition_shapes, 322, -41, 34, 10);
+            NIS_ITEM(320, 117, 0, 10); NIS_ITEM(321, 73, 60, 10); NIS_ITEM(322, -41, 34, 10);
             transition_palette = TRANSITION_COLORS(2);
             interrupted = PLAY_TRANSITION(2, scene, transition_scene_one);
             dispose_handle(transition_palette);
@@ -472,9 +471,7 @@ int Transition(int scene)
             dispose_handle(transition_shapes);
             transition_shapes = hGetSL(TRANSITION_RESOURCE, -2);
             background_shapes = hGetSL(3500, -16);
-            PaintRLEShapeItem(background_shapes, 1100, 0, 0, 0);
-            PaintRLEShapeItem(background_shapes, 1101, 10, 100, 0);
-            PaintRLEShapeItem(background_shapes, 1102, 0, 100, 0);
+            BACKDROP_ITEM(1100, 0, 0, 0); BACKDROP_ITEM(1101, 10, 100, 0); BACKDROP_ITEM(1102, 0, 100, 0);
             dispose_handle(background_shapes);
             transition_palette = TRANSITION_COLORS(11);
             interrupted = await_palette(transition_palette, -1, 0);
@@ -488,9 +485,7 @@ int Transition(int scene)
         open_data_file(ruins_file);
         background_shapes = hGetSL(3500, -8);
         paint_ruins_sky(background_shapes);
-        PaintRLEShapeItem(background_shapes, 763, 0, 39, 10);
-        PaintRLEShapeItem(background_shapes, 764, 0, 99, 0);
-        PaintRLEShapeItem(transition_shapes, 317, 75, 166, 10);
+        BACKDROP_ITEM(763, 0, 39, 10); BACKDROP_ITEM(764, 0, 99, 0); NIS_ITEM(317, 75, 166, 10);
         transition_palette = TRANSITION_COLORS(3);
         second_palette = TRANSITION_COLORS(4);
         interrupted = PLAY_TRANSITION(4, 1, transition_scene_four);
@@ -505,8 +500,7 @@ int Transition(int scene)
             set_palette(0, 256, 0L, 1);
             transition_palette = TRANSITION_COLORS(4);
             paint_ruins_sky(background_shapes);
-            PaintRLEShapeItem(background_shapes, 766, 0, 11, 10);
-            PaintRLEShapeItem(background_shapes, 767, 0, 101, 0);
+            BACKDROP_ITEM(766, 0, 11, 10); BACKDROP_ITEM(767, 0, 101, 0);
             set_palette(0, 256, lock_handle(transition_palette), 1);
             dispose_handle(transition_palette);
             interrupted = PLAY_TRANSITION(6, 1, transition_scene_six);
@@ -516,7 +510,7 @@ int Transition(int scene)
             fill_rect(&screen_bounds, 0);
         }
         if (!interrupted) {
-            PaintRLEShapeItem(transition_shapes, 347, 0, 0, 10);
+            NIS_ITEM(347, 0, 0, 10);
             transition_palette = TRANSITION_COLORS(5);
             interrupted = await_palette(transition_palette, -1, 0);
             dispose_handle(transition_palette);
@@ -541,28 +535,16 @@ int Transition(int scene)
         dispose_handle(background_shapes);
     } else if (scene == 3) {
         fill_rect(&viewport_bounds, 48);
-        PaintRLEShapeItem(transition_shapes, 362, 0, 126, 0);
-        PaintRLEShapeItem(transition_shapes, 363, 0, 160, 10);
-        PaintRLEShapeItem(transition_shapes, 364, 0, 168, 10);
-        PaintRLEShapeItem(transition_shapes, 365, 183, 97, 10);
-        PaintRLEShapeItem(transition_shapes, 368, 11, 77, 10);
-        PaintRLEShapeItem(transition_shapes, 369, -12, 40, 10);
-        PaintRLEShapeItem(transition_shapes, 373, 28, 13, 10);
-        PaintRLEShapeItem(transition_shapes, 373, 154, 31, 10);
-        PaintRLEShapeItem(transition_shapes, 374, 126, 50, 10);
-        PaintRLEShapeItem(transition_shapes, 352, 0, 0, 10);
+        NIS_ITEM(362, 0, 126, 0); NIS_ITEM(363, 0, 160, 10); NIS_ITEM(364, 0, 168, 10); NIS_ITEM(365, 183, 97, 10);
+        NIS_ITEM(368, 11, 77, 10); NIS_ITEM(369, -12, 40, 10); NIS_ITEM(373, 28, 13, 10); NIS_ITEM(373, 154, 31, 10);
+        NIS_ITEM(374, 126, 50, 10); NIS_ITEM(352, 0, 0, 10);
         interrupted = PLAY_TRANSITION(9, 1, transition_scene_nine);
         if (!interrupted) {
             await_palette(0, -1, 0);
             fill_rect(&screen_bounds, 0);
             fill_rect(&viewport_bounds, 48);
-            PaintRLEShapeItem(transition_shapes, 373, 153, 33, 0);
-            PaintRLEShapeItem(transition_shapes, 374, 129, 51, 0);
-            PaintRLEShapeItem(transition_shapes, 375, -8, 39, 0);
-            PaintRLEShapeItem(transition_shapes, 373, 2, 10, 0);
-            PaintRLEShapeItem(transition_shapes, 362, 0, 135, 0);
-            PaintRLEShapeItem(transition_shapes, 363, 0, 168, 0);
-            PaintRLEShapeItem(transition_shapes, 364, 0, 176, 10);
+            NIS_ITEM(373, 153, 33, 0); NIS_ITEM(374, 129, 51, 0); NIS_ITEM(375, -8, 39, 0); NIS_ITEM(373, 2, 10, 0);
+            NIS_ITEM(362, 0, 135, 0); NIS_ITEM(363, 0, 168, 0); NIS_ITEM(364, 0, 176, 10);
             transition_palette = TRANSITION_COLORS(8);
             interrupted = PLAY_TRANSITION(10, 1, transition_scene_ten);
             dispose_handle(transition_palette);
@@ -605,6 +587,9 @@ int Transition(int scene)
     close_nis_files(nis_data_files);
     return interrupted;
 }
+
+#undef BACKDROP_ITEM
+#undef NIS_ITEM
 
 int trans_princess_room(Handle shapes)
 {
@@ -853,8 +838,7 @@ int transition_scene_five(void *playback, int frame)
     if (frame == 0) {
         FlipHorses(playback);
         set_palette(0, 256, 0L, 1);
-        saved = draw_port;
-        draw_port = &nis_draw_port;
+        saved = draw_port; draw_port = &nis_draw_port;
         fill_rect(&viewport_bounds, 0);
         paint_ruins_sky(background_shapes);
         lowered_bounds = viewport_bounds;
@@ -964,7 +948,77 @@ void erase_static_jaffar(DrawPort *port)
     draw_port = saved;
 }
 
-/* Later definitions in NIS.C. The intervening scene bodies are still pending. */
+/* The AboardShip and opening-scene bodies between these runs are pending. */
+extern Rect nis_clip;
+extern Handle nis_palette;
+extern void paint_rle(const void far *shape, int x, int y, int mode);
+
+void clear_nis(DrawPort *port, int color)
+{
+    DrawPort *saved = draw_port;
+
+    draw_port = port;
+    fill_rect(&nis_clip, color);
+    draw_port = saved;
+}
+
+void add_nis(DrawPort *port, Handle shapes, int item, int x, int y, int mode)
+{
+    DrawPort *saved = draw_port;
+
+    draw_port = port;
+    PaintRLEShapeItem(shapes, item, x, y, mode);
+    draw_port = saved;
+}
+
+void add_shape_nis(DrawPort *port, Handle shape, int x, int y, int mode)
+{
+    DrawPort *saved = draw_port;
+
+    draw_port = port;
+    paint_rle(lock_handle(shape), x, y, mode);
+    draw_port = saved;
+}
+
+void copy_nis(const void *source)
+{
+    apply_palette_colors(-2, 0L);
+    copy_port(draw_port, source, &nis_clip, &nis_clip, 0);
+    pause_nis(0, 2);
+    apply_palette_colors(-1, lock_handle(nis_palette));
+}
+
+void cut_nis(const void *source)
+{
+    copy_port(draw_port, source, &nis_clip, &nis_clip, 0);
+}
+
+int fade_nis(const void *source, int duration)
+{
+    int interrupted = await_palette(0, -2, duration);
+
+    if (!interrupted)
+        copy_port(draw_port, source, &nis_clip, &nis_clip, 0);
+    if (!interrupted)
+        interrupted = await_palette(nis_palette, -1, duration);
+    return interrupted;
+}
+
+int dissolve_nis(DrawPort *port, unsigned int duration, const Rect far *bounds)
+{
+    char saved_state[44];
+    int interrupted;
+    DrawPort *saved = draw_port;
+
+    draw_port = open_temporary_port(saved_state, bounds);
+    copy_port((DrawPort *)saved_state, &nis_draw_port, bounds, bounds, 0);
+    interrupted = animate_port(1, port, bounds, duration);
+    draw_port = saved;
+    close_temporary_port(saved_state);
+    return interrupted;
+}
+
+/* The NIS dispatcher is pending. */
 extern Handle prepare_sound(int cue);
 
 int run_nis_dialog(int resource, int line, int voice, unsigned int duration)
@@ -974,6 +1028,31 @@ int run_nis_dialog(int resource, int line, int voice, unsigned int duration)
     prepare_sound(cue);
     draw_nis_text(resource, line);
     return play_timed_music(cue, duration);
+}
+
+Rect *get_shape_rect(Rect far *bounds, Handle shapes, int item, int x, int y)
+{
+    const unsigned int far *list = lock_handle(shapes);
+    const Rect far *shape = lock_handle(get_resource(0x53484150UL, list[0] + item - 1));
+
+    bounds->left = x;
+    bounds->top = y;
+    bounds->right = x + shape->left;
+    bounds->bottom = y + shape->top;
+    return (Rect *)bounds;
+}
+
+/* Ending scene bodies are pending. */
+void draw_happy_dialog(int resource, int line, int voice)
+{
+    DrawPort *saved = draw_port;
+
+    draw_port = &nis_draw_port;
+    play_sound(resource + voice);
+    alternate_dialog = 1;
+    draw_nis_text(resource, line);
+    alternate_dialog = 0;
+    draw_port = saved;
 }
 
 extern int read_nis_key(void);
@@ -1012,5 +1091,28 @@ void install_nis_input(void)
     saved_poll_input = poll_input;
     poll_input = check_nis_input;
     sample_nis_input();
-    nis_button_latched = nis_button_held >= 1;
+    nis_button_latched = nis_button_held != 0;
+}
+
+/* The Discovery scene body is pending. */
+extern void toggle_playback_coordinates(AnimationState *playback);
+extern Handle discovery_shapes;
+
+int discovery_callback(AnimationState *playback, int frame)
+{
+    toggle_playback_coordinates(playback);
+    PaintRLEShapeItem(discovery_shapes, 11, 40 - playback->port.clip.left,
+                      32 - playback->port.clip.top, 0);
+    toggle_playback_coordinates(playback);
+    return 0;
+}
+
+/* The title callback is pending. */
+void nis_noop(void)
+{
+}
+
+int query_nis_sound(void)
+{
+    return query_sound_payload(0L);
 }
