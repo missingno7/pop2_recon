@@ -49,9 +49,8 @@ def main():
     binding_path = project_path(args.binding) if args.binding else None
     binding_bytes = None
     if binding_path:
-        require(args.verify_only or binding_path.is_relative_to(ROOT / "evidence/bindings"),
-                "Canonical binding proof must live under evidence/bindings")
-        # One read: the proven, pinned and committed binding are the same bytes.
+        # The binding may come from anywhere; publication writes these exact bytes to
+        # evidence/bindings/NAME.json. One read: the proven, pinned and committed binding are the same bytes.
         binding_bytes = binding_path.read_bytes()
         require(b"\r" not in binding_bytes, "Canonical binding proof must use LF newlines")
     source_bytes = project_path(args.source).read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
@@ -70,7 +69,12 @@ def main():
         print(f"  draft {draft['public']} at +{draft['object_offset']} (owns nothing)")
     require(report["exact"], "Refusing promotion: not every claim is CODE_EXACT")
     space = oracle.spaces[report["space"]]
-    hull = set(range(report["origin"], report["origin"] + report["emitted_size"]))
+    # Only claimed extents take ownership; an owner overlapping just an unclaimed draft
+    # keeps its bytes (drafts own nothing), while one overlapping a claim must migrate.
+    hull = set()
+    for c in report["claims"]:
+        start = report["origin"] + c["object_offset"]
+        hull.update(range(start, start + c["expected_size"]))
     claimed = {c["target_id"] for c in args.claim}
     migrated, kept = [], []
     for owner in manifest["owners"]:
@@ -80,9 +84,13 @@ def main():
             kept.append(owner)
             continue
         recipe = read_json(project_path(owner["recipe"]))
-        require(owner["kind"] == "MATCHING_C" and recipe.get("kind") != GROUP_KIND and
-                owner["target_id"] in claimed,
-                f"Owner {owner['target_id']} inside the group placement cannot be migrated")
+        if recipe.get("kind") == GROUP_KIND:
+            # A smaller group grows into this one only whole: every old claim is reclaimed.
+            require({c["target_id"] for c in recipe["claims"]} <= claimed,
+                    f"Group {recipe['name']} overlaps this group but not all its claims are reclaimed")
+        else:
+            require(owner["kind"] == "MATCHING_C" and owner["target_id"] in claimed,
+                    f"Owner {owner['target_id']} overlaps a claim but is not itself claimed")
         migrated.append((owner, recipe))
     if args.verify_only:
         print(f"Strict group CODE_EXACT: {len(report['claims'])} claims at {space.name}+{report['origin']:#x}, "
@@ -90,7 +98,7 @@ def main():
         return
     source_path = ROOT / "src" / (args.name + ".c")
     recipe_path = ROOT / "recipes" / (args.name + ".json")
-    require(not source_path.exists() and not recipe_path.exists(), "Canonical publication would overwrite a file")
+    canonical_binding = ROOT / "evidence/bindings" / (args.name + ".json")
     claims = []
     for c in report["claims"]:
         row = {"target_id": c["target_id"], "public": c["public"], "fixup_count": c["fixups"]}
@@ -106,7 +114,7 @@ def main():
               "frame": report["frame"],
               "claims": claims, "drafts": report["drafts"], "proof_scope": report["proof_scope"]}
     if binding_path:
-        recipe.update(binding=binding_path.relative_to(ROOT).as_posix(), binding_sha256=sha(binding_bytes))
+        recipe.update(binding=canonical_binding.relative_to(ROOT).as_posix(), binding_sha256=sha(binding_bytes))
     owners = []
     for claim in report["claims"]:
         target = next(t for t in read_json(ROOT / "evidence/targets.json")["functions"]
@@ -120,7 +128,7 @@ def main():
         owners.append(owner)
     manifest["owners"] = kept + owners
     # Retire only files that no recipe in the final manifest still references.
-    still_used = {binding_path} if binding_path else set()
+    still_used = set()
     for owner in kept:
         if owner["kind"] == "PINNED_RUNTIME":
             continue
@@ -135,13 +143,18 @@ def main():
             paths.append(project_path(old["binding"]))
         retire += [path for path in paths if path not in still_used and path not in retire]
 
-    def gate():
-        check_manifest(oracle, manifest)
-        require(binding_path is None or binding_path.read_bytes() == binding_bytes,
-                "Binding changed after its proof")
-
-    publish(ROOT, {source_path: source_bytes, recipe_path: json_bytes(recipe)}, manifest_before, manifest,
-            gate, retire=retire)
+    files = {source_path: source_bytes, recipe_path: json_bytes(recipe)}
+    if binding_path:
+        files[canonical_binding] = binding_bytes
+    # Existing files may only be replaced when they belong to a group grown under its own name.
+    migrated_files = set(retire) | {p for o, r in migrated for p in
+                                    [project_path(r["source"]), project_path(o["recipe"])] +
+                                    ([project_path(r["binding"])] if "binding" in r else [])}
+    replace = [p for p in files if p.exists()]
+    require(all(p in migrated_files for p in replace), "Canonical publication would overwrite a file")
+    retire = [p for p in retire if p not in files]
+    publish(ROOT, files, manifest_before, manifest, lambda: check_manifest(oracle, manifest),
+            retire=retire, replace=replace)
     print(f"Published group {args.name}: {sum(o['size'] for o in owners)} CODE_EXACT bytes in {len(owners)} claims; "
           f"migrated {[o['target_id'] for o, _ in migrated]}")
 

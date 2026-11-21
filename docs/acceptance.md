@@ -62,6 +62,12 @@ claim is CODE_EXACT.
   Their owners are replaced in the same transaction, and their source, recipe
   and unshared binding are retired after the manifest commit (recoverable through
   the same journal).
+- An owner that overlaps only an unclaimed draft keeps its bytes, because drafts
+  own nothing. An owner overlapping a claim must itself be claimed.
+- A group can grow under its own name. The larger group must reclaim every old
+  claim; its files then replace the old ones, which are backed up in the journal
+  and restored on rollback. The binding is published from any input path to
+  `evidence/bindings/NAME.json`.
 - Only files that no remaining recipe references are retired. Their pins are
   rechecked before the commit, and they are deleted only while they still match.
 - Promotion and validation hash exactly the source and binding bytes they compile

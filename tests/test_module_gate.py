@@ -411,3 +411,40 @@ class GroupFarCallTests(unittest.TestCase):
                  "relocation_index": 0, "file_offset": space.file_offset + at})
         with self.assertRaises(ValueError):
             self.run_group(mutate)
+
+
+class ReplacePublicationTests(unittest.TestCase):
+    """A group grown under its own name replaces its files; rollback restores them."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve()
+        self.manifest = self.root / "layout/manifest.json"
+        common.write_json(self.manifest, {"owners": ["small"]})
+        self.recipe = self.root / "recipes/ctrl/ctrl.json"
+        self.recipe.parent.mkdir(parents=True)
+        self.recipe.write_bytes(b"old recipe\n")
+
+    def publish(self, check=lambda: None):
+        before = self.manifest.read_bytes()
+        publication.publish(self.root, {self.recipe: b"new recipe\n"}, before, {"owners": ["grown"]},
+                            check, replace=[self.recipe])
+
+    def test_commit_replaces_and_clears_backups(self):
+        self.publish()
+        self.assertEqual(self.recipe.read_bytes(), b"new recipe\n")
+        self.assertFalse(any((self.root / "build/publication-backup").glob("*")))
+
+    def test_failed_gate_restores_the_old_file(self):
+        def fail():
+            raise ValueError("gate refused")
+        with self.assertRaises(ValueError):
+            self.publish(fail)
+        self.assertEqual(self.recipe.read_bytes(), b"old recipe\n")
+        self.assertEqual(common.read_json(self.manifest), {"owners": ["small"]})
+
+    def test_unlisted_existing_file_is_still_refused(self):
+        before = self.manifest.read_bytes()
+        with self.assertRaisesRegex(ValueError, "overwrite"):
+            publication.publish(self.root, {self.recipe: b"x\n"}, before, {"owners": []}, lambda: None)

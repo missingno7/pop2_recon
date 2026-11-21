@@ -14124,6 +14124,259 @@
         "Read the current sound ID sentinel and priority table, then conditionally queue the one stack argument."
       ],
       "state": "ANALYZED"
+    },
+    {
+      "abi": "No stack arguments. Unsigned result in AX (AH cleared). RETF.",
+      "boundary_evidence": [
+        "Previous function restores BP and ends with RETF at 02cc:0001. The new BP frame begins at 0002.",
+        "ReadCell calls the entry at 02cc:0106/0107 (PUSH CS/E8). Two recursive calls at 0072/0073 and 00ba/00bb also enter 0002.",
+        "All near jumps stay in this extent and join RETF at 00ee. Alignment NOP at 00ef precedes the independently relocated ReadCell entry, 00f0.",
+        "No touching original MZ relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19911,
+          "image_offset": 11719,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 11718,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Renormalizes room and signed column/row globals for the cell lookup, following four room links and recursively resolving remaining overflows."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0002",
+      "offset": 2,
+      "original_bytes_hex": "558bec83ec02c646ff00a074628846fe803e7562007d23c646ff0a0ac074558ad82affd1e3d1e38a87be448846fe0ac07442800675620aeb2d90803e75620a7c33c646fff6803e74620074288a1e74622affd1e3d1e38a87bf448846fe0ac07413802e75620ac646ff008a46fea274620ee88cff803e7462007441803e7662007d1680067662038a1e74622affd1e3d1e38a87c044eb1b90803e7662037c1d802e7662038a1e74622affd1e3d1e38a87c1448846fea274620ee844ff807efe00750d803e74620074068a46fea27462803e7562007c07803e75620a7c078a46ff00067562a074622ae48be55dcb90",
+      "original_name": "Handler",
+      "original_name_evidence": [
+        "FM Towns CTRL.C Handler normalizes room coordinates with ten-column adjustments and neighbor-table reads. ReadCell calls it in both builds."
+      ],
+      "segment": 716,
+      "semantic_name_hypothesis": "normalize_cell_room",
+      "sha256": "feae07b0d7d87f78ae629f314d86d94c471d8dc818ac5b4c01aaaa0756b100bd",
+      "size": 238,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with signed byte column and row in word slots BP+8/+6, RETF 4. Signed byte result in AL.",
+      "boundary_evidence": [
+        "Relocated 9A at root+f194, relocation index 1298 at f197, directly enters 020a after pushing two byte values.",
+        "Preceding GetUndefineCellId returns at 0207. New BP frame starts at 020a; all control joins RETF 4 at 0250 then NOP at 0253.",
+        "Following IndexCell1 entry at 0254 has independent relocated incoming CALL at root+d52c.",
+        "No touching original MZ relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 70036,
+          "image_offset": 61844,
+          "kind": "far_call",
+          "relocated_segment_site": 61847,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Validates signed row/column, produces negative indexes for row -1, row-major indexes otherwise and out-of-bounds sentinel 30."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:020a",
+      "offset": 522,
+      "original_bytes_hex": "558bec83ec02807e06037d30807e06ff7c2a807e080a7d24807e08007c1e807e06ff750ab0ff2a46088846ffeb128a4606500ee88605024608ebee90c646ff1e8a46ff8be55dca040090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "index_cell",
+      "sha256": "adfaefd660fd4031e288f76309e3778c131a6b6b74caee7659dcdb0a945d3d05",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with two signed byte inputs in word slots BP+8/+6, signed byte result in AL. RETF 4.",
+      "boundary_evidence": [
+        "Relocated original 9A at root+d52c, index 1038 at d52f, enters 0254. Caller pushes two words and stores AL into DS:6252.",
+        "Prior RETF 4 at 0250 and NOP at 0253 are followed by the BP frame at 0254.",
+        "Internal branch normalizes a negative AL result from 020a and joins RETF 4 at 027a. NOP at 027d precedes separately called entry 027e.",
+        "No touching original MZ relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 62764,
+          "image_offset": 54572,
+          "kind": "far_call",
+          "relocated_segment_site": 54575,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Wraps the two-argument cell-index lookup and substitutes cell index 30 if AL is negative."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0254",
+      "offset": 596,
+      "original_bytes_hex": "558bec83ec028a4608508a4606500ee8a4ff0ac07c068846ffeb0590c646ff1e8a46ff8be55dca040090",
+      "original_name": "IndexCell1",
+      "original_name_evidence": [
+        "FM Towns CTRL.C uses the same short wrapper around IndexCell, with common IndexChar, ATMLoose, ATMDart and ATMSlideRock callers."
+      ],
+      "segment": 716,
+      "semantic_name_hypothesis": "nonnegative_cell_index",
+      "sha256": "6cbcfa381b5de4e1933f6ca2b69be5ff26cb94c9fd3b45771639b5ec9d1d5912",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far entry, no stack arguments, bare RETF; return value unused at witnessed caller.",
+      "boundary_evidence": [
+        "Relocated original 9A at root+22d1, index 151 at 22d4, enters 027e after testing the current frame number at DS:5c07.",
+        "The prior RETF 4 and NOP end at 027e. Two PUSH CS/E8 pairs at 027e/027f and 0282/0283 reach 0296 and 0288 respectively.",
+        "RETF at 0286 and NOP at 0287 end the body, and the second near call enters precisely the next byte, 0288.",
+        "No touching original MZ relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17105,
+          "image_offset": 8913,
+          "kind": "far_call",
+          "relocated_segment_site": 8916,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Refreshes frame info and the cached base-cell column in two same-file calls."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:027e",
+      "offset": 638,
+      "original_bytes_hex": "0ee814000ee80200cb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "reread_cells",
+      "sha256": "5140edf850f9dd5c1d22d70f2d655a2c89b4ea3b9ff7b8438189e69d01cdb93a",
+      "size": 10,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless, no stack arguments, bare RETF. Pushes AX from first helper as the second helper's sole stack argument.",
+      "boundary_evidence": [
+        "PUSH CS/E8 at 0282/0283 directly enters 0288. Preceding RETF 0286 and alignment NOP 0287.",
+        "Two same-frame calls target 1074 and 10c0. Stores AL at DS:5c09, ends with RETF at 0294 and NOP at 0295 before the 0296 BP frame.",
+        "No touching original MZ relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20291,
+          "image_offset": 12099,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12098,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Gets the character's base X and converts it to a cell column, caching the result."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0288",
+      "offset": 648,
+      "original_bytes_hex": "0ee8e80d500ee82f0ea2095ccb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "reread_base_cell",
+      "sha256": "605a2d03968ab9a47627e85fa6e12de4ede6b0511fa5c4348d0e2f9a9f802c5c",
+      "size": 14,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry without stack arguments, saves DI/SI and uses a four-byte stack frame. Bare RETF.",
+      "boundary_evidence": [
+        "Separate incoming PUSH CS/E8 at 027e/027f enters 0296. Prior routine ends with RETF at 0294 and NOP at 0295.",
+        "At 02bd a CS-relative indirect JMP reads the 13-word table 02c2..02db. Its targets are 02dc, 02fc, 0328, 0333 and 0359, all inside the function.",
+        "The epilogue starts at 0359 with RETF at 035e and NOP at 035f. New BP frame starts at 0360.",
+        "Original MZ index 374 at 02cc:02a7 is the lock-resource CALL segment. Index 330 at 02cc:02f2 is the MOV CX far table segment."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 20287,
+          "image_offset": 12095,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12094,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a frame-record family and copies a seven-byte current-frame record through an intra-function dispatch table."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0296",
+      "offset": 662,
+      "original_bytes_hex": "558bec83ec0457562bf6ff36380d9a6c2101118bf88956fea0065c983d0c007603e99f00d1e0932effa7c202dc02dc02fc025903fc025903dc02330328035903fc023303fc02b8105e8b16075c8bcad1e203d1d1e203d181c20000b95f2e1e8bf88bf2eb5590833e075c66720a833e075c6b7303be4600b8105e0336075c8bced1e603f1d1e603f103f781ee13048bcaeb25813e075cb7007303be2b00b8105e0336075c8bced1e603f1d1e603f103f781ee13048b4efe1e8bf81e078ed9a5a5a5a41f5e5f8be55dcb90",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "get_frame_info",
+      "sha256": "3cadbf3fbfff381c80ac1fc5ec9c2e49020ca37f10a15cbe83d4ce38fc32e854",
+      "size": 202,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with signed word at BP+6, AX result, RETF 2.",
+      "boundary_evidence": [
+        "Preceding RETF/NOP at 035e/035f. Incoming PUSH CS/E8 at 1082/1083 enters 0360.",
+        "The sole local branch skips the negation, joins at 036f and returns at 0376. Alignment NOP at 0379 precedes the reviewed AddFCharX at 037a.",
+        "No touching original MZ relocation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 23875,
+          "image_offset": 15683,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 15682,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Conditionally negates an offset using the current character direction and adds the current X without storing it."
+      ],
+      "classification_status": "Evidence-qualified, independent of compiler output",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:0360",
+      "offset": 864,
+      "original_bytes_hex": "558bec8b5606803e015c007402f7da8bc20306025c5dca020090",
+      "original_name": null,
+      "segment": 716,
+      "semantic_name_hypothesis": "offset_char_x",
+      "sha256": "799cb16539e0656097f123e25da9fae2adecad39728c9db41f60e2e3672426d3",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

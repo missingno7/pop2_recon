@@ -46,10 +46,15 @@ def recover(root):
     files = [(_new_path(root, item["path"]), item["sha256"]) for item in record["files"]]
     retired = [(_new_path(root, item["path"], retired=True), item["sha256"])
                for item in record.get("retire", [])]
+    replaced = {_new_path(root, item["path"]): item for item in record.get("replace", [])}
     for path, expected in files:
-        require(not path.exists() or sha(path.read_bytes()) == expected,
+        allowed = {expected} | ({replaced[path]["old_sha256"]} if path in replaced else set())
+        require(not path.exists() or sha(path.read_bytes()) in allowed,
                 f"Publication file changed outside transaction; recovery refused: {path}")
         require(not committed or path.is_file(), "Committed publication file missing; recovery refused")
+    for item in replaced.values():
+        require((root / item["backup"]).is_file() and sha((root / item["backup"]).read_bytes()) == item["old_sha256"],
+                "Replacement backup missing or changed; recovery refused")
     for path, expected in retired:
         # Rollback never touches retired files. After commit each must be gone or
         # still match its pin, so an edit made meanwhile is never deleted.
@@ -66,16 +71,24 @@ def recover(root):
                 path.unlink()
     else:
         for path, _ in files:
-            path.unlink(missing_ok=True)
+            if path in replaced:
+                # Restore the replaced canonical file from its backup.
+                atomic_write(path, (root / replaced[path]["backup"]).read_bytes())
+            else:
+                path.unlink(missing_ok=True)
+    for item in replaced.values():
+        (root / item["backup"]).unlink(missing_ok=True)
     journal.unlink()
     return "Completed committed publication" if committed else "Rolled back unfinished publication"
 
 
-def publish(root, files, manifest_before, manifest_after, check, retire=()):
+def publish(root, files, manifest_before, manifest_after, check, retire=(), replace=()):
     """Stage new canonical files, run the unchanged gate, commit manifest last.
 
     `retire` lists canonical files whose ownership the new manifest drops
     (migrated owners). They are deleted only after the manifest commit.
+    `replace` lists paths in `files` that may already exist (a group grown under
+    its own name); their old bytes are backed up and restored on rollback.
     """
     root = Path(root)
     require_idle(root)
@@ -85,7 +98,9 @@ def publish(root, files, manifest_before, manifest_after, check, retire=()):
     for path in files:
         require(_new_path(root, path.relative_to(root).as_posix()) == path.resolve(),
                 "Invalid publication path")
-        require(not path.exists(), "Canonical publication would overwrite a file")
+        require(not path.exists() or path in {Path(p) for p in replace},
+                "Canonical publication would overwrite a file")
+    replace = [Path(p) for p in replace if Path(p).exists()]
     retire = [Path(path) for path in retire]
     for path in retire:
         require(_new_path(root, path.relative_to(root).as_posix(), retired=True) == path.resolve() and
@@ -97,6 +112,16 @@ def publish(root, files, manifest_before, manifest_after, check, retire=()):
     if retire:
         record["retire"] = [{"path": path.relative_to(root).as_posix(), "sha256": sha(path.read_bytes())}
                             for path in retire]
+    if replace:
+        backups = root / "build/publication-backup"
+        backups.mkdir(parents=True, exist_ok=True)
+        record["replace"] = []
+        for path in replace:
+            old = path.read_bytes()
+            backup = backups / (sha(old) + ".bak")
+            atomic_write(backup, old)
+            record["replace"].append({"path": path.relative_to(root).as_posix(), "old_sha256": sha(old),
+                                      "backup": backup.relative_to(root).as_posix()})
     # Exclusive journal creation also refuses a competing publisher.
     atomic_write(journal_path(root), json_bytes(record), replace=False)
     try:
@@ -104,7 +129,7 @@ def publish(root, files, manifest_before, manifest_after, check, retire=()):
         report = root / "build/validation/report.json"
         atomic_write(report, json_bytes({"status": "INVALIDATED", "reason": "Publication started"}))
         for path, data in files.items():
-            atomic_write(path, data, replace=False)
+            atomic_write(path, data, replace=path in replace)
         check()
         require(manifest.read_bytes() == manifest_before, "Manifest changed before publication commit")
         for item in record.get("retire", []):
