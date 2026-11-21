@@ -43,7 +43,7 @@ extern signed char get_char_col(int);
 extern int IsWall(unsigned char);
 extern void draw_moving_tile(int);
 extern signed char find_tile_row(int);
-extern unsigned char tile_column(int, signed char);
+extern unsigned char tile_column(signed char, signed char);
 extern int check_rock_column(unsigned char, unsigned char);
 extern void play_movement_sound(unsigned char);
 extern void load_kid_state(void);
@@ -475,9 +475,10 @@ extern void trigger_trapdoor(unsigned char room, signed char cell);
 
 void move_rock_record(void)
 {
-    signed char column, new_column, prev_column;
+    int next_x, x, prior_column;
+    signed char prev_column, new_column;
     unsigned char tile;
-    int x, next_x, prior_column;
+    signed char column;
 
     if (rock_motion_state == 0 || rock_motion_state == 100)
         return;
@@ -581,8 +582,8 @@ int probe_chain_floor(int margin)
         right = left + 32;
         rock -= 140;
         if (left - margin + 32 > rock || right - margin + 32 < rock) {
-            rock = slide_rock_barrier(-1, tile_state.room, tile_state.row) - 140;
-            if (left - margin <= rock && right - margin >= rock)
+            rock = slide_rock_barrier(-1, tile_state.room, tile_state.row);
+            if (left - margin <= (rock -= 140) && right - margin >= rock)
                 result = 1;
         } else
             result = 1;
@@ -603,11 +604,16 @@ void trigger_slide_rock(unsigned char room, signed char cell, unsigned char acti
     signed char row = cell / (signed char)10;
     struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
     if (rock) {
-        if (action == 1) {
+        switch (action) {
+        case 1:
             if (rock->mode >= 0 && rock->mode != 100)
                 rock->mode = -1;
-        } else if (action == 2 && rock->mode == -1)
-            rock->mode = 1;
+            break;
+        case 2:
+            if (rock->mode == -1)
+                rock->mode = 1;
+            break;
+        }
     } else if (action == 1) {
         int x;
         floor_at(room, cell % (signed char)10, row);
@@ -635,7 +641,13 @@ void move_trapdoor(void)
     signed char absolute_column;
     int step, saved_x, saved_y;
     struct trapdoor_bounds bounds;
-    struct rock_rect rect;
+    struct {
+        signed char saved_column;
+        union {
+            struct rock_rect rect;
+            int alignment;
+        } area;
+    } draw;
 
     if (room != view_room) {
         if (room == view_down)
@@ -651,8 +663,8 @@ void move_trapdoor(void)
         room = view_room;
     }
 draw:
-    column = x / 32;
-    current_tile_column = tile_column(column, y / 63);
+    draw.saved_column = column = x / 32;
+    current_tile_column = tile_column(draw.saved_column, y / 63);
     if (current_tile_column != 30) {
         if (column)
             --current_tile_column;
@@ -671,7 +683,7 @@ draw:
             current_sound = -1;
         start_sound(3);
     }
-    if (check_rock_column(room, FirstInRow(moving_row) + column)) {
+    if (check_rock_column(room, FirstInRow(moving_row) + draw.saved_column)) {
         saved_y = moving_y;
         moving_y += temple_draw_offsets.trapdoor_y[step];
         y += temple_draw_offsets.trapdoor_y[step];
@@ -689,9 +701,9 @@ draw:
         }
         play_movement_sound(0);
         if (moving_mode != -1) {
-            build_trapdoor_rect(&rect);
-            rect.left += 16;
-            dispatch_trapdoor_update(trapdoor_update_rect, &rect, -1);
+            build_trapdoor_rect(&draw.area.rect);
+            draw.area.rect.left += 16;
+            dispatch_trapdoor_update(trapdoor_update_rect, &draw.area.rect, -1);
             draw_moving_tile(y);
         }
         moving_x = saved_x;

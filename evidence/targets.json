@@ -63144,6 +63144,236 @@
           "relocated_segment_site": null
         }
       ]
+    },
+    {
+      "id": "overlay-9:2a4e:02d6",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 726,
+      "size": 146,
+      "sha256": "b186b3b8bfa57b1868c17dcdf9d970da483abc15ab7c34fba7c0d1e36b382b53",
+      "original_bytes_hex": "558bec5756a15662b93f0099f7f98bd0a0345e0ee839028bf00bf674058b540beb03ba40018bfa893e61622b3e54628a46062ae42d8600740f487412487415487422beffffeb2a90be4f00eb2490be5000eb1e908bc7b9050099f7f98bf283c656eb0e908bc7b9050099f7f98bf283c65183feff7414ff365662b00a508bd6b0048b1e54629a020469015e5f8be55dca0200",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocated call at +0x9622 reaches BP frame. Branches rejoin at +0x347 and end in RETF 2 at +0x365, immediately before +0x368."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 38434,
+          "file_offset": 46626,
+          "relocation_index": 732,
+          "kind": "far_call",
+          "relocated_segment_site": 38437
+        }
+      ],
+      "abi": "Far Pascal, one byte in a word slot, RETF 2.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Finds the rock for the current view and row, stores a screen coordinate and picks a drawing frame from tile kinds 134 through 137."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_object_slide_rock"
+    },
+    {
+      "id": "overlay-9:2a4e:056c",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 1388,
+      "size": 454,
+      "sha256": "17879630831bacb478779574a272877bfcfaa637dabc79e63192eec344d79795",
+      "original_bytes_hex": "558bec83ec0456803e0b5c057503e9af01beffffa1025c2d90003b06be677e15a1be67058c00a3025c803e015cff7505832e025c0d8b0e025c83e908803e015c00750383e90d519ac010cc028846fea00e5c508a46fe50a00a5c509af000cc028846ff509afe288a070bc07535807eff04742f803e115c007d20803e105c01740d803e015c011bf683c630e91801be5d00c606105c00e90d0190832e025c08e904018a46fe988bd8d1e38b87880d050800a3025c803e015c0075058306025c11807eff027503e9dd00833ec56764751e803e115c007d0ea0125c509a4e09cc02c606115c00c706075cb900e9b8008b36be6783ee0a8bc69933c22bc2b90500d3f833c22bc28846fe8a0e0e5c5150a00a5c509af000cc028846ff509afe288a070bc07558807eff047452803e115c007d6c83ee058bc69933c22bc2b90500d3f833c22bc28bc88a46fe983bc8744fa00e5c508bc150a00a5c509af000cc028846ff509afe288a070bc07506807eff04752cb80100509ace01d70deb21803e115c007d12b81127509af0830111b83700509ace01d70db00d509a8607cc02c706245c0400be470083feff74159aa207cc02c6060d5c00569a1600da259a9403cc025e8be55dcb90",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Reached by PUSH CS / CALL at +0x2c2. Prior RETF +0x56a and NOP, then own RETF +0x730 and NOP before the +0x732 frame."
+      ],
+      "call_sites": [
+        {
+          "space": "overlay-9",
+          "image_offset": 706,
+          "file_offset": 232482,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 705
+        }
+      ],
+      "abi": "Far, no stack arguments, RETF.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Moves a character hit by a rock out of geometry, chooses a resulting animation and applies contact state."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "hit_character_with_rock"
+    },
+    {
+      "id": "overlay-9:2a4e:07d4",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 2004,
+      "size": 570,
+      "sha256": "496c978774310d19db902e53495a7a2cdeb8b7b25df70b7eda9e0b1a91de40b8",
+      "original_bytes_hex": "558bec83ec065756833ec567007503e92102833ec567647503e917028b36be67833ec567ff75034eeb540ee812fa0bc07426833ec567087c1fc706c5670000b84627509af0830111833efe0836752fc706fe08ffffeb2790832ebe67080ee8dff90bc07409b83500509ace01d70d8936be674e833ec567087f04ff06c5670bf67d158a1ec2672affd1e3d1e38a87be44a2c26781c640018976fa803ec26700747d833ec567007503e98801833ec567647503e97e018bc62d14008bd89933c22bc2b90500d3f833c22bc28846ff0bdb7f03fe4effa0c267508a46ff50a0c867509af000cc028846fe833ec367017539c706c3670000c706c5676400ff06c0678b46fa4040a3be67807efe027403e9f6009a941dcc029aae021f10e9da0090c706c367ffffe90301908b46fa2d04009933c22bc2b90500d3f833c22bc28846fda1be672d04009933c22bc2d3f833c22bc23846fd75053846ff7457a0c267508a46fd50a0c867509af000cc028846ff509afe288a070bc0750c807eff047406807efe02752d833ec367007526c706c3670100ff0ec067b84727509a448401110bc0750f807efe027409b80800509ace01d70d9a941dcc02833e075c57723a833e075c6377338b46fa2d08009933c22bc2b90500d3f833c22bc28846ffa00a5c988bc8a0c867982bc140750da0095c3846ff75059a6a15da25b8805c8bf8be005c1e07b92000f3a5833ec56764741d8b46faa3be67833ec567007419b83600509ace01d70d5e5f8be55dcb90b84627509af08301115e5f8be55dcb90",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocated CALL at +0xcf5e names the BP frame, directly after RETF 4 +0x7d1. The two exits end in RETF +0x9fc and +0xa0c; NOP +0xa0d precedes the next frame."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 53086,
+          "file_offset": 61278,
+          "relocation_index": 1068,
+          "kind": "far_call",
+          "relocated_segment_site": 53089
+        }
+      ],
+      "abi": "Far, no stack arguments, RETF.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Advances a moving rock, resolves room and floor transitions, and handles character contact and timer state."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "move_rock_record"
+    },
+    {
+      "id": "overlay-9:2a4e:0a0e",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 2574,
+      "size": 114,
+      "sha256": "394e31f0f2abbfd7e727db368aa7eb7399104ffebfab73de3ef19674367e8a7f",
+      "original_bytes_hex": "558bec83ec0e57568d7ef2be70628cd08ec0b90500f3a5a4a0746250a07562fec050a07662509af000cc02b81000500ee83f008946fe0bc0751ea0746250a07562040250a07662509af000cc02b81000500ee81d008946feb870628bf88d76f21e07b90500f3a5a48b46fe5e5f8be55dcb90",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocated CALL at +0x1034a enters the BP frame; the preceding RETF +0xa0c and NOP +0xa0d separate it. Both result paths join the tile-state restore and RETF +0xa7e; NOP +0xa7f precedes the next frame."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 66378,
+          "file_offset": 74570,
+          "relocation_index": 1363,
+          "kind": "far_call",
+          "relocated_segment_site": 66381
+        }
+      ],
+      "abi": "Far, no stack arguments, AX result, RETF.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Copies and restores the seven-byte tile state around up to two floor probes and two chain checks."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "slide_rock_near_spikes"
+    },
+    {
+      "id": "overlay-9:2a4e:0b0a",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 2826,
+      "size": 52,
+      "sha256": "4eaf08610da77c67a37600ab4ab26412dd715636aee1992bb7a40aa73141fcdf",
+      "original_bytes_hex": "558bec5250562ac0508a46fc508ac2500ee84af88bf00bf674153936025c7d0fb0ff508a46fc508a46fe500ee82ff85e8be55dcb",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocated CALL at +0xc8f4 enters the BP frame and the code saves incoming AL and DL. Both PUSH CS / CALLs target +0x0368. End at RETF +0xb3d, before the BP frame at +0xb3e."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 51444,
+          "file_offset": 59636,
+          "relocation_index": 999,
+          "kind": "far_call",
+          "relocated_segment_site": 51447
+        }
+      ],
+      "abi": "Far fastcall: room in AL, row in DL; AX result, RETF.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Asks the same-file barrier for the right edge and, if the character is to its left, the left edge."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "@get_slide_rock_x"
+    },
+    {
+      "id": "overlay-9:2a4e:0b3e",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 2878,
+      "size": 228,
+      "sha256": "3c2e84bb915635689e393d846142da2a45dc5aa4745611a43408e6e5471cbb6b",
+      "original_bytes_hex": "558bec83ec02568a4608b10a98f6f98ad08856fe8a460a0ee8cdf98bf00bf6743d807e0601751b837c07007d03e9ad00837c07647503e9a400c74407ffffe99c0090807e06027403e99200837c07ff7403e98900c744070100e981009090807e060175798a460a508a4608b10a98f6f98ac4508a46fe509af000cc02c706c567ffffc706c3670000a07562988bd8d1e38bb7a60d81fe40017e138a460a3806355e750aa0345e88460a81ee40018936be678936c9678a460aa2c267a07662988bd8d1e38b87c00d2d0500a3c0678a46fea2c867c606c767069a9219410b5e8be55dca0600",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocated CALL at +0xc776 names the BP frame, after RETF +0xb3d. The existing-rock and spawn paths join at +0xc1b and end in RETF 6 +0xc1f, adjacent to the +0xc22 frame."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 51062,
+          "file_offset": 59254,
+          "relocation_index": 1034,
+          "kind": "far_call",
+          "relocated_segment_site": 51065
+        }
+      ],
+      "abi": "Far Pascal, room at BP+10, signed cell at BP+8, action at BP+6, RETF 6.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Updates an existing rock mode or spawns a rock using the room and signed cell coordinates."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "trigger_slide_rock"
+    },
+    {
+      "id": "overlay-9:2a4e:0c22",
+      "space": "overlay-9",
+      "segment": 10830,
+      "offset": 3106,
+      "size": 490,
+      "sha256": "f6c12a00c5785203756509d0d75e15142383e80e7a74f24d7aa69919497b2a78",
+      "original_bytes_hex": "558bec83ec1657568b3ebe678b36c067a0c2678846fb3a06345e743f3806385e750681c6bf00eb2da0c2673806375e750781eebf00eb1e90a0c2673806355e750781ef4001eb0e90a0c2673806365e750a81c74001a0345e8846fb8bc79933c22bc2b90500d3f833c22bc28846ff8846ea508bc6b93f0099f7f9509a5402cc02a252623c1e7416807eff007404fe0e5262803e5262147d05800652620aa0c867509ac607cc028bc8a1be678bd99933c22bc2b90500d3f833c22bc202d8885efea0c967251f008946fc3d10007e52c706c367ffffb01ef626c2678bd88a46fe9803d8d1e3d1e3c6874a30008bc8b01ef626c2678bd803d9c687e42c1ac746fc1100b86f27509af0830111833efe085f7506c706fe08ffffb80300509ace01d70d8a46fb50a0c867509ac607cc020246ea509ae425410b0bc07503e9a600a1c0678946f88b5efcd1e38b87741a0106c06703f0a1be678946fa03bf521a893ebe67ff3646628b87961a48508d46f416509a021069010bd074298b46f440a3a4088a46ff98b105d3e08bd02b16be6783c239ff46f63b56f67e038956f68b46f6a3be082ac0509a6422410b833ec367ff74278d46ec509a8e21410b8346ee10b81c0eba410b52508d46ec50b0ff509a620f410b569aaa22410b8b46faa3be678b46f8a3c0675e5f8be55dcb90",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Root relocated CALL at +0xd450 names the BP frame. Starts after RETF 6 +0xc1f and ends at RETF +0xe0a with NOP +0xe0b before the distinct trapdoor record routine."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 54352,
+          "file_offset": 62544,
+          "relocation_index": 1041,
+          "kind": "far_call",
+          "relocated_segment_site": 54355
+        }
+      ],
+      "abi": "Far, no stack arguments, RETF.",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Independent original-byte review",
+      "classification_evidence": [
+        "Maps the moving trapdoor into view coordinates, applies its animation offsets and dispatches its rectangle update."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "move_trapdoor"
     }
   ],
   "schema": 1,
