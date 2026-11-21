@@ -1,0 +1,10 @@
+.MODEL MEDIUM
+.DATA
+measure_text_callback DW 0
+.CODE
+PUBLIC MEASURE_TEXT
+
+MEASURE_TEXT PROC FAR
+    jmp WORD PTR measure_text_callback
+MEASURE_TEXT ENDP
+END

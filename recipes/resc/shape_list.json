@@ -1,0 +1,74 @@
+{
+  "binding": "evidence/bindings/resc/shape_list.json",
+  "binding_sha256": "fd4e0da986b613cea431711e84d978d8caf5272be636ea44bdf1f12d3b0d8e8c",
+  "claims": [
+    {
+      "fixup_count": 5,
+      "public": "RELEASE_SHAPE_LIST",
+      "relocation_indices": [
+        1480,
+        1499,
+        1600,
+        1627,
+        1628
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:7f46"
+    },
+    {
+      "fixup_count": 2,
+      "public": "FIND_SHAPE_LIST",
+      "relocation_indices": [
+        1607,
+        1651
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:7f96"
+    },
+    {
+      "fixup_count": 8,
+      "public": "LOAD_SHAPE_LIST_BANKS",
+      "relocation_indices": [
+        1475,
+        1545,
+        1566,
+        1619,
+        1647,
+        1648,
+        1652
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:7fb6"
+    }
+  ],
+  "drafts": [],
+  "emitted_size": 230,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 4353,
+  "group_id": "group:resc/shape_list",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "resc/shape_list",
+  "object_sha256": "7f526a779719981fcc41a150c646130684d8fce166c5c79955c8935b783a95b4",
+  "origin": 102230,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/resc/shape_list.c",
+  "source_sha256": "eb716a1427360cd61a9b63938f7fb045e5d24757392487aa53d8aa1b3c468391",
+  "space": "root"
+}

@@ -1,0 +1,10 @@
+.MODEL MEDIUM
+.DATA
+stroke_rectangle_callback DW 0
+.CODE
+PUBLIC STROKE_RECTANGLE
+
+STROKE_RECTANGLE PROC FAR
+    jmp WORD PTR stroke_rectangle_callback
+STROKE_RECTANGLE ENDP
+END

@@ -1,0 +1,84 @@
+.MODEL MEDIUM
+.DATA
+EXTRN CURRENT_CONTEXT:WORD
+.CODE
+EXTRN STROKE_RECTANGLE:NEAR
+PUBLIC FRAME_RECT
+
+draw_strip MACRO
+    push ds
+    push di
+    push WORD PTR [bp-4]
+    push WORD PTR [bp-2]
+    push cs
+    call STROKE_RECTANGLE
+ENDM
+
+FRAME_RECT PROC FAR
+    push bp
+    mov bp, sp
+    add sp, -12
+    push di
+    push si
+    mov bx, CURRENT_CONTEXT
+    mov ax, [bx+26h]
+    mov [bp-4], ax
+    mov ax, [bx+28h]
+    mov [bp-2], ax
+    push ds
+    mov cx, 4
+    lea di, [bp-12]
+    lds si, DWORD PTR [bp+6]
+    push ss
+    pop es
+    rep movsw
+    pop ds
+    lea di, [bp-12]
+    les si, DWORD PTR [bp+6]
+    mov ax, es:[si]
+    inc ax
+    cmp ax, [di+4]
+    jg done
+    push ax
+    mov [di+4], ax
+    je bottom_edge
+    push es
+    draw_strip
+    pop es
+
+bottom_edge:
+    mov ax, es:[si+4]
+    mov [di+4], ax
+    dec ax
+    mov [di], ax
+    push es
+    draw_strip
+    pop es
+    pop WORD PTR [di]
+    dec WORD PTR [di+4]
+    mov ax, es:[si+2]
+    inc ax
+    cmp ax, [di+6]
+    jg done
+    je right_edge
+    mov [di+6], ax
+    push es
+    draw_strip
+    pop es
+
+right_edge:
+    mov ax, es:[si+6]
+    mov [di+6], ax
+    dec ax
+    mov [di+2], ax
+    draw_strip
+done:
+    xchg ax, si
+    mov dx, [bp+8]
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
+    retf 4
+FRAME_RECT ENDP
+END

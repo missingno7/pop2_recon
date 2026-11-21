@@ -1,0 +1,10 @@
+.MODEL MEDIUM
+.DATA
+paint_plain_callback DW 0
+.CODE
+PUBLIC PAINT_PLAIN
+
+PAINT_PLAIN PROC FAR
+    jmp WORD PTR paint_plain_callback
+PAINT_PLAIN ENDP
+END

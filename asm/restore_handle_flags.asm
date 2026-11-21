@@ -8,7 +8,7 @@ RESTORE_HANDLE_FLAGS PROC FAR
     mov ax, [bp+6]
     mov bp, [bp+8]
     test bp, bp
-    je done
+    jz done
     and ax, 0e000h
     and WORD PTR [bp], 1fffh
     or [bp], ax

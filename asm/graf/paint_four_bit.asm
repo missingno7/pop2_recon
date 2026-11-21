@@ -1,0 +1,10 @@
+.MODEL MEDIUM
+.DATA
+paint_four_bit_callback DW 0
+.CODE
+PUBLIC PAINT_FOUR_BIT
+
+PAINT_FOUR_BIT PROC FAR
+    jmp WORD PTR paint_four_bit_callback
+PAINT_FOUR_BIT ENDP
+END
