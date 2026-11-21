@@ -40,6 +40,9 @@ def main():
     original_source = original_source.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     stage = ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
+    if args.language == "asm":
+        from origin import require_genuine_asm
+        require_genuine_asm([args.target])
     frozen_source = stage / ("CAND.C" if args.language == "c" else "CAND.ASM")
     frozen_source.write_bytes(original_source)
     result, report = compile_and_check(frozen_source, args.profile, args.symbol, args.target,

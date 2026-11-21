@@ -276,3 +276,15 @@ naming code stays refused) uses the own-segment offset16 equation with
 addend = F's object offset + A + D. The segment half (`mov ax, SEG F`, LOC2) must
 equal the claim's witnessed CS frame paragraph and counts among the claim's
 relocation sites.
+
+## Genuine assembly only (2026-11-21)
+
+MASM claims are accepted only for routines whose original source was assembly. The FM
+Towns build's debug data names every module's source file, and evidence/modules.json
+pairs DOS entries with those modules. `tools/origin.py` refuses an ASM claim (in
+promote.py, promote_group.py and validate.py) whose target is paired with an FM `.C`
+module. A C-origin routine must be reconstructed as C. evidence/asm-origin-audit.json
+lists the 12 existing C-origin MASM owners as debt. They stay accepted only until C
+reconstructions replace them at the same entries, because many groups ground calls on
+them. It also lists the FM-confirmed genuine assembly. ASM owners without an FM pair
+(DOS-only platform code) are under source-language review.

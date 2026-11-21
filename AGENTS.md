@@ -56,7 +56,11 @@ signatures grant zero ownership. A whole member with secondary storage cannot
 be promoted by selecting its matching prefix. Runtime recipes and any binding
 files are checked freshly by validation.
 
-For reviewed hand-assembly hypotheses, use readable MASM source and select
+Only genuine original assembly is matched as MASM. If a routine was written in C
+(FM Towns debug source names such as `PTOOL.C`, via evidence/modules.json pairs), it
+must be reconstructed as C even when a MASM transcription reproduces the bytes;
+tools/origin.py refuses such ASM claims, and evidence/asm-origin-audit.json records
+the existing C-origin debt to be replaced. For reviewed hand-assembly hypotheses, use readable MASM source and select
 `--language asm --profile masm510` for search/promotion. The same whole-segment
 and symbolic-obligation gate applies. No opcode byte blobs, output edits, or
 synthetic trailing bytes are acceptable. Canonical ASM lives in `asm/` and is

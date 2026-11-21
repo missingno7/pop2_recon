@@ -70,6 +70,9 @@ def main():
     for draft in report["drafts"]:
         print(f"  draft {draft['public']} at +{draft['object_offset']} (owns nothing)")
     exact_state = "ASM_EXACT" if args.language == "asm" else "CODE_EXACT"
+    if args.language == "asm":
+        from origin import require_genuine_asm
+        require_genuine_asm([c["target_id"] for c in args.claim])
     require(report["exact"], f"Refusing promotion: not every claim is {exact_state}")
     space = oracle.spaces[report["space"]]
     # Only claimed extents take ownership; an owner overlapping just an unclaimed draft

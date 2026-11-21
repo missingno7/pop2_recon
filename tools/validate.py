@@ -74,6 +74,10 @@ def check_manifest(oracle, manifest):
                 "Recipe source language disagrees with ownership")
         source_dir = ROOT / ("asm" if language == "asm" else "src")
         require(source.is_relative_to(source_dir), "Canonical source outside its language directory")
+        if language == "asm":
+            # Only genuine original assembly is matched as MASM (evidence/asm-origin-audit.json).
+            from origin import require_genuine_asm
+            require_genuine_asm([owner["target_id"]])
         require(sha(source.read_bytes()) == recipe["source_sha256"], "Canonical source changed without acceptance")
         if "binding" in recipe:
             binding_path = project_path(recipe["binding"])

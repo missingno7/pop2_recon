@@ -520,3 +520,18 @@ class AnchorInsidePadTests(unittest.TestCase):
         at = oracle.spaces["root"].position(0x1101, 0x83b4)
         anchor = _structural_entry(oracle, at, 0x1101, 0x83b4, 4, "root", 0, 0)["anchor"]
         self.assertEqual((anchor["pad"], anchor.get("pad_inside_anchor")), (1, True))
+
+
+class GenuineAsmTests(unittest.TestCase):
+    """Only genuine original assembly may be matched as MASM (FM Towns source names)."""
+
+    def test_asm_claim_from_a_c_module_is_refused_unless_recorded_debt(self):
+        from origin import require_genuine_asm, _pairs
+        pairs = _pairs()
+        c_target = next(t for t, (m, src) in pairs.items() if src.upper().endswith(".C"))
+        with patch("origin.read_json", side_effect=lambda p: {"c_origin_debt": []}
+                   if str(p).endswith("asm-origin-audit.json") else __import__("common").read_json(p)):
+            with self.assertRaisesRegex(ValueError, "reconstruct it as C"):
+                require_genuine_asm([c_target])
+        asm_target = next(t for t, (m, src) in pairs.items() if src.upper().endswith(".ASM"))
+        require_genuine_asm([asm_target])
