@@ -1,7 +1,25 @@
 {
   "binding": "evidence/bindings/init/init.json",
-  "binding_sha256": "f78461af7fef4b6941aaab571930c8895641a9a4f4f441130de19aabc1d364ee",
+  "binding_sha256": "4b8a0c6171e19b408e1375775d75024a9e74644651c8831ac550f92b89b4e5a3",
   "claims": [
+    {
+      "fixup_count": 18,
+      "public": "SHOW_INIT_MESSAGE",
+      "relocation_indices": [
+        6,
+        18,
+        19,
+        42,
+        47,
+        57,
+        58
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:2344:00ba"
+    },
     {
       "fixup_count": 7,
       "public": "INIT_SOUND",
@@ -32,10 +50,6 @@
     {
       "object_offset": 0,
       "public": "REPORT_MEMORY"
-    },
-    {
-      "object_offset": 186,
-      "public": "SHOW_INIT_MESSAGE"
     },
     {
       "object_offset": 364,
@@ -70,6 +84,6 @@
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/init/init.c",
-  "source_sha256": "fbb02f23ee90650eb2944137188360d1720eae00d2e65cc3a62fbc399258ff2f",
+  "source_sha256": "2d35fc9112a2effd418a6d14f00b0a4af838ae43c9763200017776cd97d366fc",
   "space": "overlay-2"
 }

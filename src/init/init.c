@@ -1,4 +1,4 @@
-/* INIT.C. Only INIT_SOUND, SAVE_INITIAL_SETTING and WAIT_FOR_READY are verified. */
+/* INIT.C. The message display, sound setup, saved setting and readiness loop are verified. */
 typedef struct
 {
     int top, left, bottom, right;

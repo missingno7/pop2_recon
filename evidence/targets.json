@@ -58199,6 +58199,59 @@
       "size": 196,
       "space": "overlay-6",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:2344:00ba",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 186,
+      "size": 124,
+      "sha256": "57ccdcc304261d73688c92381cedcea69034f9c704f325a757cef5ec0455a97e",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "REPORT_MEMORY near call at overlay-2+0xa5 and INIT_SOUND calls at +0x14d/+0x15c all target 00ba with PUSH CS.",
+        "RETF 6 and alignment NOP end the predecessor at 00ba. The 124-byte routine begins with 55 8B EC and ends in RETF 2 at 0133..0135, before the frameless routine at 0136.",
+        "Draws the supplied text, temporarily installs the far input callback and restores the prior far pointer before return."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, one DS-near text pointer in BP+6, RETF 2.",
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Reviewed original code; C source classification is inferred.",
+      "classification_evidence": [
+        "MSC-style frame, stack-argument calls and returns in the reviewed original disassembly."
+      ],
+      "semantic_name_hypothesis": "show_init_message",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 165,
+          "file_offset": 156101,
+          "pushed_cs_site": 164
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 333,
+          "file_offset": 156269,
+          "pushed_cs_site": 332
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 348,
+          "file_offset": 156284,
+          "pushed_cs_site": 347
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 751,
+          "file_offset": 156687,
+          "pushed_cs_site": 750
+        }
+      ]
     }
   ],
   "schema": 1,
