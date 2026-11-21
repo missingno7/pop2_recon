@@ -1,0 +1,144 @@
+{
+  "declarations": {
+    "externals": [
+      "_far_memory_compare",
+      "EQUALRECT"
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          3,
+          4,
+          2
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "EQUALRECT",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      }
+    ],
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 38,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "_far_memory_compare",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 20,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "_far_memory_compare",
+        "zero_displacement": true
+      }
+    }
+  ],
+  "mode": "external-far-call-v1",
+  "relocation_indices": [
+    1786
+  ],
+  "review_notes": [
+    "declarations and resolved fixup copied from fresh worker OMF inspection"
+  ],
+  "schema": 1,
+  "symbols": {
+    "_far_memory_compare": {
+      "entry_sha256": "ad9ce2b01cdf308c4f0836c8519ea524790908b86725daa870d5ca8986d892b8",
+      "entry_target_id": "root:1fe6:1dd4",
+      "kind": "far-code-entry",
+      "offset": 7636,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad41de61f",
+          "file_offset": 132569,
+          "image_offset": 124377,
+          "relocation_index": 1761,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ad41de61f",
+          "file_offset": 134163,
+          "image_offset": 125971,
+          "relocation_index": 1787,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "root:1000:ec2a",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

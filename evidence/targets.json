@@ -24,13 +24,16 @@
       "classification_status": "strong game-helper hypothesis, not original symbol recovery",
       "id": "root:02cc:08c2",
       "offset": 2242,
-      "original_name": null,
+      "original_name": "ConvertX",
       "segment": 716,
       "semantic_name_hypothesis": "store_negative_adjusted_word",
       "sha256": "d9baf253489e47ef774203440e88dafa919aa6779a66fe9987e6bbb75102eeab",
       "size": 20,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "Mac CODE 4 (Characters 2) MacsBug ConvertX: Named suffix has one signed input word and output pointer. Tests input sign, subtracts 1 only if negative, then stores a word via that pointer. Previous unlabelled copies in the MacsBug interval are excluded."
+      ]
     },
     {
       "abi": "far Pascal, one near data pointer; callee pops 2 bytes",
@@ -126,13 +129,16 @@
       "classification_status": "hand-assembly hypothesis; game/resource subsystem unresolved",
       "id": "root:0000:1344",
       "offset": 4932,
-      "original_name": null,
+      "original_name": "MIRRORMCGABLOCK",
       "segment": 0,
       "semantic_name_hypothesis": "reverse_block_bytes",
       "sha256": "e6697776fa3dbd5e0b2e83c8d66e07edec1ff368be8d39f83dde690414136989",
       "size": 51,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns MCGA1.C public MIRRORMCGABLOCK at fmtowns:09a9:0006: Both mirror byte pixels row by row, using forward source and backward destination traversal across each row. Neighboring DOS entries 1377 and 140b independently match the adjacent RLE and packed-4-bit variants. FM ASM segment ownership is explicit."
+      ]
     },
     {
       "abi": "far Pascal, signed word argument; word result in AX; RETF 2",
@@ -158,13 +164,17 @@
       "classification_status": "resident game-state helper hypothesis, historical name/subsystem unknown",
       "id": "root:0000:303a",
       "offset": 12346,
-      "original_name": null,
+      "original_name": "AddFCharX",
       "segment": 0,
       "semantic_name_hypothesis": "apply_adjustment",
       "sha256": "c1e5941e372941b8f36f175bd5522f08375ec5ec2cdd4623aab98c98caee25b7",
       "size": 26,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @AddFCharX at fmtowns:1a18:03f9: If the preceding direction byte is nonzero, negate the incoming word, add it to the adjacent FChar X word, return the sum. DOS 0360 instead returns the sum without storing it.",
+        "Mac CODE 4 (Characters 2) MacsBug AddFCharX: 08(A6) is a signed word, negated when -34c6(A5) is nonzero, then added into -34c4(A5) and returned. The Mac direction field is word-wide."
+      ]
     },
     {
       "abi": "far no-argument helper hypothesis; plain RETF; return value unused in reviewed caller; C Pascal declaration is a source hypothesis",
@@ -192,13 +202,17 @@
       "classification_status": "resident game-state helper hypothesis; name, signedness and gameplay purpose unproved",
       "id": "root:02cc:0944",
       "offset": 2372,
-      "original_name": null,
+      "original_name": "ClearCharVel",
       "segment": 716,
       "semantic_name_hypothesis": "clear_steps",
       "sha256": "595d3debf836c5a3506e49bdee04920a3052a0789bf990548c79c59a6d0fc30d",
       "size": 10,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @ClearCharVel at fmtowns:1a18:09f9: Clears exactly two adjacent velocity bytes. The second is the byte incremented and capped by the independently paired Gravity in both builds. Located between AddCharVel and DecLifePts in both.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Zeroes two adjacent velocity words, -5044(A5) and -5042(A5). Second is the gravity-controlled field, just as in DOS and FM."
+      ]
     },
     {
       "abi": "far no-argument helper hypothesis; two plain RETF exits; C Pascal declaration is a source hypothesis",
@@ -233,13 +247,17 @@
       "classification_status": "resident game-state update hypothesis; original name, field meaning and subsystem unknown",
       "id": "root:02cc:08d6",
       "offset": 2262,
-      "original_name": null,
+      "original_name": "Gravity",
       "segment": 716,
       "semantic_name_hypothesis": "increase_step",
       "sha256": "fabe8643614349c186f01ea8e6e14dcec88259de45b09998cef99080e35950a4",
       "size": 56,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @Gravity at fmtowns:1a18:0974: Action 4 or 9 only. If the timer is set add 1 and cap at 4, otherwise add 3 and cap at 33. FM _WeightlessTimer independently links this to PRINCE.GoWeightless.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Inspects action 4 or 9 and branches on the same A5 timer set by CODE 2:5a26. Timer branch increments and caps velocity by 2/8 instead of DOS 1/4. Normal branch adds 6 and caps at 63 instead of 3/33."
+      ]
     },
     {
       "abi": "far one-word callee-cleaned helper; RETF 2; returned word in AX; same-segment callers use PUSH CS plus near CALL",
@@ -292,13 +310,17 @@
       "classification_status": "strong state-helper hypothesis, not original symbol or subsystem recovery",
       "id": "root:02cc:13d2",
       "offset": 5074,
-      "original_name": null,
+      "original_name": "ClrAll",
       "segment": 716,
       "semantic_name_hypothesis": "clear_state_bytes",
       "sha256": "15653b05427420efbd0d5d71903a99516a43a0f585f30be0b99f3d35f12db126",
       "size": 18,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @ClrAll at fmtowns:1a18:1622: Zeros the four Dir bytes in order 3,2,0,1 and returns byte 1. The neighboring FaceJoystick and InvertJoystick identify the same pairs independently.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Zeroes four words in the corresponding order 3,2,0,1 and returns 1, corroborated by both paired axis routines immediately before it."
+      ]
     },
     {
       "abi": "far no-argument procedure, word result in AX; no-argument Pascal convention is a source hypothesis",
@@ -346,13 +368,17 @@
       "classification_status": "strong state-predicate helper hypothesis, original symbol and subsystem unconfirmed",
       "id": "root:0284:0096",
       "offset": 150,
-      "original_name": null,
+      "original_name": "IsLevelStartWithNISScreen",
       "segment": 644,
       "semantic_name_hypothesis": "is_special_state",
       "sha256": "9ac00f333629e74eff85c7dba331b31fc9cb2277b7cb90d3d1de99a05e4bc706",
       "size": 80,
       "space": "root",
-      "state": "CANDIDATE_C"
+      "state": "CANDIDATE_C",
+      "original_name_evidence": [
+        "FM Towns CHECKNIS.C public @IsLevelStartWithNISScreen at fmtowns:188d:0087: With clear state guards, both accept room/level combinations 27/6, 22/10, 1/14 and 9/8. FM Towns adds a special 9/8 alternate state path.",
+        "Mac CODE 2 (Main) MacsBug unlabelled body: With three clear state guards, returns true for identical room/level conditions 27/6, 22/10, 1/14, or 9/8. Mac has the extra 9/8 arm also present in FM. IsTimeForNIS starts separately at 0180."
+      ]
     },
     {
       "abi": "far no-argument procedure; explicit pushed CS and near CALL match plain RETF, no-argument Pascal convention is a source hypothesis",
@@ -371,13 +397,17 @@
       "classification_status": "strong resident state-helper hypothesis, original symbol and subsystem unconfirmed",
       "id": "root:0000:4052",
       "offset": 16466,
-      "original_name": null,
+      "original_name": "FaceJoystick",
       "segment": 0,
       "semantic_name_hypothesis": "update_pair_4052",
       "sha256": "4d1b8febf1c0d1b5fbc9dc4012f3870d04faff192f15ea7e52bf4423ae2e8a53",
       "size": 32,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @FaceJoystick at fmtowns:1a18:15de: Negates one Joy axis byte and swaps the first two Dir bytes. Next function negates the next axis and swaps the following Dir pair. FM globals _Joy and _Dir ground the order.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Negates first axis -3498(A5) and swaps first two direction words -3488/-3486(A5). Next routine uses second axis and next pair."
+      ]
     },
     {
       "abi": "far no-argument procedure; explicit pushed CS and near CALL match plain RETF, no-argument Pascal convention is a source hypothesis",
@@ -396,13 +426,17 @@
       "classification_status": "strong resident state-helper hypothesis, original symbol and subsystem unconfirmed",
       "id": "root:0000:4072",
       "offset": 16498,
-      "original_name": null,
+      "original_name": "InvertJoystick",
       "segment": 0,
       "semantic_name_hypothesis": "update_pair_4072",
       "sha256": "d3b6c34985e3932538ce8f7fa7f366bf1e8e2a53442cf4802ca7779941e5ef3a",
       "size": 32,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @InvertJoystick at fmtowns:1a18:1600: Negates the second Joy axis byte and swaps Dir bytes 2/3, complementary to the immediately preceding FaceJoystick.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Negates second axis -3496(A5) and swaps two direction words -3484/-3482(A5). Same complementary relation to the preceding routine."
+      ]
     },
     {
       "abi": "far Pascal, one 16-bit argument at BP+6, word result in AX; callee pops two bytes",
@@ -429,13 +463,16 @@
       "classification_status": "strong resident state-helper hypothesis, original symbol and subsystem unconfirmed",
       "id": "root:02cc:158e",
       "offset": 5518,
-      "original_name": null,
+      "original_name": "FaceDx",
       "segment": 716,
       "semantic_name_hypothesis": "conditional_negative",
       "sha256": "924860e94b2e809c8300afeca89d4d4b02b3c14f36d844b61e592aa0cba0a8cf",
       "size": 22,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @FaceDx at fmtowns:1a18:184b: One signed word argument, conditionally negated if facing byte is zero. Same facing byte neighbors current Char X in both builds. Unlike AddFCharX, no sum or store."
+      ]
     },
     {
       "abi": "far callee-cleaned near data pointer at BP+6; RETF 2; no established result",
@@ -472,13 +509,17 @@
       "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
       "id": "overlay-10:29cf:08fc",
       "offset": 2300,
-      "original_name": null,
+      "original_name": "JaffarSetToNextPos",
       "segment": 10703,
       "semantic_name_hypothesis": "increment_record_index",
       "sha256": "c4dd947c5e1d9cdf0fb676095fefc56a7a597f7b610cd8738224bc5d4cf3ce43",
       "size": 28,
       "space": "overlay-10",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns FINAL.C public @JaffarSetToNextPos at fmtowns:254b:0abf: One pointer, byte at +1 increments and wraps 3\u21920. The adjacent previous-position function applies the inverse wrap.",
+        "Mac CODE 9 (Final Battle) MacsBug JaffarSetToNextPos: One pointer, the second field is word-wide at +2. Same 3\u21920 wrap and increment otherwise."
+      ]
     },
     {
       "abi": "far callee-cleaned one word stack slot; only low byte read at BP+6; word result AX; RETF 2",
@@ -515,13 +556,17 @@
       "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
       "id": "overlay-7:29cf:03f2",
       "offset": 1010,
-      "original_name": null,
+      "original_name": "ScytheBladeExtended",
       "segment": 10703,
       "semantic_name_hypothesis": "is_low5_range",
       "sha256": "fcb8853dfda142d2201f510b28698bb5f467d4569935ca75f4d9bb769a8a6d64",
       "size": 32,
       "space": "overlay-7",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C public @ScytheBladeExtended at fmtowns:2d74:0438: Masks argument with 31 and returns true for 3..15 inclusive.",
+        "Mac CODE 5 (Modular Set 2) MacsBug ScytheBladeExtended: The named suffix is a one-argument leaf with mask 31 and inclusive test 3..15. Earlier CheckScythe-like caller branches twice to this exact entry."
+      ]
     },
     {
       "abi": "far callee-cleaned two word-sized argument slots; low bytes read at BP+8 and BP+6; byte result AL; RETF 4",
@@ -609,13 +654,17 @@
       "classification_status": "overlay helper hypothesis; original language, symbol, gameplay role and dynamic execution unproved",
       "id": "overlay-11:2c3e:1168",
       "offset": 4456,
-      "original_name": null,
+      "original_name": "XWithinMiddleOfCell",
       "segment": 11326,
       "semantic_name_hypothesis": "in_remainder_window",
       "sha256": "8024c02722dce01ebfb51cb83b13515be8de52c8daece35fa6d9c3eaa45182b1",
       "size": 56,
       "space": "overlay-11",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns AUTOHEAD.C public @XWithinMiddleOfCell at fmtowns:15c1:1427: Two-word signed window test, (x\u2212144)%32 in 16\u00b1width.",
+        "Mac CODE 7 (Ruins) MacsBug XWithinMiddleOfCell: Same two-argument signed remainder and symmetric bounds. Mac uses (x\u2212229)%51 in 25\u00b1width, calling the same A5 remainder helper as the adjacent Y test."
+      ]
     },
     {
       "abi": "far callee-cleaned one word at BP+6; word result AX; RETF 2; no signed comparison",
@@ -695,13 +744,17 @@
       "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
       "id": "overlay-6:29cf:0ab8",
       "offset": 2744,
-      "original_name": null,
+      "original_name": "TriggerLavaBubble",
       "segment": 10703,
       "semantic_name_hypothesis": "append_record_if_room",
       "sha256": "5a52b3e336e51e13339778991430c3ede17a252449bb500ec66601119701e33c",
       "size": 88,
       "space": "overlay-6",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns MOVECAVE.C public @TriggerLavaBubble at fmtowns:2c74:0bb0: Scans ten slots of stride ten after a one-byte prefix, fills first free active word, resets state byte, copies type, far payload and tail from source. Same early exit when full.",
+        "Mac CODE 8 (Caverns) MacsBug TriggerLavaBubble: First-free active-word scan, clear the following state field and copy source fields. Mac has 15 slots of stride 12, with two-byte prefix and an additional activation guard."
+      ]
     },
     {
       "abi": "far callee-cleaned one word slot; low byte read at BP+6, AND DX,31 discards uninitialized high byte; word result AX; RETF 2",
@@ -730,13 +783,17 @@
       "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
       "id": "overlay-7:29cf:02f8",
       "offset": 760,
-      "original_name": null,
+      "original_name": "GetScytheHitType",
       "segment": 10703,
       "semantic_name_hypothesis": "is_low5_special",
       "sha256": "982e6a822b1c91cddace3427920643e98c34eeab86ebcd2564db36b037a1eeb3",
       "size": 42,
       "space": "overlay-7",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C public @GetScytheHitType at fmtowns:2d74:0344: Masks argument with 31 and returns true for 2 or 16..17 inclusive.",
+        "Mac CODE 5 (Modular Set 2) MacsBug GetScytheHitType: Same one argument, mask 31, equality 2 and range 16..17, exact Boolean polarity."
+      ]
     },
     {
       "abi": "far callee-cleaned near data pointer at BP+6; RETF 2; no established return result",
@@ -773,13 +830,17 @@
       "classification_status": "overlay state/record helper hypothesis; original name, language, gameplay purpose, caller runtime execution and TU unproved",
       "id": "overlay-10:29cf:0918",
       "offset": 2328,
-      "original_name": null,
+      "original_name": "JaffarSetToPrevPos",
       "segment": 10703,
       "semantic_name_hypothesis": "decrement_record_index",
       "sha256": "bfa8c8ac148b0389bdca72760f3f6ff7c63907a03ec632df19ab551e9e3414e4",
       "size": 28,
       "space": "overlay-10",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns FINAL.C public @JaffarSetToPrevPos at fmtowns:254b:0ad6: One pointer, byte +1 decrements and wraps 0\u21923. Neighbor is the increment/wrap inverse.",
+        "Mac CODE 9 (Final Battle) MacsBug JaffarSetToPrevPos: Word-wide second field at +2, same decrement and 0\u21923 wrap."
+      ]
     },
     {
       "abi": "Far return, noarguments, 16-bit boolean resultAX; DX holds intermediateboolean.",
@@ -813,13 +874,17 @@
       "classification_status": "overlay state predicate hypothesis; original symbols, source language, gameplay role, TU, runtime DS and execution unproved",
       "id": "overlay-4:29cf:0a12",
       "offset": 2578,
-      "original_name": null,
+      "original_name": "RoofClimbingIntoShip",
       "segment": 10703,
       "semantic_name_hypothesis": "overlay_state_pair",
       "sha256": "00097f3460d0ca347fd633074389e60aa5f88b2ed2d5b831984a4ace2c3c191b",
       "size": 26,
       "space": "overlay-4",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns ROOFTOPS.C public @RoofClimbingIntoShip at fmtowns:3556:0b0f: Matches room 19 and sequence 59, both required.",
+        "Mac CODE 23 (Rooftops) MacsBug RoofClimbingIntoShip: Same two exact global comparisons 19 and 59, with word-wide values."
+      ]
     },
     {
       "abi": "far callee-cleaned two signed word arguments at BP+8 and BP+6; signed IDIV; word result AX; DI preserved; RETF 4",
@@ -848,13 +913,17 @@
       "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
       "id": "overlay-11:2c3e:11a0",
       "offset": 4512,
-      "original_name": null,
+      "original_name": "YWithinMiddleOfCell",
       "segment": 11326,
       "semantic_name_hypothesis": "in_remainder_window63",
       "sha256": "208abc59e43c0ff6ecea3595266cd67244b6acff749ca93d1f3e7b7dcc56c1da",
       "size": 54,
       "space": "overlay-11",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns AUTOHEAD.C public @YWithinMiddleOfCell at fmtowns:15c1:145e: Two-word signed window test, (y\u22123)%63 in 31\u00b1width.",
+        "Mac CODE 7 (Ruins) MacsBug YWithinMiddleOfCell: Same two-argument signed remainder and bounds, with Mac constants (y\u22125)%120 in 60\u00b1width."
+      ]
     },
     {
       "abi": "far callee-cleaned signed first word at BP+6 and unsigned-comparison second word at BP+8; unsigned DIV; word result AX; DI preserved; RETF 4",
@@ -883,13 +952,17 @@
       "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
       "id": "overlay-3:2344:2836",
       "offset": 10294,
-      "original_name": null,
+      "original_name": "IsShadowBlinkOn",
       "segment": 9028,
       "semantic_name_hypothesis": "is_scalar_modulo_window",
       "sha256": "b20015abf84ca38c1800c9cbe6cd01721ad0fe7c99b721bf69fd99192804aeca",
       "size": 88,
       "space": "overlay-3",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns AUTOSHAD.C public @IsShadowBlinkOn at fmtowns:177f:04f1: Two args, gate at index \u22654 and value 46..51, rebias by 4 and 46, then same two unsigned remainder cases involving 3.",
+        "Mac CODE 4 (Characters 2) MacsBug IsShadowBlinkOn: Same biased inputs, unsigned comparisons and piecewise remainder, with a call through A5 for modulus."
+      ]
     },
     {
       "abi": "far callee-cleaned one word-sized stack slot at BP+6; only low byte read; RETF 2; no established result",
@@ -953,13 +1026,17 @@
       "classification_status": "overlay helper hypothesis; original symbols, language, gameplay role, TU, runtime DS and dynamic execution unproved",
       "id": "overlay-4:29cf:0a54",
       "offset": 2644,
-      "original_name": null,
+      "original_name": "RoofHangingFromShip",
       "segment": 10703,
       "semantic_name_hypothesis": "overlay_state_window",
       "sha256": "ab1980b7d72c08c460711c1ffdfecb88018cdd6dce62b0c8f4175636a633a444",
       "size": 48,
       "space": "overlay-4",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns ROOFTOPS.C public @RoofHangingFromShip at fmtowns:3556:0b54: Requires room 19, X<208 and either action 2/6 or sequence 80.",
+        "Mac CODE 23 (Rooftops) MacsBug RoofHangingFromShip: Same room, action and sequence conditions. Mac threshold is X<297."
+      ]
     },
     {
       "abi": "Far callee-cleaned single word slot BP+6; signed low byte tested; low-byte result AL, upper AX unspecified; RETF 2.",
@@ -990,13 +1067,16 @@
       "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
       "id": "root:02cc:07c6",
       "offset": 1990,
-      "original_name": null,
+      "original_name": "FirstInRow",
       "segment": 716,
       "semantic_name_hypothesis": "signed_byte_times10_adjusted",
       "sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
       "size": 54,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "Mac CODE 4 (Characters 2) MacsBug FirstInRow: One signed row argument selects the first cell index. DOS computes \u00d710 (+9 on negative input); Mac reads one of two row-table views and applies a separate negative-path correction. DOS and Mac both call this specific helper from ReadCell, IndexCell, DrawHalf, DrawFloorBuf, GetObject, PieceRightId, StopGate, FinlGenerateOpp, ATMSlideRock and ATMTrapDoor. Mac CODE 4:2830 and 2a16 call the named suffix at 322a."
+      ]
     },
     {
       "abi": "Far callee-cleaned one signed word at BP+6; signed IDIV 63; local low-byte quotient at BP-1; result AL, upper AX unspecified; RETF 2.",
@@ -1027,13 +1107,17 @@
       "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
       "id": "root:02cc:1102",
       "offset": 4354,
-      "original_name": null,
+      "original_name": "GetRow",
       "segment": 716,
       "semantic_name_hypothesis": "signed_div63_adjusted",
       "sha256": "38647a134ad2c843bef87f371260990aafa5a7c43bdc70ec1bd0db48a4ef2bab",
       "size": 40,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @GetRow at fmtowns:1a18:133a: Subtract 3 from input, signed divide by 63, decrement quotient if the shifted input is <=0.",
+        "Mac CODE 4 (Characters 2) MacsBug GetRow: Same signed-coordinate algorithm and <=0 correction with Mac geometry: subtract 5, signed divide by 120."
+      ]
     },
     {
       "abi": "Far callee-cleaned two word slots; low byte BP+8 is kind, low byte BP+6 modified value; byte result AL; RETF 4.",
@@ -1062,13 +1146,17 @@
       "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
       "id": "overlay-14:2dc2:0164",
       "offset": 356,
-      "original_name": null,
+      "original_name": "BridgeGetCharCol",
       "segment": 11714,
       "semantic_name_hypothesis": "adjust_byte_for_kind",
       "sha256": "bd2987bb0fe2d970bc1c715b3a516a2de27e2b40c542bf5aa63aa9bde91d7d17",
       "size": 48,
       "space": "overlay-14",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns BRIDGE.C public @BridgeGetCharCol at fmtowns:17e3:0187: On level 5, apply \u221210 to the second argument for room 7 or +10 for room 12, otherwise return the second argument.",
+        "Mac CODE 8 (Caverns) MacsBug BridgeGetCharCol: Same level, rooms and signed corrections on a word-wide second argument."
+      ]
     },
     {
       "abi": "Far callee-cleaned one word slot BP+6; low byte unsigned comparisons; word boolean result AX through DX; RETF 2.",
@@ -1097,13 +1185,17 @@
       "classification_status": "State/scalar helper hypothesis; original symbols, source language, gameplay purpose, TU, execution and any runtime DS association unproved.",
       "id": "overlay-12:2c3e:1204",
       "offset": 4612,
-      "original_name": null,
+      "original_name": "IsExitChasingSkel",
       "segment": 11326,
       "semantic_name_hypothesis": "is_level4_byte_window",
       "sha256": "1b23e72fccf86b0bd3fb3813d884edc1dd037bc894ccc4d35ea9232c5d945d34",
       "size": 40,
       "space": "overlay-12",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns AUTOGUAR.C public @IsExitChasingSkel at fmtowns:1407:148b: Only level 4 and byte 22..28 inclusive excluding 23. Identical short-circuit polarity.",
+        "Mac CODE 4 (Characters 2) MacsBug IsExitChasingSkel: Same level 4, 22..28 other than 23. Called at 17aa from 152e in the same CODE resource."
+      ]
     },
     {
       "abi": "far Pascal; BP+8 near word-record pointer, BP+6 signed word index; RETF4; returns pointer AX; saves DI",
@@ -1163,14 +1255,17 @@
       "classification_status": "game-helper hypothesis, not original symbol recovery",
       "id": "root:078a:28fe",
       "offset": 10494,
-      "original_name": null,
+      "original_name": "IsWall",
       "segment": 1930,
       "semantic_name_hypothesis": "is_four_kind",
       "sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
       "size": 42,
       "space": "root",
       "state": "ANALYZED",
-      "entry_kind": "direct-code"
+      "entry_kind": "direct-code",
+      "original_name_evidence": [
+        "Mac CODE 3 (Modular Set 1) MacsBug IsWall: Same one-word Boolean membership and same initial four comparisons in order 20,2,7,25. Mac adds 43. Adjacent IsImpassable and IsMobFloor fix the predicate family independently."
+      ]
     },
     {
       "abi": "far Pascal; BP+6 near byte-record pointer; RETF2; void source hypothesis; saves SI and MOV SP,BP; reads record byte offset16",
@@ -1197,13 +1292,17 @@
       "classification_status": "game-helper hypothesis, not original symbol recovery",
       "id": "overlay-3:2344:0042",
       "offset": 66,
-      "original_name": null,
+      "original_name": "SetOppMaxLifePts",
       "segment": 9028,
       "semantic_name_hypothesis": "set_state_from_record",
       "sha256": "ca1ff8b770d609cb41ffddc67d63603279fc7be235955edb1b38cc9a338c3892",
       "size": 34,
       "space": "overlay-3",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns AUTO.C public @SetOppMaxLifePts at fmtowns:117c:0044: Reads the byte at record+0x10 and substitutes a default when zero. Writes opponent max-life field. DOS default 3; FM adds 3 to a configured base.",
+        "Mac CODE 6 (Characters 1) MacsBug SetOppMaxLifePts: Reads the corresponding word at Mac record+0x1a, uses 3 on zero, otherwise copies into a single global."
+      ]
     },
     {
       "abi": "far Pascal; low byte at BP+6; RETF2; boolean word AX; two inline exits",
@@ -1230,13 +1329,16 @@
       "classification_status": "game-helper hypothesis; purpose/name/TU remain unproved",
       "id": "root:078a:2830",
       "offset": 10288,
-      "original_name": null,
+      "original_name": "IsImpassable",
       "segment": 1930,
       "semantic_name_hypothesis": "is_seven_kind",
       "sha256": "1fcb5212c76b72cb8b9b00da08e48c04a7f593cdceb3adc318e41e9175fc07c1",
       "size": 60,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "Mac CODE 3 (Modular Set 1) MacsBug IsImpassable: Same complete seven-way predicate, exact ordered cases 11,15,26,12,13,23,24 and true on a case."
+      ]
     },
     {
       "abi": "far Pascal; low byte at BP+6; RETF2; boolean word AX; two inline exits",
@@ -1310,13 +1412,17 @@
       "classification_status": "game-state helper hypothesis; original name/TU/runtime behavior unproved",
       "id": "overlay-3:2344:237e",
       "offset": 9086,
-      "original_name": null,
+      "original_name": "IsTheStrikePos",
       "segment": 9028,
       "semantic_name_hypothesis": "is_kind_value",
       "sha256": "ecece0390d5e3b0d8bffad8b2e6c46cab7475f8c90382a60c9f5f67b67352374",
       "size": 88,
       "space": "overlay-3",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns AUTO.C public @IsTheStrikePos at fmtowns:117c:27b9: Two inputs, special cases 10/224 and 11/280 (with state 173), fallback 154 then 0/245. Identical decision order.",
+        "Mac CODE 6 (Characters 1) MacsBug IsTheStrikePos: Same 10/224, 11/280, 154 and 0/245 decision tree. Mac omits the state-173 check."
+      ]
     },
     {
       "abi": "Far Pascal char argument in low byte of BP6, word AX boolean, both RETF2 paths; no locals or saved index registers.",
@@ -1342,13 +1448,16 @@
       "classification_status": "game-kind helper hypothesis; name/TU/behavior unproved",
       "id": "root:078a:28a4",
       "offset": 10404,
-      "original_name": null,
+      "original_name": "IsMobFloor",
       "segment": 1930,
       "semantic_name_hypothesis": "is_three_kind",
       "sha256": "0668200ec8db5520bf70a57c24ecb734aff92986a342de4216356538a652ee20",
       "size": 36,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "Mac CODE 3 (Modular Set 1) MacsBug IsMobFloor: Same complete three-way predicate, ordered cases 11,26,15 and true on a case."
+      ]
     },
     {
       "abi": "far Pascal; one far pointer atBP+6 offset/BP+8 segment, callee pops4 bytes with RETF4; signed16-bit coordinate fields, BooleanAX; ES:BX loaded by LES.",
@@ -1698,13 +1807,16 @@
       "id": "root:1101:4fca",
       "offset": 20426,
       "original_bytes_hex": "558bec8b1ec0258b572a8b460689472a8bc25dca0200",
-      "original_name": null,
+      "original_name": "hSetFont",
       "segment": 4353,
       "semantic_name_hypothesis": "exchange_context_attribute",
       "sha256": "cd1e308d4f1b4e4a89185dcf8378dfebef88ec0005f336fdedd2440375016606",
       "size": 22,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns GRAF.C public @hSetFont at fmtowns:0a60:0643: GRAF context font handle at +0x2a, one handle input, and a call from the SetFont chain in both. DOS returns the previous field; FM writes and returns the new handle."
+      ]
     },
     {
       "abi": "far Pascal RETF 4; first 16-bit delta BP+8 added to context+0x24, second BP+6 added to context+0x22; void return (AX retains second delta); BP frame, no locals/saved SI/DI, segment registers preserved",
@@ -1751,13 +1863,16 @@
       "id": "root:1101:50de",
       "offset": 20702,
       "original_bytes_hex": "558bec8b1ec0258b46080147248b46060147225dca0400",
-      "original_name": null,
+      "original_name": "Move",
       "segment": 4353,
       "semantic_name_hypothesis": "translate_context_origin",
       "sha256": "a557c199cd7b14972dca853d08cb0d87736812dab3da0b3464f2b906f7834e3b",
       "size": 23,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns PTOOL.C public @Move at fmtowns:343a:012e: Adds the two inputs to current port cursor words +0x24 and +0x22 in the same order. Neighbor MoveTo stores the same two fields directly and DrawString reads them."
+      ]
     },
     {
       "abi": "far Pascal RETF 10; first far destination BP+0x0c/+0x0e, then three byte values in word slots BP+0x0a/BP+8/BP+6; void return (AL retains third byte); BP frame saves SI, no locals; ES clobbered",
@@ -1941,13 +2056,16 @@
       "entry_kind": "direct-code",
       "id": "root:1e23:04c6",
       "offset": 1222,
-      "original_name": null,
+      "original_name": "QuitFadeTo",
       "segment": 7715,
       "semantic_name_hypothesis": "forward_far_block_flags",
       "sha256": "f7bbdd6e16995cce89da497a6e5abd7a9741558210c322cd78a05883a1b0f90f",
       "size": 20,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns FADE.C public _QuitFadeTo at fmtowns:24da:0537: The FadeTo lifecycle calls InitFadeTo, the step function and this one-pointer cleanup in both builds. NIS animation also calls the same cleanup endpoint. FM releases a heap handle via p2h/Unlock/Free; DOS delegates to the far-block flag operation."
+      ]
     },
     {
       "abi": "far Pascal RETF 10; near destination BP+0x0e, first 32-bit value BP+0x0a/+0x0c, second BP+6/+8; BP frame, no locals or SI/DI saves; void return.",
@@ -1972,13 +2090,16 @@
       "id": "overlay-2:2344:6744",
       "offset": 26436,
       "original_bytes_hex": "558bec8b5e0e8b460a8b560c89474889574a8b46068b560889474c89574e5dca0a00",
-      "original_name": null,
+      "original_name": "DissolveSetStepFunc",
       "segment": 9028,
       "semantic_name_hypothesis": "set_record_long_pair",
       "sha256": "9270fcb4cddab34f32603e41c2d9ae76b1d6824d8d4ad0a9e2299db61fd22b52",
       "size": 34,
       "space": "overlay-2",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns DISSOLVE.C public @DissolveSetStepFunc at fmtowns:20e6:02da: Writes two independent long/far values to the same record offsets 0x48\u20130x4f. DOS consumes ten stack bytes (record pointer and two long values); FM carries the record in BX and pops eight."
+      ]
     },
     {
       "abi": "far Pascal RETF 4; byte kind in low BP+8 word slot, signed 16-bit value BP+6, result AX; BP frame, no allocated locals or SI/DI saves; MOV SP,BP on shared exit.",
@@ -2027,13 +2148,17 @@
       "id": "overlay-3:2344:5178",
       "offset": 20856,
       "original_bytes_hex": "558beca0345e384608742ca0355e384608741fa03b5e3846087417a0365e3846087408a03c5e384608750c8146064001eb05816e0640018b46068be55dca0400",
-      "original_name": null,
+      "original_name": "AdjustRoom",
       "segment": 9028,
       "semantic_name_hypothesis": "adjust_offset_for_neighbor_kind",
       "sha256": "8a50bff573514c296cd79aa117a5fb198a916820943d01ce1bc0c78bb55d9055",
       "size": 64,
       "space": "overlay-3",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns COLLIDE.C public @AdjustRoom at fmtowns:18d9:05ea: Two inputs, compare room against current/above/above-alternate/below/below-alternate in that order. Return offset unchanged, \u2212320, or +320.",
+        "Mac CODE 4 (Characters 2) MacsBug AdjustRoom: Same two args and five-room test order. Mac uses \u00b1510 for its scene width."
+      ]
     },
     {
       "abi": "far Pascal RETF 2; 16-bit value BP+6, AX Boolean via DX; BP frame, no locals or SI/DI saves.",
@@ -2066,13 +2191,17 @@
       "id": "root:0000:2878",
       "offset": 10360,
       "original_bytes_hex": "558bec8b560683fa01741d83fa64741883fa02741383fa03740e83fa067409ba01008bc25dca02002bd28bc25dca0200",
-      "original_name": null,
+      "original_name": "EraseScreenAfterNIS",
       "segment": 0,
       "semantic_name_hypothesis": "is_not_reserved_value",
       "sha256": "4d36692167b923fdcf2122bd690eb57227306d391dcfc77e984c53dea72de4d3",
       "size": 48,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CHECKNIS.C public @EraseScreenAfterNIS at fmtowns:188d:0040: One word argument, return 0 for 1, 2, 3, 6 and 1 otherwise. FM Towns drops the DOS exception for 100.",
+        "Mac CODE 2 (Main) MacsBug EraseScreenAfterNIS: Same single argument, same five exceptions in the same order 1, 100, 2, 3, 6, same Boolean polarity."
+      ]
     },
     {
       "abi": "far Pascal RETF 2; byte value low BP+6 word slot; void return, AL incidental loaded value on store path; BP frame, no locals or saves.",
@@ -2191,13 +2320,17 @@
       "id": "root:0000:3446",
       "offset": 13382,
       "original_bytes_hex": "558bec803e065c007407803e065c0175068a4606a2025e5dca020090",
-      "original_name": null,
+      "original_name": "SetKidDeathMethod",
       "segment": 0,
       "semantic_name_hypothesis": "set_byte_in_initial_states",
       "sha256": "1e4bc05b7aa92809dcc62dacaccdff187ae24328c80538e4d9823c0f234af73d",
       "size": 28,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @SetKidDeathMethod at fmtowns:1a18:0872: Only character kind 0 or 1 permits storing the incoming byte. Both use the same guard and sole stored argument.",
+        "Mac CODE 4 (Characters 2) MacsBug SetKidDeathMethod: Both guard the death-method assignment by character kind 0 or 1 and store the only argument. Mac adds a special method 3/level 5/room 10 effect."
+      ]
     },
     {
       "abi": "far Pascal RETF 4; near output pointer BP+8, signed index BP+6; near pointer return AX; BP frame, saves DI then SI, no stack locals.",
@@ -2238,13 +2371,16 @@
       "id": "root:0000:66ac",
       "offset": 26284,
       "original_bytes_hex": "558bec57568b7e068b5e088bc7b905008bf799f7f98bc2bf2a00f7ef053e008947028bc699f7f9f7ef05450089078bc35e5f8be55dca0400",
-      "original_name": null,
+      "original_name": "ComputeSymbolPt",
       "segment": 0,
       "semantic_name_hypothesis": "make_five_column_point",
       "sha256": "6b4b928e036fda695db0a57ae697f5a4d5ad5a167df20935187ce30a59549af6",
       "size": 56,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "Mac CODE 2 (Main) MacsBug ComputeSymbolPt: Both write a two-word point from an index using remainder by 5 for X and quotient by 5 for Y. DOS scales both by 42 and adds 62/69. Mac at 1c10 scales by 76 and adds 80/131. Both are called by the copy-protection symbol rendering path."
+      ]
     },
     {
       "abi": "far Pascal RETF 6; far output BP+8 offset/BP+0x0a segment, signed index BP+6; far result DX:AX; saves DI, BP frame, no locals; ES loaded from argument.",
@@ -2293,13 +2429,16 @@
       "id": "root:0000:6b38",
       "offset": 27448,
       "original_bytes_hex": "558bec578b7e068b5e088e460a26c74702190026c747069b008bc7b91800f7e9053b00268907051400268947048bc38cc25f8be55dca0600",
-      "original_name": null,
+      "original_name": "ComputeHallPlayerRect",
       "segment": 0,
       "semantic_name_hypothesis": "make_far_index_rectangle",
       "sha256": "cfb62cd581027982e19354dcb5b848e749aa7e4231ddfc05c0e11bd5f7c16292",
       "size": 56,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "Mac CODE 2 (Main) MacsBug ComputeHallPlayerRect: Same index-to-four-word rectangle: fixed first horizontal edge pair, one vertical edge computed as stride \u00d7 index + base, other edge that value + row height. DOS uses stride/base/height 24/59/20, Mac 47/110/32. DOS near caller is in the hall-of-fame path and Mac DrawHallOfFameDialog calls its helper at CODE 2:20a6."
+      ]
     },
     {
       "abi": "far Pascal RETF 2; word slot BP+6 read into BX, low byte bit7 controls; AX int result via DX; BP frame, no locals or saves.",
@@ -2369,13 +2508,16 @@
       "id": "root:1000:1898",
       "offset": 6296,
       "original_bytes_hex": "558bec83ec0457562bffbe0100b1048a46062ae4050f00d3f88846fdeb148536c820740ad1e60bf675f42bc0eb140bfed1e68a46fdfe4efd0ac075e2093ec8208bc75e5f8be55dca0200",
-      "original_name": null,
+      "original_name": "AllocBanks",
       "segment": 4096,
       "semantic_name_hypothesis": "reserve_bitmap_units",
       "sha256": "891c638bf115e8435c96b16b2705ff43a6bf3b87d40a6c1d21548be6de73f60a",
       "size": 74,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns XLATGRAF.C public @AllocBanks at fmtowns:0b9d:0001: Round request to 16-unit banks, scan occupancy from low bit while skipping set bits, return zero on exhaustion, commit successful mask with OR. ResetBanks and Get1stBank use the same 16-bit bitmap."
+      ]
     },
     {
       "abi": "far Pascal RETF 4; far record pointer BP+6/+8; AX word result; BP frame allocates4, flags local BP-4/-3 and pointer home BP-2; saves DI then SI; ES loaded with LES.",
@@ -2809,13 +2951,17 @@
       "id": "root:0000:1306",
       "offset": 4870,
       "original_bytes_hex": "c706905ee400b86900509ab001d70dcb",
-      "original_name": null,
+      "original_name": "GoWeightless",
       "segment": 0,
       "semantic_name_hypothesis": "set_timer_and_request",
       "sha256": "0111a486aff1fbe381b1112c464f4ee1cc41c484b5b1a07354e71b3a06ee0403",
       "size": 16,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns PRINCE.C public @GoWeightless at fmtowns:3396:0a01: Both set the weightless timer to 228, which the paired CTRL.Gravity routine tests, and request song 105. FM Towns adds ResetSnd and sets CueSnd to -1.",
+        "Mac CODE 2 (Main) MacsBug unlabelled body: Stores 228 in -4fa6(A5), requests a song and clears cue state to -1. CODE 4:341a tests the same A5 field in the gravity path. Mac song is 111 instead of 105."
+      ]
     },
     {
       "abi": "Far Pascal RETF 2, one near pointer/word at BP+6; BP frame, no locals or SI/DI saves; cdecl far callee, explicit ADD SP,2; AX incidental.",
@@ -2962,13 +3108,16 @@
       "id": "root:1000:62fe",
       "offset": 25342,
       "original_bytes_hex": "558becff76069aaa4f0111509aca4f01118be55dca020090",
-      "original_name": null,
+      "original_name": "SetFont",
       "segment": 4096,
       "semantic_name_hypothesis": "load_and_exchange_attribute",
       "sha256": "41e4a26b769e71db14db8d74112d3bd3707829717c05ed9c604a73ff276f2bab",
       "size": 24,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns RESC.C public @SetFont at fmtowns:0b2a:0585: One font ID flows into a lookup for resource type FONT then to the independently paired hSetFont. FM returns the loaded font handle; DOS forwards the return of hSetFont."
+      ]
     },
     {
       "abi": "Far Pascal RETF 2; one near handle/word at BP+6; BP frame, no locals/saves; nested callees each RETF 2; AX is forwarded.",
@@ -3097,13 +3246,16 @@
       "id": "root:1000:ec2a",
       "offset": 60458,
       "original_bytes_hex": "558becb8080050ff7608ff7606ff760cff760a9ad41de61f3d01001bc0f7d88be55dca080090",
-      "original_name": null,
+      "original_name": "EqualRect",
       "segment": 4096,
       "semantic_name_hypothesis": "equal_first_eight_bytes",
       "sha256": "f6eaf62e8f21a6937c466db43dab5fe975c03f2ebc3f366bb35a266211859f40",
       "size": 38,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns LGRAF.C public @EqualRect at fmtowns:2812:033c: Both compare exactly eight bytes (four coordinate words) for equality and normalize to 0/1. Both sit in a run with an AllocBackPort/DeallocBackPort pair."
+      ]
     },
     {
       "abi": "Far Pascal RETF 2; word BP+6 in saved SI; BP frame, no locals; conditional same-CS far-return call; return unspecified.",
@@ -4053,13 +4205,17 @@
       "id": "root:0000:12de",
       "offset": 4830,
       "original_bytes_hex": "833e8e5e00740bc7068e5e0000b89a00eb09c7068e5e3804b89900509ab001d70dc706185e0100cb",
-      "original_name": null,
+      "original_name": "ToggleInvertState",
       "segment": 0,
       "semantic_name_hypothesis": "toggle_mode_and_request",
       "sha256": "e094300face3e16f02c2f8c246b01e7f2d464e7f4e614d6e48b1a987ad6b1dd3",
       "size": 40,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns PRINCE.C public @ToggleInvertState at fmtowns:3396:09d5: Same global timer toggle, 0 or 1080, song IDs 154 when clearing and 153 when setting, plus a separate changed flag set to 1. DOS sound dispatcher is root:0dd7:01b0.",
+        "Mac CODE 2 (Main) MacsBug unlabelled body: Clears nonzero timer or sets it to exactly 1080, requests a different song on each side and sets changed flag to 1. Mac song IDs are 177/176 instead of DOS and FM 154/153."
+      ]
     },
     {
       "abi": "far Pascal, word BP+6; RETF 2; AX result; BP frame reserves 4 bytes, SI saved; far local low SI/high BP-2, BP-4 unused",
@@ -5157,13 +5313,17 @@
       "id": "root:02cc:016a",
       "offset": 362,
       "original_bytes_hex": "558bec83ec02a047452ae44848740d4848742d487422487445eb7890803e345e047507803e49450d740e803e49450d7562803e345e0d755bc646ff00eb599090803e375e007506807e06ff74eb803e345e1b753f803e49450674ddeb3690803e345e077407803e345e087507803e4745067420803e345e0375be803e47450675b7807e08007c06807e080975ab807e060275a5c646ff148a46ff8be55dca0400",
-      "original_name": null,
+      "original_name": "GetUndefineCellId",
       "segment": 716,
       "semantic_name_hypothesis": "fallback_tile_kind",
       "sha256": "0b4656de5825b3fbac50220c9f04cba2686e53226e7a24208e8b5b6629b973dd",
       "size": 160,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @GetUndefineCellId at fmtowns:1a18:01d6: FM 01d6\u2013028a dispatches state 2 through 6. Cases share the state/level tests 4 or 13 on 13, 27 on 6, y=-1 guarded by a state byte, and kind 3 with x negative or 9 and y=2. Returns zero or 20. FM case 4 adds a kind 16/level 9 arm.",
+        "Mac CODE 4 (Characters 2) MacsBug GetUndefineCellId: Two stack words, cases 2/4/5/6, shared tests for kind 7 or 8 on state 6, kind 27 on level 6, and y=-1. Both choose 0 or 20. Mac admits y=2 via a slightly different range test."
+      ]
     },
     {
       "abi": "No args; RETF; BP frame reserves 6 bytes, DI/SI saved; SI word moved to AX result.",
@@ -7122,13 +7282,17 @@
       "classification_status": "evidence-qualified hypothesis; no original symbol identity",
       "id": "root:02cc:1c3e",
       "offset": 7230,
-      "original_name": null,
+      "original_name": "SaveFChar",
       "segment": 716,
       "semantic_name_hypothesis": "save_twenty_byte_state",
       "sha256": "303f62493f656324ac751e2d1115815c9b7f2bc57ba355d5a25552d2ee5dab4a",
       "size": 18,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @SaveFChar at fmtowns:1a18:1fb5: Copies ten words from FChar into the save record. Immediately following DOS 1c50 and FM 1fc7 copy back with source/destination reversed. The direction from active to saved is observable in neighboring FChar reads.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Copies six longwords forward from -34c8(A5) to a saved FChar record at -34e0. The active input contains the FChar direction and X fields read by the independently named AddFCharX. Immediate successor reverses the copy. Mac copy is 24 bytes instead of DOS/FM's 20."
+      ]
     },
     {
       "abi": "Far no-argument entry, RETF; Pascal versus cdecl is indistinguishable with zero arguments. AX is zero on return; saves DI; no BP frame or locals; ES clobbered.",
@@ -7160,13 +7324,17 @@
       "classification_status": "evidence-qualified hypothesis; no original symbol identity",
       "id": "root:02cc:1404",
       "offset": 5124,
-      "original_name": null,
+      "original_name": "InitInput",
       "segment": 716,
       "semantic_name_hypothesis": "clear_five_byte_state",
       "sha256": "41019e3afd55f48a2835767bf04d803026e8cf4387c2eaf01b7a26471044743b",
       "size": 16,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @InitInput at fmtowns:1a18:1659: Zeroes five contiguous bytes. In both builds the immediately preceding two entries copy the same five bytes to and from the current selection, distinguishing this buffer reset from ClrAll.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Zeroes selection buffer at -3492(A5) with a count of ten bytes. Two immediately preceding entries copy that buffer in and out of live selection. Word-wide state doubles DOS/FM's five-byte buffer."
+      ]
     },
     {
       "abi": "Far no-argument entry, RETF; calling convention cleanup is indistinguishable. Saves DI/SI; no BP frame or locals; no meaningful scalar result established; ES clobbered.",
@@ -7203,7 +7371,10 @@
       "size": 16,
       "space": "root",
       "state": "ANALYZED",
-      "original_name_evidence": "FM Towns CTRL.C public @SaveSelect; DOS PlayerCtrl saves the selection at root+0x3f9a where FM Towns PlayerCtrl calls SaveSelect (1a18:14f5); copied globals DS:628c/DS:626a = FM Towns _Dir/_SelDir."
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @SaveSelect at fmtowns:1a18:1633: Five-byte copy from Dir to SelDir. PlayerCtrl calls it before input handling and the next routine copies the same fields in reverse.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Copies ten bytes from live direction words at -3488(A5) to saved selection at -3492(A5). The next function reverses this exact copy and the third clears the save buffer. Word-wide state doubles the DOS byte count."
+      ]
     },
     {
       "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame or locals; scalar result unestablished; ES clobbered.",
@@ -7240,7 +7411,10 @@
       "size": 16,
       "space": "root",
       "state": "ANALYZED",
-      "original_name_evidence": "FM Towns CTRL.C public @LoadSelect; inverse copy before the input poll in both PlayerCtrl bodies (DOS root+0x3f62, FM Towns 1a18:14b5)."
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @LoadSelect at fmtowns:1a18:1646: Five-byte copy from SelDir back to Dir, called by PlayerCtrl, and the inverse of the immediately preceding SaveSelect.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Copies ten bytes from saved selection back to the live direction words. Immediate predecessor and successor are the matching save and clear operations."
+      ]
     },
     {
       "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame or locals; ES clobbered; scalar return not established.",
@@ -7367,7 +7541,10 @@
       "size": 18,
       "space": "root",
       "state": "ANALYZED",
-      "original_name_evidence": "FM Towns CTRL.C public @RestoreFChar; SetupCarpet restore sites DOS overlay-13+0x04e1 and FM Towns 1c20:0510 write _FChar = DOS DS:6252."
+      "original_name_evidence": [
+        "FM Towns CTRL.C public @RestoreFChar at fmtowns:1a18:1fc7: Copies exactly ten words from save record to active FChar. Reverses SaveFChar and is called after temporary FChar processing by SetupCarpet and SetupFlame in both.",
+        "Mac CODE 4 (Characters 2) MacsBug unlabelled body: Copies six longwords in reverse direction from saved -34e0(A5) to active -34c8(A5). Immediate predecessor saves that same FChar field span."
+      ]
     },
     {
       "abi": "Far no-argument entry, RETF; saves DI/SI; no BP frame/locals; ES clobbered; scalar result unestablished.",
@@ -7768,13 +7945,17 @@
       "id": "root:0000:0e78",
       "offset": 3704,
       "original_bytes_hex": "a0135c98403d0c007e03b80c00a2135c0ee80200cb90",
-      "original_name": null,
+      "original_name": "BoostMeter",
       "segment": 0,
       "semantic_name_hypothesis": "increment_state_and_update",
       "sha256": "32bc0d1faac3e13c8dd0b5264dc1ffeb88bf5c7bce362e05acfb77cb7738b022",
       "size": 22,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns PRINCE.C public @BoostMeter at fmtowns:3396:06fd: Signed meter byte +1, capped at 12, written back before recomputing the meter delta. FM Towns 06fd\u2013071a includes the same subtraction that DOS calls at 0e89.",
+        "Mac CODE 2 (Main) MacsBug unlabelled body: Increments the signed health word and caps at 12, then calls 541c to compute delta, just as DOS 0e78 calls 0e8e. The next MacsBug label is ChangeMeters, which belongs to a later body."
+      ]
     }
   ],
   "schema": 1,

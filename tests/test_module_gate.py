@@ -35,11 +35,10 @@ char far pascal UPDATE_STEP_DELTA(void)
     return STATE_DELTA;
 }
 """
-BINDING = ROOT / "evidence/bindings/state_step_pair.json"
+BINDING = ROOT / "evidence/bindings/prince/boost_meter.json"  # canonical BoostMeter group binding
 
 
-@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file() and BINDING.is_file(),
-                     "Pinned historical runner or pilot binding unavailable")
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
 class GroupGateTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -54,7 +53,13 @@ class GroupGateTests(unittest.TestCase):
 
     def check(self, claims, *, label="forward", binding=None, group_id="group:state_step_pair"):
         from module_gate import check_group
+        from binding import declarations, fixes
+        from omf import OmfReader
         binding = binding if binding is not None else common.read_json(BINDING)
+        # The test sources keep their own identifiers; witnesses come from the canonical binding.
+        module = OmfReader().read(self.objects[label])
+        binding = dict(binding, target_id="group:state_step_pair",
+                       declarations=declarations(module), fixups=fixes(module))
         return check_group(self.objects[label], [{"target_id": t, "public": p} for t, p in claims],
                            self.oracle, binding=binding, group_id=group_id)
 
@@ -257,7 +262,6 @@ class SyntheticGroupTests(unittest.TestCase):
         report = self.check(obj, oracle, inventory, [("caller", "CALLER"), ("callee", "CALLEE")])
         self.assertEqual(report["claims"][0]["state"], "REFUSED")
 
-    @unittest.skipUnless(BINDING.is_file(), "Pilot binding unavailable")
     def test_tail_jump_into_a_draft_is_not_segment_safe(self):
         from binding import declarations, fixes
         from omf import OmfReader
@@ -281,7 +285,6 @@ class SyntheticGroupTests(unittest.TestCase):
                             group_id="group:fixture")
         self.assertIn("segment context", report["claims"][0]["reason"])
 
-    @unittest.skipUnless(BINDING.is_file(), "Pilot binding unavailable")
     def test_data_fixup_naming_a_code_public_is_refused(self):
         from binding import declarations, fixes
         from oracle import Oracle

@@ -101,7 +101,7 @@ class RelocationOrderTests(unittest.TestCase):
         raw = b''.join(omf_record(k, b) for k, b, _ in OmfReader.records(base) if k != 0x8a)
         raw += omf_record(0x9c, bytes.fromhex('cc0d5601cc075602')) + omf_record(0x8a)
         obj = OmfReader().read(raw)
-        binding = read_json(ROOT/'evidence/bindings/load_and_exchange_attribute.json')
+        binding = read_json(ROOT/'evidence/bindings/resc/set_font.json')
         binding.update(declarations=declarations(obj), fixups=fixes(obj))
         result = check_object(raw, target, space, expected, 'LOAD_AND_EXCHANGE_ATTRIBUTE',
                               binding=binding, oracle=oracle)

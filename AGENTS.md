@@ -30,7 +30,9 @@ initialized CODE segment. Relocation-free components need no binding proof.
 Functions that call each other with `PUSH CS; CALL near` must come from one source:
 use `python tools/promote_group.py build/workers/NAME/candidate.c --name NAME
 --profile PROFILE --flags ... --claim TARGET_ID=PUBLIC ... [--binding ...] --verify-only`
-(see the same-source group section of docs/acceptance.md). Draft whole runs of
+(see the same-source group section of docs/acceptance.md). Canonical source lives under its original
+module (`src/ctrl/`, see docs/source-layout.md and evidence/modules.json); CamelCase names
+are anchored originals, snake_case names are descriptive. Use `tools/relocate.py` to rename. Draft whole runs of
 neighbouring functions in original order; `python tools/tu_census.py` lists the
 original code frames (one per medium-model file) and their near-call blocks.
 Unreferenced compiler externals and FIXUPP thread declarations are retained in

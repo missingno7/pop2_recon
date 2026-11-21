@@ -263,7 +263,7 @@ class FreshMSCImmediateTests(unittest.TestCase):
             self.assertEqual(report['fixups'], 2)
 
     def test_canonical_struct_copy_and_intrinsic_clear_from_fresh_objects(self):
-        for name in ('save_twenty_byte_state', 'clear_five_byte_state'):
+        for name in ('ctrl/save_f_char', 'ctrl/init_input'):
             with self.subTest(name=name):
                 recipe = json.loads((ROOT / 'recipes' / (name + '.json')).read_text())
                 proof = json.loads((ROOT / recipe['binding']).read_text())
