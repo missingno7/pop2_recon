@@ -14064,15 +14064,38 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
+    "@slide_rock_on_row": {
+      "entry_sha256": "9e9b4de803b063971e7638ad603730f63780037a2e9b7c8f3a90de92abb3de52",
+      "entry_target_id": "overlay-9:2a4e:0526",
+      "kind": "overlay-code-entry",
+      "offset": 1318,
+      "segment": 10830,
+      "space": "overlay-9",
+      "witnesses": []
+    },
+    "ABOVE_EDGES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11402,
+      "witnesses": [
+        {
+          "bytes_hex": "ba8a2c",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 19941,
+          "operand_offset": 1,
+          "space": "overlay-3"
+        }
+      ]
+    },
     "ABOVE_ROOMS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11428,
       "witnesses": [
         {
-          "bytes_hex": "b8a42c",
+          "bytes_hex": "b9a42c",
           "entry": "overlay-3:2802:000e",
-          "image_offset": 19611,
+          "image_offset": 19938,
           "operand_offset": 1,
           "space": "overlay-3"
         }
@@ -14108,15 +14131,29 @@
         }
       ]
     },
+    "BELOW_EDGES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11414,
+      "witnesses": [
+        {
+          "bytes_hex": "ba962c",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 19933,
+          "operand_offset": 1,
+          "space": "overlay-3"
+        }
+      ]
+    },
     "BELOW_ROOMS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11438,
       "witnesses": [
         {
-          "bytes_hex": "b8ae2c",
+          "bytes_hex": "b9ae2c",
           "entry": "overlay-3:2802:000e",
-          "image_offset": 19593,
+          "image_offset": 19930,
           "operand_offset": 1,
           "space": "overlay-3"
         }
@@ -14272,6 +14309,21 @@
         }
       ]
     },
+    "CHAR_MOTION": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23588,
+      "witnesses": [
+        {
+          "bytes_hex": "833e245c02",
+          "context": "cmp word ptr [0x5c24], 2 reached from root:0000:0e9a",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3860,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "CHAR_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14293,6 +14345,21 @@
         {
           "bytes_hex": "f62e0a5c",
           "image_offset": 13412,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "CHAR_SEQUENCE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23577,
+      "witnesses": [
+        {
+          "bytes_hex": "c706195c0500",
+          "context": "mov word ptr [0x5c19], 5 reached from root:0000:1000",
+          "entry": "root:0000:1000",
+          "image_offset": 1649,
           "operand_offset": 2,
           "space": "root"
         }
@@ -14454,15 +14521,43 @@
         }
       ]
     },
+    "CURRENT_EDGES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27310,
+      "witnesses": [
+        {
+          "bytes_hex": "baae6a",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 19949,
+          "operand_offset": 1,
+          "space": "overlay-3"
+        }
+      ]
+    },
     "CURRENT_ROOMS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11458,
       "witnesses": [
         {
-          "bytes_hex": "b8c22c",
+          "bytes_hex": "b9c22c",
           "entry": "overlay-3:2802:000e",
-          "image_offset": 19575,
+          "image_offset": 19946,
+          "operand_offset": 1,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "CURRENT_ROW": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11413,
+      "witnesses": [
+        {
+          "bytes_hex": "a0952c",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 19886,
           "operand_offset": 1,
           "space": "overlay-3"
         }
@@ -14505,6 +14600,20 @@
         }
       ]
     },
+    "FIRST_COL": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11424,
+      "witnesses": [
+        {
+          "bytes_hex": "a0a02c",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 20156,
+          "operand_offset": 1,
+          "space": "overlay-3"
+        }
+      ]
+    },
     "FLOOR_Y": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14537,6 +14646,15 @@
           "space": "root"
         }
       ]
+    },
+    "GET_CHAR_COL": {
+      "entry_sha256": "9f6ab59ed3fd77054424c14dbfeb0dcd94b954f923dfbff86177d3ae4b4d12b6",
+      "entry_target_id": "root:02cc:10c0",
+      "kind": "far-code-entry",
+      "offset": 4288,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
     },
     "GET_SPRITE_COL": {
       "entry_sha256": "61a394972ed052ae62c001263494006962993aa1727147ce532af7343e51bd3b",
@@ -14591,6 +14709,15 @@
       "space": "root",
       "witnesses": []
     },
+    "JUMP_BARRIER_SEQUENCE": {
+      "entry_sha256": "2d50789fc210aabec35cebd3ea6d5fb78a459176ffe03a0e4e9a15e22978ef71",
+      "entry_target_id": "overlay-11:2c3e:0816",
+      "kind": "overlay-code-entry",
+      "offset": 2070,
+      "segment": 11326,
+      "space": "overlay-11",
+      "witnesses": []
+    },
     "KIND_ROW_ABOVE_ALT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14619,19 +14746,40 @@
         }
       ]
     },
+    "LAST_COL": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 11425,
+      "witnesses": [
+        {
+          "bytes_hex": "3806a12c",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 20180,
+          "operand_offset": 2,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "LEDGE_CHECK": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24208,
+      "witnesses": [
+        {
+          "bytes_hex": "c706905ee400",
+          "context": "mov word ptr [0x5e90], 0xe4 reached from root:0000:1000",
+          "entry": "root:0000:1000",
+          "image_offset": 4870,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "LEFT_BARRIER_COL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11427,
-      "witnesses": [
-        {
-          "bytes_hex": "a2a32c",
-          "entry": "overlay-3:2802:000e",
-          "image_offset": 19446,
-          "operand_offset": 1,
-          "space": "overlay-3"
-        }
-      ]
+      "witnesses": []
     },
     "LEFT_EDGE": {
       "group": "DGROUP",
@@ -14672,9 +14820,23 @@
       "offset": 11412,
       "witnesses": [
         {
-          "bytes_hex": "a2942c",
+          "bytes_hex": "3806942c",
           "entry": "overlay-3:2802:000e",
-          "image_offset": 19518,
+          "image_offset": 19889,
+          "operand_offset": 2,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "PREV_EDGES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27300,
+      "witnesses": [
+        {
+          "bytes_hex": "b8a46a",
+          "entry": "overlay-3:2802:000e",
+          "image_offset": 19966,
           "operand_offset": 1,
           "space": "overlay-3"
         }
@@ -14686,10 +14848,10 @@
       "offset": 11448,
       "witnesses": [
         {
-          "bytes_hex": "3887b82c",
+          "bytes_hex": "b8b82c",
           "entry": "overlay-3:2802:000e",
-          "image_offset": 19706,
-          "operand_offset": 2,
+          "image_offset": 19952,
+          "operand_offset": 1,
           "space": "overlay-3"
         }
       ]
@@ -14799,15 +14961,7 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11426,
-      "witnesses": [
-        {
-          "bytes_hex": "a2a22c",
-          "entry": "overlay-3:2802:000e",
-          "image_offset": 19449,
-          "operand_offset": 1,
-          "space": "overlay-3"
-        }
-      ]
+      "witnesses": []
     },
     "RIGHT_EDGE": {
       "group": "DGROUP",
@@ -14847,6 +15001,23 @@
         }
       ]
     },
+    "SELECT_CHARACTER_FRAME": {
+      "entry_sha256": "cf8bc71da1068d1632796b50072c7b213a0a9d1142031a90d308a485a273b9b2",
+      "entry_target_id": "root:0169:09ee",
+      "kind": "far-code-entry",
+      "offset": 2542,
+      "segment": 361,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aee096901",
+          "file_offset": 68693,
+          "image_offset": 60501,
+          "relocation_index": 1195,
+          "space": "root"
+        }
+      ]
+    },
     "SELECT_SWORD_FRAME": {
       "entry_sha256": "3cadbf3fbfff381c80ac1fc5ec9c2e49020ca37f10a15cbe83d4ce38fc32e854",
       "entry_target_id": "root:02cc:0296",
@@ -14877,15 +15048,7 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 17748,
-      "witnesses": [
-        {
-          "bytes_hex": "833e544500",
-          "entry": "overlay-3:2802:000e",
-          "image_offset": 19472,
-          "operand_offset": 2,
-          "space": "overlay-3"
-        }
-      ]
+      "witnesses": []
     },
     "SLIDE_ROCK_BARRIER": {
       "entry_sha256": "fc3eb8e255ae52d4d6715037bd2f5c5d8632ead6120fff7efe3e05df14c0c33b",
@@ -14903,6 +15066,15 @@
           "space": "overlay-3"
         }
       ]
+    },
+    "SLIDE_ROCK_COLLISION_ROW": {
+      "entry_sha256": "a26e9aeceaa14b8b122f1f4d26baf39c0a2d7bc308d4c0155b793a338a4e4634",
+      "entry_target_id": "overlay-9:2a4e:0412",
+      "kind": "overlay-code-entry",
+      "offset": 1042,
+      "segment": 10830,
+      "space": "overlay-9",
+      "witnesses": []
     },
     "SLIDE_ROCK_HAS_FLOOR": {
       "entry_sha256": "7c18f7a68080281517681c71e4060af04f909f4cc08237a2887be971b008d7af",
@@ -15085,6 +15257,15 @@
           "space": "root"
         }
       ]
+    },
+    "UPDATE_CHAR_CELL": {
+      "entry_sha256": "5140edf850f9dd5c1d22d70f2d655a2c89b4ea3b9ff7b8438189e69d01cdb93a",
+      "entry_target_id": "root:02cc:027e",
+      "kind": "far-code-entry",
+      "offset": 638,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
     }
   },
   "target_id": "group:collide/collide",

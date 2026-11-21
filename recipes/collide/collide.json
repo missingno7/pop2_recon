@@ -1,7 +1,25 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "93942365c4dbf4b6f4c60f9763560c3bec49625468ea427c10bcd222f56a7c31",
+  "binding_sha256": "907a983093356323d1fc5c43be7c67cbbf7c28274d333c8b12e59a14c45de30e",
   "claims": [
+    {
+      "fixup_count": 62,
+      "public": "CHECKBARR",
+      "relocation_indices": [
+        433,
+        465,
+        466,
+        467,
+        480,
+        481,
+        482
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:000e"
+    },
     {
       "fixup_count": 12,
       "public": "CHECKWEIGHTLESSBARR",
@@ -203,6 +221,27 @@
       "target_id": "overlay-3:2802:0df4"
     },
     {
+      "fixup_count": 39,
+      "public": "COLLIDE_ENEMY_WITH_BARRIER",
+      "relocation_indices": [
+        431,
+        437,
+        438,
+        443,
+        452,
+        453,
+        458,
+        464,
+        479,
+        493
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:0e82"
+    },
+    {
       "fixup_count": 12,
       "public": "BARRIER_DISTANCE_FROM_FACE",
       "target_id": "overlay-3:2802:1044"
@@ -219,10 +258,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "CHECKBARR"
-    },
     {
       "object_offset": 440,
       "public": "INITCOLDETBUFS"
@@ -250,10 +285,6 @@
     {
       "object_offset": 3400,
       "public": "CHECK_GATE_FOR_PLAYER"
-    },
-    {
-      "object_offset": 3700,
-      "public": "COLLIDE_ENEMY_WITH_BARRIER"
     }
   ],
   "emitted_size": 4376,
