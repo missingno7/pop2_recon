@@ -190,7 +190,7 @@ ShapeList *load_shape_list(register int id, Handle mapping, signed char *mode, i
     return list;
 }
 
-void overlay_shape_list(ShapeList *list, int id, int first, int last, signed char *mode)
+void overlay_shape_list(ShapeList *list, int id, int first, int last, signed char *volatile mode)
 {
     int base_id = *(int far *)resolve_handle(find_shape_list(list->id));
     int index;
@@ -205,8 +205,11 @@ void overlay_shape_list(ShapeList *list, int id, int first, int last, signed cha
             if (!((unsigned)mode & 0xff00U) &&
                 ((unsigned char)(unsigned)mode == 1 || (unsigned char)(unsigned)mode == 2))
                 item_mode = (int)mode;
-            else
-                item_mode = mode && mode[index] ? mode[index] : 0;
+            else if (mode) {
+                signed char *selected = mode + index;
+                item_mode = *selected;
+            } else
+                item_mode = 0;
             if (item_mode) {
                 if (*image) {
                     dispose_handle(*image);
@@ -244,15 +247,18 @@ void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
 
 void PrinceMarkRangesPurgeable(ShapeList *list, int *first, int *last)
 {
-    int *begin = first;
-    int *end = last;
+    int *begin, *end;
+    int start = *first;
 
-    if (*first != -1) {
+    if (start != -1) {
+        end = last;
+        begin = first;
         do {
             PrinceMarkImgsPurgeable(list, *begin, *end);
             ++end;
             ++begin;
-        } while (*begin != -1);
+            start = *begin;
+        } while (start != -1);
     }
 }
 
@@ -265,7 +271,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     const void far *mapping;
     int list_flags;
     int image_flags;
-    ShapeEncoding *format_bytes;
+    ShapeEncoding *volatile format_bytes;
     Handle handle;
     int reused;
 
@@ -291,7 +297,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     if (image->width) {
         format = image->format;
         format_bytes = (ShapeEncoding *)&format;
-        if (!format_bytes->depth && !format_bytes->encoded)
+        if (!format_bytes->depth && !((ShapeEncoding *)&format)->encoded)
             info->four_bit = 1;
         else
             info->four_bit = 0;
@@ -348,7 +354,9 @@ ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result)
 
 void far *PrinceGetnShapeItemSize(ShapeList *list, int index, unsigned long far *size)
 {
-    volatile Handle handle = ((ShapeInfo *)list)[index].image;
+    int slot = index;
+    ShapeInfo *items = (ShapeInfo *)list;
+    Handle handle = items[slot].image;
     unsigned long far *image;
 
     if (handle && (image = resolve_handle(handle)) != 0)
