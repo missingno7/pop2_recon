@@ -19,7 +19,7 @@
       "CLOSE_RESOURCE_MAP",
       "OPEN_RESOURCE_MAP",
       "LOCK_RESOURCE_MAP",
-      "RESOURCES_CAN_CHANGE",
+      "GET_MIDI_DRIVER_FLAG",
       "CLOSE_RESOURCE_FILE",
       "RESET_INTERFACE",
       "FIND_RESOURCE_MAP",
@@ -1251,7 +1251,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "RESOURCES_CAN_CHANGE",
+          "name": "GET_MIDI_DRIVER_FLAG",
           "zero_displacement": true
         }
       },
@@ -1265,7 +1265,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "RESOURCES_CAN_CHANGE",
+        "name": "GET_MIDI_DRIVER_FLAG",
         "zero_displacement": true
       }
     },
@@ -2180,6 +2180,15 @@
   },
   "schema": 1,
   "symbols": {
+    "GET_MIDI_DRIVER_FLAG": {
+      "entry_sha256": "e0c773cc953d3be0c1ef5a0268efef208c024bb25b6452ae45fc547d7c6e1042",
+      "entry_target_id": "root:1101:2e10",
+      "kind": "far-code-entry",
+      "offset": 11792,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "INPUT_ACTIVE": {
       "entry_sha256": "510e94724c214c7e798aa8527802f336c22fc5534540e9caf32b2a3b71b26fbb",
       "entry_target_id": "root:1101:bac2",
@@ -2201,6 +2210,20 @@
           "image_offset": 516,
           "operand_offset": 1,
           "space": "overlay-2"
+        }
+      ]
+    },
+    "LEVEL_STATE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8418,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1ee220",
+          "entry": "root:0000:0a84",
+          "image_offset": 2700,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     },
@@ -2259,6 +2282,20 @@
           "image_offset": 535,
           "operand_offset": 2,
           "space": "overlay-2"
+        }
+      ]
+    },
+    "RESOURCE_FLAGS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8693,
+      "witnesses": [
+        {
+          "bytes_hex": "f606f52101",
+          "entry": "root:0000:0a84",
+          "image_offset": 2693,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     },
@@ -2349,10 +2386,10 @@
       "witnesses": [
         {
           "bytes_hex": "9a3102e61f",
-          "file_offset": 130902,
-          "image_offset": 122710,
-          "relocation_index": 1734,
-          "space": "root"
+          "file_offset": 156358,
+          "image_offset": 422,
+          "relocation_index": 23,
+          "space": "overlay-2"
         }
       ]
     },

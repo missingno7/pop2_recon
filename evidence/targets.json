@@ -38394,6 +38394,286 @@
       "size": 96,
       "space": "overlay-9",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack parameters, RETF",
+      "boundary_evidence": [
+        "After the previous RETF 10, push flags, clear interrupts, store DS:265c as a far pointer, and call the distinct 7e55 BP-framed routine with two words. Restore flags and RETF at 7e54.",
+        "Complete reviewed root extent [0x18e51,0x18e65).",
+        "CALL FAR at root+0x1dee5 names this entry; relocation index 1736."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130789,
+          "image_offset": 122597,
+          "kind": "far_call",
+          "relocated_segment_site": 122600,
+          "relocation_index": 1736,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "After the previous RETF 10, push flags, clear interrupts, store DS:265c as a far pointer, and call the distinct 7e55 BP-framed routine with two words. Restore flags and RETF at 7e54."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1101:7e41",
+      "offset": 32321,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "0b6de2f206b76657ce9bfa547fb2cbc1f44c1882dec7c5a6ea2ee5e90419809d",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack parameters, RETF",
+      "boundary_evidence": [
+        "After the previous backwards JMP, save DS and use DOS service 25h to restore interrupt vectors. Optional mouse reset rejoins at POP DS; RETF at bdd8..bdd9, before the next BP frame.",
+        "Complete reviewed root extent [0x1cdb5,0x1cdea).",
+        "CALL FAR at root+0x1deea names this entry; relocation index 1741."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130794,
+          "image_offset": 122602,
+          "kind": "far_call",
+          "relocated_segment_site": 122605,
+          "relocation_index": 1741,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "After the previous backwards JMP, save DS and use DOS service 25h to restore interrupt vectors. Optional mouse reset rejoins at POP DS; RETF at bdd8..bdd9, before the next BP frame."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1101:bda5",
+      "offset": 48549,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "cf0cb55e69ff89e12c4189e8e7973041208d67be4c9a085aec4e68cce89753c1",
+      "size": 53,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack parameters, RETF",
+      "boundary_evidence": [
+        "New PUSH DS follows RETF at 1528. Four DOS vector restores converge on POP DS and RETF at 155a..155b. The next byte is a distinct IRET handler.",
+        "Complete reviewed root extent [0x1529,0x155c).",
+        "CALL FAR at root+0x1def6 names this entry; relocation index 1722."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130806,
+          "image_offset": 122614,
+          "kind": "far_call",
+          "relocated_segment_site": 122617,
+          "relocation_index": 1722,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "New PUSH DS follows RETF at 1528. Four DOS vector restores converge on POP DS and RETF at 155a..155b. The next byte is a distinct IRET handler."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1529",
+      "offset": 5417,
+      "original_name": null,
+      "segment": 0,
+      "sha256": "18f918f94f5b23fbc12e87145c4a6bebf5a10ba2094ab678489c97590f3dbe21",
+      "size": 51,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack parameters, RETF",
+      "boundary_evidence": [
+        "New frameless entry follows RETF 2. Clears and tests DS:25d0, then optionally performs teardown and restores a BIOS video mode. JCXZ and the teardown both reach RETF at 4f5d.",
+        "Complete reviewed root extent [0x15f20,0x15f6e).",
+        "CALL FAR at root+0x1df02 names this entry; relocation index 1745."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130818,
+          "image_offset": 122626,
+          "kind": "far_call",
+          "relocated_segment_site": 122629,
+          "relocation_index": 1745,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "New frameless entry follows RETF 2. Clears and tests DS:25d0, then optionally performs teardown and restores a BIOS video mode. JCXZ and the teardown both reach RETF at 4f5d."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4f10",
+      "offset": 20240,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "3109cd1463905166fb0159d35ca02c875b5962066e4890ed58e805dc9721b7f3",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack parameters, RETF",
+      "boundary_evidence": [
+        "Follows RETF 4. Tests the far pointer at DS:20d0, optionally calls it with AL=2 and clears both words. Both paths reach RETF at 2748, before a new BP frame.",
+        "Complete reviewed root extent [0x13741,0x13759).",
+        "CALL FAR at root+0x1df0e names this entry; relocation index 1731."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130830,
+          "image_offset": 122638,
+          "kind": "far_call",
+          "relocated_segment_site": 122641,
+          "relocation_index": 1731,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Follows RETF 4. Tests the far pointer at DS:20d0, optionally calls it with AL=2 and clears both words. Both paths reach RETF at 2748, before a new BP frame."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2731",
+      "offset": 10033,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "b543351fa45770b50fdc0fe888d66126af527ab7ecef2ab486b9d6b7e52daabf",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no stack parameters, RETF",
+      "boundary_evidence": [
+        "Follows the previous JMP. Uses the far structure at DS:20cc, optionally calls EMS service 45h, then DOS service 49h and RETF at 1a69, before a new BP frame.",
+        "Complete reviewed root extent [0x12a64,0x12a7a).",
+        "CALL FAR at root+0x1df13 names this entry; relocation index 1743."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 130835,
+          "image_offset": 122643,
+          "kind": "far_call",
+          "relocated_segment_site": 122646,
+          "relocation_index": 1743,
+          "space": "root"
+        },
+        {
+          "file_offset": 156334,
+          "image_offset": 398,
+          "kind": "far_call",
+          "relocated_segment_site": 401,
+          "relocation_index": 43,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Follows the previous JMP. Uses the far structure at DS:20cc, optionally calls EMS service 45h, then DOS service 49h and RETF at 1a69, before a new BP frame."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1101:1a54",
+      "offset": 6740,
+      "original_name": null,
+      "segment": 4353,
+      "sha256": "74eb5a196adc869876d42c89ce7b20ed73c87f52fbf6981c5d2932a2e458af58",
+      "size": 22,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl, one handle word, shared RETF result path",
+      "boundary_evidence": [
+        "Directly entered by relocated calls. Reads BP+6 and issues DOS service 3eh, branching to a shared result tail at 05fc. The next BP-framed routine begins at 10b6. The installed MSC 6.00 mlibcr.lib dos\\close.asm member independently names _close at object offset zero and has the same complete 32-byte contribution shape.",
+        "Complete reviewed root extent [0x20ef6,0x20f16).",
+        "CALL FAR at root+0x1e21d names this entry; relocation index 1733."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 131613,
+          "image_offset": 123421,
+          "kind": "far_call",
+          "relocated_segment_site": 123424,
+          "relocation_index": 1733,
+          "space": "root"
+        },
+        {
+          "file_offset": 140535,
+          "image_offset": 132343,
+          "kind": "far_call",
+          "relocated_segment_site": 132346,
+          "relocation_index": 1918,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Directly entered by relocated calls. Reads BP+6 and issues DOS service 3eh, branching to a shared result tail at 05fc. The next BP-framed routine begins at 10b6. The installed MSC 6.00 mlibcr.lib dos\\close.asm member independently names _close at object offset zero and has the same complete 32-byte contribution shape."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1096",
+      "offset": 4246,
+      "original_name": null,
+      "segment": 8166,
+      "sha256": "c7b052d24214c27e085e23bd80b2c3403d67c7083f019d8d35d259489ef6c6a8",
+      "size": 32,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl, near filename and options, shared body with a preceding entry",
+      "boundary_evidence": [
+        "The installed MSC 6.00 mlibcr.lib dos\\open.asm member independently names this as _open at CODE+1a, with _sopen at CODE+0 and __cXENIXtoDOSmode at CODE+1ab. In the original the earlier 1130 entry jumps from 1148 to shared body 1152. The next distinct helper entry is 12db, so this row is an entry span inside the larger member.",
+        "Complete reviewed root extent [0x20faa,0x2113b).",
+        "CALL FAR at root+0x1e212 names this entry; relocation index 1721."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 131602,
+          "image_offset": 123410,
+          "kind": "far_call",
+          "relocated_segment_site": 123413,
+          "relocation_index": 1721,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "The installed MSC 6.00 mlibcr.lib dos\\open.asm member independently names this as _open at CODE+1a, with _sopen at CODE+0 and __cXENIXtoDOSmode at CODE+1ab. In the original the earlier 1130 entry jumps from 1148 to shared body 1152. The next distinct helper entry is 12db, so this row is an entry span inside the larger member."
+      ],
+      "classification_status": "Original code review; support target only",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:114a",
+      "offset": 4426,
+      "original_name": null,
+      "segment": 8166,
+      "sha256": "e527ee170a465fd1c0232d538b3739949f307ce3c32e473e9ed8af9cd41d52f2",
+      "size": 401,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

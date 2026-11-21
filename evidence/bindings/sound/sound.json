@@ -33,9 +33,9 @@
       "CHANGE_SONG_RANGE",
       "SOUND_PLAYING",
       "SPECIAL_NO_AMBIENT_CASE",
-      "CHECK_STORY_MUSIC",
+      "OPPTOFIGHT",
       "@AddKidScream",
-      "CHECK_ROOM_MUSIC",
+      "FIND_ACTIVE_GENERATOR",
       "QUEUE_ACTOR_SOUND",
       "ADD_OPPONENT_DEATH_SONG",
       "GET_SOUND_DATA",
@@ -1587,7 +1587,7 @@
           "index": 35,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_ROOM_MUSIC",
+          "name": "FIND_ACTIVE_GENERATOR",
           "zero_displacement": true
         }
       },
@@ -1601,7 +1601,7 @@
         "index": 35,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_ROOM_MUSIC",
+        "name": "FIND_ACTIVE_GENERATOR",
         "zero_displacement": true
       }
     },
@@ -1668,7 +1668,7 @@
           "index": 33,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_STORY_MUSIC",
+          "name": "OPPTOFIGHT",
           "zero_displacement": true
         }
       },
@@ -1682,7 +1682,7 @@
         "index": 33,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_STORY_MUSIC",
+        "name": "OPPTOFIGHT",
         "zero_displacement": true
       }
     },
@@ -2801,7 +2801,7 @@
           "index": 35,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_ROOM_MUSIC",
+          "name": "FIND_ACTIVE_GENERATOR",
           "zero_displacement": true
         }
       },
@@ -2815,7 +2815,7 @@
         "index": 35,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_ROOM_MUSIC",
+        "name": "FIND_ACTIVE_GENERATOR",
         "zero_displacement": true
       }
     },
@@ -3044,7 +3044,7 @@
           "index": 33,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_STORY_MUSIC",
+          "name": "OPPTOFIGHT",
           "zero_displacement": true
         }
       },
@@ -3058,7 +3058,7 @@
         "index": 33,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_STORY_MUSIC",
+        "name": "OPPTOFIGHT",
         "zero_displacement": true
       }
     },
@@ -4826,7 +4826,7 @@
           "index": 33,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_STORY_MUSIC",
+          "name": "OPPTOFIGHT",
           "zero_displacement": true
         }
       },
@@ -4840,7 +4840,7 @@
         "index": 33,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_STORY_MUSIC",
+        "name": "OPPTOFIGHT",
         "zero_displacement": true
       }
     },
@@ -5149,6 +5149,15 @@
         }
       ]
     },
+    "FIND_ACTIVE_GENERATOR": {
+      "entry_sha256": "243385327a85b1cf3c1aed33e41f2d925f0bf082c8a860e5fe769a714552e48f",
+      "entry_target_id": "overlay-3:2344:0c6e",
+      "kind": "overlay-code-entry",
+      "offset": 3182,
+      "segment": 9028,
+      "space": "overlay-3",
+      "witnesses": []
+    },
     "KID_ACTION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5160,6 +5169,36 @@
           "entry": "root:0169:02c2",
           "image_offset": 6613,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "KID_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23562,
+      "witnesses": [
+        {
+          "bytes_hex": "f62e0a5c",
+          "context": "imul byte ptr [0x5c0a] reached from root:02cc:07a2",
+          "entry": "root:02cc:07a2",
+          "image_offset": 13412,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "KID_SECTION": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23566,
+      "witnesses": [
+        {
+          "bytes_hex": "803e0e5c00",
+          "context": "cmp byte ptr [0x5c0e], 0 reached from root:0169:02c2",
+          "entry": "root:0169:02c2",
+          "image_offset": 7875,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -5223,6 +5262,60 @@
           "space": "root"
         }
       ]
+    },
+    "OPPONENT_PENDING": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23567,
+      "witnesses": [
+        {
+          "bytes_hex": "c6060f5c01",
+          "context": "mov byte ptr [0x5c0f], 1 reached from root:0000:1000",
+          "entry": "root:0000:1000",
+          "image_offset": 1917,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPONENT_SEQUENCE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23577,
+      "witnesses": [
+        {
+          "bytes_hex": "c706195c0500",
+          "context": "mov word ptr [0x5c19], 5 reached from root:0000:1000",
+          "entry": "root:0000:1000",
+          "image_offset": 1649,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPONENT_STATE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23697,
+      "witnesses": [
+        {
+          "bytes_hex": "803e915c00",
+          "context": "cmp byte ptr [0x5c91], 0 reached from root:0000:0cbc",
+          "entry": "root:0000:0cbc",
+          "image_offset": 3275,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPTOFIGHT": {
+      "entry_sha256": "b85f80d463b3b2534b91aa1d5fc79e26d4701800537876dae18fe83481c3adc6",
+      "entry_target_id": "overlay-3:25da:1d26",
+      "kind": "overlay-code-entry",
+      "offset": 7462,
+      "segment": 9690,
+      "space": "overlay-3",
+      "witnesses": []
     },
     "PENDING_SONG": {
       "group": "DGROUP",
@@ -5299,6 +5392,21 @@
           "file_offset": 23329,
           "image_offset": 15137,
           "relocation_index": 291,
+          "space": "root"
+        }
+      ]
+    },
+    "STAGE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23569,
+      "witnesses": [
+        {
+          "bytes_hex": "c606115c00",
+          "context": "mov byte ptr [0x5c11], 0 reached from root:0000:1000",
+          "entry": "root:0000:1000",
+          "image_offset": 1860,
+          "operand_offset": 2,
           "space": "root"
         }
       ]

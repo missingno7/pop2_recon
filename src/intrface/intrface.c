@@ -53,7 +53,7 @@ extern int sound_playing(int);
 extern void close_resource_map(ResourceMap);
 extern ResourceMap open_resource_map(FarName);
 extern struct ResourceMapData far *lock_resource_map(ResourceMap);
-extern int resources_can_change(void);
+extern int get_midi_driver_flag(void);
 
 void reset_interface(void);
 ResourceMap find_resource_map(const char *);
@@ -221,7 +221,7 @@ void open_level_resources(const char **names)
             if (names[5])
                 open_verified_resource(names[5]);
         }
-        if (!(resource_flags & 1) && resources_can_change()) {
+        if (!(resource_flags & 1) && get_midi_driver_flag()) {
             if (names[0])
                 close_resource_file(names[0]);
             if (names[3])

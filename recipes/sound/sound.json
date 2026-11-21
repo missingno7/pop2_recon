@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound/sound.json",
-  "binding_sha256": "f706230e8c819978f87ae443071c8f5bdb1ddaf689518c4bd58254436d7e585c",
+  "binding_sha256": "8dc232414b35509e3683495f74f26ec3663afec38a5042dc8dd289af2a515f9b",
   "claims": [
     {
       "fixup_count": 2,
@@ -16,6 +16,24 @@
       "fixup_count": 4,
       "public": "@AddKidScream",
       "target_id": "root:0dd7:0038"
+    },
+    {
+      "fixup_count": 31,
+      "public": "ADD_OPPONENT_DEATH_SONG",
+      "relocation_indices": [
+        1105,
+        1106,
+        1107,
+        1108,
+        1109,
+        1125,
+        1134
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0dd7:0070"
     },
     {
       "fixup_count": 7,
@@ -59,10 +77,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 102,
-      "public": "ADD_OPPONENT_DEATH_SONG"
-    },
     {
       "object_offset": 452,
       "public": "ADDSOUND"
@@ -130,12 +144,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "sound/sound",
-  "object_sha256": "9ed466cd04d44ac6b03bbe794af2ebb0e9e73dfe5ac1d55a9c63d1be37f504db",
+  "object_sha256": "cb963937e4236bf03b660ec9a52ce8e004f7d708b4e3652aba2320a299ece326",
   "origin": 56698,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/sound/sound.c",
-  "source_sha256": "05e9a682fdac3eda4f6602eca3e033d7086ff2ef72937aa51c88065bcb8b6692",
+  "source_sha256": "ee3e6ed788400637d7db3ee9eb10d65fb34b631f9fd3e6d6b509e8d5e89cb669",
   "space": "root"
 }

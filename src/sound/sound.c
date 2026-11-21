@@ -41,8 +41,8 @@ extern char no_load_sound[], no_sounds[];
 extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
 extern int sound_playing(int resource);
-extern int check_story_music(void);
-extern int check_room_music(signed char section, signed char room);
+extern int OppToFight(void);
+extern void *find_active_generator(unsigned char room, signed char column);
 extern void queue_actor_sound(signed char sound);
 extern SoundData get_sound_data(SoundHandle handle);
 extern void release_sound(SoundHandle handle);
@@ -123,7 +123,7 @@ void add_opponent_death_song(void)
             break;
         }
         if (allowed) {
-            if (!check_story_music() && !check_room_music(kid_section, kid_room) && level != 5)
+            if (!OppToFight() && !find_active_generator(kid_section, kid_room) && level != 5)
                 AddSong(song);
             opponent_pending = 0;
         }
@@ -266,7 +266,7 @@ void play_ambient(AmbientState *state)
     if (ambient_enabled) {
         advance_sound();
         if (should_change_ambient(state) && ambient_first[level] != 0) {
-            special = check_story_music();
+            special = OppToFight();
             if (special && ambient_special[level] == -1)
                 special = 0;
             song = select_special_ambient(special);
@@ -362,14 +362,14 @@ int _fastcall should_change_ambient(AmbientState *state)
         if (!sound_playing(state->song + 10000)) {
             change = 1;
         } else if (state->cue != -1) {
-            special = check_story_music();
+            special = OppToFight();
             if (special && ambient_special[level] == -1)
                 special = 0;
             if (special && ambient_special[level] > state->cue)
                 change = 1;
             else if (!special) {
                 cue = ambient_special[level];
-                if (cue <= state->cue && cue != -1 && !check_room_music(kid_section, kid_room))
+                if (cue <= state->cue && cue != -1 && !find_active_generator(kid_section, kid_room))
                     change = 1;
             }
         }
