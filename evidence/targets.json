@@ -57396,6 +57396,487 @@
           "relocation_index": 452
         }
       ]
+    },
+    {
+      "abi": "far Pascal, one unused word argument, RETF 2",
+      "boundary_evidence": [
+        "Original PUSH CS; CALL at 238a:1122 reaches 1204. The preceding routine returns at 1201 via RETF 2.",
+        "Four relocated calls to 1ecf:084a each draw a shape in the same shape list. The independent BP frame ends with RETF 2 at 1260 and one NOP at 1263 immediately before 1264."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 161442,
+          "image_offset": 5506,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5505,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "NIS image composition in the transition room. Four draw calls use distinct art and screen positions."
+      ],
+      "classification_status": "original instructions and caller reviewed",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1204",
+      "offset": 4612,
+      "segment": 9098,
+      "sha256": "41ab6a9913cea82bfbfa6039e7f70b7fecb72f59ae7cf002b761315c91b93023",
+      "size": 96,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one shape handle, AX returns status, RETF 2",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:110e and any even alignment NOP. Its own final RETF at 1201 followed by any NOP ends at 1204.",
+        "Original PUSH CS; near CALL at frame offset(s) 109f."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 161311,
+          "image_offset": 5375,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5374,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws the room, activates a palette and plays the timed scene, then restores the screen rectangle."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1112",
+      "offset": 4370,
+      "segment": 9098,
+      "sha256": "3fb48a1783c8624fc6b29f09e008b2461aa111871a17e2555c0c67f788d1d911",
+      "size": 242,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one shape handle, RETF 2",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1621 and any even alignment NOP. Its own final RETF at 16c5 followed by any NOP ends at 16c8.",
+        "Original PUSH CS; near CALL at frame offset(s) 1545."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 162501,
+          "image_offset": 6565,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6564,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Seven PaintRLEShapeItem calls compose the room and a call at 16bc draws the dead Kid."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1624",
+      "offset": 5668,
+      "segment": 9098,
+      "sha256": "45d3fd926bd9c92c89f5cd4a6d7c92b95679a05f95d6dafb041ef483b9e95070",
+      "size": 164,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near image record and word phase, AX returns status, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:16c5 and any even alignment NOP. Its own final RETF at 172c followed by any NOP ends at 1730.",
+        "Original callback address is loaded by MOVs at frame offsets 13ae and 13b1. The segment word is relocation 336 at 13b2. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies the source image rectangle to a temporary port, animates and releases it, and conditionally waits for playback."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:16c8",
+      "offset": 5832,
+      "segment": 9098,
+      "sha256": "fbaeda82e68ea9395b6051c1dd9a55f63127eba0bad24c01c5eff8a5716c808c",
+      "size": 104,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and one word, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:172c and any even alignment NOP. Its own final RETF at 1751 followed by any NOP ends at 1754.",
+        "Original PUSH CS; near CALL at frame offset(s) 17a1, 19cf."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 163105,
+          "image_offset": 7169,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7168,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163663,
+          "image_offset": 7727,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7726,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts a fade toward the loaded palette and stores the returned far pointer at +0x4bc."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1730",
+      "offset": 5936,
+      "segment": 9098,
+      "sha256": "3a40a8e441826811356039e147ec651bcb7f8d39cc3c5620f549ebb2735a5801",
+      "size": 36,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no arguments, RETF",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1751 and any even alignment NOP. Its own final RETF at 1768 followed by any NOP ends at 176a.",
+        "Original PUSH CS; near CALL at frame offset(s) 17e4, 18da, 1946."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 163172,
+          "image_offset": 7236,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7235,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163418,
+          "image_offset": 7482,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7481,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163526,
+          "image_offset": 7590,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7589,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Locks the loaded palette and applies it with mask -1."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1754",
+      "offset": 5972,
+      "segment": 9098,
+      "sha256": "88cc52e8eb27983f5962687b0982af13821402a999e9483e97929826040cb4a2",
+      "size": 22,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and one word, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1768 and any even alignment NOP. Its own final RETF at 178a followed by any NOP ends at 178e.",
+        "Original PUSH CS; near CALL at frame offset(s) 17b8, 19dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 163128,
+          "image_offset": 7192,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7191,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163676,
+          "image_offset": 7740,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7739,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts a fade with a null palette and stores the returned far pointer at +0x4bc."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:176a",
+      "offset": 5994,
+      "segment": 9098,
+      "sha256": "e116523562d9c6cb1345c05f42df325065b27b777b052173ed61284981204296",
+      "size": 36,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:178a and any even alignment NOP. Its own final RETF at 17c1 followed by any NOP ends at 17c4.",
+        "Original callback address is loaded by MOVs at frame offsets 0987 and 098a. The segment word is relocation 364 at 098b. The two words are pushed for the animation provider.",
+        "Original callback address is loaded by MOVs at frame offsets 08c8 and 08cb. The segment word is relocation 365 at 08cc. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects the primary fade and a MIDI wait on phase zero, and a fade to black otherwise."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:178e",
+      "offset": 6030,
+      "segment": 9098,
+      "sha256": "35f88015205568d3ad08193d97e6273b8241aa11f458c4ac65bf5a76375d0ce2",
+      "size": 54,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:17c1 and any even alignment NOP. Its own final RETF at 180b followed by any NOP ends at 180e.",
+        "Original callback address is loaded by MOVs at frame offsets 0b3d and 0b40. The segment word is relocation 666 at 0b41. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Flips horse images and starts a cue on phase zero, cuts to the primary palette on phase one, and otherwise starts a secondary fade."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:17c4",
+      "offset": 6084,
+      "segment": 9098,
+      "sha256": "86c398511000a2bf269b81b79bd864878e8e40ebe34b37e31ea751622f4e11b5",
+      "size": 74,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:180b and any even alignment NOP. Its own final RETF at 18fb followed by any NOP ends at 18fe.",
+        "Original callback address is loaded by MOVs at frame offsets 0b8b and 0b8e. The segment word is relocation 723 at 0b8f. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Phase zero flips horses and constructs a clipped backdrop, phase one cuts to the palette, and other phases clear the palette."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:180e",
+      "offset": 6158,
+      "segment": 9098,
+      "sha256": "da46380efe10211e9280f5dfd043fd32856f7f379461308fce01c8594c28778a",
+      "size": 240,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:18fb and any even alignment NOP. Its own final RETF at 191e followed by any NOP ends at 1922.",
+        "Original callback address is loaded by MOVs at frame offsets 0c40 and 0c43. The segment word is relocation 401 at 0c44. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Flips horses on phase zero and starts the 25006 cue otherwise."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:18fe",
+      "offset": 6398,
+      "segment": 9098,
+      "sha256": "740da55fc9e221e03c3b52d5f2765a5f2c6987fd1aca9b894aa40c7ed3b6dced",
+      "size": 36,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and unused word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:191e and any even alignment NOP. Its own final RETF at 1931 followed by any NOP ends at 1934.",
+        "Original callback address is loaded by MOVs at frame offsets 0ccf and 0cd2. The segment word is relocation 138 at 0cd3. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "A callback trampoline to FlipHorses with a zero return."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1922",
+      "offset": 6434,
+      "segment": 9098,
+      "sha256": "9669cbe051f17c0d938589b1e49e4ec1c93be2a7084111fd0a7624957d1842b7",
+      "size": 18,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1931 and any even alignment NOP. Its own final RETF at 1970 followed by any NOP ends at 1974.",
+        "Original callback address is loaded by MOVs at frame offsets 0d74 and 0d77. The segment word is relocation 363 at 0d78. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Phase zero flips the Kid and applies the primary palette, and phase one starts the secondary fade."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1934",
+      "offset": 6452,
+      "segment": 9098,
+      "sha256": "dd8930581863673366c04933c289cdfc70f837f577d0acf0fab023b73f8b3a58",
+      "size": 64,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two unused word slots, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1970 and any even alignment NOP. Its own final RETF at 19ba followed by any NOP ends at 19be.",
+        "Original callback address is loaded by MOVs at frame offsets 0eb8 and 0ebb. The segment word is relocation 293 at 0ebc. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts cue 25009, plays its palette sequence, and conditionally waits for MIDI progress."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1974",
+      "offset": 6516,
+      "segment": 9098,
+      "sha256": "d4d2462cd3ada755c1b7743d5b8cce69de0fdb1dc37116692a80b578d99da8b3",
+      "size": 74,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:19ba and any even alignment NOP. Its own final RETF at 19e4 followed by any NOP ends at 19e8.",
+        "Original callback address is loaded by MOVs at frame offsets 0fc3 and 0fc6. The segment word is relocation 400 at 0fc7. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches between the primary fade and the black fade."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:19be",
+      "offset": 6590,
+      "segment": 9098,
+      "sha256": "a1e717e0e209acd179c2f2ae035d41d3832e68fed401c9a7b741390a30698199",
+      "size": 42,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:19e4 and any even alignment NOP. Its own final RETF at 1a1b followed by any NOP ends at 1a1e.",
+        "Original callback address is loaded by MOVs at frame offsets 107c and 107f. The segment word is relocation 309 at 1080. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Flips the Kid on phase zero and starts the secondary fade otherwise."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:19e8",
+      "offset": 6632,
+      "segment": 9098,
+      "sha256": "b1b4c70a99dc7a2760afea0cd21adaf6b723daa142a0d536398b36cd4c625350",
+      "size": 54,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near animation record and word phase, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1a1b and any even alignment NOP. Its own final RETF at 1a84 followed by any NOP ends at 1a88.",
+        "Original callback address is loaded by MOVs at frame offsets 11d6 and 11d9. The segment word is relocation 174 at 11da. The two words are pushed for the animation provider."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Phase zero flips the Kid image range and erases the static actor. Subsequent phases select palettes by resource ID."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1a1e",
+      "offset": 6686,
+      "segment": 9098,
+      "sha256": "4afb5046715790397fa4a19d65087dd4362adc366689c0d4c8266ed3df23c185",
+      "size": 106,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, near image port passed as one word, RETF 2",
+      "boundary_evidence": [
+        "Begins immediately after the prior RETF at 238a:1a84 and any even alignment NOP. Its own final RETF at 1ad6 followed by any NOP ends at 1ada.",
+        "Original PUSH CS; near CALL at frame offset(s) 1a7a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 163834,
+          "image_offset": 7898,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7897,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draws image 363 into the passed port and copies the rectangle back into its animation port."
+      ],
+      "classification_status": "original-byte boundary, caller and operation review",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:1a88",
+      "offset": 6792,
+      "segment": 9098,
+      "sha256": "bef2d3bb785f7553c5033f1202ad5371ad32f56111df3e07264ba16505964cdf",
+      "size": 82,
+      "space": "overlay-2",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
