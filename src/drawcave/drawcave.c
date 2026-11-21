@@ -318,7 +318,7 @@ void DrawCaveGateMovable(DrawCell *cell)
     if (cell->pass != 1)
         gate.top -= 16;
     if (SectRect(&clip_rect, &clip_rect, &gate)) {
-        lift = ((Byte)cell->modifier & 0xfc) >> 2;
+        lift = (cell->modifier & 0xfc) >> 2;
         y = -3 - (lift < 50 ? lift : 50);
         switch (cell->pass) {
         default:
@@ -328,13 +328,13 @@ void DrawCaveGateMovable(DrawCell *cell)
             shape_offsets->front_gate_y = y;
             draw = (unsigned long)AddFImgToFTable;
             break;
-        case 2:
-            shape_offsets->gate_y = y;
-            draw = (unsigned long)AddBFImgToFTable;
-            break;
         case 5:
-            shape_offsets->gate_y = y;
             draw = (unsigned long)AddBFImgToBTable;
+            goto gate_layer;
+        case 2:
+            draw = (unsigned long)AddBFImgToFTable;
+        gate_layer:
+            shape_offsets->gate_y = y;
             break;
         }
         if (draw)
@@ -368,26 +368,27 @@ void DrawCaveLava1(DrawCell *cell)
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
     lava = GetLavaInfoPtr(drawn_room, cell->column, cell->row);
-    if (cell->pass == 11) {
+    switch (cell->pass) {
+    case 0:
+        DrawCaveFloor(&floor);
+        break;
+    case 1:
+        DrawCaveFloor(&floor);
+        break;
+    case 2:
+        DrawCaveFloor(&floor);
+        if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
+            draw = AddBFImgToFTable;
+        break;
+    case 5:
+        DrawCaveFloor(&floor);
+        if (!draw_pass_mode && lava &&
+            (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
+            draw = AddBFImgToBTable;
+        break;
+    case 11:
         DrawCaveLavaBubbles(cell, 0);
-    } else if (cell->pass < 11) {
-        switch (cell->pass) {
-        case 0:
-        case 1:
-            DrawCaveFloor(&floor);
-            break;
-        case 2:
-            DrawCaveFloor(&floor);
-            if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-                draw = AddBFImgToFTable;
-            break;
-        case 5:
-            DrawCaveFloor(&floor);
-            if (!draw_pass_mode && lava &&
-                (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-                draw = AddBFImgToBTable;
-            break;
-        }
+        break;
     }
     if (draw) {
         draw(23, 145, cell->column, cell->row, 0, 0);
@@ -406,30 +407,27 @@ void DrawCaveLava2(DrawCell *cell)
     ((Byte *)&floor.modifier)[0] = 0;
     ++floor.modifier;
     lava = GetLavaInfoPtr(drawn_room, cell->column, cell->row);
-    if (cell->pass > 11)
-        goto selected;
-    if (cell->pass != 11) {
-        switch (cell->pass) {
-        case 0:
-        case 1:
-            DrawCaveFloor(&floor);
-            break;
-        case 2:
-            DrawCaveFloor(&floor);
-            if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-                draw = AddBFImgToFTable;
-            break;
-        case 5:
-            DrawCaveFloor(&floor);
-            if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
-                draw = AddBFImgToBTable;
-            break;
-        }
-    }
-    else {
+    switch (cell->pass) {
+    case 0:
+        DrawCaveFloor(&floor);
+        break;
+    case 1:
+        DrawCaveFloor(&floor);
+        break;
+    case 2:
+        DrawCaveFloor(&floor);
+        if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
+            draw = AddBFImgToFTable;
+        break;
+    case 5:
+        DrawCaveFloor(&floor);
+        if (lava && (!(lava->flags & 0x80) || (signed char)(lava->flags & 0x3f) >= 3))
+            draw = AddBFImgToBTable;
+        break;
+    case 11:
         DrawCaveLavaBubbles(cell, 1);
+        break;
     }
-selected:
     if (draw) {
         draw(24, 145, cell->column, cell->row, 0, 0);
         if (cell->pass == 2)
@@ -472,7 +470,8 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
             shape_offsets->bubble.y -= 32;
         draw(59, -2, cell->column, cell->row, 10, 0);
     }
-    for (layer = 0; layer < 2; ++layer) {
+    layer = 0;
+    do {
         bubble = lava->bubbles;
         count = 10;
         do {
@@ -492,7 +491,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
                 shape_offsets->bubble.y -= 32;
             draw(59, -2, cell->column, cell->row, 10, 0);
         }
-    }
+    } while (++layer < 2);
 }
 
 void DrawCaveLoose(DrawCell *cell)
@@ -501,7 +500,9 @@ void DrawCaveLoose(DrawCell *cell)
     int image = cell->modifier & 15;
 
     if (image != 13)
-        image = cell->column % 2 ? cave_images.loose_odd[image] : cave_images.loose_even[image];
+        image = cell->column % 2 ?
+            ((int far *)cave_images.loose_odd)[image] :
+            ((int far *)cave_images.loose_even)[image];
     switch (cell->pass) {
     case 0:
         AddBImgToBTable(11, broken + 64, cell->column, cell->row, 10, 0);
@@ -614,30 +615,19 @@ void draw_cave_rubble(DrawCell *cell)
     draw_cave_rubble_pieces(cell);
 }
 
-#pragma optimize("e", off)
 void draw_cave_rubble_pieces(DrawCell *cell)
 {
     unsigned long draw;
 
-    switch (cell->pass) {
-    default:
-        draw = 0;
-        break;
-    case 1:
-        draw = (unsigned long)AddFImgToFTable;
-        break;
-    case 2:
-        draw = (unsigned long)AddBFImgToFTable;
-        break;
-    case 5:
-        draw = (unsigned long)AddBFImgToBTable;
-        break;
-    }
+    Word pass = cell->pass;
+
+    draw = pass == 1 ? (unsigned long)AddFImgToFTable :
+           pass == 2 ? (unsigned long)AddBFImgToFTable :
+           pass == 5 ? (unsigned long)AddBFImgToBTable : 0;
     if (draw)
         ((AddImage)draw)(14, -2, cell->column, cell->row, 10, 0);
 }
 
-#pragma optimize("e", on)
 void draw_cave_rubble_torch(DrawCell *cell)
 {
     DrawCaveTorch(cell);
@@ -646,44 +636,49 @@ void draw_cave_rubble_torch(DrawCell *cell)
 
 void DrawCaveSpace(DrawCell *cell)
 {
-    Word modifier = cell->modifier;
+    volatile Word modifier = cell->modifier;
     int draw_loose = 0;
     int draw_floor;
     DrawCell loose;
 
     if (cell->pass == 0 || cell->pass == 5) {
         modifier &= 7;
-        draw_floor = cell->row == redraw_row ||
-            (cell->row == redraw_row + 1 &&
-                (supports_cave_floor(piece_above_id(cell->column, cell->row)) ||
-                 supports_cave_floor(PieceAboveRightId(cell->column, cell->row)))) ||
-            (redraw_row == -1 && supports_cave_floor(cave_edge_tile));
+        if (cell->row == redraw_row) {
+            draw_floor = 1;
+        } else if (cell->row == redraw_row + 1 &&
+                   (supports_cave_floor(piece_above_id(cell->column, cell->row)) ||
+                    supports_cave_floor(PieceAboveRightId(cell->column, cell->row)))) {
+            draw_floor = 1;
+        } else if (redraw_row == -1 && supports_cave_floor(cave_edge_tile)) {
+            draw_floor = 1;
+        } else {
+            draw_floor = 0;
+        }
     }
     switch (cell->pass) {
     case 0:
-        if (draw_floor) {
-            if (modifier < 3) {
-                AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
-                goto trim;
-            }
+        if (!draw_floor)
+            break;
+        if (modifier >= 3) {
+        loose_floor:
             draw_loose = 1;
+            break;
         }
+        AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
+    trim:
+        if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
+            cell->column == redraw_column)
+            AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
         break;
     case 1:
         DrawCaveTopEdge(cell);
         break;
     case 5:
-        if (draw_floor) {
-            if (modifier < 3) {
-trim:
-                if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
-                    cell->column == redraw_column)
-                    AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
-            } else {
-                draw_loose = 1;
-            }
-        }
-        break;
+        if (!draw_floor)
+            break;
+        if (modifier >= 3)
+            goto loose_floor;
+        goto trim;
     }
     if (draw_loose) {
         modifier = modifier == 4 ? 0x80 : 0;
@@ -702,6 +697,8 @@ void DrawCaveSpikes(DrawCell *cell)
     ((Byte *)&block.modifier)[0] |= 0x80;
     switch (cell->pass) {
     case 0:
+        DrawCaveBlock(&block);
+        break;
     case 1:
         DrawCaveBlock(&block);
         break;
@@ -755,6 +752,8 @@ void DrawCaveTorch(DrawCell *cell)
             break;
         /* Fall through to the shared floor pass. */
     case 1:
+        DrawCaveFloor(&floor);
+        break;
     case 2:
         DrawCaveFloor(&floor);
         break;

@@ -57877,6 +57877,328 @@
       "size": 82,
       "space": "overlay-2",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x13bc..0x1456, exclusive end, begins 558bec83ec105756. RETF at 2a93:0813. Following entry bytes 558bec83ec125756.",
+        "Original overlay relocation indices in extent 77, 153."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 41582,
+          "image_offset": 33390,
+          "kind": "far_call",
+          "relocated_segment_site": 33393,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Intersects cave gate vertical bounds with actor bounds and draws capped gate lift while restoring the saved clip rectangle."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:077c",
+      "offset": 1916,
+      "original_name": "DrawCaveGateSquishing",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Intersects cave gate vertical bounds with actor bounds and draws capped gate lift while restoring the saved clip rectangle."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveGateSquishing",
+      "sha256": "582e639f4b823ff1f021140bd899868565019b2526068dd08df1194ed1607367",
+      "size": 154,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1456..0x1554, exclusive end, begins 558bec83ec125756. RETF at 2a93:0910. Following entry bytes 558bec83ec125756.",
+        "Original overlay relocation indices in extent 81, 93, 134."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Cave rendering and layout in DOS frame 2a93, matching ordered DRAWCAVE.C source context for DrawCaveLava1."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0816",
+      "offset": 2070,
+      "original_name": "DrawCaveLava1",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Cave rendering and layout in DOS frame 2a93, matching ordered DRAWCAVE.C source context for DrawCaveLava1."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveLava1",
+      "sha256": "5a80797351d2051080d3af5084959616d0200c58005d3fbff65f1afc7ee52626",
+      "size": 254,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1554..0x164c, exclusive end, begins 558bec83ec125756. RETF at 2a93:0a09. Following entry bytes 558bec83ec125756.",
+        "Original overlay relocation indices in extent 82, 94, 135."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Cave rendering and layout in DOS frame 2a93, matching ordered DRAWCAVE.C source context for DrawCaveLava2."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0914",
+      "offset": 2324,
+      "original_name": "DrawCaveLava2",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Cave rendering and layout in DOS frame 2a93, matching ordered DRAWCAVE.C source context for DrawCaveLava2."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveLava2",
+      "sha256": "f51753796a9f49ade13663eef004b9059a00409e32f156b6658c2bc8422e26bd",
+      "size": 248,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1858..0x19e8, exclusive end, begins 558bec83ec025756. RETF at 2a93:0da5. Following entry bytes 558bec568b760656.",
+        "Same-frame PUSH CS; CALL original sites 2a93:11a1.",
+        "Original overlay relocation indices in extent 88, 89, 110, 146, 154, 155."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 223041,
+          "image_offset": 7649,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7648,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Cave rendering and layout in DOS frame 2a93, matching ordered DRAWCAVE.C source context for DrawCaveLoose."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0c18",
+      "offset": 3096,
+      "original_name": "DrawCaveLoose",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Cave rendering and layout in DOS frame 2a93, matching ordered DRAWCAVE.C source context for DrawCaveLoose."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveLoose",
+      "sha256": "8f286b4a92be278150ddc346bc90fef0e418bd4f07ab2b9004124401b239c5bb",
+      "size": 400,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x19e8..0x1a1a, exclusive end, begins 558bec568b760656. RETF at 2a93:0dd7. Following entry bytes 558bec568b76068a.",
+        "Original overlay relocation indices in extent 147."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calls the cave floor routine before adding pillar-bottom image set 8 in pass 1."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0da8",
+      "offset": 3496,
+      "original_name": "DrawCavePillarBot",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Calls the cave floor routine before adding pillar-bottom image set 8 in pass 1."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCavePillarBot",
+      "sha256": "916ca948290638942d73dd75323c2c7e6967268b939f0293cb498bb201cfdbd9",
+      "size": 50,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1a1a..0x1a60, exclusive end, begins 558bec568b76068a. RETF at 2a93:0e1d. Following entry bytes 558bec568b76068a.",
+        "Original overlay relocation indices in extent 148."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Masks the modifier for the space pass and adds the pillar-top image and top edge in pass 1."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0dda",
+      "offset": 3546,
+      "original_name": "DrawCavePillarTop",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Masks the modifier for the space pass and adds the pillar-top image and top edge in pass 1."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCavePillarTop",
+      "sha256": "8ae88a5f19aa14b3cc3754dd46507f16fb5a264771998f6dfff55cf0f74bbec9",
+      "size": 70,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1a60..0x1afc, exclusive end, begins 558bec568b76068a. RETF at 2a93:0eb8. Following entry bytes 558bec83ec085756.",
+        "Original overlay relocation indices in extent 90, 111, 149, 156."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Routes image set 3 to four draw layers and adds both edge routines in pass 1."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0e20",
+      "offset": 3616,
+      "original_name": "DrawCavePosts",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Routes image set 3 to four draw layers and adds both edge routines in pass 1."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCavePosts",
+      "sha256": "80c582276a4745bf0ffef258a7210a9cd036471c6e5c35419b499fa72633df70",
+      "size": 156,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1c04..0x1c2a, exclusive end, begins 558bec568b7606f6. RETF at 2a93:0fe6. Following entry bytes 558bec83ec08568b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches the original modifier to the floor or reverse plate and then draws the rubble pieces."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:0fc4",
+      "offset": 4036,
+      "segment": 10899,
+      "semantic_name_hypothesis": "draw_cave_rubble",
+      "sha256": "83eb72b10ae1869a421b03644653c1a6b56eef4e71cb894463a9bfed1788c35d",
+      "size": 38,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1c8e..0x1ca6, exclusive end, begins 558bec568b760656. RETF at 2a93:1063. Following entry bytes 558bec83ec0c5756."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Calls the cave torch routine and then the rubble-pieces routine."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:104e",
+      "offset": 4174,
+      "segment": 10899,
+      "semantic_name_hypothesis": "draw_cave_rubble_torch",
+      "sha256": "c627ce7c957d860224d86c2cbe327734a16ae0b4b44c4db107faa7542aedef87",
+      "size": 24,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1dec..0x1e5e, exclusive end, begins 558bec83ec085756. RETF at 2a93:121a. Following entry bytes 558bec83ec085756.",
+        "Original overlay relocation indices in extent 115."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Masks low modifier bits, turns on the cave block decoration, then draws the block in passes 0, 1 and (outside column 9) 5. Pass 5 adds the spike base image."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:11ac",
+      "offset": 4524,
+      "original_name": "DrawCaveSpikes",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Masks low modifier bits, turns on the cave block decoration, then draws the block in passes 0, 1 and (outside column 9) 5. Pass 5 adds the spike base image."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveSpikes",
+      "sha256": "0ce7ade26b79cd418640c48721833a22cc6e4272747f766d6c369d8ad23a46b3",
+      "size": 114,
+      "space": "overlay-6",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near cell-record pointer at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Original overlay-6 image extent 0x1ef0..0x1fb4, exclusive end, begins 558bec83ec125756. RETF at 2a93:1371. Following entry bytes 250f003d01007414.",
+        "Same-frame PUSH CS; CALL original sites 2a93:1057.",
+        "Original overlay relocation indices in extent 116, 117, 119, 127."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 222711,
+          "image_offset": 7319,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7318,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Builds a clipped floor tile, applies the torch rectangle containment test and draws torch images in pass 0. Passes 1 and 2 use the floor helper. Pass 5 uses the floor helper when the rectangle is not enclosed."
+      ],
+      "classification_status": "historical C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-6:2a93:12b0",
+      "offset": 4784,
+      "original_name": "DrawCaveTorch",
+      "original_name_evidence": [
+        "FM Towns DRAWCAVE module ordered public symbols.",
+        "Builds a clipped floor tile, applies the torch rectangle containment test and draws torch images in pass 0. Passes 1 and 2 use the floor helper. Pass 5 uses the floor helper when the rectangle is not enclosed."
+      ],
+      "segment": 10899,
+      "semantic_name_hypothesis": "DrawCaveTorch",
+      "sha256": "b3cd90b34c27244e10cc208cc6788d3d0eda67ff834e8d9d5f6312493e7fa2fe",
+      "size": 196,
+      "space": "overlay-6",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
