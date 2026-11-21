@@ -412,3 +412,7 @@ F'. A far word stores its target segment's frame (probe), and the claim's
 overlay has no segment of frame F' there, so the linker resolved the
 reference into the other overlay's segment. Any other mismatching frame
 remains an alias refusal.
+The other overlay may also hold the position at the start of its F' segment,
+before that segment's first relocation record. That holds when its next record
+names F', every earlier record names a smaller frame, and the position is at or
+above F's paragraph. Only the F' segment can be the target there.

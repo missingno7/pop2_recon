@@ -1,7 +1,17 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "9a6adc579c6e2df490f9e90c4ef4904a8f51289c1cfbcd1f54ead8b3c84b129f",
+  "binding_sha256": "e551c30fc1abb9ff771d1b0e6e7145b3883c7e21608f2ebaa60641e599e72c71",
   "claims": [
+    {
+      "fixup_count": 1,
+      "public": "RESET_OVERLAY_STATE",
+      "target_id": "overlay-3:2344:0000"
+    },
+    {
+      "fixup_count": 2,
+      "public": "SETOPPMAXLIFEPTS",
+      "target_id": "overlay-3:2344:0042"
+    },
     {
       "fixup_count": 3,
       "public": "FIND_ACTIVE_GENERATOR",
@@ -36,15 +46,67 @@
   ],
   "drafts": [
     {
-      "object_offset": 146,
+      "object_offset": 8,
+      "public": "SET_OPPONENT_LIFE"
+    },
+    {
+      "object_offset": 100,
+      "public": "INITIALIZE_ROOM_ACTORS"
+    },
+    {
+      "object_offset": 992,
+      "public": "CHECK_SIDE_ROOMS"
+    },
+    {
+      "object_offset": 1234,
+      "public": "UPDATE_OPPONENT_RECORD"
+    },
+    {
+      "object_offset": 1704,
+      "public": "TRANSFER_OPPONENT_RECORD"
+    },
+    {
+      "object_offset": 1856,
+      "public": "SET_SPECIAL_OPPONENT"
+    },
+    {
+      "object_offset": 1980,
+      "public": "REMOVEOPPFROMROOM"
+    },
+    {
+      "object_offset": 2154,
+      "public": "ADD_OPPONENT_TO_ROOM"
+    },
+    {
+      "object_offset": 2220,
+      "public": "GETOPPINFOIDX"
+    },
+    {
+      "object_offset": 2280,
+      "public": "PICK_HIDDEN_ACTOR"
+    },
+    {
+      "object_offset": 2608,
+      "public": "IS_SELECTED_ACTOR"
+    },
+    {
+      "object_offset": 2644,
+      "public": "CHECK_GENERATOR_POINTS"
+    },
+    {
+      "object_offset": 2730,
+      "public": "GENERATE_OPPONENT"
+    },
+    {
+      "object_offset": 3328,
       "public": "SHOULD_GENERATE"
     },
     {
-      "object_offset": 420,
+      "object_offset": 3602,
       "public": "GET_GENERATOR"
     }
   ],
-  "emitted_size": 832,
+  "emitted_size": 4014,
   "flags": [
     "/c",
     "/AM",
@@ -60,12 +122,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "db120814519f1d4fdcb72a14163ba679d660d1040092c04a834c78d959f40603",
-  "origin": 3182,
+  "object_sha256": "319b77366bcb9769c6b6902b5e7d6d63c2767729b387974bf720649e473afe06",
+  "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "b0d36feb9412feae68e582eaed1dd06de6a31ec246719efcc5683296c3b8ce01",
+  "source_sha256": "ccaaa13dc10f2aeef187c94f592d801a57718ed715436beb0196520e50f3cf0c",
   "space": "overlay-3"
 }

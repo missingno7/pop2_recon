@@ -244,7 +244,19 @@ def _other_overlay_frame(oracle, space, segment, offset):
         if other.name == space.name or not (other.descriptor and other.descriptor["flags"] == 4):
             continue
         position = (segment - other.link_segment) * 16 + offset
-        if 0 <= position < other.size and _bracket_frame(other, position) == segment:
+        if not 0 <= position < other.size:
+            continue
+        if _bracket_frame(other, position) == segment:
+            return True
+        # At the start of a segment before its first relocation: the next record names the
+        # word's frame and every earlier record a smaller one (monotone table), so the only
+        # segment of that frame there is the one beginning at or before the next record.
+        rows = sorted(other.relocations, key=lambda r: r["image_offset"])
+        if any(a["segment"] > b["segment"] for a, b in zip(rows, rows[1:])):
+            continue
+        after = [r for r in rows if r["image_offset"] >= position]
+        before = [r for r in rows if r["image_offset"] < position]
+        if after and after[0]["segment"] == segment and (not before or before[-1]["segment"] < segment)                 and position >= (segment - other.link_segment) * 16:
             return True
     return False
 

@@ -137,6 +137,10 @@ class RealOverlayTests(unittest.TestCase):
                                                          0x29cf, 0x0a80))
         found, refused = evidence("overlay-9:2a4e:0368")
         self.assertEqual([(e["kind"], e["frame"]) for e in found], [("overlay site frame", 0x2a4e)])
+        # Root 238a:000c is NIS's first entry in overlay 2, before its first 238a record: the next
+        # record names 238a and earlier ones smaller frames, so it resolves into overlay 2.
+        self.assertTrue(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-3"],
+                                                         0x238a, 0x000c))
         # A frame no other overlay brackets at that address stays an alias.
         self.assertFalse(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
                                                           0x2a4f, 0x0a70))
