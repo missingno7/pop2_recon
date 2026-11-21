@@ -387,3 +387,15 @@ A far-call fixup may also use frame method F2 when it names the same external
 as its T6 target (MASM `call far ptr X`). That frames the pointer by X's own
 segment, exactly as MSC's F5 target frame does. An F2 naming any other
 external is refused.
+
+## Reached near calls as root frame evidence (2026-11-21)
+
+A root claim with no reviewed relocated far caller can take CS frame F from
+an original near CALL (`E8 rel16`, optionally after PUSH CS) outside the
+whole object. The call's rel16 must land on the claim entry, computed in F's
+64K window. The call must also be reached by recursive descent from an
+entry that an original relocated CALL FAR names exactly as `F:offset`.
+Descent and near calls never change CS, so the claim is entered with
+CS = F. This evidence is consulted only when the claim has no relocated far
+caller, so it cannot introduce a conflicting alias for claims that already
+have one. Overlay claims use the overlay rules above.

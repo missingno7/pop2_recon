@@ -903,3 +903,33 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
             e["offset"] for e in claimed["equations"] if e.get("symbol") == "TILE_HAS_FLOOR") - 1
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
             self.check(at)
+
+
+class ReachedNearFrameTests(unittest.TestCase):
+    """A root claim with no relocated far caller takes CS = F from an original near CALL that
+    is reached from an entry a relocated CALL FAR names as F:offset."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        from match import get_target
+        cls.oracle = Oracle.load()
+        cls.target, cls.space, raw = get_target("root:1101:7364", cls.oracle)
+        cls.entry = cls.space.position(cls.target["segment"], cls.target["offset"])
+        cls.size = len(raw)
+
+    def frames(self, hull):
+        from module_gate import _reached_near_frames
+        return _reached_near_frames(self.target, self.space, self.oracle, hull)
+
+    def test_near_call_reached_from_a_far_entry_names_the_frame(self):
+        found = self.frames((self.entry, self.entry + self.size))
+        self.assertEqual(found[0]["frame"], 0x1101)
+        self.assertEqual(found[0]["kind"], "reached near CALL")
+
+    def test_a_near_call_inside_the_object_does_not_count(self):
+        at = self.frames((self.entry, self.entry + self.size))[0]["image_offset"]
+        lo = min(at, self.entry)
+        hi = max(at + 3, self.entry + self.size)
+        others = [f for f in self.frames((lo, hi)) if f["image_offset"] == at]
+        self.assertEqual(others, [])

@@ -275,6 +275,43 @@ def _site_frame(target, space, oracle, hull, grouped=False):
     return "evidence", row
 
 
+def _reached_near_frames(target, space, oracle, hull):
+    """Root claims with no relocated far caller: an original near CALL (`E8`, optionally after
+    PUSH CS) outside the object whose rel16 lands on the claim entry, reached by recursive
+    descent from an entry that an original relocated CALL FAR names with exactly segment F and
+    that offset, runs with CS = F (descent and near calls never change CS), so the claim is
+    entered with CS = F. The landing is computed in F's window, so wrap is accounted for."""
+    from binding import reachable_from_entry
+    entry = space.position(target["segment"], target["offset"])
+    lo, hi = hull
+    data = space.data
+    far_entries = set()
+    for r in space.relocations:
+        at = r["image_offset"] - 3
+        if at >= 0 and data[at] == 0x9a:
+            off, seg = struct.unpack_from("<HH", data, at + 1)
+            far_entries.add((seg, off))
+    found = []
+    for seg, off in sorted(far_entries):
+        base = (seg - space.link_segment) * 16
+        if not (base <= entry < base + 0x10000):
+            continue
+        try:
+            reached = reachable_from_entry(oracle, f"{space.name}:{seg:04x}:{off:04x}")
+        except ValueError:
+            continue
+        for at in reached:
+            if data[at] != 0xe8 or (at < hi and lo < at + 3):
+                continue
+            rel = struct.unpack_from("<H", data, at + 1)[0]
+            if base + ((at - base + 3 + rel) & 0xFFFF) == entry:
+                found.append({"frame": seg, "kind": "reached near CALL", "space": space.name,
+                              "image_offset": at, "entry": f"{space.name}:{seg:04x}:{off:04x}"})
+        if found:
+            break
+    return found[:1]
+
+
 def _frame_evidence(target, space, oracle, hull, grouped=False):
     """(evidence, unusable): independent original far entries naming this claim's CS.
 
@@ -300,6 +337,8 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
             evidence.append({"frame": struct.unpack_from("<H", caller.data, call["image_offset"] + 3)[0],
                              "kind": "relocated CALL FAR", "space": caller.name,
                              "image_offset": call["image_offset"]})
+        if not evidence:
+            evidence += _reached_near_frames(target, space, oracle, hull)
         return evidence, unusable
     entry = space.position(target["segment"], target["offset"])
     for vector in _code_vectors(oracle).values():
