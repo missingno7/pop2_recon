@@ -54545,6 +54545,649 @@
       "size": 220,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two unsigned byte slots; RETF 4",
+      "boundary_evidence": [
+        "Original 0a5c:000c starts 558bec8a4606 after predecessor return boundary bytes ca040090.",
+        "Original extent ends at 0a5c:004e with e55dca040090 (terminal RETF, including its alignment NOP where emitted); next entry begins 833e0c5e.",
+        "Original push_cs_near_call from root+0xa7e1 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51169,
+          "image_offset": 42977,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42976,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Compares current and previous resource sets; closes the previous resource file and selects the new one."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:000c",
+      "offset": 12,
+      "segment": 2652,
+      "semantic_name_hypothesis": "open_level_resource_files",
+      "sha256": "cf2546b55cba0f3316b68781384ee3060f3839e0552146319999c5803b053b7c",
+      "size": 66,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one word slot; RETF 2",
+      "boundary_evidence": [
+        "Original 0a5c:0064 starts 558bec83ec02 after predecessor return boundary bytes 0c5ecb90.",
+        "Original extent ends at 0a5c:00e8 with 8be55dca0200 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original far_call from root+0x2bb2 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19378,
+          "image_offset": 11186,
+          "kind": "far_call",
+          "relocated_segment_site": 11189,
+          "relocation_index": 241,
+          "space": "root"
+        },
+        {
+          "file_offset": 51186,
+          "image_offset": 42994,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42993,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Chooses a background resource cap and optionally restores the palette."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0064",
+      "offset": 100,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_background_set",
+      "sha256": "2b02e4ec7f59aaa922634cb4a7bc58958846c7e8665452951ae78808e2fce6f7",
+      "size": 132,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Original 0a5c:0144 starts 5756833e6045 after predecessor return boundary bytes ca020090.",
+        "Original extent ends at 0a5c:01b4 with 7c0c5e5fcb90 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original push_cs_near_call from root+0xa7d5 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51157,
+          "image_offset": 42965,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42964,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Builds the 35-byte flask selector table and loads the set, or unloads it."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0144",
+      "offset": 324,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_flask_set",
+      "sha256": "834e34e0aee96ed490f43e58cded71c257414e3740e0caa8d6290beb89795ffb",
+      "size": 112,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two byte slots; RETF 4",
+      "boundary_evidence": [
+        "Original 0a5c:0326 starts 558bec83ec04 after predecessor return boundary bytes 5dca0200.",
+        "Original extent ends at 0a5c:0378 with e55dca040090 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec8a.",
+        "Original push_cs_near_call from root+0xa833 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51251,
+          "image_offset": 43059,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43058,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Switches scene overlay pairs based on previous and current backgrounds."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0326",
+      "offset": 806,
+      "segment": 2652,
+      "semantic_name_hypothesis": "switch_background_overlay",
+      "sha256": "7fa514df2ea1322efeef3a8fb1af9b13373de10fe748d8953450875e121dd7a0",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two byte slots; RETF 4",
+      "boundary_evidence": [
+        "Original 0a5c:0378 starts 558bec8a4608 after predecessor return boundary bytes ca040090.",
+        "Original extent ends at 0a5c:03fc with e55dca040090 (terminal RETF, including its alignment NOP where emitted); next entry begins 0ee8120a.",
+        "Original far_call from root+0x2bcc enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19404,
+          "image_offset": 11212,
+          "kind": "far_call",
+          "relocated_segment_site": 11215,
+          "relocation_index": 263,
+          "space": "root"
+        },
+        {
+          "file_offset": 51271,
+          "image_offset": 43079,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43078,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Dispatches through an inline six-word CS switch table and calls the opponent-specific overlay vectors."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0378",
+      "offset": 888,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_code_overlays",
+      "sha256": "476f0b3512dc33c3294169df63677b75ea1018644d776b82a8290dc244e53990",
+      "size": 132,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Original 0a5c:03fc starts 0ee8120ab843 after predecessor return boundary bytes ca040090.",
+        "Original extent ends at 0a5c:0416 with 11a31011cb90 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original far_call from root+0x2bbf enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19391,
+          "image_offset": 11199,
+          "kind": "far_call",
+          "relocated_segment_site": 11202,
+          "relocation_index": 253,
+          "space": "root"
+        },
+        {
+          "file_offset": 51230,
+          "image_offset": 43038,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43037,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Unloads the previous piece data and loads the PIEC resource."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:03fc",
+      "offset": 1020,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_pieces_data",
+      "sha256": "2a7476852a2ff60d6b44c18d3c68cd1eb7c0ef29029d8c23befaab48da07bc71",
+      "size": 26,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one byte slot; RETF 2",
+      "boundary_evidence": [
+        "Original 0a5c:0416 starts 558bec83ec04 after predecessor return boundary bytes 1011cb90.",
+        "Original extent ends at 0a5c:0508 with e55dca020090 (terminal RETF, including its alignment NOP where emitted); next entry begins 558becb9.",
+        "Original far_call from overlay-3+0x3b07 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 199879,
+          "image_offset": 15111,
+          "kind": "far_call",
+          "relocated_segment_site": 15114,
+          "relocation_index": 350,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 51214,
+          "image_offset": 43022,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43021,
+          "space": "root"
+        },
+        {
+          "file_offset": 51400,
+          "image_offset": 43208,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43207,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Selects sword resource set and adjusts its overlays."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0416",
+      "offset": 1046,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_sword_set",
+      "sha256": "fb05ef844ca4cd291ff588e12a6ba230bce08bd0d26aeef97d254456b84f2eb7",
+      "size": 242,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, five word slots; RETF 10",
+      "boundary_evidence": [
+        "Original 0a5c:05f6 starts 558bec83ec02 after predecessor return boundary bytes 8be55dcb.",
+        "Original extent ends at 0a5c:062e with e55dca0a0090 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original push_cs_near_call from root+0xa655 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 50773,
+          "image_offset": 42581,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42580,
+          "space": "root"
+        },
+        {
+          "file_offset": 51013,
+          "image_offset": 42821,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42820,
+          "space": "root"
+        },
+        {
+          "file_offset": 51781,
+          "image_offset": 43589,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43588,
+          "space": "root"
+        },
+        {
+          "file_offset": 52305,
+          "image_offset": 44113,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44112,
+          "space": "root"
+        },
+        {
+          "file_offset": 52974,
+          "image_offset": 44782,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44781,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Loads a sprite set if its indexed handle is zero."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:05f6",
+      "offset": 1526,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_set",
+      "sha256": "f201cdc0f9051c9d750594896982205f58d2b628a9eee0f29be45afbf59ebbfc",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Original 0a5c:062e starts 558bec83ec04 after predecessor return boundary bytes ca0a0090.",
+        "Original extent ends at 0a5c:06b4 with 5e5f8be55dcb (terminal RETF, including its alignment NOP where emitted); next entry begins 57562bf6.",
+        "Original push_cs_near_call from root+0xa7f6 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51190,
+          "image_offset": 42998,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42997,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Builds a 314-byte selector mark table for the protagonist sprite set."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:062e",
+      "offset": 1582,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_kid_set",
+      "sha256": "369fd8fad51292f1ba81762d79edddfe2bc4c43469f0b59a3706c55324f71c6f",
+      "size": 134,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "Original 0a5c:06b4 starts 57562bf68bfe after predecessor return boundary bytes 8be55dcb.",
+        "Original extent ends at 0a5c:070a with 167cb35e5fcb (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec8b.",
+        "Original push_cs_near_call from root+0xa7fa enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51194,
+          "image_offset": 43002,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43001,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Loops through eleven protagonist overlay ranges."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:06b4",
+      "offset": 1716,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_kid_set_overlays",
+      "sha256": "fad5c7c29f6a7146e90d72bb95b27377a2fb8f2fa474b51d31f1bf7039f78e9a",
+      "size": 86,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one word slot; AX result; RETF 2",
+      "boundary_evidence": [
+        "Original 0a5c:070a starts 558bec8b4606 after predecessor return boundary bytes b35e5fcb.",
+        "Original extent ends at 0a5c:0792 with e55dca020090 (terminal RETF, including its alignment NOP where emitted); next entry begins 558becb8.",
+        "Original push_cs_near_call from root+0xac7c enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 52348,
+          "image_offset": 44156,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44155,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Dispatches through an inline 11-word CS switch table to test when each protagonist overlay is needed."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:070a",
+      "offset": 1802,
+      "segment": 2652,
+      "semantic_name_hypothesis": "need_kid_overlay",
+      "sha256": "8ab1c5bf526e91b2ce98280a2908b814293485d86f47b29d0766f12e79d667c9",
+      "size": 136,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, signed byte and word slots; AX result; RETF 4",
+      "boundary_evidence": [
+        "Original 0a5c:07b2 starts 558bec83ec04 after predecessor return boundary bytes ca020090.",
+        "Original extent ends at 0a5c:0820 with 8be55dca0400 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original push_cs_near_call from root+0xafba enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 53178,
+          "image_offset": 44986,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44985,
+          "space": "root"
+        },
+        {
+          "file_offset": 54183,
+          "image_offset": 45991,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 45990,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Counts sentinel-delimited opponent overlay groups and tests whether the indexed one is needed."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:07b2",
+      "offset": 1970,
+      "segment": 2652,
+      "semantic_name_hypothesis": "need_opponent_overlay",
+      "sha256": "d373e1f3eab13f2903f3bcf80a7e7fb25a53509478638aaf6869d638f772bb3a",
+      "size": 110,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one signed byte slot; AX result; RETF 2",
+      "boundary_evidence": [
+        "Original 0a5c:0820 starts 558bec83ec02 after predecessor return boundary bytes 5dca0400.",
+        "Original extent ends at 0a5c:0842 with 8be55dca0200 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original push_cs_near_call from root+0xaa57 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51799,
+          "image_offset": 43607,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43606,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Tests the first sword-overlay flag; the success path writes the local that is returned."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0820",
+      "offset": 2080,
+      "segment": 2652,
+      "semantic_name_hypothesis": "need_sword_overlay",
+      "sha256": "c8c7867e390bb53c029c4cce7d90432eadc6e0ceb59cd831ed780100e113ae9e",
+      "size": 34,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one signed byte slot; RETF 2",
+      "boundary_evidence": [
+        "Original 0a5c:0842 starts 558bec83ec02 after predecessor return boundary bytes 5dca0200.",
+        "Original extent ends at 0a5c:09b6 with 8be55dca0200 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original far_call from overlay-3+0xfd enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 185021,
+          "image_offset": 253,
+          "kind": "far_call",
+          "relocated_segment_site": 256,
+          "relocation_index": 56,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 185749,
+          "image_offset": 981,
+          "kind": "far_call",
+          "relocated_segment_site": 984,
+          "relocation_index": 57,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 51202,
+          "image_offset": 43010,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43009,
+          "space": "root"
+        },
+        {
+          "file_offset": 53477,
+          "image_offset": 45285,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 45284,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Releases or reuses the prior opponent resources and loads palette, overlay and frame handles for the new opponent."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0842",
+      "offset": 2114,
+      "segment": 2652,
+      "semantic_name_hypothesis": "load_opponent_set",
+      "sha256": "3bb16ff3be67df8adfab7af045ec94dce738ff70092d7ea08359d94d25a8db2d",
+      "size": 372,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one word slot; RETF 2",
+      "boundary_evidence": [
+        "Original 0a5c:0e2c starts 558bec83ec02 after predecessor return boundary bytes 110000cb.",
+        "Original extent ends at 0a5c:0e5c with e55dca020090 (terminal RETF, including its alignment NOP where emitted); next entry begins 558bec83.",
+        "Original far_call from root+0x2c00 enters this precise extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19456,
+          "image_offset": 11264,
+          "kind": "far_call",
+          "relocated_segment_site": 11267,
+          "relocation_index": 260,
+          "space": "root"
+        },
+        {
+          "file_offset": 19447,
+          "image_offset": 11255,
+          "kind": "far_call",
+          "relocated_segment_site": 11258,
+          "relocation_index": 261,
+          "space": "root"
+        },
+        {
+          "file_offset": 50660,
+          "image_offset": 42468,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42467,
+          "space": "root"
+        },
+        {
+          "file_offset": 51053,
+          "image_offset": 42861,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 42860,
+          "space": "root"
+        },
+        {
+          "file_offset": 51712,
+          "image_offset": 43520,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43519,
+          "space": "root"
+        },
+        {
+          "file_offset": 52783,
+          "image_offset": 44591,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44590,
+          "space": "root"
+        },
+        {
+          "file_offset": 53888,
+          "image_offset": 45696,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 45695,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Releases an indexed sprite set when its handle is present."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0e2c",
+      "offset": 3628,
+      "segment": 2652,
+      "semantic_name_hypothesis": "unload_set",
+      "sha256": "8417e7f61f0bc9aa0d4308b482284583e71ce53a3266f9018ff1f60ed2849893",
+      "size": 48,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void); RETF",
+      "boundary_evidence": [
+        "RTLink vector 2203:0d7b has descriptor 7 and immutable jump target 2a4e:0fd4 in overlay-9.",
+        "At overlay-9+0xfd4 the whole body is RETF and its NOP precedes the independent BP prologue at 0xfd6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Return-only platform overlay entry."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2a4e:0fd4",
+      "offset": 4052,
+      "segment": 10830,
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "overlay-9",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

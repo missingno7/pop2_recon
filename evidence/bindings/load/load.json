@@ -19,87 +19,88 @@
       "RESET_LEVEL_DISPLAY",
       "LOADED_OPPONENT",
       "LOAD_OVERLAY_ONE",
-      "NEED_SWORD_OVERLAY",
-      "LOADED_SWORD",
-      "LOAD_OVERLAY_TWO",
       "OPPONENT_RESOURCE_FILES",
-      "LOAD_OVERLAY_THREE",
+      "NEED_SWORD_OVERLAY",
+      "LOAD_OVERLAY_TWO",
+      "BACKGROUND_SCENE_GROUP",
       "OPPONENT_OVERLAY_FIRST",
+      "LOAD_OVERLAY_THREE",
+      "BACKGROUND_SCENE_NUMBER",
+      "OPPONENT_OVERLAY_LAST",
       "NEED_KID_OVERLAY",
       "LOAD_OVERLAY_FOUR",
-      "OPPONENT_OVERLAY_LAST",
-      "LOAD_OVERLAY_FIVE",
       "SWORD_OVERLAY_FIRST",
+      "LOAD_OVERLAY_FIVE",
+      "SWORD_OVERLAY_LAST",
       "LOAD_OVERLAY_SIX",
       "UNLOAD_OPPONENT_OVERLAYS",
-      "SWORD_OVERLAY_LAST",
-      "LOAD_OVERLAY_SEVEN",
       "KID_OVERLAY_FIRST",
+      "LOAD_OVERLAY_SEVEN",
+      "KID_OVERLAY_LAST",
       "LOAD_OVERLAY_EIGHT",
       "LOAD_OPPONENT_OVERLAYS",
-      "KID_OVERLAY_LAST",
       "LOAD_OVERLAY_NINE",
       "LOAD_OVERLAY_TEN",
       "REPORT_RESOURCE_PATH",
-      "SWORD_OVERLAY_ENABLED",
       "LOAD_OVERLAY_ELEVEN",
-      "FIND_NEAR_RESOURCE",
       "SWORD_KIND",
-      "RELEASE_HANDLE",
+      "FIND_NEAR_RESOURCE",
       "LEVEL_PIECES",
-      "ALLOCATE_TAGGED_HANDLE",
+      "RELEASE_HANDLE",
       "SWORD_FRAMES",
+      "OPPONENT_FRAMES",
+      "ALLOCATE_TAGGED_HANDLE",
       "OPEN_LEVEL_RESOURCE_FILES",
       "RELEASE_TAGGED_HANDLE",
-      "OPPONENT_FRAMES",
       "OPPONENT_EFFECT_FRAMES",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "ENTER_ROOM",
       "PLAY_STATE",
       "ROOM_FEATURE",
-      "SET_LOADING_PROGRESS",
+      "ENTER_ROOM",
       "MUSIC_NUMBER",
+      "SET_LOADING_PROGRESS",
+      "SAVED_KID",
       "@load_opponent_extra",
       "CHECKBPORT",
-      "SAVED_KID",
-      "LOAD_RESOURCE_ERROR",
       "LOAD_TYPED_HANDLE",
-      "LOCK_HANDLE",
       "LEVEL_START_TABLE",
-      "GET_HANDLE_DATA",
+      "LOCK_HANDLE",
       "LEVEL_SEQUENCE_TABLE",
-      "_copy_far_string",
+      "GET_HANDLE_DATA",
+      "LOAD_RESOURCE_ERROR",
       "LEVEL_STARTS",
+      "_copy_far_string",
+      "LEVEL_SEQUENCES",
       "LOAD_BACKGROUND_SET",
       "_split_path",
-      "LEVEL_SEQUENCES",
-      "_sprintf",
       "SEQUENCE_FLAGS",
-      "REPORT_ERROR",
+      "_sprintf",
       "SEQUENCE_OPCODES",
-      "RESET_SOUND_DATA",
+      "REPORT_ERROR",
       "ROOM_STARTS",
-      "RELEASE_SOUND_DATA",
+      "RESET_SOUND_DATA",
       "START_X",
+      "RELEASE_SOUND_DATA",
       "START_Y",
       "ROOM_OBJECTS",
-      "UNLOAD_SET",
       "ROOM_OBJECT_INFO",
+      "UNLOAD_SET",
       "ROOM_TRIGGER_DATA",
+      "LOADED_SWORD",
       "CHECK_BACKGROUND_OVERLAYS",
       "ROOM_INIT_PTR",
       "ROOM_INIT_DATA",
       "OPPONENT_OVERLAY_ONE",
       "OPPONENT_OVERLAY_TWO",
-      "SOUND_AVAILABLE",
+      "REQUESTED_MAP",
       "LOAD_SET",
-      "UNLOAD_FROM",
       "RESOURCE_PATH_FORMAT",
       "UNLOAD_LEVEL",
       "LOAD_FLASK_SET",
       "BACK_PORT",
       "ALLOCBACKPORT",
       "BACK_PORT_BOUNDS",
+      "UNLOAD_FROM",
       "LOAD_LEVEL_MAP",
       "LEVEL_RESOURCE_FILES",
       "CLOSE_RESOURCE_FILE",
@@ -108,13 +109,12 @@
       "SELECT_RESOURCE_FILE",
       "LOAD_SPRITE_SET",
       "LOAD_KID_SET_OVERLAYS",
-      "BACKGROUND_OVERLAY_ENABLED",
       "RELEASE_SPRITE_SET",
-      "@get_sword_frame_image",
       "BACKGROUND_OVERLAY_FIRST",
       "LOAD_OPPONENT_SET",
       "LOAD_OVERLAY_RANGE",
       "BACKGROUND_OVERLAY_LAST",
+      "@get_sword_frame_image",
       "HAS_SET_OVERLAY",
       "SET_KID_SWORD_KIND",
       "BACKGROUND_INTRO_GROUP",
@@ -129,19 +129,18 @@
       "BACKGROUND_IMAGE_LAST",
       "UNLOAD_SCENE_OVERLAY",
       "BACKGROUND_IMAGE_COUNT",
-      "PRELOAD_ROOM_DATA",
       "LOAD_OPPONENT_SOUND",
-      "FLASK_ENABLED",
-      "@clear_special_sequence_flag",
       "SWITCH_BACKGROUND_OVERLAY",
       "LOAD_RESOURCE_PALETTE",
+      "PRELOAD_ROOM_DATA",
       "_malloc",
       "SPRITE_SETS",
-      "NEED_OPPONENT_OVERLAY",
+      "@clear_special_sequence_flag",
       "LEVEL_NUMBER",
       "_free",
+      "SOUND_AVAILABLE",
       "LOAD_CODE_OVERLAYS",
-      "REQUESTED_MAP",
+      "NEED_OPPONENT_OVERLAY",
       "RESET_CHECKPOINT",
       "ACTIVE_MAP",
       "RESUME_MODE",
@@ -199,7 +198,7 @@
         "frame": null,
         "group_index": 0,
         "name": "LOAD_MINIMUM_LEVEL",
-        "offset": 746,
+        "offset": 744,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -315,15 +314,6 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "UNLOAD_FROM",
-        "offset": 3230,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 0
-      },
-      {
-        "frame": null,
-        "group_index": 0,
         "name": "UNLOAD_LEVEL",
         "offset": 3286,
         "segment": "UNIT_TEXT",
@@ -342,8 +332,17 @@
       {
         "frame": null,
         "group_index": 0,
+        "name": "UNLOAD_FROM",
+        "offset": 3230,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
         "name": "LOAD_LEVEL_MAP",
-        "offset": 678,
+        "offset": 676,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -369,8 +368,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "@get_sword_frame_image",
-        "offset": 1312,
+        "name": "LOAD_OPPONENT_SET",
+        "offset": 2102,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -378,8 +377,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "LOAD_OPPONENT_SET",
-        "offset": 2102,
+        "name": "@get_sword_frame_image",
+        "offset": 1312,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -397,7 +396,7 @@
         "frame": null,
         "group_index": 0,
         "name": "LOAD_SWORD_SET",
-        "offset": 1036,
+        "offset": 1034,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -406,7 +405,7 @@
         "frame": null,
         "group_index": 0,
         "name": "LOAD_PIECES_DATA",
-        "offset": 1010,
+        "offset": 1008,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -416,6 +415,15 @@
         "group_index": 0,
         "name": "LOAD_LEVEL",
         "offset": 424,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 0
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SWITCH_BACKGROUND_OVERLAY",
+        "offset": 794,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -441,8 +449,8 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "SWITCH_BACKGROUND_OVERLAY",
-        "offset": 796,
+        "name": "LOAD_CODE_OVERLAYS",
+        "offset": 876,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -452,15 +460,6 @@
         "group_index": 0,
         "name": "NEED_OPPONENT_OVERLAY",
         "offset": 1958,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 0
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "LOAD_CODE_OVERLAYS",
-        "offset": 878,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 0
@@ -519,7 +518,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 0,
+        "length": 24,
         "name": "_BSS",
         "overlay": "",
         "use32": false
@@ -543,7 +542,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 142,
+          "index": 141,
           "kind": "external",
           "method": 6,
           "name": "RESET_CHECKPOINT",
@@ -554,10 +553,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 473,
+      "segment_offset": 472,
       "self_relative": false,
       "target": {
-        "index": 142,
+        "index": 141,
         "kind": "external",
         "method": 6,
         "name": "RESET_CHECKPOINT",
@@ -570,7 +569,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 144,
+          "index": 143,
           "kind": "external",
           "method": 6,
           "name": "RESUME_MODE",
@@ -581,10 +580,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 467,
+      "segment_offset": 466,
       "self_relative": false,
       "target": {
-        "index": 144,
+        "index": 143,
         "kind": "external",
         "method": 6,
         "name": "RESUME_MODE",
@@ -597,7 +596,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 141,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "REQUESTED_MAP",
@@ -608,10 +607,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 461,
+      "segment_offset": 457,
       "self_relative": false,
       "target": {
-        "index": 141,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "REQUESTED_MAP",
@@ -624,7 +623,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -638,7 +637,7 @@
       "segment_offset": 439,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -678,7 +677,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_SET",
@@ -692,7 +691,7 @@
       "segment_offset": 418,
       "self_relative": true,
       "target": {
-        "index": 83,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_SET",
@@ -705,7 +704,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 134,
+          "index": 131,
           "kind": "external",
           "method": 6,
           "name": "LOAD_RESOURCE_PALETTE",
@@ -719,7 +718,7 @@
       "segment_offset": 404,
       "self_relative": false,
       "target": {
-        "index": 134,
+        "index": 131,
         "kind": "external",
         "method": 6,
         "name": "LOAD_RESOURCE_PALETTE",
@@ -732,7 +731,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 139,
+          "index": 137,
           "kind": "external",
           "method": 6,
           "name": "_free",
@@ -746,7 +745,7 @@
       "segment_offset": 382,
       "self_relative": false,
       "target": {
-        "index": 139,
+        "index": 137,
         "kind": "external",
         "method": 6,
         "name": "_free",
@@ -759,7 +758,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SET",
@@ -773,7 +772,7 @@
       "segment_offset": 378,
       "self_relative": true,
       "target": {
-        "index": 92,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SET",
@@ -786,7 +785,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 135,
+          "index": 133,
           "kind": "external",
           "method": 6,
           "name": "_malloc",
@@ -800,7 +799,7 @@
       "segment_offset": 326,
       "self_relative": false,
       "target": {
-        "index": 135,
+        "index": 133,
         "kind": "external",
         "method": 6,
         "name": "_malloc",
@@ -811,14 +810,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 131,
-          "kind": "external",
-          "method": 6,
-          "name": "FLASK_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -827,10 +821,10 @@
       "segment_offset": 316,
       "self_relative": false,
       "target": {
-        "index": 131,
-        "kind": "external",
-        "method": 6,
-        "name": "FLASK_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -948,7 +942,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 113,
+          "index": 112,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_RANGE",
@@ -962,7 +956,7 @@
       "segment_offset": 272,
       "self_relative": false,
       "target": {
-        "index": 113,
+        "index": 112,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_RANGE",
@@ -975,7 +969,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 114,
+          "index": 113,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND_OVERLAY_LAST",
@@ -989,7 +983,7 @@
       "segment_offset": 263,
       "self_relative": false,
       "target": {
-        "index": 114,
+        "index": 113,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND_OVERLAY_LAST",
@@ -1002,7 +996,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 111,
+          "index": 110,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND_OVERLAY_FIRST",
@@ -1016,7 +1010,7 @@
       "segment_offset": 257,
       "self_relative": false,
       "target": {
-        "index": 111,
+        "index": 110,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND_OVERLAY_FIRST",
@@ -1029,7 +1023,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -1043,7 +1037,7 @@
       "segment_offset": 249,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -1056,7 +1050,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 111,
+          "index": 110,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND_OVERLAY_FIRST",
@@ -1070,7 +1064,7 @@
       "segment_offset": 242,
       "self_relative": false,
       "target": {
-        "index": 111,
+        "index": 110,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND_OVERLAY_FIRST",
@@ -1081,14 +1075,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 108,
-          "kind": "external",
-          "method": 6,
-          "name": "BACKGROUND_OVERLAY_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -1097,10 +1086,10 @@
       "segment_offset": 235,
       "self_relative": false,
       "target": {
-        "index": 108,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKGROUND_OVERLAY_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -1191,7 +1180,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -1205,7 +1194,7 @@
       "segment_offset": 199,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -1245,7 +1234,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -1259,7 +1248,7 @@
       "segment_offset": 181,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -1299,7 +1288,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 86,
+          "index": 87,
           "kind": "external",
           "method": 6,
           "name": "CHECK_BACKGROUND_OVERLAYS",
@@ -1313,7 +1302,7 @@
       "segment_offset": 171,
       "self_relative": true,
       "target": {
-        "index": 86,
+        "index": 87,
         "kind": "external",
         "method": 6,
         "name": "CHECK_BACKGROUND_OVERLAYS",
@@ -1326,7 +1315,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -1340,7 +1329,7 @@
       "segment_offset": 166,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -1353,7 +1342,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 134,
+          "index": 131,
           "kind": "external",
           "method": 6,
           "name": "LOAD_RESOURCE_PALETTE",
@@ -1367,7 +1356,7 @@
       "segment_offset": 161,
       "self_relative": false,
       "target": {
-        "index": 134,
+        "index": 131,
         "kind": "external",
         "method": 6,
         "name": "LOAD_RESOURCE_PALETTE",
@@ -1380,7 +1369,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SET",
@@ -1394,7 +1383,7 @@
       "segment_offset": 138,
       "self_relative": true,
       "target": {
-        "index": 92,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SET",
@@ -1407,7 +1396,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -1421,7 +1410,7 @@
       "segment_offset": 112,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -1434,7 +1423,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -1448,7 +1437,7 @@
       "segment_offset": 99,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -1569,7 +1558,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 105,
+          "index": 106,
           "kind": "external",
           "method": 6,
           "name": "SELECT_RESOURCE_FILE",
@@ -1583,7 +1572,7 @@
       "segment_offset": 55,
       "self_relative": false,
       "target": {
-        "index": 105,
+        "index": 106,
         "kind": "external",
         "method": 6,
         "name": "SELECT_RESOURCE_FILE",
@@ -1596,7 +1585,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 101,
+          "index": 102,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_RESOURCE_FILES",
@@ -1610,7 +1599,7 @@
       "segment_offset": 52,
       "self_relative": false,
       "target": {
-        "index": 101,
+        "index": 102,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_RESOURCE_FILES",
@@ -1623,7 +1612,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 102,
+          "index": 103,
           "kind": "external",
           "method": 6,
           "name": "CLOSE_RESOURCE_FILE",
@@ -1637,7 +1626,7 @@
       "segment_offset": 39,
       "self_relative": false,
       "target": {
-        "index": 102,
+        "index": 103,
         "kind": "external",
         "method": 6,
         "name": "CLOSE_RESOURCE_FILE",
@@ -1650,7 +1639,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 101,
+          "index": 102,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_RESOURCE_FILES",
@@ -1664,7 +1653,7 @@
       "segment_offset": 36,
       "self_relative": false,
       "target": {
-        "index": 101,
+        "index": 102,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_RESOURCE_FILES",
@@ -1677,7 +1666,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_SET",
@@ -1691,7 +1680,7 @@
       "segment_offset": 25,
       "self_relative": true,
       "target": {
-        "index": 83,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_SET",
@@ -1715,35 +1704,13 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 913,
+      "segment_offset": 911,
       "self_relative": false,
       "target": {
         "index": 18,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_ONE",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "index": 1,
-        "kind": "segment",
-        "name": "UNIT_TEXT"
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 910,
-      "self_relative": false,
-      "target": {
-        "index": 1,
-        "kind": "segment",
-        "method": 4,
-        "name": "UNIT_TEXT",
         "zero_displacement": true
       }
     },
@@ -1861,6 +1828,28 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
+        "index": 1,
+        "kind": "segment",
+        "name": "UNIT_TEXT"
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 898,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "segment",
+        "method": 4,
+        "name": "UNIT_TEXT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
         "kind": "target_frame",
         "target": {
           "index": 1,
@@ -1874,7 +1863,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 898,
+      "segment_offset": 896,
       "self_relative": false,
       "target": {
         "index": 1,
@@ -1901,7 +1890,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 867,
+      "segment_offset": 865,
       "self_relative": false,
       "target": {
         "index": 125,
@@ -1917,10 +1906,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 119,
+          "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_INTRO_NUMBER",
+          "name": "BACKGROUND_SCENE_NUMBER",
           "zero_displacement": true
         }
       },
@@ -1928,13 +1917,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 864,
+      "segment_offset": 862,
       "self_relative": false,
       "target": {
-        "index": 119,
+        "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_INTRO_NUMBER",
+        "name": "BACKGROUND_SCENE_NUMBER",
         "zero_displacement": true
       }
     },
@@ -1944,10 +1933,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 117,
+          "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_INTRO_GROUP",
+          "name": "BACKGROUND_SCENE_GROUP",
           "zero_displacement": true
         }
       },
@@ -1955,13 +1944,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 860,
+      "segment_offset": 858,
       "self_relative": false,
       "target": {
-        "index": 117,
+        "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_INTRO_GROUP",
+        "name": "BACKGROUND_SCENE_GROUP",
         "zero_displacement": true
       }
     },
@@ -1971,10 +1960,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 117,
+          "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_INTRO_GROUP",
+          "name": "BACKGROUND_SCENE_GROUP",
           "zero_displacement": true
         }
       },
@@ -1982,13 +1971,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 853,
+      "segment_offset": 851,
       "self_relative": false,
       "target": {
-        "index": 117,
+        "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_INTRO_GROUP",
+        "name": "BACKGROUND_SCENE_GROUP",
         "zero_displacement": true
       }
     },
@@ -1998,7 +1987,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2009,10 +1998,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 842,
+      "segment_offset": 840,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2036,7 +2025,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 836,
+      "segment_offset": 834,
       "self_relative": false,
       "target": {
         "index": 127,
@@ -2052,10 +2041,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 119,
+          "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_INTRO_NUMBER",
+          "name": "BACKGROUND_SCENE_NUMBER",
           "zero_displacement": true
         }
       },
@@ -2063,13 +2052,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 833,
+      "segment_offset": 831,
       "self_relative": false,
       "target": {
-        "index": 119,
+        "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_INTRO_NUMBER",
+        "name": "BACKGROUND_SCENE_NUMBER",
         "zero_displacement": true
       }
     },
@@ -2079,10 +2068,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 117,
+          "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_INTRO_GROUP",
+          "name": "BACKGROUND_SCENE_GROUP",
           "zero_displacement": true
         }
       },
@@ -2090,13 +2079,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 829,
+      "segment_offset": 827,
       "self_relative": false,
       "target": {
-        "index": 117,
+        "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_INTRO_GROUP",
+        "name": "BACKGROUND_SCENE_GROUP",
         "zero_displacement": true
       }
     },
@@ -2106,10 +2095,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 117,
+          "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_INTRO_GROUP",
+          "name": "BACKGROUND_SCENE_GROUP",
           "zero_displacement": true
         }
       },
@@ -2117,13 +2106,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 822,
+      "segment_offset": 820,
       "self_relative": false,
       "target": {
-        "index": 117,
+        "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_INTRO_GROUP",
+        "name": "BACKGROUND_SCENE_GROUP",
         "zero_displacement": true
       }
     },
@@ -2144,7 +2133,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 786,
+      "segment_offset": 784,
       "self_relative": false,
       "target": {
         "index": 1,
@@ -2171,7 +2160,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 781,
+      "segment_offset": 779,
       "self_relative": false,
       "target": {
         "index": 2,
@@ -2187,7 +2176,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 89,
           "kind": "external",
           "method": 6,
           "name": "ROOM_INIT_DATA",
@@ -2198,10 +2187,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 778,
+      "segment_offset": 776,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 89,
         "kind": "external",
         "method": 6,
         "name": "ROOM_INIT_DATA",
@@ -2214,7 +2203,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 88,
           "kind": "external",
           "method": 6,
           "name": "ROOM_INIT_PTR",
@@ -2225,10 +2214,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 776,
+      "segment_offset": 774,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 88,
         "kind": "external",
         "method": 6,
         "name": "ROOM_INIT_PTR",
@@ -2252,7 +2241,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 770,
+      "segment_offset": 768,
       "self_relative": false,
       "target": {
         "index": 16,
@@ -2279,7 +2268,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 767,
+      "segment_offset": 765,
       "self_relative": true,
       "target": {
         "index": 120,
@@ -2295,7 +2284,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SWORD_KIND",
@@ -2306,10 +2295,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 762,
+      "segment_offset": 760,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SWORD_KIND",
@@ -2333,7 +2322,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 759,
+      "segment_offset": 757,
       "self_relative": true,
       "target": {
         "index": 116,
@@ -2349,7 +2338,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 100,
+          "index": 101,
           "kind": "external",
           "method": 6,
           "name": "LOAD_LEVEL_MAP",
@@ -2360,10 +2349,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 755,
+      "segment_offset": 753,
       "self_relative": true,
       "target": {
-        "index": 100,
+        "index": 101,
         "kind": "external",
         "method": 6,
         "name": "LOAD_LEVEL_MAP",
@@ -2387,7 +2376,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 735,
+      "segment_offset": 733,
       "self_relative": false,
       "target": {
         "index": 11,
@@ -2414,7 +2403,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 732,
+      "segment_offset": 730,
       "self_relative": true,
       "target": {
         "index": 8,
@@ -2441,7 +2430,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 726,
+      "segment_offset": 724,
       "self_relative": false,
       "target": {
         "index": 10,
@@ -2468,7 +2457,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 715,
+      "segment_offset": 713,
       "self_relative": false,
       "target": {
         "index": 6,
@@ -2495,7 +2484,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 698,
+      "segment_offset": 696,
       "self_relative": false,
       "target": {
         "index": 7,
@@ -2522,7 +2511,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 693,
+      "segment_offset": 691,
       "self_relative": false,
       "target": {
         "index": 3,
@@ -2549,7 +2538,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 669,
+      "segment_offset": 668,
       "self_relative": true,
       "target": {
         "index": 5,
@@ -2565,7 +2554,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2576,10 +2565,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 664,
+      "segment_offset": 663,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2603,7 +2592,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 659,
+      "segment_offset": 658,
       "self_relative": false,
       "target": {
         "index": 4,
@@ -2619,7 +2608,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2630,10 +2619,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 653,
+      "segment_offset": 652,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2646,7 +2635,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 140,
+          "index": 139,
           "kind": "external",
           "method": 6,
           "name": "LOAD_CODE_OVERLAYS",
@@ -2657,10 +2646,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 637,
+      "segment_offset": 636,
       "self_relative": true,
       "target": {
-        "index": 140,
+        "index": 139,
         "kind": "external",
         "method": 6,
         "name": "LOAD_CODE_OVERLAYS",
@@ -2684,7 +2673,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 632,
+      "segment_offset": 631,
       "self_relative": false,
       "target": {
         "index": 12,
@@ -2700,7 +2689,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2711,10 +2700,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 628,
+      "segment_offset": 627,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2727,7 +2716,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 146,
+          "index": 145,
           "kind": "external",
           "method": 6,
           "name": "SET_KID_PALETTE",
@@ -2738,10 +2727,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 625,
+      "segment_offset": 624,
       "self_relative": true,
       "target": {
-        "index": 146,
+        "index": 145,
         "kind": "external",
         "method": 6,
         "name": "SET_KID_PALETTE",
@@ -2754,7 +2743,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2765,10 +2754,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 620,
+      "segment_offset": 619,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2781,7 +2770,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 133,
+          "index": 130,
           "kind": "external",
           "method": 6,
           "name": "SWITCH_BACKGROUND_OVERLAY",
@@ -2792,10 +2781,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 617,
+      "segment_offset": 616,
       "self_relative": true,
       "target": {
-        "index": 133,
+        "index": 130,
         "kind": "external",
         "method": 6,
         "name": "SWITCH_BACKGROUND_OVERLAY",
@@ -2808,7 +2797,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2819,10 +2808,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 608,
+      "segment_offset": 607,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2835,7 +2824,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -2846,10 +2835,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 603,
+      "segment_offset": 602,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -2873,7 +2862,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 596,
+      "segment_offset": 595,
       "self_relative": true,
       "target": {
         "index": 123,
@@ -2900,7 +2889,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 590,
+      "segment_offset": 589,
       "self_relative": false,
       "target": {
         "index": 125,
@@ -2927,7 +2916,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 580,
+      "segment_offset": 579,
       "self_relative": true,
       "target": {
         "index": 120,
@@ -2943,7 +2932,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SWORD_KIND",
@@ -2954,10 +2943,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 575,
+      "segment_offset": 574,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SWORD_KIND",
@@ -2981,7 +2970,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 572,
+      "segment_offset": 571,
       "self_relative": true,
       "target": {
         "index": 116,
@@ -2997,7 +2986,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 112,
+          "index": 111,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT_SET",
@@ -3008,10 +2997,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 568,
+      "segment_offset": 567,
       "self_relative": true,
       "target": {
-        "index": 112,
+        "index": 111,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT_SET",
@@ -3035,7 +3024,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 563,
+      "segment_offset": 562,
       "self_relative": false,
       "target": {
         "index": 12,
@@ -3051,7 +3040,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 107,
+          "index": 108,
           "kind": "external",
           "method": 6,
           "name": "LOAD_KID_SET_OVERLAYS",
@@ -3062,10 +3051,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 560,
+      "segment_offset": 559,
       "self_relative": true,
       "target": {
-        "index": 107,
+        "index": 108,
         "kind": "external",
         "method": 6,
         "name": "LOAD_KID_SET_OVERLAYS",
@@ -3078,7 +3067,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 103,
+          "index": 104,
           "kind": "external",
           "method": 6,
           "name": "LOAD_KID_SET",
@@ -3089,10 +3078,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 556,
+      "segment_offset": 555,
       "self_relative": true,
       "target": {
-        "index": 103,
+        "index": 104,
         "kind": "external",
         "method": 6,
         "name": "LOAD_KID_SET",
@@ -3105,7 +3094,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 70,
+          "index": 71,
           "kind": "external",
           "method": 6,
           "name": "LOAD_BACKGROUND_SET",
@@ -3116,10 +3105,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 552,
+      "segment_offset": 551,
       "self_relative": true,
       "target": {
-        "index": 70,
+        "index": 71,
         "kind": "external",
         "method": 6,
         "name": "LOAD_BACKGROUND_SET",
@@ -3132,7 +3121,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 145,
+          "index": 144,
           "kind": "external",
           "method": 6,
           "name": "ISLEVELSTARTWITHNISSCREEN",
@@ -3143,10 +3132,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 538,
+      "segment_offset": 537,
       "self_relative": false,
       "target": {
-        "index": 145,
+        "index": 144,
         "kind": "external",
         "method": 6,
         "name": "ISLEVELSTARTWITHNISSCREEN",
@@ -3159,7 +3148,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 49,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "OPEN_LEVEL_RESOURCE_FILES",
@@ -3170,10 +3159,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 535,
+      "segment_offset": 534,
       "self_relative": true,
       "target": {
-        "index": 49,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "OPEN_LEVEL_RESOURCE_FILES",
@@ -3186,7 +3175,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -3197,10 +3186,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 526,
+      "segment_offset": 525,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -3224,7 +3213,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 523,
+      "segment_offset": 522,
       "self_relative": true,
       "target": {
         "index": 96,
@@ -3251,7 +3240,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 517,
+      "segment_offset": 516,
       "self_relative": false,
       "target": {
         "index": 1,
@@ -3278,7 +3267,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 512,
+      "segment_offset": 511,
       "self_relative": false,
       "target": {
         "index": 2,
@@ -3294,7 +3283,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 145,
+          "index": 144,
           "kind": "external",
           "method": 6,
           "name": "ISLEVELSTARTWITHNISSCREEN",
@@ -3305,10 +3294,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 503,
+      "segment_offset": 502,
       "self_relative": false,
       "target": {
-        "index": 145,
+        "index": 144,
         "kind": "external",
         "method": 6,
         "name": "ISLEVELSTARTWITHNISSCREEN",
@@ -3321,7 +3310,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 100,
+          "index": 101,
           "kind": "external",
           "method": 6,
           "name": "LOAD_LEVEL_MAP",
@@ -3332,10 +3321,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 500,
+      "segment_offset": 499,
       "self_relative": true,
       "target": {
-        "index": 100,
+        "index": 101,
         "kind": "external",
         "method": 6,
         "name": "LOAD_LEVEL_MAP",
@@ -3348,7 +3337,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 141,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "REQUESTED_MAP",
@@ -3359,10 +3348,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 495,
+      "segment_offset": 494,
       "self_relative": false,
       "target": {
-        "index": 141,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "REQUESTED_MAP",
@@ -3375,7 +3364,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 60,
+          "index": 61,
           "kind": "external",
           "method": 6,
           "name": "CHECKBPORT",
@@ -3386,10 +3375,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 492,
+      "segment_offset": 491,
       "self_relative": true,
       "target": {
-        "index": 60,
+        "index": 61,
         "kind": "external",
         "method": 6,
         "name": "CHECKBPORT",
@@ -3402,7 +3391,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 143,
+          "index": 142,
           "kind": "external",
           "method": 6,
           "name": "ACTIVE_MAP",
@@ -3413,10 +3402,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 488,
+      "segment_offset": 487,
       "self_relative": false,
       "target": {
-        "index": 143,
+        "index": 142,
         "kind": "external",
         "method": 6,
         "name": "ACTIVE_MAP",
@@ -3429,7 +3418,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 141,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "REQUESTED_MAP",
@@ -3440,10 +3429,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 484,
+      "segment_offset": 483,
       "self_relative": false,
       "target": {
-        "index": 141,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "REQUESTED_MAP",
@@ -3456,7 +3445,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 141,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "REQUESTED_MAP",
@@ -3467,10 +3456,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 481,
+      "segment_offset": 480,
       "self_relative": false,
       "target": {
-        "index": 141,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "REQUESTED_MAP",
@@ -3510,7 +3499,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -3524,7 +3513,7 @@
       "segment_offset": 1322,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -3537,7 +3526,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "ALLOCATE_TAGGED_HANDLE",
@@ -3551,7 +3540,7 @@
       "segment_offset": 1301,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "ALLOCATE_TAGGED_HANDLE",
@@ -3564,7 +3553,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "LOADED_SWORD",
@@ -3578,7 +3567,7 @@
       "segment_offset": 1266,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "LOADED_SWORD",
@@ -3618,7 +3607,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "SWORD_OVERLAY_LAST",
@@ -3632,7 +3621,7 @@
       "segment_offset": 1246,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "SWORD_OVERLAY_LAST",
@@ -3672,7 +3661,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -3686,7 +3675,7 @@
       "segment_offset": 1230,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -3699,7 +3688,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 113,
+          "index": 112,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_RANGE",
@@ -3713,7 +3702,7 @@
       "segment_offset": 1222,
       "self_relative": false,
       "target": {
-        "index": 113,
+        "index": 112,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_RANGE",
@@ -3726,7 +3715,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "SWORD_OVERLAY_LAST",
@@ -3740,7 +3729,7 @@
       "segment_offset": 1215,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "SWORD_OVERLAY_LAST",
@@ -3780,7 +3769,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -3794,7 +3783,7 @@
       "segment_offset": 1200,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -3861,7 +3850,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -3875,7 +3864,7 @@
       "segment_offset": 1172,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -3888,7 +3877,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 19,
+          "index": 20,
           "kind": "external",
           "method": 6,
           "name": "NEED_SWORD_OVERLAY",
@@ -3902,7 +3891,7 @@
       "segment_offset": 1164,
       "self_relative": true,
       "target": {
-        "index": 19,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "NEED_SWORD_OVERLAY",
@@ -3915,7 +3904,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SET",
@@ -3929,7 +3918,7 @@
       "segment_offset": 1146,
       "self_relative": true,
       "target": {
-        "index": 92,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SET",
@@ -3942,7 +3931,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -3953,10 +3942,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1119,
+      "segment_offset": 1118,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -3969,7 +3958,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "PLAY_STATE",
@@ -3980,10 +3969,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1112,
+      "segment_offset": 1111,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "PLAY_STATE",
@@ -3996,7 +3985,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -4007,10 +3996,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1096,
+      "segment_offset": 1095,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -4034,7 +4023,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1093,
+      "segment_offset": 1092,
       "self_relative": true,
       "target": {
         "index": 14,
@@ -4050,7 +4039,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -4061,10 +4050,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1082,
+      "segment_offset": 1081,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -4077,7 +4066,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_SET",
@@ -4088,10 +4077,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1078,
+      "segment_offset": 1077,
       "self_relative": true,
       "target": {
-        "index": 83,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_SET",
@@ -4104,7 +4093,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -4115,10 +4104,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1069,
+      "segment_offset": 1068,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -4131,7 +4120,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_HANDLE",
@@ -4142,10 +4131,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1063,
+      "segment_offset": 1062,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_HANDLE",
@@ -4158,7 +4147,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -4169,10 +4158,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1060,
+      "segment_offset": 1059,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -4185,7 +4174,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -4196,10 +4185,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1053,
+      "segment_offset": 1052,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -4212,7 +4201,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "LOADED_SWORD",
@@ -4223,10 +4212,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1044,
+      "segment_offset": 1046,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "LOADED_SWORD",
@@ -4239,7 +4228,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_PIECES",
@@ -4250,10 +4239,10 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1032,
+      "segment_offset": 1030,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_PIECES",
@@ -4266,7 +4255,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 44,
           "kind": "external",
           "method": 6,
           "name": "FIND_NEAR_RESOURCE",
@@ -4277,10 +4266,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1027,
+      "segment_offset": 1025,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 44,
         "kind": "external",
         "method": 6,
         "name": "FIND_NEAR_RESOURCE",
@@ -4304,7 +4293,7 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 1012,
+      "segment_offset": 1010,
       "self_relative": true,
       "target": {
         "index": 9,
@@ -4320,7 +4309,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 39,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_TEN",
@@ -4331,10 +4320,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 999,
+      "segment_offset": 997,
       "self_relative": false,
       "target": {
-        "index": 39,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_TEN",
@@ -4358,7 +4347,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 988,
+      "segment_offset": 986,
       "self_relative": false,
       "target": {
         "index": 42,
@@ -4374,7 +4363,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 39,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_NINE",
@@ -4385,10 +4374,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 965,
+      "segment_offset": 963,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 39,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_NINE",
@@ -4401,7 +4390,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_EIGHT",
@@ -4412,10 +4401,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 957,
+      "segment_offset": 955,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_EIGHT",
@@ -4428,7 +4417,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_SEVEN",
@@ -4439,10 +4428,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 950,
+      "segment_offset": 948,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_SEVEN",
@@ -4455,7 +4444,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 30,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_SIX",
@@ -4466,10 +4455,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 945,
+      "segment_offset": 943,
       "self_relative": false,
       "target": {
-        "index": 30,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_SIX",
@@ -4482,7 +4471,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_FIVE",
@@ -4493,10 +4482,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 938,
+      "segment_offset": 936,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_FIVE",
@@ -4509,7 +4498,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_FOUR",
@@ -4520,10 +4509,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 933,
+      "segment_offset": 931,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_FOUR",
@@ -4536,7 +4525,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 23,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_THREE",
@@ -4547,10 +4536,10 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 926,
+      "segment_offset": 924,
       "self_relative": false,
       "target": {
-        "index": 23,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_THREE",
@@ -4574,7 +4563,7 @@
       "loc_type": 3,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 921,
+      "segment_offset": 919,
       "self_relative": false,
       "target": {
         "index": 21,
@@ -4886,7 +4875,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 37,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "KID_OVERLAY_LAST",
@@ -4900,7 +4889,7 @@
       "segment_offset": 1772,
       "self_relative": false,
       "target": {
-        "index": 37,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "KID_OVERLAY_LAST",
@@ -4940,7 +4929,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -4954,7 +4943,7 @@
       "segment_offset": 1764,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -4967,7 +4956,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 113,
+          "index": 112,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_RANGE",
@@ -4981,7 +4970,7 @@
       "segment_offset": 1756,
       "self_relative": false,
       "target": {
-        "index": 113,
+        "index": 112,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_RANGE",
@@ -4994,7 +4983,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 37,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "KID_OVERLAY_LAST",
@@ -5008,7 +4997,7 @@
       "segment_offset": 1750,
       "self_relative": false,
       "target": {
-        "index": 37,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "KID_OVERLAY_LAST",
@@ -5048,7 +5037,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -5062,7 +5051,7 @@
       "segment_offset": 1738,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -5129,7 +5118,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -5143,7 +5132,7 @@
       "segment_offset": 1721,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -5156,7 +5145,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "NEED_KID_OVERLAY",
@@ -5170,7 +5159,7 @@
       "segment_offset": 1713,
       "self_relative": true,
       "target": {
-        "index": 25,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "NEED_KID_OVERLAY",
@@ -5210,7 +5199,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -5224,7 +5213,7 @@
       "segment_offset": 1683,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -5237,7 +5226,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 139,
+          "index": 137,
           "kind": "external",
           "method": 6,
           "name": "_free",
@@ -5251,7 +5240,7 @@
       "segment_offset": 1674,
       "self_relative": false,
       "target": {
-        "index": 139,
+        "index": 137,
         "kind": "external",
         "method": 6,
         "name": "_free",
@@ -5264,7 +5253,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SET",
@@ -5278,7 +5267,7 @@
       "segment_offset": 1670,
       "self_relative": true,
       "target": {
-        "index": 92,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SET",
@@ -5291,7 +5280,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 135,
+          "index": 133,
           "kind": "external",
           "method": 6,
           "name": "_malloc",
@@ -5305,7 +5294,7 @@
       "segment_offset": 1599,
       "self_relative": false,
       "target": {
-        "index": 135,
+        "index": 133,
         "kind": "external",
         "method": 6,
         "name": "_malloc",
@@ -5318,7 +5307,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 105,
+          "index": 106,
           "kind": "external",
           "method": 6,
           "name": "SELECT_RESOURCE_FILE",
@@ -5332,7 +5321,7 @@
       "segment_offset": 1590,
       "self_relative": false,
       "target": {
-        "index": 105,
+        "index": 106,
         "kind": "external",
         "method": 6,
         "name": "SELECT_RESOURCE_FILE",
@@ -5345,7 +5334,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 101,
+          "index": 102,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_RESOURCE_FILES",
@@ -5359,7 +5348,7 @@
       "segment_offset": 1587,
       "self_relative": false,
       "target": {
-        "index": 101,
+        "index": 102,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_RESOURCE_FILES",
@@ -5372,7 +5361,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -5386,7 +5375,7 @@
       "segment_offset": 1580,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -5399,7 +5388,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 106,
+          "index": 107,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SPRITE_SET",
@@ -5413,7 +5402,7 @@
       "segment_offset": 1553,
       "self_relative": false,
       "target": {
-        "index": 106,
+        "index": 107,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SPRITE_SET",
@@ -5426,7 +5415,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -5440,7 +5429,7 @@
       "segment_offset": 1530,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -5480,7 +5469,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 132,
+          "index": 135,
           "kind": "external",
           "method": 6,
           "name": "@clear_special_sequence_flag",
@@ -5494,7 +5483,7 @@
       "segment_offset": 1490,
       "self_relative": true,
       "target": {
-        "index": 132,
+        "index": 135,
         "kind": "external",
         "method": 6,
         "name": "@clear_special_sequence_flag",
@@ -5534,7 +5523,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 78,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "ROOM_STARTS",
@@ -5548,7 +5537,7 @@
       "segment_offset": 1479,
       "self_relative": false,
       "target": {
-        "index": 78,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "ROOM_STARTS",
@@ -5561,7 +5550,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 80,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "START_X",
@@ -5575,7 +5564,7 @@
       "segment_offset": 1475,
       "self_relative": false,
       "target": {
-        "index": 80,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "START_X",
@@ -5588,7 +5577,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 78,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "ROOM_STARTS",
@@ -5602,7 +5591,7 @@
       "segment_offset": 1472,
       "self_relative": false,
       "target": {
-        "index": 78,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "ROOM_STARTS",
@@ -5615,7 +5604,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 54,
+          "index": 56,
           "kind": "external",
           "method": 6,
           "name": "ENTER_ROOM",
@@ -5629,7 +5618,7 @@
       "segment_offset": 1457,
       "self_relative": false,
       "target": {
-        "index": 54,
+        "index": 56,
         "kind": "external",
         "method": 6,
         "name": "ENTER_ROOM",
@@ -5669,7 +5658,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 76,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_OPCODES",
@@ -5683,7 +5672,7 @@
       "segment_offset": 1416,
       "self_relative": false,
       "target": {
-        "index": 76,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_OPCODES",
@@ -5696,7 +5685,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 74,
+          "index": 73,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_FLAGS",
@@ -5710,7 +5699,7 @@
       "segment_offset": 1410,
       "self_relative": false,
       "target": {
-        "index": 74,
+        "index": 73,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_FLAGS",
@@ -5723,7 +5712,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_SEQUENCES",
@@ -5737,7 +5726,7 @@
       "segment_offset": 1393,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_SEQUENCES",
@@ -5750,7 +5739,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_SEQUENCES",
@@ -5764,7 +5753,7 @@
       "segment_offset": 1389,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_SEQUENCES",
@@ -5777,7 +5766,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 65,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_SEQUENCE_TABLE",
@@ -5791,7 +5780,7 @@
       "segment_offset": 1386,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 65,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_SEQUENCE_TABLE",
@@ -5804,7 +5793,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 65,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_SEQUENCE_TABLE",
@@ -5818,7 +5807,7 @@
       "segment_offset": 1382,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 65,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_SEQUENCE_TABLE",
@@ -5831,7 +5820,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 69,
+          "index": 68,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_STARTS",
@@ -5845,7 +5834,7 @@
       "segment_offset": 1372,
       "self_relative": false,
       "target": {
-        "index": 69,
+        "index": 68,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_STARTS",
@@ -5858,7 +5847,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_START_TABLE",
@@ -5872,7 +5861,7 @@
       "segment_offset": 1368,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_START_TABLE",
@@ -5885,7 +5874,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 102,
+          "index": 103,
           "kind": "external",
           "method": 6,
           "name": "CLOSE_RESOURCE_FILE",
@@ -5899,7 +5888,7 @@
       "segment_offset": 2219,
       "self_relative": false,
       "target": {
-        "index": 102,
+        "index": 103,
         "kind": "external",
         "method": 6,
         "name": "CLOSE_RESOURCE_FILE",
@@ -5912,7 +5901,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_RESOURCE_FILES",
@@ -5926,7 +5915,7 @@
       "segment_offset": 2216,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_RESOURCE_FILES",
@@ -6020,7 +6009,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_HANDLE",
@@ -6034,7 +6023,7 @@
       "segment_offset": 2184,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_HANDLE",
@@ -6101,7 +6090,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -6115,7 +6104,7 @@
       "segment_offset": 2168,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -6128,7 +6117,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_HANDLE",
@@ -6142,7 +6131,7 @@
       "segment_offset": 2162,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_HANDLE",
@@ -6155,7 +6144,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -6169,7 +6158,7 @@
       "segment_offset": 2159,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -6182,7 +6171,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -6196,7 +6185,7 @@
       "segment_offset": 2152,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -6209,7 +6198,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_SET",
@@ -6223,7 +6212,7 @@
       "segment_offset": 2148,
       "self_relative": true,
       "target": {
-        "index": 83,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_SET",
@@ -6236,7 +6225,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -6250,7 +6239,7 @@
       "segment_offset": 2137,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -6290,7 +6279,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 57,
+          "index": 58,
           "kind": "external",
           "method": 6,
           "name": "SET_LOADING_PROGRESS",
@@ -6304,7 +6293,7 @@
       "segment_offset": 2117,
       "self_relative": false,
       "target": {
-        "index": 57,
+        "index": 58,
         "kind": "external",
         "method": 6,
         "name": "SET_LOADING_PROGRESS",
@@ -6315,14 +6304,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 41,
-          "kind": "external",
-          "method": 6,
-          "name": "SWORD_OVERLAY_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -6331,10 +6315,10 @@
       "segment_offset": 2084,
       "self_relative": false,
       "target": {
-        "index": 41,
-        "kind": "external",
-        "method": 6,
-        "name": "SWORD_OVERLAY_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -6344,7 +6328,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -6358,7 +6342,7 @@
       "segment_offset": 2050,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -6369,14 +6353,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 41,
-          "kind": "external",
-          "method": 6,
-          "name": "SWORD_OVERLAY_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -6385,10 +6364,10 @@
       "segment_offset": 2038,
       "self_relative": false,
       "target": {
-        "index": 41,
-        "kind": "external",
-        "method": 6,
-        "name": "SWORD_OVERLAY_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -6398,7 +6377,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -6412,7 +6391,7 @@
       "segment_offset": 2010,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -6425,7 +6404,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -6439,7 +6418,7 @@
       "segment_offset": 1984,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -6452,7 +6431,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 134,
+          "index": 131,
           "kind": "external",
           "method": 6,
           "name": "LOAD_RESOURCE_PALETTE",
@@ -6466,7 +6445,7 @@
       "segment_offset": 1947,
       "self_relative": false,
       "target": {
-        "index": 134,
+        "index": 131,
         "kind": "external",
         "method": 6,
         "name": "LOAD_RESOURCE_PALETTE",
@@ -6479,7 +6458,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -6493,7 +6472,7 @@
       "segment_offset": 1909,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -6506,7 +6485,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -6520,7 +6499,7 @@
       "segment_offset": 1902,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -6533,7 +6512,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -6547,7 +6526,7 @@
       "segment_offset": 1894,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -6560,7 +6539,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -6574,7 +6553,7 @@
       "segment_offset": 1886,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -6585,14 +6564,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 108,
-          "kind": "external",
-          "method": 6,
-          "name": "BACKGROUND_OVERLAY_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -6601,10 +6575,10 @@
       "segment_offset": 1880,
       "self_relative": false,
       "target": {
-        "index": 108,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKGROUND_OVERLAY_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -6668,7 +6642,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -6682,7 +6656,7 @@
       "segment_offset": 1858,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -6695,7 +6669,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -6709,7 +6683,7 @@
       "segment_offset": 1851,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -6722,7 +6696,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 104,
+          "index": 105,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND",
@@ -6736,7 +6710,7 @@
       "segment_offset": 1844,
       "self_relative": false,
       "target": {
-        "index": 104,
+        "index": 105,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND",
@@ -6747,14 +6721,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 108,
-          "kind": "external",
-          "method": 6,
-          "name": "BACKGROUND_OVERLAY_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -6763,10 +6732,10 @@
       "segment_offset": 1838,
       "self_relative": false,
       "target": {
-        "index": 108,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKGROUND_OVERLAY_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -6857,7 +6826,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 84,
+          "index": 83,
           "kind": "external",
           "method": 6,
           "name": "ROOM_OBJECT_INFO",
@@ -6871,7 +6840,7 @@
       "segment_offset": 2733,
       "self_relative": false,
       "target": {
-        "index": 84,
+        "index": 83,
         "kind": "external",
         "method": 6,
         "name": "ROOM_OBJECT_INFO",
@@ -6911,7 +6880,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -6925,7 +6894,7 @@
       "segment_offset": 2642,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -6938,7 +6907,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 59,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "@load_opponent_extra",
@@ -6952,7 +6921,61 @@
       "segment_offset": 2634,
       "self_relative": false,
       "target": {
-        "index": 59,
+        "index": 60,
+        "kind": "external",
+        "method": 6,
+        "name": "@load_opponent_extra",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 91,
+          "kind": "external",
+          "method": 6,
+          "name": "OPPONENT_OVERLAY_TWO",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2626,
+      "self_relative": false,
+      "target": {
+        "index": 91,
+        "kind": "external",
+        "method": 6,
+        "name": "OPPONENT_OVERLAY_TWO",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 60,
+          "kind": "external",
+          "method": 6,
+          "name": "@load_opponent_extra",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2620,
+      "self_relative": false,
+      "target": {
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "@load_opponent_extra",
@@ -6968,60 +6991,6 @@
           "index": 90,
           "kind": "external",
           "method": 6,
-          "name": "OPPONENT_OVERLAY_TWO",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 2626,
-      "self_relative": false,
-      "target": {
-        "index": 90,
-        "kind": "external",
-        "method": 6,
-        "name": "OPPONENT_OVERLAY_TWO",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 59,
-          "kind": "external",
-          "method": 6,
-          "name": "@load_opponent_extra",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 2620,
-      "self_relative": false,
-      "target": {
-        "index": 59,
-        "kind": "external",
-        "method": 6,
-        "name": "@load_opponent_extra",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 89,
-          "kind": "external",
-          "method": 6,
           "name": "OPPONENT_OVERLAY_ONE",
           "zero_displacement": true
         }
@@ -7033,7 +7002,7 @@
       "segment_offset": 2612,
       "self_relative": false,
       "target": {
-        "index": 89,
+        "index": 90,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_ONE",
@@ -7046,7 +7015,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 113,
+          "index": 112,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OVERLAY_RANGE",
@@ -7060,7 +7029,7 @@
       "segment_offset": 2584,
       "self_relative": false,
       "target": {
-        "index": 113,
+        "index": 112,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OVERLAY_RANGE",
@@ -7073,7 +7042,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -7087,7 +7056,7 @@
       "segment_offset": 2566,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -7127,7 +7096,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -7141,7 +7110,7 @@
       "segment_offset": 2551,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -7154,7 +7123,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 137,
+          "index": 140,
           "kind": "external",
           "method": 6,
           "name": "NEED_OPPONENT_OVERLAY",
@@ -7168,7 +7137,7 @@
       "segment_offset": 2543,
       "self_relative": true,
       "target": {
-        "index": 137,
+        "index": 140,
         "kind": "external",
         "method": 6,
         "name": "NEED_OPPONENT_OVERLAY",
@@ -7181,7 +7150,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -7195,7 +7164,7 @@
       "segment_offset": 2496,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -7208,7 +7177,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_LAST",
@@ -7222,7 +7191,7 @@
       "segment_offset": 2492,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_LAST",
@@ -7289,7 +7258,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "ALLOCATE_TAGGED_HANDLE",
@@ -7303,7 +7272,7 @@
       "segment_offset": 2455,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "ALLOCATE_TAGGED_HANDLE",
@@ -7343,7 +7312,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -7357,7 +7326,7 @@
       "segment_offset": 2425,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -7370,7 +7339,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "ALLOCATE_TAGGED_HANDLE",
@@ -7384,7 +7353,7 @@
       "segment_offset": 2420,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "ALLOCATE_TAGGED_HANDLE",
@@ -7397,7 +7366,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 130,
+          "index": 129,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT_SOUND",
@@ -7411,7 +7380,7 @@
       "segment_offset": 2403,
       "self_relative": false,
       "target": {
-        "index": 130,
+        "index": 129,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT_SOUND",
@@ -7451,7 +7420,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_LAST",
@@ -7465,7 +7434,7 @@
       "segment_offset": 2391,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_LAST",
@@ -7478,7 +7447,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -7492,7 +7461,7 @@
       "segment_offset": 2387,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -7505,7 +7474,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -7519,7 +7488,7 @@
       "segment_offset": 2380,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -7532,7 +7501,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT_OVERLAYS",
@@ -7546,7 +7515,7 @@
       "segment_offset": 2376,
       "self_relative": true,
       "target": {
-        "index": 36,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT_OVERLAYS",
@@ -7559,7 +7528,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -7573,7 +7542,7 @@
       "segment_offset": 2365,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -7586,7 +7555,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 134,
+          "index": 131,
           "kind": "external",
           "method": 6,
           "name": "LOAD_RESOURCE_PALETTE",
@@ -7600,7 +7569,7 @@
       "segment_offset": 2356,
       "self_relative": false,
       "target": {
-        "index": 134,
+        "index": 131,
         "kind": "external",
         "method": 6,
         "name": "LOAD_RESOURCE_PALETTE",
@@ -7613,7 +7582,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "LOAD_SET",
@@ -7627,7 +7596,7 @@
       "segment_offset": 2339,
       "self_relative": true,
       "target": {
-        "index": 92,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "LOAD_SET",
@@ -7640,7 +7609,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 105,
+          "index": 106,
           "kind": "external",
           "method": 6,
           "name": "SELECT_RESOURCE_FILE",
@@ -7654,7 +7623,7 @@
       "segment_offset": 2314,
       "self_relative": false,
       "target": {
-        "index": 105,
+        "index": 106,
         "kind": "external",
         "method": 6,
         "name": "SELECT_RESOURCE_FILE",
@@ -7667,7 +7636,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_RESOURCE_FILES",
@@ -7681,7 +7650,7 @@
       "segment_offset": 2311,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_RESOURCE_FILES",
@@ -7694,7 +7663,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT_OVERLAYS",
@@ -7708,7 +7677,7 @@
       "segment_offset": 2292,
       "self_relative": true,
       "target": {
-        "index": 36,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT_OVERLAYS",
@@ -7721,7 +7690,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -7735,7 +7704,7 @@
       "segment_offset": 2273,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -7775,7 +7744,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 31,
+          "index": 33,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_OPPONENT_OVERLAYS",
@@ -7789,7 +7758,7 @@
       "segment_offset": 2252,
       "self_relative": true,
       "target": {
-        "index": 31,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_OPPONENT_OVERLAYS",
@@ -7802,7 +7771,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -7816,7 +7785,7 @@
       "segment_offset": 2240,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -7883,7 +7852,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -7897,7 +7866,7 @@
       "segment_offset": 3343,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -7989,14 +7958,9 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 108,
-          "kind": "external",
-          "method": 6,
-          "name": "BACKGROUND_OVERLAY_ENABLED",
-          "zero_displacement": true
-        }
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -8005,10 +7969,10 @@
       "segment_offset": 3308,
       "self_relative": false,
       "target": {
-        "index": 108,
-        "kind": "external",
-        "method": 6,
-        "name": "BACKGROUND_OVERLAY_ENABLED",
+        "index": 4,
+        "kind": "segment",
+        "method": 4,
+        "name": "_BSS",
         "zero_displacement": true
       }
     },
@@ -8018,7 +7982,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 100,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_FROM",
@@ -8032,7 +7996,7 @@
       "segment_offset": 3299,
       "self_relative": true,
       "target": {
-        "index": 93,
+        "index": 100,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_FROM",
@@ -8045,7 +8009,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_SOUND_DATA",
@@ -8059,7 +8023,7 @@
       "segment_offset": 3274,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_SOUND_DATA",
@@ -8072,7 +8036,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 138,
           "kind": "external",
           "method": 6,
           "name": "SOUND_AVAILABLE",
@@ -8086,7 +8050,7 @@
       "segment_offset": 3268,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 138,
         "kind": "external",
         "method": 6,
         "name": "SOUND_AVAILABLE",
@@ -8099,7 +8063,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "UNLOAD_SET",
@@ -8113,7 +8077,7 @@
       "segment_offset": 3253,
       "self_relative": true,
       "target": {
-        "index": 83,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "UNLOAD_SET",
@@ -8126,7 +8090,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 77,
+          "index": 78,
           "kind": "external",
           "method": 6,
           "name": "RESET_SOUND_DATA",
@@ -8140,7 +8104,7 @@
       "segment_offset": 3239,
       "self_relative": false,
       "target": {
-        "index": 77,
+        "index": 78,
         "kind": "external",
         "method": 6,
         "name": "RESET_SOUND_DATA",
@@ -8153,7 +8117,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SWORD_KIND",
@@ -8167,7 +8131,7 @@
       "segment_offset": 3226,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SWORD_KIND",
@@ -8180,7 +8144,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SWORD_KIND",
@@ -8194,7 +8158,7 @@
       "segment_offset": 3220,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SWORD_KIND",
@@ -8207,7 +8171,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SAVED_KID",
@@ -8221,7 +8185,7 @@
       "segment_offset": 3214,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SAVED_KID",
@@ -8234,7 +8198,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SAVED_KID",
@@ -8248,7 +8212,7 @@
       "segment_offset": 3210,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SAVED_KID",
@@ -8261,7 +8225,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
           "name": "ROOM_FEATURE",
@@ -8275,7 +8239,7 @@
       "segment_offset": 3204,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
         "name": "ROOM_FEATURE",
@@ -8288,7 +8252,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -8302,7 +8266,7 @@
       "segment_offset": 3197,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -8315,7 +8279,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -8329,7 +8293,7 @@
       "segment_offset": 3190,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -8342,7 +8306,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SWORD_KIND",
@@ -8356,7 +8320,7 @@
       "segment_offset": 3183,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SWORD_KIND",
@@ -8369,7 +8333,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 138,
+          "index": 136,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -8383,7 +8347,7 @@
       "segment_offset": 3176,
       "self_relative": false,
       "target": {
-        "index": 138,
+        "index": 136,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -8396,7 +8360,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SWORD_KIND",
@@ -8410,7 +8374,7 @@
       "segment_offset": 3170,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SWORD_KIND",
@@ -8423,7 +8387,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SAVED_KID",
@@ -8437,7 +8401,7 @@
       "segment_offset": 3163,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SAVED_KID",
@@ -8450,7 +8414,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SAVED_KID",
@@ -8464,7 +8428,7 @@
       "segment_offset": 3157,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SAVED_KID",
@@ -8477,7 +8441,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SAVED_KID",
@@ -8491,7 +8455,7 @@
       "segment_offset": 3153,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SAVED_KID",
@@ -8504,7 +8468,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 75,
+          "index": 76,
           "kind": "external",
           "method": 6,
           "name": "REPORT_ERROR",
@@ -8518,7 +8482,7 @@
       "segment_offset": 3142,
       "self_relative": false,
       "target": {
-        "index": 75,
+        "index": 76,
         "kind": "external",
         "method": 6,
         "name": "REPORT_ERROR",
@@ -8531,7 +8495,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "_sprintf",
@@ -8545,7 +8509,7 @@
       "segment_offset": 3125,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "_sprintf",
@@ -8580,7 +8544,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "REPORT_RESOURCE_PATH",
@@ -8594,7 +8558,7 @@
       "segment_offset": 3091,
       "self_relative": true,
       "target": {
-        "index": 40,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "REPORT_RESOURCE_PATH",
@@ -8607,7 +8571,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "_sprintf",
@@ -8621,7 +8585,7 @@
       "segment_offset": 3077,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "_sprintf",
@@ -8661,7 +8625,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 71,
+          "index": 72,
           "kind": "external",
           "method": 6,
           "name": "_split_path",
@@ -8675,7 +8639,7 @@
       "segment_offset": 3051,
       "self_relative": false,
       "target": {
-        "index": 71,
+        "index": 72,
         "kind": "external",
         "method": 6,
         "name": "_split_path",
@@ -8688,7 +8652,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 69,
           "kind": "external",
           "method": 6,
           "name": "_copy_far_string",
@@ -8702,7 +8666,7 @@
       "segment_offset": 3020,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 69,
         "kind": "external",
         "method": 6,
         "name": "_copy_far_string",
@@ -8769,7 +8733,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 63,
+          "index": 62,
           "kind": "external",
           "method": 6,
           "name": "LOAD_TYPED_HANDLE",
@@ -8783,7 +8747,7 @@
       "segment_offset": 2973,
       "self_relative": false,
       "target": {
-        "index": 63,
+        "index": 62,
         "kind": "external",
         "method": 6,
         "name": "LOAD_TYPED_HANDLE",
@@ -8796,7 +8760,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 58,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "MUSIC_NUMBER",
@@ -8810,7 +8774,7 @@
       "segment_offset": 2963,
       "self_relative": false,
       "target": {
-        "index": 58,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "MUSIC_NUMBER",
@@ -8823,7 +8787,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 63,
+          "index": 62,
           "kind": "external",
           "method": 6,
           "name": "LOAD_TYPED_HANDLE",
@@ -8837,7 +8801,7 @@
       "segment_offset": 2957,
       "self_relative": false,
       "target": {
-        "index": 63,
+        "index": 62,
         "kind": "external",
         "method": 6,
         "name": "LOAD_TYPED_HANDLE",
@@ -9066,7 +9030,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 58,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "MUSIC_NUMBER",
@@ -9080,7 +9044,7 @@
       "segment_offset": 2901,
       "self_relative": false,
       "target": {
-        "index": 58,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "MUSIC_NUMBER",
@@ -9093,7 +9057,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 58,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "MUSIC_NUMBER",
@@ -9107,7 +9071,7 @@
       "segment_offset": 2894,
       "self_relative": false,
       "target": {
-        "index": 58,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "MUSIC_NUMBER",
@@ -9120,7 +9084,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 130,
+          "index": 129,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT_SOUND",
@@ -9134,7 +9098,7 @@
       "segment_offset": 2888,
       "self_relative": false,
       "target": {
-        "index": 130,
+        "index": 129,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT_SOUND",
@@ -9282,7 +9246,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 112,
+          "index": 111,
           "kind": "external",
           "method": 6,
           "name": "LOAD_OPPONENT_SET",
@@ -9296,7 +9260,7 @@
       "segment_offset": 2842,
       "self_relative": true,
       "target": {
-        "index": 112,
+        "index": 111,
         "kind": "external",
         "method": 6,
         "name": "LOAD_OPPONENT_SET",
@@ -9363,7 +9327,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -9377,7 +9341,7 @@
       "segment_offset": 3632,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -9390,7 +9354,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_PIECES",
@@ -9404,7 +9368,7 @@
       "segment_offset": 3611,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_PIECES",
@@ -9417,7 +9381,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 139,
+          "index": 137,
           "kind": "external",
           "method": 6,
           "name": "_free",
@@ -9431,7 +9395,7 @@
       "segment_offset": 3602,
       "self_relative": false,
       "target": {
-        "index": 139,
+        "index": 137,
         "kind": "external",
         "method": 6,
         "name": "_free",
@@ -9444,7 +9408,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_PIECES",
@@ -9458,7 +9422,7 @@
       "segment_offset": 3599,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_PIECES",
@@ -9471,7 +9435,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_PIECES",
@@ -9485,7 +9449,7 @@
       "segment_offset": 3592,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_PIECES",
@@ -9525,7 +9489,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -9539,7 +9503,7 @@
       "segment_offset": 3556,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -9552,7 +9516,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 137,
+          "index": 140,
           "kind": "external",
           "method": 6,
           "name": "NEED_OPPONENT_OVERLAY",
@@ -9566,7 +9530,7 @@
       "segment_offset": 3548,
       "self_relative": true,
       "target": {
-        "index": 137,
+        "index": 140,
         "kind": "external",
         "method": 6,
         "name": "NEED_OPPONENT_OVERLAY",
@@ -9579,7 +9543,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_FIRST",
@@ -9593,7 +9557,7 @@
       "segment_offset": 3511,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_FIRST",
@@ -9606,7 +9570,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_OVERLAY_LAST",
@@ -9620,7 +9584,7 @@
       "segment_offset": 3507,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_OVERLAY_LAST",
@@ -9687,7 +9651,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 136,
+          "index": 134,
           "kind": "external",
           "method": 6,
           "name": "SPRITE_SETS",
@@ -9701,7 +9665,7 @@
       "segment_offset": 3478,
       "self_relative": false,
       "target": {
-        "index": 136,
+        "index": 134,
         "kind": "external",
         "method": 6,
         "name": "SPRITE_SETS",
@@ -9714,7 +9678,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_SOUND_DATA",
@@ -9728,7 +9692,7 @@
       "segment_offset": 3456,
       "self_relative": false,
       "target": {
-        "index": 79,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_SOUND_DATA",
@@ -9768,7 +9732,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "LOADED_SWORD",
@@ -9782,7 +9746,7 @@
       "segment_offset": 3448,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "LOADED_SWORD",
@@ -9795,7 +9759,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -9809,7 +9773,7 @@
       "segment_offset": 3442,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -9822,7 +9786,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_HANDLE",
@@ -9836,7 +9800,7 @@
       "segment_offset": 3436,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_HANDLE",
@@ -9849,7 +9813,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -9863,7 +9827,7 @@
       "segment_offset": 3433,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -9876,7 +9840,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SWORD_FRAMES",
@@ -9890,7 +9854,7 @@
       "segment_offset": 3426,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SWORD_FRAMES",
@@ -9930,7 +9894,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 102,
+          "index": 103,
           "kind": "external",
           "method": 6,
           "name": "CLOSE_RESOURCE_FILE",
@@ -9944,7 +9908,7 @@
       "segment_offset": 3411,
       "self_relative": false,
       "target": {
-        "index": 102,
+        "index": 103,
         "kind": "external",
         "method": 6,
         "name": "CLOSE_RESOURCE_FILE",
@@ -9957,7 +9921,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_RESOURCE_FILES",
@@ -9971,7 +9935,7 @@
       "segment_offset": 3408,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_RESOURCE_FILES",
@@ -10065,7 +10029,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_TAGGED_HANDLE",
@@ -10079,7 +10043,7 @@
       "segment_offset": 3381,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_TAGGED_HANDLE",
@@ -10119,7 +10083,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -10133,7 +10097,7 @@
       "segment_offset": 3361,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -10146,7 +10110,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "RELEASE_HANDLE",
@@ -10160,7 +10124,7 @@
       "segment_offset": 3355,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_HANDLE",
@@ -10173,7 +10137,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_FRAMES",
@@ -10187,7 +10151,7 @@
       "segment_offset": 3352,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_FRAMES",
@@ -10210,10 +10174,25 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
+    "_BSS": 17738,
     "_DATA": 3224
   },
   "schema": 1,
   "symbols": {
+    "ACTIVE_MAP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24134,
+      "witnesses": [
+        {
+          "bytes_hex": "a3465e",
+          "entry": "root:0284:0326",
+          "image_offset": 11135,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "ALLOCATE_TAGGED_HANDLE": {
       "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
       "entry_target_id": "root:1101:6f6a",
@@ -10221,15 +10200,7 @@
       "offset": 28522,
       "segment": 4353,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6a6f0111",
-          "file_offset": 17855,
-          "image_offset": 9663,
-          "relocation_index": 223,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "ALLOCBACKPORT": {
       "entry_sha256": "bc4188570b458495026ec9db23c07398fde405abaf3d01e75200dcfab5a05c04",
@@ -10247,6 +10218,60 @@
           "space": "root"
         }
       ]
+    },
+    "BACKGROUND": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 17735,
+      "witnesses": [
+        {
+          "bytes_hex": "c606474500",
+          "entry": "root:0000:0000",
+          "image_offset": 42,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "BACKGROUND_INTRO_GROUP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2498,
+      "witnesses": [
+        {
+          "bytes_hex": "83bcc209ff",
+          "entry": "root:0a5c:0064",
+          "image_offset": 42720,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "BACKGROUND_INTRO_NUMBER": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2514,
+      "witnesses": [
+        {
+          "bytes_hex": "ffb4d209",
+          "entry": "root:0a5c:0064",
+          "image_offset": 42731,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "BACKGROUND_SCENE_GROUP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2390,
+      "witnesses": []
+    },
+    "BACKGROUND_SCENE_NUMBER": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2404,
+      "witnesses": []
     },
     "BACK_PORT": {
       "group": "DGROUP",
@@ -10269,8 +10294,95 @@
       "witnesses": [
         {
           "bytes_hex": "b8fe09",
-          "entry": "root:052d:0546",
-          "image_offset": 21945,
+          "entry": "root:0000:1000",
+          "image_offset": 1424,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "CLOSE_RESOURCE_FILE": {
+      "entry_sha256": "c05f711f00cb10d69dcc5b08eaa380c87dcbb174504733b9266f07b511866f7e",
+      "entry_target_id": "root:1de8:01dc",
+      "kind": "far-code-entry",
+      "offset": 476,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9adc01e81d",
+          "file_offset": 18990,
+          "image_offset": 10798,
+          "relocation_index": 243,
+          "space": "root"
+        }
+      ]
+    },
+    "FIND_NEAR_RESOURCE": {
+      "entry_sha256": "925393f41f6ff0cf309bf37f1aec8f9fab00d6358be3f10a7f38338f500beca4",
+      "entry_target_id": "root:1101:6f8a",
+      "kind": "far-code-entry",
+      "offset": 28554,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "HAS_SET_OVERLAY": {
+      "entry_sha256": "4303892db7207749f41a7dfdc3b339d317678894323ad4ef9198a5bd00a5c505",
+      "entry_target_id": "root:1ecf:00e4",
+      "kind": "far-code-entry",
+      "offset": 228,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ae400cf1e",
+          "file_offset": 53191,
+          "image_offset": 44999,
+          "relocation_index": 895,
+          "space": "root"
+        }
+      ]
+    },
+    "INITIALIZE_LEVEL_OVERLAY": {
+      "entry_sha256": "03f6e7f8e6fe49305b7e41e361848b28f00f7e7d23539b5a0e0d7b9fcf7164e6",
+      "entry_target_id": "overlay-5:29cf:031a",
+      "kind": "overlay-code-entry",
+      "offset": 794,
+      "segment": 10703,
+      "space": "overlay-5",
+      "witnesses": []
+    },
+    "ISLEVELSTARTWITHNISSCREEN": {
+      "entry_sha256": "9ac00f333629e74eff85c7dba331b31fc9cb2277b7cb90d3d1de99a05e4bc706",
+      "entry_target_id": "root:0284:0096",
+      "kind": "far-code-entry",
+      "offset": 150,
+      "segment": 644,
+      "space": "root",
+      "witnesses": []
+    },
+    "KID_OVERLAY_FIRST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1932,
+      "witnesses": []
+    },
+    "KID_OVERLAY_LAST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1954,
+      "witnesses": []
+    },
+    "LEVEL_EFFECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8160,
+      "witnesses": [
+        {
+          "bytes_hex": "b8e01f",
+          "entry": "root:0000:0000",
+          "image_offset": 4898,
           "operand_offset": 1,
           "space": "root"
         }
@@ -10304,6 +10416,165 @@
         }
       ]
     },
+    "LEVEL_RESOURCE_FILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 12,
+          "witnesses": [
+            {
+              "bytes_hex": "ff362806",
+              "entry": "root:0284:000e",
+              "image_offset": 10794,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 1564,
+      "witnesses": [
+        {
+          "bytes_hex": "ffb71c06",
+          "entry": "root:0284:0326",
+          "image_offset": 11165,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "LOADED_OPPONENT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1776,
+      "witnesses": [
+        {
+          "bytes_hex": "a0f006",
+          "entry": "root:0dd7:02f4",
+          "image_offset": 57450,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "LOADED_SWORD": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1777,
+      "witnesses": []
+    },
+    "LOAD_OPPONENT_SOUND": {
+      "entry_sha256": "9fcca7e3c25aa7236843d8658cf41a71448cf21e16ccf4439766e28b7ee2f984",
+      "entry_target_id": "root:0dd7:02f4",
+      "kind": "far-code-entry",
+      "offset": 756,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9af402d70d",
+          "file_offset": 53523,
+          "image_offset": 45331,
+          "relocation_index": 918,
+          "space": "root"
+        }
+      ]
+    },
+    "LOAD_OVERLAY_EIGHT": {
+      "kind": "rtlink-vector",
+      "offset": 3381,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_ELEVEN": {
+      "kind": "rtlink-vector",
+      "offset": 3481,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_FIVE": {
+      "kind": "rtlink-vector",
+      "offset": 3411,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_FOUR": {
+      "kind": "rtlink-vector",
+      "offset": 3401,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_NINE": {
+      "kind": "rtlink-vector",
+      "offset": 3461,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_ONE": {
+      "kind": "rtlink-vector",
+      "offset": 3391,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_RANGE": {
+      "entry_sha256": "43d593a9ca732156c65937e2486b7c7e84a2332d820d092f1202c9313c12d1d5",
+      "entry_target_id": "root:1ecf:0294",
+      "kind": "far-code-entry",
+      "offset": 660,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9402cf1e",
+          "file_offset": 50907,
+          "image_offset": 42715,
+          "relocation_index": 973,
+          "space": "root"
+        }
+      ]
+    },
+    "LOAD_OVERLAY_SEVEN": {
+      "kind": "rtlink-vector",
+      "offset": 3431,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_SIX": {
+      "kind": "rtlink-vector",
+      "offset": 3421,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_TEN": {
+      "kind": "rtlink-vector",
+      "offset": 3471,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_THREE": {
+      "kind": "rtlink-vector",
+      "offset": 3441,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_OVERLAY_TWO": {
+      "kind": "rtlink-vector",
+      "offset": 3451,
+      "segment": 8707,
+      "space": "root",
+      "witnesses": []
+    },
     "LOAD_RESOURCE_PALETTE": {
       "entry_sha256": "4eb94aa76dc5b816dd37b6da52bdcda8b9be4f3d7463f65782c687458dad91c5",
       "entry_target_id": "root:078a:2b0a",
@@ -10321,6 +10592,184 @@
         }
       ]
     },
+    "LOAD_SCENE_OVERLAY": {
+      "entry_sha256": "2cf4c29e1539508eef8a87ee2b73f7061f09805b7698f6c70a283a1e39d3c715",
+      "entry_target_id": "root:0dd7:0350",
+      "kind": "far-code-entry",
+      "offset": 848,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a5003d70d",
+          "file_offset": 28045,
+          "image_offset": 19853,
+          "relocation_index": 407,
+          "space": "root"
+        }
+      ]
+    },
+    "LOAD_SPRITE_SET": {
+      "entry_sha256": "5475394523ff88743c4bca5a4f37a48323c885e185996a3299e7810a03160a62",
+      "entry_target_id": "root:1ecf:0136",
+      "kind": "far-code-entry",
+      "offset": 310,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": []
+    },
+    "OPPONENT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 17768,
+      "witnesses": [
+        {
+          "bytes_hex": "803e684502",
+          "entry": "root:0000:1000",
+          "image_offset": 1873,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPONENT_EFFECT_FRAMES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7456,
+      "witnesses": []
+    },
+    "OPPONENT_FRAMES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 3384,
+      "witnesses": [
+        {
+          "bytes_hex": "ff36380d",
+          "entry": "root:02cc:027e",
+          "image_offset": 12128,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPONENT_OVERLAY_FIRST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1852,
+      "witnesses": [
+        {
+          "bytes_hex": "8b873c07",
+          "entry": "root:0169:0402",
+          "image_offset": 9797,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPONENT_OVERLAY_LAST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1874,
+      "witnesses": [
+        {
+          "bytes_hex": "8bb75207",
+          "entry": "root:0a5c:01b4",
+          "image_offset": 44934,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "OPPONENT_RESOURCE_FILES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1778,
+      "witnesses": []
+    },
+    "PLAY_STATE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "PRELOAD_SPRITE_RANGE": {
+      "entry_sha256": "d91ce5c1b0d8b04b3534dc2d6d39493c488a8ac25681308fa16be493f4e04edf",
+      "entry_target_id": "root:1ecf:03e0",
+      "kind": "far-code-entry",
+      "offset": 992,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ae003cf1e",
+          "file_offset": 50845,
+          "image_offset": 42653,
+          "relocation_index": 967,
+          "space": "root"
+        }
+      ]
+    },
+    "RELEASE_HANDLE": {
+      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
+      "entry_target_id": "root:1101:22a0",
+      "kind": "far-code-entry",
+      "offset": 8864,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "RELEASE_OVERLAY_RANGE": {
+      "entry_sha256": "7d64b77ff608d1bb4dd83799d94497af0403e9217f9d15a4ebf512a6b6fcc2ab",
+      "entry_target_id": "root:1ecf:0774",
+      "kind": "far-code-entry",
+      "offset": 1908,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a7407cf1e",
+          "file_offset": 53287,
+          "image_offset": 45095,
+          "relocation_index": 928,
+          "space": "root"
+        }
+      ]
+    },
+    "RELEASE_SOUND_DATA": {
+      "entry_sha256": "dbb2776983ca329e8d0e7f98e8b9206e42310ed0e7f9865de4bc197ea2408f9f",
+      "entry_target_id": "root:04a6:072c",
+      "kind": "far-code-entry",
+      "offset": 1836,
+      "segment": 1190,
+      "space": "root",
+      "witnesses": []
+    },
+    "RELEASE_SPRITE_SET": {
+      "entry_sha256": "ffe91c49a23a06d53f2d71d3e2c5d2ac74ce15c66d5fecde779786587295e32c",
+      "entry_target_id": "root:1ecf:07f0",
+      "kind": "far-code-entry",
+      "offset": 2032,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": []
+    },
+    "RELEASE_TAGGED_HANDLE": {
+      "entry_sha256": "cbb7e0272489974fdecbe9fade5079decee019200d3abfc9857f7814ac00c334",
+      "entry_target_id": "root:1101:6f22",
+      "kind": "far-code-entry",
+      "offset": 28450,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "REPORT_ERROR": {
       "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
       "entry_target_id": "root:1de8:000c",
@@ -10328,15 +10777,64 @@
       "offset": 12,
       "segment": 7656,
       "space": "root",
+      "witnesses": []
+    },
+    "REQUESTED_MAP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2584,
       "witnesses": [
         {
-          "bytes_hex": "9a0c00e81d",
-          "file_offset": 27130,
-          "image_offset": 18938,
-          "relocation_index": 307,
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
+    },
+    "RESET_CHECKPOINT": {
+      "entry_sha256": "e5052bfbe5aac6a314e4da485fe199e0b2d5083bc02606b90d6d4c2f3c06d3dd",
+      "entry_target_id": "root:052d:109e",
+      "kind": "far-code-entry",
+      "offset": 4254,
+      "segment": 1325,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9e102d05",
+          "file_offset": 19088,
+          "image_offset": 10896,
+          "relocation_index": 257,
+          "space": "root"
+        }
+      ]
+    },
+    "RESET_LEVEL_DISPLAY": {
+      "entry_sha256": "f22cb2183490d5bca92ff267c404df593401259817966c8245a3cce1af6cb59b",
+      "entry_target_id": "root:078a:29a6",
+      "kind": "far-code-entry",
+      "offset": 10662,
+      "segment": 1930,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aa6298a07",
+          "file_offset": 11784,
+          "image_offset": 3592,
+          "relocation_index": 108,
+          "space": "root"
+        }
+      ]
+    },
+    "RESET_SOUND_DATA": {
+      "entry_sha256": "5de3c077e2776745058d669fff2fc5dc620319ec149055afc7aba809e1e81c7c",
+      "entry_target_id": "root:0169:0794",
+      "kind": "far-code-entry",
+      "offset": 1940,
+      "segment": 361,
+      "space": "root",
+      "witnesses": []
     },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
@@ -10345,12 +10843,18 @@
       "offset": 8556,
       "segment": 4353,
       "space": "root",
+      "witnesses": []
+    },
+    "RESUME_MODE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24064,
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
+          "bytes_hex": "833e005e00",
+          "entry": "root:0000:0cbc",
+          "image_offset": 3381,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -10361,10 +10865,38 @@
       "offset": 23694,
       "witnesses": [
         {
-          "bytes_hex": "803e8e5c00",
-          "entry": "root:0dd7:03cc",
-          "image_offset": 57668,
+          "bytes_hex": "38068e5c",
+          "entry": "root:0b41:091a",
+          "image_offset": 48525,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "ROOM_INIT_DATA": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24162,
+      "witnesses": [
+        {
+          "bytes_hex": "b8625e",
+          "entry": "root:0000:0000",
+          "image_offset": 4894,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "ROOM_INIT_PTR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -10397,6 +10929,15 @@
         }
       ]
     },
+    "SELECT_RESOURCE_FILE": {
+      "entry_sha256": "ed34c25955f54ae8a9e9e2118b13dd9ade001157a4b958b447f3e80773b4201a",
+      "entry_target_id": "root:1de8:01fa",
+      "kind": "far-code-entry",
+      "offset": 506,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": []
+    },
     "SEQUENCE_FLAGS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -10424,6 +10965,78 @@
           "space": "root"
         }
       ]
+    },
+    "SET_LOADING_PROGRESS": {
+      "entry_sha256": "a4f5fac21cb25ce0cbebb3142c3013ea14a802cbff700b4de7643869d6d8ffdc",
+      "entry_target_id": "root:1101:50f6",
+      "kind": "far-code-entry",
+      "offset": 20726,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SOUND_AVAILABLE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 552,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1e2802",
+          "entry": "root:0169:0402",
+          "image_offset": 6880,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "SPRITE_SETS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": [
+            {
+              "bytes_hex": "8b1e4262",
+              "entry": "root:0169:0402",
+              "image_offset": 9571,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "8b1e4462",
+              "entry": "root:0169:0402",
+              "image_offset": 9731,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 25150,
+      "witnesses": [
+        {
+          "bytes_hex": "8b9f3e62",
+          "entry": "root:0169:0006",
+          "image_offset": 5872,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "START_NAMED_EFFECT": {
+      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
+      "entry_target_id": "root:1101:4d90",
+      "kind": "far-code-entry",
+      "offset": 19856,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     },
     "SWORD_FRAMES": {
       "group": "DGROUP",
@@ -10453,6 +11066,35 @@
         }
       ]
     },
+    "SWORD_OVERLAY_FIRST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1896,
+      "witnesses": []
+    },
+    "SWORD_OVERLAY_LAST": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 1898,
+      "witnesses": []
+    },
+    "UNLOAD_SCENE_OVERLAY": {
+      "entry_sha256": "2852a44b68190ab0e25640a4f6a13b5c545d8fde0f9f751c58d5bd2173c34c7e",
+      "entry_target_id": "root:0dd7:07ac",
+      "kind": "far-code-entry",
+      "offset": 1964,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aac07d70d",
+          "file_offset": 29099,
+          "image_offset": 20907,
+          "relocation_index": 412,
+          "space": "root"
+        }
+      ]
+    },
     "_free": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
@@ -10466,6 +11108,23 @@
           "file_offset": 13306,
           "image_offset": 5114,
           "relocation_index": 14,
+          "space": "root"
+        }
+      ]
+    },
+    "_malloc": {
+      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
+      "entry_target_id": "root:1fe6:003b",
+      "kind": "far-code-entry",
+      "offset": 59,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3b00e61f",
+          "file_offset": 13191,
+          "image_offset": 4999,
+          "relocation_index": 65,
           "space": "root"
         }
       ]

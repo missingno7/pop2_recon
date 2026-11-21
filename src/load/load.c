@@ -21,24 +21,26 @@ extern void near *back_port;
 extern Rect back_port_bounds;
 extern int level_resource_files[];
 extern Byte background;
-extern int background_overlay_enabled[];
+static int background_overlay_flags[8];
 extern int background_overlay_first[], background_overlay_last[];
 extern int background_intro_group[], background_intro_number[];
 extern int background_image_first[], background_image_last[];
-extern int background_image_count, flask_enabled;
+extern int background_image_count;
+static int flask_enabled;
 extern unsigned overlay_output;
 extern Handle sprite_sets[];
 extern Byte level_number;
-extern SByte requested_map;
+extern int sound_available;
 extern int active_map, resume_mode;
 extern char level_effect[], map_option[], map_archive[], background_overlay_file[];
 extern Byte opponent, start_room_count;
-extern SByte loaded_opponent, loaded_sword;
+extern SByte loaded_opponent;
 extern int opponent_resource_files[];
 extern int *opponent_overlay_first[], *opponent_overlay_last[];
 extern int sword_overlay_first[], sword_overlay_last[];
 extern int kid_overlay_first[], kid_overlay_last[];
-extern int extra_kid_overlay, sword_overlay_enabled[];
+extern int extra_kid_overlay;
+static int sword_overlay_enabled[3];
 extern SByte sword_kind;
 extern Handle level_pieces, sword_frames, opponent_frames, opponent_effect_frames;
 extern Byte play_state, room_feature, music_number;
@@ -54,10 +56,11 @@ extern Byte start_x, start_y;
 extern Byte room_objects[];
 extern unsigned long room_object_info[];
 extern Byte room_trigger_data[];
+extern SByte loaded_sword;
 extern int *room_init_ptr;
 extern int room_init_data[];
 extern Byte opponent_overlay_one, opponent_overlay_two;
-extern int sound_available;
+extern SByte requested_map;
 extern int saved_background_set;
 extern char load_error_format[], resource_path_format[];
 
@@ -181,7 +184,7 @@ void far pascal check_background_overlays(Byte kind)
     int i;
 
     for (i = 0; i < 8; ++i) {
-        if (background_overlay_enabled[i]) {
+        if (background_overlay_flags[i]) {
             if (background_overlay_first[i] != -1)
                 load_overlay_range(sprite_sets[4], 3700, background_overlay_first[i] - 1,
                                    background_overlay_last[i] - 1, 1);
@@ -215,7 +218,7 @@ void far pascal load_level(SByte number)
     unload_level(3);
     previous = background;
     if (number != -2 && number != -1) {
-        if (*(volatile SByte *)&requested_map != number) {
+        if (number != requested_map) {
             if (resume_mode == 0)
                 reset_checkpoint();
             requested_map = number;
@@ -266,12 +269,14 @@ void far pascal load_minimum_level(SByte number)
     start_named_effect(level_effect);
 }
 
+extern int background_scene_group[], background_scene_number[];
+
 void far pascal switch_background_overlay(Byte current, Byte previous)
 {
-    if (previous != current && background_intro_group[previous] != -1)
-        unload_scene_overlay(background_intro_group[previous], background_intro_number[previous]);
-    if (background_intro_group[background] != -1)
-        load_scene_overlay(background_intro_group[background], background_intro_number[background]);
+    if (previous != current && background_scene_group[previous] != -1)
+        unload_scene_overlay(background_scene_group[previous], background_scene_number[previous]);
+    if (background_scene_group[background] != -1)
+        load_scene_overlay(background_scene_group[background], background_scene_number[background]);
 }
 
 void far pascal load_code_overlays(Byte background_kind, Byte opponent_kind)
@@ -445,7 +450,7 @@ int far pascal need_kid_overlay(int index)
         needed = 0;
         break;
     case 0:
-        needed = background_overlay_enabled[0];
+        needed = background_overlay_flags[0];
         break;
     case 1:
         needed = background == 4 || background == 2;
@@ -454,7 +459,7 @@ int far pascal need_kid_overlay(int index)
         needed = background == 3 || opponent == 5 || opponent == 6;
         break;
     case 3:
-        needed = background_overlay_enabled[3];
+        needed = background_overlay_flags[3];
         break;
     case 5:
         needed = opponent == 5 || opponent == 6;
@@ -471,7 +476,7 @@ int far pascal need_kid_overlay(int index)
     case 4:
     case 7:
     case 10:
-        needed = 0;
+        needed = background == 6;
         break;
     }
     return needed;
@@ -698,7 +703,7 @@ void far pascal unload_level(int first)
     int i;
     unload_from(first);
     for (i = 0; i < 8; ++i) {
-        if (background_overlay_enabled[i])
+        if (background_overlay_flags[i])
             unload_scene_overlay(background_intro_group[i], background_intro_number[i]);
     }
     if (first <= 3 && opponent_frames) {
