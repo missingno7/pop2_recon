@@ -310,7 +310,7 @@ void far pascal GenCtrl(void)
             return;
         }
     } else {
-        if (actor_kind != 0 && previous_opponent == actor_character)
+        if (actor_kind != 0 && actor_character == previous_opponent)
             previous_opponent = choose_opponent(1);
         if (actor_kind == 1) {
             if (fall_latch > 6) {
@@ -778,11 +778,12 @@ extern unsigned char forward_tile_kind;
 /* 25da:0f66 */
 void far pascal step_forward(int distance)
 {
-    int sequence;
+    signed char sequence;
     signed char edge_marker;
 
     step_in_progress = 1;
-    direction_forward = edge_marker = 1;
+    edge_marker = 1;
+    direction_forward = edge_marker;
     direction_action = edge_marker;
     if (!distance)
         distance = query_run_distance();
@@ -791,10 +792,17 @@ void far pascal step_forward(int distance)
     if (distance > 0) {
         crawl_latch = 1;
         if (distance < 28) {
-            sequence = distance == 1 ? -1 : distance / 2 + 28;
-            if (distance % 2 != 0)
+            if (distance != 1)
+                sequence = distance / 2 + 28;
+            else
+                sequence = -1;
+            if (distance % 2 == 0) {
+use_sequence:
+                distance = sequence;
+            } else {
                 actor_x = AddCharX(1);
-            distance = sequence;
+                goto use_sequence;
+            }
         } else {
             distance = 42;
         }
@@ -824,6 +832,7 @@ int far pascal try_pick_up(void)
 {
     struct tile_snapshot saved_tile;
     int here = 0;
+    int result;
     signed char tile = get_under_foot();
 
     if (tile == 10 || tile == 22) {
@@ -831,9 +840,10 @@ int far pascal try_pick_up(void)
         here = 1;
         current_tile = saved_tile;
     }
+    result = here;
     if (here || get_cells_ahead(1) == 10 || get_cells_ahead(1) == 22)
-        return pick_it_up();
-    return here;
+        result = pick_it_up();
+    return result;
 }
 
 int far pascal pick_it_up(void)
@@ -843,7 +853,7 @@ int far pascal pick_it_up(void)
     unsigned char type = (unsigned char)cell_modifier_word & 3;
     int picked = 1;
     int edge = get_edge_distance();
-    signed char foot = get_under_foot();
+    volatile signed char foot = get_under_foot();
     int shift, song;
 
     if (actor_frame != 109) {
@@ -1036,13 +1046,17 @@ void far pascal control_hanging(void)
                 JumpSeq(25);
                 return;
             }
-            if (!is_six_kind(get_above()) || (state_mode == 5 && room_allows_drop()))
-                return;
+            if (is_six_kind(get_above()) && (state_mode != 5 || !room_allows_drop()))
+                goto drop;
+            goto done;
         } else {
             animation_contact = 0;
         }
     }
+drop:
     control_drop();
+done:
+    return;
 }
 
 /* 25da:14c4 */
@@ -1143,7 +1157,10 @@ void far pascal jump_hang(int back)
         actor_x = AddCharX(edge);
         JumpSeq(8);
     } else {
-        edge -= actor_direction == -1 ? 7 : 9;
+        if (actor_direction == -1)
+            edge -= 7;
+        else
+            edge -= 9;
         actor_x = AddCharX(edge);
         JumpSeq(24);
     }
@@ -1158,7 +1175,7 @@ extern int far pascal can_continue_run_jump(signed char tile, unsigned int modif
 int far pascal run_jump(int sequence)
 {
     signed char tile, column;
-    int reach, x, distance, gaps, scanning, found;
+    int reach, x, distance, gaps, scanning, found, result;
 
     if ((sequence == 4 && (actor_frame == 7 || actor_frame == 11)) ||
         (sequence == 100 && (actor_frame == 192 || actor_frame == 196))) {
@@ -1190,9 +1207,11 @@ int far pascal run_jump(int sequence)
         }
         JumpSeq(sequence);
         direction_up = ClrAll();
-        return 1;
+        result = 1;
+    } else {
+        result = 0;
     }
-    return 0;
+    return result;
 }
 
 /* 25da:1870 */
@@ -1201,7 +1220,11 @@ void far pascal retreat_actor(void)
     int frame = actor_frame;
     if (actor_kind != 7 && actor_kind != 8 && actor_kind != 11 &&
         (frame == 158 || frame == 170 || frame == 171)) {
-        int sequence = actor_kind == 10 ? 104 : 57;
+        int sequence;
+        if (actor_kind == 10)
+            sequence = 104;
+        else
+            sequence = 57;
         JumpSeq(sequence);
         direction_back = ClrAll();
     }
@@ -1352,23 +1375,15 @@ void far pascal control_fighting(void)
             signed char tile = get_under_foot();
             if (tile == 11 || tile == 15 || opponent_health >= 2) {
                 gap = actor_spacing();
-                if (gap >= -10 && gap < 205) {
+                if (gap < -10 || gap >= 205)
+                    goto distant_opponent;
 alert:
-                    on_alert();
+                on_alert();
 reacted:
-                    react = 0;
-                } else if (gap < 0) {
-                    if (gap >= -4 || (gap >= -30 && (opponent_kind == 7 || opponent_kind == 8)))
-                        goto alert;
-                    if (actor_kind == 11)
-                        goto reacted;
-                    if ((actor_character == 10 && !next_opponent_toggle) || opponent_kind == 6)
-                        goto alert;
-                    turn_engarde();
-                    goto reacted;
-                }
+                react = 0;
             }
         }
+after_reaction:
         if (actor_character == 10 && direction_back < 0 &&
             (direction_action == -1 || direction_action == 1) &&
             (level_number != 5 || actor_room != 10 || room_event_pending <= 0)) {
@@ -1379,6 +1394,21 @@ reacted:
             selected_opponent = pick_hidden_actor(~actor_direction);
             return;
         }
+        goto check_reaction;
+
+distant_opponent:
+        if (gap >= 0)
+            goto after_reaction;
+        if (gap >= -4 || (gap >= -30 && (opponent_kind == 7 || opponent_kind == 8)))
+            goto alert;
+        if (actor_kind == 11)
+            goto reacted;
+        if ((actor_character == 10 && !next_opponent_toggle) || opponent_kind == 6)
+            goto alert;
+        turn_engarde();
+        goto reacted;
+
+check_reaction:
         if (react) {
             if (actor_character == 10 && direction_down < 0) {
                 sheathe_weapon();

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/act/act.json",
-  "binding_sha256": "7b0514fc2555e1c3aef38e7d24e8662816dd788ce3f2328e9426aad127b60d06",
+  "binding_sha256": "faf9a8cbd3c26f5e2211b925eaafe009be30d7d6c5754f5fa6c4d2f02cc0919d",
   "claims": [
     {
       "fixup_count": 1,
@@ -18,6 +18,30 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-3:25da:0016"
+    },
+    {
+      "fixup_count": 40,
+      "public": "FALLING",
+      "relocation_indices": [
+        179,
+        181,
+        195,
+        238,
+        269,
+        302,
+        312,
+        317,
+        343,
+        347,
+        349,
+        351,
+        361
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:0092"
     },
     {
       "fixup_count": 12,
@@ -40,6 +64,21 @@
     },
     {
       "fixup_count": 11,
+      "public": "ACTOR_UP",
+      "relocation_indices": [
+        185,
+        229,
+        250,
+        420
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:0c1e"
+    },
+    {
+      "fixup_count": 11,
       "public": "STAIRCLIMBING",
       "relocation_indices": [
         236,
@@ -51,13 +90,155 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:25da:0d62"
+    },
+    {
+      "fixup_count": 7,
+      "public": "START_RUNNING",
+      "relocation_indices": [
+        335,
+        399
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:0eba"
+    },
+    {
+      "fixup_count": 17,
+      "public": "CONTROL_RUNNING",
+      "relocation_indices": [
+        400,
+        401,
+        402
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:0ef0"
+    },
+    {
+      "fixup_count": 6,
+      "public": "CONTROL_STARTING",
+      "relocation_indices": [
+        403
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:11dc"
+    },
+    {
+      "fixup_count": 2,
+      "public": "BEGIN_STANDING_JUMP",
+      "target_id": "overlay-3:25da:11fa"
+    },
+    {
+      "fixup_count": 3,
+      "public": "STANDING_JUMP",
+      "target_id": "overlay-3:25da:1206"
+    },
+    {
+      "fixup_count": 12,
+      "public": "JUMP_BACK",
+      "relocation_indices": [
+        203,
+        209,
+        286,
+        322,
+        377,
+        423
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:12dc"
+    },
+    {
+      "fixup_count": 5,
+      "public": "JUMP_EDGE",
+      "relocation_indices": [
+        175,
+        287,
+        378
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:132e"
+    },
+    {
+      "fixup_count": 9,
+      "public": "ISCHARSWINGINGFWD",
+      "relocation_indices": [
+        367
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:168a"
+    },
+    {
+      "fixup_count": 9,
+      "public": "JUMP_HANG",
+      "relocation_indices": [
+        291,
+        292,
+        338,
+        379
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:16d2"
+    },
+    {
+      "fixup_count": 20,
+      "public": "RUN_JUMP",
+      "relocation_indices": [
+        213,
+        227,
+        293,
+        294,
+        310,
+        314,
+        327,
+        408
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:1738"
+    },
+    {
+      "fixup_count": 8,
+      "public": "RETREAT_ACTOR",
+      "relocation_indices": [
+        409
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:1870"
+    },
+    {
+      "fixup_count": 10,
+      "public": "ADVANCE_ACTOR",
+      "relocation_indices": [
+        410
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:18ba"
+    },
+    {
+      "fixup_count": 11,
+      "public": "ENGAGE_WEAPON",
+      "relocation_indices": [
+        411
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:1918"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 132,
-      "public": "FALLING"
-    },
     {
       "object_offset": 466,
       "public": "HITFLOOR"
@@ -83,10 +264,6 @@
       "public": "CONTROL_STANDING"
     },
     {
-      "object_offset": 3088,
-      "public": "ACTOR_UP"
-    },
-    {
       "object_offset": 3166,
       "public": "ACTOR_DOWN"
     },
@@ -107,55 +284,27 @@
       "public": "TURN_ACTOR"
     },
     {
-      "object_offset": 3756,
-      "public": "START_RUNNING"
-    },
-    {
-      "object_offset": 3810,
-      "public": "CONTROL_RUNNING"
-    },
-    {
       "object_offset": 3928,
       "public": "STEP_FORWARD"
     },
     {
-      "object_offset": 4100,
+      "object_offset": 4104,
       "public": "TRY_PICK_UP"
     },
     {
-      "object_offset": 4216,
+      "object_offset": 4218,
       "public": "PICK_IT_UP"
     },
     {
-      "object_offset": 4556,
-      "public": "CONTROL_STARTING"
-    },
-    {
-      "object_offset": 4586,
-      "public": "BEGIN_STANDING_JUMP"
-    },
-    {
-      "object_offset": 4598,
-      "public": "STANDING_JUMP"
-    },
-    {
-      "object_offset": 4616,
+      "object_offset": 4618,
       "public": "JUMP_UP"
     },
     {
-      "object_offset": 4812,
-      "public": "JUMP_BACK"
-    },
-    {
-      "object_offset": 4894,
-      "public": "JUMP_EDGE"
-    },
-    {
-      "object_offset": 4926,
+      "object_offset": 4928,
       "public": "JUMP_HIGH"
     },
     {
-      "object_offset": 5134,
+      "object_offset": 5136,
       "public": "CONTROL_HANGING"
     },
     {
@@ -167,79 +316,55 @@
       "public": "CONTROL_DROP"
     },
     {
-      "object_offset": 5756,
-      "public": "ISCHARSWINGINGFWD"
-    },
-    {
-      "object_offset": 5830,
-      "public": "JUMP_HANG"
-    },
-    {
-      "object_offset": 5942,
-      "public": "RUN_JUMP"
-    },
-    {
-      "object_offset": 6248,
-      "public": "RETREAT_ACTOR"
-    },
-    {
-      "object_offset": 6322,
-      "public": "ADVANCE_ACTOR"
-    },
-    {
-      "object_offset": 6416,
-      "public": "ENGAGE_WEAPON"
-    },
-    {
-      "object_offset": 6512,
+      "object_offset": 6506,
       "public": "CHOOSE_WEAPON_DRAW"
     },
     {
-      "object_offset": 7050,
+      "object_offset": 7044,
       "public": "CONTROL_FIGHTING"
     },
     {
-      "object_offset": 7424,
+      "object_offset": 7418,
       "public": "OPPTOFIGHT"
     },
     {
-      "object_offset": 7650,
+      "object_offset": 7644,
       "public": "ON_ALERT"
     },
     {
-      "object_offset": 7830,
+      "object_offset": 7824,
       "public": "SHEATHE_WEAPON"
     },
     {
-      "object_offset": 7902,
+      "object_offset": 7896,
       "public": "TURN_ENGARDE"
     },
     {
-      "object_offset": 8008,
+      "object_offset": 8002,
       "public": "TURN_KID_ENGARDE"
     },
     {
-      "object_offset": 8154,
+      "object_offset": 8148,
       "public": "STRIKE_ACTOR"
     },
     {
-      "object_offset": 8314,
+      "object_offset": 8308,
       "public": "BLOCK_ACTOR"
     },
     {
-      "object_offset": 8500,
+      "object_offset": 8494,
       "public": "CRUSH_ACTOR"
     },
     {
-      "object_offset": 8706,
+      "object_offset": 8700,
       "public": "CRUSHOPPINFO"
     },
     {
-      "object_offset": 8798,
+      "object_offset": 8792,
       "public": "SQUISHCHAR"
     }
   ],
-  "emitted_size": 8816,
+  "emitted_size": 8810,
   "flags": [
     "/c",
     "/AM",
@@ -253,12 +378,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "act/act",
-  "object_sha256": "13cc5899dd8df21fbc5ca4d7f9a3c52dacf6612fea099ce02a3e3ce866001855",
+  "object_sha256": "504852df2773415c9b80a5e4806080378b568fb2ffab273d3848ef82b11efd50",
   "origin": 10606,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/act/act.c",
-  "source_sha256": "0246de38a7cdf9964f8ac4b1cca288e78c76372f4897014f67810a86b9df0cf1",
+  "source_sha256": "8ff012a384717c28a28571bd0b340e4dda524e40725ae47c50fa76f8ef55e108",
   "space": "overlay-3"
 }
