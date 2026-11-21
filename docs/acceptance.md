@@ -210,6 +210,11 @@ fresh strict verification; whole members cannot be trimmed to a matching prefix.
 The literal, relocation-free runtime gate retains every public in a whole
 multi-public member; it does not select a public's matching suffix or prefix.
 The near-bound runtime gate still requires one owning public at zero.
+A whole member with fixups and secondary DGROUP storage may instead use the
+[symbolic runtime mode](runtime-fixups.md) (`runtime-symbolic-v1`): every field is
+computed from pinned runtime providers, a witnessed CODE frame, the grounded DGROUP
+paragraph, completely compared DGROUP placements and absolute library publics, with an
+exact relocation bijection. Eighteen members (2,529 bytes) are pinned this way.
 
 `tools/runtime_scan.py` supplies diagnostic whole-member candidates. It reads
 page-aligned members before the archive dictionary, requires one complete CODE

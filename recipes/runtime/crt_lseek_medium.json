@@ -1,0 +1,26 @@
+{
+  "archive_offset": 23104,
+  "binding": "evidence/bindings/crt_lseek_medium.json",
+  "binding_sha256": "f765db82cb1c0a38e319ffcdce4e6da1f00af0bcf57aaf312721165cb514791f",
+  "boundary_evidence": [
+    "Complete independent medium-model dos\\lseek.asm OMF member (archive offset 23104, 302 bytes) whose whole 122-byte CODE segment lies at root 0x20f16 (1fe6:10b6) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+  ],
+  "fixup_count": 3,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 302,
+  "member_sha256": "3b5d9ed3cedbad4fa2dd75c8034eb59f1a2c5b8629391f2bede72ea4d02cebaf",
+  "name": "crt_lseek_medium",
+  "object_segment": "_TEXT",
+  "offset": 4278,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "_lseek"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 122,
+  "space": "root",
+  "target_sha256": "303e0e704b36e5127a93c862dd1ff9e5df975eb4f637dec3b93a9d10578a46cf"
+}

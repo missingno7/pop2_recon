@@ -21,6 +21,7 @@ def check_manifest(oracle, manifest):
     owned = {}
     ids = set()
     group_claims = {}
+    runtime_reports = []
     for owner in manifest["owners"]:
         require(owner["target_id"] not in ids, "Duplicate target owner")
         ids.add(owner["target_id"])
@@ -53,7 +54,8 @@ def check_manifest(oracle, manifest):
         owned[space.name].update(span)
         if owner["kind"] == "PINNED_RUNTIME":
             from runtime import verify_member
-            runtime_report = verify_member(recipe, oracle)
+            runtime_report = verify_member(recipe, oracle, manifest)
+            runtime_reports.append(runtime_report)
             require(runtime_report["fixups"] == owner.get("fixup_count", 0) and
                     runtime_report["relocations"] == owner.get("relocation_count", 0),
                     "Runtime owner obligation counts differ from fresh proof")
@@ -89,6 +91,8 @@ def check_manifest(oracle, manifest):
     for path, claimed in group_claims.items():
         require(claimed == {c["target_id"] for c in read_json(project_path(path))["claims"]},
                 "Group recipe claims and canonical owners differ")
+    from runtime_fixups import check_layout
+    check_layout(runtime_reports)
 
 
 def verify_group(recipe):
@@ -162,7 +166,7 @@ def _validate(run_tests=True):
             continue
         if owner["kind"] == "PINNED_RUNTIME":
             from runtime import verify_member
-            accepted.append(verify_member(recipe, oracle))
+            accepted.append(verify_member(recipe, oracle, manifest))
             continue
         _, report = compile_and_check(project_path(recipe["source"]), recipe["profile"],
                                       recipe["public"], owner["target_id"],

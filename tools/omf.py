@@ -32,11 +32,18 @@ class OmfReader:
 
     `overwrite_ledata=True` applies a later LEDATA over an earlier one (LINK's
     last-write-wins), which MASM uses to back-patch; it is reserved for pinned
-    runtime members and counts the overwritten bytes in `overwritten_bytes`."""
+    runtime members and counts the overwritten bytes in `overwritten_bytes`.
 
-    def __init__(self, *, overwrite_ledata=False):
+    `library_records=True` (pinned runtime members only) also decodes the library
+    records compiler output never contains here: LEXTDEF/LPUBDEF (module-local
+    names, marked `local`), COMDEF communals (which share the external index
+    space) and a MODEND start address (recorded, never resolved)."""
+
+    def __init__(self, *, overwrite_ledata=False, library_records=False):
         self.overwrite_ledata = overwrite_ledata
+        self.library_records = library_records
         self.overwritten_bytes = 0
+        self.overwritten_ranges = []
     _IGNORED = {0x94}
     # Width in bytes of the 16-bit OMF LOCAT field.  These are field widths,
     # not a request to apply the relocation.  6/7/8/10/12/14/15 are reserved.
@@ -102,6 +109,7 @@ class OmfReader:
         group_names, lengths, contents, ranges = [], {}, {}, {}
         publics, externals, fixups, recs = [], [], [], []
         module_name, last_data, ended = label, None, False
+        local_externals, communals, start_address = set(), [], None
         seen_seg_names = set()
         for kind, body, file_offset in self.records(data):
             if ended:
@@ -155,14 +163,38 @@ class OmfReader:
                     if body[at] != 0xff: raise OmfError("unknown GRPDEF component")
                     idx, at = self._index(body, at+1); members.append(idx)
                 group_defs.append({"name": group_name, "segments": members})
-            elif kind == 0x8C:
+            elif kind == 0x8C or (kind == 0xB4 and self.library_records):
                 at = 0
                 while at < len(body):
                     n = body[at]; at += 1
                     if at + n > len(body): raise OmfError("truncated EXTDEF name")
                     externals.append(body[at:at+n].decode("latin1")); at += n
                     _, at = self._index(body, at)
-            elif kind == 0x90:
+                    if kind == 0xB4:
+                        local_externals.add(externals[-1])
+            elif kind == 0xB0 and self.library_records:
+                at = 0
+                while at < len(body):
+                    n = body[at]; at += 1
+                    if at + n > len(body): raise OmfError("truncated COMDEF name")
+                    name = body[at:at+n].decode("latin1"); at += n
+                    _, at = self._index(body, at)
+                    if at >= len(body): raise OmfError("truncated COMDEF data type")
+                    data_type = body[at]; at += 1
+                    lengths_ = []
+                    for _ in range(2 if data_type == 0x61 else 1):
+                        if at >= len(body): raise OmfError("truncated COMDEF length")
+                        lead = body[at]; at += 1
+                        width = {0x81: 2, 0x84: 3, 0x88: 4}.get(lead, 0)
+                        if lead > 0x80 and not width: raise OmfError("invalid COMDEF length")
+                        if at + width > len(body): raise OmfError("truncated COMDEF length")
+                        lengths_.append(int.from_bytes(body[at:at+width], "little") if width else lead)
+                        at += width
+                    if data_type not in (0x61, 0x62): raise OmfError("unsupported COMDEF data type")
+                    externals.append(name)
+                    communals.append({"name": name, "kind": "far" if data_type == 0x61 else "near",
+                                      "length": lengths_[0] * lengths_[1] if data_type == 0x61 else lengths_[0]})
+            elif kind == 0x90 or (kind == 0xB6 and self.library_records):
                 at = 0
                 group_i, at = self._index(body, at)
                 segment_i, at = self._index(body, at)
@@ -180,6 +212,8 @@ class OmfReader:
                     publics.append({"name": name, "segment": seg_name, "segment_index": segment_i,
                                     "offset": offset, "group_index": group_i, "frame": frame,
                                     "type_index": type_i})
+                    if kind == 0xB6:
+                        publics[-1]["local"] = True
             elif kind in (0xA0, 0xA2):
                 seg_i, at = self._index(body, 0)
                 if at + 2 > len(body): raise OmfError("truncated LEDATA/LIDATA offset")
@@ -202,6 +236,7 @@ class OmfReader:
                         if not self.overwrite_ledata:
                             raise OmfError(f"overlapping LEDATA/LIDATA for {seg_name}")
                         self.overwritten_bytes += min(hi, offset + len(payload)) - max(lo, offset)
+                        self.overwritten_ranges.append((seg_name, max(lo, offset), min(hi, offset + len(payload))))
                 buf[offset:offset+len(payload)] = payload
                 old_ranges.append((offset, offset+len(payload)))
                 last_data = (seg_i, offset, payload, iterated)
@@ -217,7 +252,10 @@ class OmfReader:
                 # An empty body is accepted for legacy fixtures; the usual
                 # object form has one module-type byte. Bit 1 announces an
                 # entry-point tuple, which this reader does not resolve.
-                if len(body) > 1 or (body and body[0] & 0xfe):
+                if self.library_records and body and body[0] & 0x40:
+                    # Main-module start address: recorded verbatim, never resolved.
+                    start_address = body[1:].hex()
+                elif len(body) > 1 or (body and body[0] & 0xfe):
                     raise OmfError("MODEND entry-point metadata is unsupported")
                 ended = True
             elif kind in self._IGNORED or kind == 0x88:
@@ -236,8 +274,13 @@ class OmfReader:
                     merged.append((start, end))
             initialized[seg_defs[i-1]["name"]] = merged
         self._resolve_fixups(fixups, seg_defs, group_defs, externals)
-        return ObjectModule(module_name, segments, lengths, seg_defs, publics,
-                            externals, group_defs, fixups, recs, initialized)
+        module = ObjectModule(module_name, segments, lengths, seg_defs, publics,
+                              externals, group_defs, fixups, recs, initialized)
+        if self.library_records:
+            module.local_externals = local_externals
+            module.communals = communals
+            module.start_address = start_address
+        return module
 
     @classmethod
     def _resolve_fixups(cls, fixups: list[dict], seg_defs: list[dict],
