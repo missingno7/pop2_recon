@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/misc/misc.json",
-  "binding_sha256": "35ecf6ba90d778fe3c89182519ade5c7f6239e69fa97233564c0bfd903d4fc08",
+  "binding_sha256": "b91d56c2262ac9a1f3fae9cef55156e7b0790edf517ae615269428832da4f631",
   "claims": [
     {
       "fixup_count": 9,
@@ -11,6 +11,16 @@
       "fixup_count": 5,
       "public": "CELLTOROW",
       "target_id": "root:0f77:00aa"
+    },
+    {
+      "fixup_count": 5,
+      "public": "COMPUTECLIPRECT",
+      "relocation_indices": [
+        1329
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0f77:0108"
     },
     {
       "fixup_count": 3,
@@ -80,10 +90,6 @@
       "public": "SELECT_ROOM_ARRAYS"
     },
     {
-      "object_offset": 262,
-      "public": "COMPUTECLIPRECT"
-    },
-    {
       "object_offset": 430,
       "public": "GETABOVEARY"
     },
@@ -126,12 +132,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "misc/misc",
-  "object_sha256": "57db2dafb26606d0e15ca90da446929f9ae8e21c15cc71aa84b42f802457fd35",
+  "object_sha256": "de89b3ece50420492c693c6cf6f07131539890b6a2006f8cdeabc6dc718ff067",
   "origin": 63346,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/misc/misc.c",
-  "source_sha256": "dbc831873baae10b00e9903e58b42fb2ceebf1f8e4090168e570874b544924e7",
+  "source_sha256": "9c52839a26ba9145c823393a783d273727bd5be1307d53343f450d08b98cc3bb",
   "space": "root"
 }

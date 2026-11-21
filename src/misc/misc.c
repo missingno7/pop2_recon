@@ -98,10 +98,8 @@ sbyte CellToRow(byte room, int cell)
 
 void ComputeClipRect(Rect far *rect, int col, int row)
 {
-    int top = row_y[col];
-
-    rect->top = top;
-    rect->bottom = top + 32;
+    rect->top = row_y[col];
+    rect->bottom = rect->top + 32;
     rect->right = col_x[row];
     rect->left = rect->right - 63;
     intersect_rect(rect, rect, &screen_clip);
