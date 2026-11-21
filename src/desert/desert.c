@@ -11,7 +11,7 @@ typedef struct {
 typedef struct {
     sbyte shape;
     int x, y;
-    ubyte pass;
+    sbyte pass;
     ubyte reserved[3];
     uword handle;
     Rect rect;
@@ -88,7 +88,7 @@ extern Rect draw_clip, screen_clip;
 extern int sprite_x, sprite_width;
 extern ubyte sprite_flipped;
 extern sbyte animation_tile, animation_remove;
-extern Rect stone_bounds;
+static Rect stone_bounds = {49, 11, 70, 54};
 extern PeelRecord peel_records[];
 
 extern void queue_move_sound(int), play_sound(int);
@@ -260,18 +260,23 @@ void reset_desert_variant(void)
     desert_variant = -1;
 }
 
+#pragma optimize("rl", on)
+
 int is_selected_code(int code)
 {
     int selected;
 
     if (code == 15 || code == 109 || code == 7 || code == 11 ||
         code == 13 || code == 38 || code == 44 || code == 28 ||
-        code == 158 || ((uword)code - 170) <= 1)
+        code == 158)
+        selected = 1;
+    else if (code == 170 || code == 171)
         selected = 1;
     else
         selected = 0;
     return selected;
 }
+#pragma optimize("rl", off)
 
 void LoadDsrtCode(void)
 {
@@ -444,6 +449,8 @@ void draw_desert_rocks(Piece *piece)
     }
 }
 
+#pragma optimize("lg", on)
+
 void AddDsrtStoneUpPeels(Piece *piece)
 {
     Rect bounds;
@@ -461,6 +468,7 @@ void AddDsrtStoneUpPeels(Piece *piece)
         x += 32;
     } while (--count);
 }
+#pragma optimize("lg", off)
 
 void animate_desert_stone(void)
 {
@@ -515,6 +523,8 @@ void redraw_stone(void)
     }
 }
 
+#pragma optimize("lg", on)
+
 void remove_last_stone_peel(sbyte column)
 {
     int x = (column + 1) << 5;
@@ -522,23 +532,25 @@ void remove_last_stone_peel(sbyte column)
     int occurrence = 1;
     int slot;
     Rect far *bounds;
-    /* Keep the draft record pointer spilled under this compiler. */
-    PeelRecord * volatile record;
 
-    while ((slot = restore_peel(114, occurrence++)) != -1) {
-        record = &peel_records[slot];
-        bounds = &record->peel->bounds;
-        if (bounds->top == x || bounds->bottom == x) {
-            record->active = 0;
-            if (++matches == 2)
-                break;
-        } else if (bounds->top < x && bounds->bottom > x &&
-                   bounds->left == 114 && bounds->right == 127) {
-            record->active = 0;
-            break;
+    do {
+        slot = restore_peel(114, occurrence);
+        if (slot != -1) {
+            bounds = &peel_records[slot].peel->bounds;
+            if (bounds->top == x || bounds->bottom == x) {
+                peel_records[slot].active = 0;
+                if (++matches == 2)
+                    slot = -1;
+            } else if (bounds->top < x && bounds->bottom > x &&
+                       bounds->left == 114 && bounds->right == 127) {
+                peel_records[slot].active = 0;
+                slot = -1;
+            }
         }
-    }
+        ++occurrence;
+    } while (slot + 1);
 }
+#pragma optimize("lg", off)
 
 int sink_desert_stone(sbyte cell)
 {

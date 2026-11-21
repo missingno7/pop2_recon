@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/desert/desert.json",
-  "binding_sha256": "7294e5b3d596292e146c9359815b3d43458212e68e3687c66348cb677963434c",
+  "binding_sha256": "70dee6de0dcb1ed076007ff932aed49a7e9594eecb367f31471dbba25c9c5898",
   "claims": [
     {
       "fixup_count": 2,
@@ -74,6 +74,11 @@
       "target_id": "overlay-5:29cf:031a"
     },
     {
+      "fixup_count": 0,
+      "public": "IS_SELECTED_CODE",
+      "target_id": "overlay-5:29cf:0320"
+    },
+    {
       "fixup_count": 23,
       "public": "LOADDSRTCODE",
       "relocation_indices": [
@@ -93,6 +98,22 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-5:29cf:0370"
+    },
+    {
+      "fixup_count": 15,
+      "public": "SETUP_SAND",
+      "relocation_indices": [
+        2,
+        33,
+        61,
+        63,
+        75
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-5:29cf:0468"
     },
     {
       "fixup_count": 18,
@@ -124,6 +145,11 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-5:29cf:05c4"
+    },
+    {
+      "fixup_count": 1,
+      "public": "IS_DESERT_EXIT_OPEN",
+      "target_id": "overlay-5:29cf:061a"
     },
     {
       "fixup_count": 3,
@@ -186,6 +212,17 @@
       "target_id": "overlay-5:29cf:071c"
     },
     {
+      "fixup_count": 2,
+      "public": "ADDDSRTSTONEUPPEELS",
+      "relocation_indices": [
+        30,
+        47
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-5:29cf:0772"
+    },
+    {
       "fixup_count": 19,
       "public": "ANIMATE_DESERT_STONE",
       "relocation_indices": [
@@ -211,6 +248,33 @@
     },
     {
       "fixup_count": 8,
+      "public": "REDRAW_STONE",
+      "relocation_indices": [
+        24,
+        28,
+        41,
+        42,
+        43,
+        62
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-5:29cf:08c0"
+    },
+    {
+      "fixup_count": 4,
+      "public": "REMOVE_LAST_STONE_PEEL",
+      "relocation_indices": [
+        60
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-5:29cf:0906"
+    },
+    {
+      "fixup_count": 8,
       "public": "SINK_DESERT_STONE",
       "target_id": "overlay-5:29cf:09a0"
     },
@@ -224,30 +288,6 @@
     {
       "object_offset": 42,
       "public": "CHECK_DESERT_EXIT"
-    },
-    {
-      "object_offset": 800,
-      "public": "IS_SELECTED_CODE"
-    },
-    {
-      "object_offset": 1128,
-      "public": "SETUP_SAND"
-    },
-    {
-      "object_offset": 1562,
-      "public": "IS_DESERT_EXIT_OPEN"
-    },
-    {
-      "object_offset": 1906,
-      "public": "ADDDSRTSTONEUPPEELS"
-    },
-    {
-      "object_offset": 2240,
-      "public": "REDRAW_STONE"
-    },
-    {
-      "object_offset": 2310,
-      "public": "REMOVE_LAST_STONE_PEEL"
     },
     {
       "object_offset": 2586,
@@ -269,12 +309,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "desert/desert",
-  "object_sha256": "f74dd85888b82b1bf2d80b8d266be5b358dd69cdd25292b1e875499782c7b567",
+  "object_sha256": "fce08078bee859b6ca4ceff9e24a956bdea920ea9171da22a03af19f4f12029f",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/desert/desert.c",
-  "source_sha256": "ae474e6ba89749c7c80d1cd4de6dfa2862b1e79e7affedb8ae7d787eec34cfb1",
+  "source_sha256": "01138415d1e4dfc924e60f093cf0a3724162a8ecdae835beaf32a4c0b2695d8c",
   "space": "overlay-5"
 }
