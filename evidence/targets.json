@@ -16454,6 +16454,270 @@
       "size": 124,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry with two RETF paths and no BP frame.",
+      "boundary_evidence": [
+        "Overlay-2 relocated CALL FARs at 0x4b82 and 0x4bc2 and resident PUSH CS/CALL at 0x1015/1016 enter 0x105a.",
+        "Input ends in RETF at 0x1059. Both branches call far-return helpers (PUSH CS/CALL), then RETF at 0x1065 and 0x106a.",
+        "Alignment NOP at 0x106b precedes the independent gameport helper at 0x106c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a5a100000",
+          "file_offset": 175266,
+          "image_offset": 19330,
+          "kind": "far_call",
+          "relocated_segment_site": 19333,
+          "relocation_index": 62,
+          "space": "overlay-2"
+        },
+        {
+          "bytes_hex": "9a5a100000",
+          "file_offset": 175330,
+          "image_offset": 19394,
+          "kind": "far_call",
+          "relocated_segment_site": 19397,
+          "relocation_index": 63,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 12310,
+          "image_offset": 4118,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4117,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatch between joystick and keyboard input by active control mode."
+      ],
+      "classification_status": "DOS control-flow and instruction review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:105a",
+      "offset": 4186,
+      "segment": 0,
+      "semantic_name_hypothesis": "Dispatch between joystick and keyboard input by active control mode.",
+      "sha256": "db16d166ce19cd703c91963dfda12f5b6f880ea84d88c4593c7ce245c313f437",
+      "size": 18,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, saves DI and SI and exits with RETF.",
+      "boundary_evidence": [
+        "Resident PUSH CS at 0x1061 and CALL at 0x1062 enter 0x106c after the preceding RETF and NOP.",
+        "The original relocated far call at 0x106e targets sample routine 0000:15d9. Direction and button branches join the SI/DI restore.",
+        "RETF at 0x10d6 and alignment NOP at 0x10d7 precede the alternate input helper at 0x10d8, independently targeted from 0x1067."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 12386,
+          "image_offset": 4194,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4193,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Converts gameport readings to signed joystick directions and button state."
+      ],
+      "classification_status": "DOS control-flow and instruction review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:106c",
+      "offset": 4204,
+      "segment": 0,
+      "semantic_name_hypothesis": "Converts gameport readings to signed joystick directions and button state.",
+      "sha256": "3472a7fcc71781ce33a80b355eb7424afcb777e720d76c9d01e8e0a03e4b640d",
+      "size": 108,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry with two RETF paths and no BP frame.",
+      "boundary_evidence": [
+        "PUSH CS at 0x1066 and CALL at 0x1067 enter 0x10d8 after RETF/NOP.",
+        "Branches to 0x1254 and 0x1259 stay inside the function. Last RETF is at 0x1259, immediately before relocated entry 0x125a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 12391,
+          "image_offset": 4199,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4198,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Read scan-code array and BIOS modifier flags to derive directional controls and button state."
+      ],
+      "classification_status": "DOS control-flow and instruction review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:10d8",
+      "offset": 4312,
+      "segment": 0,
+      "semantic_name_hypothesis": "Read scan-code array and BIOS modifier flags to derive directional controls and button state.",
+      "sha256": "669558431de4f1d73682e94fb36941f65087faadc5eebac123d693a4db9f08d3",
+      "size": 386,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument entry, RETF, no BP frame.",
+      "boundary_evidence": [
+        "Direct relocated CALL FAR at 0xe97d enters 0x125a after RETF at 0x1259.",
+        "Mode comparison at 0x125a conditionally calls 0000:15d1 via 9A at 0x1261 and rejoins RETF at 0x1266. NOP at 0x1267 before the PrinceCopy prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 67965,
+          "image_offset": 59773,
+          "kind": "far_call",
+          "relocated_segment_site": 59776,
+          "relocation_index": 1234,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68055,
+          "image_offset": 59863,
+          "kind": "far_call",
+          "relocated_segment_site": 59866,
+          "relocation_index": 1235,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68034,
+          "image_offset": 59842,
+          "kind": "far_call",
+          "relocated_segment_site": 59845,
+          "relocation_index": 1236,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68024,
+          "image_offset": 59832,
+          "kind": "far_call",
+          "relocated_segment_site": 59835,
+          "relocation_index": 1237,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68184,
+          "image_offset": 59992,
+          "kind": "far_call",
+          "relocated_segment_site": 59995,
+          "relocation_index": 1238,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68162,
+          "image_offset": 59970,
+          "kind": "far_call",
+          "relocated_segment_site": 59973,
+          "relocation_index": 1239,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68137,
+          "image_offset": 59945,
+          "kind": "far_call",
+          "relocated_segment_site": 59948,
+          "relocation_index": 1240,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68115,
+          "image_offset": 59923,
+          "kind": "far_call",
+          "relocated_segment_site": 59926,
+          "relocation_index": 1241,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68105,
+          "image_offset": 59913,
+          "kind": "far_call",
+          "relocated_segment_site": 59916,
+          "relocation_index": 1242,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a5a120000",
+          "file_offset": 68075,
+          "image_offset": 59883,
+          "kind": "far_call",
+          "relocated_segment_site": 59886,
+          "relocation_index": 1243,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Clear the DOS keyboard when keyboard control is enabled."
+      ],
+      "classification_status": "DOS control-flow and instruction review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:125a",
+      "offset": 4698,
+      "segment": 0,
+      "semantic_name_hypothesis": "Clear the DOS keyboard when keyboard control is enabled.",
+      "sha256": "475811d47061bd122bbc1ef13acdd8261b321f889d23b640874946c5032f6f24",
+      "size": 14,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument DOS routine with RETF. Return register contents follow INT 21h.",
+      "boundary_evidence": [
+        "Original CALL FAR 0000:15d1 at root+0x1261 has MZ segment relocation index 120 at 0x1264.",
+        "Preceding INT handler ends with IRET at 0x15d0. DOS service 0ch/06h with DL=ffh runs at 0x15d6, followed by RETF at 0x15d8.",
+        "The next independent relocated entry, 0x15d9, begins the gameport sample routine. No original relocation touches the eight-byte extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ad1150000",
+          "file_offset": 12897,
+          "image_offset": 4705,
+          "kind": "far_call",
+          "relocated_segment_site": 4708,
+          "relocation_index": 120,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "DOS BIOS keyboard flush in the interrupt and port I/O assembly run."
+      ],
+      "classification_status": "DOS control-flow and instruction review",
+      "entry_kind": "direct-code",
+      "id": "root:0000:15d1",
+      "offset": 5585,
+      "segment": 0,
+      "semantic_name_hypothesis": "DOS BIOS keyboard flush in the interrupt and port I/O assembly run.",
+      "sha256": "fab9ab41535543e9e02da03c60ab7f801c3fffabec73c082e25b65b73f3db1b9",
+      "size": 8,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
