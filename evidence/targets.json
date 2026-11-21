@@ -16332,6 +16332,128 @@
       "size": 64,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far void(void), RETF, no stack arguments",
+      "boundary_evidence": [
+        "Reset-frame code at 0be8/0be9 pushes CS and calls this entry before its far return.",
+        "Entry immediately follows 0e28 RETF and 0e29 alignment NOP. All three timer branches stay inside; 0e51 RETF precedes the guard predicate at 0e52."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69961,
+          "image_offset": 61769,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 61768,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original callers, body and frame correspondence."
+      ],
+      "classification_status": "Reviewed resident or overlay game-code entry",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0e2a",
+      "offset": 3626,
+      "segment": 3670,
+      "semantic_name_hypothesis": "tick_misc_timers",
+      "sha256": "543373eb971d7a1cd4ca0fa33ad11630e8ad3a1907e5c176080877337c3de4f5",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far signed byte result in AL, no arguments; RETF",
+      "boundary_evidence": [
+        "Dispatch at 0525/0526 pushes CS and calls this entry on the restart flag path; AL is saved at 0529.",
+        "The preceding indirect dispatcher ends at 11b4 RETF plus alignment NOP. Each reset outcome returns at 11df, 11e2 or 11e7; 11e8 starts the next entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68230,
+          "image_offset": 60038,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60037,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original callers, body and frame correspondence."
+      ],
+      "classification_status": "Reviewed resident or overlay game-code entry",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:11b6",
+      "offset": 4534,
+      "segment": 3670,
+      "semantic_name_hypothesis": "reset_level",
+      "sha256": "df66fcb584de0652a558ecb9879a0adb9449cf00969e4b3d8e7729608e1647e7",
+      "size": 50,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, far data pointer; RETF 4",
+      "boundary_evidence": [
+        "4d90 starts a BP frame after RETF 4. LES through BP+6, push ES:AX and two additional words, then PUSH CS/CALL at 4da3. RETF 4 at 4da8, one intervening zero byte, and the next BP frame at 4dac."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 9621,
+          "image_offset": 1429,
+          "kind": "far_call",
+          "relocated_segment_site": 1432,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original callers, body and frame correspondence."
+      ],
+      "classification_status": "Reviewed resident or overlay game-code entry",
+      "entry_kind": "direct-code",
+      "id": "root:1101:4d90",
+      "offset": 19856,
+      "segment": 4353,
+      "semantic_name_hypothesis": "start_named_effect",
+      "sha256": "95709f21e586d3655e81267c4860f4cbf410082e6ea45bcd4b69da5e33983dc0",
+      "size": 28,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far void(void); RETF",
+      "boundary_evidence": [
+        "29a6 starts a BP frame after RETF/NOP; all conditional branches (29b3, 29fa, 2a12) join the 2a1e epilogue ending in 2a21 RETF. The next BP prologue is at 2a22."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 11784,
+          "image_offset": 3592,
+          "kind": "far_call",
+          "relocated_segment_site": 3595,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original callers, body and frame correspondence."
+      ],
+      "classification_status": "Reviewed resident or overlay game-code entry",
+      "entry_kind": "direct-code",
+      "id": "root:078a:29a6",
+      "offset": 10662,
+      "segment": 1930,
+      "semantic_name_hypothesis": "reset_level_display",
+      "sha256": "f22cb2183490d5bca92ff267c404df593401259817966c8245a3cce1af6cb59b",
+      "size": 124,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
