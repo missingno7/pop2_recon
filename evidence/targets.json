@@ -45638,6 +45638,1083 @@
           "relocation_index": 1079
         }
       ]
+    },
+    {
+      "abi": "Far no-argument no-result RTLink entry, plain RETF.",
+      "boundary_evidence": [
+        "Original linear extent [0000,0002) and decoded tail: retf nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns.",
+        "RTLink vector root:2203:0d8f, relocation 1996, names overlay 11 entry 2c3e:0000."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0000",
+      "offset": 0,
+      "original_bytes_hex": "cb90",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "unused_head_entry",
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument no-result routine, far pointer return from resource lock in DX:AX; SI and DI saved.",
+      "boundary_evidence": [
+        "Original linear extent [0002,00c4) and decoded tail: pop di mov sp, bp pop bp retf nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns.",
+        "Immediately follows the vector stub's RETF and alignment NOP. Own BP prologue, null early exit, shared epilogue at 00bd, with NOP at 00c3."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0002",
+      "offset": 2,
+      "original_bytes_hex": "558bec83ec0a5756b002502ac0509ada1b8a078bf00bf67503e99f00ff36201d9a622301118bf88956fca0015c3806815c74118b5c05d1e38bc203df8ec2268a4701eb35ff364462ff3658628d46f616509a02106901803e065c077505b00aeb0390b0108b5c05d1e38b4efc03df8ec1260247010246f8f6d88846ff803e065c0875048046ff06803e015c007503f65eff8a46ff980304a354628b5c05d1e3268a0198034402a35662ff36201d9ab2250111a15462058200a3025c5e5f8be55dcb90",
+      "original_name": "AlignHeadOnKidNeck",
+      "original_name_evidence": [
+        "FM Towns 15c1:0004 makes the equivalent sprite lookup with arguments 2 and 0, uses the same two-byte frame-indexed neck table and facing cases, and adds 130 after unlocking."
+      ],
+      "segment": 11326,
+      "semantic_name_hypothesis": "align_head_on_kid_neck",
+      "sha256": "d9854cdbba90a19b64d385d539f33378ed723af2750e8a551dc3649b207affca",
+      "size": 194,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 03bc retf",
+      "boundary_evidence": [
+        "Original linear extent [00c4,03be) and decoded tail: pop di mov sp, bp pop bp retf nop.",
+        "PUSH CS; near call sources in this overlay: 052e, 09f8, 0eac."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250046,
+          "image_offset": 1326,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1325,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251272,
+          "image_offset": 2552,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2551,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 252476,
+          "image_offset": 3756,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3755,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:00c4",
+      "offset": 196,
+      "original_bytes_hex": "558bec83ec0c5756be0100a0095c3806495c7510a00a5c38064a5c7507bf0400e9ce0290a00a5cd0e08846fea0095cd0e08846ffa0145e980306025c2d7a00b9200099f7f983fa107e03fe46ffa04a5cd0e0fec08846f5a0495cd0e08846fba1425c2d820099f7f983fa107e03fe46fb8a46fe988bc88a46f5982bc19933c22bc28846f98a4efb384eff7d04b001eb02b0ff8846f68a46f53846fe7d05b001eb0390b0ff8846f78a46ff988bc88a46fb982bc19933c22bc28846fc3846f97c03e9fd008a46f9d0e08bc82a46fc8846fd884efb8a46f92a46fcd0e08846fa8a46f60046ff0ac07e0c8a46ffb10298f6f90ae47412807ef6007d328a46ffb10298f6f90ae47426a00e5c508a46ffb10298f6f9508a46fe98f6f9509af000cc02509afe288a073d01001bf6f7de0bf6747d807efd007d068a46fbeb6f90807ef7007e0c8a46feb10298f6f90ae47512807ef7007d4d8a46feb10298f6f90ae47541807ef7007d1aa00e5c508a46ffb10298f6f9508a46fe9848992bc2d1f8eb1490a00e5c508a46ffb10298f6f9508a46fe98f6f9509af000cc02509ac8288a078bf08a46f70046fe8a46fa0046fdfe4efc7503e9ff000bf67403e922ffe9f500908a46fcd0e08bc82a46f98846fd884efb8a46fc2a46f9d0e08846fa807ef7007e0c8a46feb10298f6f90ae47512807ef7007d4c8a46feb10298f6f90ae47540807ef7007d19a00e5c508a46ffb10298f6f9508a46fe9848992bc2d1f8eb13a00e5c508a46ffb10298f6f9508a46fe98f6f9509af000cc02509ac8288a078bf00bf674658a46f70046fe807efd007d058a46fbeb518a46f60046ff0ac07e0c8a46ffb10298f6f90ae47412807ef6007d328a46ffb10298f6f90ae47426a00e5c508a46ffb10298f6f9508a46fe98f6f9509af000cc02509afe288a073d01001bf6f7de8a46fa0046fdfe4ef974070bf67403e927ff0bf674369a2e0a44230bc07503e959fda00a5c38064a5c7411807ef7007e05bf0200eb19bf0300eb1490807ef6007e06bf0100eb08902bffeb03bfffff8bc75e5f8be55dcb90",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_visibility",
+      "sha256": "cbf68e4217fcf4b86a10a696110bc919b4660508295ddce8fcabb21d5077c123",
+      "size": 762,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0416 retf 2",
+      "boundary_evidence": [
+        "Original linear extent [03be,041a) and decoded tail: pop di mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 0cb5."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 251973,
+          "image_offset": 3253,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3252,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:03be",
+      "offset": 958,
+      "original_bytes_hex": "558bec83ec0257568b7606b074f6260e5c8bd8b017f62e005c8bf88a81fa448846ff8a4c018ad82aff388ff01c7e05bf0100eb1d8a5eff2aff8a44013887fc1c7f042bffeb0bb80100509a9000611f8bf88bc75e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "chomp_again",
+      "sha256": "ae54d86f65ee2703f7c565eafa48b31e502b35d9ce0baaa6d1ff6b86fa7e8b6f",
+      "size": 92,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near-pointer argument at BP+6; RETF 2, returns the pointer in AX; SI saved.",
+      "boundary_evidence": [
+        "Original linear extent [041a,04b4) and decoded tail: mov ax, si pop si mov sp, bp pop bp retf 2.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:041a",
+      "offset": 1050,
+      "original_bytes_hex": "558bec568b7606807c0f00750fc6440f05a05f00a2065c9aa207cc02803e065c0b7545803e115c007d36807c11007f10c74405aa00c744070000c64411ffeb10c74405af00c744070000c706245c0600c606105c01b84700509ace01d70deb31c606105c00eb2a90a0095c988bd8d1e38b87860d051e00a3025cc606015cffc744058200c7440700002ac0a2105c8844118bc65e8be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_add_opponent",
+      "sha256": "1263b87db0ce6ad55c00d27352551b324fc85a5180b9daaa736535b9ebac953b",
+      "size": 154,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 06a9 retf 2",
+      "boundary_evidence": [
+        "Original linear extent [04b4,06ac) and decoded tail: pop si pop di mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 0ee1."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252529,
+          "image_offset": 3809,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3808,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:04b4",
+      "offset": 1204,
+      "original_bytes_hex": "558bec83ec025756813e195c8c007503e9dd01813e195c98007503e9d201813e195c9c007503e9c701813e195ca2007503e9bc01813e195c93007c12813e195c97007f0aff76060ee86105e9a201813e075c96007423813e075ca500741b813e075ca6007413813e075c9e00740b813e075cad007403e977010ee893fb8bf083feff7503e94b018b7e06c6450301a0495c988bc8a0095c982bc19933c22bc28846ffa04a5c988bc8a00a5c982bc19933c22bc28846fe0ac07560807eff02735aa1025c3906425c7f052bc9eb0490b90100807eff007433510ee844010bc0752a813e195ca6007503e90501ff36045cb80f00500ee8f50b0bc07503e9f200b8a600509a1600da25e9e600813e195c93007503e9db00b89300ebe7807eff00752e807efe017528560ee8f5000bc0741fa00a5c38064a5c7d06b98f00eb0490b990003b0e195c7503e9a60051ebb59083fe047513807eff007587807efe007503e98e00e97bff90a04a5c884502a0495c88450183fe03740583fe027519560ee89f000bc07510a1025c3906425c7f042bf6eb03be0100560ee886000bc0742283fe037505be8f00eb2083fe027505be9000eb16be8e000ee85b029aa207cc02eb08bea6009a4409cc023936195c742256e930ff8b7606807c03007410c6440300a0495c884401a04a5c884402560ee844055e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_attack_prog",
+      "sha256": "302eb4010d5ebafa58f67c50519652093f5c9bd4dcaa0fc4281c19c9efe22f69",
+      "size": 504,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 06bf retf, 06d3 retf",
+      "boundary_evidence": [
+        "Original linear extent [06ac,06d4) and decoded tail: call 0xf20 mov si, 0x99 mov ax, si pop si retf.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:06ac",
+      "offset": 1708,
+      "original_bytes_hex": "56b001509a4e09cc020bc07407be9a008bc65ecbb85700509ace01d70d0ee85308be99008bc65ecb",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_blocked",
+      "sha256": "4a75aa449b279d5322382148fe6c4ed6bf148bdfebe7c2daa59699341d0f3256",
+      "size": 40,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 07fc retf 2",
+      "boundary_evidence": [
+        "Original linear extent [06d4,0800) and decoded tail: pop si mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 058d, 05dc, 0632, 064b, 0c1e, 0c4e, 0db9."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250141,
+          "image_offset": 1421,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1420,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 250220,
+          "image_offset": 1500,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1499,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 250306,
+          "image_offset": 1586,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1585,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 250331,
+          "image_offset": 1611,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1610,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251822,
+          "image_offset": 3102,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3101,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251870,
+          "image_offset": 3150,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3149,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 252233,
+          "image_offset": 3513,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3512,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:06d4",
+      "offset": 1748,
+      "original_bytes_hex": "558bec83ec02562bf68b46060bc0741248745f487503e9b300487503e9d100e90001803e095cff7d03e9f6000ee82e0a0bc07403e9eb00a00e5c50a0095cfec850a00a5c509af000cc028846ff509afe288a070bc07403e9c800807eff04750c9aa20802280bc07403e9b600be0100e9b000803e095c0a7e03e9a6000ee8de090bc07403e99b00a00e5c50a0095cfec050a00a5c509af000cc028846ff509afe288a070bc0757b807eff0475099aa20802280bc0756ca00e5c50a0095c50a00a5c509af000cc023c04eb9390803e0a5c02744fff36025cb80800500ee8b5090bc0743fa00e5c50a0095c50a00a5ceb24803e0a5c00742bff36025cb80800500ee891090bc0741ba00e5c50a0095c50a00a5cfec8509af000cc02509ac8288a078bf08bc65e8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_clear_in_dir",
+      "sha256": "93e3a20a27eb641ced4e7c9c5b40aec897531f8fbe53cf991c02876f20dfe2a7",
+      "size": 300,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0813 retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0800,0816) and decoded tail: call 0xba0 mov word ptr [0x5c24], 0 mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 0f14."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252580,
+          "image_offset": 3860,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3859,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0800",
+      "offset": 2048,
+      "original_bytes_hex": "558becff76060ee89603c706245c00008be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_done_attacking_kid",
+      "sha256": "5f494cb944912d81276e7e8a6d295c71422bcdeee93b649e0a4c9caff7a764e0",
+      "size": 22,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 08c4 retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0816,08c8) and decoded tail: pop di mov sp, bp pop bp retf 2 nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0816",
+      "offset": 2070,
+      "original_bytes_hex": "558bec5756bfffff833e245c017503e99500a0706250a0746250a07562509a441002288bf083fe057d7d3976067f7883fe057d73a17e62f7d83bc67f6a83eef2f7de569a6003cc02a3025c803e115c007d0e813e195c99007406bf9d00eb4890813e195ca400743f813e075cbf007726bfa4009a2a11cc02988bd8d1e38b87860d050e00a3025c803e015cff75118306025c20eb0a90b89100509a1600da25b064509a4e09cc028bc75e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_enemy_collide",
+      "sha256": "2d50789fc210aabec35cebd3ea6d5fb78a459176ffe03a0e4e9a15e22978ef71",
+      "size": 178,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument no-result routine, two plain RETF exits.",
+      "boundary_evidence": [
+        "Original linear extent [08c8,0904) and decoded tail: lcall 0x2cc, 0x360 mov word ptr [0x5c02], ax mov byte ptr [0x5c01], 0xff retf nop.",
+        "PUSH CS; near call sources in this overlay: 066a, 0b55."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250362,
+          "image_offset": 1642,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1641,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251621,
+          "image_offset": 2901,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2900,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:08c8",
+      "offset": 2248,
+      "original_bytes_hex": "a0095c3806495c7e19803e015c00742ab8f2ff509a6003cc02a3025cc606015c00cb803e015cff7411b8f2ff509a6003cc02a3025cc606015cffcb90",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_face_kid",
+      "sha256": "23f6b2c69263536062f882066149066491b4ec4f25edd201fcabb3d7629d8797",
+      "size": 60,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0a5c retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0904,0a60) and decoded tail: pop di mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 0ee8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252536,
+          "image_offset": 3816,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3815,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0904",
+      "offset": 2308,
+      "original_bytes_hex": "558bec5756813e195c99007503e92e01813e195c9f0075748b7606a0095c3844017403e9f000ff36025cb80200500ee832080bc07503e9dd00a00a5c38064a5c751ea0495c988bc8a0095c982bc19933c22bc23d03007d08560ee8cb01e9b600b8a000509a1600da25b074f6260e5c8bd8b017f62e005c8bf88a99fa442affd1e38b87081d894403e98b0090a00a5c38064a5c7539a0495c988bc8a0095c982bc19933c22bc23d03007d23803e525c00741c833e595c46750f833e475c00740e813e475cdf007306ff7606eb8c908b5e06ff4f037540803e525c007429833e595c46750f833e475c00741b813e475cdf0073130ee8c9f640740cff76060ee82701b8a200eb0aff76060ee88f01b8a300509a1600da258b5e06807f05007534b86727509a448401110bc075278b5e06c6470501b89200509ab001d70deb15833e245c02750ec606235c00b89f00509a1600da255e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_flee_prog",
+      "sha256": "71599693c8f3092788466724da35bd9370a068ee6319937dd34794db14c4113c",
+      "size": 348,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near record pointer at BP+6; RETF 2; SI and DI saved.",
+      "boundary_evidence": [
+        "Original linear extent [0a60,0b2c) and decoded tail: pop di mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 04fc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 249996,
+          "image_offset": 1276,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1275,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0a60",
+      "offset": 2656,
+      "original_bytes_hex": "558bec83ec025756813e195c93007413813e195c9000740b813e195c8f007403e9a000803e505c01750abfe7ffc746fe0000eb08bffdffc746fe1e009aac1ccc028bf0a00a5c38064a5c752c3bfe7f283976fe7c238b76069a4409cc02b80100509a9000611f059600509a1600da25c60403c6440101eb4b803e505c017505b8ddffeb03b8f3ff3bc67e16813e195c9300750e9a4409cc02b89c00509a1600da258d44c03b46fe7f1aa00a5c38064a5c7511813e195c90007409b85a00509ace01d70d5e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_focus_on_neck",
+      "sha256": "7f77cdc268c4f6b415cb1957c1939fee310d29d3d062d2b3a6c455074c79d11f",
+      "size": 204,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0b9d retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0b2c,0ba0) and decoded tail: lcall 0xdd7, 0x1ce pop si mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 095e, 0a02, 0eb4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 251118,
+          "image_offset": 2398,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2397,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251282,
+          "image_offset": 2562,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2561,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 252484,
+          "image_offset": 3764,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3763,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0b2c",
+      "offset": 2860,
+      "original_bytes_hex": "558bec568b7606c60401a04a5c884402a0495c884401c6440301b88c00509a1600da259a4409cc020ee870fdc606235c03c606105c01803e795cff75279af61ccc02a0005c50a0125c9850a0135c98509ac8258a07a0005c509a421dcc02a0005ca2795cb85700509ace01d70d5e8be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_get_angry",
+      "sha256": "48b017f0f6ad3637506d16b6040ddea6abfc3c5726ba556b56b070e4be282f86",
+      "size": 116,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near record pointer at BP+6; RETF 2.",
+      "boundary_evidence": [
+        "Original linear extent [0ba0,0be8) and decoded tail: lcall 0x2cc, 0x7a2 mov byte ptr [0x5c23], 0 mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 0807, 0a0e, 0c70."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250775,
+          "image_offset": 2055,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2054,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251294,
+          "image_offset": 2574,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2573,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 251904,
+          "image_offset": 3184,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3183,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0ba0",
+      "offset": 2976,
+      "original_bytes_hex": "558bec2ac08b5e068807a2105c9a4409cc02b88b00509a1600da259a7410cc02509ac010cc02a2095c988bd8d1e38b87860d051e00a3025c9aa207cc02c606235c008be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_get_peaceful",
+      "sha256": "4017d7e0d198ef26bd45067fd650ac067eab04e4a91093023647b7accedc6539",
+      "size": 72,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0c7a retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0be8,0c7e) and decoded tail: pop di mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 06a1."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250417,
+          "image_offset": 1697,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1696,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0be8",
+      "offset": 3048,
+      "original_bytes_hex": "558bec57562bf6a0095c8b5e063847017508a00a5c3847027466a00a5c38470274297e0ab90200bf9000eb089090b90300bf8f00510ee8b3fa8bf00bf6740c393e195c7406579a1600da250bf67531a0095c8b5e0638470174267e06bf0100eb03902bff570ee883fa8bf00bf67411813e195c8e007409b88e00509a1600da250bf67507ff76060ee82dff8bc65e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_go_to_dest",
+      "sha256": "62121fa6fd0d8d976670ac77fd72c342d68435c361bf39220b67587eb3d3511b",
+      "size": 150,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0d4e retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0c7e,0d52) and decoded tail: pop si mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 0f0d."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252573,
+          "image_offset": 3853,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3852,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0c7e",
+      "offset": 3198,
+      "original_bytes_hex": "558bec83ec0256c746fe0000813e195c9600750f813e075ca7007507833e245c017510813e195c97007579813e075ca6007571ff76060ee806f70bc0744c803e515c007d238b5e06fe4701813e195c96007507b80100eb0490902bc0059600509a1600da25eb3d90a00e5c2ae450a0005c98509ab40844238bf00bf67426807c040b7220b8a500ebd690b89800509a1600da25b8f8ff509a6003cc02a3025cc746fe0100837efe007510813e195c9e007408813e195c9d0075128b5e06c60701a0495c884701a04a5c8847025e8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_locked_prog",
+      "sha256": "b59aa4de8c6c89f9f930217d2e25b005e496d7651bc41d4f985e71482d86dfda",
+      "size": 212,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument no-result empty routine, plain RETF.",
+      "boundary_evidence": [
+        "Original linear extent [0d52,0d54) and decoded tail: retf nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns.",
+        "The preceding RETF 2 and alignment NOP end at 0d52. This RETF is a separate empty routine before the DI/SI saves at 0d54; the same empty slot appears at FM Towns 15c1:0faa between HeadLockedProg and HeadPeacefulProg."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0d52",
+      "offset": 3410,
+      "original_bytes_hex": "cb90",
+      "original_name": "HeadOnAlert",
+      "original_name_evidence": [
+        "FM Towns 15c1:0faa is a single RETF in the same source slot."
+      ],
+      "segment": 11326,
+      "semantic_name_hypothesis": "unused_head_alert",
+      "sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "size": 2,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0e01 retf 2",
+      "boundary_evidence": [
+        "Original linear extent [0d54,0e04) and decoded tail: push di lcall 0x25da, 0x16 pop si pop di retf 2.",
+        "PUSH CS; near call sources in this overlay: 0ebc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252492,
+          "image_offset": 3772,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3771,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0d54",
+      "offset": 3412,
+      "original_bytes_hex": "5756813e075c96007403e99e00b80300509a9000611f8bf083fe037531813e195c83007c0d813e195c85007f052bf6eb2d90813e195c86007c0e813e195c88007f06be0100eb1790beffffeb119083fe02750bb80100509a9000611f03f083feff7448560ee818f90bc0743f83fe037505bf8900eb2f83fe027505bf8a00eb250bf67512b80200509a9000611f8bf881c78300eb1090b80200509a9000611f8bf881c78600579a1600da255e5fca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_peaceful_prog",
+      "sha256": "8e4c3dd1666ff7405f403bc188fdebae2a7fcf1fcb69f3b495106b6157cdf187",
+      "size": 176,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 0f1e retf",
+      "boundary_evidence": [
+        "Original linear extent [0e04,0f20) and decoded tail: lcall 0x2cc, 0x88c pop si pop di retf nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0e04",
+      "offset": 3588,
+      "original_bytes_hex": "5756803e115c007c03e90c01a00e5c2ae450a0005c98509ab40844238bf80bff7503e9f3008d7511a0005c509a6a08cc029a9602cc02833e105eff740ba1105ea358629aca0902288a04980bc0741348746c487503e98a00487503e98c00e9b20090803e525c00744d833e595c46750f833e475c00743f813e475cdf007337813e075c96007420813e075ca5007418813e075ca6007410813e075c9e007408813e075cad00750f0ee815f2407408560ee875fceb5e90560ee895feeb5690803e525c007449833e595c46750f833e475c00743b813e475cdf007333560ee8d0f5eb31560ee819faeb2a90803e525c00741d833e595c46750f833e475c00740f813e475cdf007307560ee86efdeb05560ee8e9f89a8c08cc025e5fcb90",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_prog",
+      "sha256": "6e3c31b0fdd22da26a2d43ead103eade38e2778620fd2effcd8b58ccbe505c5f",
+      "size": 284,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 109f retf",
+      "boundary_evidence": [
+        "Original linear extent [0f20,10a0) and decoded tail: pop si pop di mov sp, bp pop bp retf.",
+        "PUSH CS; near call sources in this overlay: 06ca."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250458,
+          "image_offset": 1738,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1737,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:0f20",
+      "offset": 3872,
+      "original_bytes_hex": "558bec83ec045756b074f6260e5c8bd8b017f62e005c8bf08a80fa448846ffa00e5c500ee859010bc07503e948018a46ffb1032ae4f6f12ae440509a9000611f0bc07403e92f01803e015c007507803e095c037d19803e015cff7403e91701a0095c980503003d0a007e03e90801be0100a0095c8846fe98803e015c011bff83e7f583c70a3bf874480bf67444a00e5c508a46fe50a00a5c509af000cc028846ff509a500202280bc07411807eff0475099aa20802280bc074022bf6a0015c988bd88a877b0d0046fe8a46fe983bc775b80bf6752ba0095c988bc8a0015c988bd88a87790dd0e00046fe8a46fe982bc19933c22bc23d03007c13be0100eb0e90a0015c988bd88a87790d0046fe0bf67467c606105c00c606235c01a00e5c2ae450a0005c98509ab40844238bd8c64711028a46fe884712a00a5c884713c74714ffffc64716009af61ccc02a0005c502bc050a0135c98509ac8258a07a0005c509a421dcc02a0005c3806795c750ac606795cffeb03902bf68bc65e5f8be55dcb",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "head_set_to_flee_mode",
+      "sha256": "80a9b5d29c056bc726044e4476d167d52aa4defb58e50b5bdcc4e3dc6aaf370f",
+      "size": 384,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 10fe retf 2",
+      "boundary_evidence": [
+        "Original linear extent [10a0,1102) and decoded tail: pop si mov sp, bp pop bp retf 2 nop.",
+        "PUSH CS; near call sources in this overlay: 0f44."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 252628,
+          "image_offset": 3908,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3907,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:10a0",
+      "offset": 4256,
+      "original_bytes_hex": "558bec83ec04568a46062ae48946fcb97400f7e98bd88a87f5448846fe3c017e35be0100c646ff008a46ff3846fe7e28ff76fc98509ab40844238bd8807f11027406b80100eb03902bc08bf0fe46ff0bc075d5eb03902bf68bc65e8be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "is_able_to_flee_in_room",
+      "sha256": "55fdc6294ec807635370ccaa142b01380ef0bdede112f60ff84aded152ddd9ac",
+      "size": 98,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal unsigned byte at BP+8, word slot at BP+6, word predicate in AX; RETF 4.",
+      "boundary_evidence": [
+        "Original linear extent [1102,1132) and decoded tail: pop si mov sp, bp pop bp retf 4 nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1102",
+      "offset": 4354,
+      "original_bytes_hex": "558bec568a46082ae450ff76069ab40844238bf00bf6740c807c11037506ba0100eb03902bd28bc25e8be55dca040090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "is_head_locked_on",
+      "sha256": "e6fee42b77dc2b4562b49dae615db8a744ff58d2c4a63124000357cd4b300644",
+      "size": 48,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 115a retf, 1167 retf",
+      "boundary_evidence": [
+        "Original linear extent [1132,1168) and decoded tail: jg 0x1154 sub dx, dx mov ax, dx pop si retf.",
+        "PUSH CS; near call sources in this overlay: 0701, 0751."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250513,
+          "image_offset": 1793,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1792,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 250593,
+          "image_offset": 1873,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1872,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1132",
+      "offset": 4402,
+      "original_bytes_hex": "56b03ff62e0a5c8bf083c625813e195c90007416813e195c8f0075143936045c7d0eba01008bc25ecb903936045c7ff22bd28bc25ecb",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "just_start_vertical_seq",
+      "sha256": "fc62bef8f90c5d2175428a587f62464c223d5e7e48ab58db85c64c8eb6739e5f",
+      "size": 54,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 1225 retf",
+      "boundary_evidence": [
+        "Original linear extent [11d6,1226) and decoded tail: push cs call 0x1366 lcall 0x2cc, 0x88c pop si retf.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:11d6",
+      "offset": 4566,
+      "original_bytes_hex": "56803e115c007d46a00e5c2ae450a0005c98509ab40844238bf00bf67430a0005c509a6a08cc02807c11007d170ee829040bc07407560ee81600eb0d560ee85b02eb0690560ee847019a8c08cc025ecb",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "snake_prog",
+      "sha256": "0b1747c3a6be0180d9de14431160acf9e2d4e9f345014ce307173a19f3e3af50",
+      "size": 80,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal one word stack slot, unused here; RETF 2, SI and DI saved.",
+      "boundary_evidence": [
+        "Original linear extent [1226,1366) and decoded tail: pop si pop di mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 120d."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 253341,
+          "image_offset": 4621,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4620,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1226",
+      "offset": 4646,
+      "original_bytes_hex": "558bec83ec0257562bff9aac1ccc028bf083fe0d7c6c83fe2d7f67813e075c16017459813e075c17017451813e195cb000751c833e475c017207833e475c0e763b833e475c317207833e475c38762d813e195cb0007503e9bd00813e195cad007503e9b200b8b000509a1600da25b84700509ace01d70de99d009090bf0100e99500813e195cb0007526833e475c017207833e475c0e760e833e475c317211833e475c38770a83fe0d7e0583fe327ccc813e195cb000751a813e475c87007212813e475c9500770a83fe0d7e0583fe2d7caa813e075c16017408813e075c1701753583fe0d7c0583fe317e2bb001509a3010cc028846ff509a04288a070bc0750d807eff077510f6067162807409b8b100509a1600da250bff741d813e195cad0074158d44e0509a6003cc02a3025cb8ad00509a1600da255e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "snake_attack",
+      "sha256": "21e908a9c8bd51be74676878ab231ab4dcdf1aa004ee0db0236decb46f11bbc6",
+      "size": 320,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 146f retf 2",
+      "boundary_evidence": [
+        "Original linear extent [1366,1472) and decoded tail: mov word ptr [0x5c24], 0 pop si mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 121c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 253356,
+          "image_offset": 4636,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4635,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1366",
+      "offset": 4966,
+      "original_bytes_hex": "558bec83ec04568b7606fe4c11807c11007e03e9ef00c64411ffa00e5c50a0095c50a00a5c50b0ff509aa214410b8846fea00e5c50a0095c50a00a5c50b001509aa214410b8846fd9ad809cc028846ffa00e5c38064e5c755ba00a5c38064a5c75528a46fe3806095c7e498a46fd3806095c7d40a0095c3806495c7c2f8a46ff509afe288a070bc0741a8a46ff509a04288a070bc0750d807eff07750ff6067162807408c606015c00eb0d90c606015cffeb0590f616015c8a46ff509afe288a070bc074318a46ff509a04288a070bc07524807eff077507f6067162807517b8aa00509a1600da25b82600509a6003cc02a3025ceb09b8ac00509a1600da25c706245c00005e8be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "snake_come_out_of_hole",
+      "sha256": "7513cd038cfa2f559dcbe42a38810246803af4f032710ee7c557f59db923218b",
+      "size": 268,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near record pointer at BP+6; RETF 2, SI saved.",
+      "boundary_evidence": [
+        "Original linear extent [1472,1630) and decoded tail: mov byte ptr [bx + 0x11], al pop si mov sp, bp pop bp retf 2.",
+        "PUSH CS; near call sources in this overlay: 1214."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 253348,
+          "image_offset": 4628,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4627,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1472",
+      "offset": 5234,
+      "original_bytes_hex": "558bec83ec0256803e515c007c2e813e195cb0007503e99e01813e075c16017503e99301813e075c17017503e98801b8b000509a1600da25e97c0190813e195cab007503e90f01813e195cac007503e90401833e245c097503e9fa009ad809cc02a07262240f3c0c7542a1025c2d9000b9200099f7f98bf283fe0e7d03e9370183fe127e03e92f01b810002bc68bf0803e015cff7504f7deeb0383c608569a6003cc02a3025cb8ab00eb8790813e195cb000747a813e195ca8007472813e075c1601746a813e075c17017462b001509a3010cc028846ff509a04288a070bc07403e9d300807eff07750af6067162807403e9c3008a46ff509afe288a070bc07503e92bff807eff07741d803e015c00750bc706245c0900e99d009090813e075cfe007403e99000b8a800e905ff90b001509a3010cc028846ff509a04288a070bc0750d807eff07756ef6067162807467b8b100e9dcfe833e245c0975309ad809cc028846ff9a8810cc028bf08a46ff509afe288a070bc0741483fe087d0fc706075c0801b8a800509a1600da25813e075c08017522c706245c0600803e235c027504b006eb0bb83c00509a9000611f04248b5e068847115e8be55dca0200",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "snake_go_into_hole",
+      "sha256": "6a380c8fd524e646794d9a82fed02002ee791d9b8b071a1643bee22fceb04997",
+      "size": 446,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far no-argument word predicate in AX, plain RETF.",
+      "boundary_evidence": [
+        "Original linear extent [1630,1668) and decoded tail: jg 0x1664 mov dx, 1 mov ax, dx retf nop.",
+        "PUSH CS; near call sources in this overlay: 1204."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 253332,
+          "image_offset": 4612,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4611,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1630",
+      "offset": 5680,
+      "original_bytes_hex": "2bd2813e195cab00742a803e235c027c23803e015c007509a0095c3806495c7d10803e015cff750ca0095c3806495c7f03ba01008bc2cb90",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "snake_slithering_toward_opp",
+      "sha256": "bd58d04b2010117384a00aed520a27f5c6ad6435002fd736d8eaccb71699999f",
+      "size": 56,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal near record pointer at BP+6; two RETF 2 exits.",
+      "boundary_evidence": [
+        "Original linear extent [1668,16f6) and decoded tail: mov byte ptr [bx + 0x11], al mov sp, bp pop bp retf 2 nop.",
+        "Original aligned procedure boundary, reviewed against the neighbouring returns."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-11:2c3e:1668",
+      "offset": 5736,
+      "original_bytes_hex": "558bec83ec02813e195cab007462833e245c09745bb001509a3010cc028846ff509a04288a070bc0755d807eff077507f6067162807550813e195cb0007410813e195ca8007408813e195caa007538a0015cf6d08b5e06884703b8e0ff509a6003cc028b5e068947018be55dca020090c706245c0600b83c00509a9000611f04248b5e068847118be55dca020090",
+      "original_name": null,
+      "segment": 11326,
+      "semantic_name_hypothesis": "snake_update_opp_info",
+      "sha256": "154576846cf34b5efd373e555ad0c73f05fe01506dac4553a5d48d881ef6befb",
+      "size": 142,
+      "space": "overlay-11",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 1bcb retf, 1bd8 retf",
+      "boundary_evidence": [
+        "Preceding routine ends at 1bb2. Separate BP frame at 1bb2; two paths read one of two tables from incoming AL and both end in RETF (1bcb, 1bd8); trailing NOP at 1bd9.",
+        "The following BP frame is called from overlay-11+0010."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:078a:1bb2",
+      "offset": 7090,
+      "original_bytes_hex": "558bec83ec0250f646fc80740d8ad883e37f8a87d4088be55dcb8a5efc2aff8a87c4088be55dcb90",
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "read_tile_type_from_al",
+      "sha256": "400aee3f80b95eccbf8d3040eaaf890ddf461fdf88b481b6f26a81249833df92",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry; 1c16 retf 4",
+      "boundary_evidence": [
+        "Original relocated CALL FAR at overlay-11+0010 (relocation 110), with two byte arguments in word slots.",
+        "Immediately follows 1bb2's RETF and NOP. Separate BP prologue and signed 23-byte record traversal return a near record pointer or zero. RETF 4 at 1c16, NOP at 1c19."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ada1b8a07",
+          "file_offset": 248736,
+          "image_offset": 16,
+          "kind": "far_call",
+          "relocated_segment_site": 19,
+          "relocation_index": 110,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Decoded original code and module or caller context."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:078a:1bda",
+      "offset": 7130,
+      "original_bytes_hex": "558bec83ec0257562bc92bd28b3e50620bff7e21be965e0bc9751a8a04384608750b8a460638440675038d4cfc83c617423bd77ce28bc15e5f8be55dca040090",
+      "original_name": null,
+      "segment": 1930,
+      "semantic_name_hypothesis": "find_sprite",
+      "sha256": "2a637f88db8764f6a7084cbc5a635d5defad537cc14a17cb47c4e84f8c147ada",
+      "size": 64,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
