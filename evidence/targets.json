@@ -36195,6 +36195,354 @@
       "size": 108,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near record pointer at BP+6, RETF 2. Forwards the argument to 0042.",
+      "boundary_evidence": [
+        "Previous no-argument vector entry 0000 ends at RETF 0006 and NOP 0007. A BP frame begins at 0008.",
+        "Conditional paths remain within [0008,0042); their common RETF 2 is at 003e, with original NOP 0041 before the accepted 0042 frame.",
+        "Reviewed 0064 CFG reaches PUSH CS 0295 and CALL 0296 to 0008. Overlay-12 relocated CALL FARs 1073 and 1803 also encode 2344:0008 (indices 6 and 7). No relocation touches the extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 185430,
+          "image_offset": 662,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 661,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 259427,
+          "image_offset": 4211,
+          "kind": "far_call",
+          "relocated_segment_site": 4214,
+          "space": "overlay-12"
+        },
+        {
+          "file_offset": 261363,
+          "image_offset": 6147,
+          "kind": "far_call",
+          "relocated_segment_site": 6150,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the two current opponent life bytes based on the actor kind and state, after initializing maximum life."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0008",
+      "offset": 8,
+      "segment": 9028,
+      "semantic_name_hypothesis": "set_opponent_life",
+      "sha256": "21f6beabd5b5760a8172e4d23639c93ff7d9cc622dde260e443f577406f3771c",
+      "size": 58,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal. Unsigned room byte at BP+8, column byte at BP+6. Near pointer in AX, RETF 4.",
+      "boundary_evidence": [
+        "Previous BP-framed routine ends with RETF 4 at 0c6b. New BP frame at 0c6e and next BP frame at 0cbe.",
+        "Entry tests a signed count and loops from 0c8d, with both early-exit branches and exhausted loop reaching the common return at 0cbb. No relocation touches the extent.",
+        "Original root CALL FARs at debe and e47d push DS:5c0e then DS:5c0a and encode 2344:0c6e (MZ indices 1134 and 1135). These calls alone do not disambiguate the overlay. AUTO caller 0a6d uses PUSH CS at 0a6c. Overlay-3 site records bracket the extent in frame 2344."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 65214,
+          "image_offset": 57022,
+          "kind": "far_call",
+          "relocated_segment_site": 57025,
+          "space": "root"
+        },
+        {
+          "file_offset": 66685,
+          "image_offset": 58493,
+          "kind": "far_call",
+          "relocated_segment_site": 58496,
+          "space": "root"
+        },
+        {
+          "file_offset": 187437,
+          "image_offset": 2669,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2668,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Scans generator points in the room until a row/column match is found, returning the near pointer or zero."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0c6e",
+      "offset": 3182,
+      "segment": 9028,
+      "semantic_name_hypothesis": "find_active_generator",
+      "sha256": "243385327a85b1cf3c1aed33e41f2d925f0bf082c8a860e5fe769a714552e48f",
+      "size": 80,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal. Near generator pointer at BP+8, signed byte argument at BP+6. AX boolean, RETF 4.",
+      "boundary_evidence": [
+        "Previous RETF 4 at 0cbb ends at the BP frame at 0cbe. Next BP frame at 0d00.",
+        "All conditional paths remain inside the extent and converge on RETF 4 at 0cfc, followed by NOP 0cff. No original relocation touches the extent.",
+        "PUSH CS at 0ca0 and E8 at 0ca1 in 0c6e target 0cbe after pushing the near record pointer and a byte in a word slot."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 188001,
+          "image_offset": 3233,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3232,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks either column field, absolute row separation greater than two, and a nonzero enable byte."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0cbe",
+      "offset": 3262,
+      "segment": 9028,
+      "semantic_name_hypothesis": "is_active_generator",
+      "sha256": "2b64578460f5f11476f03ad07ab3f3db1424d1fdafe1c739e0e398bf86614a2e",
+      "size": 66,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal. Unsigned room byte at BP+8, signed index byte at BP+6. Near pointer in AX, RETF 4.",
+      "boundary_evidence": [
+        "Previous routine returns with RETF 4 at 0e0f. The BP frame at 0e12 branches only within the extent to a single RETF 4 at 0e4e and NOP 0e51. Next BP frame starts 0e52.",
+        "In 0c6e and 0e52, PUSH CS / CALL pairs at 0c95/0c96 and 0e7e/0e7f target 0e12 after pushing two Pascal byte slots. No original relocation touches the extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 187990,
+          "image_offset": 3222,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3221,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 188479,
+          "image_offset": 3711,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 3710,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Returns a ten-byte generator entry in a 34-byte room record if the room is nonzero and index is below its count."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0e12",
+      "offset": 3602,
+      "segment": 9028,
+      "semantic_name_hypothesis": "get_generator",
+      "sha256": "8e6befa65a20cedc5f993e18dc6dd4a6d319d224787b086e778b1386348f7f0c",
+      "size": 64,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal. Near generator pointer at BP+8, unsigned room byte at BP+6. Boolean AX, RETF 4.",
+      "boundary_evidence": [
+        "RETF 4 at 0cfc and NOP 0cff precede new BP frame at 0d00. Following BP frame at 0e12.",
+        "Original E8 at 0a7c with PUSH CS at 0a7b reaches 0d00 after pushing a near record pointer and room byte. The CFG stays in the interval and joins at 0e08 for RETF 4 at 0e0f.",
+        "Relocated CALL FAR 0d5f encodes 0b41:14a2; overlay-3 relocation index 127 touches its segment at 0d62 and is the sole relocation in this interval."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 187452,
+          "image_offset": 2684,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2683,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks room occupancy, level, tick, and the position and count of nearby actors before allowing generation."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0d00",
+      "offset": 3328,
+      "segment": 9028,
+      "semantic_name_hypothesis": "should_generate",
+      "sha256": "763bf27213ad207844a06d6cf6fcf6509bacd17b4cf913142a126a9923303fdb",
+      "size": 274,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned room byte in BP+6 word slot. Boolean AX, RETF 2.",
+      "boundary_evidence": [
+        "Previous RETF 4 at 0e4e and NOP 0e51 precede new BP frame; RETF 2 at 0ea7 abuts next BP frame at 0eaa.",
+        "Original overlay-12 CALL FAR 0134 (relocation 22 at 0137) encodes 2344:0e52. Original overlay-3 site records bracket the extent. Internal paths all reach 0ea1 and the common return, and no relocation touches the interval."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 255524,
+          "image_offset": 308,
+          "kind": "far_call",
+          "relocated_segment_site": 311,
+          "space": "overlay-12"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the flag at generator entry offset 9 across the room generator list."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0e52",
+      "offset": 3666,
+      "segment": 9028,
+      "semantic_name_hypothesis": "generator_has_tumble",
+      "sha256": "49cb54e7861268b116b877139b77e459112e5db860e6c290cf394fb2188dead8",
+      "size": 88,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register-call hypothesis, actor byte in AL homed by PUSH AX; bare RETF on both exits.",
+      "boundary_evidence": [
+        "Previous RETF 2 at 0ea7 ends at the BP frame at 0eaa. Both exit sequences have RETF (0eda and 0f4d); next entry 0f4e starts with PUSH DI/PUSH SI.",
+        "Original 0064 reaches PUSH CS 01ef and E8 01f0 after loading AL directly. Root relocated CALL FARs at b015 and b007 and overlay-10 CALL FAR 0213 encode 2344:0eaa. No relocation touches the extent."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 185264,
+          "image_offset": 496,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 495,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 53269,
+          "image_offset": 45077,
+          "kind": "far_call",
+          "relocated_segment_site": 45080,
+          "space": "root"
+        },
+        {
+          "file_offset": 53255,
+          "image_offset": 45063,
+          "kind": "far_call",
+          "relocated_segment_site": 45066,
+          "space": "root"
+        },
+        {
+          "file_offset": 240947,
+          "image_offset": 531,
+          "kind": "far_call",
+          "relocated_segment_site": 534,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reserves one of two palette banks for the requested actor kind or selects the fixed bank mask."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0eaa",
+      "offset": 3754,
+      "segment": 9028,
+      "semantic_name_hypothesis": "reserve_opponent_bank",
+      "sha256": "fa6834ed787e8957eb1a5ba7f9b716f037236ca4d796901a60291cf521fb1218",
+      "size": 164,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), bare RETF, preserves DI and SI.",
+      "boundary_evidence": [
+        "The previous routine returns at 0f4d. New routine begins with PUSH DI/PUSH SI at 0f4e. Internal branches reach RETF at 0f81 or 0fad, immediately preceding the next frame at 0fae.",
+        "Original relocated CALL FARs at root+ea2e (index 1209) and overlay-10+0218 (index 72) encode 2344:0f4e.",
+        "Two calls at 0f7a and 0f9d target root:078a:2b0a; the original overlay-3 relocation indices in raw order are 37 and 38."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68142,
+          "image_offset": 59950,
+          "kind": "far_call",
+          "relocated_segment_site": 59953,
+          "space": "root"
+        },
+        {
+          "file_offset": 240952,
+          "image_offset": 536,
+          "kind": "far_call",
+          "relocated_segment_site": 539,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Installs the fixed palette bank or loads the palette for each occupied bank slot."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0f4e",
+      "offset": 3918,
+      "segment": 9028,
+      "semantic_name_hypothesis": "load_opponent_banks",
+      "sha256": "8e97bd017ada30250b7d384a7e334989031ca9a12219d913d89e930e9edabc92",
+      "size": 96,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal no-argument predicate, AX result and bare RETF.",
+      "boundary_evidence": [
+        "Previous original RETF bfb2 and NOP bfb3 precede the BP frame at bfb4. The original routine has a complete closed CFG, common RETF c074 and NOP c075. Independent frameless next routine starts c076.",
+        "Original root BP-framed procedure [bd2a,beff) reaches PUSH CS bdf7 and E8 bdf8 after a separate near call. The E8 decodes to bfb4 and the caller tests AX immediately afterward.",
+        "Original branch from c02b falls through to CMP byte ptr [BX+5cd1],0 at c02d, within the closed target extent. The operand is a potential independent v4 witness for AUTO 0d00."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56824,
+          "image_offset": 48632,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48631,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests nearby actors for a condition involving indexed record fields and row/column distances."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0ba4",
+      "offset": 2980,
+      "segment": 2881,
+      "semantic_name_hypothesis": "check_nearby_active_actor",
+      "sha256": "1771c10c6df4c7a854cf4a8ce0ec53dcab123f789a34f22f2e29d3f3cc542eb3",
+      "size": 194,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
