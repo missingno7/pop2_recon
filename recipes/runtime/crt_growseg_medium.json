@@ -1,0 +1,29 @@
+{
+  "archive_offset": 27520,
+  "binding": "evidence/bindings/crt_growseg_medium.json",
+  "binding_sha256": "738e58e43c6e595e558d912dc01258c2da8ab651c88a690a7052b5a975e4590d",
+  "boundary_evidence": [
+    "Complete independent medium-model growseg.asm OMF member (archive offset 27520, 476 bytes) whose whole 253-byte CODE segment lies at root 0x21328 (1fe6:14c8) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+  ],
+  "fixup_count": 4,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 476,
+  "member_sha256": "02272699e2e1a6446eca555281b3874651a454418487adf4f2841ddcbd78b13b",
+  "name": "crt_growseg_medium",
+  "object_segment": "_TEXT",
+  "offset": 5320,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "__incseg",
+    "__growseg",
+    "__findlast",
+    "__amblksiz"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 253,
+  "space": "root",
+  "target_sha256": "d81f66a6abec74388ed40bf49a38453df5a1072a54ed25f14e6f655186c60fb0"
+}

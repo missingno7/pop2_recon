@@ -1,0 +1,26 @@
+{
+  "archive_offset": 11328,
+  "binding": "evidence/bindings/crt_fmemcmp_medium.json",
+  "binding_sha256": "0eaf1e3c16ff67a26ee1261c587033c96d057edb4b71107cccdf70d65ee386a8",
+  "boundary_evidence": [
+    "Complete independent medium-model hmemcmp.asm OMF member (archive offset 11328, 248 bytes) whose whole 91-byte CODE segment lies at root 0x21c34 (1fe6:1dd4) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+  ],
+  "fixup_count": 2,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/libh.lib",
+  "library_sha256": "a4492e8f63da409d949643fd448f29e65e2cc9a8f2deea977372177bbe0ad818",
+  "member_extent": 248,
+  "member_sha256": "11cb5cd9503c270442d5b410eb584ec8f17e6234d355c8d44d094294551307c5",
+  "name": "crt_fmemcmp_medium",
+  "object_segment": "_TEXT",
+  "offset": 7636,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "__fmemcmp"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 91,
+  "space": "root",
+  "target_sha256": "ad9ce2b01cdf308c4f0836c8519ea524790908b86725daa870d5ca8986d892b8"
+}

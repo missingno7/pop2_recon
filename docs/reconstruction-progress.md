@@ -22,6 +22,11 @@ ownership is 2,682 bytes. There are 105 proven object fixup fields and 11/4,716
 covered original relocation records. Structural RTLink closure remains
 UNRECOVERED and behavior validation remains NOT_STARTED.
 
+2026-11-21: the [symbolic runtime mode](runtime-fixups.md) pins eighteen further
+fixup-bearing medium-model library members (2,529 bytes, 72 proven fields, 9
+relocations), placing and comparing their DGROUP storage; 28 more matched members
+stay refused with named blockers.
+
 These totals are a dated snapshot. `layout/manifest.json` is authoritative
 ownership; `python tools/validate.py` freshly checks it and writes the report,
 including metrics. `python tools/metrics.py` refreshes the diagnostic metrics

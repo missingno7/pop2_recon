@@ -1,0 +1,29 @@
+{
+  "archive_offset": 6976,
+  "binding": "evidence/bindings/crt_dosret_medium.json",
+  "binding_sha256": "51a479b9875a7e356fd00f7c0d8ec7bb0d3644cc2100a1b88e6d5529efdd9327",
+  "boundary_evidence": [
+    "Complete independent medium-model dos\\dosret.asm OMF member (archive offset 6976, 366 bytes) whose whole 85-byte CODE segment lies at root 0x2045c (1fe6:05fc) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+  ],
+  "fixup_count": 7,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 366,
+  "member_sha256": "cd1526b0f6398bdd10acd3b86252bab5984992706f0980e17c50f36a689c5a17",
+  "name": "crt_dosret_medium",
+  "object_segment": "_TEXT",
+  "offset": 1532,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "__dosret0",
+    "__maperror",
+    "__dosretax",
+    "__dosreturn"
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 85,
+  "space": "root",
+  "target_sha256": "0f84c970d8e1a694683bbe694670fadf4abc74373a80ba9accee62b58162eb83"
+}

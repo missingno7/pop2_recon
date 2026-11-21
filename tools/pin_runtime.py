@@ -26,7 +26,7 @@ def pin(recipe_path, *, verify_only=False):
     check_manifest(oracle, manifest)
     identifier = f"{recipe['space']}:{recipe['segment']:04x}:{recipe['offset']:04x}"
     require(all(o["target_id"] != identifier for o in manifest["owners"]), "Runtime target already owned")
-    report = verify_member(recipe, oracle)
+    report = verify_member(recipe, oracle, manifest)
     if verify_only:
         return report
     path = ROOT/"recipes/runtime"/(name+".json")
@@ -37,6 +37,8 @@ def pin(recipe_path, *, verify_only=False):
     owner.update(target_id=identifier, kind="PINNED_RUNTIME", state="PINNED_RUNTIME",
                  recipe=path.relative_to(ROOT).as_posix(), fixup_count=report["fixups"],
                  relocation_count=report["relocations"])
+    if report.get("relocation_indices"):
+        owner["relocation_indices"] = report["relocation_indices"]
     manifest["owners"].append(owner)
     publish(ROOT, {path: json_bytes(recipe)}, manifest_before, manifest,
             lambda: check_manifest(oracle, manifest))
@@ -50,7 +52,9 @@ def main():
     args = parser.parse_args()
     report = pin(args.recipe, verify_only=args.verify_only)
     print(f"{'Verified' if args.verify_only else 'Published'} {report['name']}: "
-          f"{report['size']} PINNED_RUNTIME bytes, {report['fixups']} proven fixups")
+          f"{report['size']} PINNED_RUNTIME bytes, {report['fixups']} proven fixups"
+          + (f", {report['relocations']} relocations" if report.get("relocations") else "")
+          + (f", {len(report['data_placements'])} placed DGROUP segments" if report.get("data_placements") else ""))
 
 
 if __name__ == "__main__":
