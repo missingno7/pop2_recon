@@ -470,8 +470,7 @@ void clean_cut(void)
         start_room_pass();
         wait_refresh();
         queued_track = room_sound_offset;
-        init_room_view();
-        finish_room_view();
+        init_room_view(); finish_room_view();
         wait_refresh();
         if (sound_enabled)
             set_room_view_mode(0);
@@ -544,7 +543,7 @@ int next_frame(void)
     result = run_kid();
     if (!result) {
         run_shadows();
-        if (*(volatile int *)&freeze_ticks == result) {
+        if (!freeze_ticks) {
             advance_guard_frame();
             check_guard_changes();
         }
@@ -558,11 +557,11 @@ int next_frame(void)
             wait_overlay_frame();
             check_clock();
             if (!remaining_minutes) {
-                result = -1;
                 lose_game();
                 game_request = 0;
-                return result;
+                result = -1;
             }
+            return result;
         }
     } else if (result != -1) {
         result = -2;

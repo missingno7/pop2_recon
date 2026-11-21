@@ -59579,6 +59579,123 @@
           "file_offset": 248107
         }
       ]
+    },
+    {
+      "abi": "far Pascal one far pointer, RETF 4",
+      "boundary_evidence": [
+        "Independent relocated root+9a3c and TOP root+ea38 CALLs enter the BP frame at 1268.",
+        "The message-active guard and text drawing paths converge at RETF 4 at 12db. The next entry and independent caller start at 12de.",
+        "Updates an on-screen message using the far string argument."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 47676,
+          "image_offset": 39484,
+          "kind": "far_call",
+          "relocated_segment_site": 39487,
+          "space": "root"
+        },
+        {
+          "file_offset": 68152,
+          "image_offset": 59960,
+          "kind": "far_call",
+          "relocated_segment_site": 59963,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates an on-screen message using the far string argument."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1268",
+      "offset": 4712,
+      "segment": 0,
+      "semantic_name_hypothesis": "show_message",
+      "sha256": "f196d9c3c7fea091269e9f54ea6f073d028f67fbcee9284f591c42ac3e5df5ad",
+      "size": 118,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original relocated root+ea04 and root+efa2 CALLs enter at 12e4 after RETF 18 and a NOP.",
+        "Three far calls and PUSH CS/CALL at 12f3/12f4 lead to the RETF at 12f7. A distinct BP frame starts at 12f8.",
+        "Runs the full-room construction and drawing sequence."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68100,
+          "image_offset": 59908,
+          "kind": "far_call",
+          "relocated_segment_site": 59911,
+          "space": "root"
+        },
+        {
+          "file_offset": 69538,
+          "image_offset": 61346,
+          "kind": "far_call",
+          "relocated_segment_site": 61349,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Runs the full-room construction and drawing sequence."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:078a:12e4",
+      "offset": 4836,
+      "segment": 1930,
+      "semantic_name_hypothesis": "draw_room",
+      "sha256": "924ad24dc73b74bd41667e83b1dfb62b676ca64a04de0cf9f65c19fb1ecd51ec",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Relocated root+2bee CALL (index 249) enters at 0432. Original 03fd/03fe PUSH CS/CALL enters the same address.",
+        "The interlude and ordinary-room branches converge at the final draw-pass update. RETF at 0504 and NOP at 0505 precede a BP frame at 0506.",
+        "Refreshes the active room or interlude and resets the drawing pass after a clean cut."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19438,
+          "image_offset": 11246,
+          "kind": "far_call",
+          "relocated_segment_site": 11249,
+          "space": "root"
+        },
+        {
+          "file_offset": 67934,
+          "image_offset": 59742,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 59741,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Refreshes the active room or interlude and resets the drawing pass after a clean cut."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0432",
+      "offset": 1074,
+      "segment": 3670,
+      "semantic_name_hypothesis": "clean_cut",
+      "sha256": "bc446d80d0d8720cb620c5f8b64031458c9cf34ff089f0947bc09df8e5778407",
+      "size": 212,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

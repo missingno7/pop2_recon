@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "d1431fe03c78d05af58f05fba16fd50eaf40ef6ef28a5cd06c4d955d7c9c18ee",
+  "binding_sha256": "7cd9e943785baa812154243b5161a5b3c44fa2e627ca36cccd147d58bd3daf08",
   "claims": [
     {
       "fixup_count": 16,
@@ -94,6 +94,38 @@
       "target_id": "root:0e56:03b0"
     },
     {
+      "fixup_count": 37,
+      "public": "CLEAN_CUT",
+      "relocation_indices": [
+        1150,
+        1187,
+        1203,
+        1209,
+        1217,
+        1233,
+        1235,
+        1236,
+        1237,
+        1238,
+        1239,
+        1240,
+        1241,
+        1242,
+        1243,
+        1251,
+        1252,
+        1258,
+        1259,
+        1306,
+        1319
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:0432"
+    },
+    {
       "fixup_count": 26,
       "public": "RUN_FRAMES",
       "relocation_indices": [
@@ -185,10 +217,6 @@
       "public": "SPECIAL_ENTRANCE"
     },
     {
-      "object_offset": 1068,
-      "public": "CLEAN_CUT"
-    },
-    {
       "object_offset": 1490,
       "public": "NEXT_FRAME"
     },
@@ -240,19 +268,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zd"
   ],
   "frame": 3670,
   "group_id": "group:top/top",
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "6903852fb9dbbec967ecd17d0150bfb978277c729d9c23c5dfbb0172401ab1f3",
+  "object_sha256": "530ec2fe4cca82641f45579deb0c1192eef63153aa399d42e629f6f7c4f2adbb",
   "origin": 58726,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "50ea79690c0225776fe9cff8ce0c649aeee536dcd3ae5da8bf63976d9fd588ad",
+  "source_sha256": "f3e979f09e763c56277e16437c04972ad20ab7fde9bac82689e805de02c1e9c7",
   "space": "root"
 }
