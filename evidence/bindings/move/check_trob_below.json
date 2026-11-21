@@ -1,14 +1,10 @@
 {
   "declarations": {
     "externals": [
-      "REDRAWBUF",
-      "MOVEBUF",
-      "FREDRAWBUF",
-      "FLOORBUF",
-      "HALFBUF",
-      "OBJBUF",
-      "TOPBUF",
-      "ZEROBUFFERS"
+      "CURRENT_TROB",
+      "VIEWED_ROOM",
+      "LOWER_ROOM",
+      "CHECK_TROB_BELOW"
     ],
     "groups": [
       {
@@ -24,7 +20,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "ZEROBUFFERS",
+        "name": "CHECK_TROB_BELOW",
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -39,7 +35,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 76,
+        "length": 74,
         "name": "UNIT_TEXT",
         "overlay": "",
         "use32": false
@@ -89,118 +85,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
-          "kind": "external",
-          "method": 6,
-          "name": "TOPBUF",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 66,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "TOPBUF",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 6,
-          "kind": "external",
-          "method": 6,
-          "name": "OBJBUF",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 56,
-      "self_relative": false,
-      "target": {
-        "index": 6,
-        "kind": "external",
-        "method": 6,
-        "name": "OBJBUF",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 5,
-          "kind": "external",
-          "method": 6,
-          "name": "HALFBUF",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 46,
-      "self_relative": false,
-      "target": {
-        "index": 5,
-        "kind": "external",
-        "method": 6,
-        "name": "HALFBUF",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 4,
-          "kind": "external",
-          "method": 6,
-          "name": "FLOORBUF",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 36,
-      "self_relative": false,
-      "target": {
-        "index": 4,
-        "kind": "external",
-        "method": 6,
-        "name": "FLOORBUF",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "FREDRAWBUF",
+          "name": "LOWER_ROOM",
           "zero_displacement": true
         }
       },
@@ -208,40 +96,13 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 26,
+      "segment_offset": 39,
       "self_relative": false,
       "target": {
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "FREDRAWBUF",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 2,
-          "kind": "external",
-          "method": 6,
-          "name": "MOVEBUF",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 16,
-      "self_relative": false,
-      "target": {
-        "index": 2,
-        "kind": "external",
-        "method": 6,
-        "name": "MOVEBUF",
+        "name": "LOWER_ROOM",
         "zero_displacement": true
       }
     },
@@ -254,7 +115,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "REDRAWBUF",
+          "name": "CURRENT_TROB",
           "zero_displacement": true
         }
       },
@@ -262,13 +123,94 @@
       "loc_type": 1,
       "segment": "UNIT_TEXT",
       "segment_index": 1,
-      "segment_offset": 4,
+      "segment_offset": 35,
       "self_relative": false,
       "target": {
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "REDRAWBUF",
+        "name": "CURRENT_TROB",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 2,
+          "kind": "external",
+          "method": 6,
+          "name": "VIEWED_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 17,
+      "self_relative": false,
+      "target": {
+        "index": 2,
+        "kind": "external",
+        "method": 6,
+        "name": "VIEWED_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "CURRENT_TROB",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 13,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_TROB",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 1,
+          "kind": "external",
+          "method": 6,
+          "name": "CURRENT_TROB",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 7,
+      "self_relative": false,
+      "target": {
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_TROB",
         "zero_displacement": true
       }
     }
@@ -289,112 +231,63 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "FLOORBUF": {
+    "CURRENT_TROB": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 25796,
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a0cf67",
+              "entry": "overlay-4:29cf:063e",
+              "image_offset": 1652,
+              "operand_offset": 1,
+              "space": "overlay-4"
+            }
+          ]
+        }
+      ],
+      "offset": 26574,
       "witnesses": [
         {
-          "bytes_hex": "83bfc46400",
-          "context": "cmp word ptr [bx + 0x64c4], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31524,
-          "operand_offset": 2,
+          "bytes_hex": "a0ce67",
+          "entry": "overlay-14:2dc2:054e",
+          "image_offset": 1391,
+          "operand_offset": 1,
+          "space": "overlay-14"
+        }
+      ]
+    },
+    "LOWER_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24119,
+      "witnesses": [
+        {
+          "bytes_hex": "a0375e",
+          "entry": "root:0000:1000",
+          "image_offset": 2190,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
     },
-    "FREDRAWBUF": {
+    "VIEWED_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 25406,
+      "offset": 24116,
       "witnesses": [
         {
-          "bytes_hex": "83bf3e6300",
-          "context": "cmp word ptr [bx + 0x633e], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31687,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "HALFBUF": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25736,
-      "witnesses": [
-        {
-          "bytes_hex": "83bf886400",
-          "context": "cmp word ptr [bx + 0x6488], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31540,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "MOVEBUF": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26096,
-      "witnesses": [
-        {
-          "bytes_hex": "83bff06500",
-          "context": "cmp word ptr [bx + 0x65f0], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31420,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "OBJBUF": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25706,
-      "witnesses": [
-        {
-          "bytes_hex": "80bf6a6400",
-          "context": "cmp byte ptr [bx + 0x646a], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31661,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "REDRAWBUF": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26396,
-      "witnesses": [
-        {
-          "bytes_hex": "83bf1c6700",
-          "context": "cmp word ptr [bx + 0x671c], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31384,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "TOPBUF": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26456,
-      "witnesses": [
-        {
-          "bytes_hex": "83bf586700",
-          "context": "cmp word ptr [bx + 0x6758], 0 reached from root:078a:12e4",
-          "entry": "root:078a:12e4",
-          "image_offset": 31759,
-          "operand_offset": 2,
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
     }
   },
-  "target_id": "group:move/zero_buffers",
+  "target_id": "group:move/check_trob_below",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }

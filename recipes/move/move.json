@@ -1,11 +1,29 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "0a789f15cdb6eecdc7242ae234e43d8a9c8ef5222b950662375cae00897d9766",
+  "binding_sha256": "fddc44c1b2dddc3d3d44e0bdc6f1b5a49b4749ea85fa7603b882cb22e87b93db",
   "claims": [
     {
       "fixup_count": 13,
       "public": "ANIMTROBS",
       "target_id": "root:0b41:000c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "ZEROBUFFERS",
+      "target_id": "root:0b41:1456"
+    },
+    {
+      "fixup_count": 2,
+      "public": "FIND_WALL_COLUMN",
+      "relocation_indices": [
+        1006,
+        1021
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:14a2"
     }
   ],
   "drafts": [
@@ -18,159 +36,243 @@
       "public": "REDRAW_TORCH"
     },
     {
-      "object_offset": 622,
+      "object_offset": 618,
       "public": "REDRAW_EXIT"
     },
     {
-      "object_offset": 714,
+      "object_offset": 706,
       "public": "REDRAW_FLASK"
     },
     {
-      "object_offset": 754,
+      "object_offset": 746,
       "public": "REDRAW_PLATE"
     },
     {
-      "object_offset": 812,
+      "object_offset": 806,
       "public": "REDRAW_LOOSE"
     },
     {
-      "object_offset": 896,
+      "object_offset": 886,
       "public": "REDRAW_GATE"
     },
     {
-      "object_offset": 1038,
+      "object_offset": 1024,
       "public": "REDRAW_TROB"
     },
     {
-      "object_offset": 1098,
+      "object_offset": 1082,
       "public": "COMPUTE_TROB_MOVE_RECT"
     },
     {
-      "object_offset": 1154,
+      "object_offset": 1138,
       "public": "CHECK_TROB"
     },
     {
-      "object_offset": 1218,
+      "object_offset": 1202,
       "public": "CHECK_TROB_VISIBILITY"
     },
     {
-      "object_offset": 1244,
+      "object_offset": 1228,
       "public": "CHECK_TROB_LEFT"
     },
     {
-      "object_offset": 1322,
+      "object_offset": 1306,
       "public": "CHECK_TROB_RIGHT"
     },
     {
-      "object_offset": 1456,
+      "object_offset": 1440,
       "public": "CHECK_TROB_ABOVE"
     },
     {
-      "object_offset": 1534,
+      "object_offset": 1518,
       "public": "CHECK_TROB_ABOVE_RIGHT"
     },
     {
-      "object_offset": 1688,
+      "object_offset": 1672,
       "public": "CHECK_TROB_BELOW"
     },
     {
-      "object_offset": 1762,
+      "object_offset": 1746,
       "public": "CHECK_FLOOR"
     },
     {
-      "object_offset": 1852,
+      "object_offset": 1836,
       "public": "CHECK_PRESS"
     },
     {
-      "object_offset": 2164,
+      "object_offset": 2148,
       "public": "ANIMATE_FLASK"
     },
     {
-      "object_offset": 2232,
+      "object_offset": 2216,
       "public": "ANIMATE_TORCH"
     },
     {
-      "object_offset": 2300,
+      "object_offset": 2284,
       "public": "ANIMATE_GATE"
     },
     {
-      "object_offset": 2778,
+      "object_offset": 2758,
       "public": "STOP_GATE"
     },
     {
-      "object_offset": 2892,
+      "object_offset": 2872,
       "public": "CHECK_GATE_FINGERS"
     },
     {
-      "object_offset": 2964,
+      "object_offset": 2944,
       "public": "DID_PLAYER_ESCAPE_GUARD"
     },
     {
-      "object_offset": 3170,
+      "object_offset": 3146,
       "public": "ANIMATE_EXIT"
     },
     {
-      "object_offset": 3328,
-      "public": "IS_EXIT_OPEN"
+      "object_offset": 3304,
+      "public": "ISEXITOPEN"
     },
     {
-      "object_offset": 3344,
+      "object_offset": 3320,
       "public": "GET_TORCH_FRAME"
     },
     {
-      "object_offset": 3382,
+      "object_offset": 3356,
+      "public": "MARK_TOP"
+    },
+    {
+      "object_offset": 3508,
+      "public": "MARK_MOVE"
+    },
+    {
+      "object_offset": 3584,
+      "public": "MARK_FLOOR"
+    },
+    {
+      "object_offset": 3652,
+      "public": "MARK_HALF"
+    },
+    {
+      "object_offset": 3706,
+      "public": "MARK_REDRAW"
+    },
+    {
+      "object_offset": 3748,
+      "public": "MARK_CELL_REDRAW"
+    },
+    {
+      "object_offset": 3842,
+      "public": "MARK_FOREGROUND"
+    },
+    {
+      "object_offset": 3910,
+      "public": "MARK_BUFS_FOR_RECT"
+    },
+    {
+      "object_offset": 4108,
+      "public": "MARK_GUARD_UPDATES"
+    },
+    {
+      "object_offset": 4190,
+      "public": "MARK_RECT_BUF"
+    },
+    {
+      "object_offset": 4300,
+      "public": "TRIGGER_LINK"
+    },
+    {
+      "object_offset": 4428,
+      "public": "TRIGGER_FLASK"
+    },
+    {
+      "object_offset": 4498,
+      "public": "TRIGGER_GATE"
+    },
+    {
+      "object_offset": 4770,
+      "public": "TRIGGER_OBJECT"
+    },
+    {
+      "object_offset": 5008,
+      "public": "TRIGGER_TORCH"
+    },
+    {
+      "object_offset": 5096,
+      "public": "ADD_TROB"
+    },
+    {
+      "object_offset": 5328,
+      "public": "GET_SLIDE_ROCK_X"
+    },
+    {
+      "object_offset": 5354,
       "public": "GET_LINK_NEXT"
     },
     {
-      "object_offset": 3406,
-      "public": "GET_LINK_TIMER"
+      "object_offset": 5378,
+      "public": "GETLINKTIMER"
     },
     {
-      "object_offset": 3430,
-      "public": "CHANGE_LINK_TIMER"
+      "object_offset": 5402,
+      "public": "CHANGELINKTIMER"
     },
     {
-      "object_offset": 3458,
+      "object_offset": 5430,
       "public": "GET_LINK_CELL"
     },
     {
-      "object_offset": 3482,
+      "object_offset": 5454,
       "public": "LINK_HAS_PREVIOUS"
     },
     {
-      "object_offset": 3516,
+      "object_offset": 5488,
       "public": "LINK_HAS_NEXT"
     },
     {
-      "object_offset": 3550,
+      "object_offset": 5522,
       "public": "GET_LINK_ROOM"
     },
     {
-      "object_offset": 3572,
+      "object_offset": 5544,
       "public": "ANIMATE_PLATE"
     },
     {
-      "object_offset": 3650,
+      "object_offset": 5622,
       "public": "ANIMATE_LOOSE_FLOOR"
     },
     {
-      "object_offset": 3830,
+      "object_offset": 5800,
+      "public": "MAKE_SPACE"
+    },
+    {
+      "object_offset": 5882,
       "public": "SELECT_TROB_CELL"
     },
     {
-      "object_offset": 3880,
+      "object_offset": 5932,
+      "public": "PASSTHRU"
+    },
+    {
+      "object_offset": 5972,
+      "public": "OPP_UNDER_MOB"
+    },
+    {
+      "object_offset": 6092,
+      "public": "ADD_GATE_SOUND"
+    },
+    {
+      "object_offset": 6174,
       "public": "GET_TROB_ROOM_CELL"
     },
     {
-      "object_offset": 3942,
+      "object_offset": 6236,
       "public": "GET_TROB_BY_ID"
     },
     {
-      "object_offset": 4016,
+      "object_offset": 6310,
       "public": "IS_VISIBLE_ROOM_CELL"
     }
   ],
-  "emitted_size": 4094,
+  "emitted_size": 6386,
   "flags": [
     "/c",
     "/AM",
@@ -186,12 +288,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "1f96f22d38bf925dfe7307eae419da92e8e6ae1131040011788f7139928bf823",
+  "object_sha256": "3e418b225e34f173585696b28a8ca82b6445babd2dd713ce1374efccadbcbeda",
   "origin": 46108,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "28705248e44e06604c29e0158f09641663db44e6daba976db5b921f04ee0b30c",
+  "source_sha256": "f4226f38cd131f45ec1868e9f0ee3c475325117ca75ce5c63285ed2b09c837ae",
   "space": "root"
 }

@@ -26189,6 +26189,221 @@
       "size": 24,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack parameters. Returns via RETF.",
+      "boundary_evidence": [
+        "AnimTrob has an original relocated CALL FAR at root+0xb582 to vector 2203:0db7, relocation 1061. The ten-byte vector at root+0x22de7 (e89ef7ea6806c22d0b00) uses descriptor 11 and its relocated JMP segment word (index 1992) names this exact overlay entry.",
+        "UnloadCarpetData restores SI, DI, SP and BP and returns at 0667.",
+        "The complete interval [0668,06c0) decodes. Direct branches remain inside the interval. RETF exits are at 069a, 06be. The following routine begins at 06c0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The low three animation bits advance toward 3 or return toward 0 depending on the active state. Endpoints set the active marker to -1. The two interior paths play 0x4e/0x4f at their endpoints and use the same-frame redraw at 0748."
+      ],
+      "classification_status": "Overlay game code",
+      "entry_kind": "direct-code",
+      "id": "overlay-13:2dc2:0668",
+      "offset": 1640,
+      "segment": 11714,
+      "sha256": "3c256caf67e5e66bfff679ebeb586e473d71c96446df685c0533ffc04923773f",
+      "size": 88,
+      "space": "overlay-13",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack parameters. Returns via RETF.",
+      "boundary_evidence": [
+        "AnimTrob has an original relocated CALL FAR at root+0xb5e2 to vector 2203:0e07, relocation 1018. The ten-byte vector at root+0x22e37 (e84ef7eae603c22d0d00) uses descriptor 13 and its relocated JMP segment word (index 2013) names this exact overlay entry.",
+        "IsAltarShadowActive restores its frame and returns at 03e4 followed by alignment NOP at 03e5.",
+        "The complete interval [03e6,0462) decodes. Direct branches remain inside the interval. RETF exits are at 0457, 0461. The following routine begins at 0462."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The routine checks for a live shape table and shape kind 0x20, chooses a frame from the flame state, and asks MOVE to invalidate the resulting rectangle. Failed guards set the active marker to -1."
+      ],
+      "classification_status": "Overlay game code",
+      "entry_kind": "direct-code",
+      "id": "overlay-15:2dc2:03e6",
+      "offset": 998,
+      "segment": 11714,
+      "sha256": "17c5c0b2ee1bba29c8143bbf18ee30d3ea3d30a0e0cd217334b8b06a7402534e",
+      "size": 124,
+      "space": "overlay-15",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no stack parameters. Returns via RETF.",
+      "boundary_evidence": [
+        "AnimTrob has an original relocated CALL FAR at root+0xb5ea to vector 2203:0dcb, relocation 997. The ten-byte vector at root+0x22dfb (e88af7ea4e05c22d0c00) uses descriptor 12 and its relocated JMP segment word (index 2006) names this exact overlay entry.",
+        "UnloadBridgeCode finishes its stack cleanup via the callee and returns at 054d.",
+        "The complete interval [054e,05d6) decodes. Direct branches remain inside the interval. RETF exits are at 05cb, 05d4. The following routine begins at 05d6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Level 5 and room 10 select the bridge-height animation, which computes a phase and calls the same-frame redraw at 0694 using the current cell. Failed guards set the active marker to -1."
+      ],
+      "classification_status": "Overlay game code",
+      "entry_kind": "direct-code",
+      "id": "overlay-14:2dc2:054e",
+      "offset": 1358,
+      "segment": 11714,
+      "sha256": "fa59e232e6ee0433d7f52bf236bd2a02673da61234f07c3474115de138f2e60c",
+      "size": 136,
+      "space": "overlay-14",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, signed cell byte in AL.",
+      "boundary_evidence": [
+        "BP frame at 0494, decoded shared far return and following independent entry at 04d4. All original direct branches stay inside the claim.",
+        "Direct RedrawFlask, RedrawLoose and RedrawTrob near calls select this entry. It maps lower-room bottom-row cells to the negative redraw row, and returns 30 for other off-screen cells."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 55037,
+          "image_offset": 46845,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46844,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 55145,
+          "image_offset": 46953,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46952,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 55367,
+          "image_offset": 47175,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 47174,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "CHECK_TROB. Direct RedrawFlask, RedrawLoose and RedrawTrob near calls select this entry. It maps lower-room bottom-row cells to the negative redraw row, and returns 30 for other off-screen cells."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0494",
+      "offset": 1172,
+      "segment": 2881,
+      "sha256": "589e4a8daebc276584c06204926df6bd14646fd64f7b83e71b84c3e1c27e9560",
+      "size": 64,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, signed cell byte in AL.",
+      "boundary_evidence": [
+        "BP frame at 04ee, decoded shared far return and following independent entry at 053c. All original direct branches stay inside the claim.",
+        "Shared 30 sentinel and modulo-10 boundary test implement the left neighbour transform. The preceding guard returns at 04ed and the relocated-call entry at 053c starts after its alignment NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "CHECK_TROB_LEFT. Shared 30 sentinel and modulo-10 boundary test implement the left neighbour transform. The preceding guard returns at 04ed and the relocated-call entry at 053c starts after its alignment NOP."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:04ee",
+      "offset": 1262,
+      "segment": 2881,
+      "sha256": "f56ec6cd0ff97fe301b40a4d887fc83355f6f5967a4e96ed91c5d6693ff4680b",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, signed cell byte in AL.",
+      "boundary_evidence": [
+        "BP frame at 05c2, decoded shared far return and following independent entry at 0610. All original direct branches stay inside the claim.",
+        "Same-file torch and exit redraw callers consume the result. The geometry tests top-row cells in the viewed and upper rooms and returns the negative row index or 30."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54874,
+          "image_offset": 46682,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46681,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 54981,
+          "image_offset": 46789,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46788,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "CHECK_TROB_ABOVE. Same-file torch and exit redraw callers consume the result. The geometry tests top-row cells in the viewed and upper rooms and returns the negative row index or 30."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:05c2",
+      "offset": 1474,
+      "segment": 2881,
+      "sha256": "860dad63477789862a4ddaa06d2fa4324daa40ea19ab6e64d8e177fa0d109ede",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments, signed cell byte in AL.",
+      "boundary_evidence": [
+        "BP frame at 06ae, decoded shared far return and following independent entry at 06f8. All original direct branches stay inside the claim.",
+        "A same-file RedrawLoose call and a relocated outside call enter the below-neighbour transform. It either adds a row or folds an adjacent-room bottom-row cell with remainder 10."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 214211,
+          "image_offset": 2291,
+          "kind": "far_call",
+          "relocated_segment_site": 2294,
+          "space": "overlay-5"
+        },
+        {
+          "file_offset": 55181,
+          "image_offset": 46989,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46988,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "CHECK_TROB_BELOW. A same-file RedrawLoose call and a relocated outside call enter the below-neighbour transform. It either adds a row or folds an adjacent-room bottom-row cell with remainder 10."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:06ae",
+      "offset": 1710,
+      "segment": 2881,
+      "sha256": "f74bb7c864b3a30649a71761942c516cec49f361817445c483039c48967ed1b8",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
