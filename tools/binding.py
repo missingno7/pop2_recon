@@ -253,8 +253,12 @@ def ground(binding, target, oracle, claimed=None):
     require(binding["target_id"] == target["id"] and
             binding["target_sha256"] == sha(oracle.data), "Binding belongs to another target/oracle")
     overlay_mode = binding["mode"] == "external-overlay-dgroup-offset16-v1"
+    # v4 proves offset bytes only (S + k with S grounded by original fields), so the owner may
+    # be resident or overlay code: the overlay runs with the same startup DGROUP in DS.
     require(target["space"] in oracle.spaces and
-            (target["space"].startswith("overlay-") if overlay_mode else target["space"] == "root"),
+            (target["space"].startswith("overlay-") if overlay_mode else
+             target["space"] == "root" or (binding["mode"] == OPERAND_MODE and
+                                           target["space"].startswith("overlay-"))),
             "Unsupported owner space for DGROUP binding mode")
     space = oracle.spaces["root"]
     start = oracle.spaces[target["space"]].position(target["segment"], target["offset"])
