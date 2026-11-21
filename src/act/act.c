@@ -124,10 +124,8 @@ void far pascal HitFloor(void)
     int sequence, hazard, fatal, hurt, sound, landed;
     int edge;
 
-    hazard = 0;
-    hurt = 0;
-    fatal = 0;
-    landed = 0;
+    hazard = 0; hurt = 0;
+    fatal = 0; landed = 0;
     fall_scream_started = 0;
     sound = -1;
 
@@ -136,8 +134,7 @@ void far pascal HitFloor(void)
     if (tile == 23 || tile == 24) {
         landed = 1;
     } else {
-        edge = get_edge_distance();
-        tile = get_cells_ahead(1);
+        edge = get_edge_distance(); tile = get_cells_ahead(1);
         if (actor_kind != 7 && actor_kind != 8 &&
             (is_six_kind(tile) || IsImpassable(tile)) && edge < 11)
             actor_x = AddCharX(edge - 13);
@@ -147,14 +144,12 @@ void far pascal HitFloor(void)
 
     tile = get_under_foot();
     if (landed || tile == 23 || tile == 24) {
-        land_on_hazard();
-        hazard = 1;
+        land_on_hazard(); hazard = 1;
     }
     if (!hazard) {
         if (falling_speed < 22) {
             if ((actor_kind >= 2 || floor_contact == 1) && actor_kind != 6) {
-                sequence = repeat_sequence_id == 186 ? 187 : 63;
-                floor_contact = 1;
+                sequence = repeat_sequence_id == 186 ? 187 : 63; floor_contact = 1;
             } else {
                 sequence = 17;
             }
@@ -165,24 +160,19 @@ void far pascal HitFloor(void)
             fatal = 1;
         } else if ((actor_kind != 1 && decrement_life_points(1)) ||
                    (actor_room == 11 && state_mode == 5 && actor_row >= 3)) {
-            hurt = 1;
-            decrement_life_points(100);
+            hurt = 1; decrement_life_points(100);
         } else {
-            sound = 16;
-            sequence = 20;
+            sound = 16; sequence = 20;
         }
 
         if (fatal) {
-            decrement_life_points(100);
-            hurt = 1;
+            decrement_life_points(100); hurt = 1;
         }
         if (hurt) {
             if (actor_kind == 4) {
-                play_guard_landing();
-                sequence = 112;
+                play_guard_landing(); sequence = 112;
             } else {
-                sound = 0;
-                sequence = 22;
+                sound = 0; sequence = 22;
             }
             set_actor_action(3);
             PutDeadBodyOnSolidGround();
@@ -191,9 +181,7 @@ void far pascal HitFloor(void)
             actor_x = AddCharX(6);
             sequence = 155;
         }
-        JumpSeq(sequence);
-        align_to_floor();
-        falling_speed = 0;
+        JumpSeq(sequence); align_to_floor(); falling_speed = 0;
         if (sound != -1) {
             AddSound(sound);
             if (actor_kind == 0)
@@ -387,8 +375,7 @@ void far pascal control_crawling(void)
                     JumpSeq(124);
                     direction_up = ClrAll();
                     if (gap < 6) {
-                        gap = 6 - gap;
-                        actor_x = AddCharX(gap);
+                        actor_x = AddCharX(-(gap -= 6));
                     }
                 }
             } else {
@@ -414,7 +401,7 @@ void far pascal control_crawling(void)
 void far pascal control_crouching(void)
 {
     signed char tile;
-    int edge, gap;
+    int edge, gap, delta;
     int sequence;
 
     if (state_mode == 4)
@@ -446,10 +433,11 @@ void far pascal control_crouching(void)
         if (tile == 7 && (tile_modifier & 3) == 3)
             goto step;
         tile = GetCellCol();
-        if (actor_direction == 0 && actor_x - (edge = cell_x[tile]) > 6) {
-            gap = edge - actor_x + 6;
-        } else if (actor_direction == -1 && (gap = actor_x - cell_x[tile + 1]) < 22) {
-            gap -= 22;
+        if (actor_direction == 0 && -((edge = cell_x[tile]) - actor_x) > 6) {
+            gap = edge - actor_x;
+            gap += 6;
+        } else if (actor_direction == -1 && (delta = actor_x - cell_x[tile + 1]) < 22) {
+            gap = delta - 22;
         } else {
             gap = 0;
         }
@@ -783,9 +771,7 @@ void far pascal step_forward(int distance)
     signed char edge_marker;
 
     step_in_progress = 1;
-    edge_marker = 1;
-    direction_forward = edge_marker;
-    direction_action = edge_marker;
+    edge_marker = 1; direction_forward = edge_marker; direction_action = edge_marker;
     if (!distance)
         distance = query_run_distance();
     if (running_collision == 1)
@@ -801,22 +787,19 @@ void far pascal step_forward(int distance)
 use_sequence:
                 distance = sequence;
             } else {
-                actor_x = AddCharX(1);
-                goto use_sequence;
+                actor_x = AddCharX(1); goto use_sequence;
             }
         } else {
             distance = 42;
         }
     } else if (crawl_latch &&
                (running_collision != 1 || forward_tile_kind == 12 || forward_tile_kind == 13)) {
-        crawl_latch = 0;
-        distance = 44;
+        crawl_latch = 0; distance = 44;
     } else {
         distance = 42;
     }
     if (distance != -1)
-        JumpSeq(distance);
-    step_in_progress = 0;
+        JumpSeq(distance); step_in_progress = 0;
 }
 
 struct tile_snapshot {
@@ -866,8 +849,7 @@ int far pascal pick_it_up(void)
             shift = actor_direction == 0 ? edge - 25 : edge - 17;
         else
             shift = actor_direction == 0 ? edge + 1 : edge + 15;
-        actor_x = AddCharX(shift);
-        crouch_actor();
+        actor_x = AddCharX(shift); crouch_actor();
     } else if (repeat_sequence_id == 50 ||
                (repeat_sequence_id != 20 && direction_action == -1)) {
         if (actor_direction == 0) {

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/act/act.json",
-  "binding_sha256": "fa529551b7c844334010e4ebeb6bfbf1171e4ebda7e24b66d3ff91417880909d",
+  "binding_sha256": "5a2dc7de8442fc305992ec1f66bf7ce81ff3e3d63dc7c9d9bf91551bd57bede0",
   "claims": [
     {
       "fixup_count": 1,
@@ -63,6 +63,34 @@
       "target_id": "overlay-3:25da:03d4"
     },
     {
+      "fixup_count": 48,
+      "public": "CONTROL_CRAWLING",
+      "relocation_indices": [
+        223,
+        224,
+        246,
+        247,
+        248,
+        278,
+        299,
+        300,
+        341,
+        389,
+        390,
+        391,
+        392,
+        416,
+        417,
+        418,
+        419
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:0650"
+    },
+    {
       "fixup_count": 29,
       "public": "CONTROL_DEAD",
       "relocation_indices": [
@@ -113,6 +141,31 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:25da:0c1e"
+    },
+    {
+      "fixup_count": 24,
+      "public": "ACTOR_DOWN",
+      "relocation_indices": [
+        186,
+        187,
+        208,
+        251,
+        263,
+        280,
+        281,
+        320,
+        321,
+        372,
+        373,
+        374,
+        421,
+        422
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:0c6c"
     },
     {
       "fixup_count": 11,
@@ -175,8 +228,10 @@
         335,
         399
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "overlay-3:25da:0eba"
     },
     {
@@ -224,6 +279,25 @@
       "fixup_count": 3,
       "public": "STANDING_JUMP",
       "target_id": "overlay-3:25da:1206"
+    },
+    {
+      "fixup_count": 21,
+      "public": "JUMP_UP",
+      "relocation_indices": [
+        173,
+        174,
+        180,
+        202,
+        264,
+        265,
+        348,
+        404
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:1218"
     },
     {
       "fixup_count": 12,
@@ -396,16 +470,8 @@
       "public": "GENCTRL"
     },
     {
-      "object_offset": 1602,
-      "public": "CONTROL_CRAWLING"
-    },
-    {
-      "object_offset": 2038,
+      "object_offset": 2036,
       "public": "CONTROL_CROUCHING"
-    },
-    {
-      "object_offset": 3166,
-      "public": "ACTOR_DOWN"
     },
     {
       "object_offset": 3380,
@@ -418,10 +484,6 @@
     {
       "object_offset": 4218,
       "public": "PICK_IT_UP"
-    },
-    {
-      "object_offset": 4618,
-      "public": "JUMP_UP"
     },
     {
       "object_offset": 4928,
@@ -483,19 +545,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zd"
   ],
   "frame": 9690,
   "group_id": "group:act/act",
   "kind": "same_source_group",
   "language": "c",
   "name": "act/act",
-  "object_sha256": "63eaac75989abb89a4093eb697480b5e8d1bca84f648ca48cb3663a31b9f1cee",
+  "object_sha256": "b17952ed6ffa3fca2a8dbd5a2b3d17694b4a62c239e9714fb72e18601289dfa0",
   "origin": 10606,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/act/act.c",
-  "source_sha256": "f7a68b748fd0cdda3b973a55abf74cc038ffa93f0b013140a1659c2d21de16ca",
+  "source_sha256": "34461e37d595ab9282123ddd79dd9733c91e146faa285b45da61dd8f7e6b148b",
   "space": "overlay-3"
 }

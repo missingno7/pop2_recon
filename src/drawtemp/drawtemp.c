@@ -315,6 +315,7 @@ void draw_temple_floor_detail(TempleCell *cell)
 }
 
 #pragma optimize("g", on)
+#pragma optimize("e", off)
 void draw_temple_gate(TempleCell *cell)
 {
     unsigned long draw = 0;
@@ -337,6 +338,7 @@ void draw_temple_gate(TempleCell *cell)
         draw_temple_gate_movable(cell);
     }
 }
+#pragma optimize("e", on)
 
 void draw_temple_gate_movable(TempleCell *cell)
 {
@@ -403,6 +405,7 @@ void draw_temple_loose(TempleCell *cell)
     }
 }
 
+#pragma optimize("eg", off)
 void draw_temple_pillar_bottom(TempleCell *cell)
 {
     unsigned long draw = 0;
@@ -420,7 +423,9 @@ void draw_temple_pillar_bottom(TempleCell *cell)
     if (draw)
         ((AddImage)draw)(8, -2, cell->column, cell->row, 10, 0);
 }
+#pragma optimize("eg", on)
 
+#pragma optimize("eg", off)
 void draw_temple_pillar_top(TempleCell *cell)
 {
     unsigned long draw = 0;
@@ -438,7 +443,9 @@ void draw_temple_pillar_top(TempleCell *cell)
     if (draw)
         ((AddImage)draw)(9, -2, cell->column, cell->row, 10, 0);
 }
+#pragma optimize("eg", on)
 
+#pragma optimize("e", off)
 void draw_temple_down_plate(TempleCell *cell)
 {
     Byte tile;
@@ -470,7 +477,9 @@ void draw_temple_down_plate(TempleCell *cell)
     if (draw)
         ((AddImage)draw)(tile, image, cell->column, cell->row, 10, 0);
 }
+#pragma optimize("e", on)
 
+#pragma optimize("e", off)
 void draw_temple_up_plate(TempleCell *cell)
 {
     int image;
@@ -494,6 +503,7 @@ void draw_temple_up_plate(TempleCell *cell)
     if (draw)
         ((AddImage)draw)(tile, image, cell->column, cell->row, 10, 0);
 }
+#pragma optimize("e", on)
 
 void draw_temple_posts(TempleCell *cell)
 {

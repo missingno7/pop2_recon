@@ -59982,6 +59982,1470 @@
       "semantic_name_hypothesis": "play_anim",
       "state": "ANALYZED",
       "call_sites": []
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x11a8 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1319 and any following alignment NOP end at +0x131c, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1d86, +0x1da8.",
+        "Original overlay-17 relocation 113 at +0x4490 stores the segment of the pointer to 2b4b:01d8.",
+        "Original overlay-17 relocation 114 at +0x447c stores the segment of the pointer to 2b4b:01d8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 239334,
+          "image_offset": 7558,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7557,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239368,
+          "image_offset": 7592,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7591,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:01d8",
+      "offset": 472,
+      "original_bytes_hex": "558bec83ec0857568b76068a042ae40bc07415487424487503e9f0002d03007503e9e800e9450190833e6662007503e93a01560ee8f7fde932018a4c0483e10783c11883f9197e1c833e666200750f8b1e1011c7878b01e0ff4949eb1190b9ffffeb0b908b1e1011c7878b01000083f9ff7417b01450518a4401508a440250b00a502ac0509a580369018b7c0483e70783c7188a4401508a4402509ab006770f8846ff83ff197f22509afe288a070bc07418b01450b83d00508a4401508a4402502ac050509a580369018a4401508a4402509a0e06770f509afe288a070bc07503e988008a46ff509afe288a073d01001bff83c73fb01450578a4401508a4402502ac050509a58036901eb608a540483e20783c21883fa18740583fa197e4d8a4401508a4402509a2e07770f509afe288a070bc07536803c057509b8a801ba6901eb0790b83a02ba69018bf8b01450b8feff508a4401508a440250b00a502ac0508bc28946fa897ef8ff5ef85e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "4649265d4a766ff4dec7053a55cd0920a222ead1c7890b30281923330579d12a",
+      "size": 372,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x131c prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x13a9 and any following alignment NOP end at +0x13ac, the next function prologue.",
+        "Original overlay-17 relocation 78 at +0x446c stores the segment of the pointer to 2b4b:034c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:034c",
+      "offset": 844,
+      "original_bytes_hex": "558bec83ec0a57568b7e062bc0998bf08956fc8a052ae40bc0740d4874184874272d0300742aeb37393666627431570ee887fceb2a90b85803ba69018bf08956fcc646ff00eb1890b83a02ba6901eb06b8a801ba69018bf08956fcc646ff0a8b46fc0bc67422b01050b8feff508a4501508a4502508a46ff502ac0508b46fc8946f88976f6ff5ef65e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "953a2093dad8df5a1119a857bc4fe529ea38f4c32903bbfc55dce2b86a3d0fc5",
+      "size": 144,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x13ac prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1447 and any following alignment NOP end at +0x144a, the next function prologue.",
+        "Original overlay-17 relocation 46 at +0x4470 stores the segment of the pointer to 2b4b:03dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:03dc",
+      "offset": 988,
+      "original_bytes_hex": "558bec83ec0a57568b76062bc0998bf88956fc8a042ae40bc0740d48741c48742b2d0300742eeb3b393e66627435560ee8f7fb560ee86600eb29b85803ba69018bf88956fcc646ff00eb1890b83a02ba6901eb06b8a801ba69018bf88956fcc646ff0a8b46fc0bc7742cb01150b8feff508a4401508a4402508a46ff502ac0508b46fc8946f8897ef6ff5ef6803c057505560ee808005e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "2dbefff45267d99f83207ba47582eda6ad96190653dcdff25e0e8324f3c524d1",
+      "size": 158,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x144a prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x157b and any following alignment NOP end at +0x157e, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x13e1, +0x143f."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 236865,
+          "image_offset": 5089,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5088,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 236959,
+          "image_offset": 5183,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5182,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:047a",
+      "offset": 1146,
+      "original_bytes_hex": "558bec83ec1857568b5e06803f057403e919018d7eecbe36628cd08ec0a5a5a5a58d7ef4befe098cd0a5a5a5a58b5e06b03ff66f022d05008946f4b836621e501e508d46f416509a845201110bc07503e9cd00a0345e508b5e068a4702509ac607cc028b5e068bc88a4701988bd08ac19803d0529a5c25410b8bf00bf67421807c02047c1bb01150b8feff508b5e068a4701508a4702502ac050509a220169018b5e068a47042ae42d2a001bc923c1052a002dedfff7d88b36101189844004b03950b8feff508a4701508a470250b00a502ac0509a22016901813e875cd9007211813e875ce2007709b83a02ba6901eb0790b8a801ba69018bc88956feb03950b8feff508b5e068a4701508a470250b00a502ac0508bc28946ea894ee8ff5ee8bf36628d76ec1e07a5a5a5a55e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "2831d377d699b9e1b1ac00a7cfe69351910c917d20c6188d70b9cb8965883f1b",
+      "size": 308,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x157e prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x161f and any following alignment NOP end at +0x1622, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x18f3, +0x1e5a, +0x1e7f, +0x1e8c, +0x1ee6.",
+        "Original overlay-17 relocation 103 at +0x4430 stores the segment of the pointer to 2b4b:05ae."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 238163,
+          "image_offset": 6387,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6386,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239546,
+          "image_offset": 7770,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7769,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239583,
+          "image_offset": 7807,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7806,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239596,
+          "image_offset": 7820,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7819,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239686,
+          "image_offset": 7910,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7909,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:05ae",
+      "offset": 1454,
+      "original_bytes_hex": "558bec83ec0c57568b7606c746fc00002bc0998bf88956fa8a042ae40bc0740e4874134874222d03007425eb3b90560ee825faeb3390b85803ba69018bf88956fac646ff00eb2190b83a02ba6901eb06b8a801ba69018bf88956fac646ff0a8a44042503008946fc8b46fa0bc7742db00150b8feff508a4401508a4402508a46ff502ac0508b46fa8946f6897ef4ff5ef4837efc007405560ee808005e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "ddd4b50e4ad938254795be1952c1655b362528890acd4fbc49f8bf9cc9699e76",
+      "size": 164,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1622 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x16a6 and any following alignment NOP end at +0x16aa, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1617, +0x1c7c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 237431,
+          "image_offset": 5655,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5654,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239068,
+          "image_offset": 7292,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7291,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0652",
+      "offset": 1618,
+      "original_bytes_hex": "558bec83ec0e57568b5e06803f057508b8a801ba6901eb11803f027509b83a02ba6901eb04902bc0998946f88956fa0bd0744c8b1e10118d7ef28d771a8cd08ec0a5a5a58b1e10118d7f1a8d77148cd88ec0a5a5a5b00150b8feff508b5e068a4701508a4702502ac05050ff5ef88b1e10118d7f1a8d76f28cd88ec0a5a5a55e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "ffa1039cff6ff87243a1988ff387636857281d851e51806d17058d6bf356a32a",
+      "size": 136,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x16aa prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1727 and any following alignment NOP end at +0x172a, the next function prologue.",
+        "Original overlay-17 relocation 133 at +0x443c stores the segment of the pointer to 2b4b:06da."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:06da",
+      "offset": 1754,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc0998bf08956fe8a052ae40bc0740d4874124874172d0300741aeb23570ee8fff8eb1c90b85803ba6901eb0eb83a02ba6901eb06b8a801ba69018bf08956fe8b46fe0bc67426b00450b8feff508a4501508a450250b00a502ac0508b46fe8946fa8976f8ff5ef8570ee808005e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "9638dae06a8374c6047e5747f5ec58e465d713dfcd9e05347477cfc1045eefe9",
+      "size": 128,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x172a prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x17f3 and any following alignment NOP end at +0x17f6, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x171f.",
+        "Original overlay-17 relocation 71 at +0x2e36 stores the segment of the pointer to 2b4b:075a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 237695,
+          "image_offset": 5919,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 5918,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:075a",
+      "offset": 1882,
+      "original_bytes_hex": "558bec83ec1857568d7eecbe36628cd08ec0a5a5a5a58d7ef4befe098cd0a5a5a5a58b5e06b03ff66f022d0a008946f4b836621e501e508d46f416509a845201110bc074738b5e068a470425fc00d0e8d0e82d32001bc923c10532002dfcfff7d88b361011898420048a072ae44848740b2d0300740e2bc099eb0f90b83a02ba6901eb06b8a801ba69018bc88956fe8bc20bc17423b03750b8feff508b5e068a4701508a470250b00a502ac0508bc28946ea894ee8ff5ee8bf36628d76ec1e07a5a5a5a55e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "0fd5f6b08fca2d6f6665533b89d09bb7771b75dfd3debe70b226a661f45ac045",
+      "size": 204,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x17f6 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x18fb and any following alignment NOP end at +0x18fe, the next function prologue.",
+        "Original overlay-17 relocation 89 at +0x4458 stores the segment of the pointer to 2b4b:0826."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0826",
+      "offset": 2086,
+      "original_bytes_hex": "558bec83ec0a57568b5e068a4704250f008946fe3d0d0074238a4701b10298f6f90ae4740b8b5efed1e38b87ba1aeb098b5efed1e38b87d21a8946fe0bc075128b46068d7ef68bf01607a5a5a5a58066fafc8b5e068a072ae40bc0740f4874144874412d03007466e9950090530ee86ff7e98c008b7efe83ff0d7503e981000bff7475b00b508d4523508b5e068a4701508a470250b00a502ac0509a58036901eb5e90908b7efe83ff0d74540bff74488bf3b00b508d4521508a4401508a440250b00a502ac0509a3a026901eb328b7efe83ff0d742a0bff741e8bf3b00b508d4521508a4401508a440250b00a502ac0509aa8016901eb088d46f6500ee888fc5e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "5ca7962443394f8599f9ca92ee71ecefa7dcd506978821b1cb1ce167668d0ca8",
+      "size": 264,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x18fe prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x196c and any following alignment NOP end at +0x1970, the next function prologue.",
+        "Original overlay-17 relocation 60 at +0x444c stores the segment of the pointer to 2b4b:092e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:092e",
+      "offset": 2350,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc0998bf08956fe8a052ae40bc0740b4874102d04007413eb1c90570ee8adf6eb1490b85803ba6901eb06b82201ba69018bf08956fe8b46fe0bc67421b00850b8feff508a4501508a450250b00a502ac0508b46fe8946fa8976f8ff5ef85e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "066d1290994ff6aba21fe536adaa87e88eeb0e73ff490a6d5a941dc7cb9dac6c",
+      "size": 114,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1970 prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x19de and any following alignment NOP end at +0x19e2, the next function prologue.",
+        "Original overlay-17 relocation 143 at +0x4450 stores the segment of the pointer to 2b4b:09a0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:09a0",
+      "offset": 2464,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc0998bf08956fe8a052ae40bc0740b4874102d04007413eb1c90570ee83bf6eb1490b85803ba6901eb06b82201ba69018bf08956fe8b46fe0bc67421b00950b8feff508a4501508a450250b00a502ac0508b46fe8946fa8976f8ff5ef85e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "d80a813ed41aa8dc2506c468d54536656a746a99a0197875282367dce42633da",
+      "size": 114,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x19e2 prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1a96 and any following alignment NOP end at +0x1a9a, the next function prologue.",
+        "Original overlay-17 relocation 68 at +0x4444 stores the segment of the pointer to 2b4b:0a12."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0a12",
+      "offset": 2578,
+      "original_bytes_hex": "558bec83ec1057568b7e068a6d0581e100082bc0998bf08956f68a052ae40bc074104874154874342d0300742f8b4ef8eb57570ee8bdf5ebf49083f9011ac024ff04068846ffbe2100c746f45803c746f669018976f88b76f4ebd2900bc9740ac646ff06b91f00eb0890c646ff01b9feff803d057508b8a801ba6901eb06b83a02ba69018bf08956f68b46f60bc6741f8a46ff50518a4501508a450250b00a502ac0508b46f68946f28976f0ff5ef05e5f8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "7dd4c93698614a8b0ba04c20be74a66ec94e6454ee789603947bcc6a6a92bf59",
+      "size": 184,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1a9a prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1b37 and any following alignment NOP end at +0x1b3a, the next function prologue.",
+        "Original overlay-17 relocation 33 at +0x4440 stores the segment of the pointer to 2b4b:0aca."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0aca",
+      "offset": 2762,
+      "original_bytes_hex": "558bec83ec0c57568b76068a64052500083d01001ac0fec004058846fd2bc0998bf88956fa8a042ae40bc074114874164874232d0300741e8b4efeeb3590560ee8f9f4ebf390b85803ba69018bf88956fab92000eb1c803c057509b8a801ba6901eb0790b83a02ba69018bf88956fab91e008b46fa0bc7741f8a46fd50518a4401508a440250b00a502ac0508b46fa8946f6897ef4ff5ef45e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "6882a1426be25afebbfcc39b7a11fad7c48da99407e2daf4f8fb8bb398536384",
+      "size": 160,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1b3a prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1c53 and any following alignment NOP end at +0x1c56, the next function prologue.",
+        "Original overlay-17 relocation 99 at +0x4438 stores the segment of the pointer to 2b4b:0b6a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0b6a",
+      "offset": 2922,
+      "original_bytes_hex": "558bec83ec0857568b7e062bc08946fa8946f88b750483e6038a052ae40bc0740f4874144874572d03007462eb719090570ee867f4eb68900bf67510c746f85803c746fa6901be2c00eb5490833e666200740583fe017547c746f85803c746fa69018b1e1011c74748000083fe0275088b1e1011836f4820be1a00eb22900bf6751dc746f83a02c746fa6901eb0e0bf6750dc746f8a801c746fa6901be2b008b46fa0b46f8746db00350568a4501508a450250b00a502ac050ff5ef883fe1a75538b1e1011837f480075408a4501508a4502509ab006770f3c03742f8b1e10118bb78d0183af8d0136b01450b82600508a4501508a450250b00a502ac0509a580369018b1e101189b78d018b1e1011c74748ffff5e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "944cb663ac32233fc1ef6190aaf8b92a11ccf894ca6236c0c99b132b7e220849",
+      "size": 284,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1c56 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1c88 and any following alignment NOP end at +0x1c8c, the next function prologue.",
+        "Original overlay-17 relocation 112 at +0x4464 stores the segment of the pointer to 2b4b:0c86."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0c86",
+      "offset": 3206,
+      "original_bytes_hex": "558bec568b7606803c007508560ee86ff3eb1690803c057405803c02750bf64404037405560ee8a3f9560ee808005e8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "75fca88b931f4d2339954360b52e8b680b71a31c11853cb7ef33e7d9aec6d1fd",
+      "size": 54,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1c8c prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1cec and any following alignment NOP end at +0x1cf0, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1c81, +0x1ddc.",
+        "Original relocated CALL FAR at overlay-7+0x04a3 stores 2b4b:0cbc, relocation 22 at +0x04a6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 239073,
+          "image_offset": 7297,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7296,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 239420,
+          "image_offset": 7644,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7643,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 224883,
+          "image_offset": 1187,
+          "kind": "far_call",
+          "relocated_segment_site": 1190,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0cbc",
+      "offset": 3260,
+      "original_bytes_hex": "558bec83ec08568b76068a042ae448740d4874122d030074152bc099eb16b85803ba6901eb0eb83a02ba6901eb06b8a801ba69018bc88bc20bc17420b00e50b8feff508a4401508a440250b00a502ac0508bc28946fa894ef8ff5ef85e8be55dca020090",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "8faf33a67aee53cd7b35ec8010fcf27ff11307fdfcab8294cc339d6c548b8420",
+      "size": 100,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1cf0 prologue 55 8b ec follows original bytes ca 02 00 90. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1d53 and any following alignment NOP end at +0x1d56, the next function prologue.",
+        "Original overlay-17 relocation 45 at +0x442c stores the segment of the pointer to 2b4b:0d20."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0d20",
+      "offset": 3360,
+      "original_bytes_hex": "558bec57568b7606803c0075512bffa0ce6c3844027505bf0100eb1ea0ce6c988bc88a4402982bc148750f8a4401508a4402509ab22c8a078bf80bff7517803ece6cff7510a0d26c509ac8288a070bc07403bf01000bff7405560ee888f25e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "ec45291f20bd5d9e163a56a6228bb25285645f805da4aceb3808f3b4724e6142",
+      "size": 102,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1d56 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1dcb and any following alignment NOP end at +0x1dce, the next function prologue.",
+        "Original overlay-17 relocation 142 at +0x4434 stores the segment of the pointer to 2b4b:0d86."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0d86",
+      "offset": 3462,
+      "original_bytes_hex": "558bec83ec0857568b5e068a072ae44874082d0400741feb57908bc38d7ef88bf01607a5a5a5a58066fcf88d46f8500ee81ff4eb3b90807f010974348bc38d7ef88bf01607a5a5a5a58066fcf88d4ef8510ee8fdf3b00250b8feff508b5e068a4701508a4702502ac050509a220169015e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "111ca3f960216a181eaa80a6a0ff3dd52bc8e60d6754d2e30d5b9069bb5a923a",
+      "size": 120,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1dce prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1de3 and any following alignment NOP end at +0x1de6, the next function prologue.",
+        "Original overlay-17 relocation 79 at +0x44ac stores the segment of the pointer to 2b4b:0dfe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0dfe",
+      "offset": 3582,
+      "original_bytes_hex": "558bec568b7606560ee80c00560ee8adfe5e8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "13acf531db5891efca0efe28c3104042cebebc82a7dd59ffd0ac9cbf8610f2f8",
+      "size": 24,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1de6 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1eaf and any following alignment NOP end at +0x1eb2, the next function prologue.",
+        "Original PUSH CS / CALL pairs enter the prologue at overlay-9 CALL sites +0x1dd7.",
+        "Original overlay-17 relocation 98 at +0x4478 stores the segment of the pointer to 2b4b:0e16."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 239415,
+          "image_offset": 7639,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 7638,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0e16",
+      "offset": 3606,
+      "original_bytes_hex": "558bec83ec1257568b5e068a47042ae48946fe8d7ef68bf38cd08ec0a5a5a5a52bc08946fa8946fc8a072ae40bc07412487d03e98e00487e5b2d03007460e98300908d46ee50b94a08518b5e068a470198508a470298509a6401770f8d46ee1650b836621e509a1801ad1e0bc075558d46f6500ee821f7b01350b8feff508b5e068a4701508a4702502ac050509a22016901eb308d46f6500ee8fcf6eb268b76068d46f6500ee8eff6b013508b46fe053300508a4401508a4402502ac050509aa80169015e5f8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "12056b8d55991514218f0dd992f2c5129fc9aef1b98297647ec9d5fc099a7fae",
+      "size": 204,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "Far Pascal, BP+6 near cell record, RETF 2.",
+      "boundary_evidence": [
+        "Overlay-9 +0x1eb2 prologue 55 8b ec follows original bytes 5d ca 02 00. All decoded direct jumps land at instruction starts inside the extent. The sole RETF 2 at +0x1eed and any following alignment NOP end at +0x1ef0, the frameless original initializer (C7 06 20 5E 00 00 CB 90) named by RTLink vector 2203:0d71.",
+        "Original overlay-17 relocation 69 at +0x4494 stores the segment of the pointer to 2b4b:0ee2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
+      ],
+      "classification_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "id": "overlay-9:2b4b:0ee2",
+      "offset": 3810,
+      "original_bytes_hex": "558bec568b76068a540483e21f8a042ae40bc0740d487c1f487e132d0300740eeb150bd2740c560ee8f9f0eb0a900bd27505560ee895f65e8be55dca0200",
+      "original_name": null,
+      "segment": 11083,
+      "sha256": "268792b77801bc4f711d00afb7eab9cda357a3d347e0062c5e399a518a08818c",
+      "size": 62,
+      "space": "overlay-9",
+      "state": "CANDIDATE_C"
+    },
+    {
+      "abi": "far Pascal, no arguments, AX boolean, RETF",
+      "boundary_evidence": [
+        "Overlay-7+0380..03f2 is 114 bytes. The previous routine ends in RETF 2 at 037c and alignment NOP at 037f. Entry 0380 starts 55 8b ec 83 ec 02 56.",
+        "All local paths converge at the return sequence 03ea..03f0 and RETF at 03f0, with NOP at 03f1 and the independently near-called BP-frame entry at 03f2.",
+        "The two overlay-3 ACT callers supply no arguments and consume AX as boolean on gate and crawl paths. Their exact relocated targets are the same 29cf:0380 alias."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 197274,
+          "image_offset": 12506,
+          "kind": "far_call",
+          "relocated_segment_site": 12509,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 197546,
+          "image_offset": 12778,
+          "kind": "far_call",
+          "relocated_segment_site": 12781,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The BP frame, saved SI and far-return ABI are MSC-shaped. Looks up gate tile kinds 12/13 and checks the modifier through the same-frame helper at 03f2. The other overlays at the link alias contain interior instructions or operands."
+      ],
+      "classification_status": "Original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0380",
+      "offset": 896,
+      "segment": 10703,
+      "semantic_name_hypothesis": "gate_is_open",
+      "sha256": "bc3decd800478dde3fcf3ebf9e8123abca30e588db46e2b8f606885e98d0fd8d",
+      "size": 114,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no arguments, RETF, SI preserved",
+      "boundary_evidence": [
+        "GenCtrl's PUSH CS at 0588 and near CALL at 0589 land at 0650. The preceding GenCtrl routine ends in RETF at 064f.",
+        "Complete linear decode extends from the BP prologue at 0650 through the final RETF at 0801. The early return at 07f7 and all local branch destinations are inside the extent. The next BP-frame entry at 0802 is independently called from 056a.",
+        "The overlay-3 original relocation table has 17 records within this extent, all in frame 25da."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 196777,
+          "image_offset": 12009,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 12008,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "In the ACT.C frame. The handler dispatches crawl poses 246..261 and uses the current and adjacent tiles, ClrAll and JumpSeq. The entry and epilogues use standard MSC medium-model frames."
+      ],
+      "classification_status": "Original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:25da:0650",
+      "offset": 1616,
+      "segment": 9690,
+      "semantic_name_hypothesis": "control_crawling",
+      "sha256": "fbae97134d82b7900e43ba4a7c03c2b70bc50b0f2e6c136c5621e5e6c54b5af3",
+      "size": 434,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:09b8",
+      "space": "root",
+      "segment": 1325,
+      "offset": 2488,
+      "size": 606,
+      "sha256": "86d7947fc874edab138b8c77e468c7025f7cf11380d826a9f90b5d0e36ba2e3b",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x5c88,0x5ee6); bytes before entry 8b e5 5d ca 02 00 90, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:0c12 ca0600. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 45 direct branch operands target instruction starts inside the extent.",
+        "Bounded indirect switch owns CS:[0b18,0b2c); all 10 table words name original instruction starts in this extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22626,
+          "file_offset": 30818,
+          "pushed_cs_site": 22625
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22834,
+          "file_offset": 31026,
+          "pushed_cs_site": 22833
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 6 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:0c16",
+      "space": "root",
+      "segment": 1325,
+      "offset": 3094,
+      "size": 200,
+      "sha256": "68205072a71490647359251c4c3372c85ebabb63477aeba3ef64aa01403a0d8f",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x5ee6,0x5fae); bytes before entry 8b e5 5d ca 06 00 90, next entry ba 01 00 80 3e 18.",
+        "Original RETF sites and bytes: 052d:0cdd cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 9 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22565,
+          "file_offset": 30757,
+          "pushed_cs_site": 22564
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22778,
+          "file_offset": 30970,
+          "pushed_cs_site": 22777
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:10be",
+      "space": "root",
+      "segment": 1325,
+      "offset": 4286,
+      "size": 236,
+      "sha256": "2c893358d1a47bf8806db13033e08564f394bb98442b180719dbb0830aae1e08",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x638e,0x647a); bytes before entry fe 5b a3 fc 5b cb 90, next entry a1 fe 5b 0b 06 fc.",
+        "Original RETF sites and bytes: 052d:11a9 cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 15 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 25444,
+          "file_offset": 33636,
+          "pushed_cs_site": 25443
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1414",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5140,
+      "size": 292,
+      "sha256": "12325cbe187d93da0e1d3771d339aa07008141919f19b14970e821f5be64e326",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x66e4,0x6808); bytes before entry 5f 8b e5 5d ca 04 00, next entry 55 8b ec 83 ec 0a.",
+        "Original RETF sites and bytes: 052d:1535 ca0600. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 4 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26128,
+          "file_offset": 34320,
+          "pushed_cs_site": 26127
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 6 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1538",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5432,
+      "size": 98,
+      "sha256": "4c5787451c0217bd0acf31b3a16bb00fb5dbac994239317507f58a9f89fe3518",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6808,0x686a); bytes before entry 5f 8b e5 5d ca 06 00, next entry 55 8b ec 83 ec 78.",
+        "Original RETF sites and bytes: 052d:1596 ca0400. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 2 direct branch operands target instruction starts inside the extent.",
+        "3 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26827,
+          "file_offset": 35019,
+          "pushed_cs_site": 26826
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26839,
+          "file_offset": 35031,
+          "pushed_cs_site": 26838
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27071,
+          "file_offset": 35263,
+          "pushed_cs_site": 27070
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:159a",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5530,
+      "size": 418,
+      "sha256": "abb1239e61d3b517f1270b2d903e697975618998478142f6bbf9da14764f14b7",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x686a,0x6a0c); bytes before entry 8b e5 5d ca 04 00 90, next entry 55 8b ec 83 ec 12.",
+        "Original RETF sites and bytes: 052d:173a cb. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 39 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 26172,
+          "file_offset": 34364,
+          "pushed_cs_site": 26171
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:173c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 5948,
+      "size": 300,
+      "sha256": "86f487e5d4b8aed98ba340f56e48b1a5139464b2c19afa224ac5b86845d056da",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6a0c,0x6b38); bytes before entry 5e 5f 8b e5 5d cb 90, next entry 55 8b ec 57 8b 7e.",
+        "Original RETF sites and bytes: 052d:1865 ca0200. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 4 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 235,
+          "file_offset": 8427,
+          "relocated_segment_site": 238,
+          "relocation_index": 41
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:18a0",
+      "space": "root",
+      "segment": 1325,
+      "offset": 6304,
+      "size": 266,
+      "sha256": "f752446168d8415c68518c6a93970ce67c3e2d4f5e9cb92c5ecec84990e038bc",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6b70,0x6c7a); bytes before entry 5f 8b e5 5d ca 06 00, next entry 55 8b ec 83 ec 12.",
+        "Original RETF sites and bytes: 052d:19a5 ca0400. Compiler alignment suffix is 2 NOP byte(s).",
+        "All 2 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27187,
+          "file_offset": 35379,
+          "pushed_cs_site": 27186
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28581,
+          "file_offset": 36773,
+          "pushed_cs_site": 28580
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:19aa",
+      "space": "root",
+      "segment": 1325,
+      "offset": 6570,
+      "size": 248,
+      "sha256": "f3f24c7a528eb5d5a0176609082f9e8974c4ecb53f7fa93be1811b9d1d956a4a",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6c7a,0x6d72); bytes before entry e5 5d ca 04 00 90 90, next entry 55 8b ec 83 ec 0e.",
+        "Original RETF sites and bytes: 052d:1a9f ca0600. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 8 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27208,
+          "file_offset": 35400,
+          "pushed_cs_site": 27207
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 6 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1aa2",
+      "space": "root",
+      "segment": 1325,
+      "offset": 6818,
+      "size": 296,
+      "sha256": "a74c07688de4ef26c047607ef5c75ab1a971444da2210e3cb78336b647913d8e",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6d72,0x6e9a); bytes before entry 5f 8b e5 5d ca 06 00, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:1bc6 ca0800. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 10 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28463,
+          "file_offset": 36655,
+          "pushed_cs_site": 28462
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 8 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1bca",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7114,
+      "size": 206,
+      "sha256": "9380914e869464d1d12fd0f136760daffc348a836554409b3258a42ea6fdbff6",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6e9a,0x6f68); bytes before entry 8b e5 5d ca 08 00 90, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:1c94 ca0400. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 7 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27163,
+          "file_offset": 35355,
+          "pushed_cs_site": 27162
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28541,
+          "file_offset": 36733,
+          "pushed_cs_site": 28540
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1c98",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7320,
+      "size": 196,
+      "sha256": "ad1406a0850e788079559623188c8ae7482cbd3972d752d29d99e2927b2378d3",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x6f68,0x702c); bytes before entry 8b e5 5d ca 04 00 90, next entry 55 8b ec 83 ec 06.",
+        "Original RETF sites and bytes: 052d:1d59 ca0200. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 13 direct branch operands target instruction starts inside the extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 400,
+          "file_offset": 8592,
+          "relocated_segment_site": 403,
+          "relocation_index": 54
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 924,
+          "file_offset": 9116,
+          "relocated_segment_site": 927,
+          "relocation_index": 55
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1d5c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7516,
+      "size": 106,
+      "sha256": "672083746bcb7d543a7d0d0462bef096e99122f65488e9cdbaf409a300310b50",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x702c,0x7096); bytes before entry 5f 8b e5 5d ca 02 00, next entry 55 8b ec 57 8b 7e.",
+        "Original RETF sites and bytes: 052d:1dc3 ca0400. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 3 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27376,
+          "file_offset": 35568,
+          "pushed_cs_site": 27375
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1e14",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7700,
+      "size": 270,
+      "sha256": "82c31acb768b0544c8c9c2a86161d96d0e8d0cc2bfe6f1d986c9f6e6645c43df",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x70e4,0x71f2); bytes before entry 5f 8b e5 5d ca 04 00, next entry 55 8b ec 83 ec 04.",
+        "Original RETF sites and bytes: 052d:1f21 cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 38 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22995,
+          "file_offset": 31187,
+          "pushed_cs_site": 22994
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1f22",
+      "space": "root",
+      "segment": 1325,
+      "offset": 7970,
+      "size": 208,
+      "sha256": "ac9e9b328dd977829600e7052a33aab3980cf85a65fa3dfef0de48dd2dd0f597",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x71f2,0x72c2); bytes before entry c6 5e 5f 8b e5 5d cb, next entry 55 8b ec 83 ec 36.",
+        "Original RETF sites and bytes: 052d:1ff1 cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 1 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22966,
+          "file_offset": 31158,
+          "pushed_cs_site": 22965
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:1ff2",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8178,
+      "size": 218,
+      "sha256": "40d0b4d66e8d02548a34138dd7565a03184d067ed7e6c740c5e98f6c6d89bb3f",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x72c2,0x739c); bytes before entry df 00 5e 8b e5 5d cb, next entry 55 8b ec 83 ec 14.",
+        "Original RETF sites and bytes: 052d:20c9 ca0400. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 15 direct branch operands target instruction starts inside the extent.",
+        "Bounded indirect switch owns CS:[2028,2034); all 6 table words name original instruction starts in this extent.",
+        "2 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29061,
+          "file_offset": 37253,
+          "pushed_cs_site": 29060
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29353,
+          "file_offset": 37545,
+          "pushed_cs_site": 29352
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:20cc",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8396,
+      "size": 194,
+      "sha256": "d9e98c7a4ffc33756269601ea97db296601304a00f030a56a6cd11d1bcb72bc3",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x739c,0x745e); bytes before entry 5f 8b e5 5d ca 04 00, next entry 55 8b ec 83 ec 08.",
+        "Original RETF sites and bytes: 052d:218a ca0400. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 5 direct branch operands target instruction starts inside the extent.",
+        "3 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28937,
+          "file_offset": 37129,
+          "pushed_cs_site": 28936
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 28949,
+          "file_offset": 37141,
+          "pushed_cs_site": 28948
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29370,
+          "file_offset": 37562,
+          "pushed_cs_site": 29369
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:2268",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8808,
+      "size": 142,
+      "sha256": "a758112c41b78e92e6ddd685b9d46758cd895b78ca6eb166421c3b22f560670a",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x7538,0x75c6); bytes before entry 1b e6 1f 8b e5 5d cb, next entry 55 8b ec 83 ec 0e.",
+        "Original RETF sites and bytes: 052d:22f2 ca0200. Compiler alignment suffix is 1 NOP byte(s).",
+        "All 13 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29048,
+          "file_offset": 37240,
+          "pushed_cs_site": 29047
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:22f6",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8950,
+      "size": 344,
+      "sha256": "8eae26215df26f0549c855377534daac0a926a60ccbc0b2e78dd3f5c49fbc7da",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x75c6,0x771e); bytes before entry 8b e5 5d ca 02 00 90, next entry 55 8b ec 57 56 8b.",
+        "Original RETF sites and bytes: 052d:244d cb. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 15 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 390,
+          "file_offset": 8582,
+          "relocated_segment_site": 393,
+          "relocation_index": 7
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 0 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:244e",
+      "space": "root",
+      "segment": 1325,
+      "offset": 9294,
+      "size": 58,
+      "sha256": "a014fc052b80df21bc46669ae3c0e91776d54df1623ef3255d6ca446977d5c8d",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x771e,0x7758); bytes before entry c6 5e 5f 8b e5 5d cb, next entry 55 8b ec 83 ec 2c.",
+        "Original RETF sites and bytes: 052d:2485 ca0400. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 2 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 30235,
+          "file_offset": 38427,
+          "pushed_cs_site": 30234
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 4 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:2488",
+      "space": "root",
+      "segment": 1325,
+      "offset": 9352,
+      "size": 328,
+      "sha256": "63764d9c7b3dff9a0fc5f7d990397b764448bfede940f689b2bffba9ebdcba49",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Complete original root extent [0x7758,0x78a0); bytes before entry 5f 8b e5 5d ca 04 00, next entry 57 9a 94 07 69 01.",
+        "Original RETF sites and bytes: 052d:25cd ca0200. Compiler alignment suffix is 0 NOP byte(s).",
+        "All 11 direct branch operands target instruction starts inside the extent.",
+        "1 independently decoded direct caller(s); near calls include PUSH CS and far calls carry original relocation records."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 30524,
+          "file_offset": 38716,
+          "pushed_cs_site": 30523
+        }
+      ],
+      "abi": "Far Pascal; RETF discards 2 stack argument bytes.",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DOS UI code frame 052d; source module DIALOG.C and neighboring UI routines are independently paired in evidence/modules.json."
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-3:2344:0740",
+      "space": "overlay-3",
+      "segment": 9028,
+      "offset": 1856,
+      "size": 124,
+      "sha256": "c980f4e70ce2a4b7ef56112df32b9de5be9939e262316b068bab9d1c576461b2",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original same-file PUSH CS; E8 calls at 056f and 0729 reach the BP prologue after the RETF at 073f.",
+        "The complete original extent ends with RETF 2 at 07b8 and the alignment NOP at 07bb. All branch destinations are inside the extent at instruction starts. The next BP frame at 07bc is the independently reviewed RemoveOppFromRoom."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 1391,
+          "pushed_cs_site": 1390,
+          "file_offset": 186159
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 1833,
+          "pushed_cs_site": 1832,
+          "file_offset": 186601
+        }
+      ],
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Dispatches record initialization by actor kind, including two direct relocated overlay calls and a near-record saved-Y or appearance update."
+      ],
+      "abi": "Far Pascal void(near opponent record *), BP+6, RETF 2."
     }
   ],
   "schema": 1,
