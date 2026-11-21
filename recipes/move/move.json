@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "84263c90c2ed6a984b175beeee60212f81989d14fbbbbc8878e7db2600dc6ec5",
+  "binding_sha256": "fef2257d1263f7c8fdfd72ae7fa5135294a101a6cde9151c7639c2c25e9dd5dd",
   "claims": [
     {
       "fixup_count": 13,
@@ -118,6 +118,45 @@
       "fixup_count": 4,
       "public": "MAKE_SPACE",
       "target_id": "root:0b41:17ec"
+    },
+    {
+      "fixup_count": 5,
+      "public": "ADD_MOB",
+      "target_id": "root:0b41:1992"
+    },
+    {
+      "fixup_count": 5,
+      "public": "SELECT_TROB_CELL",
+      "target_id": "root:0b41:1a10"
+    },
+    {
+      "fixup_count": 7,
+      "public": "PASSTHRU",
+      "target_id": "root:0b41:1f0a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "OPP_UNDER_MOB",
+      "target_id": "root:0b41:2492"
+    },
+    {
+      "fixup_count": 8,
+      "public": "ADD_GATE_SOUND",
+      "relocation_indices": [
+        990,
+        993,
+        1048
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:250a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "IS_VISIBLE_ROOM_CELL",
+      "target_id": "root:0b41:25e4"
     }
   ],
   "drafts": [
@@ -186,19 +225,19 @@
       "public": "CHECK_FLOOR"
     },
     {
-      "object_offset": 1862,
+      "object_offset": 1874,
       "public": "CHECK_PRESS"
     },
     {
-      "object_offset": 2174,
+      "object_offset": 2182,
       "public": "ANIMATE_FLASK"
     },
     {
-      "object_offset": 2242,
+      "object_offset": 2250,
       "public": "ANIMATE_TORCH"
     },
     {
-      "object_offset": 2310,
+      "object_offset": 2318,
       "public": "ANIMATE_GATE"
     },
     {
@@ -287,38 +326,86 @@
     },
     {
       "object_offset": 6194,
-      "public": "ADD_MOB"
+      "public": "BREAK_LOOSE_FLOOR"
     },
     {
-      "object_offset": 6234,
-      "public": "SELECT_TROB_CELL"
+      "object_offset": 6292,
+      "public": "SHAKE_LOOSE_FLOOR"
     },
     {
-      "object_offset": 6284,
-      "public": "PASSTHRU"
+      "object_offset": 6400,
+      "public": "SHAKE_ROW"
     },
     {
-      "object_offset": 6324,
-      "public": "OPP_UNDER_MOB"
+      "object_offset": 6594,
+      "public": "GET_MOB_TYPE_ITEM"
     },
     {
-      "object_offset": 6444,
-      "public": "ADD_GATE_SOUND"
+      "object_offset": 6710,
+      "public": "ANIM_MOBS"
     },
     {
-      "object_offset": 6526,
+      "object_offset": 6900,
+      "public": "ANIMATE_MOB"
+    },
+    {
+      "object_offset": 7008,
+      "public": "MOB_LOOSE"
+    },
+    {
+      "object_offset": 7266,
+      "public": "MAKE_RUBBLE"
+    },
+    {
+      "object_offset": 7786,
+      "public": "KNOCK_LOOSE"
+    },
+    {
+      "object_offset": 7974,
+      "public": "IS_LOOSE_PUSHING_PLATE"
+    },
+    {
+      "object_offset": 8094,
+      "public": "ADD_MOBS"
+    },
+    {
+      "object_offset": 8176,
+      "public": "ADD_MOB_TO_FRAME"
+    },
+    {
+      "object_offset": 8262,
+      "public": "ADD_LOOSE_TO_FRAME"
+    },
+    {
+      "object_offset": 8584,
+      "public": "COMPUTE_MOB_RECT"
+    },
+    {
+      "object_offset": 8798,
+      "public": "MARK_MOB_REDRAW"
+    },
+    {
+      "object_offset": 8868,
+      "public": "ADD_MOB_OBJ"
+    },
+    {
+      "object_offset": 8968,
+      "public": "CHECK_LOOSE_CRUSH"
+    },
+    {
+      "object_offset": 9124,
+      "public": "LOOSE_HITS_ACTOR"
+    },
+    {
+      "object_offset": 9552,
       "public": "GET_TROB_ROOM_CELL"
     },
     {
-      "object_offset": 6588,
+      "object_offset": 9614,
       "public": "GET_TROB_BY_ID"
-    },
-    {
-      "object_offset": 6662,
-      "public": "IS_VISIBLE_ROOM_CELL"
     }
   ],
-  "emitted_size": 6740,
+  "emitted_size": 9766,
   "flags": [
     "/c",
     "/AM",
@@ -334,12 +421,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "1a6a5084f6b1897414aa2fadd95d81a4395c9a120d0f93d240893ab913298091",
+  "object_sha256": "d1aa5c324d07e2089646d8eafc418ac0ff50328d8f968f2c371258111d4170d8",
   "origin": 46108,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "16c2782cebb42d34828d69f980e688fdbf7c70f2495857e58d52f30cc1050d95",
+  "source_sha256": "27220db4c8ed99a0ad98295a1009d290d82f38e29fd3aaf589ec9509d8d7310a",
   "space": "root"
 }

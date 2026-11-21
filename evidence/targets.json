@@ -34423,6 +34423,914 @@
       "size": 116,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one signed word on stack, RETF 2.",
+      "boundary_evidence": [
+        "Original CS 0b41 interval [250a, 255c) decodes to terminal return(s) 2559:ca0200. Preceding window 5dca0200 and successor 558bec5756.",
+        "overlay-6+0xb77 encodes 9a0a25410b with relocation index 59."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 218327,
+          "image_offset": 2935,
+          "kind": "far_call",
+          "relocated_segment_site": 2938,
+          "space": "overlay-6"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Plays requested gate sound and conditionally requests cue 65 when sound 9 finishes on level 5 in room 7. The 10065 resource query and actor room/column checks identify the guarded effect."
+      ],
+      "classification_status": "Resident MOVE frame with FM Towns ordinal and behavioral corroboration.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:250a",
+      "offset": 9482,
+      "original_bytes_hex": "558bec568b7606569ace01d70d83fe097539803e4945057532803ecf6707752bb85127509a448401110bc0751e803e494505750e803e8e5c077507803e895c037c09b84100509ab001d70d5e8be55dca0200",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "178777676960e52a9ab5c420b2a046461ebf37034aaeeaea860b630ac6363c1e",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two low-byte arguments in word slots, AX Boolean, RETF 4.",
+      "boundary_evidence": [
+        "Original CS 0b41 interval [25e4, 2632) decodes to terminal return(s) 262e:ca0400. Preceding window 5dca0400 and successor 5756befeff.",
+        "overlay-8+0x1342 encodes 9ae425410b with relocation index 68.",
+        "overlay-9+0xc8 encodes 9ae425410b with relocation index 67.",
+        "overlay-9+0xd53 encodes 9ae425410b with relocation index 68."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 231058,
+          "image_offset": 4930,
+          "kind": "far_call",
+          "relocated_segment_site": 4933,
+          "space": "overlay-8"
+        },
+        {
+          "file_offset": 231976,
+          "image_offset": 200,
+          "kind": "far_call",
+          "relocated_segment_site": 203,
+          "space": "overlay-9"
+        },
+        {
+          "file_offset": 235187,
+          "image_offset": 3411,
+          "kind": "far_call",
+          "relocated_segment_site": 3414,
+          "space": "overlay-9"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the viewed room, the last column of the right room and first row of the room above. The diagonal test is specifically cell nine in the upper-right room."
+      ],
+      "classification_status": "Resident MOVE frame with FM Towns ordinal and behavioral corroboration.",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:25e4",
+      "offset": 9700,
+      "original_bytes_hex": "558bec8a46083806345e74363806355e750d8a4606b10a98f6f980fc0974238a46083806385e7506807e060a7c148a460838063b5e7506807e060974052bd2eb0490ba01008bc28be55dca040090",
+      "original_name": null,
+      "segment": 2881,
+      "sha256": "9569068d7e8a7bae02da5f9c0ac895d1a437d03d1b2f5f7369a292eae9aaaf0f",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near piece and far rectangle pointers on stack, RETF 6.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0006 through 003e exclusive. The entry boundary window is 00f3a55e5fcb558bec57568b; the exit boundary window is e55dca060090a047452ae42d.",
+        "Full linear decode reaches 003e. Far returns at 003a retf 6.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x857c (relocation 825).",
+        "Incoming same-frame PUSH CS; CALL near sites at 06d5."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a0600a604",
+          "file_offset": 42364,
+          "image_offset": 34172,
+          "kind": "far_call",
+          "relocated_segment_site": 34175,
+          "relocation_index": 825,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e82ef9",
+          "file_offset": 28981,
+          "image_offset": 20789,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20788,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Constructs peel ID with +100, width from rectangle bounds, then forwards six values to 0169:0526. FM CUSTOM AddCustomPiecePeel has the same +100, width subtraction and register assignment for equivalent rectangle words."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0006",
+      "offset": 6,
+      "original_name": "AddCustomPiecePeel",
+      "original_name_evidence": [
+        "Constructs peel ID with +100, width from rectangle bounds, then forwards six values to 0169:0526. FM CUSTOM AddCustomPiecePeel has the same +100, width subtraction and register assignment for equivalent rectangle words."
+      ],
+      "segment": 1190,
+      "sha256": "2f9100ecd448cf14a6a0974a1af4c996a37aa719777967d0529fcd15b86fc5a7",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Original interval root:04a6:003e through 0088 exclusive. The entry boundary window is e55dca060090a047452ae42d; the exit boundary window is 06a4620000cb558bec83ec14.",
+        "Full linear decode reaches 0088. Far returns at 0087 retf.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0xe9cd (relocation 1217)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a3e00a604",
+          "file_offset": 68045,
+          "image_offset": 59853,
+          "kind": "far_call",
+          "relocated_segment_site": 59856,
+          "relocation_index": 1217,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Style-specific dispatch for 4/5/6, followed by release and clearing of a shared handle. FM CUSTOM CheckRoomSpecific shares the 4/5 dispatch and the handle-release tail."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:003e",
+      "offset": 62,
+      "original_name": "CheckRoomSpecific",
+      "original_name_evidence": [
+        "Style-specific dispatch for 4/5/6, followed by release and clearing of a shared handle. FM CUSTOM CheckRoomSpecific shares the 4/5 dispatch and the handle-release tail."
+      ],
+      "segment": 1190,
+      "sha256": "4cb1a89f0e1fff8c510f559afeb1629dd864512d3b4292b6b4ae925d7cd2d295",
+      "size": 74,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned index byte in a word slot and near byte-array pointer, RETF 4.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0088 through 0134 exclusive. The entry boundary window is 06a4620000cb558bec83ec14; the exit boundary window is e55dca040090558bec83ec02.",
+        "Full linear decode reaches 0134. Far returns at 0130 retf 4.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include overlay-5+0x8b2 (relocation 0), overlay-5+0x893 (relocation 1), overlay-14+0x603 (relocation 4)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8800a604",
+          "file_offset": 214146,
+          "image_offset": 2226,
+          "kind": "far_call",
+          "relocated_segment_site": 2229,
+          "relocation_index": 0,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a8800a604",
+          "file_offset": 214115,
+          "image_offset": 2195,
+          "kind": "far_call",
+          "relocated_segment_site": 2198,
+          "relocation_index": 1,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a8800a604",
+          "file_offset": 265315,
+          "image_offset": 1539,
+          "kind": "far_call",
+          "relocated_segment_site": 1542,
+          "relocation_index": 4,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Indexes 25-byte custom-piece records, translates the rectangle and coordinates, draws through 078a:0712, then restores rectangle, offsets and pass. FM CUSTOM DrawCustomRoomImgAtInfo shares the temporary translate/draw/restore pattern and the constants 63 and 32."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0088",
+      "offset": 136,
+      "original_name": "DrawCustomRoomImgAtInfo",
+      "original_name_evidence": [
+        "Indexes 25-byte custom-piece records, translates the rectangle and coordinates, draws through 078a:0712, then restores rectangle, offsets and pass. FM CUSTOM DrawCustomRoomImgAtInfo shares the temporary translate/draw/restore pattern and the constants 63 and 32."
+      ],
+      "segment": 1190,
+      "sha256": "bcd076fdc0fa2ce8e198d5cbe52f3e97d4dfe56b5c9391f1fce9b89aa4311e57",
+      "size": 172,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near piece pointer, far pointer result in DX:AX, RETF 2.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0168 through 01de exclusive. The entry boundary window is 7cda8be55dcb558bec83ec06; the exit boundary window is 8be55dca020057568bf88bf3.",
+        "Full linear decode reaches 01de. Far returns at 01db retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x8606 (relocation 790).",
+        "Incoming same-frame PUSH CS; CALL near sites at 023c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a6801a604",
+          "file_offset": 42502,
+          "image_offset": 34310,
+          "kind": "far_call",
+          "relocated_segment_site": 34313,
+          "relocation_index": 790,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e829ff",
+          "file_offset": 27804,
+          "image_offset": 19612,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19611,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Conditional refresh of shape handle via SHAP resource and current archive, followed by far shape pointer lookup."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0168",
+      "offset": 360,
+      "original_name": "GetCustomPieceShape",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:017c checks and releases the handle at piece+9, looks up SHAP using piece byte + room shape base, calls with format 2, and returns a far pointer for the handle. Mac MacsBug also names GetCustomPieceShape."
+      ],
+      "segment": 1190,
+      "sha256": "85529f458d7753c4f906e3c1e8b087e664b90151ea11685fbe7314c0dcade69a",
+      "size": 118,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far fastcall, index in AX and near output pointer in BX, near pointer result in AX, RETF.",
+      "boundary_evidence": [
+        "Original interval root:04a6:01de through 0216 exclusive. The entry boundary window is 8be55dca020057568bf88bf3; the exit boundary window is 8bc65e5fcb90558bec83ec04.",
+        "Full linear decode reaches 0216. Far returns at 020d retf, 0214 retf.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x87ec (relocation 725)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ade01a604",
+          "file_offset": 42988,
+          "image_offset": 34796,
+          "kind": "far_call",
+          "relocated_segment_site": 34799,
+          "relocation_index": 725,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "On a loaded room, writes sheet, column, row and the indexed shape handle into caller output; otherwise returns null."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:01de",
+      "offset": 478,
+      "original_name": "GetCustomPieceShpInfo",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:0214 checks the room, writes 1/0/0 into output offsets 0/1/3, then copies the indexed shape handle from room+25*index+0x25."
+      ],
+      "segment": 1190,
+      "sha256": "37dec511372377c8268e742fddb4df220ac17f5a77eca8758f62153ba4b9b973",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned index in a word slot and far output pointer, far pointer result in DX:AX, RETF 6.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0216 through 026c exclusive. The entry boundary window is 8bc65e5fcb90558bec83ec04; the exit boundary window is e55dca060090558bec83ec04.",
+        "Full linear decode reaches 026c. Far returns at 0268 retf 6.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x1af3 (relocation 154), overlay-14+0x835 (relocation 14)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a1602a604",
+          "file_offset": 15091,
+          "image_offset": 6899,
+          "kind": "far_call",
+          "relocated_segment_site": 6902,
+          "relocation_index": 154,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a1602a604",
+          "file_offset": 265877,
+          "image_offset": 2101,
+          "kind": "far_call",
+          "relocated_segment_site": 2104,
+          "relocation_index": 14,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies two words from a non-null shape far pointer to the caller far output, returning null on missing room or shape."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0216",
+      "offset": 534,
+      "original_name": "GetCustomPieceSize",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:024d uses the same room guard and 25-byte record stride, calls the preceding shape resolver, and copies the first two shape words into its output far pointer. Mac MacsBug also names GetCustomPieceSize."
+      ],
+      "segment": 1190,
+      "sha256": "725d9b4b55e6e7cd00b970734512faca5142ad8daa416a743574d90c0b944b6d",
+      "size": 86,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned room byte in one stack word, RETF 2.",
+      "boundary_evidence": [
+        "Original interval root:04a6:02b0 through 038a exclusive. The entry boundary window is 8be55dca0200558bec83ec04; the exit boundary window is e55dca020090558bec83ec28.",
+        "Full linear decode reaches 038a. Far returns at 0386 retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x5a6 (relocation 71), root+0xe11 (relocation 72), root+0xef83 (relocation 1256), overlay-16+0x103 (relocation 10)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ab002a604",
+          "file_offset": 9638,
+          "image_offset": 1446,
+          "kind": "far_call",
+          "relocated_segment_site": 1449,
+          "relocation_index": 71,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab002a604",
+          "file_offset": 11793,
+          "image_offset": 3601,
+          "kind": "far_call",
+          "relocated_segment_site": 3604,
+          "relocation_index": 72,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab002a604",
+          "file_offset": 69507,
+          "image_offset": 61315,
+          "kind": "far_call",
+          "relocated_segment_site": 61318,
+          "relocation_index": 1256,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab002a604",
+          "file_offset": 268595,
+          "image_offset": 259,
+          "kind": "far_call",
+          "relocated_segment_site": 262,
+          "relocation_index": 10,
+          "space": "overlay-16"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads CUST resource using the room index, handles template continuity, and conditionally calls the template load procedure."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:02b0",
+      "offset": 688,
+      "original_name": "LoadCustomRoomData",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:02f4 uses the CUST tag, room*25+3975, and a loaded-template subtype comparison to select between resource reload paths."
+      ],
+      "segment": 1190,
+      "sha256": "d3ac32dde1044b19c77191d14c77c366791809ab80e5291a73818abb0ed47e72",
+      "size": 218,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near room pointer, RETF 2. Entered by same-CS calls from 02b0.",
+      "boundary_evidence": [
+        "Original interval root:04a6:038a through 0658 exclusive. The entry boundary window is e55dca020090558bec83ec28; the exit boundary window is e55dca020090833e28020074.",
+        "Full linear decode reaches 0658. Far returns at 0654 retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Incoming same-frame PUSH CS; CALL near sites at 02fc, 031c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "e88b00",
+          "file_offset": 27996,
+          "image_offset": 19804,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19803,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e86b00",
+          "file_offset": 28028,
+          "image_offset": 19836,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19835,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Transfers reusable shape handles, loads SHAP resources for the new room, fills clipping rectangles, releases unretained handles."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:038a",
+      "offset": 906,
+      "original_name": "LoadCustomRoomShapes",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:03c9 tests the shape base word at +2 and allocates 2*(max(last shape)+1) bytes to retain old shape handles."
+      ],
+      "segment": 1190,
+      "sha256": "fd2bed58bffaefca5e65ecd7b75cfb5b330b96d77640d3221908d951a9a464c4",
+      "size": 718,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, byte ID in one word slot, RETF 2. AX carries the selected slot from 0169:067c.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0676 through 06a6 exclusive. The entry boundary window is 2bd28bc2cb90558bec568a46; the exit boundary window is e55dca0200905756833e2802.",
+        "Full linear decode reaches 06a6. Far returns at 06a2 retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include overlay-4+0x882 (relocation 17), overlay-5+0x5bc (relocation 29), overlay-13+0x34a (relocation 12)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a7606a604",
+          "file_offset": 211042,
+          "image_offset": 2178,
+          "kind": "far_call",
+          "relocated_segment_site": 2181,
+          "relocation_index": 17,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a7606a604",
+          "file_offset": 213388,
+          "image_offset": 1468,
+          "kind": "far_call",
+          "relocated_segment_site": 1471,
+          "relocation_index": 29,
+          "space": "overlay-5"
+        },
+        {
+          "bytes_hex": "9a7606a604",
+          "file_offset": 262474,
+          "image_offset": 842,
+          "kind": "far_call",
+          "relocated_segment_site": 845,
+          "relocation_index": 12,
+          "space": "overlay-13"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Restores peel ID plus 100, then clears the selected record word when the slot is not -1. FM CUSTOM RestoreKeepCustomPeel shares +100, the restore flag 1 and -1 handling before clearing the same record member."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0676",
+      "offset": 1654,
+      "original_name": "RestoreKeepCustomPeel",
+      "original_name_evidence": [
+        "Restores peel ID plus 100, then clears the selected record word when the slot is not -1. FM CUSTOM RestoreKeepCustomPeel shares +100, the restore flag 1 and -1 handling before clearing the same record member."
+      ],
+      "segment": 1190,
+      "sha256": "632cf24f5c7a1005107e56d7eded995944b0a3ad7ac07d737bbed7e62f347b97",
+      "size": 48,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, unsigned template ID in one word slot, RETF 2. Entered by same-CS calls from 02b0 and 072c.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0706 through 072c exclusive. The entry boundary window is c77fb95e5fcb558bec807e06; the exit boundary window is 5e035dca0200558bec83ec04.",
+        "Full linear decode reaches 072c. Far returns at 071e retf 2, 0729 retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Incoming same-frame PUSH CS; CALL near sites at 033b, 077d."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "e8c803",
+          "file_offset": 28059,
+          "image_offset": 19867,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19866,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e886ff",
+          "file_offset": 29149,
+          "image_offset": 20957,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20956,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects from the pointer table for unsigned template IDs below 35, otherwise selects the default. FM CUSTOM SetCustomRoomTemplate shares both paths and the unsigned limit 35."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0706",
+      "offset": 1798,
+      "original_name": "SetCustomRoomTemplate",
+      "original_name_evidence": [
+        "Selects from the pointer table for unsigned template IDs below 35, otherwise selects the default. FM CUSTOM SetCustomRoomTemplate shares both paths and the unsigned limit 35."
+      ],
+      "segment": 1190,
+      "sha256": "9bf8c1bdf1b5e7fb1acf9c7b29467965b80efb8eb56c3710330fa79d1e039207",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no arguments, RETF.",
+      "boundary_evidence": [
+        "Original interval root:04a6:072c through 0784 exclusive. The entry boundary window is 5e035dca0200558bec83ec04; the exit boundary window is 86ff8be55dcb558bec83ec06.",
+        "Full linear decode reaches 0784. Far returns at 0783 retf.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x597b (relocation 604), root+0xb295 (relocation 945), root+0xb34b (relocation 946).",
+        "Incoming same-frame PUSH CS; CALL near sites at 0320, 035e, 0443."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a2c07a604",
+          "file_offset": 31099,
+          "image_offset": 22907,
+          "kind": "far_call",
+          "relocated_segment_site": 22910,
+          "relocation_index": 604,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a2c07a604",
+          "file_offset": 53909,
+          "image_offset": 45717,
+          "kind": "far_call",
+          "relocated_segment_site": 45720,
+          "relocation_index": 945,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a2c07a604",
+          "file_offset": 54091,
+          "image_offset": 45899,
+          "kind": "far_call",
+          "relocated_segment_site": 45902,
+          "relocation_index": 946,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e80904",
+          "file_offset": 28032,
+          "image_offset": 19840,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19839,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e8cb03",
+          "file_offset": 28094,
+          "image_offset": 19902,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19901,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e8e602",
+          "file_offset": 28323,
+          "image_offset": 20131,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20130,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Unloads shapes, sound and room callback, frees custom room, resets the room and template."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:072c",
+      "offset": 1836,
+      "original_name": "UnloadCustomRoomData",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:076a checks the loaded room, calls the shape unload with argument 1, invokes the pointer at template+4 if nonzero, and clears the loaded room before selecting template 36."
+      ],
+      "segment": 1190,
+      "sha256": "dbb2776983ca329e8d0e7f98e8b9206e42310ed0e7f9865de4bc197ea2408f9f",
+      "size": 88,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, word flag argument, RETF 2.",
+      "boundary_evidence": [
+        "Original interval root:04a6:0784 through 087e exclusive. The entry boundary window is 86ff8be55dcb558bec83ec06; the exit boundary window is 8be55dca0200558bec83ec04.",
+        "Full linear decode reaches 087e. Far returns at 087b retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0xe9e6 (relocation 1203).",
+        "Incoming same-frame PUSH CS; CALL near sites at 0304, 073e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8407a604",
+          "file_offset": 68070,
+          "image_offset": 59878,
+          "kind": "far_call",
+          "relocated_segment_site": 59881,
+          "relocation_index": 1203,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e87d04",
+          "file_offset": 28004,
+          "image_offset": 19812,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 19811,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "e84300",
+          "file_offset": 29086,
+          "image_offset": 20894,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 20893,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Unloads selected custom-piece shape handles with a per-shape deduplication array and special handling for the floor image."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:04a6:0784",
+      "offset": 1924,
+      "original_name": "UnloadCustomRoomShapes",
+      "original_name_evidence": [
+        "FM CUSTOM 1c9f:07a7 allocates and clears a word array indexed by shape ID and releases selected custom-piece handles. Mac MacsBug also names UnloadCustomRoomShapes."
+      ],
+      "segment": 1190,
+      "sha256": "d4cc436e4904f2ec5d42db037ccf301d5111f0fede365204865f2c953e4ccab4",
+      "size": 250,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far fastcall, image and pass bytes in AL and DL; RETF.",
+      "boundary_evidence": [
+        "Original interval root:078a:0712 through 0b68 exclusive. The entry boundary window is e55dca020090558bec83ec12; the exit boundary window is 5f8be55dcb90558bec83ec02.",
+        "Full linear decode reaches 0b68. Far returns at 0857 retf, 0983 retf, 09d8 retf, 0b66 retf.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x4b66 (relocation 416), overlay-4+0x53a (relocation 50), overlay-4+0x5f9 (relocation 51), overlay-4+0x76a (relocation 52)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 27494,
+          "image_offset": 19302,
+          "kind": "far_call",
+          "relocated_segment_site": 19305,
+          "relocation_index": 416,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 210202,
+          "image_offset": 1338,
+          "kind": "far_call",
+          "relocated_segment_site": 1341,
+          "relocation_index": 50,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 210393,
+          "image_offset": 1529,
+          "kind": "far_call",
+          "relocated_segment_site": 1532,
+          "relocation_index": 51,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 210762,
+          "image_offset": 1898,
+          "kind": "far_call",
+          "relocated_segment_site": 1901,
+          "relocation_index": 52,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 210707,
+          "image_offset": 1843,
+          "kind": "far_call",
+          "relocated_segment_site": 1846,
+          "relocation_index": 53,
+          "space": "overlay-4"
+        },
+        {
+          "bytes_hex": "9a12078a07",
+          "file_offset": 211417,
+          "image_offset": 2553,
+          "kind": "far_call",
+          "relocated_segment_site": 2556,
+          "relocation_index": 54,
+          "space": "overlay-4"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Draw dispatch for a loaded custom piece, with 25-byte record indexing and shape/pass checks."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0712",
+      "offset": 1810,
+      "segment": 1930,
+      "sha256": "bd81c7032323d12297a6a62e3b51bc950cc11fd66606645c6f85f1623188dc71",
+      "size": 1110,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, word archive handle, RETF 2.",
+      "boundary_evidence": [
+        "Original interval root:1101:25b2 through 25c6 exclusive. The entry boundary window is 955dca040000558bec8b6e06; the exit boundary window is 7f955dca0200558becc45e06.",
+        "Full linear decode reaches 25c6. Far returns at 25c3 retf 2.",
+        "The direct branches stay on instruction boundaries in this extent.",
+        "Relocated incoming CALL FARs include root+0x4c2a (relocation 386), root+0x11d6e (relocation 1443), root+0x12309 (relocation 1444), root+0x1212e (relocation 1445)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 27690,
+          "image_offset": 19498,
+          "kind": "far_call",
+          "relocated_segment_site": 19501,
+          "relocation_index": 386,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 81262,
+          "image_offset": 73070,
+          "kind": "far_call",
+          "relocated_segment_site": 73073,
+          "relocation_index": 1443,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 82697,
+          "image_offset": 74505,
+          "kind": "far_call",
+          "relocated_segment_site": 74508,
+          "relocation_index": 1444,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 82222,
+          "image_offset": 74030,
+          "kind": "far_call",
+          "relocated_segment_site": 74033,
+          "relocation_index": 1445,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 83078,
+          "image_offset": 74886,
+          "kind": "far_call",
+          "relocated_segment_site": 74889,
+          "relocation_index": 1446,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 110907,
+          "image_offset": 102715,
+          "kind": "far_call",
+          "relocated_segment_site": 102718,
+          "relocation_index": 1447,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Archive/handle primitive, with handle transformed by two same-frame calls."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1101:25b2",
+      "offset": 9650,
+      "segment": 4353,
+      "sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, 4-byte resource tag and word index, RETF 6.",
+      "boundary_evidence": [
+        "Original interval root:1101:6f8a through 701c exclusive. The entry boundary window is 5f5dca060000558bec83c4fc; the exit boundary window is 83c402ebcf00558bec83c4f8.",
+        "Decode reaches 701b, followed by one 00 pad. Far returns at 6ff3 retf 6.",
+        "The blocks after the first RETF are reachable from the framed entry and rejoin its epilogue.",
+        "Relocated incoming CALL FARs include root+0x4d37 (relocation 423), root+0xa9cc (relocation 970)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "9a8a6f0111",
+          "file_offset": 27959,
+          "image_offset": 19767,
+          "kind": "far_call",
+          "relocated_segment_site": 19770,
+          "relocation_index": 423,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9a8a6f0111",
+          "file_offset": 51660,
+          "image_offset": 43468,
+          "kind": "far_call",
+          "relocated_segment_site": 43471,
+          "relocation_index": 970,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resource lookup with helper-managed transfer into allocated storage."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1101:6f8a",
+      "offset": 28554,
+      "segment": 4353,
+      "sha256": "9a6a1e0256a856a2d1e300f3bce493dd3c03cb013f16af44b818ef9fc279aa93",
+      "size": 146,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one near custom-piece pointer, RETF 2.",
+      "boundary_evidence": [
+        "Original interval overlay-5:29cf:0772 through 07d0 exclusive. The entry boundary window is 8be55dca0200558bec83ec0c; the exit boundary window is 8be55dca020056b104a1485e.",
+        "Full linear decode reaches 07d0. Far returns at 07cd retf 2.",
+        "The BP prologue follows RETF 2 at 076f. The return at 07cd is followed at 07d0 by a fresh BP frame. The sole original relocated CALL using 29cf:0772 is in the resident CUSTOM draft at 06ef."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Builds a peel ID from the custom-piece shape plus 100, builds its rectangle and calls resident 0169:0526. FM DESERT AddDsrtStoneUpPeels and the callers of DrawCustomRoomImgAtInfo in the neighboring code corroborate the overlay."
+      ],
+      "entry_kind": "direct-code",
+      "id": "overlay-5:29cf:0772",
+      "offset": 1906,
+      "segment": 10703,
+      "sha256": "50007c46c79fcd7ff423d262409636a8c3f172bb4fe63b2687b3e81a06b4415d",
+      "size": 94,
+      "space": "overlay-5",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

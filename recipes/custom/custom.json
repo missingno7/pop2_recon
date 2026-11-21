@@ -1,0 +1,155 @@
+{
+  "binding": "evidence/bindings/custom/custom.json",
+  "binding_sha256": "bc762226aae81c1a1b74e83ba8f958de373af4576001217bd97e45c3c5be2674",
+  "claims": [
+    {
+      "fixup_count": 1,
+      "public": "ADDCUSTOMPIECEPEEL",
+      "relocation_indices": [
+        393
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:04a6:0006"
+    },
+    {
+      "fixup_count": 3,
+      "public": "DRAWCUSTOMROOMIMGATINFO",
+      "relocation_indices": [
+        405,
+        416
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:04a6:0088"
+    },
+    {
+      "fixup_count": 10,
+      "public": "GETCUSTOMPIECESHAPE",
+      "relocation_indices": [
+        384,
+        386,
+        396,
+        417,
+        419,
+        421,
+        424
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:04a6:0168"
+    },
+    {
+      "fixup_count": 2,
+      "public": "@GetCustomPieceShpInfo",
+      "target_id": "root:04a6:01de"
+    },
+    {
+      "fixup_count": 3,
+      "public": "GETCUSTOMPIECESIZE",
+      "target_id": "root:04a6:0216"
+    },
+    {
+      "fixup_count": 1,
+      "public": "ISCUSTOMIZEDROOM",
+      "target_id": "root:04a6:026c"
+    },
+    {
+      "fixup_count": 2,
+      "public": "NEEDDRAWROOMBELOWCUSTOM",
+      "target_id": "root:04a6:0658"
+    },
+    {
+      "fixup_count": 2,
+      "public": "RESTOREKEEPCUSTOMPEEL",
+      "relocation_indices": [
+        414
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:04a6:0676"
+    },
+    {
+      "fixup_count": 9,
+      "public": "UNLOADCUSTOMROOMDATA",
+      "relocation_indices": [
+        390,
+        412
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:04a6:072c"
+    },
+    {
+      "fixup_count": 14,
+      "public": "UNLOADCUSTOMROOMSHAPES",
+      "relocation_indices": [
+        385,
+        391,
+        398,
+        400,
+        401,
+        411
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:04a6:0784"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 56,
+      "public": "CHECKROOMSPECIFIC"
+    },
+    {
+      "object_offset": 302,
+      "public": "GETCUSTOMABOVEARY"
+    },
+    {
+      "object_offset": 682,
+      "public": "LOADCUSTOMROOMDATA"
+    },
+    {
+      "object_offset": 900,
+      "public": "LOADCUSTOMROOMSHAPES"
+    },
+    {
+      "object_offset": 1696,
+      "public": "SAVECUSTOMROOMPEELS"
+    },
+    {
+      "object_offset": 1792,
+      "public": "SETCUSTOMROOMTEMPLATE"
+    }
+  ],
+  "emitted_size": 2168,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 1190,
+  "group_id": "group:custom/custom",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "custom/custom",
+  "object_sha256": "3257a06775a265bde963a27048825e91fe5e30c8bf28ab52ae953958d00137e6",
+  "origin": 19046,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/custom/custom.c",
+  "source_sha256": "125e66b5f662e35bf2631bad0615b6bfc625dce5e4ab841bd1b8916c74dbe90a",
+  "space": "root"
+}

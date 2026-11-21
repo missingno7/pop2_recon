@@ -450,7 +450,6 @@ void check_floor(void)
     frame = actor_frame;
     switch (actor_action) {
     default:
-    check_ground:
         check_floor_below();
         return;
     case 2:
@@ -466,7 +465,7 @@ void check_floor(void)
         goto update_fall;
     case 5:
         if (frame == 0x6d)
-            goto check_ground;
+            check_floor_below();
         break;
     }
     return;
@@ -499,7 +498,10 @@ void check_press(void)
         else if (frame == 0x4f && kind == 15)
             damage_press_tile();
         else
-            kind = !(current_tile_flags & 0x40) ? 0 : locate_press_tile();
+            if (!(current_tile_flags & 0x40))
+                kind = 0;
+            else
+                kind = locate_press_tile();
     } else
         kind = 0;
 
@@ -569,72 +571,73 @@ void animate_gate(void)
     sbyte phase = current_trob.state;
     int sound;
 
-    if (phase >= 4) {
-        if (phase < 8)
-            current_trob.state = ++phase;
-        height -= gate_close_speed[phase];
-        if (height <= 0) {
-            sbyte row;
-            sbyte col;
-            if (level_type == 3) {
-                row = current_trob.cell / 10;
-                col = current_trob.cell % 10;
-                if (current_trob.room != player_room) {
-                    if (current_trob.room == right_room)
-                        col -= 10;
-                    else if (current_trob.room == left_room)
-                        col += 10;
+    if (phase >= 0) {
+        if (phase >= 4) {
+            if (phase < 8)
+                current_trob.state = ++phase;
+            height -= gate_close_speed[phase];
+            if (height <= 0) {
+                sbyte row;
+                sbyte col;
+                if (level_type == 3) {
+                    row = current_trob.cell / 10;
+                    col = current_trob.cell % 10;
+                    if (current_trob.room != player_room) {
+                        if (current_trob.room == right_room)
+                            col -= 10;
+                        else if (current_trob.room == left_room)
+                            col += 10;
+                    }
+                }
+                if (level_type == 3 && player_frame == 118 && row == player_row
+                        && (col == player_column || player_column - col == 1)) {
+                    height = 36;
+                    sound = 9;
+                } else {
+                    height = 0;
+                    sound = level_type == 3 ? 9 : 15;
+                    check_gate_fingers();
+                    if (did_player_escape_guard())
+                        collision_state = 4;
+                }
+                add_gate_sound(sound);
+                current_trob.state = -1;
+            }
+        } else {
+            if (height == 255)
+                stop_gate(height);
+            else {
+                height += gate_open_speed[phase];
+                if (phase == 0 || phase == 1) {
+                    if (height <= 0) {
+                        height = 0;
+                        stop_gate(height);
+                        check_gate_fingers();
+                    } else if (height < 200) {
+                        add_gate_sound(level_type == 3 ? 7 : 4);
+                        current_trob.state = 1;
+                        if (level_type == 3)
+                            height = limit_gate_opening(height);
+                    } else if (current_level == 5 && current_trob.room == 7)
+                        height = 0;
+                } else if (height < 200) {
+                    if (level_type == 3)
+                        add_gate_sound(7);
+                    else if (height % 8 == 0)
+                        add_gate_sound(4);
+                } else if (phase < 3) {
+                    redraw_gate();
+                    height = 250;
+                    current_trob.state = 0;
+                    add_gate_sound(level_type == 3 ? 8 : 5);
+                } else {
+                    height = 255;
+                    stop_gate(height);
                 }
             }
-            if (level_type == 3 && player_frame == 118 && row == player_row
-                    && (col == player_column || player_column - col == 1)) {
-                height = 36;
-                sound = 9;
-            } else {
-                height = 0;
-                sound = level_type == 3 ? 9 : 15;
-                check_gate_fingers();
-                if (did_player_escape_guard())
-                    collision_state = 4;
-            }
-            add_gate_sound(sound);
-            current_trob.state = -1;
         }
-    } else if (phase >= 0) {
-        if (height == 255)
-            stop_gate(height);
-        else {
-            height += gate_open_speed[phase];
-            if (phase == 0 || phase == 1) {
-                if (height <= 0) {
-                    height = 0;
-                    stop_gate(height);
-                    check_gate_fingers();
-                } else if (height < 200) {
-                    add_gate_sound(level_type == 3 ? 7 : 4);
-                    current_trob.state = 1;
-                    if (level_type == 3)
-                        height = limit_gate_opening(height);
-                } else if (current_level == 5 && current_trob.room == 7)
-                    height = 0;
-            } else if (height < 200) {
-                if (level_type == 3)
-                    add_gate_sound(7);
-                else if (height % 8 == 0)
-                    add_gate_sound(4);
-            } else if (phase < 3) {
-                redraw_gate();
-                height = 250;
-                current_trob.state = 0;
-                add_gate_sound(level_type == 3 ? 8 : 5);
-            } else {
-                height = 255;
-                stop_gate(height);
-            }
-        }
-    }
-    if (phase >= 0)
         room_object.state = (room_object.state & 0xff00U) + height;
+    }
     if (height <= 200)
         redraw_gate();
 }
@@ -1148,7 +1151,7 @@ typedef struct {
     byte timer, prev, next;
 } TileLink;
 
-static TileLink links[256];
+static TileLink links[255];
 
 int get_link_next(int link)
 {
@@ -1331,14 +1334,87 @@ void make_space(unsigned char room, signed char cell)
     room_objects[*(volatile int *)&index].state = state;
 }
 
-/* Loose-floor and mobile-list bodies at 183e through 1a10 are pending. */
+extern sbyte pressed_source, pressed_row, actor_press_source;
+extern byte shake_kind;
+extern byte select_shake_cell(byte room, sbyte column, sbyte row);
+extern void damage_crystal(void);
+extern void shake_style_row(byte room, sbyte row);
+
+void shake_loose_floor(void);
+
+void break_loose_floor(sbyte sound)
+{
+    if (actor_id == 1 && sound == 0) {
+        shake_loose_floor();
+    } else {
+        unsigned state = pressed_state & ~0x40U;
+        if (sound)
+            state = (state & ~4U) | 11;
+        room_objects[marked_cell].state = state;
+        add_trob(marked_room, marked_cell, sound, 11);
+        play_move_sound(20);
+    }
+}
+
+void shake_loose_floor(void)
+{
+    if (!(pressed_state & 15)) {
+        int counter = ((pressed_state & 0x30) >> 4) + 1;
+
+        if ((counter != 3 && pressed_source != actor_press_source) || actor_id == 1) {
+            pressed_state &= ~0x30U;
+            pressed_state |= (counter | 4) << 4;
+            room_objects[marked_cell].state = pressed_state | 0x40;
+        }
+        add_trob(marked_room, marked_cell, 1, 11);
+        play_move_sound(20);
+    }
+}
+
+void shake_row(byte room, sbyte row)
+{
+    Mob saved = current_mob;
+    sbyte column = 0;
+
+    do {
+        switch (select_shake_cell(room, column, row)) {
+        case 11:
+            shake_loose_floor();
+            break;
+        case 15:
+            damage_press_tile();
+            break;
+        case 26:
+            damage_crystal();
+            break;
+        }
+    } while (++column < 10);
+
+    if (shake_kind == 2)
+        shake_style_row(room, row);
+    current_mob = saved;
+}
 
 void add_mob(void)
 {
-    Mob *destination = &mobs[mob_count++];
-
-    *destination = current_mob;
+    if (mob_count < 30)
+        mobs[mob_count++] = current_mob;
 }
+
+Mob *get_mob_type_item(byte kind, int occurrence)
+{
+    Mob *found = 0;
+    int index, count;
+
+    for (count = index = 0; index < mob_count && found == 0; ++index) {
+        if (kind == mobs[index].kind && mobs[index].speed != -1) {
+            if (++count == occurrence)
+                found = &mobs[index];
+        }
+    }
+    return found;
+}
+
 
 void select_trob_cell(int cell)
 {
@@ -1346,7 +1422,213 @@ void select_trob_cell(int cell)
     tile_kind = room_kinds[cell];
 }
 
-/* Mobile animation and redraw bodies at 1a42 through 1f0a are pending. */
+extern int mob_index;
+extern int mob_heights[], mob_widths[];
+extern void animate_mob_kind_2(void);
+extern void animate_mob_kind_4(void);
+extern void animate_mob_kind_6(void);
+extern void check_mob_kind_6(void);
+extern void animate_mob_kind_10(void);
+extern void animate_mob_kind_11(void);
+extern void animate_mob_kind_12(void);
+
+void animate_mob(void);
+void mob_loose(void);
+void check_loose_crush(void);
+void make_rubble(void);
+void knock_loose(void);
+void PassThru(void);
+void mark_mob_redraw(sbyte layer);
+
+void anim_mobs(void)
+{
+    struct {
+        Mob *destination;
+        int kept, index;
+        union {
+            int count;
+            Mob *next;
+        } pass;
+    } work;
+
+    mob_index = 0;
+    work.pass.count = mob_count;
+    for (; mob_index < work.pass.count; ++mob_index) {
+        current_mob = mobs[mob_index];
+        animate_mob();
+        mobs[mob_index] = current_mob;
+    }
+
+    work.kept = work.index = 0;
+    if (work.index < mob_count) {
+        int *speed = &mobs[0].speed;
+
+        work.destination = mobs;
+        do {
+            if (*speed != -1) {
+                work.pass.next = work.destination++;
+                ++work.kept;
+                *work.pass.next = *(Mob *)((byte *)speed - (unsigned)&((Mob *)0)->speed);
+            }
+            speed = (int *)((byte *)speed + sizeof(Mob));
+        } while (++work.index < mob_count);
+    }
+    mob_count = work.kept;
+}
+
+void animate_mob(void)
+{
+    switch (current_mob.kind) {
+    case 0:
+    case 1:
+    case 3:
+        mob_loose();
+        if (current_mob.speed <= 0)
+            ++current_mob.speed;
+        check_loose_crush();
+        break;
+    case 2:
+        animate_mob_kind_2();
+        return;
+    case 4:
+        animate_mob_kind_4();
+        return;
+    case 6:
+        animate_mob_kind_6();
+        check_mob_kind_6();
+        return;
+    case 10:
+        animate_mob_kind_10();
+        return;
+    case 11:
+        animate_mob_kind_11();
+        return;
+    case 12:
+        animate_mob_kind_12();
+        return;
+    }
+}
+
+void mob_loose(void)
+{
+    byte kind;
+
+    if (current_mob.speed >= 0) {
+        if (current_mob.speed < 29)
+            current_mob.speed += 3;
+        current_mob.y += current_mob.speed;
+
+        if (!current_mob.room) {
+            if (mob_heights[current_mob.kind] + 192 <= current_mob.y) {
+                current_mob.speed = -2;
+                return;
+            }
+        } else if ((current_mob.row + 1) * 63 <= current_mob.y) {
+            kind = select_shake_cell(current_mob.room, current_mob.x / 32, current_mob.row);
+            if (kind == 11)
+                knock_loose();
+            else if (kind == 15)
+                damage_press_tile();
+
+            if (kind != 11 && kind != 15 && !tile_has_gate(kind)) {
+                play_move_sound(2);
+                shake_row(current_mob.room, current_mob.row);
+                current_mob.y = (current_mob.row + 1) * 63;
+                current_mob.speed = -2;
+                mobs[mob_index].flags = current_mob.flags = 1;
+                make_rubble();
+                return;
+            }
+            PassThru();
+        }
+    }
+}
+
+void make_rubble(void)
+{
+    struct {
+        int index;
+        sbyte row, column;
+        sbyte plate;
+        byte kind;
+        sbyte cell;
+        byte room;
+    } work;
+
+    work.plate = 0;
+    work.kind = select_shake_cell(current_mob.room, current_mob.x / 32, current_mob.row);
+    work.room = marked_room;
+    work.column = pressed_source;
+    work.row = pressed_row;
+    work.cell = marked_cell;
+
+    switch (work.kind) {
+    case 5:
+        work.plate = room_tiles[work.room][work.cell] = 14;
+    case 6:
+    case 34:
+        push_plate(work.plate, -1);
+        if (work.kind == 34)
+            room_records[work.room][work.cell].state = pressed_state | 0x1800;
+        select_shake_cell(current_mob.room, current_mob.x / 32, current_mob.row);
+        *(byte *)&pressed_state = 0;
+        if (work.kind == 5)
+            *(byte *)&pressed_state |= 4;
+        else if (work.kind == 6)
+            *(byte *)&pressed_state |= 8;
+        work.kind = pressed_kind;
+    case 1:
+    case 2:
+    case 10:
+    case 36:
+        if (work.kind == 10) {
+            Trob *flask = get_trob_room_cell(marked_room, marked_cell);
+            if (flask) {
+                current_trob = *flask;
+                redraw_flask();
+            }
+        }
+    case 19:
+    case 32:
+        work.kind = select_shake_cell(work.room, work.column, work.row);
+        if (work.kind == 19 || work.kind == 32) {
+            room_tiles[work.room][work.cell] = 32;
+        } else {
+            if (work.kind == 10 || work.kind == 1)
+                pressed_state = 0;
+            work.index = work.room * 30 + work.cell;
+            (&room_tiles[0][0])[work.index] = 14;
+            if (level_type == 4)
+                (&room_records[0][0])[work.index].state = pressed_state | 0x40;
+            else if ((level_type == 3 || level_type == 2) && work.kind != 1)
+                (&room_records[0][0])[work.index].state = 0;
+        }
+        break;
+    case 12:
+    case 13:
+        room_records[work.room][work.cell].state = pressed_state | 0x20;
+        break;
+    default:
+        return;
+    }
+    mark_mob_redraw(0);
+}
+
+void knock_loose(void)
+{
+    make_space(marked_room, marked_cell);
+    current_mob.speed >>= 1;
+    mobs[mob_index] = current_mob;
+    current_mob.y = current_mob.row * 63 + 66;
+    mark_mob_redraw(0);
+    current_mob.y = mobs[mob_index].y + 6;
+    PassThru();
+    add_mob();
+    current_mob = mobs[mob_index];
+    mark_mob_redraw(0);
+}
+
+
 
 typedef struct {
     unsigned char left, right, upper, lower;
@@ -1364,8 +1646,6 @@ void PassThru(void)
     }
 }
 
-/* Mobile animation and redraw bodies at 1f32 through 2492 are pending. */
-
 #pragma pack(1)
 typedef struct {
     signed char cell;
@@ -1374,6 +1654,292 @@ typedef struct {
     unsigned char action;
 } OpponentPosition;
 #pragma pack()
+
+void add_mob_to_frame(void);
+void add_loose_to_frame(void);
+void compute_mob_rect(MoveRect *rect);
+void add_mob_obj(int y);
+int opp_under_mob(OpponentPosition *opp);
+int loose_hits_actor(void);
+
+extern void add_mob_kind_2(void);
+extern void add_mob_kind_4(void);
+extern void add_mob_kind_6(void);
+extern void add_mob_kind_10(void);
+extern void add_mob_kind_11(void);
+extern void add_mob_kind_12(void);
+extern byte lower_left_room, upper_left_room;
+extern MoveRect empty_mob_rect;
+extern void offset_move_rect(MoveRect far *out, MoveRect far *base, int x, int y);
+extern sbyte room_row_at_y(int y);
+extern sbyte floor_row_for_draw(sbyte column, sbyte row);
+extern sbyte mob_floor_row;
+
+int is_loose_pushing_plate(void)
+{
+    byte kind = level_type == 3 ? 1 : 3;
+    int occurrence = 0;
+    int pushing = 0;
+    Mob *mob;
+
+    do {
+        mob = get_mob_type_item(kind, ++occurrence);
+        if (mob && mob->room == marked_room && mob->row == pressed_row
+                && mob->x / 32 == pressed_source && mob->flags)
+            pushing = 1;
+    } while (mob && !pushing);
+    return pushing;
+}
+
+void add_mobs(void)
+{
+    int index = 0;
+    Mob *entry;
+
+    if (index < mob_count) {
+        entry = mobs;
+        do {
+            current_mob = *entry;
+            add_mob_to_frame();
+            *entry = current_mob;
+            ++entry;
+        } while (++index < mob_count);
+    }
+}
+
+void add_mob_to_frame(void)
+{
+    switch (current_mob.kind) {
+    case 0:
+    case 1:
+    case 3:
+        add_loose_to_frame();
+        break;
+    case 2:
+        add_mob_kind_2();
+        return;
+    case 4:
+        add_mob_kind_4();
+        return;
+    case 6:
+        add_mob_kind_6();
+        return;
+    case 10:
+        add_mob_kind_10();
+        return;
+    case 11:
+        add_mob_kind_11();
+        return;
+    case 12:
+        add_mob_kind_12();
+        return;
+    }
+}
+
+void add_loose_to_frame(void)
+{
+    int visible = 1;
+    int y = current_mob.y;
+    struct {
+        MoveRect rect;
+        byte pad;
+        sbyte cell, row, column;
+        int height;
+    } work;
+
+    work.height = mob_heights[current_mob.kind];
+
+    if (viewed_room == current_mob.room) {
+        if (work.height + 191 <= y)
+            visible = 0;
+    } else if (upper_room == current_mob.room) {
+        if (work.height > y)
+            y += 191;
+        else
+            visible = 0;
+    } else if (lower_room == current_mob.room) {
+        if (191 - work.height <= y)
+            y -= 191;
+        else
+            visible = 0;
+    } else if (right_room == current_mob.room && mob_widths[current_mob.kind] + current_mob.x > 320) {
+        current_mob.x = current_mob.x - 320;
+        if (right_room == current_mob.room)
+            current_mob.room = viewed_room;
+        else if (lower_right_room == current_mob.room)
+            current_mob.room = lower_room;
+    } else {
+        visible = 0;
+    }
+
+    if (visible) {
+        mob_floor_row = floor_row_for_draw(work.column = current_mob.x / 32,
+                                           work.row = room_row_at_y(y));
+        mark_mob_redraw(1);
+        compute_mob_rect(&work.rect);
+        add_mob_obj(y);
+        ++work.column;
+        work.cell = room_cell(work.column, work.row);
+        if (upper_room != current_mob.room)
+            mark_floor(work.cell, &work.rect);
+        work.cell = room_row_at_y(y - work.height);
+        if (work.cell != work.row)
+            mark_floor(room_cell(work.column, work.cell), &work.rect);
+    }
+}
+
+void compute_mob_rect(MoveRect *rect)
+{
+    int x, y;
+
+    rect->edges[0] = current_mob.y - mob_heights[current_mob.kind];
+    rect->edges[1] = current_mob.x;
+    rect->edges[2] = current_mob.y + 1;
+    rect->edges[3] = rect->edges[1] + mob_widths[current_mob.kind];
+    if (viewed_room != current_mob.room) {
+        if (right_room == current_mob.room || lower_right_room == current_mob.room
+                || upper_right_room == current_mob.room || left_room == current_mob.room
+                || lower_left_room == current_mob.room || upper_left_room == current_mob.room)
+            x = -320;
+        else
+            x = 0;
+        if (lower_room == current_mob.room || lower_right_room == current_mob.room
+                || lower_left_room == current_mob.room)
+            y = -192;
+        else if (upper_room == current_mob.room || upper_right_room == current_mob.room
+                || upper_left_room == current_mob.room)
+            y = 192;
+        else
+            y = 0;
+        if (x || y)
+            offset_move_rect(rect, rect, x, y);
+        else
+            *rect = empty_mob_rect;
+    }
+}
+
+void mark_mob_redraw(sbyte layer)
+{
+    MoveRect rect;
+    CellMark mark;
+
+    compute_mob_rect(&rect);
+    if (layer == 1)
+        mark = mark_foreground;
+    else if (layer == 2)
+        mark = mark_floor;
+    else
+        mark = mark_move;
+    mark_bufs_for_rect(mark, &rect, -1);
+}
+
+#pragma pack(1)
+typedef struct {
+    int x, y;
+    byte bank;
+    int flags;
+    int scratch;
+    byte reserved;
+    byte image;
+    MoveRect rect;
+    byte layer;
+    int sequence;
+    sbyte order;
+} MobDraw;
+#pragma pack()
+
+extern int mob_draw_count;
+extern MobDraw mob_draw_list[];
+extern void order_mob_object(int index);
+
+void add_mob_obj(int y)
+{
+    int index = mob_draw_count++;
+    int zero;
+
+    mob_draw_list[index].image = current_mob.kind | 0x80;
+    mob_draw_list[index].x = current_mob.x;
+    mob_draw_list[index].y = y;
+    mob_draw_list[index].bank = 4;
+    mob_draw_list[index].flags = current_mob.flags;
+    compute_mob_rect(&mob_draw_list[index].rect);
+    zero = 0;
+    mob_draw_list[index].sequence = zero;
+    mob_draw_list[index].scratch = zero;
+    mob_draw_list[index].order = -1;
+    order_mob_object(index);
+}
+
+extern void load_player_actor(void);
+extern void hit_actor_with_loose(void);
+extern void load_guard_actor(sbyte index);
+extern void save_guard_actor(void);
+extern OpponentPosition *guard_for_mob(int room, int index);
+extern void hit_unloaded_guard(OpponentPosition *opp, byte room);
+extern int actor_y;
+extern sbyte near_crush_offset[], far_crush_offset[];
+extern int get_crush_reach(void);
+
+void check_loose_crush(void)
+{
+    sbyte index = 0;
+    sbyte count;
+
+    load_player_actor();
+    if (loose_hits_actor()) {
+        hit_actor_with_loose();
+        player_snapshot = actor_snapshot;
+    }
+
+    count = room_guard_counts[current_mob.room].guard_count;
+    for (; index < count; ++index) {
+        if (current_mob.room == player_room) {
+            load_guard_actor(index);
+            if (loose_hits_actor()) {
+                hit_actor_with_loose();
+                save_guard_actor();
+            }
+        } else {
+            OpponentPosition *guard = guard_for_mob(current_mob.room, index);
+            if (opp_under_mob(guard))
+                hit_unloaded_guard(guard, current_mob.room);
+        }
+    }
+}
+
+int loose_hits_actor(void)
+{
+    int hit = 0;
+    int y;
+    sbyte column;
+
+    if (actor_id == 11)
+        y = actor_y;
+    else if (actor_id == 7 || actor_id == 8)
+        y = actor_y - 20;
+    else
+        y = actor_y - 30;
+
+    if (actor_direction < 0 && actor_room == current_mob.room
+            && y < current_mob.y && actor_row == current_mob.row) {
+        column = current_mob.x / 32;
+        hit = column == actor_column;
+        if (!hit && actor_id == 11) {
+            int reach = get_crush_reach();
+            int edge;
+
+            edge = actor_column + far_crush_offset[actor_facing];
+            if (edge == column) {
+                if (reach > 8)
+                    hit = 1;
+            } else if (column == actor_column + near_crush_offset[actor_facing] && reach < 4) {
+                hit = 1;
+            }
+        }
+    }
+    return hit;
+}
+
 
 extern unsigned char stage_mode;
 
@@ -1393,13 +1959,13 @@ int opp_under_mob(OpponentPosition *opp)
     return result;
 }
 
-extern const char gate_sound_name[];
+extern int sound_playing(int resource);
 
 void add_gate_sound(int sound)
 {
     play_move_sound(sound);
     if (sound == 9 && current_level == 5 && current_trob.room == 7
-            && !has_sound_override(gate_sound_name)) {
+            && !sound_playing(10065)) {
         if (current_level != 5 || player_room != 7 || player_column >= 3)
             queue_move_sound(65);
     }
@@ -1434,9 +2000,9 @@ int is_visible_room_cell(byte room, sbyte cell)
 {
     int visible;
 
-    if (room == viewed_room || (room == right_room && cell % 10 == 9)
-            || (room == upper_room && cell < 10)
-            || (room == upper_right_room && cell == 9))
+    if (viewed_room == room || (right_room == room && cell % 10 == 9)
+            || (upper_room == room && cell < 10)
+            || (upper_right_room == room && cell == 9))
         visible = 1;
     else
         visible = 0;
