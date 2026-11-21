@@ -239,8 +239,13 @@ def fixes(module):
     return [e for r in module.fixups for e in r["resolved"] if e["kind"] == "fixup"]
 
 
-def ground(binding, target, oracle):
-    """Recheck frozen original witnesses outside the contribution being judged."""
+def ground(binding, target, oracle, claimed=None):
+    """Recheck frozen original witnesses outside the contribution being judged.
+
+    claimed (same-source groups only): positions (start, end) of the claimed extents. A v4
+    symbol witness may then also be an original instruction in an unclaimed draft region of
+    the object, and a v4 address may have no witness at all when the group proves it by
+    internal consensus (module_gate checks the second claimed site)."""
     require(binding["schema"] == 1 and binding["mode"] in ("external-dgroup-offset16-v1", "external-dgroup-word-pair-offset16-v2",
                                                         "external-overlay-dgroup-offset16-v1", IMMEDIATE_MODE,
                                                         OPERAND_MODE),
@@ -255,15 +260,17 @@ def ground(binding, target, oracle):
     start = oracle.spaces[target["space"]].position(target["segment"], target["offset"])
     end = start + target["size"]
 
-    def witness(spec):
+    def witness(spec, draft_ok=False):
         # v4 witnesses may sit in overlay code (reached from that overlay's own entries);
         # every other mode and the DGROUP frame witness stay resident.
         overlay_ok = binding["mode"] == OPERAND_MODE and "entry" in spec and spec["space"] in oracle.spaces
         require(spec["space"] == "root" or overlay_ok, "Unsupported cross-space data witness")
         wspace = oracle.spaces[spec["space"]]
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
+        same = spec["space"] == target["space"]
+        inside = ([(lo, hi) for lo, hi in claimed] if draft_ok and claimed is not None else [(start, end)])
         require(raw and 0 <= at and at+len(raw) <= wspace.size and
-                not (spec["space"] == target["space"] and at < end and start < at+len(raw)),
+                not (same and any(at < hi and lo < at+len(raw) for lo, hi in inside)),
                 "Binding witness overlaps candidate or escapes its space")
         require(wspace.data[at:at+len(raw)] == raw, "Original binding witness changed")
         return at, raw
@@ -294,16 +301,21 @@ def ground(binding, target, oracle):
             offset = symbol["offset"]
             require(symbol["kind"] == "dgroup-offset" and symbol["group"] == "DGROUP" and
                     type(offset) is int and 0 <= offset < 65536, "Unsupported v4 DGROUP symbol")
-            require(offset not in spans, "Two v4 symbols share one DGROUP offset")
-            spans.add(offset)
-            require(symbol.get("witnesses"), "DGROUP symbol has no independent witness")
             members = symbol.get("members", [])
-            require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and m.get("witnesses")
+            internal = claimed is not None  # a group may prove an address by internal consensus
+            require(type(symbol.get("witnesses")) is list and (symbol["witnesses"] or internal),
+                    "DGROUP symbol has no independent witness")
+            require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
+                        type(m.get("witnesses")) is list and (m["witnesses"] or internal)
                         for m in members) and len({m["offset"] for m in members}) == len(members),
                     "Every v4 member needs a positive offset and its own witnesses")
+            # No linked value S+k of one symbol may equal T+j of another (aliasing).
+            values = {offset} | {(offset + m["offset"]) & 0xFFFF for m in members}
+            require(not spans.intersection(values), "Two v4 symbols share one DGROUP offset")
+            spans.update(values)
             specs = [(spec, offset) for spec in symbol["witnesses"]] +                     [(spec, (offset + m["offset"]) & 0xFFFF) for m in members for spec in m["witnesses"]]
             for spec, expected_value in specs:
-                at, raw = witness(spec)
+                at, raw = witness(spec, draft_ok=True)
                 rows = instructions(raw)
                 require(len(rows) == 1, "Witness must be one complete instruction")
                 if "entry" in spec:

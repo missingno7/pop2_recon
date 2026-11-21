@@ -185,6 +185,58 @@ def _witnessed_frames(target, oracle):
     return frames
 
 
+def _check_unplaced(module, placements, symbols):
+    """A v4 external address may not fall inside this object's own placed DGROUP segment."""
+    lengths = {d["name"]: d["length"] for d in module.segment_defs}
+    for name, symbol in symbols.items():
+        values = [symbol["offset"]] + [(symbol["offset"] + m["offset"]) & 0xFFFF for m in symbol.get("members", [])]
+        for seg, at in placements.items():
+            require(not any(at <= v < at + lengths.get(seg, 0) for v in values),
+                    f"v4 address of {name} lies inside placed segment {seg}")
+
+
+def _internal_support(symbols, states, reports):
+    """Internal consensus for v4 addresses without witnesses (2026-11-21 review).
+
+    For each linked value S+k whose symbol or member lists no witness, every claimed field
+    with that value is proven only if equal fields of the same symbol and k occur at two or
+    more distinct original instruction starts, all inside CODE_EXACT claims. One unknown S
+    then meets two equations. Different k never support each other. A claim losing support
+    withdraws its fields, so the check runs to a fixpoint."""
+    need = set()
+    for name, symbol in symbols.items():
+        if symbol.get("kind") != "dgroup-offset":
+            continue
+        if not symbol.get("witnesses"):
+            need.add((name, 0))
+        need.update((name, m["offset"]) for m in symbol.get("members", []) if not m.get("witnesses"))
+    by_public = {r["public"]: r for r in reports}
+    for state in states.values():
+        for field in state["v4"]:
+            for equation in state["equations"]:
+                if equation.get("kind") == "DGROUP offset16" and equation["offset"] == field["offset"]:
+                    equation["support"] = "internal consensus" if field["key"] in need else "witnessed"
+    if not need:
+        return
+    changed = True
+    while changed:
+        changed = False
+        exact = [p for p in states if by_public[p].get("exact")]
+        sites = {}
+        for public in exact:
+            for field in states[public]["v4"]:
+                if field["key"] in need and field["equal"]:
+                    sites.setdefault(field["key"], set()).add(field["insn"])
+        for public in exact:
+            lacking = sorted({f["key"] for f in states[public]["v4"]
+                              if f["key"] in need and len(sites.get(f["key"], ())) < 2})
+            if lacking:
+                by_public[public].update(exact=False, state="REFUSED",
+                                         reason="v4 address without witness lacks a second equal claimed site: " +
+                                         ", ".join(f"{n}+{k}" for n, k in lacking))
+                changed = True
+
+
 def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     """Judge every claim; never raises for a claim-level mismatch, only for object-level refusal."""
     module = OmfReader().read(obj_data, "candidate")
@@ -242,8 +294,12 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             require(space.name == "root", "Group far calls are supported in root only")
             far_ground(symbol, hull, oracle)
         if data_only:
-            symbols = ground({**binding, "symbols": data_only}, hull, oracle)
+            claimed = [(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved]
+            symbols = ground({**binding, "symbols": data_only}, hull, oracle,
+                             claimed=claimed if binding["mode"] == OPERAND_MODE else None)
             mode = binding["mode"]
+            if mode == OPERAND_MODE:
+                _check_unplaced(module, placements, data_only)
         elif "frame" in binding:
             # Verify the DGROUP frame witness even without data symbols (DGROUP base fields).
             ground({**binding, "mode": OPERAND_MODE, "symbols": {}}, hull, oracle)
@@ -277,7 +333,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 rows = None
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [],
+                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "v4": [],
                      "fixups": len(mine), "frames": _witnessed_frames(target, oracle),
                      "report": report, "position": position,
                      "relocations": [r for r in space.relocations
@@ -512,6 +568,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                                 state["rows"], mode, state["occupied"])
                 state["equations"] += [dict(e, kind="DGROUP offset16") for e in found]
                 state["differences"] += unequal
+                if mode == OPERAND_MODE:
+                    for e in found:
+                        insn = next(i for i in state["rows"] if i.address <= e["offset"] < i.address + i.size)
+                        state["v4"].append({"key": (e["symbol"], e["encoded_addend"]), "equal": e["equal"],
+                                            "insn": state["position"] + insn.address, "offset": e["offset"]})
                 used_symbols.update(f["target"]["name"] for f in state["data"])
             piece, expected, occupied = state["piece"], state["expected"], state["occupied"]
             differences = state["differences"] + [i for i in range(len(piece))
@@ -526,6 +587,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                              if k in ("relocation_order", "relocation_order_debt", "relocation_groups")})
         except ValueError as error:
             report.update(exact=False, state="REFUSED", reason=str(error))
+    if mode == OPERAND_MODE and binding is not None:
+        _internal_support(binding["symbols"], states, reports)
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")

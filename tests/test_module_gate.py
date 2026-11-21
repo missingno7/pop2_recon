@@ -1,4 +1,5 @@
 """Same-source group gate: one placement, per-claim judgement, outside witnesses, safe migration."""
+import copy
 import struct
 import sys
 import tempfile
@@ -566,3 +567,74 @@ class PlacementTests(unittest.TestCase):
         self.assertTrue(self.check([("_DATA", b"\x12\x34", 2)], {}, {"_DATA": 8}, image))
         with self.assertRaisesRegex(ValueError, "differs"):
             self.check([("_DATA", b"\x12\x35", 2)], {}, {"_DATA": 8}, image)
+
+
+@unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+class V4InternalSupportTests(unittest.TestCase):
+    """A v4 address without witnesses is proven only by two equal claimed sites (internal
+    consensus); draft-region original instructions may witness; aliasing is refused."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        from module_gate import check_group
+        cls.oracle = Oracle.load()
+        recipe = common.read_json(ROOT / "recipes/ctrl/ctrl.json")
+        result = compile_c((ROOT / recipe["source"]).read_text(encoding="utf-8"), recipe["profile"],
+                           recipe["flags"], workdir=ROOT / "build/workers/tests/v4_internal")
+        assert result.ok, result.log
+        cls.obj = result.obj_bytes
+        cls.claims = [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]]
+        cls.binding = common.read_json(ROOT / recipe["binding"])
+        cls.group = recipe["group_id"]
+        baseline = check_group(cls.obj, cls.claims, cls.oracle, binding=cls.binding, group_id=cls.group)
+        assert baseline["exact"]
+        sites = {}
+        for claim in baseline["claims"]:
+            for e in claim["equations"]:
+                if e["kind"] == "DGROUP offset16" and e["encoded_addend"] == 0:
+                    sites.setdefault(e["symbol"], []).append(claim["object_offset"] + e["offset"])
+        plain = {n for n, s in cls.binding["symbols"].items() if s.get("kind") == "dgroup-offset" and not s.get("members")}
+        cls.multi = next(n for n, at in sites.items() if len(at) >= 2 and n in plain)
+        cls.single = next(n for n, at in sites.items() if len(at) == 1 and n in plain)
+        cls.single_site = sites[cls.single][0]
+
+    def check(self, binding):
+        from module_gate import check_group
+        return check_group(self.obj, self.claims, self.oracle, binding=binding, group_id=self.group)
+
+    def stripped(self, name):
+        binding = copy.deepcopy(self.binding)
+        binding["symbols"][name]["witnesses"] = []
+        return binding
+
+    def test_two_equal_claimed_sites_prove_an_unwitnessed_address(self):
+        report = self.check(self.stripped(self.multi))
+        self.assertTrue(report["exact"])
+        support = {e.get("support") for c in report["claims"] for e in c["equations"]
+                   if e.get("symbol") == self.multi and e["kind"] == "DGROUP offset16"}
+        self.assertEqual(support, {"internal consensus"})
+
+    def test_a_single_claimed_site_is_refused(self):
+        report = self.check(self.stripped(self.single))
+        refused = [c for c in report["claims"] if c["state"] == "REFUSED"]
+        self.assertTrue(refused)
+        self.assertIn("second equal claimed site", refused[0]["reason"])
+
+    def test_a_witness_inside_a_claim_is_refused(self):
+        binding = copy.deepcopy(self.binding)
+        at = self.single_site + self.check(self.binding)["origin"]
+        root = self.oracle.spaces["root"]
+        binding["symbols"][self.single]["witnesses"] = [
+            {"bytes_hex": root.data[at-2:at+2].hex(), "image_offset": at - 2, "operand_offset": 2,
+             "space": "root", "context": "inside a claim"}]
+        with self.assertRaisesRegex(ValueError, "overlaps candidate"):
+            self.check(binding)
+
+    def test_member_aliasing_another_symbol_is_refused(self):
+        binding = copy.deepcopy(self.binding)
+        other = binding["symbols"][self.single]["offset"]
+        mine = binding["symbols"][self.multi]
+        mine["members"] = [{"offset": (other - mine["offset"]) & 0xFFFF, "witnesses": []}]
+        with self.assertRaisesRegex(ValueError, "share one DGROUP offset"):
+            self.check(binding)

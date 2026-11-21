@@ -216,3 +216,35 @@ instruction shape:
   lists the reachable ones.
 - **Scope.** v4 proves code bytes only. Data extents, types and the runtime DS
   association are not claimed.
+
+## v4 internal consensus and draft-region witnesses in groups (2026-11-21)
+
+A field holds `S + k`, and `S` is a link-time unknown. One claimed site
+fits `S` to the claimed bytes. A second equal original field at a different
+instruction overdetermines `S`. This proves address equality only, not symbol
+identity, type or storage class. Same-source groups (v4 only) therefore accept
+these support sites for each linked value `S + k`:
+
+- **outside witness**: as before, an original instruction outside the whole
+  object;
+- **draft-region witness**: an original instruction inside the object but
+  outside every claimed extent, with the same witness shape (reached from an
+  entry, or a v1 direct DS operand). Only the original bytes count, never the
+  draft's compiled FIXUPP. When the group later claims that region, the
+  witness is refused, so the binding must switch to internal consensus. A
+  claim never silently loses its support;
+- **internal consensus**: a symbol or member with `"witnesses": []`. Every
+  claimed field with that symbol and `k` is proven only if equal fields of the
+  same symbol and `k` occur at two or more distinct original instruction
+  starts, all inside CODE_EXACT claims. The check runs to a fixpoint, so a
+  claim that loses exactness withdraws its sites. Different `k` never support
+  each other.
+
+Every v4 linked value `S + k` must differ from every other symbol's `T + j`.
+A v4 address may not fall inside the object's own placed segment. Each
+equation records `support` as `witnessed` or `internal consensus`, and
+validation recomputes it. Single-function gates are unchanged.
+
+Root measurements: 306 BSS addresses at 0x2930 and above are reached as
+direct DS operands. 142 of them are used by one code frame only. Of those,
+65 have two or more sites, and 77 single-site addresses stay unprovable.
