@@ -17596,6 +17596,924 @@
         "Passes a far message pointer to a same-frame dialog routine and returns whether its reply was one."
       ],
       "semantic_name_hypothesis": "confirm_quit"
+    },
+    {
+      "abi": "far Pascal, near port and mask word, RETF 4; returns zero",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e238,0x1e274); RETF site(s) 0040 ca0400; following entry at 1e23:0044.",
+        "Original surrounding bytes: preceding 5e8be55dca020090, trailing 558bec83ec085756.",
+        "Relocated words touching extent, in original order: [].",
+        "Header address is port+16. Loop repeats only until step returns nonzero, then runs cleanup.",
+        "No direct CALL entry found in the resident/module near edges or original relocated far entries; entry is supported by complete adjacent procedure boundaries and ABI."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Header address is port+16. Loop repeats only until step returns nonzero, then runs cleanup."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0008",
+      "offset": 8,
+      "segment": 7715,
+      "sha256": "aec9f9a998556dc67de1da1b8adf4ce85b41548b73db1dff3e65c1e499568e53",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, handle word, far header and mask word, RETF 8; returns block in DX:AX",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e274,0x1e32c); RETF site(s) 00f8 ca0800; following entry at 1e23:00fc.",
+        "Original surrounding bytes: preceding 5f8be55dca040090, trailing 558bec83ec2c5756.",
+        "Relocated words touching extent, in original order: [1757, 1759, 1762, 1766, 1771].",
+        "Allocates 0x916 bytes, copies eight-byte header and installs cleanup and step callbacks."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 131661,
+          "image_offset": 123469,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123468,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Allocates 0x916 bytes, copies eight-byte header and installs cleanup and step callbacks."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0044",
+      "offset": 68,
+      "segment": 7715,
+      "sha256": "c1434f5444b1554eaeea535689ead9455e29539c932ef2818afa3811c1e27784",
+      "size": 184,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one far state pointer, RETF 4; Boolean in AX",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e32c,0x1e43a); RETF site(s) 0207 ca0400; following entry at 1e23:020a.",
+        "Original surrounding bytes: preceding 5f8be55dca080090, trailing 558bec57568b7606.",
+        "Relocated words touching extent, in original order: [1772].",
+        "An installed callback. Global delay bypasses the update. The nested loops apply the mask and scale RGB components; done when elapsed is 64."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 131674,
+          "image_offset": 123482,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123481,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "An installed callback. Global delay bypasses the update. The nested loops apply the mask and scale RGB components; done when elapsed is 64."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:00fc",
+      "offset": 252,
+      "segment": 7715,
+      "sha256": "e9b23b2000a79bb4c8b58cd243260a1d667e09a8cf0ab06555824f9cd15800ad",
+      "size": 270,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, far state pointer, RETF 4",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e43a,0x1e464); RETF site(s) 0230 ca0400; following entry at 1e23:0234.",
+        "Original surrounding bytes: preceding 5e5f8be55dca0400, trailing 558bec83ec025756.",
+        "Relocated words touching extent, in original order: [1763].",
+        "Nested call at 0x0221 programs saved palette blocks, then a relocated call releases block flags."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 131686,
+          "image_offset": 123494,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123493,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Nested call at 0x0221 programs saved palette blocks, then a relocated call releases block flags."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:020a",
+      "offset": 522,
+      "segment": 7715,
+      "sha256": "169f83a34d27ffb63859a12499f94e83681192d1edb1e51309a63a781949ef49",
+      "size": 42,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, mask word followed by far buffer, RETF 6",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e464,0x1e4c0); RETF site(s) 028d ca0600; following entry at 1e23:0290.",
+        "Original surrounding bytes: preceding 5f8be55dca040090, trailing 558bec83ec045756.",
+        "Relocated words touching extent, in original order: [1769, 1770].",
+        "Mask FFFF reads all 256 DAC entries. Otherwise the mask selects 16 blocks of 16 colors and advances the buffer in 48-byte increments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 131795,
+          "image_offset": 123603,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123602,
+          "space": "root"
+        },
+        {
+          "file_offset": 132742,
+          "image_offset": 124550,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 124549,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Mask FFFF reads all 256 DAC entries. Otherwise the mask selects 16 blocks of 16 colors and advances the buffer in 48-byte increments."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0234",
+      "offset": 564,
+      "segment": 7715,
+      "sha256": "a1dbc6403c700023e992989e5c35863ef67f85c2436252823495886eb9520d3e",
+      "size": 92,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, mask word followed by far buffer, RETF 6",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e4c0,0x1e5a8); RETF site(s) 0374 ca0600; following entry at 1e23:0378.",
+        "Original surrounding bytes: preceding 5e5f8be55dca0600, trailing 558bec83ec085756.",
+        "Relocated words touching extent, in original order: [1749, 1750].",
+        "Handles FFFF, FFFE, and FFF8 specially, including null buffers. The general loop writes selected 16-color blocks with synchronization on every fourth write."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 163043,
+          "image_offset": 7107,
+          "kind": "far_call",
+          "relocated_segment_site": 7110,
+          "relocation_index": 179,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 165054,
+          "image_offset": 9118,
+          "kind": "far_call",
+          "relocated_segment_site": 9121,
+          "relocation_index": 180,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 164841,
+          "image_offset": 8905,
+          "kind": "far_call",
+          "relocated_segment_site": 8908,
+          "relocation_index": 181,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 165693,
+          "image_offset": 9757,
+          "kind": "far_call",
+          "relocated_segment_site": 9760,
+          "relocation_index": 182,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172625,
+          "image_offset": 16689,
+          "kind": "far_call",
+          "relocated_segment_site": 16692,
+          "relocation_index": 183,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172571,
+          "image_offset": 16635,
+          "kind": "far_call",
+          "relocated_segment_site": 16638,
+          "relocation_index": 184,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 131806,
+          "image_offset": 123614,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123613,
+          "space": "root"
+        },
+        {
+          "file_offset": 132127,
+          "image_offset": 123935,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123934,
+          "space": "root"
+        },
+        {
+          "file_offset": 132177,
+          "image_offset": 123985,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 123984,
+          "space": "root"
+        },
+        {
+          "file_offset": 133210,
+          "image_offset": 125018,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 125017,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Handles FFFF, FFFE, and FFF8 specially, including null buffers. The general loop writes selected 16-color blocks with synchronization on every fourth write."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0290",
+      "offset": 656,
+      "segment": 7715,
+      "sha256": "b7648e34870e434c3a909b0b84ed524b97f65a7fa9586c127cc72def77a3a975",
+      "size": 232,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, three words at BP+0a/+08/+06, RETF 6; abort result in AX",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e5a8,0x1e610); RETF site(s) 03dc ca0600; following entry at 1e23:03e0.",
+        "Original surrounding bytes: preceding 5f8be55dca060090, trailing 558bec83ec0c5756.",
+        "Relocated words touching extent, in original order: [1748, 1761].",
+        "Allocates fade state, compares two palettes, loops over the step and abort-poll calls, then releases state."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30039,
+          "image_offset": 21847,
+          "kind": "far_call",
+          "relocated_segment_site": 21850,
+          "relocation_index": 443,
+          "space": "root"
+        },
+        {
+          "file_offset": 30097,
+          "image_offset": 21905,
+          "kind": "far_call",
+          "relocated_segment_site": 21908,
+          "relocation_index": 444,
+          "space": "root"
+        },
+        {
+          "file_offset": 158176,
+          "image_offset": 2240,
+          "kind": "far_call",
+          "relocated_segment_site": 2243,
+          "relocation_index": 83,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 158662,
+          "image_offset": 2726,
+          "kind": "far_call",
+          "relocated_segment_site": 2729,
+          "relocation_index": 84,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160369,
+          "image_offset": 4433,
+          "kind": "far_call",
+          "relocated_segment_site": 4436,
+          "relocation_index": 85,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160299,
+          "image_offset": 4363,
+          "kind": "far_call",
+          "relocated_segment_site": 4366,
+          "relocation_index": 86,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160226,
+          "image_offset": 4290,
+          "kind": "far_call",
+          "relocated_segment_site": 4293,
+          "relocation_index": 87,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 159699,
+          "image_offset": 3763,
+          "kind": "far_call",
+          "relocated_segment_site": 3766,
+          "relocation_index": 88,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161220,
+          "image_offset": 5284,
+          "kind": "far_call",
+          "relocated_segment_site": 5287,
+          "relocation_index": 89,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 160861,
+          "image_offset": 4925,
+          "kind": "far_call",
+          "relocated_segment_site": 4928,
+          "relocation_index": 90,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161528,
+          "image_offset": 5592,
+          "kind": "far_call",
+          "relocated_segment_site": 5595,
+          "relocation_index": 91,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162615,
+          "image_offset": 6679,
+          "kind": "far_call",
+          "relocated_segment_site": 6682,
+          "relocation_index": 92,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 162547,
+          "image_offset": 6611,
+          "kind": "far_call",
+          "relocated_segment_site": 6614,
+          "relocation_index": 93,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163610,
+          "image_offset": 7674,
+          "kind": "far_call",
+          "relocated_segment_site": 7677,
+          "relocation_index": 94,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 164125,
+          "image_offset": 8189,
+          "kind": "far_call",
+          "relocated_segment_site": 8192,
+          "relocation_index": 95,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 164537,
+          "image_offset": 8601,
+          "kind": "far_call",
+          "relocated_segment_site": 8604,
+          "relocation_index": 96,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 166028,
+          "image_offset": 10092,
+          "kind": "far_call",
+          "relocated_segment_site": 10095,
+          "relocation_index": 97,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 166272,
+          "image_offset": 10336,
+          "kind": "far_call",
+          "relocated_segment_site": 10339,
+          "relocation_index": 98,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 167127,
+          "image_offset": 11191,
+          "kind": "far_call",
+          "relocated_segment_site": 11194,
+          "relocation_index": 99,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 167061,
+          "image_offset": 11125,
+          "kind": "far_call",
+          "relocated_segment_site": 11128,
+          "relocation_index": 100,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 166750,
+          "image_offset": 10814,
+          "kind": "far_call",
+          "relocated_segment_site": 10817,
+          "relocation_index": 101,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 166692,
+          "image_offset": 10756,
+          "kind": "far_call",
+          "relocated_segment_site": 10759,
+          "relocation_index": 102,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 168508,
+          "image_offset": 12572,
+          "kind": "far_call",
+          "relocated_segment_site": 12575,
+          "relocation_index": 103,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 168316,
+          "image_offset": 12380,
+          "kind": "far_call",
+          "relocated_segment_site": 12383,
+          "relocation_index": 104,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172359,
+          "image_offset": 16423,
+          "kind": "far_call",
+          "relocated_segment_site": 16426,
+          "relocation_index": 105,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172730,
+          "image_offset": 16794,
+          "kind": "far_call",
+          "relocated_segment_site": 16797,
+          "relocation_index": 106,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172684,
+          "image_offset": 16748,
+          "kind": "far_call",
+          "relocated_segment_site": 16751,
+          "relocation_index": 107,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 173419,
+          "image_offset": 17483,
+          "kind": "far_call",
+          "relocated_segment_site": 17486,
+          "relocation_index": 108,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 173974,
+          "image_offset": 18038,
+          "kind": "far_call",
+          "relocated_segment_site": 18041,
+          "relocation_index": 109,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174536,
+          "image_offset": 18600,
+          "kind": "far_call",
+          "relocated_segment_site": 18603,
+          "relocation_index": 110,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 175512,
+          "image_offset": 19576,
+          "kind": "far_call",
+          "relocated_segment_site": 19579,
+          "relocation_index": 111,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 176892,
+          "image_offset": 20956,
+          "kind": "far_call",
+          "relocated_segment_site": 20959,
+          "relocation_index": 112,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 177279,
+          "image_offset": 21343,
+          "kind": "far_call",
+          "relocated_segment_site": 21346,
+          "relocation_index": 113,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 133818,
+          "image_offset": 125626,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 125625,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Allocates fade state, compares two palettes, loops over the step and abort-poll calls, then releases state."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0378",
+      "offset": 888,
+      "segment": 7715,
+      "sha256": "f20850e3ff8bec8633072c28eef60421e0f26d9bfbae5f617411358a9098d181",
+      "size": 104,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, handle/mask/delay words, RETF 6; far state in DX:AX",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e610,0x1e6f6); RETF site(s) 04c3 ca0600; following entry at 1e23:04c6.",
+        "Original surrounding bytes: preceding 5f8be55dca060090, trailing 558becff7608ff76.",
+        "Relocated words touching extent, in original order: [1755, 1756, 1758, 1760, 1765, 1767, 1768, 1775].",
+        "Allocates a 0x916-byte state and installs cleanup and step callbacks. Initializes three RGB buffers."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 163006,
+          "image_offset": 7070,
+          "kind": "far_call",
+          "relocated_segment_site": 7073,
+          "relocation_index": 337,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163063,
+          "image_offset": 7127,
+          "kind": "far_call",
+          "relocated_segment_site": 7130,
+          "relocation_index": 338,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163190,
+          "image_offset": 7254,
+          "kind": "far_call",
+          "relocated_segment_site": 7257,
+          "relocation_index": 339,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163547,
+          "image_offset": 7611,
+          "kind": "far_call",
+          "relocated_segment_site": 7614,
+          "relocation_index": 340,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 163718,
+          "image_offset": 7782,
+          "kind": "far_call",
+          "relocated_segment_site": 7785,
+          "relocation_index": 341,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174646,
+          "image_offset": 18710,
+          "kind": "far_call",
+          "relocated_segment_site": 18713,
+          "relocation_index": 342,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174597,
+          "image_offset": 18661,
+          "kind": "far_call",
+          "relocated_segment_site": 18664,
+          "relocation_index": 343,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174900,
+          "image_offset": 18964,
+          "kind": "far_call",
+          "relocated_segment_site": 18967,
+          "relocation_index": 344,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 132540,
+          "image_offset": 124348,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 124347,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Allocates a 0x916-byte state and installs cleanup and step callbacks. Initializes three RGB buffers."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:03e0",
+      "offset": 992,
+      "segment": 7715,
+      "sha256": "0c8d450e190372a085c4ea0f4d4b5cddaf31486a730c0933bb202818f45e667c",
+      "size": 230,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, far fade state, RETF 4; Boolean in AX",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e70a,0x1e874); RETF site(s) 0641 ca0400; following entry at 1e23:0644.",
+        "Original surrounding bytes: preceding 01118be55dca0400, trailing 558bec81ec000357.",
+        "Relocated words touching extent, in original order: [1773].",
+        "On zero delay interpolates from saved DAC to target and programs selected blocks. Returns done at elapsed 64."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 180597,
+          "image_offset": 24661,
+          "kind": "far_call",
+          "relocated_segment_site": 24664,
+          "relocation_index": 775,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 181338,
+          "image_offset": 25402,
+          "kind": "far_call",
+          "relocated_segment_site": 25405,
+          "relocation_index": 776,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 132586,
+          "image_offset": 124394,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 124393,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "On zero delay interpolates from saved DAC to target and programs selected blocks. Returns done at elapsed 64."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:04da",
+      "offset": 1242,
+      "segment": 7715,
+      "sha256": "742832647c4b899410bbb5225af4e14ed3930aaaefd1a67dd1896c579f7c3ea6",
+      "size": 362,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two far RGB buffers, RETF 8",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e874,0x1e8d6); RETF site(s) 06a2 ca0800; following entry at 1e23:06a6.",
+        "Original surrounding bytes: preceding 5e5f8be55dca0400, trailing 558bec81ec000357.",
+        "Relocated words touching extent, in original order: [1753, 1754].",
+        "Same-segment blend call at 0x066a; factor increases from 0 through 63. Enters after the preceding RETF 4.",
+        "No direct CALL entry found in the resident/module near edges or original relocated far entries; entry is supported by complete adjacent procedure boundaries and ABI."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Same-segment blend call at 0x066a; factor increases from 0 through 63. Enters after the preceding RETF 4."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0644",
+      "offset": 1604,
+      "segment": 7715,
+      "sha256": "49232be9aa773c9bcb2e1ceed77922ecdd847922f24dea70b2eb8fa7f6bb60ff",
+      "size": 98,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two far RGB buffers, RETF 8",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e8d6,0x1e936); RETF site(s) 0702 ca0800; following entry at 1e23:0706.",
+        "Original surrounding bytes: preceding 5f8be55dca080090, trailing 558bec83ec085756.",
+        "Relocated words touching extent, in original order: [1751, 1752].",
+        "Same-segment blend call at 0x06cd; factor falls from 63 through 0.",
+        "No direct CALL entry found in the resident/module near edges or original relocated far entries; entry is supported by complete adjacent procedure boundaries and ABI."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Same-segment blend call at 0x06cd; factor falls from 63 through 0."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:06a6",
+      "offset": 1702,
+      "segment": 7715,
+      "sha256": "de527641846c128d84ffd5582740efad56bf420f05f2f477785ee60a61a376ff",
+      "size": 96,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, three far RGB buffers and two factor words, RETF 16",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1e936,0x1e9dc); RETF site(s) 07a9 ca1000; following entry at 1e23:07ac.",
+        "Original surrounding bytes: preceding 5f8be55dca080090, trailing 558bec568b760c8a.",
+        "Relocated words touching extent, in original order: [].",
+        "Calls the three consecutive component helpers. Sixteen blocks of 16 output entries."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 133274,
+          "image_offset": 125082,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 125081,
+          "space": "root"
+        },
+        {
+          "file_offset": 133373,
+          "image_offset": 125181,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 125180,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Calls the three consecutive component helpers. Sixteen blocks of 16 output entries."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0706",
+      "offset": 1798,
+      "segment": 7715,
+      "sha256": "2f96f32fe0b31ca3308c30b7af3109738562e30e84ee37352be9bc16c75ff5be",
+      "size": 166,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two far three-byte buffers, RETF 8",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1ea02,0x1ea2e); RETF site(s) 07fa ca0800; following entry at 1e23:07fe.",
+        "Original surrounding bytes: preceding 5e8be55dca0a0090, trailing 558bec57568b7e08.",
+        "Relocated words touching extent, in original order: [1774].",
+        "Loads two independent far pointers, adds each source byte to the corresponding destination byte, and restores DS."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 133517,
+          "image_offset": 125325,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 125324,
+          "space": "root"
+        },
+        {
+          "file_offset": 133558,
+          "image_offset": 125366,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 125365,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Loads two independent far pointers, adds each source byte to the corresponding destination byte, and restores DS."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:07d2",
+      "offset": 2002,
+      "segment": 7715,
+      "sha256": "deb65265b56524f7477513f145330bbac658bfa7e703c9b620849bccf05e6bee",
+      "size": 44,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no arguments, RETF",
+      "boundary_evidence": [
+        "Reviewed root interval [0x1ea96,0x1eada); RETF site(s) 08a8 cb; following entry at 1e23:08aa.",
+        "Original surrounding bytes: preceding 5e5f8be55dca0a00, trailing 558bec56b82c0050.",
+        "Relocated words touching extent, in original order: [1747].",
+        "Saves and clears a far global, requests a full fade and updates a record, then restores the global. Verified next-frame entry is 1ead:000a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 158708,
+          "image_offset": 2772,
+          "kind": "far_call",
+          "relocated_segment_site": 2775,
+          "relocation_index": 513,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 161335,
+          "image_offset": 5399,
+          "kind": "far_call",
+          "relocated_segment_site": 5402,
+          "relocation_index": 514,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 166035,
+          "image_offset": 10099,
+          "kind": "far_call",
+          "relocated_segment_site": 10102,
+          "relocation_index": 515,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 168120,
+          "image_offset": 12184,
+          "kind": "far_call",
+          "relocated_segment_site": 12187,
+          "relocation_index": 516,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 172376,
+          "image_offset": 16440,
+          "kind": "far_call",
+          "relocated_segment_site": 16443,
+          "relocation_index": 517,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 174274,
+          "image_offset": 18338,
+          "kind": "far_call",
+          "relocated_segment_site": 18341,
+          "relocation_index": 518,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 177295,
+          "image_offset": 21359,
+          "kind": "far_call",
+          "relocated_segment_site": 21362,
+          "relocation_index": 519,
+          "space": "overlay-2"
+        },
+        {
+          "file_offset": 181376,
+          "image_offset": 25440,
+          "kind": "far_call",
+          "relocated_segment_site": 25443,
+          "relocation_index": 784,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Saves and clears a far global, requests a full fade and updates a record, then restores the global. Verified next-frame entry is 1ead:000a."
+      ],
+      "classification_status": "reviewed palette module hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:1e23:0866",
+      "offset": 2150,
+      "segment": 7715,
+      "sha256": "6e7fab5933e992665bcc4c5787517475db34e6cde0150db13f8013432e47eddb",
+      "size": 68,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
