@@ -56721,6 +56721,410 @@
       "size": 518,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-12:2c3e:0774",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 1908,
+      "size": 400,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated original CALL FAR at overlay-3+196f (overlay relocation 1) enters the 0774 BP frame. Overlay-12 site relocations 116 and 86 bracket the interval in frame 2c3e.",
+        "The preceding run-jump closes at 0772 and aligns at 0773. Branches stay inside the candidate through final RETF 0903 immediately before the BP-framed entry at 0904.",
+        "Original PUSH CS; CALL at 07c6/07c7 reaches 002e only when the frame and alert checks enter the zero-alert branch, guard_wait is zero and actor_kind is not 4."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-3",
+          "image_offset": 6511,
+          "file_offset": 191279,
+          "relocated_segment_site": 6514
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Original actor state and extent review in the cited independently entered routine."
+      ],
+      "original_name": null,
+      "semantic_name_hypothesis": "guard_en_garde",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0657568b16075c803e235c017503e96201803e235c027503e9580181faa6007503e94f0181fa96007303e94601803e235c007521833e9a620074080ee87efae9430190803e065c047503e938010ee864f8e93101908b3e475c9aac1ccc028bf083fe1b7c1483ff66720f83ff76730a803e4b5c057503e90c018d5efc8d46fa9a7c2144238b46fa050c003bc67f03e99c003976fc7f03e98800803e494505752f803e0a5c017528803e0e5c0a740e803e0e5c077407803e0e5c0c75139ad50d03220bc0740a0ee8c0f75e5f8be55dcb9a5810cc028846ff50ff3671629ad62344230bc0740e0bf67e0a0ee8a6f75e5f8be55dcb803e49450575cb803e0a5c0175c4803e0e5c0a740e803e0e5c077407803e0e5c0c75af9a9803c22d0bc07466eba4560ee8b9fa5e5f8be55dcb90833e4e6a007551a0015c3806415c750a0ee8ba025e5f8be55dcb83ff07721783ff0f731283fe477d2fb0fe500ee86cf75e5f8be55dcb83ff2272d583ff2c73d083fe5eebe290803e235c017407803e235c0275040ee806005e5f8be55dcb",
+      "sha256": "35b829b0d1566979d87ece1119976f65bc14d027e2a64e61e44c70367efe4aee",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:0904",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 2308,
+      "size": 538,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+08fb enters this routine.",
+        "Original decoded branches stay in [0904, 0b1e) and RETF at 0b1d closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 257515,
+          "image_offset": 2299,
+          "pushed_cs_site": 2298
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "wait_en_garde",
+      "original_bytes_hex": "558bec83ec065756a0015cf6d0509af00844238846fefec0750bb001509af00844238846fe807efeff7503e9e601a0005c3846fe7503e979012bf6b001509a3010cc028846ff50ff3671629ad62344230bc07435b002509a3010cc028846ff50ff3671629ad62344230bc0741cb003509a3010cc028846ff50ff3671629ad62344230bc07403be01008a46fe988bd8b106d3e3895efaa1025c2b87c25c9933c22bc28bf80ee872018946fc0518003bc77d03e98d00a0015c8b5efa3887c15c750783bfd95c54747a0bf6746aa0015c3806415c7561833e475c017207833e475c0e761c833e475c317207833e475c38760e833e475c22723e833e475c2c7737803e4b5c077430803e385c007429a1025c3906425c7e07803e415c00740d3906425c7d13803e415cff750c0ee8a4f65e5f8be55dcb90903b7efc7c03e9d600e9bc00900bf67503e9cb00833e195c547503e9c1008b5efa83bfd95c547509a0015c3887c15c743aa0015c3806415c7538833e475c017207833e475c0e761c833e475c317207833e475c38760e833e475c227215833e475c2c770e803e4b5c077407803e385c0075830ee853f55e5f8be55dcb90a1825c2b06025c9933c22bc28bc883f9407d4f83f9207d04b001eb02b002509a3010cc028846ff509a30288a070bc0751a8a46ff509ac8288a070bc0750d807eff04751e803e71627073179a5810cc0250ff3671629ad62344230bc074040ee8f4f45e5f8be55dcb",
+      "sha256": "66a98092cf529f2cb551a62b4e4a463f41dfbff8694cf136ccf5fe15885ad2be",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:0b1e",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 2846,
+      "size": 86,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+09a9 enters this routine.",
+        "Original decoded branches stay in [0b1e, 0b74) and RETF at 0b73 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 257689,
+          "image_offset": 2473,
+          "pushed_cs_site": 2472
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "opponent_spacing",
+      "original_bytes_hex": "558bec83ec0256be6000b074f626345e8bd88a87f5448846fe8a0e005cfec1884eff3ac17e298a46ff988bd8b106d3e3a1025c2b87c25c9933c22bc23d18007d0383c6188a46fefe46ff3846ff7cd78bc65e8be55dcb",
+      "sha256": "6a2c71b1c828c5758a732912fd6cd1a9517345c1f26c40a4f4f85a2a75a99424",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments. Returns the computed distance threshold in AX."
+    },
+    {
+      "id": "overlay-12:2c3e:0b74",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 2932,
+      "size": 226,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+08b7 enters this routine.",
+        "Original decoded branches stay in [0b74, 0c56) and RETF at 0c55 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 257447,
+          "image_offset": 2231,
+          "pushed_cs_site": 2230
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "guard_no_jump",
+      "original_bytes_hex": "558bec83ec02b001509a3010cc028846ffb002509a3010cc028846fe8a46ff509ac8288a070bc074438a46fe509ac8288a070bc07436803e4945057525803e0a5c01751e803e0e5c0a740e803e0e5c077407803e0e5c0c75099ad50d03220bc0757c0ee832f48be55dcb9090a0015c3806415c7565833e475c017207833e475c0e761c833e475c317207833e475c38760e833e475c227242833e475c2c773b803e4b5c077434803e385c00742d803e494505751c803e0a5c017515803e0e5c0a7418803e0e5c077411803e0e5c0c740a0ee88ef48be55dcb90900ee86c008be55dcb",
+      "sha256": "5d09202565a0795eef24d97cc0ca3931edf602bedcf12d1179d279cd2b82be20",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:0c56",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 3158,
+      "size": 104,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+0372 enters this routine.",
+        "Original decoded branches stay in [0c56, 0cbe) and RETF at 0cba closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 256098,
+          "image_offset": 882,
+          "pushed_cs_site": 881
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "generic_fight",
+      "original_bytes_hex": "558bec83ec04568b76068d5efe8d46fc9a7c2144233976fe7f423b76fc7d3d803e4945057525803e0a5c01751e803e0e5c0a740e803e0e5c077407803e0e5c0c75099ad50d03220bc075110ee8bb00833e4e6a00750a0ee82a01eb040ee808005e8be55dca020090",
+      "sha256": "5782a19eb624812a93ea2678a18357ebf7be836e77d92f1554c2e07f37bd774b",
+      "abi": "Medium-model far call with a callee-cleaned stack. RETF 2 pops one word. The routine reads the signed distance at BP+6."
+    },
+    {
+      "id": "overlay-12:2c3e:0cbe",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 3262,
+      "size": 162,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+0c4f enters this routine.",
+        "Original decoded branches stay in [0cbe, 0d60) and RETF at 0d5f closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 258367,
+          "image_offset": 3151,
+          "pushed_cs_site": 3150
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 258467,
+          "image_offset": 3251,
+          "pushed_cs_site": 3250
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "maybe_advance",
+      "original_bytes_hex": "558bec83ec0256b074f6260e5c8bd8b017f62e005c8bf08a80fa448846ff803e4945057525803e0a5c01751e803e0e5c0a740e803e0e5c077407803e0e5c0c75099ad50d03220bc0754f807eff007407833e4c6a007546803e4945057525803e0a5c01751e803e0e5c0a740e803e0e5c077407803e0e5c0c75099a9803c22d0bc0741ab8ff00509a9000611f8a5eff2affd1e33987821d76040ee8a7f25e8be55dcb",
+      "sha256": "89d4bcbcae82f20264a934f68ee86f15507f6b5f4e1d6af5f8c978b3d03d8151",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:0d60",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 3424,
+      "size": 122,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+0ca2 enters this routine.",
+        "Original decoded branches stay in [0d60, 0dda) and RETF at 0dd8 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 258450,
+          "image_offset": 3234,
+          "pushed_cs_site": 3233
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "maybe_block",
+      "original_bytes_hex": "558bec83ec0256803e065c0a7466813e475c98007410813e475c99007408813e475ca200754eb074f6260e5c8bd8b017f62e005c8bf08a80fa448846ff833e466a007416b8ff00509a9000611f8a5eff2affd1e339876a1deb14b8ff00509a9000611f8a5eff2affd1e33987521d76040ee844f25e8be55dcb90",
+      "sha256": "c7cfb95e78a8751389a8eacc25568e2ddc946d0ed4d7c6c0d8827ee10adf9a18",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:0dda",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 3546,
+      "size": 134,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+0cad enters this routine.",
+        "Original decoded branches stay in [0dda, 0e60) and RETF at 0e5f closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 258461,
+          "image_offset": 3245,
+          "pushed_cs_site": 3244
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "maybe_strike",
+      "original_bytes_hex": "558bec83ec0256813e475ca9007472813e475c9700746ab074f6260e5c8bd8b017f62e005c8bf08a80fa448846ff803e065c07742f803e065c087428813e075ca1007408813e075c96007518b8ff00509a9000611f8a5eff2affd1e339873a1deb169090b8ff00509a9000611f8a5eff2affd1e33987221d7607b0fe500ee8e7f15e8be55dcb",
+      "sha256": "9840a896e4edd4ee87a00ca519e939693b1448b77c31ed06e29fbebb92d77b80",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:0e60",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 3680,
+      "size": 268,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original push_cs_near_call at overlay-12+0ff4 enters this routine.",
+        "Original decoded branches stay in [0e60, 0f6c) and RETF at 0f69 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-12",
+          "file_offset": 259300,
+          "image_offset": 4084,
+          "pushed_cs_site": 4083
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "opponent_close",
+      "original_bytes_hex": "558bec83ec0457562bf6a0345e2ae4508a460c98509ab40844238bf80bff7503e9df00803e115c007d03e9d500833e245c057503e9cb00397513740fa00e5c500ee860030bc07503e9b7008a460a3806095c7e0ea0095cfec08846fec646fd01eb0ca0095cfec88846fec646fdff8a460838060a5c7403e98800a0095c988bc88a4606988bd08a460a982bc23bc17f72a0095c988bc88a460a988bd08a46069803d03bd17c5ca00e5c508a460a508a4608509af000cc028846ff509a30288a070bc07407803e065c0a75238a46ff509afe288a070bc07516807eff0475099aa20802280bc07507be0100eb0490902bf68a46fd00460a0bf674088a460a3846fe75a48bc65e5f8be55dca0800",
+      "sha256": "0996e7f73e491a721b8cff8b9d42fd21fd8ae1bc4ff095db386d2974afdfbd59",
+      "abi": "Medium-model far call with a callee-cleaned stack. RETF 8 pops four stack words. The routine reads the low bytes as slot, column, row and radius and returns AX."
+    },
+    {
+      "id": "overlay-12:2c3e:0f6c",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 3948,
+      "size": 364,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original far_call at root+eb51 enters this routine.",
+        "Original decoded branches stay in [0f6c, 10d8) and RETF at 10d7 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 60241,
+          "file_offset": 68433,
+          "kind": "far_call",
+          "relocated_segment_site": 60244
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "raise_nearby_opponents",
+      "original_bytes_hex": "558bec83ec065756a08e5c500ee888020bc07404b008eb0e803e6845027505b004eb0390b0058846fdb074f626345e8bd88a87f5448846fec646ff000ac07f03e923018b76fa8a46ff509a421dcc02803e915c007c03e9fa00803e8b5c047503e9f000803e8b5c037503e9e600803e8b5c057503e9dc008a46ff50a0895c50a08a5c508a46fd500ee869fe0bc07503e9c100a00e5c2ae450a0005c98509ab40844238bf8803e6845027541837d11ff744c8b7513a0005c500ee8f2030bc07414b85800509a1600da25be0100c606065c04eb2a900bf67510833e195c707409b87000509a1600da252bf6eb11b86a00509a1600da25be0100c606065c0a9a9403cc020bf6744d579a08004423c606115cffc606105c01c606235c03803e065c0a7513a1025c3906825c7f05b0ffeb03902ac0a2015cc70698620000c7064e6a00009a4409cc02803eb95cff7506a0005ca2b95c9af61ccc028a46fefe46ff3846ff7d03e9e0fe5e5f8be55dcb",
+      "sha256": "e78034fac4451667692f100afb42e70f3462870f2aaee30efc5ba5c399fe3a1c",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:10d8",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 4312,
+      "size": 154,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original far_call at overlay-3+18a2 enters this routine.",
+        "Original decoded branches stay in [10d8, 1172) and RETF at 1170 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "space": "overlay-3",
+          "image_offset": 6306,
+          "file_offset": 191074,
+          "kind": "far_call",
+          "relocated_segment_site": 6309
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "update_skeleton",
+      "original_bytes_hex": "56803e115c007d70be0100803e4945057526803e0a5c01751f803e0e5c0a740e803e0e5c077407803e0e5c0c750a9adf0d03228bf0eb1c90803e915c057c14803e065c04750d833e195c7874060ee849002bf60bf67440833e195c58750e813e075cb10075060ee8a2035ecb0bf674279af81844235ecb90a00e5c2ae450a0005c98509ab40844238bf00bf67409837c13007e03ff4c135ecb90",
+      "sha256": "fdcad9fc85e7b1af226fedc2e50655fd7603ae2e6a935d4adf837d858c66d11b",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
+    },
+    {
+      "id": "overlay-12:2c3e:1602",
+      "space": "overlay-12",
+      "segment": 11326,
+      "offset": 5634,
+      "size": 114,
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "classification_evidence": [
+        "MSC-shaped BP frame or SI prologue and closed RETF extent in the AUTOGUAR.C ordered run."
+      ],
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent original far_call at root+27ea enters this routine.",
+        "Original decoded branches stay in [1602, 1674) and RETF at 1673 closes the interval before the next independently identified entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "image_offset": 10218,
+          "file_offset": 18410,
+          "kind": "far_call",
+          "relocated_segment_site": 10221
+        }
+      ],
+      "state": "ANALYZED",
+      "original_name": null,
+      "semantic_name_hypothesis": "float_flame_sword",
+      "original_bytes_hex": "558bec83ec025756833e586204740e833e5862137407833e586214754fbe0400b03ff62e0a5c8946fe0536003b06045c7c08bf01008bf7eb1390bffeff8b46fe053a003b06045c7f03be0100569a9000611f03c70106045c01065662b95b621e511e512bc951509a0a5101115e5f8be55dcb",
+      "sha256": "edd6ee9dfdb61b1bfba5c0dbdf8768e875a54d74a75b3e281c1e215460b220db",
+      "abi": "Medium-model far call with a bare RETF and no stack arguments."
     }
   ],
   "schema": 1,
