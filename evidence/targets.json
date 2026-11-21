@@ -34167,6 +34167,262 @@
       "size": 8,
       "space": "overlay-3",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal no arguments, RETF. BP frame with 20 local bytes and DI/SI. Sprite lookup receives a far local pointer and returns DX:AX.",
+      "boundary_evidence": [
+        "Prior RETF/NOP at 09c8/09c9. BP frame starts at overlay-3+0x55aa, directly called by relocated same-overlay CALL at +0x10a2 (index 102). The same link address also occurs in resident calls.",
+        "Original instructions scan to the common epilogue and RETF at 0b21. The next routine is the local far-return call destination at 0b22, from the PUSH CS/CALL at 0a26/0a27 and relocated resident CALL at root+0x103fd (index 1348). No end padding follows the RETF."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 17119,
+          "image_offset": 8927,
+          "kind": "far_call",
+          "relocated_segment_site": 8930,
+          "space": "root"
+        },
+        {
+          "file_offset": 18255,
+          "image_offset": 10063,
+          "kind": "far_call",
+          "relocated_segment_site": 10066,
+          "space": "root"
+        },
+        {
+          "file_offset": 68703,
+          "image_offset": 60511,
+          "kind": "far_call",
+          "relocated_segment_site": 60514,
+          "space": "root"
+        },
+        {
+          "file_offset": 69149,
+          "image_offset": 60957,
+          "kind": "far_call",
+          "relocated_segment_site": 60960,
+          "space": "root"
+        },
+        {
+          "file_offset": 189026,
+          "image_offset": 4258,
+          "kind": "far_call",
+          "relocated_segment_site": 4261,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 252375,
+          "image_offset": 3655,
+          "kind": "far_call",
+          "relocated_segment_site": 3658,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 207138,
+          "image_offset": 22370,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22369,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208102,
+          "image_offset": 23334,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23333,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Sprite dimension lookup, rectangle copies and edge clamps in DOS. The FM COLLIDE order and GetCharEdges public agree with the role."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:09ca",
+      "offset": 2506,
+      "original_bytes_hex": "558bec83ec1457568d7eecbe1b5c8cd08ec0a5a5a5a5b81b5c8bf8bec0201e07a5a5a5a5833e5862ff7503e924018a1e5a622affd1e3ffb73e62ff3658628d46fc16509a021069010bd07503e903018b46fe40a37e628b46fca37c620ee8f8008bf0a15462058200a38462803e015c007506a17e62eb03908bc629068462a18462a3806201367e6203067e62a38662a38262a156622b067c6240a388623dc0007c06c70688620000a188628946f4a15662408946f8803e015cff750ca154628946f60346feeb0d90a154622b46fe8946f6a154628946fab81b5c8bf88d76f41e07a5a5a5a5ff3688629a0211cc02a27962ff3656629a0211cc02a27a623cff7505c6067a6203ff3684629ad410cc020ac07d052ac0eb0a90ff3684629ad410cc02a27762ff3686629ad410cc023c097f0bff3686629ad410cc02eb02b009a27862f606165e20740a8306806209832e8262095e5f8be55dcb",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "c11b0f15c93ca3e402b38e2f9a8320865a22406f24ba8bba96a8eca7b4f8e99b",
+      "size": 344,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal no arguments, word result in AX; saves DI and SI. RETF with trailing NOP.",
+      "boundary_evidence": [
+        "The preceding RETF at 0b21 ends exactly at 0b22. PUSH CS/CALL at 0a26/0a27 reaches this entry and the resident relocation at 0x103fd names its far alias.",
+        "Guard clauses lead to the common exit at 0b6a, RETF 0b6e and NOP 0b6f. Next BP prologue at 0b70 has four independent same-overlay callers (indices 335-338)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 74749,
+          "image_offset": 66557,
+          "kind": "far_call",
+          "relocated_segment_site": 66560,
+          "space": "root"
+        },
+        {
+          "file_offset": 206791,
+          "image_offset": 22023,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22022,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Looks up a four-byte sword frame entry and clamps its signed width-minus-two. FM COLLIDE order identifies the GetSwordWidth lead."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0b22",
+      "offset": 2850,
+      "original_bytes_hex": "57562bf6803e105c01753d803e065c077436803e065c08742f9a9602cc023936125e7424ff3668629a6c2101118bf88ec28b1e125ed1e3d1e303df268a4702988bf04e4e79022bf68bc65e5fcb90",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "74fb23114134675d58dca83044d84310141cc3cf0621dde12f0659970548df4b",
+      "size": 78,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal no args, AX word result, RETF. BP frame saves SI and allocates two local bytes.",
+      "boundary_evidence": [
+        "Previous RETF/NOP at 0b6e/0b6f precedes a BP prologue. Four same-overlay relocated CALL FARs at overlay-3+0x381b, 0x38e3, 0x3cbd, 0x404f have indices 335 through 338 and name 2802:0b70.",
+        "All exit paths reach the common epilogue at 0c8c and RETF at 0c92. NOP 0c93 precedes the independent resident far entry 2802:0c94 at root+0xee2e (index 1280)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 199131,
+          "image_offset": 14363,
+          "kind": "far_call",
+          "relocated_segment_site": 14366,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 199331,
+          "image_offset": 14563,
+          "kind": "far_call",
+          "relocated_segment_site": 14566,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 200317,
+          "image_offset": 15549,
+          "kind": "far_call",
+          "relocated_segment_site": 15552,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 201231,
+          "image_offset": 16463,
+          "kind": "far_call",
+          "relocated_segment_site": 16466,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Two forward barrier probes select a distance or a tile fallback. Order and purpose agree with FM COLLIDE.C GetFwdDist."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:0b70",
+      "offset": 2928,
+      "original_bytes_hex": "558bec83ec02569a8802cc029aee0969010ee845fe9ad809cc028846ff500ee8bef60bc074168a46ff50a00e5c50a0095c500ee89e048bf00bf67d3e807eff187503e9ad00b001509a3010cc028846ff500ee88bf60bc074318a46ff50a00e5c50a0015c988bd88a87790d0206095c500ee860048bf00bf67c1083fe207c03e99200c606d46c01e992008a46ff509ac8288a070bc075138a46ff509a30288a070bc07506807eff1e7514807eff18740ec606d46c009a8810cc028bf0eb5e807eff06741a807eff167414807eff02740e807eff227408807eff187416eb369a8810cc028bf00bf6742b4ec606d46c00eb2b90803e015cff751b9a8810cc028bf0a075623806095c750583ee0feb0e83c611eb0990c606d46c02be1c008bc65e8be55dcb90",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "198e59eb8a055664da17f62f1bd90985ad8064776b1c75a9aef63b9031fedcd7",
+      "size": 292,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, three low-byte arguments in word slots BP+10/+8/+6, signed AX result and RETF 6.",
+      "boundary_evidence": [
+        "Previous routine RETF at 1042 and NOP at 1043 precede the BP prologue. Incoming PUSH CS/CALLs at 0ba2/0ba3 and 0be0/0be1 are reached from the same-overlay far entry 0b70, independently supported by its relocation records. The cross-overlay 11 caller at +0x834 uses index 39.",
+        "Branches converge at 10af and the RETF 6 at 10b5 ends exactly at 10b8, the independent near CALL destination from PUSH CS/CALL at 0e3a/0e3b."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 250820,
+          "image_offset": 2100,
+          "kind": "far_call",
+          "relocated_segment_site": 2103,
+          "space": "overlay-11"
+        },
+        {
+          "file_offset": 207171,
+          "image_offset": 22403,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22402,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207233,
+          "image_offset": 22465,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 22464,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207778,
+          "image_offset": 23010,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23009,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207797,
+          "image_offset": 23029,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23028,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 207816,
+          "image_offset": 23048,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23047,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 208156,
+          "image_offset": 23388,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 23387,
+          "relocated_segment_site": null,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_evidence": [
+        "Room-projected barrier edge and character facing calculate signed distance. Function order and purpose support the FM COLLIDE.C GetBarrDistFromFace lead."
+      ],
+      "classification_status": "Independent original-byte review",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2802:1044",
+      "offset": 4164,
+      "original_bytes_hex": "558bec56807e0a04750e0ee850f80bc07506baffffeb54908a4608508a4606988bd8d1e38b87860d050e00500ee824f5a3cc2c8a460a500ee8d1f18bf00bf674d1803e015c0074148a84d20d988bd02b16cc2c0316806283ea1feb0f8a84c80d988bd02b1682620316cc2c8bc25e8be55dca0600",
+      "original_name": null,
+      "segment": 10242,
+      "sha256": "46f676c35d7a41e614dcf7f5c589ba418ac1368d371f596f4c9c67afff94eb9e",
+      "size": 116,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
