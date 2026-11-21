@@ -17,11 +17,16 @@ class CompiledObjectRejected(ValueError):
         self.binding = binding
 
 
+# Worker-proposed reviewed targets for verify-only research runs. Publication and
+# validation never set this; canonical evidence/targets.json stays the authority.
+EXTRA_TARGETS = []
+
+
 def get_target(identifier, oracle=None):
     oracle = oracle or Oracle.load()
     inventory = read_json(ROOT / "evidence/targets.json")
     require(inventory["target_sha256"] == sha(oracle.data), "Targets belong to another oracle")
-    matches = [f for f in inventory["functions"] if identifier == f["id"]]
+    matches = [f for f in inventory["functions"] + EXTRA_TARGETS if identifier == f["id"]]
     require(len(matches) == 1, "Unknown/ambiguous reviewed target")
     target = matches[0]
     require(target["boundary_status"] == "REVIEWED" and target["boundary_evidence"],

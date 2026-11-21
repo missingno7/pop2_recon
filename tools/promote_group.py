@@ -31,8 +31,15 @@ def main():
                         help="TARGET_ID=PUBLIC, repeated in any order")
     parser.add_argument("--binding", help="Reviewed group binding under evidence/bindings")
     parser.add_argument("--verify-only", action="store_true")
+    parser.add_argument("--extra-targets", help="verify-only: worker-proposed reviewed targets JSON (list or "
+                        "{'functions': [...]}) for research before canonical review")
     args = parser.parse_args()
     require(re.fullmatch(CANONICAL_NAME, args.name), "Invalid canonical group name")
+    if args.extra_targets:
+        import match
+        require(args.verify_only, "Proposed targets are for --verify-only research runs only")
+        extra = read_json(project_path(args.extra_targets))
+        match.EXTRA_TARGETS[:] = extra["functions"] if isinstance(extra, dict) else extra
     require_idle(ROOT)
     oracle = Oracle.load()
     manifest_before = (ROOT / "layout/manifest.json").read_bytes()
@@ -42,7 +49,7 @@ def main():
     binding_path = project_path(args.binding) if args.binding else None
     binding_bytes = None
     if binding_path:
-        require(binding_path.is_relative_to(ROOT / "evidence/bindings"),
+        require(args.verify_only or binding_path.is_relative_to(ROOT / "evidence/bindings"),
                 "Canonical binding proof must live under evidence/bindings")
         # One read: the proven, pinned and committed binding are the same bytes.
         binding_bytes = binding_path.read_bytes()
