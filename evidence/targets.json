@@ -39845,6 +39845,1518 @@
       "size": 60,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two word arguments, returns AX handle, RETF 4",
+      "boundary_evidence": [
+        "Previous frame's loop exits through RETF at 000b. Both hGetSL paths join at 0065, RETF 4 at 006a and one alignment NOP, then independent BP entry at 006e. The root relocated CALL at +0x2c40 and same-overlay PUSH CS; CALL at 016b both name this entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19520,
+          "image_offset": 11328,
+          "kind": "far_call",
+          "relocated_segment_site": 11331,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses SHPL tag, sets the resulting shape-list mode, and formats the original hGetSL diagnostic on failure."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:000c",
+      "offset": 12,
+      "original_name": "hGetSL",
+      "original_name_evidence": [
+        "FM Towns NIS symbol hGetSL. Uses SHPL tag, sets the resulting shape-list mode, and formats the original hGetSL diagnostic on failure."
+      ],
+      "segment": 9098,
+      "sha256": "255eca02a7219606dc6bc4da0dbbdccc745662296216f22021145767fe46f8bc",
+      "size": 98,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one word argument, returns the zero-extended first byte of the resource, RETF 2",
+      "boundary_evidence": [
+        "Follows hGetSL's RETF 4 and 006d NOP. A local straight-line body returns at 0093 (RETF 2). 0096 begins a separate BP frame with a same-overlay PUSH CS; CALL reaching it from 00d4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The STRL resource tag and first-byte read corroborate GetStrLCt, the next FM NIS public."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:006e",
+      "offset": 110,
+      "original_name": "GetStrLCt",
+      "original_name_evidence": [
+        "FM Towns NIS symbol GetStrLCt. The STRL resource tag and first-byte read corroborate GetStrLCt, the next FM NIS public."
+      ],
+      "segment": 9098,
+      "sha256": "f8e548d22b89fd3ec067bbda30c9321760b54388832eb924f1eef5b30a495618",
+      "size": 40,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, sound and unsigned duration words, RETF 4",
+      "boundary_evidence": [
+        "Same-overlay PUSH CS; CALL at 00d4 enters at 0096. Both exits RETF 4 (00ab, 00c5), with 00c8 beginning a distinct BP frame.",
+        "Same-overlay PUSH CS; CALL(s) at frame offset(s) 00d4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 157268,
+          "image_offset": 1332,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1331,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Chooses audio playback or sets a target time by adding the word duration to a 32-bit counter."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:0096",
+      "offset": 150,
+      "segment": 9098,
+      "sha256": "723e5045c5a6e34b3c50fcd1697fd7786a96f580e51d7f081137b31238464814",
+      "size": 50,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, sound and duration words, returns AX, RETF 4",
+      "boundary_evidence": [
+        "Independent BP frame immediately follows the RETF 4 of 0096. Both forward/backward near CALLs are separate callees; the sole RETF 4 is at 00e0 with one NOP before 00e4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Starts timed music with both words, then returns the corresponding wait status."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:00c8",
+      "offset": 200,
+      "segment": 9098,
+      "sha256": "a9361cfde7dea1e1a0000a9231394d69147f5b8cc82450a452504ca796026e6e",
+      "size": 28,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one sound word, returns AX, RETF 2",
+      "boundary_evidence": [
+        "PUSH CS; CALL at 00d9 enters at 00e4. Both paths join at 0122 then RETF 2 at 0128 and NOP at 012b, with a distinct BP frame at 012c.",
+        "Same-overlay PUSH CS; CALL(s) at frame offset(s) 00d9."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 157273,
+          "image_offset": 1337,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1336,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Waits for sound or the unsigned 32-bit deadline, with input polling."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:00e4",
+      "offset": 228,
+      "segment": 9098,
+      "sha256": "11750efc3ff59f1ce6e2a6a62343a7355f96bf7bd42ad110aff301a1e73f3942",
+      "size": 72,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one byte argument in a word slot, Boolean return, RETF 2",
+      "boundary_evidence": [
+        "Independent BP frame follows 012b padding; internal loop reaches only 012f. RETF 2 paths at 0156 and 015f; 0162 starts a frameless loading routine with a new inbound near call."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "While the sound status is active, polls input and compares the unsigned MIDI play position. This corroborates the FM NIS public WaitMidiPlayTime."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:012c",
+      "offset": 300,
+      "original_name": "WaitMidiPlayTime",
+      "original_name_evidence": [
+        "FM Towns NIS symbol WaitMidiPlayTime. While the sound status is active, polls input and compares the unsigned MIDI play position. This corroborates the FM NIS public WaitMidiPlayTime."
+      ],
+      "segment": 9098,
+      "sha256": "46eff860bbb4928b87e30ada78e49facd9a59559c9d82b62015b5e8f9434ee77",
+      "size": 54,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, zero arguments, RETF",
+      "boundary_evidence": [
+        "Starts after the complete RETF 2 at 015f. Three loads and stores, no branches, sole RETF at 0189. 018a starts a separate disposal sequence."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads a shape list and two fonts into dialog handles. The companion releases the same handles. This pair corroborates GetDialog/FreeDialog in the FM NIS module."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:0162",
+      "offset": 354,
+      "original_name": "GetDialog",
+      "original_name_evidence": [
+        "FM Towns NIS symbol GetDialog. Loads a shape list and two fonts into dialog handles. The companion releases the same handles. This pair corroborates GetDialog/FreeDialog in the FM NIS module."
+      ],
+      "segment": 9098,
+      "sha256": "bf4b2479aa298de5a8bffc2f3aaa2324f30d625c26106de92edb6ba65470eb43",
+      "size": 40,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, zero arguments, RETF",
+      "boundary_evidence": [
+        "Starts after the frameless return at 0189. Three independent disposal calls and the sole RETF at 01a5, followed by a distinct BP prologue at 01a6."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Disposes all three handles written by the immediately preceding GetDialog, confirming the adjacent FM public FreeDialog."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:018a",
+      "offset": 394,
+      "original_name": "FreeDialog",
+      "original_name_evidence": [
+        "FM Towns NIS symbol FreeDialog. Disposes all three handles written by the immediately preceding GetDialog, confirming the adjacent FM public FreeDialog."
+      ],
+      "segment": 9098,
+      "sha256": "318e795e9bd2dfd940e708164e2fd5dab8897e3f8c7fe3c4796de0f68564227f",
+      "size": 28,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, two words, RETF 4",
+      "boundary_evidence": [
+        "After FreeDialog's RETF, BP prologue at 01a6 is independently entered by PUSH CS; CALL at 0520. All paths reach the RETF 4 at 0357, ahead of the independent BP prologue at 035a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Resolves a STRL entry, draws the active NIS dialog fonts through a temporary port and restores the previous port. The FM NIS NISTextDraw pair remains provisional."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:01a6",
+      "offset": 422,
+      "segment": 9098,
+      "sha256": "643be419d03c57b1d8b3e5841dbbb2860a24fbd80ee6244e4e3de103d1290dc5",
+      "size": 436,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one word shape-list handle, RETF 2",
+      "boundary_evidence": [
+        "Starts after the preceding RETF 4 at 0357. The inner loop jumps to 0364, the sole RETF 2 is 0381, and 0384 begins another independent BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Paints shape 7 in ten horizontal repetitions at the top of the screen. The matching FM NIS public is RuinsSky, with level identity still provisional."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:035a",
+      "offset": 858,
+      "segment": 9098,
+      "sha256": "3c03abfa6cd6dd0ef6343cda3fb989f7ea6aa0aa8cf466c3426afb88cd6162ba",
+      "size": 42,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near handle-table pointer, RETF 2",
+      "boundary_evidence": [
+        "Independent BP frame after 0381 RETF 2, with the loop and optional mirror call contained. RETF 2 at 03c7 ends at a distinct BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loops over 36 horse image handles, mirroring the non-null RLE images."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:0384",
+      "offset": 900,
+      "segment": 9098,
+      "sha256": "b356eb167bed9160a777c64a91e8f23fa0bccb274dad73957e4b4e2aec79c7bf",
+      "size": 70,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near handle-table pointer, RETF 2",
+      "boundary_evidence": [
+        "Independent BP frame after 03c7 RETF 2. Loop back edge stays within the routine, whose RETF 2 at 040d precedes the next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loops over 14 image handles and mirrors each indexed non-null image."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:03ca",
+      "offset": 970,
+      "segment": 9098,
+      "sha256": "2e2a199144ef3f561c1661f544d429eff0cad9f11815aa682bc93fe44a9608e8",
+      "size": 70,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one near handle-table pointer, RETF 2",
+      "boundary_evidence": [
+        "After the previous RETF 2, a new framed routine begins at 0410. Single RETF 2 at 043e then a NOP at 0441 precedes 0442's register saves."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Locks one indexed image and passes its pixel data and dimensions to the mirror routine."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:0410",
+      "offset": 1040,
+      "segment": 9098,
+      "sha256": "25a9f620ad6b56cb60cde608a0799ea96fb7ba2531596e0d5bb4b50196d96fb7",
+      "size": 50,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal callback, two argument slots, AX status, RETF 4",
+      "boundary_evidence": [
+        "Starts with saves after RETF 2 and alignment at 0441. Callback pointer at 056b/056e is pushed in 0571/0572; the segment immediate has an original overlay relocation. Two branches converge at 04b6 and RETF 4 at 04ba, ahead of the 04be vector entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original NIS-specific call sites, data use and control flow."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:0442",
+      "offset": 1090,
+      "segment": 9098,
+      "sha256": "e487270b6da67ee9a53e8542f93931f12ca52c365e871059e3a9f0eab411dc77",
+      "size": 124,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, one word scene argument, RETF 2",
+      "boundary_evidence": [
+        "Decoded RTLink vector at root:2203:0cdb names 238a:04be in overlay 2 (descriptor 0, root relocation 2011). The BP entry follows the one-byte pad after 0442's RETF 4.",
+        "The last path restores the saved registers before RETF 2 at 06be and one NOP at 06c1. The next vector destination is the distinct entry at 06c2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original NIS-specific call sites, data use and control flow."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:04be",
+      "offset": 1214,
+      "segment": 9098,
+      "sha256": "c05edc4533a405ca20372c98e67a7bca472fb77cd876b288363550d1de821f76",
+      "size": 516,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, three word arguments, RETF 6",
+      "boundary_evidence": [
+        "Distinct BP frame follows the RETF 4 at 469d and NOP at 469f. PUSH CS; CALL at 449f targets 46a0 from the callback entry 4454. Its relocated 238a:4454 pointer is pushed by the original routines containing overlay-2 relocation indices 721 and 722. At 46bf and 46cd it sets and clears DS:153a on either side of the near call to 01a6. RETF 6 at 46dc and NOP at 46df precede the 46e0 register save."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 174623,
+          "image_offset": 18687,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 18686,
+          "space": "overlay-2"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Original NIS-specific call sites, data use and control flow."
+      ],
+      "classification_status": "original-byte review and NIS module attribution",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:46a0",
+      "offset": 18080,
+      "segment": 9098,
+      "sha256": "49972b50b8366c6f54ea20de51d211238d3b3d90ba05f7ba284fc4f7f850fd4a",
+      "size": 64,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, far pixel pointer and two word dimensions, RETF 8",
+      "boundary_evidence": [
+        "BP frame immediately follows the previous RETF 8 at 1374. Relocated root call at +0x572c names this entry. Both exits restore FLAGS and join before RETF 8 at 1408, followed by an independent BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 30508,
+          "image_offset": 22316,
+          "kind": "far_call",
+          "relocated_segment_site": 22319,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "BP frame immediately follows the previous RETF 8 at 1374. Relocated root call at +0x572c names this entry. Both exits restore FLAGS and join before RETF 8 at 1408, followed by an independent BP frame."
+      ],
+      "classification_status": "reviewed original operation and ABI",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1377",
+      "offset": 4983,
+      "segment": 0,
+      "sha256": "d303d833f8bc1d4fa50d4b61e83b2b804defe9bbf2440aaee51cf8f468cc187c",
+      "size": 148,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, far rect pointer, two words and far text pointer, RETF 12",
+      "boundary_evidence": [
+        "Relocated root call at +0x549d names this separate BP frame. Source text supplies the string length for the interior near call. Ends with RETF 12 at 5377, then independent BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 29853,
+          "image_offset": 21661,
+          "kind": "far_call",
+          "relocated_segment_site": 21664,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Relocated root call at +0x549d names this separate BP frame. Source text supplies the string length for the interior near call. Ends with RETF 12 at 5377, then independent BP frame."
+      ],
+      "classification_status": "reviewed original operation and ABI",
+      "entry_kind": "direct-code",
+      "id": "root:1101:5352",
+      "offset": 21330,
+      "segment": 4353,
+      "sha256": "0eb00f234993d1e1739939d2f5175e94f2a71442340dd6e36e7408022309efbd",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, RETF 2; one word",
+      "boundary_evidence": [
+        "The original callers use relocated 1101:842c. The canonical row at the same position records its full extent and final alignment NOP."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32366,
+          "image_offset": 24174,
+          "kind": "far_call",
+          "relocated_segment_site": 24177,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Same complete bytes as reviewed root:1000:943c, taking the word through two far helpers in succession."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "root:1101:842c",
+      "offset": 33836,
+      "segment": 4353,
+      "semantic_name_hypothesis": "report_option",
+      "sha256": "b3a6716fe00b2eb26309e3583b3d3abec800d1c8c473be762fa8ae3871a2ec18",
+      "size": 24,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far cdecl, two far string pointers, caller pops 8 bytes",
+      "boundary_evidence": [
+        "Separate BP frame after preceding RETF at 1eea and a zero pad. Scans the source string, copies its terminator, then restores DS, SI and DI. Sole RETF at 1f21, then next BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 32028,
+          "image_offset": 23836,
+          "kind": "far_call",
+          "relocated_segment_site": 23839,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Separate BP frame after preceding RETF at 1eea and a zero pad. Scans the source string, copies its terminator, then restores DS, SI and DI. Sole RETF at 1f21, then next BP frame."
+      ],
+      "classification_status": "reviewed original operation and ABI",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1eec",
+      "offset": 7916,
+      "segment": 8166,
+      "sha256": "d2de043779a7128c098a270356177adb5e2b742da948b8e8a1b0d4abbed13569",
+      "size": 54,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:052d:000e",
+      "space": "root",
+      "segment": 1325,
+      "offset": 14,
+      "size": 94,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The immediately preceding frame closes with POP SI; POP DI; MOV SP,BP; POP BP; RETF 2. The entry creates a four-byte frame, takes a far record pointer, and returns with RETF 4 before the number helper. Its PUSH CS/CALL is to 052d:00b6. The slot-editor initializer stores the relocated callback 052d:000e at 0a73/0a79. No direct incoming call was found.",
+        "Locked root [0x52de,0x533c); preceding bytes 8b e5 5d ca 02 00; closing bytes 5e 5f 8b e5 5d ca 04 00; following bytes 55 8b ec 83 ec 0a."
+      ],
+      "sha256": "bb75640318869a49d266f6bfc1f6139bc9de56924548400daca44a934dd0f876",
+      "original_bytes_hex": "558bec83ec0457568b7e068b1ec025837f200c75052bf6eb0490be0100c746feffffc746fc00008e460826ff752826ff7526b80a0050562bc9518d4d0c06518d4efc510ee86100b80a00509aaa4f0111509aa02201115e5f8be55dca0400",
+      "call_sites": []
+    },
+    {
+      "id": "root:052d:006c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 108,
+      "size": 74,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "A PUSH CS/CALL from 052d:198e enters the new BP prologue. The helper formats a word in radix 10 using the C library, calls the text routine at 00b6, then exits RETF 10 exactly before its BP prologue.",
+        "Locked root [0x533c,0x5386); preceding bytes 8b e5 5d ca 04 00; closing bytes 01 11 8b e5 5d ca 0a 00; following bytes 55 8b ec 83 ec 10."
+      ],
+      "sha256": "1f880498de0ce486ab62ec4cad460243efba1964ea55336e65545612e2e04582",
+      "original_bytes_hex": "558bec83ec0ab80a00508d4ef651ff760e9ac616e61f83c4068d46f61650b80a00502bc951ff760cff760aff7608ff76060ee81500b80a00509aaa4f0111509aa02201118be55dca0a00",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27742,
+          "file_offset": 35934,
+          "pushed_cs_site": 27741
+        }
+      ],
+      "original_name": "DialogDrawNumber",
+      "original_name_evidence": [
+        "Formats the first word in base 10, invokes the nearby text renderer, and releases font 10; FM Towns DIALOG @DialogDrawNumber is the number-to-string wrapper in the corresponding entry order."
+      ]
+    },
+    {
+      "id": "root:052d:00b6",
+      "space": "root",
+      "segment": 1325,
+      "offset": 182,
+      "size": 316,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites at offsets 0052, 009e, 021f and 0814 enter the same BP prologue. The callee chooses a point or rectangle and draws three font passes. RETF 16 plus the alignment NOP end before the string-ID entry.",
+        "Locked root [0x5386,0x54c2); preceding bytes 8b e5 5d ca 0a 00; closing bytes 5f 8b e5 5d ca 10 00 90; following bytes 55 8b ec 56 ff 76."
+      ],
+      "sha256": "2f8c1110111ee971431572f4ba6ef782e2f188d75e1f32eb2cb2ecd0b0257c7d",
+      "original_bytes_hex": "558bec83ec105756837e0e00750e2bf6c746fe0f00c746fc0e00eb0dbe0200c746fe0400c746fc0d00837e060074118b5e068b078b57028946f88956faeb0b90c746faffffc746f800008b7e08ff76109aee5201118b1ec0258977288b460a0bc774318d46f01650ff760a57b80100502bc0509a0a5101118d46f01650ff76faff76f8ff7614ff76129a525301118b760ceb1b908b760c8b44024050ff349af6500111ff7614ff76129ad24c01118b46fc8b1ec0258947288b460a0bc77417ff760a57ff76faff76f8ff7614ff76129a52530111eb15ff7402ff349af6500111ff7614ff76129ad24c01118b461040509aee5201118b46fe8b1ec0258947288b460a0bc774188b460a5057ff76faff76f8ff7614ff76129a52530111eb15ff7402ff349af6500111ff7614ff76129ad24c01115e5f8be55dca100090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 21282,
+          "file_offset": 29474,
+          "pushed_cs_site": 21281
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 21358,
+          "file_offset": 29550,
+          "pushed_cs_site": 21357
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 21743,
+          "file_offset": 29935,
+          "pushed_cs_site": 21742
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23268,
+          "file_offset": 31460,
+          "pushed_cs_site": 23267
+        }
+      ],
+      "original_name": "DialogDrawStr",
+      "original_name_evidence": [
+        "Uses integer coordinates or a rectangle, draws a text pointer in three font/ink passes and is the shared destination of the number and text-ID wrappers in the FM Towns DIALOG run."
+      ]
+    },
+    {
+      "id": "root:052d:01f2",
+      "space": "root",
+      "segment": 1325,
+      "offset": 498,
+      "size": 62,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites at 08a9, 08f9 and 0929 enter the BP prologue immediately after the string renderer. The ID obtains a handle and calls 00b6. RETF 14 and one NOP end before the saved-DI/SI palette transition.",
+        "Locked root [0x54c2,0x5500); preceding bytes e5 5d ca 10 00 90; closing bytes 5e 8b e5 5d ca 0e 00 90; following bytes 57 56 2b c0 50 b9."
+      ],
+      "sha256": "1ad22611cebc79d0e4abd0b0e12509ebca3c2a15255b8d476c209eac0138e25d",
+      "original_bytes_hex": "558bec56ff76129a5400611f8bf00bf67424569a622301115250ff7610ff760eff760cff760aff7608ff76060ee894fe569aa02201115e8be55dca0e0090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23417,
+          "file_offset": 31609,
+          "pushed_cs_site": 23416
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23497,
+          "file_offset": 31689,
+          "pushed_cs_site": 23496
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23545,
+          "file_offset": 31737,
+          "pushed_cs_site": 23544
+        }
+      ],
+      "original_name": "DialogDrawStrId",
+      "original_name_evidence": [
+        "Looks up and locks a text handle by ID before calling the identified string renderer, then releases the handle, following the FM Towns DIALOG public order."
+      ]
+    },
+    {
+      "id": "root:052d:0230",
+      "space": "root",
+      "segment": 1325,
+      "offset": 560,
+      "size": 134,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites at offsets 057a, 0649 and 06f0 enter the saved-DI/SI entry. It reads 32 DAC entries, saves a port and calls the transition. The complete no-argument function ends in RETF plus alignment NOP.",
+        "Locked root [0x5500,0x5586); preceding bytes e5 5d ca 0e 00 90; closing bytes 01 11 8b c7 5e 5f cb 90; following bytes 56 2b c0 50 b8 03."
+      ],
+      "sha256": "83835a882e8e6013736fe53c190dc78b9878466aec96525d79216694d7fef73d",
+      "original_bytes_hex": "57562bc050b9200051ba60002bdb53529a362401118bf0569a6c21011152509a877901112bc050b92000512bc95151b90100519ac1790111b8625e50ff360c5eb8e01f1e501e502bc0509ace4c011156b80300502bc0509a7803231e8bf80bff74182bc050b8200050569a6c2101115250b80100509ac1790111569aa02201118bc75e5fcb90",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22602,
+          "file_offset": 30794,
+          "pushed_cs_site": 22601
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22809,
+          "file_offset": 31001,
+          "pushed_cs_site": 22808
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22976,
+          "file_offset": 31168,
+          "pushed_cs_site": 22975
+        }
+      ],
+      "original_name": "DialogFadeIn",
+      "original_name_evidence": [
+        "Reads 32 DAC entries and fades to the loaded palette; its paired fade-out executes the inverse transition. FM Towns DIALOG places the fade pair immediately after the string-ID wrapper."
+      ]
+    },
+    {
+      "id": "root:052d:02b6",
+      "space": "root",
+      "segment": 1325,
+      "offset": 694,
+      "size": 32,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites at 05d0, 0688 and 0709 enter the saved-SI entry. It passes a null handle to the transition and restores a port, returning AX with RETF before the next BP prologue.",
+        "Locked root [0x5586,0x55a6); preceding bytes 8b c7 5e 5f cb 90; closing bytes 90 4d 01 11 8b c6 5e cb; following bytes 55 8b ec 83 3e 0c."
+      ],
+      "sha256": "26c2c5f2f9b5ede0b2107cde08eafe11d12d1ed28b0fa4a5348ecb457741496e",
+      "original_bytes_hex": "562bc050b80300502bc0509a7803231e8bf0b8e01f1e509a904d01118bc65ecb",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22688,
+          "file_offset": 30880,
+          "pushed_cs_site": 22687
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22872,
+          "file_offset": 31064,
+          "pushed_cs_site": 22871
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23001,
+          "file_offset": 31193,
+          "pushed_cs_site": 23000
+        }
+      ],
+      "original_name": "DialogFadeOut",
+      "original_name_evidence": [
+        "Fades to the null palette handle and restores the saved port, immediately following the paired FadeIn in DOS and the FM Towns DIALOG order."
+      ]
+    },
+    {
+      "id": "root:052d:02d6",
+      "space": "root",
+      "segment": 1325,
+      "offset": 726,
+      "size": 188,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites at 05e2, 0690 and 071f enter the BP prologue. It restores the graphics context and writes callback 0000:1000 via the relocated segment word, then ends with RETF 2.",
+        "Locked root [0x55a6,0x5662); preceding bytes 01 11 8b c6 5e cb; closing bytes 00 00 8b e5 5d ca 02 00; following bytes 56 9a 7c 16 00 00."
+      ],
+      "sha256": "512f57c306821948dcbbd2f4ce915d48b8a2dda9701e9dd92b943b25a5f93d81",
+      "original_bytes_hex": "558bec833e0c5e007409ff360c5e9ad400ad1eb8fe091e509a0a00ad1ea30c5ec706c025625e2bc0509aee5201118b1ec025c7472000008b1ec025c747280f00b8e01f1e509a904d01119a28298a07b80b00509aaa4f0111509aa0220111b80c00509aaa4f0111509aa0220111b80d00509aaa4f0111509aa0220111837e0600741a833e04150075139aac1169012bc0509ad40d0000c706185e01009a3a298a07a04745509a92075c0ac706e81f0010c706ea1f00008be55dca0200",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22706,
+          "file_offset": 30898,
+          "pushed_cs_site": 22705
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22880,
+          "file_offset": 31072,
+          "pushed_cs_site": 22879
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23023,
+          "file_offset": 31215,
+          "pushed_cs_site": 23022
+        }
+      ],
+      "original_name": "DialogResetToGamePlay",
+      "original_name_evidence": [
+        "Restores the game port, palette and game wait callback, in the position following the fade pair in FM Towns DIALOG."
+      ]
+    },
+    {
+      "id": "root:052d:0392",
+      "space": "root",
+      "segment": 1325,
+      "offset": 914,
+      "size": 76,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The preceding RETF 2 ends at entry. InitDialog installs the entry as a far callback at 052d:04c1/04c7. Its key-filter branches return via the three RETF instructions at 03b8, 03c7 and 03dd, before the new BP prologue.",
+        "Locked root [0x5662,0x56ae); preceding bytes 8b e5 5d ca 02 00; closing bytes 5e 98 8b f0 8b c6 5e cb; following bytes 55 8b ec 83 ec 0e."
+      ],
+      "sha256": "7ccf761f21447d13524bed8a0cfd302e01e221201f041f88cfd870cfaf59f71d",
+      "original_bytes_hex": "569a7c1600008bf00bf6742a81fe0010741683fe11741183fe1b742c83fe2074272bf68bc65ecb902bc05050509a0c00e81d8bc65ecb833ef42c02750b9ad9150000a0325e988bf08bc65ecb",
+      "call_sites": [],
+      "original_name": "DialogWaitFunc",
+      "original_name_evidence": [
+        "Adjacent initialization explicitly installs this key-filter routine as the far callback. It has the wait-helper role between the FM Towns DIALOG reset and frame-drawing entries."
+      ]
+    },
+    {
+      "id": "root:052d:03de",
+      "space": "root",
+      "segment": 1325,
+      "offset": 990,
+      "size": 214,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites at 0565, 0626 and 06b8 enter the BP prologue. Takes a one-word resource handle at BP+6. RETF 2 and the NOP end before the next independent near-call destination.",
+        "Locked root [0x56ae,0x5784); preceding bytes 8b f0 8b c6 5e cb; closing bytes 5f 8b e5 5d ca 02 00 90; following bytes 2b c0 50 9a f0 83."
+      ],
+      "sha256": "66440fa697dd4b3e06c5f8d43c42d8b59769315856ea61796b351464d8742619",
+      "original_bytes_hex": "558bec83ec0e57568b760683fe011bfff7df0bff74060ee83e018bf056b80100502bc95151519a4a08cf1e56b80200502bc050b9c00051509a4a08cf1e56b8030050b80100509af800581d508946f69a6c21011152502bc951bb080053518946f28956f49a04003a1d8b46f28b56f40506005250c45ef226ff3726ff77049a77130000ff76f4ff76f2b8380150b80800502bc0509a04003a1dff76f69aa02201118d46f81650b8e01f1e50b8090050509a2a5001118d46f81650b80c00509a506601110bff7406569a467f01115e5f8be55dca020090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22581,
+          "file_offset": 30773,
+          "pushed_cs_site": 22580
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22774,
+          "file_offset": 30966,
+          "pushed_cs_site": 22773
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22920,
+          "file_offset": 31112,
+          "pushed_cs_site": 22919
+        }
+      ],
+      "original_name": "DrawDialogFrame",
+      "original_name_evidence": [
+        "Loads the fallback frame resource, conditionally releases it, and draws its border, in the FM Towns DIALOG order before initialization."
+      ]
+    },
+    {
+      "id": "root:052d:04b4",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1204,
+      "size": 100,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites 0551, 061f and 06b1 name the no-argument entry. The routine initializes the port and installs the far callback at 0392. RETF plus the alignment NOP end before the next independent far entry.",
+        "Locked root [0x5784,0x57e8); preceding bytes e5 5d ca 02 00 90; closing bytes 50 9a 90 4d 01 11 cb 90; following bytes ba 01 00 83 3e 2a."
+      ],
+      "sha256": "b858d09ead6ffde4f133f2e59d4450898a54dc841efec5220ac7b7401eac6e61",
+      "original_bytes_hex": "2bc0509af08301119aa6298a07c706e81f9203c706ea1f2d05c706c025625e9a08218a07b80b00509aee5201118b1ec025c747200e00ff360c5e9ad400ad1eb8e01f1e509a0a00ad1ea30c5ea3c025b80b00509aee520111b8e01f1e509a904d0111cb90",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22561,
+          "file_offset": 30753,
+          "pushed_cs_site": 22560
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22767,
+          "file_offset": 30959,
+          "pushed_cs_site": 22766
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22913,
+          "file_offset": 31105,
+          "pushed_cs_site": 22912
+        }
+      ],
+      "original_name": "InitDialog",
+      "original_name_evidence": [
+        "Installs the wait callback and initializes the dialog port and font, before the time predicate in the FM Towns public sequence."
+      ]
+    },
+    {
+      "id": "root:052d:0518",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1304,
+      "size": 30,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The relocated far entry immediately follows InitDialog's RETF and NOP. A three-word-state predicate returns AX by RETF and one alignment NOP.",
+        "Locked root [0x57e8,0x5806); preceding bytes 90 4d 01 11 cb 90; closing bytes 74 02 2b d2 8b c2 cb 90; following bytes b8 40 1f 50 b8 01.",
+        "4 original relocated CALL FAR sites name 052d:0518."
+      ],
+      "sha256": "92512c3b3fd4be91679cd2b5ecf74a20e8dd868746873943f72695b3244fd05e",
+      "original_bytes_hex": "ba0100833e2a5e007507833e445e007407833ede620074022bd28bc2cb90",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 876,
+          "file_offset": 9068,
+          "relocated_segment_site": 879,
+          "relocation_index": 73
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 826,
+          "file_offset": 9018,
+          "relocated_segment_site": 829,
+          "relocation_index": 74
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 952,
+          "file_offset": 9144,
+          "relocated_segment_site": 955,
+          "relocation_index": 75
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 908,
+          "file_offset": 9100,
+          "relocated_segment_site": 911,
+          "relocation_index": 76
+        }
+      ],
+      "original_name": "IsValidTimeForDialog",
+      "original_name_evidence": [
+        "The first far predicate after InitDialog is a shared guard over the two dialog-state words and the blocking condition; matches the FM Towns DIALOG order."
+      ]
+    },
+    {
+      "id": "root:052d:0536",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1334,
+      "size": 16,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS/CALL sites 03f5 and 12b0 name the entry. It pushes resource ID 8000 and two literal words, returns the far callee's AX by RETF, and has one alignment NOP.",
+        "Locked root [0x5806,0x5816); preceding bytes 2b d2 8b c2 cb 90; closing bytes 50 9a 40 00 cf 1e cb 90; following bytes 55 8b ec 83 ec 06."
+      ],
+      "sha256": "cb63612b88e3e401aea604f61b9d51b78953cf148f355859ad3bb75ad7225698",
+      "original_bytes_hex": "b8401f50b8010050509a4000cf1ecb90",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22213,
+          "file_offset": 30405,
+          "pushed_cs_site": 22212
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 25984,
+          "file_offset": 34176,
+          "pushed_cs_site": 25983
+        }
+      ]
+    },
+    {
+      "id": "root:052d:0614",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1556,
+      "size": 140,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The relocated far entry and same-CS call at 0728 name the BP prologue. RETF at 069f is immediately followed by a distinct main-menu entry.",
+        "Locked root [0x58e4,0x5970); preceding bytes 5e 5f 8b e5 5d cb; closing bytes 8b c6 5e 5f 8b e5 5d cb; following bytes 56 b8 e0 1f 1e 50.",
+        "1 original relocated CALL FAR sites name 052d:0614."
+      ],
+      "sha256": "a976e4bd61a7f3ef617ba5026c970718dd69c85cb3a0a6eb75d2730729a7eb5a",
+      "original_bytes_hex": "558bec83ec0657562bf60ee892fe2bc0500ee8b5fd0ee8e9058bf88956fc0bd07455ff76fc57b80100500ee81802c706c025625e0ee8e4fbff360c5e9ad400ad1e89360c5eff76fc57b80100500ee853038bf083feff740eff76fc57560ee8ef078bf0eb0490beffff8b46fc50579ae42501110ee82bfcb80100500ee843fc560ee8e4028bc65e5f8be55dcb",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 900,
+          "file_offset": 9092,
+          "relocated_segment_site": 903,
+          "relocation_index": 22
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23032,
+          "file_offset": 31224,
+          "pushed_cs_site": 23031
+        }
+      ]
+    },
+    {
+      "id": "root:052d:06a0",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1696,
+      "size": 172,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "A relocated call names the saved-SI entry after the save dialog. Its final RETF at 074b is immediately before the next BP prologue.",
+        "Locked root [0x5970,0x5a1c); preceding bytes 5e 5f 8b e5 5d cb; closing bytes c7 06 18 5e 01 00 5e cb; following bytes 55 8b ec 57 8b 7e.",
+        "1 original relocated CALL FAR sites name 052d:06a0."
+      ],
+      "sha256": "29bff873ed83f783a2d3b945ff4368bb2233da8eae2d391a5d247c7f2692cf4e",
+      "original_bytes_hex": "56b8e01f1e509a904d01119a2c07a6040ee800fe2bc0500ee823fdb8e803509a967f0111509a6c2101118ec28bd826c747040000b8e80350b9020051b90100519a4000cf1e0ee83918c706c025625e0ee83dfbff360c5e9ad400ad1ec7060c5e00000ee80e178bf00ee8aafbb8e803509a967f0111509aa02201112bc0500ee8b4fb83fe0375070ee8e9feeb0a9083fe0475040ee80ffe0ee8531aa04745509a92075c0ac706185e01005ecb",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 838,
+          "file_offset": 9030,
+          "relocated_segment_site": 841,
+          "relocation_index": 40
+        }
+      ]
+    },
+    {
+      "id": "root:052d:074c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 1868,
+      "size": 88,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS calls at 07b6 and 0a22 pass a far rectangle and an index. RETF 6 at 07a0 and the alignment NOP precede the draw-slot entry.",
+        "Locked root [0x5a1c,0x5a74); preceding bytes 18 5e 01 00 5e cb; closing bytes 5f 8b e5 5d ca 06 00 90; following bytes 55 8b ec 83 ec 0c."
+      ],
+      "sha256": "ec407a0da098700703d90de1f7ce1b7f4c63625eb3b690fef0483fdb9081721a",
+      "original_bytes_hex": "558bec578b7e0683ff057c128b5e088e460a26c74702a30083ef05eb0d908b5e088e460a26c7470213008e460a268b4702058900268947068bc7b91600f7e9052500268907051400268947048bc38cc25f8be55dca060090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23174,
+          "file_offset": 31366,
+          "pushed_cs_site": 23173
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23794,
+          "file_offset": 31986,
+          "pushed_cs_site": 23793
+        }
+      ]
+    },
+    {
+      "id": "root:052d:0820",
+      "space": "root",
+      "segment": 1325,
+      "offset": 2080,
+      "size": 58,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Same-CS calls at 07c1, 18d9 and 19de pass a near rectangle and selection word. RETF 4 and one NOP precede the distinct 085a prologue.",
+        "Locked root [0x5af0,0x5b2a); preceding bytes e5 5d ca 08 00 90; closing bytes 5e 8b e5 5d ca 04 00 90; following bytes 55 8b ec 83 ec 0a."
+      ],
+      "sha256": "0cc2f5baccecd294b691d6e06e0d0208d3063749567c6712faaca398918fa58d",
+      "original_bytes_hex": "558bec56837e06007408be0300b90e00eb06be0600b90b001eff7608519a506601118b1ec0258977281eff76089aac4d01115e8be55dca040090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 23185,
+          "file_offset": 31377,
+          "pushed_cs_site": 23184
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27561,
+          "file_offset": 35753,
+          "pushed_cs_site": 27560
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 27822,
+          "file_offset": 36014,
+          "pushed_cs_site": 27821
+        }
+      ]
+    },
+    {
+      "id": "root:052d:085a",
+      "space": "root",
+      "segment": 1325,
+      "offset": 2138,
+      "size": 290,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls from 0570 and 063f enter the BP prologue. Draws save-slot labels and iterates over ten slots. RETF 6 at 0979 ends before the separate status-message prologue.",
+        "Locked root [0x5b2a,0x5c4c); preceding bytes e5 5d ca 04 00 90; closing bytes 5e 5f 8b e5 5d ca 06 00; following bytes 55 8b ec 8b 56 06."
+      ],
+      "sha256": "67da32f3e120e04461a236431646ca1a8ef700fcb375c0f8034c73eb134449b6",
+      "original_bytes_hex": "558bec83ec0a5756b80c00509aaa4f01118bf0b80d00509aaa4f01118946fc2bc08946f88946f63946067508b9441fbf4d1feb06b9401fbf431f51b80c00502bc0502bc951bac2031e528d56f6520ee846f9569aa0220111ff76fc9aa0220111b80a00509aaa4f01118bf0b80b00509aaa4f0111b8ca031e501e502bc050b9eeff519a0a510111b8411f50b80a00502bc9512bd252bbca031e538d5ef6530ee8f6f8b8ca031e501e502bc050b91200519a0a510111c746f8ffff57b80a00502bc9512bd252bbca031e538d5ef6530ee8c6f8c746f80100b8421f50b80a00502bc0502bc951b9ca031e518d4ef6510ee8a6f8c746fe00008976fa8b76fe8b7e08ff760a57562bc0500ee83efe4683fe0a7ceeff76fa9aa02201115e5f8be55dca0600",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22592,
+          "file_offset": 30784,
+          "pushed_cs_site": 22591
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22799,
+          "file_offset": 30991,
+          "pushed_cs_site": 22798
+        }
+      ]
+    },
+    {
+      "id": "root:052d:097c",
+      "space": "root",
+      "segment": 1325,
+      "offset": 2428,
+      "size": 60,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The call at 0695 passes the result word. The routine returns with RETF 2 and one NOP before select_save_slot.",
+        "Locked root [0x5c4c,0x5c88); preceding bytes 8b e5 5d ca 06 00; closing bytes 5e 8b e5 5d ca 02 00 90; following bytes 55 8b ec 83 ec 32."
+      ],
+      "sha256": "0c81d23e69c19e8231a13c90e7ad3c88343838703982cb0504bcffe4f3ce99be",
+      "original_bytes_hex": "558bec8b560683faff742a0bd2740bb8900b509a50208a07eb12b89c0b509a50208a07b8ffff509a3c05d70db81800a3425ea3405e8be55dca020090",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 22885,
+          "file_offset": 31077,
+          "pushed_cs_site": 22884
+        }
+      ]
+    },
+    {
+      "id": "root:052d:0cde",
+      "space": "root",
+      "segment": 1325,
+      "offset": 3294,
+      "size": 30,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "A relocated far caller and a near call at 1ecc enter this predicate. It ends with RETF and one NOP immediately before the ResumeGame prologue.",
+        "Locked root [0x5fae,0x5fcc); preceding bytes 5e 5f 8b e5 5d cb; closing bytes 7f 02 2b d2 8b c2 cb 90; following bytes 55 8b ec 83 ec 0e.",
+        "1 original relocated CALL FAR sites name 052d:0cde."
+      ],
+      "sha256": "238c4e6ed546ba04b0dfb2aba45e067bd7f47b0a59ff36625f0c5755c580702f",
+      "original_bytes_hex": "ba0100803e180a0e7f0e803e915c007d07803e925c007f022bd28bc2cb90",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 888,
+          "file_offset": 9080,
+          "relocated_segment_site": 891,
+          "relocation_index": 129
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 29084,
+          "file_offset": 37276,
+          "pushed_cs_site": 29083
+        }
+      ],
+      "original_name": "IsValidTimeForSaveGame",
+      "original_name_evidence": [
+        "The menu accept path checks this predicate before confirming save. It enforces level and kid-state constraints, consistent with the FM Towns DIALOG public."
+      ]
+    },
+    {
+      "id": "root:052d:11aa",
+      "space": "root",
+      "segment": 1325,
+      "offset": 4522,
+      "size": 138,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "A relocated far call names this distinct entry between the room-object helper and 1234. The copy sequence restores the saved level state. RETF and one NOP close the routine.",
+        "Locked root [0x647a,0x6504); preceding bytes 5e 5f 8b e5 5d cb; closing bytes 8b 47 0f a3 8e 5e cb 90; following bytes 57 56 a1 fe 5b 0b.",
+        "1 original relocated CALL FAR sites name 052d:11aa."
+      ],
+      "sha256": "ec8d7daf34accf94886fa72d51c93e2bc547e1cbe38f5454b24e05cc4832e8d1",
+      "original_bytes_hex": "a1fe5b0b06fc5b747fb8c00350a1fc5b8b16fe5b0517005250b8022d1e509a301ee61f83c40ab8000f50a1fc5b8b16fe5b05d7035250b8c2301e509a301ee61f83c40ab8800e50a1fc5b8b16fe5b05d7125250b869451e509a301ee61f83c40ab8400450a1fc5b8b16fe5b0557215250b8fb531e509a301ee61f83c40ac41efc5b268b470fa38e5ecb90",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 43176,
+          "file_offset": 51368,
+          "relocated_segment_site": 43179,
+          "relocation_index": 941
+        }
+      ],
+      "original_name": "SetRebirthPtLevelStatus",
+      "original_name_evidence": [
+        "Restores the corresponding four saved level arrays and a saved word. FM Towns DIALOG places this restore immediately before SetRebirthPtKidStatus."
+      ]
+    },
+    {
+      "id": "root:052d:2200",
+      "space": "root",
+      "segment": 1325,
+      "offset": 8704,
+      "size": 104,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "A relocated far call names the BP prologue. The C I/O calls open PRINCE.OPT for reading, load four bytes and apply options. RETF at 2267 precedes the near entry at 2268.",
+        "Locked root [0x74d0,0x7538); preceding bytes e6 1f 8b e5 5d cb; closing bytes 94 1b e6 1f 8b e5 5d cb; following bytes 55 8b ec 56 be 01.",
+        "1 original relocated CALL FAR sites name 052d:2200."
+      ],
+      "sha256": "79ba253146e7e8b627b327b278fa694604b7550591e0245d720468ac44b475d8",
+      "original_bytes_hex": "558bec83ec0a8d46fc502bc050b90c04519acc1be61f83c4060bc07547c746fe04008d46fa50b80400508d46f61650ff76fc9ae41be61f83c40a0bc0751e837efa0475183946f675082ac0509aa2330111837ef8007505c606225e00ff76fc9a941be61f8be55dcb",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 6,
+          "file_offset": 8198,
+          "relocated_segment_site": 9,
+          "relocation_index": 32
+        }
+      ],
+      "original_name": "SetOptionsFromDisk",
+      "original_name_evidence": [
+        "The DOS call opens PRINCE.OPT for reading, reads a four-byte option record and applies it. This identifies the FM Towns DIALOG2 load public, with DOS order reversed from the probable pairing in modules.json."
+      ]
+    },
+    {
+      "id": "root:1fe6:16c6",
+      "space": "root",
+      "segment": 8166,
+      "offset": 5830,
+      "size": 28,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "C runtime _itoa entry uses C stack slots (value, near buffer, radix); JMP at 16de transfers to shared conversion body at 19b0, which returns by RETF with caller cleanup. Byte 16e1 is alignment before the unrelated BP prologue at 16e2.",
+        "Locked root [0x21526,0x21542); preceding bytes f7 da 5e 5f 5d cb; closing bytes 99 8b 7e 08 e9 cf 02 00; following bytes 55 8b ec 8b 46 08.",
+        "4 original relocated CALL FAR sites name 1fe6:16c6."
+      ],
+      "sha256": "2354c341b8ba2aebf5f9fafa88bb087d79a522ab5ff3142d913e4d56918c003a",
+      "original_bytes_hex": "558bec5657b3018b4e0a8b460633d283f90a7501998b7e08e9cf0200",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 21325,
+          "file_offset": 29517,
+          "relocated_segment_site": 21328,
+          "relocation_index": 673
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 68047,
+          "file_offset": 76239,
+          "relocated_segment_site": 68050,
+          "relocation_index": 1421
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 68487,
+          "file_offset": 76679,
+          "relocated_segment_site": 68490,
+          "relocation_index": 1422
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 132421,
+          "file_offset": 140613,
+          "relocated_segment_site": 132424,
+          "relocation_index": 1942
+        }
+      ]
+    },
+    {
+      "id": "root:1101:52ee",
+      "space": "root",
+      "segment": 4353,
+      "offset": 21230,
+      "size": 24,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "One argument is forwarded through the font-handle lookup and the independently paired font selector. RETF 2 and alignment NOP precede the new prologue at 5306.",
+        "Locked root [0x162fe,0x16316); preceding bytes 5f 5d ca 0c 00 00; closing bytes 11 8b e5 5d ca 02 00 90; following bytes 55 8b ec c4 56 06.",
+        "6 original relocated CALL FAR sites name 1101:52ee."
+      ],
+      "sha256": "41e4a26b769e71db14db8d74112d3bd3707829717c05ed9c604a73ff276f2bab",
+      "original_bytes_hex": "558becff76069aaa4f0111509aca4f01118be55dca020090",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 21622,
+          "file_offset": 29814,
+          "relocated_segment_site": 21625,
+          "relocation_index": 612
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 21462,
+          "file_offset": 29654,
+          "relocated_segment_site": 21465,
+          "relocation_index": 613
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 21967,
+          "file_offset": 30159,
+          "relocated_segment_site": 21970,
+          "relocation_index": 614
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 22487,
+          "file_offset": 30679,
+          "relocated_segment_site": 22490,
+          "relocation_index": 615
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 22444,
+          "file_offset": 30636,
+          "relocated_segment_site": 22447,
+          "relocation_index": 616
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 67918,
+          "file_offset": 76110,
+          "relocated_segment_site": 67921,
+          "relocation_index": 1408
+        }
+      ]
+    },
+    {
+      "id": "root:078a:2928",
+      "space": "root",
+      "segment": 1930,
+      "offset": 10536,
+      "size": 18,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Frameless wrapper pushes four words and invokes same-CS 2b0a. The RETF ends directly before separately entered palette restore at 293a.",
+        "Locked root [0xa1c8,0xa1da); preceding bytes 00 5d ca 02 00 90; closing bytes 2a c0 50 0e e8 d1 01 cb; following bytes a1 7c 04 0b 06 7a.",
+        "3 original relocated CALL FAR sites name 078a:2928."
+      ],
+      "sha256": "4c0ee235674daf094f3f73e2e2d2e3d716d552e17e1530ef9a68434e9d2747f0",
+      "original_bytes_hex": "b80a00502bc050b010502ac0500ee8d101cb",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 11080,
+          "file_offset": 19272,
+          "relocated_segment_site": 11083,
+          "relocation_index": 267
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 22000,
+          "file_offset": 30192,
+          "relocated_segment_site": 22003,
+          "relocation_index": 617
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 790,
+          "file_offset": 156726,
+          "relocated_segment_site": 793,
+          "relocation_index": 37
+        }
+      ]
+    },
+    {
+      "id": "root:078a:2050",
+      "space": "root",
+      "segment": 1930,
+      "offset": 8272,
+      "size": 88,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP prologue after RETF and NOP. Copies the near string argument to a local buffer and draws it; RETF 2 with one alignment NOP precedes the separate BP prologue at 20a8.",
+        "Locked root [0x98f0,0x9948); preceding bytes 5f 8b e5 5d cb 90; closing bytes 5f 8b e5 5d ca 02 00 90; following bytes 55 8b ec 83 ec 08.",
+        "8 original relocated CALL FAR sites name 078a:2050."
+      ],
+      "sha256": "8f2a77ff9a4efe5845185b68ae3143059263b900221bd5bad9be3e5f692b59c7",
+      "original_bytes_hex": "558bec83ec6457568d769c1e078b7e06b9ffff33c0f2aef7d12bf987fed1e9f3a513c9f3a48d469c509a8619e61f83c402b80100500ee8b100b80e0a1e502bc050b80100508d469c16509a525301115e5f8be55dca020090",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 1099,
+          "file_offset": 9291,
+          "relocated_segment_site": 1102,
+          "relocation_index": 49
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 1608,
+          "file_offset": 9800,
+          "relocated_segment_site": 1611,
+          "relocation_index": 50
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 2628,
+          "file_offset": 10820,
+          "relocated_segment_site": 2631,
+          "relocation_index": 51
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 3514,
+          "file_offset": 11706,
+          "relocated_segment_site": 3517,
+          "relocation_index": 52
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 4144,
+          "file_offset": 12336,
+          "relocated_segment_site": 4147,
+          "relocation_index": 53
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 23658,
+          "file_offset": 31850,
+          "relocated_segment_site": 23661,
+          "relocation_index": 571
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 23647,
+          "file_offset": 31839,
+          "relocated_segment_site": 23650,
+          "relocation_index": 572
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 67618,
+          "file_offset": 75810,
+          "relocated_segment_site": 67621,
+          "relocation_index": 1393
+        }
+      ]
+    },
+    {
+      "id": "root:078a:2108",
+      "space": "root",
+      "segment": 1930,
+      "offset": 8456,
+      "size": 49,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "BP prologue directly after prior RETF. Builds a local rectangle and uses the game port, restores its frame and exits RETF at 2138.",
+        "Locked root [0x99a8,0x99d9); preceding bytes 01 11 8b e5 5d cb; closing bytes 90 4d 01 11 8b e5 5d cb; following bytes 90 55 8b ec 83 ec.",
+        "2 original relocated CALL FAR sites name 078a:2108."
+      ],
+      "sha256": "2c55c324343a25452cabc117df08460026549c8551c31411cdb23260b2eeb44d",
+      "original_bytes_hex": "558bec83ec088d46f81650b80e0a1e50a1100af7d8502bc0509a2a500111c746fe40018d46f816509a904d01118be55dcb",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 22435,
+          "file_offset": 30627,
+          "relocated_segment_site": 22438,
+          "relocation_index": 576
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-15",
+          "image_offset": 44,
+          "file_offset": 266556,
+          "relocated_segment_site": 47,
+          "relocation_index": 25
+        }
+      ]
     }
   ],
   "schema": 1,
