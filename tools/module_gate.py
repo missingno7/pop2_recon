@@ -22,7 +22,8 @@ Object-level rules (refusals, not claim failures): every public lies inside
 the initialized CODE segment and one public starts at offset 0; fixup fields
 are disjoint; a near call is proven only inside the original CS window named by
 an independently relocated CALL FAR into a claim (for overlay claims: a vector,
-a same-overlay call or an unshared cross-space call, see `_frame_evidence`), so
+a same-overlay call, an unshared cross-space call or bracketing overlay relocation
+site frames, see `_frame_evidence`), so
 16-bit IP arithmetic and linear placement agree.
 """
 import struct
@@ -221,7 +222,60 @@ def _code_vectors(oracle):
     return overlay_vectors(oracle, overlays)
 
 
-def _frame_evidence(target, space, oracle, hull):
+def _site_frame(target, space, oracle, hull, grouped=False):
+    """("evidence"|"refused", row): the CS frame named by the overlay's own relocation sites.
+
+    RTLink 6.10 writes each overlay relocation record as (site offset, site segment), the
+    site segment being the frame of the code segment holding the site: the paragraph floor
+    of that segment's start, the same frame every relocated far reference into the segment
+    stores (probe: evidence/rtlink-probe/site-frames/). Frames therefore never decrease with
+    position. If the last record before the claim's end and the first record from its start
+    on name one frame F, the segments holding them both have frame F, so every segment
+    between them does, and the claim (one original function, one segment) runs with CS F.
+    A relocation-free segment between two frames is never covered (the brackets differ).
+    Only for a code segment outside every group: a grouped segment's records still name its
+    floor while far references use the group frame (probe $$OVLVEC), so a candidate object
+    grouping its CODE segment is refused.
+    Refused unless the records are monotone, every relocated far word (stored segment plus
+    the offset word before it, any space; a decoded vector naming another overlay excepted)
+    that lands inside the object uses F, and F's 64K window holds the whole object."""
+    if not (space.descriptor and space.descriptor["flags"] == 4):
+        return None
+    row = {"kind": "overlay site frame", "space": space.name}
+    if grouped:
+        # Probe: a grouped segment's records name its own floor; calls use the group frame.
+        return "refused", dict(row, reason="code segment is a group member; site frame is not its CS")
+    rows = sorted(space.relocations, key=lambda r: r["image_offset"])
+    start = space.position(target["segment"], target["offset"])
+    end = start + target["size"]
+    if any(a["segment"] > b["segment"] for a, b in zip(rows, rows[1:])):
+        return "refused", dict(row, reason="overlay relocation site frames are not monotone")
+    before = [r for r in rows if r["image_offset"] < end]
+    after = [r for r in rows if r["image_offset"] >= start]
+    if not before or not after or before[-1]["segment"] != after[0]["segment"]:
+        return "refused", dict(row, reason="no relocation records of one site frame bracket the claim")
+    frame = before[-1]["segment"]
+    row.update(frame=frame, bracket_relocation_indices=[before[-1]["index"], after[0]["index"]])
+    lo, hi = hull
+    base = (frame - space.link_segment) * 16
+    if not (base <= lo and hi <= base + 0x10000):
+        return "refused", dict(row, reason="site frame window does not hold the whole object")
+    # A decoded RTLink vector's jump word enters only the overlay its descriptor index names.
+    elsewhere = {v["position"] + 6 for v in _code_vectors(oracle).values() if v["target_space"] != space.name}
+    for source in oracle.spaces.values():
+        for record in source.relocations:
+            at = record["image_offset"]
+            if at < 2 or (source.name == "root" and at in elsewhere):
+                continue
+            segment = record["stored_word"]
+            linked = (segment - space.link_segment) * 16 + struct.unpack_from("<H", source.data, at - 2)[0]
+            if lo <= linked < hi and segment != frame:
+                return "refused", dict(row, reason=f"relocated far word {source.name}+{at - 2:#x} "
+                                                   f"enters the object with frame {segment:04x}")
+    return "evidence", row
+
+
+def _frame_evidence(target, space, oracle, hull, grouped=False):
     """(evidence, unusable): independent original far entries naming this claim's CS.
 
     Root: the segment words of the reviewed, relocated CALL FARs that enter the target
@@ -234,8 +288,10 @@ def _frame_evidence(target, space, oracle, hull):
       own table and outside the whole object: its caller is resident, so its own section
       is, and the destination lies in it;
     - a reviewed relocated CALL FAR from another space, only when no other space holds
-      that link address (otherwise it may enter another overlay sharing the segment).
-    `hull` is the object's (start, end) in the claim's space."""
+      that link address (otherwise it may enter another overlay sharing the segment);
+    - the overlay's own relocation site frames bracketing the claim (`_site_frame`).
+    `hull` is the object's (start, end) in the claim's space; `grouped` says the candidate
+    object puts its CODE segment in a group."""
     evidence, unusable = [], []
     calls = [c for c in target.get("call_sites", []) if c["kind"] == "far_call"]
     if space.name == "root":
@@ -273,6 +329,9 @@ def _frame_evidence(target, space, oracle, hull):
             unusable.append(dict(row, reason="link address also held by " + ", ".join(holders)))
             continue
         evidence.append(dict(row, kind="cross-space CALL FAR"))
+    site = _site_frame(target, space, oracle, hull, grouped)
+    if site:
+        (evidence if site[0] == "evidence" else unusable).append(site[1])
     return evidence, unusable
 
 
@@ -366,7 +425,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         origin = position - start
         resolved.append((claim, target, expected, start))
     require(0 <= origin and origin + len(actual) <= space.size, "Object placement escapes the space")
-    frame_rows = {claim["public"]: _frame_evidence(target, space, oracle, (origin, origin + len(actual)))
+    code_index = next(i for i, d in enumerate(module.segment_defs, 1) if d["name"] == name)
+    grouped = any(code_index in g["segments"] for g in module.groups)
+    frame_rows = {claim["public"]: _frame_evidence(target, space, oracle, (origin, origin + len(actual)), grouped)
                   for claim, target, _, _ in resolved}
     frames = {row["frame"] for evidence, _ in frame_rows.values() for row in evidence}
     require(len(frames) <= 1, "Claims are entered through different original frames")

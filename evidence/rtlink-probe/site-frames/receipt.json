@@ -1,0 +1,272 @@
+{
+  "code_segments": {
+    "ENTRY": {
+      "frame": 0,
+      "length": 5,
+      "section": 1,
+      "start": 0
+    },
+    "O1A": {
+      "frame": 295,
+      "length": 502,
+      "section": 2,
+      "start": 4720
+    },
+    "O1B": {
+      "frame": 328,
+      "length": 74,
+      "section": 2,
+      "start": 5256
+    },
+    "O1Z": {
+      "frame": 326,
+      "length": 34,
+      "section": 2,
+      "start": 5222
+    },
+    "O2A": {
+      "frame": 295,
+      "length": 36,
+      "section": 3,
+      "start": 4720
+    },
+    "O2B": {
+      "frame": 297,
+      "length": 64,
+      "section": 3,
+      "start": 4756
+    },
+    "OVPTR": {
+      "frame": 333,
+      "length": 45,
+      "section": 2,
+      "start": 5330
+    },
+    "ROOTC": {
+      "frame": 0,
+      "length": 96,
+      "section": 1,
+      "start": 6
+    }
+  },
+  "descriptor_table_file_offset": 3467,
+  "exe_sha256": "2a90037031bb4f391a85c10d58d5a276c6fa74369993f8469da193a431727169",
+  "far_words_to_probe_publics": {
+    "1:$$OVLMGR -> far pointer ENTRY_POINT 0000:0000": 1,
+    "1:$$OVLMGR -> far pointer O1A2|O2A1 0127:0000": 1,
+    "1:$$OVLVEC -> far pointer O1A1 0127:0012": 1,
+    "1:$$OVLVEC -> far pointer O1A2|O2A1 0127:0000": 1,
+    "1:$$OVLVEC -> far pointer O1B1 0148:0008": 1,
+    "1:$$OVLVEC -> far pointer O2B2 0129:0016": 1,
+    "2:O1A -> CALL FAR O1B1 0148:0008": 1,
+    "2:O1A -> CALL FAR O1B2 0148:0016": 1,
+    "2:O1A -> CALL FAR ROOTF 0000:0006": 40,
+    "2:O1B -> CALL FAR O1A2|O2A1 0127:0000": 1,
+    "2:O1B -> CALL FAR O1Z2 0146:0014": 1,
+    "2:O1B -> CALL FAR ROOTF 0000:0006": 1,
+    "2:OVPTR -> far pointer O1A1 0127:0012": 1,
+    "2:OVPTR -> far pointer O1B1 0148:0008": 1,
+    "3:O2A -> CALL FAR O2B1 0129:0004": 1,
+    "3:O2A -> CALL FAR ROOTF 0000:0006": 1,
+    "3:O2B -> CALL FAR O1A2|O2A1 0127:0000": 1
+  },
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "grouped_segment_contrast": {
+    "call_word_segments": [
+      "0007"
+    ],
+    "group": "$$OVLMGR",
+    "group_frame": "0007",
+    "record_site_segments": [
+      "00c4"
+    ],
+    "segment": "$$OVLVEC",
+    "segment_floor": "00c4"
+  },
+  "inputs": {
+    "O1A": {
+      "object_sha256": "a06f6e63ffcc805f3fcf6e9606ae1c8b21369496fcd32deefda6da129dba57c3",
+      "source_sha256": "4ca7ecfc4070c79d92b307d7f5453588835b5bfb03cf52688f520b5d5ff83bd1"
+    },
+    "O1B": {
+      "object_sha256": "aa9412cc13adf4f4252a517b1aaefe72c60c05d66ec8a310a02f50516e489ce7",
+      "source_sha256": "02e591355f7e9e7d78e4e867a1b5bd2a77073a23f58e30f42b436eba3d3c629f"
+    },
+    "O1Z": {
+      "object_sha256": "538e30f98d365ae3f85eb256dbcca0dbe76176e02ef5370a4ba5130d03ef0e8f",
+      "source_sha256": "758fabfc68cd09761ea1f4285936315251d177a338744745b70fed2fae44b474"
+    },
+    "O2A": {
+      "object_sha256": "770db18c7d497be97abdbfe2111fbc4cf130460271d717e9bc39543b1f0fb24a",
+      "source_sha256": "3a8a93c0fb6220c6f34fda1545ec40ad28dce75750cf25575af5a0e7a9182497"
+    },
+    "O2B": {
+      "object_sha256": "443c3dbec6d8b862ea01448fae6899778996973cda1ee285cf1daa89f83dd5a8",
+      "source_sha256": "495349ee7f13c3ff8ce457703478f11b64171b4c97353dd1490d29accd00bb7f"
+    },
+    "OVPTR": {
+      "object_sha256": "d2990ca1f2381f83366f458f107ceb9d0e00617974af63178fe21adb592d9c08",
+      "source_sha256": "fbf42a1d4fa9477d4e820f896919317d771aa4ef1a81856f95e8deef538b8b7f"
+    },
+    "ROOTC": {
+      "object_sha256": "fc69328de5ab3d91cb7a288456c62db3b55c26a80adf5b26834b718870fa08f3",
+      "source_sha256": "f9a36f8e85b739eefef695058a077ac854b9978ba0b726b28368e79f4ae782ba"
+    },
+    "START": {
+      "object_sha256": "87899b6172f541adea0a48f06b989da2595a61b7868ddb3fe5013f6d3935c91f",
+      "source_sha256": "14b5b2eecaa064adc9509a9d698cc99d3e2a5494b894f9b78d0233b1ef9c0c39"
+    }
+  },
+  "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+  "map_sha256": "89c16354f12bddcee4fcffdb4c218a8ae64bf09752a0151c275bdb4b780236d3",
+  "observations": [
+    "Every relocation record (root MZ and both overlay tables) stores the frame of the segment holding its site, i.e. the paragraph floor of that segment start, with the offset measured from it (O1A sites up to 0127:01e7, O1B at 0148:0025..003e).",
+    "Every relocated far word naming a probe public stores the callee segment frame: direct same-overlay calls, overlay-to-root calls, the MASM dd table and the vector jump words alike.",
+    "O1Z has no far reference and therefore no record; its frame 0146 is named only by the O1B call word. Records of frames 0127 and 0148 bracket it.",
+    "Root calls and the root DGROUP pointers enter overlays through $$OVLVEC records; O2B calls O1A1 in the other section of the area through a vector as well.",
+    "Sections ONE and TWO share link segment 0127: O1A2 and O2A1 both are 0127:0000.",
+    "A grouped segment differs: $$OVLVEC records name its floor 00c4 while root calls into it use the $$OVLMGR group frame 0007. Site frame = CS frame only for a code segment outside any group (MSC medium-model NAME_TEXT)."
+  ],
+  "overlays": [
+    {
+      "link_segment": 295,
+      "overlay_id": 2,
+      "relocation_count": 47,
+      "size_paragraphs": 41
+    },
+    {
+      "link_segment": 295,
+      "overlay_id": 3,
+      "relocation_count": 4,
+      "size_paragraphs": 7
+    },
+    {
+      "link_segment": 336,
+      "overlay_id": 4,
+      "relocation_count": 2,
+      "size_paragraphs": 5
+    }
+  ],
+  "records_by_segment": {
+    "1:$$OVLMGR": {
+      "frame": "0007",
+      "records": 32,
+      "site_offsets": [
+        374,
+        2879
+      ],
+      "start": 112
+    },
+    "1:$$OVLMGR_UTILS": {
+      "frame": "00c6",
+      "records": 1,
+      "site_offsets": [
+        84,
+        84
+      ],
+      "start": 3179
+    },
+    "1:$$OVLVEC": {
+      "frame": "00c4",
+      "records": 4,
+      "site_offsets": [
+        9,
+        39
+      ],
+      "start": 3139
+    },
+    "1:ROOTC": {
+      "frame": "0000",
+      "records": 4,
+      "site_offsets": [
+        35,
+        61
+      ],
+      "start": 6
+    },
+    "2:O1A": {
+      "frame": "0127",
+      "records": 42,
+      "site_offsets": [
+        33,
+        487
+      ],
+      "start": 4720
+    },
+    "2:O1B": {
+      "frame": "0148",
+      "records": 3,
+      "site_offsets": [
+        37,
+        62
+      ],
+      "start": 5256
+    },
+    "2:OVPTR": {
+      "frame": "014d",
+      "records": 2,
+      "site_offsets": [
+        41,
+        45
+      ],
+      "start": 5330
+    },
+    "3:O2A": {
+      "frame": "0127",
+      "records": 2,
+      "site_offsets": [
+        12,
+        20
+      ],
+      "start": 4720
+    },
+    "3:O2B": {
+      "frame": "0129",
+      "records": 2,
+      "site_offsets": [
+        37,
+        53
+      ],
+      "start": 4756
+    },
+    "4:_DATA": {
+      "frame": "0154",
+      "records": 2,
+      "site_offsets": [
+        2,
+        6
+      ],
+      "start": 5440
+    }
+  },
+  "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT PROBE\nMAP\nFILE START\nFILE ROOTC\nBEGINAREA\n  SECTION = \"ONE\"\n    FILE O1A\n    FILE O1Z\n    FILE O1B\n    FILE OVPTR\n  SECTION = \"TWO\"\n    FILE O2A\n    FILE O2B\nENDAREA\n",
+  "root_calls_into_overlays": [
+    "0007:0bd3",
+    "0007:0bdd",
+    "0007:0be7",
+    "0007:0bf1"
+  ],
+  "runner_sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+  "schema": 1,
+  "scope": "Synthetic source-only RTLink 6.10 observation; no original TU, linker identity or ownership",
+  "script_sha256": "d41cb1b1ad16d93e2671ccecbc9c9942bd48d5894f87a461191db25b12dfd1f3",
+  "summary": {
+    "far_word_segment_equals_callee_file_frame": 56,
+    "far_words": 94,
+    "far_words_to_named_public": 56,
+    "files_without_records": [
+      "O1Z"
+    ],
+    "frames_monotone_in_position": true,
+    "overlay_records": 53,
+    "records": 94,
+    "site_segment_equals_containing_file_frame": 94
+  }
+}

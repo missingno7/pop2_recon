@@ -327,6 +327,53 @@ The same draft-region rule applies to group `segment-base` and `far-data`
 witnesses: relocated segment words and offset instructions in an unclaimed
 draft region count, and those inside a claimed extent do not.
 
+## Overlay site frames (2026-11-21)
+
+Overlays 2 and 3 share link segments, so root calls into overlay 3 do not
+reach a frame (`link address also held by overlay-2`). The overlay's own
+relocation table names the frame directly. A controlled RTLink 6.10 link
+([site-frames](../evidence/rtlink-probe/site-frames/README.md)) shows:
+
+- every record stores the frame of the segment holding its site, which is the
+  paragraph floor of that segment's start;
+- every relocated far word into the segment stores that same frame;
+- frames increase with position;
+- a relocation-free file has a frame but no record;
+- a segment inside a group is the exception: its records name its own floor,
+  while its callers use the group frame.
+
+The locked image agrees. Its 15 code-overlay tables are monotone, and all 447
+relocated CALL FARs into overlay frame extents match a holder's site frame.
+
+`module_gate._site_frame` adds the evidence kind `overlay site frame` to an
+overlay claim when all of these hold:
+
+- **Bracket.** The last record of the claim's own overlay table with a site
+  before the claim's end, and the first with a site at or after its start, name
+  one frame F. Both may be the claim's own far-call records, because site
+  frames are linker-assigned and the candidate does not produce them. Since
+  frames are monotone, every segment between those two sites has frame F, so
+  the claim's segment does too (one reviewed function lies in one segment). If
+  the two frames differ, the evidence is refused, because a relocation-free file
+  may lie between them. The census extent alone is not enough.
+- **No alias.** Every relocated far word that lands inside the whole object
+  uses F. A word is the stored segment and the offset word before it, in any
+  space; a decoded vector that names another overlay is the only exception. A
+  word with another frame (for example root `2a4e:0000` landing in overlay 4)
+  refuses the evidence.
+- **Window.** F's 64K window holds the whole object.
+- **Monotone.** The table is monotone.
+- **No group.** The candidate object puts its CODE segment in no group.
+
+Each refusal appears in `frame_evidence_refused`. Of the 64 reviewed
+code-overlay targets, 47 get site-frame evidence. In the 11 that also have
+another witness, the frames agree. 36 targets are newly witnessed, including ACT
+`25da:047e/0092/01e0` and COLLIDE `2802:000e`. AUTO `2344:0c6e` brackets in
+frame 2344 but has no reviewed target yet. Tests:
+`tests/test_overlay_group.py` (real 08f0 claim with no far entry, the named
+targets, an unbracketed `25da:000e`, the alias in overlay 9, and synthetic
+straddle, alias, group and monotonicity refusals).
+
 ## Far data members (2026-11-21)
 
 A `far-data` symbol may list `members: [{offset: k, offset_witnesses: [...]}]`.
