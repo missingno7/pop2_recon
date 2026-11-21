@@ -105,7 +105,6 @@ extern char room_render_flags[10];                  /* ds:6248 */
 extern unsigned char *room_kinds;                   /* ds:6294 */
 extern unsigned int entry_cells_a[];                /* ds:3faa */
 extern unsigned int entry_cells_b[];                /* ds:328e */
-extern char health_option[];                        /* ds:09f8 */
 extern char interlude_name[];                       /* ds:09fe */
 extern char loading_name[];                         /* ds:1fe0 */
 
@@ -269,7 +268,7 @@ int start_game(signed char requested)
         remaining_minutes = 75;
         remaining_ticks = 719;
         starting_health = 3;
-        if (option_flags && find_option(health_option)) {
+        if (option_flags && find_option("LEVEL")) {
             signed char health = stage_number;
             health = health < 3 ? 3 : health;
             starting_health = health > 12 ? 12 : health;

@@ -24186,6 +24186,212 @@
       "size": 96,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Relocated overlay-8 CALL enters 0e56:035a immediately after the previous RETF.",
+        "Original scans 30 cells in the room linked to the entry. The exhausted branch ends with RETF at 0393. The matching branch calls the gate and sound routines before RETF at 03ae. A NOP at 03af precedes the next BP frame.",
+        "Room equality and cell-kind 17 guard the entrance-opening call."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 226604,
+          "image_offset": 476,
+          "kind": "far_call",
+          "relocated_segment_site": 479,
+          "space": "overlay-8"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Room equality and cell-kind 17 guard the entrance-opening call."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:035a",
+      "offset": 858,
+      "segment": 3670,
+      "semantic_name_hypothesis": "open_start_gate",
+      "sha256": "4f7d064f735d81101fc47540a44b651c6717748c15b53e14cb3d805e21cc9c59",
+      "size": 86,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal two byte slots, RETF 4",
+      "boundary_evidence": [
+        "Relocated CALL at root+e8fc (index 1202) enters the 16fa BP frame. The independently reviewed predecessor at 16ac ends with RETF at 16f9.",
+        "Normal and excluded room-set branches join at the 172c epilogue. RETF 4 at 1730 and a NOP at 1733 end the extent.",
+        "Uses low bytes at BP+8 and BP+6 to update the gate entry and enqueue its cell operation."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67836,
+          "image_offset": 59644,
+          "kind": "far_call",
+          "relocated_segment_site": 59647,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses low bytes at BP+8 and BP+6 to update the gate entry and enqueue its cell operation."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:16fa",
+      "offset": 5882,
+      "segment": 2881,
+      "semantic_name_hypothesis": "open_entrance",
+      "sha256": "6369e69760fd061112e89d11dc713ef932b48c9f8fc9483eb11dcb33d976395e",
+      "size": 58,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Same-frame floor dispatcher at 013a/013b calls 16ac, which starts a BP frame after the RETF at 16ab.",
+        "The active and idle branches terminate at 16ee or 16f9. All direct branches stay inside the extent and the last decoded instruction is RETF at 16f9.",
+        "Updates the running floor entry with a countdown byte and shared floor dispatch flags."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54603,
+          "image_offset": 46411,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46410,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the running floor entry with a countdown byte and shared floor dispatch flags."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:16ac",
+      "offset": 5804,
+      "segment": 2881,
+      "semantic_name_hypothesis": "update_active_floor_entry",
+      "sha256": "c8566e726056d6ffd33d0f8f7eb5f4414eca672f1195d5de03b5f171ec5b391f",
+      "size": 78,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Same-frame original 075b/075c PUSH CS/CALL enters 0dfe after the preceding function's RETF and alignment.",
+        "The guard predicate either skips or calls the scroll helper, then both paths join at the RETF at 0e28. A NOP at 0e29 precedes the next entry.",
+        "Uses the current character room and row to update floor state after a guard flag."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68796,
+          "image_offset": 60604,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60603,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Uses the current character room and row to update floor state after a guard flag."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0dfe",
+      "offset": 3582,
+      "segment": 3670,
+      "semantic_name_hypothesis": "adjust_guard_view",
+      "sha256": "96c07b4bd527ea1b73d3ba1b42d686e238ec983b9bba9dcd6f8a432c073551da",
+      "size": 44,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal two byte slots, RETF 4",
+      "boundary_evidence": [
+        "Relocated CALL at root+f37d (index 1231) and same-frame 1c2d/1c2e call enter the 190c BP frame after the 190a RETF and 190b NOP.",
+        "The bounded cell loop and optional special hook converge before the 13-byte restore and the sole RETF 4 at 198f. The next frame starts at 1992.",
+        "The low bytes at BP+8 and BP+6 select the room and row passed to the cell reader and level hook."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 70525,
+          "image_offset": 62333,
+          "kind": "far_call",
+          "relocated_segment_site": 62336,
+          "space": "root"
+        },
+        {
+          "file_offset": 61502,
+          "image_offset": 53310,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53309,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The low bytes at BP+8 and BP+6 select the room and row passed to the cell reader and level hook."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:190c",
+      "offset": 6412,
+      "segment": 2881,
+      "semantic_name_hypothesis": "scroll_guard_view",
+      "sha256": "fde791decc07266e47150c3311a19d0f2b7b6d993abcf09d8a391294b453236d",
+      "size": 134,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Same-frame caller pairs at 1850/1851 and 194c/194d enter 18a0 after the preceding RETF 2 and NOP.",
+        "All branches converge at 1909 POP SI and RETF at 190a. The single relocation-free 190b NOP separates the reviewed return from 190c.",
+        "Updates a floor record from the low flag bits and queues its cell operation and sound."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 60513,
+          "image_offset": 52321,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 52320,
+          "space": "root"
+        },
+        {
+          "file_offset": 60765,
+          "image_offset": 52573,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 52572,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates a floor record from the low flag bits and queues its cell operation and sound."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:18a0",
+      "offset": 6304,
+      "segment": 2881,
+      "semantic_name_hypothesis": "update_floor_entry_from_flags",
+      "sha256": "5bcf4726cfafce04adefcde826cb27e5ed92a167980bf167cf8482f038475e90",
+      "size": 107,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

@@ -1,7 +1,18 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "668a948bc613532ec9a486bcd9499064e81d6acbedb144159f1f57c686b31dbf",
+  "binding_sha256": "3fb451022771fdad2c08c434a44dd51904a5747d7e667143752f29b63795fba4",
   "claims": [
+    {
+      "fixup_count": 16,
+      "public": "START_GAME",
+      "relocation_indices": [
+        1175,
+        1309
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0e56:0006"
+    },
     {
       "fixup_count": 18,
       "public": "FINISH_START_KID",
@@ -17,6 +28,20 @@
       "target_id": "root:0e56:02c8"
     },
     {
+      "fixup_count": 8,
+      "public": "OPEN_START_GATE",
+      "relocation_indices": [
+        1198,
+        1202,
+        1274
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:035a"
+    },
+    {
       "fixup_count": 5,
       "public": "QUICK_FOREGROUND",
       "relocation_indices": [
@@ -26,6 +51,16 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0e56:0bf2"
+    },
+    {
+      "fixup_count": 6,
+      "public": "ADJUST_GUARD_VIEW",
+      "relocation_indices": [
+        1231
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0e56:0dfe"
     },
     {
       "fixup_count": 7,
@@ -57,10 +92,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 0,
-      "public": "START_GAME"
-    },
-    {
       "object_offset": 106,
       "public": "RESTART_LEVEL"
     },
@@ -75,10 +106,6 @@
     {
       "object_offset": 804,
       "public": "SPECIAL_ENTRANCE"
-    },
-    {
-      "object_offset": 852,
-      "public": "OPEN_START_GATE"
     },
     {
       "object_offset": 938,
@@ -121,10 +148,6 @@
       "public": "CHECK_REBIRTH_POINTS"
     },
     {
-      "object_offset": 3576,
-      "public": "ADJUST_GUARD_VIEW"
-    },
-    {
       "object_offset": 3660,
       "public": "FACE_FIRST_GUARD"
     },
@@ -159,12 +182,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "1e70336e8393a34f8b44d443aa1f39f77614856bd2182f9a934636877fc678fd",
+  "object_sha256": "62bcb410f9b0349116954c0ceadf67192c9fc4998087d7c4e473e3887e39a60d",
   "origin": 58726,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "9b09145d5eb52f15eb072a0661a04f741249711fe86db539bed4f569c76494f5",
+  "source_sha256": "29b26227fd2e8444cefb239f0101d1f2f5c77cb55f7d83c9df07c6167cb6f64b",
   "space": "root"
 }
