@@ -43192,6 +43192,170 @@
       "state": "ANALYZED",
       "original_bytes_hex": "803e525c00743da00e5c38064e5c7534a00a5c38064a5c752b803e415c5674248b16425c2b16025c803e015c007402f7da0bd27c12a0015c3806415c740983c20d8bc2cbbae7038bc2cb",
       "sha256": "94abb8dfa16a1d115a07d2440ef144eb914b0ba738867ae2262e91bc219b010d"
+    },
+    {
+      "abi": "far Pascal 10 argument bytes",
+      "boundary_evidence": [
+        "RETF 8 immediately precedes the entry. Both row paths join at 14a7, returning at 14ab with RETF 10. The DOS allocation helper starts at 14ae."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42607,
+          "image_offset": 34415,
+          "kind": "far_call",
+          "relocated_segment_site": 34418,
+          "space": "root"
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Mirrors packed nibbles across a row with DS and ES set for the far address. The original source language is open."
+      ],
+      "classification_status": "original instruction and boundary review, source family hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0000:140b",
+      "offset": 5131,
+      "segment": 0,
+      "semantic_name_hypothesis": "flip_image",
+      "sha256": "04ab3e9e259d4fa97d601ec7aceb984cb9c4771b41de6ae71f2e2dd7f7204ee4",
+      "size": 163,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, RETF 2; one word parameter.",
+      "boundary_evidence": [
+        "Relocated CALL at root+0x2adb enters the BP frame. Reviewed 052d:1234 ends with RETF at 1291. Local exit RETF 2 at 13d8, NOP at 13db and next BP prologue at 13dc."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19163,
+          "image_offset": 10971,
+          "kind": "far_call",
+          "relocated_segment_site": 10974,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The entry sets a mode byte, dispatches presentation sequences and cleans up pending audio."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "root:052d:1292",
+      "offset": 4754,
+      "segment": 1325,
+      "semantic_name_hypothesis": "play_intro",
+      "sha256": "7595e6b3dbed4c0518584815607a3249df435f2f698246f313054c2b293076c3",
+      "size": 330,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, RETF 2; one signed word parameter.",
+      "boundary_evidence": [
+        "Starts at BP prologue after reviewed 0a5c:0c5c. Reached by PUSH CS; CALL at 0a5c:0ced after its word argument; local jumps join at 0cda. RETF 2 at 0cdf ends at next prologue 0ce2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 53934,
+          "image_offset": 45742,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 45741,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loops from the incoming index to 4, calling 0a5c:0e2c for each handle, then conditionally invokes a final cleanup."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0caa",
+      "offset": 3242,
+      "segment": 2652,
+      "semantic_name_hypothesis": "release_level_handles",
+      "sha256": "de5aa62ea76dd31167ddc403823f53df5e4ddaec42f0e7b7e893920368c47ed7",
+      "size": 56,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, RETF 2; one word parameter.",
+      "boundary_evidence": [
+        "Relocated CALL at root+0x2a86 enters BP frame. 0a5c:0caa ends at 0ce2. Final local exit RETF 2 at 0d95 ends at the next BP prologue at 0d98."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 19078,
+          "image_offset": 10886,
+          "kind": "far_call",
+          "relocated_segment_site": 10889,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Passes input to preceding cleanup, walks a word table and clears several resource handles and rendering state."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0ce2",
+      "offset": 3298,
+      "segment": 2652,
+      "semantic_name_hypothesis": "set_draw_mode",
+      "sha256": "186053eb14336f321591cfab440db7f96bd616579bb1e5e0c959e9a9606e1b98",
+      "size": 182,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, RETF 2; one word selector, AX status.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0cc7 names this exact BP prologue. Preceded by RETF 8. Local branches join before RETF 2 at 3e5b; 3e5e begins another BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects same-frame helpers for selectors 7 through 11 and restores audio state before returning."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:3dc2",
+      "offset": 15810,
+      "segment": 9098,
+      "semantic_name_hypothesis": "play_other_vector_destination",
+      "sha256": "39bcfcaf62dac515f55c61799ab18b598954b75e074d3cc58b189f8960442df4",
+      "size": 156,
+      "space": "overlay-2",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, RETF 2; one word selector, AX status.",
+      "boundary_evidence": [
+        "RTLink vector 2203:0cd1 names this BP prologue immediately after reviewed 238a:04be. Selector-specific branches converge at 10b3 and return at 110e; alignment NOP 1111 precedes the next BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Initializes graphics and audio, dispatches scene setup and playback based on its selector, releases acquired resources and returns the scene status."
+      ],
+      "classification_status": "reviewed original behavior; descriptive alias",
+      "entry_kind": "direct-code",
+      "id": "overlay-2:238a:06c2",
+      "offset": 1730,
+      "segment": 9098,
+      "semantic_name_hypothesis": "play_story_vector_destination",
+      "sha256": "88eb8ad6dd1e18bdac59fcc9392fef40e73a0cbc8b2b066bbdd6a5cc8eb0ed29",
+      "size": 2640,
+      "space": "overlay-2",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

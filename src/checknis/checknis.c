@@ -62,7 +62,6 @@ int far pascal IsLevelStartWithNISScreen(void)
 
 extern signed char cinematics_enabled, quote_index;
 extern int remaining_time, debug_options;
-extern char nis_option[], quote_option[];
 extern int intro_music, default_music, special_music;
 extern char *find_option(const char far *option);
 extern int cdecl atoi(const char *value);
@@ -73,8 +72,10 @@ extern void report_option(int message);
 int IsTimeForNIS(int level, int previous_level)
 {
     int sequence = 0;
-    signed char next_quote;
-    char *option;
+    struct {
+        char *arg;
+        signed char quote;
+    } options;
 
     if (cinematics_enabled) {
         if (level == 0 || (previous_level != level && previous_level != -1)) {
@@ -88,38 +89,33 @@ int IsTimeForNIS(int level, int previous_level)
             }
         }
         if (sequence == 0 && level >= 4) {
-            if (quote_index == -1) {
+            if (quote_index == -1 && level >= 4) {
                 sequence = 20;
                 quote_index = 0;
             } else {
-                next_quote = (1 - remaining_time) / 9 + 7;
-                if (next_quote > quote_index) {
-                    sequence = next_quote + 20;
-                    quote_index = next_quote;
+                options.quote = (1 - remaining_time) / 9 + 7;
+                if (options.quote > quote_index) {
+                    sequence = options.quote + 20;
+                    quote_index = options.quote;
                 }
             }
         }
     }
 
     if (debug_options) {
-        if (option = find_option(nis_option)) {
-            sequence = atoi(option + 3);
-            switch (sequence) {
-            case 1:
+        if ((options.arg = find_option("NIS")) != 0) {
+            sequence = atoi(options.arg + 3);
+            if (sequence == 1) {
                 start_music(intro_music);
                 report_option(10034);
-                break;
-            case 5:
-            case 11:
+            } else if (sequence == 5 || sequence == 11) {
                 prepare_music(special_music);
                 start_music(special_music);
-                break;
-            default:
+            } else {
                 start_music(default_music);
-                break;
             }
-        } else if (option = find_option(quote_option)) {
-            quote_index = atoi(option + 4);
+        } else if ((options.arg = find_option("TREE")) != 0) {
+            quote_index = atoi(options.arg + 4);
             sequence = quote_index + 19;
         }
     }
@@ -215,8 +211,11 @@ void draw_room_from_nis(signed char room, signed char level)
     select_room(room);
     start_music(room_music[current_room]);
     set_room_visibility(!IsLevelStartWithNISScreen());
-    if (old_room != current_room)
-        update_room();
+    {
+        unsigned char room_delta = current_room ^ old_room;
+        if (room_delta)
+            update_room();
+    }
     draw_room_tiles(current_room, room_tile);
     place_room_objects(current_room);
     level_redraw_flag = 0;
@@ -242,7 +241,7 @@ typedef struct {
 extern char dead_kid_asset[];
 extern int kid_image_x, kid_image_y;
 extern unsigned char kid_facing;
-extern int load_nis_asset(const char *asset, int type);
+extern unsigned int hGetSL(int resource_id, int mode);
 extern int load_nis_image(int asset, int frame, int type);
 extern image_header far *lock_image(int image);
 extern void flip_image(unsigned char far *pixels, int first, int second, int third);
@@ -251,11 +250,12 @@ extern void release_image(int image);
 
 void draw_dead_kid(void)
 {
-    int asset, frame, x;
+    unsigned int shapes;
+    int frame, x;
     image_header far *image;
 
-    asset = load_nis_asset(dead_kid_asset, 2);
-    frame = load_nis_image(asset, 80, 2);
+    shapes = hGetSL((int)dead_kid_asset, 2);
+    frame = load_nis_image(shapes, 80, 2);
     if (frame) {
         x = kid_image_x - 137;
         image = lock_image(frame);
@@ -265,6 +265,6 @@ void draw_dead_kid(void)
         }
         draw_image(image, x, kid_image_y - 10, 10, 2);
         release_image(frame);
-        release_image(asset);
+        release_image(shapes);
     }
 }
