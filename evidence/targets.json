@@ -53484,6 +53484,414 @@
       "size": 30,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:28a1:000c",
+      "space": "overlay-2",
+      "segment": 10401,
+      "offset": 12,
+      "size": 52,
+      "sha256": "42663221503a40e70929190f64d845fe390d994101eca2222b7075d5de1b5978",
+      "abi": "Far Pascal, near record pointer, callee pops 2 bytes and returns it in AX.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 28a1, independently reviewed [000c,0040) in frame offsets. Terminal instructions are 003a mov sp, bp; 003c pop bp; 003d retf 2.",
+        "Next original region starts at overlay-2+0x5610. The preceding and following entries were checked against the original module disassembly and census.",
+        "No direct caller needed to delimit the complete adjacent return/entry sequences.",
+        "Original touching overlay relocation indices: [768].",
+        "The NIS tail returns at overlay-2+0x55db. Relocation 311 at 0x55d9 uses site frame 238a (NIS), and relocation 768 at 0x5600 uses site frame 28a1 inside this routine. Its RETF 2 ends exactly at the distinct 0040 prologue."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original animation record, graphics, or animation audio operations.",
+        "Saves and restores the drawing port while copying between the two rectangle members of a near animation record. Its correspondence to FM @AnimDraw is a source-name hypothesis."
+      ],
+      "semantic_name_hypothesis": "anim_draw",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fe6:1d0a",
+      "space": "root",
+      "segment": 8166,
+      "offset": 7434,
+      "size": 95,
+      "sha256": "7a5aec7334e3d937127ffc7c0250792e5b586c0d4182d528f8580ea91011f7d4",
+      "abi": "Far, callee pops eight argument bytes and returns DX:AX.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 26585,
+          "file_offset": 182521,
+          "relocated_segment_site": 26588
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 26420,
+          "file_offset": 182356,
+          "relocated_segment_site": 26423
+        },
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 26365,
+          "file_offset": 182301,
+          "relocated_segment_site": 26368
+        }
+      ],
+      "state": "ANALYZED",
+      "classification": "CRT_HYPOTHESIS",
+      "classification_status": "Original unsigned division implementation in the resident CRT frame.",
+      "classification_evidence": [
+        "The BP frame reads two doublewords, uses unsigned DIV and carry corrections, and returns the quotient in DX:AX."
+      ],
+      "boundary_evidence": [
+        "The preceding routine at 1fe6:1cec ends with RETF 4 at 1d06 and one zero fill byte.",
+        "Three relocated overlay-2 far calls name entry 1fe6:1d0a, which starts with a BP-frame prologue.",
+        "All direct branches decode to internal instruction starts. Final RETF 8 occupies 1d66..1d68. The next routine begins at 1d6a after one zero fill byte. No relocation touches the reviewed extent."
+      ]
+    },
+    {
+      "id": "root:1fe6:1cec",
+      "space": "root",
+      "segment": 8166,
+      "offset": 7404,
+      "size": 29,
+      "sha256": "88815c49883aca091e2e19784d3bb72b2b4eebf6536b446df8bdb4ceac57a929",
+      "abi": "Far entry, two word arguments, RETF 4.",
+      "classification": "CRT_HYPOTHESIS",
+      "classification_status": "Independent original support-routine boundary review.",
+      "classification_evidence": [
+        "Resident CRT frame. Previous 1ce0 helper terminates in RETF at 1cea, followed by one zero align byte.",
+        "The 1cec BP prologue loads the doubleword through BP+6, reads a count at BP+8, and calls 1ce0 through PUSH CS; CALL at 1cfb. It stores the resulting doubleword back.",
+        "Linear decode ends at the complete RETF 4 at 1d06..1d08. Byte 1d09 is zero and the independently called unsigned divide entry starts at 1d0a."
+      ],
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident CRT frame. Previous 1ce0 helper terminates in RETF at 1cea, followed by one zero align byte.",
+        "The 1cec BP prologue loads the doubleword through BP+6, reads a count at BP+8, and calls 1ce0 through PUSH CS; CALL at 1cfb. It stores the resulting doubleword back.",
+        "Linear decode ends at the complete RETF 4 at 1d06..1d08. Byte 1d09 is zero and the independently called unsigned divide entry starts at 1d0a."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 73286,
+          "file_offset": 81478,
+          "relocated_segment_site": 73289
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 74211,
+          "file_offset": 82403,
+          "relocated_segment_site": 74214
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:008a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 138,
+      "size": 459,
+      "sha256": "37bac372e60509903a06bad3fe4f7b780eb162f4ba7642db292a475181cab088",
+      "abi": "Far Pascal, fourteen bytes of arguments, RETF 14.",
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Independent original support-routine boundary review.",
+      "classification_evidence": [
+        "Resident graphics support frame. The separately reviewed 0058 routine ends with RETF 6 at 0087..0089; the next BP prologue begins at 008a.",
+        "The original relocated far call at overlay-2+0x685f supplies two near ports, two far rectangle pointers and a word level. The disassembly clips the rectangles and uses an assembly-shaped graphics loop.",
+        "Code above the shared RETF 14 at 0169 is reached through internal branches. The final backward jump at 0253 goes to 0211. The next independently decoded entry starts at 0256."
+      ],
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Resident graphics support frame. The separately reviewed 0058 routine ends with RETF 6 at 0087..0089; the next BP prologue begins at 008a.",
+        "The original relocated far call at overlay-2+0x685f supplies two near ports, two far rectangle pointers and a word level. The disassembly clips the rectangles and uses an assembly-shaped graphics loop.",
+        "Code above the shared RETF 14 at 0169 is reached through internal branches. The final backward jump at 0253 goes to 0211. The next independently decoded entry starts at 0256."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 26719,
+          "file_offset": 182655,
+          "relocated_segment_site": 26722
+        }
+      ],
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:298a:0006",
+      "space": "overlay-2",
+      "segment": 10634,
+      "offset": 6,
+      "size": 110,
+      "sha256": "8b7d2515ffc54e7205b5456c85c6121a153e74d37a8678b27522910d8d06851d",
+      "abi": "Far Pascal, four arguments occupying 12 bytes, AX result.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 298a, independently reviewed [0006,0074) in frame offsets. Terminal instructions are 006f pop bp; 0070 retf 0xc; 0073 nop.",
+        "Next original region starts at overlay-2+0x64d4. The preceding and following entries were checked against the original module disassembly and census.",
+        "RTLink vector destination 298a:0006 independently names this entry.",
+        "Original touching overlay relocation indices: [801, 812]."
+      ],
+      "call_sites": [],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original dissolve record and port-copy operations."
+      ],
+      "semantic_name_hypothesis": "dissolve_do_all",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:298a:0074",
+      "space": "overlay-2",
+      "segment": 10634,
+      "offset": 116,
+      "size": 64,
+      "sha256": "734c5f4aa3e30f835ceaca48a26dabba3acfadf9fa19e3f37c08d3ff71cf624d",
+      "abi": "Far Pascal, near record pointer and word flag, callee pops 4 bytes.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 298a, independently reviewed [0074,00b4) in frame offsets. Terminal instructions are 00ae mov sp, bp; 00b0 pop bp; 00b1 retf 4.",
+        "Next original region starts at overlay-2+0x6514. The preceding and following entries were checked against the original module disassembly and census.",
+        "Original incoming calls recorded at overlay-2+0x64c6.",
+        "Original touching overlay relocation indices: [804, 806, 811]."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 25798,
+          "file_offset": 181734,
+          "pushed_cs_site": 25797
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original dissolve record and port-copy operations."
+      ],
+      "semantic_name_hypothesis": "dissolve_free",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:298a:00b4",
+      "space": "overlay-2",
+      "segment": 10634,
+      "offset": 180,
+      "size": 254,
+      "sha256": "e01ab6772f32ebd07ef3bdc2e6e6ccd80e665c8d4cc1a1e07c9f5ba2ed5e6ddd",
+      "abi": "Far Pascal, four arguments occupying 12 bytes, near pointer in AX.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 298a, independently reviewed [00b4,01b2) in frame offsets. Terminal instructions are 01ad pop bp; 01ae retf 0xc; 01b1 nop.",
+        "Next original region starts at overlay-2+0x6612. The preceding and following entries were checked against the original module disassembly and census.",
+        "Original incoming calls recorded at overlay-2+0x6483.",
+        "Original touching overlay relocation indices: [805, 809, 810, 816, 817]."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 25731,
+          "file_offset": 181667,
+          "pushed_cs_site": 25730
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original dissolve record and port-copy operations."
+      ],
+      "semantic_name_hypothesis": "dissolve_new",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:298a:01b2",
+      "space": "overlay-2",
+      "segment": 10634,
+      "offset": 434,
+      "size": 306,
+      "sha256": "c89afab33d4110167713f2f973d6c778fceb9edac93fd10fede15fb935fc3457",
+      "abi": "Far Pascal, near record pointer, callee pops 2 bytes.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 298a, independently reviewed [01b2,02e4) in frame offsets. Terminal instructions are 02de mov sp, bp; 02e0 pop bp; 02e1 retf 2.",
+        "Next original region starts at overlay-2+0x6744. The preceding and following entries were checked against the original module disassembly and census.",
+        "Original incoming calls recorded at overlay-2+0x65de.",
+        "Original touching overlay relocation indices: [808, 819, 820]."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 26078,
+          "file_offset": 182014,
+          "pushed_cs_site": 26077
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original dissolve record and port-copy operations."
+      ],
+      "semantic_name_hypothesis": "dissolve_set_inc_amt",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:298a:0306",
+      "space": "overlay-2",
+      "segment": 10634,
+      "offset": 774,
+      "size": 318,
+      "sha256": "cdfe91a9a82bbe74afe293a241190e8781af9a4d38e3441c71479b344ee448a6",
+      "abi": "Far Pascal, near record pointer, callee pops 2 bytes, AX result.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 298a, independently reviewed [0306,0444) in frame offsets. Terminal instructions are 043f pop bp; 0440 retf 2; 0443 nop.",
+        "Next original region starts at overlay-2+0x68a4. Following bytes are overlay alignment fill.",
+        "Original incoming calls recorded at overlay-2+0x6495, overlay-2+0x6682.",
+        "Original touching overlay relocation indices: [802, 803, 807, 813, 814, 815, 818]."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 25749,
+          "file_offset": 181685,
+          "pushed_cs_site": 25748
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 26242,
+          "file_offset": 182178,
+          "pushed_cs_site": 26241
+        }
+      ],
+      "classification": "GAME_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original dissolve record and port-copy operations."
+      ],
+      "semantic_name_hypothesis": "dissolve_step",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:2344:0136",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 310,
+      "size": 42,
+      "sha256": "00bd0d9dbdf075f2c372c04e03fe3da94fcef36466fe738b7540a82c691da996",
+      "abi": "Frameless far routine with no arguments.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 2344, independently reviewed [0136,0160) in frame offsets. Terminal instructions are 015b push cs; 015c call 0xba; 015f retf.",
+        "Next original region starts at overlay-2+0x0160. The preceding and following entries were checked against the original module disassembly and census.",
+        "Original incoming calls recorded at overlay-2+0x263.",
+        "Original touching overlay relocation indices: [50]."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 611,
+          "file_offset": 156547,
+          "pushed_cs_site": 610
+        }
+      ],
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original configuration, device initialization, or startup messaging code."
+      ],
+      "semantic_name_hypothesis": "init_sound",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:2344:0160",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 352,
+      "size": 12,
+      "sha256": "beb2826d26ad24016eed0a3eb84160d697a890a6dc4d910f6e6fd3d0381dd5b2",
+      "abi": "Frameless far routine with no arguments.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 2344, independently reviewed [0160,016c) in frame offsets. Terminal instructions are 0167 mov word ptr [0x2cf4], ax; 016a retf; 016b nop.",
+        "Next original region starts at overlay-2+0x016c. The preceding and following entries were checked against the original module disassembly and census.",
+        "Original incoming calls recorded at overlay-2+0x1af.",
+        "Original touching overlay relocation indices: []."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 431,
+          "file_offset": 156367,
+          "pushed_cs_site": 430
+        }
+      ],
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original configuration, device initialization, or startup messaging code."
+      ],
+      "semantic_name_hypothesis": "save_initial_setting",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-2:2344:045c",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 1116,
+      "size": 16,
+      "sha256": "d42b43b2dd1e85644f6fb7b8304a223704337719a6bdab2e50e4be0444d2b4c2",
+      "abi": "Far routine with no arguments, AX used only for loop condition.",
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original overlay-2 frame 2344, independently reviewed [045c,046c) in frame offsets. Terminal instructions are 0468 mov sp, bp; 046a pop bp; 046b retf.",
+        "Next original region starts at overlay-2+0x046c. The preceding and following entries were checked against the original module disassembly and census.",
+        "Original incoming calls recorded at overlay-2+0x31c.",
+        "Original touching overlay relocation indices: [27]."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 796,
+          "file_offset": 156732,
+          "pushed_cs_site": 795
+        }
+      ],
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Source classification inferred from original call and data use.",
+      "classification_evidence": [
+        "Original configuration, device initialization, or startup messaging code."
+      ],
+      "semantic_name_hypothesis": "wait_for_ready",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

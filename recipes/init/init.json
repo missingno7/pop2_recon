@@ -1,0 +1,75 @@
+{
+  "binding": "evidence/bindings/init/init.json",
+  "binding_sha256": "f78461af7fef4b6941aaab571930c8895641a9a4f4f441130de19aabc1d364ee",
+  "claims": [
+    {
+      "fixup_count": 7,
+      "public": "INIT_SOUND",
+      "relocation_indices": [
+        50
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-2:2344:0136"
+    },
+    {
+      "fixup_count": 2,
+      "public": "SAVE_INITIAL_SETTING",
+      "target_id": "overlay-2:2344:0160"
+    },
+    {
+      "fixup_count": 1,
+      "public": "WAIT_FOR_READY",
+      "relocation_indices": [
+        27
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-2:2344:045c"
+    }
+  ],
+  "drafts": [
+    {
+      "object_offset": 0,
+      "public": "REPORT_MEMORY"
+    },
+    {
+      "object_offset": 186,
+      "public": "SHOW_INIT_MESSAGE"
+    },
+    {
+      "object_offset": 364,
+      "public": "INIT_SYSTEM"
+    },
+    {
+      "object_offset": 854,
+      "public": "INIT_GRAPHICS"
+    },
+    {
+      "object_offset": 914,
+      "public": "CHOOSE_MEMORY_POOL"
+    }
+  ],
+  "emitted_size": 1132,
+  "flags": [
+    "/c",
+    "/AM",
+    "/Oe",
+    "/Gs",
+    "/Zl",
+    "/Gc"
+  ],
+  "frame": 9028,
+  "group_id": "group:init/init",
+  "kind": "same_source_group",
+  "language": "c",
+  "name": "init/init",
+  "object_sha256": "17b2d516623ac48a139eb0f4683896fb969544daee48152c93aac8315dff7f43",
+  "origin": 0,
+  "profile": "msc600",
+  "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
+  "schema": 1,
+  "source": "src/init/init.c",
+  "source_sha256": "fbb02f23ee90650eb2944137188360d1720eae00d2e65cc3a62fbc399258ff2f",
+  "space": "overlay-2"
+}
