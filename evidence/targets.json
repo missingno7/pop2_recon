@@ -40,7 +40,8 @@
       "boundary_evidence": [
         "Independent decode has no outgoing branch and ends with RETF 2 at bytes42..44.",
         "Byte45 is NOP alignment; byte46 begins the next BP prologue at overlay position0x6466.",
-        "All46 bytes are inbounds and contain no original relocation sites; six relocated direct callers independently verified."
+        "All46 bytes are inbounds and contain no original relocation sites; six relocated direct callers independently verified.",
+        "The 46-byte extent decodes linearly through RETF 2 and an alignment NOP, followed by a distinct 55 8B EC prologue. All six reviewed overlay-2 CALL FAR instructions encode 28a1:0e68 and carry their segment relocations in the original overlay table."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -93,6 +94,7 @@
         "Exchanges word pairs at near-record offsets 0/2 and 0x2e/0x30; specific gameplay role not proven."
       ],
       "classification_status": "medium game-helper hypothesis, caller purpose and original name unknown",
+      "entry_kind": "direct-code",
       "id": "overlay-2:28a1:0e68",
       "offset": 3688,
       "original_name": null,
