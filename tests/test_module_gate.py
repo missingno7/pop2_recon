@@ -557,19 +557,21 @@ int far pascal Sw(int k)
 class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""
 
-    def check(self, segments, uses, placements, image=b"", data_fixes=()):
+    def check(self, segments, uses, placements, image=b"", data_fixes=(), far_symbols=None, relocs=()):
         from module_gate import _check_placements
         from oracle import Space
         module = SimpleNamespace(
             segment_defs=[{"name": n, "length": len(c) if c is not None else size} for n, c, size in segments],
             segments={n: c for n, c, _ in segments if c is not None},
             initialized_ranges={n: [(0, len(c))] for n, c, _ in segments if c is not None})
-        space = Space("root", 0, 0, bytes(0x100) + image + bytes((0x10, 0x00)), ({"index": 0, "image_offset": 0x100 + len(image)},))
+        space = Space("root", 0, 0, bytes(0x100) + image + bytes((0x10, 0x00)),
+                      ({"index": 0, "image_offset": 0x100 + len(image)},) +
+                      tuple({"index": i + 1, "image_offset": 0x100 + r} for i, r in enumerate(relocs)))
         oracle = SimpleNamespace(spaces={"root": space})
         binding = {"frame": {"segment": 0x10},
                    "dgroup_segment": {"segment": 0x10, "witnesses": [
                        {"space": "root", "image_offset": 0x100 + len(image), "relocation_index": 0}]}}
-        return _check_placements(module, placements, uses, binding, space, oracle, data_fixes)
+        return _check_placements(module, placements, uses, binding, space, oracle, data_fixes, far_symbols)
 
     @staticmethod
     def pointer(at, frame=None):
@@ -592,6 +594,24 @@ class PlacementTests(unittest.TestCase):
         frame = {"kind": "segment", "index": 2, "name": "_DATA"}
         with self.assertRaisesRegex(ValueError, "not a DGROUP near pointer"):
             self.check([("_DATA", b"\x02\x00\xaa\xbb", 4)], {}, {"_DATA": 8}, image, [self.pointer(0, frame)])
+
+    @staticmethod
+    def far_pointer(at):
+        target = {"kind": "external", "index": 3, "name": "CALLBACK", "method": 6}
+        return {"segment": "_DATA", "segment_offset": at, "loc_type": 3, "field_width": 4, "self_relative": False,
+                "frame": {"kind": "target_frame", "target": target}, "target": target, "displacement": None}
+
+    def test_far_code_pointer_takes_the_grounded_symbol_and_needs_its_relocation(self):
+        # _DATA = {CALLBACK (far), 0xBBAA} at 8; CALLBACK grounded at 1234:0056.
+        far = {"CALLBACK": {"kind": "far-code-entry", "segment": 0x1234, "offset": 0x56}}
+        content = bytes(4) + b"\xaa\xbb"
+        image = bytes(8) + b"\x56\x00\x34\x12\xaa\xbb"
+        report = self.check([("_DATA", content, 6)], {}, {"_DATA": 8}, image, [self.far_pointer(0)], far, relocs=(10,))
+        self.assertEqual(report["_DATA"]["pointer_fields"], 1)
+        with self.assertRaisesRegex(ValueError, "relocated words"):  # the original must relocate the segment word
+            self.check([("_DATA", content, 6)], {}, {"_DATA": 8}, image, [self.far_pointer(0)], far)
+        with self.assertRaisesRegex(ValueError, "grounded far code symbol"):  # an ungrounded target
+            self.check([("_DATA", content, 6)], {}, {"_DATA": 8}, image, [self.far_pointer(0)], {}, relocs=(10,))
 
     def test_uninitialized_segment_is_never_self_proving(self):
         # Distinct addends do not support each other: the source chooses the layout.
