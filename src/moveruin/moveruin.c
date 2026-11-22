@@ -24,7 +24,7 @@ extern volatile Byte spike_action;
 extern Byte room_number, ruins_start_column, plateau_intro;
 extern volatile Byte passed_plateau_room;
 extern Byte *ruins_start_actor;
-static int start_room_column_x[20] = {
+int start_room_column_x[20] = {
     -30, 2, 34, 66, 98, 130, 162, 194, 226, 258,
     290, 322, 354, 386, 418, 450, 482, 514, 546, 578
 };

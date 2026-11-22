@@ -328,7 +328,7 @@ extern signed char crawl_latch;
 extern signed char tile_modifier;
 extern unsigned char level_number;
 extern int gate_override;
-extern int cell_x[];
+extern int start_room_column_x[20];
 extern unsigned char far pascal ClrAll(void);
 extern signed char far pascal lookup_tile_kind(signed char room, signed char column, signed char row);
 extern signed char far pascal GetCellCol(void);
@@ -363,9 +363,9 @@ void far pascal control_crawling(void)
                 tile = get_behind();
                 if (tile == 7) {
                     if (actor_direction == 0)
-                        gap = actor_x - cell_x[actor_column] - 38;
+                        gap = actor_x - start_room_column_x[actor_column + 5] - 38;
                     else
-                        gap = cell_x[actor_column + 1] - actor_x - 10;
+                        gap = start_room_column_x[actor_column + 6] - actor_x - 10;
                 } else if (tile == 12 || tile == 13) {
                     gap = gate_is_open() ? -32 : 32;
                 } else {
@@ -433,10 +433,10 @@ void far pascal control_crouching(void)
         if (tile == 7 && (tile_modifier & 3) == 3)
             goto step;
         tile = GetCellCol();
-        if (actor_direction == 0 && -((edge = cell_x[tile]) - actor_x) > 6) {
+        if (actor_direction == 0 && -((edge = start_room_column_x[tile + 5]) - actor_x) > 6) {
             gap = edge - actor_x;
             gap += 6;
-        } else if (actor_direction == -1 && (delta = actor_x - cell_x[tile + 1]) < 22) {
+        } else if (actor_direction == -1 && (delta = actor_x - start_room_column_x[tile + 6]) < 22) {
             gap = delta - 22;
         } else {
             gap = 0;
@@ -646,7 +646,7 @@ void far pascal actor_down(void)
 /* 25da:0d42 */
 void far pascal enter_stairs(void)
 {
-    actor_x = cell_x[exit_column - 1] + 16;
+    actor_x = start_room_column_x[exit_column + 4] + 16;
     actor_direction = -1;
     JumpSeq(70);
 }
