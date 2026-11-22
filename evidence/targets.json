@@ -70109,6 +70109,77 @@
       "sha256": "62f244643fcbff17c5637c0f5bedee6b614d6b5c73310a1c2e3129239ea94c42",
       "size": 340,
       "space": "root"
+    },
+    {
+      "id": "root:1fe6:1446",
+      "space": "root",
+      "segment": 8166,
+      "offset": 5190,
+      "size": 5,
+      "sha256": "73903e19484cbbcfcb7c201d95fdeca285fd711f55d4b590cca2c52cc66a9681",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The original root CALL FAR at +0x2071d (relocation 1914) and ANIM_FREE CALL FAR at overlay-2+0x5680 (relocation 743) independently enter the same 1fe6:1446 instruction.",
+        "The relocated EA at root+0x212a6 is the entire thunk. Its segment word (relocation 1915) names 1fe6:001a, the reviewed near heap release body. Control leaves the thunk unconditionally after five bytes.",
+        "The preceding five bytes are a separate relocated JMP (relocation 1931), and 00 at +0x212ab precedes the pinned runtime CRT_SEARCHSG entry at +0x212ac."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far cdecl tail JMP, preserving the caller return address and one near pointer argument for the callee.",
+      "classification": "RUNTIME",
+      "classification_status": "Independent boundary and ABI review",
+      "classification_evidence": [
+        "The target 1fe6:001a decodes a far cdecl release against the near heap descriptor and returns with RETF. The thunk forwards its argument unchanged."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "kind": "far_call",
+          "image_offset": 132893,
+          "file_offset": 141085,
+          "relocated_segment_site": 132896
+        },
+        {
+          "space": "overlay-2",
+          "kind": "far_call",
+          "image_offset": 22144,
+          "file_offset": 178080,
+          "relocated_segment_site": 22147
+        }
+      ],
+      "semantic_name_hypothesis": "release_near_heap_thunk",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "root:1fe6:15c6",
+      "space": "root",
+      "segment": 8166,
+      "offset": 5574,
+      "size": 13,
+      "sha256": "65f2940dcea8f9a6757cce4f2770d99fc059f4b78f2bdc40e490933558a19a63",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "ANIM_NEW CALL FAR (overlay-2 relocation 798) names the exact link alias 1fe6:15c6.",
+        "Linear root position 0x21426 is the canonical pinned CRT_NMSIZE member start, recorded as root:2000:1426 in layout/manifest.json. The archived __nmsize public is at the start of the 13-byte code contribution.",
+        "The original routine loads the preceding heap word [BX-2], clears AL bit 0, and ends with RETF at +0x21432. The zero byte +0x21433 precedes the next pinned runtime member at +0x21434."
+      ],
+      "entry_kind": "direct-code",
+      "abi": "Far cdecl, one near pointer word at BP+6, returns the masked block header in AX with RETF.",
+      "classification": "RUNTIME",
+      "classification_status": "Independent boundary and ABI review",
+      "classification_evidence": [
+        "The archive/member-pinned __nmsize recipe is recipes/runtime/crt_nmsize.json. Both segment:offset pairs map to exactly the same root bytes."
+      ],
+      "call_sites": [
+        {
+          "space": "overlay-2",
+          "kind": "far_call",
+          "image_offset": 23379,
+          "file_offset": 179315,
+          "relocated_segment_site": 23382
+        }
+      ],
+      "semantic_name_hypothesis": "near_heap_block_size",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

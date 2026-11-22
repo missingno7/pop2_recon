@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/anim/anim.json",
-  "binding_sha256": "015514b6a8a924d113d438fda6e9e902c4a9e64e5e8e6a9a447a2a6d90c19085",
+  "binding_sha256": "4931e156d29e464fcace5ff4eb668943d432f683df409b83c23bff99c00f66ab",
   "claims": [
     {
       "fixup_count": 4,
@@ -11,6 +11,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-2:28a1:000c"
+    },
+    {
+      "fixup_count": 9,
+      "public": "ADVANCE_FRAME",
+      "relocation_indices": [
+        759,
+        770
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:28a1:0898"
     },
     {
       "fixup_count": 9,
@@ -76,42 +89,39 @@
       "public": "ANIM_IDLE"
     },
     {
-      "object_offset": 1360,
+      "object_offset": 1344,
       "public": "ANIM_NEW"
-    },
-    {
-      "object_offset": 2182,
-      "public": "ADVANCE_FRAME"
     },
     {
       "object_offset": 3102,
       "public": "PLAY_ANIM"
     },
     {
-      "object_offset": 3686,
+      "object_offset": 3676,
       "public": "SWAP_RECORD_PAIRS"
     }
   ],
-  "emitted_size": 3736,
+  "emitted_size": 3726,
   "flags": [
     "/c",
     "/AM",
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 10401,
   "group_id": "group:anim/anim",
   "kind": "same_source_group",
   "language": "c",
   "name": "anim/anim",
-  "object_sha256": "b77182c15b38a5f6e7d0838fe1219047d836a1ce305b1aa66362f0955add82ef",
+  "object_sha256": "fc19dc5550c4b3f081332620c062153937d87bbc80759250e0383da71d61aa87",
   "origin": 21980,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/anim/anim.c",
-  "source_sha256": "002f1990455ae92517bddb27db8af2735fb4660a39951207da8801054ded99a9",
+  "source_sha256": "5d7bf980fea0ada7ee5ed8bf7f5b91126ea7430660c2f68d1d1b5dbb8efb9d25",
   "space": "overlay-2"
 }

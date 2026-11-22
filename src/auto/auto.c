@@ -1274,12 +1274,13 @@ void far pascal run_guard_script(void)
     }
 }
 
-extern unsigned int hit_actor_action, hit_actor_reaction;
+extern unsigned int hit_actor_reaction;
 typedef struct {
     unsigned char head[6];
     unsigned char flags;
 } hit_action_record;
 extern _segment hit_action_segment;
+extern hit_action_record _based(hit_action_segment) hit_actions[];
 extern unsigned char hit_actor_flags, hit_actor_draw_mode;
 extern unsigned char hit_actor_kind, hit_actor_number;
 
@@ -1390,8 +1391,7 @@ void far pascal stab_actor(void)
             next_action = hit_actor_direction != actor_direction ? 74 : 94;
             if (hit_actor_kind == 7 || hit_actor_kind == 8) {
                 if (actor_combat_mode != 1 &&
-                    !((hit_action_segment :> (hit_action_record _based(void) *)
-                              (hit_actor_action * sizeof(hit_action_record)))->flags & 64))
+                    !(hit_actions[kid_action].flags & 64))
                     next_action = 45;
                 else if ((unsigned)actor_action >= 246u && (unsigned)actor_action <= 261u) {
                     if (stage_blocks_impact(current_stage_byte()))
@@ -1456,12 +1456,12 @@ stop_falling:
 
 void far pascal begin_actor_death(void)
 {
-    int next_action = -1;
+    int next_action;
     signed char index;
-    int sound;
 
     actor_control = 0;
     actor_loaded = 1;
+    next_action = -1;
     if (actor_kind == 4) {
         begin_special_actor_death();
     } else if (actor_kind == 7 || actor_kind == 8) {
@@ -1484,17 +1484,14 @@ void far pascal begin_actor_death(void)
         if (actor_kind == 0 && (unsigned)actor_action >= 246u && (unsigned)actor_action <= 261u) {
             next_action = 98;
             if (hit_actor_kind == 11)
-                sound = 69;
+                set_encounter_sound(69);
             else if (hit_actor_kind == 7 || hit_actor_kind == 8)
-                sound = 89;
+                set_encounter_sound(89);
             else
-                sound = 14;
-            goto record_sound;
+                set_encounter_sound(14);
         } else if (hit_actor_kind == 11) {
             next_action = 97;
-            sound = 69;
-record_sound:
-            set_encounter_sound(sound);
+            set_encounter_sound(69);
         } else {
             if (hit_actor_kind == 6)
                 play_guard_death_script();
@@ -1505,11 +1502,9 @@ record_sound:
             }
         }
         if (actor_kind == 0) {
-            switch (hit_actor_kind) {
+            switch ((signed char)hit_actor_kind) {
               case 2:
-                index = 10;
-                if (preferred_opponent == 0)
-                    index = 14;
+                index = 10 + ((*(unsigned char *)&preferred_opponent == 0) ? 4 : 0);
                 break;
               case 7:
               case 8:
