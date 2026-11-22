@@ -24380,7 +24380,8 @@
       "boundary_evidence": [
         "Same-frame caller pairs at 1850/1851 and 194c/194d enter 18a0 after the preceding RETF 2 and NOP.",
         "All branches converge at 1909 POP SI and RETF at 190a. The single relocation-free 190b NOP separates the reviewed return from 190c.",
-        "Updates a floor record from the low flag bits and queues its cell operation and sound."
+        "Updates a floor record from the low flag bits and queues its cell operation and sound.",
+        "The no-op guard and the shaking path converge at POP SI 1909. RETF at 190a and the alignment NOP at 190b precede the separately reviewed SHAKE_ROW entry 190c."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -24409,8 +24410,8 @@
       "offset": 6304,
       "segment": 2881,
       "semantic_name_hypothesis": "update_floor_entry_from_flags",
-      "sha256": "5bcf4726cfafce04adefcde826cb27e5ed92a167980bf167cf8482f038475e90",
-      "size": 107,
+      "sha256": "93de9e0330ceae9e6410f937da785f37ff1cc6f133427df31f20021ba6d62552",
+      "size": 108,
       "space": "root",
       "state": "ANALYZED"
     },

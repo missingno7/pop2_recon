@@ -1343,7 +1343,9 @@ void make_space(unsigned char room, signed char cell)
     room_objects[*(volatile int *)&index].state = state;
 }
 
-extern sbyte pressed_source, pressed_row, actor_press_source;
+extern sbyte pressed_source, pressed_row;
+/* MSC Pascal linkage folds this view and actor_column to the same external. */
+extern sbyte ACTOR_COLUMN;
 extern byte shake_kind;
 extern byte select_shake_cell(byte room, sbyte column, sbyte row);
 extern void damage_crystal(void);
@@ -1370,10 +1372,15 @@ void shake_loose_floor(void)
     if (!(pressed_state & 15)) {
         int counter = ((pressed_state & 0x30) >> 4) + 1;
 
-        if ((counter != 3 && pressed_source != actor_press_source) || actor_id == 1) {
+        if ((pressed_source != ACTOR_COLUMN && counter != 3) || actor_id == 1) {
+            int index;
+            RoomObject *objects;
+
             pressed_state &= ~0x30U;
+            index = marked_cell;
+            objects = *(RoomObject **)&room_objects;
             pressed_state |= (counter | 4) << 4;
-            room_objects[marked_cell].state = pressed_state | 0x40;
+            objects[index].state = pressed_state | 0x40;
         }
         add_trob(marked_room, marked_cell, 1, 11);
         play_move_sound(20);
@@ -1477,7 +1484,7 @@ void anim_mobs(void)
         mobs[mob_index] = current_mob;
     }
 
-    work.kept = work.index = 0;
+    work.index = work.kept = 0;
     if (work.index < mob_count) {
         int *speed = &mobs[0].speed;
 
