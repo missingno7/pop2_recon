@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "98f23d7f9f920e3054fc7378b61d8e4420e87b4e711ea1b70999dbc6ae386b59",
+  "binding_sha256": "6560bec9f32910df43b5c50a21044ff3e33fd32a6437281bd6c1804640cfba9b",
   "claims": [
     {
       "fixup_count": 5,
@@ -173,6 +173,11 @@
       "target_id": "root:078a:15ca"
     },
     {
+      "fixup_count": 2,
+      "public": "GET_GATE_IMAGE",
+      "target_id": "root:078a:1bda"
+    },
+    {
       "fixup_count": 9,
       "public": "DRAW_LOOSE_OBJECT",
       "relocation_indices": [
@@ -224,8 +229,10 @@
         760,
         830
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "root:078a:2108"
     },
     {
@@ -453,23 +460,19 @@
       "public": "DRAW_CELL_OBJECTS"
     },
     {
-      "object_offset": 6658,
+      "object_offset": 6654,
       "public": "SORT_CELL_OBJECTS"
     },
     {
-      "object_offset": 6740,
+      "object_offset": 6736,
       "public": "COMPARE_OBJECTS"
     },
     {
-      "object_offset": 7088,
+      "object_offset": 7090,
       "public": "@object_priority"
     },
     {
-      "object_offset": 7128,
-      "public": "GET_GATE_IMAGE"
-    },
-    {
-      "object_offset": 7198,
+      "object_offset": 7194,
       "public": "DRAW_CELL_OBJECT"
     },
     {
@@ -520,12 +523,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "2eead890c55d9227057282974df5fc2a82b01b74d12dd5162f09d97473f11bed",
+  "object_sha256": "a1bece94ebdf6d9d0b0447cd1efca694c0f462b8c392d40b5a1c68f2d7b0e193",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "0dd46f42a566a3e7765700759f75463f9794a7fdf58977bc99e21ee1e8413975",
+  "source_sha256": "c8b8324006cfbc91db1e50d17020dd86d37ae2e40eff2ffbbc3bfdb90b2b4a9e",
   "space": "root"
 }

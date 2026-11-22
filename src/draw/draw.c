@@ -1217,21 +1217,23 @@ void draw_cell_objects(char column)
     state.original_clip = clip_rect;
     state.merged_clip = clip_rect;
     sorted_object_total = 0;
-    for (state.index = state.count - 1; state.index >= 0; --state.index) {
-        state.byte_offset = state.index * sizeof(CellObject);
-        if (((CellObject *)((char *)cell_objects + state.byte_offset))->status == column ||
-            (((CellObject *)((char *)cell_objects + state.byte_offset))->status >= 0 &&
-             intersect_rect(&state.object_clip, &state.merged_clip,
-                            &((CellObject *)((char *)cell_objects + state.byte_offset))->clip))) {
-            sorted_objects[sorted_object_total++] = state.index;
-            union_rect(&state.object_clip, &state.merged_clip,
-                       &((CellObject *)((char *)cell_objects + state.byte_offset))->clip);
-            if (!equal_rect(&state.object_clip, &state.merged_clip)) {
-                state.index = state.count;
-                sorted_object_total = 0;
-                state.merged_clip = state.object_clip;
+    if ((state.index = state.count - 1) >= 0) {
+        do {
+            state.byte_offset = state.index * sizeof(CellObject);
+            if (((CellObject *)((char *)cell_objects + state.byte_offset))->status == column ||
+                (((CellObject *)((char *)cell_objects + state.byte_offset))->status >= 0 &&
+                 intersect_rect(&state.object_clip, &state.merged_clip,
+                                &((CellObject *)((char *)cell_objects + state.byte_offset))->clip))) {
+                sorted_objects[sorted_object_total++] = state.index;
+                union_rect(&state.object_clip, &state.merged_clip,
+                           &((CellObject *)((char *)cell_objects + state.byte_offset))->clip);
+                if (!equal_rect(&state.object_clip, &state.merged_clip)) {
+                    state.index = state.count;
+                    sorted_object_total = 0;
+                    state.merged_clip = state.object_clip;
+                }
             }
-        }
+        } while (--state.index >= 0);
     }
     if (sorted_object_total) {
         clip_rect = state.merged_clip;
@@ -1239,8 +1241,11 @@ void draw_cell_objects(char column)
         state.index = 0;
         if (sorted_object_total > 0) {
             do {
-                draw_cell_object(sorted_objects[state.index]);
-                cell_objects[sorted_objects[state.index]].status = -2;
+                int index;
+                unsigned char object = sorted_objects[state.index];
+                index = state.index;
+                draw_cell_object(object);
+                cell_objects[sorted_objects[index]].status = -2;
             } while (++state.index < sorted_object_total);
         }
     }
@@ -1282,13 +1287,14 @@ int compare_objects(int first, int second)
     int left_id, right_id;
     unsigned char left_type, right_type;
     unsigned char left_priority, right_priority;
-    int swap;
+    volatile int swap;
+    int left_entry = first, right_entry = second;
 
 #define SORTED_AT(offset) (*(CellObject *)((char *)cell_objects + (offset)))
-    left_offset = sorted_objects[first] * sizeof(CellObject);
+    left_offset = sorted_objects[left_entry] * sizeof(CellObject);
     left_id = *(int *)&SORTED_AT(left_offset).object_id;
     left_type = SORTED_AT(left_offset).kind;
-    right_offset = sorted_objects[second] * sizeof(CellObject);
+    right_offset = sorted_objects[right_entry] * sizeof(CellObject);
     right_id = *(int *)&SORTED_AT(right_offset).object_id;
     right_type = SORTED_AT(right_offset).kind;
     if (left_type == right_type) {
@@ -1317,8 +1323,8 @@ int compare_objects(int first, int second)
             goto before;
         goto after;
     }
-    left_offset = sorted_objects[first] * sizeof(CellObject);
-    right_offset = sorted_objects[second] * sizeof(CellObject);
+    left_offset = sorted_objects[left_entry] * sizeof(CellObject);
+    right_offset = sorted_objects[right_entry] * sizeof(CellObject);
     if (SORTED_AT(left_offset).y == SORTED_AT(right_offset).y) {
         if (SORTED_AT(left_offset).x > SORTED_AT(right_offset).x)
             goto before;
@@ -1358,15 +1364,16 @@ GateImage *get_gate_image(char set, unsigned char type)
     CellObject *match = 0;
     int index = 0;
     int total = *(int *)&cell_object_total;
-    CellObject *item = cell_objects;
+    unsigned char *selector;
 
     if (total > 0) {
+        selector = &cell_objects[0].set;
         do {
             if (match)
                 break;
-            if (item->set == set && item->kind == type)
-                match = item;
-            ++item;
+            if (*selector == (unsigned char)set && selector[6] == type)
+                match = (CellObject *)(selector - 4);
+            selector += sizeof(CellObject);
         } while (++index < total);
     }
     return (GateImage *)match;
@@ -1388,7 +1395,6 @@ extern void draw_overlay_object_8c(unsigned char type);
 void draw_cell_object(signed char index)
 {
     unsigned char type = load_draw_object(index);
-    MiddleEntry _based(middle_queue_segment) *previous;
 
     switch (type) {
     case 0:
@@ -1397,9 +1403,7 @@ void draw_cell_object(signed char index)
             add_middle_image(active_object_set, active_object_image + 1,
                              active_object_offset, active_object_y, 10);
             if (active_object_depth) {
-                previous = (MiddleEntry _based(middle_queue_segment) *)
-                    ((unsigned int)&middle_queue[0] + (middle_count - 1) * sizeof(MiddleEntry));
-                previous->mode = active_object_depth;
+                middle_entries[middle_count - 1].mode = active_object_depth;
             }
         }
         break;
@@ -1407,10 +1411,8 @@ void draw_cell_object(signed char index)
     case 5: case 6: case 7: case 8: case 9: case 10: case 14:
         if (add_middle_image(active_object_set, active_object_image + 1,
                              active_object_offset, active_object_y, 10)) {
-            previous = (MiddleEntry _based(middle_queue_segment) *)
-                ((unsigned int)&middle_queue[0] + (middle_count - 1) * sizeof(MiddleEntry));
-            previous->mode = active_object_depth;
-            previous->update_peel = active_object_type;
+            middle_queue[middle_count - 1].mode = active_object_depth;
+            middle_queue[middle_count - 1].update_peel = active_object_type;
         }
         break;
     case 13:
@@ -1876,10 +1878,8 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
         guard_kind == 10 || guard_kind == 11 || guard_kind == 0 ||
         (guard_kind == 4 && level_number == 5 && guard_level_room == 1 &&
          (guard_action == 10 || guard_action == 7 || guard_action == 12))) {
-        rect.top = 193;
-        rect.left = 218;
-        rect.bottom = meter_strip.bottom;
-        rect.right = meter_strip.right;
+        rect.top = 193; rect.left = 218;
+        rect.bottom = meter_strip.bottom; rect.right = meter_strip.right;
         clear_text_area(&rect);
     } else if (game_tick_counter != 600) {
         x = 308;
