@@ -1,0 +1,1166 @@
+{
+  "compile_only": {
+    "FILED": "\ndouble d_dbl(double x) { return x * 1234.5; }\nlong d_long(long x) { return x * 123456789L; }\nchar *d_lit(void) { return \"DDDD_FN_LITERAL\"; }\n"
+  },
+  "compiles": {
+    "base": {
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc"
+      ],
+      "objects": {
+        "FILEA": {
+          "const_hex": "414141415f434f4e53545345475f424153454400",
+          "literals": {
+            "AAAA_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "AAAA_CONST_ARRAY": {
+              "class": "DATA",
+              "offset": 52,
+              "segment": "_DATA"
+            },
+            "AAAA_DATA_ARRAY": {
+              "class": "DATA",
+              "offset": 34,
+              "segment": "_DATA"
+            },
+            "AAAA_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 17,
+              "segment": "_DATA"
+            },
+            "AAAA_PTR_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "8f6390e392a787dfd76faa24f929b026db55bb1c6644f303f04a4249b6ae8373",
+          "segdefs": [
+            [
+              "FILEA_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              72
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              2
+            ]
+          ]
+        },
+        "FILEB": {
+          "const_hex": "424242425f434f4e53545345475f424153454400",
+          "literals": {
+            "BBBB_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "BBBB_DATA_ARRAY": {
+              "class": "DATA",
+              "offset": 34,
+              "segment": "_DATA"
+            },
+            "BBBB_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 17,
+              "segment": "_DATA"
+            },
+            "BBBB_PTR_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "6581f9fd8f21242ed84e08e0620de345bdf99968fa7c77463c0ff91372efcb46",
+          "segdefs": [
+            [
+              "FILEB_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              52
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              2
+            ]
+          ]
+        },
+        "FILEC": {
+          "const_hex": "434343435f434f4e53545345475f424153454400",
+          "literals": {
+            "CCCC_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "CCCC_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "471631cc8d81b2f180bd069eacb8540582d74738cf6dac5726637b85a0bb2cb0",
+          "segdefs": [
+            [
+              "FILEC_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              16
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              0
+            ]
+          ]
+        },
+        "FILED": {
+          "const_hex": "00000000004a9340",
+          "literals": {
+            "DDDD_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "017353702d583c76c8a381052064dc5180fa16823c461a86e158ac7899ceaa74",
+          "segdefs": [
+            [
+              "FILED_TEXT",
+              "CODE",
+              62
+            ],
+            [
+              "_DATA",
+              "DATA",
+              16
+            ],
+            [
+              "CONST",
+              "CONST",
+              8
+            ],
+            [
+              "_BSS",
+              "BSS",
+              0
+            ]
+          ]
+        }
+      }
+    },
+    "zd": {
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc",
+        "/Zd"
+      ],
+      "objects": {
+        "FILEA": {
+          "const_hex": "414141415f434f4e53545345475f424153454400",
+          "literals": {
+            "AAAA_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "AAAA_CONST_ARRAY": {
+              "class": "DATA",
+              "offset": 52,
+              "segment": "_DATA"
+            },
+            "AAAA_DATA_ARRAY": {
+              "class": "DATA",
+              "offset": 34,
+              "segment": "_DATA"
+            },
+            "AAAA_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 17,
+              "segment": "_DATA"
+            },
+            "AAAA_PTR_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "8f6390e392a787dfd76faa24f929b026db55bb1c6644f303f04a4249b6ae8373",
+          "segdefs": [
+            [
+              "FILEA_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              72
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              2
+            ]
+          ]
+        },
+        "FILEB": {
+          "const_hex": "424242425f434f4e53545345475f424153454400",
+          "literals": {
+            "BBBB_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "BBBB_DATA_ARRAY": {
+              "class": "DATA",
+              "offset": 34,
+              "segment": "_DATA"
+            },
+            "BBBB_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 17,
+              "segment": "_DATA"
+            },
+            "BBBB_PTR_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "6581f9fd8f21242ed84e08e0620de345bdf99968fa7c77463c0ff91372efcb46",
+          "segdefs": [
+            [
+              "FILEB_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              52
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              2
+            ]
+          ]
+        },
+        "FILEC": {
+          "const_hex": "434343435f434f4e53545345475f424153454400",
+          "literals": {
+            "CCCC_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "CCCC_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "0e3ed86f19977707fed4bf4eec0cb03d46a9432d0bfa2a4e2964da6dcf2214fd",
+          "segdefs": [
+            [
+              "FILEC_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              16
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              0
+            ]
+          ]
+        },
+        "FILED": {
+          "const_hex": "00000000004a9340",
+          "literals": {
+            "DDDD_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "9b02ed42d39456d4ea5946be8759a33091df38d56bfc39f0077eb689840c72ee",
+          "segdefs": [
+            [
+              "FILED_TEXT",
+              "CODE",
+              62
+            ],
+            [
+              "_DATA",
+              "DATA",
+              16
+            ],
+            [
+              "CONST",
+              "CONST",
+              8
+            ],
+            [
+              "_BSS",
+              "BSS",
+              0
+            ]
+          ]
+        }
+      }
+    },
+    "zi": {
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl",
+        "/Gc",
+        "/Zi"
+      ],
+      "objects": {
+        "FILEA": {
+          "const_hex": "414141415f434f4e53545345475f424153454400",
+          "literals": {
+            "AAAA_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "AAAA_CONST_ARRAY": {
+              "class": "DATA",
+              "offset": 52,
+              "segment": "_DATA"
+            },
+            "AAAA_DATA_ARRAY": {
+              "class": "DATA",
+              "offset": 34,
+              "segment": "_DATA"
+            },
+            "AAAA_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 17,
+              "segment": "_DATA"
+            },
+            "AAAA_PTR_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "366f02eb0faf35b69a8b146041b584e529a67b6665036e302e72004dfc518103",
+          "segdefs": [
+            [
+              "FILEA_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              72
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              2
+            ],
+            [
+              "$$SYMBOLS",
+              "DEBSYM",
+              121
+            ],
+            [
+              "$$TYPES",
+              "DEBTYP",
+              108
+            ]
+          ]
+        },
+        "FILEB": {
+          "const_hex": "424242425f434f4e53545345475f424153454400",
+          "literals": {
+            "BBBB_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "BBBB_DATA_ARRAY": {
+              "class": "DATA",
+              "offset": 34,
+              "segment": "_DATA"
+            },
+            "BBBB_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 17,
+              "segment": "_DATA"
+            },
+            "BBBB_PTR_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "402d21d51bf2c5797fccce94777370fa363a3bc69b987b24dcdaee2028741cbd",
+          "segdefs": [
+            [
+              "FILEB_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              52
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              2
+            ],
+            [
+              "$$SYMBOLS",
+              "DEBSYM",
+              90
+            ],
+            [
+              "$$TYPES",
+              "DEBTYP",
+              94
+            ]
+          ]
+        },
+        "FILEC": {
+          "const_hex": "434343435f434f4e53545345475f424153454400",
+          "literals": {
+            "CCCC_CONSTSEG_BASED": {
+              "class": "CONST",
+              "offset": 0,
+              "segment": "CONST"
+            },
+            "CCCC_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "8a80c303347a55e9b52e6e56af0a09f4815d6b59bbfb2d3d0439b5710489181d",
+          "segdefs": [
+            [
+              "FILEC_TEXT",
+              "CODE",
+              14
+            ],
+            [
+              "_DATA",
+              "DATA",
+              16
+            ],
+            [
+              "CONST",
+              "CONST",
+              20
+            ],
+            [
+              "_BSS",
+              "BSS",
+              0
+            ],
+            [
+              "$$SYMBOLS",
+              "DEBSYM",
+              77
+            ],
+            [
+              "$$TYPES",
+              "DEBTYP",
+              90
+            ]
+          ]
+        },
+        "FILED": {
+          "const_hex": "00000000004a9340",
+          "literals": {
+            "DDDD_FN_LITERAL": {
+              "class": "DATA",
+              "offset": 0,
+              "segment": "_DATA"
+            }
+          },
+          "object_sha256": "001166f39c07aeec7cff0f95639f3057f74ca1c7fd873aef3a6ec0359a525717",
+          "segdefs": [
+            [
+              "FILED_TEXT",
+              "CODE",
+              62
+            ],
+            [
+              "_DATA",
+              "DATA",
+              16
+            ],
+            [
+              "CONST",
+              "CONST",
+              8
+            ],
+            [
+              "_BSS",
+              "BSS",
+              0
+            ],
+            [
+              "$$SYMBOLS",
+              "DEBSYM",
+              110
+            ],
+            [
+              "$$TYPES",
+              "DEBTYP",
+              91
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "links": {
+    "ms_abc_crt0first": {
+      "error": "\r\nMicrosoft (R) Segmented-Executable Linker  Version 5.10    \r\nCopyright (C) Microsoft Corp 1984-1990.  All rights reserved.\r\n\r\nLINK : fatal error L1093: START.OBJ : object not found\r\n"
+    },
+    "ms_abc_plainlast": {
+      "error": "\r\nMicrosoft (R) Segmented-Executable Linker  Version 5.10    \r\nCopyright (C) Microsoft Corp 1984-1990.  All rights reserved.\r\n\r\nLINK : fatal error L1093: FILEA.OBJ : object not found\r\n"
+    },
+    "rt_a_ovl_b_c_crt0first": {
+      "exe_sha256": "ead03ecee05ef2b7bb0a53207c6030b41f550d1962d8064cf8797db16550d710",
+      "files": [
+        "START",
+        "FILEA"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE START\r\n=> FILE FILEA\r\n=> BEGINAREA\r\n=>   SECTION = \"ONE\"\r\n=>     FILE FILEB\r\n=>   SECTION = \"TWO\"\r\n=>     FILE FILEC\r\n=> ENDAREA\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nSTART.OBJ(START.ASM)\r\n\r\nCode class     = 'CODE'\r\nOverlay class  = 'CODE'\r\n\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\n**** LIBRARY SEARCH ****\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(ovlmgr_m.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(ovlmgr.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(dcache.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(cnv_val.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(rtcommon.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(ddata.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(rtcomm_m.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(pathsrch.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(pathsr_m.asm)\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n---- WRITING SECTION 1H (root)  ----\r\n\r\n**** WRITING OVERLAY SECTIONS ****\r\n---- WRITING SECTION 2H (ONE) INTO PROBE.EXE ----\r\n---- WRITING SECTION 3H (TWO) INTO PROBE.EXE ----\r\n---- WRITING SECTION 4H (preloaded data) INTO PROBE.EXE ----\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t4.K\t+35H Para\r\n\r\n  No Overlay Cache\r\n\r\n  About 512. extra bytes will be needed during startup to serve as a\r\n    temporary stack while bringing in the Preloaded Data Section.\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n Resident\n 00000H 00004H 00005H ENTRY_TEXT             CODE\n 00006H 00013H 0000EH FILEA_TEXT             CODE\n 00020H 00BF2H 00BD3H $$OVLMGR               $$OVLMGR            $$OVLMGR\n 00BF3H 00BFCH 0000AH $$OVLVEC               $$OVLMGR            $$OVLMGR\n 00BFDH 01200H 00604H $$OVLMGR_UTILS         $$OVLMGR_UTILS\n Overlay 2H\n 01210H 0121DH 0000EH FILEB_TEXT             CODE\n Overlay 3H\n 01210H 0121DH 0000EH FILEC_TEXT             CODE\n Overlay 4H\n 01220H 01227H 00008H NULL                   BEGDATA             DGROUP\n 01228H 012BBH 00094H _DATA                  DATA                DGROUP\n 012BCH 012FFH 00044H CONST                  CONST               DGROUP\n 01300H 01307H 00008H MSG                    MSG                 DGROUP\n 01308H 0130BH 00004H _BSS                   BSS                 DGROUP\n 01310H 0134FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 01201H    0H\n    2H    PROBE.EXE      01410H 01210H 0000EH    1H    ONE\n    3H    PROBE.EXE      01430H 01210H 0000EH    1H    TWO\n    4H    PROBE.EXE      01440H 01220H 00130H    0H    preloaded data\n\n Origin   Group\n 0122:0   DGROUP\n 0002:0   $$OVLMGR\n\n  Address         Publics by Name\n\n 0000:0000  Res  $$MAIN\n 00BF:000E  Res  $$OVCOFF\n 00BF:000E  Res  $$OVCON\n 0002:0150  Res  $$OVLCHANGE\n 0002:08F8  Res  $$OVLCLOSE\n 0002:08E4  Res  $$OVLCLOSE_TERM\n 0002:0B0B  Res  $$OVLINFO\n 0002:01BC  Res  $$OVLLOAD\n 0002:0558  Res  $$OVLLOADIL\n 0000:0000  Abs  $$OVLMGR_MESSAGES\n 0002:0AFB  Res  $$OVLPBLOCK\n 0002:0883  Res  $$OVLRESTORE\n 0002:0877  Res  $$OVLRESTORE_SPARMS\n 0002:0830  Res  $$OVLSAVE\n 0002:07FA  Res  $$OVLSAVESIZE\n 0002:0827  Res  $$OVLSAVE_SPARMS\n 0002:0152  Res  $$OVLUNLOAD\n 00BF:023B  Res  $$RTLCOMMON_MESSAGES\n 0000:0001  Abs  $$RTLDATA_DUMMY\n 0000:0000  Abs  $$RTLEXPANDSECTION\n 00BF:02AB  Res  $$RTLGETENV\n 00BF:044D  Res  $$RTLGETPROGNAME\n 0002:0678  Res  $$RTLOVLINIT\n 0002:0000  Res  $$RTLOVLMGR_MESSAGES\n 00BF:0232  Res  $$RTLOVL_ALLOC_SAVE_FILE\n 00BF:022E  Res  $$RTLOVL_CLOSE_SAVE_FILE\n 00BF:000F  Res  $$RTLOVL_CONVERT_VAL\n 00BF:022E  Res  $$RTLOVL_CREATE_SAVE_FILE\n 00BF:0236  Res  $$RTLOVL_DELETE_SAVE_FILE\n 0000:0001  Abs  $$RTLOVL_DUMMY_CACHE\n 00BF:0232  Res  $$RTLOVL_EXTEND_SAVE_FILE\n 00BF:000D  Res  $$RTLOVL_INIT_CACHE\n 00BF:022E  Res  $$RTLOVL_INIT_SAVE_FILE\n 00BF:000D  Res  $$RTLOVL_LOAD_FROM_CACHE\n 00BF:000D  Res  $$RTLOVL_PLACE_INTO_CACHE\n 00BF:022E  Res  $$RTLOVL_SEEK_SAVE_FILE\n 00BF:0307  Res  $$RTLPATHSEARCH\n 00BF:05DF  Res  $$RTLPATHSEARCH_MESSAGES\n 00BF:0043  Res  $$RTLSETERROR\n 00BF:0054  Res  $$RTL_FATAL_ERROR\n 00BF:0058  Res  $$RTL_ORG_TERMINATE\n 00BF:01D3  Res  $$RTL_PRELOAD\n 00BF:00FE  Res  $$RTL_REGISTER\n 00BF:01DD  Res  $$RTL_SHELL_EVENT\n 00BF:00B1  Res  $$RTL_TERMINATE\n 00BF:00D9  Res  $$RTL_TERM_INIT\n 00BF:005C  Res  $$RTL_TERM_PSP\n 00BF:003F  Res  $$RTOVEXEOFFSET\n 0000:0006  Res  A1\n 0122:0044  Res  A_CONST\n 0122:00A4  Res  A_CSEG\n 0122:0032  Res  A_DATA\n 0122:0056  Res  A_INIT\n 0122:0042  Res  A_PTR\n 0121:0000  Ovl  B1 (2H)\n 0122:00B8  Res  B_CSEG\n 0122:007A  Res  B_DATA\n 0122:008A  Res  B_PTR\n 0121:0000  Ovl  C1 (3H)\n 0122:00CC  Res  C_CSEG\n 0000:0000  Res  ENTRY_POINT\n 0121:000A  Ovl  SINK (3H)\n 0122:00E8  Res  _edata\n 0122:00F0  Res  _end\n 0122:00E8  Res  __edata\n 0122:00F0  Res  __end\n\n  Address         Publics by Value\n\n 0000:0000  Res  $$MAIN\n 0000:0000  Abs  $$OVLMGR_MESSAGES\n 0000:0000  Abs  $$RTLEXPANDSECTION\n 0000:0000  Res  ENTRY_POINT\n 0000:0001  Abs  $$RTLDATA_DUMMY\n 0000:0001  Abs  $$RTLOVL_DUMMY_CACHE\n 0000:0006  Res  A1\n 0002:0000  Res  $$RTLOVLMGR_MESSAGES\n 0002:0150  Res  $$OVLCHANGE\n 0002:0152  Res  $$OVLUNLOAD\n 0002:01BC  Res  $$OVLLOAD\n 0002:0558  Res  $$OVLLOADIL\n 0002:0678  Res  $$RTLOVLINIT\n 0002:07FA  Res  $$OVLSAVESIZE\n 0002:0827  Res  $$OVLSAVE_SPARMS\n 0002:0830  Res  $$OVLSAVE\n 0002:0877  Res  $$OVLRESTORE_SPARMS\n 0002:0883  Res  $$OVLRESTORE\n 0002:08E4  Res  $$OVLCLOSE_TERM\n 0002:08F8  Res  $$OVLCLOSE\n 0002:0AFB  Res  $$OVLPBLOCK\n 0002:0B0B  Res  $$OVLINFO\n 00BF:000D  Res  $$RTLOVL_INIT_CACHE\n 00BF:000D  Res  $$RTLOVL_LOAD_FROM_CACHE\n 00BF:000D  Res  $$RTLOVL_PLACE_INTO_CACHE\n 00BF:000E  Res  $$OVCOFF\n 00BF:000E  Res  $$OVCON\n 00BF:000F  Res  $$RTLOVL_CONVERT_VAL\n 00BF:003F  Res  $$RTOVEXEOFFSET\n 00BF:0043  Res  $$RTLSETERROR\n 00BF:0054  Res  $$RTL_FATAL_ERROR\n 00BF:0058  Res  $$RTL_ORG_TERMINATE\n 00BF:005C  Res  $$RTL_TERM_PSP\n 00BF:00B1  Res  $$RTL_TERMINATE\n 00BF:00D9  Res  $$RTL_TERM_INIT\n 00BF:00FE  Res  $$RTL_REGISTER\n 00BF:01D3  Res  $$RTL_PRELOAD\n 00BF:01DD  Res  $$RTL_SHELL_EVENT\n 00BF:022E  Res  $$RTLOVL_CLOSE_SAVE_FILE\n 00BF:022E  Res  $$RTLOVL_CREATE_SAVE_FILE\n 00BF:022E  Res  $$RTLOVL_INIT_SAVE_FILE\n 00BF:022E  Res  $$RTLOVL_SEEK_SAVE_FILE\n 00BF:0232  Res  $$RTLOVL_ALLOC_SAVE_FILE\n 00BF:0232  Res  $$RTLOVL_EXTEND_SAVE_FILE\n 00BF:0236  Res  $$RTLOVL_DELETE_SAVE_FILE\n 00BF:023B  Res  $$RTLCOMMON_MESSAGES\n 00BF:02AB  Res  $$RTLGETENV\n 00BF:0307  Res  $$RTLPATHSEARCH\n 00BF:044D  Res  $$RTLGETPROGNAME\n 00BF:05DF  Res  $$RTLPATHSEARCH_MESSAGES\n 0122:0032  Res  A_DATA\n 0122:0042  Res  A_PTR\n 0122:0044  Res  A_CONST\n 0122:0056  Res  A_INIT\n 0122:007A  Res  B_DATA\n 0122:008A  Res  B_PTR\n 0122:00A4  Res  A_CSEG\n 0122:00B8  Res  B_CSEG\n 0122:00CC  Res  C_CSEG\n 0122:00E8  Res  _edata\n 0122:00E8  Res  __edata\n 0122:00F0  Res  _end\n 0122:00F0  Res  __end\n 0121:0000  Ovl  B1 (2H)\n 0121:0000  Ovl  C1 (3H)\n 0121:000A  Ovl  SINK (3H)\n",
+      "map_sha256": "b5d99ca47a97803b8e092f6943a284dcb4559e5d7dd63a2944c7f79aeac5ac58",
+      "marker_order": [],
+      "sections": {
+        "ONE": [
+          "FILEB"
+        ],
+        "TWO": [
+          "FILEC"
+        ]
+      }
+    },
+    "rt_abc_constfirst": {
+      "exe_sha256": "de531468d4431ff194f3a8f32c0506ff1dbb93ba6576a3202271729da89d8dd7",
+      "files": [
+        "START",
+        "FILEA",
+        "FILEB",
+        "FILEC"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE START\r\n=> FILE FILEA\r\n=> FILE FILEB\r\n=> FILE FILEC\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nSTART.OBJ(START.ASM)\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+16H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 00004H 00005H ENTRY_TEXT             CODE\n 00006H 00013H 0000EH FILEA_TEXT             CODE\n 00014H 00021H 0000EH FILEB_TEXT             CODE\n 00022H 0002FH 0000EH FILEC_TEXT             CODE\n 00030H 00037H 00008H NULL                   BEGDATA             DGROUP\n 00038H 0007BH 00044H CONST                  CONST               DGROUP\n 0007CH 0010FH 00094H _DATA                  DATA                DGROUP\n 00110H 00117H 00008H MSG                    MSG                 DGROUP\n 00118H 0011BH 00004H _BSS                   BSS                 DGROUP\n 00120H 0015FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00160H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0000:0000       $$MAIN\n 0000:0006       A1\n 0003:0088       A_CONST\n 0003:0010       A_CSEG\n 0003:0076       A_DATA\n 0003:009A       A_INIT\n 0003:0086       A_PTR\n 0001:0004       B1\n 0003:0024       B_CSEG\n 0003:00BE       B_DATA\n 0003:00CE       B_PTR\n 0002:0002       C1\n 0003:0038       C_CSEG\n 0000:0000       ENTRY_POINT\n 0002:000C       SINK\n 0003:00E8       _edata\n 0003:00F0       _end\n 0003:00E8       __edata\n 0003:00F0       __end\n\n  Address         Publics by Value\n\n 0000:0000       $$MAIN\n 0000:0000       ENTRY_POINT\n 0000:0006       A1\n 0001:0004       B1\n 0002:0002       C1\n 0002:000C       SINK\n 0003:0010       A_CSEG\n 0003:0024       B_CSEG\n 0003:0038       C_CSEG\n 0003:0076       A_DATA\n 0003:0086       A_PTR\n 0003:0088       A_CONST\n 0003:009A       A_INIT\n 0003:00BE       B_DATA\n 0003:00CE       B_PTR\n 0003:00E8       _edata\n 0003:00E8       __edata\n 0003:00F0       _end\n 0003:00F0       __end\n",
+      "map_sha256": "cdb85df216755e55e4787d542b225180759f1499143bffa0f9ec2d7ded172951",
+      "marker_order": [
+        [
+          "0x30",
+          "NULLSEG0"
+        ],
+        [
+          "0x38",
+          "STCONST0"
+        ],
+        [
+          "0x40",
+          "AAAA_CONSTSEG_BASED"
+        ],
+        [
+          "0x54",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0x68",
+          "CCCC_CONSTSEG_BASED"
+        ],
+        [
+          "0x7c",
+          "ST_DATA0"
+        ],
+        [
+          "0x84",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x95",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0xa6",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0xb8",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0xcc",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0xdd",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0xee",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0x100",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0x110",
+          "ST_MSG00"
+        ]
+      ],
+      "sections": null
+    },
+    "rt_abc_crt0first": {
+      "exe_sha256": "633ba3f5bc228bfe322a244ce399e8c1ab5527b47adbfc4d5174d3ddf36ae34a",
+      "files": [
+        "START",
+        "FILEA",
+        "FILEB",
+        "FILEC"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE START\r\n=> FILE FILEA\r\n=> FILE FILEB\r\n=> FILE FILEC\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nSTART.OBJ(START.ASM)\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+16H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 00004H 00005H ENTRY_TEXT             CODE\n 00006H 00013H 0000EH FILEA_TEXT             CODE\n 00014H 00021H 0000EH FILEB_TEXT             CODE\n 00022H 0002FH 0000EH FILEC_TEXT             CODE\n 00030H 00037H 00008H NULL                   BEGDATA             DGROUP\n 00038H 000CBH 00094H _DATA                  DATA                DGROUP\n 000CCH 0010FH 00044H CONST                  CONST               DGROUP\n 00110H 00117H 00008H MSG                    MSG                 DGROUP\n 00118H 0011BH 00004H _BSS                   BSS                 DGROUP\n 00120H 0015FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00160H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0000:0000       $$MAIN\n 0000:0006       A1\n 0003:0044       A_CONST\n 0003:00A4       A_CSEG\n 0003:0032       A_DATA\n 0003:0056       A_INIT\n 0003:0042       A_PTR\n 0001:0004       B1\n 0003:00B8       B_CSEG\n 0003:007A       B_DATA\n 0003:008A       B_PTR\n 0002:0002       C1\n 0003:00CC       C_CSEG\n 0000:0000       ENTRY_POINT\n 0002:000C       SINK\n 0003:00E8       _edata\n 0003:00F0       _end\n 0003:00E8       __edata\n 0003:00F0       __end\n\n  Address         Publics by Value\n\n 0000:0000       $$MAIN\n 0000:0000       ENTRY_POINT\n 0000:0006       A1\n 0001:0004       B1\n 0002:0002       C1\n 0002:000C       SINK\n 0003:0032       A_DATA\n 0003:0042       A_PTR\n 0003:0044       A_CONST\n 0003:0056       A_INIT\n 0003:007A       B_DATA\n 0003:008A       B_PTR\n 0003:00A4       A_CSEG\n 0003:00B8       B_CSEG\n 0003:00CC       C_CSEG\n 0003:00E8       _edata\n 0003:00E8       __edata\n 0003:00F0       _end\n 0003:00F0       __end\n",
+      "map_sha256": "5d14f8b9ed667750e2f184eaa0a19d5d1aae21c4606f7aad607bcb6b5e17b0ab",
+      "marker_order": [
+        [
+          "0x30",
+          "NULLSEG0"
+        ],
+        [
+          "0x38",
+          "ST_DATA0"
+        ],
+        [
+          "0x40",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x51",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0x62",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0x74",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0x88",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0x99",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0xaa",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0xbc",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0xcc",
+          "STCONST0"
+        ],
+        [
+          "0xd4",
+          "AAAA_CONSTSEG_BASED"
+        ],
+        [
+          "0xe8",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0xfc",
+          "CCCC_CONSTSEG_BASED"
+        ],
+        [
+          "0x110",
+          "ST_MSG00"
+        ]
+      ],
+      "sections": null
+    },
+    "rt_abc_crt0last": {
+      "exe_sha256": "f20145655288b969434825e6b3627e3531c3679b985e10a0dee5c8b431642931",
+      "files": [
+        "FILEA",
+        "FILEB",
+        "FILEC",
+        "START"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE FILEA\r\n=> FILE FILEB\r\n=> FILE FILEC\r\n=> FILE START\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\nSTART.OBJ(START.ASM)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+16H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 0000DH 0000EH FILEA_TEXT             CODE\n 0000EH 0001BH 0000EH FILEB_TEXT             CODE\n 0001CH 00029H 0000EH FILEC_TEXT             CODE\n 0002AH 0002EH 00005H ENTRY_TEXT             CODE\n 00030H 00037H 00008H NULL                   BEGDATA             DGROUP\n 00038H 000CBH 00094H _DATA                  DATA                DGROUP\n 000CCH 0010FH 00044H CONST                  CONST               DGROUP\n 00110H 00117H 00008H MSG                    MSG                 DGROUP\n 00118H 0011BH 00004H _BSS                   BSS                 DGROUP\n 00120H 0015FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00160H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0002:000A       $$MAIN\n 0000:0000       A1\n 0003:003C       A_CONST\n 0003:009C       A_CSEG\n 0003:002A       A_DATA\n 0003:004E       A_INIT\n 0003:003A       A_PTR\n 0000:000E       B1\n 0003:00B0       B_CSEG\n 0003:0072       B_DATA\n 0003:0082       B_PTR\n 0001:000C       C1\n 0003:00C4       C_CSEG\n 0002:000A       ENTRY_POINT\n 0001:0016       SINK\n 0003:00E8       _edata\n 0003:00F0       _end\n 0003:00E8       __edata\n 0003:00F0       __end\n\n  Address         Publics by Value\n\n 0000:0000       A1\n 0000:000E       B1\n 0001:000C       C1\n 0001:0016       SINK\n 0002:000A       $$MAIN\n 0002:000A       ENTRY_POINT\n 0003:002A       A_DATA\n 0003:003A       A_PTR\n 0003:003C       A_CONST\n 0003:004E       A_INIT\n 0003:0072       B_DATA\n 0003:0082       B_PTR\n 0003:009C       A_CSEG\n 0003:00B0       B_CSEG\n 0003:00C4       C_CSEG\n 0003:00E8       _edata\n 0003:00E8       __edata\n 0003:00F0       _end\n 0003:00F0       __end\n",
+      "map_sha256": "6504cdb56e88edecf661b6aa819f423ac07ff51fcc1dba3aaeb67a27286fd6a3",
+      "marker_order": [
+        [
+          "0x30",
+          "NULLSEG0"
+        ],
+        [
+          "0x38",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x49",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0x5a",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0x6c",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0x80",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0x91",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0xa2",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0xb4",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0xc4",
+          "ST_DATA0"
+        ],
+        [
+          "0xcc",
+          "AAAA_CONSTSEG_BASED"
+        ],
+        [
+          "0xe0",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0xf4",
+          "CCCC_CONSTSEG_BASED"
+        ],
+        [
+          "0x108",
+          "STCONST0"
+        ],
+        [
+          "0x110",
+          "ST_MSG00"
+        ]
+      ],
+      "sections": null
+    },
+    "rt_abc_crt0nd_first": {
+      "exe_sha256": "633ba3f5bc228bfe322a244ce399e8c1ab5527b47adbfc4d5174d3ddf36ae34a",
+      "files": [
+        "START",
+        "FILEA",
+        "FILEB",
+        "FILEC"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE START\r\n=> FILE FILEA\r\n=> FILE FILEB\r\n=> FILE FILEC\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nSTART.OBJ(START.ASM)\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+16H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 00004H 00005H ENTRY_TEXT             CODE\n 00006H 00013H 0000EH FILEA_TEXT             CODE\n 00014H 00021H 0000EH FILEB_TEXT             CODE\n 00022H 0002FH 0000EH FILEC_TEXT             CODE\n 00030H 00037H 00008H NULL                   BEGDATA             DGROUP\n 00038H 000CBH 00094H _DATA                  DATA                DGROUP\n 000CCH 0010FH 00044H CONST                  CONST               DGROUP\n 00110H 00117H 00008H MSG                    MSG                 DGROUP\n 00118H 0011BH 00004H _BSS                   BSS                 DGROUP\n 00120H 0015FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00160H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0000:0000       $$MAIN\n 0000:0006       A1\n 0003:0044       A_CONST\n 0003:00A4       A_CSEG\n 0003:0032       A_DATA\n 0003:0056       A_INIT\n 0003:0042       A_PTR\n 0001:0004       B1\n 0003:00B8       B_CSEG\n 0003:007A       B_DATA\n 0003:008A       B_PTR\n 0002:0002       C1\n 0003:00CC       C_CSEG\n 0000:0000       ENTRY_POINT\n 0002:000C       SINK\n\n  Address         Publics by Value\n\n 0000:0000       $$MAIN\n 0000:0000       ENTRY_POINT\n 0000:0006       A1\n 0001:0004       B1\n 0002:0002       C1\n 0002:000C       SINK\n 0003:0032       A_DATA\n 0003:0042       A_PTR\n 0003:0044       A_CONST\n 0003:0056       A_INIT\n 0003:007A       B_DATA\n 0003:008A       B_PTR\n 0003:00A4       A_CSEG\n 0003:00B8       B_CSEG\n 0003:00CC       C_CSEG\n",
+      "map_sha256": "475727140ec400224fe95621ba88d582a68eeffc41b65bbd79e8ffcc90b058bf",
+      "marker_order": [
+        [
+          "0x30",
+          "NULLSEG0"
+        ],
+        [
+          "0x38",
+          "ST_DATA0"
+        ],
+        [
+          "0x40",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x51",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0x62",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0x74",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0x88",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0x99",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0xaa",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0xbc",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0xcc",
+          "STCONST0"
+        ],
+        [
+          "0xd4",
+          "AAAA_CONSTSEG_BASED"
+        ],
+        [
+          "0xe8",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0xfc",
+          "CCCC_CONSTSEG_BASED"
+        ],
+        [
+          "0x110",
+          "ST_MSG00"
+        ]
+      ],
+      "sections": null
+    },
+    "rt_abc_plainlast": {
+      "exe_sha256": "eab88e9b2a8f0caaa2a711c68d5655f25d18cc7bc490bc499561bdccffbbfd13",
+      "files": [
+        "FILEA",
+        "FILEB",
+        "FILEC",
+        "START"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE FILEA\r\n=> FILE FILEB\r\n=> FILE FILEC\r\n=> FILE START\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\nSTART.OBJ(START.ASM)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+14H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 0000DH 0000EH FILEA_TEXT             CODE\n 0000EH 0001BH 0000EH FILEB_TEXT             CODE\n 0001CH 00029H 0000EH FILEC_TEXT             CODE\n 0002AH 0002EH 00005H ENTRY_TEXT             CODE\n 00030H 000BBH 0008CH _DATA                  DATA                DGROUP\n 000BCH 000F7H 0003CH CONST                  CONST               DGROUP\n 000F8H 000FBH 00004H _BSS                   BSS                 DGROUP\n 00100H 0013FH 00040H STACK                  STACK\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00140H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0002:000A       $$MAIN\n 0000:0000       A1\n 0003:0034       A_CONST\n 0003:008C       A_CSEG\n 0003:0022       A_DATA\n 0003:0046       A_INIT\n 0003:0032       A_PTR\n 0000:000E       B1\n 0003:00A0       B_CSEG\n 0003:006A       B_DATA\n 0003:007A       B_PTR\n 0001:000C       C1\n 0003:00B4       C_CSEG\n 0002:000A       ENTRY_POINT\n 0001:0016       SINK\n\n  Address         Publics by Value\n\n 0000:0000       A1\n 0000:000E       B1\n 0001:000C       C1\n 0001:0016       SINK\n 0002:000A       $$MAIN\n 0002:000A       ENTRY_POINT\n 0003:0022       A_DATA\n 0003:0032       A_PTR\n 0003:0034       A_CONST\n 0003:0046       A_INIT\n 0003:006A       B_DATA\n 0003:007A       B_PTR\n 0003:008C       A_CSEG\n 0003:00A0       B_CSEG\n 0003:00B4       C_CSEG\n",
+      "map_sha256": "27b5c3cf341dc71331b4a637ecd710ba41f8b66e0d4a0252f95f4e6e95534762",
+      "marker_order": [
+        [
+          "0x30",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x41",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0x52",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0x64",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0x78",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0x89",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0x9a",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0xac",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0xbc",
+          "AAAA_CONSTSEG_BASED"
+        ],
+        [
+          "0xd0",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0xe4",
+          "CCCC_CONSTSEG_BASED"
+        ]
+      ],
+      "sections": null
+    },
+    "rt_abc_zi_crt0first": {
+      "exe_sha256": "633ba3f5bc228bfe322a244ce399e8c1ab5527b47adbfc4d5174d3ddf36ae34a",
+      "files": [
+        "START",
+        "FILEA",
+        "FILEB",
+        "FILEC"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE START\r\n=> FILE FILEA\r\n=> FILE FILEB\r\n=> FILE FILEC\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nSTART.OBJ(START.ASM)\r\nFILEA.OBJ(FILEA.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEC.OBJ(FILEC.C)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+16H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 00004H 00005H ENTRY_TEXT             CODE\n 00006H 00013H 0000EH FILEA_TEXT             CODE\n 00014H 00021H 0000EH FILEB_TEXT             CODE\n 00022H 0002FH 0000EH FILEC_TEXT             CODE\n 00030H 00037H 00008H NULL                   BEGDATA             DGROUP\n 00038H 000CBH 00094H _DATA                  DATA                DGROUP\n 000CCH 0010FH 00044H CONST                  CONST               DGROUP\n 00110H 00117H 00008H MSG                    MSG                 DGROUP\n 00118H 0011BH 00004H _BSS                   BSS                 DGROUP\n 00120H 0015FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00160H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0000:0000       $$MAIN\n 0000:0006       A1\n 0003:0044       A_CONST\n 0003:00A4       A_CSEG\n 0003:0032       A_DATA\n 0003:0056       A_INIT\n 0003:0042       A_PTR\n 0001:0004       B1\n 0003:00B8       B_CSEG\n 0003:007A       B_DATA\n 0003:008A       B_PTR\n 0002:0002       C1\n 0003:00CC       C_CSEG\n 0000:0000       ENTRY_POINT\n 0002:000C       SINK\n 0003:00E8       _edata\n 0003:00F0       _end\n 0003:00E8       __edata\n 0003:00F0       __end\n\n  Address         Publics by Value\n\n 0000:0000       $$MAIN\n 0000:0000       ENTRY_POINT\n 0000:0006       A1\n 0001:0004       B1\n 0002:0002       C1\n 0002:000C       SINK\n 0003:0032       A_DATA\n 0003:0042       A_PTR\n 0003:0044       A_CONST\n 0003:0056       A_INIT\n 0003:007A       B_DATA\n 0003:008A       B_PTR\n 0003:00A4       A_CSEG\n 0003:00B8       B_CSEG\n 0003:00CC       C_CSEG\n 0003:00E8       _edata\n 0003:00E8       __edata\n 0003:00F0       _end\n 0003:00F0       __end\n",
+      "map_sha256": "5d14f8b9ed667750e2f184eaa0a19d5d1aae21c4606f7aad607bcb6b5e17b0ab",
+      "marker_order": [
+        [
+          "0x30",
+          "NULLSEG0"
+        ],
+        [
+          "0x38",
+          "ST_DATA0"
+        ],
+        [
+          "0x40",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x51",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0x62",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0x74",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0x88",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0x99",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0xaa",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0xbc",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0xcc",
+          "STCONST0"
+        ],
+        [
+          "0xd4",
+          "AAAA_CONSTSEG_BASED"
+        ],
+        [
+          "0xe8",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0xfc",
+          "CCCC_CONSTSEG_BASED"
+        ],
+        [
+          "0x110",
+          "ST_MSG00"
+        ]
+      ],
+      "sections": null
+    },
+    "rt_c_ovl_b_a_crt0first": {
+      "exe_sha256": "3b7dbc51c77e43544306a6f3cc5d1dec3ac6372f59a28941a5a41c0d27064bb3",
+      "files": [
+        "START",
+        "FILEC"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE START\r\n=> FILE FILEC\r\n=> BEGINAREA\r\n=>   SECTION = \"ONE\"\r\n=>     FILE FILEB\r\n=>   SECTION = \"TWO\"\r\n=>     FILE FILEA\r\n=> ENDAREA\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nSTART.OBJ(START.ASM)\r\n\r\nCode class     = 'CODE'\r\nOverlay class  = 'CODE'\r\n\r\nFILEC.OBJ(FILEC.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEA.OBJ(FILEA.C)\r\n**** LIBRARY SEARCH ****\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(ovlmgr_m.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(ovlmgr.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(dcache.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(cnv_val.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(rtcommon.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(ddata.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(rtcomm_m.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(pathsrch.asm)\r\nC:\\TOOLS\\RTLINK~1.10\\INSTAL~1\\RTLUTILS.LIB(pathsr_m.asm)\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n---- WRITING SECTION 1H (root)  ----\r\n\r\n**** WRITING OVERLAY SECTIONS ****\r\n---- WRITING SECTION 2H (ONE) INTO PROBE.EXE ----\r\n---- WRITING SECTION 3H (TWO) INTO PROBE.EXE ----\r\n---- WRITING SECTION 4H (preloaded data) INTO PROBE.EXE ----\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t4.K\t+34H Para\r\n\r\n  No Overlay Cache\r\n\r\n  About 512. extra bytes will be needed during startup to serve as a\r\n    temporary stack while bringing in the Preloaded Data Section.\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n Resident\n 00000H 00004H 00005H ENTRY_TEXT             CODE\n 00006H 00013H 0000EH FILEC_TEXT             CODE\n 00020H 00BF2H 00BD3H $$OVLMGR               $$OVLMGR            $$OVLMGR\n 00BF3H 00BF3H 00000H $$OVLVEC               $$OVLMGR            $$OVLMGR\n 00BF3H 011F6H 00604H $$OVLMGR_UTILS         $$OVLMGR_UTILS\n Overlay 2H\n 01200H 0120DH 0000EH FILEB_TEXT             CODE\n Overlay 3H\n 01200H 0120DH 0000EH FILEA_TEXT             CODE\n Overlay 4H\n 01210H 01217H 00008H NULL                   BEGDATA             DGROUP\n 01218H 012ABH 00094H _DATA                  DATA                DGROUP\n 012ACH 012EFH 00044H CONST                  CONST               DGROUP\n 012F0H 012F7H 00008H MSG                    MSG                 DGROUP\n 012F8H 012FBH 00004H _BSS                   BSS                 DGROUP\n 01300H 0133FH 00040H STACK                  STACK               DGROUP\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 011F7H    0H\n    2H    PROBE.EXE      01400H 01200H 0000EH    1H    ONE\n    3H    PROBE.EXE      01420H 01200H 0000EH    1H    TWO\n    4H    PROBE.EXE      01440H 01210H 00130H    0H    preloaded data\n\n Origin   Group\n 0121:0   DGROUP\n 0002:0   $$OVLMGR\n\n  Address         Publics by Name\n\n 0000:0000  Res  $$MAIN\n 00BF:0004  Res  $$OVCOFF\n 00BF:0004  Res  $$OVCON\n 0002:0150  Res  $$OVLCHANGE\n 0002:08F8  Res  $$OVLCLOSE\n 0002:08E4  Res  $$OVLCLOSE_TERM\n 0002:0B0B  Res  $$OVLINFO\n 0002:01BC  Res  $$OVLLOAD\n 0002:0558  Res  $$OVLLOADIL\n 0000:0000  Abs  $$OVLMGR_MESSAGES\n 0002:0AFB  Res  $$OVLPBLOCK\n 0002:0883  Res  $$OVLRESTORE\n 0002:0877  Res  $$OVLRESTORE_SPARMS\n 0002:0830  Res  $$OVLSAVE\n 0002:07FA  Res  $$OVLSAVESIZE\n 0002:0827  Res  $$OVLSAVE_SPARMS\n 0002:0152  Res  $$OVLUNLOAD\n 00BF:0231  Res  $$RTLCOMMON_MESSAGES\n 0000:0001  Abs  $$RTLDATA_DUMMY\n 0000:0000  Abs  $$RTLEXPANDSECTION\n 00BF:02A1  Res  $$RTLGETENV\n 00BF:0443  Res  $$RTLGETPROGNAME\n 0002:0678  Res  $$RTLOVLINIT\n 0002:0000  Res  $$RTLOVLMGR_MESSAGES\n 00BF:0228  Res  $$RTLOVL_ALLOC_SAVE_FILE\n 00BF:0224  Res  $$RTLOVL_CLOSE_SAVE_FILE\n 00BF:0005  Res  $$RTLOVL_CONVERT_VAL\n 00BF:0224  Res  $$RTLOVL_CREATE_SAVE_FILE\n 00BF:022C  Res  $$RTLOVL_DELETE_SAVE_FILE\n 0000:0001  Abs  $$RTLOVL_DUMMY_CACHE\n 00BF:0228  Res  $$RTLOVL_EXTEND_SAVE_FILE\n 00BF:0003  Res  $$RTLOVL_INIT_CACHE\n 00BF:0224  Res  $$RTLOVL_INIT_SAVE_FILE\n 00BF:0003  Res  $$RTLOVL_LOAD_FROM_CACHE\n 00BF:0003  Res  $$RTLOVL_PLACE_INTO_CACHE\n 00BF:0224  Res  $$RTLOVL_SEEK_SAVE_FILE\n 00BF:02FD  Res  $$RTLPATHSEARCH\n 00BF:05D5  Res  $$RTLPATHSEARCH_MESSAGES\n 00BF:0039  Res  $$RTLSETERROR\n 00BF:004A  Res  $$RTL_FATAL_ERROR\n 00BF:004E  Res  $$RTL_ORG_TERMINATE\n 00BF:01C9  Res  $$RTL_PRELOAD\n 00BF:00F4  Res  $$RTL_REGISTER\n 00BF:01D3  Res  $$RTL_SHELL_EVENT\n 00BF:00A7  Res  $$RTL_TERMINATE\n 00BF:00CF  Res  $$RTL_TERM_INIT\n 00BF:0052  Res  $$RTL_TERM_PSP\n 00BF:0035  Res  $$RTOVEXEOFFSET\n 0120:0000  Ovl  A1 (3H)\n 0121:0088  Res  A_CONST\n 0121:00CC  Res  A_CSEG\n 0121:0076  Res  A_DATA\n 0121:009A  Res  A_INIT\n 0121:0086  Res  A_PTR\n 0120:0000  Ovl  B1 (2H)\n 0121:00B8  Res  B_CSEG\n 0121:0042  Res  B_DATA\n 0121:0052  Res  B_PTR\n 0000:0006  Res  C1\n 0121:00A4  Res  C_CSEG\n 0000:0000  Res  ENTRY_POINT\n 0000:0010  Res  SINK\n 0121:00E8  Res  _edata\n 0121:00F0  Res  _end\n 0121:00E8  Res  __edata\n 0121:00F0  Res  __end\n\n  Address         Publics by Value\n\n 0000:0000  Res  $$MAIN\n 0000:0000  Abs  $$OVLMGR_MESSAGES\n 0000:0000  Abs  $$RTLEXPANDSECTION\n 0000:0000  Res  ENTRY_POINT\n 0000:0001  Abs  $$RTLDATA_DUMMY\n 0000:0001  Abs  $$RTLOVL_DUMMY_CACHE\n 0000:0006  Res  C1\n 0000:0010  Res  SINK\n 0002:0000  Res  $$RTLOVLMGR_MESSAGES\n 0002:0150  Res  $$OVLCHANGE\n 0002:0152  Res  $$OVLUNLOAD\n 0002:01BC  Res  $$OVLLOAD\n 0002:0558  Res  $$OVLLOADIL\n 0002:0678  Res  $$RTLOVLINIT\n 0002:07FA  Res  $$OVLSAVESIZE\n 0002:0827  Res  $$OVLSAVE_SPARMS\n 0002:0830  Res  $$OVLSAVE\n 0002:0877  Res  $$OVLRESTORE_SPARMS\n 0002:0883  Res  $$OVLRESTORE\n 0002:08E4  Res  $$OVLCLOSE_TERM\n 0002:08F8  Res  $$OVLCLOSE\n 0002:0AFB  Res  $$OVLPBLOCK\n 0002:0B0B  Res  $$OVLINFO\n 00BF:0003  Res  $$RTLOVL_INIT_CACHE\n 00BF:0003  Res  $$RTLOVL_LOAD_FROM_CACHE\n 00BF:0003  Res  $$RTLOVL_PLACE_INTO_CACHE\n 00BF:0004  Res  $$OVCOFF\n 00BF:0004  Res  $$OVCON\n 00BF:0005  Res  $$RTLOVL_CONVERT_VAL\n 00BF:0035  Res  $$RTOVEXEOFFSET\n 00BF:0039  Res  $$RTLSETERROR\n 00BF:004A  Res  $$RTL_FATAL_ERROR\n 00BF:004E  Res  $$RTL_ORG_TERMINATE\n 00BF:0052  Res  $$RTL_TERM_PSP\n 00BF:00A7  Res  $$RTL_TERMINATE\n 00BF:00CF  Res  $$RTL_TERM_INIT\n 00BF:00F4  Res  $$RTL_REGISTER\n 00BF:01C9  Res  $$RTL_PRELOAD\n 00BF:01D3  Res  $$RTL_SHELL_EVENT\n 00BF:0224  Res  $$RTLOVL_CLOSE_SAVE_FILE\n 00BF:0224  Res  $$RTLOVL_CREATE_SAVE_FILE\n 00BF:0224  Res  $$RTLOVL_INIT_SAVE_FILE\n 00BF:0224  Res  $$RTLOVL_SEEK_SAVE_FILE\n 00BF:0228  Res  $$RTLOVL_ALLOC_SAVE_FILE\n 00BF:0228  Res  $$RTLOVL_EXTEND_SAVE_FILE\n 00BF:022C  Res  $$RTLOVL_DELETE_SAVE_FILE\n 00BF:0231  Res  $$RTLCOMMON_MESSAGES\n 00BF:02A1  Res  $$RTLGETENV\n 00BF:02FD  Res  $$RTLPATHSEARCH\n 00BF:0443  Res  $$RTLGETPROGNAME\n 00BF:05D5  Res  $$RTLPATHSEARCH_MESSAGES\n 0121:0042  Res  B_DATA\n 0121:0052  Res  B_PTR\n 0121:0076  Res  A_DATA\n 0121:0086  Res  A_PTR\n 0121:0088  Res  A_CONST\n 0121:009A  Res  A_INIT\n 0121:00A4  Res  C_CSEG\n 0121:00B8  Res  B_CSEG\n 0121:00CC  Res  A_CSEG\n 0121:00E8  Res  _edata\n 0121:00E8  Res  __edata\n 0121:00F0  Res  _end\n 0121:00F0  Res  __end\n 0120:0000  Ovl  B1 (2H)\n 0120:0000  Ovl  A1 (3H)\n",
+      "map_sha256": "41ff8de2ef00d1d8aee07fc8ea7611f713426487fe1fe1f93a7456f355137015",
+      "marker_order": [],
+      "sections": {
+        "ONE": [
+          "FILEB"
+        ],
+        "TWO": [
+          "FILEA"
+        ]
+      }
+    },
+    "rt_cba_plainlast": {
+      "exe_sha256": "e2958af79ff5cf884d1aadc20e6c770a507feda27725cb5a2a3a7859e32e8970",
+      "files": [
+        "FILEC",
+        "FILEB",
+        "FILEA",
+        "START"
+      ],
+      "linker": "C:\\tools\\rtlink-plus-6.10\\installed\\RTLINK.EXE",
+      "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+      "log": ".RTLink(R)/Plus  w/ Virtual Memory Linking, Overlays, CodeView, Turbo Debugger,\r\nVersion 6.10        Demo Versions, .RTLs, Profiling, & Environment Var. Burn-in\r\nDOS Real-Mode   (C) Copyright Pocket Soft Inc., 1988-1993. All Rights Reserved.\r\n                    Serial Number: 836-103-6260\r\n\r\nPocket Soft, Inc. is an Authorized Licensee of Microsoft(R) CodeView(R)\r\nInformation. \"Microsoft\" and \"CodeView\" are registered trademarks of\r\nMicrosoft Corporation.\r\n\r\n=> SYNTAX FREEFORMAT\r\n=> VERBOSE\r\n=> OUTPUT PROBE\r\n=> MAP\r\n=> FILE FILEC\r\n=> FILE FILEB\r\n=> FILE FILEA\r\n=> FILE START\r\n=> \r\n**** LOAD OBJECT CODE ****\r\nFILEC.OBJ(FILEC.C)\r\nFILEB.OBJ(FILEB.C)\r\nFILEA.OBJ(FILEA.C)\r\nSTART.OBJ(START.ASM)\r\n**** LIBRARY SEARCH ****\r\n**** ASSIGN ADDRESSES ****\r\n**** WRITING EXECUTABLE ****\r\n**** PRINT MAP ****\r\n\r\n____________________________________________________________________________\r\n\r\nMEMORY LAYOUT SUMMARY for: PROBE.EXE\r\n\r\n  Load Size:\t\t\t\t\t\t0.K\t+14H Para\r\n\r\nNOTE: Your program may have additional memory requirements depending on the\r\n  memory usage characteristics of your compiler. See your compiler\r\n  documentation for specifics.\r\n____________________________________________________________________________\r\n\r\n",
+      "map": "\n Start  Stop   Length Name                   Class               Group\n 00000H 0000DH 0000EH FILEC_TEXT             CODE\n 0000EH 0001BH 0000EH FILEB_TEXT             CODE\n 0001CH 00029H 0000EH FILEA_TEXT             CODE\n 0002AH 0002EH 00005H ENTRY_TEXT             CODE\n 00030H 000BBH 0008CH _DATA                  DATA                DGROUP\n 000BCH 000F7H 0003CH CONST                  CONST               DGROUP\n 000F8H 000FBH 00004H _BSS                   BSS                 DGROUP\n 00100H 0013FH 00040H STACK                  STACK\n\n Section# Fname          Faddr  Maddr  Size   Father   Section Name\n    1H    PROBE.EXE      00200H 00000H 00140H    0H\n\n Origin   Group\n 0003:0   DGROUP\n\n  Address         Publics by Name\n\n 0002:000A       $$MAIN\n 0001:000C       A1\n 0003:0078       A_CONST\n 0003:00B4       A_CSEG\n 0003:0066       A_DATA\n 0003:008A       A_INIT\n 0003:0076       A_PTR\n 0000:000E       B1\n 0003:00A0       B_CSEG\n 0003:0032       B_DATA\n 0003:0042       B_PTR\n 0000:0000       C1\n 0003:008C       C_CSEG\n 0002:000A       ENTRY_POINT\n 0000:000A       SINK\n\n  Address         Publics by Value\n\n 0000:0000       C1\n 0000:000A       SINK\n 0000:000E       B1\n 0001:000C       A1\n 0002:000A       $$MAIN\n 0002:000A       ENTRY_POINT\n 0003:0032       B_DATA\n 0003:0042       B_PTR\n 0003:0066       A_DATA\n 0003:0076       A_PTR\n 0003:0078       A_CONST\n 0003:008A       A_INIT\n 0003:008C       C_CSEG\n 0003:00A0       B_CSEG\n 0003:00B4       A_CSEG\n",
+      "map_sha256": "1be773e719150ada3d3f304df68b5c1beb1d1e5ac130615c4be3c08a7ff321a4",
+      "marker_order": [
+        [
+          "0x30",
+          "CCCC_FN_LITERAL"
+        ],
+        [
+          "0x40",
+          "BBBB_PTR_LITERAL"
+        ],
+        [
+          "0x51",
+          "BBBB_FN_LITERAL"
+        ],
+        [
+          "0x62",
+          "BBBB_DATA_ARRAY"
+        ],
+        [
+          "0x74",
+          "AAAA_PTR_LITERAL"
+        ],
+        [
+          "0x85",
+          "AAAA_FN_LITERAL"
+        ],
+        [
+          "0x96",
+          "AAAA_DATA_ARRAY"
+        ],
+        [
+          "0xa8",
+          "AAAA_CONST_ARRAY"
+        ],
+        [
+          "0xbc",
+          "CCCC_CONSTSEG_BASED"
+        ],
+        [
+          "0xd0",
+          "BBBB_CONSTSEG_BASED"
+        ],
+        [
+          "0xe4",
+          "AAAA_CONSTSEG_BASED"
+        ]
+      ],
+      "sections": null
+    }
+  },
+  "schema": 1,
+  "scope": "Synthetic compiler/linker observation only; no original bytes linked",
+  "script_sha256": "8d2dd6850de62fd986e85c5350a2fd5973d2c8ac9548b0cd4c79341919092708",
+  "sources": {
+    "FILEA": "\nextern void far pascal SINK(char *);\nchar a_data[] = \"AAAA_DATA_ARRAY\";\nchar *a_ptr = \"AAAA_PTR_LITERAL\";\nconst char a_const[] = \"AAAA_CONST_ARRAY\";\nstatic int a_bss;\nint a_init = 0x4141;\nconst char _based(_segname(\"_CONST\")) a_cseg[] = \"AAAA_CONSTSEG_BASED\";\nvoid far pascal A1(void) { SINK(\"AAAA_FN_LITERAL\"); a_bss++; }\n",
+    "FILEB": "\nextern void far pascal SINK(char *);\nchar b_data[] = \"BBBB_DATA_ARRAY\";\nchar *b_ptr = \"BBBB_PTR_LITERAL\";\nstatic int b_bss;\nconst char _based(_segname(\"_CONST\")) b_cseg[] = \"BBBB_CONSTSEG_BASED\";\nvoid far pascal B1(void) { SINK(\"BBBB_FN_LITERAL\"); b_bss++; }\n",
+    "FILEC": "\nextern void far pascal SINK(char *);\nconst char _based(_segname(\"_CONST\")) c_cseg[] = \"CCCC_CONSTSEG_BASED\";\nvoid far pascal C1(void) { SINK(\"CCCC_FN_LITERAL\"); }\nvoid far pascal SINK(char *p) { }\n"
+  }
+}

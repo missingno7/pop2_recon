@@ -53,6 +53,10 @@ bytes compare literally, except for these fixup fields:
   same code frame does not prove the CS its callers use (root frames such as
   `1000` and `1101` overlap linearly). External near callees are never assumed
   to preserve DS/ES/SS.
+  **Reached near calls** (root): a claim with no relocated far caller of its own takes CS = F from
+  an original near CALL/JMP outside the object, reached by recursive descent from an entry that a
+  relocated CALL FAR names as F:offset. Such far callers may lie in any space, overlays included:
+  the root entry is always resident, and the far call loads CS = F.
   **Relocated far pointers.** A reviewed target may list
   `far_pointer` call sites: a stored offset/segment pair naming its entry whose
   segment word carries an original relocation and whose offset word does not

@@ -475,11 +475,15 @@ def _reached_near_frames(target, space, oracle, hull):
     lo, hi = hull
     data = space.data
     far_entries = set()
-    for r in space.relocations:
-        at = r["image_offset"] - 3
-        if at >= 0 and data[at] == 0x9a:
-            off, seg = struct.unpack_from("<HH", data, at + 1)
-            far_entries.add((seg, off))
+    # Relocated CALL FARs in any space name an entry with CS = their stored segment; a root
+    # entry is always resident, so overlay callers witness it as well as root callers do.
+    for holder in oracle.spaces.values() if space.name == "root" else [space]:
+        for r in holder.relocations:
+            at = r["image_offset"] - 3
+            if at >= 0 and holder.data[at] == 0x9a:
+                off, seg = struct.unpack_from("<HH", holder.data, at + 1)
+                if 0 <= (seg - space.link_segment) * 16 + off < space.size:
+                    far_entries.add((seg, off))
     found = []
     for seg, off in sorted(far_entries):
         base = (seg - space.link_segment) * 16

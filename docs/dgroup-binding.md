@@ -306,3 +306,23 @@ Research runs: the provider's `promote_group.py --verify-only --stage DIR` write
 run may cite it with `--extra-provider DIR/provider.preview.json`, before the provider is
 published. `submission.py --verify-only` passes the preview of each verified group to the
 groups listed after it. Validation never uses previews.
+
+## DGROUP class order (RTLink 6.10 probe, 2026-11-22)
+
+Linker observations (synthetic MSC 6.00 objects linked with the pinned RTLink 6.10; receipt in
+evidence/rtlink-probe/dgroup-class-order/receipt.json):
+- Segments of one name combine into one block, each object's piece contiguous, in link order;
+  blocks are placed by class in first-seen order. With DOSSEG: NULL (BEGDATA) | all `_DATA` |
+  all CONST | MSG | `_BSS` | STACK. Reversed link order reverses pieces inside each block. /Zi does
+  not change it. Overlay modules' DGROUP pieces go into the preloaded data section after the
+  root modules' pieces in the same class block. Classes never interleave per object.
+- MSC 6.00 / 6.00A put string literals, initialized arrays, `const` arrays and static const data
+  in `_DATA` (with or without /Zi, /Zd, /Od, /Ox, /Gt4); CONST receives only floating-point
+  constants and explicit `_based(_segname("_CONST"))` data.
+
+Consequences: a file's initialized data is one contiguous `_DATA` piece at its link-order
+position; two files cannot interleave. Existing canonical placements that use
+`_based(_segname("_CONST"))` (custom, dialog, draw, load, movecave) prove their code bytes but
+are not a linkable model of the data layout (they sit among `_DATA` pieces); they are layout
+debt, not precedent. Data another file uses is that file's data public (see "Cross-file data
+publics"), not a second placement.
