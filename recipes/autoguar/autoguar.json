@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autoguar/autoguar.json",
-  "binding_sha256": "a654112113013ee254aa7d2de009e1f547420b693958d25fac46dbc94cf54dfa",
+  "binding_sha256": "36d4bfb7cb8a59283e5ee03cf26b9f52d58ec246a509843d76e8b239dd2d12e4",
   "claims": [
     {
       "fixup_count": 0,
@@ -83,6 +83,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-12:2c3e:0236"
+    },
+    {
+      "fixup_count": 3,
+      "public": "COUNT_LIVE_OPPONENTS",
+      "target_id": "overlay-12:2c3e:0310"
     },
     {
       "fixup_count": 14,
@@ -212,10 +217,6 @@
       "public": "CHECK_OPPONENT_TUMBLE"
     },
     {
-      "object_offset": 784,
-      "public": "COUNT_LIVE_OPPONENTS"
-    },
-    {
       "object_offset": 1076,
       "public": "CHASE_OPPONENT"
     },
@@ -323,12 +324,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "autoguar/autoguar",
-  "object_sha256": "9d77306c72e154a8811e474cdc55a838abe0e0452ad606acba70bf7fa96c35ba",
+  "object_sha256": "c16a7cd97740b338bcd0cef6546735dfc3b905f961ad872d0ff1057832e7085b",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autoguar/autoguar.c",
-  "source_sha256": "00c6222623350c334c1db796b1cca126d19e6028a2f1347a641106239c4f4aa3",
+  "source_sha256": "283930b699b44f9e497d2060c3d3972ed00057da761839b4ffdbac2646c15833",
   "space": "overlay-12"
 }

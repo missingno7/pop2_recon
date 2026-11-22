@@ -136,26 +136,25 @@ signed char far pascal count_live_opponents(void);
 
 int far pascal check_opponent_tumble(void)
 {
-    signed char index, limit;
+    signed char index, limit, live;
     int someone_blocks;
     GuardActor saved;
     int result;
 
-    if (game_variant == 5 &&
-        (actor_room == 19 || actor_room == 16 ||
-         (tile_is_solid(get_tile_below()) && actor_facing == -1)))
-        result = 1;
+    if (game_variant == 5)
+        result = actor_room == 19 || actor_room == 16 ||
+            (tile_is_solid(get_tile_below()) && actor_facing == -1);
     else
         result = 0;
 
     if (!result && room_can_tumble(actor_room)) {
-        index = count_live_opponents();
-        someone_blocks = random_below(3) <= index;
-        if (!someone_blocks && index != 0) {
+        live = count_live_opponents();
+        someone_blocks = random_below(3) <= live;
+        if (!someone_blocks && live != 0) {
             saved = Char;
-            index = 0;
             limit = guard_rooms[room_to_check].count;
-            if (limit > 0) {
+            index = 0;
+            if (index < limit) {
                 do {
                     if (someone_blocks)
                         break;
@@ -232,9 +231,10 @@ signed char far pascal count_live_opponents(void)
 {
     signed char index, limit, live;
 
+    live = 0;
     limit = guard_rooms[room_to_check].count;
-    index = live = 0;
-    if (limit > 0) {
+    index = 0;
+    if (index < limit) {
         do {
             if (actor_slots[index].bytes[17] >= 0)
                 ++live;
@@ -830,8 +830,14 @@ void far pascal raise_nearby_opponents(void)
                     death_count = (unsigned char)-1;
                     running_state = 1;
                     alert_state = 3;
-                    if (actor_kind == 10)
-                        actor_facing = ACTOR_WORD(Kid, 2) <= ACTOR_WORD(Char, 2) ? -1 : 0;
+                    if (actor_kind == 10) {
+                        signed char facing;
+                        if (ACTOR_WORD(Char, 2) >= ACTOR_WORD(Kid, 2))
+                            facing = -1;
+                        else
+                            facing = 0;
+                        actor_facing = facing;
+                    }
                     *(volatile int near *)&guard_counter = 0;
                     *(volatile int near *)&effect_y = 0;
                     ClearCharVel();
@@ -859,13 +865,15 @@ void far pascal update_skeleton(void)
             active = 0;
         }
 
-        if (active && ACTOR_WORD(Char, 25) == 88 && death_frame == 177) {
-            face_kid_for_skeleton();
-            return;
-        }
         if (active) {
-            advance_skeleton();
-            return;
+            if (ACTOR_WORD(Char, 25) == 88 && death_frame == 177) {
+                face_kid_for_skeleton();
+                return;
+            }
+            if (active) {
+                advance_skeleton();
+                return;
+            }
         }
     } else {
         opponent = GetOppInfoIdx(actor_room, guard_id);
