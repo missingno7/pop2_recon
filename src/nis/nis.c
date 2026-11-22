@@ -2318,7 +2318,6 @@ int title_callback(void *state, int frame)
     unsigned long frame_end_time;
     Rect title_bounds;
     int interrupted;
-    DrawPort *fallback_port;
     int old_frame_suppression;
     DrawPort *saved_port;
 
@@ -2367,7 +2366,6 @@ int title_callback(void *state, int frame)
         case 104: {
             TitleAnimationState *playback;
 
-            fallback_port = saved_port;
             playback = state;
             frame_end_time = playback->frame_clock + playback->frame_delay;
 
@@ -2375,7 +2373,7 @@ int title_callback(void *state, int frame)
                 ;
             copy_port(draw_port = &nis_draw_port, title_patch,
                       &title_patch->clip, &title_patch->clip, 0);
-            draw_port = fallback_port;
+            draw_port = saved_port;
             playback->active_clip = playback->saved_clip;
             old_frame_suppression = suppress_title_frame;
             suppress_title_frame = 0;
