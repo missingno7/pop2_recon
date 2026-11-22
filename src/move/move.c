@@ -192,11 +192,10 @@ extern byte viewed_room, left_room, right_room, upper_room, lower_room;
 extern byte upper_right_room, lower_right_room;
 extern byte room_tiles[][30];
 extern int tile_has_gate(byte tile);
-extern sbyte inspect_trob_cell(byte room, int cell);
-extern sbyte place_trob_rect(MoveRect *out, MoveRect *base, int tile,
-                            byte room, int cell);
-extern int visible_trob_column(int column);
-int compute_trob_move_rect(MoveRect *out, MoveRect *base);
+extern sbyte CellToCol(byte room, int cell);
+extern sbyte CellToRow(byte room, int cell);
+extern MoveRect *ComputeOffsetCellRect(MoveRect *out, MoveRect *base, int col, int row);
+MoveRect *compute_trob_move_rect(MoveRect *out, MoveRect *base);
 sbyte check_trob(void);
 sbyte check_trob_left(void);
 sbyte check_trob_right(void);
@@ -296,11 +295,13 @@ void redraw_trob(MoveRect *base)
     }
 }
 
-int compute_trob_move_rect(register MoveRect *out, MoveRect *base)
+MoveRect *compute_trob_move_rect(register MoveRect *out, MoveRect *base)
 {
-    sbyte tile = inspect_trob_cell(current_trob.room, current_trob.cell);
-    return visible_trob_column(place_trob_rect(out, base, tile,
-                                            current_trob.room, current_trob.cell));
+    register MoveRect *result = out;
+    sbyte column = CellToCol(current_trob.room, current_trob.cell);
+    out = result;
+    return ComputeOffsetCellRect(out, base, column,
+                                 CellToRow(current_trob.room, current_trob.cell));
 }
 
 sbyte check_trob(void)
@@ -393,11 +394,12 @@ sbyte check_trob_above_right(void)
         else
             cell -= 9;
     } else if (right_room == current_trob.room) {
-        if (cell == 9)
-            cell = -1;
-        else if (cell % 10 == 9)
-            cell -= 19;
-        else
+        if (cell % 10 == 9) {
+            if (cell == 9)
+                cell = -1;
+            else
+                cell -= 19;
+        } else
             cell = 30;
     } else if (upper_room == current_trob.room) {
         if (cell < 9)
@@ -527,19 +529,22 @@ int get_torch_frame(int frame);
 
 void animate_flask(void)
 {
-    if (tile_kind != 10) {
-        current_trob.state = -1;
-    } else if (current_trob.state >= 0 && check_trob_visibility()) {
-        unsigned state = room_object.state & ~31U;
-        int frame = room_object.state & 31;
-        if (frame >= 27)
-            frame = 0;
-        else
-            ++frame;
-        room_object.state = state | frame;
-        redraw_flask();
+    if (tile_kind == 10) {
+        if (current_trob.state < 0 || !check_trob_visibility())
+            return;
+        {
+            unsigned state = room_object.state & ~31U;
+            int frame = room_object.state & 31;
+            if (frame >= 27)
+                frame = 0;
+            else
+                ++frame;
+            room_object.state = state | frame;
+            redraw_flask();
+        }
         return;
     }
+    current_trob.state = -1;
 }
 
 void animate_torch(int index)
@@ -656,7 +661,7 @@ void stop_gate(int height)
     int actor_cell;
 
     current_trob.state = -1;
-    add_gate_sound(level_type == 3 ? 8 : 6);
+    add_gate_sound(level_type != 3 ? 6 : 8);
     refresh_actor_floor();
     actor_cell = row_first_cell(actor_row - 1) + actor_column;
     if (current_trob.cell == actor_cell && actor_facing == -1
@@ -668,11 +673,14 @@ void stop_gate(int height)
 
 void check_gate_fingers(void)
 {
-    if (player_room == current_trob.room && (player_action == 2 || player_action == 6)) {
-        int delta = current_trob.cell - (sbyte)(row_first_cell(player_row) + player_column);
-        if (delta != -10 && delta != -11)
-            return;
-        play_move_sound(31);
+    if (current_trob.room == player_room && (player_action == 2 || player_action == 6)) {
+        switch (current_trob.cell - (sbyte)(row_first_cell(player_row) + player_column)) {
+        case -10:
+            goto sound;
+        case -11:
+        sound:
+            play_move_sound(31);
+        }
     }
 }
 
@@ -1049,7 +1057,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
         if (room != exit_room && current_level == 8 && exit_unlocked != 1) {
             state = -1;
         } else {
-            state = (byte)room_objects[cell].state < 1 ? 1 : -1;
+            state = 2 * ((byte)room_objects[cell].state < 1) - 1;
             if (state == 1 && !has_sound_override(exit_sound_name) && current_level != 13)
                 queue_move_sound(27);
         }
@@ -1259,17 +1267,6 @@ void animate_plate(void)
     }
 }
 
-/* CloseExit at 16fa is pending. */
-
-void close_exit(byte room, sbyte cell)
-{
-    if (level_type != 1) {
-        RoomObject *object = &room_objects[cell];
-        object->state = ((unsigned)((byte *)&object->state)[1] << 8) + 42;
-        add_trob(room, cell, 4, 17);
-    }
-}
-
 #pragma pack(1)
 typedef struct {
     int x, y;
@@ -1282,6 +1279,16 @@ typedef struct {
 #pragma pack()
 
 extern Mob current_mob;
+
+void close_exit(byte room, sbyte cell)
+{
+    if (level_type != 1) {
+        RoomObject *objects = *(RoomObject **)&room_objects;
+        objects[cell].state = (objects[cell].state & 0xff00U) + 42;
+        add_trob(room, cell, 4, 17);
+    }
+}
+
 void make_space(byte room, sbyte cell);
 void add_mob(void);
 extern Mob mobs[];

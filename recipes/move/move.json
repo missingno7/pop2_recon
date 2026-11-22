@@ -1,11 +1,50 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "5bf07b47329eadb618f4dd2a85e0eadeaec36aa29fcf72de59eea7fd8f51c9a7",
+  "binding_sha256": "3d8da7f5db69811265d68df1ebd488bb984c7b8a27e18c941c53759727014e3d",
   "claims": [
     {
       "fixup_count": 13,
       "public": "ANIMTROBS",
       "target_id": "root:0b41:000c"
+    },
+    {
+      "fixup_count": 5,
+      "public": "REDRAW_TROB",
+      "target_id": "root:0b41:041c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "COMPUTE_TROB_MOVE_RECT",
+      "relocation_indices": [
+        983,
+        1030,
+        1049
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:045a"
+    },
+    {
+      "fixup_count": 5,
+      "public": "CHECK_TROB",
+      "target_id": "root:0b41:0494"
+    },
+    {
+      "fixup_count": 4,
+      "public": "CHECK_TROB_VISIBILITY",
+      "target_id": "root:0b41:04d4"
+    },
+    {
+      "fixup_count": 5,
+      "public": "CHECK_TROB_LEFT",
+      "target_id": "root:0b41:04ee"
+    },
+    {
+      "fixup_count": 5,
+      "public": "CHECK_TROB_ABOVE",
+      "target_id": "root:0b41:05c2"
     },
     {
       "fixup_count": 5,
@@ -41,6 +80,30 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0b41:075e"
+    },
+    {
+      "fixup_count": 8,
+      "public": "ANIMATE_FLASK",
+      "target_id": "root:0b41:0892"
+    },
+    {
+      "fixup_count": 8,
+      "public": "ANIMATE_TORCH",
+      "target_id": "root:0b41:08d6"
+    },
+    {
+      "fixup_count": 13,
+      "public": "STOP_GATE",
+      "relocation_indices": [
+        1031,
+        1056,
+        1066
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:0af0"
     },
     {
       "fixup_count": 1,
@@ -99,8 +162,10 @@
         1012,
         1071
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "root:0b41:0f62"
     },
     {
@@ -202,6 +267,11 @@
       "fixup_count": 8,
       "public": "ANIMATE_PLATE",
       "target_id": "root:0b41:16ac"
+    },
+    {
+      "fixup_count": 3,
+      "public": "CLOSE_EXIT",
+      "target_id": "root:0b41:16fa"
     },
     {
       "fixup_count": 27,
@@ -327,59 +397,23 @@
       "public": "REDRAW_GATE"
     },
     {
-      "object_offset": 1040,
-      "public": "REDRAW_TROB"
-    },
-    {
-      "object_offset": 1102,
-      "public": "COMPUTE_TROB_MOVE_RECT"
-    },
-    {
-      "object_offset": 1158,
-      "public": "CHECK_TROB"
-    },
-    {
-      "object_offset": 1222,
-      "public": "CHECK_TROB_VISIBILITY"
-    },
-    {
-      "object_offset": 1248,
-      "public": "CHECK_TROB_LEFT"
-    },
-    {
-      "object_offset": 1326,
+      "object_offset": 1328,
       "public": "CHECK_TROB_RIGHT"
     },
     {
-      "object_offset": 1460,
-      "public": "CHECK_TROB_ABOVE"
-    },
-    {
-      "object_offset": 1538,
+      "object_offset": 1540,
       "public": "CHECK_TROB_ABOVE_RIGHT"
-    },
-    {
-      "object_offset": 2182,
-      "public": "ANIMATE_FLASK"
-    },
-    {
-      "object_offset": 2250,
-      "public": "ANIMATE_TORCH"
     },
     {
       "object_offset": 2318,
       "public": "ANIMATE_GATE"
     },
     {
-      "object_offset": 2786,
-      "public": "STOP_GATE"
-    },
-    {
-      "object_offset": 2900,
+      "object_offset": 2902,
       "public": "CHECK_GATE_FINGERS"
     },
     {
-      "object_offset": 2970,
+      "object_offset": 2966,
       "public": "DID_PLAYER_ESCAPE_GUARD"
     },
     {
@@ -417,10 +451,6 @@
     {
       "object_offset": 5012,
       "public": "TRIGGER_TORCH"
-    },
-    {
-      "object_offset": 5870,
-      "public": "CLOSE_EXIT"
     },
     {
       "object_offset": 6292,
@@ -500,12 +530,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "a4fbab4443fed91aa9879009717767b2482a4f86fdb19ddd526b9cea7999706e",
+  "object_sha256": "e8d4dc4a6389fa48acf17310eff802e75a479bd9c9e2a973f6a128d2c3e152d3",
   "origin": 46108,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "cd8d99b7e8b8b8e4cca0f6654b919c4885a2e8d0dc5e67f998fbaca4f7c0dabe",
+  "source_sha256": "fde2abddaec7649a056271a4138ed72c56910eec6e00345f5e84df3da405e406",
   "space": "root"
 }
