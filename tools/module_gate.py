@@ -19,7 +19,8 @@ the relative placement of the group; it does not prove the original file
 boundary, declarations outside the group, or link placement.
 
 Object-level rules (refusals, not claim failures): every public lies inside
-the initialized CODE segment and one public starts at offset 0; fixup fields
+the initialized CODE segment (or, as a data public, inside a placed DGROUP segment;
+see _data_publics) and one public starts at offset 0; fixup fields
 are disjoint; a near call is proven only inside the original CS window named by
 an independently relocated CALL FAR into a claim (for overlay claims: a vector,
 a same-overlay call, an unshared cross-space call or far pointer, or bracketing
@@ -166,6 +167,29 @@ def _decode(piece, tables):
     return rows
 
 
+def _dgroup_home(binding, space, oracle):
+    """(space holding initialized DGROUP, image offset of the DGROUP paragraph)."""
+    if "dgroup_segment" in binding:
+        from far_binding import _ground_segment
+        seg_spec = binding["dgroup_segment"]
+        # The paragraph witnesses are startup words in root; no candidate extent to avoid there.
+        _ground_segment({"segment": seg_spec["segment"], "witnesses": seg_spec["witnesses"]},
+                        {"space": "root", "segment": 0, "offset": 0, "size": 0}, oracle)
+        homes = [sp for sp in oracle.spaces.values()
+                 if 0 <= (seg_spec["segment"] - sp.link_segment) * 16 < sp.size]
+        require(len(homes) == 1, "DGROUP paragraph does not lie in exactly one space")
+        home = homes[0]
+        return home, (seg_spec["segment"] - home.link_segment) * 16
+    return space, (binding["frame"]["segment"] - space.link_segment) * 16
+
+
+def _occurs_once(home, dgroup, content):
+    hits, at = 0, home.data.find(content, dgroup)
+    while at >= 0 and hits < 2:
+        hits, at = hits + 1, home.data.find(content, at + 1)
+    return hits == 1
+
+
 def _check_placements(module, placements, uses, binding, space, oracle):
     """Each placed DGROUP segment must be over-determined: initialized bytes equal the original
     DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree."""
@@ -178,20 +202,7 @@ def _check_placements(module, placements, uses, binding, space, oracle):
     # The runtime DGROUP paragraph (the C runtime reloads DS with it before main) is
     # grounded by an original relocated word storing it; initialized DGROUP bytes live in
     # whichever space contains that paragraph (the preloaded overlay 17 in this image).
-    if "dgroup_segment" in binding:
-        from far_binding import _ground_segment
-        seg_spec = binding["dgroup_segment"]
-        # The paragraph witnesses are startup words in root; no candidate extent to avoid there.
-        _ground_segment({"segment": seg_spec["segment"], "witnesses": seg_spec["witnesses"]},
-                        {"space": "root", "segment": 0, "offset": 0, "size": 0}, oracle)
-        homes = [sp for sp in oracle.spaces.values()
-                 if 0 <= (seg_spec["segment"] - sp.link_segment) * 16 < sp.size]
-        require(len(homes) == 1, "DGROUP paragraph does not lie in exactly one space")
-        home = homes[0]
-        dgroup = (seg_spec["segment"] - home.link_segment) * 16
-    else:
-        home = space
-        dgroup = (binding["frame"]["segment"] - space.link_segment) * 16
+    home, dgroup = _dgroup_home(binding, space, oracle)
     report = {}
     for seg in module.segment_defs:
         if seg["name"] not in placements:
@@ -210,13 +221,10 @@ def _check_placements(module, placements, uses, binding, space, oracle):
                     f"Placed segment {seg['name']} content differs from the original DGROUP bytes")
             require(not any(start - 1 <= r["image_offset"] < start + seg["length"] for r in home.relocations),
                     f"Placed segment {seg['name']} overlaps original relocated words")
-            hits, at = 0, home.data.find(content, dgroup)
-            while at >= 0 and hits < 2:
-                hits, at = hits + 1, home.data.find(content, at + 1)
             # Content found once in the whole DGROUP image fixes P independently of any one field;
             # repeated content (zero words, short constants) fixes nothing, so each field then needs
             # its own support (_placed_support), like an unwitnessed v4 address.
-            unique = hits == 1
+            unique = _occurs_once(home, dgroup, content)
             basis = (f"initialized content equals original {home.name}+{start:#x}" +
                      ("" if unique else ", repeated content: per-field consensus"))
         else:
@@ -280,8 +288,9 @@ def _candidate_frames(oracle):
     """Every paragraph the original stores as a frame: relocation site frames, relocated
     segment words of every space, and RTLink vector destinations. A superset of the code
     frames CS can hold (data frames only add windows, i.e. constraints)."""
+    # Keyed by id, holding the oracle itself: a collected test oracle's id can be reused.
     key = id(oracle)
-    if key not in _CANDIDATE_FRAMES:
+    if key not in _CANDIDATE_FRAMES or _CANDIDATE_FRAMES[key][0] is not oracle:
         frames = set()
         for space in oracle.spaces.values():
             for r in space.relocations:
@@ -291,8 +300,8 @@ def _candidate_frames(oracle):
                     frames.add(struct.unpack_from("<H", space.data, r["image_offset"])[0])
         if getattr(oracle, "mz", None) is not None:  # RTLink vectors need the MZ image
             frames.update(v["target_segment"] for v in _code_vectors(oracle).values())
-        _CANDIDATE_FRAMES[key] = frames
-    return _CANDIDATE_FRAMES[key]
+        _CANDIDATE_FRAMES[key] = (oracle, frames)
+    return _CANDIDATE_FRAMES[key][1]
 
 
 def _frame_invariant(state, space, oracle):
@@ -582,13 +591,162 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
 
 
 def _check_unplaced(module, placements, symbols):
-    """A v4 external address may not fall inside this object's own placed DGROUP segment."""
+    """A v4 external address may not fall inside this object's own placed DGROUP segment.
+    Definitions never overlap: a provider public's whole placed segment may not overlap this
+    object's placed segments, and two provider spans may not overlap. Returns the v4 addresses
+    that lie inside a provider span (aliases, recorded as debt: v4 symbols are addresses
+    without extent, not definitions; the linked-value aliasing rule is _check_provider_aliases)."""
     lengths = {d["name"]: d["length"] for d in module.segment_defs}
+    spans = [(n, s["offset"], s["offset"] + s["span"]) for n, s in symbols.items() if s.get("kind") == PUBLIC_KIND]
+    inside = []
     for name, symbol in symbols.items():
+        if symbol.get("kind") == PUBLIC_KIND:
+            lo, hi = symbol["range"]
+            for seg, at in placements.items():
+                require(not (at < hi and lo < at + lengths.get(seg, 0)),
+                        f"Provider segment of {name} overlaps placed segment {seg} of this object")
+            require(not any(other != name and a < symbol["offset"] + symbol["span"] and symbol["offset"] < b
+                            for other, a, b in spans), f"Provider public span of {name} overlaps another symbol")
+            continue
         values = [symbol["offset"]] + [(symbol["offset"] + m["offset"]) & 0xFFFF for m in symbol.get("members", [])]
         for seg, at in placements.items():
             require(not any(at <= v < at + lengths.get(seg, 0) for v in values),
                     f"v4 address of {name} lies inside placed segment {seg}")
+        inside += [f"{name}@{v:#06x} in {other}" for v in values for other, a, b in spans if a <= v < b]
+    return inside
+
+
+def _check_provider_aliases(symbols, states):
+    """The v4 aliasing rule for provider fields: every linked value S + A that a provider
+    public field writes must differ from every other symbol's linked value T + j."""
+    others = {}
+    for name, symbol in symbols.items():
+        if symbol.get("kind") != PUBLIC_KIND:
+            for v in [symbol["offset"]] + [(symbol["offset"] + m["offset"]) & 0xFFFF
+                                           for m in symbol.get("members", [])]:
+                others.setdefault(v, name)
+    for state in states.values():
+        for field in state["v4"]:
+            symbol = symbols[field["key"][0]]
+            if symbol.get("kind") == PUBLIC_KIND:
+                value = (symbol["offset"] + field["key"][1]) & 0xFFFF
+                require(value not in others, f"Provider field {field['key'][0]}+{field['key'][1]} aliases "
+                        f"v4 symbol {others.get(value)}")
+
+
+PUBLIC_KIND = "dgroup-public"
+# Verify-only research (promote_group --extra-provider): group_id -> staged provider preview
+# recipe, standing in for the canonical recipe of that group. Never used by validation.
+EXTRA_PROVIDERS = {}
+
+
+def _data_publics(module, placements, dgroup_members, code_name):
+    """Publics outside CODE: allowed only in a placed DGROUP member segment (MSC's non-static
+    initialized data), framed by the DGROUP group, inside the segment. Each spans to the next
+    data public of its segment (or the segment end), an upper bound on its declared object."""
+    groups = [i for i, g in enumerate(module.groups, 1) if g["name"] == "DGROUP"]
+    lengths = {d["name"]: d["length"] for d in module.segment_defs}
+    found = {}
+    for public in module.publics:
+        if public["segment"] == code_name:
+            continue
+        require(public["segment"] in placements and public["segment"] in dgroup_members and
+                len(groups) == 1 and public.get("group_index") == groups[0] and not public.get("local") and
+                public.get("frame") is None and 0 <= public["offset"] < lengths[public["segment"]],
+                "Public outside the CODE segment (data publics only in a placed DGROUP segment, "
+                "framed by DGROUP)")
+        require(public["name"] not in found, "Duplicate public")
+        require(not any(d["segment"] == public["segment"] and d["offset"] == public["offset"]
+                        for d in found.values()), "Two data publics share one offset")
+        found[public["name"]] = {"name": public["name"], "segment": public["segment"], "offset": public["offset"]}
+    for entry in found.values():
+        later = [d["offset"] for d in found.values() if d["segment"] == entry["segment"] and d["offset"] > entry["offset"]]
+        entry["span"] = min(later, default=lengths[entry["segment"]]) - entry["offset"]
+    return found
+
+
+def _accepted_recipes():
+    """(owner, recipe) for every distinct canonical recipe in the manifest."""
+    from common import project_path
+    seen = {}
+    for owner in read_json(ROOT / "layout/manifest.json")["owners"]:
+        if owner["recipe"] not in seen:
+            seen[owner["recipe"]] = (owner, read_json(project_path(owner["recipe"])))
+    return list(seen.values())
+
+
+def accepted_public_names(recipes):
+    """name -> how many accepted components define it (code, drafts, data, runtime members)."""
+    counts = {}
+    for owner, recipe in recipes:
+        if owner.get("kind") == "PINNED_RUNTIME":
+            names = list(recipe.get("publics", []))
+        elif recipe.get("kind") == "same_source_group":
+            names = ([c["public"] for c in recipe["claims"]] + [d["public"] for d in recipe.get("drafts", [])] +
+                     [d["name"] for d in recipe.get("data_publics", [])])
+        else:
+            names = [recipe["public"]] if "public" in recipe else []
+        for n in names:
+            counts[n] = counts.get(n, 0) + 1
+    return counts
+
+
+def _provider_public(name, symbol, oracle, group_id, own_names):
+    """Ground an external DGROUP symbol by the data public of that name in another accepted
+    group (2026-11-22). The linker resolves the EXTDEF by name, so the value is S + A with
+    S = P + o: P the provider's placement of the segment, fixed by initialized content that
+    occurs once in the original DGROUP image, and o the public's offset in the provider's
+    freshly validated object. The addend must stay inside the public's span."""
+    import json
+    from common import project_path
+    require(set(symbol) <= {"kind", "group", "provider", "offset", "context"} and symbol.get("group") == "DGROUP" and
+            type(symbol.get("offset")) is int and type(symbol.get("provider")) is str,
+            "Unsupported provider data public symbol")
+    provider_id = symbol["provider"]
+    require(provider_id != group_id and name not in own_names,
+            "A provider data public must be defined by another accepted group")
+    recipes = _accepted_recipes()
+    if provider_id in EXTRA_PROVIDERS:
+        recipe = EXTRA_PROVIDERS[provider_id]
+        recipes = [(o, r) for o, r in recipes if r.get("group_id") != provider_id] + [({}, recipe)]
+    else:
+        found = [r for _, r in recipes if r.get("kind") == "same_source_group" and r.get("group_id") == provider_id]
+        require(len(found) == 1, f"Provider {provider_id} is not one accepted same-source group")
+        recipe = found[0]
+    # Linker identity: exactly one accepted definition of the name, and it is this data public.
+    require(accepted_public_names(recipes).get(name) == 1,
+            f"{name} is not defined exactly once among accepted components")
+    entries = [d for d in recipe.get("data_publics", []) if d["name"] == name]
+    require(len(entries) == 1, f"{name} is not a data public of accepted provider {provider_id}")
+    entry = entries[0]
+    require(entry["unique"] is True, f"Placement of {name} is not fixed by unique initialized content")
+    raw = project_path(recipe["binding"]).read_bytes()
+    require(sha(raw) == recipe["binding_sha256"], "Provider binding changed without acceptance")
+    provider_binding = json.loads(raw)
+    seg = entry["segment"]
+    p = provider_binding["placements"][seg]
+    length = next(d["length"] for d in provider_binding["declarations"]["segments"] if d["name"] == seg)
+    require(0 <= entry["offset"] and entry["span"] > 0 and entry["offset"] + entry["span"] <= length and
+            entry["address"] == p + entry["offset"] and symbol["offset"] == entry["address"],
+            f"Provider data public {name} address or span disagrees with its placement")
+    # Recheck from the original image: the placed window occurs once and holds no relocated word.
+    home, dgroup = _dgroup_home(provider_binding, oracle.spaces[recipe["space"]], oracle)
+    start = dgroup + p
+    require(length >= 2 and start + length <= home.size and
+            _occurs_once(home, dgroup, home.data[start:start + length]) and
+            not any(start - 1 <= r["image_offset"] < start + length for r in home.relocations),
+            f"Placement of {name} is not fixed by unique original DGROUP content")
+    # One DGROUP byte has one defining object: no other accepted group places data over it.
+    for _, other in recipes:
+        if other.get("kind") != "same_source_group" or other.get("group_id") == provider_id or                 "binding" not in other:
+            continue
+        other_binding = read_json(project_path(other["binding"]))
+        lengths = {d["name"]: d["length"] for d in other_binding["declarations"]["segments"]}
+        for oseg, q in other_binding.get("placements", {}).items():
+            require(not (q < p + length and p < q + lengths[oseg]),
+                    f"Provider segment of {name} overlaps placed {oseg} of {other['name']}")
+    return {"kind": PUBLIC_KIND, "offset": entry["address"], "span": entry["span"], "provider": provider_id,
+            "segment": seg, "range": (p, p + length)}
 
 
 def _internal_support(symbols, states, reports):
@@ -599,7 +757,7 @@ def _internal_support(symbols, states, reports):
     more distinct original instruction starts, all inside CODE_EXACT claims. One unknown S
     then meets two equations. Different k never support each other. A claim losing support
     withdraws its fields, so the check runs to a fixpoint."""
-    need = set()
+    need, provided = set(), {n for n, s in symbols.items() if s.get("kind") == PUBLIC_KIND}
     for name, symbol in symbols.items():
         if symbol.get("kind") != "dgroup-offset":
             continue
@@ -611,7 +769,9 @@ def _internal_support(symbols, states, reports):
         for field in state["v4"]:
             for equation in state["equations"]:
                 if equation.get("kind") == "DGROUP offset16" and equation["offset"] == field["offset"]:
-                    equation["support"] = "internal consensus" if field["key"] in need else "witnessed"
+                    equation["support"] = ("internal consensus" if field["key"] in need else
+                                           "accepted provider public" if field["key"][0] in provided else
+                                           "witnessed")
     if not need:
         return
     changed = True
@@ -661,10 +821,13 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     module = OmfReader().read(obj_data, "candidate")
     placements = (binding or {}).get("placements", {})
     segment, name, actual = code_segment(module, placed=tuple(placements))
-    publics = {}
+    dgroup_members = {module.segment_defs[i - 1]["name"] for g in module.groups if g["name"] == "DGROUP"
+                      for i in g["segments"] if 1 <= i <= len(module.segment_defs)}
+    publics, data_publics = {}, _data_publics(module, placements, dgroup_members, name)
     for public in module.publics:
-        require(public["segment"] == name, "Public outside the CODE segment")
-        require(public["name"] not in publics, "Duplicate public")
+        if public["segment"] != name:
+            continue  # a data public, checked by _data_publics
+        require(public["name"] not in publics and public["name"] not in data_publics, "Duplicate public")
         require(0 <= public["offset"] < len(actual), "Public outside the initialized CODE segment")
         publics[public["name"]] = public["offset"]
     offsets = sorted(publics.values())
@@ -673,8 +836,6 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     require(claims and len({c["target_id"] for c in claims}) == len(claims) and
             len({c["public"] for c in claims}) == len(claims), "Claims must be unique")
     obligations = fixes(module)
-    dgroup_members = {module.segment_defs[i - 1]["name"] for g in module.groups if g["name"] == "DGROUP"
-                      for i in g["segments"] if 1 <= i <= len(module.segment_defs)}
     fields = set()
     for fix in obligations:
         span = set(range(fix["segment_offset"], fix["segment_offset"] + fix["field_width"]))
@@ -704,7 +865,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if frames:
         base = (next(iter(frames)) - space.link_segment) * 16
         window = (base, base + 0x10000)
-    symbols, mode, far_symbols, near_symbols = None, None, {}, {}
+    symbols, mode, far_symbols, near_symbols, span_aliases = None, None, {}, {}, []
     if binding is not None:
         require(binding["fixups"] == obligations, "Ordered symbolic fixup obligations changed")
         require(binding["declarations"] == declarations(module), "Bound object declarations changed")
@@ -717,20 +878,24 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         far_symbols = {n: s for n, s in binding["symbols"].items() if s.get("kind") in FAR_KINDS}
         near_symbols = {n: near_ground(s, hull, oracle) for n, s in binding["symbols"].items()
                         if s.get("kind") == NEAR_KIND}
+        provided = {n: s for n, s in binding["symbols"].items() if s.get("kind") == PUBLIC_KIND}
         data_only = {n: s for n, s in binding["symbols"].items()
-                     if n not in far_symbols and n not in near_symbols}
+                     if n not in far_symbols and n not in near_symbols and n not in provided}
         # Overlay owners too: the field equation depends only on the grounded 16:16 alias,
         # and its segment word is relocated by the owner's own overlay table (bijection below).
         for symbol in far_symbols.values():
             far_ground(symbol, hull, oracle,
                        claimed=[(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved])
-        if data_only:
+        if data_only or provided:
             claimed = [(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved]
             symbols = ground({**binding, "symbols": data_only}, hull, oracle,
                              claimed=claimed if binding["mode"] == OPERAND_MODE else None)
             mode = binding["mode"]
+            require(not provided or mode == OPERAND_MODE, "Provider data publics need the v4 operand mode")
+            symbols = dict(symbols, **{n: _provider_public(n, s, oracle, group_id, set(publics) | set(data_publics))
+                                       for n, s in provided.items()})
             if mode == OPERAND_MODE:
-                _check_unplaced(module, placements, data_only)
+                span_aliases = _check_unplaced(module, placements, symbols)
         elif "frame" in binding:
             # Verify the DGROUP frame witness even without data symbols (DGROUP base fields).
             ground({**binding, "mode": OPERAND_MODE, "symbols": {}}, hull, oracle)
@@ -925,6 +1090,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 else:
                     require(fix["target"].get("name") not in publics,
                             "Data fixup target resolves to a CODE public of this object")
+                    require(fix["target"].get("name") not in data_publics,
+                            "Data fixup target resolves to a data public of this object")
                     state["data"].append(dict(fix, segment_offset=at))
             require(not state["relocations"] or state["far"] or state["group_bases"] or state["own_bases"],
                     "Original MZ relocations need far CALL fixups in the claim")
@@ -1132,6 +1299,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         except ValueError as error:
             report.update(exact=False, state="REFUSED", reason=str(error))
     if mode == OPERAND_MODE and binding is not None:
+        _check_provider_aliases(symbols, states)
         _internal_support(binding["symbols"], states, reports)
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
@@ -1142,8 +1310,12 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle)
     _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
+    data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
+                               unique=placement_report[d["segment"]]["unique"])
+                          for d in sorted(data_publics.values(), key=lambda d: (d["segment"], d["offset"]))]
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
-            "placements": placement_report,
+            "placements": placement_report, "data_publics": data_public_report,
+            **({"provider_span_aliases": span_aliases} if span_aliases else {}),
             "space": space.name, "origin": origin, "emitted_size": len(actual),
             "frame": next(iter(frames)) if frames else None,
             "segment": segment, "claims": reports,

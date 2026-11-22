@@ -261,3 +261,48 @@ The disp16 of an indirect CALL or JMP through memory (`FF /2`..`/5`, for example
 address field like any other memory operand, on both the candidate and the
 witness side. Direct branch targets, returns, interrupts and
 register-indirect calls have no such field.
+
+## Provider data publics (2026-11-22)
+
+A group often addresses data that another file defines. MOVETEMP.C, for example, stores
+into MOVE.C's mob height/width table. A v4 symbol of kind `dgroup-public` grounds such an
+EXTDEF through the accepted group that defines it:
+
+- **Value.** The linker resolves the EXTDEF by name to the provider's PUBDEF. Its frame is
+  DGROUP (F5 through the public's group, or F1 DGROUP), so the field is `P + o + A`. `P` is
+  the provider's placement of the segment and `o` the public's offset in its freshly
+  validated object. `A` is the consumer's encoded addend. The binding states `P + o`, and
+  the gate checks it.
+- **Provider.** The provider must be an accepted same-source group whose recipe lists the
+  name in `data_publics` with `unique: true`. That means the segment is initialized and its
+  content occurs exactly once in the original DGROUP image, the existing rule that fixes
+  `P`. The gate rechecks that window in the original image: it occurs once and holds no
+  relocated word. It also checks the provider binding's pinned hash. A placement fixed only
+  by repeated content, or an uninitialized (BSS) one, never provides.
+- **Name identity.** The name is defined exactly once among accepted components: code
+  publics, drafts, data publics and runtime member publics. The consumer must not define
+  it itself. Validation refuses any accepted data public whose name is defined twice.
+- **Addend.** `A` (unsigned, so a negative addend fails) must lie inside the public's span.
+  For a direct memory operand, the whole access `A + width` must fit. The span runs to the
+  next data public or the segment end, which bounds the declared object from above. A
+  static between two publics stays inside the earlier span.
+- **One definition per byte.** The provider's placed segment may not overlap the
+  consumer's own placed segments, or any other accepted group's placed segment. Under the
+  existing v4 aliasing rule, every linked value `P + o + A` the consumer writes must differ
+  from every other v4 symbol value. A v4 address that lies inside a provider span without
+  equalling a used value is an alias: an address without extent, not a definition. It is
+  recorded as `provider_span_aliases` debt in the recipe and revalidated. Expressing it as a
+  member of the provider public retires the debt.
+
+Fields grounded this way report support `accepted provider public`. The proof stays
+byte-level CODE_EXACT. It does not prove the original declaration, type, file boundary
+or that the provider is the original defining file. It proves only that the reconstructed
+sources, linked together, would write the original bytes. The typed-member-stride idea
+(element size from an original indexed access) is not adopted: one indexed access does not
+fix an array's bounds or the layout around it.
+
+Research runs: the provider's `promote_group.py --verify-only --stage DIR` writes
+`DIR/provider.preview.json` when the object has data publics. A consumer's verify-only
+run may cite it with `--extra-provider DIR/provider.preview.json`, before the provider is
+published. `submission.py --verify-only` passes the preview of each verified group to the
+groups listed after it. Validation never uses previews.

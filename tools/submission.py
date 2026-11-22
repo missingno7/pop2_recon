@@ -86,8 +86,14 @@ def verify(base, sub):
         extra += ["--extra-asm-review", str(base / sub["asm_review"])]
     ok = True
     for group in sub["groups"]:
-        rc, lines = _promote(base, group, extra, True)
+        stage = base / "verify" / group["name"].replace("/", "_")
+        preview = stage / "provider.preview.json"
+        preview.unlink(missing_ok=True)  # never cite a stale provider from an earlier run
+        rc, lines = _promote(base, group, extra, True, stage)
         ok &= rc == 0
+        if rc == 0 and preview.is_file():
+            # A verified group with data publics grounds later groups' dgroup-public externs.
+            extra = extra + ["--extra-provider", str(preview)]
         print(f"[{'OK' if rc == 0 else 'REFUSED'}] {group['name']}")
         for line in lines:  # per-claim CODE_EXACT rows and owner-less drafts are noise here
             if line.endswith(": CODE_EXACT") or line.endswith("(owns nothing)"):

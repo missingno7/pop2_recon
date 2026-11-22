@@ -114,6 +114,10 @@ def verify_group(recipe):
     require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
     require(all(report[key] == recipe[key] for key in ("space", "origin", "emitted_size", "frame", "drafts")),
             "Accepted group placement, extent or draft record changed")
+    # Data publics ground other groups' externals (module_gate._provider_public); old recipes have none.
+    require(report["data_publics"] == recipe.get("data_publics", []) and
+            report.get("provider_span_aliases", []) == recipe.get("provider_span_aliases", []),
+            "Accepted group data publics or provider span alias debt changed")
     return report
 
 
@@ -182,6 +186,13 @@ def _validate(run_tests=True):
                 "Fresh original relocation index coverage changed")
         check_relocation_order(recipe, report)
         accepted.append(report)
+    # A data public grounds another file's EXTDEF by name: each must be the only accepted
+    # definition of that name, as a successful link requires.
+    from module_gate import _accepted_recipes, accepted_public_names
+    recipes = _accepted_recipes()
+    counts = accepted_public_names(recipes)
+    clashes = sorted(d["name"] for _, r in recipes for d in r.get("data_publics", []) if counts[d["name"]] != 1)
+    require(not clashes, f"Accepted data publics defined more than once: {clashes}")
     # Placement debt may only shrink: every listed claim must still be owned and still need it.
     debt = {c["target_id"] for g in groups.values() for c in g["claims"] if c.get("placement_debt")}
     listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])

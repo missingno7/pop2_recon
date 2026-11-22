@@ -37,6 +37,9 @@ def main():
     parser.add_argument("--extra-asm-review", help="verify-only: worker asm-review.json (origin evidence before merge)")
     parser.add_argument("--extra-targets", help="verify-only: worker-proposed reviewed targets JSON (list or "
                         "{'functions': [...]}) for research before canonical review")
+    parser.add_argument("--extra-provider", action="append", default=[],
+                        help="verify-only: a provider.preview.json written by a provider group's own verify-only "
+                        "run; stands in for that group's canonical recipe when grounding dgroup-public symbols")
     args = parser.parse_args()
     require(re.fullmatch(CANONICAL_NAME, args.name), "Invalid canonical group name")
     if args.extra_targets:
@@ -49,6 +52,12 @@ def main():
         require(args.verify_only, "Worker ASM review evidence is for --verify-only runs only")
         origin.EXTRA_REVIEW.update(read_json(project_path(args.extra_asm_review)).get("targets", {}))
     require(not args.stage or args.verify_only, "--stage is for --verify-only runs only")
+    if args.extra_provider:
+        import module_gate
+        require(args.verify_only, "Staged providers are for --verify-only research runs only")
+        for path in args.extra_provider:
+            preview = read_json(project_path(path))
+            module_gate.EXTRA_PROVIDERS[preview["group_id"]] = preview
     require_idle(ROOT)
     oracle = Oracle.load()
     manifest_before = (ROOT / "layout/manifest.json").read_bytes()
@@ -106,6 +115,14 @@ def main():
                     f"Owner {owner['target_id']} overlaps a claim but is not itself claimed")
         migrated.append((owner, recipe))
     if args.verify_only:
+        if report["data_publics"] and binding_path:
+            # Research only: lets a consumer's verify-only run cite this staged provider (--extra-provider).
+            preview = {"kind": GROUP_KIND, "name": args.name, "group_id": group_id, "space": report["space"],
+                       "binding": binding_path.relative_to(ROOT).as_posix(), "binding_sha256": sha(binding_bytes),
+                       "claims": [{"target_id": c["target_id"], "public": c["public"]} for c in report["claims"]],
+                       "drafts": report["drafts"], "data_publics": report["data_publics"]}
+            (stage / "provider.preview.json").write_bytes(json_bytes(preview))
+            print(f"  data publics {[d['name'] for d in report['data_publics']]}; preview {stage / 'provider.preview.json'}")
         print(f"Strict group {exact_state}: {len(report['claims'])} claims at {space.name}+{report['origin']:#x}, "
               f"{report['emitted_size']} bytes; would migrate {[o['target_id'] for o, _ in migrated]}")
         return
@@ -127,6 +144,10 @@ def main():
               "space": report["space"], "origin": report["origin"], "emitted_size": report["emitted_size"],
               "frame": report["frame"],
               "claims": claims, "drafts": report["drafts"], "proof_scope": report["proof_scope"]}
+    if report["data_publics"]:
+        recipe["data_publics"] = report["data_publics"]
+    if report.get("provider_span_aliases"):
+        recipe["provider_span_aliases"] = report["provider_span_aliases"]  # recorded debt
     if binding_path:
         recipe.update(binding=canonical_binding.relative_to(ROOT).as_posix(), binding_sha256=sha(binding_bytes))
     owners = []

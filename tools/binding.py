@@ -48,9 +48,10 @@ def reachable_from_entry(oracle, entry):
     Recursive descent within the entry's 64K CS window: conditional branches and loops
     follow both edges, JMP follows its target, calls fall through, returns and indirect
     jumps stop. Result is cached per entry."""
+    # Keyed by id, holding the oracle itself: a collected test oracle's id can be reused.
     key = (id(oracle), entry)
-    if key in _REACH:
-        return _REACH[key]
+    if key in _REACH and _REACH[key][0] is oracle:
+        return _REACH[key][1]
     space_name, seg_text, off_text = entry.split(":")
     require(space_name in oracle.spaces, "Unknown v4 witness entry space")
     root = oracle.spaces[space_name]  # the entry's own space (resident or one overlay)
@@ -108,7 +109,7 @@ def reachable_from_entry(oracle, entry):
                 if op_name == "jmp":
                     break  # unconditional: direct target queued above, indirect stops
             pos += insn.size
-    _REACH[key] = seen
+    _REACH[key] = (oracle, seen)
     return seen
 
 
@@ -463,15 +464,25 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
             addend = struct.unpack_from("<H", actual, at)[0]
             # A non-zero addend must be a member whose own address S+k is independently
             # witnessed; a free addend would let the binding re-fit S (2026-11-21 review).
-            require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
-                    "v4 proves zero-addend fields or independently witnessed members only")
+            if symbol.get("kind") == "dgroup-public":
+                # An accepted provider's data public: S is fixed by the provider's unique placed
+                # content, so a member addend is not free to re-fit S; it must stay inside the
+                # public's span (to the next data public or its segment end).
+                insn = next(i for i in rows if operand_field(i, at, candidate=True))
+                direct = [o for o in insn.operands if o.type == xc.X86_OP_MEM and o.mem.base == o.mem.index == 0]
+                width = direct[0].size if fields[0] == "displacement" and direct else 1
+                require(addend + width <= symbol["span"], "Addend leaves the provider data public's span")
+            else:
+                require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
+                        "v4 proves zero-addend fields or independently witnessed members only")
             value = (symbol["offset"] + addend) & 0xFFFF
             observed = struct.unpack_from("<H", expected, at)[0]
             if value != observed:
                 differences.append(at)
             equations.append({"offset": at, "symbol": target_ref["name"], "operand": fields[0],
                               "encoded_addend": addend, "grounded_dgroup_offset": symbol["offset"],
-                              "linked_value": value, "original_value": observed, "equal": value == observed})
+                              "linked_value": value, "original_value": observed, "equal": value == observed,
+                              **({"provider": symbol["provider"]} if symbol.get("kind") == "dgroup-public" else {})})
             occupied.update((at, at+1))
             continue
         address_alias = mode == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias"
