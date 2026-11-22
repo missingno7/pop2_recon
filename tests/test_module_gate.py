@@ -40,6 +40,17 @@ BINDING = ROOT / "tests/fixtures/state_step_pair.binding.json"  # frozen pair bi
 
 
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
+
+def recipe_claims(recipe):
+    """Claims plus recorded code matches, as validation compiles a group."""
+    return [{"target_id": c["target_id"], "public": c["public"]}
+            for c in recipe["claims"] + recipe.get("code_matches", [])]
+
+
+def exact_except_matches(report, recipe):
+    matches = {c["target_id"] for c in recipe.get("code_matches", [])}
+    return all(c["exact"] for c in report["claims"] if c["target_id"] not in matches)
+
 class GroupGateTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -725,17 +736,19 @@ class V4InternalSupportTests(unittest.TestCase):
                            recipe["flags"], workdir=ROOT / "build/workers/tests/v4_internal")
         assert result.ok, result.log
         cls.obj = result.obj_bytes
-        cls.claims = [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]]
+        cls.claims = recipe_claims(recipe)
+        cls.recipe = recipe
         cls.binding = common.read_json(ROOT / recipe["binding"])
         cls.group = recipe["group_id"]
         baseline = check_group(cls.obj, cls.claims, cls.oracle, binding=cls.binding, group_id=cls.group)
-        assert baseline["exact"]
+        assert exact_except_matches(baseline, recipe)
         sites = {}
         for claim in baseline["claims"]:
             for e in claim["equations"]:
                 if e["kind"] == "DGROUP offset16" and e["encoded_addend"] == 0:
                     sites.setdefault(e["symbol"], []).append(claim["object_offset"] + e["offset"])
-        plain = {n for n, s in cls.binding["symbols"].items() if s.get("kind") == "dgroup-offset" and not s.get("members")}
+        plain = {n for n, s in cls.binding["symbols"].items()
+                 if s.get("kind") == "dgroup-offset" and not s.get("members") and not s.get("unproven")}
         cls.multi = next(n for n, at in sites.items() if len(at) >= 2 and n in plain)
         cls.single = next(n for n, at in sites.items() if len(at) == 1 and n in plain)
         cls.single_site = sites[cls.single][0]
@@ -751,7 +764,7 @@ class V4InternalSupportTests(unittest.TestCase):
 
     def test_two_equal_claimed_sites_prove_an_unwitnessed_address(self):
         report = self.check(self.stripped(self.multi))
-        self.assertTrue(report["exact"])
+        self.assertTrue(exact_except_matches(report, self.recipe))
         support = {e.get("support") for c in report["claims"] for e in c["equations"]
                    if e.get("symbol") == self.multi and e["kind"] == "DGROUP offset16"}
         self.assertEqual(support, {"internal consensus"})
@@ -767,10 +780,12 @@ class V4InternalSupportTests(unittest.TestCase):
         binding["symbols"][self.single]["unproven"] = "single original site (test)"
         report = self.check(binding)
         self.assertFalse(report["exact"])
-        matches = [c for c in report["claims"] if c["state"] == "CODE_MATCH"]
+        recorded = {c["target_id"] for c in self.recipe.get("code_matches", [])}
+        claims = [c for c in report["claims"] if c["target_id"] not in recorded]
+        matches = [c for c in claims if c["state"] == "CODE_MATCH"]
         self.assertTrue(matches)
         self.assertTrue(all(c["unproven"] == [self.single] for c in matches))
-        others = [c for c in report["claims"] if c not in matches]
+        others = [c for c in claims if c not in matches]
         self.assertTrue(others and all(c["state"] == "CODE_EXACT" for c in others))
 
     def test_unproven_far_symbol_must_name_its_reviewed_entry(self):
@@ -1052,11 +1067,11 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
         from module_gate import check_group
         binding = copy.deepcopy(self.binding)
         binding["symbols"]["TILE_HAS_FLOOR"]["witnesses"] = [self.witness(at)]
-        claims = [{"target_id": c["target_id"], "public": c["public"]} for c in self.recipe["claims"]]
-        return check_group(self.obj, claims, self.oracle, binding=binding, group_id=self.recipe["group_id"])
+        return check_group(self.obj, recipe_claims(self.recipe), self.oracle, binding=binding,
+                           group_id=self.recipe["group_id"])
 
     def test_call_in_an_unclaimed_draft_region_witnesses_the_callee(self):
-        self.assertTrue(self.check(0x39e6)["exact"])  # a draft of CTRL.C, relocation 346
+        self.assertTrue(exact_except_matches(self.check(0x39e6), self.recipe))  # a draft of CTRL.C, relocation 346
 
     def test_call_inside_a_claim_is_refused(self):
         report = self.check(0x39e6)
@@ -1120,7 +1135,7 @@ class OwnBaseBucketTests(unittest.TestCase):
         result = compile_c((ROOT / recipe["source"]).read_text(encoding="utf-8"), recipe["profile"],
                            recipe["flags"], workdir=ROOT / "build/workers/tests/own_base_buckets")
         self.assertTrue(result.ok, result.log)
-        claims = [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]]
+        claims = recipe_claims(recipe)
         if not any(c["target_id"] == "root:0b41:2264" for c in claims):
             claims.append({"target_id": "root:0b41:2264", "public": "MARK_MOB_REDRAW"})
         report = check_group(result.obj_bytes, claims, Oracle.load(),

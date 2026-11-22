@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "727a595d725641b558e056c3a9473e245c97b35c1d88def23845f62aee098d96",
+  "binding_sha256": "7be087975a55871cfd771cafd7cf75b21549f9c625fc9f406fec554c250d9a29",
   "claims": [
     {
       "fixup_count": 1,
@@ -319,6 +319,29 @@
       "target_id": "overlay-3:2344:217c"
     }
   ],
+  "code_matches": [
+    {
+      "public": "GETOPPINFOIDX",
+      "target_id": "overlay-3:2344:08b4",
+      "unproven": [
+        "OPPONENT_ROOMS+0x1"
+      ]
+    },
+    {
+      "public": "GET_GENERATOR",
+      "target_id": "overlay-3:2344:0e12",
+      "unproven": [
+        "GENERATORS+0x4"
+      ]
+    },
+    {
+      "public": "RUN_GUARD_SCRIPT",
+      "target_id": "overlay-3:2344:18f8",
+      "unproven": [
+        "ACTOR_PHASE"
+      ]
+    }
+  ],
   "drafts": [
     {
       "object_offset": 992,
@@ -327,10 +350,6 @@
     {
       "object_offset": 1980,
       "public": "REMOVEOPPFROMROOM"
-    },
-    {
-      "object_offset": 2228,
-      "public": "GETOPPINFOIDX"
     },
     {
       "object_offset": 2288,
@@ -345,10 +364,6 @@
       "public": "GENERATE_OPPONENT"
     },
     {
-      "object_offset": 3602,
-      "public": "GET_GENERATOR"
-    },
-    {
       "object_offset": 4432,
       "public": "TRANSFER_ROOM_ACTORS"
     },
@@ -359,10 +374,6 @@
     {
       "object_offset": 6190,
       "public": "UPDATE_AUTOMATIC_ACTOR"
-    },
-    {
-      "object_offset": 6392,
-      "public": "RUN_GUARD_SCRIPT"
     },
     {
       "object_offset": 6774,

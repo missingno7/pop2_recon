@@ -4237,15 +4237,12 @@
       "members": [
         {
           "offset": 40,
-          "witnesses": [
-            {
-              "bytes_hex": "a18a5e",
-              "entry": "root:107d:000c",
-              "image_offset": 67902,
-              "operand_offset": 1,
-              "space": "root"
-            }
-          ]
+          "witnesses": []
+        },
+        {
+          "offset": 42,
+          "witnesses": [],
+          "unproven": "No independent original operand witness for DGROUP offset 0x5e8c; used at root+0x10945."
         }
       ]
     },
@@ -4414,15 +4411,7 @@
       "offset": 20592,
       "entry_target_id": "root:1101:5070",
       "entry_sha256": "2c5f2c8c5582baf57fad2c4456ad649a2a30cfafac0ac39dfc86e51a375bcd7d",
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 67991,
-          "relocation_index": 1382,
-          "file_offset": 76183,
-          "bytes_hex": "9a70500111"
-        }
-      ]
+      "witnesses": []
     },
     "MOVE_PEN": {
       "kind": "far-code-entry",
@@ -4628,6 +4617,57 @@
       "entry_target_id": "root:1101:2202",
       "entry_sha256": "8a3c3732a2eed0472665f304c2247ec4e006da95f167c6412472252b308db080",
       "witnesses": []
+    },
+    "SET_PEN_COLOR": {
+      "kind": "far-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 21230,
+      "entry_target_id": "root:1101:52ee",
+      "entry_sha256": "41e4a26b769e71db14db8d74112d3bd3707829717c05ed9c604a73ff276f2bab",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 21622,
+          "bytes_hex": "9aee520111",
+          "file_offset": 29814,
+          "relocation_index": 612
+        }
+      ]
+    },
+    "EXCHANGE_CONTEXT_ATTRIBUTE": {
+      "kind": "far-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 20426,
+      "entry_target_id": "root:1101:4fca",
+      "entry_sha256": "cd1e308d4f1b4e4a89185dcf8378dfebef88ec0005f336fdedd2440375016606",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 90890,
+          "bytes_hex": "9aca4f0111",
+          "file_offset": 99082,
+          "relocation_index": 1654
+        }
+      ]
+    },
+    "_itoa": {
+      "kind": "far-code-entry",
+      "space": "root",
+      "segment": 8166,
+      "offset": 5830,
+      "entry_target_id": "root:1fe6:16c6",
+      "entry_sha256": "2354c341b8ba2aebf5f9fafa88bb087d79a522ab5ff3142d913e4d56918c003a",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 21325,
+          "bytes_hex": "9ac616e61f",
+          "file_offset": 29517,
+          "relocation_index": 673
+        }
+      ]
     }
   },
   "placements": {

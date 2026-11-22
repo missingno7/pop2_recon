@@ -498,7 +498,15 @@
       "space": "root",
       "segment": 716,
       "offset": 1990,
-      "witnesses": [],
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 2876,
+          "bytes_hex": "9ac607cc02",
+          "file_offset": 11068,
+          "relocation_index": 100
+        }
+      ],
       "entry_target_id": "root:02cc:07c6",
       "entry_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17"
     },
@@ -507,7 +515,15 @@
       "space": "root",
       "segment": 2881,
       "offset": 9564,
-      "witnesses": [],
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 25598,
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 33790,
+          "relocation_index": 573
+        }
+      ],
       "entry_target_id": "root:0b41:255c",
       "entry_sha256": "a172ccc7edf065a36a439c9dc76f19d4ece71a5d072cf16ca2d3c3fd7afba04e"
     },
@@ -573,6 +589,41 @@
       "witnesses": [],
       "entry_target_id": "overlay-16:2dc2:0000",
       "entry_sha256": "1de4f2413c86e4d083472e20d349a8ac638527b89319aceb7beb4e2a95bdd069"
+    },
+    "FRONT_TABLE_SEGMENT": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 10308,
+      "witnesses": [],
+      "unproven": "No independent original operand witness for DGROUP offset 0x2844; used at overlay-8+0xac2."
+    },
+    "LAST_FRONT_TABLE_SLOT": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 25162,
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 6354,
+          "bytes_hex": "8b364a62",
+          "operand_offset": 2,
+          "entry": "root:0169:023a"
+        }
+      ]
+    },
+    "HIDDEN_FLAW_COLUMN": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 27855,
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 6000,
+          "bytes_hex": "a0cf6c",
+          "operand_offset": 1,
+          "entry": "root:0169:0006"
+        }
+      ]
     }
   },
   "fixups": [

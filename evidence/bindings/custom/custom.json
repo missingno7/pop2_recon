@@ -3974,7 +3974,15 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 960,
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 25276,
+          "bytes_hex": "b8c003",
+          "operand_offset": 1,
+          "entry": "root:052d:0fc4"
+        }
+      ]
     },
     "SAVE_SPECIAL_PEEL": {
       "entry_sha256": "50007c46c79fcd7ff423d262409636a8c3f172bb4fe63b2687b3e81a06b4415d",
@@ -4155,6 +4163,53 @@
           "kind": "far_call"
         }
       ]
+    },
+    "CUSTOM_ABOVE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 25254,
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 64028,
+          "bytes_hex": "b8a662",
+          "operand_offset": 1,
+          "entry": "root:0f77:01b0"
+        }
+      ],
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "space": "root",
+              "image_offset": 64032,
+              "bytes_hex": "b8a762",
+              "operand_offset": 1,
+              "entry": "root:0f77:01b0"
+            }
+          ]
+        },
+        {
+          "offset": 3,
+          "witnesses": [],
+          "unproven": "No independent original operand witness for DGROUP offset 0x62a9; used at root+0x4bb7."
+        }
+      ]
+    },
+    "DEFAULT_TEMPLATE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 862,
+      "witnesses": [],
+      "unproven": "No independent original operand witness for DGROUP offset 0x035e; used at root+0x5186."
+    },
+    "TEMPLATE_TABLE": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 890,
+      "witnesses": [],
+      "unproven": "No independent original operand witness for DGROUP offset 0x037a; used at root+0x5178."
     }
   },
   "target_id": "group:custom/custom",

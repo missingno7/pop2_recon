@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "22bd93a24b60542da2174fb332833879aaafc1e3296009a6094d560670cbb13a",
+  "binding_sha256": "9dfe76252cd83c481a78befc562e7b61b31417a3b336ab267ee1a3270c740a21",
   "claims": [
     {
       "fixup_count": 12,
@@ -140,6 +140,15 @@
       "target_id": "root:107d:0804"
     }
   ],
+  "code_matches": [
+    {
+      "public": "DRAW_RULER_MARKS",
+      "target_id": "root:107d:015a",
+      "unproven": [
+        "SCREEN_CONTEXT+0x2a"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 4418,
@@ -218,10 +227,6 @@
     {
       "object_offset": 146,
       "public": "PLOT_EDGE_OFFSET"
-    },
-    {
-      "object_offset": 334,
-      "public": "DRAW_RULER_MARKS"
     },
     {
       "object_offset": 820,

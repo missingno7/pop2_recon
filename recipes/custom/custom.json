@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custom/custom.json",
-  "binding_sha256": "64e319258e938b75ba39d576e562830b2f54a1e7070cac342f00d9f2781f58c3",
+  "binding_sha256": "532e357cc6362ccab481cf6e132ecb7c8bf22c0ed7035b2773ca5904c5a8f8d1",
   "claims": [
     {
       "fixup_count": 1,
@@ -142,18 +142,27 @@
       "target_id": "root:04a6:0784"
     }
   ],
-  "drafts": [
+  "code_matches": [
     {
-      "object_offset": 302,
-      "public": "GETCUSTOMABOVEARY"
+      "public": "GETCUSTOMABOVEARY",
+      "target_id": "root:04a6:0134",
+      "unproven": [
+        "CUSTOM_ABOVE+0x3"
+      ]
     },
+    {
+      "public": "SETCUSTOMROOMTEMPLATE",
+      "target_id": "root:04a6:0706",
+      "unproven": [
+        "DEFAULT_TEMPLATE",
+        "TEMPLATE_TABLE"
+      ]
+    }
+  ],
+  "drafts": [
     {
       "object_offset": 900,
       "public": "LOADCUSTOMROOMSHAPES"
-    },
-    {
-      "object_offset": 1792,
-      "public": "SETCUSTOMROOMTEMPLATE"
     }
   ],
   "emitted_size": 2168,

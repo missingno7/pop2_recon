@@ -25476,7 +25476,15 @@
       "offset": 4830,
       "segment": 0,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 61419,
+          "bytes_hex": "9ade120000",
+          "file_offset": 69611,
+          "relocation_index": 1210
+        }
+      ]
     },
     "APPLY_INPUT": {
       "entry_sha256": "05b292aed980e0d056e78c62e5e0df130a95368a821d7cd50b816142e795c897",
@@ -26048,18 +26056,10 @@
       ]
     },
     "GAMEPLAYRECT": {
+      "kind": "dgroup-public",
       "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2558,
-      "witnesses": [
-        {
-          "bytes_hex": "b8fe09",
-          "entry": "overlay-2:238a:06c2",
-          "image_offset": 3252,
-          "operand_offset": 1,
-          "space": "overlay-2"
-        }
-      ]
+      "provider": "group:top/top",
+      "offset": 2558
     },
     "GRAB_DELAY": {
       "group": "DGROUP",
@@ -26395,7 +26395,15 @@
       "offset": 432,
       "segment": 3543,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 1710,
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 9902,
+          "relocation_index": 68
+        }
+      ]
     },
     "PLAY_STEP": {
       "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
@@ -26549,7 +26557,15 @@
       "offset": 8912,
       "segment": 4353,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 20146,
+          "bytes_hex": "9ad0220111",
+          "file_offset": 28338,
+          "relocation_index": 408
+        }
+      ]
     },
     "RESTORE_RESOURCE": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
@@ -26558,7 +26574,15 @@
       "offset": 9620,
       "segment": 4353,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 20578,
+          "bytes_hex": "9a94250111",
+          "file_offset": 28770,
+          "relocation_index": 426
+        }
+      ]
     },
     "RESTRICTED_STEP": {
       "group": "DGROUP",
@@ -26581,7 +26605,15 @@
       "offset": 9058,
       "segment": 4353,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 19477,
+          "bytes_hex": "9a62230111",
+          "file_offset": 27669,
+          "relocation_index": 421
+        }
+      ]
     },
     "ROOM_KINDS": {
       "group": "DGROUP",
@@ -26716,7 +26748,15 @@
       "offset": 4612,
       "segment": 11326,
       "space": "overlay-12",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 58302,
+          "bytes_hex": "9a04123e2c",
+          "file_offset": 66494,
+          "relocation_index": 1128
+        }
+      ]
     },
     "SIGNFLAG": {
       "group": "DGROUP",
@@ -27026,7 +27066,15 @@
       "offset": 144,
       "segment": 8033,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 37,
+          "bytes_hex": "9a9000611f",
+          "file_offset": 8229,
+          "relocation_index": 4
+        }
+      ]
     },
     "TILE_BLOCKS_MOVEMENT": {
       "entry_sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
@@ -27110,6 +27158,16 @@
           "space": "root"
         }
       ]
+    },
+    "PALACE_GRAB_TEST": {
+      "kind": "overlay-code-entry",
+      "space": "overlay-4",
+      "segment": 10703,
+      "offset": 2604,
+      "entry_target_id": "overlay-4:29cf:0a2c",
+      "entry_sha256": "a48c0020b11f8160b79f17337cd0f305e2f26e587ccc438392faa19cafd23428",
+      "witnesses": [],
+      "unproven": "overlay-4:29cf:0a2c: Far callee has no independent original CALL witness or accepted exact entry; original relocated call sites fall within the claimed extents."
     }
   },
   "target_id": "group:ctrl/ctrl",

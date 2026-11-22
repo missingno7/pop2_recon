@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "b87931c0e136a5538de49971673ce81ad624a4b82cb1ffae2e1c58d1b1901a46",
+  "binding_sha256": "03eaf4cdaea63eb4b564af88c9cc1c14eeae2af1dccbeed2eea1cc2ad9897f51",
   "claims": [
     {
       "fixup_count": 13,
@@ -530,6 +530,31 @@
       "target_id": "root:0b41:1e76"
     }
   ],
+  "code_matches": [
+    {
+      "public": "ANIMATE_MOB",
+      "target_id": "root:0b41:1b00",
+      "unproven": [
+        "ANIMATE_MOB_KIND_6"
+      ]
+    },
+    {
+      "public": "ADD_MOB_TO_FRAME",
+      "target_id": "root:0b41:1ffc",
+      "unproven": [
+        "ADD_MOB_KIND_12"
+      ]
+    },
+    {
+      "public": "ADD_MOB_OBJ",
+      "target_id": "root:0b41:22aa",
+      "unproven": [
+        "MOB_DRAW_LIST+0x14",
+        "MOB_DRAW_LIST+0x16",
+        "MOB_DRAW_LIST+0x5"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 2182,
@@ -594,24 +619,12 @@
       "public": "ANIM_MOBS"
     },
     {
-      "object_offset": 6900,
-      "public": "ANIMATE_MOB"
-    },
-    {
       "object_offset": 7266,
       "public": "MAKE_RUBBLE"
     },
     {
-      "object_offset": 8176,
-      "public": "ADD_MOB_TO_FRAME"
-    },
-    {
       "object_offset": 8262,
       "public": "ADD_LOOSE_TO_FRAME"
-    },
-    {
-      "object_offset": 8862,
-      "public": "ADD_MOB_OBJ"
     },
     {
       "object_offset": 9614,
