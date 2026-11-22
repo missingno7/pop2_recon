@@ -68931,6 +68931,385 @@
       "abi": "Far Pascal stack ABI, RETF 10.",
       "original_name": null,
       "semantic_name_hypothesis": "composite_vga_bitmap"
+    },
+    {
+      "id": "root:1101:c142",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49474,
+      "size": 39,
+      "sha256": "13b1f43b46466c654e3a80e0b571f01e02a1230e04ef26ff57acfaf1da365230",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "set_context_origin",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "PUSH CS at b787 and E8 b7 09 at b788 enter c142 from the framed routine b75a. That caller pushes DI (near context) followed by words from BP+8 and BP+6.",
+        "Earlier c126 returns at c13f through c141. All c142 instructions decode through its RETF 6 at c166..c168. The caller-attested c16a begins after the unexecuted zero at c169.",
+        "No original MZ relocation in the extent."
+      ],
+      "abi": "Far Pascal (near context, horizontal word, vertical word), RETF 6.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 116632,
+          "file_offset": 124824,
+          "pushed_cs_site": 116631,
+          "relocated_segment_site": null
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "POPs BP directly after the Pascal call at c162, without MOV SP,BP, and returns DX:AX in place.",
+        "The paired inline subtractions construct deltas for the same input and output pointer."
+      ]
+    },
+    {
+      "id": "root:1101:c1a6",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49574,
+      "size": 221,
+      "sha256": "149ca8ebcadb86dada746cc26ef14e58bc784ca0497f8b4b394f3bab9befd345",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "scroll_context_rectangle",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The E8 at 9b49 is preceded by PUSH CS and supplies two DS:offset rectangle pointers around two signed displacement words.",
+        "The preceding c17c returns through c1a5. Branches in c1a6 stay within the extent; c280 jumps back to c1ed for the common return. The zero at c283 is outside that CFG, and a new BP frame begins at c284.",
+        "No original MZ relocation in the extent."
+      ],
+      "abi": "Far Pascal (far source rectangle, horizontal and vertical words, far exposed output), RETF 12.",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 109401,
+          "file_offset": 117593,
+          "pushed_cs_site": 109400,
+          "relocated_segment_site": null
+        }
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "c1a9 ADD SP,-24, c1b5 LES AX, c1db TEST AX,AX and c1eb REP STOSW."
+      ]
+    },
+    {
+      "id": "root:1101:c284",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49796,
+      "size": 50,
+      "sha256": "02785599b147c9c04d9805a2b50783be1ab0a3a9f7f8a0a9727e74bf5c8d8174",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "semantic_name_hypothesis": "check_context_cursor_overlap",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Independent BP frame after c280 JMP c1ed and the unexecuted zero at c283. None of the preceding routine\u2019s branches targets this extent.",
+        "Linear decode reaches RETF 4 at c2b3..c2b5. The separately reviewed C text-handle routine root:1000:d2c6 starts at this exact end.",
+        "No original MZ relocation or directly witnessed incoming call."
+      ],
+      "abi": "Far Pascal, one far rectangle pointer, RETF 4.",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_status": "Original DOS byte and ABI review",
+      "classification_evidence": [
+        "c287 ADD SP,-8, c28f LES AX, and c2ad plain CALL NEAR to the AX:ES register helper 06cc."
+      ]
+    },
+    {
+      "id": "root:0e56:01a8",
+      "space": "root",
+      "segment": 3670,
+      "offset": 424,
+      "size": 288,
+      "sha256": "471ec196e581cd1244047c7a30bf691d2e08e4b64e97bd20f06c5c9b7e40ed28",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal void(void); BP frame, RETF without stack arguments",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original 0e56:0130 PUSH CS / 0131 CALL reaches the 01a8 BP prologue from RestartLevel.",
+        "Linear decode ends in RETF at 02c6 and alignment NOP at 02c7. The distinct finish-start entry at 02c8 is a near callee of 02ae."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 59025,
+          "file_offset": 67217,
+          "pushed_cs_site": 59024
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and caller",
+      "classification_evidence": [
+        "In TOP's anchored C frame; initializes character placement and runs the starting sequence. FM Towns StartKid pair is probable by order."
+      ],
+      "semantic_name_hypothesis": "start_kid"
+    },
+    {
+      "id": "root:0e56:05d8",
+      "space": "root",
+      "segment": 3670,
+      "offset": 1496,
+      "size": 170,
+      "sha256": "2e5f68b215b6840a3ab7b4fddca4aed73f3c1d01ffe0cfe65ac6a784e94647d9",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far, no stack arguments; RETF, AX returned from SI and caller consumes AL",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original 0e56:0510 PUSH CS / 0511 CALL reaches 05d8 (PUSH SI); the caller tests the result.",
+        "Original conditional paths return at 0667 and 0680. The NOP at 0681 precedes the distinct BP-frame entry at 0682."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 60017,
+          "file_offset": 68209,
+          "pushed_cs_site": 60016
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and caller",
+      "classification_evidence": [
+        "In TOP's anchored C frame; dispatches floor, character, sound and clock updates for one frame. FM Towns NextFrame pair is probable by order."
+      ],
+      "semantic_name_hypothesis": "next_frame"
+    },
+    {
+      "id": "root:0e56:0682",
+      "space": "root",
+      "segment": 3670,
+      "offset": 1666,
+      "size": 324,
+      "sha256": "78816241df595f742ac87fc1f9c661309ac54033956933ae6cee1e9d0ccd062d",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far, no stack arguments; BP frame and AX return, RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original 0e56:0603 PUSH CS / 0604 CALL in next_frame reaches the BP prologue at 0682 and consumes AX.",
+        "The two character-control paths converge on the state copy and AX result, with RETF at 07c4 and an alignment NOP at 07c5. The distinct BP prologue at 07c6 is also reached by next_frame's near calls."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 60260,
+          "file_offset": 68452,
+          "pushed_cs_site": 60259
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and caller",
+      "classification_evidence": [
+        "In TOP's anchored C frame; updates player controls, collisions and the Kid snapshot. FM Towns DoKid pair is probable by order."
+      ],
+      "semantic_name_hypothesis": "run_kid"
+    },
+    {
+      "id": "root:0e56:09e0",
+      "space": "root",
+      "segment": 3670,
+      "offset": 2528,
+      "size": 368,
+      "sha256": "6f8c8cf82e16e6bab37349c15011704c21197d0c89bfaa9e4149cffaa02a7a86",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far, no stack arguments; RETF, AX returned from SI and caller consumes AL",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original 0e56:0598 PUSH CS / 0599 CALL reaches PUSH DI/SI at 09e0; caller tests the returned result.",
+        "Linear decode includes early RETFs at 0ace and 0adc and the final RETF at 0b4f, immediately before a distinct BP prologue at 0b50."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 60153,
+          "file_offset": 68345,
+          "pushed_cs_site": 60152
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and caller",
+      "classification_evidence": [
+        "In TOP's anchored C frame; increments the frame counter and handles frame drawing and transitions. FM Towns FrameAdv pair is probable by order."
+      ],
+      "semantic_name_hypothesis": "advance_frame"
+    },
+    {
+      "id": "root:0e56:0f72",
+      "space": "root",
+      "segment": 3670,
+      "offset": 3954,
+      "size": 40,
+      "sha256": "f60920a01baf90b2a7f574c111894a79803d876b97f4c2d1a7f01bb36dd28d57",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal void(void); RETF without stack arguments",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original 0e56:0103 PUSH CS / 0104 CALL reaches the first stage-set test at 0f72 from RestartLevel.",
+        "The preceding routine ends in RETF at 0f71. The split exits are RETF at 0f8a and 0f99, before the distinct BP prologue at 0f9a."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 58980,
+          "file_offset": 67172,
+          "pushed_cs_site": 58979
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and caller",
+      "classification_evidence": [
+        "In TOP's anchored C frame; selects level-specific initialization by stage-set tests and direct overlay calls. FM Towns InitLevelSpecific pair is probable by order."
+      ],
+      "semantic_name_hypothesis": "init_level_specific"
+    },
+    {
+      "id": "root:0e56:118c",
+      "space": "root",
+      "segment": 3670,
+      "offset": 4492,
+      "size": 42,
+      "sha256": "78a4e9528d25436c74a09066d19b90f1599c0c38bf44bf8181aac63192a6a17d",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal void(void); BP frame with far pointer local, RETF without stack arguments",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Original 0e56:062a PUSH CS / 062b CALL and 0674 PUSH CS / 0675 CALL both reach the 118c BP prologue.",
+        "Null-check and BP-local indirect far call paths converge at RETF 11b4; the alignment NOP is at 11b5 and the reviewed reset_level starts at 11b6."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 60299,
+          "file_offset": 68491,
+          "pushed_cs_site": 60298
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 60373,
+          "file_offset": 68565,
+          "pushed_cs_site": 60372
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "In TOP's anchored C frame; scales stage set by four, loads a far callback, and calls it only if non-null."
+      ],
+      "semantic_name_hypothesis": "call_level_frame_proc"
+    },
+    {
+      "abi": "Far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS; CALL near at 1a7c targets 1b00. Entry window is 8be55dcb90 / a0c7672ae43d.",
+        "The original CS:[BX+1b12] switch owns the thirteen words through 1b2b. Every word names a decoded instruction after the table.",
+        "All direct branches stay inside. Final RETF at 1b6b precedes successor bytes 558bec83ec02."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61068,
+          "image_offset": 52876,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 52875,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches mobile motion by kind; loose-floor cases also check crush effects."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1b00",
+      "offset": 6912,
+      "segment": 2881,
+      "sha256": "3c1b81c5264a281f5a7d3fa00654fde5a122ea73c62c5cf7157d37ba554f2061",
+      "size": 108,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS; CALL near at 1fd6 targets 1ffc. Entry window is 5f8be55dcb / a0c7672ae43d.",
+        "The original CS:[BX+200e] switch owns the thirteen words through 2027. Every word names a decoded instruction after the table.",
+        "All direct branches stay inside. Final RETF at 2051 precedes successor bytes 558bec83ec10."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 62438,
+          "image_offset": 54246,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 54245,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Dispatches mobile draw-record preparation by kind, including loose-floor, dart and spikes cases."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1ffc",
+      "offset": 8188,
+      "segment": 2881,
+      "sha256": "6666a67dd61f4b1b6112bb446a3980c47f19bf3a385be4a36d29db41324547e7",
+      "size": 86,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), RETF",
+      "boundary_evidence": [
+        "Original same-frame PUSH CS; CALL near at 1b3c targets 2310. Entry window is e55dca0200 / 558bec83ec02.",
+        "All direct branches stay inside. Final RETF at 23ab precedes successor bytes 558bec83ec02."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61260,
+          "image_offset": 53068,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53067,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks the loaded player, then visible and unloaded guards for falling-object collisions."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:2310",
+      "offset": 8976,
+      "segment": 2881,
+      "sha256": "c06cd50c4c638482ea495ece632e5661f207a8576e26d4639dc761c5b239521d",
+      "size": 156,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

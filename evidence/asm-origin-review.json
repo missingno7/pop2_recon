@@ -2971,6 +2971,44 @@
         "4ed8..4ee4 sets DS to CS and ES to SS for REP MOVSW, then restores DS.",
         "4f07 has a plain near call to the mouse initializer and the epilogue restores SI/DI directly before BP."
       ]
+    },
+    "root:1101:c0ec": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "Original c0ef LEA AX,[BP+6] followed by PUSH DS at c0f2. MSC uses PUSH SS for a far pointer into a BP stack frame.",
+        "c0fc POP BP directly follows the Pascal call at c0f9, without MOV SP,BP."
+      ]
+    },
+    "root:1101:c126": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "Original c129 LES AX,[BP+6] loads the offset into AX. No accepted MSC CODE_EXACT component in the calibration loads a far pointer with LES AX.",
+        "The Pascal call at c13b is followed directly by POP BP at c13e."
+      ]
+    },
+    "root:1101:c142": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "POPs BP directly after the Pascal call at c162, without MOV SP,BP, and returns DX:AX in place.",
+        "The paired inline subtractions construct deltas for the same input and output pointer."
+      ]
+    },
+    "root:1101:c1a6": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "c1a9 ADD SP,-24, c1b5 LES AX, c1db TEST AX,AX and c1eb REP STOSW."
+      ]
+    },
+    "root:1101:c284": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "c287 ADD SP,-8, c28f LES AX, and c2ad plain CALL NEAR to the AX:ES register helper 06cc."
+      ]
     }
   },
   "summary": {
