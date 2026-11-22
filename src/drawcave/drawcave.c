@@ -60,13 +60,13 @@ extern int supports_cave_floor(Byte);
 extern DrawRect *ComputeOffsetCellRect(DrawRect *, const DrawRect *, int, int);
 extern int EncloseRect(const DrawRect far *, const DrawRect far *);
 static struct {
-    int top_edge_x[8];
+    int top_edge_x[7];
     BubblePosition bubble_positions[11];
     int dart_images[7];
     int loose_odd[12];
     int loose_even[12];
 } cave_images = {
-    {0, 2, 5, 4, 6, 5, 20, 0},
+    {2, 5, 4, 6, 5, 20, 0},
     {
         {160, 17, -6}, {153, 18, -7}, {154, 22, -7}, {153, 20, -6},
         {155, 22, -6}, {156, 23, -7}, {157, 26, -6}, {158, 28, -6},
@@ -713,7 +713,7 @@ void DrawCaveTopEdge(DrawCell *cell)
     if (cell->column == redraw_column && cell->row == redraw_row) {
         image = (cell->modifier & 0x3800) >> 11;
         if (image) {
-            shape_offsets->top_edge_x = cave_images.top_edge_x[image];
+            shape_offsets->top_edge_x = cave_images.top_edge_x[image - 1];
             image += 91;
             CheckBGSetImg(image);
             height = lock_image(background_images[image].handle);
