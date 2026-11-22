@@ -69,5 +69,25 @@ class ReplacementGuardTests(unittest.TestCase):
                 submission.load(path)
 
 
+class DataOnlyGroupTests(unittest.TestCase):
+    def test_data_group_runs_promote_data_without_claims_or_research_flags(self):
+        from unittest.mock import patch
+        seen = {}
+
+        def fake_run(cmd, **kwargs):
+            seen["cmd"] = cmd
+            return type("R", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+        group = {"name": "tables/tables", "kind": "data", "source": "tables.c", "profile": "msc600a_bound",
+                 "flags": ["/c", "/AM"]}
+        with patch.object(submission.subprocess, "run", fake_run):
+            submission._promote(Path("/w"), group, ["--extra-targets", "x.json"], True, Path("/w/stage"))
+        cmd = seen["cmd"]
+        self.assertTrue(cmd[1].endswith("promote_data.py"))
+        self.assertNotIn("--claim", cmd)
+        self.assertNotIn("--extra-targets", cmd)
+        self.assertIn("--verify-only", cmd)
+        with self.assertRaises(ValueError):
+            submission._promote(Path("/w"), dict(group, claims=["root:0000:0010=F"]), [], True)
+
 if __name__ == "__main__":
     unittest.main()
