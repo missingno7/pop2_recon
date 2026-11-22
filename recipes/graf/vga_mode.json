@@ -1,11 +1,31 @@
 {
   "binding": "evidence/bindings/graf/vga_mode.json",
-  "binding_sha256": "d760c401281470f70273e509ea0157aea6b67f427150ec97559a713174816f97",
+  "binding_sha256": "93f1336eef5917cd7fcc0500a99a98ae381e77da5d241ce952098f45fffbe6f8",
   "claims": [
+    {
+      "fixup_count": 10,
+      "public": "COPY_VGA_RECTANGLE",
+      "target_id": "root:1101:66b6"
+    },
     {
       "fixup_count": 0,
       "public": "PROBE_VGA",
       "target_id": "root:1101:68b7"
+    },
+    {
+      "fixup_count": 8,
+      "public": "INITIALIZE_VGA",
+      "relocation_indices": [
+        1556
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:68e3"
+    },
+    {
+      "fixup_count": 15,
+      "public": "DRAW_VGA_LINE",
+      "target_id": "root:1101:6940"
     },
     {
       "fixup_count": 0,
@@ -18,9 +38,24 @@
       "target_id": "root:1101:6af5"
     },
     {
+      "fixup_count": 5,
+      "public": "DRAW_VGA_BITMAP",
+      "target_id": "root:1101:6b24"
+    },
+    {
       "fixup_count": 0,
       "public": "VGA_MODE_EXIT",
       "target_id": "root:1101:6c81"
+    },
+    {
+      "fixup_count": 5,
+      "public": "FILL_VGA_RECTANGLE",
+      "target_id": "root:1101:6c82"
+    },
+    {
+      "fixup_count": 12,
+      "public": "COMPOSITE_VGA_BITMAP",
+      "target_id": "root:1101:6d60"
     }
   ],
   "drafts": [
@@ -33,48 +68,24 @@
       "public": "VGA_PALETTE"
     },
     {
-      "object_offset": 78,
-      "public": "COPY_VGA_RECTANGLE"
-    },
-    {
       "object_offset": 575,
       "public": "VGA_COPY_DISPATCH"
-    },
-    {
-      "object_offset": 635,
-      "public": "INITIALIZE_VGA"
     },
     {
       "object_offset": 714,
       "public": "VGA_SURFACE_GEOMETRY"
     },
     {
-      "object_offset": 728,
-      "public": "DRAW_VGA_LINE"
-    },
-    {
       "object_offset": 1196,
       "public": "VGA_LINE_DISPATCH"
-    },
-    {
-      "object_offset": 1212,
-      "public": "DRAW_VGA_BITMAP"
     },
     {
       "object_offset": 1545,
       "public": "VGA_BITMAP_DISPATCH"
     },
     {
-      "object_offset": 1562,
-      "public": "FILL_VGA_RECTANGLE"
-    },
-    {
       "object_offset": 1768,
       "public": "VGA_FILL_DISPATCH"
-    },
-    {
-      "object_offset": 1784,
-      "public": "COMPOSITE_VGA_BITMAP"
     },
     {
       "object_offset": 2214,
@@ -83,7 +94,7 @@
   ],
   "emitted_size": 2230,
   "flags": [],
-  "frame": null,
+  "frame": 4353,
   "group_id": "group:graf/vga_mode",
   "kind": "same_source_group",
   "language": "asm",

@@ -1,11 +1,31 @@
 {
   "binding": "evidence/bindings/graf/banked16_mode.json",
-  "binding_sha256": "209136f17da352ef6d1ee1e9a868629cf2a387c5fc4ce7f79bd9a50782cd2862",
+  "binding_sha256": "3cabd8367613e7d80163898a994dc5418f69a44caf10f15cc910bf501a35724d",
   "claims": [
+    {
+      "fixup_count": 16,
+      "public": "COPY_BANKED16_RECTANGLE",
+      "target_id": "root:1101:5473"
+    },
     {
       "fixup_count": 0,
       "public": "PROBE_BANKED16",
       "target_id": "root:1101:593d"
+    },
+    {
+      "fixup_count": 9,
+      "public": "INITIALIZE_BANKED16",
+      "relocation_indices": [
+        1555
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:5958"
+    },
+    {
+      "fixup_count": 15,
+      "public": "DRAW_BANKED16_LINE",
+      "target_id": "root:1101:5a10"
     },
     {
       "fixup_count": 0,
@@ -18,9 +38,24 @@
       "target_id": "root:1101:5c14"
     },
     {
+      "fixup_count": 8,
+      "public": "DRAW_BANKED16_BITMAP",
+      "target_id": "root:1101:5c43"
+    },
+    {
       "fixup_count": 0,
       "public": "BANKED16_MODE_EXIT",
       "target_id": "root:1101:5e79"
+    },
+    {
+      "fixup_count": 6,
+      "public": "FILL_BANKED16_RECTANGLE",
+      "target_id": "root:1101:5e7a"
+    },
+    {
+      "fixup_count": 16,
+      "public": "COMPOSITE_BANKED16_BITMAP",
+      "target_id": "root:1101:5ffa"
     }
   ],
   "drafts": [
@@ -33,48 +68,24 @@
       "public": "BANKED16_MODE_DESCRIPTOR"
     },
     {
-      "object_offset": 47,
-      "public": "COPY_BANKED16_RECTANGLE"
-    },
-    {
       "object_offset": 1249,
       "public": "BANKED16_COPY_DISPATCH"
-    },
-    {
-      "object_offset": 1300,
-      "public": "INITIALIZE_BANKED16"
     },
     {
       "object_offset": 1470,
       "public": "BANKED16_SURFACE_GEOMETRY"
     },
     {
-      "object_offset": 1484,
-      "public": "DRAW_BANKED16_LINE"
-    },
-    {
       "object_offset": 2031,
       "public": "BANKED16_LINE_DISPATCH"
-    },
-    {
-      "object_offset": 2047,
-      "public": "DRAW_BANKED16_BITMAP"
     },
     {
       "object_offset": 2597,
       "public": "BANKED16_BITMAP_DISPATCH"
     },
     {
-      "object_offset": 2614,
-      "public": "FILL_BANKED16_RECTANGLE"
-    },
-    {
       "object_offset": 2982,
       "public": "BANKED16_FILL_DISPATCH"
-    },
-    {
-      "object_offset": 2998,
-      "public": "COMPOSITE_BANKED16_BITMAP"
     },
     {
       "object_offset": 3911,
@@ -91,7 +102,7 @@
   ],
   "emitted_size": 4184,
   "flags": [],
-  "frame": null,
+  "frame": 4353,
   "group_id": "group:graf/banked16_mode",
   "kind": "same_source_group",
   "language": "asm",

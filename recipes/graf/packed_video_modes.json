@@ -1,7 +1,27 @@
 {
   "binding": "evidence/bindings/graf/packed_video_modes.json",
-  "binding_sha256": "07af2d0f7ed8f9591652798455f6aab0953187f3c24b71e1c8d1ddbce069a010",
+  "binding_sha256": "210875f98e5af8371a1703e698456b5b478a19b7e286aecda4d85762ef2fc44a",
   "claims": [
+    {
+      "fixup_count": 16,
+      "public": "COPY_PACKED_RECTANGLE",
+      "target_id": "root:1101:3a72"
+    },
+    {
+      "fixup_count": 2,
+      "public": "PROBE_CGA",
+      "target_id": "root:1101:3f55"
+    },
+    {
+      "fixup_count": 7,
+      "public": "INITIALIZE_CGA",
+      "relocation_indices": [
+        1552
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:3f79"
+    },
     {
       "fixup_count": 0,
       "public": "SCALE_LINE_CLIP_DELTA",
@@ -13,14 +33,39 @@
       "target_id": "root:1101:4215"
     },
     {
+      "fixup_count": 11,
+      "public": "DRAW_PACKED_BITMAP",
+      "target_id": "root:1101:4244"
+    },
+    {
       "fixup_count": 0,
       "public": "CGA_MODE_EXIT",
       "target_id": "root:1101:44c6"
     },
     {
+      "fixup_count": 10,
+      "public": "FILL_PACKED_RECTANGLE",
+      "target_id": "root:1101:44c7"
+    },
+    {
+      "fixup_count": 16,
+      "public": "COMPOSITE_PACKED_BITMAP",
+      "target_id": "root:1101:469b"
+    },
+    {
       "fixup_count": 1,
       "public": "PROBE_HERCULES",
       "target_id": "root:1101:4b58"
+    },
+    {
+      "fixup_count": 8,
+      "public": "INITIALIZE_HERCULES",
+      "relocation_indices": [
+        1553
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:4b79"
     },
     {
       "fixup_count": 0,
@@ -52,20 +97,8 @@
       "public": "PACKED_PATTERN_BANK"
     },
     {
-      "object_offset": 124,
-      "public": "COPY_PACKED_RECTANGLE"
-    },
-    {
       "object_offset": 1351,
       "public": "COPY_ROP_FORWARD"
-    },
-    {
-      "object_offset": 1375,
-      "public": "PROBE_CGA"
-    },
-    {
-      "object_offset": 1411,
-      "public": "INITIALIZE_CGA"
     },
     {
       "object_offset": 1489,
@@ -80,32 +113,16 @@
       "public": "LINE_ROP_DISPATCH"
     },
     {
-      "object_offset": 2126,
-      "public": "DRAW_PACKED_BITMAP"
-    },
-    {
       "object_offset": 2752,
       "public": "BITMAP_ROP_DISPATCH"
-    },
-    {
-      "object_offset": 2769,
-      "public": "FILL_PACKED_RECTANGLE"
     },
     {
       "object_offset": 3221,
       "public": "FILL_ROP_DISPATCH"
     },
     {
-      "object_offset": 3237,
-      "public": "COMPOSITE_PACKED_BITMAP"
-    },
-    {
       "object_offset": 4178,
       "public": "TRANSPARENT_PAIR_MASKS"
-    },
-    {
-      "object_offset": 4483,
-      "public": "INITIALIZE_HERCULES"
     },
     {
       "object_offset": 4608,
@@ -118,7 +135,7 @@
   ],
   "emitted_size": 4680,
   "flags": [],
-  "frame": null,
+  "frame": 4353,
   "group_id": "group:graf/packed_video_modes",
   "kind": "same_source_group",
   "language": "asm",
