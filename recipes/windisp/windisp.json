@@ -1,7 +1,17 @@
 {
   "binding": "evidence/bindings/windisp/windisp.json",
-  "binding_sha256": "4b863bb977bb8823a3dc5ac8d3330e7fd087a98c0b63992722c3b5112a819f57",
+  "binding_sha256": "5597c1ca54139aedc5eca7672ecceb7115ce8c4cc3e2b385de87566ea01bdf1e",
   "claims": [
+    {
+      "fixup_count": 39,
+      "public": "DEFAULT_ITEM_HANDLER",
+      "relocation_indices": [
+        1557
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:8738"
+    },
     {
       "fixup_count": 0,
       "public": "DISPATCH_LINKED_ITEMS",
@@ -134,6 +144,22 @@
       "target_id": "root:1101:9041"
     },
     {
+      "fixup_count": 11,
+      "public": "WINDOW_FRAME_ITEM_HANDLER",
+      "target_id": "root:1101:9074"
+    },
+    {
+      "fixup_count": 44,
+      "public": "LIST_ITEM_HANDLER",
+      "relocation_indices": [
+        1558,
+        1623
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:9156"
+    },
+    {
       "fixup_count": 0,
       "public": "SHOW_LIST_CURSOR",
       "target_id": "root:1101:93ee"
@@ -154,21 +180,37 @@
       "target_id": "root:1101:9470"
     },
     {
+      "fixup_count": 2,
+      "public": "REBUILD_LIST_TEXT_HANDLE",
+      "target_id": "root:1101:950b"
+    },
+    {
       "fixup_count": 0,
       "public": "COPY_LIST_TEXT",
       "target_id": "root:1101:951d"
     },
     {
+      "fixup_count": 41,
+      "public": "GRID_ITEM_HANDLER",
+      "target_id": "root:1101:9546"
+    },
+    {
       "fixup_count": 2,
       "public": "UPDATE_GRID_ITEM_BOUNDS",
       "target_id": "root:1101:9766"
+    },
+    {
+      "fixup_count": 1,
+      "public": "PAINT_GRID_ITEMS",
+      "target_id": "root:1101:97ae"
+    },
+    {
+      "fixup_count": 3,
+      "public": "DRAW_INDEXED_ITEM",
+      "target_id": "root:1101:97da"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "DEFAULT_ITEM_HANDLER"
-    },
     {
       "object_offset": 1559,
       "public": "FILL_BEFORE_MODAL_WINDOW"
@@ -178,36 +220,12 @@
       "public": "RUN_MODAL_RESOURCE_WINDOW"
     },
     {
-      "object_offset": 2364,
-      "public": "WINDOW_FRAME_ITEM_HANDLER"
-    },
-    {
-      "object_offset": 2590,
-      "public": "LIST_ITEM_HANDLER"
-    },
-    {
-      "object_offset": 3539,
-      "public": "REBUILD_LIST_TEXT_HANDLE"
-    },
-    {
       "object_offset": 3597,
       "public": "FILL_BEFORE_GRID_HANDLER"
     },
     {
-      "object_offset": 3598,
-      "public": "GRID_ITEM_HANDLER"
-    },
-    {
       "object_offset": 4213,
       "public": "FILL_BEFORE_GRID_PAINT"
-    },
-    {
-      "object_offset": 4214,
-      "public": "PAINT_GRID_ITEMS"
-    },
-    {
-      "object_offset": 4258,
-      "public": "DRAW_INDEXED_ITEM"
     }
   ],
   "emitted_size": 4322,

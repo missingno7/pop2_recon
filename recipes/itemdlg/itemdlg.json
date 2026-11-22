@@ -1,11 +1,16 @@
 {
   "binding": "evidence/bindings/itemdlg/itemdlg.json",
-  "binding_sha256": "be3d0b4ff6c2af7fced8ba8bbee8cdfb58f9c7644fb998338cb1ff806baab72d",
+  "binding_sha256": "9aabe75dc0663f351d6e2464b945b2e12ab38f51a252b0b3cd1a43e40c2750a1",
   "claims": [
     {
       "fixup_count": 3,
       "public": "NAVIGATE_GRID_ITEMS",
       "target_id": "root:1101:9845"
+    },
+    {
+      "fixup_count": 13,
+      "public": "DRAW_GRID_ITEM",
+      "target_id": "root:1101:98f2"
     },
     {
       "fixup_count": 4,
@@ -38,6 +43,11 @@
       "target_id": "root:1101:9c27"
     },
     {
+      "fixup_count": 3,
+      "public": "INVALIDATE_GRID_CELL",
+      "target_id": "root:1101:9d69"
+    },
+    {
       "fixup_count": 0,
       "public": "GRID_INDEX_TO_COORDINATES",
       "target_id": "root:1101:9d82"
@@ -46,6 +56,11 @@
       "fixup_count": 0,
       "public": "COPY_PACKED_ITEM_RECTS",
       "target_id": "root:1101:9d89"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAW_DIALOG_SCROLL_REGION",
+      "target_id": "root:1101:9e55"
     },
     {
       "fixup_count": 1,
@@ -99,6 +114,16 @@
       "target_id": "root:1101:a4f3"
     },
     {
+      "fixup_count": 30,
+      "public": "GRID_ITEM_CALLBACK",
+      "relocation_indices": [
+        1562
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:a526"
+    },
+    {
       "fixup_count": 5,
       "public": "RELEASE_GRID_ITEM_RECORDS",
       "target_id": "root:1101:a6da"
@@ -144,6 +169,16 @@
       "target_id": "root:1101:ace0"
     },
     {
+      "fixup_count": 17,
+      "public": "TEXT_ITEM_CALLBACK",
+      "relocation_indices": [
+        1564
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:ad36"
+    },
+    {
       "fixup_count": 47,
       "public": "FIELD_ITEM_CALLBACK",
       "relocation_indices": [
@@ -167,10 +202,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 173,
-      "public": "DRAW_GRID_ITEM"
-    },
-    {
       "object_offset": 660,
       "public": "SCROLL_GRID_ORIGIN"
     },
@@ -179,20 +210,12 @@
       "public": "DRAW_GRID_ITEMS"
     },
     {
-      "object_offset": 1316,
-      "public": "INVALIDATE_GRID_CELL"
-    },
-    {
       "object_offset": 1384,
       "public": "ALIGN_9DAD"
     },
     {
       "object_offset": 1385,
       "public": "REDRAW_DIALOG_SCROLL"
-    },
-    {
-      "object_offset": 1552,
-      "public": "DRAW_DIALOG_SCROLL_REGION"
     },
     {
       "object_offset": 1820,
@@ -227,10 +250,6 @@
       "public": "ALIGN_A525"
     },
     {
-      "object_offset": 3297,
-      "public": "GRID_ITEM_CALLBACK"
-    },
-    {
       "object_offset": 3863,
       "public": "DRAW_GRID_SELECTION"
     },
@@ -243,17 +262,13 @@
       "public": "ALIGN_AD35"
     },
     {
-      "object_offset": 5361,
-      "public": "TEXT_ITEM_CALLBACK"
-    },
-    {
       "object_offset": 6376,
       "public": "ALIGN_B12D"
     }
   ],
   "emitted_size": 6377,
   "flags": [],
-  "frame": null,
+  "frame": 4353,
   "group_id": "group:itemdlg/itemdlg",
   "kind": "same_source_group",
   "language": "asm",

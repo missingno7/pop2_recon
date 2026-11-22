@@ -3873,7 +3873,8 @@
         "Every direct branch remains inside this extent: 0x1fe87->0x1fe96, 0x1fe91->0x1fe96.",
         "Following original bytes at root+0x1fe9b: 558bec56578b4e0683f9e877; next decoded context is in supplement.json.",
         "Additional original relocated 16:16 entry pointer(s): 0x212a7 (1fe6:001a, relocation 1915). These are entry evidence, not eligible 9A witnesses.",
-        "31 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses."
+        "31 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses.",
+        "CRT far JMP trampoline has a relocated 16:16 operand at root+0x212a7, with MZ relocation 1915 at +0x212a9; its stored segment establishes CS=1fe6."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -4093,6 +4094,14 @@
           "kind": "far_call",
           "relocated_segment_site": 129252,
           "space": "root"
+        },
+        {
+          "file_offset": 144039,
+          "image_offset": 135847,
+          "kind": "far_pointer",
+          "relocated_segment_site": 135849,
+          "relocation_index": 1915,
+          "space": "root"
         }
       ],
       "classification": "RUNTIME",
@@ -4104,7 +4113,10 @@
       "id": "root:1fe6:001a",
       "offset": 26,
       "original_bytes_hex": "558bec568b5e06be5c22395c06730d4b4b800f01395c087603895c085e8be55dcb",
-      "original_name": null,
+      "original_name": "__nfree",
+      "original_name_evidence": [
+        "The independently identified medium-model MSC 6.00 CRT trampoline archive member names the external __nfree; its original DOS far JMP at root+0x212a6 enters this target. Stock nmalloc.asm at archive offset 0x6580 has the same public at the same member-relative offset."
+      ],
       "segment": 8166,
       "semantic_name_hypothesis": "near_heap_free",
       "sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
@@ -12242,7 +12254,8 @@
       "boundary_evidence": [
         "Near-heap allocation wrapper uses BP+6 and RETF at +1fed3. Following code begins the separately identified CRT startup prefix at +1fed4.",
         "Original root CALL FAR at +1387 contains 1fe6:003b; segment word MZ index 65.",
-        "Complete original extent [0x1fe9b,0x1fed4)."
+        "Complete original extent [0x1fe9b,0x1fed4).",
+        "CRT far JMP trampoline has a relocated 16:16 operand at root+0x212a1, with MZ relocation 1931 at +0x212a3; its stored segment establishes CS=1fe6."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -12533,6 +12546,14 @@
           "relocated_segment_site": 1011,
           "relocation_index": 33,
           "space": "overlay-13"
+        },
+        {
+          "file_offset": 144033,
+          "image_offset": 135841,
+          "kind": "far_pointer",
+          "relocated_segment_site": 135843,
+          "relocation_index": 1931,
+          "space": "root"
         }
       ],
       "classification": "RUNTIME",
@@ -12543,7 +12564,10 @@
       "entry_kind": "direct-code",
       "id": "root:1fe6:003b",
       "offset": 59,
-      "original_name": null,
+      "original_name": "__nmalloc",
+      "original_name_evidence": [
+        "The independently identified medium-model MSC 6.00 CRT trampoline archive member names the external __nmalloc; its original DOS far JMP at root+0x212a0 enters this target. Stock nmalloc.asm at archive offset 0x6580 has the same public at the same member-relative offset."
+      ],
       "segment": 8166,
       "sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
       "size": 57,
@@ -66199,7 +66223,15 @@
         "Resident window/item library code, original DOS frame 1101."
       ],
       "semantic_name_hypothesis": "grid_item_callback",
-      "call_sites": []
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4960,
+          "file_offset": 274272,
+          "relocated_segment_site": 4962
+        }
+      ]
     },
     {
       "id": "root:1101:a6da",
@@ -66297,7 +66329,15 @@
         "Resident window/item library code, original DOS frame 1101."
       ],
       "semantic_name_hypothesis": "slider_item_callback",
-      "call_sites": []
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4976,
+          "file_offset": 274288,
+          "relocated_segment_site": 4978
+        }
+      ]
     },
     {
       "id": "root:1101:ab89",
@@ -66497,7 +66537,15 @@
         "Resident window/item library code, original DOS frame 1101."
       ],
       "semantic_name_hypothesis": "text_item_callback",
-      "call_sites": []
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4992,
+          "file_offset": 274304,
+          "relocated_segment_site": 4994
+        }
+      ]
     },
     {
       "id": "root:1101:ae62",
@@ -66521,7 +66569,15 @@
         "Resident window/item library code, original DOS frame 1101."
       ],
       "semantic_name_hypothesis": "field_item_callback",
-      "call_sites": []
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 5008,
+          "file_offset": 274320,
+          "relocated_segment_site": 5010
+        }
+      ]
     },
     {
       "id": "root:1101:b0e6",
@@ -66956,10 +67012,20 @@
       "boundary_status": "REVIEWED",
       "boundary_evidence": [
         "Previous RETF 8 ends at 8738. Overlay-17 far pointer at +1320 uses relocation 0; 8e6d/8e74 and 8edb/8ee2 compare the complete 1101:8738 pointer. Creation branches back from 8973 to the epilogue after skipping port restore. The next independent BP frame starts at 8976.",
-        "Original root relocation indices in complete extent: [1557]."
+        "Original root relocation indices in complete extent: [1557].",
+        "Overlay-17 callback slot +1320 stores 38870111 (1101:8738); original relocation 0 covers the segment word at +1322."
       ],
       "entry_kind": "direct-code",
-      "call_sites": [],
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4896,
+          "file_offset": 274208,
+          "relocated_segment_site": 4898,
+          "relocation_index": 0
+        }
+      ],
       "abi": "Far Pascal, item near pointer at BP+0ah, word command at BP+8, payload at BP+6, AX result, RETF 6.",
       "classification": "ASM_LIKELY",
       "classification_status": "Original DOS byte and ABI review",
@@ -67117,10 +67183,20 @@
       "boundary_status": "REVIEWED",
       "boundary_evidence": [
         "Overlay-17 pointer at +1330 uses relocation 1. The 9074 far callback dispatches commands 1, 3 and 2 and all paths return through the epilogue at 9098. Its last jump at 9153 reaches that epilogue. The next pointer independently places 9156.",
-        "Original root relocation indices in complete extent: []."
+        "Original root relocation indices in complete extent: [].",
+        "Overlay-17 callback slot +1330 stores 74900111 (1101:9074); original relocation 1 covers the segment word at +1332."
       ],
       "entry_kind": "direct-code",
-      "call_sites": [],
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4912,
+          "file_offset": 274224,
+          "relocated_segment_site": 4914,
+          "relocation_index": 1
+        }
+      ],
       "abi": "Far Pascal, item pointer, command and payload words, AX result, RETF 6.",
       "classification": "ASM_LIKELY",
       "classification_status": "Original DOS byte and ABI review",
@@ -67141,10 +67217,20 @@
       "boundary_status": "REVIEWED",
       "boundary_evidence": [
         "Overlay-17 pointer at +1340 uses relocation 2. The function stores OFFSET 9156 and CS at 9281/9286. RETF 6 at 91d6 is followed by dispatch branches and command bodies. Last branch at 93eb returns to the common epilogue. Calls at 91ed and 9372 enter the next body at 93ee.",
-        "Original root relocation indices in complete extent: [1558, 1623]."
+        "Original root relocation indices in complete extent: [1558, 1623].",
+        "Overlay-17 callback slot +1340 stores 56910111 (1101:9156); original relocation 2 covers the segment word at +1342."
       ],
       "entry_kind": "direct-code",
-      "call_sites": [],
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4928,
+          "file_offset": 274240,
+          "relocated_segment_site": 4930,
+          "relocation_index": 2
+        }
+      ],
       "abi": "Far Pascal, item pointer, command and payload words, AX result, RETF 6.",
       "classification": "ASM_LIKELY",
       "classification_status": "Original DOS byte and ABI review",
@@ -67309,10 +67395,20 @@
       "boundary_status": "REVIEWED",
       "boundary_evidence": [
         "Overlay-17 pointer at +1350 uses relocation 3. RETF 6 at 9576 is followed by command cases that branch back to 956d. Last jump is 9763 and near calls at 95e8/962e enter the next helper.",
-        "Original root relocation indices in complete extent: []."
+        "Original root relocation indices in complete extent: [].",
+        "Overlay-17 callback slot +1350 stores 46950111 (1101:9546); original relocation 3 covers the segment word at +1352."
       ],
       "entry_kind": "direct-code",
-      "call_sites": [],
+      "call_sites": [
+        {
+          "kind": "far_pointer",
+          "space": "overlay-17",
+          "image_offset": 4944,
+          "file_offset": 274256,
+          "relocated_segment_site": 4946,
+          "relocation_index": 3
+        }
+      ],
       "abi": "Far Pascal, item pointer, command and payload words, AX result, RETF 6.",
       "classification": "ASM_LIKELY",
       "classification_status": "Original DOS byte and ABI review",
@@ -69526,6 +69622,58 @@
         "Anchored MOVESCYT C region; scans neighboring scythe cells and dispatches to 02f8 and same-file helpers."
       ],
       "semantic_name_hypothesis": "touch_room_set_b"
+    },
+    {
+      "abi": "Near register ABI: BX heap descriptor, CX size; CF indicates failure, AX contains pointer when clear.",
+      "boundary_evidence": [
+        "Independent original E8 at root+0x2178b (e81efb) reaches root+0x212ac from the relocated far entry 1fe6:18f8.",
+        "Preceding original bytes are the free EA trampoline followed by its linker alignment byte. Linear instruction decode ends with CLC; RET at 1fe6:14c6..14c7. The failed path sets carry and jumps to the same RET. The pinned growseg.asm member starts immediately at 1fe6:14c8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "Independent original E8 at root+0x2178b (e81efb) reaches root+0x212ac from the relocated far entry 1fe6:18f8."
+      ],
+      "classification_status": "Reviewed CRT near-code provider",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:144c",
+      "offset": 5196,
+      "original_name": "__searchseg",
+      "original_name_evidence": [
+        "MSC 6.00 medium-model nmalloc.asm names the corresponding external near callee at the same calling sequence site."
+      ],
+      "segment": 8166,
+      "sha256": "44a28c72af20a32d04143d0b08720a019f3f13486749a27da6b9e3b52b21fb39",
+      "size": 124,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Near register ABI: BX heap descriptor, CX size; CF indicates failure.",
+      "boundary_evidence": [
+        "PINNED_RUNTIME owner crt_growseg_medium independently covers this entire 253-byte CODE segment at 1fe6:14c8. The pinned archive PUBDEF __growseg is at object offset zero.",
+        "The preceding __searchseg routine ends at 1fe6:14c7 with RET. The original allocator E8 at root+0x1feb0 lands at root+0x21328."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "PINNED_RUNTIME owner crt_growseg_medium independently covers this entire 253-byte CODE segment at 1fe6:14c8. The pinned archive PUBDEF __growseg is at object offset zero."
+      ],
+      "classification_status": "Reviewed CRT near-code provider",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:14c8",
+      "offset": 5320,
+      "original_name": "__growseg",
+      "original_name_evidence": [
+        "MSC 6.00 medium-model nmalloc.asm names the corresponding external near callee at the same calling sequence site."
+      ],
+      "segment": 8166,
+      "sha256": "d81f66a6abec74388ed40bf49a38453df5a1072a54ed25f14e6f655186c60fb0",
+      "size": 253,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

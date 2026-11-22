@@ -3009,6 +3009,72 @@
       "evidence": [
         "c287 ADD SP,-8, c28f LES AX, and c2ad plain CALL NEAR to the AX:ES register helper 06cc."
       ]
+    },
+    "root:1101:8738": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "873b ADD SP,-16h, 87c3 JCXZ, 8934 LODSW and ES:LODSW at 8959."
+      ]
+    },
+    "root:1101:9074": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "90af REP MOVSB, 9109 JCXZ and direct POP SI/DI/BP after Pascal calls."
+      ]
+    },
+    "root:1101:9156": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "9159 ADD SP,-0ch, 91eb JCXZ, 9272 LODSW and internal register-ABI calls."
+      ]
+    },
+    "root:1101:950b": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "Odd entry. Uses the live DI register to address the item, then returns near."
+      ]
+    },
+    "root:1101:9546": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "9549 ADD SP,-18h and register-ABI calls at 95e8 and 962e that share the caller BP."
+      ]
+    },
+    "root:1101:97ae": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "97c4 plain near call from the grid loop to the register/stack helper; direct POP DI/POP BP at 97d5."
+      ]
+    },
+    "root:1101:97da": {
+      "verdict": "asm",
+      "group": "windisp/windisp",
+      "evidence": [
+        "97e4 JCXZ, register-ABI E8 at 980c and direct POP DI/POP BP at 9815."
+      ]
+    },
+    "root:1fe6:001a": {
+      "evidence": [
+        "The 73-byte MSC 6.00 mlibcr.lib nmalloc.asm member at archive offset 0x6580 declares __nfree at +0 and __nmalloc at +33. Its complete 33-byte __nfree routine agrees with DOS after the independently witnessed __nheap_desc DGROUP offset fixup at +8. The CRT free.asm trampoline independently names __nfree.",
+        "The free routine uses two consecutive DEC BX instructions for the block header and a hand-written register/branch sequence shared with both stock assembly members. The following allocator continues directly at the odd next byte."
+      ],
+      "group": "nmalloc/nmalloc",
+      "verdict": "asm"
+    },
+    "root:1fe6:003b": {
+      "evidence": [
+        "Odd linear entry 0x1fe9b, POP DI; POP SI; POP BP; RETF with no MOV SP,BP, TEST AX,AX, and plain near calls with register arguments in BX/CX and carry-based return status show native assembly.",
+        "The MSC 6.00 medium-model nmalloc.asm archive member exports __nmalloc at +33 and calls __searchseg, __growseg, __searchseg through identical fixup placements in its fast path. Its stock allocation-failure path differs from the game callback/retry path. The CRT malloc.asm trampoline independently names __nmalloc.",
+        "FM Towns NMALLOC.C is a later implementation of the same allocator interface. Neither DOS entry has a canonical FM Towns function pair."
+      ],
+      "group": "nmalloc/nmalloc",
+      "verdict": "asm"
     }
   },
   "summary": {

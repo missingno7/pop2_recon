@@ -17,6 +17,66 @@
     }
   },
   "symbols": {
+    "CURRENT_PORT": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 69938,
+          "bytes_hex": "3b1ec025",
+          "operand_offset": 2,
+          "entry": "root:1101:008a",
+          "context": "cmp bx, word ptr [0x25c0] reached from root:1101:008a"
+        }
+      ]
+    },
+    "POINT_IN_RECTANGLE": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49532,
+      "entry_target_id": "root:1101:c17c",
+      "entry_sha256": "738c1bcb14d5b62ff076d3f38cd7ab9b2ea56601a4ae62cc4ceae6937699d53c",
+      "witnesses": []
+    },
+    "CLAMP_POINT_TO_RECT": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 20798,
+      "entry_target_id": "root:1101:513e",
+      "entry_sha256": "9512a42300c9bb15c033a6a7d1526222a55a67f1f56dbf8676c00d2e64d4b5a6",
+      "witnesses": []
+    },
+    "NEAR_BDDA": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 48602,
+      "entry_target_id": "root:1101:bdda",
+      "entry_sha256": "6aca8ccda41a6dbd6b41044efcff34a0939bb6ef9675fccc71b56a68cdcf3a52",
+      "witnesses": []
+    },
+    "READ_MOUSE_EVENT_POSITION": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 48233,
+      "entry_target_id": "root:1101:bc69",
+      "entry_sha256": "edfb745dd4bfd9b9d4ae6d65dfef39825b2e45e3cdadaa8d404cf0138ed1e03a",
+      "witnesses": []
+    },
+    "ADD_PORT_ORIGIN": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49408,
+      "entry_target_id": "root:1101:c100",
+      "entry_sha256": "40868a5e9a7d0943c5061f9d2b1b7de7e40e7f854d6965bfc730bcd6e5cde9dc",
+      "witnesses": []
+    },
     "ALLOCATE_NEAR": {
       "kind": "far-code-entry",
       "space": "root",
@@ -31,21 +91,6 @@
           "file_offset": 13191,
           "relocation_index": 65,
           "bytes_hex": "9a3b00e61f"
-        }
-      ]
-    },
-    "CURRENT_PORT": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 9664,
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 69938,
-          "bytes_hex": "3b1ec025",
-          "operand_offset": 2,
-          "entry": "root:1101:008a",
-          "context": "cmp bx, word ptr [0x25c0] reached from root:1101:008a"
         }
       ]
     },
@@ -65,6 +110,60 @@
       "offset": 19640,
       "entry_target_id": "root:1101:4cb8",
       "entry_sha256": "788ab19ec532879933e5407785f5e745f4b6313c1dfe8dfa45af1e7747b4b05d",
+      "witnesses": []
+    },
+    "TOGGLE_RECT_EFFECT": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49446,
+      "entry_target_id": "root:1101:c126",
+      "entry_sha256": "fdd8a90fbac9afb8f54852cd21796f46f62dfde359127b927d196528807470af",
+      "witnesses": []
+    },
+    "UPDATE_MESSAGE_DISPLAY": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 758,
+      "entry_target_id": "root:1101:02f6",
+      "entry_sha256": "1acf32e291b482f3aaf8ad899994eb23d59917f441859c6aadd5a8f4766e1d79",
+      "witnesses": []
+    },
+    "ASCII_UPPER_BYTE": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4096,
+      "offset": 52763,
+      "entry_target_id": "root:1000:ce1b",
+      "entry_sha256": "3802ff3376d26d9c508b9bf8df7d4291db886b3e2391b4a3036a348fc4f67234",
+      "witnesses": []
+    },
+    "DRAW_CHARACTER": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49388,
+      "entry_target_id": "root:1101:c0ec",
+      "entry_sha256": "3b003ac17f66dcda7d3618571d2ae46d1ec98ce4c47f2ba42e3165325e071051",
+      "witnesses": []
+    },
+    "DRAW_RELATIVE_AXIS_SEGMENT": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 20566,
+      "entry_target_id": "root:1101:5056",
+      "entry_sha256": "cbc3c06fae049ac6647b08626b8a62557c276df699f9f38ff601a32a386ebb24",
+      "witnesses": []
+    },
+    "SHOW_MOUSE_GRAPHICS": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 1442,
+      "entry_target_id": "root:1101:05a2",
+      "entry_sha256": "64394054d48fa9a71f37d635d64db4ea5a927879822d97027be5c00eba45f9f1",
       "witnesses": []
     },
     "ALLOCATE_TAGGED_HANDLE": {
@@ -168,15 +267,6 @@
       "entry_sha256": "175a94a62efe397a6f87cd4c7f087335a5978e7aed276e59f29902f9a2a185cd",
       "witnesses": []
     },
-    "ASCII_UPPER_BYTE": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4096,
-      "offset": 52763,
-      "entry_target_id": "root:1000:ce1b",
-      "entry_sha256": "3802ff3376d26d9c508b9bf8df7d4291db886b3e2391b4a3036a348fc4f67234",
-      "witnesses": []
-    },
     "ITEM_STATE_2700": {
       "kind": "dgroup-offset",
       "group": "DGROUP",
@@ -242,6 +332,89 @@
         }
       ]
     },
+    "ITEM_STATE_2618": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 9752,
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 112722,
+          "bytes_hex": "a11826",
+          "operand_offset": 1
+        }
+      ]
+    },
+    "COPY_CURRENT_PORT_ORIGIN": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 20110,
+      "entry_target_id": "root:1101:4e8e",
+      "entry_sha256": "6afb7c8e1822a3c5c47a3c8bc5af2d645df9a4f6d8bd320be20aa9973cf435fc",
+      "witnesses": []
+    },
+    "APPLY_DEFAULT_PEN_STATE": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49514,
+      "entry_target_id": "root:1101:c16a",
+      "entry_sha256": "1369044509894b39f9a17aa751b0a304d69bfa20ef1c8bbce75df07984b40061",
+      "witnesses": [
+        {
+          "space": "root",
+          "image_offset": 104310,
+          "bytes_hex": "e8013a",
+          "entry": "root:1101:8738"
+        }
+      ]
+    },
+    "SET_RELATIVE_PEN_STATE": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 21300,
+      "entry_target_id": "root:1101:5334",
+      "entry_sha256": "682048deb123e019acd71fac5b02907d134607ce48413fa6476f480983f50a0f",
+      "witnesses": []
+    },
+    "PROCESS_RECORD_RECTANGLE": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19884,
+      "entry_target_id": "root:1101:4dac",
+      "entry_sha256": "44c4386a5a87718b453c2a69fd5b45b71d28bc95d43aac1e2371b45a2cad2a51",
+      "witnesses": []
+    },
+    "READ_QUEUED_EVENT": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 48010,
+      "entry_target_id": "root:1101:bb8a",
+      "entry_sha256": "46c32343d8d73e3c9a93bc00a3677212fa4c764c96e0b395bb52a24db4239cd8",
+      "witnesses": []
+    },
+    "SKIP_NUL_STRINGS": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 34170,
+      "entry_target_id": "root:1101:857a",
+      "entry_sha256": "11f8947837faf0d72c8b7f85970878062c21f9bfa0112476848461fa743ba083",
+      "witnesses": []
+    },
+    "ALLOCATE_PAYLOAD_HANDLE": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 9270,
+      "entry_target_id": "root:1101:2436",
+      "entry_sha256": "c5e4b8aa59b6dbd9bd4f754a251919fba52d9448c732507e2ec1731bfb638924",
+      "witnesses": []
+    },
     "RELEASE_NEAR_BUFFER": {
       "kind": "near-code-entry",
       "space": "root",
@@ -296,15 +469,6 @@
       "entry_sha256": "169d2c70b3b9404d35f179c9bd05a1f070dddf6352a1b8307c404cef222869c5",
       "witnesses": []
     },
-    "SKIP_NUL_STRINGS": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 34170,
-      "entry_target_id": "root:1101:857a",
-      "entry_sha256": "11f8947837faf0d72c8b7f85970878062c21f9bfa0112476848461fa743ba083",
-      "witnesses": []
-    },
     "NEAR_5352": {
       "kind": "near-code-entry",
       "space": "root",
@@ -338,15 +502,6 @@
       "entry_sha256": "90f1c07b21d48043453c0bbcf17c159af9cb2002fc839eb9114ca5144dbae99a",
       "witnesses": []
     },
-    "PROCESS_RECORD_RECTANGLE": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 19884,
-      "entry_target_id": "root:1101:4dac",
-      "entry_sha256": "44c4386a5a87718b453c2a69fd5b45b71d28bc95d43aac1e2371b45a2cad2a51",
-      "witnesses": []
-    },
     "TRANSLATE_GRAPHICS": {
       "kind": "near-code-entry",
       "space": "root",
@@ -365,13 +520,31 @@
       "entry_sha256": "de6a491ae9d58797e5c29a1f450b81a93fd992508aad01fec596a56e557cb42e",
       "witnesses": []
     },
-    "TOGGLE_RECT_EFFECT": {
+    "CREATE_STRING_HANDLE": {
       "kind": "near-code-entry",
       "space": "root",
       "segment": 4353,
-      "offset": 49446,
-      "entry_target_id": "root:1101:c126",
-      "entry_sha256": "fdd8a90fbac9afb8f54852cd21796f46f62dfde359127b927d196528807470af",
+      "offset": 49892,
+      "entry_target_id": "root:1101:c2e4",
+      "entry_sha256": "9ec9daedfca3cb098130e886ec60959916b2cc16b48cc13b507fa5b0ea3629fc",
+      "witnesses": []
+    },
+    "START_NAMED_EFFECT": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 19856,
+      "entry_target_id": "root:1101:4d90",
+      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
+      "witnesses": []
+    },
+    "DRAW_TEXT_HANDLE_IN_RECT": {
+      "kind": "near-code-entry",
+      "space": "root",
+      "segment": 4353,
+      "offset": 49960,
+      "entry_target_id": "root:1101:c328",
+      "entry_sha256": "fd8411e6ff3a6cc600f3c64371e2e4cca9933a85e2c2a185e761ca916d701917",
       "witnesses": []
     },
     "FIND_STRING_BYTE": {
@@ -392,33 +565,6 @@
       "entry_sha256": "0a4a3bc0059e1f06eb87cf6cd90fe1b6bbfdf468359820da1c0d1b9a702dacaf",
       "witnesses": []
     },
-    "POINT_IN_RECTANGLE": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 49532,
-      "entry_target_id": "root:1101:c17c",
-      "entry_sha256": "738c1bcb14d5b62ff076d3f38cd7ab9b2ea56601a4ae62cc4ceae6937699d53c",
-      "witnesses": []
-    },
-    "UPDATE_MESSAGE_DISPLAY": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 758,
-      "entry_target_id": "root:1101:02f6",
-      "entry_sha256": "1acf32e291b482f3aaf8ad899994eb23d59917f441859c6aadd5a8f4766e1d79",
-      "witnesses": []
-    },
-    "COPY_CURRENT_PORT_ORIGIN": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 20110,
-      "entry_target_id": "root:1101:4e8e",
-      "entry_sha256": "6afb7c8e1822a3c5c47a3c8bc5af2d645df9a4f6d8bd320be20aa9973cf435fc",
-      "witnesses": []
-    },
     "STROKE_OFFSET_EDGES": {
       "kind": "near-code-entry",
       "space": "root",
@@ -426,24 +572,6 @@
       "offset": 47224,
       "entry_target_id": "root:1101:b878",
       "entry_sha256": "c94c8fe439351eea6632f2198c9af237c6bbbda151fd8d8ea6984c27595ddf8d",
-      "witnesses": []
-    },
-    "SET_RELATIVE_PEN_STATE": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 21300,
-      "entry_target_id": "root:1101:5334",
-      "entry_sha256": "682048deb123e019acd71fac5b02907d134607ce48413fa6476f480983f50a0f",
-      "witnesses": []
-    },
-    "SHOW_MOUSE_GRAPHICS": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 1442,
-      "entry_target_id": "root:1101:05a2",
-      "entry_sha256": "64394054d48fa9a71f37d635d64db4ea5a927879822d97027be5c00eba45f9f1",
       "witnesses": []
     },
     "MOVETO": {
@@ -462,24 +590,6 @@
       "offset": 20592,
       "entry_target_id": "root:1101:5070",
       "entry_sha256": "2c5f2c8c5582baf57fad2c4456ad649a2a30cfafac0ac39dfc86e51a375bcd7d",
-      "witnesses": []
-    },
-    "DRAW_CHARACTER": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 49388,
-      "entry_target_id": "root:1101:c0ec",
-      "entry_sha256": "3b003ac17f66dcda7d3618571d2ae46d1ec98ce4c47f2ba42e3165325e071051",
-      "witnesses": []
-    },
-    "DRAW_RELATIVE_AXIS_SEGMENT": {
-      "kind": "near-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 20566,
-      "entry_target_id": "root:1101:5056",
-      "entry_sha256": "cbc3c06fae049ac6647b08626b8a62557c276df699f9f38ff601a32a386ebb24",
       "witnesses": []
     }
   },
