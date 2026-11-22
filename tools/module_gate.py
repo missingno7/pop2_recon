@@ -638,6 +638,10 @@ PUBLIC_KIND = "dgroup-public"
 # Verify-only research (promote_group --extra-provider): group_id -> staged provider preview
 # recipe, standing in for the canonical recipe of that group. Never used by validation.
 EXTRA_PROVIDERS = {}
+# Accepted groups that the current publication batch republishes (promote_group --replacing):
+# their old placements are being replaced, so they are not provider-overlap conflicts. Final
+# validation re-checks every group against the complete new state.
+REPLACING = set()
 
 
 def _data_publics(module, placements, dgroup_members, code_name):
@@ -740,7 +744,7 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
     for _, other in recipes:
         # The judged group's own accepted recipe is the version this publication replaces; its
         # new placements are checked against the provider separately (own-placement overlap).
-        if other.get("kind") != "same_source_group" or other.get("group_id") in (provider_id, group_id) or                 "binding" not in other:
+        if other.get("kind") != "same_source_group" or other.get("group_id") in {provider_id, group_id} | REPLACING or                 "binding" not in other:
             continue
         other_binding = read_json(project_path(other["binding"]))
         lengths = {d["name"]: d["length"] for d in other_binding["declarations"]["segments"]}

@@ -180,6 +180,9 @@ class ProviderPublicTests(unittest.TestCase):
         self.recipes.append(({"kind": "MATCHING_C"}, self.recipe("group:third", third, [], claims=("THIRD_FUNC",))))
         with self.assertRaisesRegex(ValueError, "overlaps placed _DATA of third"):
             self.ground(group_id="group:other")
+        # ...unless the same publication batch republishes group:third too.
+        with patch.object(module_gate, "REPLACING", {"group:third"}):
+            self.assertEqual(self.ground(group_id="group:other")["offset"], P + 4)
 
 
 class ProviderFieldTests(unittest.TestCase):

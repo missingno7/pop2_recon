@@ -54,6 +54,15 @@ def _write_json(path, data):
     Path(path).write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
+def _replacing(sub):
+    """Group ids of this submission that replace accepted groups (one publication batch)."""
+    return [f"group:{g['name']}" for g in sub["groups"] if (ROOT / "recipes" / (g["name"] + ".json")).is_file()]
+
+
+def _flags(ids):
+    return [arg for r in ids for arg in ("--replacing", r)]
+
+
 def _promote(base, group, extra, verify_only, stage=None):
     cmd = [sys.executable, str(ROOT / "tools/promote_group.py"), str(base / group["source"]),
            "--name", group["name"], "--profile", group["profile"], "--language", group.get("language", "c")]
@@ -89,7 +98,7 @@ def verify(base, sub):
         stage = base / "verify" / group["name"].replace("/", "_")
         preview = stage / "provider.preview.json"
         preview.unlink(missing_ok=True)  # never cite a stale provider from an earlier run
-        rc, lines = _promote(base, group, extra, True, stage)
+        rc, lines = _promote(base, group, extra + _flags(_replacing(sub)), True, stage)
         ok &= rc == 0
         if rc == 0 and preview.is_file():
             # A verified group with data publics grounds later groups' dgroup-public externs.
@@ -132,6 +141,7 @@ def _republish(name, binding):
 
 
 def publish(base, sub):
+    replacing = _replacing(sub)  # computed before publication creates new recipes
     targets_path = ROOT / "evidence/targets.json"
     inventory = read_json(targets_path)
     existing = {f["id"]: i for i, f in enumerate(inventory["functions"])}
@@ -165,7 +175,7 @@ def publish(base, sub):
         print(f"[{'REPINNED' if rc == 0 else 'REPIN FAILED'}] {name}: {lines[-1] if lines else ''}")
         require(rc == 0, f"Repin of {name} failed")
     for group in sub["groups"]:
-        rc, lines = _promote(base, group, [], False)
+        rc, lines = _promote(base, group, _flags(replacing), False)
         print(f"[{'PUBLISHED' if rc == 0 else 'REFUSED'}] {group['name']}: {lines[-1] if lines else ''}")
         require(rc == 0, f"Publication of {group['name']} failed")
 

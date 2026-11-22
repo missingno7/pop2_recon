@@ -37,6 +37,8 @@ def main():
     parser.add_argument("--extra-asm-review", help="verify-only: worker asm-review.json (origin evidence before merge)")
     parser.add_argument("--extra-targets", help="verify-only: worker-proposed reviewed targets JSON (list or "
                         "{'functions': [...]}) for research before canonical review")
+    parser.add_argument("--replacing", action="append", default=[],
+                        help="accepted group ids this publication batch republishes (submission.py)")
     parser.add_argument("--extra-provider", action="append", default=[],
                         help="verify-only: a provider.preview.json written by a provider group's own verify-only "
                         "run; stands in for that group's canonical recipe when grounding dgroup-public symbols")
@@ -52,6 +54,11 @@ def main():
         require(args.verify_only, "Worker ASM review evidence is for --verify-only runs only")
         origin.EXTRA_REVIEW.update(read_json(project_path(args.extra_asm_review)).get("targets", {}))
     require(not args.stage or args.verify_only, "--stage is for --verify-only runs only")
+    if args.replacing:
+        import module_gate
+        accepted = {r.get("group_id") for _, r in module_gate._accepted_recipes()}
+        require(set(args.replacing) <= accepted, "--replacing names a group that is not accepted")
+        module_gate.REPLACING.update(args.replacing)
     if args.extra_provider:
         import module_gate
         require(args.verify_only, "Staged providers are for --verify-only research runs only")
