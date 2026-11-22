@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/load/load.json",
-  "binding_sha256": "1b3c00743e2aff94732f7c024759547fa4377b51a638c69b8beee7b0b68d4f7e",
+  "binding_sha256": "d8bc052dd0f9dac69f99e22d576b600abd2bff58b1e588a889c1f756ac28098c",
   "claims": [
     {
       "fixup_count": 5,
@@ -176,6 +176,16 @@
       "target_id": "root:0a5c:0584"
     },
     {
+      "fixup_count": 8,
+      "public": "SET_INITIAL_ROOM_STATE",
+      "relocation_indices": [
+        906
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0a5c:05a6"
+    },
+    {
       "fixup_count": 2,
       "public": "LOAD_SET",
       "relocation_indices": [
@@ -259,6 +269,35 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0a5c:0842"
+    },
+    {
+      "fixup_count": 13,
+      "public": "LOAD_OPPONENT_OVERLAYS",
+      "relocation_indices": [
+        890,
+        891,
+        895,
+        928,
+        976
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0a5c:09b6"
+    },
+    {
+      "fixup_count": 25,
+      "public": "PRELOAD_ROOM_DATA",
+      "relocation_indices": [
+        918,
+        939,
+        956,
+        957
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0a5c:0a84"
     },
     {
       "fixup_count": 7,
@@ -361,18 +400,6 @@
     {
       "object_offset": 1354,
       "public": "SET_LEVEL_SPEC_PTRS"
-    },
-    {
-      "object_offset": 1434,
-      "public": "SET_INITIAL_ROOM_STATE"
-    },
-    {
-      "object_offset": 2474,
-      "public": "LOAD_OPPONENT_OVERLAYS"
-    },
-    {
-      "object_offset": 2680,
-      "public": "PRELOAD_ROOM_DATA"
     }
   ],
   "emitted_size": 3664,
@@ -392,12 +419,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "load/load",
-  "object_sha256": "1c4358a4dbd079318bf979774b8b720d967658a5b43d67da4ef9a6ea3d6d8803",
+  "object_sha256": "d19579f0b0856993b2d28f7a3660d849b28a3ca7bdbbe163bbcf76636bfc1c57",
   "origin": 42444,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/load/load.c",
-  "source_sha256": "57173198dca3bdf0d447f5279e901ef465c96d73ee6e3c2c1c423f898e16da3b",
+  "source_sha256": "ea8f27411b8e890def18ce01eeb96bd763922913d7a30c5c293f36892f32c1ea",
   "space": "root"
 }

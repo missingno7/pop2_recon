@@ -403,26 +403,18 @@ void far _fastcall clear_special_sequence_flag(int i)
     }
 }
 
-#pragma optimize("g", off)
 void far pascal set_initial_room_state(void)
 {
     Byte room;
     int index;
-    room = 1;
-    if (start_room_count >= 1) {
-        Byte count;
-        do {
-            enter_room(room);
-            start_x = room_starts[room].x;
-            start_y = room_starts[room].y;
-            for (index = 0; index < 30; ++index)
-                clear_special_sequence_flag(index);
-            count = start_room_count;
-        } while (++room <= count);
+    for (room = 1; room <= start_room_count; ++room) {
+        enter_room(room);
+        start_x = room_starts[room].x;
+        start_y = room_starts[room].y;
+        for (index = 0; index < 30; ++index)
+            clear_special_sequence_flag(index);
     }
 }
-
-#pragma optimize("g", on)
 
 void far pascal load_set(register int set, unsigned id, unsigned limit, int count, int mode)
 {
@@ -590,27 +582,21 @@ void far pascal load_opponent_overlays(SByte kind)
         int i = 0;
         if (*first_base == -1)
             return;
-        {
-            int * volatile last = last_base;
-            int *first = first_base;
-            do {
-                if (need_opponent_overlay(kind, i)) {
-                    if (!has_set_overlay(sprite_sets[3], *first))
-                        load_overlay_range(sprite_sets[3], 850, *first, *last, 2);
-                    if (i == 0 && (kind == 0 || kind == 5 || kind == 6)) {
-                        if (!opponent_overlay_one)
-                            load_opponent_extra(1);
-                        if (!opponent_overlay_two)
-                            load_opponent_extra(2);
-                    }
-                } else {
-                    release_overlay_range(sprite_sets[3], *first, *last);
+        do {
+            if (need_opponent_overlay(kind, i)) {
+                if (!has_set_overlay(sprite_sets[3], first_base[i]))
+                    load_overlay_range(sprite_sets[3], 850, first_base[i], last_base[i], 2);
+                if (i == 0 && (kind == 0 || kind == 5 || kind == 6)) {
+                    if (!opponent_overlay_one)
+                        load_opponent_extra(1);
+                    if (!opponent_overlay_two)
+                        load_opponent_extra(2);
                 }
-                ++last;
-                ++i;
-                ++first;
-            } while (*first != -1);
-        }
+            } else {
+                release_overlay_range(sprite_sets[3], first_base[i], last_base[i]);
+            }
+            ++i;
+        } while (first_base[i] != -1);
     }
 }
 
@@ -632,43 +618,25 @@ void far pascal preload_room_data(Byte room)
         unsigned object = *object_code;
         unsigned info = object_info->flags;
         int *flag = &visited[object];
-        if (*flag == 0) {
-            visited[object] = 1;
+        if (*flag == 0) { visited[object] = 1;
             switch (object) {
-            case 2:
-                load_scene_overlay(background_intro_group[0], background_intro_number[0]);
-                break;
+            case 2: load_scene_overlay(background_intro_group[0], background_intro_number[0]); break;
             case 10:
-                if (((Byte)info & 0xe0) == 0xc0 && loaded_opponent != 9)
-                    load_opponent_set(9);
+                if (((Byte)info & 0xe0) == 0xc0 && loaded_opponent != 9) load_opponent_set(9);
                 /* fall through */
-            case 23:
-                load_scene_overlay(background_intro_group[1], background_intro_number[1]);
-                break;
-            case 13:
-                load_scene_overlay(background_intro_group[3], background_intro_number[3]);
-                break;
-            case 25:
-                load_scene_overlay(background_intro_group[5], background_intro_number[5]);
-                break;
-            case 26:
-                load_scene_overlay(background_intro_group[6], background_intro_number[6]);
-                break;
-            case 36:
-                load_scene_overlay(background_intro_group[4], background_intro_number[4]);
-                break;
+            case 23: load_scene_overlay(background_intro_group[1], background_intro_number[1]); break;
+            case 13: load_scene_overlay(background_intro_group[3], background_intro_number[3]); break;
+            case 25: load_scene_overlay(background_intro_group[5], background_intro_number[5]); break;
+            case 26: load_scene_overlay(background_intro_group[6], background_intro_number[6]); break;
+            case 36: load_scene_overlay(background_intro_group[4], background_intro_number[4]); break;
             }
         }
     } while (++tile < 30);
-    if (room_trigger_data[(unsigned)(Byte)116 * room])
-        load_opponent_sound(opponent);
+    if (room_trigger_data[(unsigned)(Byte)116 * room]) load_opponent_sound(opponent);
     if ((SByte)music_number > 0) {
-        if ((SByte)music_number < 33)
-            load_typed_handle(10016);
-        else
-            load_typed_handle(10000);
-        if ((SByte)music_number < 31)
-            load_typed_handle(10001);
+        if ((SByte)music_number < 33) load_typed_handle(10016);
+        else load_typed_handle(10000);
+        if ((SByte)music_number < 31) load_typed_handle(10001);
     }
 }
 
