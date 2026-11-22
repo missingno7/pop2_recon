@@ -603,6 +603,13 @@ class PlacementTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "differs"):
             self.check([("_DATA", b"\x12\x35", 2)], {}, {"_DATA": 8}, image)
 
+    def test_single_byte_alignment_holes_are_linker_zeros(self):
+        from module_gate import _initialized_with_alignment_holes as holes
+        self.assertTrue(holes([(0, 39), (40, 57), (58, 87)], 87))
+        self.assertFalse(holes([(0, 39), (41, 87)], 87))   # a two-byte gap is not alignment
+        self.assertFalse(holes([(1, 87)], 87))
+        self.assertFalse(holes([(0, 86)], 87))
+
     def test_repeated_content_fixes_no_placement(self):
         # Zero words occur everywhere in DGROUP; matching one proves nothing about P.
         image = bytes(8) + b"\x12\x34"

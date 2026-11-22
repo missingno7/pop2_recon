@@ -340,3 +340,11 @@ at its placement (and uses the linked bytes for the uniqueness test). Every byte
 no field is skipped. Any other fixup in a data segment (far pointers with a segment word,
 pointers to externs or to code, a non-DGROUP frame, a segment without a placement) is
 refused. The placement report records `pointer_fields` for such segments.
+
+## Alignment holes in placed initialized data (2026-11-22)
+
+MSC word-aligns items inside `_DATA` by skipping a byte without emitting LEDATA for it; the linker
+writes zero there. A placed initialized segment may therefore have single-byte holes between
+initialized ranges (it must still start at 0 and reach its end). The holes stay in the compared
+content as zero bytes, so every byte of the segment is compared with the original DGROUP image;
+wider gaps remain refused.

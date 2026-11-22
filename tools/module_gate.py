@@ -191,6 +191,20 @@ def _occurs_once(home, dgroup, content):
     return hits == 1
 
 
+def _initialized_with_alignment_holes(ranges, length):
+    """Initialized from 0 to the end, except single-byte holes: MSC skips one byte to word-align
+    the next item and emits no LEDATA for it; the linker writes zero there. The holes stay in the
+    compared content as zero bytes, so every byte of the segment is still compared."""
+    merged = []
+    for lo, hi in sorted(ranges):
+        if merged and lo <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], hi))
+        else:
+            merged.append((lo, hi))
+    return (bool(merged) and merged[0][0] == 0 and merged[-1][1] == length and
+            all(b[0] - a[1] == 1 for a, b in zip(merged, merged[1:])))
+
+
 def _linked_data(seg, content, fields, placements):
     """The bytes the linker writes for a placed initialized segment: each fixup field is a near
     pointer into this object's placed DGROUP data (offset16, frame DGROUP, target a placed
@@ -238,7 +252,7 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
         if initialized:
             require("dgroup_segment" in binding,
                     "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
-            require(initialized == [(0, seg["length"])] and seg["length"] >= 2,
+            require(_initialized_with_alignment_holes(initialized, seg["length"]) and seg["length"] >= 2,
                     f"Placed segment {seg['name']} must be completely initialized")
             start = dgroup + p
             require(start + seg["length"] <= home.size and home.data[start:start + seg["length"]] == content,
