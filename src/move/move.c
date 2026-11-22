@@ -962,7 +962,7 @@ byte get_link_room(int link);
 Trob *get_trob_room_cell(byte room, int cell);
 void add_trob(byte room, sbyte cell, sbyte state, byte kind);
 sbyte trigger_object(byte kind, byte room, sbyte cell, int action);
-extern unsigned random_below(unsigned limit);
+extern unsigned Rnd(unsigned limit);
 
 void trigger_link(int link, int action)
 {
@@ -985,9 +985,8 @@ void trigger_link(int link, int action)
 
 void trigger_flask(byte room, sbyte cell)
 {
-    unsigned phase = random_below(26) + 1;
-
-    room_objects[cell].state = (room_objects[cell].state & ~31U) | phase;
+    unsigned state = (room_objects[cell].state & ~31U) | (Rnd(26) + 1);
+    room_objects[cell].state = state;
     add_trob(room, cell, 1, 10);
 }
 
@@ -1084,8 +1083,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
 
 void trigger_torch(byte room, sbyte cell)
 {
-    unsigned phase = random_below(level_type == 3 ? 8 : 3);
-    unsigned state = (room_objects[cell].state & 0xff00U) + phase;
+    unsigned state = (room_objects[cell].state & 0xff00U) + Rnd(level_type == 3 ? 8 : 3);
     room_objects[cell].state = state;
     add_trob(room, cell, 1, 19);
 }
