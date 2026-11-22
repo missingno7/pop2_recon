@@ -69806,6 +69806,37 @@
       "size": 102,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:078a:1dbe",
+      "space": "root",
+      "segment": 1930,
+      "offset": 7614,
+      "size": 148,
+      "sha256": "00f08473946676fe7b5d13067013e86d04140728517655027c8caba8eea0def2",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C ordered FM Towns pairing at 078a:1dbe identifies this as the loose-object rendering helper.",
+        "Chooses two image IDs from the level style and emits both images via the middle-layer queue helper."
+      ],
+      "abi": "Far Pascal void(unsigned char); argument at BP+6 low byte, RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Locked root interval [0x965e,0x96f2). BP frame at 1dbe follows RETF 2 at 1dba and its one-byte pad.",
+        "DRAW_CELL_OBJECT case dispatch pushes its one-byte type in a word slot and enters 1dbe via PUSH CS/CALL at 1d4c/1d4d.",
+        "All direct branches land on instructions in the interval. RETF 2 at 1e4e plus its one-byte pad ends before LOAD_DRAW_OBJECT at 1e52."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 38381,
+          "file_offset": 46573,
+          "pushed_cs_site": 38380
+        }
+      ]
     }
   ],
   "schema": 1,

@@ -909,15 +909,19 @@ void redraw_room_fast(void)
     begin_room_rows();
     draw_cell_objects(30);
     draw_row = 3;
-    while (draw_row--) {
-        prepare_row();
-        prepare_row_images();
-        draw_column = 0;
-        do {
-            select_draw_cell();
-            redraw_cell_fast((signed char)(row_to_first_cell(draw_row) + draw_column));
-        } while (++draw_column < 10);
-    }
+    goto next_row;
+paint_row:
+    prepare_row();
+    prepare_row_images();
+    draw_column = 0;
+next_cell:
+    select_draw_cell();
+    redraw_cell_fast((signed char)(row_to_first_cell(draw_row) + draw_column));
+    if (++draw_column < 10)
+        goto next_cell;
+next_row:
+    if (draw_row--)
+        goto paint_row;
     if (!room_is_custom) {
         saved_room = drawn_room;
         drawn_room = above_room;
@@ -1056,7 +1060,18 @@ typedef struct GuardMeterRoom {
 } GuardMeterRoom;
 
 extern GuardMeterRoom guard_meter_rooms[];
-extern const DrawRect half_tile_rectangles[10];
+static const DrawRect _based(_segname("_CONST")) half_tile_rectangles[10] = {
+    {57, 0, 63, 16},
+    {57, 0, 63, 16},
+    {57, 0, 63, 17},
+    {57, 0, 63, 20},
+    {57, 0, 63, 15},
+    {57, 0, 63, 16},
+    {57, 0, 63, 19},
+    {59, 0, 63, 14},
+    {59, 0, 63, 13},
+    {59, 0, 63, 13},
+};
 extern DrawRect *ComputeOffsetCellRect(DrawRect *area, DrawRect *source, int column, int row);
 
 int compute_half_rect(DrawRect *area)
@@ -1427,7 +1442,7 @@ void draw_cell_object(signed char index)
 
 void draw_loose_object(unsigned char type)
 {
-    int left_shape, right_shape, horizontal_gap, vertical_gap;
+    int vertical_gap, horizontal_gap, left_shape, right_shape;
 
     switch (level_style) {
     case 2:
@@ -1638,7 +1653,9 @@ extern unsigned int create_shape(HorseShapeHeader far *out, HorseShapeHeader far
 extern unsigned int retain_shape(unsigned int handle);
 extern ShapeBitmap far *probe_shape(unsigned int handle);
 extern void free_shape(unsigned int handle);
-extern int horse_level9_origin[], horse_level10_origin[], horse_level14_origin[];
+static const int _based(_segname("_CONST")) horse_level9_origin[] = {22, 159};
+static const int _based(_segname("_CONST")) horse_level10_origin[] = {102, 119};
+extern int horse_level14_origin[];
 
 ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
 {
