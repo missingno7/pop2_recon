@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/load/load.json",
-  "binding_sha256": "dfc226f03f4877e30750996926a2e271262c68d8cb6d86f67cd3421c90f49702",
+  "binding_sha256": "90ca3308a229d6b66ff47216a25a98877c25cac93170950b7d110f096c010ea6",
   "claims": [
     {
       "fixup_count": 5,
@@ -24,6 +24,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0a5c:004e"
+    },
+    {
+      "fixup_count": 13,
+      "public": "LOAD_BACKGROUND_SET",
+      "relocation_indices": [
+        907,
+        967
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0a5c:0064"
     },
     {
       "fixup_count": 10,
@@ -392,16 +405,75 @@
       "target_id": "root:0a5c:0e2c"
     }
   ],
-  "drafts": [
+  "code_matches": [
     {
-      "object_offset": 88,
-      "public": "LOAD_BACKGROUND_SET"
-    },
-    {
-      "object_offset": 1354,
-      "public": "SET_LEVEL_SPEC_PTRS"
+      "public": "SET_LEVEL_SPEC_PTRS",
+      "target_id": "root:0a5c:0556",
+      "unproven": [
+        "LEVEL_SEQUENCE_TABLE",
+        "LEVEL_SEQUENCE_TABLE+0x2"
+      ]
     }
   ],
+  "data_publics": [
+    {
+      "address": 1558,
+      "name": "RESOURCE_FILES",
+      "offset": 190,
+      "segment": "_DATA",
+      "span": 6,
+      "unique": true
+    },
+    {
+      "address": 1564,
+      "name": "LEVEL_RESOURCE_FILES",
+      "offset": 196,
+      "segment": "_DATA",
+      "span": 14,
+      "unique": true
+    },
+    {
+      "address": 1578,
+      "name": "BACKGROUND_IMAGE_COUNT",
+      "offset": 210,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 1580,
+      "name": "BACKGROUND_IMAGE_LIMITS",
+      "offset": 212,
+      "segment": "_DATA",
+      "span": 168,
+      "unique": true
+    },
+    {
+      "address": 1748,
+      "name": "LEVEL_FRAME_PROCS",
+      "offset": 380,
+      "segment": "_DATA",
+      "span": 28,
+      "unique": true
+    },
+    {
+      "address": 1776,
+      "name": "LOADED_OPPONENT",
+      "offset": 408,
+      "segment": "_DATA",
+      "span": 76,
+      "unique": true
+    },
+    {
+      "address": 1852,
+      "name": "OPPONENT_OVERLAY_FIRST",
+      "offset": 484,
+      "segment": "_DATA",
+      "span": 172,
+      "unique": true
+    }
+  ],
+  "drafts": [],
   "emitted_size": 3664,
   "flags": [
     "/c",
@@ -419,12 +491,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "load/load",
-  "object_sha256": "6b73c255586e301402047220594bddb0e0e95de73ac663cc3ec6573ca360511a",
+  "object_sha256": "5976062b14861d62b5de88bb2c7ddab166f577ee55ae1429a90ecba9d080e9d3",
   "origin": 42444,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/load/load.c",
-  "source_sha256": "20a2327e4f52e25f9220b06a1896ca641b6a4dd513e815e69b08819c7f7a0643",
+  "source_sha256": "5237738b6fab5b47f8133fdac40d8e6f5b556738c2bea56ca6e5cba51aa95d2c",
   "space": "root"
 }

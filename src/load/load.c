@@ -17,27 +17,38 @@ typedef struct {
     int flags;
 } LevelStart;
 
+/* Resource openers replace the initial name pointers with file handles. */
+int resource_files[3] = {
+    (int)"PRINCE.DAT", (int)"KID.DAT", (int)"SEQUENCE.DAT"
+};
+int level_resource_files[7] = {
+    0, (int)"DESERT.DAT", (int)"TEMPLE.DAT", (int)"CAVERNS.DAT",
+    (int)"RUINS.DAT", (int)"ROOFTOPS.DAT", (int)"FINAL.DAT"
+};
+
+int background_image_count = 0;
+const int background_image_limits[7] = { -1, -1, 78, 99, 89, -1, -1 };
+
+static const int temple_image_first[] = { 0, 22, 29, 33, 38, 40, 42, 45, 49, 90, -1 };
+static const int temple_image_last[] = { 20, 27, 30, 34, 38, 40, 42, 45, 62, 125 };
+static const int cavern_image_first[] = { 0, 15, 28, 33, 40, 44, 51, 63, 73, 99, -1 };
+static const int cavern_image_last[] = { 5, 23, 29, 36, 41, 49, 51, 66, 90, 125 };
+static const int ruin_image_first[] = { 0, 18, 21, 29, 35, 41, 48, 50, 52, 89, -1 };
+static const int ruin_image_last[] = { 16, 18, 24, 31, 37, 42, 48, 50, 79, 113 };
+
+static const int *background_image_first[7] = {
+    0, 0, temple_image_first, cavern_image_first, ruin_image_first, 0, 0
+};
+static const int *background_image_last[7] = {
+    0, 0, temple_image_last, cavern_image_last, ruin_image_last, 0, 0
+};
+
+
 extern void near *back_port;
 extern Rect back_port_bounds;
-extern int level_resource_files[];
 extern Byte background;
 extern int background_overlay_flags[8];
-extern int background_overlay_first[];
-static const int _based(_segname("_CONST")) background_overlay_last[8] = {
-    126, 161, 91, 114, 103, 90, 94, 108
-};
-static const int _based(_segname("_CONST")) kid_overlay_first[11] = {
-    263, 223, 241, 244, 249, 269, 222, 271, 280, 290, 300
-};
-static const int _based(_segname("_CONST")) kid_overlay_last[11] = {
-    268, 240, 243, 248, 262, 270, 222, 279, 289, 298, 313
-};
-static const int _based(_segname("_CONST")) kid_image_first[9] = {
-    15, 44, 99, 120, 133, 160, 219, 222, -1
-};
 extern int background_intro_group[], background_intro_number[];
-extern const int *background_image_first[], *background_image_last[];
-extern int background_image_count;
 static int flask_enabled;
 extern unsigned overlay_output;
 extern Handle sprite_sets[];
@@ -47,12 +58,56 @@ extern int active_map, resume_mode;
 extern char level_effect[];
 extern char map_archive[], background_overlay_file[];
 extern Byte opponent, start_room_count;
-extern SByte loaded_opponent;
-extern int opponent_resource_files[];
-extern int *opponent_overlay_first[], *opponent_overlay_last[];
-extern int sword_overlay_first[], sword_overlay_last[];
 extern int extra_kid_overlay;
 static int sword_overlay_enabled[3];
+typedef void (far pascal *LevelFrameProc)(void);
+
+extern void far pascal desert_frame(void);
+extern void far pascal check_temple_event(void);
+extern void far pascal cave_frame(void);
+extern void far pascal roof_frame(void);
+extern void far pascal run_final_frame(void);
+
+LevelFrameProc level_frame_procs[7] = {
+    0, desert_frame, check_temple_event, cave_frame, 0, roof_frame, run_final_frame
+};
+
+SByte loaded_opponent = -1;
+static SByte loaded_sword = 0;
+static int opponent_resource_files[11] = {
+    (int)"GUARD.DAT", (int)"FLAME.DAT", (int)"SKELETON.DAT", (int)"GUARD.DAT",
+    0, (int)"HEAD.DAT", (int)"HEAD.DAT", (int)"BIRD.DAT", (int)"HEAD.DAT",
+    (int)"JINNEE.DAT", 0
+};
+
+static int guard_overlay_first[] = { 31, 47, 58, 74, -1 };
+static int guard_overlay_last[] = { 46, 57, 73, 85 };
+static int skeleton_overlay_first[] = { 33, 49, -1 };
+static int skeleton_overlay_last[] = { 48, 52 };
+static int head_overlay_first[] = { 0, -1 };
+static int head_overlay_last[] = { 116 };
+static int bird_overlay_first[] = { 40, 56, 67, 95, -1 };
+static int bird_overlay_last[] = { 55, 66, 94, 98 };
+
+int *opponent_overlay_first[11] = {
+    guard_overlay_first, 0, skeleton_overlay_first, 0, 0, head_overlay_first, 0,
+    bird_overlay_first, 0, 0, 0
+};
+static int *opponent_overlay_last[11] = {
+    guard_overlay_last, 0, skeleton_overlay_last, 0, 0, head_overlay_last, 0,
+    bird_overlay_last, 0, 0, 0
+};
+
+static int sword_overlay_first[1] = { 47 };
+static int sword_overlay_last[1] = { 57 };
+static int background_overlay_first[8] = { 115, 127, 90, 95, 100, 79, 91, 105 };
+static const int background_overlay_last[8] = { 126, 161, 91, 114, 103, 90, 94, 108 };
+static const int kid_overlay_first[11] = { 263, 223, 241, 244, 249, 269, 222, 271, 280, 290, 300 };
+static const int kid_overlay_last[11] = { 268, 240, 243, 248, 262, 270, 222, 279, 289, 298, 313 };
+static const int kid_image_first[9] = { 15, 44, 99, 120, 133, 160, 219, 222, -1 };
+static const int kid_image_last[8] = { 32, 79, 111, 129, 144, 215, 220, 299 };
+static const char map_option[] = "GAMEPLAY\0%s%s";
+
 extern SByte sword_kind;
 extern Handle level_pieces, sword_frames, opponent_frames, opponent_effect_frames;
 extern Byte play_state, room_feature, music_number;
@@ -65,16 +120,14 @@ extern int *sequence_flags;
 extern Byte *sequence_opcodes;
 extern LevelStart room_starts[];
 extern Byte start_x, start_y;
-extern Byte room_objects[];
 extern unsigned long room_object_info[];
 extern Byte room_trigger_data[];
-extern SByte loaded_sword;
 extern int *room_init_ptr;
 extern int room_init_data[];
 extern Byte opponent_overlay_one, opponent_overlay_two;
 extern SByte requested_map;
 extern int saved_background_set;
-extern char load_error_format[], resource_path_format[];
+extern char resource_path_format[];
 
 extern void near * far pascal AllocBackPort(const Rect far *);
 extern void far pascal close_resource_file(int);
@@ -149,10 +202,6 @@ void far pascal set_initial_room_state(void);
 void far pascal unload_pieces_data(void);
 Handle far pascal load_sword_frames(Byte kind);
 int far pascal need_sword_overlay(SByte index);
-int far pascal need_kid_overlay(int index);
-void far pascal unload_opponent_overlays(SByte previous, SByte current);
-void far pascal load_opponent_overlays(SByte kind);
-void far pascal report_resource_path(const char far *path);
 
 void far pascal open_level_resource_files(Byte current, Byte previous)
 {
@@ -166,10 +215,10 @@ void far pascal open_level_resource_files(Byte current, Byte previous)
     }
 }
 
-static const int _based(_segname("_CONST")) kid_image_last[8] = {
-    32, 79, 111, 129, 144, 215, 220, 299
-};
-static const char _based(_segname("_CONST")) map_option[] = "GAMEPLAY\0%s%s";
+int far pascal need_kid_overlay(int index);
+void far pascal unload_opponent_overlays(SByte previous, SByte current);
+void far pascal load_opponent_overlays(SByte kind);
+void far pascal report_resource_path(const char far *path);
 
 void far pascal CheckBPort(void)
 {
@@ -599,6 +648,8 @@ void far pascal load_opponent_overlays(SByte kind)
         } while (first_base[i] != -1);
     }
 }
+
+extern Byte room_objects[];
 
 typedef struct {
     unsigned flags, actor;
