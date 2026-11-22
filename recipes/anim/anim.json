@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/anim/anim.json",
-  "binding_sha256": "4931e156d29e464fcace5ff4eb668943d432f683df409b83c23bff99c00f66ab",
+  "binding_sha256": "a98217da4510eced664fe60aa08256acdda30aeb8796436d9624b484852939e1",
   "claims": [
     {
       "fixup_count": 4,
@@ -11,6 +11,22 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-2:28a1:000c"
+    },
+    {
+      "fixup_count": 6,
+      "public": "ANIM_FREE",
+      "relocation_indices": [
+        742,
+        743,
+        744,
+        750,
+        763
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:28a1:0040"
     },
     {
       "fixup_count": 9,
@@ -81,10 +97,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 52,
-      "public": "ANIM_FREE"
-    },
-    {
       "object_offset": 180,
       "public": "ANIM_IDLE"
     },
@@ -116,12 +128,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "anim/anim",
-  "object_sha256": "fc19dc5550c4b3f081332620c062153937d87bbc80759250e0383da71d61aa87",
+  "object_sha256": "dc60654e9ab204a7d34c06d5e24ac99f4af0e2fdd68f7d697ad05898186ca58d",
   "origin": 21980,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/anim/anim.c",
-  "source_sha256": "5d7bf980fea0ada7ee5ed8bf7f5b91126ea7430660c2f68d1d1b5dbb8efb9d25",
+  "source_sha256": "3f5878127316cd81b44379f2809def77a54e948e72c8c2734708fe1b35b5fcdd",
   "space": "overlay-2"
 }

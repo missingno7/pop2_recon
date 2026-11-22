@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "59fa59fb3ffe8eb4c58382686df4b49a5eec653c560f058f18e8c185c574153d",
+  "binding_sha256": "ede6d1356870c68e453fdae77fe0fb053917281c42fcdec0a8545d79dbab5210",
   "claims": [
     {
       "fixup_count": 4,
@@ -194,6 +194,26 @@
       "target_id": "root:052d:0614"
     },
     {
+      "fixup_count": 26,
+      "public": "MAIN_MENU_DIALOG",
+      "relocation_indices": [
+        483,
+        484,
+        504,
+        522,
+        604,
+        637,
+        672,
+        686,
+        702
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:06a0"
+    },
+    {
       "fixup_count": 0,
       "public": "COMPUTE_SAVE_SLOT_RECT",
       "target_id": "root:052d:074c"
@@ -380,16 +400,68 @@
       "fixup_count": 0,
       "public": "COMPUTEHALLPLAYERRECT",
       "target_id": "root:0000:6b38"
+    },
+    {
+      "fixup_count": 0,
+      "public": "MAKE_INDEX_RECT",
+      "target_id": "root:052d:1dc6"
+    },
+    {
+      "fixup_count": 15,
+      "public": "DRAW_MAIN_MENU",
+      "relocation_indices": [
+        567,
+        568
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:1f22"
+    },
+    {
+      "fixup_count": 22,
+      "public": "DRAW_MENU_LABEL",
+      "relocation_indices": [
+        435
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:1ff2"
+    },
+    {
+      "fixup_count": 8,
+      "public": "SAVEOPTIONSTODISK",
+      "relocation_indices": [
+        452,
+        460,
+        517,
+        647
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:218e"
+    },
+    {
+      "fixup_count": 6,
+      "public": "SETOPTIONSFROMDISK",
+      "relocation_indices": [
+        461,
+        518,
+        676,
+        682
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:2200"
     }
   ],
   "drafts": [
     {
       "object_offset": 712,
       "public": "DIALOGRESETTOGAMEPLAY"
-    },
-    {
-      "object_offset": 1682,
-      "public": "MAIN_MENU_DIALOG"
     },
     {
       "object_offset": 2474,
@@ -432,47 +504,43 @@
       "public": "INSERT_HALL_RECORD"
     },
     {
-      "object_offset": 7106,
+      "object_offset": 7100,
       "public": "READ_HALL_FILE"
     },
     {
-      "object_offset": 7312,
+      "object_offset": 7306,
       "public": "SHOW_HALL_RECORDS"
     },
     {
-      "object_offset": 7508,
+      "object_offset": 7502,
       "public": "WRITE_HALL_FILE"
     },
     {
-      "object_offset": 7614,
-      "public": "MAKE_INDEX_RECT"
-    },
-    {
-      "object_offset": 7692,
+      "object_offset": 7686,
       "public": "MAIN_MENU_CHOICE"
     },
     {
-      "object_offset": 8004,
-      "public": "DRAW_MAIN_MENU"
-    },
-    {
-      "object_offset": 8212,
-      "public": "DRAW_MENU_LABEL"
-    },
-    {
-      "object_offset": 8430,
+      "object_offset": 8382,
       "public": "DRAW_MENU_ICON"
     },
     {
-      "object_offset": 8618,
-      "public": "SAVEOPTIONSTODISK"
+      "object_offset": 8794,
+      "public": "CHANGE_MENU_OPTION"
     },
     {
-      "object_offset": 8732,
-      "public": "SETOPTIONSFROMDISK"
+      "object_offset": 8938,
+      "public": "SHOW_CREDITS"
+    },
+    {
+      "object_offset": 9298,
+      "public": "DRAW_CREDITS_PAGE"
+    },
+    {
+      "object_offset": 9356,
+      "public": "DRAW_CREDIT_CATEGORY"
     }
   ],
-  "emitted_size": 8836,
+  "emitted_size": 9662,
   "flags": [
     "/c",
     "/AM",
@@ -487,12 +555,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "7f228ea8cb44b6d05114d39d905b24d76a50b3f5220a77aebfb7f437cc3c016a",
+  "object_sha256": "bbf82ff75cfb54ba81d157f6ad92cc9375a34e13fd7c64b2b41af63ef42dd7ca",
   "origin": 21214,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "9adfe3e093d688a7c71458ce62083e3a509ea17f77bd2458cd405c6102063247",
+  "source_sha256": "350d8139430cb9af974e4e102f5b2d7af2e5d9ba94114a7f46e39f0ee92712a4",
   "space": "root"
 }

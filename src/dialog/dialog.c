@@ -24,6 +24,36 @@ struct dialog_text {
     char far *text;
 };
 
+static const struct dialog_point _based(_segname("_CONST")) symbol_heading = {28, 47};
+static const struct dialog_point _based(_segname("_CONST")) symbol_caption = {44, 72};
+static struct dialog_rect _based(_segname("_CONST")) notice_port[1] = {{32, 73, 50, 266}};
+static union { int word; unsigned char done; } _based(_segname("_CONST")) notice_state = {0};
+#define dialog_notice_done notice_state.done
+static const struct dialog_point _based(_segname("_CONST")) hall_name_caption = {53, 25};
+static const struct dialog_point _based(_segname("_CONST")) hall_score_caption = {53, 260};
+static struct dialog_rect _based(_segname("_CONST")) hall_box = {38, 20, 57, 300};
+static const char _based(_segname("_CONST")) save_path[12] = "PRINCE.SAV";
+static const char _based(_segname("_CONST")) hall_read_path[12] = "PRINCE.HOF";
+static const char _based(_segname("_CONST")) options_path[12] = "PRINCE.OPT";
+static const int _based(_segname("_CONST")) credits_first[] = {1000, 1007, 1009, 1011};
+static const int _based(_segname("_CONST")) credits_last[] = {1006, 1008, 1010, 1011};
+static const struct dialog_rect _based(_segname("_CONST")) credits_blink_box = {70, 17, 85, 307};
+struct notice_and_menu_text {
+    char notice_failure[25];
+    char hall_write_path[11];
+    char save_option[10];
+    char resume_option[12];
+    char continue_option[10];
+};
+static const struct notice_and_menu_text _based(_segname("_CONST")) dialog_texts = {
+    "Copy protection failure.", "PRINCE.HOF", "Save Game", "Resume Game", "Quit Game"
+};
+#define notice_failure dialog_texts.notice_failure
+#define hall_write_path dialog_texts.hall_write_path
+#define save_option dialog_texts.save_option
+#define resume_option dialog_texts.resume_option
+#define continue_option dialog_texts.continue_option
+
 extern struct dialog_port *current_port;
 
 extern int far pascal hGetFont(int);
@@ -621,7 +651,6 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
     return result;
 }
 
-extern const char save_path[];
 extern unsigned far cdecl _dos_open(const char *, unsigned, int *);
 extern long far cdecl filelength(int);
 extern void far * far pascal allocate_buffer(long);
@@ -930,9 +959,6 @@ struct notice_record {
     unsigned symbol, detail;
 };
 
-extern int dialog_notice_done;
-extern char notice_port[];
-extern const char notice_failure[];
 extern int far pascal find_notice_table(int, int, int);
 extern unsigned far pascal random_below(unsigned);
 extern void far pascal show_notice_error(int, const char far *);
@@ -1000,8 +1026,6 @@ int * far pascal ComputeSymbolPt(int *p, int index)
 extern char * far cdecl malloc(unsigned);
 extern void far cdecl free(void *);
 extern int far cdecl sprintf(char *, const char *, ...);
-static const struct dialog_point _based(_segname("_CONST")) symbol_heading = {28, 47};
-static const struct dialog_point _based(_segname("_CONST")) symbol_caption = {44, 72};
 
 void far pascal draw_notice_symbols(unsigned symbol, DialogAsset asset, int attempt)
 {
@@ -1216,9 +1240,6 @@ int far * far pascal ComputeHallPlayerRect(int far *p, int index)
     p[2] = p[0] + 20;
     return p;
 }
-extern struct dialog_rect hall_box;
-extern struct dialog_point hall_name_caption, hall_score_caption;
-extern const char hall_read_path[], hall_write_path[];
 extern struct dialog_rect hall_abort_rect;
 extern int far pascal wait_for_hall_input(void);
 extern int far pascal buffer_size(void far *);
@@ -1298,6 +1319,7 @@ struct hall_table far * far pascal insert_hall_record(
     struct hall_table far *old;
     int size, row, count;
     int far *current;
+    struct hall_record far *record;
 
     if (table) {
         old = table;
@@ -1320,9 +1342,10 @@ struct hall_table far * far pascal insert_hall_record(
             current = (int far *)((char far *)current + sizeof(struct hall_record));
         } while (++row < count);
     }
-    if (row < count && row != 4)
-        _fmemmove(table->records + row + 1, table->records + row,
-                  (table->count - row) * sizeof(struct hall_record));
+    if (row < count && row != 4) {
+        record = &table->records[row];
+        _fmemmove(record + 1, record, (table->count - row) * sizeof(struct hall_record));
+    }
     if (table->count < 5)
         ++table->count;
     else if (row == 5)
@@ -1436,30 +1459,30 @@ int far pascal main_menu_choice(void)
             previous = option;
             draw_menu_icon(option, 1);
         }
-        switch (read_key()) {
+        switch ((unsigned)read_key()) {
         case 9:
             previous = option;
-            /* Tab and the Down key both advance. */
-        case 0x5000:
-            if (option == 5)
-                option = 0;
-            else
-                ++option;
-            break;
+            if (option != 5)
+                goto next_option;
+            /* A tab from the last option returns to the first. */
         case 0x4700:
+first_option:
             option = 0;
             break;
         case 13:
-            if (option == 3 || option == 4) {
-                if (option == 3 && !IsValidTimeForSaveGame())
-                    menu_sound(-2);
-                else
-                    done = 1;
-            } else if (change_menu_option(option)) {
-                draw_menu_label(option, 1);
+            if (option != 3 && option != 4) {
+                if (change_menu_option(option)) {
+                    draw_menu_label(option, 1);
+                    break;
+                }
             } else {
-                menu_sound(-2);
+                if (option != 3 || IsValidTimeForSaveGame())
+                    goto accept_option;
             }
+            menu_sound(-2);
+            break;
+accept_option:
+            done = 1;
             break;
         case 17:
         case 0x1000:
@@ -1470,12 +1493,14 @@ int far pascal main_menu_choice(void)
             done = 1;
             break;
         case 0x4800:
-            if (option) {
-                --option;
-                break;
-            }
+            if (option)
+                goto previous_option;
+            /* Up from the first option wraps to the last. */
         case 0x4f00:
             option = 5;
+            break;
+previous_option:
+            --option;
             break;
         case 0x4b00:
         case 0x4d00:
@@ -1483,6 +1508,11 @@ int far pascal main_menu_choice(void)
                 option -= 3;
             else
                 option += 3;
+            break;
+        case 0x5000:
+next_option:
+            if (++option > 5)
+                option = 0;
             break;
         }
     } while (!done);
@@ -1510,9 +1540,25 @@ void far pascal draw_main_menu(void)
 }
 
 extern unsigned char sound_volume, menu_music;
-extern const char volume_on[], volume_off[], music_on[], music_off[];
-extern const char keyboard_option[], controller_option[];
-extern const char save_option[10], resume_option[12], continue_option[10];
+struct JoystickMessages {
+    char unavailable[22];
+    char mode[14];
+    char missing[20];
+};
+
+struct PrinceAudioMessages {
+    char sound_on[10];
+    char sound_off[10];
+    char ambient_on[18];
+    char ambient_off[18];
+    char music_unavailable[18];
+    struct JoystickMessages joystick;
+};
+
+extern struct PrinceAudioMessages prince_audio_messages;
+
+struct menu_text_10 { char value[10]; };
+struct menu_text_12 { char value[12]; };
 
 void far pascal draw_menu_label(int index, int selected)
 {
@@ -1522,16 +1568,34 @@ void far pascal draw_menu_label(int index, int selected)
     const char *label;
 
     if (MAKE_INDEX_RECT((int *)&rect, index)) {
-        label = label_buffer;
         range.last = -1;
         range.first = 0;
         switch (index) {
-        case 0: label = sound_volume ? volume_on : volume_off; break;
-        case 1: label = menu_music ? music_on : music_off; break;
-        case 2: label = control_mode == 0 ? keyboard_option : controller_option; break;
-        case 3: _fmemcpy(label_buffer, save_option, sizeof(save_option)); label = label_buffer; break;
-        case 4: _fmemcpy(label_buffer, resume_option, sizeof(resume_option)); label = label_buffer; break;
-        case 5: _fmemcpy(label_buffer, continue_option, sizeof(continue_option)); label = label_buffer; break;
+        case 0:
+            label = sound_volume ? prince_audio_messages.sound_on
+                                 : prince_audio_messages.sound_off;
+            break;
+        case 1:
+            label = menu_music ? prince_audio_messages.ambient_on
+                               : prince_audio_messages.ambient_off;
+            break;
+        case 2:
+            /* The keyboard label immediately follows the joystick strings in DGROUP. */
+            label = control_mode == 0 ? (const char *)(&prince_audio_messages + 1)
+                                      : prince_audio_messages.joystick.mode;
+            break;
+        case 3:
+            *(struct menu_text_10 *)label_buffer = *(const struct menu_text_10 *)save_option;
+            label = label_buffer;
+            break;
+        case 4:
+            *(struct menu_text_12 *)label_buffer = *(const struct menu_text_12 *)resume_option;
+            label = label_buffer;
+            break;
+        case 5:
+            *(struct menu_text_10 *)label_buffer = *(const struct menu_text_10 *)continue_option;
+            label = label_buffer;
+            break;
         }
         if (selected)
             frame_rect(&rect, 12);
@@ -1560,17 +1624,15 @@ void far pascal draw_menu_icon(int index, int selected)
                 remap_frame_shape(bitmap->pixels, bitmap->width, bitmap->height);
                 draw_frame_shape(bitmap, origin.y, origin.x, 10);
             } else {
-                rect.left = origin.x;
-                rect.top = origin.y;
-                rect.right = rect.left + bitmap->width;
-                rect.bottom = rect.top + bitmap->stride;
+                *(struct dialog_point *)&rect = origin;
+                rect.right = bitmap->width + rect.left;
+                rect.bottom = bitmap->stride + rect.top;
                 frame_rect(&rect, 12);
             }
         }
     }
 }
 
-extern const char options_path[];
 extern void far pascal set_sound_volume(unsigned char);
 
 struct menu_options {
@@ -1608,4 +1670,156 @@ void far pascal SetOptionsFromDisk(void)
         }
         _dos_close(file);
     }
+}
+
+extern void far pascal toggle_menu_music(void);
+extern void far pascal initialize_controller(void);
+
+int far pascal change_menu_option(int option)
+{
+    int changed = 1;
+
+    switch (option) {
+    case 0:
+        set_sound_volume((unsigned char)(!sound_volume * 15));
+        break;
+    case 1:
+        changed = menu_music;
+        toggle_menu_music();
+        changed = menu_music != changed;
+        break;
+    case 2:
+        if (control_mode == 2)
+            control_mode = 0;
+        else {
+            initialize_controller();
+            if (control_mode != 2)
+                changed = 0;
+        }
+        break;
+    case 5:
+        acknowledge_key(0, 0, 0);
+        break;
+    }
+    return changed;
+}
+
+extern int far pascal draw_credits_transition(int, int, const struct dialog_rect far *, long);
+extern int credits_timer;
+extern int far pascal find_key_binding(const char far *);
+extern int far pascal hold_blink_box(const struct dialog_rect far *);
+extern void far pascal show_blink_box(int);
+extern void far pascal release_blink_box(int);
+extern void far pascal set_credits_port(int);
+extern void far pascal add_text_offset(int, int);
+extern void far pascal intersect_credits_rect(struct dialog_rect far *, const struct dialog_rect far *, int, int);
+extern int far pascal get_credit_strings(int);
+extern char far * far pascal lock_credit_strings(int);
+extern char far * far pascal nth_credit_string(char far *, unsigned char);
+
+void far pascal draw_credits_page(int, int);
+void far pascal draw_credit_category(int);
+static const char _based(_segname("_CONST")) credits_blink_key[] = "BLINK";
+
+int far pascal show_credits(void)
+{
+    struct dialog_rect clip;
+    int key, page;
+    int old_page, blink;
+
+    InitDialog();
+    current_port = (struct dialog_port *)dialog_port_handle;
+    DrawDialogFrame(0);
+    intersect_credits_rect(&clip, &hall_abort_rect, 9, 9);
+    key = page = 0;
+    for (; !key && page < 4; ++page) {
+        current_port = (struct dialog_port *)dialog_port_handle;
+        frame_rect(&clip, 12);
+        draw_credits_page(credits_first[page], credits_last[page]);
+        current_port = &dialog_port;
+        if (page)
+            key = draw_credits_transition(1, dialog_port_handle, &hall_abort_rect, 90);
+        else
+            key = DialogFadeIn();
+        if (!key) {
+            if (!page && find_key_binding(credits_blink_key)) {
+                old_page = page;
+                credits_timer = 480;
+                blink = hold_blink_box(&credits_blink_box);
+                while (credits_timer) {
+                    show_blink_box(blink);
+                    key = wait_dialog_ticks(1, 15);
+                    if (!key) {
+                        frame_rect(&credits_blink_box, 12);
+                        key = wait_dialog_ticks(1, 15);
+                    }
+                    if (key)
+                        break;
+                }
+                release_blink_box(blink);
+                page = old_page;
+            } else {
+                key = wait_dialog_ticks(0, 480);
+            }
+        }
+    }
+    current_port = &dialog_port;
+    DialogFadeOut();
+    release_handle(find_dialog_string(10));
+    DialogResetToGamePlay(0);
+    if (dialog_port_handle) {
+        free_port(dialog_port_handle);
+        dialog_port_handle = 0;
+    }
+    return key;
+}
+
+void far pascal draw_credits_page(int first, int last)
+{
+    MoveTo(save_heading.top, save_heading.right);
+    if (first <= last) {
+        do {
+            draw_credit_category(first);
+            add_text_offset(0, 4);
+        } while (++first <= last);
+    }
+}
+
+void far pascal draw_credit_category(int id)
+{
+    struct dialog_rect rect;
+    struct dialog_range range;
+    char far *strings;
+    char far *title;
+    unsigned char line;
+    int handle = get_credit_strings(id);
+
+    if (!handle)
+        return;
+    strings = lock_credit_strings(handle);
+    rect.right = *(int *)((char *)current_port + 0x22);
+    rect.top = save_description.top;
+    rect.left = rect.right - 19;
+    rect.bottom = save_description.bottom;
+    title = nth_credit_string(strings, 1);
+    if ((unsigned char)strings[0] == 1) {
+        range.last = 0;
+        if (id == credits_first[3] || (id >= 1020 && id <= 1026))
+            intersect_credits_rect(&rect, &hall_abort_rect, 9, 9);
+    } else {
+        range.last = -1;
+    }
+    range.first = 0;
+    DialogDrawStr(title, 10, 0, 0, &rect, &range);
+    if ((unsigned char)strings[0] > 1) {
+        range.last = 1;
+        for (line = 2; line <= (unsigned char)strings[0]; ++line) {
+            DialogDrawStr(nth_credit_string(strings, line), 10, 0, 0, &rect, &range);
+            OffsetRect(&rect, &rect, 0, 21);
+            add_text_offset(0, 21);
+        }
+    } else {
+        add_text_offset(0, 21);
+    }
+    release_handle(handle);
 }

@@ -1,5 +1,5 @@
-/* ANIM.C. Exact contributions: anim_draw, advance_frame, draw_frame, paint_element,
- * accumulate_element_bounds and reset_element. Other routines are drafts. */
+/* ANIM.C. Exact contributions: anim_draw, anim_free, advance_frame, draw_frame,
+ * paint_element, accumulate_element_bounds and reset_element. Other routines are drafts. */
 typedef struct
 {
     int top, left, bottom, right;
@@ -80,21 +80,16 @@ Animation *anim_draw(Animation *animation)
     return animation;
 }
 
+#pragma optimize("l", on)
 void anim_free(Animation *animation)
 {
-    int i;
-    int *handle;
+    register int i;
 
     if (animation->fade)
         release_fade(animation->fade);
-    i = 0;
-    if (i < animation->handle_count) {
-        for (handle = animation->handles;; ++handle) {
-            if (*handle)
-                dispose_handle(*handle);
-            if (++i >= animation->handle_count)
-                break;
-        }
+    for (i = 0; i < animation->handle_count; ++i) {
+        if (animation->handles[i])
+            dispose_handle(animation->handles[i]);
     }
     release_port(animation);
     release_buffer(animation->background.pixels);
@@ -103,6 +98,7 @@ void anim_free(Animation *animation)
     release_animation_heap(animation);
 }
 
+#pragma optimize("l", off)
 Animation *draw_frame(Animation *animation);
 Animation *near advance_frame(Animation *animation);
 void near paint_element(Animation *animation, Element *element);
@@ -125,7 +121,7 @@ int anim_idle(Animation *animation)
     int status = 0;
     const unsigned char far *event;
     int idx, saved_flags;
-    register unsigned char opcode;
+    unsigned int opcode;
     unsigned long saved_pixels;
     Element *current_element;
 
@@ -136,11 +132,11 @@ next_command:
     event = animation->commands;
     switch (*event) {
     case 0:
-        if (animation->deadline_base + animation->delay <= clock_ticks)
+        if (animation->deadline_base + animation->delay <= *(volatile unsigned long *)&clock_ticks)
             status = 1;
         break;
     case 1:
-        if (animation->deadline_base + animation->delay <= clock_ticks) {
+        if (animation->deadline_base + animation->delay <= *(const volatile unsigned long *)&clock_ticks) {
             advance_frame(animation);
             if (!animation->timing.repeats) {
                 animation->timing.repeats = WORD_AT(event, 1);
@@ -155,14 +151,15 @@ next_command:
             animation->timing.deadline = WORD_AT(event, 1) + *(volatile unsigned long *)&clock_ticks;
             if (animation->deadline_base)
                 animation->deadline_base += WORD_AT(event, 1);
-        } else if (animation->timing.deadline <= clock_ticks) {
+        } else if (animation->timing.deadline <= *(const volatile unsigned long *)&clock_ticks) {
             animation->timing.deadline = 0;
             animation->commands += 3;
         }
         break;
     case 3:
-        if (animation->deadline_base + animation->delay <= clock_ticks) {
-            play_animation_sound(WORD_AT(event, 1));
+        if (animation->deadline_base + animation->delay <= *(const volatile unsigned long *)&clock_ticks) {
+            idx = WORD_AT(event, 1);
+            play_animation_sound(idx);
             animation->commands += 3;
         }
         break;
@@ -188,7 +185,8 @@ next_command:
         ++animation->commands;
         break;
     default:
-        if (((opcode = *event) & 0xfc) == 0x10) {
+        opcode = *event;
+        if ((opcode & 0xfc) == 0x10) {
             idx = opcode & 3;
             if (animation->callbacks[idx] &&
                 animation->callbacks[idx](animation, WORD_AT(event, 1)))
@@ -196,10 +194,11 @@ next_command:
             animation->commands += 3;
             goto next_command;
         }
-        if (((opcode = *event) & 0xfc) == 0x14) {
+        if ((opcode & 0xfc) == 0x14) {
             idx = opcode & 3;
             if (animation->loops[idx]) {
-                if (!--animation->loops[idx])
+                --animation->loops[idx];
+                if (!animation->loops[idx])
                     goto next_element_command;
             } else {
                 animation->loops[idx] = WORD_AT(event, 1);
@@ -596,7 +595,8 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
               AnimationCallback callback, int restore, unsigned int flags, int interruptible)
 {
     int scene_id;
-    int sheet, palette_list, count;
+    int saved_sheet, palette_list, count;
+    register int sheet;
     const unsigned char far *commands;
     Animation *animation;
     int palettes[20];
@@ -612,6 +612,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     animation = anim_new(commands, sheet, 1, lock_sheet(sheet)->width, save_background);
     animation->callbacks[0] = callback;
     sprintf(message, animation_failure, scene);
+    saved_sheet = sheet;
     if (!animation)
         fatal_error(1, message);
 
@@ -650,7 +651,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     }
     anim_free(animation);
     if (!sheet_override)
-        dispose_handle(sheet);
+        dispose_handle(saved_sheet);
     release_animation_commands(commands);
     if (flags & 2)
         set_animation_audio(0);
