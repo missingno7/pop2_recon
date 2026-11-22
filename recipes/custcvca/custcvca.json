@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custcvca/custcvca.json",
-  "binding_sha256": "9d4a48ab49003695e7a2cc559b81254aec00458fbb7b92c4d2840add54587280",
+  "binding_sha256": "c0f480073d08345297c7d2bff151d7da26bc6cec080baa0bb19ab7c78d7183ef",
   "claims": [
     {
       "fixup_count": 3,
@@ -23,6 +23,26 @@
       "target_id": "overlay-13:2dc2:0012"
     },
     {
+      "fixup_count": 17,
+      "public": "CHECK_CARPET_IMAGE",
+      "relocation_indices": [
+        0,
+        13,
+        21,
+        22,
+        29,
+        31,
+        46,
+        47,
+        48
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-13:2dc2:002a"
+    },
+    {
       "fixup_count": 14,
       "public": "DRAW_CARPET",
       "relocation_indices": [
@@ -42,6 +62,16 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-13:2dc2:01e6"
+    },
+    {
+      "fixup_count": 4,
+      "public": "@get_carpet_shape_info",
+      "relocation_indices": [
+        49
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-13:2dc2:03ac"
     },
     {
       "fixup_count": 5,
@@ -170,20 +200,12 @@
   ],
   "drafts": [
     {
-      "object_offset": 42,
-      "public": "CHECK_CARPET_IMAGE"
-    },
-    {
       "object_offset": 570,
       "public": "DRAW_OBJ_CARPET"
     },
     {
       "object_offset": 864,
       "public": "GET_CARPET_FRAME"
-    },
-    {
-      "object_offset": 940,
-      "public": "@get_carpet_shape_info"
     },
     {
       "object_offset": 1556,
@@ -205,12 +227,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "custcvca/custcvca",
-  "object_sha256": "6223351cad078e5bdfa910618c43368f8a788d6c7f93c6e11c77bc9fa5035130",
+  "object_sha256": "6c1efdcd46dd5469143098d9b4e5c2aa6903df9ae8f56e40cd5a45bb41d5bd66",
   "origin": 0,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custcvca/custcvca.c",
-  "source_sha256": "a34e4c534854b83cf77205a144400f5c9954746c2a34afc421e4db5e3d760d40",
+  "source_sha256": "58a3863f0bf30d4cd06770c704f73f7d71a22e050c632756e77690b38edba42c",
   "space": "overlay-13"
 }

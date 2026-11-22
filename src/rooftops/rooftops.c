@@ -198,10 +198,8 @@ void far pascal clip_character_at_water(void)
 
     if ((state_byte == 19 || state_byte == 16) && current_character.id == water_character) {
         limit = 172;
-        if (STATE_KIND == 9)
-            limit = 186;
-        if (limit > water_clip_bottom)
-            limit = water_clip_bottom;
+        if (STATE_KIND == 9) limit = 186;
+        if (limit > water_clip_bottom) limit = water_clip_bottom;
         water_clip_bottom = limit;
         if (limit < character_clip_bottom)
             character_clip_bottom = water_clip_bottom;

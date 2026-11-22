@@ -121,11 +121,11 @@ int check_carpet_image(int index)
 {
     Handle copy_handle;
     Shape far *source, far *copy;
-    unsigned int entry_offset;
+    unsigned int entry_offset[1];  /* Keeps the scaled offset in a stack slot across calls. */
 
     if (carpet) {
-        entry_offset = index * sizeof(CarpetImage);
-#define ENTRY ((CarpetImage *)((char *)carpet + entry_offset))
+        entry_offset[0] = index * sizeof(CarpetImage);
+#define ENTRY ((CarpetImage *)((char *)carpet + entry_offset[0]))
         if (ENTRY->handle && probe_handle(ENTRY->handle))
             goto return_handle;
         if (ENTRY->handle) {
@@ -185,7 +185,7 @@ void save_under_carpet(void)
 
 void draw_obj_carpet(Byte *unused)
 {
-    int slot, frame;
+    int slot, frame[1];  /* Draft: keep the frame index on the stack across calls. */
     Shape far *shape;
     ShapeRef ref;
     signed char scroll;
@@ -193,12 +193,12 @@ void draw_obj_carpet(Byte *unused)
 
     if (carpet && carpet->frame) {
         slot = mid_count; mid_rows[slot].x = actor_x;
-        frame = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
+        frame[0] = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame[0]] + 1);
         mid_rows[slot].y = actor_y - shape->height; mid_rows[slot].sheet = 4;
-        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; mid_rows[slot].clip = actor_clip;
+        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame[0]] + 1; mid_rows[slot].clip = actor_clip;
         mid_rows[slot].order = 10;
         mid_rows[slot].reserved = 0; mid_rows[slot].invisible = 0; mid_rows[slot].depth = 255;
-        scroll = carpet_animation.scroll[frame]; if (scroll) {
+        scroll = carpet_animation.scroll[frame[0]]; if (scroll) {
             camera_y += scroll; translate_rect(&view_rect, &view_rect, 0, scroll);
         }
         if (carpet->sitting) {
@@ -220,14 +220,15 @@ int get_carpet_frame(void)
             frame = (carpet->frame / 2) % 9;
         else
             goto seated;
-        return frame;
+        goto finish;
     }
-    /* The DOS null branch reads the uninitialized frame slot. */
+    /* The DOS null path reads an uninitialized frame slot. */
     return frame;
 seated:
     frame = carpet->frame + 8;
     if (frame > 9)
         frame = 9;
+finish:
     return frame;
 }
 

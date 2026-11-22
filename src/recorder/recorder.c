@@ -78,29 +78,32 @@ void far pascal CheckRecordedDirForChar(void)
     RecordedFrame far *frame;
     RecordedInput far *input;
     PackedDirection far *direction;
-    volatile signed char character;
+    union {
+        signed char value;
+        unsigned char raw;
+    } character;
 
     if (playback.mode == 3 && playback.handle) {
         if (current_character == 10)
-            character = 5;
+            character.raw = 5;
         else
-            character = current_character;
+            character.value = current_character;
         recording = lock_handle(playback.handle);
         if (playback.offset < recording->data_size) {
-            frame = (RecordedFrame far *)(recording->data + playback.offset);
+            frame = (RecordedFrame far *)(recording->data + *(volatile int *)&playback.offset);
             if (game_tick > frame->tick)
                 frame = IncRecordedGameToNextFrame(recording);
             if (game_tick == frame->tick && frame->count > playback.input_index) {
                 input = (RecordedInput far *)(frame + 1) + playback.input_index;
-                if (input->character == character) {
+                if (input->character == character.value) {
                     direction = &input->direction;
                     ConvertRecDirToDir(direction);
-                    playback.saved_directions[character] = *direction;
+                    playback.saved_directions[character.value] = *direction;
                     playback.input_index++;
                 }
             }
         }
-        ConvertRecDirToDir(&playback.saved_directions[character]);
+        ConvertRecDirToDir(&playback.saved_directions[character.value]);
     }
 }
 
@@ -130,9 +133,10 @@ void far pascal ConvertRecDirToDir(PackedDirection far *direction)
 
 RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recording)
 {
-    RecordedFrame far * volatile frame;
+    RecordedFrame far *frame;
 
-    playback.offset += (((RecordedFrame far *)(recording->data + playback.offset))->count + 1)
+    playback.offset += (((RecordedFrame far *)(recording->data +
+                        *(volatile int *)&playback.offset))->count + 1)
                         * sizeof(RecordedInput);
     playback.input_index = 0;
     frame = (RecordedFrame far *)(recording->data + playback.offset);

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/rooftops/rooftops.json",
-  "binding_sha256": "248d898f8be702224350dfd1dbdcb5c00e68bc9d07c3a3c84a0ffddbe2c19965",
+  "binding_sha256": "b052875e117befef74f1e2021b0f6d53f34c800d045bd183b1eda8a7099caed7",
   "claims": [
     {
       "fixup_count": 5,
@@ -111,9 +111,24 @@
         20,
         40
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "overlay-4:29cf:03b6"
+    },
+    {
+      "fixup_count": 8,
+      "public": "WATCH_OPPONENTS",
+      "relocation_indices": [
+        16,
+        57
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-4:29cf:0416"
     },
     {
       "fixup_count": 20,
@@ -251,10 +266,6 @@
       "public": "CLIP_CHARACTER_AT_WATER"
     },
     {
-      "object_offset": 1046,
-      "public": "WATCH_OPPONENTS"
-    },
-    {
       "object_offset": 1782,
       "public": "DRAW_ROOF_PILLAR"
     },
@@ -270,19 +281,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 10703,
   "group_id": "group:rooftops/rooftops",
   "kind": "same_source_group",
   "language": "c",
   "name": "rooftops/rooftops",
-  "object_sha256": "7af679bbbafe07a37f37a6967e727ed33fb1fb7ac82c1aac323a3a42304cf698",
+  "object_sha256": "c83ba70ae13add6140e14110f1b24740ad49639b3375d71396855512adf25e66",
   "origin": 0,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/rooftops/rooftops.c",
-  "source_sha256": "4b9248a94ed2862bbdbbcd78be11dbb3cc035dd5033c373eab72674386fddd37",
+  "source_sha256": "13692bbd5f5264966a8f03f2ce1aa01c0e1502281813e69e890f7d63098d4706",
   "space": "overlay-4"
 }

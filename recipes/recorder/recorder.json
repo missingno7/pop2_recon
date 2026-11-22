@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/recorder/recorder.json",
-  "binding_sha256": "c301d845bfc61faf247c9fb379d67f7513d9d0ce03f8b9606a2ae17b097c946f",
+  "binding_sha256": "c57827a44174e557586a65149b773b0f1f32646b41378d44232a87a90c43eda3",
   "claims": [
     {
       "fixup_count": 10,
@@ -19,9 +19,29 @@
       "target_id": "root:0da4:0122"
     },
     {
+      "fixup_count": 6,
+      "public": "CONVERTDIRTORECDIR",
+      "relocation_indices": [
+        1094
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0da4:0130"
+    },
+    {
       "fixup_count": 5,
       "public": "CONVERTRECDIRTODIR",
       "target_id": "root:0da4:0196"
+    },
+    {
+      "fixup_count": 8,
+      "public": "INCRECORDEDGAMETONEXTFRAME",
+      "relocation_indices": [
+        1089
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0da4:01e4"
     },
     {
       "fixup_count": 2,
@@ -79,14 +99,6 @@
     {
       "object_offset": 78,
       "public": "CHECKRECORDEDDIRFORCHAR"
-    },
-    {
-      "object_offset": 302,
-      "public": "CONVERTDIRTORECDIR"
-    },
-    {
-      "object_offset": 482,
-      "public": "INCRECORDEDGAMETONEXTFRAME"
     }
   ],
   "emitted_size": 824,
@@ -96,19 +108,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 3492,
   "group_id": "group:recorder/recorder",
   "kind": "same_source_group",
   "language": "c",
   "name": "recorder/recorder",
-  "object_sha256": "cf50c40edaffa9d0001166a97c8bd511e668ad00af9299fdff9017761a81a79d",
+  "object_sha256": "8d59287f81174d259378a33c600451a09939217760c77a2a88b63a3a04561d60",
   "origin": 55874,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/recorder/recorder.c",
-  "source_sha256": "d276af43b3aa6923650eed9e00a197fb88b32db7d951665d8e59a7c9903416bc",
+  "source_sha256": "49c0168d985fba9f621e32283b23d6cea3b174563731f43c5f79d31fcdf355ba",
   "space": "root"
 }
