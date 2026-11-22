@@ -46,9 +46,10 @@ extern struct { signed char column; } actor_column;
 #define actor_column actor_column.column
 extern signed char target_column, target_row, target_life, target_facing;
 extern signed char actor_row, actor_life;
-extern signed char actor_velocity_x, actor_velocity_y, camera_actor, actor_alert, head_active;
+extern signed char actor_velocity_x, actor_velocity_y, actor_alert, head_active;
 extern unsigned char actor_room, level_head_kind, target_visible, tile_flags, target_room;
 extern signed char actor_slot;
+extern signed char camera_actor;
 extern unsigned char tile_modifier;
 extern unsigned int actor_frame, target_frame, target_progress;
 extern int actor_y, target_x, actor_sequence, actor_timer;
@@ -71,7 +72,7 @@ extern signed char move_with_facing[], move_against_facing[];
 extern signed char far pascal read_tile(unsigned char room, signed char column, signed char row);
 extern int far pascal tile_blocks_head(signed char tile);
 extern int far pascal tile_allows_vertical(signed char tile);
-extern int far pascal tile_has_floor(signed char tile);
+extern int far pascal GetBarrCode(unsigned char tile);
 extern int far pascal head_has_target(void);
 extern int far pascal gate_blocks_head(void);
 extern int far pascal bounded_random(int maximum);
@@ -711,7 +712,7 @@ int far pascal head_set_to_flee_mode(void)
 {
     unsigned char skill;
     signed char column;
-    int clear, edge;
+    int clear, edge, initial_column;
     OpponentRecord near *record;
 
     skill = room_opponents[actor_room][actor_slot * 23 + 5];
@@ -720,12 +721,14 @@ int far pascal head_set_to_flee_mode(void)
           (actor_facing == -1 && actor_column + 3 <= 10)))
         goto cannot_flee;
     clear = 1;
-    if ((column = actor_column) != (edge = actor_facing == 0 ? -1 : 10))
+    initial_column = *(volatile signed char *)&column = actor_column;
+    edge = actor_facing == 0 ? -1 : 10;
+    if (initial_column != edge)
         do {
             if (!clear)
                 break;
             skill = read_tile(actor_room, column, actor_row);
-            if (tile_has_floor(skill) && (skill != 4 || gate_blocks_head()))
+            if (GetBarrCode(skill) && (skill != 4 || gate_blocks_head()))
                 clear = 0;
             column += move_against_facing[actor_facing];
         } while (column != edge);
@@ -747,7 +750,7 @@ int far pascal head_set_to_flee_mode(void)
         clear_actor_motion();
         set_actor_speed(actor_slot, 0, actor_velocity_y);
         refresh_actor_movement(actor_slot);
-    if (actor_slot == camera_actor)
+        if (actor_slot == camera_actor)
             camera_actor = -1;
     }
     goto done;
@@ -790,7 +793,11 @@ int far pascal just_start_vertical_seq(void)
     int baseline = actor_row * 63 + 37;
     int result;
     if (actor_sequence != 144) {
-        result = actor_sequence == 143 && actor_y < baseline;
+        if (actor_sequence == 143)
+            result = actor_y < baseline;
+        else
+            result = 0;
+        return result;
     } else if (actor_y > baseline)
         result = 1;
     else
