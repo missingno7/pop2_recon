@@ -209,3 +209,17 @@ original DrawCaveRevPlate (137, 150, 157) and DrawTemplePosts interleavings cann
 external identity used for both the split address and the direct call: their split-address LOC2
 references resolve to a different target identity. Reconstruct that route in source; a second
 case spelling of the same function is refused (docs/acceptance.md "One name per object").
+
+## Correction (link-tooling probes, 2026-11-22; build/workers/o9_linktools)
+
+Relocation groups are keyed per final output segment by (flags, 0, symbol id, symbol id): flags 048Bh for
+base16 (LOC2, `mov ax,seg X`) and 0C8Bh for pointer32 (LOC3, `call far X`); frame method and displacement do not
+enter the key. Groups are hashed (sum of ROR16(byte_j, j) over the 8-byte key, mod 101, new keys inserted at the
+head of their bucket chain, buckets written 0..100; SimAnt's model, D:/Prog/simant_recon/evidence/toolchain/
+rtlink-order/model.py), and symbol ids are assigned in case-insensitive registration order (overlay links register
+10 names before the first object). Predictions written before linking matched 960 root and 749 overlay-link
+relocations exactly. Consequently base16 and pointer32 references to ONE symbol are two groups: rule 3 above
+("LOC2 sites precede LOC3 segment words within a bucket") held only for the 2-symbol METHODS probes, and the
+overlay-buckets conclusion that DrawCaveRevPlate/DrawTemplePosts need a different target identity is withdrawn:
+their interleaving is the hash order of two groups of the same symbol. tools/far_binding.relocation_order keys
+groups by (symbol, field kind) accordingly. Between-group order still needs the whole link's symbol ids.

@@ -1508,7 +1508,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         if symbol["segment"] != observed:
                             state["differences"].append(at)
                         state["occupied"].update(range(at, at+2))
-                        sites.append({"site": state["position"] + at, "offset": at, "symbol": ref["name"]})
+                        sites.append({"site": state["position"] + at, "offset": at, "symbol": ref["name"], "field": "base16"})
                         used_far.add(ref["name"])
                         continue
                     # F5 (target frame, MSC) or F2 naming the same external as the target (MASM
@@ -1532,18 +1532,18 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     if value != observed:
                         state["differences"].append(at)
                     state["occupied"].update(range(at, at+4))
-                    sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"]})
+                    sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"], "field": "pointer32"})
                     used_far.add(ref["name"])
-                sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]]
-                sites += [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g]}
+                sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP", "field": "base16"} for g in state["group_bases"]]
+                sites += [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g], "field": "base16"}
                           for g in state["own_bases"]]
                 relocation_proof = relocation_order(state["relocations"], sites,
                                                     [r["index"] for r in state["relocations"]])
             if (state["group_bases"] or state["own_bases"]) and not state["far"]:
                 relocation_proof = relocation_order(
                     state["relocations"],
-                    [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP"} for g in state["group_bases"]] +
-                    [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g]}
+                    [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP", "field": "base16"} for g in state["group_bases"]] +
+                    [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g], "field": "base16"}
                           for g in state["own_bases"]],
                     [r["index"] for r in state["relocations"]])
             if state["data"]:

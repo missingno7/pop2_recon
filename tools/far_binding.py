@@ -448,16 +448,20 @@ def relocation_order(relocs, fields, frozen_indices):
     require(indices == frozen_indices, "Frozen original relocation indices changed")
     by_site = {f["site"]: f for f in fields}
     groups = []
-    names = list(dict.fromkeys(f["symbol"] for f in fields))
-    original_names = [by_site[r["image_offset"]]["symbol"] for r in relocs]
+    # RTLink keys a relocation group by its field kind and target symbol: base16 (LOC2, `mov ax,seg X`)
+    # and pointer32 (LOC3, `call far X`) references to one symbol are separate groups (o9_linktools
+    # probes: flags 048Bh vs 0C8Bh in the group key, 1,709 predicted relocations exact).
+    key = lambda f: (f["symbol"], f.get("field", "pointer32"))
+    names = list(dict.fromkeys(key(f) for f in fields))
+    original_names = [key(by_site[r["image_offset"]]) for r in relocs]
     runs = [n for i, n in enumerate(original_names) if i == 0 or original_names[i-1] != n]
     require(len(runs) == len(set(runs)), "Original MZ target-symbol groups are interleaved")
     for name in names:
-        generated = [f for f in fields if f["symbol"] == name]
-        observed = [r for r in relocs if by_site[r["image_offset"]]["symbol"] == name]
+        generated = [f for f in fields if key(f) == name]
+        observed = [r for r in relocs if key(by_site[r["image_offset"]]) == name]
         require([f["site"] for f in generated] == [r["image_offset"] for r in observed],
-                "Original MZ within-symbol FIXUPP order differs: " + name)
-        groups.append({"symbol": name,
+                "Original MZ within-symbol FIXUPP order differs: " + name[0])
+        groups.append({"symbol": name[0], "field": name[1],
                        "fixup_operand_offsets": [f["offset"] for f in generated],
                        "segment_word_sites": [f["site"] for f in generated],
                        "original_relocation_indices": [r["index"] for r in observed],
@@ -522,7 +526,7 @@ def compare(module, code_name, actual, expected, binding, target, space, oracle)
                           "equal": value == observed})
         occupied.update(range(at, at+4))
         allowed_calls.add(at-1)
-        sites.append({"site": space.position(target["segment"], target["offset"])+at+2,
+        sites.append({"field": "pointer32", "site": space.position(target["segment"], target["offset"])+at+2,
                       "offset": at, "symbol": ref["name"]})
     # No literal or indirect call may bypass the supported symbolic obligations.
     for insn in rows:

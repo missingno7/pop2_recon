@@ -1,0 +1,332 @@
+{
+  "descriptor_table": {
+    "count": 3,
+    "offset": 3435
+  },
+  "entry_is_RTLOVLINIT": true,
+  "exe_sha256": "4a5f1b57e64a480fe3dca9cc7ecc43dd76ef8e9f7b521482647514216cd699d0",
+  "exe_size": 5504,
+  "inputs": {
+    "DEFS": {
+      "argv": [
+        "C:\\tools\\nmlgcdos\\msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+        "UNIT.ASM,UNIT.OBJ,NUL,NUL;"
+      ],
+      "object_sha256": "5ac64fd3139b93bdfe28be74397d9f2ff99910fe529b9a397531a13c225609d6",
+      "source_sha256": "213f141b26c465a49910953ef616e3065fe0f06e9b50e694da6d32238cde6674"
+    },
+    "OV1": {
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl"
+      ],
+      "object_sha256": "25302dc02eccae715028b1115f297e88d7d59826ccc337bbc45093d46c6b9e7d",
+      "profile": "msc600",
+      "source_sha256": "28d39d7b44126b029c2a9c412bbd850f8c7aac5d26e6124ca5e9c60c8f95414f"
+    },
+    "OV2": {
+      "argv": [
+        "C:\\tools\\nmlgcdos\\msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+        "UNIT.ASM,UNIT.OBJ,NUL,NUL;"
+      ],
+      "object_sha256": "fd56e8ef7f94cba8b4f7186be6bedf0a6d4b936e87eb4d9c47bf3235ab6274ac",
+      "source_sha256": "febd3a5496a95513627698283797e0bbbc7e548da35e5e487550a08ed2f4ac2b"
+    },
+    "ROOTC": {
+      "flags": [
+        "/c",
+        "/AM",
+        "/Oe",
+        "/Gs",
+        "/Zl"
+      ],
+      "object_sha256": "9d169054811e9527d10a83833b654074aebcc5ec10e18c17376b116cd9a47a42",
+      "profile": "msc600",
+      "source_sha256": "827c8519ee339c1f68289caefa703b314dff62f578e6177cd8d90a3909089a1e"
+    },
+    "START": {
+      "argv": [
+        "C:\\tools\\nmlgcdos\\msdos.exe",
+        "-e",
+        "-v5.00",
+        "C:\\tools\\masm-5.10\\files\\MASM.EXE",
+        "UNIT.ASM,UNIT.OBJ,NUL,NUL;"
+      ],
+      "object_sha256": "f5229b2ca0d123ed3f7568bec188cc75cb7c1e55167432d83dd46c9f3c00fb6a",
+      "source_sha256": "3271dcdff84ccf64b5204548baa9153f77ae7c82c5cb310c77fa24c876485398"
+    }
+  },
+  "library_members": [
+    "RTLUTILS.LIB(ovlmgr_m.asm)",
+    "RTLUTILS.LIB(ovlmgr.asm)",
+    "RTLUTILS.LIB(dcache.asm)",
+    "RTLUTILS.LIB(cnv_val.asm)",
+    "RTLUTILS.LIB(rtcommon.asm)",
+    "RTLUTILS.LIB(ddata.asm)",
+    "RTLUTILS.LIB(rtcomm_m.asm)",
+    "RTLUTILS.LIB(pathsrch.asm)",
+    "RTLUTILS.LIB(pathsr_m.asm)"
+  ],
+  "linker_sha256": "ea6f57a470a26801086593d54aa99f6bf983dd024fc19b5e13361a07f43e17fb",
+  "map_sections": [
+    {
+      "father": 0,
+      "file": "OUT.EXE",
+      "file_address": 512,
+      "memory_address": 0,
+      "name": null,
+      "section": 1,
+      "size": 4677
+    },
+    {
+      "father": 1,
+      "file": "OUT.EXE",
+      "file_address": 5200,
+      "memory_address": 4688,
+      "name": "ONE",
+      "section": 2,
+      "size": 68
+    },
+    {
+      "father": 1,
+      "file": "OUT.EXE",
+      "file_address": 5296,
+      "memory_address": 4688,
+      "name": "TWO",
+      "section": 3,
+      "size": 9
+    },
+    {
+      "father": 0,
+      "file": "OUT.EXE",
+      "file_address": 5328,
+      "memory_address": 4768,
+      "name": "preloaded data",
+      "section": 4,
+      "size": 178
+    }
+  ],
+  "map_segments": [
+    {
+      "class": "CODE",
+      "group": null,
+      "length": 10,
+      "name": "ENTRY_TEXT",
+      "section": 1,
+      "start": 0,
+      "stop": 9
+    },
+    {
+      "class": "CODE",
+      "group": null,
+      "length": 56,
+      "name": "UNIT_TEXT",
+      "section": 1,
+      "start": 10,
+      "stop": 65
+    },
+    {
+      "class": "CODE",
+      "group": null,
+      "length": 10,
+      "name": "DEF_TEXT",
+      "section": 1,
+      "start": 66,
+      "stop": 75
+    },
+    {
+      "class": "$$OVLMGR",
+      "group": "$$OVLMGR",
+      "length": 3027,
+      "name": "$$OVLMGR",
+      "section": 1,
+      "start": 80,
+      "stop": 3106
+    },
+    {
+      "class": "$$OVLMGR",
+      "group": "$$OVLMGR",
+      "length": 30,
+      "name": "$$OVLVEC",
+      "section": 1,
+      "start": 3107,
+      "stop": 3136
+    },
+    {
+      "class": "$$OVLMGR_UTILS",
+      "group": null,
+      "length": 1540,
+      "name": "$$OVLMGR_UTILS",
+      "section": 1,
+      "start": 3137,
+      "stop": 4676
+    },
+    {
+      "class": "CODE",
+      "group": null,
+      "length": 68,
+      "name": "UNIT_TEXT",
+      "section": 2,
+      "start": 4688,
+      "stop": 4755
+    },
+    {
+      "class": "CODE",
+      "group": null,
+      "length": 9,
+      "name": "OV2_TEXT",
+      "section": 3,
+      "start": 4688,
+      "stop": 4696
+    },
+    {
+      "class": "STACK",
+      "group": null,
+      "length": 128,
+      "name": "STACK",
+      "section": 4,
+      "start": 4768,
+      "stop": 4895
+    },
+    {
+      "class": "DATA",
+      "group": "DGROUP",
+      "length": 32,
+      "name": "_DATA",
+      "section": 4,
+      "start": 4896,
+      "stop": 4927
+    },
+    {
+      "class": "CONST",
+      "group": "DGROUP",
+      "length": 0,
+      "name": "CONST",
+      "section": 4,
+      "start": 4928,
+      "stop": 4928
+    },
+    {
+      "class": "BSS",
+      "group": "DGROUP",
+      "length": 4,
+      "name": "_BSS",
+      "section": 4,
+      "start": 4928,
+      "stop": 4931
+    },
+    {
+      "class": "BSS",
+      "group": "DGROUP",
+      "length": 2,
+      "name": "c_common",
+      "section": 4,
+      "start": 4944,
+      "stop": 4945
+    }
+  ],
+  "mz": {
+    "initial_cs": 5,
+    "initial_ip": 1656,
+    "initial_sp": 128,
+    "initial_ss": 298,
+    "min_extra_paragraphs": 49,
+    "relocation_count": 42
+  },
+  "note": "Synthetic tool validation only; grants no reconstruction or acceptance.",
+  "probe": "b_overlay",
+  "response": "SYNTAX FREEFORMAT\nVERBOSE\nOUTPUT OUT\nMAP\nFILE START\nFILE ROOTC\nFILE DEFS\nBEGINAREA\n  SECTION = \"ONE\"\n    FILE OV1\n  SECTION = \"TWO\"\n    FILE OV2\nENDAREA\n",
+  "runner_sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+  "schema": 1,
+  "sections": [
+    {
+      "descriptor": {
+        "ancestor_table_index": 65535,
+        "file_size_paragraphs": 5,
+        "filename_record_offset": 2899,
+        "flags": 4,
+        "high_position_byte": 0,
+        "link_segment": 293,
+        "memory_size_paragraphs": 5,
+        "overlay_id": 2,
+        "relocation_count": 1,
+        "relocation_position_paragraphs": 325
+      },
+      "file_range": [
+        5200,
+        5296
+      ],
+      "relocations": [
+        [
+          53,
+          293
+        ]
+      ]
+    },
+    {
+      "descriptor": {
+        "ancestor_table_index": 65535,
+        "file_size_paragraphs": 1,
+        "filename_record_offset": 2899,
+        "flags": 4,
+        "high_position_byte": 0,
+        "link_segment": 293,
+        "memory_size_paragraphs": 1,
+        "overlay_id": 3,
+        "relocation_count": 2,
+        "relocation_position_paragraphs": 331
+      },
+      "file_range": [
+        5296,
+        5328
+      ],
+      "relocations": [
+        [
+          6,
+          293
+        ],
+        [
+          3,
+          293
+        ]
+      ]
+    },
+    {
+      "descriptor": {
+        "ancestor_table_index": 65535,
+        "file_size_paragraphs": 10,
+        "filename_record_offset": 2899,
+        "flags": 1,
+        "high_position_byte": 0,
+        "link_segment": 298,
+        "memory_size_paragraphs": 12,
+        "overlay_id": 4,
+        "relocation_count": 2,
+        "relocation_position_paragraphs": 333
+      },
+      "file_range": [
+        5328,
+        5504
+      ],
+      "relocations": [
+        [
+          18,
+          306
+        ],
+        [
+          22,
+          306
+        ]
+      ]
+    }
+  ]
+}
