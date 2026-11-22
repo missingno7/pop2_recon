@@ -1,7 +1,12 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "b55ba2e352556fc22036640056f1f925a0feee81d4697632819eb805e0aa62a3",
+  "binding_sha256": "dca6ceefc2bb96d039b3fc8d1617f07b44d464204c995688797c704c1b6322dc",
   "claims": [
+    {
+      "fixup_count": 7,
+      "public": "DRAW_FINAL_OBJECT",
+      "target_id": "overlay-10:29cf:0000"
+    },
     {
       "fixup_count": 1,
       "public": "LOAD_FINAL_CODE",
@@ -56,6 +61,22 @@
       "target_id": "overlay-10:29cf:02e6"
     },
     {
+      "fixup_count": 19,
+      "public": "CUT_KID_TO_CHESS_ROOM",
+      "relocation_indices": [
+        12,
+        81,
+        86,
+        161,
+        173
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0310"
+    },
+    {
       "fixup_count": 7,
       "public": "ENTER_PRINCESS_ROOM",
       "relocation_indices": [
@@ -72,9 +93,57 @@
       "target_id": "overlay-10:29cf:03e2"
     },
     {
+      "fixup_count": 27,
+      "public": "WATCH_KID",
+      "relocation_indices": [
+        24,
+        46,
+        79,
+        87,
+        113,
+        121,
+        132,
+        133,
+        134,
+        137
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:04f6"
+    },
+    {
+      "fixup_count": 7,
+      "public": "WATCH_OPPONENTS",
+      "relocation_indices": [
+        47,
+        166
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:05c6"
+    },
+    {
       "fixup_count": 4,
       "public": "RUN_JAFFAR",
       "target_id": "overlay-10:29cf:061a"
+    },
+    {
+      "fixup_count": 11,
+      "public": "DISMISS_OTHER_JAFFARS",
+      "relocation_indices": [
+        48,
+        88,
+        167
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0634"
     },
     {
       "fixup_count": 13,
@@ -338,10 +407,8 @@
         116,
         127
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "overlay-10:29cf:1cc2"
     },
     {
@@ -387,27 +454,6 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-10:29cf:1e18"
-    },
-    {
-      "fixup_count": 7,
-      "public": "DRAW_FINAL_OBJECT",
-      "target_id": "overlay-10:29cf:0000"
-    },
-    {
-      "fixup_count": 19,
-      "public": "CUT_KID_TO_CHESS_ROOM",
-      "relocation_indices": [
-        12,
-        81,
-        86,
-        161,
-        173
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-10:29cf:0310"
     }
   ],
   "drafts": [
@@ -422,18 +468,6 @@
     {
       "object_offset": 1050,
       "public": "SORT_FOREGROUND"
-    },
-    {
-      "object_offset": 1270,
-      "public": "WATCH_KID"
-    },
-    {
-      "object_offset": 1478,
-      "public": "WATCH_OPPONENTS"
-    },
-    {
-      "object_offset": 1588,
-      "public": "DISMISS_OTHER_JAFFARS"
     },
     {
       "object_offset": 2356,
@@ -511,12 +545,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "final/final",
-  "object_sha256": "ed4f335a1e58bea411f60f836f9e68c62bb0406ce5a1b649698429de3781cf6c",
+  "object_sha256": "a01212ebcf88c2a14e3a10b32eb39c075aae13821772c2e68241b96d7b4b1d2a",
   "origin": 0,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/final/final.c",
-  "source_sha256": "b966a373a901098d4f7d599511d0baf444c0dea55df0099c66ff8250ef4c22d8",
+  "source_sha256": "352554be22a42085f126ae2cc74d00adb985650b040e5859039807c741eb1711",
   "space": "overlay-10"
 }

@@ -42,12 +42,13 @@ typedef struct {
     unsigned char sound_played;
 } OpponentRecord;
 
-extern signed char target_column, target_row, target_life, target_facing;
-extern signed char actor_slot, actor_row, actor_life;
 extern struct { signed char column; } actor_column;
 #define actor_column actor_column.column
+extern signed char target_column, target_row, target_life, target_facing;
+extern signed char actor_row, actor_life;
 extern signed char actor_velocity_x, actor_velocity_y, camera_actor, actor_alert, head_active;
 extern unsigned char actor_room, level_head_kind, target_visible, tile_flags, target_room;
+extern signed char actor_slot;
 extern unsigned char tile_modifier;
 extern unsigned int actor_frame, target_frame, target_progress;
 extern int actor_y, target_x, actor_sequence, actor_timer;
@@ -160,8 +161,10 @@ int far pascal head_visibility(void)
     int clear = 1;
     int result;
 
-    if (target_column == actor_column && target_row == actor_row)
-        return 4;
+    if (target_column == actor_column && target_row == actor_row) {
+        result = 4;
+        goto done;
+    }
 
     row = actor_row * 2;
     column = actor_column * 2;
@@ -176,8 +179,14 @@ int far pascal head_visibility(void)
         int delta = end_row - row;
         rows = delta < 0 ? -delta : delta;
     }
-    step_column = column < end_column ? 1 : -1;
-    step_row = row < end_row ? 1 : -1;
+    if (column < end_column)
+        step_column = 1;
+    else
+        step_column = -1;
+    if (row < end_row)
+        step_row = 1;
+    else
+        step_row = -1;
     {
         int delta = end_column - column;
         columns = delta < 0 ? -delta : delta;
@@ -243,6 +252,7 @@ int far pascal head_visibility(void)
             result = step_column > 0 ? 1 : 0;
     } else
         result = -1;
+done:
     return result;
 }
 
@@ -308,62 +318,62 @@ void far pascal head_attack_prog(HeadPlan near *plan)
         actor_frame != 158 && actor_frame != 173)
         return;
     direction = head_visibility();
-    if (direction == -1) {
+    if (direction != -1) {
+        plan->direction = 1;
+        {
+            int delta = actor_column - target_column;
+            dx = delta < 0 ? -delta : delta;
+        }
+        {
+            int delta = actor_row - target_row;
+            dy = delta < 0 ? -delta : delta;
+        }
+        if (dy == 0 && dx < 2) {
+            vertical_sequence = actor_x < target_x ? 1 : 0;
+            if (dx == 0 || head_clear_in_dir(vertical_sequence)) {
+                if (actor_sequence != 147)
+                    select_animation_sequence(147);
+            } else
+                goto stop_horizontal;
+        } else if (dx == 0 && dy == 1 && head_clear_in_dir(direction)) {
+            vertical_sequence = target_row < actor_row ? 143 : 144;
+            if (vertical_sequence != actor_sequence)
+                select_animation_sequence(vertical_sequence);
+        } else if (direction == 4) {
+            if (dx || dy) {
+stop_horizontal:
+                if (actor_sequence != 166 && YWithinMiddleOfCell(actor_y, 15))
+                    select_animation_sequence(166);
+            }
+        } else {
+            plan->row = target_row;
+            plan->column = target_column;
+            if ((direction == 3 || direction == 2) && !head_clear_in_dir(direction))
+                direction = target_x > actor_x;
+            if (head_clear_in_dir(direction)) {
+                if (direction == 3)
+                    direction = 143;
+                else if (direction == 2)
+                    direction = 144;
+                else {
+                    direction = 142;
+                    head_face_kid();
+                    reset_char_y();
+                }
+            } else {
+                direction = 166;
+                clear_char_velocity();
+            }
+            if (actor_sequence != direction)
+                select_animation_sequence(direction);
+        }
+    } else {
         if (plan->direction != 0) {
             plan->direction = 0;
             plan->column = target_column;
             plan->row = target_row;
         }
         head_go_to_dest(plan);
-        return;
-    }
-    plan->direction = 1;
-    {
-        int delta = actor_column - target_column;
-        dx = delta < 0 ? -delta : delta;
-    }
-    {
-        int delta = actor_row - target_row;
-        dy = delta < 0 ? -delta : delta;
-    }
-    if (dy == 0 && dx < 2) {
-        vertical_sequence = target_x > actor_x;
-        if (dx == 0 || head_clear_in_dir(vertical_sequence)) {
-            if (actor_sequence != 147)
-                select_animation_sequence(147);
-        } else
-            goto stop_horizontal;
-    } else if (dx == 0 && dy == 1 && head_clear_in_dir(direction)) {
-        vertical_sequence = target_row < actor_row ? 143 : 144;
-        if (vertical_sequence != actor_sequence)
-            select_animation_sequence(vertical_sequence);
-    } else if (direction == 4) {
-        if (dx || dy) {
-stop_horizontal:
-            if (actor_sequence != 166 && YWithinMiddleOfCell(actor_y, 15))
-                select_animation_sequence(166);
-        }
-    } else {
-        plan->row = target_row;
-        plan->column = target_column;
-        if ((direction == 3 || direction == 2) && !head_clear_in_dir(direction))
-            direction = target_x > actor_x;
-        if (head_clear_in_dir(direction)) {
-            if (direction == 3)
-                direction = 143;
-            else if (direction == 2)
-                direction = 144;
-            else {
-                direction = 142;
-                head_face_kid();
-                reset_char_y();
-            }
-        } else {
-            direction = 166;
-            clear_char_velocity();
-        }
-        if (actor_sequence != direction)
-            select_animation_sequence(direction);
     }
 }
 
@@ -565,7 +575,7 @@ int far pascal head_go_to_dest(HeadPlan near *plan)
     register int clear = 0;
     register int sequence;
     int direction;
-    if (plan->column != actor_column || plan->row != actor_row) {
+    if (actor_column != plan->column || plan->row != actor_row) {
         if (plan->row != actor_row) {
             if (plan->row > actor_row) {
                 direction = 2;
@@ -578,8 +588,11 @@ int far pascal head_go_to_dest(HeadPlan near *plan)
             if (clear && actor_sequence != sequence)
                 select_animation_sequence(sequence);
         }
-        if (!clear && plan->column != actor_column) {
-            sequence = actor_column >= plan->column ? 0 : 1;
+        if (!clear && actor_column != plan->column) {
+            if (plan->column > actor_column)
+                sequence = 1;
+            else
+                sequence = 0;
             clear = head_clear_in_dir(sequence);
             if (clear && actor_sequence != 142)
                 select_animation_sequence(142);
@@ -773,13 +786,17 @@ int far pascal is_head_locked_on(unsigned char room, int slot)
 }
 
 int far pascal just_start_vertical_seq(void)
-{   int baseline = actor_row * 63 + 37;
+{
+    int baseline = actor_row * 63 + 37;
     int result;
     if (actor_sequence != 144) {
         result = actor_sequence == 143 && actor_y < baseline;
-    } else if (actor_y > baseline) result = 1;
-    else result = 0;
-    return result; }
+    } else if (actor_y > baseline)
+        result = 1;
+    else
+        result = 0;
+    return result;
+}
 
 int far pascal XWithinMiddleOfCell(int first, register int second)
 {
@@ -868,11 +885,14 @@ void far pascal snake_come_out_of_hole(OpponentRecord near *record)
             actor_facing = -1;
     } else
         actor_facing = ~actor_facing;
-    if (tile_blocks_head(tile) && !tile_blocks_snake(tile) && (tile != 7 || !(tile_flags & 128))) {
-        select_animation_sequence(170);
-        actor_x = offset_char_x(38);
-    } else
-        select_animation_sequence(172);
+    if (!tile_blocks_head(tile) || tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128)))
+        goto emerge_in_place;
+    select_animation_sequence(170);
+    actor_x = offset_char_x(38);
+    goto reset_timer;
+emerge_in_place:
+    select_animation_sequence(172);
+reset_timer:
     actor_timer = 0;
 }
 

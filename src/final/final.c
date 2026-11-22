@@ -1,4 +1,4 @@
-/* FINAL.C, MSC 6.00 medium model. Claims and drafts are listed in notes.md. */
+/* FINAL.C, MSC 6.00A medium model. Claims and drafts are listed in notes.md. */
 
 #pragma pack(1)
 
@@ -363,7 +363,7 @@ void far pascal sort_foreground(void)
     }
 }
 
-extern int kid_x;
+extern int player_right;
 extern byte kid_action;
 extern int opponent_x;
 extern sbyte opponent_position;
@@ -390,7 +390,7 @@ void far pascal watch_kid(void)
 {
     activate_kid();
     if (opponent_kind == 2) {
-        if (kid_x <= 305 && kid_action != 4)
+        if (player_right <= 305 && kid_action != 4)
             enter_princess_room();
     } else if (char_style == 1 && opponent_sequence != 71) {
         sbyte room;
@@ -404,8 +404,7 @@ void far pascal watch_kid(void)
             begin_final_attack(100);
             set_sequence(71);
             other_character = active_character;
-            before_princess_room();
-            finish_princess_room();
+            before_princess_room(); finish_princess_room();
         }
         activate_kid();
     }
@@ -557,9 +556,7 @@ int far pascal jaffar_has_clear_shot(void)
         if (opponent_kind == 8)
             position += 10;
         if (opponent_column == 0) {
-            if (position > 6 && position < 13)
-                return clear;
-            clear = 1;
+            clear = position <= 6 || position >= 13;
         } else if (opponent_column == 1) {
             sbyte shadow = shadow_offset;
 
@@ -1061,10 +1058,7 @@ int far pascal shadow_in_range(sbyte position, sbyte direction)
     sbyte x;
     const sbyte near *side_fields;
 
-    if (direction < 0)
-        direction = 0;
-    else
-        direction = 1;
+    direction = (direction < 0) ? 0 : 1;
     side = direction;
     side_fields = (const sbyte near *)rule + side;
     if (side_fields[7] == shadow_column &&
@@ -1463,7 +1457,7 @@ extern unsigned int fireball_phase;
 extern byte fireball_kind, fireball_row;
 extern byte left_room, right_room;
 extern int fireball_half_width, fireball_height;
-extern int player_left, player_right;
+extern int player_left;
 extern byte object_bucket;
 extern unsigned int fireball_sheet;
 extern int fireball_draw_x, fireball_draw_y;
@@ -1531,11 +1525,11 @@ void far pascal update_fireball_view(void)
     }
 
     if (visible) {
-        sbyte col = fireball_x / 32;
+        volatile sbyte col;
         unsigned int image;
         int size[2];
 
-        object_bucket = shape_position(col, find_row_for_y(y));
+        object_bucket = shape_position((col = fireball_x / 32), find_row_for_y(y));
         image = get_fireball_image(fireball_phase);
         if (check_shape_dimensions(fireball_sheet, image, size)) {
             register int saved_y;
