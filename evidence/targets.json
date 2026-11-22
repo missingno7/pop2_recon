@@ -41650,7 +41650,8 @@
       "boundary_evidence": [
         "Independent BP frame entered by overlay-2+38c. Saves BIOS mode state, dispatches the selected mode and initializes port and mouse state. RETF 2 at 4f0d is followed by separate relocated 4f10.",
         "Complete extent 4ea8..4f10 (exclusive).",
-        "Independent CALL FAR at overlay-2+0x38c."
+        "Independent CALL FAR at overlay-2+0x38c.",
+        "Overlay-2 relocation 29 at +038f supplies segment 1101 for original CALL FAR 9a a8 4e 01 11 at +038c. The original instruction sequence PUSH CS at 4f06 and E8 at 4f07 reaches 1101:042f without changing CS."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -41659,7 +41660,8 @@
           "image_offset": 908,
           "kind": "far_call",
           "relocated_segment_site": 911,
-          "space": "overlay-2"
+          "space": "overlay-2",
+          "relocation_index": 29
         }
       ],
       "classification": "ASM_LIKELY",

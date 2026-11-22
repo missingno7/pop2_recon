@@ -7,13 +7,14 @@ EXTRN DITHER_SEED:WORD
 EXTRN MOUSE_PRESENT:WORD
 EXTRN SCREEN_WIDTH:WORD
 EXTRN PIXELS_PER_BYTE:BYTE
-EXTRN CURSOR_PORT:BYTE
-EXTRN CURSOR_PORT_SEGMENT:WORD
-EXTRN CURSOR_PORT_ORIGIN:DWORD
-EXTRN CURSOR_PORT_LIMIT:DWORD
-EXTRN CURSOR_BOUNDS:BYTE
+; Default-port members are exported by the graphics-mode group.
+EXTRN DEFAULT_PORT:BYTE
+EXTRN DEFAULT_PORT_SEGMENT:WORD
+EXTRN DEFAULT_PORT_ORIGIN:DWORD
+EXTRN DEFAULT_PORT_LIMITS:DWORD
+EXTRN DEFAULT_PORT_MOUSE_BOUNDS:BYTE
+EXTRN DEFAULT_PORT_MOUSE_MAX_X:WORD
 EXTRN MOUSE_MAX_Y:WORD
-EXTRN MOUSE_MAX_X:WORD
 EXTRN MOUSE_STACK_TOP:BYTE
 
 cursor_plane_mask DW 0fh
@@ -407,7 +408,7 @@ swap_context:
     sub ax, ax
     xchg ax, CURRENT_CONTEXT
     push ax
-    mov ax, OFFSET CURSOR_PORT
+    mov ax, OFFSET DEFAULT_PORT
     push ax
     mov ax, OFFSET cursor_background
     push ax
@@ -592,14 +593,14 @@ initialize_cursor_state:
     mov ax, 2
     int 33h
 
-    les ax, CURSOR_PORT_LIMIT
+    les ax, DEFAULT_PORT_LIMITS
     shr ax, 1
     mov CURSOR_Y, ax
     mov ax, es
     shr ax, 1
     mov CURSOR_X, ax
     mov cx, 0eh
-    mov si, OFFSET CURSOR_PORT
+    mov si, OFFSET DEFAULT_PORT
     mov di, OFFSET cursor_background
     push ds
     pop es
@@ -636,7 +637,7 @@ initialize_cursor_rows:
 
     ; Set the hardware mouse limits and install the movement callback.
     sub cx, cx
-    mov dx, MOUSE_MAX_X
+    mov dx, DEFAULT_PORT_MOUSE_MAX_X
     cmp SCREEN_WIDTH, 140h
     jne set_mouse_x_limit
     shl dx, 1
@@ -678,7 +679,7 @@ POSITION_MOUSE_CURSOR PROC FAR
     lea ax, [bp+6]
     push ds
     push ax
-    mov ax, OFFSET CURSOR_BOUNDS
+    mov ax, OFFSET DEFAULT_PORT_MOUSE_BOUNDS
     push ds
     push ax
     push cs
@@ -786,7 +787,7 @@ increment_show_count:
 mouse_show_done:
     retf
 repaint_cursor:
-    mov bx, OFFSET CURSOR_PORT
+    mov bx, OFFSET DEFAULT_PORT
     mov ax, bx
     xchg CURRENT_CONTEXT, ax
     push ax
@@ -929,12 +930,12 @@ check_port:
     push cx
     push dx
     push es
-    cmp ax, WORD PTR CURSOR_PORT
+    cmp ax, WORD PTR DEFAULT_PORT
     jne increment_cursor_count
     mov ax, es
-    cmp ax, WORD PTR CURSOR_PORT_SEGMENT
+    cmp ax, DEFAULT_PORT_SEGMENT
     jne increment_cursor_count
-    les dx, CURSOR_PORT_ORIGIN
+    les dx, DEFAULT_PORT_ORIGIN
     mov cx, es
     les ax, cursor_y1
     sub ax, dx

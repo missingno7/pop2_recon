@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/graf/graphics_mode.json",
-  "binding_sha256": "815e7b9d0b3932c23f8981828fdb73a9e029446487e8d69194cee400fb6f2bde",
+  "binding_sha256": "37a9c693a377b1ea18d6e230b2acc053e7261735d391ddf90977867ab24fb352",
   "claims": [
     {
       "fixup_count": 1,
@@ -29,6 +29,22 @@
     }
   ],
   "data_publics": [
+    {
+      "address": 9682,
+      "name": "SCREEN_WIDTH",
+      "offset": 2,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 9686,
+      "name": "PIXELS_PER_BYTE",
+      "offset": 6,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
     {
       "address": 9694,
       "name": "RELEASE_BUFFER_CALLBACK",
@@ -84,6 +100,54 @@
       "segment": "_DATA",
       "span": 2,
       "unique": true
+    },
+    {
+      "address": 9710,
+      "name": "DEFAULT_PORT",
+      "offset": 30,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 9712,
+      "name": "DEFAULT_PORT_SEGMENT",
+      "offset": 32,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 9714,
+      "name": "DEFAULT_PORT_ORIGIN",
+      "offset": 34,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 9718,
+      "name": "DEFAULT_PORT_LIMITS",
+      "offset": 38,
+      "segment": "_DATA",
+      "span": 8,
+      "unique": true
+    },
+    {
+      "address": 9726,
+      "name": "DEFAULT_PORT_MOUSE_BOUNDS",
+      "offset": 46,
+      "segment": "_DATA",
+      "span": 6,
+      "unique": true
+    },
+    {
+      "address": 9732,
+      "name": "DEFAULT_PORT_MOUSE_MAX_X",
+      "offset": 52,
+      "segment": "_DATA",
+      "span": 22,
+      "unique": true
     }
   ],
   "drafts": [
@@ -99,12 +163,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "graf/graphics_mode",
-  "object_sha256": "c63cde18a96a969ca66d5549ef851a6c13e0dc361ec6c8e4c9dba89d6d5853aa",
+  "object_sha256": "34000cc1dfb29ecf8b8617538497ace3b10e447e79d8d825a174b1532593cb13",
   "origin": 89758,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/graf/graphics_mode.asm",
-  "source_sha256": "6251143d5023e437d9e1068ed6cec7df2739d95b0fe3cb8ee9628f42cf3c7be2",
+  "source_sha256": "85fe512997b8bf63a05df5f228bf4293bacb4fb9ff1d09f7e758d7b21b8e87b1",
   "space": "root"
 }
