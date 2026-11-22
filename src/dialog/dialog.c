@@ -1153,7 +1153,61 @@ int far pascal read_notice_selection(void)
     return index;
 }
 
-/* The hall display and file routines between the notice and this helper are open. */
+#pragma pack(1)
+struct hall_record {
+    char name[27];
+    int score;
+};
+
+struct hall_table {
+    int count;
+    struct hall_record records[5];
+};
+#pragma pack()
+
+struct hall_table far * far pascal read_hall_file(int, int *);
+void far pascal draw_hall_records(struct hall_table far *);
+void far pascal edit_hall_name(struct hall_table far *, int);
+int far pascal write_hall_file(struct hall_table far *);
+int far * far pascal ComputeHallPlayerRect(int far *, int);
+extern int far pascal wait_dialog_ticks(int, int);
+
+void far pascal enter_hall_record(int score)
+{
+    int index;
+    struct hall_table far *entries;
+    struct dialog_rect rect;
+    struct hall_table far *table;
+
+    entries = read_hall_file(score, &index);
+    if (entries) {
+        InitDialog();
+        draw_hall_records(entries);
+        current_port = &dialog_port;
+        DialogFadeIn();
+        edit_hall_name(entries, index);
+        current_port = (struct dialog_port *)dialog_port_handle;
+        ComputeHallPlayerRect((int far *)&rect, index);
+        inset_rect(&rect, &rect, -2, 0);
+        frame_rect(&rect, 12);
+        inset_rect(&rect, &rect, 2, 0);
+        table = entries;
+        DialogDrawStr(table->records[index].name, 10, 0, 0, &rect, 0);
+        inset_rect(&rect, &rect, -2, 0);
+        save_dialog_port(current_port = &dialog_port, dialog_port_handle, &rect, &rect, 0);
+        write_hall_file(table);
+        wait_dialog_ticks(0, 900);
+        DialogFadeOut();
+        DialogResetToGamePlay(0);
+        if (dialog_port_handle) {
+            free_port(dialog_port_handle);
+            dialog_port_handle = 0;
+        }
+        if (entries)
+            dispose_buffer(entries);
+    }
+}
+
 int far * far pascal ComputeHallPlayerRect(int far *p, int index)
 {
     p[1] = 25;
@@ -1162,6 +1216,195 @@ int far * far pascal ComputeHallPlayerRect(int far *p, int index)
     p[2] = p[0] + 20;
     return p;
 }
+extern struct dialog_rect hall_box;
+extern struct dialog_point hall_name_caption, hall_score_caption;
+extern const char hall_read_path[], hall_write_path[];
+extern struct dialog_rect hall_abort_rect;
+extern int far pascal wait_for_hall_input(void);
+extern int far pascal buffer_size(void far *);
+extern void far * far cdecl _fmemmove(void far *, const void far *, unsigned);
+
+struct hall_editor {
+    char private_state[0x26];
+    char far *name;
+    char reserved[4];
+    void (far pascal *draw)(struct dialog_text far *);
+};
+
+void far pascal draw_hall_records(struct hall_table far *table)
+{
+    struct dialog_rect rect;
+    struct dialog_range range;
+    struct hall_record far *entry;
+    int row;
+
+    DrawDialogFrame(0);
+    range.first = range.last = 0;
+    DialogDrawStrId(8009, 12, 0, 0, &save_heading, &range);
+    draw_save_slot_frame(&hall_box, 0);
+    range.last = -1;
+    DialogDrawStrId(8010, 10, 0, &hall_name_caption, 0, &range);
+    DialogDrawStrId(8012, 10, 0, &hall_score_caption, 0, &range);
+
+    row = 0;
+    if (row < table->count) {
+        entry = table->records;
+        do {
+            ComputeHallPlayerRect((int far *)&rect, row);
+            range.last = -1;
+            DialogDrawStr(entry->name, 10, 0, 0, &rect, &range);
+            rect.top = 185;
+            rect.bottom = 220;
+            range.last = 0;
+            OffsetRect(&rect, &rect, 75, 0);
+            DialogDrawNumber(entry->score, 0, &rect, &range);
+            ++entry;
+        } while (++row < table->count);
+    }
+}
+
+void far pascal edit_hall_name(struct hall_table far *table, int row)
+{
+    struct dialog_rect rect;
+    struct hall_editor far *editor;
+    int key, done = 0;
+
+    ComputeHallPlayerRect((int far *)&rect, row);
+    inset_rect(&rect, &rect, -2, 0);
+    draw_save_slot_frame(&rect, 1);
+    inset_rect(&rect, &rect, 2, 2);
+    editor = (struct hall_editor far *)create_slot_editor(
+        &rect, &rect, table->records[row].name, 24);
+    editor->draw = draw_dialog_text_block;
+    start_slot_editor((struct slot_editor far *)editor);
+    do {
+        refresh_slot_editor((struct slot_editor far *)editor);
+        key = read_key();
+        if (key == 13) {
+            if (!_fstrlen(editor->name))
+                menu_sound(-2);
+            else
+                done = 1;
+        } else if (key && key != '>' && key != '<') {
+            edit_slot_key((struct slot_editor far *)editor, key);
+        }
+    } while (!done);
+    close_slot_editor((struct slot_editor far *)editor);
+}
+
+struct hall_table far * far pascal insert_hall_record(
+    struct hall_table far *table, int score, int *index)
+{
+    struct hall_table far *old;
+    int size, row, count;
+    int far *current;
+
+    if (table) {
+        old = table;
+        size = buffer_size(old) + sizeof(struct hall_record);
+        table = allocate_buffer(size);
+        _fmemcpy(table, old, size - sizeof(struct hall_record));
+        dispose_buffer(old);
+    } else {
+        table = allocate_buffer(sizeof(table->count) + sizeof(struct hall_record));
+        table->count = 0;
+    }
+
+    row = 0;
+    count = table->count;
+    if (row < count) {
+        current = &table->records[0].score;
+        do {
+            if (*current >= score)
+                break;
+            current = (int far *)((char far *)current + sizeof(struct hall_record));
+        } while (++row < count);
+    }
+    if (row < count && row != 4)
+        _fmemmove(table->records + row + 1, table->records + row,
+                  (table->count - row) * sizeof(struct hall_record));
+    if (table->count < 5)
+        ++table->count;
+    else if (row == 5)
+        row = 4;
+    table->records[row].name[0] = 0;
+    table->records[row].score = score;
+    *index = row;
+    return table;
+}
+
+struct hall_table far * far pascal read_hall_file(int score, int *index)
+{
+    struct hall_table far *table = 0;
+    int file, size;
+    unsigned transferred;
+
+    if (!_dos_open(hall_read_path, 2, &file)) {
+        size = (int)filelength(file);
+        table = allocate_buffer(size);
+        if (_dos_read(file, table, size, &transferred) ||
+            transferred != size || table->count > 5) {
+            dispose_buffer(table);
+            table = 0;
+        }
+        _dos_close(file);
+    }
+    if (score > 0)
+        table = insert_hall_record(table, score, index);
+    else if (!table) {
+        table = allocate_buffer(sizeof(table->count) + sizeof(struct hall_record));
+        table->count = 0;
+    }
+    return table;
+}
+
+int far pascal show_hall_records(int hold)
+{
+    struct hall_table far *table;
+    int index;
+    int key;
+
+    *(volatile int *)&key = 0;
+
+    table = read_hall_file(0, &index);
+    if (table && (table->count || hold)) {
+        InitDialog();
+        draw_hall_records(table);
+        current_port = &dialog_port;
+        key = DialogFadeIn();
+        if (!key)
+            key = hold ? wait_for_hall_input() : wait_dialog_ticks(0, 900);
+        if (key && !hold)
+            frame_rect(&hall_abort_rect, 0);
+        else
+            key = DialogFadeOut();
+        DialogResetToGamePlay(hold);
+        if (dialog_port_handle && !hold) {
+            free_port(dialog_port_handle);
+            dialog_port_handle = 0;
+        }
+    }
+    if (table)
+        dispose_buffer(table);
+    return key;
+}
+
+int far pascal write_hall_file(struct hall_table far *table)
+{
+    int written = 0;
+    int file;
+    unsigned transferred;
+    int size;
+
+    if (!_dos_creat(hall_write_path, 0, &file)) {
+        size = table->count * sizeof(struct hall_record) + sizeof(table->count);
+        if (!_dos_write(file, table, size, &transferred) && size == transferred)
+            written = 1;
+        _dos_close(file);
+    }
+    return written;
+}
+
 int * far pascal MAKE_INDEX_RECT(int *p, int index)
 {
     if (index >= 3) {
@@ -1252,7 +1495,7 @@ void far pascal draw_main_menu(void)
     struct dialog_range range;
 
     current_port->mode = 12;
-    range.last = range.first = 0;
+    range.first = range.last = 0;
     DialogDrawStrId(8016, 12, 0, 0, &save_heading, &range);
     OffsetRect(&save_description, &save_description, 0, -18);
     DialogDrawStrId(8001, 10, 0, 0, &save_description, &range);
