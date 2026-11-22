@@ -135,7 +135,7 @@ def publish(base, sub):
         for row in _rows(base / sub["targets"]):
             if row["id"] in existing:
                 old = inventory["functions"][existing[row["id"]]]
-                if all(old.get(k) == row.get(k) for k in IDENTITY):
+                if all(old.get(k) == row.get(k) for k in IDENTITY) and row["id"] not in replace:
                     continue  # same reviewed extent: the canonical row and its evidence stay
                 if old != row:
                     require(row["id"] in replace, f"Submission changes existing row {row['id']} "

@@ -26,7 +26,10 @@ def get_target(identifier, oracle=None):
     oracle = oracle or Oracle.load()
     inventory = read_json(ROOT / "evidence/targets.json")
     require(inventory["target_sha256"] == sha(oracle.data), "Targets belong to another oracle")
-    matches = [f for f in inventory["functions"] + EXTRA_TARGETS if identifier == f["id"]]
+    # Verify-only research rows replace the canonical row of the same id (a proposed replacement);
+    # publication merges reviewed rows into evidence/targets.json before promotion.
+    matches = ([f for f in EXTRA_TARGETS if identifier == f["id"]] or
+               [f for f in inventory["functions"] if identifier == f["id"]])
     require(len(matches) == 1, "Unknown/ambiguous reviewed target")
     target = matches[0]
     require(target["boundary_status"] == "REVIEWED" and target["boundary_evidence"],
