@@ -1,7 +1,18 @@
 {
   "binding": "evidence/bindings/init/init.json",
-  "binding_sha256": "9534934332becee952ed9f96fc569ef6c8dbfd1b18f3b3f5d467954f7557b61e",
+  "binding_sha256": "f66be933217e0f59a8a586ff8f3a26f65a74a4bc489c459fcb36b0b8bee26e39",
   "claims": [
+    {
+      "fixup_count": 10,
+      "public": "REPORT_MEMORY",
+      "relocation_indices": [
+        39,
+        40
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-2:2344:0000"
+    },
     {
       "fixup_count": 18,
       "public": "SHOW_INIT_MESSAGE",
@@ -44,20 +55,28 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-2:2344:045c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "INIT_GRAPHICS",
+      "relocation_indices": [
+        2,
+        10,
+        12,
+        24,
+        29
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:2344:0356"
     }
   ],
   "drafts": [
     {
-      "object_offset": 0,
-      "public": "REPORT_MEMORY"
-    },
-    {
       "object_offset": 364,
       "public": "INIT_SYSTEM"
-    },
-    {
-      "object_offset": 854,
-      "public": "INIT_GRAPHICS"
     },
     {
       "object_offset": 914,
@@ -79,12 +98,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "init/init",
-  "object_sha256": "73c2bd9a6438aa815b8bdc4eb0f6941354b59ab511168805c22284d467cfbe2f",
+  "object_sha256": "a9c0b474f1bba2fb255ae67c1a67fac99e8883e43cd84cac7059bd39abae5eb4",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/init/init.c",
-  "source_sha256": "5a4647398ec0a0c0342e3604c17155ef77f2cb81451c5b5ee5a37f9d50f1f147",
+  "source_sha256": "507696bc86ceec0226696c997e3a4ae562da2be4d20e0b5939903f47696d073d",
   "space": "overlay-2"
 }

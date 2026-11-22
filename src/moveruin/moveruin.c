@@ -24,10 +24,7 @@ extern volatile Byte spike_action;
 extern Byte room_number, ruins_start_column, plateau_intro;
 extern volatile Byte passed_plateau_room;
 extern Byte *ruins_start_actor;
-int start_room_column_x[20] = {
-    -30, 2, 34, 66, 98, 130, 162, 194, 226, 258,
-    290, 322, 354, 386, 418, 450, 482, 514, 546, 578
-};
+extern int ColEdgeX[20];
 extern int plateau_room_loaded;
 extern int ruins_start_loaded;
 
@@ -106,7 +103,7 @@ void cut_kid_inside_level6(void)
     actor_room = start_room;
     passed_plateau_room = start_room;
     actor_column = 4;
-    actor_x = start_room_column_x[9] + 14;
+    actor_x = ColEdgeX[9] + 14;
     actor_row = 2;
     update_actor_frame();
     update_actor_coordinates();

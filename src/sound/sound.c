@@ -62,22 +62,7 @@ extern int kid_action, opponent_action, opponent_sequence, ambient_actor_action;
 extern int sound_inhibit, ambient_last_song;
 extern SoundRule sound_rules[];
 extern SoundHandle sound_handles[];
-struct JoystickMessages {
-    char unavailable[22];
-    char mode[14];
-    char missing[20];
-};
-
-struct PrinceAudioMessages {
-    char sound_on[10];
-    char sound_off[10];
-    char ambient_on[18];
-    char ambient_off[18];
-    char music_unavailable[18];
-    struct JoystickMessages joystick;
-};
-
-extern struct PrinceAudioMessages prince_audio_messages;
+extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
 extern int sound_playing(int resource);
 extern int OppToFight(void);
@@ -433,12 +418,12 @@ char *toggle_ambient(void)
     char *message;
     if (sound_flags & 2) {
         ambient_state.enabled = !ambient_state.enabled;
-        message = ambient_state.enabled ? prince_audio_messages.ambient_on : prince_audio_messages.ambient_off;
+        message = ambient_state.enabled ? ambient_on_message : ambient_off_message;
         if (!ambient_state.enabled && ambient_last_song && pending_song != ambient_last_song)
             stop_sound(ambient_last_song + 10000);
         update_sound_menu();
     } else {
-        message = prince_audio_messages.music_unavailable;
+        message = music_unavailable_message;
     }
     return message;
 }

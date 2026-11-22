@@ -1,4 +1,4 @@
-/* INIT.C. The message display, sound setup, saved setting and readiness loop are verified. */
+/* INIT.C. DOS platform initialization and startup diagnostics. */
 typedef struct
 {
     int top, left, bottom, right;
@@ -14,17 +14,13 @@ typedef int (far pascal *InputPoll)(void);
 extern Configuration *configuration;
 extern unsigned char configuration_flags;
 extern int initial_setting;
-extern char *memory_class_a, *memory_class_b;
-extern char message_port[];
-extern char video_option[];
-extern char memory_option[];
 extern int alternate_pool_available;
 extern InputPoll poll_input;
 extern int message_input(void);
 
-extern void start_drawing(char far *);
-extern void frame_rect(char far *);
-extern void inset_rect(Rect far *, char far *, int, int);
+extern void start_drawing(Rect far *);
+extern void frame_rect(Rect far *);
+extern void inset_rect(Rect far *, Rect far *, int, int);
 extern void draw_string_at(Rect far *, int, int, const char far *);
 extern void pause_for_input(void);
 extern int cdecl sound_setup(int);
@@ -49,24 +45,34 @@ extern void cdecl exit(int);
 
 #pragma intrinsic(strcat)
 
-extern char memory_format[], memory_fallback[], memory_suffix[];
+static Rect message_port = { 50, 50, 150, 270 };
+
+static const char *extended_memory_name = "extended";
+static const char *expanded_memory_name = "expanded";
+static const char *device_filenames[] = {
+    "IBMSND.DAT", "DIGISND.DAT", "MIDISND.DAT", 0, "FRAGSND.DAT", "TANDYSND.DAT"
+};
 
 void report_memory(int memory_class, unsigned long available)
 {
     char message[240];
-    char *kind;
+    const char *kind;
 
     if (configuration->sound_report && available <= 0x53020UL) {
         if (available) {
             if (memory_class == 1)
-                kind = memory_class_a;
+                kind = extended_memory_name;
             else
-                kind = memory_class_b;
-            sprintf(message, memory_format, 0x537f0L - available, kind);
+                kind = expanded_memory_name;
+            sprintf(message,
+                    "Digital sounds will not be played because there is not enough extended or expanded memory available.  "
+                    "You need %ld more bytes of %s memory for digital sounds.",
+                    0x537f0L - available, kind);
         } else {
-            sprintf(message, memory_fallback);
+            sprintf(message,
+                    "Digital sounds will not be played because there is no extended or expanded memory available.");
         }
-        strcat(message, memory_suffix);
+        strcat(message, "  Press any key to continue.");
         show_init_message(message);
         configuration->sound_report = 0;
     }
@@ -77,33 +83,26 @@ void show_init_message(const char *message)
     Rect rect;
     InputPoll saved_input;
 
-    start_drawing(message_port);
-    frame_rect(message_port);
-    inset_rect(&rect, message_port, 5, 8);
+    start_drawing(&message_port);
+    frame_rect(&message_port);
+    inset_rect(&rect, &message_port, 5, 8);
     draw_string_at(&rect, 0, 0, message);
     saved_input = poll_input;
     poll_input = message_input;
     pause_for_input();
-    start_drawing(message_port);
+    start_drawing(&message_port);
     poll_input = saved_input;
 }
 
-static const struct
-{
-    char digital[86];
-    char midi[73];
-} sound_messages = {
-    "The digital sound card selected did not initialize.  There will be no digital sounds.",
-    "The midi sound card selected did not initialize.  There will be no music."
-};
+extern const char digital_sound_error[], midi_sound_error[];
 
 void init_sound(void)
 {
     sound_setup(0);
     if (configuration_flags & 4)
-        show_init_message(sound_messages.digital);
+        show_init_message(digital_sound_error);
     if (configuration_flags & 8)
-        show_init_message(sound_messages.midi);
+        show_init_message(midi_sound_error);
 }
 
 void save_initial_setting(void)
@@ -111,8 +110,7 @@ void save_initial_setting(void)
     initial_setting = configuration->video;
 }
 
-extern char himem_option[], data_filename[], window_title[], config_filename[];
-extern char device_filenames[];
+extern char config_filename[];
 extern char joystick_missing_message[], video_error[], file_error[];
 extern InputPoll timer_callback, video_callback, keyboard_callback;
 extern int timer_handler(void), video_handler(void), keyboard_handler(void), base_input(void);
@@ -137,7 +135,7 @@ extern void activate_window(int, int);
 extern void setup_palette(void);
 extern void setup_regions(void);
 extern void finish_window(void);
-extern void read_configuration(const char *);
+extern void read_configuration(const char **);
 extern void initialize_joystick(void);
 extern void configure_startup(char *);
 extern void prepare_sound(void);
@@ -161,7 +159,7 @@ void init_system(void)
         exit(0);
     }
     save_initial_setting();
-    if (!configuration->memory && !find_option(himem_option))
+    if (!configuration->memory && !find_option("USEHIMEM"))
         available = 0;
     else
         available = choose_memory_pool(&memory_class);
@@ -174,7 +172,7 @@ void init_system(void)
     poll_input = base_input;
     graphics_state = 0;
     start_platform();
-    open_game_data(data_filename);
+    open_game_data("PRINCE.DAT");
     init_graphics();
     install_interrupt_handlers();
     wait_for_ticks(60);
@@ -184,7 +182,7 @@ void init_system(void)
         enable_graphics(0);
     current_port = open_screen_port((int)screen_port, screen_geometry);
     init_video_driver();
-    current_port = main_port = make_window(-2, screen_geometry, 0, window_title);
+    current_port = main_port = make_window(-2, screen_geometry, 0, "Prince of Persia II");
     activate_window(main_port, 0);
     *(InputPoll *)((char *)main_port + 0x56) = window_handler;
     setup_palette();
@@ -208,7 +206,7 @@ void init_system(void)
 
 void init_graphics(void)
 {
-    if (!check_video_mode(5) && !find_option(video_option)) {
+    if (!check_video_mode(5) && !find_option("NOVIDEODETECT")) {
         printf(video_error);
         exit(0);
     }
@@ -220,7 +218,7 @@ unsigned long choose_memory_pool(int *memory_class)
     unsigned long extended, expanded, available = 0;
 
     *memory_class = 0;
-    if (!find_option(memory_option)) {
+    if (!find_option("NOHIMEM")) {
         extended = query_pool(extended_pool);
         expanded = query_pool(expanded_pool);
         alternate_pool_available = extended || expanded;

@@ -657,7 +657,7 @@ void far pascal report_resource_path(const char far *path)
 {
     char message[100];
 
-    sprintf(message, "Couldn't find resource file \"%s\"", path);
+    sprintf(message, resource_path_format, path);
     report_error(1, message);
 }
 

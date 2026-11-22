@@ -1,41 +1,5 @@
-struct CountdownMessages {
-    char one_second[14];
-    char seconds[16];
-    char minutes[16];
-    char expired[18];
-};
-
-struct JoystickMessages {
-    char unavailable[22];
-    char mode[14];
-    char missing[20];
-};
-
-/* Adjacent message data in the original DGROUP, with even-aligned strings. */
-static struct CountdownMessages countdown_messages = {
-    "1 SECOND LEFT", "%d SECONDS LEFT", "%d MINUTES LEFT", "TIME HAS EXPIRED!"
-};
-char prince_press_button_message[26] = "PRESS BUTTON TO CONTINUE";
-char prince_press_key_message[22] = "PRESS KEY TO CONTINUE";
-
-struct PrinceAudioMessages {
-    char sound_on[10];
-    char sound_off[10];
-    char ambient_on[18];
-    char ambient_off[18];
-    char music_unavailable[18];
-    struct JoystickMessages joystick;
-};
-
-struct PrinceAudioMessages prince_audio_messages = {
-    "Sound On",
-    "Sound Off",
-    "Ambient Music On",
-    "Ambient Music Off",
-    "Music Unavailable",
-    { "Joystick Unavailable", "Joystick Mode", "Joystick Not Found" }
-};
-
+extern char one_second_left[], seconds_left[], minutes_left[], time_expired[];
+extern char joystick_unavailable_message[], joystick_mode_message[], joystick_missing_message[];
 
 extern signed char sound_volume;
 extern void far pascal set_sound_volume(signed char level);
@@ -75,12 +39,12 @@ char *far pascal joystick_status(void)
 {
     char *message;
     if ((available_devices & 1) && game_options->buttons == 32) {
-        message = prince_audio_messages.joystick.unavailable;
+        message = joystick_unavailable_message;
     } else if (detect_gameport()) {
-        message = prince_audio_messages.joystick.mode;
+        message = joystick_mode_message;
         game_options->control_mode = control_mode = 2;
     } else {
-        message = prince_audio_messages.joystick.missing;
+        message = joystick_missing_message;
         game_options->control_mode = control_mode = 0;
         memset(gameport_state, 0, sizeof(gameport_state));
     }
@@ -233,15 +197,15 @@ void far pascal KeepTime(void)
             if (minutes_remaining == 1) {
                 seconds = (ticks_remaining + 1) / 12;
                 if (seconds == 1)
-                    strcpy(text, countdown_messages.one_second);
+                    strcpy(text, one_second_left);
                 else
-                    sprintf(text, countdown_messages.seconds, seconds);
+                    sprintf(text, seconds_left, seconds);
             } else {
-                sprintf(text, countdown_messages.minutes, minutes_remaining);
+                sprintf(text, minutes_left, minutes_remaining);
             }
             DrawMessage(text);
         } else {
-            DrawMessage(countdown_messages.expired);
+            DrawMessage(time_expired);
         }
         message_ticks = message_duration = 24;
         countdown_pending = 0;
@@ -401,6 +365,3 @@ void far pascal ChangeMeters(void)
         }
     } while (++opponent < count);
 }
-
-static char keyboard_mode_message[] = "Keyboard Mode";
-char prince_pause_message[] = "GAME PAUSED";

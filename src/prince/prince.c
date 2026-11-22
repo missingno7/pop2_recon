@@ -199,25 +199,7 @@ extern int paused;
 extern int minutes_remaining, countdown_pending, restart_blocked;
 extern int requested_level, control_mode, message_ticks, message_duration;
 extern unsigned int ticks_remaining;
-struct JoystickMessages {
-    char unavailable[22];
-    char mode[14];
-    char missing[20];
-};
-
-/* Adjacent message data in the original DGROUP, with even-aligned strings. */
-extern struct CountdownMessages countdown_messages;
-
-struct PrinceAudioMessages {
-    char sound_on[10];
-    char sound_off[10];
-    char ambient_on[18];
-    char ambient_off[18];
-    char music_unavailable[18];
-    struct JoystickMessages joystick;
-};
-
-extern struct PrinceAudioMessages prince_audio_messages;
+extern char sound_on_message[], sound_off_message[], joystick_unavailable_message[], joystick_mode_message[], joystick_missing_message[], keyboard_mode_message[];
 
 extern unsigned int far pascal read_key_code(void);
 extern int far pascal dialog_allowed(void);
@@ -259,7 +241,7 @@ unsigned int far pascal prince_poll(void)
                 show_game_help();
                 CtrlPlayer();
             } break;
-        case 0x1f00: message = toggle_sound() ? prince_audio_messages.sound_on : prince_audio_messages.sound_off; break;
+        case 0x1f00: message = toggle_sound() ? sound_on_message : sound_off_message; break;
         case 0x2200:
             if (!dialog_allowed()) break;
             if (!show_game_settings()) break;
@@ -271,7 +253,7 @@ unsigned int far pascal prince_poll(void)
         case 0x2400: message = joystick_status(); break;
         case 0x2500:
             /* The keyboard label follows the audio and joystick strings. */
-            message = (const char *)(&prince_audio_messages + 1); control_mode = 0; break;
+            message = keyboard_mode_message; control_mode = 0; break;
         case 0x2600: if (dialog_allowed()) poll_demo_state();
             CtrlPlayer(); break;
         case 0x2f00: message = title; break;
@@ -588,12 +570,7 @@ void far pascal handle_debug_input(unsigned int key)
 #undef debug_char
 #undef debug_kid
 
-struct CountdownMessages {
-    char one_second[14];
-    char seconds[16];
-    char minutes[16];
-    char expired[18];
-};
+extern char one_second_left[], seconds_left[], minutes_left[], time_expired[];
 
 extern signed char sound_volume;
 extern void far pascal set_sound_volume(signed char level);
@@ -633,12 +610,12 @@ char *far pascal joystick_status(void)
 {
     char *message;
     if ((available_devices & 1) && game_options->buttons == 32) {
-        message = prince_audio_messages.joystick.unavailable;
+        message = joystick_unavailable_message;
     } else if (detect_gameport()) {
-        message = prince_audio_messages.joystick.mode;
+        message = joystick_mode_message;
         game_options->control_mode = control_mode = 2;
     } else {
-        message = prince_audio_messages.joystick.missing;
+        message = joystick_missing_message;
         game_options->control_mode = control_mode = 0;
         memset(gameport_state, 0, sizeof(gameport_state));
     }
@@ -791,15 +768,15 @@ void far pascal KeepTime(void)
             if (minutes_remaining == 1) {
                 seconds = (ticks_remaining + 1) / 12;
                 if (seconds == 1)
-                    strcpy(text, countdown_messages.one_second);
+                    strcpy(text, one_second_left);
                 else
-                    sprintf(text, countdown_messages.seconds, seconds);
+                    sprintf(text, seconds_left, seconds);
             } else {
-                sprintf(text, countdown_messages.minutes, minutes_remaining);
+                sprintf(text, minutes_left, minutes_remaining);
             }
             DrawMessage(text);
         } else {
-            DrawMessage(countdown_messages.expired);
+            DrawMessage(time_expired);
         }
         message_ticks = message_duration = 24;
         countdown_pending = 0;
@@ -944,7 +921,7 @@ void far pascal ChangeMeters(void)
 
 extern signed char joystick[3];
 extern int paused;
-extern char prince_pause_message[];
+extern char paused_message[];
 
 extern void far pascal read_controls(void);
 extern unsigned int far pascal prince_poll(void);
@@ -965,7 +942,7 @@ int far pascal Input(void)
     result = prince_poll();
     if (paused) {
         paused = 0;
-        DrawMessage(prince_pause_message);
+        DrawMessage(paused_message);
         update_display(0);
         WaitKey();
         ClrMessage(1);

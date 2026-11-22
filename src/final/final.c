@@ -128,7 +128,7 @@ typedef struct {
 } OpponentSlot;
 
 extern sbyte opponent_serial;
-extern int start_room_column_x[20];
+extern int ColEdgeX[20];
 extern byte opponent_bank;
 extern sbyte level_kind;
 extern const byte opponent_style_for_level[];
@@ -167,7 +167,7 @@ void far pascal generate_opponent(sbyte variant, sbyte room)
 
     opponent = reserve_opponent(3, index = opponent_serial++);
     opponent->cell = FirstInRow(room) + variant;
-    opponent->x = start_room_column_x[variant + 5];
+    opponent->x = ColEdgeX[variant + 5];
     if (variant < 5)
         opponent->direction = 0;
     else
@@ -253,7 +253,7 @@ void far pascal cut_kid_to_chess_room(void)
     play_sound(19);
     entry_room_copy = opponent_kind = 4;
     opponent_room = 5;
-    char_x = start_room_column_x[10] + 14;
+    char_x = ColEdgeX[10] + 14;
     opponent_column = 1;
     position_opponent();
     char_max_strength = char_strength;

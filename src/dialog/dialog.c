@@ -24,20 +24,23 @@ struct dialog_text {
     char far *text;
 };
 
-static const struct dialog_point _based(_segname("_CONST")) symbol_heading = {28, 47};
-static const struct dialog_point _based(_segname("_CONST")) symbol_caption = {44, 72};
-static struct dialog_rect _based(_segname("_CONST")) notice_port[1] = {{32, 73, 50, 266}};
-static union { int word; unsigned char done; } _based(_segname("_CONST")) notice_state = {0};
+static struct dialog_rect save_heading = {14, 16, 37, 304};
+static struct dialog_rect save_description = {167, 16, 183, 304};
+
+static const struct dialog_point symbol_heading = {28, 47};
+static const struct dialog_point symbol_caption = {44, 72};
+static struct dialog_rect notice_port[1] = {{32, 73, 50, 266}};
+static union { int word; unsigned char done; } notice_state = {0};
 #define dialog_notice_done notice_state.done
-static const struct dialog_point _based(_segname("_CONST")) hall_name_caption = {53, 25};
-static const struct dialog_point _based(_segname("_CONST")) hall_score_caption = {53, 260};
-static struct dialog_rect _based(_segname("_CONST")) hall_box = {38, 20, 57, 300};
-static const char _based(_segname("_CONST")) save_path[12] = "PRINCE.SAV";
-static const char _based(_segname("_CONST")) hall_read_path[12] = "PRINCE.HOF";
-static const char _based(_segname("_CONST")) options_path[12] = "PRINCE.OPT";
-static const int _based(_segname("_CONST")) credits_first[] = {1000, 1007, 1009, 1011};
-static const int _based(_segname("_CONST")) credits_last[] = {1006, 1008, 1010, 1011};
-static const struct dialog_rect _based(_segname("_CONST")) credits_blink_box = {70, 17, 85, 307};
+static const struct dialog_point hall_name_caption = {53, 25};
+static const struct dialog_point hall_score_caption = {53, 260};
+static struct dialog_rect hall_box = {38, 20, 57, 300};
+static const char save_path[12] = "PRINCE.SAV";
+static const char hall_read_path[12] = "PRINCE.HOF";
+static const char options_path[12] = "PRINCE.OPT";
+static const int credits_first[] = {1000, 1007, 1009, 1011};
+static const int credits_last[] = {1006, 1008, 1010, 1011};
+static const struct dialog_rect credits_blink_box = {70, 17, 85, 307};
 struct notice_and_menu_text {
     char notice_failure[25];
     char hall_write_path[11];
@@ -45,7 +48,7 @@ struct notice_and_menu_text {
     char resume_option[12];
     char continue_option[10];
 };
-static const struct notice_and_menu_text _based(_segname("_CONST")) dialog_texts = {
+static const struct notice_and_menu_text dialog_texts = {
     "Copy protection failure.", "PRINCE.HOF", "Save Game", "Resume Game", "Quit Game"
 };
 #define notice_failure dialog_texts.notice_failure
@@ -340,15 +343,14 @@ struct save_slot_table {
     char initials[10][25];
 };
 
-extern struct dialog_rect save_heading, save_description;
 extern signed char saved_level, level_to_start, main_theme, sound_effect;
 extern signed char kid_alive, kid_lives;
 extern int requested_level, resume_selected, dialog_timer, dialog_timer_copy;
 extern void far pascal dispose_buffer(void far *);
 extern void far pascal prepare_main_menu(void);
 extern int far pascal lock_resource(int);
-static char save_success_text[] = "GAME SAVED\0";
-static char save_failure_text[] = "UNABLE TO SAVE GAME";
+extern char saved_message[];
+extern char nosave_message[];
 extern void far pascal play_menu_message(const char *);
 extern void far pascal request_level_change(int);
 extern unsigned far cdecl _fstrlen(const char far *);
@@ -547,9 +549,9 @@ void far pascal post_save_message(int selection)
 {
     if (selection != -1) {
         if (selection)
-            play_menu_message(save_success_text);
+            play_menu_message(saved_message);
         else {
-            play_menu_message(save_failure_text);
+            play_menu_message(nosave_message);
             request_level_change(-1);
         }
         dialog_timer = dialog_timer_copy = 24;
@@ -1538,22 +1540,7 @@ void far pascal draw_main_menu(void)
 }
 
 extern unsigned char sound_volume, menu_music;
-struct JoystickMessages {
-    char unavailable[22];
-    char mode[14];
-    char missing[20];
-};
-
-struct PrinceAudioMessages {
-    char sound_on[10];
-    char sound_off[10];
-    char ambient_on[18];
-    char ambient_off[18];
-    char music_unavailable[18];
-    struct JoystickMessages joystick;
-};
-
-extern struct PrinceAudioMessages prince_audio_messages;
+extern char sound_on_message[], sound_off_message[], ambient_on_message[], ambient_off_message[], keyboard_mode_message[], joystick_mode_message[];
 
 struct menu_text_10 { char value[10]; };
 struct menu_text_12 { char value[12]; };
@@ -1570,17 +1557,17 @@ void far pascal draw_menu_label(int index, int selected)
         range.first = 0;
         switch (index) {
         case 0:
-            label = sound_volume ? prince_audio_messages.sound_on
-                                 : prince_audio_messages.sound_off;
+            label = sound_volume ? sound_on_message
+                                 : sound_off_message;
             break;
         case 1:
-            label = menu_music ? prince_audio_messages.ambient_on
-                               : prince_audio_messages.ambient_off;
+            label = menu_music ? ambient_on_message
+                               : ambient_off_message;
             break;
         case 2:
             /* The keyboard label immediately follows the joystick strings in DGROUP. */
-            label = control_mode == 0 ? (const char *)(&prince_audio_messages + 1)
-                                      : prince_audio_messages.joystick.mode;
+            label = control_mode == 0 ? keyboard_mode_message
+                                      : joystick_mode_message;
             break;
         case 3:
             *(struct menu_text_10 *)label_buffer = *(const struct menu_text_10 *)save_option;
@@ -1717,7 +1704,7 @@ extern char far * far pascal nth_credit_string(char far *, unsigned char);
 
 void far pascal draw_credits_page(int, int);
 void far pascal draw_credit_category(int);
-static const char _based(_segname("_CONST")) credits_blink_key[] = "BLINK";
+static const char credits_blink_key[] = "BLINK";
 
 int far pascal show_credits(void)
 {

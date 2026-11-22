@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autoguar/autoguar.json",
-  "binding_sha256": "23c36de5fcb0869d49dbf8904881e30f3dc7a806bfdb71fd9fded6d937117105",
+  "binding_sha256": "9c2f932b042114b92d1bb8290e20223f5261e126f31156c5a44c6587dec2ad50",
   "claims": [
     {
       "fixup_count": 0,
@@ -66,6 +66,25 @@
       "target_id": "overlay-12:2c3e:00d6"
     },
     {
+      "fixup_count": 23,
+      "public": "CHECK_OPPONENT_TUMBLE",
+      "relocation_indices": [
+        4,
+        13,
+        22,
+        36,
+        102,
+        118,
+        143,
+        144
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:00f4"
+    },
+    {
       "fixup_count": 24,
       "public": "CHECK_GUARD_STEP",
       "relocation_indices": [
@@ -96,10 +115,8 @@
         85,
         125
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "overlay-12:2c3e:0358"
     },
     {
@@ -111,6 +128,26 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-12:2c3e:03da"
+    },
+    {
+      "fixup_count": 70,
+      "public": "CHASE_OPPONENT",
+      "relocation_indices": [
+        23,
+        33,
+        52,
+        67,
+        81,
+        95,
+        96,
+        137,
+        145
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:0434"
     },
     {
       "fixup_count": 24,
@@ -288,6 +325,21 @@
       "target_id": "overlay-12:2c3e:126a"
     },
     {
+      "fixup_count": 12,
+      "public": "SHAKE_BONES",
+      "relocation_indices": [
+        30,
+        39,
+        73,
+        135
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:12a0"
+    },
+    {
       "fixup_count": 17,
       "public": "INITIALIZE_SKELETON",
       "relocation_indices": [
@@ -417,6 +469,23 @@
       "target_id": "overlay-12:2c3e:1674"
     },
     {
+      "fixup_count": 16,
+      "public": "SETUP_JINNEE_SMOKE",
+      "relocation_indices": [
+        8,
+        45,
+        64,
+        79,
+        119,
+        141
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-12:2c3e:1688"
+    },
+    {
       "fixup_count": 42,
       "public": "TRIGGERJINNEE",
       "relocation_indices": [
@@ -444,14 +513,6 @@
       "public": "GET_OPPONENT_DEATH_SEQUENCE"
     },
     {
-      "object_offset": 244,
-      "public": "CHECK_OPPONENT_TUMBLE"
-    },
-    {
-      "object_offset": 1076,
-      "public": "CHASE_OPPONENT"
-    },
-    {
       "object_offset": 2308,
       "public": "WAIT_EN_GARDE"
     },
@@ -462,14 +523,6 @@
     {
       "object_offset": 4312,
       "public": "UPDATE_SKELETON"
-    },
-    {
-      "object_offset": 4768,
-      "public": "SHAKE_BONES"
-    },
-    {
-      "object_offset": 5768,
-      "public": "SETUP_JINNEE_SMOKE"
     }
   ],
   "emitted_size": 6202,
@@ -477,6 +530,7 @@
     "/c",
     "/AM",
     "/Oe",
+    "/Og",
     "/Gs",
     "/Zl",
     "/Gc",
@@ -487,12 +541,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "autoguar/autoguar",
-  "object_sha256": "ea309e58d845024889665587e705937d52b5f0cc0fa97b8895b401f1f663882f",
+  "object_sha256": "1e1af2dad5f38a3c992746f9a21cb26eee2de3d1dee1113ad78e4ed31353f536",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autoguar/autoguar.c",
-  "source_sha256": "f1931a5b94429dbeca7ebcb271ef017351a94fd5a4f319508fde7baf689e5f15",
+  "source_sha256": "0659725dde967e8d60c845e717f9366b44890368f86666161e18c89e319b5448",
   "space": "overlay-12"
 }

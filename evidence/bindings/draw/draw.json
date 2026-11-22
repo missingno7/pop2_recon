@@ -12,10 +12,10 @@
       "MESSAGE_COUNTER",
       "KEEP_GATE_IMAGE",
       "REDRAW_CELL_SURE",
-      "PRINCE_PRESS_BUTTON_MESSAGE",
+      "RESTART_KEY_MESSAGE2",
       "COMPARE_OBJECTS",
       "SHAPE_TABLES",
-      "PRINCE_PRESS_KEY_MESSAGE",
+      "RESTART_KEY_MESSAGE1",
       "MIDDLE_QUEUE",
       "GET_GATE_IMAGE",
       "FULL_REDRAW",
@@ -894,7 +894,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 7856,
+        "length": 7845,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -20361,7 +20361,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "PRINCE_PRESS_KEY_MESSAGE",
+          "name": "RESTART_KEY_MESSAGE1",
           "zero_displacement": true
         }
       },
@@ -20375,7 +20375,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "PRINCE_PRESS_KEY_MESSAGE",
+        "name": "RESTART_KEY_MESSAGE1",
         "zero_displacement": true
       }
     },
@@ -20388,7 +20388,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "PRINCE_PRESS_BUTTON_MESSAGE",
+          "name": "RESTART_KEY_MESSAGE2",
           "zero_displacement": true
         }
       },
@@ -20402,7 +20402,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "PRINCE_PRESS_BUTTON_MESSAGE",
+        "name": "RESTART_KEY_MESSAGE2",
         "zero_displacement": true
       }
     },
@@ -27254,18 +27254,6 @@
       "space": "root",
       "witnesses": []
     },
-    "PRINCE_PRESS_BUTTON_MESSAGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 2652,
-      "provider": "group:prince/toggle_sound"
-    },
-    "PRINCE_PRESS_KEY_MESSAGE": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 2678,
-      "provider": "group:prince/toggle_sound"
-    },
     "READ_PALETTE": {
       "entry_sha256": "895d5fdae24805a9ae4fb27d734a8428936412f513e1f28c7726ae95f729f595",
       "entry_target_id": "root:1101:7987",
@@ -27328,6 +27316,18 @@
           "space": "root"
         }
       ]
+    },
+    "RESTART_KEY_MESSAGE1": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 2678,
+      "provider": "group:english/english"
+    },
+    "RESTART_KEY_MESSAGE2": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 2652,
+      "provider": "group:english/english"
     },
     "RESTART_STYLE": {
       "group": "DGROUP",
