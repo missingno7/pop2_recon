@@ -26,7 +26,7 @@ typedef struct ShapeListResource {
 
 typedef struct ShapeEncoding {
     unsigned int other : 12;
-    unsigned int depth : 3;
+    signed int depth : 3;
     unsigned int encoded : 1;
 } ShapeEncoding;
 
@@ -114,9 +114,9 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
         resource->mapping = mapping;
         loaded_mapping_flags |= mapping;
         if (prepare) {
-            unsigned segment = ((unsigned long)resource) >> 16;
-            unsigned offset = (unsigned)&resource->mapping;
-            prepare_mapping(((unsigned long)segment << 16) | offset);
+            Handle far *palette = &resource->mapping;
+            unsigned long address = (unsigned long)palette;
+            prepare_mapping(address);
         }
     }
     set_handle_flags(handle, flags);
@@ -126,13 +126,11 @@ Handle hGetNMapShpList(int id, Handle mapping, int prepare)
 int IsOverlayLoaded(ShapeList *list, register int index)
 {
     int loaded = 0;
-    Handle handle;
     int far *shape;
 
     if (list->count > index) {
-        handle = list->items[index].image;
-        if (handle) {
-            shape = resolve_handle(handle);
+        if (list->items[index].image) {
+            shape = resolve_handle(list->items[index].image);
             if (shape && *shape)
                 loaded = 1;
         }
@@ -190,57 +188,41 @@ ShapeList *load_shape_list(register int id, Handle mapping, signed char *mode, i
     return list;
 }
 
-void overlay_shape_list(ShapeList *list, int id, int first, int last, signed char *volatile mode)
+void overlay_shape_list(ShapeList *list, int id, int first, int last, signed char *mode)
 {
     int base_id = *(int far *)resolve_handle(find_shape_list(list->id));
     int index;
-    Handle *image;
 
     id += 2;
-    if (first <= last) {
-        image = &list->items[first].image;
-        index = first;
-        do {
-            int item_mode;
-            if (!((unsigned)mode & 0xff00U) &&
-                ((unsigned char)(unsigned)mode == 1 || (unsigned char)(unsigned)mode == 2))
-                item_mode = (int)mode;
-            else if (mode) {
-                signed char *selected = mode + index;
-                item_mode = *selected;
-            } else
-                item_mode = 0;
-            if (item_mode) {
-                if (*image) {
-                    dispose_handle(*image);
-                    *image = 0;
-                }
-                PrinceNewShpItem(list->resource, id - base_id + index,
-                                    (ShapeInfo *)((char *)image - 4), item_mode);
-                PrinceFreeShp(id + index - 1);
-            } else {
-                memset((char *)image - 4, 0, sizeof(ShapeInfo));
-                *image = mark_fixed(load_shape_resource(0x53484150UL, id + index - 1));
+    for (index = first; index <= last; ++index) {
+        int item_mode;
+        if (!((unsigned)mode & 0xff00U) &&
+            ((unsigned char)(unsigned)mode == 1 || (unsigned char)(unsigned)mode == 2))
+            item_mode = (int)mode;
+        else
+            item_mode = mode && mode[index] ? mode[index] : 0;
+        if (item_mode) {
+            if (list->items[index].image) {
+                dispose_handle(list->items[index].image);
+                list->items[index].image = 0;
             }
-            image += 3;
-        } while (++index <= last);
+            PrinceNewShpItem(list->resource, id - base_id + index,
+                             &list->items[index], item_mode);
+            PrinceFreeShp(id + index - 1);
+        } else {
+            memset(&list->items[index], 0, sizeof(ShapeInfo));
+            list->items[index].image = mark_fixed(load_shape_resource(0x53484150UL, id + index - 1));
+        }
     }
 }
 
 void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
 {
-    ShapeInfo *entry;
-    int count;
-
+    int index;
     if (list->count > last && last >= first) {
-        entry = &list->items[first];
-        count = last - first + 1;
-        if (first <= last) {
-            do {
-                if (entry->image)
-                    mark_purgeable(entry->image);
-                ++entry;
-            } while (--count);
+        for (index = first; index <= last; ++index) {
+            if (list->items[index].image)
+                mark_purgeable(list->items[index].image);
         }
     }
 }
@@ -248,16 +230,16 @@ void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
 void PrinceMarkRangesPurgeable(ShapeList *list, int *first, int *last)
 {
     int *begin, *end;
-    struct { int start; } range;
-    range.start = *first;
+    int range = 0; /* Retained in the FM Towns build. */
 
-    if (range.start != -1) {
+    if (*first != -1) {
         end = last;
         begin = first;
         do {
             PrinceMarkImgsPurgeable(list, *begin, *end);
             ++end;
             ++begin;
+            ++range;
         } while (*begin != -1);
     }
 }
@@ -271,7 +253,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     const void far *mapping;
     int list_flags;
     int image_flags;
-    ShapeEncoding *volatile format_bytes;
+    ShapeEncoding *format_bytes;
     Handle handle;
     int reused;
 
@@ -297,7 +279,7 @@ ShapeInfo far *PrinceNewShpItem(Handle list, int index, ShapeInfo far *info, int
     if (image->width) {
         format = image->format;
         format_bytes = (ShapeEncoding *)&format;
-        if (!format_bytes->depth && !((ShapeEncoding *)&format)->encoded)
+        if (!format_bytes->depth && !format_bytes->encoded)
             info->four_bit = 1;
         else
             info->four_bit = 0;
@@ -352,14 +334,11 @@ ShapeInfo far *get_list_item(ShapeList *list, int index, ShapeInfo far *result)
     return result;
 }
 
-void far *PrinceGetnShapeItemSize(ShapeList *list, int index, unsigned long far *size)
+void far *PrinceGetnShapeItemSize(ShapeInfo *items, int index, unsigned long far *size)
 {
-    int slot = index;
-    ShapeInfo *items = (ShapeInfo *)list;
-    volatile Handle handle = items[slot].image;
     unsigned long far *image;
 
-    if (handle && (image = resolve_handle(handle)) != 0)
+    if (items[index].image && (image = resolve_handle(items[index].image)) != 0)
         *size = *image;
     else
         size = 0;
@@ -392,21 +371,17 @@ Handle PrinceUnpackShape(Handle handle, int mode, const void far *mapping)
 
 void unload_overlay(ShapeList *list, int first, int last)
 {
-    ShapeInfo *entry;
-    int count;
-    int index = first;
+    int index;
     int far *data;
 
-    if (IsOverlayLoaded(list, first) && first <= last) {
-        entry = &list->items[index];
-        count = last - index + 1;
-        do {
-            if (entry->image && (data = resolve_handle(entry->image)) != 0 && *data) {
-                dispose_handle(entry->image);
-                memset(entry, 0, sizeof(ShapeInfo));
+    if (IsOverlayLoaded(list, first)) {
+        for (index = first; index <= last; ++index) {
+            if (list->items[index].image &&
+                (data = resolve_handle(list->items[index].image)) && *data) {
+                dispose_handle(list->items[index].image);
+                memset(&list->items[index], 0, sizeof(ShapeInfo));
             }
-            ++entry;
-        } while (--count);
+        }
     }
 }
 
