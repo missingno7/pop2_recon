@@ -364,3 +364,17 @@ far array (`mov es, [seg word]`), emitted as a LOC2 base16 FIXUPP framed by its 
 writes the far segment symbol's paragraph (a `far-data` or `segment-base` binding symbol, grounded
 independently as usual) and the original must relocate that word. These are the only relocations a
 placed segment may contain.
+
+## Data-only groups (2026-11-22)
+
+Some original source files define initialized DGROUP data and no code (FM Towns ENGLISH.C,
+TABLES.C; see build/workers/o4_dgroup for the DGROUP ownership map). `tools/promote_data.py SOURCE
+--name NAME --profile P --flags ... --binding B [--verify-only]` compiles such a file and judges it
+with `module_gate.check_data_group`: the CODE segment must be empty, every segment with content is a
+placed DGROUP segment judged exactly as in a group (content equal to the original bytes; linked
+near/far pointer and segment-word fields; single-byte alignment holes), and every placement must be
+fixed by content that occurs once in DGROUP. The binding holds `placements`, `dgroup_segment`,
+the frozen `fixups`/`declarations` and only far symbols. Its data publics ground other groups'
+externs (`dgroup-public` provider symbols, as for a group). The manifest lists the recipe under
+`data_groups`; validation recompiles it and includes its placements in the overlap check, so a
+correctly attributed data module can never coexist with a misattributed placement of the same bytes.

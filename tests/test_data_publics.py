@@ -233,6 +233,41 @@ if __name__ == "__main__":
     unittest.main()
 
 
+class DataOnlyGroupTests(unittest.TestCase):
+    """A data-only C object is placed by unique initialized content and owns no code."""
+    FLAGS = ["/c", "/AM", "/Oe", "/Gs", "/Zl", "/Gc"]
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.oracle = Oracle.load()
+        diag = json.loads((ROOT / "evidence/bindings/diag/diag.json").read_text())
+        cls.base = {k: diag[k] for k in ("schema", "mode", "target_sha256", "frame", "dgroup_segment")}
+
+    def judge(self, source, placement, name):
+        from binding import declarations, fixes
+        from compiler import compile_c
+        from omf import OmfReader
+        r = compile_c(source, "msc600", flags=self.FLAGS, workdir=WORK / name)
+        self.assertTrue(r.ok, r.log)
+        m = OmfReader().read(r.obj_bytes, "probe")
+        binding = dict(self.base, target_id="group:t/" + name, placements={"_DATA": placement},
+                       fixups=fixes(m), declarations=declarations(m), symbols={})
+        return module_gate.check_data_group(r.obj_bytes, self.oracle, binding=binding, group_id="group:t/" + name)
+
+    def test_unique_string_is_placed_and_published(self):
+        # "Pos=%d" occurs once in the original DGROUP, at DS:111e.
+        report = self.judge('char pos_format[] = "Pos=%d";\n', 0x111E, "pos")
+        self.assertTrue(report["placements"]["_DATA"]["unique"])
+        self.assertEqual([(d["name"], d["address"]) for d in report["data_publics"]], [("POS_FORMAT", 0x111E)])
+        with self.assertRaisesRegex(ValueError, "differs"):
+            self.judge('char pos_format[] = "Pos=%d";\n', 0x1120, "pos_wrong")
+
+    def test_code_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "emits no code"):
+            self.judge('char pos_format[] = "Pos=%d";\nint f(void) { return 1; }\n', 0x111E, "pos_code")
+
+
 class CaseAliasTests(unittest.TestCase):
     """A second case spelling of one external is refused unless recorded as debt."""
     SOURCE = (b"extern unsigned char room;\n/* x */\nextern unsigned char ROOM, other[4];\n"

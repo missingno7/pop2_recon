@@ -186,6 +186,23 @@ def _validate(run_tests=True):
                 "Fresh original relocation index coverage changed")
         check_relocation_order(recipe, report)
         accepted.append(report)
+    # Data-only groups (string/table modules without code): recompiled and rechecked like groups;
+    # their placements join the overlap check below.
+    from module_gate import DATA_GROUP_KIND, compile_data_group
+    for path in manifest.get("data_groups", []):
+        recipe = read_json(project_path(path))
+        require(recipe.get("kind") == DATA_GROUP_KIND, "data_groups lists a recipe that is not a data-only group")
+        source = project_path(recipe["source"]).read_bytes()
+        require(sha(source) == recipe["source_sha256"], "Canonical source changed without acceptance")
+        raw = project_path(recipe["binding"]).read_bytes()
+        require(sha(raw) == recipe["binding_sha256"], "Canonical binding evidence changed without acceptance")
+        _, report = compile_data_group(source.decode("ascii"), recipe["profile"], recipe["flags"],
+                                       ROOT / "build/workers/validation" / recipe["name"],
+                                       binding=json.loads(raw), group_id=recipe["group_id"])
+        require(report["object_sha256"] == recipe["object_sha256"], "Accepted data group OMF identity changed")
+        require(report["placements"] == recipe["placements"] and report["data_publics"] == recipe["data_publics"],
+                "Accepted data group placement or data publics changed")
+        groups[path] = report
     # A data public grounds another file's EXTDEF by name: each must be the only accepted
     # definition of that name, as a successful link requires.
     from module_gate import _accepted_recipes, accepted_public_names
@@ -203,7 +220,7 @@ def _validate(run_tests=True):
     require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
             f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")
     # Placement debt may only shrink: every listed claim must still be owned and still need it.
-    debt = {c["target_id"] for g in groups.values() for c in g["claims"] if c.get("placement_debt")}
+    debt = {c["target_id"] for g in groups.values() for c in g.get("claims", []) if c.get("placement_debt")}
     listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])
     require(debt == listed, "evidence/placement-debt.json differs from the claims that still need it: "
             f"stale {sorted(listed - debt)}, unlisted {sorted(debt - listed)}")

@@ -823,13 +823,21 @@ def _data_publics(module, placements, dgroup_members, code_name):
     return found
 
 
+DATA_GROUP_KIND = "data_group"
+
+
 def _accepted_recipes():
-    """(owner, recipe) for every distinct canonical recipe in the manifest."""
+    """(owner, recipe) for every distinct canonical recipe in the manifest; data-only groups
+    (manifest `data_groups`, which own no code) come with an empty owner."""
     from common import project_path
+    manifest = read_json(ROOT / "layout/manifest.json")
     seen = {}
-    for owner in read_json(ROOT / "layout/manifest.json")["owners"]:
+    for owner in manifest["owners"]:
         if owner["recipe"] not in seen:
             seen[owner["recipe"]] = (owner, read_json(project_path(owner["recipe"])))
+    for path in manifest.get("data_groups", []):
+        if path not in seen:
+            seen[path] = ({}, read_json(project_path(path)))
     return list(seen.values())
 
 
@@ -842,6 +850,8 @@ def accepted_public_names(recipes):
         elif recipe.get("kind") == "same_source_group":
             names = ([c["public"] for c in recipe["claims"]] + [d["public"] for d in recipe.get("drafts", [])] +
                      [d["name"] for d in recipe.get("data_publics", [])])
+        elif recipe.get("kind") == DATA_GROUP_KIND:
+            names = [d["name"] for d in recipe.get("data_publics", [])]
         else:
             names = [recipe["public"]] if "public" in recipe else []
         for n in names:
@@ -868,8 +878,9 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
         recipe = EXTRA_PROVIDERS[provider_id]
         recipes = [(o, r) for o, r in recipes if r.get("group_id") != provider_id] + [({}, recipe)]
     else:
-        found = [r for _, r in recipes if r.get("kind") == "same_source_group" and r.get("group_id") == provider_id]
-        require(len(found) == 1, f"Provider {provider_id} is not one accepted same-source group")
+        found = [r for _, r in recipes if r.get("kind") in ("same_source_group", DATA_GROUP_KIND) and
+                 r.get("group_id") == provider_id]
+        require(len(found) == 1, f"Provider {provider_id} is not one accepted same-source or data-only group")
         recipe = found[0]
     # Linker identity: exactly one accepted definition of the name, and it is this data public.
     require(accepted_public_names(recipes).get(name) == 1,
@@ -1525,6 +1536,54 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                                                    if e not in {f["target"].get("name") for f in obligations}],
             "fixup_thread_declarations": [entry for record in module.fixups for entry in record["decoded"]],
             "record_types": [r["type"] for r in module.records], "proof_scope": GROUP_PROOF_SCOPE}
+
+
+def check_data_group(obj_data, oracle, *, binding, group_id):
+    """A data-only C object: a module that defines initialized DGROUP data and no code (e.g. a
+    string or table module). Its CODE segment must be empty; every segment with content is a
+    placed DGROUP segment judged exactly as in a group (initialized content equal to the original
+    bytes, linked near/far pointer and segment-word fields), and every placement must be fixed by
+    content that occurs once in DGROUP. Its data publics ground other groups' externs."""
+    module = OmfReader().read(obj_data, "candidate")
+    require(binding is not None and binding.get("placements") and binding.get("target_id") == group_id,
+            "A data-only group needs its own binding with placements")
+    placements = binding["placements"]
+    segment, name, actual = code_segment(module, placed=tuple(placements))
+    require(len(actual) == 0 and not any(p["segment"] == name for p in module.publics),
+            "A data-only group emits no code")
+    dgroup_members = {module.segment_defs[i - 1]["name"] for g in module.groups if g["name"] == "DGROUP"
+                      for i in g["segments"] if 1 <= i <= len(module.segment_defs)}
+    data_publics = _data_publics(module, placements, dgroup_members, name)
+    obligations = fixes(module)
+    require(all(f["segment"] in placements for f in obligations), "Data-only fixups must lie in placed segments")
+    require(binding["fixups"] == obligations, "Ordered symbolic fixup obligations changed")
+    require(binding["declarations"] == declarations(module), "Bound object declarations changed")
+    symbols = binding.get("symbols", {})
+    far_symbols = {n: s for n, s in symbols.items() if s.get("kind") in FAR_KINDS}
+    require(set(symbols) == set(far_symbols), "Data-only groups bind far symbols only")
+    hull = {"space": "root", "segment": 0, "offset": 0, "size": 0, "id": group_id}
+    for symbol in far_symbols.values():
+        far_ground(symbol, hull, oracle)
+    used = {f["target"].get("name") for f in obligations
+            if f["loc_type"] in (2, 3) and f["target"].get("kind") == "external"}
+    require(set(far_symbols) == used, "Missing or unused grounded far symbol")
+    space = oracle.spaces["root"]
+    report = _check_placements(module, placements, {}, binding, space, oracle, obligations, far_symbols)
+    require(all(r["unique"] for r in report.values()),
+            "Every data-only placement must be fixed by initialized content that occurs once in DGROUP")
+    return {"exact": True, "object_sha256": sha(obj_data), "space": "root", "placements": report,
+            "data_publics": [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF, unique=True)
+                             for d in sorted(data_publics.values(), key=lambda d: (d["segment"], d["offset"]))]}
+
+
+def compile_data_group(source_text, profile, flags, workdir, *, binding, group_id):
+    """Compile exactly the given C source text and judge it as a data-only group."""
+    from pathlib import Path
+    from oracle import Oracle
+    from compiler import compile_c
+    result = compile_c(source_text, profile, flags=flags, workdir=Path(workdir))
+    require(result.ok, "Historical compilation failed: " + result.log)
+    return result, check_data_group(result.obj_bytes, Oracle.load(), binding=binding, group_id=group_id)
 
 
 def compile_group(source_text, profile, flags, claims, workdir, *, binding=None, group_id=None, language="c"):
