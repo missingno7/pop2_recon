@@ -1,0 +1,70 @@
+{
+  "code_anchors": [
+    {
+      "archive_offset": 4192,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 282,
+      "member_sha256": "f49aabfb1b5d4442a9e8261817381a5d766df0f742e4a5d1b27a323915677a88",
+      "name": "anchor_chkstk",
+      "object_segment": "_TEXT",
+      "offset": 796
+    },
+    {
+      "archive_offset": 14592,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 475,
+      "member_sha256": "855a81808968e68e5bd5d61b2b4dbc58de2e5695e9c627e5af6a15d62866e07f",
+      "name": "anchor_flsbuf",
+      "object_segment": "_TEXT",
+      "offset": 1988
+    }
+  ],
+  "code_frame": {
+    "segment": 8166,
+    "witnesses": [
+      {
+        "image_offset": 24314,
+        "provider": "crt_dos_open",
+        "relocation_index": 513,
+        "symbol": "__dos_open"
+      }
+    ]
+  },
+  "code_providers": {
+    "__chkstk": "anchor_chkstk",
+    "__flsbuf": "anchor_flsbuf",
+    "__fptrap": "crt_crt0fp_medium"
+  },
+  "data_providers": [
+    {
+      "archive_offset": 32432,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 267,
+      "member_sha256": "aeb6d79fb299f3ff96de80b312818f29950f30ace88e909a1f2b5aba2aec5562",
+      "placement": 9372,
+      "segment": "_DATA",
+      "symbols": [
+        "__cfltcvt_tab"
+      ]
+    }
+  ],
+  "dgroup": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
+      }
+    ]
+  },
+  "mode": "runtime-symbolic-v1",
+  "placements": {
+    "_DATA": 9270
+  },
+  "schema": 1,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

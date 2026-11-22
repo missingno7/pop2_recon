@@ -1,0 +1,52 @@
+{
+  "class_runs": [
+    {
+      "path": "evidence/bindings/runtime_msg_run.json",
+      "sha256": "de2336dc21aeb94d58aeb3fb9445ef9538b5eae4bf1f5ffef911851218d1b192"
+    }
+  ],
+  "code_anchors": [
+    {
+      "archive_offset": 5952,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 439,
+      "member_sha256": "e9b58fa3aa27d2b06d906ea99bf7639e6d0c07c3b84ba9fdc0d05eac19f086ce",
+      "name": "anchor_nmsghdr",
+      "object_segment": "_TEXT",
+      "offset": 1396
+    }
+  ],
+  "code_frame": {
+    "segment": 8166,
+    "witnesses": [
+      {
+        "image_offset": 24314,
+        "provider": "crt_dos_open",
+        "relocation_index": 513,
+        "symbol": "__dos_open"
+      }
+    ]
+  },
+  "code_providers": {
+    "__NMSG_WRITE": "anchor_nmsghdr"
+  },
+  "dgroup": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
+      }
+    ]
+  },
+  "mode": "runtime-symbolic-v1",
+  "placements": {
+    "MSG": 10326,
+    "PAD": 10540,
+    "_DATA": 8902
+  },
+  "schema": 1,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

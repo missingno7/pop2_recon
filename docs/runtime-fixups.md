@@ -1,6 +1,6 @@
 # Runtime members with symbolic fixups (runtime-symbolic-v1)
 
-## Scope — 2026-11-21
+## Scope â€” 2026-11-21
 
 `tools/runtime_fixups.py` lets a whole pinned library member own its CODE even when it
 carries fixups and secondary DGROUP storage. It is the medium-model counterpart of the
@@ -40,6 +40,33 @@ paragraph `30f3`, inside the preloaded overlay 17.
   proven code addends instead. Provider segments own zero bytes.
 - **Absolute publics.** `absolute_providers` name an identity-pinned member whose
   PUBDEF defines the symbol with frame 0 (e.g. `dos\diffhlp.asm` `__AHINCR = 1000h`).
+- **Signature-anchored code providers** (`code_anchors`, 2026-11-22). A code external
+  may instead name an anchor: an identity-pinned library member and a frame offset `o`.
+  Its complete initialized CODE segment must lie in the grounded frame window and have
+  at least 16 ordinary (non-field) bytes. Every ordinary byte must equal the original
+  at `F*16+o`, and that must be the only position in `[F*16, F*16+64K)` where they all
+  match. Its own-segment fields (rel16 inside the segment, own CS offsets, rel16/LOC3 to
+  its own publics) must satisfy their equations there. Its external and DGROUP fields
+  remain *its own* open obligations and are only counted. The anchor must not overlap
+  the judged member. It may overlap an owner only when that owner is the
+  PINNED_RUNTIME recipe of the same member hash, segment and position, so a later pin of
+  the anchored member keeps earlier proofs valid. A named anchor must declare the
+  public, agree with any pinned declaration of it, and be used. An anchor owns zero
+  bytes. This generalises the provider-signature precedent of
+  [runtime near binding](runtime-near-binding.md).
+- **Class runs** (`class_runs`, mode `dgroup-class-run-v1`). This is an LF evidence file
+  under `evidence/bindings/`, pinned by hash. It lists, in order, every contribution of
+  one DGROUP segment class: segment name plus one identity-pinned member, or (for a
+  common-combine segment) every contributor. Each contribution must be complete,
+  initialized, fixup-free and in DGROUP, and each entry's contributors must agree on
+  combine and alignment. Placements follow `P(i+1) = align(P(i) + len(i))` from the
+  listed start, and alignment gaps must be zero. Every contributor's bytes must equal
+  the original DGROUP bytes at its entry's placement. The run must end exactly at the
+  original DGROUP payload end (`home.size - base`), so no unknown contribution can sit
+  inside it. A common-combine segment (combine 6) is placeable only through a class run,
+  and any listed segment must use the run's placement. `check_layout` lets common
+  contributions of one segment name share one start; any other overlap still refuses.
+  An unused run refuses.
 
 ## Equations (A = LEDATA addend, D = FIXUPP displacement)
 
@@ -52,9 +79,13 @@ paragraph `30f3`, inside the preloaded overlay 17.
 | LOC1 offset, absolute external | `value + D + A` |
 | LOC2 base, DGROUP group | `G`, plus an original relocation at the field |
 | LOC3 far pointer, code external (A = D = 0) | `S : F`, plus an original relocation at field+2 |
+| LOC1 offset in placed data, code external (CODE-segment frame, F5, F2 = target) | `S + D + A`, no relocation |
+| LOC3 far pointer in placed data, code external (A = D = 0) | `S : F`, plus an original relocation at field+2 in the DGROUP home space |
 
-The original relocations inside the member extent must be exactly the generated
-segment words, in FIXUPP order per target. Back-patched (overwritten) LEDATA is
+`S` is a pinned provider's or an anchor's public in the grounded frame; a code address
+stored in data is never read from the data operand. The original relocations inside the
+member extent must be exactly the generated segment words, in FIXUPP order per target
+(for placed data, inside the placed extent of the home space). Back-patched (overwritten) LEDATA is
 accepted only where no FIXUPP field lies in an overwritten range. Validation also
 checks that one contribution has one placement across all runtime proofs and that
 distinct placed contributions do not overlap (`check_layout`). Any other location,
@@ -71,6 +102,65 @@ binding refuses the member.
 and a far call to `__aFahdiff`). The crt0dat `_DATA` provider places 82 bytes at
 DGROUP `2274` with its DGROUP base word proven against overlay-17 relocation 84.
 
+## Extensions of 2026-11-22: anchors, data code pointers, MSG class run
+
+**Original facts.** DGROUP (paragraph `30f3`) starts at overlay-17 +`0x2940`. The
+overlay payload ends at DGROUP `0x292f` (the known one-byte shortfall). The MSG class
+tiles `[0x284e, 0x292f)` with no gaps:
+- nmsghdr `HDR` `<<NMSG>>` (8 bytes);
+- crt0msg `MSG` (130), crt0fp `MSG` (47), chksum `MSG` (37);
+- common `PAD` `ff ff` at `0x292c` (contributed by crt0msg, crt0fp, chksum and nmsghdr);
+- `EPAD` `ff` at `0x292e`.
+
+[runtime_msg_run.json](../evidence/bindings/runtime_msg_run.json) records this run.
+
+Two placed data segments carry code addresses:
+- crt0 `_DATA` at `0x2256` holds `dw __exit` = `0x0238` (crt0dat at `1fe6:016c`, plus `0xcc`);
+- cmiscdat `_DATA` at `0x249c` holds six `1fe6:0316` (`__fptrap`) far pointers, with
+  overlay-17 relocations 116-121.
+
+**Anchors.** Each anchor matches exactly once in the 64 KiB `1fe6` window and has at
+least 18 ordinary bytes:
+
+| Member | Anchor offset |
+| --- | --- |
+| crt0 | `0074` |
+| crt0dat | `016c` |
+| crt0msg | `02f4` |
+| chkstk | `031c` |
+| nmsghdr | `0574` |
+| stdalloc | `05d6` |
+| `_flsbuf` | `07c4` |
+| `_open` | `0918` |
+| `_sftbuf` | `0a00` |
+| output | `0b7a` |
+| stream | `1062` |
+
+The malloc/free trampolines (one ordinary byte) and crt0fp (four) cannot be anchors.
+
+**Members proven by these rules** (worker recipes; 1,741 bytes):
+
+| Member | Bytes | Rules and providers |
+| --- | ---: | --- |
+| `fopen` | 66 | E1: `_open`, `stream` anchors |
+| `fprintf` | 56 | E1: `output`, `_sftbuf` anchors |
+| `sprintf` | 90 | E1: `output`, `_flsbuf` anchors; `_BSS` from the two-addend rule at `0x2ce2` |
+| `stdenvp` | 125 | E1: `stdalloc` anchor |
+| `nheapchk` | 28 | E1 + E3: crt0 `_DATA` provider, `__exit` from the crt0dat anchor |
+| `nmemmax` | 45 | E1 + E3: crt0 `_DATA` provider, `__exit` from the crt0dat anchor |
+| `crt0fp` | 6 | E1 + E4 |
+| `crt0msg` | 34 | E1 + E4 |
+| `chksum` | 36 | E1 + E4; `NULL` placed literally at DGROUP 0 |
+| `output` | 1,255 | E1 + E3: cmiscdat far pointers; needs `crt0fp` pinned first |
+
+**Hypotheses and limits.** An anchor proves a provider's position only: that member's
+own external, DGROUP and secondary-storage obligations remain open, and it owns
+nothing. A class run proves gap-free placement against the payload end, not natural
+link order. The pairing of each contribution with its historical member is a library
+correspondence. The remaining blockers below are unchanged by these rules: `__bufin`,
+`_end`/`_edata`, crt0 `DBDATA`/`C_ETEXT`, crt0/crt0dat startup, the
+`_malloc`/`_free` endpoints and the `_strcpy`/`_strlen` ambiguity.
+
 ## Refused, with the exact blocker
 
 - `crt0` (program start address, STACK, common `XIQC`, `_end`/`_edata`, `_main`),
@@ -78,17 +168,13 @@ DGROUP `2274` with its DGROUP base word proven against overlay-17 relocation 84.
   `__nullcheck` providers missing).
 - `__bufin` near communal in `_file.c`'s `_DATA` (only zero-addend references; not
   placeable): blocks `__iob`/`__iob2`/`__lastiob` and therefore `stream.c`,
-  `_open.c`, `fopen.c`, `fflush.c`, `fclose.c`, `_flsbuf`, `_getbuf`, `_sftbuf`,
-  `printf.c`.
-- `_end` (linker-defined) in `chkstk`'s `_DATA`: blocks `chkstk`, `stackava`
-  (`STKHQQ`) and through `__chkstk` `write`, `output` (also `__cfltcvt_tab` holds a
-  far `__fptrap` pointer), hence `fprintf`, `sprintf`.
-- crt0's common `DBDATA` (code offsets, `C_ETEXT`): blocks `nmsghdr`, `d_rdwr`,
-  `write`; crt0's `_DATA` holds `dw __exit` (crt0dat code unpinned): blocks
-  `__nheap_desc`, so `nheapchk`, `nmemmax`.
-- `crt0msg`, `chksum`: MSG/PAD/`NULL` storage (common PAD, no references) and
-  `__NMSG_WRITE`/`__FF_MSGBANNER` providers missing.
-- `stdalloc`, `stdenvp`, `calloc`, `_freebuf`, `strdup`: `_malloc`/`_free` are 5-byte
+  `_open.c`, `fflush.c`, `fclose.c`, `_flsbuf`, `_getbuf`, `_sftbuf`, `printf.c`.
+  (Anchors only give their code positions.)
+- `_end` (linker-defined) in `chkstk`'s `_DATA`: blocks `chkstk` and `stackava`
+  (`STKHQQ`).
+- crt0's common `DBDATA` (code offsets, `C_ETEXT` base): blocks `nmsghdr`, `d_rdwr`,
+  `write`.
+- `stdalloc`, `calloc`, `_freebuf`, `strdup`: `_malloc`/`_free` are 5-byte
   `malloc.asm`/`free.asm` far-jump stubs to `__nmalloc`/`__nfree` at `1fe6:003b`/`001a`
   (no pinned provider); `calloc`'s own call encodes `1fe6:003b`, not the stub.
   `strdup` also names `_strcpy`, declared by two pinned recipes (the large-model
