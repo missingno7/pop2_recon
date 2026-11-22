@@ -36,6 +36,8 @@ def main():
         require(b"\r" not in binding_path.read_bytes(),
                 "Canonical binding proof must use LF newlines for stable Git identity")
     original_source = project_path(args.source).read_bytes()
+    import module_gate
+    module_gate.require_no_segname(original_source, "recipe:" + args.name, args.language)
     # Canonical source hashes must survive the repository's LF checkout policy.
     original_source = original_source.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     stage = ROOT / "build/workers/promotion" / args.name

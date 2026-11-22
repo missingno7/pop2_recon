@@ -27,6 +27,7 @@ a same-overlay call, an unshared cross-space call or far pointer, or bracketing
 overlay relocation site frames, see `_frame_evidence`), so
 16-bit IP arithmetic and linear placement agree.
 """
+import re
 import struct
 
 from binding import operand_field as operand_field_of
@@ -235,6 +236,21 @@ def _check_placements(module, placements, uses, binding, space, oracle):
         report[seg["name"]] = {"placement": p, "length": seg["length"], "basis": basis, "unique": unique}
     require(set(report) == set(placements), "Placement for a segment the object does not declare")
     return report
+
+
+# Explicit segment placement of data (`_based(_segname(...))`) builds a DGROUP piece RTLink
+# could not have linked among the `_DATA` pieces (docs/dgroup-binding.md, DGROUP class order).
+# Sources accepted before 2026-11-22 are layout debt in evidence/const-layout-debt.json.
+SEGNAME = re.compile(rb"_segname\s*\(")
+CONST_LAYOUT_DEBT = set(read_json(ROOT / "evidence/const-layout-debt.json")["keys"]) \
+    if (ROOT / "evidence/const-layout-debt.json").exists() else set()
+
+
+def require_no_segname(source_bytes, key, language="c"):
+    """Refuse new explicit segment placement; listed debt keys keep theirs."""
+    require(language != "c" or key in CONST_LAYOUT_DEBT or not SEGNAME.search(source_bytes),
+            "_segname data placement is not a linkable DGROUP layout: model initialized data as "
+            "ordinary _DATA (docs/dgroup-binding.md, DGROUP class order)")
 
 
 PLACEMENT_DEBT = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()

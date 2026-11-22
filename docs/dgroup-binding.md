@@ -324,5 +324,7 @@ Consequences: a file's initialized data is one contiguous `_DATA` piece at its l
 position; two files cannot interleave. Existing canonical placements that use
 `_based(_segname("_CONST"))` (custom, dialog, draw, load, movecave) prove their code bytes but
 are not a linkable model of the data layout (they sit among `_DATA` pieces); they are layout
-debt, not precedent. Data another file uses is that file's data public (see "Cross-file data
+debt, not precedent. They are listed in evidence/const-layout-debt.json, which validation keeps equal
+to the accepted C sources that use `_segname`; `promote.py` and `promote_group.py` refuse `_segname`
+in any other C source, so the list only shrinks. Data another file uses is that file's data public (see "Cross-file data
 publics"), not a second placement.
