@@ -20517,6 +20517,23 @@
         }
       ]
     },
+    "MUSIC_BUSY": {
+      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
+      "entry_target_id": "root:1101:8444",
+      "kind": "far-code-entry",
+      "offset": 33860,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a44840111",
+          "file_offset": 59203,
+          "image_offset": 51011,
+          "relocation_index": 992,
+          "space": "root"
+        }
+      ]
+    },
     "NEARBY_OPPONENT_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -20934,6 +20951,13 @@
     "ROOM_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 696,
+          "unproven": "DS:47ad occurs at the room-6 count test at overlay-10:29cf:03b6. No independent original operand or proven data extent establishes this member address.",
+          "witnesses": []
+        }
+      ],
       "offset": 17653,
       "witnesses": [
         {
@@ -21258,6 +21282,20 @@
           "image_offset": 280,
           "relocation_index": 4,
           "space": "overlay-15"
+        }
+      ]
+    },
+    "SOUND_PERIOD": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2308,
+      "witnesses": [
+        {
+          "bytes_hex": "a10409",
+          "entry": "root:0dd7:04d0",
+          "image_offset": 57986,
+          "operand_offset": 1,
+          "space": "root"
         }
       ]
     },

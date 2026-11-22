@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "0e11a9e047c4a6d07a317492fc6619b9c4d28a59ce16404669da534bc0bcdfb9",
+  "binding_sha256": "fd2e4624ed2143422fccc68cebb1f8603cdf6c61086b5b30dcfd9b95b6d78a9d",
   "claims": [
     {
       "fixup_count": 7,
@@ -556,14 +556,19 @@
       "target_id": "overlay-10:29cf:1e18"
     }
   ],
+  "code_matches": [
+    {
+      "public": "RUN_FINAL_FRAME",
+      "target_id": "overlay-10:29cf:037c",
+      "unproven": [
+        "ROOM_STATE+0x2b8"
+      ]
+    }
+  ],
   "drafts": [
     {
       "object_offset": 84,
       "public": "CHECK_DEAD_OPPONENT"
-    },
-    {
-      "object_offset": 892,
-      "public": "RUN_FINAL_FRAME"
     },
     {
       "object_offset": 1050,
