@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "2b659b8af1ccf320ba9425e63e48621799aca51cacabb3b62d78166ad8d61851",
+  "binding_sha256": "ded74f900cf2a77501ccee4b12ecc51a60f9c992e2178e0a50b3064cd0ef0ffc",
   "claims": [
     {
       "fixup_count": 62,
@@ -69,6 +69,16 @@
       "fixup_count": 8,
       "public": "COLLIDE_WITH_BARRIERS",
       "target_id": "overlay-3:2802:0402"
+    },
+    {
+      "fixup_count": 14,
+      "public": "RIGHT_COLLISION",
+      "relocation_indices": [
+        489
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:2802:0438"
     },
     {
       "fixup_count": 15,
@@ -304,10 +314,6 @@
       "public": "INITCOLDETBUFS"
     },
     {
-      "object_offset": 1066,
-      "public": "RIGHT_COLLISION"
-    },
-    {
       "object_offset": 1726,
       "public": "APPLY_GROUND_BUMP"
     },
@@ -332,12 +338,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "49b9fd70cd8c7fd232867ed446cd5a114c0e93493f471922bcb46efcd21ef9d1",
+  "object_sha256": "dac907842f1b189976f14db8be9a49366bfb5b016a665154fbf72d35933f13c1",
   "origin": 19438,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "cad03c94132964b7697543a66f3d564acc0b27e80a05db8a1290762d54c45bc4",
+  "source_sha256": "f9d3fcc95e3cc572c963df539d327eb82186a1c25022485eb2942b0e5eac17e2",
   "space": "overlay-3"
 }

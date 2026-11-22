@@ -70278,6 +70278,269 @@
           "relocated_segment_site": null
         }
       ]
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "NEXT_FRAME calls 2344:198e at root+0xeb7c (MZ index 1201) after its other AUTO calls and before updating sound. In overlay 3, the preceding reviewed 2344:18f8 ends at 198e.",
+        "Original overlay-3 site relocations for 198e..1a76 name site frame 2344. Overlay 2 uses frame 238a at the same linear address. RETF at 1a74 and one NOP precede the BP prologue at 1a76, also reached by the 1a68 near call.",
+        "Ordered FM Towns AUTO pairing is CheckStab. The routine checks guard state and does not read stack arguments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68476,
+          "image_offset": 60284,
+          "kind": "far_call",
+          "relocated_segment_site": 60287,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:198e",
+      "offset": 6542,
+      "segment": 9028,
+      "semantic_name_hypothesis": "check_guard_changes",
+      "sha256": "b71ae56823bbf01970657032238eddbba24e29420db72d31bb1abd4ba472e31d",
+      "size": 232,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "RUN_SHADOWS calls at root+0xed8f (MZ index 1299) while processing a loaded shadow slot.",
+        "The reviewed one-byte RETF stub at 02cc:12e2 and its NOP end at this entry. The routine returns at root+0x4006, followed by the NOP and independently reviewed 02cc:1348.",
+        "Ordered FM Towns CTRL pairing is ShadCtrl. The frameless routine tests character state and does not read stack arguments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 69007,
+          "image_offset": 60815,
+          "kind": "far_call",
+          "relocated_segment_site": 60818,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:02cc:12e4",
+      "offset": 4836,
+      "segment": 716,
+      "semantic_name_hypothesis": "control_shadow",
+      "sha256": "8c86b56558f92a9679ad139109faa7d2c37e3cdb96e8d3e997adcf2f36848324",
+      "size": 100,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "NEXT_FRAME starts with relocated CALL FAR at root+0xeb39 (MZ index 1323), immediately after its BP frame setup.",
+        "Reviewed root:0b41:1a10 ends at this entry. This frame starts at root+0xce52 and ends with RETF at +0xcf0e and one NOP before independently reviewed root:0b41:1b00.",
+        "Ordered FM Towns MOVE pairing is AnimMobs. The DOS routine iterates animation/mob state and does not read stack arguments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68409,
+          "image_offset": 60217,
+          "kind": "far_call",
+          "relocated_segment_site": 60220,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1a42",
+      "offset": 6722,
+      "segment": 2881,
+      "semantic_name_hypothesis": "start_floor_frame",
+      "sha256": "b338e370537b36b49ad9ecbec96f96bee08978fe796b21dad827d8767a55543f",
+      "size": 190,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "Original PUSH CS and near CALL at 0xeb6e, 0xebd1 land exactly at root+0xed26. The call sites are decoded from the original TOP routines.",
+        "Walks shadow slots twice, updates the selected shadow, and removes expired slots. The last DS:6298 store precedes the sole RETF at 0xef3f.",
+        "Original complete decode covers root [0xed26, 0xef40). All direct branches stay inside."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68462,
+          "image_offset": 60270,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60269,
+          "space": "root"
+        },
+        {
+          "file_offset": 68561,
+          "image_offset": 60369,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60368,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:07c6",
+      "offset": 1990,
+      "segment": 3670,
+      "semantic_name_hypothesis": "run_shadows",
+      "sha256": "20617187782656156426459953d96f254d1747bcb2832218847f6432ee376e4f",
+      "size": 538,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "Original PUSH CS and near CALL at 0xea6d land exactly at root+0xf0b0. The call sites are decoded from the original TOP routines.",
+        "Copies Kid and Char bounds and resets collision state before the near timer call at 0xf149. The saved SI/DI and BP epilogue returns at 0xf151.",
+        "Original complete decode covers root [0xf0b0, 0xf152). All direct branches stay inside."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68205,
+          "image_offset": 60013,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60012,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0b50",
+      "offset": 2896,
+      "segment": 3670,
+      "semantic_name_hypothesis": "reset_frame_vars",
+      "sha256": "692287a8f0190133f4482b1a09b917f80b59779be870f36ddebc0d726f4a0ace",
+      "size": 162,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "Original PUSH CS and near CALL at 0xeb87 land exactly at root+0xf2be. The call sites are decoded from the original TOP routines.",
+        "Scans two two-byte rebirth records with saved DI/SI. Both guard and loop paths reach the pop SI/DI and RETF at 0xf35a. Three NOPs lead to the separately reviewed entry at 0xf35e.",
+        "Original complete decode covers root [0xf2be, 0xf35e). All direct branches stay inside."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68487,
+          "image_offset": 60295,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60294,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0d5e",
+      "offset": 3422,
+      "segment": 3670,
+      "semantic_name_hypothesis": "check_rebirth_points",
+      "sha256": "d2b4785bfe6d65e0f83930fb5a980ec0cd266d1eab9903d772bdc370a8d0f01f",
+      "size": 160,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "Original PUSH CS and near CALL at 0xe656 land exactly at root+0xf490. The call sites are decoded from the original TOP routines.",
+        "Traverses room guard records through the relocated lookup at 0xf4ad, then clears their active words. Both loop exits join the complete BP/SI/DI epilogue and sole RETF at 0xf4d1.",
+        "Original complete decode covers root [0xf490, 0xf4d2). All direct branches stay inside."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 67158,
+          "image_offset": 58966,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 58965,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0f30",
+      "offset": 3888,
+      "segment": 3670,
+      "semantic_name_hypothesis": "reset_guard_records",
+      "sha256": "c3a33da9939db0f2c5f03fef4ca96ae7a0aba30c6b874e4dd5ff1f52ee5e54d1",
+      "size": 66,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or callee cleanup. RETF, result unused.",
+      "boundary_evidence": [
+        "Original PUSH CS and near CALL at 0xeb60 land exactly at root+0xf4fa. The call sites are decoded from the original TOP routines.",
+        "Walks guards and scans intervening cells to assign their alert byte. The outer backward jump at 0xf6e3 stays in this function and RETF at 0xf6ea plus one NOP precedes the reviewed callback dispatcher at 0xf6ec.",
+        "Original complete decode covers root [0xf4fa, 0xf6ec). All direct branches stay inside."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 68448,
+          "image_offset": 60256,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 60255,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style DOS game code in a frame with a corresponding FM Towns C module."
+      ],
+      "classification_status": "strong game-C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0e56:0f9a",
+      "offset": 3994,
+      "segment": 3670,
+      "semantic_name_hypothesis": "check_alert",
+      "sha256": "65fd3e786327166d1f3fbdf5247ae66d50077634014326e8119a1d6633c3c315",
+      "size": 498,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

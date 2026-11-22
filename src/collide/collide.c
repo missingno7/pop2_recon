@@ -374,8 +374,7 @@ void apply_ground_bump(signed char direction)
     }
     update_floor_y();
     if (char_fall >= 22) {
-        char_x = shift_x(-10);
-        update_char_cell();
+        char_x = shift_x(-10), update_char_cell();
         return;
     }
     char_fall = 0;
@@ -386,8 +385,7 @@ void apply_ground_bump(signed char direction)
         if (!(char_direction ^ direction)) {
             if (sequence_id == 55 && char_frame == 207)
                 char_x = shift_x(10);
-            char_x = shift_x(2);
-            sequence = 65;
+            char_x = shift_x(2), sequence = 65;
         } else {
             sequence = 64;
             if (is_sword_motion(char_action, char_frame)) {
@@ -398,15 +396,12 @@ void apply_ground_bump(signed char direction)
             }
         }
         if (boundary != 0 && boundary > char_x) {
-            sequence = 93;
-            char_sword = 0;
+            sequence = 93, char_sword = 0;
         }
     } else {
         frame = char_frame;
         if (frame >= 246 && frame <= 261) {
-            char_x = shift_x(-3);
-            sequence = 121;
-            char_sword_frame = 0;
+            char_x = shift_x(-3), sequence = 121, char_sword_frame = 0;
         } else if (frame == 24 || frame == 25 ||
                    (frame >= 40 && frame < 43) || (frame >= 102 && frame < 107)) {
             sequence = 46;
@@ -468,7 +463,7 @@ general:
         height += 26;
     else if (char_action == 8)
         height += 19;
-    clearance = ((((int)(signed char)cell_flags) & 252) >> 2) + 6;
+    clearance = ((gate_opening & 252) >> 2) + 6;
     if (clearance < height + 7)
         goto blocked;
 passable:

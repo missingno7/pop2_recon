@@ -98,8 +98,8 @@ extern unsigned char cell_flags;                   /* ds:6271 */
 extern signed char sweep_column;                   /* ds:6275 */
 extern signed char sweep_left;                     /* ds:6277 */
 extern signed char sweep_right;                    /* ds:6278 */
-extern signed char sweep_row;                      /* ds:6279 */
 extern signed char previous_sweep_row;             /* ds:627a */
+extern signed char sweep_row;                      /* ds:6279 */
 extern int column_x[];                              /* ds:0d86 */
 extern char room_render_flags[10];                  /* ds:6248 */
 extern unsigned char *room_kinds;                   /* ds:6294 */
@@ -799,11 +799,13 @@ int advance_frame(void)
                 special_sequence = 1;
             if ((unsigned)sequence_delay < 120) {
                 phase = (unsigned)sequence_delay % 12;
-                if (phase > 3) {
-                    update_display(0);
+                if (phase < 3) {
                     return result;
                 }
-                if (phase == 3) {
+                if (phase != 3) {
+                    update_display(0);
+                    return result;
+                } else {
                     update_flash();
                     set_sound_flags(-2);
                 }
