@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound2/dos_sound_runtime.json",
-  "binding_sha256": "7b2ac5969bbe9289d3d76ba98fb1e89c9c65ffbc0e706f2a21a35bd9390d91be",
+  "binding_sha256": "06617084a4fa24f6d581e0e3be2de9496a23779225a84baea68efa4ad87e603d",
   "claims": [
     {
       "fixup_count": 28,
@@ -78,6 +78,27 @@
       "target_id": "root:1101:33f0"
     },
     {
+      "fixup_count": 12,
+      "public": "DIGITAL_COMPLETION_INTERRUPT",
+      "relocation_indices": [
+        1515,
+        1577
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:3444"
+    },
+    {
+      "fixup_count": 11,
+      "public": "MIDI_COMPLETION_INTERRUPT",
+      "relocation_indices": [
+        1516
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:34dc"
+    },
+    {
       "fixup_count": 2,
       "public": "CALL_SOUND_COMPLETION",
       "relocation_indices": [
@@ -137,14 +158,6 @@
     {
       "object_offset": 1008,
       "public": "CONFIGURE_SOUND_DEVICES"
-    },
-    {
-      "object_offset": 1584,
-      "public": "DIGITAL_COMPLETION_INTERRUPT"
-    },
-    {
-      "object_offset": 1736,
-      "public": "MIDI_COMPLETION_INTERRUPT"
     }
   ],
   "emitted_size": 2713,

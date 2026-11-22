@@ -1,7 +1,28 @@
 {
   "binding": "evidence/bindings/fade/fade.json",
-  "binding_sha256": "45dd8aea5f191341a1ee5c97c015dd0cc6fc7ebaa5a076b0000093dcf10ad1c8",
+  "binding_sha256": "42c4a65a0ba8e25da1e25aa13150dac4d18fd81ca1dcab0e9f8a852514f41692",
   "claims": [
+    {
+      "fixup_count": 3,
+      "public": "FADE_IN_PORT",
+      "target_id": "root:1e23:0008"
+    },
+    {
+      "fixup_count": 11,
+      "public": "INIT_FADE_IN",
+      "relocation_indices": [
+        1757,
+        1759,
+        1762,
+        1766,
+        1771
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1e23:0044"
+    },
     {
       "fixup_count": 2,
       "public": "QUIT_FADE_IN",
@@ -41,8 +62,10 @@
         1748,
         1761
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "root:1e23:0378"
     },
     {
@@ -77,51 +100,43 @@
   ],
   "drafts": [
     {
-      "object_offset": 0,
-      "public": "FADE_IN_PORT"
-    },
-    {
-      "object_offset": 60,
-      "public": "INIT_FADE_IN"
-    },
-    {
       "object_offset": 244,
       "public": "FADE_IN_STEP"
     },
     {
-      "object_offset": 1188,
+      "object_offset": 1234,
       "public": "FADE_TO_STEP"
     },
     {
-      "object_offset": 1486,
+      "object_offset": 1532,
       "public": "FADE_PALETTE_UP"
     },
     {
-      "object_offset": 1584,
+      "object_offset": 1630,
       "public": "FADE_PALETTE_DOWN"
     },
     {
-      "object_offset": 1680,
+      "object_offset": 1726,
       "public": "BLEND_PALETTE"
     },
     {
-      "object_offset": 1846,
+      "object_offset": 1892,
       "public": "STORE_THREE_COMPONENT_BYTES"
     },
     {
-      "object_offset": 1884,
+      "object_offset": 1930,
       "public": "ADD_THREE_COMPONENTS"
     },
     {
-      "object_offset": 1928,
+      "object_offset": 1974,
       "public": "SCALE_THREE_COMPONENT_BYTES63"
     },
     {
-      "object_offset": 2032,
+      "object_offset": 2078,
       "public": "FADE_OUT_AND_RESTORE_PALETTE"
     }
   ],
-  "emitted_size": 2100,
+  "emitted_size": 2146,
   "flags": [
     "/c",
     "/AM",
@@ -136,12 +151,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "fade/fade",
-  "object_sha256": "9f1b5e8418ca59213b34f106e3a2ed42251c9d91d92564d73f5be2f20bbe0571",
-  "origin": 123494,
+  "object_sha256": "238112fbb1c0125c5b7b8db98ccd1025214f8adf1158553fb43302b2469ba8a3",
+  "origin": 123448,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/fade/fade.c",
-  "source_sha256": "4151098806f927d9d35f390e28b0d64a94fb1aa12160297090d4bd4da871ee9d",
+  "source_sha256": "41f7ae7da7264d0e435eb84a4e4444d6b8d861bb1e9386a596f0a777cb3be5af",
   "space": "root"
 }

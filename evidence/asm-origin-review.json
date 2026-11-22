@@ -3083,6 +3083,20 @@
       ],
       "group": "sound2/load_sound_driver",
       "verdict": "asm"
+    },
+    "root:1101:3444": {
+      "verdict": "asm",
+      "group": "sound2/dos_sound_runtime",
+      "evidence": [
+        "Original register-ABI driver interrupt callback, ending in IRET at 1101:34db. Its entry is materialized by the reached driver submission path at 1101:3663/3666."
+      ]
+    },
+    "root:1101:34dc": {
+      "verdict": "asm",
+      "group": "sound2/dos_sound_runtime",
+      "evidence": [
+        "Original register-ABI driver interrupt callback, ending in IRET at 1101:3539. The reached registration path at 1101:36dc/36dd pushes CS and supplies offset 34dc."
+      ]
     }
   },
   "summary": {

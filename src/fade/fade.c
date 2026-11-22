@@ -44,7 +44,7 @@ fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsig
 int far pascal fade_in_step(fade_state far *state);
 void far pascal quit_fade_in(void far *block);
 void far pascal read_dac_blocks(unsigned blocks, component far *colors);
-void far pascal set_dac_blocks(unsigned blocks, component far *colors);
+void far pascal set_dac_blocks(unsigned, component far *);
 fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int delay);
 void far pascal QuitFadeTo(void far *block);
 int far pascal fade_to_step(fade_state far *state);
@@ -89,16 +89,21 @@ int far pascal fade_in_step(fade_state far *state)
     if (!fade_delay) {
         int elapsed, remaining, i;
         unsigned bit;
-        component far *src, *dst;
+        _segment color_segment;
+        component _based(color_segment) *outer;
+        component _based(color_segment) *src;
+        component far *volatile dst;
 
         fade_delay = state->delay;
         elapsed = ++state->elapsed;
         bit = 1;
-        src = state->first;
+        color_segment = (_segment)state;
+        outer = (component _based(void) *)state->first;
         remaining = 16;
         do {
             if (state->blocks & bit) {
-                dst = src + sizeof(palette);
+                src = outer;
+                dst = (component far *)src + sizeof(palette);
                 i = 16;
                 do {
                     dst[0] = src[0] * elapsed / 64;
@@ -107,9 +112,8 @@ int far pascal fade_in_step(fade_state far *state)
                     src += 3;
                     dst += 3;
                 } while (--i);
-                src -= 48;
             }
-            src += 48;
+            outer += 48;
             bit <<= 1;
         } while (--remaining);
         set_dac_blocks(state->blocks, state->work);
