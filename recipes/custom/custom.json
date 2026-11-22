@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custom/custom.json",
-  "binding_sha256": "d490a44ea887a58a7c63d166c660d3243dbc7c41d31f7ddbe20aa377b8be1de9",
+  "binding_sha256": "64e319258e938b75ba39d576e562830b2f54a1e7070cac342f00d9f2781f58c3",
   "claims": [
     {
       "fixup_count": 1,
@@ -74,6 +74,21 @@
       "target_id": "root:04a6:026c"
     },
     {
+      "fixup_count": 23,
+      "public": "LOADCUSTOMROOMDATA",
+      "relocation_indices": [
+        387,
+        404,
+        407,
+        423
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:04a6:02b0"
+    },
+    {
       "fixup_count": 2,
       "public": "NEEDDRAWROOMBELOWCUSTOM",
       "target_id": "root:04a6:0658"
@@ -105,10 +120,8 @@
         390,
         412
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "root:04a6:072c"
     },
     {
@@ -135,10 +148,6 @@
       "public": "GETCUSTOMABOVEARY"
     },
     {
-      "object_offset": 682,
-      "public": "LOADCUSTOMROOMDATA"
-    },
-    {
       "object_offset": 900,
       "public": "LOADCUSTOMROOMSHAPES"
     },
@@ -154,19 +163,20 @@
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 1190,
   "group_id": "group:custom/custom",
   "kind": "same_source_group",
   "language": "c",
   "name": "custom/custom",
-  "object_sha256": "03a3a2ee3d581e760cfa631d00d08d454499a7ea35f89094cb26c258e422e712",
+  "object_sha256": "05f3aa8cbca5032bb461effe1f5f979bba95bd60ec0cc9e6b38646bf09b9ee17",
   "origin": 19046,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custom/custom.c",
-  "source_sha256": "c34a8b4ea2df252a0b821c31ad6bea01743973c85d3facde9529e45a1d12dc1c",
+  "source_sha256": "19c532b606326b754a385124259e82d0e1b2b07163bf9077558aa6a6464531c9",
   "space": "root"
 }

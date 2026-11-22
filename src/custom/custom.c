@@ -360,8 +360,9 @@ void LoadCustomRoomShapes(CustomRoom *room)
         i = 0;
         if (old_count > 0) {
             do {
-                if (old_shapes[i])
-                    free_shape(old_shapes[i]);
+                handle = &old_shapes[i];
+                if (*handle)
+                    free_shape(*handle);
             } while (++i < old_count);
         }
         free(old_shapes);
