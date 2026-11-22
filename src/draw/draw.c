@@ -1254,7 +1254,12 @@ void draw_cell_objects(char column)
 
 extern int compare_objects(int first, int second);
 extern unsigned char far _fastcall object_priority(unsigned char type);
-extern unsigned char object_priority_low[], object_priority_high[];
+static unsigned char object_priority_low[16] = {
+    127, 127, 127, 100, 127, 50, 127, 127, 127, 100, 127, 127, 127, 200, 200, 0
+};
+static unsigned char object_priority_high[13] = {
+    127, 127, 127, 127, 200, 60, 225, 50, 200, 80, 210, 210, 60
+};
 extern unsigned char load_draw_object(signed char index);
 extern void draw_loose_object(unsigned char type);
 
@@ -1832,7 +1837,6 @@ void draw_kid_meter(int life, int max_life)
     }
     if (life < max_life) {
         index = max_life - life;
-        state.blank_start = life;
         do {
             blit_meter_shape(meter_sheet, 217, x, 193, 0, mode);
             x += 8;
@@ -1865,7 +1869,7 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
 {
     DrawRect rect;
     int count, x, half;
-    volatile int full_cells;
+    volatile int full_cells, origin;
 
     if (guard == -1) {
         guard = find_guard_for_meter(1);
@@ -1882,13 +1886,14 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
         rect.bottom = meter_strip.bottom; rect.right = meter_strip.right;
         clear_text_area(&rect);
     } else if (game_tick_counter != 600) {
-        x = 308;
+        origin = 308;
         if (guard_kind == 7 || guard_kind == 8) {
             half = life % 2;
             life /= 2;
         } else {
             half = 0;
         }
+        x = origin;
         if (life > 0) {
             full_cells = life;
             count = full_cells;
