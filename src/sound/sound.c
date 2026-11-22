@@ -22,7 +22,36 @@ static int death_songs[] = {
     100, 208, 0, 191, 207, 50, 51, 58, 264
 };
 
-extern int pending_effect, pending_song, current_effect, current_song;
+static int track_first[] = {-1, 191, 72, -1, -1, 86, 86, -1, 69, 196, 0};
+static int track_last[] = {-1, 195, 76, -1, -1, 90, 90, -1, 71, 197, 0};
+
+int background_scene_group[] = {-1, 37, 204, 100, 145, 246, 256};
+int background_scene_number[] = {-1, 46, 245, 142, 190, 249, 272};
+
+static int level5_songs[] = {246};
+static int level5_song_counts[] = {3};
+static int level3_songs[] = {107, 123, 139};
+static int level3_song_counts[] = {15, 15, 3};
+static int level4_songs[] = {155, 171, 187};
+static int level4_song_counts[] = {15, 15, 3};
+static int level2_songs[] = {210, 226, 242};
+static int level2_song_counts[] = {15, 15, 3};
+static int extra_ambient_songs[] = {256};
+static int extra_ambient_song_counts[] = {16};
+
+static int *ambient_first[] = {0, 0, level2_songs, level3_songs, level4_songs,
+                              level5_songs, 0};
+static int *ambient_count[] = {0, 0, level2_song_counts, level3_song_counts,
+                              level4_song_counts, level5_song_counts, 0};
+static signed char ambient_special[] = {-1, 1, 2, 2, 2, -1, -1};
+
+int background_intro_group[] = {77, 97, -1, 83, 80, 53, 94, -1};
+int background_intro_number[] = {79, 99, -1, 85, 82, 55, 95, -1};
+
+static char no_load_sound[] = "NOLOADSOUND";
+static char no_sounds[] = "NOSOUNDS";
+
+extern int pending_song, current_effect, current_song;
 extern unsigned char level, scene, location_kind, sound_flags;
 extern signed char opponent_kind, opponent_pending, stage, opponent_state;
 extern signed char kid_room, kid_room_offset, kid_section, kid_sound, ambient_enabled;
@@ -31,13 +60,8 @@ extern AmbientState ambient_state;
 extern signed char previous_track_range, ambient_room, ambient_table[];
 extern int kid_action, opponent_action, opponent_sequence, ambient_actor_action;
 extern int sound_inhibit, ambient_last_song;
-extern int track_first[], track_last[];
-extern int near *ambient_first[];
-extern int near *ambient_count[];
-extern signed char ambient_special[];
 extern SoundRule sound_rules[];
 extern SoundHandle sound_handles[];
-extern char no_load_sound[], no_sounds[];
 struct JoystickMessages {
     char unavailable[22];
     char mode[14];
@@ -165,11 +189,11 @@ void AddSong(int song)
     }
 }
 
+extern int pending_effect;
+
 void AddSound(int effect)
 {
-    int old = pending_effect;
-
-    if ((old == -1 || sound_rules[effect].priority <= sound_rules[old].priority) &&
+    if ((pending_effect == -1 || sound_rules[effect].priority <= sound_rules[pending_effect].priority) &&
         !sound_inhibit)
         pending_effect = effect;
 }
@@ -251,31 +275,33 @@ void load_song_range(int first, int last)
 {
     int song;
     SoundHandle *handle;
+    int start;
 
-    if (!command_option(no_load_sound) && first != -1) {
-        song = first;
-        if (first > last)
-            return;
-        handle = &sound_handles[song];
-        do {
-            if (*handle)
-                get_sound_data(*handle);
-            if (!*handle || !get_sound_data(*handle)) {
+    if (!command_option(no_load_sound))
+        if (first != -1) {
+            start = first;
+            song = start;
+            if (first > last)
+                return;
+            handle = &sound_handles[song];
+            do {
                 if (*handle)
-                    release_sound(*handle);
-                *handle = read_sound(song + 10000);
-            }
-            if (*handle)
-                *handle = prepare_sound(*handle);
-            ++handle;
-        } while (++song <= last);
-    }
+                    get_sound_data(*handle);
+                if (!*handle || !get_sound_data(*handle)) {
+                    if (*handle)
+                        release_sound(*handle);
+                    *handle = read_sound(song + 10000);
+                }
+                if (*handle)
+                    *handle = prepare_sound(*handle);
+                ++handle;
+            } while (++song <= last);
+        }
 }
 
 void play_ambient(AmbientState *state)
 {
     int special, song, first, count;
-    int *song_table;
     signed char cue;
 
     if (ambient_enabled) {
@@ -285,22 +311,24 @@ void play_ambient(AmbientState *state)
             if (special && ambient_special[level] == -1)
                 special = 0;
             song = select_special_ambient(special);
-            if (song != -1) {
-                cue = -1;
-            } else {
-                cue = !special ? ambient_table[(signed char)(map_room_row(kid_room) + kid_room_offset) +
-                                              30 * (unsigned char)kid_section] : ambient_special[level];
-                song_table = ambient_first[level];
-                first = song_table[cue];
-                count = ambient_count[level][cue];
-                song = random_below(count) + song_table[cue];
-                if (state->song == song) {
-                    if (first + count != song)
-                        ++song;
-                    else
-                        song = first;
-                }
+            if (song != -1)
+                goto fixed_song;
+            cue = !special ? ambient_table[(signed char)(map_room_row(kid_room) + kid_room_offset) +
+                                          30 * (unsigned char)kid_section] : ambient_special[level];
+            first = ambient_first[level][cue];
+            count = ambient_count[level][cue];
+            song = random_below(count);
+            song += ambient_first[level][cue];
+            if (state->song == song) {
+                if (first + count != song)
+                    ++song;
+                else
+                    song = first;
             }
+            goto play;
+fixed_song:
+            cue = -1;
+play:
             play_song(song);
             state->cue = cue;
             state->song = song;
@@ -340,10 +368,15 @@ int should_replace_effect(int effect, int playing)
 
     if (effect != -1 &&
         ((sound_flags & 3) || current_song == -1 || !sound_playing(current_song + 10000))) {
-        if (!sound_playing(playing + 10000) ||
-            (((sound_rules[playing].mode == 1 && playing == effect) || sound_rules[playing].mode == 2) &&
-             sound_rules[playing].priority >= sound_rules[effect].priority))
+        if (!sound_playing(playing + 10000)) {
             replace = 1;
+        } else {
+            int index = playing;
+            SoundRule *rule = &sound_rules[index];
+            if (((rule->mode == 1 && playing != effect) || rule->mode == 2) &&
+                rule->priority >= sound_rules[effect].priority)
+                replace = 1;
+        }
     }
     return replace;
 }
@@ -371,7 +404,10 @@ int _fastcall should_change_ambient(AmbientState *state)
 {
     int change = 0;
     int special;
-    signed char cue;
+    union {
+        signed char value;
+        int word;
+    } cue;
 
     if (state->enabled && stage < 0 && !special_no_ambient_case(state)) {
         if (!sound_playing(state->song + 10000)) {
@@ -383,8 +419,8 @@ int _fastcall should_change_ambient(AmbientState *state)
             if (special && ambient_special[level] > state->cue)
                 change = 1;
             else if (!special) {
-                cue = ambient_special[level];
-                if (cue <= state->cue && cue != -1 && !find_active_generator(kid_section, kid_room))
+                cue.value = ambient_special[level];
+                if (cue.value <= state->cue && cue.value != -1 && !find_active_generator(kid_section, kid_room))
                     change = 1;
             }
         }
@@ -421,9 +457,11 @@ void release_song_range(int first, int last)
 {
     int song;
     SoundHandle *handle;
+    int start;
 
     if (first != -1) {
-        song = first;
+        start = first;
+        song = start;
         if (first > last)
             return;
         handle = &sound_handles[song];

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/sound/sound.json",
-  "binding_sha256": "51d561ce27c1573ae4f7edadc8c30e1a33cba5dc6758bbe47913724b58129d3b",
+  "binding_sha256": "acd36d08521f5a7d5982e112ef515601d63d5ba6ef651bb9602ce1473a023149",
   "claims": [
     {
       "fixup_count": 2,
@@ -51,6 +51,11 @@
       "target_id": "root:0dd7:01b0"
     },
     {
+      "fixup_count": 6,
+      "public": "ADDSOUND",
+      "target_id": "root:0dd7:01ce"
+    },
+    {
       "fixup_count": 1,
       "public": "GETLEAVELEVELSONGID",
       "target_id": "root:0dd7:0284"
@@ -71,6 +76,51 @@
       "target_id": "root:0dd7:02ce"
     },
     {
+      "fixup_count": 8,
+      "public": "LOAD_SONG_RANGE",
+      "relocation_indices": [
+        1102,
+        1103,
+        1116,
+        1121,
+        1123,
+        1131
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0dd7:0350"
+    },
+    {
+      "fixup_count": 21,
+      "public": "PLAY_SOUNDS",
+      "relocation_indices": [
+        1117,
+        1137,
+        1138
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0dd7:04d0"
+    },
+    {
+      "fixup_count": 4,
+      "public": "PLAY_SONG",
+      "relocation_indices": [
+        1104,
+        1132,
+        1136
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0dd7:053c"
+    },
+    {
       "fixup_count": 4,
       "public": "SELECT_SPECIAL_AMBIENT",
       "target_id": "root:0dd7:0606"
@@ -84,6 +134,20 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0dd7:0638"
+    },
+    {
+      "fixup_count": 13,
+      "public": "@should_change_ambient",
+      "relocation_indices": [
+        1113,
+        1127,
+        1135
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0dd7:0684"
     },
     {
       "fixup_count": 12,
@@ -100,13 +164,56 @@
       "fixup_count": 1,
       "public": "REMEMBER_AMBIENT_SONG",
       "target_id": "root:0dd7:0776"
+    },
+    {
+      "fixup_count": 3,
+      "public": "RELEASE_SONG_RANGE",
+      "relocation_indices": [
+        1114,
+        1124
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0dd7:07ac"
+    }
+  ],
+  "data_publics": [
+    {
+      "address": 2390,
+      "name": "BACKGROUND_SCENE_GROUP",
+      "offset": 80,
+      "segment": "_DATA",
+      "span": 14,
+      "unique": true
+    },
+    {
+      "address": 2404,
+      "name": "BACKGROUND_SCENE_NUMBER",
+      "offset": 94,
+      "segment": "_DATA",
+      "span": 94,
+      "unique": true
+    },
+    {
+      "address": 2498,
+      "name": "BACKGROUND_INTRO_GROUP",
+      "offset": 188,
+      "segment": "_DATA",
+      "span": 16,
+      "unique": true
+    },
+    {
+      "address": 2514,
+      "name": "BACKGROUND_INTRO_NUMBER",
+      "offset": 204,
+      "segment": "_DATA",
+      "span": 37,
+      "unique": true
     }
   ],
   "drafts": [
-    {
-      "object_offset": 452,
-      "public": "ADDSOUND"
-    },
     {
       "object_offset": 510,
       "public": "LOAD_SONG"
@@ -116,32 +223,12 @@
       "public": "CHANGE_SONG_RANGE"
     },
     {
-      "object_offset": 838,
-      "public": "LOAD_SONG_RANGE"
-    },
-    {
       "object_offset": 962,
       "public": "PLAY_AMBIENT"
     },
     {
-      "object_offset": 1216,
-      "public": "PLAY_SOUNDS"
-    },
-    {
-      "object_offset": 1324,
-      "public": "PLAY_SONG"
-    },
-    {
-      "object_offset": 1394,
+      "object_offset": 1400,
       "public": "SHOULD_REPLACE_EFFECT"
-    },
-    {
-      "object_offset": 1658,
-      "public": "@should_change_ambient"
-    },
-    {
-      "object_offset": 1954,
-      "public": "RELEASE_SONG_RANGE"
     }
   ],
   "emitted_size": 2028,
@@ -159,12 +246,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "sound/sound",
-  "object_sha256": "f2534d735fe66aa5cdb37974a9dcfb1e2e12c353244a3ead2b876ecfc87afa88",
+  "object_sha256": "4ed16fe66424a3e3c1f68c1dca5ebe401f2c308d47af6e5329317a6b5ffef66d",
   "origin": 56698,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/sound/sound.c",
-  "source_sha256": "93685ed4f4fbd950c6a84512f0586104c2a94a8687a8848c9b7c1492d3349610",
+  "source_sha256": "3d26cb5f84d57ade79c59e45db7cc42bcffa54513aaf6a844a72a4936e0ec93c",
   "space": "root"
 }
