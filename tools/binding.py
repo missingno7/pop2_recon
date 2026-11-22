@@ -384,7 +384,9 @@ def ground(binding, target, oracle, claimed=None):
                 require(length is not None and length == spec["length"],
                         "Extent witness is not a block copy of the declared length anchored at the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
-                        type(m.get("witnesses")) is list and (m["witnesses"] or internal or m["offset"] < length)
+                        type(m.get("witnesses")) is list and
+                        (m["witnesses"] or internal or m["offset"] < length or
+                         (type(m.get("unproven")) is str and m["unproven"].strip() and not m["witnesses"]))
                         for m in members) and len({m["offset"] for m in members}) == len(members),
                     "Every v4 member needs a positive offset and its own witnesses")
             # No linked value S+k of one symbol may equal T+j of another (aliasing).

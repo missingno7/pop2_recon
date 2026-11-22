@@ -80,6 +80,8 @@ def _promote(base, group, extra, verify_only, stage=None):
         cmd += ["--flags"] + group["flags"]
     for claim in group.get("claims", []):
         cmd += ["--claim", claim]
+    for claim in group.get("conditional", []):   # CODE_MATCH targets (exact code, unproven bindings)
+        cmd += ["--conditional", claim]
     binding = group.get("binding")
     if binding:
         raw = (base / binding).read_bytes()

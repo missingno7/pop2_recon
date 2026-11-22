@@ -134,6 +134,13 @@ def _accepted_entry(target_id, oracle):
                if owner["state"] == "PINNED_RUNTIME")
 
 
+def _matched_entry(target_id):
+    """The target is a recorded CODE_MATCH of an accepted group: its code compiles exactly (every
+    byte and field equation under declared values) and only listed bindings remain unproven."""
+    from module_gate import _accepted_recipes
+    return any(m["target_id"] == target_id for _, r in _accepted_recipes() for m in r.get("code_matches", []))
+
+
 def _runtime_public_positions(owner, position):
     from pathlib import Path
     from common import project_path, read_json, sha
@@ -312,6 +319,12 @@ def ground_symbol(symbol, target, oracle, claimed=None):
         if _accepted_entry(callee["id"], oracle):
             return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
                     "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted exact entry",
+                    "callee_owned_bytes": 0}
+        if _matched_entry(callee["id"]):
+            # Entry identity only: the callee's code is exact (a recorded CODE_MATCH of an accepted
+            # group); its own unproven data bindings do not bear on where it starts.
+            return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
+                    "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted code match entry",
                     "callee_owned_bytes": 0}
         # Last resort for a resident callee whose only caller is the candidate: structural
         # original-byte proof that a routine starts there (weaker; recorded as such).

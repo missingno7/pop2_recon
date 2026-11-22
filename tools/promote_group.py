@@ -31,6 +31,9 @@ def main():
                         help="asm: one MASM source (profile masm510), canonical under asm/NAME.asm")
     parser.add_argument("--claim", action="append", required=True, type=parse_claim,
                         help="TARGET_ID=PUBLIC, repeated in any order")
+    parser.add_argument("--conditional", action="append", default=[], type=parse_claim,
+                        help="TARGET_ID=PUBLIC recorded as a CODE_MATCH (exact code, listed unproven bindings); "
+                             "never an owner")
     parser.add_argument("--binding", help="Reviewed group binding under evidence/bindings")
     parser.add_argument("--verify-only", action="store_true")
     parser.add_argument("--stage", help="verify-only: staging directory (a worker's own build/workers/NAME/...)")
@@ -85,7 +88,10 @@ def main():
     stage = project_path(args.stage) if args.stage else ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
     (stage / ("CAND.ASM" if args.language == "asm" else "CAND.C")).write_bytes(source_bytes)
-    result, report = compile_group(source_bytes.decode("ascii"), args.profile, args.flags, args.claim,
+    require(not {c["target_id"] for c in args.conditional} & {c["target_id"] for c in args.claim},
+            "A target is either a claim or a conditional code match")
+    result, report = compile_group(source_bytes.decode("ascii"), args.profile, args.flags,
+                                   args.claim + args.conditional,
                                    stage / "compile",
                                    binding=json.loads(binding_bytes) if binding_bytes else None,
                                    group_id=group_id, language=args.language)
@@ -99,7 +105,12 @@ def main():
     if args.language == "asm":
         from origin import require_genuine_asm
         require_genuine_asm([c["target_id"] for c in args.claim])
-    require(report["exact"], f"Refusing promotion: not every claim is {exact_state}")
+    conditional_ids = {c["target_id"] for c in args.conditional}
+    matches = [c for c in report["claims"] if c["target_id"] in conditional_ids]
+    report["claims"] = [c for c in report["claims"] if c["target_id"] not in conditional_ids]
+    require(all(c["exact"] for c in report["claims"]), f"Refusing promotion: not every claim is {exact_state}")
+    require(all(c["state"] == "CODE_MATCH" for c in matches),
+            "Refusing promotion: a conditional target is not a CODE_MATCH (exact code with listed unproven bindings)")
     space = oracle.spaces[report["space"]]
     # Only claimed extents take ownership; an owner overlapping just an unclaimed draft
     # keeps its bytes (drafts own nothing), while one overlapping a claim must migrate.
@@ -156,6 +167,9 @@ def main():
               "claims": claims, "drafts": report["drafts"], "proof_scope": report["proof_scope"]}
     if report["data_publics"]:
         recipe["data_publics"] = report["data_publics"]
+    if matches:
+        recipe["code_matches"] = [{"target_id": c["target_id"], "public": c["public"], "unproven": c["unproven"]}
+                                  for c in matches]
     if report.get("provider_span_aliases"):
         recipe["provider_span_aliases"] = report["provider_span_aliases"]  # recorded debt
     if binding_path:

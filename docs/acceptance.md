@@ -386,3 +386,25 @@ satisfies every equation, with at least two words in total. It must equal any wi
 the group. Claims whose words were solved, and claims whose entry a table word names, run in that
 frame; near calls then propagate as usual. Every claimed byte is still compared; unclaimed table
 words only take part in the frame equation. Report: `cs_frame` "solved from N own-segment words".
+
+## Code matches with unproven bindings (2026-11-22)
+
+CODE_EXACT combines two obligations: the generated code (every byte and every fixup-field
+equation) and the independent proof of each binding the equations use. A function can satisfy
+the first while one data address or far callee still lacks proof (a single-use DGROUP member, a
+callee with no outside caller). Such a function is a CODE_MATCH, recorded explicitly:
+- A binding symbol, or one v4 member, may carry `"unproven": "<reason>"` (v4 `dgroup-offset`
+  symbols and members; `far-code-entry`/`overlay-code-entry` symbols, which must still name their
+  reviewed entry). Its declared value enters every equation exactly as before - no byte, field or
+  relocation is masked - but nothing grounds it.
+- A claim whose fixups use an unproven symbol or member is never CODE_EXACT: if everything else is
+  exact it becomes `CODE_MATCH` with the sorted list of unproven names (`NAME` or `NAME+0xK`).
+  Such claims do not support other claims' internal consensus.
+- `promote_group.py --conditional TARGET=PUBLIC` (submission.json `"conditional": [...]`) records
+  them in the recipe under `code_matches` (target, public, unproven); they get no manifest owner,
+  are not counted as exact, and validation recompiles them and refuses any change - including a
+  code match whose bindings have become provable (republish it as a claim).
+- Validation reports them separately: "N code matches (B bytes) with unproven bindings, not counted".
+- Entry identity only: a recorded code match proves where its function starts, which is all a far
+  pointer or far call to it needs; `far_binding.ground_symbol` grounds such a callee as
+  "accepted code match entry". Its own unproven data bindings do not bear on its entry.
