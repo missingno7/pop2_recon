@@ -1296,27 +1296,36 @@ paint_next_scene:
     if (!interrupted) interrupted = pause_nis(0, 30);
 next_dialog:
     if (!interrupted) {
-        interrupted = run_nis_dialog(OPENING_SCENE, 9, 7, 131); if (!interrupted) interrupted = pause_nis(0, 20);
+        interrupted = run_nis_dialog(OPENING_SCENE, 9, 7, 131);
+        if (!interrupted) interrupted = pause_nis(0, 20);
     }
     if (!interrupted) {
-        draw_nis_text(0, 0); clear_nis(&port.draw, 0);
-        add_nis(&port.draw, shapes, 10, 39, 30, 0); interrupted = dissolve_nis(&port.draw, 60, &nis_clip);
+        draw_nis_text(0, 0);
+        clear_nis(&port.draw, 0);
+        add_nis(&port.draw, shapes, 10, 39, 30, 0);
+        interrupted = dissolve_nis(&port.draw, 60, &nis_clip);
         if (!interrupted) interrupted = pause_nis(0, 18);
     }
     if (!interrupted) {
-        interrupted = run_nis_dialog(OPENING_SCENE, 10, 8, 250); if (!interrupted) interrupted = pause_nis(0, 20);
+        interrupted = run_nis_dialog(OPENING_SCENE, 10, 8, 250);
+        if (!interrupted) interrupted = pause_nis(0, 20);
     }
     if (!interrupted) {
-        start_timed_music(OPENING_SCENE + 9, 236); draw_nis_text(OPENING_SCENE, 11);
-        add_nis(&port.draw, shapes, 9, 39, 30, 10); interrupted = dissolve_nis(&port.draw, 45, &nis_clip);
+        start_timed_music(OPENING_SCENE + 9, 236);
+        draw_nis_text(OPENING_SCENE, 11);
+        add_nis(&port.draw, shapes, 9, 39, 30, 10);
+        interrupted = dissolve_nis(&port.draw, 45, &nis_clip);
         if (!interrupted) interrupted = await_timed_music(OPENING_SCENE + 9);
     }
     if (!interrupted) {
-        dispose_handle(nis_palette); nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 3);
-        clear_nis(&port.draw, 0); add_nis(&port.draw, shapes, 12, 40, 32, 0);
+        dispose_handle(nis_palette);
+        nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 3);
+        clear_nis(&port.draw, 0);
+        add_nis(&port.draw, shapes, 12, 40, 32, 0);
         interrupted = await_sound(25010);
         if (!interrupted) {
-            draw_nis_text(0, 0); interrupted = fade_nis(&port.draw, 0);
+            draw_nis_text(0, 0);
+            interrupted = fade_nis(&port.draw, 0);
             midi.play_time = 0;
             if (!interrupted) {
                 play_sound(25011);
@@ -1324,364 +1333,380 @@ next_dialog:
         }
     }
     if (!interrupted) {
-        interrupted = run_nis_dialog(OPENING_SCENE, 12, 10, 124); if (!interrupted) interrupted = pause_nis(0, 20);
+        interrupted = run_nis_dialog(OPENING_SCENE, 12, 10, 124);
+        if (!interrupted) interrupted = pause_nis(0, 20);
     }
     if (!interrupted) {
-        interrupted = run_nis_dialog(OPENING_SCENE, 13, 11, 117); if (!interrupted) interrupted = pause_nis(0, 20);
+        interrupted = run_nis_dialog(OPENING_SCENE, 13, 11, 117);
+        if (!interrupted) interrupted = pause_nis(0, 20);
     }
     if (!interrupted) interrupted = run_nis_dialog(OPENING_SCENE, 14, 12, 176);
     if (!interrupted) {
-        draw_nis_text(0, 0); dispose_handle(nis_palette);
-        nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 4); clear_nis(&port.draw, 0);
-        add_nis(&port.draw, shapes, 11, 40, 32, 0); interrupted = WaitMidiPlayTime(97);
+        draw_nis_text(0, 0);
+        dispose_handle(nis_palette);
+        nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 4);
+        clear_nis(&port.draw, 0);
+        add_nis(&port.draw, shapes, 11, 40, 32, 0);
+        interrupted = WaitMidiPlayTime(97);
         if (!interrupted) interrupted = fade_nis(&port.draw, 0);
     }
     if (!interrupted) {
-        prepare_sound(OPENING_SCENE + 13); interrupted = WaitMidiPlayTime(98);
+        prepare_sound(OPENING_SCENE + 13);
+        interrupted = WaitMidiPlayTime(98);
         if (!interrupted) interrupted = run_nis_dialog(OPENING_SCENE, 15, 13, 208); if (!interrupted) interrupted = pause_nis(0, 20);
     }
     if (!interrupted) {
-        prepare_sound(OPENING_SCENE + 14); interrupted = WaitMidiPlayTime(99);
+        prepare_sound(OPENING_SCENE + 14);
+        interrupted = WaitMidiPlayTime(99);
         if (!interrupted) interrupted = run_nis_dialog(OPENING_SCENE, 16, 14, 145); if (!interrupted) interrupted = pause_nis(0, 90);
     }
-    dispose_handle(nis_palette); finish_palette_effect();
+    dispose_handle(nis_palette);
+    finish_palette_effect();
     if (interrupted) {
         dispatch_resource_pointer(0L);
     }
-    FreeDialog(); dispose_handle(shapes);
+    FreeDialog();
+    dispose_handle(shapes);
     close_temporary_port(&port); return interrupted;
 }
 
 int opening_two(void)
 {
-    struct {
-        int step;
-        Rect next_bounds;
-        Handle shapes, foreground;
-        NisTemporaryPort port;
-        Rect bounds;
-        Handle right_actor, left_actor, background;
-        int interrupted;
-    } scene;
+    Handle background, left_actor, right_sprite;
+    int was_interrupted;
+    Rect curr_bounds;
+    NisTemporaryPort temporary_port;
+    int slide_step;
+    Rect next_rect;
+    Handle foreground, anim_table;
 
-    open_temporary_port(&scene.port, &nis_clip);
+    open_temporary_port(&temporary_port, &nis_clip);
     dialog_shape = hGetSL(25000, 1);
-    scene.shapes = hGetSL(OPENING_SCENE, -1);
-    GetDialog(); set_palette(0, 256, 0L, 1);
+    anim_table = hGetSL(OPENING_SCENE, -1);
+    GetDialog();
+    set_palette(0, 256, 0L, 1);
     PaintRLEShapeItem(dialog_shape, 1, 0, 0, 0);
     draw_nis_text(0, 0);
     nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 5);
-    scene.interrupted = WaitMidiPlayTime(106);
-    if (!scene.interrupted) {
-        scene.interrupted = await_palette(nis_palette, 1, 2);
-        if (!scene.interrupted) {
-            add_nis(&scene.port.draw, scene.shapes, 13, 9, 31, 0);
-            add_nis(&scene.port.draw, scene.shapes, 14, 160, 32, 10);
-                add_nis(&scene.port.draw, scene.shapes, 15, 193, 55, 10);
-            get_shape_rect(&scene.bounds, scene.shapes, 15, 193, 55);
-            copy_port(draw_port, &scene.port.draw, &nis_clip, &nis_clip, 0);
+    was_interrupted = WaitMidiPlayTime(106);
+    if (!was_interrupted) {
+        was_interrupted = await_palette(nis_palette, 1, 2);
+        if (!was_interrupted) {
+            add_nis(&temporary_port.draw, anim_table, 13, 9, 31, 0);
+            add_nis(&temporary_port.draw, anim_table, 14, 160, 32, 10);
+            add_nis(&temporary_port.draw, anim_table, 15, 193, 55, 10);
+            get_shape_rect(&curr_bounds, anim_table, 15, 193, 55);
+            copy_port(draw_port, &temporary_port.draw, &nis_clip, &nis_clip, 0);
             prepare_sound(25012);
-            scene.interrupted = await_sound(25011);
+            was_interrupted = await_sound(25011);
         }
-        if (!scene.interrupted) {
-            midi.play_time = 0; play_sound(25012);
-            scene.interrupted = await_palette(nis_palette, -1, 0);
+        if (!was_interrupted) {
+            midi.play_time = 0;
+            play_sound(25012);
+            was_interrupted = await_palette(nis_palette, -1, 0);
         }
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         decoration_shape = 3;
-        decoration_x = 99; decoration_y = 167;
+        decoration_x = 99;
+        decoration_y = 167;
         pending_decoration = 1;
         prepare_sound(OPENING_SCENE + 15);
-        scene.interrupted = WaitMidiPlayTime(97);
-        if (!scene.interrupted) {
+        was_interrupted = WaitMidiPlayTime(97);
+        if (!was_interrupted) {
             start_timed_music(OPENING_SCENE + 15, 231);
             draw_nis_text(OPENING_SCENE, 17);
-            scene.interrupted = pause_nis(0, 60);
-            if (!scene.interrupted) draw_nis_text(OPENING_SCENE, 18);
+            was_interrupted = pause_nis(0, 60);
+            if (!was_interrupted)
+                draw_nis_text(OPENING_SCENE, 18);
         }
     }
-    if (!scene.interrupted) {
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 13, 9, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 14, 160, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 16, 192, 55, 10);
-        get_shape_rect(&scene.next_bounds, scene.shapes, 16, 192, 55);
+    if (!was_interrupted) {
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 13, 9, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 14, 160, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 16, 192, 55, 10);
+        get_shape_rect(&next_rect, anim_table, 16, 192, 55);
         prepare_sound(OPENING_SCENE + 16);
         await_timed_music(OPENING_SCENE + 15);
-        scene.interrupted = WaitMidiPlayTime(98);
-        if (!scene.interrupted) {
+        was_interrupted = WaitMidiPlayTime(98);
+        if (!was_interrupted) {
             start_timed_music(OPENING_SCENE + 16, 164);
             draw_nis_text(OPENING_SCENE, 19);
-            scene.interrupted = dissolve_nis(&scene.port.draw, 300, union_rect(&scene.bounds, &scene.bounds, &scene.next_bounds));
+            was_interrupted = dissolve_nis(&temporary_port.draw, 300, union_rect(&curr_bounds, &curr_bounds, &next_rect));
         }
     }
-    if (!scene.interrupted) await_sound(0);
-    if (!scene.interrupted) {
+    if (!was_interrupted)
+        await_sound(0);
+    if (!was_interrupted) {
         draw_nis_text(0, 0);
-        scene.background = load_shape_item(scene.shapes, 17, 1);
-        scene.left_actor = load_shape_item(scene.shapes, 13, 1);
-        scene.right_actor = load_shape_item(scene.shapes, 14, 1);
-        scene.foreground = load_shape_item(scene.shapes, 16, 1);
+        background = load_shape_item(anim_table, 17, 1);
+        left_actor = load_shape_item(anim_table, 13, 1);
+        right_sprite = load_shape_item(anim_table, 14, 1);
+        foreground = load_shape_item(anim_table, 16, 1);
         play_sound(30503);
-        for (scene.step = 1; scene.step < 17; ++scene.step) {
-            if (!scene.interrupted) {
-                delay_count = 14 - scene.step < 0 ? 0 : 14 - scene.step;
-                draw_port = &scene.port.draw;
-                paint_rle(lock_handle(scene.background), 39, 32, 0);
-                paint_rle(lock_handle(scene.left_actor), 9 - (scene.step << 3), 31, 0);
-                paint_rle(lock_handle(scene.right_actor), (scene.step + 20) << 3, 32, 0);
-                paint_rle(lock_handle(scene.foreground), 192, 55, 10);
+        for (slide_step = 1; slide_step < 17; ++slide_step) {
+            if (!was_interrupted) {
+                delay_count = 14 - slide_step < 0 ? 0 : 14 - slide_step;
+                draw_port = &temporary_port.draw;
+                paint_rle(lock_handle(background), 39, 32, 0);
+                paint_rle(lock_handle(left_actor), 9 - (slide_step << 3), 31, 0);
+                paint_rle(lock_handle(right_sprite), (slide_step + 20) << 3, 32, 0);
+                paint_rle(lock_handle(foreground), 192, 55, 10);
                 draw_port = &nis_draw_port;
-                cut_nis(&scene.port.draw);
-                scene.interrupted = wait_timer(0);
+                cut_nis(&temporary_port.draw);
+                was_interrupted = wait_timer(0);
             }
         }
-        dispose_handle(scene.foreground);
-        dispose_handle(scene.right_actor);
-        dispose_handle(scene.left_actor);
-        dispose_handle(scene.background);
-        if (!scene.interrupted) scene.interrupted = await_sound(30503);
+        dispose_handle(foreground);
+        dispose_handle(right_sprite);
+        dispose_handle(left_actor);
+        dispose_handle(background);
+        if (!was_interrupted) was_interrupted = await_sound(30503);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         midi.play_time = 0; play_sound(25013);
         start_timed_music(OPENING_SCENE + 17, 240);
         draw_nis_text(OPENING_SCENE, 20);
     }
-    if (!scene.interrupted) {
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 18, 40, 32, 0);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 60, &nis_clip);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 42);
+    if (!was_interrupted) {
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 18, 40, 32, 0);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 60, &nis_clip);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 42);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         draw_nis_text(OPENING_SCENE, 21);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 19, 39, 32, 0);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 60, &nis_clip);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 42);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 19, 39, 32, 0);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 60, &nis_clip);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 42);
     }
-    if (!scene.interrupted) scene.interrupted = await_timed_music(OPENING_SCENE + 17);
-    if (!scene.interrupted) {
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 20, 40, 32, 0);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 60, &nis_clip);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 42);
+    if (!was_interrupted) was_interrupted = await_timed_music(OPENING_SCENE + 17);
+    if (!was_interrupted) {
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 20, 40, 32, 0);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 60, &nis_clip);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 42);
     }
-    if (!scene.interrupted) {
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 21, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 24, 126, 44, 10);
-        add_nis(&scene.port.draw, scene.shapes, 23, 65, 79, 10);
-        add_nis(&scene.port.draw, scene.shapes, 25, 167, 50, 10);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 60, &nis_clip);
-        if (!scene.interrupted) {
-            draw_nis_text(scene.interrupted, scene.interrupted);
-            scene.interrupted = pause_nis(0, 42);
+    if (!was_interrupted) {
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 21, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 24, 126, 44, 10);
+        add_nis(&temporary_port.draw, anim_table, 23, 65, 79, 10);
+        add_nis(&temporary_port.draw, anim_table, 25, 167, 50, 10);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 60, &nis_clip);
+        if (!was_interrupted) {
+            draw_nis_text(was_interrupted, was_interrupted);
+            was_interrupted = pause_nis(0, 42);
         }
     }
-    if (!scene.interrupted) {
-        scene.interrupted = run_nis_dialog(OPENING_SCENE, 22, 18, 182);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 20);
+    if (!was_interrupted) {
+        was_interrupted = run_nis_dialog(OPENING_SCENE, 22, 18, 182);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 20);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         dispose_handle(nis_palette);
         nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 6);
         draw_nis_text(0, 0);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 33, 39, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 34, 40, 32, 10);
-        if (!scene.interrupted) scene.interrupted = WaitMidiPlayTime(97);
-        copy_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 48);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 33, 39, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 34, 40, 32, 10);
+        if (!was_interrupted) was_interrupted = WaitMidiPlayTime(97);
+        copy_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 48);
     }
-    if (!scene.interrupted) scene.interrupted = WaitMidiPlayTime(98);
-    if (!scene.interrupted) {
-        scene.interrupted = run_nis_dialog(OPENING_SCENE, 23, 19, 274);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 20);
+    if (!was_interrupted) was_interrupted = WaitMidiPlayTime(98);
+    if (!was_interrupted) {
+        was_interrupted = run_nis_dialog(OPENING_SCENE, 23, 19, 274);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 20);
     }
-    if (!scene.interrupted) {
-        scene.background = load_shape_item(scene.shapes, 21, 1);
-        scene.left_actor = load_shape_item(scene.shapes, 22, 1);
-        scene.right_actor = load_shape_item(scene.shapes, 25, 1);
+    if (!was_interrupted) {
+        background = load_shape_item(anim_table, 21, 1);
+        left_actor = load_shape_item(anim_table, 22, 1);
+        right_sprite = load_shape_item(anim_table, 25, 1);
         dispose_handle(nis_palette);
         nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 5);
         draw_nis_text(0, 0);
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 26, 113, 51, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        scene.interrupted = WaitMidiPlayTime(99);
-        if (!scene.interrupted) {
-            copy_nis(&scene.port.draw);
-            scene.interrupted = WaitMidiPlayTime(100);
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 26, 113, 51, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        was_interrupted = WaitMidiPlayTime(99);
+        if (!was_interrupted) {
+            copy_nis(&temporary_port.draw);
+            was_interrupted = WaitMidiPlayTime(100);
         }
     } else {
-        scene.background = 0;
+        background = 0;
     }
-    if (!scene.interrupted) {
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 27, 113, 50, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        cut_nis(&scene.port.draw);
+    if (!was_interrupted) {
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 27, 113, 50, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        cut_nis(&temporary_port.draw);
     }
-    if (!scene.interrupted) {
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 28, 115, 50, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        cut_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 6);
+    if (!was_interrupted) {
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 28, 115, 50, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        cut_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 6);
     }
-    if (!scene.interrupted) {
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 29, 113, 48, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        cut_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 6);
+    if (!was_interrupted) {
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 29, 113, 48, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        cut_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 6);
     }
-    if (!scene.interrupted) {
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 30, 112, 48, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        cut_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 6);
+    if (!was_interrupted) {
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 30, 112, 48, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        cut_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 6);
     }
-    if (!scene.interrupted) {
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 31, 112, 46, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        cut_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 6);
+    if (!was_interrupted) {
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 31, 112, 46, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        cut_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 6);
     }
-    if (!scene.interrupted) {
-        add_shape_nis(&scene.port.draw, scene.background, 40, 31, 0);
-        add_nis(&scene.port.draw, scene.shapes, 32, 89, 47, 10);
-        add_shape_nis(&scene.port.draw, scene.left_actor, 58, 78, 10);
-        add_shape_nis(&scene.port.draw, scene.right_actor, 167, 50, 10);
-        cut_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 18);
+    if (!was_interrupted) {
+        add_shape_nis(&temporary_port.draw, background, 40, 31, 0);
+        add_nis(&temporary_port.draw, anim_table, 32, 89, 47, 10);
+        add_shape_nis(&temporary_port.draw, left_actor, 58, 78, 10);
+        add_shape_nis(&temporary_port.draw, right_sprite, 167, 50, 10);
+        cut_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 18);
     }
-    if (scene.background) {
-        dispose_handle(scene.right_actor);
-        dispose_handle(scene.left_actor);
-        dispose_handle(scene.background);
+    if (background) {
+        dispose_handle(right_sprite);
+        dispose_handle(left_actor);
+        dispose_handle(background);
     }
-    if (!scene.interrupted) {
-        if (!scene.interrupted) scene.interrupted = run_nis_dialog(OPENING_SCENE, 24, 20, 129);
-        if (!scene.interrupted) scene.interrupted = pause_nis(0, 20);
+    if (!was_interrupted) {
+        if (!was_interrupted) was_interrupted = run_nis_dialog(OPENING_SCENE, 24, 20, 129);
+        if (!was_interrupted) was_interrupted = pause_nis(0, 20);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         dispose_handle(nis_palette);
         nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 6);
         draw_nis_text(0, 0);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 35, 40, 32, 0);
-        copy_nis(&scene.port.draw);
-        midi.play_time = 0; play_sound(25014);
-        scene.interrupted = run_nis_dialog(OPENING_SCENE, 25, 21, 174);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 35, 40, 32, 0);
+        copy_nis(&temporary_port.draw);
+        midi.play_time = 0;
+        play_sound(25014);
+        was_interrupted = run_nis_dialog(OPENING_SCENE, 25, 21, 174);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         draw_nis_text(0, 0);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 33, 39, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 36, 72, 39, 10);
-        copy_nis(&scene.port.draw);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 33, 39, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 36, 72, 39, 10);
+        copy_nis(&temporary_port.draw);
     }
-    if (!scene.interrupted) {
-        delay_count = 12; clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 33, 39, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 37, 46, 38, 10);
-        scene.interrupted = wait_timer(0);
-        if (!scene.interrupted) {
+    if (!was_interrupted) {
+        delay_count = 12;
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 33, 39, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 37, 46, 38, 10);
+        was_interrupted = wait_timer(0);
+        if (!was_interrupted) {
             start_timed_music(OPENING_SCENE + 22, 60);
             draw_nis_text(OPENING_SCENE, 26);
-            cut_nis(&scene.port.draw);
-            scene.interrupted = await_timed_music(OPENING_SCENE + 22);
-            if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 30);
+            cut_nis(&temporary_port.draw);
+            was_interrupted = await_timed_music(OPENING_SCENE + 22);
+            if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 30);
         }
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         draw_nis_text(0, 0);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 38, 41, 32, 0);
-        copy_nis(&scene.port.draw);
-        if (!scene.interrupted) scene.interrupted = pause_nis(0, 18);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 38, 41, 32, 0);
+        copy_nis(&temporary_port.draw);
+        if (!was_interrupted) was_interrupted = pause_nis(0, 18);
     }
-    if (!scene.interrupted) {
-        scene.interrupted = run_nis_dialog(OPENING_SCENE, 27, 23, 98);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 20);
+    if (!was_interrupted) {
+        was_interrupted = run_nis_dialog(OPENING_SCENE, 27, 23, 98);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 20);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         start_timed_music(OPENING_SCENE + 24, 236);
         draw_nis_text(OPENING_SCENE, 28);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 33, 39, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 39, 40, 32, 10);
-        copy_nis(&scene.port.draw);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 33, 39, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 39, 40, 32, 10);
+        copy_nis(&temporary_port.draw);
     }
-    if (!scene.interrupted) scene.interrupted = await_timed_music(OPENING_SCENE + 24);
-    if (!scene.interrupted) {
+    if (!was_interrupted) was_interrupted = await_timed_music(OPENING_SCENE + 24);
+    if (!was_interrupted) {
         draw_nis_text(0, 0);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 43, 40, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 40, 128, 31, 10);
-        get_shape_rect(&scene.bounds, scene.shapes, 40, 128, 31);
-        copy_nis(&scene.port.draw);
-        if (!scene.interrupted) scene.interrupted = pause_nis(0, 18);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 43, 40, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 40, 128, 31, 10);
+        get_shape_rect(&curr_bounds, anim_table, 40, 128, 31);
+        copy_nis(&temporary_port.draw);
+        if (!was_interrupted) was_interrupted = pause_nis(0, 18);
     }
-    if (!scene.interrupted) {
-        scene.interrupted = run_nis_dialog(OPENING_SCENE, 29, 25, 97);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 18);
+    if (!was_interrupted) {
+        was_interrupted = run_nis_dialog(OPENING_SCENE, 29, 25, 97);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 18);
     }
-    if (!scene.interrupted) {
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 43, 40, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 41, 125, 28, 10);
-        get_shape_rect(&scene.next_bounds, scene.shapes, 41, 125, 28);
-        midi.play_time = 0; play_sound(25015);
+    if (!was_interrupted) {
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 43, 40, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 41, 125, 28, 10);
+        get_shape_rect(&next_rect, anim_table, 41, 125, 28);
+        midi.play_time = 0;
+        play_sound(25015);
         start_timed_music(OPENING_SCENE + 26, 93);
         draw_nis_text(OPENING_SCENE, 30);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 75, union_rect(&scene.bounds, &scene.bounds, &scene.next_bounds));
-        if (!scene.interrupted) scene.interrupted = await_timed_music(OPENING_SCENE + 26);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 30);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 75, union_rect(&curr_bounds, &curr_bounds, &next_rect));
+        if (!was_interrupted)
+            was_interrupted = await_timed_music(OPENING_SCENE + 26);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 30);
     }
-    if (!scene.interrupted) {
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 43, 40, 32, 0);
-        add_nis(&scene.port.draw, scene.shapes, 42, 125, 32, 10);
-        get_shape_rect(&scene.bounds, scene.shapes, 42, 125, 32);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 75, union_rect(&scene.bounds, &scene.bounds, &scene.next_bounds));
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 30);
+    if (!was_interrupted) {
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 43, 40, 32, 0);
+        add_nis(&temporary_port.draw, anim_table, 42, 125, 32, 10);
+        get_shape_rect(&curr_bounds, anim_table, 42, 125, 32);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 75, union_rect(&curr_bounds, &curr_bounds, &next_rect));
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 30);
     }
-    if (!scene.interrupted) {
+    if (!was_interrupted) {
         dispose_handle(nis_palette);
         nis_palette = get_resource(0x50414c54UL, OPENING_SCENE + 7);
         draw_nis_text(0, 0);
-        clear_nis(&scene.port.draw, 0);
-        add_nis(&scene.port.draw, scene.shapes, 45, 40, 32, 0);
-        copy_nis(&scene.port.draw);
-        scene.interrupted = pause_nis(0, 48);
+        clear_nis(&temporary_port.draw, 0);
+        add_nis(&temporary_port.draw, anim_table, 45, 40, 32, 0);
+        copy_nis(&temporary_port.draw);
+        was_interrupted = pause_nis(0, 48);
     }
-    if (!scene.interrupted) {
-        add_nis(&scene.port.draw, scene.shapes, 44, 82, 38, 10);
-        get_shape_rect(&scene.bounds, scene.shapes, 44, 82, 38);
+    if (!was_interrupted) {
+        add_nis(&temporary_port.draw, anim_table, 44, 82, 38, 10);
+        get_shape_rect(&curr_bounds, anim_table, 44, 82, 38);
         prepare_sound(10049);
         stop_current_sound(0); play_sound(10049);
-        scene.interrupted = dissolve_nis(&scene.port.draw, 90, &scene.bounds);
-        if (!scene.interrupted) scene.interrupted = pause_nis(scene.interrupted, 30);
-        if (!scene.interrupted) scene.interrupted = await_palette(scene.interrupted, -1, 2);
+        was_interrupted = dissolve_nis(&temporary_port.draw, 90, &curr_bounds);
+        if (!was_interrupted) was_interrupted = pause_nis(was_interrupted, 30);
+        if (!was_interrupted) was_interrupted = await_palette(was_interrupted, -1, 2);
     }
     dispose_handle(nis_palette);
     finish_palette_effect();
-    if (scene.interrupted) dispatch_resource_pointer(0L);
-    FreeDialog(); dispose_handle(scene.shapes);
-    close_temporary_port(&scene.port);
-    return scene.interrupted;
+    if (was_interrupted) dispatch_resource_pointer(0L);
+    FreeDialog(); dispose_handle(anim_table);
+    close_temporary_port(&temporary_port);
+    return was_interrupted;
 }
 
 
@@ -1966,25 +1991,21 @@ int ending_callback(void *state, int frame)
     DrawPort *saved;
     ImagePort *patch;
 
-    switch (frame) {
-    case 0:
+    if (frame == 0) {
         interrupted = WaitMidiPlayTime(101);
         if (!interrupted) {
             ((AnimationState *)state)->fade = begin_palette_fade(ending_palette_one, -1, 1);
             draw_happy_dialog(ENDING_SCENE, 4, 4);
         }
-        break;
-    case 1:
-        ((AnimationState *)state)->fade = begin_palette_fade(ending_palette_two, 7, frame);
-        break;
-    case 2:
+    } else if (frame == 1) {
+        ((AnimationState *)state)->fade = begin_palette_fade(ending_palette_two, 7, 1);
+    } else if (frame == 2) {
         saved = draw_port;
         copy_port(draw_port = &nis_draw_port, alternate_port,
                   &alternate_port->clip, &alternate_port->clip, 0);
         draw_port = saved;
         ((AnimationState *)state)->fade = begin_palette_fade(ending_palette_three, -8, 2);
-        break;
-    case 3: {
+    } else if (frame == 3) {
         AnimationState *playback;
 
         if (!get_handle_contents(ending_sprite)) {
@@ -2004,24 +2025,24 @@ int ending_callback(void *state, int frame)
         draw_port = saved;
         play_sound(ENDING_SCENE + 20);
         playback->fade = begin_palette_fade(ending_palette_four, -1, 1);
-    }
-        break;
-    case 4:
+    } else if (frame == 4) {
         init_fade_to_black(state, 1);
-        break;
-    case 5: case 6: case 7: case 8:
-        draw_happy_dialog(ENDING_SCENE, frame, frame);
-        break;
-    case 98: {
+    } else if (frame == 5) {
+        draw_happy_dialog(ENDING_SCENE, 5, 5);
+    } else if (frame == 6) {
+        draw_happy_dialog(ENDING_SCENE, 6, 6);
+    } else if (frame == 7) {
+        draw_happy_dialog(ENDING_SCENE, 7, 7);
+    } else if (frame == 8) {
+        draw_happy_dialog(ENDING_SCENE, 8, 8);
+    } else if (frame == 98) {
         AnimationState *playback = state;
 
         toggle_playback_coordinates(playback);
         PaintRLEShapeItem(ending_shapes, 2, 40 - playback->port.clip.left,
                           32 - playback->port.clip.top, 0);
         toggle_playback_coordinates(playback);
-    }
-        break;
-    case 99:
+    } else if (frame == 99) {
         saved = draw_port;
         draw_port = &nis_draw_port;
         get_shape_rect(&bounds, ending_shapes, 44, 161, 64);
@@ -2032,7 +2053,6 @@ int ending_callback(void *state, int frame)
             ;
         dispose_screen_patch(patch);
         draw_port = saved;
-        break;
     }
     return interrupted;
 }
@@ -2099,24 +2119,28 @@ int discovery(void)
     open_temporary_port(&port, &nis_clip);
     dialog_shape = hGetSL(25000, 1);
     discovery_shapes = hGetSL(DISCOVERY_SCENE, -1);
-    GetDialog(); set_palette(0, 256, 0L, 1);
+    GetDialog();
+    set_palette(0, 256, 0L, 1);
     PaintRLEShapeItem(dialog_shape, 1, 0, 0, 0);
     draw_nis_text(0, 0);
     PaintRLEShapeItem(discovery_shapes, 2, 40, 32, 0);
     nis_palette = get_resource(0x50414c54UL, DISCOVERY_SCENE + 1);
     interrupted = await_palette(nis_palette, -1, 0);
-    if (!interrupted) interrupted = pause_nis(0, 240);
+    if (!interrupted)
+        interrupted = pause_nis(0, 240);
     if (!interrupted) {
         start_timed_music(DISCOVERY_SCENE + 1, 270);
         decoration_shape = 6;
-        decoration_x = 96; decoration_y = 168;
+        decoration_x = 96;
+        decoration_y = 168;
         draw_nis_text(DISCOVERY_SCENE, pending_decoration = 1);
         interrupted = pause_nis(0, 60);
     }
     if (!interrupted) {
         draw_nis_text(DISCOVERY_SCENE, 2);
         interrupted = await_timed_music(DISCOVERY_SCENE + 1);
-        if (!interrupted) interrupted = pause_nis(0, 90);
+        if (!interrupted)
+            interrupted = pause_nis(0, 90);
     }
     if (!interrupted) {
         interrupted = run_nis_dialog(DISCOVERY_SCENE, 3, 2, 157);
@@ -2216,8 +2240,10 @@ int discovery(void)
         add_nis(&port.draw, discovery_shapes, 13, 191, 89, 10);
         dispose_handle(nis_palette);
         nis_palette = get_resource(0x50414c54UL, DISCOVERY_SCENE + 2);
-        if (!interrupted) interrupted = await_sound(0);
-        if (!interrupted) play_sound(29102);
+        if (!interrupted)
+            interrupted = await_sound(0);
+        if (!interrupted)
+            play_sound(29102);
         if (!interrupted) interrupted = fade_nis(&port.draw, 2);
         if (!interrupted) interrupted = pause_nis(0, 60);
     }
@@ -2289,28 +2315,26 @@ extern void paint_animation_frame(AnimationState *playback);
 
 int title_callback(void *state, int frame)
 {
-    struct {
-        unsigned long deadline;
-        Rect bounds;
-        int interrupted;
-        DrawPort *restore_port;
-        int saved_suppression;
-    } local;
+    unsigned long frame_end_time;
+    Rect title_bounds;
+    int interrupted;
+    DrawPort *fallback_port;
+    int old_frame_suppression;
     DrawPort *saved_port;
 
-    local.interrupted = 0;
+    interrupted = 0;
     saved_port = draw_port;
 
     if (frame == 0) {
         TitleAnimationState *playback = state;
 
-        get_shape_rect(&local.bounds, transition_shapes, 312, 43, 53);
-        local.bounds.bottom = playback->port.clip.top;
+        get_shape_rect(&title_bounds, transition_shapes, 312, 43, 53);
+        title_bounds.bottom = playback->port.clip.top;
         draw_port = &nis_draw_port;
-        title_patch = save_screen_patch(&local.bounds);
+        title_patch = save_screen_patch(&title_bounds);
         draw_port = saved_port;
         init_fade_to_primary((AnimationState *)playback, 1);
-        local.interrupted = WaitMidiPlayTime(100);
+        interrupted = WaitMidiPlayTime(100);
     } else if (frame == 2) {
         switch (midi.play_time) {
         case 101:
@@ -2343,28 +2367,28 @@ int title_callback(void *state, int frame)
         case 104: {
             TitleAnimationState *playback;
 
-            local.restore_port = saved_port;
+            fallback_port = saved_port;
             playback = state;
-            local.deadline = playback->frame_clock + playback->frame_delay;
+            frame_end_time = playback->frame_clock + playback->frame_delay;
 
-            while (local.deadline > *(volatile unsigned long *)&clock_ticks)
+            while (clock_ticks < frame_end_time)
                 ;
             copy_port(draw_port = &nis_draw_port, title_patch,
                       &title_patch->clip, &title_patch->clip, 0);
-            draw_port = local.restore_port;
+            draw_port = fallback_port;
             playback->active_clip = playback->saved_clip;
-            local.saved_suppression = suppress_title_frame;
+            old_frame_suppression = suppress_title_frame;
             suppress_title_frame = 0;
             paint_animation_frame((AnimationState *)playback);
-            suppress_title_frame = local.saved_suppression;
+            suppress_title_frame = old_frame_suppression;
             midi.play_time = 120;
             break;
         }
         }
     }
     if (midi.play_time == 98 && !((AnimationState *)state)->fade)
-        local.interrupted = 1;
-    return local.interrupted;
+        interrupted = 1;
+    return interrupted;
 }
 
 void nis_noop(void)

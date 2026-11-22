@@ -50,6 +50,11 @@ void far pascal set_overlay_state_bytes(unsigned char value)
     STATE_B = value;
 }
 
+typedef struct {
+    signed char bytes[64];
+} GuardActor;
+
+extern GuardActor Char;
 extern int death_frame;
 extern unsigned char death_count, guard_kind, game_variant;
 extern signed char guard_id;
@@ -103,19 +108,15 @@ void far pascal start_opponent_running(void)
 }
 
 typedef struct {
-    signed char bytes[64];
-} GuardActor;
-
-typedef struct {
     signed char count;
     unsigned char records[5][23];
 } GuardRoom;
 
-extern GuardActor Char, actor_slots[];
+extern GuardActor actor_slots[];
 #define guard_id (Char.bytes[0])
 extern GuardRoom guard_rooms[];
 extern unsigned char actor_room, room_to_check;
-extern signed char actor_facing, target_facing, actor_row, target_row, actor_column;
+extern signed char actor_facing, target_facing, actor_row, target_row;
 extern unsigned char target_action;
 extern unsigned char traced_room;
 extern signed char traced_column, traced_row;
@@ -161,7 +162,7 @@ int far pascal check_opponent_tumble(void)
                     if (saved.bytes[0] != index) {
                         load_actor_slot(index);
                         if (actor_row == saved.bytes[10] &&
-                            actor_column == saved.bytes[9] &&
+                            Char.bytes[9] == saved.bytes[9] &&
                             is_dead_pos(death_frame))
                             someone_blocks = 1;
                     }
@@ -243,6 +244,7 @@ signed char far pascal count_live_opponents(void)
     return live;
 }
 
+extern GuardActor Kid;
 extern unsigned char target_visible, level_number;
 extern signed char target_life;
 extern int effect_y, guard_counter;
@@ -312,7 +314,6 @@ typedef struct {
 #pragma pack()
 
 
-extern GuardActor Kid;
 extern unsigned int target_frame, kid_frame;
 extern signed char steps, kid_column, kid_row, kid_facing, kid_life;
 extern unsigned char kid_action;
@@ -369,8 +370,8 @@ void far pascal chase_opponent(void)
                 (target_frame >= 34 && target_frame <= 44)) &&
                target_action != 7) &&
              (nearest <= 120 || kid_distance <= 120)) ||
-            (actor_facing == -1 && kid_column > actor_column) ||
-            (actor_facing == 0 && kid_column < actor_column)) {
+            (actor_facing == -1 && kid_column > Char.bytes[9]) ||
+            (actor_facing == 0 && kid_column < Char.bytes[9])) {
             alert_state = 2;
             goto run;
         }
@@ -425,7 +426,7 @@ void far pascal try_opponent_run_jump(void)
         if (tile_is_solid(tile1)) {
             while (steps_ahead < 5) {
                 ++steps_ahead;
-                tile1 = read_tile(actor_room, actor_column +
+                tile1 = read_tile(actor_room, Char.bytes[9] +
                                   direction_factor[actor_facing] * (steps_ahead + start),
                                   actor_row);
                 if (!tile_is_solid(tile1))
@@ -757,29 +758,19 @@ int far pascal opponent_close(signed char slot, signed char column, signed char 
     int clear = 0;
     Opponent near *opponent = GetOppInfoIdx(room_to_check, slot);
 
-    if (!opponent || (signed char)death_count < 0 || ACTOR_WORD(Char, 36) == 5)
-        goto done;
-    if (opponent->timer && !IsExitChasingSkel(actor_room))
-        goto done;
+    if (!opponent || (signed char)death_count < 0 || ACTOR_WORD(Char, 36) == 5) goto done;
+    if (opponent->timer && !IsExitChasingSkel(actor_room)) goto done;
 
-    if (*(volatile signed char near *)&actor_column > column) {
-        limit = actor_column + 1;
-        step = 1;
-    } else {
-        limit = actor_column - 1;
-        step = -1;
+    if (*(volatile signed char near *)&Char.bytes[9] > column) { limit = Char.bytes[9] + 1; step = 1;
+    } else { limit = Char.bytes[9] - 1; step = -1;
     }
 
-    if (actor_row == row && column - radius <= actor_column && column + radius >= actor_column) {
-        do {
-            tile = read_tile(actor_room, column, row);
+    if (actor_row == row && column - radius <= Char.bytes[9] && column + radius >= Char.bytes[9]) {
+        do { tile = read_tile(actor_room, column, row);
             if ((!tile_is_ledge(tile) || actor_kind == 10) &&
-                !tile_is_unsafe(tile) && (tile != 4 || !barrier_blocks_guard()))
-                clear = 1;
-            else
-                clear = 0;
-            column += step;
-        } while (clear && limit != column);
+                !tile_is_unsafe(tile) && (tile != 4 || !barrier_blocks_guard())) clear = 1;
+            else clear = 0;
+            column += step; } while (clear && limit != column);
     }
 done:
     return clear;
@@ -798,8 +789,7 @@ void far pascal raise_nearby_opponents(void)
     else
         radius = 5;
 
-    count = guard_rooms[room_to_check].count;
-    index = 0;
+    count = guard_rooms[room_to_check].count; index = 0;
     if (count > 0) {
         do {
             load_actor_slot(index);
@@ -808,8 +798,7 @@ void far pascal raise_nearby_opponents(void)
                 opponent = GetOppInfoIdx(actor_room, guard_id);
                 if (guard_kind == 2) {
                     if (opponent->shake_delay != -1) {
-                        started = opponent->timer;
-                        if (skeleton_finished_shaking(guard_id)) {
+                        started = opponent->timer; if (skeleton_finished_shaking(guard_id)) {
                             select_animation_sequence(88);
                             started = 1;
                             actor_kind = 4;
@@ -886,13 +875,13 @@ void far pascal update_skeleton(void)
 
 typedef GuardActor Actor;
 #define room_info guard_rooms
-extern unsigned char guard_room, guard_kind, skeleton_kind;
+extern unsigned char guard_kind, skeleton_kind;
+#define guard_room room_to_check
 extern Opponent near *far pascal GetOppInfoIdx(int room, int id);
 extern void far pascal load_actor_slot(signed char id);
 extern void far pascal select_animation_sequence(int sequence);
 extern void far pascal save_actor_slot(void);
 
-extern signed char far pascal tile_below(void);
 extern int far pascal tile_is_solid(signed char tile);
 extern int far pascal edge_distance(void);
 extern int far pascal offset_char_x(int amount);
@@ -908,11 +897,11 @@ void far pascal bones_fall(void)
     select_animation_sequence(120);
     play_sound(76);
     Char.bytes[15] = 1;
-    Char.bytes[16] = 0;
-    if (Char.bytes[17] < 0)
-        Char.bytes[17] = 0;
+    running_state = 0;
+    if ((signed char)death_count < 0)
+        death_count = 0;
 
-    if (Char.bytes[1] == 0 && tile_is_solid(tile_below())) {
+    if (actor_facing == 0 && tile_is_solid(get_tile_below())) {
         distance = 32 - edge_distance();
         if (distance <= 35) {
             distance -= 35;
@@ -973,8 +962,8 @@ void far pascal shake_bones(unsigned char room, signed char row)
     if (count > 0) {
         do {
             load_actor_slot(index);
-            if (Char.bytes[10] == row && CW(7) == 206 && CW(36) != 5) {
-                opponent = GetOppInfoIdx((unsigned char)Char.bytes[14], Char.bytes[0]);
+            if (actor_row == row && death_frame == 206 && CW(36) != 5) {
+                opponent = GetOppInfoIdx(actor_room, Char.bytes[0]);
                 if (opponent->shake_delay == 0) {
                     select_animation_sequence(112);
                     save_actor_slot();
@@ -985,8 +974,6 @@ void far pascal shake_bones(unsigned char room, signed char row)
     Char = saved;
 }
 
-extern signed char far pascal tile_in_front(signed char distance);
-extern signed char far pascal tile_below(void);
 extern int far pascal tile_is_solid(signed char tile);
 extern int far pascal edge_distance(void);
 extern int far pascal offset_char_x(int amount);
@@ -1000,7 +987,7 @@ Opponent near *far pascal initialize_skeleton(Opponent near *opponent)
 
     if (opponent->shake_delay == 1) {
         opponent->sequence = 63;
-        Char.bytes[16] = 1;
+        running_state = 1;
     } else {
         if (Char.bytes[0] == 0 && opponent->shake_delay == 0)
             opponent->sequence = 112;
@@ -1008,16 +995,16 @@ Opponent near *far pascal initialize_skeleton(Opponent near *opponent)
             opponent->sequence = 119;
         opponent->timer = opponent->shake_delay;
         set_skeleton_shakes(Char.bytes[0]);
-        Char.bytes[16] = 0;
+        running_state = 0;
 
-        if ((Char.bytes[1] == -1 && tile_is_solid(tile_in_front(1))) ||
-            (Char.bytes[1] == 0 && tile_is_solid(tile_below()))) {
+        if ((actor_facing == -1 && tile_is_solid(get_tile_ahead(1))) ||
+            (actor_facing == 0 && tile_is_solid(get_tile_below()))) {
             distance = edge_distance();
-            if (Char.bytes[1] == 0)
+            if (actor_facing == 0)
                 distance = 32 - distance;
             if (distance <= 35) {
                 distance = 35 - distance;
-                if (Char.bytes[1] == -1)
+                if (actor_facing == -1)
                     distance = -distance;
                 CW(2) = offset_char_x(distance);
             }
@@ -1055,9 +1042,9 @@ int far pascal skeleton_finished_shaking(signed char id)
         result = 0;
         reset_timer = result;
         if (opponent->shake_delay != -1) {
-            if (IsExitChasingSkel(Char.bytes[14])) {
+            if (IsExitChasingSkel(actor_room)) {
                 read_tile(22, 4, 2);
-                if (IsExitOpen() && Kid.bytes[14] == Char.bytes[14] &&
+                if (IsExitOpen() && Kid.bytes[14] == (signed char)actor_room &&
                     *(int near *)&Kid.bytes[2] < CW(2)) {
                     if (!sequence_available(10106))
                         request_if_unset(106);
@@ -1098,13 +1085,13 @@ extern SpriteFrame far *far pascal resolve_sprite_table(unsigned int handle);
 void far pascal face_kid_for_skeleton(void)
 {
     if (ACTOR_X(Kid) > ACTOR_X(Char)) {
-        if (Char.bytes[1] == 0)
+        if (actor_facing == 0)
             return;
-        Char.bytes[1] = 0;
+        actor_facing = 0;
     } else {
-        if (Char.bytes[1] == -1)
+        if (actor_facing == -1)
             return;
-        Char.bytes[1] = -1;
+        actor_facing = -1;
     }
     ACTOR_X(Char) = offset_char_x(10);
 }
@@ -1161,7 +1148,7 @@ void far pascal drop_flame_sword(void)
     select_animation_sequence(107);
     set_skeleton_timer(Char.bytes[0], 240);
     request_if_unset(192);
-    Char.bytes[17] = 0;
+    death_count = 0;
     Char.bytes[15] = 1;
 }
 
@@ -1169,7 +1156,7 @@ void far pascal drop_flame_sword(void)
 
 
 
-extern signed char room_column[];
+#define room_column direction_factor
 extern int guard_counter, effect_x, effect_y;
 
 extern signed char far pascal get_col(int x);
@@ -1204,21 +1191,18 @@ extern void far pascal offset_sprite_clip(void far *destination, void far *sourc
 
 void far pascal float_flame_sword(void)
 {
-    volatile int row_y;
+    int row_y;
     int amount, drift, dy;
 
     if (sprite_frame == 4 || sprite_frame == 19 || sprite_frame == 20) {
         amount = 4;
-        row_y = Char.bytes[10] * 63;
-        if (row_y + 54 < CW(4)) {
-            drift = -2;
-            if (row_y + 58 > CW(4))
-                goto apply_drift;
+        if ((row_y = actor_row * 63) + 54 >= CW(4)) {
+            drift = amount = 1;
         } else {
-            drift = 1;
+            drift = -2;
+            if (*(volatile int near *)&row_y + 58 <= CW(4))
+                amount = 1;
         }
-        amount = 1;
-apply_drift:
 
         dy = random_below(amount) + drift;
         CW(4) += dy;
@@ -1265,29 +1249,28 @@ void far pascal TriggerJinnee(void)
     Kid = Char;
     x = 85 * room_column[Kid.bytes[1]] + KID_WORD(2);
     column = get_col(x);
-    row = Kid.bytes[10];
+    row = kid_row;
     opponent = GetOppInfoIdx((unsigned char)Kid.bytes[14],
                             Char.bytes[0] = room_info[(unsigned char)Kid.bytes[14]].count++);
-    Char.bytes[6] = 12;
+    actor_kind = 12;
     opponent->kind = 9;
-    Char.bytes[14] = Kid.bytes[14];
-    Char.bytes[10] = row;
+    actor_room = Kid.bytes[14];
+    actor_row = row;
     opponent->cell = FirstInRow(row) + column;
     reset_char_y();
     CHAR_WORD(2) = opponent->x = x;
     Char.bytes[9] = column;
-    Char.bytes[1] = opponent->facing = -1;
+    actor_facing = opponent->facing = -1;
     column = 0;
     opponent->motion = column;
-    Char.bytes[56] = column;
+    steps = column;
     opponent->secondary_motion = column;
     Char.bytes[57] = column;
-    Char.bytes[35] = column;
+    alert_state = column;
     (*(volatile int near *)&Char.bytes[42]) = 0;
     CHAR_WORD(36) = CHAR_WORD(40) = CHAR_WORD(38) = 0;
     CHAR_WORD(52) = 4;
-    Char.bytes[15] = 1;
-    Char.bytes[16] = 1;
+    running_state = *(unsigned char near *)&Char.bytes[15] = 1;
     opponent->sequence = 180;
     opponent->position = 0;
     select_animation_sequence(180);
@@ -1295,7 +1278,7 @@ void far pascal TriggerJinnee(void)
     opponent->health = 6;
     set_opponent_life(opponent);
     opponent->state = 10;
-    Char.bytes[17] = -1;
+    death_count = -1;
     guard_counter = 0;
     effect_x = 0;
     effect_y = 0;
