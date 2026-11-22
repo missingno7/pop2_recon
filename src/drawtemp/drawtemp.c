@@ -515,10 +515,8 @@ void draw_temple_posts(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        if (!image) {
-            draw = add_foreground_image;
-            image = 44;
-        } else if (!draw_pass_mode || image == 1) {
+        if (!image) { draw = add_foreground_image; image = 44; }
+        else if (!draw_pass_mode || image == 1) {
             draw = add_foreground_image;
             shape_offsets->posts_y = 0;
             if (image == 2)
