@@ -972,6 +972,16 @@ class ReachedNearFrameTests(unittest.TestCase):
         others = [f for f in self.frames((lo, hi)) if f["image_offset"] == at]
         self.assertEqual(others, [])
 
+    def test_an_overlay_far_caller_names_the_frame_of_a_root_entry(self):
+        # root:1101:4ea8 is entered by a relocated CALL FAR in overlay 2 (relocation 29); its near
+        # calls reach the cursor routine at 042f, which therefore runs with CS = 1101.
+        from match import get_target
+        from module_gate import _reached_near_frames
+        target, space, raw = get_target("root:1101:042f", self.oracle)
+        entry = space.position(target["segment"], target["offset"])
+        found = _reached_near_frames(target, space, self.oracle, (entry, entry + len(raw)))
+        self.assertEqual((found[0]["frame"], found[0]["entry"]), (0x1101, "root:1101:4ea8"))
+
 
 @unittest.skipUnless(Path(load_lock()["runner"]["path"]).is_file(), "Pinned historical runner unavailable")
 class OwnBaseBucketTests(unittest.TestCase):
