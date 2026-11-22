@@ -1124,7 +1124,14 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         # and its segment word is relocated by the owner's own overlay table (bijection below).
         for n, symbol in far_symbols.items():
             if n in unproven:
-                continue
+                # "Unproven" must be true: a far symbol the gate can ground may not be recorded as unproven.
+                try:
+                    far_ground({k: v for k, v in symbol.items() if k != "unproven"}, hull, oracle,
+                               claimed=[(origin + start, origin + start + len(expected))
+                                        for _, _, expected, start in resolved])
+                except ValueError:
+                    continue
+                raise ValueError(f"Unproven far symbol {n} is provable: bind it as proven")
             far_ground(symbol, hull, oracle,
                        claimed=[(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved])
         if data_only or provided:

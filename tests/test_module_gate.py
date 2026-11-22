@@ -782,6 +782,16 @@ class V4InternalSupportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "does not name its reviewed entry"):
             self.check(binding)
 
+    def test_a_provable_far_symbol_cannot_be_recorded_unproven(self):
+        binding = copy.deepcopy(self.binding)
+        far = next((n for n, s in binding["symbols"].items()
+                    if s.get("kind") == "far-code-entry" and s.get("witnesses")), None)
+        if far is None:
+            self.skipTest("CTRL binding has no witnessed far symbol")
+        binding["symbols"][far]["unproven"] = "test"
+        with self.assertRaisesRegex(ValueError, "is provable"):
+            self.check(binding)
+
     def test_a_witness_inside_a_claim_is_refused(self):
         binding = copy.deepcopy(self.binding)
         at = self.single_site + self.check(self.binding)["origin"]

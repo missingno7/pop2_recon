@@ -402,8 +402,10 @@ callee with no outside caller). Such a function is a CODE_MATCH, recorded explic
   Such claims do not support other claims' internal consensus.
 - `promote_group.py --conditional TARGET=PUBLIC` (submission.json `"conditional": [...]`) records
   them in the recipe under `code_matches` (target, public, unproven); they get no manifest owner,
-  are not counted as exact, and validation recompiles them and refuses any change - including a
-  code match whose bindings have become provable (republish it as a claim).
+  are not counted as exact, and validation recompiles them and refuses any change. An "unproven" far
+  symbol that the gate can ground (outside witnesses, accepted exact or code-match entry) is refused, so a
+  match is republished as a claim once its callee is established; unproven v4 symbols and members carry no
+  witnesses by construction.
 - Validation reports them separately: "N code matches (B bytes) with unproven bindings, not counted".
 - Entry identity only: a recorded code match proves where its function starts, which is all a far
   pointer or far call to it needs; `far_binding.ground_symbol` grounds such a callee as
