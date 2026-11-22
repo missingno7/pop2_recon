@@ -27,6 +27,7 @@ a same-overlay call, an unshared cross-space call or far pointer, or bracketing
 overlay relocation site frames, see `_frame_evidence`), so
 16-bit IP arithmetic and linear placement agree.
 """
+import re
 import struct
 
 from binding import operand_field as operand_field_of
@@ -190,9 +191,28 @@ def _occurs_once(home, dgroup, content):
     return hits == 1
 
 
-def _check_placements(module, placements, uses, binding, space, oracle):
+def _linked_data(seg, content, fields, placements):
+    """The bytes the linker writes for a placed initialized segment: each fixup field is a near
+    pointer into this object's placed DGROUP data (offset16, frame DGROUP, target a placed
+    segment), so its value is P(target) + stored offset + D, mod 64K. No other form is accepted."""
+    linked = bytearray(content)
+    for f in fields:
+        target, frame = f["target"], f["frame"]
+        require(not f["self_relative"] and f["loc_type"] in (1, 5) and f["field_width"] == 2 and
+                {k: frame.get(k) for k in ("kind", "name")} == {"kind": "group", "name": "DGROUP"} and
+                target.get("kind") == "segment" and target.get("name") in placements,
+                f"Placed segment {seg} fixup at +{f['segment_offset']:#x} is not a DGROUP near pointer "
+                "to placed data of this object")
+        at = f["segment_offset"]
+        value = placements[target["name"]] + int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
+        linked[at:at + 2] = (value & 0xFFFF).to_bytes(2, "little")
+    return bytes(linked)
+
+
+def _check_placements(module, placements, uses, binding, space, oracle, data_fixes=()):
     """Each placed DGROUP segment must be over-determined: initialized bytes equal the original
-    DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree."""
+    DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree.
+    Near-pointer fixups inside initialized data take their linked values (_linked_data)."""
     if not placements:
         return {}
     # Overlay code runs with the same DS (the startup DGROUP load); it needs the grounded runtime
@@ -211,6 +231,10 @@ def _check_placements(module, placements, uses, binding, space, oracle):
         require(type(p) is int and 0 <= p and p + seg["length"] <= 0x10000, "Placement outside DGROUP")
         content = module.segments.get(seg["name"])
         initialized = module.initialized_ranges.get(seg["name"], [])
+        fields = [f for f in data_fixes if f["segment"] == seg["name"]]
+        require(initialized or not fields, f"Fixups in uninitialized placed segment {seg['name']}")
+        if fields:
+            content = _linked_data(seg["name"], content, fields, placements)
         if initialized:
             require("dgroup_segment" in binding,
                     "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
@@ -233,8 +257,25 @@ def _check_placements(module, placements, uses, binding, space, oracle):
             unique = False
             basis = "uninitialized: per-field consensus"
         report[seg["name"]] = {"placement": p, "length": seg["length"], "basis": basis, "unique": unique}
+        if fields:
+            report[seg["name"]]["pointer_fields"] = len(fields)
     require(set(report) == set(placements), "Placement for a segment the object does not declare")
     return report
+
+
+# Explicit segment placement of data (`_based(_segname(...))`) builds a DGROUP piece RTLink
+# could not have linked among the `_DATA` pieces (docs/dgroup-binding.md, DGROUP class order).
+# Sources accepted before 2026-11-22 are layout debt in evidence/const-layout-debt.json.
+SEGNAME = re.compile(rb"_segname\s*\(")
+CONST_LAYOUT_DEBT = set(read_json(ROOT / "evidence/const-layout-debt.json")["keys"]) \
+    if (ROOT / "evidence/const-layout-debt.json").exists() else set()
+
+
+def require_no_segname(source_bytes, key, language="c"):
+    """Refuse new explicit segment placement; listed debt keys keep theirs."""
+    require(language != "c" or key in CONST_LAYOUT_DEBT or not SEGNAME.search(source_bytes),
+            "_segname data placement is not a linkable DGROUP layout: model initialized data as "
+            "ordinary _DATA (docs/dgroup-binding.md, DGROUP class order)")
 
 
 PLACEMENT_DEBT = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
@@ -846,8 +887,15 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     require(claims and len({c["target_id"] for c in claims}) == len(claims) and
             len({c["public"] for c in claims}) == len(claims), "Claims must be unique")
     obligations = fixes(module)
+    # Fixups inside a placed initialized DGROUP segment (near pointers in an initialized table)
+    # are linker equations on that segment's bytes, judged by _check_placements; every other
+    # fixup must lie in the CODE segment and is judged per claim.
+    data_fixes = [f for f in obligations if f["segment"] != name]
+    code_fixes = [f for f in obligations if f["segment"] == name]
+    require(all(f["segment"] in placements for f in data_fixes),
+            "Fixup in a data segment that has no DGROUP placement")
     fields = set()
-    for fix in obligations:
+    for fix in code_fixes:
         span = set(range(fix["segment_offset"], fix["segment_offset"] + fix["field_width"]))
         require(not fields.intersection(span) and max(span) < len(actual),
                 "Fixup fields overlap or leave the CODE segment")
@@ -929,10 +977,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             piece = actual[start:end]
             require(len(piece) == len(expected), "Claim extent differs from the reviewed target; trimming forbidden")
             position = origin + start
-            mine = [f for f in obligations if start <= f["segment_offset"] < end]
+            mine = [f for f in code_fixes if start <= f["segment_offset"] < end]
             require(all(f["segment_offset"] + f["field_width"] <= end for f in mine) and
                     not any(f["segment_offset"] < start < f["segment_offset"] + f["field_width"]
-                            for f in obligations), "Fixup field crosses the claim boundary")
+                            for f in code_fixes), "Fixup field crosses the claim boundary")
             own_fields = [f["segment_offset"] - start for f in mine if _own_segment(f, name)]
             tables = _tables(own_fields, piece, start)
             try:
@@ -1317,7 +1365,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
-    placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle)
+    placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle,
+                                         data_fixes)
     _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,

@@ -557,7 +557,7 @@ int far pascal Sw(int k)
 class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""
 
-    def check(self, segments, uses, placements, image=b""):
+    def check(self, segments, uses, placements, image=b"", data_fixes=()):
         from module_gate import _check_placements
         from oracle import Space
         module = SimpleNamespace(
@@ -569,7 +569,29 @@ class PlacementTests(unittest.TestCase):
         binding = {"frame": {"segment": 0x10},
                    "dgroup_segment": {"segment": 0x10, "witnesses": [
                        {"space": "root", "image_offset": 0x100 + len(image), "relocation_index": 0}]}}
-        return _check_placements(module, placements, uses, binding, space, oracle)
+        return _check_placements(module, placements, uses, binding, space, oracle, data_fixes)
+
+    @staticmethod
+    def pointer(at, frame=None):
+        return {"segment": "_DATA", "segment_offset": at, "loc_type": 1, "field_width": 2, "self_relative": False,
+                "frame": frame or {"kind": "group", "index": 1, "name": "DGROUP"},
+                "target": {"kind": "segment", "index": 2, "name": "_DATA", "method": 4}, "displacement": None}
+
+    def test_initialized_near_pointer_takes_its_linked_value(self):
+        # _DATA = {&_DATA[2], 0xBBAA} placed at 8: the linker writes 8 + 2 = 0x000a.
+        content = b"\x02\x00\xaa\xbb"
+        image = bytes(8) + b"\x0a\x00\xaa\xbb"
+        report = self.check([("_DATA", content, 4)], {}, {"_DATA": 8}, image, [self.pointer(0)])
+        self.assertTrue(report["_DATA"]["unique"])
+        self.assertEqual(report["_DATA"]["pointer_fields"], 1)
+        with self.assertRaisesRegex(ValueError, "differs"):  # the unlinked object bytes are not the original
+            self.check([("_DATA", content, 4)], {}, {"_DATA": 8}, bytes(8) + content, [self.pointer(0)])
+
+    def test_data_fixup_outside_the_dgroup_near_pointer_form_is_refused(self):
+        image = bytes(8) + b"\x0a\x00\xaa\xbb"
+        frame = {"kind": "segment", "index": 2, "name": "_DATA"}
+        with self.assertRaisesRegex(ValueError, "not a DGROUP near pointer"):
+            self.check([("_DATA", b"\x02\x00\xaa\xbb", 4)], {}, {"_DATA": 8}, image, [self.pointer(0, frame)])
 
     def test_uninitialized_segment_is_never_self_proving(self):
         # Distinct addends do not support each other: the source chooses the layout.

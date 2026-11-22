@@ -231,3 +231,18 @@ class ProviderFieldTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ConstLayoutDebtTests(unittest.TestCase):
+    """New explicit segment placement of data is refused; recorded debt keeps its source."""
+    SOURCE = b'static const int _based(_segname("_CONST")) table[2] = {1, 2};\n'
+
+    def test_new_segname_source_is_refused(self):
+        with self.assertRaisesRegex(Exception, "_segname data placement"):
+            module_gate.require_no_segname(self.SOURCE, "group:new/new")
+
+    def test_listed_debt_and_plain_sources_pass(self):
+        with patch.object(module_gate, "CONST_LAYOUT_DEBT", {"group:old/old"}):
+            module_gate.require_no_segname(self.SOURCE, "group:old/old")
+        module_gate.require_no_segname(b"static const int table[2] = {1, 2};\n", "group:new/new")
+        module_gate.require_no_segname(self.SOURCE, "group:new/new", language="asm")

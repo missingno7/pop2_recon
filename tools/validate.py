@@ -207,6 +207,15 @@ def _validate(run_tests=True):
     listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])
     require(debt == listed, "evidence/placement-debt.json differs from the claims that still need it: "
             f"stale {sorted(listed - debt)}, unlisted {sorted(debt - listed)}")
+    # Explicit segment placement debt may only shrink: the ledger lists exactly the accepted
+    # C sources that still use _segname.
+    from module_gate import SEGNAME
+    segname = {r.get("group_id") or "recipe:" + r["name"] for o, r in recipes
+               if o.get("kind") != "PINNED_RUNTIME" and r.get("language", "c") == "c" and "source" in r
+               and SEGNAME.search(project_path(r["source"]).read_bytes())}
+    const_debt = set(read_json(ROOT / "evidence/const-layout-debt.json")["keys"])
+    require(segname == const_debt, "evidence/const-layout-debt.json differs from the sources using _segname: "
+            f"stale {sorted(const_debt - segname)}, unlisted {sorted(segname - const_debt)}")
     # Live canonical files must still carry their pins after all compilation, so a
     # PASS never certifies files edited while proofs ran on earlier snapshots.
     check_manifest(oracle, manifest)
