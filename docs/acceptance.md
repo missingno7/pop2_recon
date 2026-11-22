@@ -53,6 +53,12 @@ bytes compare literally, except for these fixup fields:
   same code frame does not prove the CS its callers use (root frames such as
   `1000` and `1101` overlap linearly). External near callees are never assumed
   to preserve DS/ES/SS.
+  **Relocated far pointers (resident root only).** A reviewed target may list
+  `far_pointer` call sites: a stored offset/segment pair naming its entry whose
+  segment word carries an original relocation and whose offset word does not
+  (callback and vector tables, e.g. the window callback table at overlay-17+0x1320).
+  The stored segment is the CS of a far transfer to the entry, the same evidence as
+  a relocated CALL FAR. Overlay targets are excluded: their link addresses are shared.
   **Frame-invariant near calls (weaker class, recorded as `cs_frame`; resident
   root only, overlays keep the stricter rules above).** A claim
   with no witnessed frame, no own-segment offset word and no own-segment base is

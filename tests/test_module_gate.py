@@ -1026,3 +1026,46 @@ class FrameInvariantTests(unittest.TestCase):
 
     def test_unequal_near_call_refuses(self):
         self.assertFalse(self.run_check([0x1000], [self.call(0x12100, equal=False)]))
+
+
+class FarPointerFrameTests(unittest.TestCase):
+    """A relocated far pointer naming a root entry (the window callback table in DGROUP at
+    overlay-17+0x1320 holds 1101:8738) is CS-frame evidence like a relocated CALL FAR."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.oracle = Oracle.load()
+        rows = [f for f in common.read_json(ROOT / "evidence/targets.json")["functions"]
+                if f["id"] == "root:1101:8738"]
+        if not rows:
+            raise unittest.SkipTest("root:1101:8738 is not a reviewed target")
+        cls.row = rows[0]
+        holder = cls.oracle.spaces["overlay-17"]
+        cls.at = 0x1320
+        cls.site = {"kind": "far_pointer", "space": "overlay-17", "image_offset": cls.at,
+                    "file_offset": holder.file_offset + cls.at, "relocated_segment_site": cls.at + 2}
+
+    def target(self, site):
+        import match
+        row = dict(self.row, call_sites=[site])
+        inventory = dict(common.read_json(ROOT / "evidence/targets.json"))
+        inventory["functions"] = [f for f in inventory["functions"] if f["id"] != row["id"]] + [row]
+        with patch.object(match, "read_json", return_value=inventory):
+            return match.get_target(row["id"], self.oracle)[0]
+
+    def test_relocated_far_pointer_names_the_frame(self):
+        from module_gate import _frame_evidence
+        target = self.target(self.site)
+        space = self.oracle.spaces["root"]
+        evidence, _ = _frame_evidence(target, space, self.oracle, (0, 0))
+        self.assertIn({"frame": 0x1101, "kind": "relocated far pointer", "space": "overlay-17",
+                       "image_offset": self.at}, evidence)
+
+    def test_pointer_without_its_relocation_or_at_the_wrong_word_refuses(self):
+        shifted = dict(self.site, image_offset=self.at + 2, file_offset=self.site["file_offset"] + 2,
+                       relocated_segment_site=self.at + 4)
+        with self.assertRaisesRegex(ValueError, "far pointer"):
+            self.target(shifted)
+        with self.assertRaisesRegex(ValueError, "provenance"):
+            self.target(dict(self.site, relocated_segment_site=self.at + 3))

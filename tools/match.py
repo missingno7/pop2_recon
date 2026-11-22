@@ -35,7 +35,7 @@ def get_target(identifier, oracle=None):
     raw = space.extent(target["segment"], target["offset"], target["size"])
     require(sha(raw) == target["sha256"], "Target extent differs from frozen original evidence")
     for call in target.get("call_sites", []):
-        require(call["kind"] in ("far_call", "push_cs_near_call"), "Unsupported reviewed callsite proof")
+        require(call["kind"] in ("far_call", "push_cs_near_call", "far_pointer"), "Unsupported reviewed callsite proof")
         caller = oracle.spaces[call["space"]]
         at = call["image_offset"]
         import struct
@@ -49,6 +49,18 @@ def get_target(identifier, oracle=None):
             require(call["file_offset"] == caller.file_offset+at and call["pushed_cs_site"] == at-1 and
                     not any(at-2 <= r["image_offset"] < at+3 for r in caller.relocations),
                     "Reviewed near-call file/relocation provenance mismatch")
+            continue
+        if call["kind"] == "far_pointer":
+            # A stored far pointer (callback table, vector) naming the entry: offset word, then a
+            # segment word carrying an original relocation; the offset word itself is not relocated.
+            require(0 <= at and at+4 <= caller.size, "Reviewed far pointer lies outside its space")
+            offset, segment = struct.unpack_from("<HH", caller.data, at)
+            require(space.position(segment, offset) == space.position(target["segment"], target["offset"]),
+                    "Reviewed far pointer does not name this function")
+            require(call["file_offset"] == caller.file_offset+at and call["relocated_segment_site"] == at+2 and
+                    any(r["image_offset"] == at+2 for r in caller.relocations) and
+                    not any(r["image_offset"] == at for r in caller.relocations),
+                    "Reviewed far-pointer relocation/file provenance mismatch")
             continue
         require(0 <= at and at+5 <= caller.size and caller.data[at] == 0x9a,
                 "Reviewed far-call opcode does not exist")

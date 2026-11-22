@@ -484,6 +484,14 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
             evidence.append({"frame": struct.unpack_from("<H", caller.data, call["image_offset"] + 3)[0],
                              "kind": "relocated CALL FAR", "space": caller.name,
                              "image_offset": call["image_offset"]})
+        # A relocated far pointer naming the entry (callback/vector table) is a far transfer
+        # target with CS = its stored segment, like a relocated CALL FAR. Root only: an overlay
+        # link address can belong to several overlays.
+        for ptr in (c for c in target.get("call_sites", []) if c["kind"] == "far_pointer"):
+            holder = oracle.spaces[ptr["space"]]
+            evidence.append({"frame": struct.unpack_from("<H", holder.data, ptr["image_offset"] + 2)[0],
+                             "kind": "relocated far pointer", "space": holder.name,
+                             "image_offset": ptr["image_offset"]})
         if not evidence:
             evidence += _reached_near_frames(target, space, oracle, hull)
         return evidence, unusable
