@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "dca6ceefc2bb96d039b3fc8d1617f07b44d464204c995688797c704c1b6322dc",
+  "binding_sha256": "0c4a9a6f7bd2ff3bbd2dab3b37492f83c7a729d9bd0863ab1524efffb4cd3b80",
   "claims": [
     {
       "fixup_count": 7,
@@ -192,6 +192,16 @@
       "target_id": "overlay-10:29cf:0918"
     },
     {
+      "fixup_count": 6,
+      "public": "SEND_JAFFAR_TO_POSITION",
+      "relocation_indices": [
+        90
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-10:29cf:0934"
+    },
+    {
       "fixup_count": 13,
       "public": "SETTLE_JAFFAR_AT_POSITION",
       "relocation_indices": [
@@ -200,6 +210,68 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-10:29cf:098e"
+    },
+    {
+      "fixup_count": 22,
+      "public": "JAFFAR_GO_TO_POSITION_0",
+      "relocation_indices": [
+        21,
+        51,
+        76,
+        112,
+        156
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0a62"
+    },
+    {
+      "fixup_count": 23,
+      "public": "JAFFAR_GO_TO_POSITION_1",
+      "relocation_indices": [
+        40,
+        52,
+        152,
+        157
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0bba"
+    },
+    {
+      "fixup_count": 22,
+      "public": "JAFFAR_GO_TO_POSITION_2",
+      "relocation_indices": [
+        41,
+        53,
+        153,
+        158
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0ce2"
+    },
+    {
+      "fixup_count": 20,
+      "public": "JAFFAR_GO_TO_POSITION_3",
+      "relocation_indices": [
+        9,
+        22,
+        54,
+        77,
+        159
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0ddc"
     },
     {
       "fixup_count": 11,
@@ -371,6 +443,19 @@
       "target_id": "overlay-10:29cf:170e"
     },
     {
+      "fixup_count": 5,
+      "public": "TRIGGER_CRYSTAL",
+      "relocation_indices": [
+        35,
+        130
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:17d8"
+    },
+    {
       "fixup_count": 8,
       "public": "DRAW_GARGOYLE",
       "relocation_indices": [
@@ -382,6 +467,19 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-10:29cf:1940"
+    },
+    {
+      "fixup_count": 5,
+      "public": "TRIGGER_GARGOYLE",
+      "relocation_indices": [
+        38,
+        131
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:1a0a"
     },
     {
       "fixup_count": 17,
@@ -407,8 +505,10 @@
         116,
         127
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "overlay-10:29cf:1cc2"
     },
     {
@@ -470,26 +570,6 @@
       "public": "SORT_FOREGROUND"
     },
     {
-      "object_offset": 2356,
-      "public": "SEND_JAFFAR_TO_POSITION"
-    },
-    {
-      "object_offset": 2658,
-      "public": "JAFFAR_GO_TO_POSITION_0"
-    },
-    {
-      "object_offset": 3006,
-      "public": "JAFFAR_GO_TO_POSITION_1"
-    },
-    {
-      "object_offset": 3306,
-      "public": "JAFFAR_GO_TO_POSITION_2"
-    },
-    {
-      "object_offset": 3556,
-      "public": "JAFFAR_GO_TO_POSITION_3"
-    },
-    {
       "object_offset": 4698,
       "public": "SHADOW_IN_RANGE"
     },
@@ -506,16 +586,8 @@
       "public": "ANIMATE_CRYSTAL"
     },
     {
-      "object_offset": 6104,
-      "public": "TRIGGER_CRYSTAL"
-    },
-    {
       "object_offset": 6186,
       "public": "ANIMATE_GARGOYLE"
-    },
-    {
-      "object_offset": 6666,
-      "public": "TRIGGER_GARGOYLE"
     },
     {
       "object_offset": 6748,
@@ -545,12 +617,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "final/final",
-  "object_sha256": "a01212ebcf88c2a14e3a10b32eb39c075aae13821772c2e68241b96d7b4b1d2a",
+  "object_sha256": "72edd4733b6239475ac663defd01956373c5fcfd32477ea61c10468f6e676899",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/final/final.c",
-  "source_sha256": "352554be22a42085f126ae2cc74d00adb985650b040e5859039807c741eb1711",
+  "source_sha256": "4c0429b68653bacc6e678b54e766b093f688ef5c0bd90d4edf5ba524ce342890",
   "space": "overlay-10"
 }

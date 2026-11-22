@@ -696,65 +696,48 @@ int far pascal jaffar_go_to_position_0(sbyte near *stance)
 
     if (stance[2] == 3) {
         if (char_frame == 15) {
-            if (x == 6) {
+            if (x == 6)
                 step_room_left();
-                goto done;
-            }
-            if (x > 7 && x < rule->room_x - 1)
-                goto run_left;
-            goto settle;
-        }
-        if (char_frame == 7 || char_frame == 11) {
-            if ((x >= 5 && x <= 6) || (x >= 10 && x <= 11)) {
+            else if (x > 7 && x < rule->room_x - 1)
+                run_room_left();
+            else
+                goto settle;
+        } else if (char_frame == 7 || char_frame == 11) {
+            if ((x >= 5 && x <= 6) || (x >= 10 && x <= 11))
                 start_room_climb(4);
-                goto done;
-            }
-            if (x >= rule->room_x - 1)
-                goto halt_run;
+            else if (x >= rule->room_x - 1)
+                sequence = 13;
         }
     } else if (opponent_column == 2) {
         if (char_frame == 15) {
-            if (char_direction == 0)
-                goto step_right;
-            goto turn;
-        }
-        if (char_frame == 91)
-            goto climb_right;
+            if (char_direction != 0)
+                goto turn;
+            step_room_right();
+        } else if (char_frame == 91)
+            climb_room_right();
     } else if (opponent_column == 1) {
         if (char_frame == 15) {
             if (char_direction == 0) {
                 if (x < 17)
-                    goto run_left;
-            } else if (x >= 17) {
-                goto step_right;
-            }
+                    run_room_left();
+                else
+                    goto turn;
+            } else if (x >= 17)
+                step_room_right();
+            else {
 turn:
-            sequence = 5;
-        } else {
-            if (char_frame == 7 && x >= 17) {
-                sequence = 13;
-                goto done;
+                sequence = 5;
             }
-            if (char_frame == 91)
-                goto climb_right;
-            if (char_frame == 109)
-                sequence = 49;
-        }
+        } else if (char_frame == 7 && x >= 17)
+            sequence = 13;
+        else if (char_frame == 91)
+            climb_room_right();
+        else if (char_frame == 109)
+            sequence = 49;
     } else {
 settle:
         sequence = settle_jaffar_at_position(stance);
     }
-    goto done;
-
-run_left:
-    run_room_left(); goto done;
-halt_run:
-    sequence = 13; goto done;
-step_right:
-    step_room_right(); goto done;
-climb_right:
-    climb_room_right();
-done:
     return sequence;
 }
 
@@ -764,43 +747,41 @@ int far pascal jaffar_go_to_position_1(sbyte near *stance)
 
     if (stance[2] < stance[1]) {
         if (opponent_column == 0) {
-            if (char_direction == 0 && opponent_sequence != 5) goto turn;
-            if (char_frame == 15) cross_room_upper();
+            if (char_direction == 0 && opponent_sequence != 5)
+                sequence = 5;
+            else if (char_frame == 15)
+                cross_room_upper();
         } else if (opponent_column == 1) {
             if ((unsigned int)char_frame >= 87 && (unsigned int)char_frame <= 91) {
                 cross_room_lower();
             } else if (char_frame == 15) {
-                if (char_direction != -1) goto turn;
-                goto run_left;
+                if (char_direction != -1)
+                    sequence = 5;
+                else
+                    run_room_left();
             } else if (char_frame == 109) {
                 sequence = 49;
             }
         } else if (opponent_column == 2) {
-            if (char_frame == 109) sequence = 49;
+            if (char_frame != 109)
+                sequence = settle_jaffar_at_position(stance);
             else
-                goto settle;
+                sequence = 49;
         }
     } else {
         sbyte x = opponent_room + ((opponent_kind == 8) ? 1 : 0) * 10;
 
-        if (x == position_rules[2].room_x && char_frame == 15) goto run_left;
-        if (x >= 6 && x <= 7) {
+        if (x == position_rules[2].room_x && char_frame == 15)
+            run_room_left();
+        else if (x >= 6 && x <= 7) {
             start_room_climb(4);
         } else if (x > 10) {
-            if (char_frame == 7 && x >= rule->room_x - 1) sequence = 13;
+            if (char_frame == 7 && x >= rule->room_x - 1)
+                sequence = 13;
             else
-                goto settle;
+                sequence = settle_jaffar_at_position(stance);
         }
     }
-    goto done;
-
-turn:
-    sequence = 5; goto done;
-run_left:
-    run_room_left(); goto done;
-settle:
-    sequence = settle_jaffar_at_position(stance);
-done:
     return sequence;
 }
 
@@ -812,7 +793,6 @@ int far pascal jaffar_go_to_position_2(sbyte near *stance)
         sbyte x = opponent_room + ((opponent_kind == 8) ? 1 : 0) * 10;
 
         if (x == position_rules[1].room_x && char_frame == 15) {
-run_left:
             run_room_left();
         } else if (x >= 12 && x <= 13 && char_frame == 11) {
             start_room_climb(4);
@@ -823,43 +803,44 @@ run_left:
         }
     } else if (opponent_column == 0) {
         if (char_frame == 15) {
-            if (char_direction == 0) {
-turn:
-                sequence = 5; goto done;
-            }
-            cross_room_upper();
+            if (char_direction == 0)
+                sequence = 5;
+            else
+                cross_room_upper();
         }
     } else if (opponent_column == 1) {
         if ((unsigned int)char_frame >= 87 && (unsigned int)char_frame <= 91) {
             cross_room_lower();
         } else if (char_frame == 15) {
-            if (char_direction != -1) goto turn;
-            goto run_left;
+            if (char_direction == -1)
+                run_room_left();
+            else
+                sequence = 5;
         } else if (char_frame == 109) {
-jump_down:
             sequence = 49;
         }
     } else if (opponent_column == 2) {
-        if (char_frame != 109) goto settle;
-        sequence = 49;
-    }
-    goto done;
+        if (char_frame == 109)
+            sequence = 49;
+        else {
 settle:
-    sequence = settle_jaffar_at_position(stance);
-done:
+            sequence = settle_jaffar_at_position(stance);
+        }
+    }
     return sequence;
 }
 
 int far pascal jaffar_go_to_position_3(sbyte near *stance)
 {
-    int sequence = -1; const PositionRule near *rule = &position_rules[stance[1]];
+    int sequence = -1;
+    const PositionRule near *rule = &position_rules[stance[1]];
     sbyte x = opponent_room + ((opponent_kind == 8) ? 1 : 0) * 10;
 
     if (stance[2] == 0) {
         if (char_frame == 15) {
             if (x > 10) run_room_left();
             else if (x <= rule->room_x)
-                goto settle;
+                sequence = settle_jaffar_at_position(stance);
         } else if (char_frame == 7 || char_frame == 11) {
             if (x <= rule->room_x) sequence = 13;
             else if ((x >= 14 && x <= 15) || (x >= 9 && x <= 10))
@@ -867,24 +848,21 @@ int far pascal jaffar_go_to_position_3(sbyte near *stance)
         }
     } else if (opponent_column == 2) {
         if (char_frame == 15) {
-step_right:
             step_room_right();
         } else if (char_frame == 91) {
-climb_right:
             climb_room_right();
         }
     } else if (opponent_column == 1) {
         if (char_frame == 15) {
-            if (char_direction != 0) goto step_right;
-            if (x == 6) shift_character(32);
+            if (char_direction != 0) step_room_right();
+            else if (x == 6) shift_character(32);
             else
                 sequence = 5;
         } else {
-            if (char_frame == 91) goto climb_right;
-            if (char_frame == 109) sequence = 49;
+            if (char_frame == 91) climb_room_right();
+            else if (char_frame == 109) sequence = 49;
         }
     } else {
-settle:
         sequence = settle_jaffar_at_position(stance);
     }
     return sequence;
