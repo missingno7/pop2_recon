@@ -307,7 +307,10 @@ overlay. `module_gate._frame_evidence` accepts, per claim:
   outside the whole object. Its caller is resident, and the manager evicts whole
   sections, so the destination is this overlay's copy;
 - a reviewed **cross-space CALL FAR** (root or another overlay) only when no other
-  space holds that link address.
+  space holds that link address;
+- a reviewed **relocated far pointer** (`far_pointer` call site, any space, checked
+  by `match.get_target`) only when no other space holds that link address;
+- the overlay's own relocation **site frames** bracketing the claim (below).
 
 Anything else is listed in the claim's `frame_evidence_refused` (for example
 `link address also held by overlay-2`) and grants nothing. A vector naming
@@ -435,6 +438,71 @@ The other overlay may also hold the position at the start of its F' segment,
 before that segment's first relocation record. That holds when its next record
 names F', every earlier record names a smaller frame, and the position is at or
 above F's paragraph. Only the F' segment can be the target there.
+
+### Section start, foreign frames and overlay far pointers (2026-11-22)
+
+Original facts (locked image): every code-overlay table (overlays 2-16) is
+monotone, and its first record names the overlay's own link segment. FINAL
+`29cf:0000` lies before overlay 10's first record (index 55 at 0x74, frame
+29cf). AUTO `2344:0008` lies before overlay 3's first record (index 56 at 0x100,
+frame 2344). overlay-11+0x835 stores `2802:1044` inside ANIM (frame 28a1), and
+overlay 2's 238a records run to 0x55d9. root+0x4455 and root+0x43e6 store
+`2a93:1374` inside DRAWTEMP (frame 2b4b), and overlay 9's 2a4e records run to
+0xfd1. overlay-17+0x4492 stores `2b4b:0ee2`, a link address no other space
+holds. overlay-17+0x4584 stores `29cf:0000`, which overlays 4-7 also hold.
+
+Linker observations (site-frames probe, above): a record names the paragraph
+floor of the segment holding its site. A relocated far word stores its target
+segment's floor, or its group's frame. A section's first segment starts at
+payload position 0. A group frame is the floor of the group's lowest member,
+so it is never above any member's floor.
+
+Hypotheses: the claim's original code segment is in no group (MSC medium-model
+code is not grouped, and a candidate grouping its CODE segment is refused).
+The original program is correct, so it never far-transfers into a non-resident
+overlay.
+
+Three rules follow:
+
+- **Section start.** No floor in an overlay is below its link segment. A claim
+  with no record before its end takes the link segment as lower bracket
+  (`bracket_relocation_indices` shows `section-start`). This proves F only when
+  the first record from the claim's start on names the link segment itself.
+  Any other first frame leaves the floor open and is refused. FINAL `29cf:0000`
+  and AUTO `2344:0008` get frames 29cf and 2344 this way.
+- **Foreign frames** (`_foreign_frame`). A relocated far word of frame G ≠ F
+  landing in the object is excused in two cases:
+  - G > F. Neither a segment of floor G nor a group of frame G can hold the
+    claim's segment.
+  - G is at or above the link segment, and a record of this overlay with a
+    smaller site frame has its field ending at or past the end of paragraph G.
+    That record's segment starts before the paragraph and covers all of it, so
+    no segment of this overlay has floor G, and no group has frame G.
+
+  A G below the link segment is never excused, and neither is a paragraph that
+  is not covered. ANIM (2802 covered, 298a above 28a1) and DRAWTEMP (2a93
+  covered) get their site frames this way. The evidence comes only from the
+  claim's own overlay table, so another overlay sharing the area cannot supply
+  an excuse.
+- **Overlay far pointers.** A reviewed `far_pointer` call site witnesses an
+  overlay entry's frame, with the same unshared-link-address condition as a
+  cross-space CALL FAR. A pointer to a shared address is listed as
+  `far pointer link address also held by ...`.
+
+Tests in `tests/test_overlay_group.py`:
+
+- FINAL's section-start bracket, and the unchanged refusal of `25da:000e`;
+- the real foreign-frame cases, plus a patched `_foreign_frame` showing that the
+  2a93 alias would otherwise refuse;
+- far pointers to unshared and shared overlay addresses;
+- synthetic cases: a link-frame section start, a non-link first frame, a higher
+  frame, a lower frame with its paragraph covered, uncovered, or only partly
+  covered, a frame below the section, and a far pointer with and without an
+  overlay sharing the address.
+
+The same-overlay inside-object test isolates the CALL FAR rule with
+`no_site_frames()`. Its draft's own CALL FAR record now brackets the claim
+legitimately.
 
 The structural anchor may already include its single alignment NOP: when the
 anchor's linear decode ends in RET/RETF[ iw] followed by one `90` that the

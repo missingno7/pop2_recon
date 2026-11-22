@@ -22,8 +22,8 @@ Object-level rules (refusals, not claim failures): every public lies inside
 the initialized CODE segment and one public starts at offset 0; fixup fields
 are disjoint; a near call is proven only inside the original CS window named by
 an independently relocated CALL FAR into a claim (for overlay claims: a vector,
-a same-overlay call, an unshared cross-space call or bracketing overlay relocation
-site frames, see `_frame_evidence`), so
+a same-overlay call, an unshared cross-space call or far pointer, or bracketing
+overlay relocation site frames, see `_frame_evidence`), so
 16-bit IP arithmetic and linear placement agree.
 """
 import struct
@@ -354,6 +354,29 @@ def _other_overlay_frame(oracle, space, segment, offset):
     return False
 
 
+def _foreign_frame(space, frame, segment):
+    """True when a far word of frame `segment` cannot enter the code segment of floor `frame`
+    in overlay `space`, so it names a segment of another overlay sharing the area.
+
+    A relocated segment word stores its target segment's floor, or its group's frame, which
+    is the floor of the group's lowest member and never above any member's floor (linker
+    rule). The claim's segment has floor `frame` (bracketed), so:
+    - `segment` > `frame`: neither a segment of floor `segment` nor a group of that frame
+      can hold the claim's segment;
+    - `segment` >= the link segment and a record of this overlay with a smaller site frame
+      lies at or beyond the end of paragraph `segment` (record field included): the segment
+      holding that record starts before the paragraph and covers all of it, so no segment
+      of this overlay starts there and none has floor `segment` (nor any group frame).
+    A frame below the link segment is never excused (a group reaching across sections is
+    not refuted by this overlay's records)."""
+    if segment > frame:
+        return True
+    if segment < space.link_segment:
+        return False
+    paragraph_end = (segment - space.link_segment) * 16 + 16
+    return any(r["segment"] < segment and r["image_offset"] + 2 >= paragraph_end for r in space.relocations)
+
+
 def _site_frame(target, space, oracle, hull, grouped=False):
     """("evidence"|"refused", row): the CS frame named by the overlay's own relocation sites.
 
@@ -365,12 +388,18 @@ def _site_frame(target, space, oracle, hull, grouped=False):
     on name one frame F, the segments holding them both have frame F, so every segment
     between them does, and the claim (one original function, one segment) runs with CS F.
     A relocation-free segment between two frames is never covered (the brackets differ).
+    Section start: an overlay's first segment begins at payload position 0, so no floor is
+    below the link segment. A claim with no record before its end therefore has the link
+    segment as lower bracket, which proves F only when the first record from the claim's
+    start on names the link segment itself.
     Only for a code segment outside every group: a grouped segment's records still name its
     floor while far references use the group frame (probe $$OVLVEC), so a candidate object
     grouping its CODE segment is refused.
     Refused unless the records are monotone, every relocated far word (stored segment plus
     the offset word before it, any space; a decoded vector naming another overlay excepted)
-    that lands inside the object uses F, and F's 64K window holds the whole object."""
+    that lands inside the object uses F, and F's 64K window holds the whole object.
+    A word of another frame G is excused only when it cannot enter the claim's segment
+    (`_foreign_frame`): G > F, or G cannot be the floor of any segment of this overlay."""
     if not (space.descriptor and space.descriptor["flags"] == 4):
         return None
     row = {"kind": "overlay site frame", "space": space.name}
@@ -384,10 +413,12 @@ def _site_frame(target, space, oracle, hull, grouped=False):
         return "refused", dict(row, reason="overlay relocation site frames are not monotone")
     before = [r for r in rows if r["image_offset"] < end]
     after = [r for r in rows if r["image_offset"] >= start]
-    if not before or not after or before[-1]["segment"] != after[0]["segment"]:
+    # Section start: the segment holding position 0 has floor exactly the link segment.
+    lower = (before[-1]["segment"], before[-1]["index"]) if before else (space.link_segment, "section-start")
+    if not after or lower[0] != after[0]["segment"]:
         return "refused", dict(row, reason="no relocation records of one site frame bracket the claim")
-    frame = before[-1]["segment"]
-    row.update(frame=frame, bracket_relocation_indices=[before[-1]["index"], after[0]["index"]])
+    frame = lower[0]
+    row.update(frame=frame, bracket_relocation_indices=[lower[1], after[0]["index"]])
     lo, hi = hull
     base = (frame - space.link_segment) * 16
     if not (base <= lo and hi <= base + 0x10000):
@@ -417,6 +448,8 @@ def _site_frame(target, space, oracle, hull, grouped=False):
             offset = struct.unpack_from("<H", source.data, at - 2)[0]
             if _other_overlay_frame(oracle, space, segment, offset):
                 continue  # the linker resolved it into another overlay's segment of frame `segment`
+            if _foreign_frame(space, frame, segment):
+                continue  # frame `segment` names no segment (or group) that can hold the claim
             return "refused", dict(row, reason=f"relocated far word {source.name}+{at - 2:#x} "
                                                f"enters the object with frame {segment:04x}")
     return "evidence", row
@@ -459,6 +492,14 @@ def _reached_near_frames(target, space, oracle, hull):
     return found[:1]
 
 
+def _link_holders(oracle, space, segment, offset):
+    """Spaces other than `space` whose memory extent (descriptor paragraphs, not just the
+    file payload) holds the link address segment:offset."""
+    return sorted(n for n, s in oracle.spaces.items() if n != space.name and
+                  0 <= (segment - s.link_segment) * 16 + offset <
+                  max(s.size, 16 * (s.descriptor or {}).get("f8", 0)))
+
+
 def _frame_evidence(target, space, oracle, hull, grouped=False):
     """(evidence, unusable): independent original far entries naming this claim's CS.
 
@@ -473,6 +514,8 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
       is, and the destination lies in it;
     - a reviewed relocated CALL FAR from another space, only when no other space holds
       that link address (otherwise it may enter another overlay sharing the segment);
+    - a reviewed relocated far pointer (any space) naming the entry, under the same
+      unshared-link-address condition;
     - the overlay's own relocation site frames bracketing the claim (`_site_frame`).
     `hull` is the object's (start, end) in the claim's space; `grouped` says the candidate
     object puts its CODE segment in a group."""
@@ -485,8 +528,8 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
                              "kind": "relocated CALL FAR", "space": caller.name,
                              "image_offset": call["image_offset"]})
         # A relocated far pointer naming the entry (callback/vector table) is a far transfer
-        # target with CS = its stored segment, like a relocated CALL FAR. Root only: an overlay
-        # link address can belong to several overlays.
+        # target with CS = its stored segment, like a relocated CALL FAR. Overlay entries take
+        # it only for an unshared link address (below).
         for ptr in (c for c in target.get("call_sites", []) if c["kind"] == "far_pointer"):
             holder = oracle.spaces[ptr["space"]]
             evidence.append({"frame": struct.unpack_from("<H", holder.data, ptr["image_offset"] + 2)[0],
@@ -515,14 +558,23 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
                                  relocation_index=next(r["index"] for r in caller.relocations
                                                        if r["image_offset"] == at + 3)))
             continue
-        # Memory extent (descriptor paragraphs), not just the file payload, can hold the address.
-        holders = sorted(n for n, s in oracle.spaces.items() if n != space.name and
-                         0 <= (segment - s.link_segment) * 16 + offset <
-                         max(s.size, 16 * (s.descriptor or {}).get("f8", 0)))
+        holders = _link_holders(oracle, space, segment, offset)
         if holders:
             unusable.append(dict(row, reason="link address also held by " + ", ".join(holders)))
             continue
         evidence.append(dict(row, kind="cross-space CALL FAR"))
+    # A reviewed relocated far pointer naming the entry (match.get_target checks it) is a far
+    # transfer target with CS = its stored segment, but only when no other space holds that
+    # link address: otherwise it may name another overlay's code sharing the address.
+    for ptr in (c for c in target.get("call_sites", []) if c["kind"] == "far_pointer"):
+        holder = oracle.spaces[ptr["space"]]
+        offset, segment = struct.unpack_from("<HH", holder.data, ptr["image_offset"])
+        row = {"frame": segment, "space": holder.name, "image_offset": ptr["image_offset"]}
+        holders = _link_holders(oracle, space, segment, offset)
+        if holders:
+            unusable.append(dict(row, reason="far pointer link address also held by " + ", ".join(holders)))
+            continue
+        evidence.append(dict(row, kind="relocated far pointer (unshared link address)"))
     site = _site_frame(target, space, oracle, hull, grouped)
     if site:
         (evidence if site[0] == "evidence" else unusable).append(site[1])

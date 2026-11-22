@@ -129,8 +129,9 @@ class RealOverlayTests(unittest.TestCase):
             self.assertTrue(all("overlay-2" in r["reason"] for r in refused), ident)
         # 25da:000e precedes every 25da record and follows 2587's: no bracket (its vector still names it).
         found, refused = evidence("overlay-3:25da:000e")
-        self.assertEqual(([e["kind"] for e in found], refused[-1]["reason"]),
-                         (["rtlink-vector"], "no relocation records of one site frame bracket the claim"))
+        self.assertEqual(([e["kind"] for e in found],
+                          [r["reason"] for r in refused if r.get("kind") == "overlay site frame"]),
+                         (["rtlink-vector"], ["no relocation records of one site frame bracket the claim"]))
         # Root CALL FAR 29cf:0a80 (root+0xc132) lands in overlay 9's 2a4e frame, but overlays
         # holding that address bracket it with site frame 29cf: the linker resolved it there.
         self.assertTrue(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
@@ -144,6 +145,70 @@ class RealOverlayTests(unittest.TestCase):
         # A frame no other overlay brackets at that address stays an alias.
         self.assertFalse(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
                                                           0x2a4f, 0x0a70))
+
+    def test_section_start_brackets_final_dispatcher(self):
+        # FINAL 29cf:0000 precedes overlay 10's first record (index 55 at 0x74), which names the
+        # link segment 29cf: the segment holding position 0 has that floor, so the claim does.
+        import module_gate
+        target, space, _ = self.get_target("overlay-10:29cf:0000", self.oracle)
+        found, refused = module_gate._frame_evidence(target, space, self.oracle, (0, target["size"]))
+        self.assertEqual([(e["kind"], e["frame"], e["bracket_relocation_indices"]) for e in found],
+                         [("overlay site frame", 0x29cf, ["section-start", 55])])
+        # 25da:000e has 2587 records before it: the section start never replaces a real record.
+        target, space, _ = self.get_target("overlay-3:25da:000e", self.oracle)
+        at = space.position(target["segment"], target["offset"])
+        self.assertEqual(module_gate._site_frame(target, space, self.oracle, (at, at + target["size"]))[0],
+                         "refused")
+
+    def test_foreign_frames_from_the_overlays_own_records(self):
+        import module_gate
+        ov2, ov9 = self.oracle.spaces["overlay-2"], self.oracle.spaces["overlay-9"]
+        # overlay-11+0x835 stores 2802:1044 inside ANIM (frame 28a1); overlay 2's 238a records
+        # run to 0x55d9, past paragraph 2802 (0x4be0): no overlay-2 segment has floor 2802.
+        self.assertTrue(module_gate._foreign_frame(ov2, 0x28a1, 0x2802))
+        self.assertTrue(module_gate._foreign_frame(ov2, 0x28a1, 0x298a))  # above the claim's floor
+        self.assertFalse(module_gate._foreign_frame(ov2, 0x28a1, 0x238a))  # a real overlay-2 floor
+        # root+0x4455 stores 2a93:1374 inside DRAWTEMP (frame 2b4b); 2a4e records run to 0xfd1.
+        self.assertTrue(module_gate._foreign_frame(ov9, 0x2b4b, 0x2a93))
+        self.assertFalse(module_gate._foreign_frame(ov9, 0x2b4b, 0x2a4d))  # below the section
+        target, space, _ = self.get_target("overlay-9:2b4b:0e16", self.oracle)
+        self.assertEqual(module_gate._site_frame(target, space, self.oracle, (0x1026, 0x1ef0))[1]["frame"],
+                         0x2b4b)
+        with patch.object(module_gate, "_foreign_frame", return_value=False):
+            verdict, row = module_gate._site_frame(target, space, self.oracle, (0x1026, 0x1ef0))
+        self.assertEqual(verdict, "refused")
+        self.assertIn("enters the object with frame 2a93", row["reason"])
+
+    def far_pointer_row(self, ident, holder, at):
+        import match
+        target, space, _ = self.get_target(ident, self.oracle)
+        row = copy.deepcopy(target)
+        row["call_sites"] = [{"kind": "far_pointer", "space": holder, "image_offset": at,
+                              "relocated_segment_site": at + 2,
+                              "file_offset": self.oracle.spaces[holder].file_offset + at}]
+        with patch.object(match, "EXTRA_TARGETS", [row]):
+            return self.get_target(ident, self.oracle)[:2]  # match validates the pointer
+
+    def test_far_pointer_to_an_unshared_overlay_address_witnesses_the_frame(self):
+        # overlay-17+0x4492 stores 2b4b:0ee2; no other space holds that link address.
+        import module_gate
+        target, space = self.far_pointer_row("overlay-9:2b4b:0ee2", "overlay-17", 0x4492)
+        at = space.position(target["segment"], target["offset"])
+        found, refused = module_gate._frame_evidence(target, space, self.oracle, (at, at + target["size"]))
+        self.assertEqual([(e["kind"], e["frame"], e["space"], e["image_offset"]) for e in found],
+                         [("relocated far pointer (unshared link address)", 0x2b4b, "overlay-17", 0x4492)])
+        self.assertEqual([r["reason"] for r in refused],
+                         ["no relocation records of one site frame bracket the claim"])
+
+    def test_far_pointer_to_a_shared_overlay_address_is_not_frame_evidence(self):
+        # overlay-17+0x4584 stores 29cf:0000, an address overlays 4-7 also hold.
+        import module_gate
+        target, space = self.far_pointer_row("overlay-10:29cf:0000", "overlay-17", 0x4584)
+        with no_site_frames():
+            found, refused = module_gate._frame_evidence(target, space, self.oracle, (0, target["size"]))
+        self.assertEqual(found, [])
+        self.assertEqual([r["reason"] for r in refused],
+                         ["far pointer link address also held by overlay-4, overlay-5, overlay-6, overlay-7"])
 
     def test_vector_witnesses_only_its_own_destination(self):
         import module_gate
@@ -302,9 +367,10 @@ class SyntheticOverlayFrameTests(unittest.TestCase):
     CODE = "0ee80200cb90cb" + "9a40000001cb"  # caller; callee at +6; draft at +7 calling 0100:0040
 
     def case(self, *, caller_space=None, caller_at=None, sharer=False, records=(), foreign=None,
-             group=GROUP):
+             group=GROUP, pointer_at=None):
         """`records`: extra overlay-2 relocation sites (position, site segment) holding zero words;
-        `foreign`: (segment, offset) of a relocated root CALL FAR at root+0x20."""
+        `foreign`: (segment, offset) of a relocated root CALL FAR at root+0x20;
+        `pointer_at`: root position of a reviewed relocated far pointer 0100:0040."""
         from oracle import Space
         # Overlay object at 0x40: PUSH CS; CALL near +2; RETF; NOP | RETF | draft CALL FAR; RETF.
         data = bytearray(0x80)
@@ -323,6 +389,11 @@ class SyntheticOverlayFrameTests(unittest.TestCase):
         if foreign:
             root[0x20:0x25] = struct.pack("<BHH", 0x9a, foreign[1], foreign[0])
             root_relocs.append({"image_offset": 0x23, "segment": 0})
+        if pointer_at is not None:
+            root[pointer_at:pointer_at + 4] = struct.pack("<HH", 0x40, 0x0100)
+            root_relocs.append({"image_offset": pointer_at + 2, "segment": 0})
+            sites.append({"kind": "far_pointer", "space": "root", "image_offset": pointer_at,
+                          "relocated_segment_site": pointer_at + 2, "file_offset": pointer_at})
         for rows, image in ((overlay_relocs, data), (root_relocs, root)):
             rows.sort(key=lambda r: r["image_offset"])
             for i, r in enumerate(rows):
@@ -348,7 +419,10 @@ class SyntheticOverlayFrameTests(unittest.TestCase):
         self.assertEqual(claim["state"], "CODE_EXACT", claim)
 
     def test_same_overlay_call_inside_the_object_is_refused(self):
-        claim = self.case(caller_space="overlay-2", caller_at=0x47)  # the draft's CALL FAR, inside the object
+        # The draft's CALL FAR, inside the object. Its own relocation record (site frame 0100)
+        # brackets the claim with the section start, so isolate the CALL FAR rule.
+        with no_site_frames():
+            claim = self.case(caller_space="overlay-2", caller_at=0x47)
         self.assertIn("inside the object", claim["frame_evidence_refused"][0]["reason"])
         self.assertIn("witnessed original frame", claim["reason"])
 
@@ -392,6 +466,53 @@ class SyntheticOverlayFrameTests(unittest.TestCase):
     def test_non_monotone_site_frames_are_refused(self):
         claim = self.case(records=[(0x20, 0x0102), (0x60, 0x0100)])
         self.assertIn("not monotone", claim["frame_evidence_refused"][-1]["reason"])
+
+    # -- section start and foreign frames ---------------------------------------------------------
+    def test_section_start_brackets_with_the_link_frame(self):
+        # No record before the claim; the first after it names the link segment 0100.
+        claim = self.case(sharer=True, records=[(0x60, 0x0100)])
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        self.assertEqual(claim["frame_evidence"][0]["bracket_relocation_indices"], ["section-start", 0])
+
+    def test_section_start_needs_the_link_frame_after_the_claim(self):
+        # First record names 0104: the claim's floor may be anything from 0100 to 0104.
+        claim = self.case(records=[(0x60, 0x0104)])
+        self.assertIn("bracket", claim["frame_evidence_refused"][-1]["reason"])
+        self.assertIn("witnessed original frame", claim["reason"])
+
+    def test_word_of_a_higher_frame_names_another_segment(self):
+        # Root CALL FAR 0102:0020 lands on the claim, but its floor exceeds the bracketed 0100.
+        claim = self.case(records=[(0x20, 0x0100), (0x60, 0x0100)], foreign=(0x0102, 0x0020))
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+
+    def test_word_of_a_lower_frame_needs_its_paragraph_covered(self):
+        # Root CALL FAR 0101:0030 lands on the claim bracketed in 0102.
+        claim = self.case(records=[(0x24, 0x0102), (0x60, 0x0102)], foreign=(0x0101, 0x0030))
+        self.assertIn("enters the object with frame 0101", claim["frame_evidence_refused"][-1]["reason"])
+        self.assertIn("witnessed original frame", claim["reason"])
+        # A 0100 record whose field ends at 0x20 covers paragraph 0101 (0x10-0x1f): no floor 0101.
+        claim = self.case(records=[(0x1e, 0x0100), (0x24, 0x0102), (0x60, 0x0102)], foreign=(0x0101, 0x0030))
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        # Ending at 0x1e, the 0100 segment may stop inside the paragraph: 0101 stays possible.
+        claim = self.case(records=[(0x1c, 0x0100), (0x24, 0x0102), (0x60, 0x0102)], foreign=(0x0101, 0x0030))
+        self.assertIn("enters the object with frame 0101", claim["frame_evidence_refused"][-1]["reason"])
+        self.assertIn("witnessed original frame", claim["reason"])
+
+    def test_word_of_a_frame_below_the_section_stays_refused(self):
+        claim = self.case(records=[(0x20, 0x0100), (0x60, 0x0100)], foreign=(0x00ff, 0x0050))
+        self.assertIn("enters the object with frame 00ff", claim["frame_evidence_refused"][-1]["reason"])
+        self.assertIn("witnessed original frame", claim["reason"])
+
+    # -- reviewed far pointers ----------------------------------------------------------------------
+    def test_far_pointer_counts_only_for_an_unshared_link_address(self):
+        claim = self.case(pointer_at=0x10)
+        self.assertEqual(claim["state"], "CODE_EXACT", claim)
+        self.assertEqual([(e["kind"], e["frame"]) for e in claim["frame_evidence"]],
+                         [("relocated far pointer (unshared link address)", 0x0100)])
+        claim = self.case(pointer_at=0x10, sharer=True)
+        self.assertIn("far pointer link address also held by overlay-3",
+                      claim["frame_evidence_refused"][0]["reason"])
+        self.assertIn("witnessed original frame", claim["reason"])
 
 
 if __name__ == "__main__":

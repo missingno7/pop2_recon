@@ -53,12 +53,14 @@ bytes compare literally, except for these fixup fields:
   same code frame does not prove the CS its callers use (root frames such as
   `1000` and `1101` overlap linearly). External near callees are never assumed
   to preserve DS/ES/SS.
-  **Relocated far pointers (resident root only).** A reviewed target may list
+  **Relocated far pointers.** A reviewed target may list
   `far_pointer` call sites: a stored offset/segment pair naming its entry whose
   segment word carries an original relocation and whose offset word does not
   (callback and vector tables, e.g. the window callback table at overlay-17+0x1320).
   The stored segment is the CS of a far transfer to the entry, the same evidence as
-  a relocated CALL FAR. Overlay targets are excluded: their link addresses are shared.
+  a relocated CALL FAR. An overlay target takes it only when no other space holds the
+  pointer's link address (overlay link addresses can be shared); see
+  [far-call-binding.md](far-call-binding.md#section-start-foreign-frames-and-overlay-far-pointers-2026-11-22).
   **Frame-invariant near calls (weaker class, recorded as `cs_frame`; resident
   root only, overlays keep the stricter rules above).** A claim
   with no witnessed frame, no own-segment offset word and no own-segment base is
@@ -137,6 +139,18 @@ refuses that claim. Such a claim cannot be published.
 [far-call-binding.md](far-call-binding.md#overlay-owners-in-groups). Their CS
 frame needs overlay-specific evidence, their relocation bijection uses that
 overlay's own table, and v4 DGROUP fields use the same root startup DS witness.
+Overlay frame evidence covers:
+
+- vectors;
+- same-overlay CALL FARs;
+- cross-space CALL FARs and far pointers to an unshared link address;
+- the overlay's own relocation site frames. These bracket the claim, using the
+  section start when the first record names the link segment. A far word of
+  another frame refuses them unless the overlay's own records show that the
+  frame cannot hold the claim's segment.
+
+The site-frame rules rest on the hypotheses that the code segment is ungrouped
+and the original program is correct.
 
 **Unclaimed publics.** These are in-place *drafts*. They own nothing and are
 recorded in the recipe as debt.
