@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-system_hit_rectangle DW 0, 0, 0, 0
+EXTRN SYSTEM_HIT_RECTANGLE:WORD
 EXTRN BACKGROUND_ORIGIN_X:WORD
 EXTRN BACKGROUND_ORIGIN_Y:WORD
 EXTRN BACKING_PORT_DESCRIPTOR:DWORD
@@ -451,7 +451,7 @@ LOCATE_WINDOW_AT_POINT PROC FAR
     push di
     push ds
     push WORD PTR [bp+8]
-    mov ax, OFFSET system_hit_rectangle
+    mov ax, OFFSET SYSTEM_HIT_RECTANGLE
     push ds
     push ax
     push cs
