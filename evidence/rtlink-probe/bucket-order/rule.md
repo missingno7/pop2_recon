@@ -198,3 +198,14 @@ same rule across consecutive objects with MAP placement. Raw link, map and
 original-comparison receipts are in `controls/report.json` and
 `original/report.json`. `check-results.json` has the compact conclusions
 for 40 original projections plus the two raw `/Zi` diagnostics.
+
+## Overlay emission (probe 2026-11-22, `../overlay-buckets/`)
+
+54 links (36 with the caller in its own overlay, provider first or last) gave the same
+caller-relative sequence as the resident controls: each resolved external keeps one contiguous
+bucket, LOC2 sites before LOC3 segment words, raw FIXUPP order across LEDATA breaks. A separately
+named public at the same 16:16 address (XADDR beside X) gets its own bucket. Consequently the
+original DrawCaveRevPlate (137, 150, 157) and DrawTemplePosts interleavings cannot come from one
+external identity used for both the split address and the direct call: their split-address LOC2
+references resolve to a different target identity. Reconstruct that route in source; a second
+case spelling of the same function is refused (docs/acceptance.md "One name per object").

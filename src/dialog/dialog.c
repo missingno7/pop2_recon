@@ -232,13 +232,10 @@ extern DialogAsset far pascal open_dialog_asset(int, int, int);
 
 void far pascal DialogResetToGamePlay(int restart_input)
 {
-    if (dialog_port_handle)
-        free_port(dialog_port_handle);
+    if (dialog_port_handle) free_port(dialog_port_handle);
     dialog_port_handle = create_port(&game_port);
-    current_port = &dialog_port;
-    SetFont(0);
-    current_port->mode = 0;
-    current_port->foreground = 15;
+    current_port = &dialog_port; SetFont(0);
+    current_port->mode = 0; current_port->foreground = 15;
     set_dialog_port(saved_port);
     restore_game_picture();
     release_handle(hGetFont(11));
@@ -1252,6 +1249,7 @@ struct hall_editor {
     void (far pascal *draw)(struct dialog_text far *);
 };
 
+#pragma optimize("g", off)
 void far pascal draw_hall_records(struct hall_table far *table)
 {
     struct dialog_rect rect;
@@ -1283,6 +1281,7 @@ void far pascal draw_hall_records(struct hall_table far *table)
         } while (++row < table->count);
     }
 }
+#pragma optimize("g", on)
 
 void far pascal edit_hall_name(struct hall_table far *table, int row)
 {
@@ -1317,15 +1316,15 @@ struct hall_table far * far pascal insert_hall_record(
     struct hall_table far *table, int score, int *index)
 {
     struct hall_table far *old;
-    int size, row, count;
+    int size, row;
     int far *current;
     struct hall_record far *record;
 
     if (table) {
         old = table;
-        size = buffer_size(old) + sizeof(struct hall_record);
-        table = allocate_buffer(size);
-        _fmemcpy(table, old, size - sizeof(struct hall_record));
+        size = buffer_size(old);
+        table = allocate_buffer(size + sizeof(struct hall_record));
+        _fmemcpy(table, old, size);
         dispose_buffer(old);
     } else {
         table = allocate_buffer(sizeof(table->count) + sizeof(struct hall_record));
@@ -1333,16 +1332,15 @@ struct hall_table far * far pascal insert_hall_record(
     }
 
     row = 0;
-    count = table->count;
-    if (row < count) {
+    if (row < table->count) {
         current = &table->records[0].score;
         do {
             if (*current >= score)
                 break;
             current = (int far *)((char far *)current + sizeof(struct hall_record));
-        } while (++row < count);
+        } while (++row < table->count);
     }
-    if (row < count && row != 4) {
+    if (row < table->count && row != 4) {
         record = &table->records[row];
         _fmemmove(record + 1, record, (table->count - row) * sizeof(struct hall_record));
     }
@@ -1725,17 +1723,19 @@ int far pascal show_credits(void)
 {
     struct dialog_rect clip;
     int key, page;
-    int old_page, blink;
+    int old_page;
 
     InitDialog();
     current_port = (struct dialog_port *)dialog_port_handle;
     DrawDialogFrame(0);
     intersect_credits_rect(&clip, &hall_abort_rect, 9, 9);
-    key = page = 0;
-    for (; !key && page < 4; ++page) {
+    page = key = 0;
+    do {
+        if (key)
+            break;
         current_port = (struct dialog_port *)dialog_port_handle;
         frame_rect(&clip, 12);
-        draw_credits_page(credits_first[page], credits_last[page]);
+        draw_credits_page(*(const int *)((const char *)credits_first + page), *(const int *)((const char *)credits_last + page));
         current_port = &dialog_port;
         if (page)
             key = draw_credits_transition(1, dialog_port_handle, &hall_abort_rect, 90);
@@ -1745,9 +1745,9 @@ int far pascal show_credits(void)
             if (!page && find_key_binding(credits_blink_key)) {
                 old_page = page;
                 credits_timer = 480;
-                blink = hold_blink_box(&credits_blink_box);
+                page = hold_blink_box(&credits_blink_box);
                 while (credits_timer) {
-                    show_blink_box(blink);
+                    show_blink_box(page);
                     key = wait_dialog_ticks(1, 15);
                     if (!key) {
                         frame_rect(&credits_blink_box, 12);
@@ -1756,13 +1756,13 @@ int far pascal show_credits(void)
                     if (key)
                         break;
                 }
-                release_blink_box(blink);
+                release_blink_box(page);
                 page = old_page;
             } else {
                 key = wait_dialog_ticks(0, 480);
             }
         }
-    }
+    } while ((page += sizeof(*credits_first)) < (int)sizeof(credits_first));
     current_port = &dialog_port;
     DialogFadeOut();
     release_handle(find_dialog_string(10));
@@ -1776,12 +1776,15 @@ int far pascal show_credits(void)
 
 void far pascal draw_credits_page(int first, int last)
 {
+    int id;
+
     MoveTo(save_heading.top, save_heading.right);
-    if (first <= last) {
+    id = first;
+    if (id <= last) {
         do {
-            draw_credit_category(first);
+            draw_credit_category(id);
             add_text_offset(0, 4);
-        } while (++first <= last);
+        } while (++id <= last);
     }
 }
 

@@ -71380,6 +71380,58 @@
           "relocated_segment_site": 586
         }
       ]
+    },
+    {
+      "abi": "Far Pascal RETF 4; one far pointer, offset BP+6 and segment BP+8; BP frame, no locals or SI/DI saves; result unspecified.",
+      "boundary_evidence": [
+        "Original predecessor context: root+0x1d914 8b1ec025 mov bx, word ptr [0x25c0]; root+0x1d918 897728 mov word ptr [bx + 0x28], si; root+0x1d91b 5e pop si; root+0x1d91c 8be5 mov sp, bp; root+0x1d91e 5d pop bp; root+0x1d91f ca0600 retf 6.",
+        "All decoded return paths: root+0x1d933 ca0400 (retf 4).",
+        "Every direct branch remains inside this extent; there are no local branches.",
+        "Following original bytes at root+0x1d936: 558bec57568b7606a154268b; next decoded context is in supplement.json.",
+        "3 independently decoded original call site(s) enter this position. Exact 16:16 aliases are retained per site; census display aliases are not substituted into witnesses.",
+        "Same locked extent as root:1000:d922. This row uses the literal relocated CALL FAR alias 1d76:01c2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 31950,
+          "image_offset": 23758,
+          "kind": "far_call",
+          "relocated_segment_site": 23761,
+          "space": "root"
+        },
+        {
+          "file_offset": 32469,
+          "image_offset": 24277,
+          "kind": "far_call",
+          "relocated_segment_site": 24280,
+          "space": "root"
+        },
+        {
+          "file_offset": 36197,
+          "image_offset": 28005,
+          "kind": "far_call",
+          "relocated_segment_site": 28008,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Separate C-style wrapper/helper body and ABI in resident application/support clusters; GAME_C is a source-family hypothesis, not recovered original TU/library identity.",
+        "Owner relocation is index 1696 at 0x1d92e; exemplar uses index 1764. Historical incoming alias is 1d76:01c2, not the census display alias 1000:d922."
+      ],
+      "classification_status": "wave9 independent review hypothesis; original source/symbol provenance unproved",
+      "entry_kind": "direct-code",
+      "id": "root:1d76:01c2",
+      "offset": 450,
+      "original_bytes_hex": "558becff7608ff76069ae42501118be55dca0400",
+      "original_name": null,
+      "segment": 7542,
+      "semantic_name_hypothesis": "forward_far_block_flags_duplicate",
+      "sha256": "f7bbdd6e16995cce89da497a6e5abd7a9741558210c322cd78a05883a1b0f90f",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

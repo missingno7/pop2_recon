@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "ede6d1356870c68e453fdae77fe0fb053917281c42fcdec0a8545d79dbab5210",
+  "binding_sha256": "2e74df02bc466bdfdca6519699948c1209be315668e0ba1c9a3eae9d594cd942",
   "claims": [
     {
       "fixup_count": 4,
@@ -397,9 +397,60 @@
       "target_id": "root:052d:1538"
     },
     {
+      "fixup_count": 28,
+      "public": "ENTER_HALL_RECORD",
+      "relocation_indices": [
+        433,
+        590,
+        596,
+        622,
+        623,
+        624,
+        639,
+        661
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:173c"
+    },
+    {
       "fixup_count": 0,
       "public": "COMPUTEHALLPLAYERRECT",
       "target_id": "root:0000:6b38"
+    },
+    {
+      "fixup_count": 13,
+      "public": "DRAW_HALL_RECORDS",
+      "relocation_indices": [
+        566
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:052d:18a0"
+    },
+    {
+      "fixup_count": 14,
+      "public": "EDIT_HALL_NAME",
+      "relocation_indices": [
+        442,
+        480,
+        536,
+        581,
+        608,
+        611,
+        625,
+        626,
+        643,
+        690,
+        696
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:19aa"
     },
     {
       "fixup_count": 0,
@@ -456,6 +507,21 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:052d:2200"
+    },
+    {
+      "fixup_count": 10,
+      "public": "CHANGE_MENU_OPTION",
+      "relocation_indices": [
+        439,
+        495,
+        658,
+        677
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:2268"
     }
   ],
   "drafts": [
@@ -488,19 +554,7 @@
       "public": "READ_NOTICE_SELECTION"
     },
     {
-      "object_offset": 5934,
-      "public": "ENTER_HALL_RECORD"
-    },
-    {
-      "object_offset": 6290,
-      "public": "DRAW_HALL_RECORDS"
-    },
-    {
-      "object_offset": 6558,
-      "public": "EDIT_HALL_NAME"
-    },
-    {
-      "object_offset": 6806,
+      "object_offset": 6804,
       "public": "INSERT_HALL_RECORD"
     },
     {
@@ -524,23 +578,19 @@
       "public": "DRAW_MENU_ICON"
     },
     {
-      "object_offset": 8794,
-      "public": "CHANGE_MENU_OPTION"
-    },
-    {
-      "object_offset": 8938,
+      "object_offset": 8936,
       "public": "SHOW_CREDITS"
     },
     {
-      "object_offset": 9298,
+      "object_offset": 9284,
       "public": "DRAW_CREDITS_PAGE"
     },
     {
-      "object_offset": 9356,
+      "object_offset": 9342,
       "public": "DRAW_CREDIT_CATEGORY"
     }
   ],
-  "emitted_size": 9662,
+  "emitted_size": 9648,
   "flags": [
     "/c",
     "/AM",
@@ -555,12 +605,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "bbf82ff75cfb54ba81d157f6ad92cc9375a34e13fd7c64b2b41af63ef42dd7ca",
+  "object_sha256": "f31c1d447fec6d8d59b4e6967ef6ddd0548c4a87022e875ab737d87496446af3",
   "origin": 21214,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "350d8139430cb9af974e4e102f5b2d7af2e5d9ba94114a7f46e39f0ee92712a4",
+  "source_sha256": "9148079c4db8a7f142cdcf41a0a86f2d3c095cb4bbc2ab621bb7ace5eae88209",
   "space": "root"
 }
