@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "7cd9e943785baa812154243b5161a5b3c44fa2e627ca36cccd147d58bd3daf08",
+  "binding_sha256": "18f1f25a52cf7edff037c1e4f72668c39447b02a23e259ab4b841bce206092a1",
   "claims": [
     {
       "fixup_count": 16,
@@ -185,6 +185,19 @@
       "target_id": "root:0e56:0e52"
     },
     {
+      "fixup_count": 6,
+      "public": "INIT_LEVEL_SPECIFIC",
+      "relocation_indices": [
+        1254,
+        1321
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:0f72"
+    },
+    {
       "fixup_count": 9,
       "public": "RESET_LEVEL",
       "relocation_indices": [
@@ -249,10 +262,6 @@
       "public": "RESET_GUARD_RECORDS"
     },
     {
-      "object_offset": 3948,
-      "public": "INIT_LEVEL_SPECIFIC"
-    },
-    {
       "object_offset": 3988,
       "public": "CHECK_ALERT"
     },
@@ -269,19 +278,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 3670,
   "group_id": "group:top/top",
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "530ec2fe4cca82641f45579deb0c1192eef63153aa399d42e629f6f7c4f2adbb",
+  "object_sha256": "0962af19b267148b5ac80b9bb3294e6ccefb5ea2ca10c93ea27695e8786596bf",
   "origin": 58726,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "f3e979f09e763c56277e16437c04972ad20ab7fde9bac82689e805de02c1e9c7",
+  "source_sha256": "fa22faae9b0a3042ea0b55d0726bcce1a5b72b78c1a3a3343de3a3785b54a84c",
   "space": "root"
 }

@@ -1866,15 +1866,13 @@ void add_mob_obj(int y)
 {
     int index = mob_draw_count++;
     int zero;
-    struct { MoveRect *rect; } work;
 
     mob_draw_list[index].image = current_mob.kind | 0x80;
     mob_draw_list[index].x = current_mob.x;
     mob_draw_list[index].y = y;
     mob_draw_list[index].bank = 4;
     mob_draw_list[index].flags = current_mob.flags;
-    work.rect = &mob_draw_list[index].rect;
-    compute_mob_rect(work.rect);
+    compute_mob_rect(&mob_draw_list[index].rect);
     zero = 0;
     mob_draw_list[index].sequence = zero;
     mob_draw_list[index].scratch = zero;
@@ -1894,7 +1892,7 @@ extern int get_crush_reach(void);
 
 void check_loose_crush(void)
 {
-    sbyte index = 0;
+    sbyte index;
     sbyte count;
 
     load_player_actor();
@@ -1903,6 +1901,7 @@ void check_loose_crush(void)
         player_snapshot = actor_snapshot;
     }
 
+    index = 0;
     count = room_guard_counts[current_mob.room].guard_count;
     for (; index < count; ++index) {
         if (current_mob.room == player_room) {
@@ -1950,7 +1949,7 @@ int loose_hits_actor(void)
             }
         }
     }
-    return hit;
+    return hit != 0;
 }
 
 

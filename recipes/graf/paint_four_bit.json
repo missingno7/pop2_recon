@@ -1,27 +1,92 @@
 {
   "binding": "evidence/bindings/graf/paint_four_bit.json",
-  "binding_sha256": "0d4abac31f4ebc5a71bfbf9a4c86ba21c9a52864fde6fafbf6de10e676cad212",
+  "binding_sha256": "38768bcc28fcae77217d0699ca5f13e540fadc55a8864c7f08d29c184d7983c2",
   "claims": [
+    {
+      "fixup_count": 1,
+      "public": "MOVETO",
+      "target_id": "root:1101:50f6"
+    },
+    {
+      "fixup_count": 0,
+      "public": "OFFSETRECT",
+      "target_id": "root:1101:510a"
+    },
     {
       "fixup_count": 1,
       "public": "PAINT_FOUR_BIT",
       "target_id": "root:1101:5136"
+    },
+    {
+      "fixup_count": 1,
+      "public": "PAINT_PLAIN",
+      "target_id": "root:1101:513a"
+    },
+    {
+      "fixup_count": 0,
+      "public": "CLAMP_POINT_TO_RECT",
+      "target_id": "root:1101:513e"
+    },
+    {
+      "fixup_count": 4,
+      "public": "DISPOSE_BITMAP_PORT",
+      "relocation_indices": [
+        1457
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:5182"
+    },
+    {
+      "fixup_count": 8,
+      "public": "ALLOCATE_CLIPPED_PORT",
+      "relocation_indices": [
+        1458,
+        1554
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:51b2"
+    },
+    {
+      "fixup_count": 0,
+      "public": "SECTRECT",
+      "target_id": "root:1101:5284"
     }
   ],
-  "drafts": [],
-  "emitted_size": 4,
+  "drafts": [
+    {
+      "object_offset": 63,
+      "public": "ALIGNMENT_5135"
+    },
+    {
+      "object_offset": 139,
+      "public": "ALIGNMENT_5181"
+    },
+    {
+      "object_offset": 187,
+      "public": "ALIGNMENT_51B1"
+    },
+    {
+      "object_offset": 397,
+      "public": "ALIGNMENT_5283"
+    }
+  ],
+  "emitted_size": 503,
   "flags": [],
   "frame": 4353,
   "group_id": "group:graf/paint_four_bit",
   "kind": "same_source_group",
   "language": "asm",
   "name": "graf/paint_four_bit",
-  "object_sha256": "f8291bceaa7d5d948435dfb36a7acdb3bfc8dbc460bcd51327298e83e109e088",
-  "origin": 90438,
+  "object_sha256": "e6106c42b19a624ac482adb08ebf26ddb954de1157776da6252d850e2f75f2c7",
+  "origin": 90374,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/graf/paint_four_bit.asm",
-  "source_sha256": "ebb58fdfba5dc9761b44f97a986baac145a480ec43d586377e95b5e236c33f70",
+  "source_sha256": "d4c3e043f323ceb9c82edc572691bbf2c43030de3f5b695b8b9b5e54fbfad103",
   "space": "root"
 }

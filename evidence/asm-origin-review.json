@@ -900,7 +900,7 @@
     },
     "root:1101:4cd2": {
       "verdict": "asm",
-      "group": "ptool/draw_nul_terminated_text",
+      "group": "graf/measure_text",
       "evidence": [
         "4ce0 repne scasb",
         "4cea pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)",
@@ -909,7 +909,7 @@
     },
     "root:1101:4cf0": {
       "verdict": "asm",
-      "group": "ptool/draw_counted_text",
+      "group": "graf/measure_text",
       "evidence": [
         "4cf3 add sp, -8 frame allocation (MSC allocates with sub sp,n)",
         "4d0f xchg si, ax",
@@ -918,7 +918,7 @@
     },
     "root:1101:4d90": {
       "verdict": "asm",
-      "group": "ptool/stroke_port_rect",
+      "group": "ptool/frame_rect",
       "evidence": [
         "4d93 les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
         "4da7 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
@@ -927,7 +927,7 @@
     },
     "root:1101:4e8e": {
       "verdict": "asm",
-      "group": "graf/copy_current_port_origin",
+      "group": "graf/graphics_mode",
       "evidence": [
         "4ea3 pop di directly before pop bp (MASM PROC/USES epilogue, MSC always restores via mov sp,bp)"
       ]
@@ -966,14 +966,14 @@
     },
     "root:1101:5056": {
       "verdict": "asm",
-      "group": "ptool/draw_relative_axis_segment",
+      "group": "graf/init_port",
       "evidence": [
         "506a far tail jump 0x1101:0x5070 (MSC 6 emits no tail calls)"
       ]
     },
     "root:1101:50b8": {
       "verdict": "asm",
-      "group": "ptool/subtract_port_origin",
+      "group": "ptool/draw_axis_segment",
       "evidence": [
         "50c3 les ax, ptr es:[di] (MSC never loads a far pointer with les into ax)",
         "50d1 stosw",
@@ -991,14 +991,14 @@
     },
     "root:1101:513a": {
       "verdict": "asm",
-      "group": "graf/paint_plain",
+      "group": "graf/paint_four_bit",
       "evidence": [
         "513a jmp word ptr [0x25ec]: frameless dispatch through a DGROUP code vector"
       ]
     },
     "root:1101:513e": {
       "verdict": "asm",
-      "group": "ptool/clamp_point_to_rect",
+      "group": "graf/paint_four_bit",
       "evidence": [
         "5173 stosw",
         "5174 xchg cx, ax",
@@ -1008,7 +1008,7 @@
     },
     "root:1101:5182": {
       "verdict": "asm",
-      "group": "graf/dispose_bitmap_port",
+      "group": "graf/paint_four_bit",
       "evidence": [
         "5189 les ax, ptr [bx] (MSC never loads a far pointer with les into ax)",
         "51ad pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
@@ -1017,7 +1017,7 @@
     },
     "root:1101:51b2": {
       "verdict": "asm",
-      "group": "graf/allocate_clipped_port",
+      "group": "graf/paint_four_bit",
       "evidence": [
         "51b5 add sp, -0x1a frame allocation (MSC allocates with sub sp,n)",
         "51c3 lea di, [bp - 0x18]; push ds: stack address paired with DS (MSC pushes SS, 34/34 C cases)",
@@ -1053,7 +1053,7 @@
     },
     "root:1101:5398": {
       "verdict": "asm",
-      "group": "ptool/fit_text_prefix",
+      "group": "ptool/set_origin",
       "evidence": [
         "539b add sp, -4 frame allocation (MSC allocates with sub sp,n)",
         "53c5 lodsb",
@@ -1063,7 +1063,7 @@
     },
     "root:1101:5400": {
       "verdict": "asm",
-      "group": "ptool/measure_counted_text",
+      "group": "ptool/set_origin",
       "evidence": [
         "5419 jcxz 0x543c",
         "541f lodsb",
@@ -1083,7 +1083,7 @@
     },
     "root:1101:6504": {
       "verdict": "asm",
-      "group": "graf/allocate_buffer",
+      "group": "graf/release_buffer",
       "evidence": [
         "6508 jcxz 0x650c",
         "650f les ax, ptr [bp + 6] (MSC never loads a far pointer with les into ax)",
@@ -1092,7 +1092,7 @@
     },
     "root:1101:651c": {
       "verdict": "asm",
-      "group": "ptool/draw_counted_text_in_rect",
+      "group": "graf/release_buffer",
       "evidence": [
         "651f add sp, -0x14 frame allocation (MSC allocates with sub sp,n)",
         "6571 test ax, ax (MSC tests with or r,r)",
@@ -1102,7 +1102,7 @@
     },
     "root:1101:6650": {
       "verdict": "asm",
-      "group": "graf/set_record_range",
+      "group": "graf/release_buffer",
       "evidence": [
         "6653 les ax, ptr [bp + 8] (MSC never loads a far pointer with les into ax)",
         "6663 pop bp without mov sp,bp after a Pascal call (MSC always emits mov sp,bp then)",
@@ -2738,6 +2738,276 @@
       "evidence": [
         "Far mouse-driver register ABI without a BP frame. The original compares and writes a CS-local semaphore at 06c3, and switches SS:SP at 069e before restoring it at 06ac.",
         "A reached conditional transfer at 0689 skips the semaphore byte into the 06c4 write-and-branch tail."
+      ]
+    },
+    "root:1101:5473": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "ADD SP with a negative immediate; ES-prefixed LODSW and register-ABI cursor calls.",
+        "original CS mode descriptor word at 1101:5469 names 1101:5473."
+      ]
+    },
+    "root:1101:593d": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "Odd entry 593d. Fixed ES:FC00 hardware-ROM probe and AX return; descriptor check hook.",
+        "original CS mode descriptor word at 1101:545d names 1101:593d."
+      ]
+    },
+    "root:1101:5958": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "BIOS INT 10h and inline REP MOVSB of a CS-relative port geometry record.",
+        "original CS mode descriptor word at 1101:545f names 1101:5958."
+      ]
+    },
+    "root:1101:5a10": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and plain near calls to register-ABI clipping helpers.",
+        "original CS mode descriptor word at 1101:546b names 1101:5a10."
+      ]
+    },
+    "root:1101:5c00": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "Takes values in AX/SI/DI and returns a clipped delta in CX; plain near-call register ABI.",
+        "original direct register-ABI near call at 1101:5abf names 1101:5c00."
+      ]
+    },
+    "root:1101:5c14": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "Takes coordinates in CX/DX and clip bounds through BX; plain near-call register ABI.",
+        "original direct register-ABI near call at 1101:5a6c names 1101:5c14."
+      ]
+    },
+    "root:1101:5c43": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and plain near calls to the cursor routines.",
+        "original CS mode descriptor word at 1101:546d names 1101:5c43."
+      ]
+    },
+    "root:1101:5e79": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "Single RETF descriptor slot at an odd code address, immediately followed by the fill entry.",
+        "original CS mode descriptor word at 1101:5461 names 1101:5e79."
+      ]
+    },
+    "root:1101:5e7a": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and indirect raster-op dispatch.",
+        "original CS mode descriptor word at 1101:546f names 1101:5e7a."
+      ]
+    },
+    "root:1101:5ffa": {
+      "verdict": "asm",
+      "group": "graf/banked16_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and a CS-relative raster dispatch table.",
+        "original CS mode descriptor word at 1101:5471 names 1101:5ffa."
+      ]
+    },
+    "root:1101:66b6": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "ADD SP with a negative immediate; ES-prefixed LODSW and register-ABI cursor calls.",
+        "original CS mode descriptor word at 1101:667c names 1101:66b6."
+      ]
+    },
+    "root:1101:68b7": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "Odd frameless entry, direct BIOS INT 10h and AX result.",
+        "original CS mode descriptor word at 1101:6670 names 1101:68b7."
+      ]
+    },
+    "root:1101:68e3": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "BIOS INT 10h and inline REP MOVSB of a CS-relative port geometry record.",
+        "original CS mode descriptor word at 1101:6672 names 1101:68e3."
+      ]
+    },
+    "root:1101:6940": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and plain near calls to register-ABI clipping helpers.",
+        "original CS mode descriptor word at 1101:667e names 1101:6940."
+      ]
+    },
+    "root:1101:6ae1": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "Takes values in AX/SI/DI and returns a clipped delta in CX; plain near-call register ABI.",
+        "original direct register-ABI near call at 1101:69c6 names 1101:6ae1."
+      ]
+    },
+    "root:1101:6af5": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "Takes coordinates in CX/DX and clip bounds through BX; plain near-call register ABI.",
+        "original direct register-ABI near call at 1101:6973 names 1101:6af5."
+      ]
+    },
+    "root:1101:6b24": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and plain near calls to the cursor routines.",
+        "original CS mode descriptor word at 1101:6680 names 1101:6b24."
+      ]
+    },
+    "root:1101:6c81": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "Single RETF descriptor slot at an odd code address, immediately followed by the fill entry.",
+        "original CS mode descriptor word at 1101:6674 names 1101:6c81."
+      ]
+    },
+    "root:1101:6c82": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and indirect raster-op dispatch.",
+        "original CS mode descriptor word at 1101:6682 names 1101:6c82."
+      ]
+    },
+    "root:1101:6d60": {
+      "verdict": "asm",
+      "group": "graf/vga_mode",
+      "evidence": [
+        "ADD SP with a negative immediate and a CS-relative raster dispatch table.",
+        "original CS mode descriptor word at 1101:6684 names 1101:6d60."
+      ]
+    },
+    "root:1101:4dac": {
+      "verdict": "asm",
+      "group": "ptool/frame_rect",
+      "evidence": [
+        "4daf uses ADD SP,-12 for locals, and 4dcb loads the source far pointer into DS:SI with LDS."
+      ]
+    },
+    "root:1101:4fe0": {
+      "verdict": "asm",
+      "group": "graf/init_port",
+      "evidence": [
+        "4ff2 copies the port with REP MOVSB. POP SI and POP DI at 5023..5024 go directly to POP BP after the near Pascal call."
+      ]
+    },
+    "root:1101:502a": {
+      "verdict": "asm",
+      "group": "graf/init_port",
+      "evidence": [
+        "5030 uses LDS SI, 5037..504a uses paired LODSW/STOSW, and 5050..5051 pops DI directly before BP."
+      ]
+    },
+    "root:1101:5070": {
+      "verdict": "asm",
+      "group": "ptool/draw_axis_segment",
+      "evidence": [
+        "5084 allocates locals with ADD SP,-8. 5080 jumps indirectly through the mode callback before the framed fallback."
+      ]
+    },
+    "root:1101:50f6": {
+      "verdict": "asm",
+      "group": "graf/paint_four_bit",
+      "evidence": [
+        "50fd loads a far pointer with LES AX, which the calibrated MSC code generator does not emit."
+      ]
+    },
+    "root:1101:510a": {
+      "verdict": "asm",
+      "group": "graf/paint_four_bit",
+      "evidence": [
+        "5117..512a uses paired LODSW/STOSW and 5130..5131 pops DI directly before BP."
+      ]
+    },
+    "root:1101:5284": {
+      "verdict": "asm",
+      "group": "graf/paint_four_bit",
+      "evidence": [
+        "The reached rectangle merge uses LODS/STOS. 52e8 POP DI goes directly to 52e9 POP BP."
+      ]
+    },
+    "root:1101:5306": {
+      "verdict": "asm",
+      "group": "ptool/set_origin",
+      "evidence": [
+        "5309 loads the far pointer with LES DX, which the calibrated MSC code generator does not emit."
+      ]
+    },
+    "root:1101:649c": {
+      "verdict": "asm",
+      "group": "graf/release_buffer",
+      "evidence": [
+        "64d8..64de writes the output rectangle with four STOSW instructions; POP DI at 64e6 goes directly to POP BP."
+      ]
+    },
+    "root:1101:4ea8": {
+      "verdict": "asm",
+      "group": "graf/graphics_mode",
+      "evidence": [
+        "4ed3 dispatches through an indirect CS-relative mode slot with an explicit PUSH CS.",
+        "4ed8..4ee4 sets DS to CS and ES to SS for REP MOVSW, then restores DS.",
+        "4f07 has a plain near call to the mouse initializer and the epilogue restores SI/DI directly before BP."
+      ]
+    },
+    "root:1101:c0ec": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "Original c0ef LEA AX,[BP+6] followed by PUSH DS at c0f2. MSC uses PUSH SS for a far pointer into a BP stack frame.",
+        "c0fc POP BP directly follows the Pascal call at c0f9, without MOV SP,BP."
+      ]
+    },
+    "root:1101:c126": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "Original c129 LES AX,[BP+6] loads the offset into AX. No accepted MSC CODE_EXACT component in the calibration loads a far pointer with LES AX.",
+        "The Pascal call at c13b is followed directly by POP BP at c13e."
+      ]
+    },
+    "root:1101:c142": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "POPs BP directly after the Pascal call at c162, without MOV SP,BP, and returns DX:AX in place.",
+        "The paired inline subtractions construct deltas for the same input and output pointer."
+      ]
+    },
+    "root:1101:c1a6": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "c1a9 ADD SP,-24, c1b5 LES AX, c1db TEST AX,AX and c1eb REP STOSW."
+      ]
+    },
+    "root:1101:c284": {
+      "verdict": "asm",
+      "group": "rectangle_text_trailer",
+      "evidence": [
+        "c287 ADD SP,-8, c28f LES AX, and c2ad plain CALL NEAR to the AX:ES register helper 06cc."
       ]
     }
   },

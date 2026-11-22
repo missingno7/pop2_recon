@@ -575,69 +575,67 @@ int next_frame(void)
 
 int run_kid(void)
 {
-    volatile signed char opponent;
+    signed char opponent;
     int saved_result;
     int result;
 
     load_kid();
     if (!test_character_control()) {
-        opponent = Char.opponent;
-        if (opponent == -1) {
-            opponent = find_opponent(1);
-            if (opponent == -1)
+        if ((opponent = Char.opponent) == -1) {
+            if ((opponent = find_opponent(1)) == -1)
                 opponent = 0;
         }
         set_opponent(opponent);
         update_character_cells();
         result = control_kid();
-        if (result == -1)
-            goto save_result;
-        if (restart_request)
-            goto restart;
-        advance_character();
-        if (!Char.sequence)
-            goto normal_result;
-        update_position();
-        update_fall();
-        check_controls();
-        update_character_cells();
-        check_collisions();
-        face_first_guard();
-        collide_floor();
-        collide_walls();
-        collide_objects();
-        process_floor();
-        process_gate();
-        switch (stage_set) {
-        case 2:
-            prepare_room_set();
-            update_room_set_a();
-            if (!freeze_ticks)
-                finish_room_set();
-            /* fall through */
-        case 4:
-            update_room_set_b();
-            if (!freeze_ticks)
-                touch_room_set_b();
-            break;
-        case 3:
-            goto room_set_c;
-        }
+        if (result != -1) {
+            if (!restart_request) {
+                advance_character();
+                if (!Char.sequence)
+                    goto normal_result;
+                update_position();
+                update_fall();
+                check_controls();
+                update_character_cells();
+                check_collisions();
+                face_first_guard();
+                collide_floor();
+                collide_walls();
+                collide_objects();
+                process_floor();
+                process_gate();
+                switch (stage_set) {
+                case 2:
+                    prepare_room_set();
+                    update_room_set_a();
+                    if (!freeze_ticks)
+                        finish_room_set();
+                    /* fall through */
+                case 4:
+                    update_room_set_b();
+                    if (!freeze_ticks)
+                        touch_room_set_b();
+                    break;
+                case 3:
+                    goto room_set_c;
+                }
 finish_room_set_update:
-        adjust_guard_view();
+                adjust_guard_view();
 normal_result:
-        result = 0;
-        goto save_result;
+                result = 0;
+                goto save_result;
 room_set_c:
-        prepare_room_set();
-        if (!freeze_ticks) {
-            update_room_set_c();
-            finish_room_set();
-            touch_room_set_c();
+                prepare_room_set();
+                if (!freeze_ticks) {
+                    update_room_set_c();
+                    finish_room_set();
+                    touch_room_set_c();
+                }
+                goto finish_room_set_update;
+            } else {
+                result = 1;
+            }
         }
-        goto finish_room_set_update;
-restart:
-        result = 1;
 save_result:
         saved_result = result;
         if (death_countdown >= 0) {
@@ -650,7 +648,10 @@ save_result:
         release_character_control();
     }
     Kid = Char;
-    return saved_result;
+    {
+        int *status = &saved_result;
+        return *status;
+    }
 }
 
 void run_shadows(void)
@@ -840,6 +841,7 @@ void quick_foreground(void)
 
 void quick_floor(void)
 {
+    signed char left_edge;
     int floor = Char.floor;
     unsigned seq = Char.sequence;
 
@@ -847,25 +849,28 @@ void quick_floor(void)
         draw_single_floor(get_cell_index(sweep_right, sweep_row));
         return;
     }
-    if (floor == 2 || floor == 3 || floor == 4 || floor == 6 || seq == 79 || seq == 81)
-        goto normal_sweep;
-    if ((Char.action == 7 || Char.action == 8) &&
-               (Char.alternate_x == 137 || Char.alternate_x == 138 || Char.alternate_x == 143 ||
-                Char.alternate_x <= 144 || Char.alternate_x == 143 || Char.alternate_x == 144)) {
-        if ((sweep_column = sweep_right) >= sweep_left) do {
-            scan_floor(get_cell_index(sweep_column, sweep_row), &Char.bounds);
-        } while (sweep_left <= --sweep_column);
+    if (floor != 2 && floor != 3 && floor != 4 && floor != 6 && seq != 79 && seq != 81) {
+        if ((Char.action == 7 || Char.action == 8) &&
+            (Char.alternate_x == 137 || Char.alternate_x == 138 || Char.alternate_x == 143 ||
+             Char.alternate_x <= 144 || Char.alternate_x == 143 || Char.alternate_x == 144)) {
+            if ((sweep_column = sweep_right) >= sweep_left) do {
+                scan_floor(get_cell_index(sweep_column, sweep_row), &Char.bounds);
+                left_edge = sweep_left;
+                --sweep_column;
+            } while (sweep_column >= left_edge);
+            return;
+        }
         return;
     }
-    return;
-normal_sweep:
-        if ((sweep_column = sweep_right) >= sweep_left) do {
-            if (floor != 2)
-                scan_floor(get_cell_index(sweep_column, previous_sweep_row), &Char.bounds);
-            if (previous_sweep_row != sweep_row &&
-                !(Char.alternate_x == 28 && (Char.room == 7 || Char.room == 8) && stage_set == 6))
-                scan_floor(get_cell_index(sweep_column, sweep_row), &Char.bounds);
-        } while (sweep_left <= --sweep_column);
+    if ((sweep_column = sweep_right) >= sweep_left) do {
+        if (floor != 2)
+            scan_floor(get_cell_index(sweep_column, previous_sweep_row), &Char.bounds);
+        if (previous_sweep_row != sweep_row &&
+            !(Char.alternate_x == 28 && (Char.room == 7 || Char.room == 8) && stage_set == 6))
+            scan_floor(get_cell_index(sweep_column, sweep_row), &Char.bounds);
+        left_edge = sweep_left;
+        --sweep_column;
+    } while (sweep_column >= left_edge);
 }
 
 
