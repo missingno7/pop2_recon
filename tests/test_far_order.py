@@ -57,6 +57,21 @@ class RelocationOrderTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Frozen original relocation indices'):
                 self.check(indices=indices)
 
+    def test_base16_and_pointer32_references_are_separate_groups(self):
+        # DrawCaveRevPlate shape: X's LOC2 at 0f64, Y's LOC3 at 0f36, X's LOC3 at 0f58 (relocations 137, 150, 157).
+        fields = [{'site': 0xf64, 'offset': 0x64, 'symbol': 'X', 'field': 'base16'},
+                  {'site': 0xf58, 'offset': 0x56, 'symbol': 'X', 'field': 'pointer32'},
+                  {'site': 0xf36, 'offset': 0x34, 'symbol': 'Y', 'field': 'pointer32'}]
+        relocs = [{'index': 137, 'image_offset': 0xf64}, {'index': 150, 'image_offset': 0xf36},
+                  {'index': 157, 'image_offset': 0xf58}]
+        result = relocation_order(relocs, fields, [137, 150, 157])
+        self.assertEqual([(g['symbol'], g['field']) for g in result['relocation_groups']],
+                         [('X', 'base16'), ('X', 'pointer32'), ('Y', 'pointer32')])
+        # The same field kind interleaved with another group is still refused.
+        same = [dict(f, field='pointer32') for f in fields]
+        with self.assertRaisesRegex(ValueError, 'interleaved'):
+            relocation_order(relocs, same, [137, 150, 157])
+
     def test_within_symbol_order_is_never_sorted_to_fit(self):
         fields = copy.deepcopy(self.fields)
         fields[1]['symbol'] = fields[0]['symbol']

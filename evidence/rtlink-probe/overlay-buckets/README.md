@@ -1,3 +1,7 @@
+> Superseded in part (2026-11-22): base16 and pointer32 references to one symbol are separate relocation
+> groups (see ../bucket-order/rule.md, Correction). The DrawCave/DrawTemple interleavings below are explained
+> by that, not by a different target identity.
+
 # RTLink 6.10 overlay relocation ordering
 
 RTLink 6.10 retained the resident ordering rule for an overlaid caller whose
