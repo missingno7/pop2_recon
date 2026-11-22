@@ -70706,6 +70706,218 @@
       "size": 60,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), no argument, balanced frame and RETF at 04d1.",
+      "boundary_evidence": [
+        "Original near call at 006d targets the 03e0 BP prologue directly. The previous routine returns at 03df. The signed count loop closes at 04bd, and the outer side comparison closes at 04c9; the only return is 04d1. The next target at 04d2 has its own BP prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 184877,
+          "image_offset": 109,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 108,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Copies selected neighbouring-room opponent records with an X displacement, adds them to the current room and removes their old entries."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:03e0",
+      "offset": 992,
+      "segment": 9028,
+      "sha256": "2b386d2e321a4b0616495d43ee49760529bc594f9c2ec23fc9028ecb36289ea9",
+      "size": 242,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Frameless far Pascal int(void), direction passed to 08f0 in a word slot, two AX Boolean returns.",
+      "boundary_evidence": [
+        "Relocated overlay-11 CALL at 037c names 2344:0a2e. A RETF 2 at 0a2b closes the previous original routine. The branches inside the new interval lead to RETF at 0a4c or 0a50, with one-byte alignment padding and a new frame at 0a52."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 249612,
+          "image_offset": 892,
+          "kind": "far_call",
+          "relocated_segment_site": 895,
+          "relocation_index": 25,
+          "space": "overlay-11"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Chooses a direction from player and actor X, calls 08f0, and compares the selected index to the current actor's index."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0a2e",
+      "offset": 2606,
+      "segment": 9028,
+      "sha256": "28170791c245369dfea37ee7d177241e1cc7bfd2548aec308c6f0334139c5569",
+      "size": 36,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(pointer, byte room), BP+8 pointer and low byte at BP+6, RETF 4.",
+      "boundary_evidence": [
+        "Original 0a8f near call enters the 0aa8 prologue. The preceding 0aa5 RETF 2 belongs to the 0a52 routine. The capacity check at 0aca reaches the common epilogue at 0c66 on failure; RETF 4 at 0c6b ends exactly at the next prologue."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 187471,
+          "image_offset": 2703,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2702,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Reads room and generator state and populates an opponent record, chooses a spawn action, then commits the actor."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:0aa8",
+      "offset": 2728,
+      "segment": 9028,
+      "sha256": "4e0076877c84b6e0a240f6f1cd48a53b36cb029c5e5ba03ba7b1b454980825ad",
+      "size": 454,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), BP frame with two signed byte loop counters and RETF at 129f.",
+      "boundary_evidence": [
+        "Original 10d0 near call targets this BP frame. The previous function closes immediately before 1150. The loop's bottom test at 1293 either reaches the common epilogue or jumps back to 1171; the next target begins at 12a0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 189072,
+          "image_offset": 4304,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4303,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Loads live opponents, checks room and action guards, and calls the record update or transfer routine."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:1150",
+      "offset": 4432,
+      "segment": 9028,
+      "sha256": "9eb6c663b6c1d22fd39cc0880c56894c3300d4601a77f12149fdf8ad2d15b50b",
+      "size": 336,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal signed int(void), signed side returned in AX, RETF at 182f.",
+      "boundary_evidence": [
+        "Original 10a8 near call enters the 14de frame. Switch clauses have one return path through 1828-182f. A separate reviewed-by-relocation entry starts at 1830 after that RETF."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 189032,
+          "image_offset": 4264,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 4263,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Checks actor position and room links and chooses one of the side-cut actions."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:14de",
+      "offset": 5342,
+      "segment": 9028,
+      "sha256": "b59d7626e3222e773b900f278f711a4780fe3f32c5ce33a4c5ecb518df03f515",
+      "size": 850,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), one-byte kind snapshot and CS-relative switch dispatch, bare RETF.",
+      "boundary_evidence": [
+        "Original relocated root CALL at 3fe2 names 2344:1830. The preceding RETF at 182f ends the 14de routine. The switch targets dispatch within 1830-18c8, followed by one alignment NOP and a separate 18ca entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 24546,
+          "image_offset": 16354,
+          "kind": "far_call",
+          "relocated_segment_site": 16357,
+          "relocation_index": 332,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates actor timers and dispatches by actor kind to automatic script routines."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:1830",
+      "offset": 6192,
+      "segment": 9028,
+      "sha256": "f0f0c7134e5cf795fbac3c76f8f243f9ef492555a0ef2e207d2d233c77ccb730",
+      "size": 154,
+      "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void), four-byte local area, saved SI, RETF at 1d3f.",
+      "boundary_evidence": [
+        "Original near calls at 19d2 and 1a68 from the 198e routine name the 1a76 prologue. The early and final exits both restore the frame; the final RETF at 1d3f meets the next target at 1d40."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 191378,
+          "image_offset": 6610,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6609,
+          "space": "overlay-3"
+        },
+        {
+          "file_offset": 191528,
+          "image_offset": 6760,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 6759,
+          "space": "overlay-3"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Applies an actor stab response, including special kind/level behavior, state changes and animation calls."
+      ],
+      "classification_status": "Evidence-qualified",
+      "entry_kind": "direct-code",
+      "id": "overlay-3:2344:1a76",
+      "offset": 6774,
+      "segment": 9028,
+      "sha256": "202bb890486cbb3c3376f5f739f8e1d14d42e975ee558c72b99e4a9ae4c4f5b3",
+      "size": 714,
+      "space": "overlay-3",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

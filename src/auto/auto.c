@@ -99,31 +99,37 @@ typedef struct {
     generator_point points[3];
 } room_generators;
 extern room_generators generators[];
-extern volatile unsigned char room_number, left_room, right_room;
-extern volatile unsigned char preferred_opponent, loaded_appearance, encounter_type;
+extern unsigned char room_number, left_room, right_room;
+extern unsigned char preferred_opponent, loaded_appearance, encounter_type;
 extern unsigned char room_style;
 extern unsigned char appearance_kind[];
 extern signed char cut_blocked_index;
-extern volatile unsigned char adjacent_actor_room;
 extern live_opponent actor_state;
 #define actor_index actor_state.index
 extern signed char tracked_actor_index;
 extern signed char actor_column, actor_row, actor_horizontal_speed, actor_vertical_speed;
+extern volatile unsigned char bank_opponents[2];
 extern signed char hit_actor_column, hit_actor_direction;
 extern volatile signed char actor_direction;
 extern unsigned char current_room;
 #define actor_room current_room
 extern volatile int bank_mask;
 #define actor_bank_mask bank_mask
-extern volatile unsigned char bank_opponents[2];
-extern volatile signed char kid_row;
 extern unsigned char actor_behavior, actor_behavior_type, actor_combat_mode;
-extern unsigned char actor_loaded, actor_control, actor_move_mode, actor_sequence_mode;
+extern unsigned char actor_loaded, actor_control, actor_move_mode, actor_sequence_mode, actor_state_3a;
 extern volatile int actor_action;
 extern int actor_x, actor_y, actor_sequence, actor_saved_action;
-extern int actor_timer, actor_delay, actor_wait, actor_flags;
-extern int encounter_state, encounter_timer, encounter_flags;
+extern unsigned int actor_timer;
+extern int actor_delay, actor_wait, actor_flags;
+extern int opponent_guard_timeout, opponent_lock, running_guard_state;
+extern signed char kid_column, kid_direction;
+extern int kid_y;
+extern signed char kid_active;
+extern unsigned char kid_motion;
+extern unsigned int kid_action;
+extern int previous_actor;
 extern int kid_x;
+extern volatile unsigned char adjacent_actor_room;
 
 opponent_record *far pascal GetOppInfoIdx(int room, int index);
 void far pascal check_side_rooms(void);
@@ -176,7 +182,7 @@ void far pascal initialize_room_actors(void)
             if (record->tile < 0)
                 --actor_column;
 
-            if (actor_kind == 2 && record->action == 100) {
+            if (actor_kind == 2 && (record->action == 100 || record->action == 100)) {
                 actor_y = record->saved_y;
             } else if (actor_kind == 6 && record->entry_y != 0) {
                 actor_y = record->entry_y;
@@ -194,14 +200,14 @@ void far pascal initialize_room_actors(void)
             actor_behavior_type = record->behavior_type;
             actor_timer = 0;
             actor_flags = actor_wait = actor_delay = 0;
-            actor_control = actor_sequence_mode = 0;
+            actor_state_3a = actor_control = 0;
 
             if (actor_kind == 0)
                 actor_bank_mask = 2;
             else if (actor_kind == 6) {
                 actor_bank_mask = 4;
                 load_opponent_bank(25001u, 32, 16, 7);
-            } else if (preferred_opponent != 0 && (unsigned)preferred_opponent - 5u > 1u)
+            } else if (preferred_opponent != 0 && preferred_opponent != 5 && preferred_opponent != 6)
                 actor_bank_mask = 4;
             else
                 reserve_opponent_bank(record->palette_kind);
@@ -219,7 +225,10 @@ void far pascal initialize_room_actors(void)
                         record->action = 106;
                         actor_combat_mode = 1;
                         actor_control = 3;
-                        actor_direction = kid_x <= actor_x ? -1 : 0;
+                        if (actor_x >= kid_x)
+                            actor_direction = -1;
+                        else
+                            actor_direction = 0;
                     }
                 } else if (actor_kind == 6)
                     record->action = 2;
@@ -236,7 +245,7 @@ void far pascal initialize_room_actors(void)
                 actor_sequence = record->saved_sequence;
                 state_word = record->action;
                 actor_combat_mode = record->combat_mode;
-                opponent_life_display = opponent_life = record->life;
+                opponent_life = opponent_life_display = record->life;
                 if (actor_kind != 0)
                     SetOppMaxLifePts((unsigned char *)record);
             }
@@ -246,13 +255,13 @@ void far pascal initialize_room_actors(void)
                 if (actor_kind == 2)
                     init_opponent_script();
                 actor_move_mode = 7;
-                actor_loaded = opponent_life = 0;
+                opponent_life = actor_loaded = 0;
                 opponent_life_display = -STATE_BYTE;
                 if (actor_kind == 4 || actor_kind == 10)
                     set_opponent_behavior(actor_index, 0);
             } else {
                 actor_move_mode = -1;
-                encounter_state = encounter_timer = encounter_flags = 0;
+                opponent_guard_timeout = opponent_lock = running_guard_state = 0;
                 if (actor_kind == 11 && actor_action == 264)
                     actor_flags = 6;
             }
@@ -272,7 +281,7 @@ void far pascal initialize_room_actors(void)
             load_opponent_appearance(1);
         else if (generators[room_number].count != 0 &&
                  loaded_appearance != preferred_opponent &&
-                 ((unsigned)preferred_opponent - 5u > 1u))
+                 preferred_opponent != 5 && preferred_opponent != 6)
             load_opponent_appearance(preferred_opponent);
     }
 }
@@ -315,12 +324,6 @@ void far pascal check_side_rooms(void)
 
 extern signed char appearance_for_kind[];
 
-extern signed char kid_column, kid_direction;
-extern int kid_y;
-extern signed char kid_active;
-extern unsigned char kid_motion;
-extern unsigned int kid_action;
-extern int previous_actor;
 
 extern int actor_y_offset[];
 extern int generator_x_left[], generator_x_right[];
@@ -347,6 +350,7 @@ generator_point *far pascal find_active_generator(unsigned char room, signed cha
 int far pascal should_generate(generator_point *point, unsigned char room);
 void far pascal generate_opponent(generator_point *point, unsigned char room);
 
+extern volatile signed char kid_row;
 int far pascal update_opponent_record(void)
 {
     int removed = 0;
@@ -743,7 +747,7 @@ int far pascal generator_has_tumble(unsigned char room)
     return found;
 }
 
-extern volatile unsigned char preferred_opponent;
+extern unsigned char preferred_opponent;
 extern volatile int bank_mask;
 extern volatile unsigned char bank_opponents[2];
 void far pascal load_opponent_bank(int resource, int start, unsigned char size,
@@ -1058,8 +1062,7 @@ int far pascal cut_actor(int direction)
 extern int lower_exit_margin, horizontal_exit_margin;
 extern int left_edge_x, right_edge_x;
 extern int actor_phase;
-extern int opponent_lock, opponent_cooldown, opponent_guard_timeout;
-extern int running_guard_state;
+extern int opponent_cooldown;
 extern int scripted_guard_mode;
 extern signed char script_motion;
 
@@ -1366,7 +1369,7 @@ void far pascal stab_actor(void)
 {
     signed char damage;
     int next_action;
-    int sound, default_action = -1;
+    int sound, default_action;
 
     if ((signed char)actor_move_mode >= 0)
         return;
@@ -1384,8 +1387,8 @@ void far pascal stab_actor(void)
             if (damage < (signed char)opponent_life)
                 flash_death_effect();
         } else if (actor_kind == 11 || hit_actor_kind == 11) {
-            next_action = default_action;
             damage = 100;
+            next_action = default_action;
         } else {
             damage = (actor_kind == 6 || hit_actor_kind == 6) ? 100 : 1;
             next_action = hit_actor_direction != actor_direction ? 74 : 94;

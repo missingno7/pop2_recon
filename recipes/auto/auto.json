@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "67de8f0c33e5a6e07886ccd183773696422ff6e01e31af0bc168929128d9a82c",
+  "binding_sha256": "ce6e638baf2d00be142adf4cf21c9490b739a5c25a1335ce9a703c4681dff90e",
   "claims": [
     {
       "fixup_count": 1,
@@ -16,6 +16,33 @@
       "fixup_count": 2,
       "public": "SETOPPMAXLIFEPTS",
       "target_id": "overlay-3:2344:0042"
+    },
+    {
+      "fixup_count": 118,
+      "public": "INITIALIZE_ROOM_ACTORS",
+      "relocation_indices": [
+        3,
+        21,
+        36,
+        44,
+        47,
+        56,
+        57,
+        76,
+        77,
+        79,
+        95,
+        109,
+        111,
+        113,
+        114,
+        119
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:0064"
     },
     {
       "fixup_count": 55,
@@ -249,10 +276,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 100,
-      "public": "INITIALIZE_ROOM_ACTORS"
-    },
-    {
       "object_offset": 992,
       "public": "CHECK_SIDE_ROOMS"
     },
@@ -330,12 +353,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "ed175d1dff441c080b0613552901bc882e49c968d325c048060b409ccac22ea4",
+  "object_sha256": "15826f8b91389b72c174d8b8717452031d632c7b9b4292494a41d7399447c39d",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "0347d7901e9f54616919358de5649da7fbc3dc8b2c11f6b57b709609487ae7b0",
+  "source_sha256": "ed11b27b2b68e9382294370c96b536298e663b5fa364ee7aaf2cb3578ae2ba90",
   "space": "overlay-3"
 }
