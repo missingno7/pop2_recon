@@ -23,7 +23,13 @@ its location, frame and target, from values grounded independently of the field:
 * class runs: an evidence file lists an ordered, gap-free run of DGROUP contributions
   of one class (public or common combine, fixup-free, complete), each compared
   literally, ending exactly at the original DGROUP payload end. It grounds placements
-  of common-combine segments (PAD/EPAD) that no field references.
+  of common-combine segments (PAD/EPAD) that no field references;
+* same-library selection: a public declared by several pinned recipes binds only when
+  the binding opts in for that symbol and exactly one declaring recipe comes from the
+  judged member's own archive (the named one);
+* accepted external code providers: a CODE_EXACT/ASM_EXACT owner's claimed entry whose
+  public matches the external, with its frame taken from a reviewed relocated CALL FAR
+  or far pointer of that target outside the judged member.
 
 Ordinary bytes compare literally; no field is masked, derived from the original operand
 or selected from a prefix. The original relocations inside every compared extent must be
@@ -292,6 +298,53 @@ def verify_class_run(path, digest, ctx):
     return tiles, {"path": path, "class": run["class"], "start": start, "end": cursor, "entries": receipts}
 
 
+def _provider_libraries(manifest):
+    """Pinned recipe name -> its archive identity (library_sha256)."""
+    from common import project_path, read_json
+    return {read_json(project_path(o["recipe"]))["name"]: read_json(project_path(o["recipe"]))["library_sha256"]
+            for o in manifest["owners"] if o["kind"] == "PINNED_RUNTIME"}
+
+
+ACCEPTED_CODE = (("MATCHING_C", "CODE_EXACT"), ("MATCHING_ASM", "ASM_EXACT"))
+
+
+def external_provider(row, oracle, manifest, owner_span):
+    """An accepted exact owner's entry as a code provider: (linear position, frame, receipt)."""
+    from common import project_path, read_json
+    from match import get_target
+    symbol, target_id, at = row["symbol"], row["target_id"], row["frame_witness"]
+    owners = [o for o in manifest["owners"] if o["target_id"] == target_id]
+    require(len(owners) == 1 and (owners[0]["kind"], owners[0]["state"]) in ACCEPTED_CODE and
+            owners[0]["space"] == "root", f"External provider {target_id} is not one accepted exact resident owner")
+    owner = owners[0]
+    root = oracle.spaces["root"]
+    position = root.position(owner["segment"], owner["offset"])
+    require(not (position < owner_span[1] and owner_span[0] < position+owner["size"]),
+            "External provider overlaps the judged member")
+    recipe = read_json(project_path(owner["recipe"]))
+    if "claims" in recipe:
+        publics = [c["public"] for c in recipe["claims"] if c["target_id"] == target_id]
+    else:
+        publics = [recipe["public"]] if recipe.get("target_id") == target_id else []
+    require(len(publics) == 1, f"External provider {target_id} has no single claimed public")
+    public = publics[0]
+    # MASM without /Ml uppercases publics; only that exact folding is accepted.
+    folded = public != symbol and recipe.get("language") == "asm" and public == symbol.upper()
+    require(public == symbol or folded, f"External provider public {public} does not name {symbol}")
+    target, space, _ = get_target(target_id, oracle)
+    require(space is root and root.position(target["segment"], target["offset"]) == position,
+            "External provider target row disagrees with its owner")
+    sites = [c for c in target.get("call_sites", []) if c["space"] == "root" and c["image_offset"] == at and
+             c["kind"] in ("far_call", "far_pointer")]
+    require(len(sites) == 1, "External provider frame witness is not a reviewed relocated far call/pointer of its target")
+    field, size = (at+1, 5) if sites[0]["kind"] == "far_call" else (at, 4)
+    require(not (at < owner_span[1] and owner_span[0] < at+size), "External provider frame witness lies inside the judged member")
+    offset, frame = struct.unpack_from("<HH", root.data, field)
+    require(frame*16+offset == position, "External provider frame witness does not land on its entry")
+    return position, frame, {"symbol": symbol, "target_id": target_id, "public": public, "case_folded": folded,
+                             "frame": frame, "witness": at, "witness_kind": sites[0]["kind"]}
+
+
 class Context:
     """Grounded values shared by one member's code and data equations."""
 
@@ -315,7 +368,11 @@ class Context:
             require(type(spec.get("name")) is str and spec["name"] not in recipe_names and
                     spec["name"] not in self.anchors, "Anchored provider name is missing, duplicate or a recipe name")
             self.anchors[spec["name"]] = anchor_provider(spec, self.frame, self.space, oracle, manifest, owner_span)
-        self.code = {}
+        self.code, self.code_frames, self.external, self.selected = {}, {}, [], []
+        selection = binding.get("same_library_selection", [])
+        require(type(selection) is list and len(set(selection)) == len(selection) and
+                set(selection) <= set(binding.get("code_providers", {})), "Invalid same-library selection")
+        libraries = _provider_libraries(manifest) if selection else {}
         for symbol, name in binding.get("code_providers", {}).items():
             rows = self.providers.get(symbol, [])
             if name in self.anchors:
@@ -324,9 +381,24 @@ class Context:
                         f"Anchored provider {name} does not declare {symbol} or conflicts with a pinned public")
                 self.code[symbol] = position
                 continue
+            if symbol in selection:
+                # Several pinned declarations: only the single one from the judged member's archive binds.
+                same = [r for r in rows if libraries.get(r[0]) == recipe["library_sha256"]]
+                require(len(rows) > 1 and len(same) == 1 and same[0][0] == name,
+                        f"Same-library selection of {symbol} is not unambiguous for the named recipe")
+                self.selected.append({"symbol": symbol, "recipe": name, "declarations": len(rows)})
+                self.code[symbol] = same[0][1]
+                continue
             require(len(rows) == 1 and rows[0][0] == name,
                     f"Code provider {symbol} is missing, ambiguous or not the named pinned member")
             self.code[symbol] = rows[0][1]
+        for row in binding.get("external_providers", []):
+            symbol = row["symbol"]
+            require(symbol not in self.code and not self.providers.get(symbol),
+                    f"External provider {symbol} duplicates a pinned or bound provider")
+            position, frame, receipt = external_provider(row, oracle, manifest, owner_span)
+            self.code[symbol], self.code_frames[symbol] = position, frame
+            self.external.append(receipt)
         require(set(self.anchors) <= set(binding.get("code_providers", {}).values()),
                 "Unused anchored code provider")
         self.absolute = {}
@@ -367,11 +439,24 @@ class Context:
         return position-base
 
     def code_target(self, name, own_publics, origin):
+        """Frame offset of a near-reachable code target (same CODE frame only)."""
         if name in own_publics:
             return origin+own_publics[name]
         require(name in self.code, f"Missing pinned code provider for {name}")
+        require(self.code_frames.get(name, self.frame) == self.frame,
+                f"Code provider {name} lies in another frame; only a far pointer can reach it")
         self.used.add(("code", name))
         return self.window(self.code[name], 1)
+
+    def far_target(self, name, own_publics, origin):
+        """(offset, frame) of a far code target; an external provider keeps its witnessed frame."""
+        if name in own_publics or name not in self.code_frames:
+            return self.code_target(name, own_publics, origin), self.frame
+        self.used.add(("code", name))
+        frame = self.code_frames[name]
+        offset = self.code[name]-frame*16
+        require(0 <= offset <= 0xffff, "External provider lies outside its witnessed frame")
+        return offset, frame
 
 
 def _relocation_check(space, start, length, generated, keys, label):
@@ -450,11 +535,11 @@ def place_segment(module, overwritten, name, placement, ctx, placements, provide
               ((fix["loc_type"] == 1 and width == 2) or
                (fix["loc_type"] == 3 and width == 4 and addend == 0 and disp == 0))):
             # A code address stored in data: CS-relative `dw Proc` (S+A+D) or far `dd Proc` (S:F).
-            offset = ctx.code_target(target["name"], {}, 0)
             if fix["loc_type"] == 1:
-                value, kind = offset+disp+addend, "CODE frame offset"
+                value, kind = ctx.code_target(target["name"], {}, 0)+disp+addend, "CODE frame offset"
             else:
-                value, kind = offset | (ctx.frame << 16), "far code pointer"
+                offset, segment = ctx.far_target(target["name"], {}, 0)
+                value, kind = offset | (segment << 16), "far code pointer"
                 generated.append(start+at+2)
                 keys[start+at+2] = f"external:{target['name']}"
         else:
@@ -558,8 +643,8 @@ def prove(module, overwritten, code_name, actual, expected, binding, recipe, ora
             keys[site] = "group:DGROUP"
         elif fix["loc_type"] == 3 and width == 4 and addend == 0 and disp == 0 and tkind == "external" and \
                 frame_code and tname not in ctx.data and tname not in ctx.absolute:
-            offset = ctx.code_target(tname, own_publics, origin)
-            value, kind = offset | (ctx.frame << 16), "far pointer"
+            offset, segment = ctx.far_target(tname, own_publics, origin)
+            value, kind = offset | (segment << 16), "far pointer"
             generated.append(site+2)
             keys[site+2] = f"external:{tname}"
         else:
@@ -592,6 +677,8 @@ def prove(module, overwritten, code_name, actual, expected, binding, recipe, ora
             "data_placements": ctx.placed+placed,
             "code_anchors": [{k: v for k, v in a.items() if k != "publics"} for a in ctx.anchors.values()],
             "class_runs": ctx.runs,
+            "external_providers": ctx.external,
+            "same_library_selection": ctx.selected,
             "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded "
                            "providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and "
                            "compared, data bytes not owned; natural RTLink placement and behavior unproved"}

@@ -1,0 +1,56 @@
+{
+  "code_anchors": [
+    {
+      "archive_offset": 16,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 1208,
+      "member_sha256": "c195d43b3c1ca0593eabaf4836534c62c3223c9ac96eeb7a7df0e7a64850206c",
+      "name": "anchor_crt0",
+      "object_segment": "_TEXT",
+      "offset": 116
+    }
+  ],
+  "code_frame": {
+    "segment": 8166,
+    "witnesses": [
+      {
+        "image_offset": 24314,
+        "provider": "crt_dos_open",
+        "relocation_index": 513,
+        "symbol": "__dos_open"
+      }
+    ]
+  },
+  "code_providers": {
+    "__amsg_exit": "anchor_crt0",
+    "_malloc": "crt_malloc_medium"
+  },
+  "data_providers": [
+    {
+      "archive_offset": 27520,
+      "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+      "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+      "member_extent": 476,
+      "member_sha256": "02272699e2e1a6446eca555281b3874651a454418487adf4f2841ddcbd78b13b",
+      "placement": 9370,
+      "segment": "_DATA",
+      "symbols": [
+        "__amblksiz"
+      ]
+    }
+  ],
+  "dgroup": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 5473,
+        "relocation_index": 42,
+        "space": "root"
+      }
+    ]
+  },
+  "mode": "runtime-symbolic-v1",
+  "schema": 1,
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

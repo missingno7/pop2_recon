@@ -67,6 +67,25 @@ paragraph `30f3`, inside the preloaded overlay 17.
   and any listed segment must use the run's placement. `check_layout` lets common
   contributions of one segment name share one start; any other overlap still refuses.
   An unused run refuses.
+- **Same-library selection** (`same_library_selection`, 2026-11-22). The binding may
+  opt in, symbol by symbol, to binding a public that several PINNED_RUNTIME recipes
+  declare. It binds only when exactly one declaring recipe comes from the judged
+  member's own archive (`library_sha256`), and that recipe is the one named. The
+  provider equations then still have to hold. A selected symbol with a single
+  declaration, a named recipe from another archive, two same-archive declarations or
+  an entry missing from `code_providers` refuses.
+- **Accepted external code providers** (`external_providers`, 2026-11-22). A code
+  external may name an accepted exact resident owner (`MATCHING_C`/`CODE_EXACT` or
+  `MATCHING_ASM`/`ASM_EXACT`) by `target_id`:
+  - Its claimed public must equal the external name. The only other accepted form is
+    MASM's default uppercasing, for an `asm` recipe; it is recorded as `case_folded`.
+  - Its frame is the segment word of one reviewed `far_call` or `far_pointer` call
+    site of that target row. `match.get_target` rechecks it freshly: the relocated
+    segment word, landing exactly on the entry, outside the judged member.
+  - LOC3 fields use `S : F_p` with the provider's own frame `F_p`. Near forms (rel16,
+    CS offsets) are refused unless `F_p` is the runtime frame.
+  - The provider must not overlap the judged member, and it must not shadow a pinned
+    or already bound provider. It owns nothing here, and must be used.
 
 ## Equations (A = LEDATA addend, D = FIXUPP displacement)
 
@@ -78,7 +97,7 @@ paragraph `30f3`, inside the preloaded overlay 17.
 | LOC1 offset, DGROUP (F1, or F5/F2 to a DGROUP public) | own placed segment `P + D + A`; provider public `P_s + off + D + A` |
 | LOC1 offset, absolute external | `value + D + A` |
 | LOC2 base, DGROUP group | `G`, plus an original relocation at the field |
-| LOC3 far pointer, code external (A = D = 0) | `S : F`, plus an original relocation at field+2 |
+| LOC3 far pointer, code external (A = D = 0) | `S : F`, plus an original relocation at field+2 (an external provider uses its own witnessed `F_p`) |
 | LOC1 offset in placed data, code external (CODE-segment frame, F5, F2 = target) | `S + D + A`, no relocation |
 | LOC3 far pointer in placed data, code external (A = D = 0) | `S : F`, plus an original relocation at field+2 in the DGROUP home space |
 
@@ -158,8 +177,39 @@ own external, DGROUP and secondary-storage obligations remain open, and it owns
 nothing. A class run proves gap-free placement against the payload end, not natural
 link order. The pairing of each contribution with its historical member is a library
 correspondence. The remaining blockers below are unchanged by these rules: `__bufin`,
-`_end`/`_edata`, crt0 `DBDATA`/`C_ETEXT`, crt0/crt0dat startup, the
-`_malloc`/`_free` endpoints and the `_strcpy`/`_strlen` ambiguity.
+`_end`/`_edata`, crt0 `DBDATA`/`C_ETEXT` and crt0/crt0dat startup.
+
+## Extensions of 2026-11-22: same-library selection and accepted providers
+
+**Original facts.**
+- The near-heap routines `1fe6:001a` and `1fe6:003b` are accepted ASM_EXACT owners
+  (group `nmalloc/nmalloc`, publics `__NFREE` and `__NMALLOC`). Their reviewed relocated
+  far calls include root `+0x13fa` (`001a`) and root `+0x1387` (`003b`, MZ 65).
+- The original `strdup` far pointers encode `1fe6:20f4` and `1fe6:1614`. Those are the
+  mlibcr (`crt_strlen_medium`, `crt_strcpy_medium`) entries. The llibcr pins at
+  `2000:1d34`/`2000:1d4c` declare the same names.
+
+**Members proven** (worker recipes in `build/workers/e67_runtime/`; 177 bytes):
+
+| Member | Bytes | Rule |
+| --- | ---: | --- |
+| `malloc.asm` `_malloc` | 5 | E7 `__nmalloc` (MZ 1931) |
+| `free.asm` `_free` | 5 | E7 `__nfree` (MZ 1915) |
+| `calloc.asm` `__ncalloc` | 46 | E7 `__nmalloc` (MZ 1932) |
+| `_freebuf` | 44 | pinned `_free` |
+| `stdalloc` | 37 | pinned `_malloc`, crt0 anchor `__amsg_exit`, growseg `_DATA` `__amblksiz` |
+| `strdup` | 40 | E6 `_strlen`/`_strcpy`, pinned `_malloc` |
+
+The three E7 members prove against the current manifest. `_freebuf` needs `free`
+published first; `stdalloc` and `strdup` need `malloc`.
+
+**Hypotheses.**
+- The `__nmalloc` ↔ `__NMALLOC` name correspondence (MASM default case, case-insensitive
+  link), the selection of the `__ncalloc` member over the same-code `_calloc` sibling,
+  and the historical archive pairing remain correspondence hypotheses. Each field
+  value is proven.
+- Two `_strcpy` definitions cannot both carry that name in one link. The llibcr pins'
+  public names are themselves hypotheses.
 
 ## Refused, with the exact blocker
 
@@ -174,12 +224,7 @@ correspondence. The remaining blockers below are unchanged by these rules: `__bu
   (`STKHQQ`).
 - crt0's common `DBDATA` (code offsets, `C_ETEXT` base): blocks `nmsghdr`, `d_rdwr`,
   `write`.
-- `stdalloc`, `calloc`, `_freebuf`, `strdup`: `_malloc`/`_free` are 5-byte
-  `malloc.asm`/`free.asm` far-jump stubs to `__nmalloc`/`__nfree` at `1fe6:003b`/`001a`
-  (no pinned provider); `calloc`'s own call encodes `1fe6:003b`, not the stub.
-  `strdup` also names `_strcpy`, declared by two pinned recipes (the large-model
-  `crt_strcpy` pin at `2000:1d4c` and `crt_strcpy_medium`). `stdalloc` and `chkstk`
-  also need crt0's `__amsg_exit`.
+- `chkstk` also needs crt0's `__amsg_exit` (available as an anchor) besides `_end`.
 
 Original TU, natural RTLink placement, library order and behaviour remain unproved;
 the placed DGROUP bytes are evidence, not owned data.
