@@ -229,6 +229,12 @@ def _validate(run_tests=True):
     overlap_debt = set(read_json(ROOT / "evidence/placement-overlap-debt.json")["pairs"])
     require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
             f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")
+    # BSS layout refutation (docs/dgroup-binding.md "BSS layout"): violations may only shrink.
+    from module_gate import bss_layout_violations
+    bss = bss_layout_violations(groups, recipes)
+    bss_debt = set(read_json(ROOT / "evidence/bss-layout-debt.json")["violations"])
+    require(bss == bss_debt, "evidence/bss-layout-debt.json differs from the BSS layout violations: "
+            f"unlisted {sorted(bss - bss_debt)}, stale {sorted(bss_debt - bss)}")
     # Placement debt may only shrink: every listed claim must still be owned and still need it.
     debt = {c["target_id"] for g in groups.values() for c in g.get("claims", []) if c.get("placement_debt")}
     listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])

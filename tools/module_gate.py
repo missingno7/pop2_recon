@@ -825,6 +825,47 @@ def _data_publics(module, placements, dgroup_members, code_name):
 
 DATA_GROUP_KIND = "data_group"
 
+# BSS layout anchors read from the original C startup (root image offsets; tests re-read them):
+# 0x1ff57 `mov di,_edata` (2930), 0x1ff5a `mov cx,_end` (6cd6), 0x200b7/0x200ba `mov si/di,xontab`
+# (2cea, an empty onexit table). The per-file `_BSS` block is [_edata, xontab); communal storage
+# (`c_common`, paragraph-aligned) is [2cf0, _end): word-aligned communals, then the one-byte tail from
+# 6ccc (after the C runtime's 512-byte `__bufin` at 6acc). build/workers/o7_bss probes and report.
+BSS_START, BSS_END, COMMON_START, COMMON_BYTE_TAIL, END = 0x2930, 0x2CEA, 0x2CF0, 0x6CCC, 0x6CD6
+
+
+def bss_layout_violations(groups, recipes):
+    """Refutation only (bss-layout-v1): layouts RTLink 6.10 could not have produced from MSC objects.
+    - a C group's placed `_BSS` piece must lie inside the per-file block [BSS_START, BSS_END) and start even;
+    - a C group's v4 DGROUP symbol may not start inside that block (an address there is a file's own static,
+      never an extern of another C file);
+    - a C group's v4 symbol starting in word-aligned communal storage [COMMON_START, COMMON_BYTE_TAIL)
+      must start even (odd addresses there are members of a larger variable, not variables).
+    Returns stable violation keys; validation keeps them equal to the shrink-only debt ledger."""
+    from common import project_path
+    found = set()
+    by_path = {owner.get("recipe", ""): recipe for owner, recipe in recipes}
+    for path, report in groups.items():
+        recipe = by_path.get(path) or read_json(project_path(path))
+        if recipe.get("language", "c") != "c":
+            continue
+        gid = recipe.get("group_id") or recipe["name"]
+        for seg, p in (report.get("placements") or {}).items():
+            if seg == "_BSS" and p["length"] and not (BSS_START <= p["placement"] and
+                                                       p["placement"] + p["length"] <= BSS_END and
+                                                       p["placement"] % 2 == 0):
+                found.add(f"{gid}:_BSS@{p['placement']:04x}")
+        if "binding" not in recipe:
+            continue
+        for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+            if symbol.get("kind") != "dgroup-offset" or type(symbol.get("offset")) is not int:
+                continue
+            s = symbol["offset"]
+            if BSS_START <= s < BSS_END:
+                found.add(f"{gid}:extern-in-bss-block:{name}@{s:04x}")
+            elif COMMON_START <= s < COMMON_BYTE_TAIL and s % 2:
+                found.add(f"{gid}:odd-communal:{name}@{s:04x}")
+    return found
+
 
 def _accepted_recipes():
     """(owner, recipe) for every distinct canonical recipe in the manifest; data-only groups

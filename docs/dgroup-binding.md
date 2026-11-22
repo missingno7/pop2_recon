@@ -393,3 +393,18 @@ the window) and must yield exactly L. The base S must have its own independent w
 k with 0 < k < L then needs no further witness, and every access to it must stay inside the unit
 (k + width <= L); equations report support "aggregate extent". This proves the address lies in the
 same aggregate as S; it says nothing about the member's name or type.
+
+## BSS layout (bss-layout-v1, 2026-11-22; refutation only)
+
+Original anchors (C startup, root image): `_edata` = 2930 (`mov di` at 0x1ff57), `_end` = 6cd6 (`mov cx` at
+0x1ff5a), xontab = 2cea (`mov si`/`mov di` at 0x200b7/0x200ba; the onexit table is empty). RTLink 6.10 with MSC
+6.00 objects (probes in build/workers/o7_bss): each object's statics form its own `_BSS` piece in declaration
+order, pieces in link order inside the per-file block [2930, 2cea); non-static uninitialized globals are near
+COMDEF communals in `c_common` [2cf0, 6cd6): word-aligned multi-byte communals first, then one-byte communals in a
+tail from 6ccc (after the runtime's 512-byte `__bufin` at 6acc). Consequently validation flags, per C group:
+a placed `_BSS` piece outside [2930, 2cea) or at an odd start; a v4 symbol starting inside [2930, 2cea) (an address
+there is some file's own static, never another C file's extern); a v4 symbol starting at an odd address in
+[2cf0, 6ccc) (a member of a larger variable, not a variable). Existing cases are listed in
+evidence/bss-layout-debt.json, which validation keeps equal to the violations, so the list only shrinks: republish
+the group with the real static, communal or member-of-base model. The rule proves nothing; single-use BSS fields
+stay unproven (o7_bss: genuinely underdetermined without an original map), see CODE_MATCH in docs/acceptance.md.

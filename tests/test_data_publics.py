@@ -292,6 +292,29 @@ class AggregateExtentTests(unittest.TestCase):
         self.assertIsNone(block_copy_extent(bytes.fromhex("8db7a42ab9060041f3a5"), 0, 0x2AA4))
 
 
+class BssLayoutTests(unittest.TestCase):
+    """bss-layout-v1: anchors come from the original C startup; impossible layouts are flagged."""
+
+    def test_anchors_are_the_original_startup_operands(self):
+        from oracle import Oracle
+        root = Oracle.load().spaces["root"]
+        word = lambda at: struct.unpack_from("<H", root.data, at)[0]
+        self.assertEqual((root.data[0x1FF57], word(0x1FF58)), (0xBF, module_gate.BSS_START))   # mov di,_edata
+        self.assertEqual((root.data[0x1FF5A], word(0x1FF5B)), (0xB9, module_gate.END))         # mov cx,_end
+        self.assertEqual((root.data[0x200B7], word(0x200B8)), (0xBE, module_gate.BSS_END))     # mov si,xontab
+        self.assertEqual((root.data[0x200BA], word(0x200BB)), (0xBF, module_gate.BSS_END))     # mov di,xontab
+
+    def test_violations(self):
+        recipe = {"language": "c", "group_id": "group:t/t", "name": "t/t"}
+        groups = {"r.json": {"placements": {"_BSS": {"placement": 0x3FC2, "length": 4}}}}
+        self.assertEqual(module_gate.bss_layout_violations(groups, [({"recipe": "r.json"}, recipe)]),
+                         {"group:t/t:_BSS@3fc2"})
+        ok = {"r.json": {"placements": {"_BSS": {"placement": 0x2AA4, "length": 4}}}}
+        self.assertEqual(module_gate.bss_layout_violations(ok, [({"recipe": "r.json"}, recipe)]), set())
+        asm = dict(recipe, language="asm")
+        self.assertEqual(module_gate.bss_layout_violations(groups, [({"recipe": "r.json"}, asm)]), set())
+
+
 class CaseAliasTests(unittest.TestCase):
     """A second case spelling of one external is refused unless recorded as debt."""
     SOURCE = (b"extern unsigned char room;\n/* x */\nextern unsigned char ROOM, other[4];\n"
