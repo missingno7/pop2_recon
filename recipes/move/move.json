@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "cc03949de1041862001845cf37b04cc31eac4e5bb243a8ebe01778cb9a429d20",
+  "binding_sha256": "b87931c0e136a5538de49971673ce81ad624a4b82cb1ffae2e1c58d1b1901a46",
   "claims": [
     {
       "fixup_count": 13,
@@ -498,6 +498,36 @@
       "fixup_count": 3,
       "public": "GET_MOB_TYPE_ITEM",
       "target_id": "root:0b41:19ce"
+    },
+    {
+      "fixup_count": 4,
+      "public": "MARK_GUARD_UPDATES",
+      "relocation_indices": [
+        1023
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:1028"
+    },
+    {
+      "fixup_count": 31,
+      "public": "MOB_LOOSE",
+      "relocation_indices": [
+        989,
+        1008,
+        1045,
+        1051
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:1b6c"
+    },
+    {
+      "fixup_count": 19,
+      "public": "KNOCK_LOOSE",
+      "target_id": "root:0b41:1e76"
     }
   ],
   "data_publics": [
@@ -548,10 +578,6 @@
       "public": "ANIMATE_EXIT"
     },
     {
-      "object_offset": 4124,
-      "public": "MARK_GUARD_UPDATES"
-    },
-    {
       "object_offset": 4316,
       "public": "TRIGGER_LINK"
     },
@@ -572,16 +598,8 @@
       "public": "ANIMATE_MOB"
     },
     {
-      "object_offset": 7008,
-      "public": "MOB_LOOSE"
-    },
-    {
       "object_offset": 7266,
       "public": "MAKE_RUBBLE"
-    },
-    {
-      "object_offset": 7786,
-      "public": "KNOCK_LOOSE"
     },
     {
       "object_offset": 8176,

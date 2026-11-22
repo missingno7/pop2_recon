@@ -71432,6 +71432,43 @@
       "size": 20,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void near-rect pointer and signed-byte argument, RETF 4",
+      "boundary_evidence": [
+        "Same-frame PUSH CS; CALL near sites at root+0xc222, root+0xc42e land on 0b41:1028.",
+        "Original function returns with RETF 4 followed by an alignment NOP before the independently reviewed MARK_RECT_BUF at 0b41:107a."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 49698,
+          "file_offset": 57890,
+          "pushed_cs_site": 49697
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 50222,
+          "file_offset": 58414,
+          "pushed_cs_site": 50221
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC-style prologue and Pascal far return in the MOVE.C frame. The routine iterates guards, intersects their redraw rectangles with the clip and updates their redraw flags."
+      ],
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1028",
+      "offset": 4136,
+      "segment": 2881,
+      "sha256": "9364303a07b3a2fe0efc92baf6690fe97cc7e0a8b0785baa0f10d75073be34b4",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

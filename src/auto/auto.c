@@ -1284,11 +1284,22 @@ typedef struct {
 } hit_action_record;
 extern hit_action_record far hit_actions[];
 
-extern unsigned char hit_actor_flags, hit_actor_draw_mode;
-extern unsigned char hit_actor_kind, hit_actor_number;
+extern unsigned char hit_actor_flags;
+extern unsigned char hit_actor_kind;
+extern struct {
+    unsigned char number;
+    unsigned char before_y[3];
+    int y;
+    unsigned char before_draw_mode[0x0a];
+    unsigned char draw_mode;
+    unsigned char before_pair_state[0x12];
+    unsigned char pair_state;
+    int spacing;
+    unsigned char tail[0x1a];
+} hit_actor;
 
 extern signed char hit_actor_motion, hit_actor_active;
-extern int hit_actor_y, hit_actor_state, hit_actor_spacing;
+extern int hit_actor_state;
 extern signed char hit_actor_target;
 extern unsigned char actor_stage;
 extern signed char actor_bump_column;
@@ -1297,7 +1308,7 @@ static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
 };
 extern unsigned char cliff_style_for_impact;
-extern unsigned char hit_actor_pair_state;
+
 extern int landing_x[];
 extern unsigned int hit_actor_phase;
 
@@ -1559,7 +1570,7 @@ void far pascal test_actor_strike(void)
     int distance, minimum, maximum;
 
     if (actor_combat_mode != 1 || actor_column != hit_actor_column ||
-        (abs(actor_y - hit_actor_y) >= 7 &&
+        (abs(actor_y - hit_actor.y) >= 7 &&
          actor_kind != 7 && actor_kind != 8 && hit_actor_kind != 7 && hit_actor_kind != 8) ||
         !is_striking_position(actor_kind, actor_action) || hit_actor_active >= 0 ||
         hit_actor_kind == 10 || hit_actor_kind == 1 || hit_actor_flags == 8 ||
@@ -1580,7 +1591,7 @@ void far pascal test_actor_strike(void)
         actor_kind != 11 && (hit_actor_reaction == 161 || hit_actor_reaction == 150)) {
         hit_actor_reaction = 161;
         if (actor_kind == 0)
-            actor_behavior_type = hit_actor_number;
+            actor_behavior_type = hit_actor.number;
         else {
             hit_actor_target = actor_index;
             opponent_lock = 4;
@@ -1600,7 +1611,7 @@ void far pascal test_actor_strike(void)
         if (distance >= minimum && distance <= maximum) {
             hit_actor_flags = 99;
             if (actor_kind == 0)
-                actor_behavior_type = hit_actor_number;
+                actor_behavior_type = hit_actor.number;
         }
     } else if ((actor_kind == 7 || actor_kind == 8) && actor_flags == 1 && opponent_lock == 0)
         hit_actor_flags = 99;
@@ -1626,7 +1637,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
             *minimum = -10;
             *maximum = 38;
         } else if (actor_kind == 11) {
-            if (63 * hit_actor_column + 51 <= hit_actor_y) {
+            if (63 * hit_actor_column + 51 <= hit_actor.y) {
                 if (hit_actor_direction == actor_direction) {
                     *minimum = -2;
                     *maximum = 27;
@@ -1647,7 +1658,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
                 *maximum = 48;
                 return;
             }
-        } else if (hit_actor_draw_mode == 1) {
+        } else if (hit_actor.draw_mode == 1) {
             *minimum = 34;
             *maximum = 57;
             return;
@@ -1658,7 +1669,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
         }
     } else {
         if (hit_actor_kind == 11) {
-            if (hit_actor_spacing != 6 && hit_actor_state != 171 && state_word == 96) {
+            if (hit_actor.spacing != 6 && hit_actor_state != 171 && state_word == 96) {
                 if (hit_actor_direction == actor_direction) {
                     *minimum = 31;
                     *maximum = 75;
@@ -1681,7 +1692,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
         } else {
             *minimum = 19;
             *maximum = 46;
-            if (!hit_actor_pair_state) {
+            if (!hit_actor.pair_state) {
                 *minimum += 14;
                 *maximum += 14;
             }

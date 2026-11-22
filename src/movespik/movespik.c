@@ -73,9 +73,15 @@ extern SpikeState tile_state;
 #define tile_flags tile_state.byte.flags
 #define tile_object tile_state.byte.phase
 #define tile_state_word tile_state.word
-extern Byte render_column;
-extern int render_x;
-extern SpikeState render_spikes;
+#pragma pack(1)
+extern struct {
+    Byte column;
+    Byte flags;
+    int y, x;
+    SpikeState spikes;
+    Byte tail[12];
+} render_cell;
+#pragma pack()
 extern int render_context;
 extern int screen_edge;
 extern int side_offset;
@@ -125,7 +131,7 @@ void ATMSpikes(void)
         }
     }
     if (mob_slot != -1) {
-        render_column = row_to_render_column(mob_row) + column;
+        render_cell.column = row_to_render_column(mob_row) + column;
         add_mobile_sprite(mob_y);
         mob_kind = 5;
         mob_x -= 4;
@@ -267,22 +273,22 @@ void DrawObjSpikes(Byte object)
 {
     int image;
 
-    if (render_spikes.word == 0xf0)
-        render_spikes.word = 8;
-    else if (render_spikes.byte.phase & 0x80)
-        render_spikes.word = 5;
+    if (render_cell.spikes.word == 0xf0)
+        render_cell.spikes.word = 8;
+    else if (render_cell.spikes.byte.phase & 0x80)
+        render_cell.spikes.word = 5;
     else
-        render_spikes.byte.flags = 0;
+        render_cell.spikes.byte.flags = 0;
 
     if (object == 0x84)
-        image = spike_images_a[render_spikes.word];
+        image = spike_images_a[render_cell.spikes.word];
     else if (object == 0x85)
-        image = spike_images_b[render_spikes.word];
+        image = spike_images_b[render_cell.spikes.word];
     else
         return;
 
     if (image)
-        draw_spike_sprite(4, image, render_context, render_x, 10);
+        draw_spike_sprite(4, image, render_context, render_cell.x, 10);
 }
 
 /* GetSpikeIdx */

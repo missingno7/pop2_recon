@@ -1817,8 +1817,14 @@ extern signed char meter_phase, meter_limit;
 extern DrawRect meter_strip;
 extern void blit_meter_shape(int table, int image, int x, int y, int flags, int mode);
 extern void show_meter_for_guard(signed char guard);
-extern signed char meter_guard_index, meter_guard_id;
-extern signed char kid_life, kid_max_life, guard_life, guard_max_life;
+extern signed char meter_guard_index;
+extern struct {
+    signed char id;
+    unsigned char before_life[0x11];
+    signed char life, max_life;
+    unsigned char tail[0x2c];
+} meter_guard;
+extern signed char kid_life, kid_max_life;
 extern void draw_opponent_meter(signed char guard, int life, int max_life);
 
 void draw_kid_meter(int life, int max_life)
@@ -1855,7 +1861,7 @@ void draw_meters(void)
 {
     if (meter_guard_index >= 0 && meter_guard_index < 5) {
         show_meter_for_guard(meter_guard_index);
-        draw_opponent_meter(meter_guard_id, guard_life, guard_max_life);
+        draw_opponent_meter(meter_guard.id, meter_guard.life, meter_guard.max_life);
     }
     draw_kid_meter(kid_life, kid_max_life);
 }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "82f3329a9fe9733d95b9fbbb459e3831e472b325a90ade3b10848ec860304b53",
+  "binding_sha256": "2785651c62d2db491e83260150ee6286080dbe891c06a7f28e039c000381894b",
   "claims": [
     {
       "fixup_count": 5,
@@ -417,6 +417,16 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:078a:2cb2"
+    },
+    {
+      "fixup_count": 11,
+      "public": "DRAW_METERS",
+      "relocation_indices": [
+        797
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:078a:2590"
     }
   ],
   "drafts": [
@@ -497,10 +507,6 @@
       "public": "DRAW_KID_METER"
     },
     {
-      "object_offset": 9616,
-      "public": "DRAW_METERS"
-    },
-    {
       "object_offset": 9672,
       "public": "DRAW_OPPONENT_METER"
     },
@@ -524,12 +530,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "7b469d0ecf1480230f7b6fb61c7a9955e49860e8c4d2275690ff61a5b6151007",
+  "object_sha256": "9e94dc6c6dc5ecb3d2b5537ea76fcc87f5df639c12683288568a3fc2d30d5fb2",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "d4427205675c1b6fa5fcef659407f800137c3729edfbbc905818d20b4f552acc",
+  "source_sha256": "dd47ea18bfdef9a4310432ef028e492b6a0851f03fed1d0379afdae9466696fa",
   "space": "root"
 }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "3e8cf308ed73120e1524de7282738fcc3f02801f526ca193f91a2da3081491e2",
+  "binding_sha256": "3b9a531f20b73ebbfdf34b316f99a88c0036c64574b54fd0b8b0094dbe34d9b6",
   "claims": [
     {
       "fixup_count": 16,
@@ -307,6 +307,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0e56:11e8"
+    },
+    {
+      "fixup_count": 19,
+      "public": "RESET_FRAME_VARS",
+      "relocation_indices": [
+        1181,
+        1317
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:0b50"
     }
   ],
   "data_publics": [
@@ -339,10 +352,6 @@
     {
       "object_offset": 2522,
       "public": "ADVANCE_FRAME"
-    },
-    {
-      "object_offset": 2890,
-      "public": "RESET_FRAME_VARS"
     },
     {
       "object_offset": 3416,

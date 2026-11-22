@@ -68,12 +68,18 @@ struct input {
 extern CellState *cell_states;
 extern int current_tile_number;
 extern TileState tile_state;
+#pragma pack(1)
+extern struct {
+    ubyte before_bounds[0x1b];
+    Rect bounds;
+    ubyte tail[0x1d];
+} actor_state;
+#pragma pack()
 extern sbyte actor_id, actor_room, actor_column, actor_row, actor_grab;
 extern ubyte actor_cell, level_number;
 extern uword actor_frame, actor_sequence;
 extern sbyte actor_life, actor_action, actor_fall, actor_hit;
 extern int actor_x, actor_y, actor_sequence_group;
-extern Rect actor_bounds;
 extern ubyte room_number;
 extern ubyte down_room;
 extern sbyte right_room, upper_room;
@@ -292,13 +298,13 @@ void check_dart_hit(void)
                 bounds.left = bounds.right - 4;
                 bounds.bottom = dart_mob->x;
                 bounds.top = dart_mob->x - 2;
-                if (intersect_rect(&hit, &bounds, &actor_bounds))
+                if (intersect_rect(&hit, &bounds, &actor_state.bounds))
                     goto hit_dart;
-                if (actor_bounds.left > bounds.left ||
-                    actor_bounds.top - 2 > bounds.bottom ||
-                    actor_bounds.bottom - 2 < bounds.top ||
-                    bounds.left - dart_mob->left >= actor_bounds.right ||
-                    bounds.bottom - dart_mob->top >= actor_bounds.bottom)
+                if (actor_state.bounds.left > bounds.left ||
+                    actor_state.bounds.top - 2 > bounds.bottom ||
+                    actor_state.bounds.bottom - 2 < bounds.top ||
+                    bounds.left - dart_mob->left >= actor_state.bounds.right ||
+                    bounds.bottom - dart_mob->top >= actor_state.bounds.bottom)
                     continue;
             hit_dart:
                 hit_actor_with_dart();
