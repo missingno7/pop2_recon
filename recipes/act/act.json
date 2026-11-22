@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/act/act.json",
-  "binding_sha256": "4909f95bd9a9183b151c1c00a6fcd0ef9a29ff78f9b8179f15fcaefff60cc4ae",
+  "binding_sha256": "ed1d9150693e5b8a2de52efdccded76f1588026088bceff5fac4101450315612",
   "claims": [
     {
       "fixup_count": 1,
@@ -196,6 +196,11 @@
       "target_id": "overlay-3:25da:0c6c"
     },
     {
+      "fixup_count": 5,
+      "public": "ENTER_STAIRS",
+      "target_id": "overlay-3:25da:0d42"
+    },
+    {
       "fixup_count": 11,
       "public": "STAIRCLIMBING",
       "relocation_indices": [
@@ -275,6 +280,17 @@
       "target_id": "overlay-3:25da:0ef0"
     },
     {
+      "fixup_count": 15,
+      "public": "STEP_FORWARD",
+      "relocation_indices": [
+        283,
+        336
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-3:25da:0f66"
+    },
+    {
       "fixup_count": 6,
       "public": "TRY_PICK_UP",
       "relocation_indices": [
@@ -287,6 +303,25 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:25da:1016"
+    },
+    {
+      "fixup_count": 29,
+      "public": "PICK_IT_UP",
+      "relocation_indices": [
+        189,
+        284,
+        285,
+        313,
+        350,
+        376,
+        385,
+        386
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:1088"
     },
     {
       "fixup_count": 6,
@@ -357,6 +392,25 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:25da:132e"
+    },
+    {
+      "fixup_count": 26,
+      "public": "JUMP_HIGH",
+      "relocation_indices": [
+        226,
+        288,
+        323,
+        329,
+        337,
+        362,
+        387,
+        405
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:25da:134e"
     },
     {
       "fixup_count": 19,
@@ -598,11 +652,6 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-3:25da:227c"
-    },
-    {
-      "fixup_count": 5,
-      "public": "ENTER_STAIRS",
-      "target_id": "overlay-3:25da:0d42"
     }
   ],
   "drafts": [
@@ -613,18 +662,6 @@
     {
       "object_offset": 2036,
       "public": "CONTROL_CROUCHING"
-    },
-    {
-      "object_offset": 3928,
-      "public": "STEP_FORWARD"
-    },
-    {
-      "object_offset": 4218,
-      "public": "PICK_IT_UP"
-    },
-    {
-      "object_offset": 4928,
-      "public": "JUMP_HIGH"
     },
     {
       "object_offset": 6506,
@@ -654,12 +691,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "act/act",
-  "object_sha256": "5fb108f49d3100d3fcffda97395fef5f4e6eeb28b12a1b440bfe7ab8b300ccd2",
+  "object_sha256": "741d4c2ac49505b1ba203a74002fe8903b50105c01808575863d0ef9053fcb34",
   "origin": 10606,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/act/act.c",
-  "source_sha256": "4bc87122ad4e3cdc7c8feabb4a68d077fdfbd84d9b75b1b445702927b070ebb8",
+  "source_sha256": "28ca4da33b1eb2ad2da4376e3835abe1d8866b60a030b66fb204d77f53e72fa1",
   "space": "overlay-3"
 }

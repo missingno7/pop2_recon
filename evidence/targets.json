@@ -70550,6 +70550,86 @@
       "size": 498,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-3:25da:1088",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 4232,
+      "size": 340,
+      "sha256": "e7c5a7f1dc4e233d971bff6f6bb7eb07895c8349544a17433b847cf954d12ab4",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal, no arguments, result in AX, bare RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "TryPickUp at 25da:1016 reaches this entry by PUSH CS at 25da:1079 and near CALL at 25da:107a with rel16 000b. Its RETF and NOP at 1086/1087 end just before the BP-frame prologue at 1088.",
+        "The extent decodes through the shared AX-result epilogue and RETF at 25da:11da, then the alignment NOP at 11db. The independently reviewed Starting entry begins at 11dc."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 14810,
+          "file_offset": 199578,
+          "pushed_cs_site": 14809
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "MSC-style BP/SI/DI saves, 11-byte tile snapshot copy, selector-driven item removal and shared return. Calls the same-CS JumpSeq and DoCrouch routines.",
+        "FM Towns ACT.C @PickItUp at 0c42:125b follows @TryPickUp and precedes @Starting. It snapshots the tile kind and 11-byte tile state and queries GetDist/GetUnderFt before branching on frame 109."
+      ],
+      "semantic_name_hypothesis": "pick_it_up",
+      "original_name": "PickItUp",
+      "original_name_evidence": [
+        "FM Towns @PickItUp at 0c42:125b follows @TryPickUp, which calls it after detecting a pickup tile. The DOS helper has the same caller, tile snapshot and frame-109 split."
+      ],
+      "original_bytes_hex": "558bec83ec145756a070628846ff8d7eecbe70628cd08ec0b90500f3a5a4a0716224038846f7c746fc01009a8810cc028946f89ad809cc028846fb833e075c6d74448a46ff3846fb7518803e015c0075098b46f82d1900eb1d908b46f82d1100eb14803e015c0075078b46f840eb07908b46f8050f00509a6003cc02a3025c0ee803fde9c400833e195c327417833e195c147407803e9062ff7409c746fc0000e9a70090803e015c0075158b76f883fe187d1c8a46ff3846fb74148d44fceb068b76f88d44ea509a6003cc02a3025cb870628bf88d76ec1e07b90500f3a5a4807eff167547b8ffff509aa415cc02803e0e5c097515803e494508750eb8ed00500ee88aeeb8fe00eb0c90b85b00500ee87ceeb89700509ab001d70d8a46f7509a16045c0a8a46f7a2045eeb1e807eff0a7518b105a0716225e000d3e8509aa415cc02b84e00500ee844ee8b46fc5e5f8be55dcb90"
+    },
+    {
+      "id": "overlay-3:25da:134e",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 4942,
+      "size": 208,
+      "sha256": "0bdc073fa239ab88dfe14dec6bf872219a5398e9674c1903cdaee4d2029cd73d",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far Pascal void, no arguments, bare RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Near calls from JumpUp at 25da:12d3 and JumpBack at 25da:12f6 each use PUSH CS and resolve to the BP-frame entry at 134e.",
+        "Follows JumpEdge RETF/NOP at 134c/134d. Both JumpHigh sequence arms return within the extent. The terminal RETF and NOP at 141c/141d precede the reviewed Hanging entry at 141e."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 15411,
+          "file_offset": 200179,
+          "pushed_cs_site": 15410
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 15446,
+          "file_offset": 200214,
+          "pushed_cs_site": 15445
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "Conventional MSC far Pascal prologue and epilogue. Clears up input, adjusts X from the forward distance, maps base X to a cell column and selects jump sequence 14 or 28."
+      ],
+      "semantic_name_hypothesis": "jump_high",
+      "original_name": "DoJumpHigh",
+      "original_name_evidence": [
+        "FM Towns ACT.C @DoJumpHigh at 0c42:1643 performs the same ClrAll/GetFwdDist then FaceDx/GetBaseX/GetCol calculation and selects the same jump sequence constants."
+      ],
+      "original_bytes_hex": "558bec83ec02569ad213cc02a28e629a700b02288bf083fe047d13803ed46c01750c8d44fa509a6003cc02a3025c2bc0509a8e15cc028bf09a7410cc0203f083ee06569ad410cc028846ffa00e5c508a46ff50a00a5cfec8509af000cc02509ac8288a070bc0755a803e4745057507803e0e5c0f744c803e0e5c07751c803e4745067515803e0a5c027537803e095c027407803e095c067529803e0e5c08751c803e4745067515803e0a5c027514803e095c03740d803e095c047406b80e00eb0490b81c00500ee8feeb5e8be55dcb90"
     }
   ],
   "schema": 1,

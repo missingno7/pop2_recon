@@ -761,13 +761,16 @@ void far pascal control_running(void)
         direction_forward = 1;
 }
 
+struct tile_snapshot {
+    unsigned char bytes[11];
+};
+extern struct tile_snapshot current_tile;
 extern int step_in_progress;
-extern unsigned char forward_tile_kind;
 
 /* 25da:0f66 */
 void far pascal step_forward(int distance)
 {
-    signed char sequence;
+    int sequence, remainder;
     signed char edge_marker;
 
     step_in_progress = 1;
@@ -779,33 +782,30 @@ void far pascal step_forward(int distance)
     if (distance > 0) {
         crawl_latch = 1;
         if (distance < 28) {
-            if (distance != 1)
-                sequence = distance / 2 + 28;
-            else
+            if (distance == 1)
                 sequence = -1;
-            if (distance % 2 == 0) {
-use_sequence:
+            else
+                sequence = distance / 2 + 28;
+            if ((remainder = distance % 2) == 0) {
                 distance = sequence;
-            } else {
-                actor_x = AddCharX(1); goto use_sequence;
+                goto play_sequence;
             }
+            actor_x = AddCharX(1);
+            distance = sequence;
         } else {
             distance = 42;
         }
     } else if (crawl_latch &&
-               (running_collision != 1 || forward_tile_kind == 12 || forward_tile_kind == 13)) {
+               (running_collision != 1 || current_tile.bytes[0] == 12 || current_tile.bytes[0] == 13)) {
         crawl_latch = 0; distance = 44;
     } else {
         distance = 42;
     }
+play_sequence:
     if (distance != -1)
         JumpSeq(distance); step_in_progress = 0;
 }
 
-struct tile_snapshot {
-    unsigned char bytes[11];
-};
-extern struct tile_snapshot current_tile;
 extern int far pascal pick_it_up(void);
 extern void far pascal RemoveObj(int portion);
 extern void far pascal AddSong(int song);
@@ -836,20 +836,24 @@ pickup:
 
 int far pascal pick_it_up(void)
 {
-    signed char item = forward_tile_kind;
-    struct tile_snapshot saved_tile = current_tile;
-    unsigned char type = (unsigned char)cell_modifier_word & 3;
-    int picked = 1;
-    int edge = get_edge_distance();
-    volatile signed char foot = get_under_foot();
-    int shift, song;
+    signed char item;
+    int picked;
+    signed char foot;
+    int edge;
+    unsigned char type;
+    struct tile_snapshot saved_tile;
+
+    item = current_tile.bytes[0];
+    saved_tile = current_tile;
+    type = (unsigned char)cell_modifier_word & 3;
+    picked = 1;
+    edge = get_edge_distance();
+    foot = get_under_foot();
 
     if (actor_frame != 109) {
-        if (foot == item)
-            shift = actor_direction == 0 ? edge - 25 : edge - 17;
-        else
-            shift = actor_direction == 0 ? edge + 1 : edge + 15;
-        actor_x = AddCharX(shift); crouch_actor();
+        actor_x = AddCharX(foot == item
+            ? (actor_direction == 0 ? edge - 25 : edge - 17)
+            : (actor_direction == 0 ? edge + 1 : edge + 15)); crouch_actor();
     } else if (repeat_sequence_id == 50 ||
                (repeat_sequence_id != 20 && direction_action == -1)) {
         if (actor_direction == 0) {
@@ -863,12 +867,11 @@ int far pascal pick_it_up(void)
             RemoveObj(-1);
             if (actor_room == 9 && level_number == 8) {
                 JumpSeq(237);
-                song = 254;
+                AddSong(254);
             } else {
                 JumpSeq(91);
-                song = 151;
+                AddSong(151);
             }
-            AddSong(song);
             record_pickup_type(type);
             pickup_type = type;
         } else if (item == 10) {
@@ -992,10 +995,7 @@ void far pascal jump_high(void)
     edge = query_run_distance();
     if (edge < 4 && running_collision == 1)
         actor_x = AddCharX(edge - 6);
-    edge = FaceDx(0);
-    edge += get_base_x();
-    edge -= 6;
-    column = signed_div32_remainder_adjusted(edge);
+    column = signed_div32_remainder_adjusted((unsigned int)FaceDx(0) + get_base_x() - 6);
     if (is_six_kind(lookup_tile_kind(actor_room, column, actor_row - 1)) ||
         (state_mode == 5 && actor_room == 15) ||
         (actor_room == 7 && state_mode == 6 &&
