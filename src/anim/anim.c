@@ -1,5 +1,5 @@
-/* ANIM.C. Exact contributions: anim_draw, anim_free, advance_frame, draw_frame,
- * paint_element, accumulate_element_bounds and reset_element. Other routines are drafts. */
+/* ANIM.C. Exact contributions include play_anim and swap_record_pairs.
+ * anim_idle and anim_new are drafts. */
 typedef struct
 {
     int top, left, bottom, right;
@@ -7,7 +7,7 @@ typedef struct
 
 typedef struct
 {
-    unsigned long pixels;
+    void far *pixels;
     Rect bounds;
     int row_bytes;
     int flags;
@@ -67,7 +67,7 @@ extern void release_fade(unsigned long);
 extern int fade_finished(unsigned long);
 extern void dispose_handle(int);
 extern void release_port(void *);
-extern void release_buffer(unsigned long);
+extern void release_buffer(void far *);
 extern void cdecl release_animation_heap(void *);
 
 Animation *anim_draw(Animation *animation)
@@ -122,7 +122,7 @@ int anim_idle(Animation *animation)
     const unsigned char far *event;
     int idx, saved_flags;
     int effect_id;
-    unsigned long saved_pixels;
+    void far *saved_pixels;
     Element *current_element;
 
     previous_port = current_port;
@@ -295,7 +295,7 @@ extern void prepare_transparency(int);
 extern int load_sheet_shape(int, int, int);
 extern int create_port(void *, const Rect far *);
 extern void set_port_origin(int, int);
-extern unsigned long allocate_pixels(unsigned long);
+extern void far *allocate_pixels(unsigned long);
 static unsigned char animation_command_codes[] = {
     0, 1, 2, 3, 4, 5, 6, 7, 0x10, 0x14, 0x20, 0x40, 0x60, 0x80, 0xa0, 0xc0, 0xe0
 };
@@ -582,12 +582,13 @@ extern int query_sound_payload(const void far *);
 extern char screen_port[];
 
 #pragma optimize("l", on)
+#pragma optimize("g", on)
 int play_anim(int sheet_override, int scene, int scene_offset, int save_background,
               AnimationCallback callback, int restore, unsigned int flags, int interruptible)
 {
     int scene_id;
-    int saved_sheet, palette_list, count;
-    register int sheet;
+    int palette_list, count;
+    int sheet;
     const unsigned char far *commands;
     Animation *animation;
     int palettes[20];
@@ -601,7 +602,6 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     animation = anim_new(commands, sheet, 1, lock_sheet(sheet)->width, save_background);
     animation->callbacks[0] = callback;
     sprintf(message, "AnimNew(%d)", scene);
-    saved_sheet = sheet;
     if (!animation) fatal_error(1, message);
 
     load_all_animation_shapes = 0;
@@ -636,7 +636,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         }
     }
     anim_free(animation);
-    if (!sheet_override) dispose_handle(saved_sheet);
+    if (!sheet_override) dispose_handle(sheet);
     release_animation_commands(commands);
     if (flags & 2) set_animation_audio(0);
     if (flags & 1) reset_animation_sound(0, 0);
@@ -644,11 +644,13 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         if (palettes[result] && !query_sound_payload(lock_shape(palettes[result]))) dispose_handle(palettes[result]);
     return aborted;
 }
+#pragma optimize("g", off)
+
 #pragma optimize("l", off)
 
 void swap_record_pairs(Animation *animation)
 {
-    unsigned long pixels = animation->port.pixels;
+    void far *pixels = animation->port.pixels;
 
     animation->port.pixels = animation->background.pixels;
     animation->background.pixels = pixels;

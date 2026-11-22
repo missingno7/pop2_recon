@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/anim/anim.json",
-  "binding_sha256": "abdb645c65727d40a33093eeb0cdcaa5dd44e6616533f5213a377bee0f65e0e4",
+  "binding_sha256": "035e0ccbd3eb530e161e610216fb39f1882e344a2d1b90256c79faf2944c2f90",
   "claims": [
     {
       "fixup_count": 4,
@@ -93,6 +93,47 @@
       "fixup_count": 0,
       "public": "RESET_ELEMENT",
       "target_id": "overlay-2:28a1:0bf6"
+    },
+    {
+      "fixup_count": 31,
+      "public": "PLAY_ANIM",
+      "relocation_indices": [
+        735,
+        736,
+        739,
+        740,
+        749,
+        751,
+        752,
+        753,
+        760,
+        762,
+        765,
+        766,
+        772,
+        776,
+        778,
+        780,
+        781,
+        782,
+        784,
+        785,
+        788,
+        791,
+        792,
+        793,
+        794
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:28a1:0c2a"
+    },
+    {
+      "fixup_count": 0,
+      "public": "SWAP_RECORD_PAIRS",
+      "target_id": "overlay-2:28a1:0e68"
     }
   ],
   "drafts": [
@@ -103,17 +144,9 @@
     {
       "object_offset": 1344,
       "public": "ANIM_NEW"
-    },
-    {
-      "object_offset": 3102,
-      "public": "PLAY_ANIM"
-    },
-    {
-      "object_offset": 3676,
-      "public": "SWAP_RECORD_PAIRS"
     }
   ],
-  "emitted_size": 3726,
+  "emitted_size": 3722,
   "flags": [
     "/c",
     "/AM",
@@ -128,12 +161,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "anim/anim",
-  "object_sha256": "2f3c184213ddecf26eba6bea2b860c356a482f958c3a4d00bb96dc6ef214f7d5",
+  "object_sha256": "b509a834e67869c429957e6629029d89f81f5aa318e42b4a688690aaf315cbd1",
   "origin": 21980,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/anim/anim.c",
-  "source_sha256": "302b340f3496455563e2fd95f82367924e0d892620060568c0c5929e79e69a1b",
+  "source_sha256": "db9a331016ce931c15ed31a459fd9fbb4e3df11da089fec880436fcbb66a8b72",
   "space": "overlay-2"
 }
