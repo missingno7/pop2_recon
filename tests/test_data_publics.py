@@ -268,6 +268,30 @@ class DataOnlyGroupTests(unittest.TestCase):
             self.judge('char pos_format[] = "Pos=%d";\nint f(void) { return 1; }\n', 0x111E, "pos_code")
 
 
+class AggregateExtentTests(unittest.TestCase):
+    """An original block copy anchored at S proves [S, S+L) is one copied unit (MOVE's 13-byte mob
+    records: `lea si,[bx+2aa4]; ...; mov cx,6; rep movsw; movsb`)."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.root = Oracle.load().spaces["root"]
+
+    def test_source_and_destination_copies_give_the_record_length(self):
+        from binding import block_copy_extent
+        self.assertEqual(block_copy_extent(self.root.data[0xCE7F:0xCE8B], 0xCE7F, 0x2AA4), 13)
+        self.assertEqual(block_copy_extent(self.root.data[0xCE9F:0xCEB0], 0xCE9F, 0x2AA4), 13)
+
+    def test_other_base_or_control_transfer_proves_nothing(self):
+        from binding import block_copy_extent
+        self.assertIsNone(block_copy_extent(self.root.data[0xCE7F:0xCE8B], 0xCE7F, 0x2AA5))
+        # lea si,[bx+2aa4]; jmp short $+2; mov cx,6; rep movsw: a jump inside the window
+        with self.assertRaisesRegex(ValueError, "straight-line"):
+            block_copy_extent(bytes.fromhex("8db7a42aeb00b90600f3a5"), 0, 0x2AA4)
+        # the count register rewritten after `mov cx,n`: no proven length
+        self.assertIsNone(block_copy_extent(bytes.fromhex("8db7a42ab9060041f3a5"), 0, 0x2AA4))
+
+
 class CaseAliasTests(unittest.TestCase):
     """A second case spelling of one external is refused unless recorded as debt."""
     SOURCE = (b"extern unsigned char room;\n/* x */\nextern unsigned char ROOM, other[4];\n"

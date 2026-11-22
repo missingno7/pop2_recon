@@ -247,6 +247,60 @@ def fixes(module):
     return [e for r in module.fixups for e in r["resolved"] if e["kind"] == "fixup"]
 
 
+def block_copy_extent(raw, at, base):
+    """Length L of one original block copy anchored at DGROUP offset `base`, else None.
+
+    `raw` holds straight-line original instructions starting at image offset `at`: SI or DI is
+    loaded with exactly `base` (`lea r,[bx+base]`, `lea r,[base]` or `mov r,base`), then
+    `mov cx,n` and `rep movsw` (optionally followed by one `movsb`) or `rep movsb` copy L bytes
+    through that register, with no control transfer and no other write to it or to CX in
+    between. A DI destination also needs ES loaded from DS inside the window. The program then
+    treats [base, base+L) as one copied unit (a struct assignment): any address in it belongs
+    to the same aggregate as base (2026-11-22, docs/dgroup-binding.md "Aggregate extents")."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    regs = {xc.X86_REG_SI: "si", xc.X86_REG_DI: "di"}
+    loaded, count, es_ds, prev = {}, None, False, None
+    for k, insn in enumerate(rows):
+        b = bytes(insn.bytes)
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)) or b in (b"\xf3\xa5", b"\xf3\xa4"),
+                "Extent witness window must be straight-line")
+        if b in (b"\xf3\xa5", b"\xf3\xa4"):
+            extra = 1 if (b == b"\xf3\xa5" and k + 1 < len(rows) and bytes(rows[k + 1].bytes) == b"\xa4") else 0
+            if count is None or not loaded:
+                return None
+            for reg in loaded:
+                if reg == "di" and not es_ds:
+                    continue
+                return count * (2 if b == b"\xf3\xa5" else 1) + extra
+            return None
+        ops = insn.operands
+        if insn.mnemonic in ("lea", "mov") and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].reg in regs:
+            reg = regs[ops[0].reg]
+            value = (ops[1].mem.disp & 0xFFFF if insn.mnemonic == "lea" and ops[1].type == xc.X86_OP_MEM and
+                     ops[1].mem.segment == 0 and ops[1].mem.index == 0 and ops[1].mem.base in (0, xc.X86_REG_BX)
+                     else ops[1].imm & 0xFFFF if insn.mnemonic == "mov" and ops[1].type == xc.X86_OP_IMM else None)
+            if value == base:
+                loaded[reg] = True
+            else:
+                loaded.pop(reg, None)
+            continue
+        written = {regs[o.reg] for o in ops[:1] if o.type == xc.X86_OP_REG and o.reg in regs}
+        for reg in written:
+            loaded.pop(reg, None)
+        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].reg == xc.X86_REG_CX:
+            count = ops[1].imm if ops[1].type == xc.X86_OP_IMM else None
+        elif ops and ops[0].type == xc.X86_OP_REG and ops[0].reg in (xc.X86_REG_CX, xc.X86_REG_CL, xc.X86_REG_CH):
+            count = None
+        if b == b"\x07" and prev == b"\x1e":      # push ds; pop es
+            es_ds = True
+        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and \
+                ops[0].reg == xc.X86_REG_ES and prev == b"\x8c\xd8":   # mov ax,ds; mov es,ax
+            es_ds = True
+        prev = b
+    return None
+
+
 def ground(binding, target, oracle, claimed=None):
     """Recheck frozen original witnesses outside the contribution being judged.
 
@@ -317,8 +371,20 @@ def ground(binding, target, oracle, claimed=None):
             internal = claimed is not None  # a group may prove an address by internal consensus
             require(type(symbol.get("witnesses")) is list and (symbol["witnesses"] or internal),
                     "DGROUP symbol has no independent witness")
+            # Aggregate extent: an original block copy anchored at S proves [S, S+L) is one unit.
+            length = 0
+            if "extent" in symbol:
+                spec = symbol["extent"]
+                require(set(spec) == {"length", "witness"} and symbol["witnesses"],
+                        "An aggregate extent needs {length, witness} and an independently witnessed base")
+                at, raw = witness(spec["witness"], draft_ok=True)
+                require("entry" in spec["witness"] and at in reachable_from_entry(oracle, spec["witness"]["entry"]),
+                        "Extent witness is not reached from its entry")
+                length = block_copy_extent(raw, at, offset)
+                require(length is not None and length == spec["length"],
+                        "Extent witness is not a block copy of the declared length anchored at the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
-                        type(m.get("witnesses")) is list and (m["witnesses"] or internal)
+                        type(m.get("witnesses")) is list and (m["witnesses"] or internal or m["offset"] < length)
                         for m in members) and len({m["offset"] for m in members}) == len(members),
                     "Every v4 member needs a positive offset and its own witnesses")
             # No linked value S+k of one symbol may equal T+j of another (aliasing).
@@ -475,6 +541,14 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
             else:
                 require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
                         "v4 proves zero-addend fields or independently witnessed members only")
+                member = next((m for m in symbol.get("members", []) if m["offset"] == addend), None)
+                if member is not None and not member["witnesses"] and "extent" in symbol and \
+                        addend < symbol["extent"]["length"]:
+                    # An extent-grounded member: the whole access stays inside the copied unit.
+                    insn = next(i for i in rows if operand_field(i, at, candidate=True))
+                    direct = [o for o in insn.operands if o.type == xc.X86_OP_MEM and o.mem.base == o.mem.index == 0]
+                    width = direct[0].size if fields[0] == "displacement" and direct else 1
+                    require(addend + width <= symbol["extent"]["length"], "Member access leaves the aggregate extent")
             value = (symbol["offset"] + addend) & 0xFFFF
             observed = struct.unpack_from("<H", expected, at)[0]
             if value != observed:

@@ -378,3 +378,18 @@ the frozen `fixups`/`declarations` and only far symbols. Its data publics ground
 externs (`dgroup-public` provider symbols, as for a group). The manifest lists the recipe under
 `data_groups`; validation recompiles it and includes its placements in the overlap check, so a
 correctly attributed data module can never coexist with a misattributed placement of the same bytes.
+
+## Aggregate extents (2026-11-22)
+
+A v4 member address S+k usually needs its own witness. Many single-use addresses are members
+of records the program copies whole (MOVE's 13-byte mob records, the 64-byte character records):
+`lea si,[bx+S]` (or `lea r,[S]` / `mov r,S`), `mov cx,n`, `rep movsw` (+ one `movsb`) or
+`rep movsb`. Such an original copy proves that [S, S+L) is one copied unit, L = 2n(+1) or n.
+A v4 symbol may therefore carry `"extent": {"length": L, "witness": {space, image_offset,
+bytes_hex, entry}}`: `binding.block_copy_extent` re-decodes the witness window from the original
+(reached from its entry, outside the candidate; straight-line; SI or DI loaded with exactly S; no
+other write to that register or CX before the copy; a DI destination needs ES loaded from DS in
+the window) and must yield exactly L. The base S must have its own independent witnesses. A member
+k with 0 < k < L then needs no further witness, and every access to it must stay inside the unit
+(k + width <= L); equations report support "aggregate extent". This proves the address lies in the
+same aggregate as S; it says nothing about the member's name or type.

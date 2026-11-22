@@ -934,15 +934,21 @@ def _internal_support(symbols, states, reports):
             continue
         if not symbol.get("witnesses"):
             need.add((name, 0))
-        need.update((name, m["offset"]) for m in symbol.get("members", []) if not m.get("witnesses"))
+        extent = (symbol.get("extent") or {}).get("length", 0)
+        need.update((name, m["offset"]) for m in symbol.get("members", [])
+                    if not m.get("witnesses") and not m["offset"] < extent)
     by_public = {r["public"]: r for r in reports}
     for state in states.values():
         for field in state["v4"]:
             for equation in state["equations"]:
                 if equation.get("kind") == "DGROUP offset16" and equation["offset"] == field["offset"]:
+                    symbol = symbols.get(field["key"][0], {})
+                    in_extent = (field["key"][1] and 0 < field["key"][1] < (symbol.get("extent") or {}).get("length", 0)
+                                 and not any(m["offset"] == field["key"][1] and m.get("witnesses")
+                                             for m in symbol.get("members", [])))
                     equation["support"] = ("internal consensus" if field["key"] in need else
                                            "accepted provider public" if field["key"][0] in provided else
-                                           "witnessed")
+                                           "aggregate extent" if in_extent else "witnessed")
     if not need:
         return
     changed = True
