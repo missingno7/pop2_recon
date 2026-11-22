@@ -637,7 +637,11 @@ extern void far pascal add_special_room_trob(unsigned char room, signed char til
 extern void far pascal add_sixth_room_trob(unsigned char room, signed char tile);
 extern void far pascal add_later_room_trob(unsigned char room, signed char tile);
 extern unsigned char current_room, left_room, right_room;
-extern unsigned char current_level_number, level_flags;
+extern unsigned char current_level_number;
+extern union {
+    unsigned long value;
+    unsigned char bytes[4];
+} current_tile_info;
 
 typedef struct {
     unsigned char kind;
@@ -686,10 +690,10 @@ void far pascal add_room_trobs(void)
 
         switch (kind) {
         default:
-            if (room == 6 && current_level_number == 6 && (level_flags & 16)) {
+            if (room == 6 && current_level_number == 6 && (current_tile_info.bytes[1] & 16)) {
                 add_sixth_room_trob(room, tile);
             } else if ((room == 7 || room == 8) &&
-                       current_level_number == 6 && (level_flags & 16)) {
+                       current_level_number == 6 && (current_tile_info.bytes[1] & 16)) {
                 add_later_room_trob(room, tile);
             }
             break;

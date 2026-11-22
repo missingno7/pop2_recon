@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "3b9a531f20b73ebbfdf34b316f99a88c0036c64574b54fd0b8b0094dbe34d9b6",
+  "binding_sha256": "95d2df40cf0f82d6e5d3f9a96b961c0d7243d5bf883a11e8b6cfd9b9912747ba",
   "claims": [
     {
       "fixup_count": 16,
@@ -320,6 +320,40 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0e56:0b50"
+    },
+    {
+      "fixup_count": 39,
+      "public": "START_KID",
+      "relocation_indices": [
+        1224,
+        1310,
+        1324
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:01a8"
+    }
+  ],
+  "code_matches": [
+    {
+      "public": "SPECIAL_ENTRANCE",
+      "target_id": "root:0e56:032a",
+      "unproven": [
+        "ENTRY_CELLS_A",
+        "ENTRY_CELLS_A+0x1",
+        "ENTRY_CELLS_B",
+        "ENTRY_CELLS_B+0x1"
+      ]
+    },
+    {
+      "public": "CALL_LEVEL_FRAME_PROC",
+      "target_id": "root:0e56:118c",
+      "unproven": [
+        "LEVEL_FRAME_PROCS",
+        "LEVEL_FRAME_PROCS+0x2"
+      ]
     }
   ],
   "data_publics": [
@@ -333,14 +367,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 418,
-      "public": "START_KID"
-    },
-    {
-      "object_offset": 804,
-      "public": "SPECIAL_ENTRANCE"
-    },
     {
       "object_offset": 1490,
       "public": "NEXT_FRAME"
@@ -356,10 +382,6 @@
     {
       "object_offset": 3416,
       "public": "CHECK_REBIRTH_POINTS"
-    },
-    {
-      "object_offset": 4486,
-      "public": "CALL_LEVEL_FRAME_PROC"
     }
   ],
   "emitted_size": 4620,
@@ -377,12 +399,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "ac9fee71b3225a4f3e458b190c720ee67e12ae28169245457b2f8038b2510425",
+  "object_sha256": "4bdb86e08d176c9d5f730224a4fd2cdd33c180c38fcffef45037c65fca414517",
   "origin": 58726,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "07d5c7d0e36ad968beebf02367ed5dafe6c3f68f273dab638eac68beabef64db",
+  "source_sha256": "214b62774f39095a383bb7889c8a3b11c7332c40e78fc0cfa729615dc8a85e0d",
   "space": "root"
 }

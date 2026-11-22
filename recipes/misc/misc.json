@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/misc/misc.json",
-  "binding_sha256": "d2df9f8d9c1b97c8b61ad1cfa9cd6742909babd04308f7b540e712ac7e00405e",
+  "binding_sha256": "411bcb354876773318c568a4faa281596f1a7fd767e8a678a9dec5efe7fd5be3",
   "claims": [
     {
       "fixup_count": 9,
@@ -124,22 +124,35 @@
       "target_id": "root:0f77:0a7c"
     }
   ],
+  "code_matches": [
+    {
+      "public": "SELECT_ROOM_ARRAYS",
+      "target_id": "root:0f77:0002",
+      "unproven": [
+        "SELECTED_ROOM"
+      ]
+    },
+    {
+      "public": "GETABOVEARY",
+      "target_id": "root:0f77:01b0",
+      "unproven": [
+        "ROOM_TILES+0xffff"
+      ]
+    },
+    {
+      "public": "SETLOCVARS",
+      "target_id": "root:0f77:07ca",
+      "unproven": [
+        "RIGHT_TILE",
+        "RIGHT_TILE+0x1",
+        "RIGHT_TILE+0x2"
+      ]
+    }
+  ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "SELECT_ROOM_ARRAYS"
-    },
-    {
-      "object_offset": 430,
-      "public": "GETABOVEARY"
-    },
     {
       "object_offset": 924,
       "public": "GETOBJECT"
-    },
-    {
-      "object_offset": 1992,
-      "public": "SETLOCVARS"
     }
   ],
   "emitted_size": 2700,
@@ -157,12 +170,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "misc/misc",
-  "object_sha256": "dd000ca0ee7db0ad6fab7586c5c493f0cafa6d242867fc4e511f66071c84c8ba",
+  "object_sha256": "ec778d4da226d9058c1665b9f40b7394c1b94397cf9f0cc320fcf334b68c2d6c",
   "origin": 63346,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/misc/misc.c",
-  "source_sha256": "0f56ccb291963b468632b7893525a3efda77c27599caf51516e6599c5257e081",
+  "source_sha256": "481e91842c021bda0373e2c596c484e4a171f57f67a78e252312c76b1bb1bf60",
   "space": "root"
 }

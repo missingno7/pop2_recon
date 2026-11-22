@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "fd2e4624ed2143422fccc68cebb1f8603cdf6c61086b5b30dcfd9b95b6d78a9d",
+  "binding_sha256": "08f4da250682bfa4bee06636b2214434ab7d66b5e2fe3c2a4fa7d5847214aef3",
   "claims": [
     {
       "fixup_count": 7,
@@ -563,6 +563,14 @@
       "unproven": [
         "ROOM_STATE+0x2b8"
       ]
+    },
+    {
+      "public": "DRAW_FIREBALL_OBJECT",
+      "target_id": "overlay-10:29cf:1cea",
+      "unproven": [
+        "FIREBALL_QUEUE+0xc",
+        "FIREBALL_QUEUE_SEGMENT"
+      ]
     }
   ],
   "drafts": [
@@ -601,10 +609,6 @@
     {
       "object_offset": 7224,
       "public": "CHECK_FIREBALL_HIT_WALL"
-    },
-    {
-      "object_offset": 7402,
-      "public": "DRAW_FIREBALL_OBJECT"
     }
   ],
   "emitted_size": 7804,

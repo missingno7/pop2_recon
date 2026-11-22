@@ -26,7 +26,7 @@ typedef struct {
 extern byte below_left_room, below_right_room, above_left_room, above_right_room;
 extern byte clip_left_edge;
 extern sbyte view_row, view_col;
-extern byte level_style;
+extern struct { byte before_style[0x1845]; byte style; } Level;
 extern int row_y[], col_x[];
 extern Rect screen_clip, cell_clip;
 extern RoomLinks room_links[];
@@ -142,12 +142,12 @@ void GetAboveAry(void)
             query.side_room = left_room;
         }
         row = view_row - 1;
-        missing = (!clip_left_edge && level_style != 4 && level_style != 5) ? 1 : 0;
+        missing = (!clip_left_edge && Level.style != 4 && Level.style != 5) ? 1 : 0;
         select_room_arrays(room);
         for (col = 1; col < 11; ++col) {
             GetObject(room, col - 1, row, &above_tiles[col].tile,
                       info = &above_tiles[col].info, missing);
-            if (clip_left_edge && view_row == 0 && level_style == 3 &&
+            if (clip_left_edge && view_row == 0 && Level.style == 3 &&
                 tile_has_upper_edge(room_tiles[view_room][col - 1])) {
                 TileInfo *field = *(TileInfo * volatile *)&info;
                 field->words.low = (field->words.low & 0x3fff) | 0x4000;
@@ -203,17 +203,17 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
         info->value = selected_info[cell].value;
     } else {
         *tile = missing;
-        if (level_style == 3 && (missing == 1 || missing == 20) && below_room) {
+        if (Level.style == 3 && (missing == 1 || missing == 20) && below_room) {
             if (!tile_has_side_edge(room_tiles[below_room][col])) {
                 info->words.low = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
                 info->words.high = 0;
             } else {
                 memset(info, 0, sizeof(*info));
             }
-        } else if (level_style == 2) {
+        } else if (Level.style == 2) {
             info->words.low = 0;
             info->words.high = 9;
-        } else if (level_style == 4) {
+        } else if (Level.style == 4) {
             info->words.low = 0;
             info->words.high = 0;
         } else {
@@ -347,7 +347,7 @@ void SetLocVars(void)
 
     if ((view_row != 2 || force_full_clip) && view_row != -1)
         missing = 20;
-    else if (level_style != 4 && level_style != 5)
+    else if (Level.style != 4 && Level.style != 5)
         missing = 1;
     else
         missing = 0;

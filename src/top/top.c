@@ -1,6 +1,6 @@
 /* TOP.C candidate, DOS frame 0e56. Definitions follow original order.
  * Address comments identify the observed operands behind external declarations. */
-extern signed char level;                          /* ds:0a18 */
+extern signed char current_level;                          /* ds:0a18 */
 #pragma pack(1)
 struct box { int left, top, right, bottom; };
 struct character {
@@ -39,16 +39,17 @@ extern int far *rebirth_data;                      /* ds:5bfc */
 extern unsigned char room_count;                   /* ds:4542 */
 extern unsigned char stage_set;                    /* ds:4547 */
 extern signed char stage_number;                   /* ds:4549 */
-extern signed char entry_room;                     /* ds:4562 */
-extern signed char entry_cell;                     /* ds:4563 */
-extern signed char entry_facing;                   /* ds:4564 */
+extern struct {
+    char before_entry[0x1860];
+    signed char entry_room, entry_cell, entry_facing;
+} Level;
 extern signed char guard_start_delay;             /* ds:5c63 */
 extern signed char end_room;                       /* ds:4568 */
 extern signed char game_request;                   /* ds:6ccc */
 extern signed char room_to_draw;                   /* ds:6ccd */
 extern signed char starting_health;                /* ds:6cd1 */
 extern int resume_mode;                            /* ds:5e00 */
-extern signed char entrance_mode;                  /* ds:5e03 */
+extern struct { signed char argument, entrance_mode; } entrance_state;
 extern signed char start_facing;                   /* ds:5e04 */
 extern signed char death_countdown;                /* ds:5e05 */
 extern int mirror_state;                           /* ds:5e08 */
@@ -288,7 +289,7 @@ int restart_level(signed char requested)
         if (requested == -1 || requested > 14)
             break;
         if (!resume_mode) {
-            reload = check_level_change(level, requested);
+            reload = check_level_change(current_level, requested);
             if (preview_mode) {
                 previous_request = game_request;
                 game_request = requested;
@@ -296,7 +297,7 @@ int restart_level(signed char requested)
                 game_request = previous_request;
                 reload = 1;
             }
-            if (requested != level)
+            if (requested != current_level)
                 reload = 1;
         } else {
             reload = 1;
@@ -306,7 +307,7 @@ int restart_level(signed char requested)
             reset_level_overlays();
             load_level(requested);
         } else {
-            load_level_minimum(level);
+            load_level_minimum(current_level);
         }
         reset_guard_records();
         initialize_guard_controls();
@@ -328,7 +329,7 @@ int restart_level(signed char requested)
                 finish_level();
             if (recording_mode) {
                 finish_recording();
-                requested = level = 0;
+                requested = current_level = 0;
                 next_level = 0;
             }
         }
@@ -352,24 +353,24 @@ void start_kid(void)
     Char.action = 0;
     if (stage_number == 7)
         special_entrance();
-    room_to_draw = Char.room = entry_room;
-    Char.column = entry_cell % 10;
-    Char.row = entry_cell / 10;
-    Char.direction = ~entry_facing;
+    room_to_draw = Char.room = Level.entry_room;
+    Char.column = Level.entry_cell % 10;
+    Char.row = Level.entry_cell / 10;
+    Char.direction = ~Level.entry_facing;
     seq = starting_sequence();
     Char.x = column_x[Char.column] + 14;
-    Char.hp_delta = Char.max_hp = level ? starting_health : 4;
+    Char.hp_delta = Char.max_hp = current_level ? starting_health : 4;
     repeat = 0;
     if (seq == -1) {
-        if (stage_set == 5 && entry_room == 4) {
+        if (stage_set == 5 && Level.entry_room == 4) {
             seq = 4;
             repeat = 9;
         } else if (stage_set == 1) {
             seq = 124;
-        } else if (entry_room == 27 && stage_number == 6) {
+        } else if (Level.entry_room == 27 && stage_number == 6) {
             seq = 2;
             Char.x = 240;
-        } else if (entry_room == 22 && stage_number == 10) {
+        } else if (Level.entry_room == 22 && stage_number == 10) {
             seq = 2;
             Char.x = 310;
         } else if (stage_number == 14 && Char.room == 1 && stage_number == 14) {
@@ -409,13 +410,13 @@ void finish_start_kid(void)
 
 void special_entrance(void)
 {
-    if (entrance_mode == 2) {
-        entry_room = 4;
-        entry_cell = 25;
+    if (entrance_state.entrance_mode == 2) {
+        Level.entry_room = 4;
+        Level.entry_cell = 25;
         entry_cells_a[0] = (unsigned) ((unsigned char *)entry_cells_a)[1] << 8;
     } else {
-        entry_room = 32;
-        entry_cell = 24;
+        Level.entry_room = 32;
+        Level.entry_cell = 24;
         entry_cells_b[0] = (unsigned) ((unsigned char *)entry_cells_b)[1] << 8;
     }
 }
@@ -424,7 +425,7 @@ void open_start_gate(void)
 {
     signed char cell;
 
-    if (Kid.room == entry_room) {
+    if (Kid.room == Level.entry_room) {
         select_room(Kid.room);
         cell = 0;
         do {
@@ -507,7 +508,7 @@ int run_frames(void)
         if (request == -2) {
             if (restart_request) {
                 request = reset_level();
-            } else if (level != next_level && !sound_busy() &&
+            } else if (current_level != next_level && !sound_busy() &&
                        (!start_level_track(resource_index + 10000) ||
                         resource_index == 4 || resource_index == 7 || resource_index == 54)) {
                 if (next_level == -1 || (stage_number != 9 && stage_number != 5))
@@ -1032,11 +1033,11 @@ void call_level_frame_proc(void)
 signed char reset_level(void)
 {
     restart_request = 0;
-    if (level == next_level) {
+    if (current_level == next_level) {
         reset_level_display();
         start_named_effect((char *)&GamePlayRect);
         if (game_request)
-            return level;
+            return current_level;
         return 0;
     }
     return next_level;
