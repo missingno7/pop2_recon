@@ -26,23 +26,23 @@ EXTRN clamp_point_to_rect:NEAR
 EXTRN near_bdda:NEAR
 EXTRN read_mouse_event_position:NEAR
 EXTRN add_port_origin:NEAR
-EXTRN process_grid_bounds:NEAR
+EXTRN scroll_context_rectangle:NEAR
 EXTRN push_port_clip:NEAR
 EXTRN restore_item_draw_state:NEAR
 EXTRN pop_port_clip:NEAR
 EXTRN copy_current_port_origin:NEAR
-EXTRN offset_rect_to_port:NEAR
+EXTRN apply_default_pen_state:NEAR
 EXTRN near_5284:NEAR
 EXTRN set_relative_pen_state:NEAR
 EXTRN scan_string_then_process_alt:NEAR
 EXTRN resolve_handle_to_far_payload:NEAR
 EXTRN set_record_range:NEAR
 EXTRN scan_string_then_process:NEAR
-EXTRN offset_rect_from_port:NEAR
+EXTRN toggle_rect_effect:NEAR
 EXTRN MoveTo:NEAR
 EXTRN update_message_display:NEAR
 EXTRN ascii_upper_byte:NEAR
-EXTRN offset_point_for_port:NEAR
+EXTRN draw_character:NEAR
 EXTRN draw_relative_axis_segment:NEAR
 EXTRN show_mouse_graphics:NEAR
 EXTRN allocate_tagged_handle:NEAR
@@ -499,7 +499,7 @@ loc_9b0f:
     push ds
     push ax
     push cs
-    call process_grid_bounds
+    call scroll_context_rectangle
     lea ax, [bp - 0ch]
     push ds
     push ax
@@ -667,7 +667,7 @@ draw_grid_items LABEL NEAR
     push cs
     call copy_current_port_origin
     push cs
-    call offset_rect_to_port
+    call apply_default_pen_state
     lea bx, [bp - 012h]
     les ax, DWORD PTR [bp + 4]
     mov dx, es
@@ -797,7 +797,7 @@ invalidate_grid_cell LABEL NEAR
     push ds
     push bx
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
     mov sp, bp
     pop bp
     ret
@@ -901,7 +901,7 @@ loc_9e02:
     push ds
     push si
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
 loc_9e40:
     mov di, word ptr [di]
     jmp SHORT loc_9def
@@ -954,7 +954,7 @@ loc_9e97:
     push dx
     push ax
     push cs
-    call offset_point_for_port
+    call draw_character
     add word ptr [bp - 2], ax
     push word ptr [di + 024h]
     push word ptr [di + 022h]
@@ -974,7 +974,7 @@ loc_9e97:
 loc_9ec4:
     push di
     push cs
-    call offset_point_for_port
+    call draw_character
     add word ptr [bp - 2], ax
     jmp SHORT loc_9e74
 loc_9ece:
@@ -1095,7 +1095,7 @@ loc_9f93:
     push ds
     push si
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
     mov word ptr [item_state_26fa], di
 loc_9fa6:
     xchg word ptr [item_state_2700], di
@@ -1105,7 +1105,7 @@ loc_9fa6:
     push ds
     push si
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
     call close_tracking_window
 loc_9fba:
     pop bx
@@ -1354,7 +1354,7 @@ loc_a175:
     mov bx, word ptr [bx]
     jmp SHORT loc_a175
 loc_a17d:
-    cmp bx, 026f0h
+    cmp bx, OFFSET menu_list
     jne loc_a18b
     jmp SHORT loc_a138
 loc_a185:
@@ -1897,7 +1897,7 @@ grid_item_callback LABEL NEAR
     push cs
     call copy_current_port_origin
     push cs
-    call offset_rect_to_port
+    call apply_default_pen_state
     cmp word ptr [di + 01ah], 0
     jne loc_a566
     mov bx, word ptr [current_port]
@@ -2057,7 +2057,7 @@ loc_a658:
     push es
     pop ds
     pop es
-    mov word ptr [di + 4], 0a526h
+    mov word ptr [di + 4], OFFSET grid_item_callback
     mov word ptr [di + 6], cs
     mov ax, 1
     mov word ptr [di + 01ah], ax
@@ -2369,7 +2369,7 @@ slider_item_callback LABEL NEAR
     push cs
     call copy_current_port_origin
     push cs
-    call offset_rect_to_port
+    call apply_default_pen_state
     call initialize_slider_geometry
     mov cx, word ptr [bp + 6]
     xchg si, ax
@@ -2431,7 +2431,7 @@ loc_a929:
     push es
     pop ds
     pop es
-    mov word ptr [di + 4], 0a8c2h
+    mov word ptr [di + 4], OFFSET slider_item_callback
     mov word ptr [di + 6], cs
     mov ax, 1
     mov word ptr [di + 01ah], ax
@@ -2693,7 +2693,7 @@ loc_aad9:
 loc_ab7a:
     push dx
     push cs
-    call offset_rect_to_port
+    call apply_default_pen_state
     pop ax
     call update_slider_value
     call notify_slider_changed
@@ -2885,7 +2885,7 @@ convert_slider_bounds LABEL NEAR
     push ds
     push ax
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
     ret
 
 PUBLIC notify_slider_changed
@@ -2975,7 +2975,7 @@ text_item_callback LABEL NEAR
     push cs
     call copy_current_port_origin
     push cs
-    call offset_rect_to_port
+    call apply_default_pen_state
     mov cx, word ptr [bp + 6]
     xchg si, ax
     cmp ax, 2
@@ -3080,7 +3080,7 @@ loc_ae07:
     push es
     pop ds
     pop es
-    mov word ptr [di + 4], 0ad36h
+    mov word ptr [di + 4], OFFSET text_item_callback
     mov word ptr [di + 6], cs
     mov word ptr [di + 01ch], 1
     dec cx
@@ -3371,7 +3371,7 @@ loc_b06b:
     mov word ptr [bx + 024h], cx
     push ax
     push cs
-    call offset_point_for_port
+    call draw_character
 loc_b08c:
     mov cx, word ptr [si + 1]
     jcxz loc_b0e2
@@ -3399,7 +3399,7 @@ loc_b08c:
 loc_b0c8:
     push word ptr [bx + 1]
     push cs
-    call offset_point_for_port
+    call draw_character
     dec word ptr [si + 024h]
     inc word ptr [si + 022h]
     neg ax
@@ -3441,7 +3441,7 @@ redraw_field_selection LABEL NEAR
     push ds
     push bx
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
 loc_b11d:
     mov cx, word ptr [di + 018h]
     jcxz loc_b12c
@@ -3450,7 +3450,7 @@ loc_b11d:
     push ds
     push bx
     push cs
-    call offset_rect_from_port
+    call toggle_rect_effect
 loc_b12c:
     ret
 PUBLIC align_b12d
