@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "4ced13f34dc02dc657df6175f5f64a9ef4ecf044521688a94eafb2a69175b691",
+  "binding_sha256": "ff6c4b155f8a1ef7b98d22f75cb351e52f4fdd276012bfd01775a304222b0722",
   "claims": [
     {
       "fixup_count": 4,
@@ -45,6 +45,11 @@
       "target_id": "root:0169:0600"
     },
     {
+      "fixup_count": 3,
+      "public": "FIND_CHARACTER_PEEL",
+      "target_id": "root:0169:067c"
+    },
+    {
       "fixup_count": 4,
       "public": "CLEAR_PEELS",
       "relocation_indices": [
@@ -53,6 +58,19 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0169:0794"
+    },
+    {
+      "fixup_count": 5,
+      "public": "@get_back_table_image_row",
+      "relocation_indices": [
+        176,
+        222
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:07c4"
     },
     {
       "fixup_count": 32,
@@ -169,8 +187,10 @@
         223,
         231
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "root:0169:0eb6"
     },
     {
@@ -261,16 +281,8 @@
       "public": "@add_peel"
     },
     {
-      "object_offset": 1654,
-      "public": "FIND_CHARACTER_PEEL"
-    },
-    {
       "object_offset": 1716,
       "public": "RESTORE_PEELS"
-    },
-    {
-      "object_offset": 1982,
-      "public": "@get_back_table_image_row"
     },
     {
       "object_offset": 2304,
@@ -298,19 +310,20 @@
     "/Zl",
     "/Gc",
     "/Og",
-    "/Zi"
+    "/Zi",
+    "/Ol"
   ],
   "frame": 361,
   "group_id": "group:add/add",
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "6a76ecda449c27ef766e718ee3922867204b1483a4349458956eba2b7614d753",
+  "object_sha256": "3660aabf6b9746c7ae1c30b728793530c19e46693c990ed18669439c2fe4acf6",
   "origin": 5782,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "ff4622ee09e54e38e4003d6e1f1ef39e03121b4339097cd873f433931a7352f3",
+  "source_sha256": "6ae79f9efd644c8da630ee176734e3d54a1e100ff51e91640ddefad0d7e5b792",
   "space": "root"
 }

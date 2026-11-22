@@ -222,7 +222,6 @@ extern Rect actor_clip;
 extern int actor_depth;
 extern int opponent_previous_frame;
 extern int opponent_previous_x;
-extern int opponent_previous_y;
 extern int actor_id;
 extern Byte actor_type;
 
@@ -419,17 +418,17 @@ void mark_peel_front_buffers(void)
 int find_character_peel(Offset actor, int occurrence)
 {
     int found = -1;
-    int index = 0;
-    register int occurrences = 0;
+    int index, occurrences;
     PeelDetails *details;
 
+    index = occurrences = 0;
     if (index < peel_count) {
         details = (PeelDetails *)&peel_entries[0].x;
         do {
             if (found != -1) break;
             if (actor == details->character) {
                 ++occurrences;
-                if (*(volatile int *)&occurrence == occurrences) found = index;
+                if (occurrence == occurrences) found = index;
             }
             details = (PeelDetails *)((char *)details + sizeof(PeelEntry));
             ++index;
@@ -445,8 +444,6 @@ void restore_peels(void)
     int *retain = &peel_entries[index].y;
     int *saved = &keep[index];
     int remaining;
-    PeelEntry *entry;
-    PeelEntry *destination;
 
     for (; retain -= sizeof(PeelEntry) / sizeof(int), --saved, index--; ) {
         unsigned int handle;
@@ -460,19 +457,16 @@ void restore_peels(void)
             restore_saved_pixels(handle);
         }
     }
-    remaining = index = 0;
-    if (peel_count > index) {
-        entry = peel_entries;
-        saved = keep;
-        destination = entry;
+    index = remaining = 0;
+    if (index < peel_count) {
         do {
-            if (*saved) {
-                *destination = *entry;
-                if (PEEL_CHARACTER(*entry) < 100) destination->y = 0;
-                ++destination;
+            if (keep[index]) {
+                peel_entries[remaining] = peel_entries[index];
+                if (PEEL_CHARACTER(peel_entries[remaining]) < 100)
+                    peel_entries[remaining].y = 0;
                 ++remaining;
             }
-        } while (++entry, ++saved, index++ < peel_count - 1);
+        } while (++index < *(volatile int *)&peel_count);
     }
     peel_count = remaining;
 }
@@ -494,13 +488,16 @@ void clear_peels(void)
 
 BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte palette)
 {
-    int index;
+    int index = 0;
     BFItem far *result = 0;
 
-    for (index = 0; index < back_count && result == 0; ++index) {
-        if (back_table[index].placement.image == image &&
-            back_table[index].palette == palette && back_table[index].flags == flags)
-            result = &back_table[index];
+    if (index < back_count) {
+        do {
+            if (result) break;
+            if (back_table[index].placement.image == image &&
+                back_table[index].palette == palette && back_table[index].flags == flags)
+                result = &back_table[index];
+        } while (++index < back_count);
     }
     return result;
 }
@@ -521,6 +518,7 @@ extern int actor_position_y;
 extern Offset actor_clip_mode;
 extern Byte opponent_clip_changed;
 extern int opponent_previous_mode;
+extern int opponent_previous_y;
 extern Rect opponent_clip;
 extern unsigned int object_position_handle;
 
@@ -822,7 +820,7 @@ void setup_flask(void)
 
 void check_background_shape(int index)
 {
-    int handle;
+    volatile int handle;
     int image;
 
     if (index < 0)
@@ -831,7 +829,7 @@ void check_background_shape(int index)
         find_locked_shape(background_shapes->images[index].handle))
         return;
     if ((handle = background_shapes->images[index].handle) != 0) {
-        release_shape(handle);
+        release_shape(background_shapes->images[index].handle);
         background_shapes->images[index].handle = 0;
     }
     image = index + 1;
