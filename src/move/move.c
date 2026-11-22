@@ -786,8 +786,8 @@ typedef struct {
 } MarkedRect;
 
 extern MarkedRect top_marks[10], move_marks[30], floor_marks[30], foreground_marks[30];
-extern int half_marks[30], redraw_marks[];
-extern volatile byte marked_room;
+extern int half_marks[30];
+extern byte marked_room;
 extern sbyte marked_cell;
 
 extern int rect_empty(MoveRect far *rect);
@@ -853,9 +853,11 @@ void mark_half(sbyte cell)
 
 void mark_redraw(int cell)
 {
+    extern unsigned int RedrawBuf[];
+
     if (cell < 30) {
         if (cell >= 0)
-            *(int *)((byte *)redraw_marks + (cell << 1)) = 1;
+            *(int *)((byte *)RedrawBuf + (cell << 1)) = 1;
         else
             mark_top(cell, 0);
     }
@@ -1909,7 +1911,7 @@ void check_loose_crush(void)
     index = 0;
     count = room_guard_counts[current_mob.room].guard_count;
     for (; index < count; ++index) {
-        if (current_mob.room == player_room) {
+        if ((player_room - current_mob.room) == 0) {
             load_guard_actor(index);
             if (loose_hits_actor()) {
                 hit_actor_with_loose();
@@ -1946,15 +1948,13 @@ int loose_hits_actor(void)
 
             edge = actor_column + far_crush_offset[actor_facing];
             if (edge == column) {
-                if (reach > 8)
-                    hit = 1;
+                hit = reach > 8;
             } else if (column == actor_column + near_crush_offset[actor_facing]) {
-                if (reach < 4)
-                    hit = 1;
+                hit = reach < 4;
             }
         }
     }
-    return hit != 0;
+    return hit;
 }
 
 

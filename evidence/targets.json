@@ -70239,6 +70239,45 @@
       "size": 30,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:0b41:23ac",
+      "space": "root",
+      "segment": 2881,
+      "offset": 9132,
+      "size": 230,
+      "sha256": "7c652cc06f95cd79a853bbe2e040980f6344d09d21de7789858d8f4d656214c0",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "classification": "GAME_C",
+      "classification_status": "original flow and MSC code shape reviewed",
+      "classification_evidence": [
+        "MSC far Pascal frame and return. Tests actor identity, room, row, height and loose-floor column to return a crush predicate."
+      ],
+      "abi": "far Pascal, no parameters, returns a Boolean in AX and uses RETF",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Two original PUSH CS; CALL near transfers at root+0xd72d and root+0xd772 reach root+0xd7bc, after the RETF that ends the reviewed CHECK_LOOSE_CRUSH extent.",
+        "The original branches converge on MOV AX,SI at root+0xd89a. The RETF at root+0xd8a1 ends immediately before the independently reviewed entry at 0b41:2492."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 55086,
+          "file_offset": 63278,
+          "pushed_cs_site": 55085,
+          "relocated_segment_site": null
+        },
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 55155,
+          "file_offset": 63347,
+          "pushed_cs_site": 55154,
+          "relocated_segment_site": null
+        }
+      ]
     }
   ],
   "schema": 1,

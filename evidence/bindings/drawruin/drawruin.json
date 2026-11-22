@@ -279,21 +279,24 @@
       "entry_sha256": "133d52d3c840f5135c55060589bd21c1065daa19ac176fbf6de876a76f249705"
     },
     "ADDBIMGTOBTABLE": {
-      "kind": "far-code-entry",
-      "space": "root",
+      "kind": "far-data",
       "segment": 361,
       "offset": 290,
-      "witnesses": [
+      "segment_witnesses": [
         {
           "space": "overlay-6",
-          "image_offset": 3441,
-          "file_offset": 218833,
-          "relocation_index": 98,
-          "bytes_hex": "9a22016901"
+          "image_offset": 3444,
+          "relocation_index": 98
         }
       ],
-      "entry_target_id": "root:0169:0122",
-      "entry_sha256": "455086fe14dd642d931ba414a4518211b913af4b30b418f77ef63b1c2d8feff2"
+      "offset_witnesses": [
+        {
+          "space": "overlay-6",
+          "image_offset": 3444,
+          "relocation_index": 98,
+          "kind": "relocated-far-pointer"
+        }
+      ]
     },
     "PIECELEFTID": {
       "kind": "far-code-entry",
@@ -313,21 +316,24 @@
       "entry_sha256": "645828ae661d982ace94d3c7d4aeeaf12584ac646fe27e63b887cdb934311a9f"
     },
     "ADD_FOREGROUND_IMAGE": {
-      "kind": "far-code-entry",
-      "space": "root",
+      "kind": "far-data",
       "segment": 361,
       "offset": 856,
-      "witnesses": [
+      "segment_witnesses": [
         {
           "space": "root",
-          "image_offset": 40266,
-          "file_offset": 48458,
-          "relocation_index": 867,
-          "bytes_hex": "9a58036901"
+          "image_offset": 40269,
+          "relocation_index": 867
         }
       ],
-      "entry_target_id": "root:0169:0358",
-      "entry_sha256": "bdce76d09235ca62e0d8c5ec9734d268ccba2de46782d4df8f7b6105ff538ee1"
+      "offset_witnesses": [
+        {
+          "space": "root",
+          "image_offset": 40269,
+          "relocation_index": 867,
+          "kind": "relocated-far-pointer"
+        }
+      ]
     },
     "TEST_BACK_NEIGHBOR": {
       "kind": "far-code-entry",
@@ -544,6 +550,29 @@
           "space": "overlay-6"
         }
       ]
+    },
+    "LEVEL_NUMBER": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 17737,
+      "witnesses": [
+        {
+          "bytes_hex": "a24945",
+          "entry": "root:0000:0000",
+          "image_offset": 194,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "DRAW_RUIN_GATE_DETAIL": {
+      "kind": "overlay-code-entry",
+      "space": "overlay-16",
+      "segment": 11714,
+      "offset": 0,
+      "witnesses": [],
+      "entry_target_id": "overlay-16:2dc2:0000",
+      "entry_sha256": "1de4f2413c86e4d083472e20d349a8ac638527b89319aceb7beb4e2a95bdd069"
     }
   },
   "fixups": [
@@ -613,7 +642,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -621,7 +650,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -694,7 +723,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -702,7 +731,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -748,7 +777,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -756,7 +785,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -829,7 +858,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -837,7 +866,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -883,7 +912,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -891,7 +920,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -937,7 +966,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -945,7 +974,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -991,7 +1020,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -999,7 +1028,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -1072,7 +1101,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1080,7 +1109,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1099,7 +1128,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1107,8 +1136,62 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 680,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 677,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1126,7 +1209,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1134,7 +1217,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1153,7 +1236,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1161,7 +1244,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1180,7 +1263,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -1188,7 +1271,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -1207,7 +1290,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -1215,7 +1298,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -1234,7 +1317,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1242,7 +1325,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1280,60 +1363,6 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 680,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 677,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
       "segment_offset": 1000,
       "loc_type": 1,
       "field_width": 2,
@@ -1342,7 +1371,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 13,
           "name": "DRAW_RUIN_BLOCK",
           "method": 6,
           "zero_displacement": true
@@ -1350,7 +1379,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 13,
         "name": "DRAW_RUIN_BLOCK",
         "method": 6,
         "zero_displacement": true
@@ -1369,7 +1398,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1377,7 +1406,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1396,7 +1425,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1404,7 +1433,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1450,7 +1479,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 13,
           "name": "DRAW_RUIN_BLOCK",
           "method": 6,
           "zero_displacement": true
@@ -1458,7 +1487,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 13,
         "name": "DRAW_RUIN_BLOCK",
         "method": 6,
         "zero_displacement": true
@@ -1499,7 +1528,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -1507,7 +1536,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -1526,7 +1555,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1534,7 +1563,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1553,7 +1582,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1561,8 +1590,89 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 1177,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 61,
+          "name": "DRAW_RUIN_FLAW",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 61,
+        "name": "DRAW_RUIN_FLAW",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 1120,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 1117,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1580,7 +1690,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1588,7 +1698,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1607,7 +1717,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1615,7 +1725,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1634,7 +1744,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -1642,7 +1752,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -1661,7 +1771,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -1669,7 +1779,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -1742,7 +1852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1750,7 +1860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1769,7 +1879,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1777,89 +1887,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1177,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 61,
-          "name": "DRAW_RUIN_FLAW",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 61,
-        "name": "DRAW_RUIN_FLAW",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1120,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1117,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -1877,7 +1906,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 37,
           "name": "DRAW_RUIN_EXIT_MOVABLE",
           "method": 6,
           "zero_displacement": true
@@ -1885,7 +1914,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 37,
         "name": "DRAW_RUIN_EXIT_MOVABLE",
         "method": 6,
         "zero_displacement": true
@@ -1923,7 +1952,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1341,
+      "segment_offset": 1348,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -1931,7 +1960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1939,7 +1968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1950,7 +1979,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1336,
+      "segment_offset": 1345,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -1958,7 +1987,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1966,7 +1995,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1977,7 +2006,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1328,
+      "segment_offset": 1340,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -1985,7 +2014,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1993,7 +2022,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -2004,7 +2033,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1322,
+      "segment_offset": 1328,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -2012,7 +2041,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2020,7 +2049,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2031,7 +2060,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1317,
+      "segment_offset": 1325,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -2039,7 +2068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2047,7 +2076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2058,7 +2087,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1306,
+      "segment_offset": 1310,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -2066,7 +2095,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -2074,7 +2103,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -2085,7 +2114,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1301,
+      "segment_offset": 1307,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -2093,7 +2122,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -2101,7 +2130,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -2112,7 +2141,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1283,
+      "segment_offset": 1293,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -2120,7 +2149,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2128,7 +2157,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2139,7 +2168,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1249,
+      "segment_offset": 1259,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -2161,7 +2190,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1242,
+      "segment_offset": 1252,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -2188,7 +2217,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1234,
+      "segment_offset": 1245,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -2196,7 +2225,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -2204,7 +2233,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -2215,7 +2244,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1224,
+      "segment_offset": 1238,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -2223,7 +2252,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -2231,7 +2260,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -2250,7 +2279,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2258,7 +2287,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2326,7 +2355,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2334,7 +2363,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2353,7 +2382,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2361,7 +2390,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2380,7 +2409,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2388,7 +2417,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2407,7 +2436,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2415,7 +2444,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2434,7 +2463,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 29,
           "name": "KID_FRAME",
           "method": 6,
           "zero_displacement": true
@@ -2442,7 +2471,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 29,
         "name": "KID_FRAME",
         "method": 6,
         "zero_displacement": true
@@ -2461,7 +2490,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 30,
+          "index": 29,
           "name": "KID_FRAME",
           "method": 6,
           "zero_displacement": true
@@ -2469,7 +2498,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 30,
+        "index": 29,
         "name": "KID_FRAME",
         "method": 6,
         "zero_displacement": true
@@ -2569,7 +2598,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 34,
           "name": "FIND_MOVING_EXIT",
           "method": 6,
           "zero_displacement": true
@@ -2577,7 +2606,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 34,
         "name": "FIND_MOVING_EXIT",
         "method": 6,
         "zero_displacement": true
@@ -2596,7 +2625,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 31,
           "name": "FIRSTINROW",
           "method": 6,
           "zero_displacement": true
@@ -2604,7 +2633,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 31,
         "name": "FIRSTINROW",
         "method": 6,
         "zero_displacement": true
@@ -2623,7 +2652,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 26,
           "name": "DRAWN_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -2631,7 +2660,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 26,
         "name": "DRAWN_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -2677,7 +2706,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2685,7 +2714,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2704,7 +2733,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "DOOR_CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2712,7 +2741,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "DOOR_CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2731,7 +2760,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2739,273 +2768,8 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2141,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 25,
-          "name": "DOOR_CLIP_RECT",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 25,
-        "name": "DOOR_CLIP_RECT",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2134,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "FRONT_TABLE_SEGMENT",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "FRONT_TABLE_SEGMENT",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2128,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 5,
-          "name": "LAST_FRONT_TABLE_SLOT",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 5,
-        "name": "LAST_FRONT_TABLE_SLOT",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2107,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
-          "name": "ADDBFIMGTOFTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 58,
-        "name": "ADDBFIMGTOFTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2071,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 4,
-          "name": "HIDDEN_FLAW_ROW",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "HIDDEN_FLAW_ROW",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2063,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 3,
-          "name": "HIDDEN_FLAW_COLUMN",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 3,
-        "name": "HIDDEN_FLAW_COLUMN",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2054,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 45,
-          "name": "DRAW_PASS_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 45,
-        "name": "DRAW_PASS_MODE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2037,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "group",
-        "index": 1,
-        "name": "DGROUP"
-      },
-      "target": {
-        "kind": "segment",
-        "index": 2,
-        "name": "_DATA",
-        "method": 4,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2021,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 22,
-          "name": "SHAPE_OFFSETS",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 22,
-        "name": "SHAPE_OFFSETS",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2011,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 45,
-          "name": "DRAW_PASS_MODE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 45,
-        "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3126,7 +2890,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3134,7 +2898,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3194,6 +2958,271 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
+      "segment_offset": 2141,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 24,
+          "name": "DOOR_CLIP_RECT",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 24,
+        "name": "DOOR_CLIP_RECT",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2134,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 4,
+          "name": "FRONT_TABLE_SEGMENT",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "FRONT_TABLE_SEGMENT",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2128,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 3,
+          "name": "LAST_FRONT_TABLE_SLOT",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "LAST_FRONT_TABLE_SLOT",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2107,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 56,
+          "name": "ADDBFIMGTOFTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 56,
+        "name": "ADDBFIMGTOFTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2071,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 2,
+          "name": "HIDDEN_FLAW_ROW",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "HIDDEN_FLAW_ROW",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2060,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 1,
+          "name": "HIDDEN_FLAW_COLUMN",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "HIDDEN_FLAW_COLUMN",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2054,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 44,
+          "name": "DRAW_PASS_MODE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 44,
+        "name": "DRAW_PASS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2037,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2021,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 22,
+          "name": "SHAPE_OFFSETS",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 22,
+        "name": "SHAPE_OFFSETS",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2011,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 44,
+          "name": "DRAW_PASS_MODE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 44,
+        "name": "DRAW_PASS_MODE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 2286,
       "loc_type": 3,
       "field_width": 4,
@@ -3202,7 +3231,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3210,7 +3239,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3229,7 +3258,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3237,7 +3266,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3256,7 +3285,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -3264,7 +3293,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -3283,7 +3312,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -3291,7 +3320,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -3329,222 +3358,6 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2420,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 44,
-          "name": "DRAW_RUIN_GATE_MOVABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 44,
-        "name": "DRAW_RUIN_GATE_MOVABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2370,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2367,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2362,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
-          "name": "ADDBFIMGTOFTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 58,
-        "name": "ADDBFIMGTOFTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2359,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
-          "name": "ADDBFIMGTOFTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 58,
-        "name": "ADDBFIMGTOFTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2354,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 59,
-          "name": "ADD_FOREGROUND_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 59,
-        "name": "ADD_FOREGROUND_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2351,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 59,
-          "name": "ADD_FOREGROUND_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 59,
-        "name": "ADD_FOREGROUND_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2345,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "DRAW_RUIN_BACK_WALL",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "DRAW_RUIN_BACK_WALL",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
       "segment_offset": 2425,
       "loc_type": 1,
       "field_width": 2,
@@ -3572,24 +3385,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2658,
+      "segment_offset": 2420,
       "loc_type": 1,
       "field_width": 2,
-      "self_relative": false,
+      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
-          "name": "CLIP_RECT",
+          "index": 42,
+          "name": "DRAW_RUIN_GATE_MOVABLE",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 46,
-        "name": "CLIP_RECT",
+        "index": 42,
+        "name": "DRAW_RUIN_GATE_MOVABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -3599,7 +3412,196 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2623,
+      "segment_offset": 2370,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2367,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2362,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 56,
+          "name": "ADDBFIMGTOFTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 56,
+        "name": "ADDBFIMGTOFTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2359,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 56,
+          "name": "ADDBFIMGTOFTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 56,
+        "name": "ADDBFIMGTOFTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2354,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 58,
+          "name": "ADD_FOREGROUND_IMAGE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 58,
+        "name": "ADD_FOREGROUND_IMAGE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2351,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 58,
+          "name": "ADD_FOREGROUND_IMAGE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 58,
+        "name": "ADD_FOREGROUND_IMAGE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2345,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 62,
+          "name": "DRAW_RUIN_BACK_WALL",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 62,
+        "name": "DRAW_RUIN_BACK_WALL",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2610,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3607,7 +3609,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 63,
+          "index": 59,
           "name": "DRAW_RUIN_GATE_DETAIL",
           "method": 6,
           "zero_displacement": true
@@ -3615,7 +3617,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 63,
+        "index": 59,
         "name": "DRAW_RUIN_GATE_DETAIL",
         "method": 6,
         "zero_displacement": true
@@ -3626,7 +3628,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2609,
+      "segment_offset": 2596,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -3634,7 +3636,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 62,
+          "index": 57,
           "name": "LEVEL_NUMBER",
           "method": 6,
           "zero_displacement": true
@@ -3642,7 +3644,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 62,
+        "index": 57,
         "name": "LEVEL_NUMBER",
         "method": 6,
         "zero_displacement": true
@@ -3653,7 +3655,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2602,
+      "segment_offset": 2589,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -3661,7 +3663,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 26,
           "name": "DRAWN_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3669,7 +3671,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 26,
         "name": "DRAWN_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3680,7 +3682,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2590,
+      "segment_offset": 2574,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -3688,7 +3690,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3696,7 +3698,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3707,7 +3709,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2585,
+      "segment_offset": 2571,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -3715,7 +3717,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3723,7 +3725,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3734,7 +3736,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2578,
+      "segment_offset": 2566,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -3742,7 +3744,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3750,7 +3752,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3761,7 +3763,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2573,
+      "segment_offset": 2563,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -3769,7 +3771,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3777,7 +3779,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3788,7 +3790,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2540,
+      "segment_offset": 2538,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -3850,7 +3852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3858,7 +3860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3877,7 +3879,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 24,
           "name": "DOOR_CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3885,7 +3887,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 24,
         "name": "DOOR_CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3904,7 +3906,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 45,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3912,7 +3914,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 45,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3923,7 +3925,34 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2939,
+      "segment_offset": 2652,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 45,
+          "name": "CLIP_RECT",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 45,
+        "name": "CLIP_RECT",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2924,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3931,7 +3960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3939,7 +3968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3950,7 +3979,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2895,
+      "segment_offset": 2882,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3958,7 +3987,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3966,7 +3995,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3977,7 +4006,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2850,
+      "segment_offset": 2840,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3985,7 +4014,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -3993,7 +4022,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4004,7 +4033,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2804,
+      "segment_offset": 2798,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -4012,7 +4041,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4020,7 +4049,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4031,7 +4060,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2733,
+      "segment_offset": 2727,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -4053,7 +4082,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2722,
+      "segment_offset": 2716,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -4075,7 +4104,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2952,
+      "segment_offset": 2933,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -4083,7 +4112,34 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 61,
+          "name": "DRAW_RUIN_FLAW",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 61,
+        "name": "DRAW_RUIN_FLAW",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2944,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 21,
           "name": "DRAW_RUIN_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -4091,7 +4147,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 21,
         "name": "DRAW_RUIN_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -4102,7 +4158,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2961,
+      "segment_offset": 3047,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -4129,34 +4185,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3067,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 61,
-          "name": "DRAW_RUIN_FLAW",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 61,
-        "name": "DRAW_RUIN_FLAW",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3030,
+      "segment_offset": 3002,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -4164,7 +4193,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -4172,7 +4201,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4183,7 +4212,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3025,
+      "segment_offset": 2999,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4191,7 +4220,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -4199,7 +4228,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4210,7 +4239,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3017,
+      "segment_offset": 2993,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -4237,7 +4266,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3012,
+      "segment_offset": 2990,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4264,7 +4293,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3007,
+      "segment_offset": 2987,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -4272,7 +4301,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4280,7 +4309,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4291,7 +4320,142 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3171,
+      "segment_offset": 3104,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 58,
+          "name": "ADD_FOREGROUND_IMAGE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 58,
+        "name": "ADD_FOREGROUND_IMAGE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3101,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 58,
+          "name": "ADD_FOREGROUND_IMAGE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 58,
+        "name": "ADD_FOREGROUND_IMAGE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3095,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 54,
+          "name": "ADDBIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 54,
+        "name": "ADDBIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3092,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 54,
+          "name": "ADDBIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 54,
+        "name": "ADDBIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3089,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 62,
+          "name": "DRAW_RUIN_BACK_WALL",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 62,
+        "name": "DRAW_RUIN_BACK_WALL",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3149,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -4309,222 +4473,6 @@
         "kind": "external",
         "index": 61,
         "name": "DRAW_RUIN_FLAW",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3134,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 59,
-          "name": "ADD_FOREGROUND_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 59,
-        "name": "ADD_FOREGROUND_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3129,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 59,
-          "name": "ADD_FOREGROUND_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 59,
-        "name": "ADD_FOREGROUND_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3121,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 54,
-          "name": "ADDBIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 54,
-        "name": "ADDBIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3116,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 54,
-          "name": "ADDBIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 54,
-        "name": "ADDBIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3111,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "DRAW_RUIN_BACK_WALL",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "DRAW_RUIN_BACK_WALL",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3294,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
-          "name": "ADDBFIMGTOFTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 58,
-        "name": "ADDBFIMGTOFTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3289,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
-          "name": "ADDBFIMGTOFTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 58,
-        "name": "ADDBFIMGTOFTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3276,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
       },
@@ -4535,33 +4483,6 @@
       "segment_index": 1,
       "segment": "UNIT_TEXT",
       "segment_offset": 3271,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "ADDBFIMGTOBTABLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "ADDBFIMGTOBTABLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3263,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -4569,88 +4490,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
-          "name": "ADD_FOREGROUND_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 59,
-        "name": "ADD_FOREGROUND_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3258,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 59,
-          "name": "ADD_FOREGROUND_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 59,
-        "name": "ADD_FOREGROUND_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3243,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 64,
-          "name": "DRAW_RUIN_BACK_WALL",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 64,
-        "name": "DRAW_RUIN_BACK_WALL",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3456,
-      "loc_type": 2,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4658,7 +4498,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4669,7 +4509,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3451,
+      "segment_offset": 3268,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4677,7 +4517,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4685,7 +4525,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4696,7 +4536,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3438,
+      "segment_offset": 3254,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -4704,7 +4544,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4712,7 +4552,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4723,7 +4563,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3433,
+      "segment_offset": 3251,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4731,7 +4571,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4739,7 +4579,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4750,7 +4590,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3418,
+      "segment_offset": 3241,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -4758,7 +4598,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -4766,7 +4606,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4777,7 +4617,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3413,
+      "segment_offset": 3238,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4785,7 +4625,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -4793,7 +4633,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4804,7 +4644,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3405,
+      "segment_offset": 3225,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -4812,7 +4652,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4820,7 +4660,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4831,7 +4671,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3594,
+      "segment_offset": 3443,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -4839,7 +4679,61 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 56,
+          "name": "ADDBFIMGTOFTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 56,
+        "name": "ADDBFIMGTOFTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3440,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 56,
+          "name": "ADDBFIMGTOFTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 56,
+        "name": "ADDBFIMGTOFTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3426,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4847,7 +4741,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4858,7 +4752,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3589,
+      "segment_offset": 3423,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4866,7 +4760,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4874,7 +4768,142 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3406,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 58,
+          "name": "ADD_FOREGROUND_IMAGE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 58,
+        "name": "ADD_FOREGROUND_IMAGE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3403,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 58,
+          "name": "ADD_FOREGROUND_IMAGE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 58,
+        "name": "ADD_FOREGROUND_IMAGE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3397,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 62,
+          "name": "DRAW_RUIN_BACK_WALL",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 62,
+        "name": "DRAW_RUIN_BACK_WALL",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3590,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
+        "name": "ADDBFIMGTOBTABLE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3587,
+      "loc_type": 5,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 55,
+          "name": "ADDBFIMGTOBTABLE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4893,7 +4922,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4901,7 +4930,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4912,7 +4941,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3577,
+      "segment_offset": 3579,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4920,7 +4949,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4928,7 +4957,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4947,7 +4976,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -4955,7 +4984,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4966,7 +4995,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3561,
+      "segment_offset": 3563,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -4974,7 +5003,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -4982,7 +5011,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -4993,7 +5022,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3553,
+      "segment_offset": 3557,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -5001,7 +5030,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -5009,7 +5038,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -5020,7 +5049,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3631,
+      "segment_offset": 3640,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -5047,88 +5076,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3734,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 24,
-          "name": "DRAW_RUIN_FLOOR",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 24,
-        "name": "DRAW_RUIN_FLOOR",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3724,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 2,
-          "name": "DRAW_RUIN_DOWN_PLATE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 2,
-        "name": "DRAW_RUIN_DOWN_PLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3700,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 14,
-          "name": "DRAW_RUIN_UP_PLATE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 14,
-        "name": "DRAW_RUIN_UP_PLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 3760,
+      "segment_offset": 3764,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -5155,7 +5103,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3753,
+      "segment_offset": 3757,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -5163,7 +5111,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 47,
           "name": "DRAW_RUIN_RUBBLE_PIECES",
           "method": 6,
           "zero_displacement": true
@@ -5171,7 +5119,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 47,
         "name": "DRAW_RUIN_RUBBLE_PIECES",
         "method": 6,
         "zero_displacement": true
@@ -5182,7 +5130,61 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3746,
+      "segment_offset": 3750,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 62,
+          "name": "DRAW_RUIN_BACK_WALL",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 62,
+        "name": "DRAW_RUIN_BACK_WALL",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3738,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 21,
+          "name": "DRAW_RUIN_FLOOR",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 21,
+        "name": "DRAW_RUIN_FLOOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3728,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -5191,7 +5193,7 @@
         "target": {
           "kind": "external",
           "index": 64,
-          "name": "DRAW_RUIN_BACK_WALL",
+          "name": "DRAW_RUIN_DOWN_PLATE",
           "method": 6,
           "zero_displacement": true
         }
@@ -5199,7 +5201,34 @@
       "target": {
         "kind": "external",
         "index": 64,
-        "name": "DRAW_RUIN_BACK_WALL",
+        "name": "DRAW_RUIN_DOWN_PLATE",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 3705,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 12,
+          "name": "DRAW_RUIN_UP_PLATE",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 12,
+        "name": "DRAW_RUIN_UP_PLATE",
         "method": 6,
         "zero_displacement": true
       },
@@ -5236,7 +5265,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3859,
+      "segment_offset": 3849,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -5244,7 +5273,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -5252,7 +5281,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -5263,7 +5292,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3854,
+      "segment_offset": 3846,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -5271,7 +5300,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 55,
           "name": "ADDBFIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -5279,7 +5308,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 55,
         "name": "ADDBFIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -5290,7 +5319,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3843,
+      "segment_offset": 3837,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -5298,7 +5327,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -5306,7 +5335,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -5317,7 +5346,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3838,
+      "segment_offset": 3834,
       "loc_type": 5,
       "field_width": 2,
       "self_relative": false,
@@ -5325,7 +5354,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 56,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -5333,7 +5362,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 56,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -5344,7 +5373,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 3827,
+      "segment_offset": 3825,
       "loc_type": 2,
       "field_width": 2,
       "self_relative": false,
@@ -5352,7 +5381,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -5360,7 +5389,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -5379,7 +5408,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 58,
           "name": "ADD_FOREGROUND_IMAGE",
           "method": 6,
           "zero_displacement": true
@@ -5387,7 +5416,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 58,
         "name": "ADD_FOREGROUND_IMAGE",
         "method": 6,
         "zero_displacement": true
@@ -5433,7 +5462,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 64,
+          "index": 62,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -5441,7 +5470,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 64,
+        "index": 62,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -5460,7 +5489,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 8,
           "name": "IS_SIX_KIND",
           "method": 6,
           "zero_displacement": true
@@ -5468,7 +5497,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 8,
         "name": "IS_SIX_KIND",
         "method": 6,
         "zero_displacement": true
@@ -5487,7 +5516,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 5,
           "name": "BELOW_TILE_KIND",
           "method": 6,
           "zero_displacement": true
@@ -5495,7 +5524,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 5,
         "name": "BELOW_TILE_KIND",
         "method": 6,
         "zero_displacement": true
@@ -5514,7 +5543,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 2,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5522,7 +5551,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5541,7 +5570,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 7,
           "name": "TEST_BACK_NEIGHBOR",
           "method": 6,
           "zero_displacement": true
@@ -5549,7 +5578,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 7,
         "name": "TEST_BACK_NEIGHBOR",
         "method": 6,
         "zero_displacement": true
@@ -5568,7 +5597,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 2,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5576,7 +5605,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5595,7 +5624,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 2,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5603,7 +5632,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 2,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5622,7 +5651,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 9,
           "name": "RUINS_DRAW_STATE",
           "method": 6,
           "zero_displacement": true
@@ -5630,7 +5659,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 9,
         "name": "RUINS_DRAW_STATE",
         "method": 6,
         "zero_displacement": true
@@ -5649,7 +5678,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "SELECT_TILE",
           "method": 6,
           "zero_displacement": true
@@ -5657,7 +5686,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "SELECT_TILE",
         "method": 6,
         "zero_displacement": true
@@ -5676,7 +5705,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 17,
           "name": "TILE_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5684,7 +5713,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "TILE_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5703,7 +5732,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 16,
           "name": "TILE_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -5711,7 +5740,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "TILE_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -5730,7 +5759,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -5738,7 +5767,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -5757,7 +5786,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 41,
           "name": "RUIN_SET_CREVICE_REVEALED",
           "method": 6,
           "zero_displacement": true
@@ -5765,7 +5794,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 41,
         "name": "RUIN_SET_CREVICE_REVEALED",
         "method": 6,
         "zero_displacement": true
@@ -5784,7 +5813,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "SELECT_TILE",
           "method": 6,
           "zero_displacement": true
@@ -5792,7 +5821,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "SELECT_TILE",
         "method": 6,
         "zero_displacement": true
@@ -5811,7 +5840,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 17,
           "name": "TILE_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5819,7 +5848,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "TILE_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5838,7 +5867,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 16,
           "name": "TILE_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -5846,7 +5875,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "TILE_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -5865,7 +5894,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -5873,7 +5902,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -5892,7 +5921,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "SELECT_TILE",
           "method": 6,
           "zero_displacement": true
@@ -5900,7 +5929,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "SELECT_TILE",
         "method": 6,
         "zero_displacement": true
@@ -5919,7 +5948,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 17,
           "name": "TILE_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5927,7 +5956,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "TILE_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5946,7 +5975,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 16,
           "name": "TILE_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -5954,7 +5983,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "TILE_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -5973,7 +6002,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -5981,7 +6010,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6000,7 +6029,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "SELECT_TILE",
           "method": 6,
           "zero_displacement": true
@@ -6008,7 +6037,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "SELECT_TILE",
         "method": 6,
         "zero_displacement": true
@@ -6027,7 +6056,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 46,
           "name": "RUIN_CHANGE_CREVICES",
           "method": 6,
           "zero_displacement": true
@@ -6035,7 +6064,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 46,
         "name": "RUIN_CHANGE_CREVICES",
         "method": 6,
         "zero_displacement": true
@@ -6054,7 +6083,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 23,
           "name": "ACTOR_ROW",
           "method": 6,
           "zero_displacement": true
@@ -6062,7 +6091,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 23,
         "name": "ACTOR_ROW",
         "method": 6,
         "zero_displacement": true
@@ -6081,7 +6110,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 23,
+          "index": 20,
           "name": "ACTOR_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -6089,7 +6118,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 23,
+        "index": 20,
         "name": "ACTOR_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -6108,7 +6137,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 19,
           "name": "ACTOR_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -6116,7 +6145,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 19,
         "name": "ACTOR_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6135,7 +6164,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 27,
           "name": "TILE_MODIFIER",
           "method": 6,
           "zero_displacement": true
@@ -6143,7 +6172,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 27,
         "name": "TILE_MODIFIER",
         "method": 6,
         "zero_displacement": true
@@ -6162,7 +6191,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 33,
           "name": "SELECT_TILE_BELOW",
           "method": 6,
           "zero_displacement": true
@@ -6170,7 +6199,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 33,
         "name": "SELECT_TILE_BELOW",
         "method": 6,
         "zero_displacement": true
@@ -6189,7 +6218,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 25,
           "name": "ACTOR_FRAME",
           "method": 6,
           "zero_displacement": true
@@ -6197,7 +6226,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 25,
         "name": "ACTOR_FRAME",
         "method": 6,
         "zero_displacement": true
@@ -6216,7 +6245,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 39,
           "name": "CELL_STATES",
           "method": 6,
           "zero_displacement": true
@@ -6224,7 +6253,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 39,
         "name": "CELL_STATES",
         "method": 6,
         "zero_displacement": true
@@ -6243,7 +6272,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 18,
           "name": "TILE_INDEX",
           "method": 6,
           "zero_displacement": true
@@ -6251,7 +6280,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 18,
         "name": "TILE_INDEX",
         "method": 6,
         "zero_displacement": true
@@ -6270,7 +6299,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -6278,7 +6307,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6297,7 +6326,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "SELECT_TILE",
           "method": 6,
           "zero_displacement": true
@@ -6305,7 +6334,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "SELECT_TILE",
         "method": 6,
         "zero_displacement": true
@@ -6324,7 +6353,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 17,
           "name": "TILE_ROW",
           "method": 6,
           "zero_displacement": true
@@ -6332,7 +6361,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "TILE_ROW",
         "method": 6,
         "zero_displacement": true
@@ -6351,7 +6380,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 16,
           "name": "TILE_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -6359,7 +6388,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "TILE_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -6378,7 +6407,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -6386,7 +6415,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6405,7 +6434,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 36,
           "name": "REDRAW_CELL",
           "method": 6,
           "zero_displacement": true
@@ -6413,7 +6442,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 36,
         "name": "REDRAW_CELL",
         "method": 6,
         "zero_displacement": true
@@ -6432,7 +6461,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 34,
+          "index": 30,
           "name": "SELECT_TILE",
           "method": 6,
           "zero_displacement": true
@@ -6440,7 +6469,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 34,
+        "index": 30,
         "name": "SELECT_TILE",
         "method": 6,
         "zero_displacement": true
@@ -6459,7 +6488,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 17,
           "name": "TILE_ROW",
           "method": 6,
           "zero_displacement": true
@@ -6467,7 +6496,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 17,
         "name": "TILE_ROW",
         "method": 6,
         "zero_displacement": true
@@ -6486,7 +6515,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 16,
           "name": "TILE_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -6494,7 +6523,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "TILE_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -6513,7 +6542,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -6521,7 +6550,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6540,7 +6569,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 16,
           "name": "TILE_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -6548,7 +6577,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 16,
         "name": "TILE_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -6567,7 +6596,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 36,
           "name": "REDRAW_CELL",
           "method": 6,
           "zero_displacement": true
@@ -6575,7 +6604,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 36,
         "name": "REDRAW_CELL",
         "method": 6,
         "zero_displacement": true
@@ -6594,7 +6623,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 35,
           "name": "NEED_REDRAW",
           "method": 6,
           "zero_displacement": true
@@ -6602,7 +6631,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 35,
         "name": "NEED_REDRAW",
         "method": 6,
         "zero_displacement": true
@@ -6621,7 +6650,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 18,
           "name": "TILE_INDEX",
           "method": 6,
           "zero_displacement": true
@@ -6629,7 +6658,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 18,
         "name": "TILE_INDEX",
         "method": 6,
         "zero_displacement": true
@@ -6648,7 +6677,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -6656,7 +6685,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6675,7 +6704,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 39,
           "name": "CELL_STATES",
           "method": 6,
           "zero_displacement": true
@@ -6683,7 +6712,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 39,
         "name": "CELL_STATES",
         "method": 6,
         "zero_displacement": true
@@ -6702,7 +6731,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 18,
           "name": "TILE_INDEX",
           "method": 6,
           "zero_displacement": true
@@ -6710,7 +6739,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 18,
         "name": "TILE_INDEX",
         "method": 6,
         "zero_displacement": true
@@ -6729,7 +6758,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 15,
           "name": "TILE_ROOM",
           "method": 6,
           "zero_displacement": true
@@ -6737,7 +6766,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 15,
         "name": "TILE_ROOM",
         "method": 6,
         "zero_displacement": true
@@ -6799,7 +6828,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 2501,
+        "length": 2461,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -6811,7 +6840,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 1690,
+        "length": 1676,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -6832,31 +6861,22 @@
     ],
     "publics": [
       {
-        "name": "RUIN_CHECK_CREVICES",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 4182,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 652
-      },
-      {
-        "name": "DRAW_RUIN_DOWN_PLATE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 3180,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 622
-      },
-      {
         "name": "DRAW_RUIN_EXIT_LEFT",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1010,
         "group_index": 0,
         "frame": null,
-        "type_index": 572
+        "type_index": 570
+      },
+      {
+        "name": "DRAW_RUIN_LOOSE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 2672,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 614
       },
       {
         "name": "DRAW_RUIN_SPACE",
@@ -6865,25 +6885,16 @@
         "offset": 3904,
         "group_index": 0,
         "frame": null,
-        "type_index": 636
-      },
-      {
-        "name": "DRAW_RUIN_LOOSE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 2678,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 616
+        "type_index": 634
       },
       {
         "name": "DRAW_RUIN_UP_PLATE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 3342,
+        "offset": 3332,
         "group_index": 0,
         "frame": null,
-        "type_index": 624
+        "type_index": 622
       },
       {
         "name": "DRAW_RUIN_BLOCK",
@@ -6901,7 +6912,7 @@
         "offset": 4012,
         "group_index": 0,
         "frame": null,
-        "type_index": 637
+        "type_index": 635
       },
       {
         "name": "DRAW_RUIN_FLOOR",
@@ -6910,7 +6921,16 @@
         "offset": 2156,
         "group_index": 0,
         "frame": null,
-        "type_index": 609
+        "type_index": 607
+      },
+      {
+        "name": "DRAW_RUIN_POSTS",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 3504,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 624
       },
       {
         "name": "DRAW_RUIN_BONES",
@@ -6922,22 +6942,13 @@
         "type_index": 549
       },
       {
-        "name": "DRAW_RUIN_POSTS",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 3504,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 626
-      },
-      {
         "name": "DRAW_RUIN_EXIT_MOVABLE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "offset": 1438,
         "group_index": 0,
         "frame": null,
-        "type_index": 592
+        "type_index": 590
       },
       {
         "name": "DRAW_RUIN_EXIT_RIGHT",
@@ -6946,16 +6957,16 @@
         "offset": 1188,
         "group_index": 0,
         "frame": null,
-        "type_index": 590
+        "type_index": 588
       },
       {
         "name": "DRAW_RUIN_PILLAR_BOTTOM",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 2972,
+        "offset": 2954,
         "group_index": 0,
         "frame": null,
-        "type_index": 618
+        "type_index": 616
       },
       {
         "name": "RUIN_SET_CREVICE_REVEALED",
@@ -6964,7 +6975,7 @@
         "offset": 4232,
         "group_index": 0,
         "frame": null,
-        "type_index": 654
+        "type_index": 652
       },
       {
         "name": "DRAW_RUIN_GATE_MOVABLE",
@@ -6973,7 +6984,7 @@
         "offset": 2436,
         "group_index": 0,
         "frame": null,
-        "type_index": 614
+        "type_index": 612
       },
       {
         "name": "DRAW_RUIN_GATE",
@@ -6982,7 +6993,7 @@
         "offset": 2302,
         "group_index": 0,
         "frame": null,
-        "type_index": 611
+        "type_index": 609
       },
       {
         "name": "RUIN_CHANGE_CREVICES",
@@ -6991,34 +7002,34 @@
         "offset": 4020,
         "group_index": 0,
         "frame": null,
-        "type_index": 651
+        "type_index": 649
       },
       {
         "name": "DRAW_RUIN_RUBBLE_PIECES",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 3770,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 630
-      },
-      {
-        "name": "DRAW_RUIN_RUBBLE",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 3642,
+        "offset": 3774,
         "group_index": 0,
         "frame": null,
         "type_index": 628
       },
       {
+        "name": "DRAW_RUIN_RUBBLE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 3650,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 626
+      },
+      {
         "name": "DRAW_RUIN_PILLAR_TOP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 3076,
+        "offset": 3058,
         "group_index": 0,
         "frame": null,
-        "type_index": 620
+        "type_index": 618
       },
       {
         "name": "DRAW_RUIN_CREVICE",
@@ -7027,7 +7038,7 @@
         "offset": 740,
         "group_index": 0,
         "frame": null,
-        "type_index": 570
+        "type_index": 568
       },
       {
         "name": "DRAW_RUIN_FLAW",
@@ -7036,7 +7047,7 @@
         "offset": 1762,
         "group_index": 0,
         "frame": null,
-        "type_index": 605
+        "type_index": 603
       },
       {
         "name": "DRAW_RUIN_BACK_WALL",
@@ -7046,22 +7057,38 @@
         "group_index": 0,
         "frame": null,
         "type_index": 544
+      },
+      {
+        "name": "RUIN_CHECK_CREVICES",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 4182,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 650
+      },
+      {
+        "name": "DRAW_RUIN_DOWN_PLATE",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 3160,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 620
       }
     ],
     "externals": [
-      "RUIN_CHECK_CREVICES",
-      "DRAW_RUIN_DOWN_PLATE",
       "HIDDEN_FLAW_COLUMN",
       "HIDDEN_FLAW_ROW",
       "LAST_FRONT_TABLE_SLOT",
       "FRONT_TABLE_SEGMENT",
-      "DRAW_RUIN_EXIT_LEFT",
       "BELOW_TILE_KIND",
+      "DRAW_RUIN_EXIT_LEFT",
       "TEST_BACK_NEIGHBOR",
       "IS_SIX_KIND",
       "RUINS_DRAW_STATE",
-      "DRAW_RUIN_SPACE",
       "DRAW_RUIN_LOOSE",
+      "DRAW_RUIN_SPACE",
       "DRAW_RUIN_UP_PLATE",
       "DRAW_RUIN_BLOCK",
       "LOADRUINSDRAWCODE",
@@ -7070,49 +7097,51 @@
       "TILE_ROW",
       "TILE_INDEX",
       "ACTOR_ROOM",
-      "SHAPE_OFFSETS",
       "ACTOR_COLUMN",
       "DRAW_RUIN_FLOOR",
-      "DOOR_CLIP_RECT",
+      "SHAPE_OFFSETS",
       "ACTOR_ROW",
-      "DRAWN_ROOM",
-      "DRAW_RUIN_BONES",
+      "DOOR_CLIP_RECT",
       "ACTOR_FRAME",
-      "KID_FRAME",
+      "DRAWN_ROOM",
       "TILE_MODIFIER",
       "DRAW_RUIN_POSTS",
-      "FIRSTINROW",
+      "KID_FRAME",
       "SELECT_TILE",
-      "FIND_MOVING_EXIT",
+      "FIRSTINROW",
+      "DRAW_RUIN_BONES",
       "SELECT_TILE_BELOW",
+      "FIND_MOVING_EXIT",
       "NEED_REDRAW",
-      "DRAW_RUIN_EXIT_MOVABLE",
       "REDRAW_CELL",
+      "DRAW_RUIN_EXIT_MOVABLE",
       "DRAW_RUIN_EXIT_RIGHT",
       "CELL_STATES",
       "DRAW_RUIN_PILLAR_BOTTOM",
       "RUIN_SET_CREVICE_REVEALED",
       "DRAW_RUIN_GATE_MOVABLE",
+      "DRAW_RUIN_GATE",
       "DRAW_PASS_MODE",
       "CLIP_RECT",
-      "DRAW_RUIN_GATE",
       "RUIN_CHANGE_CREVICES",
-      "@get_back_table_image_row",
       "DRAW_RUIN_RUBBLE_PIECES",
+      "DRAW_RUIN_RUBBLE",
+      "@get_back_table_image_row",
+      "DRAW_RUIN_PILLAR_TOP",
       "INTERSECT_RECT",
       "UNION_RECT",
-      "DRAW_RUIN_RUBBLE",
-      "ADDBIMGTOBTABLE",
-      "DRAW_RUIN_PILLAR_TOP",
       "DRAW_RUIN_CREVICE",
+      "ADDBIMGTOBTABLE",
       "ADDBFIMGTOBTABLE",
       "ADDBFIMGTOFTABLE",
+      "LEVEL_NUMBER",
       "ADD_FOREGROUND_IMAGE",
+      "DRAW_RUIN_GATE_DETAIL",
       "PIECELEFTID",
       "DRAW_RUIN_FLAW",
-      "LEVEL_NUMBER",
-      "DRAW_RUIN_GATE_DETAIL",
-      "DRAW_RUIN_BACK_WALL"
+      "DRAW_RUIN_BACK_WALL",
+      "RUIN_CHECK_CREVICES",
+      "DRAW_RUIN_DOWN_PLATE"
     ]
   },
   "placements": {

@@ -112,6 +112,7 @@ typedef struct {
 } GuardRoom;
 
 extern GuardActor Char, actor_slots[];
+#define guard_id (Char.bytes[0])
 extern GuardRoom guard_rooms[];
 extern unsigned char actor_room, room_to_check;
 extern signed char actor_facing, target_facing, actor_row, target_row, actor_column;
@@ -757,11 +758,11 @@ int far pascal opponent_close(signed char slot, signed char column, signed char 
     Opponent near *opponent = GetOppInfoIdx(room_to_check, slot);
 
     if (!opponent || (signed char)death_count < 0 || ACTOR_WORD(Char, 36) == 5)
-        return clear;
+        goto done;
     if (opponent->timer && !IsExitChasingSkel(actor_room))
-        return clear;
+        goto done;
 
-    if (actor_column > column) {
+    if (*(volatile signed char near *)&actor_column > column) {
         limit = actor_column + 1;
         step = 1;
     } else {
@@ -780,13 +781,14 @@ int far pascal opponent_close(signed char slot, signed char column, signed char 
             column += step;
         } while (clear && limit != column);
     }
+done:
     return clear;
 }
 
 void far pascal raise_nearby_opponents(void)
 {
     signed char index, count, radius;
-    volatile int started;
+    int started;
     Opponent near *opponent;
 
     if (IsExitChasingSkel((unsigned char)Kid.bytes[14]))
@@ -830,8 +832,8 @@ void far pascal raise_nearby_opponents(void)
                     alert_state = 3;
                     if (actor_kind == 10)
                         actor_facing = ACTOR_WORD(Kid, 2) <= ACTOR_WORD(Char, 2) ? -1 : 0;
-                    guard_counter = 0;
-                    effect_y = 0;
+                    *(volatile int near *)&guard_counter = 0;
+                    *(volatile int near *)&effect_y = 0;
                     ClearCharVel();
                     if (pending_slot == -1)
                         pending_slot = guard_id;

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "0174d2e6b8b4b819653b06eb0c491c1332d613a87e074fa5b462cf0161dfeb08",
+  "binding_sha256": "b968fb96a7c9843c5e1831a97dd9a7e0e4e93285f6578ab320fe88c92fb3a963",
   "claims": [
     {
       "fixup_count": 13,
@@ -149,6 +149,16 @@
       "fixup_count": 2,
       "public": "MARK_HALF",
       "target_id": "root:0b41:0e60"
+    },
+    {
+      "fixup_count": 2,
+      "public": "MARK_REDRAW",
+      "target_id": "root:0b41:0e96"
+    },
+    {
+      "fixup_count": 11,
+      "public": "MARK_CELL_REDRAW",
+      "target_id": "root:0b41:0ec2"
     },
     {
       "fixup_count": 3,
@@ -334,6 +344,11 @@
       "target_id": "root:0b41:1f32"
     },
     {
+      "fixup_count": 6,
+      "public": "ADD_MOBS",
+      "target_id": "root:0b41:1faa"
+    },
+    {
       "fixup_count": 24,
       "public": "COMPUTE_MOB_RECT",
       "relocation_indices": [
@@ -356,6 +371,34 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0b41:2264"
+    },
+    {
+      "fixup_count": 18,
+      "public": "CHECK_LOOSE_CRUSH",
+      "relocation_indices": [
+        1000,
+        1004,
+        1027,
+        1057,
+        1075,
+        1076,
+        1081
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:2310"
+    },
+    {
+      "fixup_count": 22,
+      "public": "LOOSE_HITS_ACTOR",
+      "relocation_indices": [
+        1080
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:23ac"
     },
     {
       "fixup_count": 3,
@@ -451,14 +494,6 @@
       "public": "ANIMATE_EXIT"
     },
     {
-      "object_offset": 3722,
-      "public": "MARK_REDRAW"
-    },
-    {
-      "object_offset": 3764,
-      "public": "MARK_CELL_REDRAW"
-    },
-    {
       "object_offset": 4124,
       "public": "MARK_GUARD_UPDATES"
     },
@@ -507,10 +542,6 @@
       "public": "KNOCK_LOOSE"
     },
     {
-      "object_offset": 8094,
-      "public": "ADD_MOBS"
-    },
-    {
       "object_offset": 8176,
       "public": "ADD_MOB_TO_FRAME"
     },
@@ -521,14 +552,6 @@
     {
       "object_offset": 8862,
       "public": "ADD_MOB_OBJ"
-    },
-    {
-      "object_offset": 8964,
-      "public": "CHECK_LOOSE_CRUSH"
-    },
-    {
-      "object_offset": 9120,
-      "public": "LOOSE_HITS_ACTOR"
     },
     {
       "object_offset": 9614,
@@ -552,12 +575,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "1360e1c702546d8c4098ccda2afa9c756527ddcdfeb035f49f3b48f90cb479c8",
+  "object_sha256": "eff3412b64e818b3a9492870bf78f80b4badd38c5006eba1d90b84ef8d23bb73",
   "origin": 46108,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "88182c91cbdc2571f94ab1c61a9ccfd12ebc70ca3ed020e6ff60bd6fd1805101",
+  "source_sha256": "d08ff55ca12ad22ed1baef75f7d3b1772b5a903edd392946b5b9d299e32103ec",
   "space": "root"
 }

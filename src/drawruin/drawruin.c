@@ -128,8 +128,7 @@ void draw_ruin_bones(RuinCell *cell)
         break;
     }
     if (add_image) {
-        AddImage volatile draw = add_image;
-        draw(21, -2, cell->column, cell->row, 10, 0);
+        add_image(21, -2, cell->column, cell->row, 10, 0);
         draw_ruin_flaw(cell);
     }
 }
@@ -249,8 +248,7 @@ void draw_ruin_exit_left(RuinCell *cell)
         break;
     }
     if (add_image) {
-        AddImage volatile draw = add_image;
-        draw(16, -2, cell->column, cell->row, layer, 0);
+        add_image(16, -2, cell->column, cell->row, layer, 0);
     }
     if (flaw)
         draw_ruin_flaw(cell);
@@ -283,10 +281,9 @@ extern MovingExit *find_moving_exit(int);
 
 void draw_ruin_exit_movable(RuinCell *cell);
 
-#pragma optimize("e", off)
 void draw_ruin_exit_right(RuinCell *cell)
 {
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
     Byte layer = 10;
     int flaw = 0;
 
@@ -301,27 +298,26 @@ void draw_ruin_exit_right(RuinCell *cell)
         }
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         layer = 0;
-        goto draw_flaw;
+        flaw = 1;
+        break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
+        add_image = AddBFImgToFTable;
         break;
     case 5:
         if (!draw_pass_mode)
-            add_image = (unsigned long)AddBFImgToBTable;
-    draw_flaw:
+            add_image = AddBFImgToBTable;
         flaw = 1;
         break;
     }
     if (add_image)
-        ((AddImage)add_image)(17, -2, cell->column, cell->row, layer, 0);
+        add_image(17, -2, cell->column, cell->row, layer, 0);
     if (flaw)
         draw_ruin_flaw(cell);
     if (cell->pass == 0)
         draw_ruin_exit_movable(cell);
 }
-#pragma optimize("e", on)
 
 void draw_ruin_exit_movable(RuinCell *cell)
 {
@@ -446,8 +442,7 @@ void draw_ruin_gate(RuinCell *cell)
         break;
     }
     if (add_image) {
-        AddImage volatile draw = add_image;
-        draw(4, -2, cell->column, cell->row, 10, 0);
+        add_image(4, -2, cell->column, cell->row, 10, 0);
         draw_ruin_gate_movable(cell);
         draw_ruin_flaw(cell);
     }
@@ -458,7 +453,7 @@ extern void draw_ruin_gate_detail(void);
 
 void draw_ruin_gate_movable(RuinCell *cell)
 {
-    unsigned long add_image;
+    AddImage add_image;
     DrawRect gate_clip, saved_clip;
 
     saved_clip = clip_rect;
@@ -469,10 +464,10 @@ void draw_ruin_gate_movable(RuinCell *cell)
         shape_offsets->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
         case 2:
-            add_image = (unsigned long)AddBFImgToFTable;
+            add_image = AddBFImgToFTable;
             break;
         case 5:
-            add_image = (unsigned long)AddBFImgToBTable;
+            add_image = AddBFImgToBTable;
             break;
         default:
             add_image = 0;
@@ -483,7 +478,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
                 if (cell->pass == 2)
                     draw_ruin_gate_detail();
             } else {
-                ((AddImage)add_image)(55, -2, cell->column, cell->row, 10, 0);
+                add_image(55, -2, cell->column, cell->row, 10, 0);
             }
         }
     }
@@ -493,6 +488,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
 void draw_ruin_loose(RuinCell *cell)
 {
     int image;
+    RuinCell *draw_cell;
     RuinCell floor;
     image = cell->modifier & 15;
     if (image != 13)
@@ -512,24 +508,27 @@ void draw_ruin_loose(RuinCell *cell)
         }
         break;
     case 1:
+        draw_cell = cell;
         if (image != 13) {
             if (!image)
                 goto draw_floor;
-            add_foreground_image(11, image + 43, cell->column, cell->row, 10, 0);
+            add_foreground_image(11, image + 43, draw_cell->column, draw_cell->row, 10, 0);
         }
         goto finish_flaw;
     case 2:
+        draw_cell = cell;
         if (image != 13) {
             if (!image)
                 goto draw_floor;
-            AddBFImgToFTable(11, image + 41, cell->column, cell->row, 10, 0);
+            AddBFImgToFTable(11, image + 41, draw_cell->column, draw_cell->row, 10, 0);
         }
         break;
     case 5:
+        draw_cell = cell;
+        if (!image)
+            goto draw_floor;
         if (image != 13) {
-            if (!image)
-                goto draw_floor;
-            AddBFImgToBTable(11, image + 41, cell->column, cell->row, 10, 0);
+            AddBFImgToBTable(11, image + 41, draw_cell->column, draw_cell->row, 10, 0);
         }
     finish_flaw:
         draw_ruin_flaw(cell);
@@ -604,8 +603,9 @@ void draw_ruin_down_plate(RuinCell *cell)
         layer = 10;
         break;
     }
-    if (add_image)
+    if (add_image) {
         add_image(tile, image, cell->column, cell->row, layer, 0);
+    }
 }
 
 void draw_ruin_up_plate(RuinCell *cell)
@@ -634,8 +634,9 @@ void draw_ruin_up_plate(RuinCell *cell)
         layer = 10;
         break;
     }
-    if (add_image)
+    if (add_image) {
         add_image(tile, image, cell->column, cell->row, layer, 0);
+    }
 }
 
 #pragma optimize("g", off)
@@ -673,12 +674,11 @@ void draw_ruin_rubble_pieces(RuinCell *cell);
 void draw_ruin_rubble(RuinCell *cell)
 {
     RuinCell floor;
-    volatile unsigned int flags;
+    unsigned int flags;
 
     if (cell->modifier & 0x40) {
         floor = *cell;
-        flags = cell->modifier & ~0x40;
-        floor.modifier = flags;
+        floor.modifier = (flags = cell->modifier & ~0x40);
         if (flags & 4) {
             draw_ruin_up_plate(&floor);
             cell->modifier &= ~0x800;
