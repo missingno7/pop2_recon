@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "400090376036aa69bb9f595aa9ef7a32071060317655b19d3b8f0acfba30cbd7",
+  "binding_sha256": "fc5748519df075b4ae0a8e4d07ff0be75c40fd95870ddea29174d398e564d363",
   "claims": [
     {
       "fixup_count": 5,
@@ -63,6 +63,16 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:078a:0594"
+    },
+    {
+      "fixup_count": 20,
+      "public": "DRAW_CUSTOM_ROOM_IMAGES",
+      "relocation_indices": [
+        842
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:078a:0624"
     },
     {
       "fixup_count": 25,
@@ -196,6 +206,20 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:078a:218e"
+    },
+    {
+      "fixup_count": 12,
+      "public": "DRAW_HORSE",
+      "relocation_indices": [
+        788,
+        796,
+        852
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:078a:22f8"
     },
     {
       "fixup_count": 0,
@@ -350,10 +374,6 @@
       "public": "DRAW_BACK_IMAGE"
     },
     {
-      "object_offset": 1572,
-      "public": "DRAW_CUSTOM_ROOM_IMAGES"
-    },
-    {
       "object_offset": 2136,
       "public": "DRAW_FORE_IMAGE"
     },
@@ -430,15 +450,11 @@
       "public": "@load_horse_shape"
     },
     {
-      "object_offset": 8852,
+      "object_offset": 8850,
       "public": "@horse_room_image"
     },
     {
-      "object_offset": 8950,
-      "public": "DRAW_HORSE"
-    },
-    {
-      "object_offset": 9114,
+      "object_offset": 9112,
       "public": "DRAW_FLASK"
     },
     {
@@ -473,12 +489,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "1d9c3ae601d5f66ca4c525e84e856d7a9a395f0f8b708f0ba8cc53ad1d9b7c16",
+  "object_sha256": "1205431d753c548cc2ce5b209f9a88e2e16d22adb82eb20e2d29c7feebe4e6ed",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "6413e9a44914de562f101f6c6127b9f2e263d660a8674da7797f69f3cd42d898",
+  "source_sha256": "98d4b9b4c0c2f8c37e29a8bf594d5964475b75af2c32fc870732d8acacf4b069",
   "space": "root"
 }

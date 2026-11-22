@@ -1369,8 +1369,7 @@ void far pascal ClipChar(void)
     signed char row = character_row;
     int flying;
     char tile;
-    int bounds[4];
-    volatile int top;
+    struct { int top; int bounds[4]; } workspace;
 
     init_fchar_rect();
     MakeFCharClipRect();
@@ -1380,9 +1379,9 @@ void far pascal ClipChar(void)
     }
     if (character_kind == 0 && frame_number >= 217 && frame_number <= 226) {
         tile = ReadCell(character_room, base_cell, character_row);
-        if (clip_floor(bounds, clip_tables[STATE_MODE], (tile == 16) + (signed char)base_cell, character_row)) {
-            fchar_rect.top = bounds[0];
-            fchar_rect.right = bounds[3];
+        if (clip_floor(workspace.bounds, clip_tables[STATE_MODE], (tile == 16) + (signed char)base_cell, character_row)) {
+            fchar_rect.top = workspace.bounds[0];
+            fchar_rect.right = workspace.bounds[3];
         }
         return;
     }
@@ -1416,19 +1415,13 @@ adjust:
         !(character_room == 27 && STATE_LEVEL == 6) &&
         !(character_room == 3 && STATE_MODE == 6) &&
         !(character_room == 6 && STATE_MODE == 6)) {
-        tile = row + 1;
-        if (row) {
-            frame = (signed char)63 * tile - 60;
-            if ((int)frame < sprite_y) {
-                if ((int)frame - 15 >= clip_top_cache)
-                    clearance = 0;
-            } else {
-                clearance = 0;
-            }
+        if ((signed char)((tile = row + 1) - 1)) {
+            int floor_y = (signed char)63 * tile - 60;
+            clearance = floor_y >= sprite_y ? 0 : floor_y - 15 >= clip_top_cache ? 0 : clearance;
         }
         if (clearance && !flying) {
-            if ((top = (signed char)63 * tile - 60) > fchar_rect.top)
-                fchar_rect.top = clip_top_cache = top;
+            if ((workspace.top = (signed char)63 * tile - 60) > fchar_rect.top)
+                fchar_rect.top = clip_top_cache = workspace.top;
         }
     }
     switch (STATE_MODE) {

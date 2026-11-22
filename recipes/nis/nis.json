@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/nis/nis.json",
-  "binding_sha256": "0d72e283b15a737c0022ba834d5ec14f08c20f3835d3e6cd4caffa23bc03cc8c",
+  "binding_sha256": "bdac034b1e9c13a36021413e9ac138a73dc9b9e2ff89c06455d9d4e934201296",
   "claims": [
     {
       "fixup_count": 6,
@@ -904,6 +904,20 @@
       "target_id": "overlay-2:238a:4774"
     },
     {
+      "fixup_count": 4,
+      "public": "DISCOVERY_CALLBACK",
+      "relocation_indices": [
+        370,
+        371,
+        508
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-2:238a:4f40"
+    },
+    {
       "fixup_count": 0,
       "public": "NIS_NOOP",
       "target_id": "overlay-2:238a:5170"
@@ -935,10 +949,6 @@
     {
       "object_offset": 17480,
       "public": "ENDING_CALLBACK"
-    },
-    {
-      "object_offset": 20276,
-      "public": "DISCOVERY_CALLBACK"
     },
     {
       "object_offset": 20334,

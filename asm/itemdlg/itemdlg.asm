@@ -28,7 +28,7 @@ EXTRN read_mouse_event_position:NEAR
 EXTRN add_port_origin:NEAR
 EXTRN scroll_context_rectangle:NEAR
 EXTRN push_port_clip:NEAR
-EXTRN restore_item_draw_state:NEAR
+EXTRN paint_grid_items:NEAR
 EXTRN pop_port_clip:NEAR
 EXTRN copy_current_port_origin:NEAR
 EXTRN apply_default_pen_state:NEAR
@@ -507,7 +507,7 @@ loc_9b0f:
     call push_port_clip
     push di
     push cs
-    call restore_item_draw_state
+    call paint_grid_items
     push cs
     call pop_port_clip
     pop word ptr [current_port]
@@ -2338,7 +2338,7 @@ loc_a83c:
 loc_a8ae:
     push word ptr [bp - 012h]
     push cs
-    call restore_item_draw_state
+    call paint_grid_items
 loc_a8b5:
     push word ptr [bp - 012h]
     push word ptr [di + 01eh]
