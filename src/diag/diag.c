@@ -20,8 +20,7 @@ typedef union {
 
 typedef struct {
     int id;
-    union { unsigned long value; char bytes[5]; } type;
-    unsigned extra;
+    resource_type type;
 } resource_metadata;
 
 typedef struct file_handle file_handle;
@@ -29,8 +28,6 @@ typedef struct {
     char bytes[66];
 } null_area;
 
-extern int frame_diagnostics, show_actor_position, pause_on_frame;
-extern int log_ticks, show_reference_position, show_ruler;
 extern int position_value, reference_x, left_edge, right_edge;
 extern signed char facing, page_number;
 extern long tick_count;
@@ -40,13 +37,27 @@ extern heap_block far *far *heap_start;
 extern char screen_name[];
 static null_area null_snapshot;
 
-extern const char position_format[];
-extern int dump_number;
-extern char yes_text[];
-extern char no_text[];
-extern char movable_text[];
-extern char fixed_text[];
-extern char free_text[];
+static const char position_format[] = "Pos=%d";
+static int dump_number = 0;
+static char yes_text[] = "Yes";
+static char no_text[] = "No ";
+static char movable_text[] = "Relo";
+static char fixed_text[] = "Fix ";
+static char free_text[] = "Free";
+
+int frame_diagnostics = 0;
+static int diagnostic_default_options[3] = { 1, 0, 0 };
+static int log_ticks = 0;
+int show_reference_position = 0;
+static int diagnostic_check_flags[2] = { 0, 0 };
+int show_actor_position = 0;
+int debug_show_door_links = 0;
+int debug_show_meters = 0;
+int show_ruler = 0;
+int pause_on_frame = 0;
+int debug_kid_y = 63;
+int debug_kid_x = 140;
+static int diagnostic_position_defaults[4] = { 20, 79, 34, 109 };
 
 extern void load_sixtyfour_byte_state(void);
 extern void get_frame_info(void);
@@ -63,14 +74,14 @@ extern void start_named_effect(const char far *);
 extern void paint_plain(const void far *, int, int, int);
 extern void paint_mode(const void far *, int, int, int, unsigned);
 extern void paint_rle(const void far *, int, int, int);
-extern void start_sound_payload(unsigned, unsigned, int, int);
+extern int start_sound_payload(const unsigned char far *, void far *);
 extern void set_sound_mode(int);
 extern void reset_sound_state(int);
-extern int find_option(const char far *);
+extern const char *find_option(const char far *);
 extern void reclaim_heap_blocks(unsigned long);
 extern void compact_heap(unsigned long);
 extern unsigned block_capacity(const heap_block far *);
-extern long lookup_shape_metadata(resource_metadata far *, int);
+extern resource_metadata far *lookup_shape_metadata(resource_metadata far *, int);
 extern heap_block far *next_heap_block(heap_block far *);
 extern unsigned long largest_far_block(void);
 extern int check_heap_chain(void);
@@ -222,7 +233,7 @@ void preview_resource(int handle)
 
     image = resolve_handle(handle);
     if (*(unsigned char far *)image <= 2) {
-        start_sound_payload((unsigned)((unsigned long)image >> 16), (unsigned)image, 0, 0);
+        start_sound_payload((const unsigned char far *)image, 0);
         set_sound_mode(0);
         reset_sound_state(0);
     }
@@ -246,7 +257,7 @@ void dump_heap(const char *name, const char far *heading, int summary_only)
     if (name)
         strcpy(filename, name);
     else {
-        char number[10];
+        char number[6];
         strcpy(filename, "dump");
         itoa(dump_number++, number, 10);
         strcat(filename, number);

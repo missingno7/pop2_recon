@@ -1,7 +1,34 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "bd4c16b2772940259db3ec35125e10e28dbd03a143a1bf0cfad831ac4b5ba594",
+  "binding_sha256": "22bd93a24b60542da2174fb332833879aaafc1e3296009a6094d560670cbb13a",
   "claims": [
+    {
+      "fixup_count": 12,
+      "public": "LIMIT_FRAME_RATE",
+      "relocation_indices": [
+        1393,
+        1410,
+        1412,
+        1414,
+        1415,
+        1427
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:107d:000c"
+    },
+    {
+      "fixup_count": 6,
+      "public": "REPORT_TICKS",
+      "relocation_indices": [
+        1413
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:107d:0060"
+    },
     {
       "fixup_count": 3,
       "public": "PLOT_ACTOR_OFFSET",
@@ -24,6 +51,29 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:107d:0102"
+    },
+    {
+      "fixup_count": 23,
+      "public": "PREVIEW_RESOURCE",
+      "relocation_indices": [
+        1380,
+        1387,
+        1389,
+        1390,
+        1392,
+        1394,
+        1406,
+        1409,
+        1418,
+        1423,
+        1424,
+        1428
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:107d:0236"
     },
     {
       "fixup_count": 6,
@@ -90,15 +140,81 @@
       "target_id": "root:107d:0804"
     }
   ],
+  "data_publics": [
+    {
+      "address": 4418,
+      "name": "FRAME_DIAGNOSTICS",
+      "offset": 36,
+      "segment": "_DATA",
+      "span": 10,
+      "unique": true
+    },
+    {
+      "address": 4428,
+      "name": "SHOW_REFERENCE_POSITION",
+      "offset": 46,
+      "segment": "_DATA",
+      "span": 6,
+      "unique": true
+    },
+    {
+      "address": 4434,
+      "name": "SHOW_ACTOR_POSITION",
+      "offset": 52,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4436,
+      "name": "DEBUG_SHOW_DOOR_LINKS",
+      "offset": 54,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4438,
+      "name": "DEBUG_SHOW_METERS",
+      "offset": 56,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4440,
+      "name": "SHOW_RULER",
+      "offset": 58,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4442,
+      "name": "PAUSE_ON_FRAME",
+      "offset": 60,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4444,
+      "name": "DEBUG_KID_Y",
+      "offset": 62,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
+    },
+    {
+      "address": 4446,
+      "name": "DEBUG_KID_X",
+      "offset": 64,
+      "segment": "_DATA",
+      "span": 357,
+      "unique": true
+    }
+  ],
   "drafts": [
-    {
-      "object_offset": 0,
-      "public": "LIMIT_FRAME_RATE"
-    },
-    {
-      "object_offset": 84,
-      "public": "REPORT_TICKS"
-    },
     {
       "object_offset": 146,
       "public": "PLOT_EDGE_OFFSET"
@@ -108,11 +224,7 @@
       "public": "DRAW_RULER_MARKS"
     },
     {
-      "object_offset": 552,
-      "public": "PREVIEW_RESOURCE"
-    },
-    {
-      "object_offset": 818,
+      "object_offset": 820,
       "public": "DUMP_HEAP"
     }
   ],
@@ -124,19 +236,20 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zi"
+    "/Zi",
+    "/Oegl"
   ],
   "frame": 4221,
   "group_id": "group:diag/diag",
   "kind": "same_source_group",
   "language": "c",
   "name": "diag/diag",
-  "object_sha256": "dfdd7a33893dd747b0ca8708108f767c25a92dbde325fd3ed6b3dfe192182baa",
+  "object_sha256": "905b5591ab0e9f9df0eeb852950f6aa823077c78bd7a429f19d49e6538d40160",
   "origin": 67548,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/diag/diag.c",
-  "source_sha256": "044b47a50f946ae546f37861057902b5c429e7cd53270edb4aad138c365badba",
+  "source_sha256": "174ae80be6b8f13de59d42364685659ed73e2002e3cd099d98ccadd01212c063",
   "space": "root"
 }
