@@ -34,6 +34,12 @@ def far_object(code=bytes.fromhex('9a00000000cb'), fix_body=bytes.fromhex('cc015
 
 class FarBindingTests(unittest.TestCase):
     def setUp(self):
+        # The synthetic image has no reviewed rows or owners; the real inventory's extents
+        # (positioned in this image) would otherwise collide as coverage grows.
+        import far_binding
+        extents = patch.object(far_binding, "_extents", return_value=[])
+        extents.start()
+        self.addCleanup(extents.stop)
         self.raw = far_object()
         self.expected = bytes.fromhex('9a60000000cb')
         image = bytearray(512)

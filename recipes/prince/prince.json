@@ -1,7 +1,22 @@
 {
   "binding": "evidence/bindings/prince/prince.json",
-  "binding_sha256": "a7608a9fdaee229d1151bdcba54f60b76071f7360371358d3d0dd6fcfc074295",
+  "binding_sha256": "d318d1d9bb54fe1656a9e65db809976077925b9220866dd81446050a2410edc1",
   "claims": [
+    {
+      "fixup_count": 12,
+      "public": "INPUT",
+      "relocation_indices": [
+        53,
+        110,
+        116,
+        131
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:1000"
+    },
     {
       "fixup_count": 3,
       "public": "READ_CONTROLS",
@@ -72,11 +87,75 @@
   ],
   "drafts": [
     {
-      "object_offset": 126,
+      "object_offset": 0,
+      "public": "_main"
+    },
+    {
+      "object_offset": 54,
+      "public": "RESETGAME"
+    },
+    {
+      "object_offset": 278,
+      "public": "READ_START_LEVEL"
+    },
+    {
+      "object_offset": 334,
+      "public": "PLAYOPENINGSEQUENCE"
+    },
+    {
+      "object_offset": 528,
+      "public": "POLL_AND_CLEAR_PENDING_STATE"
+    },
+    {
+      "object_offset": 578,
+      "public": "PRINCE_POLL"
+    },
+    {
+      "object_offset": 1170,
+      "public": "HANDLE_DEBUG_INPUT"
+    },
+    {
+      "object_offset": 2650,
+      "public": "TOGGLE_SOUND"
+    },
+    {
+      "object_offset": 2692,
+      "public": "JOYSTICK_STATUS"
+    },
+    {
+      "object_offset": 2778,
+      "public": "ADD_ROOM_TROBS"
+    },
+    {
+      "object_offset": 3260,
+      "public": "KEEPTIME"
+    },
+    {
+      "object_offset": 3540,
+      "public": "PREPCUT"
+    },
+    {
+      "object_offset": 3704,
+      "public": "BOOSTMETER"
+    },
+    {
+      "object_offset": 3726,
+      "public": "UPDATE_STEP_DELTA"
+    },
+    {
+      "object_offset": 3738,
+      "public": "CHECKMETERS"
+    },
+    {
+      "object_offset": 3952,
+      "public": "CHANGEMETERS"
+    },
+    {
+      "object_offset": 4312,
       "public": "READ_KEYBOARD_CONTROLS"
     }
   ],
-  "emitted_size": 742,
+  "emitted_size": 4928,
   "flags": [
     "/c",
     "/AM",
@@ -91,12 +170,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "prince/prince",
-  "object_sha256": "4b20b719d539e6f7a7a13e66e5818ae8290a638031c2d1d7036dc2992f44df2d",
-  "origin": 4186,
+  "object_sha256": "621cffe044366a01e5aff0560ec775d9e0a4f701061cf811e110b49679e6cec1",
+  "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/prince/prince.c",
-  "source_sha256": "cb4e96d8b130daf1276891bebe29c723ad40929d23faef6e5f38c2f8cfb27505",
+  "source_sha256": "3545be27b11f49c0524c62c1720856dac310ba05ee5e651ebe9dc7a82f272c32",
   "space": "root"
 }
