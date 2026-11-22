@@ -216,6 +216,21 @@ def _linked_data(seg, content, fields, placements, far_symbols=None):
     linked, relocated = bytearray(content), []
     for f in fields:
         target, frame = f["target"], f["frame"]
+        if f["loc_type"] == 2:
+            # MSC far data: `mov es, [seg word]` reads a CONST word holding the far segment of an
+            # external far array (LOC2 base16, frame = its target, zero encoded addend).
+            symbol = (far_symbols or {}).get(target.get("name"))
+            same_external = {k: frame.get(k) for k in ("kind", "index", "name")} ==                 {"kind": "external", "index": target.get("index"), "name": target.get("name")}
+            at = f["segment_offset"]
+            require(symbol is not None and symbol.get("kind") in ("segment-base", "far-data") and
+                    not f["self_relative"] and f["field_width"] == 2 and target.get("kind") == "external" and
+                    f["displacement"] is None and content[at:at + 2] == bytes(2) and
+                    (frame == {"kind": "target_frame", "target": target} or same_external),
+                    f"Placed segment {seg} segment word at +{at:#x} is not a zero-addend base of a "
+                    "grounded far segment symbol")
+            linked[at:at + 2] = symbol["segment"].to_bytes(2, "little")
+            relocated.append(at)
+            continue
         if f["loc_type"] == 3:
             symbol = (far_symbols or {}).get(target.get("name"))
             same_external = {k: frame.get(k) for k in ("kind", "index", "name")} == \
@@ -1487,7 +1502,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
         used_far |= {f["target"].get("name") for f in data_fixes
-                     if f["loc_type"] == 3 and f["target"].get("kind") == "external"}
+                     if f["loc_type"] in (2, 3) and f["target"].get("kind") == "external"}
         require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")

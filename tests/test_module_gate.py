@@ -613,6 +613,25 @@ class PlacementTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "grounded far code symbol"):  # an ungrounded target
             self.check([("_DATA", content, 6)], {}, {"_DATA": 8}, image, [self.far_pointer(0)], {}, relocs=(10,))
 
+    @staticmethod
+    def segment_word(at):
+        target = {"kind": "external", "index": 4, "name": "FAR_TABLE", "method": 6}
+        return {"segment": "CONST", "segment_offset": at, "loc_type": 2, "field_width": 2, "self_relative": False,
+                "frame": {"kind": "target_frame", "target": target}, "target": target, "displacement": None}
+
+    def test_far_segment_word_takes_the_grounded_segment_and_needs_its_relocation(self):
+        # CONST = {SEG FAR_TABLE, 0xBBAA} at 8; FAR_TABLE grounded in segment 2c3e.
+        far = {"FAR_TABLE": {"kind": "far-data", "segment": 0x2c3e, "offset": 0}}
+        content = bytes(2) + b"\xaa\xbb"
+        image = bytes(8) + b"\x3e\x2c\xaa\xbb"
+        report = self.check([("CONST", content, 4)], {}, {"CONST": 8}, image, [self.segment_word(0)], far, relocs=(8,))
+        self.assertEqual(report["CONST"]["pointer_fields"], 1)
+        with self.assertRaisesRegex(ValueError, "relocated words"):
+            self.check([("CONST", content, 4)], {}, {"CONST": 8}, image, [self.segment_word(0)], far)
+        code = {"FAR_TABLE": {"kind": "far-code-entry", "segment": 0x2c3e, "offset": 0}}
+        with self.assertRaisesRegex(ValueError, "grounded far segment symbol"):  # a code entry is not a far segment
+            self.check([("CONST", content, 4)], {}, {"CONST": 8}, image, [self.segment_word(0)], code, relocs=(8,))
+
     def test_uninitialized_segment_is_never_self_proving(self):
         # Distinct addends do not support each other: the source chooses the layout.
         self.assertFalse(self.check([("_BSS", None, 4)], {"_BSS": {0, 2}}, {"_BSS": 8})["_BSS"]["unique"])

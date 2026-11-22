@@ -357,5 +357,10 @@ the linker writes, the target symbol's offset and segment, into the segment's by
 the whole linked segment with the original. The target must be a far code symbol of the group's
 binding, grounded independently exactly as for a far CALL (accepted exact entry or outside
 relocated CALL FAR witnesses); its segment word must carry an original MZ relocation, and the
-segment must contain no other original relocation. Segment-base and far-data symbols, nonzero
-addends and pointers to this object's own code remain refused.
+segment must contain no other original relocation. Nonzero addends and pointers to this object's own code remain refused.
+
+MSC far data adds a second form: code loads ES from a CONST word holding the segment of an external
+far array (`mov es, [seg word]`), emitted as a LOC2 base16 FIXUPP framed by its target. The placement
+writes the far segment symbol's paragraph (a `far-data` or `segment-base` binding symbol, grounded
+independently as usual) and the original must relocate that word. These are the only relocations a
+placed segment may contain.
