@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "1dcde1a18483eea21b00170c5adb6bfdf07392434f8f49e74bf59c5ad7c864a2",
+  "binding_sha256": "aeef0e14c9f44cd5601def11f9742952a1c37959859232fc67e28cfd3f5e4a35",
   "claims": [
     {
       "fixup_count": 28,
@@ -462,6 +462,16 @@
       "target_id": "root:02cc:1af6"
     },
     {
+      "fixup_count": 7,
+      "public": "REMOVE_CHAR",
+      "relocation_indices": [
+        302
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:02cc:1bd6"
+    },
+    {
       "fixup_count": 12,
       "public": "VANISHCHAR",
       "relocation_indices": [
@@ -553,10 +563,6 @@
     {
       "object_offset": 5640,
       "public": "CLIPCHAR"
-    },
-    {
-      "object_offset": 7124,
-      "public": "REMOVE_CHAR"
     }
   ],
   "emitted_size": 7588,
@@ -574,12 +580,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "c2def8521922a03eed31d2671fe447f9991731b01ee31e5eae1562a0694099b9",
+  "object_sha256": "170a847b23bd38b7edf142f97a24cdc5ddc9043050ba842228e74238368317ea",
   "origin": 11458,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "31b55c59a2dec0e96c1609a55f0c99824abeaae0c2b15d7ae9062acacce64fcc",
+  "source_sha256": "69e7ed08de1839c1227b7561297d4e6b8838aa5fd3b98c8330f61de6beefaf6e",
   "space": "root"
 }
