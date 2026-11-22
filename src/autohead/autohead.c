@@ -55,7 +55,12 @@ extern signed char tile_test_x;
 extern int current_sprite_frame, snake_distance;
 extern unsigned char collision_room, collision_column, collision_row;
 extern unsigned char room_opponents[][116];
-extern signed char first_chomp[], last_chomp[];
+static const signed char first_chomp[12] = {
+    1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 99
+};
+static const signed char last_chomp[12] = {
+    1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 99
+};
 static const int flee_length[12] = {
     70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15
 };
@@ -245,10 +250,11 @@ int far pascal chomp_again(HeadPlan near *plan)
 {
     unsigned char room_skill = room_opponents[actor_room][actor_slot * 23 + 5];
     int result;
+    signed char column;
 
     if (plan->column < first_chomp[room_skill])
         result = 1;
-    else if (plan->column >= last_chomp[room_skill])
+    else if (last_chomp[room_skill] <= (column = plan->column))
         result = 0;
     else
         result = bounded_random(1);
@@ -770,8 +776,7 @@ int far pascal just_start_vertical_seq(void)
 {   int baseline = actor_row * 63 + 37;
     int result;
     if (actor_sequence != 144) {
-        if (actor_sequence == 143 && actor_y < baseline) result = 1;
-        else result = 0;
+        result = actor_sequence == 143 && actor_y < baseline;
     } else if (actor_y > baseline) result = 1;
     else result = 0;
     return result; }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/load/load.json",
-  "binding_sha256": "97363ef97630030c8ab235f247c356870c710dd05e1f3e1ffec0ebd7ccfc515f",
+  "binding_sha256": "93ebf4d5867230d0a5cf07cbb9311348d1eab113cb760ad184808d98d3afe6ab",
   "claims": [
     {
       "fixup_count": 5,
@@ -261,6 +261,22 @@
       "target_id": "root:0a5c:0842"
     },
     {
+      "fixup_count": 7,
+      "public": "LOAD_RESOURCE_ERROR",
+      "relocation_indices": [
+        921,
+        925,
+        940,
+        954,
+        966
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0a5c:0bb6"
+    },
+    {
       "fixup_count": 3,
       "public": "REPORT_RESOURCE_PATH",
       "relocation_indices": [
@@ -307,6 +323,16 @@
       "target_id": "root:0a5c:0ce2"
     },
     {
+      "fixup_count": 8,
+      "public": "UNLOAD_OPPONENT_OVERLAYS",
+      "relocation_indices": [
+        929
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0a5c:0d98"
+    },
+    {
       "fixup_count": 4,
       "public": "UNLOAD_PIECES_DATA",
       "relocation_indices": [
@@ -347,14 +373,6 @@
     {
       "object_offset": 2680,
       "public": "PRELOAD_ROOM_DATA"
-    },
-    {
-      "object_offset": 2986,
-      "public": "LOAD_RESOURCE_ERROR"
-    },
-    {
-      "object_offset": 3468,
-      "public": "UNLOAD_OPPONENT_OVERLAYS"
     }
   ],
   "emitted_size": 3664,
@@ -367,19 +385,19 @@
     "/Gc",
     "/Og",
     "/Ol",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 2652,
   "group_id": "group:load/load",
   "kind": "same_source_group",
   "language": "c",
   "name": "load/load",
-  "object_sha256": "10aad360e98f5ba173139df282d634156ee20721ab11ec177e975f5cfa86f9a5",
+  "object_sha256": "11afb039d8a99e56379d07ea17028c9977f2bbe8a57f1631895f47e653f05b4e",
   "origin": 42444,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/load/load.c",
-  "source_sha256": "e43e4633a91278f1db39fed24ecef36ca4b339f1553a8e850c942268c4ba9968",
+  "source_sha256": "6835ef377d8145308899076b3620bd7b346e064d38aed5ca1430a6273c2b7b31",
   "space": "root"
 }

@@ -69939,6 +69939,167 @@
       "size": 114,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, byte room argument; RETF 2",
+      "boundary_evidence": [
+        "Entry starts at root+0xb044 after predecessor ending e55dca020090.",
+        "Original 306-byte extent ends at +0xb176 with e55dca020090 including alignment; next entry starts 558bec81ec7c.",
+        "Visits 30 room tiles, preloads scenes associated with equipment and tiles, then handles opponent and music resources."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 11831,
+          "image_offset": 3639,
+          "kind": "far_call",
+          "relocated_segment_site": 3642,
+          "relocation_index": 98,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0a84",
+      "offset": 2692,
+      "segment": 2652,
+      "sha256": "81375ef270691621a2bc3c40fd114bca15ffe94920d91407e3b47820012c4daa",
+      "size": 306,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal, no arguments; RETF",
+      "boundary_evidence": [
+        "Entry root+0xab66 begins with 558bec83ec02 after preceding tail 247f5e5fcb90.",
+        "The reviewed original extent ends at root+0xabb6 with c75e8be55dcb, followed by the separate entry 558bec83ec02.",
+        "Enters startup rooms, copies their start coordinates, and clears special-sequence flags for 30 tile slots per room."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 51365,
+          "image_offset": 43173,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 43172,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:05a6",
+      "offset": 1446,
+      "segment": 2652,
+      "sha256": "69594be8b204a54c7c591196ed3a8fb0b12d6646748bec5f15e1556d65cd8fdc",
+      "size": 80,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal, signed opponent byte from BP+6; RETF 2",
+      "boundary_evidence": [
+        "Entry root+0xaf76 begins with 558bec83ec08 after preceding tail 8be55dca0200.",
+        "The reviewed original extent ends at root+0xb044 with e55dca020090, followed by the separate entry 558bec81ec84.",
+        "Walks paired opponent overlay ranges and selects, loads, or releases each resource as indicated by the per-index predicate."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 52927,
+          "image_offset": 44735,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44734,
+          "space": "root"
+        },
+        {
+          "file_offset": 53011,
+          "image_offset": 44819,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44818,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:09b6",
+      "offset": 2486,
+      "segment": 2652,
+      "sha256": "30d7655c5f14a1148e2cb6765a0efac35cd5499b3c4f07b4c20b5504d2400751",
+      "size": 206,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal, one resource handle in BP+6; returns 1 via AX and RETF 2",
+      "boundary_evidence": [
+        "Entry root+0xb176 begins with 558bec81ec7c after preceding tail e55dca020090.",
+        "The reviewed original extent ends at root+0xb1ec with e55dca020090, followed by the separate entry 558bec83ec64.",
+        "Locks the handle, extracts and splits a resource path, formats it, then calls the following error reporter through PUSH CS; CALL near."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0bb6",
+      "offset": 2998,
+      "segment": 2652,
+      "sha256": "2a771743996d696d26f82dabdac57997811b69d63b0ef89cc0cc4a3487c52974",
+      "size": 118,
+      "space": "root"
+    },
+    {
+      "abi": "Far Pascal, signed opponent bytes from BP+8 and BP+6; RETF 4",
+      "boundary_evidence": [
+        "Entry root+0xb358 begins with 558bec83ec08 after preceding tail 8be55dca0200.",
+        "The reviewed original extent ends at root+0xb3d2 with 8be55dca0400, followed by the separate entry 833e10110074.",
+        "Walks paired opponent overlay ranges, releasing ranges that the current opponent no longer needs."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 52887,
+          "image_offset": 44695,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 44694,
+          "space": "root"
+        }
+      ],
+      "classification": "APPLICATION_C_HYPOTHESIS",
+      "classification_status": "Reviewed original usage",
+      "entry_kind": "direct-code",
+      "id": "root:0a5c:0d98",
+      "offset": 3480,
+      "segment": 2652,
+      "sha256": "b5f218434d3b83ecb59b9310cee2a1e375caf3668b4a2184ba7ab749655af918",
+      "size": 122,
+      "space": "root"
+    },
+    {
+      "abi": "Far cdecl, five near string pointers; caller pops ten bytes",
+      "boundary_evidence": [
+        "Independent pinned archive member crt_splitpat_medium identifies the entry and complete 340-byte extent. Its public begins at member offset zero.",
+        "Original root+0xb1b6 contains the relocated CALL FAR to 1fe6:1a04 following the five pointer arguments."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 53686,
+          "image_offset": 45494,
+          "kind": "far_call",
+          "relocated_segment_site": 45497,
+          "relocation_index": 925,
+          "space": "root"
+        }
+      ],
+      "classification": "PINNED_RUNTIME",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1a04",
+      "offset": 6660,
+      "segment": 8166,
+      "sha256": "62f244643fcbff17c5637c0f5bedee6b614d6b5c73310a1c2e3129239ea94c42",
+      "size": 340,
+      "space": "root"
     }
   ],
   "schema": 1,

@@ -169,7 +169,7 @@ void far pascal open_level_resource_files(Byte current, Byte previous)
 static const int _based(_segname("_CONST")) kid_image_last[8] = {
     32, 79, 111, 129, 144, 215, 220, 299
 };
-static const char _based(_segname("_CONST")) map_option[] = "GAMEPLAY";
+static const char _based(_segname("_CONST")) map_option[] = "GAMEPLAY\0%s%s";
 
 void far pascal CheckBPort(void)
 {
@@ -403,6 +403,7 @@ void far _fastcall clear_special_sequence_flag(int i)
     }
 }
 
+#pragma optimize("g", off)
 void far pascal set_initial_room_state(void)
 {
     Byte room;
@@ -420,6 +421,8 @@ void far pascal set_initial_room_state(void)
         } while (++room <= count);
     }
 }
+
+#pragma optimize("g", on)
 
 void far pascal load_set(register int set, unsigned id, unsigned limit, int count, int mode)
 {
@@ -619,15 +622,15 @@ void far pascal preload_room_data(Byte room)
 {
     int visited[64];
     SByte tile;
-    volatile unsigned first;
 
     memset(visited, 0, sizeof(visited));
     tile = 0;
-    first = (unsigned)(Byte)30 * room;
     do {
-        int index = tile + first;
-        unsigned object = room_objects[index];
-        unsigned info = ((RoomObjectInfo *)room_object_info)[index].flags;
+        int index = tile + (unsigned)(Byte)30 * room;
+        const Byte *object_code = &room_objects[index];
+        const RoomObjectInfo *object_info = &((RoomObjectInfo *)room_object_info)[index];
+        unsigned object = *object_code;
+        unsigned info = object_info->flags;
         int *flag = &visited[object];
         if (*flag == 0) {
             visited[object] = 1;
@@ -660,12 +663,10 @@ void far pascal preload_room_data(Byte room)
     if (room_trigger_data[(unsigned)(Byte)116 * room])
         load_opponent_sound(opponent);
     if ((SByte)music_number > 0) {
-        unsigned id;
         if ((SByte)music_number < 33)
-            id = 10016;
+            load_typed_handle(10016);
         else
-            id = 10000;
-        load_typed_handle(id);
+            load_typed_handle(10000);
         if ((SByte)music_number < 31)
             load_typed_handle(10001);
     }
@@ -679,7 +680,7 @@ int far pascal load_resource_error(Handle resource)
     lock_handle(resource);
     copy_far_string(path, get_handle_data(resource) + 16);
     split_path(path, drive, directory, basename, extension);
-    sprintf(path, resource_path_format, basename, extension);
+    sprintf(path, map_option + sizeof("GAMEPLAY"), basename, extension);
     report_resource_path(path);
     return 1;
 }
@@ -755,17 +756,11 @@ void far pascal unload_opponent_overlays(SByte previous, SByte current)
             int i = 0;
             if (*first_base == -1)
                 return;
-            {
-                int * volatile last = last_base;
-                int *first = first_base;
-                do {
-                    if (current != previous || !need_opponent_overlay(current, i))
-                        release_overlay_range(sprite_sets[3], *first, *last);
-                    ++last;
-                    ++i;
-                    ++first;
-                } while (*first != -1);
-            }
+            do {
+                if (current != previous || !need_opponent_overlay(current, i))
+                    release_overlay_range(sprite_sets[3], first_base[i], last_base[i]);
+                ++i;
+            } while (first_base[i] != -1);
         }
     }
 }
