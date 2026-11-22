@@ -243,7 +243,7 @@ void DrawCaveExitMovable(DrawCell *cell)
 
 void DrawCaveFloor(DrawCell *cell)
 {
-    AddImage draw = 0;
+    AddImage volatile draw = 0;
     volatile int image;
     Byte mode;
     Word variant = cell->modifier & 3;
@@ -439,7 +439,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
 {
     AddImage draw;
     LavaInfo *lava;
-    LavaBubble *bubble;
+    LavaBubble *cursor;
     signed char frame;
     int layer, count;
 
@@ -472,16 +472,19 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
     }
     layer = 0;
     do {
-        bubble = lava->bubbles;
-        count = 10;
+        cursor = lava->bubbles; count = 10;
         do {
+            LavaBubble *bubble = cursor;
             if (bubble->active && bubble->layer != layer) {
+                signed char picture;
+
                 shape_offsets->bubble.y = bubble->y - (right << 5);
                 shape_offsets->bubble.flags = bubble->flags;
-                shape_offsets->bubble.image = bubble_frames[bubble->kind][bubble->frame] + 127;
+                picture = bubble_frames[bubble->kind][*(volatile signed char *)((char *)bubble + sizeof bubble->active)];
+                shape_offsets->bubble.image = picture + 127;
                 draw(59, -2, cell->column, cell->row, 10, 0);
             }
-            ++bubble;
+            ++cursor;
         } while (--count);
         if (layer == 0) {
             draw(right + 23, 144, cell->column, cell->row, 10, 0);
@@ -652,9 +655,13 @@ void DrawCaveSpace(DrawCell *cell)
             break;
         if (modifier < 3) {
             AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
-            if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
-                cell->column == redraw_column)
-                AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
+            if (!supports_cave_floor(right_tile.kind))
+                goto check_column;
+            if (right_tile.modifier >= 3) {
+            check_column:
+                if (cell->column == redraw_column)
+                    AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
+            }
         } else {
             draw_loose = 1;
         }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawcave/drawcave.json",
-  "binding_sha256": "21a2effb94b275ebca3d7aab0f6738078bd5bb275bff208ff69c108966ff28de",
+  "binding_sha256": "702304852eeb8ce6cd88c8ba4bafc216e8647dfc756617e4cfa52282bb8d1f03",
   "claims": [
     {
       "fixup_count": 9,
@@ -154,6 +154,20 @@
       "target_id": "overlay-6:2a93:0914"
     },
     {
+      "fixup_count": 20,
+      "public": "DRAWCAVELAVABUBBLES",
+      "relocation_indices": [
+        83,
+        95,
+        136
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2a93:0a0c"
+    },
+    {
       "fixup_count": 17,
       "public": "DRAWCAVELOOSE",
       "relocation_indices": [
@@ -296,10 +310,6 @@
       "public": "DRAWCAVEGATEMOVABLE"
     },
     {
-      "object_offset": 2562,
-      "public": "DRAWCAVELAVABUBBLES"
-    },
-    {
       "object_offset": 3762,
       "public": "DRAWCAVEREVPLATE"
     },
@@ -323,12 +333,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "drawcave/drawcave",
-  "object_sha256": "1c21d227b33831da9244d60622b2558aafaa224deb4696efce87cb870c88ecc5",
+  "object_sha256": "7eb8ef53a6a161dd0fe0cde2418148c0764f0f96c5a8250040170592dad6e96a",
   "origin": 3146,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawcave/drawcave.c",
-  "source_sha256": "55fb2ad56213709e1c10c12de037f65ab52d4f23001b1449b8640e5f5d8b2edd",
+  "source_sha256": "542e22952d8038604b1ebb6725abb4294f1bca43c00322e13b147c824810570a",
   "space": "overlay-6"
 }
