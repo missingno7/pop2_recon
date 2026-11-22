@@ -1643,6 +1643,7 @@ extern int horse_level9_origin[], horse_level10_origin[], horse_level14_origin[]
 ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
 {
     HorseShapeHeader header;
+    ShapeBitmap far *result;
     unsigned int handle, new_handle;
     HorseShapeHeader far *metadata;
 
@@ -1657,17 +1658,18 @@ ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
             header.mode = -2;
             new_handle = create_shape((HorseShapeHeader far *)locate_shape(handle), &header, 1);
             free_shape(handle);
-            horse_shape_ref.kind = 1;
-            horse_shape_ref.reserved = 0;
-            horse_shape_ref.separate_mask = 0;
-            horse_shape_ref.palette = 0;
+            /* The first word is kind/reserved, the second mask/palette. */
+            *(unsigned int *)&horse_shape_ref.kind = 1;
+            *(unsigned int *)&horse_shape_ref.separate_mask = 0;
             horse_shape_ref.handle = retain_shape(new_handle);
         }
     }
     *ref = horse_shape_ref;
     if (horse_shape_ref.handle)
-        return lock_shape(horse_shape_ref.handle);
-    return 0;
+        result = lock_shape(horse_shape_ref.handle);
+    else
+        result = 0;
+    return result;
 }
 
 unsigned int far _fastcall horse_room_image(Room room, char pass, unsigned int *shape)
@@ -1678,33 +1680,37 @@ unsigned int far _fastcall horse_room_image(Room room, char pass, unsigned int *
         if (room == 2 && level_number == 9) {
             origin = (unsigned int)horse_level9_origin;
             *shape = 0x6371;
-            return origin;
+            goto chosen;
         }
     } else if (pass == 1 && !suppress_horse) {
         if (room == 1 && level_number == 14) {
             origin = (unsigned int)horse_level14_origin;
             *shape = 0x6372;
-            return origin;
+            goto chosen;
         }
         if (room == 22 && level_number == 10) {
             origin = (unsigned int)horse_level10_origin;
             *shape = 0x6370;
         }
     }
+chosen:
     return origin;
 }
 
 void draw_horse(unsigned int shape, unsigned int origin, char pass)
 {
     DrawEntry far *entry;
-    int *point = (int *)origin;
+    int *point;
 
-    if (shape && point) {
+    if (!shape)
+        return;
+    point = (int *)origin;
+    if (point) {
         if (pass == 0)
-            entry = room_queue_segment :> (DrawEntry _based(void) *)&back_entries[back_count++];
+            entry = &back_queue[(*(int *)redraw_flags)++];
         else
-            entry = fore_queue_segment :> (DrawEntry _based(void) *)
-                ((unsigned int)&fore_queue[0] + fore_count++ * sizeof(DrawEntry));
+            entry = ((_segment)fore_queue) :>
+                (DrawEntry _based(void) *)&((DrawQueueStorage near *)0)->foreground[fore_count++];
         entry->attributes = 0;
         entry->y = point[0];
         entry->x = point[1];
@@ -1727,7 +1733,7 @@ extern LooseItemDrawer *loose_item_drawer;
 extern int *middle_draw_state;
 extern void add_middle_item(unsigned char sheet, int image, char column, char row,
                             unsigned char color, unsigned char flags);
-extern unsigned char flask_bubble_color(unsigned char attributes);
+extern unsigned char flask_bubble_color(unsigned int attributes);
 
 void draw_flask(TileDrawArgs *args)
 {
@@ -1749,20 +1755,21 @@ void draw_flask(TileDrawArgs *args)
         color = args->info.words[0] & 0x1f;
         if (color == 28 || (color >= 10 && color <= 13) || color - 14 >= 10)
             return;
-        bubble = flask_bubble_color(args->info.bytes[0]);
+        bubble = flask_bubble_color(args->info.words[0]);
         if (color > 13) {
-            color -= 14;
+            int first_bubble = color - 14;
+            color = first_bubble;
             flags = 1;
         } else {
             flags = 0;
         }
-        *(int *)((char *)middle_draw_state + 0x485) = tall == 1 ? -17 : -14;
+        *(int *)((char *)middle_draw_state + 0x485) = tall < 1 ? -14 : -17;
         add_middle_item(60, color + 3, args->column, args->row, bubble, flags);
         add_middle_item(60, color + 13, args->column, args->row, bubble + 1, flags);
     }
 }
 
-unsigned char flask_bubble_color(unsigned char attributes)
+unsigned char flask_bubble_color(unsigned int attributes)
 {
     unsigned char color;
 

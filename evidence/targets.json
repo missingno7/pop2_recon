@@ -55942,10 +55942,21 @@
       "boundary_evidence": [
         "Complete original interval [0xa01c, 0xa0a4); Fresh BP frame after the opponent meter return and NOP. A relocated far pointer at overlay-17+0x4386 (relocation 38) names 078a:277c.",
         "Far returns at 2801 retf 2; all direct branches stay on instruction boundaries within the extent.",
-        "Both draw paths share the SI/DI-restoring epilogue ending at 2804 before a new frame."
+        "Both draw paths share the SI/DI-restoring epilogue ending at 2804 before a new frame.",
+        "The four-byte far callback at overlay-17+0x4384 stores offset 277c followed by segment 078a. Overlay relocation 38 covers the segment word at +0x4386. The offset word carries no relocation."
       ],
       "boundary_status": "REVIEWED",
-      "call_sites": [],
+      "call_sites": [
+        {
+          "bytes_hex": "7c278a07",
+          "file_offset": 286596,
+          "image_offset": 17284,
+          "kind": "far_pointer",
+          "relocated_segment_site": 17286,
+          "relocation_index": 38,
+          "space": "overlay-17"
+        }
+      ],
       "classification": "GAME_C",
       "classification_evidence": [
         "DrawSword ordered FM public. Draws the base tile callback and adds the selected sword image."
@@ -69672,6 +69683,125 @@
       "segment": 8166,
       "sha256": "d81f66a6abec74388ed40bf49a38453df5a1072a54ed25f14e6f655186c60fb0",
       "size": 253,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void, three word slots, byte pass in lowest slot, RETF 6.",
+      "boundary_evidence": [
+        "Locked root interval [0x9b98,0x9c38). Fresh BP frame follows the far return at 22f7.",
+        "Same-frame PUSH CS at 0706 and near CALL at 0707 independently target 22f8.",
+        "All direct branches stay at decoded instruction starts within the routine. RETF 6 ends immediately before the independently referenced DrawFlask BP frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 40871,
+          "image_offset": 32679,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 32678,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Queues the selected horse image in the background or foreground using caller shape and origin."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:22f8",
+      "offset": 8952,
+      "segment": 1930,
+      "sha256": "d39fb597e755e076b15c4bb8dfb3b420046d1d3cc6ab2fed1359e7a517428c6c",
+      "size": 160,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void, near tile-draw arguments pointer in BP+6, RETF 2.",
+      "boundary_evidence": [
+        "Locked root extent [0x9c38,0x9d58); fresh BP frame at 2398 follows DRAW_HORSE's RETF 6.",
+        "Four relocated overlay-17 callback pointers name 078a:2398. Their relocation indices are 29-32.",
+        "Every decoded direct branch stays within the routine and reaches an instruction boundary. The complete RETF 2 at 24b4 and pad at 24b7 precede the independently entered bubble-color routine at 24b8."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "bytes_hex": "98238a07",
+          "file_offset": 286092,
+          "image_offset": 16780,
+          "kind": "far_pointer",
+          "relocated_segment_site": 16782,
+          "relocation_index": 29,
+          "space": "overlay-17"
+        },
+        {
+          "bytes_hex": "98238a07",
+          "file_offset": 286548,
+          "image_offset": 17236,
+          "kind": "far_pointer",
+          "relocated_segment_site": 17238,
+          "relocation_index": 30,
+          "space": "overlay-17"
+        },
+        {
+          "bytes_hex": "98238a07",
+          "file_offset": 286802,
+          "image_offset": 17490,
+          "kind": "far_pointer",
+          "relocated_segment_site": 17492,
+          "relocation_index": 31,
+          "space": "overlay-17"
+        },
+        {
+          "bytes_hex": "98238a07",
+          "file_offset": 287148,
+          "image_offset": 17836,
+          "kind": "far_pointer",
+          "relocated_segment_site": 17838,
+          "relocation_index": 32,
+          "space": "overlay-17"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The callback reads the tile pass, coordinates and attribute word and queues flask/bubble images."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:2398",
+      "offset": 9112,
+      "segment": 1930,
+      "sha256": "a48421848bda0258d8ca7fdde5c16af2d301635feeb5b4414b3e6fa0ac73a68c",
+      "size": 288,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far fastcall. Room in AL, pass in DL, output pointer in BX, origin pointer returned as a word in AX.",
+      "boundary_evidence": [
+        "Locked root interval [0x9b32,0x9b98). Fresh BP frame follows the far return at 2291.",
+        "PUSH CS/CALL at 06f4/06f5 names 2292. Caller tests AX and uses the BP-based shape output.",
+        "All direct branches land at instruction starts within the routine. The RETF at 22f7 ends at the distinct 22f8 entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 40853,
+          "image_offset": 32661,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 32660,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects horse asset and origin for three specific level/room pairs."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:2292",
+      "offset": 8850,
+      "segment": 1930,
+      "sha256": "0a8c6d5f1edb969a77eb05049c07261df9d1d1db56dfe92917ea9511e2cccf3d",
+      "size": 102,
       "space": "root",
       "state": "ANALYZED"
     }
