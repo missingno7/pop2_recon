@@ -920,7 +920,7 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
             "segment": seg, "range": (p, p + length)}
 
 
-def _internal_support(symbols, states, reports):
+def _internal_support(symbols, states, reports, conditional=frozenset()):
     """Internal consensus for v4 addresses without witnesses (2026-11-21 review).
 
     For each linked value S+k whose symbol or member lists no witness, every claimed field
@@ -930,13 +930,13 @@ def _internal_support(symbols, states, reports):
     withdraws its fields, so the check runs to a fixpoint."""
     need, provided = set(), {n for n, s in symbols.items() if s.get("kind") == PUBLIC_KIND}
     for name, symbol in symbols.items():
-        if symbol.get("kind") != "dgroup-offset":
+        if symbol.get("kind") != "dgroup-offset" or symbol.get("unproven"):
             continue
         if not symbol.get("witnesses"):
             need.add((name, 0))
         extent = (symbol.get("extent") or {}).get("length", 0)
         need.update((name, m["offset"]) for m in symbol.get("members", [])
-                    if not m.get("witnesses") and not m["offset"] < extent)
+                    if not m.get("witnesses") and not m["offset"] < extent and not m.get("unproven"))
     by_public = {r["public"]: r for r in reports}
     for state in states.values():
         for field in state["v4"]:
@@ -954,7 +954,7 @@ def _internal_support(symbols, states, reports):
     changed = True
     while changed:
         changed = False
-        exact = [p for p in states if by_public[p].get("exact")]
+        exact = [p for p in states if by_public[p].get("exact") and p not in conditional]
         sites = {}
         for public in exact:
             for field in states[public]["v4"]:
@@ -1059,6 +1059,20 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         # a reviewed direct entry plus independent relocated CALL FAR witnesses, all
         # outside the whole object. Near callees outside the object ground by an accepted
         # exact owner or an outside original near CALL. Data symbols use the DGROUP modes.
+        # Unproven symbols (docs/acceptance.md "Code matches with unproven bindings"): their declared
+        # value enters every equation, but nothing grounds it; a claim using one is a CODE_MATCH at
+        # best, never CODE_EXACT.
+        unproven = {n: s for n, s in binding["symbols"].items() if s.get("unproven")}
+        for n, s in unproven.items():
+            require(type(s["unproven"]) is str and s["unproven"].strip() and
+                    (s.get("kind") == "dgroup-offset" and type(s.get("offset")) is int and not s.get("extent") or
+                     s.get("kind") in ("far-code-entry", "overlay-code-entry") and
+                     type(s.get("segment")) is int and type(s.get("offset")) is int),
+                    f"Unsupported unproven binding symbol {n}")
+            if s.get("kind") != "dgroup-offset":
+                callee, _, _ = get_target(s["entry_target_id"], oracle)
+                require((callee["segment"], callee["offset"]) == (s["segment"], s["offset"]),
+                        f"Unproven far symbol {n} does not name its reviewed entry")
         far_symbols = {n: s for n, s in binding["symbols"].items() if s.get("kind") in FAR_KINDS}
         near_symbols = {n: near_ground(s, hull, oracle) for n, s in binding["symbols"].items()
                         if s.get("kind") == NEAR_KIND}
@@ -1067,13 +1081,17 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                      if n not in far_symbols and n not in near_symbols and n not in provided}
         # Overlay owners too: the field equation depends only on the grounded 16:16 alias,
         # and its segment word is relocated by the owner's own overlay table (bijection below).
-        for symbol in far_symbols.values():
+        for n, symbol in far_symbols.items():
+            if n in unproven:
+                continue
             far_ground(symbol, hull, oracle,
                        claimed=[(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved])
         if data_only or provided:
             claimed = [(origin + start, origin + start + len(expected)) for _, _, expected, start in resolved]
-            symbols = ground({**binding, "symbols": data_only}, hull, oracle,
-                             claimed=claimed if binding["mode"] == OPERAND_MODE else None)
+            symbols = ground({**binding, "symbols": {n: s for n, s in data_only.items() if n not in unproven}},
+                             hull, oracle, claimed=claimed if binding["mode"] == OPERAND_MODE else None)
+            require(not unproven or binding["mode"] == OPERAND_MODE, "Unproven data symbols need the v4 mode")
+            symbols = dict(symbols, **{n: s for n, s in data_only.items() if n in unproven})
             mode = binding["mode"]
             require(not provided or mode == OPERAND_MODE, "Provider data publics need the v4 operand mode")
             symbols = dict(symbols, **{n: _provider_public(n, s, oracle, group_id, set(publics) | set(data_publics))
@@ -1122,6 +1140,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                      "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "own_base_labels": {}, "v4": [], "placed": [],
                      "proven_jumps": set(),
                      "fixups": len(mine), "frames": {row["frame"] for row in evidence},
+                     "names": {f["target"].get("name") for f in mine if f["target"].get("kind") == "external"},
                      "report": report, "position": position,
                      "relocations": [r for r in space.relocations
                                      if position-1 <= r["image_offset"] < position+len(expected)]}
@@ -1514,7 +1533,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
             report.update(exact=False, state="REFUSED", reason=str(error))
     if mode == OPERAND_MODE and binding is not None:
         _check_provider_aliases(symbols, states)
-        _internal_support(binding["symbols"], states, reports)
+        unproven_keys = {(n, m["offset"]) for n, s in binding["symbols"].items() for m in s.get("members", [])
+                         if m.get("unproven")}
+        _internal_support(binding["symbols"], states, reports,
+                          {p for p, s in states.items()
+                           if s["names"] & set(unproven) or any(f["key"] in unproven_keys for f in s["v4"])})
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
@@ -1530,6 +1553,17 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
                                unique=placement_report[d["segment"]]["unique"])
                           for d in sorted(data_publics.values(), key=lambda d: (d["segment"], d["offset"]))]
+    # A claim that matches exactly but uses an unproven symbol is a CODE_MATCH: code and every
+    # field equation equal under the declared value, the listed bindings not independently proven.
+    bound = ((binding or {}).get("symbols") or {})
+    unproven_names = {n for n, s in bound.items() if s.get("unproven")}
+    unproven_keys = {(n, m["offset"]) for n, s in bound.items() for m in s.get("members", []) if m.get("unproven")}
+    for r in reports:
+        state = states.get(r["public"])
+        used = sorted((state["names"] & unproven_names) |
+                      {f"{k[0]}+{k[1]:#x}" for k in (f["key"] for f in state["v4"]) if k in unproven_keys}) if state else []
+        if r.get("exact") and used:
+            r.update(exact=False, state="CODE_MATCH", unproven=used)
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),
             "placements": placement_report, "data_publics": data_public_report,
             **({"provider_span_aliases": span_aliases} if span_aliases else {}),

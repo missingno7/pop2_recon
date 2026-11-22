@@ -762,6 +762,26 @@ class V4InternalSupportTests(unittest.TestCase):
         self.assertTrue(refused)
         self.assertIn("second equal claimed site", refused[0]["reason"])
 
+    def test_an_unproven_symbol_turns_only_its_users_into_code_matches(self):
+        binding = self.stripped(self.single)
+        binding["symbols"][self.single]["unproven"] = "single original site (test)"
+        report = self.check(binding)
+        self.assertFalse(report["exact"])
+        matches = [c for c in report["claims"] if c["state"] == "CODE_MATCH"]
+        self.assertTrue(matches)
+        self.assertTrue(all(c["unproven"] == [self.single] for c in matches))
+        others = [c for c in report["claims"] if c not in matches]
+        self.assertTrue(others and all(c["state"] == "CODE_EXACT" for c in others))
+
+    def test_unproven_far_symbol_must_name_its_reviewed_entry(self):
+        binding = copy.deepcopy(self.binding)
+        far = next((n for n, s in binding["symbols"].items() if s.get("kind") == "far-code-entry"), None)
+        if far is None:
+            self.skipTest("CTRL binding has no far symbol")
+        binding["symbols"][far].update(unproven="test", offset=binding["symbols"][far]["offset"] + 1)
+        with self.assertRaisesRegex(ValueError, "does not name its reviewed entry"):
+            self.check(binding)
+
     def test_a_witness_inside_a_claim_is_refused(self):
         binding = copy.deepcopy(self.binding)
         at = self.single_site + self.check(self.binding)["origin"]

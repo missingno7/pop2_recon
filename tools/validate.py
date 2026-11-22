@@ -106,11 +106,21 @@ def verify_group(recipe):
         raw = project_path(recipe["binding"]).read_bytes()
         require(sha(raw) == recipe["binding_sha256"], "Canonical binding evidence changed without acceptance")
         binding = json.loads(raw)
+    matches = recipe.get("code_matches", [])
     _, report = compile_group(source.decode("ascii"), recipe["profile"], recipe["flags"],
-                              [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"]],
+                              [{"target_id": c["target_id"], "public": c["public"]} for c in recipe["claims"] + matches],
                               ROOT / "build/workers/validation" / recipe["name"],
                               binding=binding, group_id=recipe["group_id"], language=recipe.get("language", "c"))
-    require(report["exact"], "Previously accepted group no longer compiles exactly")
+    # Code matches (exact code, listed unproven bindings) are rechecked but never counted as exact.
+    match_ids = {c["target_id"] for c in matches}
+    fresh = {c["target_id"]: c for c in report["claims"]}
+    require(all(fresh[c["target_id"]]["exact"] for c in recipe["claims"]),
+            "Previously accepted group no longer compiles exactly")
+    require(all(fresh[c["target_id"]]["state"] == "CODE_MATCH" and fresh[c["target_id"]]["unproven"] == c["unproven"]
+                for c in matches), "Recorded code match changed (or its bindings became proven: republish it as a claim)")
+    report["code_matches"] = [fresh[c] for c in sorted(match_ids)]
+    report["claims"] = [c for c in report["claims"] if c["target_id"] not in match_ids]
+    report["exact"] = True
     require(report["object_sha256"] == recipe["object_sha256"], "Accepted group OMF identity changed")
     require(all(report[key] == recipe[key] for key in ("space", "origin", "emitted_size", "frame", "drafts")),
             "Accepted group placement, extent or draft record changed")
@@ -251,6 +261,9 @@ def _validate(run_tests=True):
         require(result.returncode == 0, "Focused invariant tests failed")
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest), "placement_debt_claims": len(debt),
+              "code_matches": [{"target_id": c["target_id"], "public": c["public"], "size": c["expected_size"],
+                                "unproven": c["unproven"]}
+                               for g in groups.values() for c in g.get("code_matches", [])],
               "placement_overlap_pairs": len(overlaps),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
                          "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses, exact MZ site coverage and within-symbol order; GROUPED reports retain between-symbol order as structural debt"]}
@@ -300,7 +313,9 @@ def main():
           f"{report['metrics']['matching_c_bytes']} C bytes; "
           f"{report['metrics']['matching_asm_bytes']} ASM bytes; "
           f"{report['metrics']['pinned_runtime_bytes']} pinned runtime bytes; "
-          f"{report['placement_debt_claims']} claims with placement debt; structural link UNRECOVERED")
+          f"{report['placement_debt_claims']} claims with placement debt; "
+          f"{len(report['code_matches'])} code matches ({sum(c['size'] for c in report['code_matches'])} bytes) "
+          f"with unproven bindings, not counted; structural link UNRECOVERED")
 
 
 if __name__ == "__main__":
