@@ -2,6 +2,7 @@
 EXTRN DOS_DGROUP:BYTE
 .DATA
 driver_allocation DD 0
+; The file reader shares the entry, handle and low header words.
 driver_entry DD 0
 driver_file DW 0
 driver_header DD 0
@@ -155,4 +156,102 @@ return_driver_entry:
     pop bp
     retf
 LOAD_SOUND_DRIVER ENDP
+
+PUBLIC RELEASE_LOADED_DRIVER
+
+; Only an entry at PSP offset 100h has a preceding allocation pointer.
+RELEASE_LOADED_DRIVER PROC FAR
+    push bp
+    mov bp, sp
+    push ds
+    lds bx, DWORD PTR [bp+6]
+    cmp bx, 100h
+    jne driver_release_done
+    lds bx, DWORD PTR [bx-4]
+    cmp bx, -1
+    je driver_release_done
+    push ds
+    push bx
+    push cs
+    call CLEAR_PAYLOAD_HEADER
+driver_release_done:
+    pop ds
+    pop bp
+    retf
+RELEASE_LOADED_DRIVER ENDP
+
+PUBLIC READ_DOS_FILE_TO_BUFFER, RELEASE_DRIVER_PAYLOAD
+
+READ_DOS_FILE_TO_BUFFER PROC FAR
+    push bp
+    mov bp, sp
+    push ds
+    mov ax, SEG DOS_DGROUP
+    mov ds, ax
+    xor ax, ax
+    mov WORD PTR driver_entry, ax
+    mov WORD PTR [driver_entry+2], ax
+    lds dx, DWORD PTR [bp+6]
+    mov ax, 3d00h
+    int 21h
+    mov driver_file, ax
+    mov bx, driver_file
+    mov ax, 4202h
+    xor cx, cx
+    xor dx, dx
+    int 21h
+    mov driver_header, ax
+    mov bx, driver_file
+    mov ax, 4200h
+    xor cx, cx
+    xor dx, dx
+    int 21h
+    xor dx, dx
+    mov ax, driver_header
+    or ax, ax
+    jz save_file_buffer
+    push dx
+    push ax
+    push cs
+    call ALLOCATE_PINNED_PAYLOAD
+save_file_buffer:
+    mov WORD PTR driver_entry, ax
+    mov WORD PTR [driver_entry+2], dx
+    mov cx, ax
+    or cx, dx
+    jz close_file
+    mov cx, driver_header
+    mov bx, driver_file
+    push ds
+    mov ds, dx
+    mov dx, ax
+    mov ah, 3fh
+    int 21h
+    pop ds
+close_file:
+    mov ax, SEG DOS_DGROUP
+    mov ds, ax
+    mov ah, 3eh
+    mov bx, driver_file
+    int 21h
+    mov ax, WORD PTR driver_entry
+    mov dx, WORD PTR [driver_entry+2]
+    pop ds
+    pop bp
+    retf
+READ_DOS_FILE_TO_BUFFER ENDP
+
+RELEASE_DRIVER_PAYLOAD PROC FAR
+    push bp
+    mov bp, sp
+    push es
+    les bx, DWORD PTR [bp+6]
+    push es
+    push bx
+    push cs
+    call CLEAR_PAYLOAD_HEADER
+    pop es
+    pop bp
+    retf
+RELEASE_DRIVER_PAYLOAD ENDP
 END
