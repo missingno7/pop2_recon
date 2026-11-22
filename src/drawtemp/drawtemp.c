@@ -48,7 +48,7 @@ typedef struct MovingExit {
 
 extern int draw_pass_mode;
 extern DrawRect clip_rect, exit_clip;
-extern int row_edges[];
+extern int Row2PixelY[];
 extern ShapeOffsets *shape_offsets;
 extern Byte drawn_room;
 extern unsigned int kid_frame;
@@ -68,7 +68,8 @@ extern Byte PieceRightId(CellCoord, CellCoord);
 extern signed char FirstInRow(Byte, CellCoord);
 extern MovingExit *find_moving_exit(int tile);
 
-extern int loose_odd[], loose_even[];
+static int loose_odd[12] = { 0, 1, 0, 2, 2, 0, 0, 0, 1, 1, 1, 0 };
+static int loose_even[12] = { 0, 2, 2, 0, 1, 1, 0, 2, 2, 2, 0, 1 };
 extern signed char redraw_row;
 extern Byte redraw_below_tile;
 extern int is_six_kind(Byte);
@@ -89,11 +90,11 @@ void draw_temple_back_wall(TempleCell *cell)
     Byte modifier;
     int paired, fallback;
     BackImage far *shape;
-    struct { int edge; DrawRect overlap; } clipped;
+    DrawRect overlap;
     int saved_top;
 
-    modifier = cell->background_modifier & 15;
-    image = cell->background & 31;
+    modifier = (CELL_INFO_WORD(cell, 1) & 0x0f00) >> 8;
+    image = CELL_INFO_WORD(cell, 1) & 31;
     if (image) {
         if (image == 20) {
             image = 19;
@@ -104,13 +105,15 @@ void draw_temple_back_wall(TempleCell *cell)
 
         if (!draw_pass_mode) {
             shape = get_back_table_image_row(image, cell->column - 1, cell->row);
-            if (shape && intersect_rect(&clipped.overlap, &shape->clip, &clip_rect)) {
+            if (shape && intersect_rect(&overlap, &shape->clip, &clip_rect)) {
                 fallback = 0;
                 union_rect(&shape->clip, &shape->clip, &clip_rect);
                 if (paired) {
                     shape = get_back_table_image_row(image + 1, cell->column - 1, cell->row);
-                    if (shape && intersect_rect(&clipped.overlap, &shape->clip, &clip_rect))
-                        union_rect(&shape->clip, &shape->clip, &clip_rect);
+                    if (shape) {
+                        if (intersect_rect(&overlap, &shape->clip, &clip_rect))
+                            union_rect(&shape->clip, &shape->clip, &clip_rect);
+                    }
                 }
             } else {
                 shape = 0;
@@ -126,9 +129,8 @@ void draw_temple_back_wall(TempleCell *cell)
             fallback = 1;
             saved_top = clip_rect.top;
             if (cell->row >= 0 && !test_back_neighbor(cell->column, cell->row)) {
-                clipped.edge = row_edges[cell->row];
-                if (clipped.edge > clip_rect.left) {
-                    clip_rect.top = clipped.edge < saved_top ? saved_top : clipped.edge;
+                if (Row2PixelY[cell->row] > clip_rect.left) {
+                    clip_rect.top = Row2PixelY[cell->row] < saved_top ? saved_top : Row2PixelY[cell->row];
                     if (is_rectangle_empty(&clip_rect))
                         fallback = 0;
                 }
@@ -384,28 +386,28 @@ void draw_temple_loose(TempleCell *cell)
         draw_temple_back_wall(cell);
         break;
     case 1:
-        if (image && image != 13) {
+        if (image == 13)
+            break;
+        if (image)
             add_foreground_image(11, image + 35, cell->column, cell->row, 10, 0);
-        } else if (!image) {
-            goto floor_only;
-        }
+        else
+            draw_temple_floor(&floor_cell);
         break;
     case 2:
-        if (image && image != 13) {
+        if (image == 13)
+            break;
+        if (image)
             AddBFImgToFTable(11, image + 33, cell->column, cell->row, 10, 0);
-        } else if (!image) {
-            goto floor_only;
-        }
+        else
+            draw_temple_floor(&floor_cell);
         break;
     case 5:
-        if (image && image != 13) {
+        if (image == 13)
+            break;
+        if (image)
             AddBFImgToBTable(11, image + 33, cell->column, cell->row, 10, 0);
-        } else if (!image) {
-            goto floor_only;
-        }
-        break;
-    floor_only:
-        draw_temple_floor(&floor_cell);
+        else
+            draw_temple_floor(&floor_cell);
         break;
     }
 }

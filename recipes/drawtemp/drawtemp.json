@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawtemp/drawtemp.json",
-  "binding_sha256": "16da43ba1b0a1adadf327e86af7f24319292bd286e39b2527945d8e2e29700a4",
+  "binding_sha256": "1f49f2666ddba3a957978ea18a75685f5ca4027df1bc50062d2fa15da27aaea3",
   "claims": [
     {
       "fixup_count": 19,
@@ -125,6 +125,20 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-9:2b4b:075a"
+    },
+    {
+      "fixup_count": 7,
+      "public": "DRAW_TEMPLE_LOOSE",
+      "relocation_indices": [
+        104,
+        147,
+        149
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2b4b:0826"
     },
     {
       "fixup_count": 5,
@@ -253,10 +267,6 @@
       "public": "DRAW_TEMPLE_BACK_WALL"
     },
     {
-      "object_offset": 2080,
-      "public": "DRAW_TEMPLE_LOOSE"
-    },
-    {
       "object_offset": 2916,
       "public": "DRAW_TEMPLE_POSTS"
     }
@@ -276,12 +286,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "drawtemp/drawtemp",
-  "object_sha256": "c18c3bcd8fcd2d7cdc77a09cb4fce2b5236b8240b96f8d004a50f411249ff53f",
+  "object_sha256": "993e540b48e80769343ff35a7c907a343571ea85d7efdfa475f7d77328db7b43",
   "origin": 4054,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawtemp/drawtemp.c",
-  "source_sha256": "444894d3e3acaa583baedeb4c9b71088a0a90f90ed71f47eb7556852f200cfa4",
+  "source_sha256": "90139dfa709ede1c8603afff669a5a3ffea5ab7028e707dad698c3a795296f35",
   "space": "overlay-9"
 }
