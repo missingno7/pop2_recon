@@ -1432,7 +1432,7 @@ void select_trob_cell(int cell)
 }
 
 extern int mob_index;
-static struct {
+struct {
     int heights[13];
     int widths[13];
 } mob_dimensions = {

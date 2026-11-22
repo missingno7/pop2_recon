@@ -70180,6 +70180,39 @@
       ],
       "semantic_name_hypothesis": "near_heap_block_size",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:02cc:1282",
+      "space": "root",
+      "segment": 716,
+      "offset": 4738,
+      "size": 96,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "CTRL_PLAYER at 02cc:116e enters through original PUSH CS at root+0x3e33 and CALL at root+0x3e34.",
+        "The preceding CTRL_PLAYER RETF at root+0x3f41 is followed by the distinct SI save at root+0x3f42. The common RETF at root+0x3fa0 and one NOP end the extent before the reviewed hook at root+0x3fa2."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 15924,
+          "file_offset": 24116,
+          "pushed_cs_site": 15923
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "CTRL.C FM Towns anchored @PlayerCtrl pair; DOS caller and body load player selection, call the input and recording handlers, then save selection."
+      ],
+      "abi": "No stack arguments; AX result and RETF; saves SI.",
+      "original_name": "PlayerCtrl",
+      "semantic_name_hypothesis": "PlayerCtrl",
+      "state": "ANALYZED",
+      "original_bytes_hex": "56803e115c007d0c803e125c007505c606115c00833e9e62007404ff0e9e620ee84f019a00100000a0180a983b06465e750e803e0e5c007407833e195c3b75082ac0a2305ea2315e0ee846010ee876009a0200a40d8bf00ee807018bc65ecb90",
+      "sha256": "fbf9b565a345229e17c7ceefcbcf378ecd1a2c7a20f88fabd2b6ba77f36ec382"
     }
   ],
   "schema": 1,

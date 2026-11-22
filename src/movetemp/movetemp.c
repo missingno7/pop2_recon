@@ -636,6 +636,8 @@ void trigger_slide_rock(unsigned char room, signed char cell, unsigned char acti
     }
 }
 
+extern struct { int heights[13], widths[13]; } mob_dimensions;
+
 void move_trapdoor(void)
 {
     int x = moving_x, y = moving_y;
@@ -695,12 +697,12 @@ draw:
         moving_x = x;
         if (shape_bounds(trapdoor_sheet, temple_draw_offsets.trapdoor_shape[step] - 1, &bounds)) {
             int left_edge;
-            trapdoor_top = bounds.top + 1;
+            mob_dimensions.heights[10] = bounds.top + 1;
             left_edge = column * 32 - moving_x + 57;
             ++bounds.left;
             if (left_edge > bounds.left)
                 bounds.left = left_edge;
-            trapdoor_left = bounds.left;
+            mob_dimensions.widths[10] = bounds.left;
         }
         play_movement_sound(0);
         if (moving_mode != -1) {
