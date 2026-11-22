@@ -640,16 +640,16 @@ void far pascal ClearCharVel(void)
     vertical_step = zero;
 }
 
-extern signed char life_delta;
+#define life_delta (Char.bytes[20])
 
-int far pascal decrement_life_points(volatile signed char amount)
+int far pascal decrement_life_points(signed char amount)
 {
     int lethal = 0;
 
     if (character_kind == 4 && STATE_LEVEL == 5 && character_row == 1 &&
           (character_room == 10 || character_room == 7 || character_room == 12))
         goto done;
-    if (amount >= *(volatile signed char *)&Char.bytes[18]) {
+    if (amount >= Char.bytes[18]) {
         if (-Char.bytes[18] < life_delta)
             life_delta = -Char.bytes[18];
         lethal = 1;
@@ -1416,8 +1416,8 @@ adjust:
         !(character_room == 3 && STATE_MODE == 6) &&
         !(character_room == 6 && STATE_MODE == 6)) {
         if ((signed char)((tile = row + 1) - 1)) {
-            int floor_y = (signed char)63 * tile - 60;
-            clearance = floor_y >= sprite_y ? 0 : floor_y - 15 >= clip_top_cache ? 0 : clearance;
+            workspace.top = (signed char)63 * tile - 60;
+            clearance = workspace.top >= sprite_y ? 0 : workspace.top - 15 >= clip_top_cache ? 0 : clearance;
         }
         if (clearance && !flying) {
             if ((workspace.top = (signed char)63 * tile - 60) > fchar_rect.top)

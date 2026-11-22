@@ -71186,6 +71186,76 @@
       "size": 434,
       "space": "overlay-7",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:02cc:0a9c",
+      "space": "root",
+      "segment": 716,
+      "offset": 2716,
+      "size": 830,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "OnGround reaches the PUSH CS; CALL at root+0x3754/0x3755; rel16 +4 lands at root+0x375c in frame 02cc.",
+        "The preceding OnGround returns at root+0x375b. A new BP frame starts at 0x375c. The two RETF exits at 0x3a53 and 0x3a98 and one NOP end the extent at the separate FallingInUndefinedRoom entry, root+0x3a9a.",
+        "Twenty-one original MZ segment-word relocations in the extent match decoded far CALL operands."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 14165,
+          "file_offset": 22357,
+          "pushed_cs_site": 14164
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "MSC-style BP frame with saved DI and SI, internal PUSH CS calls and far Pascal return. The body advances the character row and selects a fall sequence, consistent with the probable FM Towns CTRL.C @StartFall pairing."
+      ],
+      "abi": "No stack arguments; no result consumed by OnGround; preserves DI/SI and returns with bare RETF.",
+      "semantic_name_hypothesis": "start_fall",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec065756a1075c8946fe2bffb9fffffe060a5c803e105c017505c606105c00803e065c007530803e4945057529803e0e5c0a7522803e015c007507803e8c6200750e803e015cff750d803e8d62007406b9c600bf0100894efc8bc1407403e9d7008b46fe3d51007503e9c20077192c097503e99f002c04741d2c0d7503e99c002c127503e99f00bf0100837efe51720e837efe567308c746fc1300e99a00817efe96007259817efeb4007352803e065c007521893e9a62817efe9900740e833e195c387407c746fc5100eb6cc746fc5f00eb6590c7069a620000833e195c567415833e195c43740e833e195c6c7407c746fc5200eb42c746fc5300eb3b90803e065c02750f833e195c647508c746fcba00eb2590c746fc0700eb1d90c746fc1200bf0100eb12c746fc1500ebf490c746fc07008306045c0cb8e2011e509aaa2901110bc07403e99d000bff7503e99600b001500ee83904509afe288a070bc075380ee85304509afe288a070bc0752a0ee82b09509ac8288a070bc0741c0ee84f09509ac8288a070bc0740e0ee82309509ac8288a070bc0754d0ee84b048bf083fe077f068d44f5eb099083fe197c0b8d44eb500ee809f7a3025c0ee8e008509ac8288a070bc0740e0ee80409509ac8288a070bc07510b03ff62e0a5c403b06045c7e03a3045c803e4745017517c746fc1b009af009cf29b008500ee8e8fa8b4efceb1d908b4efc803e065c007512833e905e00740b813e195ce4007403b9e400519a1600da250ee8caf60ee8b0f5b8ea011e509aaa2901110bc07503e99d000bff7503e99600b001500ee84303509afe288a070bc075380ee85d03509afe288a070bc0752a0ee83508509ac8288a070bc0741c0ee85908509ac8288a070bc0740e0ee82d08509ac8288a070bc0754d0ee855038bf083fe077f068d44f5eb099083fe197c0b8d44eb500ee813f6a3025c0ee8ea07509ac8288a070bc0740e0ee80e08509ac8288a070bc07510b03ff62e0a5c403b06045c7e03a3045c0ee858fc509afe288a070bc0740a0ee842025e5f8be55dcbb001500ee89502509afe288a070bc0742e837efe2c75190ee8d9023d0e007d10b87200509a1600da250ee8d3f5eb0c90b8feff500ee894f5a3025c0ee8abf45e5f8be55dcb90",
+      "sha256": "78ca634e6745a8d066c2ba55ea76d2ea44531b17fef25188a83232f1b755a62b"
+    },
+    {
+      "id": "root:02cc:0f8c",
+      "space": "root",
+      "segment": 716,
+      "offset": 3980,
+      "size": 68,
+      "entry_kind": "direct-code",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "FallOn reaches the PUSH CS; CALL at root+0x3bee/0x3bef; rel16 +0x5a lands at root+0x3c4c in frame 02cc.",
+        "FallOn's last RETF at 0x3c4b precedes the new BP frame at 0x3c4c. The common RETF at 0x3c8e and one NOP end the extent before the reviewed 02cc:0fd0 entry.",
+        "The far CALL at root+0x3c84 to 29cf:0a2c has the sole touching MZ relocation, index 309 at root+0x3c87."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "root",
+          "image_offset": 15343,
+          "file_offset": 23535,
+          "pushed_cs_site": 15342
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Evidence-qualified",
+      "classification_evidence": [
+        "MSC-style BP frame with signed-byte homes for two cell readings, internal PUSH CS calls and a far return. The FM Towns CTRL.C entry performs the same ledge test."
+      ],
+      "abi": "No stack arguments. AX carries the predicate consumed by FallOn; preserves DI/SI, bare RETF.",
+      "semantic_name_hypothesis": "GrabTest",
+      "state": "ANALYZED",
+      "original_bytes_hex": "558bec83ec0257560ee8a6058846ff8b3e71620ee8cd058846fe8a46ff508a46fe5057ff3671620ee813058bf0803e47450575090bf675059a2c0acf295e5f8be55dcb90",
+      "sha256": "3631656fdadb7f3780e8a09e1c514d6d0655d228f1e74ab83439fff5cc9d0a5c",
+      "original_name": "GrabTest",
+      "original_name_evidence": [
+        "evidence/modules.json anchors FM Towns CTRL.C @GrabTest via the common FallOn caller and the above/ahead-cell test."
+      ]
     }
   ],
   "schema": 1,
