@@ -714,7 +714,11 @@ struct rebirth_point {
 };
 
 extern struct rebirth_record far *rebirth_data;
-extern const struct rebirth_point rebirth_points[2];
+extern struct {
+    char rooms[960];
+    char before_rebirth_points[0x26e7 - 960];
+    struct rebirth_point rebirth_points[2];
+} Level;
 
 struct box { int left, top, right, bottom; };
 struct character {
@@ -740,7 +744,7 @@ extern struct character Char, Kid;
 extern signed char room_to_draw, starting_health, start_facing;
 extern signed char kid_max_health, cutscene_flags, current_room_state, live_direction;
 extern int saved_game_active, level_flags;
-extern char rooms[960], room_links[3840], room_objects[3712], level_state[1088];
+extern char room_links[3840], room_objects[3712], level_state[1088];
 extern unsigned far cdecl _dos_creat(const char *, unsigned, int *);
 extern unsigned far cdecl _dos_write(int, const void far *, unsigned, unsigned *);
 extern long far cdecl lseek(int, long, int);
@@ -834,7 +838,7 @@ void far pascal SaveRebirthPtStatus(int point_id)
     if (!rebirth_data)
         rebirth_data = allocate_buffer(sizeof(*rebirth_data));
     rebirth_data->point_id = point_id;
-    _fmemcpy(rebirth_data->rooms, rooms, sizeof(rooms));
+    _fmemcpy(rebirth_data->rooms, Level.rooms, sizeof(Level.rooms));
     _fmemcpy(rebirth_data->room_links, room_links, sizeof(room_links));
     _fmemcpy(rebirth_data->room_objects, room_objects, sizeof(room_objects));
     _fmemcpy(rebirth_data->level_state, level_state, sizeof(level_state));
@@ -923,7 +927,7 @@ void far pascal prepare_saved_room_objects(void)
 void far pascal SetRebirthPtLevelStatus(void)
 {
     if (rebirth_data) {
-        _fmemcpy(rooms, rebirth_data->rooms, sizeof(rooms));
+        _fmemcpy(Level.rooms, rebirth_data->rooms, sizeof(Level.rooms));
         _fmemcpy(room_links, rebirth_data->room_links, sizeof(room_links));
         _fmemcpy(room_objects, rebirth_data->room_objects, sizeof(room_objects));
         _fmemcpy(level_state, rebirth_data->level_state, sizeof(level_state));
@@ -938,7 +942,7 @@ int far pascal SetRebirthPtKidStatus(void)
 
     if (rebirth_data) {
         /* Saved point IDs are one-based. */
-        point = &rebirth_points[rebirth_data->point_id - 1];
+        point = &Level.rebirth_points[rebirth_data->point_id - 1];
         room_to_draw = Char.room = point->room;
         Char.column = point->cell % 10;
         Char.row = point->cell / 10;

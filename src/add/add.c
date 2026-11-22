@@ -223,7 +223,10 @@ extern int actor_depth;
 extern int opponent_previous_frame;
 extern int opponent_previous_x;
 extern int actor_id;
-extern Byte actor_type;
+extern struct {
+    Byte type, action;
+    Byte remaining[62];
+} Char;
 
 extern void ConvertX(int x, int *destination);
 extern void update_char_object(Byte index);
@@ -246,7 +249,7 @@ void far _fastcall add_char_object(Byte kind)
         object->depth = actor_depth;
         update_char_object((Byte)index);
         object->object_id = actor_id;
-        object->object_type = actor_type;
+        object->object_type = Char.type;
     }
 }
 
@@ -503,15 +506,16 @@ BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte p
 }
 
 extern Byte actor_room;
-extern Byte actor_action;
 extern Byte actor_character;
 extern Byte actor_sword;
 extern Byte actor_force_redraw;
-extern Byte active_guard_count[][116];
+extern struct {
+    Byte before_guards[0x17bf];
+    struct { Byte before_count[0x34], count, after_count[0x3f]; } rooms[32];
+} Level;
 extern unsigned int actor_equipment;
 extern int actor_shape_index;
-extern Offset actor_frame_dx;
-extern Offset actor_frame_dy;
+extern struct { Offset x, y; } actor_frame_delta;
 extern int actor_screen_offset;
 extern int actor_position_x;
 extern int actor_position_y;
@@ -598,7 +602,7 @@ void add_opponent(void)
 {
     Offset opponent = 0;
 
-    if ((Offset)active_guard_count[special_scene][0] <= 0)
+    if ((Offset)Level.rooms[special_scene].count <= 0)
         return;
     do {
         select_actor(opponent);
@@ -626,7 +630,7 @@ void add_opponent(void)
 temple_kid:
             draw_temple_kid();
         }
-    } while ((Offset)active_guard_count[special_scene][0] > ++opponent);
+    } while ((Offset)Level.rooms[special_scene].count > ++opponent);
 }
 
 void setup_char(void)
@@ -640,7 +644,7 @@ void setup_char(void)
     if (actor_id == 0 || (actor_shape_index == -1 && equipment == -1))
         return;
 
-    actor_flags = actor_action;
+    actor_flags = Char.action;
     actor_depth = actor_depth_source;
     if (actor_character == 0 || actor_character == 6 || actor_character == 1) {
         actor_set = 2;
@@ -654,8 +658,8 @@ void setup_char(void)
         draw_special_actor();
         return;
     }
-    actor_y = actor_frame_dy + actor_position_y;
-    actor_x = actor_world_x(actor_frame_dx) - 130;
+    actor_y = actor_frame_delta.y + actor_position_y;
+    actor_x = actor_world_x(actor_frame_delta.x) - 130;
     if (actor_character == 10) {
         draw_shadow_effect();
         return;
@@ -795,7 +799,7 @@ void far _fastcall setup_sword(Byte kind)
         adjust_ruins_sword();
     add_char_object(kind);
     if (actor_state != 9)
-        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, actor_type);
+        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
 }
 
 void setup_flask(void)
@@ -815,7 +819,7 @@ void setup_flask(void)
     actor_set = 1;
     update_actor_clip();
     add_char_object(3);
-    schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, actor_type);
+    schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
 }
 
 void check_background_shape(int index)
@@ -926,8 +930,8 @@ int far _fastcall setup_opponent(Offset opponent)
     if (!opponent_clip_changed && opponent_previous_frame == actor_id &&
         opponent_previous_x == actor_position_x && opponent_previous_y == actor_position_y &&
         opponent_previous_mode == 0 && actor_character != 10 && actor_character != 11) {
-        save_character_peel(actor_type, 1);
-        save_character_peel(actor_type, 2);
+        save_character_peel(Char.type, 1);
+        save_character_peel(Char.type, 2);
         added = 0;
         goto done;
     }
@@ -940,7 +944,7 @@ int far _fastcall setup_opponent(Offset opponent)
         kind = 2;
     }
     if (actor_state != 9 && !suppress_actor_callback())
-        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&opponent_clip, actor_type);
+        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&opponent_clip, Char.type);
     add_char_object(kind);
     opponent_previous_x = actor_position_x;
     opponent_previous_y = actor_position_y;

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/altar/altar.json",
-  "binding_sha256": "24dc7e9e02fe92c542273f4ba7ac317297f2317c4858fb2a06c09210f35b45ec",
+  "binding_sha256": "59924b48dec402a7444571ee36a3b1220276667248a1f47f34f61666bbf1c3f4",
   "claims": [
     {
       "fixup_count": 18,
@@ -131,11 +131,16 @@
       "target_id": "overlay-15:2dc2:06bc"
     }
   ],
-  "drafts": [
+  "code_matches": [
     {
-      "object_offset": 934,
-      "public": "ALTAR_SHADOW_ACTIVE"
-    },
+      "public": "ALTAR_SHADOW_ACTIVE",
+      "target_id": "overlay-15:2dc2:03a6",
+      "unproven": [
+        "LEVEL+0x19c3"
+      ]
+    }
+  ],
+  "drafts": [
     {
       "object_offset": 1260,
       "public": "LOAD_ALTAR_ROOM"
@@ -156,12 +161,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "altar/altar",
-  "object_sha256": "aad9eaa588f28471eec7cef966da62239b642995a191e09fe387fbaaa036785a",
+  "object_sha256": "5596e460f24c60dc5590410b9c1475cd91df373ed097c832b214976492258eae",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/altar/altar.c",
-  "source_sha256": "2e85b3628927b188f3613e9b5be1287529e2ad5fff167a1bd259c501dfa5b87b",
+  "source_sha256": "e6d42fae593d374f6fbc7498518e45ef4e48c46f76e9b70e52fefc6a459f7191",
   "space": "overlay-15"
 }

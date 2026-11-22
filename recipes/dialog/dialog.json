@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "c5678cb08e03281caa6c8600e0ea735db02b71dfab65a1d21f2d7d0eacc3c0a6",
+  "binding_sha256": "b0dc367d3e99b993416e56c64f0358584c3e084a273cc816f757bf9b82bbedd4",
   "claims": [
     {
       "fixup_count": 4,
@@ -524,6 +524,22 @@
       "target_id": "root:052d:2268"
     }
   ],
+  "code_matches": [
+    {
+      "public": "SETREBIRTHPTKIDSTATUS",
+      "target_id": "root:052d:1234",
+      "unproven": [
+        "LEVEL+0x26e5"
+      ]
+    },
+    {
+      "public": "DRAW_MENU_ICON",
+      "target_id": "root:052d:20cc",
+      "unproven": [
+        "ACQUIRE_FRAME_SHAPE"
+      ]
+    }
+  ],
   "drafts": [
     {
       "object_offset": 712,
@@ -540,10 +556,6 @@
     {
       "object_offset": 4272,
       "public": "PREPARE_SAVED_ROOM_OBJECTS"
-    },
-    {
-      "object_offset": 4646,
-      "public": "SETREBIRTHPTKIDSTATUS"
     },
     {
       "object_offset": 4740,
@@ -574,10 +586,6 @@
       "public": "MAIN_MENU_CHOICE"
     },
     {
-      "object_offset": 8382,
-      "public": "DRAW_MENU_ICON"
-    },
-    {
       "object_offset": 8936,
       "public": "SHOW_CREDITS"
     },
@@ -605,12 +613,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "f2fdc24436ea3b4ec4efda0265356e6f3a74d6a32344f4630f39c074bc946d4a",
+  "object_sha256": "74ad6b98cb13319c0cc1b4d84b09202284c79aa3313d7b15d8a4319150b5c678",
   "origin": 21214,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "2a277fb63571be1c08d983c2ba06187bab1908dce49fbc2df78d8111ca6ff169",
+  "source_sha256": "b9a034c64a01953a9e3aaf2d651648f9c61c18255ea98108c7c56e7bef11ceef",
   "space": "root"
 }

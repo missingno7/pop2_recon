@@ -58,7 +58,10 @@ extern unsigned int candle_sound;             /* DS:3256 */
 extern int spawn_flag;                        /* DS:0a16 */
 extern RoomData *room_data;                    /* DS:0228 */
 extern Byte altar_tile;                       /* DS:4549 */
-extern signed char room_char_count;           /* DS:46c5 */
+extern struct {
+    char before_guards[0x17bf];
+    struct { char before_count[0x34]; signed char count; char after_count[0x3f]; } rooms[32];
+} Level;
 extern signed char room_guard_counts[];       /* DS:44f5, stride 116 */
 extern unsigned int tile_modifier;            /* DS:5e48 */
 extern signed char tile_animation;            /* DS:67d0 */
@@ -244,7 +247,7 @@ int altar_shadow_active(void)
     int result = 0;
     signed char i, count;
     i = 0;
-    count = room_char_count;
+    count = Level.rooms[4].count;
     if (count > 0) {
         do {
             if (result)
