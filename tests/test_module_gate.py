@@ -609,6 +609,33 @@ class PlacementTests(unittest.TestCase):
         self.assertFalse(self.check([("_DATA", b"\x00\x00", 2)], {}, {"_DATA": 2}, image)["_DATA"]["unique"])
 
 
+class SolvedFrameTests(unittest.TestCase):
+    """Root code entered only through CS-relative words: the original words fix the frame."""
+
+    def solve(self, table_words, frames=(0x100, 0x180), states=None, proven=()):
+        from module_gate import _solved_frame
+        space = SimpleNamespace(name="root", link_segment=0)
+        states = states if states is not None else {"ENTRY": {"own": [], "position": 0x1400, "piece": b"\0" * 8,
+                                                             "expected": b"\0" * 8}}
+        with patch("module_gate._candidate_frames", return_value=set(frames)):
+            # object origin 0x1300; ENTRY at object offset 0x100 (linear 0x1400)
+            return _solved_frame(states, set(proven), table_words, space, SimpleNamespace(), 0x1300,
+                                 {"ENTRY": 0x100})
+
+    def test_agreeing_table_words_solve_one_frame_and_enter_their_target(self):
+        # Frame 0x100 (base 0x1000): a word naming object offset A holds 0x1300 + A - 0x1000.
+        words = [(0x100, 0x10, 0x0400), (0x104, 0x12, 0x0404)]
+        base, solved, entered, count = self.solve(words)
+        self.assertEqual((base, entered, count), (0x1000, {"ENTRY"}, 2))
+
+    def test_one_word_or_disagreeing_words_prove_nothing(self):
+        self.assertIsNone(self.solve([(0x100, 0x10, 0x0400)]))
+        self.assertIsNone(self.solve([(0x100, 0x10, 0x0400), (0x104, 0x12, 0x0405)]))
+
+    def test_frame_must_be_one_the_original_stores(self):
+        self.assertIsNone(self.solve([(0x100, 0x10, 0x0400), (0x104, 0x12, 0x0404)], frames=(0x101,)))
+
+
 class PlacedSupportTests(unittest.TestCase):
     """Fields into a placed segment without unique content need two equal claimed sites."""
 

@@ -372,3 +372,17 @@ second case spelling is a fitting device, not a source hypothesis. `promote.py` 
 rule (move `ACTOR_COLUMN`, rooftops `STATE_BYTE`) are listed in evidence/case-alias-debt.json, which
 validation keeps equal to the accepted sources, so the list only shrinks. Declaration-order effects
 must be reproduced with the single real declaration.
+
+## Solved CS frames (2026-11-22)
+
+Root code that no relocated far call or far pointer enters (graphics mode code reached through
+mode descriptors and dispatch tables) may still carry CS-relative words: own-segment offset16
+fields `V = origin + A - base (mod 64K)`. These are linker equations on original bytes, so they fix
+the frame. The gate collects the own-segment words of the claims not yet CS-proven and the
+own-segment words in unclaimed regions of the object (descriptor/dispatch tables, at original
+positions without an MZ relocation), and accepts a frame only when exactly one candidate frame (a
+paragraph the original stores, whose 64K window holds every such claim, word and target)
+satisfies every equation, with at least two words in total. It must equal any witnessed frame of
+the group. Claims whose words were solved, and claims whose entry a table word names, run in that
+frame; near calls then propagate as usual. Every claimed byte is still compared; unclaimed table
+words only take part in the frame equation. Report: `cs_frame` "solved from N own-segment words".
