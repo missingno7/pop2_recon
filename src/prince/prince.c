@@ -1,16 +1,11 @@
-/* PRINCE.C whole-file working draft, resident DOS root [0000,1340).
- * The separately verified contributions are listed in submission.json.
- */
-
-/* Resident PRINCE.C startup. Externs denote symbols in other contributions. */
+/* Resident PRINCE.C, DOS root [0000,1340). */
 
 extern const char *resource_files[2];
-extern unsigned char restart_requested;
+extern unsigned char current_level_number;
 extern char selected_level;
 extern char current_level;
 extern char restart_level;
 extern int command_line_enabled;
-extern int skip_intro;
 extern int skip_opening;
 extern int restart_from_demo;
 
@@ -18,14 +13,12 @@ extern int demo_level;
 extern int demo_changed;
 extern int demo_pending;
 extern int minutes_remaining;
-extern char watch_memory_option[];
-extern char restart_message[];
-/* These three adjacent option strings are used by the startup routines. */
-extern struct {
-    char nis[4];
-    char tree[5];
-    char level[7];
-} startup_options;
+static char title[24] = "PRINCE OF PERSIA 2";
+/* FM Towns names these adjacent lookup tables OppCharId and CharOppId. */
+unsigned char OppCharId[11] = { 2, 10, 4, 6, 1, 7, 8, 2, 11, 12, 0 };
+unsigned char opponent_outfit_by_character[15] = {
+    10, 4, 0, 0, 2, 0, 3, 5, 6, 0, 1, 8, 9, 0, 0
+};
 
 extern void far pascal platform_setup(void);
 extern void far pascal save_options(void);
@@ -76,7 +69,7 @@ void far pascal ResetData(void);
         ++file;
     } while (file < resource_files + 2);
     Rnd(1);
-    restart_requested = 0;
+    current_level_number = 0;
     ResetGame();
 }
 
@@ -86,12 +79,13 @@ void far pascal ResetData(void);
 
     for (;;) {
         if (command_line_enabled) {
-            if (find_option(watch_memory_option)) {
+            if (find_option("WATCHMEM")) {
+                const char near * const restart_message = "At beginning of ResetGame() loop.";
                 log_message(restart_message);
                 write_message(restart_message);
                 show_dialog(0, restart_message, 0);
             }
-            if (find_option(startup_options.nis) || find_option(startup_options.tree))
+            if (find_option("NIS") || find_option("TREE"))
                 break;
         }
         ResetData();
@@ -123,7 +117,7 @@ void far pascal ResetData(void);
 
     selected_level = 0;
     if (command_line_enabled) {
-        option = find_option(startup_options.level);
+        option = find_option("LEVEL");
         if (option == 0)
             return;
         selected_level = (char)atoi(option + 5);
@@ -133,6 +127,8 @@ void far pascal ResetData(void);
 }
 
 #pragma optimize("e", on)
+static int skip_intro = 1;
+
 /* 014e */ char far pascal PlayOpeningSequence(void)
 {
     int result;
@@ -203,7 +199,25 @@ extern int paused;
 extern int minutes_remaining, countdown_pending, restart_blocked;
 extern int requested_level, control_mode, message_ticks, message_duration;
 extern unsigned int ticks_remaining;
-extern const char sound_on[], sound_off[], keyboard_mode[], title[];
+struct JoystickMessages {
+    char unavailable[22];
+    char mode[14];
+    char missing[20];
+};
+
+/* Adjacent message data in the original DGROUP, with even-aligned strings. */
+extern struct CountdownMessages countdown_messages;
+
+struct PrinceAudioMessages {
+    char sound_on[10];
+    char sound_off[10];
+    char ambient_on[18];
+    char ambient_off[18];
+    char music_unavailable[18];
+    struct JoystickMessages joystick;
+};
+
+extern struct PrinceAudioMessages prince_audio_messages;
 
 extern unsigned int far pascal read_key_code(void);
 extern int far pascal dialog_allowed(void);
@@ -225,101 +239,62 @@ extern void far pascal handle_debug_input(unsigned int key);
 
 unsigned int far pascal prince_poll(void)
 {
-    const char *message = 0;
-    int restart = 0;
-    unsigned int key = read_key_code();
+    const char *message = 0; int restart = 0; unsigned int key = read_key_code();
 
     if (joystick_button || key) {
-        if ((minutes_remaining && kid_life > 6) || restart_from_demo) {
-            restart = 1;
-            if (restart_from_demo)
-                skip_opening = 1;
+        if ((minutes_remaining && kid_life > 6) || restart_from_demo) { restart = 1;
+            if (restart_from_demo) skip_opening = 1;
         }
     }
 
     if (key) {
-        clear_keyboard();
-        switch (key) {
-        case 0x1b:
-            paused = 1;
-            break;
-        case 0x20:
-            if (timer_disabled >= 0)
-                countdown_pending = 1;
-            break;
+        clear_keyboard(); switch (key) {
+        case 0x1b: paused = 1; break;
+        case 0x20: if (timer_disabled >= 0) countdown_pending = 1; break;
         case 0x1300:
-            selected_level = 0;
-            timer_disabled = -1;
-            goto request_restart;
-        case 0x1800:
-            if (dialog_allowed()) {
+            selected_level = 0; timer_disabled = -1;
+        case 0x1e00:
+            if (!recording_enabled()) restart = 1; break;
+        case 0x1800: if (dialog_allowed()) {
                 show_game_help();
                 CtrlPlayer();
-            }
-            break;
-        case 0x1e00:
-        request_restart:
-            if (!recording_enabled())
-                restart = 1;
-            break;
-        case 0x1f00:
-            message = toggle_sound() ? sound_on : sound_off;
-            break;
+            } break;
+        case 0x1f00: message = toggle_sound() ? prince_audio_messages.sound_on : prince_audio_messages.sound_off; break;
         case 0x2200:
-            if (dialog_allowed() && show_game_settings()) {
-                apply_settings();
-                CtrlPlayer();
-            }
-            break;
+            if (!dialog_allowed()) break;
+            if (!show_game_settings()) break;
+            apply_settings(); CtrlPlayer(); break;
         case 0x2300:
-            if (dialog_allowed())
-                opening_input(1);
-            break;
-        case 0x2400:
-            message = joystick_status();
-            break;
+        /* This case starts a separate CodeView record. */
+        shortcut_dialog:
+            if (dialog_allowed()) opening_input(1); break;
+        case 0x2400: message = joystick_status(); break;
         case 0x2500:
-            message = keyboard_mode;
-            control_mode = 0;
-            break;
-        case 0x2600:
-            if (dialog_allowed())
-                poll_demo_state();
-            CtrlPlayer();
-            break;
-        case 0x2f00:
-            message = title;
-            break;
+            /* The keyboard label follows the audio and joystick strings. */
+            message = (const char *)(&prince_audio_messages + 1); control_mode = 0; break;
+        case 0x2600: if (dialog_allowed()) poll_demo_state();
+            CtrlPlayer(); break;
+        case 0x2f00: message = title; break;
         case 0x3100:
-            if (current_level <= 3 || command_line_enabled) {
-                if (current_level == 14 && command_line_enabled) {
+            if (current_level <= 3 || command_line_enabled) { if (current_level == 14 && command_line_enabled) {
                     requested_level = 1;
                 } else {
                     requested_level = current_level + 1;
                     if (!command_line_enabled && minutes_remaining > 15) {
-                        minutes_remaining = 15;
-                        ticks_remaining = 719;
-                    }
+                        minutes_remaining = 15; ticks_remaining = 719; }
                 }
                 update_display(0);
-            }
-            break;
-        case 0x3200:
-            message = toggle_music();
-            break;
+            } break;
+        case 0x3200: message = toggle_music(); break;
         }
 
-        if (command_line_enabled)
-            handle_debug_input(key);
-        if (message) {
-            DrawMessage(message);
-            message_ticks = message_duration = 24;
+        if (command_line_enabled) handle_debug_input(key);
+        if (message) { DrawMessage(message); message_ticks = message_duration = 24;
         }
     }
     if (restart && restart_blocked == 0 &&
         (current_room != 4 || restart_level != 13 || !in_special_room())) {
-        demo_changed = 1;
-        update_display(0);
+        demo_changed = 1; update_display(0);
     }
     return key;
 }
@@ -361,6 +336,7 @@ extern void far pascal update_alt_view(const char far *asset);
 extern void far pascal debug_room_message(const char *title, const char far *text, int flags);
 extern void far pascal ToggleInvertState(void);
 extern void far pascal request_sound(int value);
+extern void far pascal request_priority_sound(int value);
 extern void far pascal ChangeMeters(void);
 extern void far pascal CheckMeters(void);
 extern void far pascal CtrlPlayer(void);
@@ -382,15 +358,28 @@ extern char alternate_view_asset[];
 extern void *cdecl memcpy(void *destination, const void *source, unsigned int size);
 #pragma intrinsic(memcpy)
 
-extern const char room_number_format[8];
-extern const char debug_cheat_message[30];
-extern const char recording_on_message[10];
-extern const char recording_off_message[11];
-extern const char say_cheese_option[10];
-extern const char kid_x_saved_message[12];
-extern const char kid_x_restored_message[15];
-extern const char kid_y_saved_message[12];
-extern const char kid_y_restored_message[15];
+static struct {
+    char room_number_format[8];
+    char debug_cheat_message[30];
+    char recording_on_message[10];
+    char recording_off_message[11];
+    char say_cheese_option[10];
+    char kid_x_saved_message[12];
+    char kid_x_restored_message[15];
+    char kid_y_saved_message[12];
+    char kid_y_restored_message[15];
+} debug_messages = {
+    "Room %d",
+    "Called via program cheat key.",
+    "PLAYER ON",
+    "PLAYER OFF",
+    "SAYCHEESE",
+    "Kid.X saved",
+    "Kid.X restored",
+    "Kid.Y saved",
+    "Kid.Y restored",
+};
+
 void far pascal handle_debug_input(unsigned int key)
 {
     char text[80];
@@ -399,109 +388,73 @@ void far pascal handle_debug_input(unsigned int key)
 
     switch (key) {
     case '+':
-        ++minutes_remaining;
-        message_ticks = message_duration = 0;
-        countdown_pending = 1;
-        break;
+        ++minutes_remaining; message_ticks = message_duration = 0;
+        countdown_pending = 1; break;
     case '-':
-        if (minutes_remaining > 1)
-            --minutes_remaining;
+        if (minutes_remaining > 1) --minutes_remaining;
         message_ticks = message_duration = 0;
-        countdown_pending = 1;
-        break;
+        countdown_pending = 1; break;
     case 'B':
         debug_alt_view = !debug_alt_view;
-        if (debug_alt_view)
-            update_alt_view(alternate_view_asset);
+        if (debug_alt_view) update_alt_view(alternate_view_asset);
         else {
-            debug_reload_room = 1;
-            LoadCustomRoomData(current_room);
+            debug_reload_room = 1; LoadCustomRoomData(current_room);
         }
-        index = 0;
-        count = room_settings[current_room].opponent_count;
+        index = 0; count = room_settings[current_room].opponent_count;
         if (index < count) do {
             opponents[index].next_sequence = 0;
         } while (++index < count);
         break;
-    case 'I':
-        ToggleInvertState();
-        break;
+    case 'I': ToggleInvertState(); break;
     case 'K':
-        debug_char.hp_delta = -1;
-        request_sound(31);
-        Kid = Char;
-        ChangeMeters();
-        CheckMeters();
-        CtrlPlayer();
-        if (debug_char.hp == 0)
-            start_actor_animation(71);
-        debug_char.hp_delta = 0;
-        break;
+        debug_char.hp_delta = -1; request_priority_sound(31);
+        Kid = Char; ChangeMeters();
+        CheckMeters(); CtrlPlayer();
+        if (debug_char.hp == 0) start_actor_animation(71);
+        debug_char.hp_delta = 0; break;
     case 'R':
-        sprintf(text, room_number_format, (unsigned)current_room);
-        DrawMessage(text);
-        message_ticks = message_duration = 24;
-        break;
+        sprintf(text, debug_messages.room_number_format, (unsigned)current_room); DrawMessage(text);
+        message_ticks = message_duration = 24; break;
     case 'S':
         if (current_level_number == 2 || current_level_number == 6) {
-            player_input_disabled = 7;
-            *(int near *)&debug_char.frame = 5;
+            player_input_disabled = 7; *(int near *)&debug_char.frame = 5;
             cheat_switch_room();
-            if (current_level_number == 6)
-                schedule_room_effect(2000, 48, 16, 1);
+            if (current_level_number == 6) schedule_room_effect(2000, 48, 16, 1);
             else
                 schedule_room_effect(2000, 48, 16, 0);
         }
         break;
     case 'T':
-        request_sound(101);
-        BoostMeter();
-        Kid = Char;
-        break;
-    case 'W':
-        GoWeightless();
-        break;
+        request_sound(101); BoostMeter(); Kid = Char; break;
+    case 'W': GoWeightless(); break;
     case 'g':
         Kid = Char;
-        if (debug_char.linked != -1) {
-            select_opponent(debug_char.linked);
-            ++debug_char.max_hp;
-            debug_char.hp_delta = 1;
-            write_back_opponent();
-            ChangeMeters();
-            CheckMeters();
+        if (debug_char.linked != -1) { select_opponent(debug_char.linked); ++debug_char.max_hp;
+            debug_char.hp_delta = 1; write_back_opponent();
+            ChangeMeters(); CheckMeters();
         }
-        CtrlPlayer();
-        break;
+        CtrlPlayer(); break;
     case 'k':
-        debug_char.linked = -1;
-        Kid = Char;
-        index = 0;
-        count = room_settings[current_room].opponent_count;
+        debug_char.linked = -1; Kid = Char;
+        index = 0; count = room_settings[current_room].opponent_count;
         if (index < count) do {
-            select_opponent(index);
-            debug_char.unk11 = 0;
+            select_opponent(index); debug_char.unk11 = 0;
             debug_char.hp_delta = -debug_char.hp;
-            if (stage_type == 2) {
-                start_skeleton_animation();
-            } else if (debug_char.kind == 10) {
-                start_mouse_animation(index, 240);
-                start_actor_animation(107);
+            if (stage_type == 2) { start_skeleton_animation();
+            } else if (debug_char.kind == 10) { start_mouse_animation(index, 240); start_actor_animation(107);
                 debug_char.changed = 1;
             } else if (stage_type == 5 || stage_type == 6) {
-                debug_char.direction = ~debug_kid.direction;
-                debug_char.hp = 0;
+                debug_char.direction = ~debug_kid.direction; debug_char.hp = 0;
                 start_actor_animation(154);
             } else {
                 start_actor_animation(85);
             }
             write_back_opponent();
         } while (++index < count);
-        CtrlPlayer();
-        break;
+        CtrlPlayer(); break;
     case 'r':
         if (kid_life > 0) {
-            countdown_pending = 20;
+            restart_blocked = 20;
             kid_life = -1;
             ClrMessage(1);
         }
@@ -510,7 +463,7 @@ void far pascal handle_debug_input(unsigned int key)
         text[0] = 0;
         break;
     case 0x2000:
-        debug_room_message(0, debug_cheat_message, 0);
+        debug_room_message(0, debug_messages.debug_cheat_message, 0);
         break;
     case 0x3b00:
         debug_show_objects = !debug_show_objects;
@@ -519,7 +472,7 @@ void far pascal handle_debug_input(unsigned int key)
         debug_show_messages = !debug_show_messages;
         break;
     case 0x3d00:
-        message = (char *)(toggle_recording() ? recording_on_message : recording_off_message);
+        message = (char *)(toggle_recording() ? debug_messages.recording_on_message : debug_messages.recording_off_message);
         break;
     case 0x3f00:
         debug_show_buildings = !debug_show_buildings;
@@ -535,7 +488,7 @@ void far pascal handle_debug_input(unsigned int key)
         break;
     }
 
-    if (find_option(say_cheese_option)) {
+    if (find_option(debug_messages.say_cheese_option)) {
         switch (key) {
         case 0x4800: next_room = above_room; break;
         case 0x4b00: next_room = left_room; break;
@@ -552,28 +505,28 @@ void far pascal handle_debug_input(unsigned int key)
             CtrlPlayer();
             debug_kid_x = debug_char.x;
             Kid = Char;
-            memcpy(text, kid_x_saved_message, sizeof(kid_x_saved_message));
+            memcpy(text, debug_messages.kid_x_saved_message, sizeof(debug_messages.kid_x_saved_message));
             message = text;
             break;
         case '2':
             CtrlPlayer();
             debug_char.x = debug_kid_x;
             Kid = Char;
-            memcpy(text, kid_x_restored_message, sizeof(kid_x_restored_message));
+            memcpy(text, debug_messages.kid_x_restored_message, sizeof(debug_messages.kid_x_restored_message));
             message = text;
             break;
         case '3':
             CtrlPlayer();
             debug_kid_y = debug_char.y;
             Kid = Char;
-            memcpy(text, kid_y_saved_message, sizeof(kid_y_saved_message));
+            memcpy(text, debug_messages.kid_y_saved_message, sizeof(debug_messages.kid_y_saved_message));
             message = text;
             break;
         case '4':
             CtrlPlayer();
             debug_char.y = debug_kid_y;
             Kid = Char;
-            memcpy(text, kid_y_restored_message, sizeof(kid_y_restored_message));
+            memcpy(text, debug_messages.kid_y_restored_message, sizeof(debug_messages.kid_y_restored_message));
             message = text;
             break;
         case 0x4700:
@@ -642,26 +595,6 @@ struct CountdownMessages {
     char expired[18];
 };
 
-struct JoystickMessages {
-    char unavailable[22];
-    char mode[14];
-    char missing[20];
-};
-
-/* The original initialized message pool is contiguous in preloaded DGROUP.
- * Fixed member sizes retain the even-aligned strings and their terminators. */
-extern struct {
-    struct CountdownMessages countdown;
-    char press_button[26];
-    char press_key[22];
-    char sound_on[10];
-    char sound_off[10];
-    char ambient_on[18];
-    char ambient_off[18];
-    char music_unavailable[18];
-    struct JoystickMessages joystick;
-} prince_messages;
-
 extern signed char sound_volume;
 extern void far pascal set_sound_volume(signed char level);
 extern void far pascal set_options_from_disk(void);
@@ -700,12 +633,12 @@ char *far pascal joystick_status(void)
 {
     char *message;
     if ((available_devices & 1) && game_options->buttons == 32) {
-        message = prince_messages.joystick.unavailable;
+        message = prince_audio_messages.joystick.unavailable;
     } else if (detect_gameport()) {
-        message = prince_messages.joystick.mode;
+        message = prince_audio_messages.joystick.mode;
         game_options->control_mode = control_mode = 2;
     } else {
-        message = prince_messages.joystick.missing;
+        message = prince_audio_messages.joystick.missing;
         game_options->control_mode = control_mode = 0;
         memset(gameport_state, 0, sizeof(gameport_state));
     }
@@ -758,8 +691,8 @@ void far pascal add_room_trobs(void)
                 load_room_tiles(room);
             }
             if (index == 33) {
-                if (right_room) {
-                    room = right_room;
+                if (below_room) {
+                    room = below_room;
                     load_room_tiles(room);
                 } else {
                     index += 3;
@@ -858,15 +791,15 @@ void far pascal KeepTime(void)
             if (minutes_remaining == 1) {
                 seconds = (ticks_remaining + 1) / 12;
                 if (seconds == 1)
-                    strcpy(text, prince_messages.countdown.one_second);
+                    strcpy(text, countdown_messages.one_second);
                 else
-                    sprintf(text, prince_messages.countdown.seconds, seconds);
+                    sprintf(text, countdown_messages.seconds, seconds);
             } else {
-                sprintf(text, prince_messages.countdown.minutes, minutes_remaining);
+                sprintf(text, countdown_messages.minutes, minutes_remaining);
             }
             DrawMessage(text);
         } else {
-            DrawMessage(prince_messages.countdown.expired);
+            DrawMessage(countdown_messages.expired);
         }
         message_ticks = message_duration = 24;
         countdown_pending = 0;
@@ -893,7 +826,7 @@ extern RoomSettingsRow room_settings[];
 
 int far pascal PrepCut(int keep_screen)
 {
-    unsigned char room = current_room;
+    int room = current_room;
     if (next_room && next_room != room) {
         current_room = next_room;
         set_room_redraw();
@@ -1008,7 +941,7 @@ void far pascal ChangeMeters(void)
 }
 
 
-extern unsigned char input_changed;
+
 extern signed char joystick[3];
 extern int paused;
 extern char prince_pause_message[];
@@ -1026,7 +959,7 @@ int far pascal Input(void)
 {
     int result;
 
-    input_changed = 0;
+    next_room = 0;
     memset(joystick, 0, sizeof(joystick));
     read_controls();
     result = prince_poll();
