@@ -348,3 +348,14 @@ writes zero there. A placed initialized segment may therefore have single-byte h
 initialized ranges (it must still start at 0 and reach its end). The holes stay in the compared
 content as zero bytes, so every byte of the segment is compared with the original DGROUP image;
 wider gaps remain refused.
+
+## Far code pointers inside placed initialized data (2026-11-22)
+
+Callback and dispatch tables in a file's `_DATA` hold far code pointers: MSC emits a LOC3 (16:16)
+FIXUPP framed by its external target, with a zero encoded addend. The placement writes the value
+the linker writes, the target symbol's offset and segment, into the segment's bytes and compares
+the whole linked segment with the original. The target must be a far code symbol of the group's
+binding, grounded independently exactly as for a far CALL (accepted exact entry or outside
+relocated CALL FAR witnesses); its segment word must carry an original MZ relocation, and the
+segment must contain no other original relocation. Segment-base and far-data symbols, nonzero
+addends and pointers to this object's own code remain refused.

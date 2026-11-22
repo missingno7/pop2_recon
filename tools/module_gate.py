@@ -205,13 +205,31 @@ def _initialized_with_alignment_holes(ranges, length):
             all(b[0] - a[1] == 1 for a, b in zip(merged, merged[1:])))
 
 
-def _linked_data(seg, content, fields, placements):
-    """The bytes the linker writes for a placed initialized segment: each fixup field is a near
-    pointer into this object's placed DGROUP data (offset16, frame DGROUP, target a placed
-    segment), so its value is P(target) + stored offset + D, mod 64K. No other form is accepted."""
-    linked = bytearray(content)
+def _linked_data(seg, content, fields, placements, far_symbols=None):
+    """The bytes the linker writes for a placed initialized segment, and the segment-word offsets
+    that must carry original MZ relocations. Two field forms are accepted:
+    - a near pointer into this object's placed DGROUP data (offset16, frame DGROUP, target a
+      placed segment): P(target) + stored offset + D, mod 64K;
+    - a far code pointer (16:16, frame = its target) to an external far code symbol the binding
+      grounds independently (accepted exact entry or outside witnesses): that symbol's
+      offset and segment, with a zero encoded addend; its segment word is relocated in MZ."""
+    linked, relocated = bytearray(content), []
     for f in fields:
         target, frame = f["target"], f["frame"]
+        if f["loc_type"] == 3:
+            symbol = (far_symbols or {}).get(target.get("name"))
+            same_external = {k: frame.get(k) for k in ("kind", "index", "name")} == \
+                {"kind": "external", "index": target.get("index"), "name": target.get("name")}
+            at = f["segment_offset"]
+            require(symbol is not None and symbol.get("kind") not in ("segment-base", "far-data") and
+                    not f["self_relative"] and f["field_width"] == 4 and target.get("kind") == "external" and
+                    f["displacement"] is None and content[at:at + 4] == bytes(4) and
+                    (frame == {"kind": "target_frame", "target": target} or same_external),
+                    f"Placed segment {seg} far pointer at +{at:#x} is not a zero-addend pointer to a "
+                    "grounded far code symbol")
+            linked[at:at + 4] = symbol["offset"].to_bytes(2, "little") + symbol["segment"].to_bytes(2, "little")
+            relocated.append(at + 2)
+            continue
         require(not f["self_relative"] and f["loc_type"] in (1, 5) and f["field_width"] == 2 and
                 {k: frame.get(k) for k in ("kind", "name")} == {"kind": "group", "name": "DGROUP"} and
                 target.get("kind") == "segment" and target.get("name") in placements,
@@ -220,10 +238,10 @@ def _linked_data(seg, content, fields, placements):
         at = f["segment_offset"]
         value = placements[target["name"]] + int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
         linked[at:at + 2] = (value & 0xFFFF).to_bytes(2, "little")
-    return bytes(linked)
+    return bytes(linked), relocated
 
 
-def _check_placements(module, placements, uses, binding, space, oracle, data_fixes=()):
+def _check_placements(module, placements, uses, binding, space, oracle, data_fixes=(), far_symbols=None):
     """Each placed DGROUP segment must be over-determined: initialized bytes equal the original
     DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree.
     Near-pointer fixups inside initialized data take their linked values (_linked_data)."""
@@ -247,8 +265,9 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
         initialized = module.initialized_ranges.get(seg["name"], [])
         fields = [f for f in data_fixes if f["segment"] == seg["name"]]
         require(initialized or not fields, f"Fixups in uninitialized placed segment {seg['name']}")
+        relocated = []
         if fields:
-            content = _linked_data(seg["name"], content, fields, placements)
+            content, relocated = _linked_data(seg["name"], content, fields, placements, far_symbols)
         if initialized:
             require("dgroup_segment" in binding,
                     "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
@@ -257,8 +276,10 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
             start = dgroup + p
             require(start + seg["length"] <= home.size and home.data[start:start + seg["length"]] == content,
                     f"Placed segment {seg['name']} content differs from the original DGROUP bytes")
-            require(not any(start - 1 <= r["image_offset"] < start + seg["length"] for r in home.relocations),
-                    f"Placed segment {seg['name']} overlaps original relocated words")
+            # Original MZ relocations inside the segment: exactly the far pointers' segment words.
+            inside = {r["image_offset"] - start for r in home.relocations
+                      if start - 1 <= r["image_offset"] < start + seg["length"]}
+            require(inside == set(relocated), f"Placed segment {seg['name']} overlaps original relocated words")
             # Content found once in the whole DGROUP image fixes P independently of any one field;
             # repeated content (zero words, short constants) fixes nothing, so each field then needs
             # its own support (_placed_support), like an unwitnessed v4 address.
@@ -1465,11 +1486,13 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
+        used_far |= {f["target"].get("name") for f in data_fixes
+                     if f["loc_type"] == 3 and f["target"].get("kind") == "external"}
         require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle,
-                                         data_fixes)
+                                         data_fixes, far_symbols)
     _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
