@@ -51,7 +51,7 @@ void clip_ruins_actor(void)
 {
     int clip_lower;
     CellCoord column, left_column;
-    int previous_x, current_x;
+    int previous_cell_remaining, current_cell_offset;
 
     clip_lower = actor_id == 7 || actor_id == 8;
     column = column_from_x(current_actor_x);
@@ -65,9 +65,9 @@ void clip_ruins_actor(void)
         actor_frame != 143 && actor_frame != 144) {
         left_column = column_from_x(previous_actor_x);
         if (column_from_x(current_actor_x) != left_column) {
-            previous_x = previous_actor_x - 130;
-            current_x = current_actor_x - 32;
-            if (current_x % 32 + previous_x % 32 < 32)
+            previous_cell_remaining = 32 - (previous_actor_x - 130) % 32;
+            current_cell_offset = (current_actor_x - 32) % 32;
+            if (previous_cell_remaining > current_cell_offset)
                 --column;
         }
         if (!is_six_kind(select_tile(actor_room, column, left_cell_row)))
@@ -95,6 +95,7 @@ void fall_spikes(void)
     spike_x = saved_x;
 }
 
+#pragma optimize("e", off)
 void cut_kid_inside_level6(void)
 {
     CellCoord start_room;
@@ -114,6 +115,8 @@ void cut_kid_inside_level6(void)
     ClrAll();
     plateau_intro = 0;
 }
+
+#pragma optimize("e", on)
 
 void load_ruins_start_palette(void)
 {
@@ -143,9 +146,3 @@ void load_plateau_room(void)
         }
     }
 }
-
-
-
-
-
-

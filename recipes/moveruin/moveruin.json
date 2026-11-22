@@ -1,7 +1,27 @@
 {
   "binding": "evidence/bindings/moveruin/moveruin.json",
-  "binding_sha256": "fad1be40ef045d153e16a65eff1aa7fe7deb5b1f2d1ee9714bfc9ab76987f92f",
+  "binding_sha256": "374b86c1c00599ea50d53c60c81b20a99e5b4b9107019714a67ffe1b4b5aea0a",
   "claims": [
+    {
+      "fixup_count": 34,
+      "public": "CLIP_RUINS_ACTOR",
+      "relocation_indices": [
+        3,
+        4,
+        5,
+        8,
+        9,
+        15,
+        18,
+        19,
+        20
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-8:2a4e:0000"
+    },
     {
       "fixup_count": 22,
       "public": "FALL_SPIKES",
@@ -79,12 +99,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 0,
-      "public": "CLIP_RUINS_ACTOR"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 620,
   "flags": [
     "/c",
@@ -93,19 +108,19 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zd"
+    "/Zi"
   ],
   "frame": 10830,
   "group_id": "group:moveruin/moveruin",
   "kind": "same_source_group",
   "language": "c",
   "name": "moveruin/moveruin",
-  "object_sha256": "2502cb0689c14301d6bc434be251155b3bcefe0161a8ed33d017382e73ebf0ab",
+  "object_sha256": "e5da2c87bbc666d5664abd458721b955fddd3ca3d40aeed00e94d1cc4a47b019",
   "origin": 0,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/moveruin/moveruin.c",
-  "source_sha256": "55d39c8cf4dcb7ec828de7a4b0d14a0574ea5aa22ae44fa18378540a82d6cc06",
+  "source_sha256": "b73a7d1a36f57ce63a4dd20967faa91f1f8cedd9966d84721219d765770ef181",
   "space": "overlay-8"
 }

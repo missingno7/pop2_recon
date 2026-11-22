@@ -9,6 +9,7 @@ typedef unsigned int Word;
 #pragma pack(1)
 typedef union SpikeState {
     Word word;
+    int signed_word; /* Signed view of the same packed state word. */
     struct {
         Byte phase;
         Byte flags;
@@ -152,7 +153,11 @@ void CheckImpale(void)
         do {
             if (get_tile(actor_room, column, actor_row) == 2 && GetSpikes() == 2) {
                 x = column_x[column] + 14;
-                if ((x + (actor_stance == 0 ? 14 : 10) > screen_edge
+                if (actor_stance == 0)
+                    x += 14;
+                else
+                    x += 10;
+                if ((x > screen_edge
                         && actor_row * 63 + 26 <= actor_y
                         && (actor_frame < 0x79 || actor_frame > 0x84)
                         && actor_frame != 0x0f)
@@ -228,7 +233,7 @@ void DoImpale(void)
         Byte flags = tile_flags & 8;
         state->word = 0xf0 + ((Word)flags << 8);
     } else {
-        state->word = 0x8f;
+        state->signed_word = 0x8f;
     }
 
     mob = get_mobile(4, 1);
