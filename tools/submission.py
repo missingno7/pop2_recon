@@ -80,7 +80,7 @@ def _promote(base, group, extra, verify_only, stage=None):
         cmd += ["--binding", str(base / binding)]
     if verify_only:
         cmd += ["--verify-only", "--stage", str(stage or base / "verify" / group["name"].replace("/", "_"))]
-        cmd += [arg for arg in extra]
+    cmd += list(extra)  # verify-only research flags, or --replacing for a publication batch
     env = dict(os.environ, MSYS_NO_PATHCONV="1")
     out = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, env=env)
     lines = (out.stdout + out.stderr).strip().splitlines()
