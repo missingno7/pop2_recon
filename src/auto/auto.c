@@ -1282,8 +1282,8 @@ typedef struct {
     unsigned char head[6];
     unsigned char flags;
 } hit_action_record;
-extern _segment hit_action_segment;
-extern hit_action_record _based(hit_action_segment) hit_actions[];
+extern hit_action_record far hit_actions[];
+
 extern unsigned char hit_actor_flags, hit_actor_draw_mode;
 extern unsigned char hit_actor_kind, hit_actor_number;
 
@@ -1293,7 +1293,9 @@ extern signed char hit_actor_target;
 extern unsigned char actor_stage;
 extern signed char actor_bump_column;
 extern unsigned char actor_counterface;
-extern int opponent_recovery_time[];
+static int opponent_recovery_time[] = {
+    20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
+};
 extern unsigned char cliff_style_for_impact;
 extern unsigned char hit_actor_pair_state;
 extern int landing_x[];

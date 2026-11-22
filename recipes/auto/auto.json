@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "ce6e638baf2d00be142adf4cf21c9490b739a5c25a1335ce9a703c4681dff90e",
+  "binding_sha256": "b0c21604663e321ba248d651252323c0283e8e5e38a5f7c6f6f0de7ff33801fc",
   "claims": [
     {
       "fixup_count": 1,
@@ -219,6 +219,23 @@
       "target_id": "overlay-3:2344:18e4"
     },
     {
+      "fixup_count": 26,
+      "public": "CHECK_STAB",
+      "relocation_indices": [
+        28,
+        29,
+        33,
+        61,
+        90,
+        104
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:198e"
+    },
+    {
       "fixup_count": 11,
       "public": "DISPATCH_GUARD_REACTION",
       "relocation_indices": [
@@ -320,10 +337,6 @@
       "public": "RUN_GUARD_SCRIPT"
     },
     {
-      "object_offset": 6542,
-      "public": "CHECK_STAB"
-    },
-    {
       "object_offset": 6774,
       "public": "STAB_ACTOR"
     },
@@ -353,12 +366,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "15826f8b91389b72c174d8b8717452031d632c7b9b4292494a41d7399447c39d",
+  "object_sha256": "89aaf63fa749ca04e1b4b033fcd4e404426b75e39c201ee9905a4a53d3ee2626",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "ed11b27b2b68e9382294370c96b536298e663b5fa364ee7aaf2cb3578ae2ba90",
+  "source_sha256": "187ac4f31d8d5700df16c932e3c3460814d79700aa43a2f9e59c6a6403c2190c",
   "space": "overlay-3"
 }
