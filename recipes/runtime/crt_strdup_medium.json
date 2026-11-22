@@ -1,0 +1,31 @@
+{
+  "archive_offset": 79120,
+  "binding": "evidence/bindings/crt_strdup_medium.json",
+  "binding_sha256": "5c162b548d452bb501c658a44b124f628f82b7f28d2f56beeb3e8961426f0903",
+  "boundary_evidence": [
+    "Complete independent medium-model MSC 6.00 mlibcr.lib member (archive offset 79120, 215 bytes) whose whole 40-byte CODE segment lies at root 0x21f9a (1fe6:213a) in the monotone runtime run of frame 1fe6; every fixup proven by runtime-symbolic-v1 equations, with accepted external providers and same-library selection where listed."
+  ],
+  "fixup_count": 3,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 215,
+  "member_sha256": "e953296271bc8c0578ec46fc346c5cd88e8c93ab7b8d54a5f2af3df0c6795449",
+  "name": "crt_strdup_medium",
+  "object_segment": "_TEXT",
+  "offset": 8506,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "_strdup"
+  ],
+  "relocation_indices": [
+    1903,
+    1919,
+    1929
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 40,
+  "space": "root",
+  "target_sha256": "a5e47f78147090a488de140a7164ae468e9e6e50e0786eee6b8b3153c2786a96"
+}

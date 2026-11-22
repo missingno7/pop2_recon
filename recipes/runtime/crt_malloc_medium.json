@@ -1,0 +1,29 @@
+{
+  "archive_offset": 25664,
+  "binding": "evidence/bindings/crt_malloc_medium.json",
+  "binding_sha256": "c3cb62aa777783d0d8a1775704d72806257a7c0229fcf6cc5fc5142448355600",
+  "boundary_evidence": [
+    "Complete independent medium-model MSC 6.00 mlibcr.lib member (archive offset 25664, 154 bytes) whose whole 5-byte CODE segment lies at root 0x212a0 (1fe6:1440) in the monotone runtime run of frame 1fe6; every fixup proven by runtime-symbolic-v1 equations, with accepted external providers and same-library selection where listed."
+  ],
+  "fixup_count": 1,
+  "kind": "PINNED_RUNTIME",
+  "library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+  "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+  "member_extent": 154,
+  "member_sha256": "b6447b23e29323179b16ff920fb7993b8da63c5b11a667b89c57f582bb5e73e5",
+  "name": "crt_malloc_medium",
+  "object_segment": "_TEXT",
+  "offset": 5184,
+  "proof_scope": "Whole pinned member CODE with every fixup computed from independently grounded providers, CODE frame and DGROUP placements; secondary DGROUP storage placed and compared, data bytes not owned; natural RTLink placement and behavior unproved",
+  "publics": [
+    "_malloc"
+  ],
+  "relocation_indices": [
+    1931
+  ],
+  "schema": 1,
+  "segment": 8166,
+  "size": 5,
+  "space": "root",
+  "target_sha256": "d26d9f36687cd76f2c4e7ea10a89738498b1d3a3e53a37b9d22187bdeb7a6a2f"
+}
