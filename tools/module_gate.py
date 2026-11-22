@@ -738,7 +738,9 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
             f"Placement of {name} is not fixed by unique original DGROUP content")
     # One DGROUP byte has one defining object: no other accepted group places data over it.
     for _, other in recipes:
-        if other.get("kind") != "same_source_group" or other.get("group_id") == provider_id or                 "binding" not in other:
+        # The judged group's own accepted recipe is the version this publication replaces; its
+        # new placements are checked against the provider separately (own-placement overlap).
+        if other.get("kind") != "same_source_group" or other.get("group_id") in (provider_id, group_id) or                 "binding" not in other:
             continue
         other_binding = read_json(project_path(other["binding"]))
         lengths = {d["name"]: d["length"] for d in other_binding["declarations"]["segments"]}

@@ -169,6 +169,18 @@ class ProviderPublicTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "overlaps placed _DATA of other"):
             self.ground()
 
+    def test_the_republished_consumers_own_old_placement_is_replaced_not_an_overlap(self):
+        # Publishing group:other again replaces its accepted recipe, so that recipe's old placement
+        # over the provider is not a conflict; a third group's placement still is.
+        other = copy.deepcopy(self.provider_binding)
+        other["placements"] = {"_DATA": P + len(TABLE) - 1}
+        self.recipes.append(({"kind": "MATCHING_C"}, self.recipe("group:other", other, [], claims=("OTHER_FUNC",))))
+        self.assertEqual(self.ground(group_id="group:other")["offset"], P + 4)
+        third = copy.deepcopy(other)
+        self.recipes.append(({"kind": "MATCHING_C"}, self.recipe("group:third", third, [], claims=("THIRD_FUNC",))))
+        with self.assertRaisesRegex(ValueError, "overlaps placed _DATA of third"):
+            self.ground(group_id="group:other")
+
 
 class ProviderFieldTests(unittest.TestCase):
     """The consumer's addend stays inside the provider public's span; values never alias."""
