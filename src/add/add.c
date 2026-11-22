@@ -107,12 +107,10 @@ int far _fastcall add_image_info(Byte set, int image, ImagePlacement *placement,
         image = item->placement.image;
     }
 
-    if (set == 4)
-        check_background_shape(image - 1);
+    if (set == 4) check_background_shape(image - 1);
 
     shape = lock_shape(shape_sets[set][image].handle);
-    if (shape == 0 || *shape == 0)
-        return 0;
+    if (shape == 0 || *shape == 0) return 0;
 
     item->placement.y += image_y_offsets[y] - *shape;
     item->placement.x += image_x_offsets[x];
@@ -137,8 +135,7 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
     int i = back_count;
     int added;
 
-    if (i >= 130 && confirm_quit(overflow.back))
-        return 0;
+    if (i >= 130 && confirm_quit(overflow.back)) return 0;
     added = add_image_info(4, image, &tile_images[tile].background,
                            &back_table[i], x, y, order, layer);
     if (added) {
@@ -157,8 +154,7 @@ int add_back_foreground_to_back(Byte tile, int image, Offset x, Offset y,
 
     if (image) {
         i = back_count;
-        if (i >= 130 && confirm_quit(overflow.back_foreground))
-            return 0;
+        if (i >= 130 && confirm_quit(overflow.back_foreground)) return 0;
         added = add_image_info(4, image,
                                &tile_images[tile].background_foreground,
                                &back_table[i], x, y, order, layer);
@@ -176,8 +172,7 @@ int add_back_foreground_to_front(Byte tile, int image, Offset x, Offset y,
     int i = front_count;
     int added;
 
-    if (i >= 100 && confirm_quit(overflow.front_foreground))
-        return 0;
+    if (i >= 100 && confirm_quit(overflow.front_foreground)) return 0;
     added = add_image_info(4, image,
                            &tile_images[tile].background_foreground,
                            &front_table[i], x, y, order, layer);
@@ -225,6 +220,9 @@ extern Byte actor_set;
 extern Byte actor_flags;
 extern Rect actor_clip;
 extern int actor_depth;
+extern int opponent_previous_frame;
+extern int opponent_previous_x;
+extern int opponent_previous_y;
 extern int actor_id;
 extern Byte actor_type;
 
@@ -260,14 +258,11 @@ int add_foreground_image(Byte tile, int image, Offset x, Offset y,
     int i;
     int added;
 
-    if (tile == 10 || tile == 60)
-        set = 1;
-    else
-        set = tile == 22 ? 0 : 4;
+    if (tile == 10 || tile == 60) set = 1;
+    else set = tile == 22 ? 0 : 4;
 
     i = front_count;
-    if (i >= 100 && confirm_quit(overflow.front))
-        return 0;
+    if (i >= 100 && confirm_quit(overflow.front)) return 0;
     added = add_image_info(set, image, &tile_images[tile].foreground,
                            &front_table[i], x, y, order, layer);
     if (added) {
@@ -321,8 +316,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
             set == 4 && *custom_shapes > image_index) {
             get_custom_shape_size(image_index, &size);
         } else {
-            if (!get_set_image_size((ShapeSet *)shape_sets[set], image_index, &size) || !size.height)
-                return 0;
+            if (!get_set_image_size((ShapeSet *)shape_sets[set], image_index, &size) || !size.height) return 0;
         }
 
         row->y = y - size.height + 1;
@@ -331,10 +325,8 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         row->clip = actor_clip;
         row->order = order;
         row->reserved = 0;
-        if (actor_flags == 0 && (set != 4 || background_depth >= 0))
-            row->visible = 1;
-        else
-            row->visible = 0;
+        if (actor_flags == 0 && (set != 4 || background_depth >= 0)) row->visible = 1;
+        else row->visible = 0;
         row->depth = 255;
         ++mid_count;
         added = 1;
@@ -380,22 +372,17 @@ void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, O
 {
     Rect rect;
 
-    if (peel_count >= 40)
-        return;
-    rect.left = y;
-    rect.right = bottom;
+    if (peel_count >= 40) return;
+    rect.left = y; rect.right = bottom;
     rect.top = x;
     rect.bottom = x + width;
-    if (rectangle_is_empty(&rect))
-        return;
+    if (rectangle_is_empty(&rect)) return;
 
     peel_entries[*(volatile int *)&peel_count].handle = save_peel_rectangle(&rect);
     PEEL_CHARACTER(peel_entries[*(volatile int *)&peel_count]) = actor;
     PEEL_MODE(peel_entries[*(volatile int *)&peel_count]) = mode;
-    if (mode != 2 && mode != 3)
-        peel_entries[*(volatile int *)&peel_count].y = 0;
-    else
-        peel_entries[*(volatile int *)&peel_count].y = 1;
+    if (mode != 2 && mode != 3) peel_entries[*(volatile int *)&peel_count].y = 0;
+    else peel_entries[*(volatile int *)&peel_count].y = 1;
     ++peel_count;
 }
 
@@ -439,12 +426,10 @@ int find_character_peel(Offset actor, int occurrence)
     if (index < peel_count) {
         details = (PeelDetails *)&peel_entries[0].x;
         do {
-            if (found != -1)
-                break;
+            if (found != -1) break;
             if (actor == details->character) {
                 ++occurrences;
-                if (*(volatile int *)&occurrence == occurrences)
-                    found = index;
+                if (*(volatile int *)&occurrence == occurrences) found = index;
             }
             details = (PeelDetails *)((char *)details + sizeof(PeelEntry));
             ++index;
@@ -465,11 +450,9 @@ void restore_peels(void)
 
     for (; retain -= sizeof(PeelEntry) / sizeof(int), --saved, index--; ) {
         unsigned int handle;
-        if ((*saved = *retain) != 0)
-            continue;
+        if ((*saved = *retain) != 0) continue;
         handle = ((unsigned int *)retain)[-2];
-        if (peel_restore_mode == 0)
-            mark_peel_handle(handle + 16);
+        if (peel_restore_mode == 0) mark_peel_handle(handle + 16);
         if (((Offset *)retain)[-1] == 2) {
             retain_peel(handle);
             *saved = *retain = 1;
@@ -485,8 +468,7 @@ void restore_peels(void)
         do {
             if (*saved) {
                 *destination = *entry;
-                if (PEEL_CHARACTER(*entry) < 100)
-                    destination->y = 0;
+                if (PEEL_CHARACTER(*entry) < 100) destination->y = 0;
                 ++destination;
                 ++remaining;
             }
@@ -538,9 +520,6 @@ extern int actor_position_x;
 extern int actor_position_y;
 extern Offset actor_clip_mode;
 extern Byte opponent_clip_changed;
-extern int opponent_previous_frame;
-extern int opponent_previous_x;
-extern int opponent_previous_y;
 extern int opponent_previous_mode;
 extern Rect opponent_clip;
 extern unsigned int object_position_handle;
@@ -574,6 +553,7 @@ extern void draw_room_effect(void);
 extern void draw_special_actor(void);
 extern void draw_opponent_effect(void);
 extern void draw_shadow_effect(void);
+extern void draw_special_opponent(void);
 
 extern void setup_char(void);
 extern void setup_comix(void);
@@ -842,7 +822,7 @@ void setup_flask(void)
 
 void check_background_shape(int index)
 {
-    unsigned int handle;
+    int handle;
     int image;
 
     if (index < 0)
@@ -889,13 +869,11 @@ void check_kid_shape(int index)
 void check_opponent_shape(int index)
 {
     int image;
-    unsigned int handle;
     Offset outfit;
 
     if (index < 0)
         return;
-    handle = opponent_shapes->images[index].handle;
-    if (!handle || find_locked_shape(handle))
+    if (!opponent_shapes->images[index].handle || find_locked_shape(opponent_shapes->images[index].handle))
         return;
     image = index + 1;
     outfit = (actor_character == 10 || actor_character == 12)
@@ -937,6 +915,7 @@ ShapeItem far *get_set_shape_item(ShapeSet *set, int image, ImageSize far *size)
 int far _fastcall setup_opponent(Offset opponent)
 {
     Byte kind;
+    int added;
 
     prepare_actor_display();
     setup_char();
@@ -946,18 +925,19 @@ int far _fastcall setup_opponent(Offset opponent)
     adjust_actor_clip_for_tiles();
     check_actor_room();
 
-    if (!opponent_clip_changed && actor_id == opponent_previous_frame &&
-        actor_position_x == opponent_previous_x && actor_position_y == opponent_previous_y &&
+    if (!opponent_clip_changed && opponent_previous_frame == actor_id &&
+        opponent_previous_x == actor_position_x && opponent_previous_y == actor_position_y &&
         opponent_previous_mode == 0 && actor_character != 10 && actor_character != 11) {
         save_character_peel(actor_type, 1);
         save_character_peel(actor_type, 2);
-        return 0;
+        added = 0;
+        goto done;
     }
     if (actor_character == 7 || actor_character == 8 || actor_character == 10 ||
         actor_character == 6 || actor_character == 1) {
         kind = actor_character;
         if (kind == 10)
-            draw_special_actor();
+            draw_special_opponent();
     } else {
         kind = 2;
     }
@@ -968,7 +948,9 @@ int far _fastcall setup_opponent(Offset opponent)
     opponent_previous_y = actor_position_y;
     opponent_previous_mode = peel_restore_mode;
     save_opponent_display_state();
-    return 1;
+    added = 1;
+done:
+    return added;
 }
 
 typedef struct {

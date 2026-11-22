@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "a7a8a364bdb248ff12dc268962b21275800e697e89427d879fb9f2bd96b972f9",
+  "binding_sha256": "4ced13f34dc02dc657df6175f5f64a9ef4ecf044521688a94eafb2a69175b691",
   "claims": [
     {
       "fixup_count": 4,
@@ -159,6 +159,76 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0169:0d86"
+    },
+    {
+      "fixup_count": 8,
+      "public": "CHECK_KID_SHAPE",
+      "relocation_indices": [
+        135,
+        159,
+        223,
+        231
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0169:0eb6"
+    },
+    {
+      "fixup_count": 13,
+      "public": "CHECK_OPPONENT_SHAPE",
+      "relocation_indices": [
+        136,
+        160,
+        191,
+        232
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:0f56"
+    },
+    {
+      "fixup_count": 7,
+      "public": "GET_SET_IMAGE_SIZE",
+      "relocation_indices": [
+        157
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0169:1002"
+    },
+    {
+      "fixup_count": 7,
+      "public": "GET_SET_SHAPE_ITEM",
+      "relocation_indices": [
+        229
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0169:1054"
+    },
+    {
+      "fixup_count": 43,
+      "public": "@setup_opponent",
+      "relocation_indices": [
+        140,
+        148,
+        152,
+        178,
+        181,
+        195,
+        201,
+        215,
+        217,
+        227,
+        228
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:10aa"
     }
   ],
   "drafts": [
@@ -215,31 +285,11 @@
       "public": "CHECK_BACKGROUND_SHAPE"
     },
     {
-      "object_offset": 3758,
-      "public": "CHECK_KID_SHAPE"
-    },
-    {
-      "object_offset": 3918,
-      "public": "CHECK_OPPONENT_SHAPE"
-    },
-    {
-      "object_offset": 4090,
-      "public": "GET_SET_IMAGE_SIZE"
-    },
-    {
-      "object_offset": 4172,
-      "public": "GET_SET_SHAPE_ITEM"
-    },
-    {
-      "object_offset": 4258,
-      "public": "@setup_opponent"
-    },
-    {
-      "object_offset": 4514,
+      "object_offset": 4518,
       "public": "CLEAR_ROW_HANDLES"
     }
   ],
-  "emitted_size": 4532,
+  "emitted_size": 4536,
   "flags": [
     "/c",
     "/AM",
@@ -255,12 +305,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "2428e7b500707384e9c39bcc4557637e6e00a4c70d7a549b876e783c61e0cb57",
+  "object_sha256": "6a76ecda449c27ef766e718ee3922867204b1483a4349458956eba2b7614d753",
   "origin": 5782,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "187c1d75aaa0cf2c4e386934626f64fe4a0379f1e83385c892cd0fcda4799262",
+  "source_sha256": "ff4622ee09e54e38e4003d6e1f1ef39e03121b4339097cd873f433931a7352f3",
   "space": "root"
 }
