@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawtemp/drawtemp.json",
-  "binding_sha256": "a94922443ac7ced8de2012ab945649f3c43b2d2784d7bc7fa13aa282e4667494",
+  "binding_sha256": "23c927c990c5afc90a40a031aecb72424a317487749c30fffbec95b10611cb09",
   "claims": [
     {
       "fixup_count": 7,
@@ -14,6 +14,57 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-9:2b4b:0652"
+    },
+    {
+      "fixup_count": 3,
+      "public": "DRAW_TEMPLE_RUBBLE",
+      "target_id": "overlay-9:2b4b:0c86"
+    },
+    {
+      "fixup_count": 7,
+      "public": "DRAW_TEMPLE_SPACE",
+      "relocation_indices": [
+        116,
+        151
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2b4b:0d20"
+    },
+    {
+      "fixup_count": 3,
+      "public": "DRAW_TEMPLE_SPIKES",
+      "relocation_indices": [
+        113
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-9:2b4b:0d86"
+    },
+    {
+      "fixup_count": 2,
+      "public": "DRAW_TEMPLE_RUBBLE_TORCH",
+      "target_id": "overlay-9:2b4b:0dfe"
+    },
+    {
+      "fixup_count": 9,
+      "public": "DRAW_TEMPLE_TORCH",
+      "relocation_indices": [
+        105,
+        114,
+        115,
+        120
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2b4b:0e16"
+    },
+    {
+      "fixup_count": 2,
+      "public": "DRAW_TEMPLE_TRAPDOOR",
+      "target_id": "overlay-9:2b4b:0ee2"
     },
     {
       "fixup_count": 1,
@@ -31,102 +82,79 @@
       "public": "DRAW_TEMPLE_BLOCK"
     },
     {
-      "object_offset": 834,
+      "object_offset": 838,
       "public": "DRAW_TEMPLE_EXIT_LEFT"
     },
     {
-      "object_offset": 970,
+      "object_offset": 980,
       "public": "DRAW_TEMPLE_EXIT_RIGHT"
     },
     {
-      "object_offset": 1122,
+      "object_offset": 1142,
       "public": "DRAW_TEMPLE_EXIT_MOVABLE"
     },
     {
-      "object_offset": 1424,
+      "object_offset": 1448,
       "public": "DRAW_TEMPLE_FLOOR"
     },
     {
-      "object_offset": 1710,
+      "object_offset": 1748,
       "public": "DRAW_TEMPLE_GATE"
     },
     {
-      "object_offset": 1838,
+      "object_offset": 1876,
       "public": "DRAW_TEMPLE_GATE_MOVABLE"
     },
     {
-      "object_offset": 2042,
+      "object_offset": 2080,
       "public": "DRAW_TEMPLE_LOOSE"
     },
     {
-      "object_offset": 2310,
+      "object_offset": 2344,
       "public": "DRAW_TEMPLE_PILLAR_BOTTOM"
     },
     {
-      "object_offset": 2422,
+      "object_offset": 2456,
       "public": "DRAW_TEMPLE_PILLAR_TOP"
     },
     {
-      "object_offset": 2534,
+      "object_offset": 2568,
       "public": "DRAW_TEMPLE_DOWN_PLATE"
     },
     {
-      "object_offset": 2714,
+      "object_offset": 2754,
       "public": "DRAW_TEMPLE_UP_PLATE"
     },
     {
-      "object_offset": 2868,
+      "object_offset": 2916,
       "public": "DRAW_TEMPLE_POSTS"
     },
     {
-      "object_offset": 3152,
-      "public": "DRAW_TEMPLE_RUBBLE"
-    },
-    {
-      "object_offset": 3206,
+      "object_offset": 3254,
       "public": "DRAW_TEMPLE_RUBBLE_PIECES"
-    },
-    {
-      "object_offset": 3316,
-      "public": "DRAW_TEMPLE_SPACE"
-    },
-    {
-      "object_offset": 3418,
-      "public": "DRAW_TEMPLE_SPIKES"
-    },
-    {
-      "object_offset": 3538,
-      "public": "DRAW_TEMPLE_RUBBLE_TORCH"
-    },
-    {
-      "object_offset": 3562,
-      "public": "DRAW_TEMPLE_TORCH"
-    },
-    {
-      "object_offset": 3766,
-      "public": "DRAW_TEMPLE_TRAPDOOR"
     }
   ],
-  "emitted_size": 3836,
+  "emitted_size": 3874,
   "flags": [
     "/c",
     "/AM",
     "/Oeg",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 11083,
   "group_id": "group:drawtemp/drawtemp",
   "kind": "same_source_group",
   "language": "c",
   "name": "drawtemp/drawtemp",
-  "object_sha256": "c63383a6052b0107955059b9c95adecabef08c34fe637116bee9983b983023e4",
-  "origin": 4092,
+  "object_sha256": "9ba2f5f6a1329b3c12c8015e43fc9b3ab414e03084a5c4fa84ba4a881d8b9325",
+  "origin": 4054,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawtemp/drawtemp.c",
-  "source_sha256": "823715f2b80dc963427dc6992d25abc9d8ec45162e70c590f19c98753302306c",
+  "source_sha256": "49c3418ae504c4cd1c7c951409a63ef7f4ae4b8a6d9befd2ea63c7d30b54322a",
   "space": "overlay-9"
 }

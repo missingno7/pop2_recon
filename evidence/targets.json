@@ -60782,7 +60782,16 @@
         "Original overlay-17 relocation 69 at +0x4494 stores the segment of the pointer to 2b4b:0ee2."
       ],
       "boundary_status": "REVIEWED",
-      "call_sites": [],
+      "call_sites": [
+        {
+          "file_offset": 286866,
+          "image_offset": 17554,
+          "kind": "far_pointer",
+          "relocated_segment_site": 17556,
+          "relocation_index": 69,
+          "space": "overlay-17"
+        }
+      ],
       "classification": "GAME_C_HYPOTHESIS",
       "classification_evidence": [
         "FM Towns DRAWTEMP.C file order, DOS Pascal frame and tile draw dispatch."
