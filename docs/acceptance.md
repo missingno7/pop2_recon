@@ -124,6 +124,9 @@ bytes compare literally, except for these fixup fields:
     instruction starts inside CODE_EXACT claims; different addends never support each
     other (as for v4). A claim with an unsupported field is refused. Data that another
     file also addresses is better bound as an extern v4 symbol with an outside witness.
+  - Placed segments of different accepted groups must be disjoint: two files cannot
+    define the same original DGROUP bytes. Overlaps accepted before 2026-11-22 are listed
+    in `evidence/placement-overlap-debt.json`; the list only shrinks.
   - Claims accepted before 2026-11-21 under the earlier rule (content equality alone,
     two distinct uninitialized addends) are listed in `evidence/placement-debt.json` and
     report their unsupported fields as `placement_debt`. The list only shrinks:

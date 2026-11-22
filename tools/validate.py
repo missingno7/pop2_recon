@@ -193,6 +193,15 @@ def _validate(run_tests=True):
     counts = accepted_public_names(recipes)
     clashes = sorted(d["name"] for _, r in recipes for d in r.get("data_publics", []) if counts[d["name"]] != 1)
     require(not clashes, f"Accepted data publics defined more than once: {clashes}")
+    # Two accepted files cannot both define the same original DGROUP bytes: placed group
+    # segments must be pairwise disjoint. Overlaps accepted before 2026-11-22 are recorded in
+    # evidence/placement-overlap-debt.json; that list may only shrink.
+    placed = sorted((p["placement"], p["placement"] + p["length"], f"{path}:{seg}")
+                    for path, g in groups.items() for seg, p in (g.get("placements") or {}).items())
+    overlaps = {f"{a[2]}|{b[2]}" for i, a in enumerate(placed) for b in placed[i + 1:] if b[0] < a[1]}
+    overlap_debt = set(read_json(ROOT / "evidence/placement-overlap-debt.json")["pairs"])
+    require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
+            f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")
     # Placement debt may only shrink: every listed claim must still be owned and still need it.
     debt = {c["target_id"] for g in groups.values() for c in g["claims"] if c.get("placement_debt")}
     listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])
@@ -206,6 +215,7 @@ def _validate(run_tests=True):
         require(result.returncode == 0, "Focused invariant tests failed")
     report = {"status": "PASS", "target_sha256": sha(oracle.data), "accepted": accepted,
               "metrics": metrics(oracle, manifest), "placement_debt_claims": len(debt),
+              "placement_overlap_pairs": len(overlaps),
               "limits": ["Component code proof only; RTLink structural closure unrecovered",
                          "Binding modes are external DGROUP offset16 (resident zero addend/word pair, overlay byte/word zero addend) and independently anchored runtime near offset16; root external CALL FAR v1 requires reviewed direct entries plus independent relocated witnesses, exact MZ site coverage and within-symbol order; GROUPED reports retain between-symbol order as structural debt"]}
     return report
