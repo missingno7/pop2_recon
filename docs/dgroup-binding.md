@@ -328,3 +328,15 @@ debt, not precedent. They are listed in evidence/const-layout-debt.json, which v
 to the accepted C sources that use `_segname`; `promote.py` and `promote_group.py` refuse `_segname`
 in any other C source, so the list only shrinks. Data another file uses is that file's data public (see "Cross-file data
 publics"), not a second placement.
+
+## Near pointers inside placed initialized data (2026-11-22)
+
+A file's initialized `_DATA` may hold tables of near pointers to its own data (MSC emits an
+offset16 FIXUPP in `_DATA`, frame DGROUP, target `_DATA` or another placed segment of the
+object, offset stored in the LEDATA bytes). Such fixups are judged by the placement, not by
+any claim: the gate writes the value the linker writes, P(target) + stored offset + D mod 64K,
+into the segment's bytes and compares the whole linked segment with the original DGROUP bytes
+at its placement (and uses the linked bytes for the uniqueness test). Every byte is compared;
+no field is skipped. Any other fixup in a data segment (far pointers with a segment word,
+pointers to externs or to code, a non-DGROUP frame, a segment without a placement) is
+refused. The placement report records `pointer_fields` for such segments.
