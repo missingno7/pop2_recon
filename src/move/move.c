@@ -1372,8 +1372,7 @@ void make_space(unsigned char room, signed char cell)
 /* MSC Pascal linkage folds this view and actor_column to the same external. */
 extern sbyte ACTOR_COLUMN;
 extern sbyte pressed_source, pressed_row;
-extern byte shake_kind;
-extern byte select_shake_cell(byte room, sbyte column, sbyte row);
+extern byte stage_mode;
 extern void damage_crystal(void);
 extern void shake_style_row(byte room, sbyte row);
 
@@ -1419,7 +1418,7 @@ void shake_row(byte room, sbyte row)
     sbyte column = 0;
 
     do {
-        switch (select_shake_cell(room, column, row)) {
+        switch (get_room_tile(room, column, row)) {
         case 11:
             shake_loose_floor();
             break;
@@ -1432,7 +1431,7 @@ void shake_row(byte room, sbyte row)
         }
     } while (++column < 10);
 
-    if (shake_kind == 2)
+    if (stage_mode == 2)
         shake_style_row(room, row);
     current_mob = saved;
 }
@@ -1575,7 +1574,7 @@ void mob_loose(void)
                 return;
             }
         } else if ((current_mob.row + 1) * 63 <= current_mob.y) {
-            kind = select_shake_cell(current_mob.room, current_mob.x / 32, current_mob.row);
+            kind = get_room_tile(current_mob.room, current_mob.x / 32, current_mob.row);
             if (kind == 11)
                 knock_loose();
             else if (kind == 15)
@@ -1607,7 +1606,7 @@ void make_rubble(void)
     } work;
 
     work.plate = 0;
-    work.kind = select_shake_cell(current_mob.room, current_mob.x / 32, current_mob.row);
+    work.kind = get_room_tile(current_mob.room, current_mob.x / 32, current_mob.row);
     work.room = marked_room;
     work.column = pressed_source;
     work.row = pressed_row;
@@ -1621,7 +1620,7 @@ void make_rubble(void)
         push_plate(work.plate, -1);
         if (work.kind == 34)
             room_records[work.room][work.cell].state = pressed_state | 0x1800;
-        select_shake_cell(current_mob.room, current_mob.x / 32, current_mob.row);
+        get_room_tile(current_mob.room, current_mob.x / 32, current_mob.row);
         *(byte *)&pressed_state = 0;
         if (work.kind == 5)
             *(byte *)&pressed_state |= 4;
@@ -1641,7 +1640,7 @@ void make_rubble(void)
         }
     case 19:
     case 32:
-        work.kind = select_shake_cell(work.room, work.column, work.row);
+        work.kind = get_room_tile(work.room, work.column, work.row);
         if (work.kind == 19 || work.kind == 32) {
             room_tiles[work.room][work.cell] = 32;
         } else {
@@ -1990,8 +1989,6 @@ int loose_hits_actor(void)
     return hit;
 }
 
-
-extern unsigned char stage_mode;
 
 int opp_under_mob(OpponentPosition *opp)
 {

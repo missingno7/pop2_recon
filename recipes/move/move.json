@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "a34c6d6e76718d35e78fa9a93300bcced6ab5fd1bc763ac14d34c4af8e225ed3",
+  "binding_sha256": "df5df0390496c33f3b117f1abac9f2e5a7faa36ee5ca6790edfe3511d317a893",
   "claims": [
     {
       "fixup_count": 13,
@@ -374,6 +374,21 @@
       "target_id": "root:0b41:18a0"
     },
     {
+      "fixup_count": 8,
+      "public": "SHAKE_ROW",
+      "relocation_indices": [
+        1007,
+        1039,
+        1044,
+        1070
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:190c"
+    },
+    {
       "fixup_count": 5,
       "public": "ADD_MOB",
       "target_id": "root:0b41:1992"
@@ -544,10 +559,6 @@
       "public": "TRIGGER_OBJECT"
     },
     {
-      "object_offset": 6400,
-      "public": "SHAKE_ROW"
-    },
-    {
       "object_offset": 6594,
       "public": "GET_MOB_TYPE_ITEM"
     },
@@ -605,12 +616,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "a862ddba7b8d24dd05f78c7a569897c581faf596082b5f82bfb850aeb82ecef0",
+  "object_sha256": "fc9fc81974dba3fe0b396b21f84247870f03549df6ab28310a4f1c62c39e6c34",
   "origin": 46108,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "c9b7669ad1fde48639dc472c27468c5c65f20d306c89a5f50f5532daed4bdea7",
+  "source_sha256": "e4198a471e516dfd60165cfcbe6d006e1dfc11fedeb0b53969cd39014d45815b",
   "space": "root"
 }
