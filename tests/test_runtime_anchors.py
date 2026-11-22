@@ -83,8 +83,11 @@ class RuntimeAnchorTests(unittest.TestCase):
         return read_json(ROOT / f"evidence/bindings/{name}.json")
 
     def with_crt0fp(self):
-        """The manifest after publishing crt0fp (its recipe served from memory)."""
+        """The manifest after publishing crt0fp (its recipe served from memory). Once crt0fp is
+        canonically pinned, the canonical owner is replaced so the provider stays unique."""
         manifest = copy.deepcopy(self.manifest)
+        manifest["owners"] = [o for o in manifest["owners"]
+                              if not str(o.get("recipe", "")).endswith("crt_crt0fp_medium.json")]
         path = "build/workers/test_anchor/crt_crt0fp_medium.json"
         manifest["owners"].append(owner("crt_crt0fp_medium", 6, path))
         return manifest, {path: recipe("crt_crt0fp_medium")}
@@ -172,8 +175,10 @@ class RuntimeAnchorTests(unittest.TestCase):
         self.assertEqual([e["kind"] for e in cmisc["equations"]], ["far code pointer"]*6)
         self.assertEqual({e["linked"] for e in cmisc["equations"]}, {(FRAME << 16) | 0x316})
         self.assertEqual(cmisc["relocation_indices"], [116, 117, 118, 119, 120, 121])
+        without = dict(manifest, owners=[o for o in manifest["owners"]
+                                         if "crt_crt0fp_medium" not in str(o.get("recipe", ""))])
         with self.assertRaisesRegex(ValueError, "Code provider __fptrap is missing"):
-            self.prove("crt_output_medium")
+            self.prove("crt_output_medium", manifest=without)
         binding = self.binding("crt_output_medium")
         binding["data_providers"][0]["placement"] += 2
         with self.assertRaisesRegex(ValueError, "differs from the original DGROUP bytes"):
