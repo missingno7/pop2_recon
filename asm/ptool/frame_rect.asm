@@ -3,6 +3,27 @@
 EXTRN CURRENT_CONTEXT:WORD
 .CODE
 EXTRN STROKE_RECTANGLE:NEAR
+
+PUBLIC STROKE_PORT_RECT
+
+STROKE_PORT_RECT PROC FAR
+    push bp
+    mov bp, sp
+    les ax, DWORD PTR [bp+6]
+    push es
+    push ax
+    mov ax, 0
+    push ax
+    mov bx, CURRENT_CONTEXT
+    push WORD PTR [bx+20h]
+    push cs
+    call STROKE_RECTANGLE
+    pop bp
+    retf 4
+STROKE_PORT_RECT ENDP
+PUBLIC alignment_4dab
+alignment_4dab DB 0  ; Link-address alignment between routines.
+
 PUBLIC FRAME_RECT
 
 draw_strip MACRO
@@ -38,15 +59,15 @@ FRAME_RECT PROC FAR
     mov ax, es:[si]
     inc ax
     cmp ax, [di+4]
-    jg done
+    jg done_4dac
     push ax
     mov [di+4], ax
-    je bottom_edge
+    je bottom_edge_4dac
     push es
     draw_strip
     pop es
 
-bottom_edge:
+bottom_edge_4dac:
     mov ax, es:[si+4]
     mov [di+4], ax
     dec ax
@@ -59,20 +80,20 @@ bottom_edge:
     mov ax, es:[si+2]
     inc ax
     cmp ax, [di+6]
-    jg done
-    je right_edge
+    jg done_4dac
+    je right_edge_4dac
     mov [di+6], ax
     push es
     draw_strip
     pop es
 
-right_edge:
+right_edge_4dac:
     mov ax, es:[si+6]
     mov [di+6], ax
     dec ax
     mov [di+2], ax
     draw_strip
-done:
+done_4dac:
     xchg ax, si
     mov dx, [bp+8]
     pop si

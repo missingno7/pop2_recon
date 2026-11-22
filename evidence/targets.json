@@ -68451,6 +68451,486 @@
           "relocated_segment_site": null
         }
       ]
+    },
+    {
+      "id": "root:1101:5473",
+      "space": "root",
+      "segment": 4353,
+      "offset": 21619,
+      "size": 1202,
+      "sha256": "e4c318df7c8bdd81fa2f2cedee5d38150f4931d77a8aa0445bdc8a6b95988d1a",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:5469 names 1101:5473.",
+        "Linear decode reviewed over [1101:5473,1101:5925). The next contribution starts at 5925."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate; ES-prefixed LODSW and register-ABI cursor calls."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 14.",
+      "original_name": null,
+      "semantic_name_hypothesis": "copy_banked16_rectangle"
+    },
+    {
+      "id": "root:1101:593d",
+      "space": "root",
+      "segment": 4353,
+      "offset": 22845,
+      "size": 27,
+      "sha256": "0a888188b1af69d1c6d3506d1d9f6f57136e57a0559baa6de80ddaef3e92bc9e",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:545d names 1101:593d.",
+        "Linear decode reviewed over [1101:593d,1101:5958). The next contribution starts at 5958."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd entry 593d. Fixed ES:FC00 hardware-ROM probe and AX return; descriptor check hook."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "No stack arguments, AX Boolean, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "probe_banked16"
+    },
+    {
+      "id": "root:1101:5958",
+      "space": "root",
+      "segment": 4353,
+      "offset": 22872,
+      "size": 170,
+      "sha256": "51303bc38282141945d43925d4df18f906fecb6fbb99c453d9e4b0fdc66fe238",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:545f names 1101:5958.",
+        "Linear decode reviewed over [1101:5958,1101:5a02). The next contribution starts at 5a02."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "BIOS INT 10h and inline REP MOVSB of a CS-relative port geometry record."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "No stack arguments, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "initialize_banked16"
+    },
+    {
+      "id": "root:1101:5a10",
+      "space": "root",
+      "segment": 4353,
+      "offset": 23056,
+      "size": 496,
+      "sha256": "2f7eabd68ec478911712109bd5eb0458638b5eddc6c4c5429e51c7f6c61dabc3",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:546b names 1101:5a10.",
+        "Linear decode reviewed over [1101:5a10,1101:5c00). The next contribution starts at 5c00."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and plain near calls to register-ABI clipping helpers."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 4.",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_banked16_line"
+    },
+    {
+      "id": "root:1101:5c00",
+      "space": "root",
+      "segment": 4353,
+      "offset": 23552,
+      "size": 20,
+      "sha256": "36558791d3010a565d4869989713337d28d949da2412adae15761d8798274ad8",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original direct register-ABI near call at 1101:5abf names 1101:5c00.",
+        "Linear decode reviewed over [1101:5c00,1101:5c14). The next contribution starts at 5c14."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Takes values in AX/SI/DI and returns a clipped delta in CX; plain near-call register ABI."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Register ABI, signed arithmetic in AX/SI/DI with result in CX, near RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "scale_banked16_line_clip"
+    },
+    {
+      "id": "root:1101:5c14",
+      "space": "root",
+      "segment": 4353,
+      "offset": 23572,
+      "size": 31,
+      "sha256": "b85706f8e41cf07cef5fbf5d817d3c0c975682975fa7626f1255981155d8b200",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original direct register-ABI near call at 1101:5a6c names 1101:5c14.",
+        "Linear decode reviewed over [1101:5c14,1101:5c33). The next contribution starts at 5c33."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Takes coordinates in CX/DX and clip bounds through BX; plain near-call register ABI."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Register ABI, BX/CX/DX inputs and AL outcode, near RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "classify_banked16_line_endpoint"
+    },
+    {
+      "id": "root:1101:5c43",
+      "space": "root",
+      "segment": 4353,
+      "offset": 23619,
+      "size": 550,
+      "sha256": "1117045bc8806096dd7aaf76fe5db87a1b4b82ea64efb63cd141bc6e3c7394bc",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:546d names 1101:5c43.",
+        "Linear decode reviewed over [1101:5c43,1101:5e69). The next contribution starts at 5e69."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and plain near calls to the cursor routines."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 12.",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_banked16_bitmap"
+    },
+    {
+      "id": "root:1101:5e79",
+      "space": "root",
+      "segment": 4353,
+      "offset": 24185,
+      "size": 1,
+      "sha256": "383e5d7d58caa41ce723cf16af471b38f6ee9065c032d07fa6bef1678cb72f1d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:5461 names 1101:5e79.",
+        "Linear decode reviewed over [1101:5e79,1101:5e7a). The next contribution starts at 5e7a."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Single RETF descriptor slot at an odd code address, immediately followed by the fill entry."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "No arguments, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "banked16_mode_exit"
+    },
+    {
+      "id": "root:1101:5e7a",
+      "space": "root",
+      "segment": 4353,
+      "offset": 24186,
+      "size": 368,
+      "sha256": "401e954bbbb2cc1d1a7fea0c8ff825ad8b2c97ad2f3a54562abf65ed19cc7830",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:546f names 1101:5e7a.",
+        "Linear decode reviewed over [1101:5e7a,1101:5fea). The next contribution starts at 5fea."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and indirect raster-op dispatch."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 8.",
+      "original_name": null,
+      "semantic_name_hypothesis": "fill_banked16_rectangle"
+    },
+    {
+      "id": "root:1101:5ffa",
+      "space": "root",
+      "segment": 4353,
+      "offset": 24570,
+      "size": 913,
+      "sha256": "cddbc1266d01e88d1a7c46a46ed6ba51d569c69f0f55f81f9e29ddd647a5b40f",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:5471 names 1101:5ffa.",
+        "Linear decode reviewed over [1101:5ffa,1101:638b). The next contribution starts at 638b."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and a CS-relative raster dispatch table."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 10.",
+      "original_name": null,
+      "semantic_name_hypothesis": "composite_banked16_bitmap"
+    },
+    {
+      "id": "root:1101:66b6",
+      "space": "root",
+      "segment": 4353,
+      "offset": 26294,
+      "size": 497,
+      "sha256": "cc265ec2939bbc0b4b354a1242cb76f4092d42c4d2eb53c839431260e02cad83",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:667c names 1101:66b6.",
+        "Linear decode reviewed over [1101:66b6,1101:68a7). The next contribution starts at 68a7."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate; ES-prefixed LODSW and register-ABI cursor calls."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 14.",
+      "original_name": null,
+      "semantic_name_hypothesis": "copy_vga_rectangle"
+    },
+    {
+      "id": "root:1101:68b7",
+      "space": "root",
+      "segment": 4353,
+      "offset": 26807,
+      "size": 44,
+      "sha256": "4462b4f8d243c4b802c9d03014833552ae9955a0514df16001955f509baad7c2",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:6670 names 1101:68b7.",
+        "Linear decode reviewed over [1101:68b7,1101:68e3). The next contribution starts at 68e3."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Odd frameless entry, direct BIOS INT 10h and AX result."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "No stack arguments, AX Boolean, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "probe_vga"
+    },
+    {
+      "id": "root:1101:68e3",
+      "space": "root",
+      "segment": 4353,
+      "offset": 26851,
+      "size": 79,
+      "sha256": "3a5ba5b7509fb39f3a24df33d39bcf381a71263846752660c386725abaff3090",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:6672 names 1101:68e3.",
+        "Linear decode reviewed over [1101:68e3,1101:6932). The next contribution starts at 6932."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "BIOS INT 10h and inline REP MOVSB of a CS-relative port geometry record."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "No stack arguments, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "initialize_vga"
+    },
+    {
+      "id": "root:1101:6940",
+      "space": "root",
+      "segment": 4353,
+      "offset": 26944,
+      "size": 417,
+      "sha256": "c6ef89fae61f4ace4325bcd39b0a7f0a2aeee44d690f0e61acb4aec1a6eab843",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:667e names 1101:6940.",
+        "Linear decode reviewed over [1101:6940,1101:6ae1). The next contribution starts at 6ae1."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and plain near calls to register-ABI clipping helpers."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 4.",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_vga_line"
+    },
+    {
+      "id": "root:1101:6ae1",
+      "space": "root",
+      "segment": 4353,
+      "offset": 27361,
+      "size": 20,
+      "sha256": "36558791d3010a565d4869989713337d28d949da2412adae15761d8798274ad8",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original direct register-ABI near call at 1101:69c6 names 1101:6ae1.",
+        "Linear decode reviewed over [1101:6ae1,1101:6af5). The next contribution starts at 6af5."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Takes values in AX/SI/DI and returns a clipped delta in CX; plain near-call register ABI."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Register ABI, signed arithmetic in AX/SI/DI with result in CX, near RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "scale_vga_line_clip"
+    },
+    {
+      "id": "root:1101:6af5",
+      "space": "root",
+      "segment": 4353,
+      "offset": 27381,
+      "size": 31,
+      "sha256": "b85706f8e41cf07cef5fbf5d817d3c0c975682975fa7626f1255981155d8b200",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original direct register-ABI near call at 1101:6973 names 1101:6af5.",
+        "Linear decode reviewed over [1101:6af5,1101:6b14). The next contribution starts at 6b14."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Takes coordinates in CX/DX and clip bounds through BX; plain near-call register ABI."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Register ABI, BX/CX/DX inputs and AL outcode, near RET.",
+      "original_name": null,
+      "semantic_name_hypothesis": "classify_vga_line_endpoint"
+    },
+    {
+      "id": "root:1101:6b24",
+      "space": "root",
+      "segment": 4353,
+      "offset": 27428,
+      "size": 333,
+      "sha256": "3e9f3a8d9d8a29981a2f1a07b50e543be17ea89a7c8a1256a2023f72b5f700e4",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:6680 names 1101:6b24.",
+        "Linear decode reviewed over [1101:6b24,1101:6c71). The next contribution starts at 6c71."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and plain near calls to the cursor routines."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 12.",
+      "original_name": null,
+      "semantic_name_hypothesis": "draw_vga_bitmap"
+    },
+    {
+      "id": "root:1101:6c81",
+      "space": "root",
+      "segment": 4353,
+      "offset": 27777,
+      "size": 1,
+      "sha256": "383e5d7d58caa41ce723cf16af471b38f6ee9065c032d07fa6bef1678cb72f1d",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:6674 names 1101:6c81.",
+        "Linear decode reviewed over [1101:6c81,1101:6c82). The next contribution starts at 6c82."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "Single RETF descriptor slot at an odd code address, immediately followed by the fill entry."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "No arguments, RETF.",
+      "original_name": null,
+      "semantic_name_hypothesis": "vga_mode_exit"
+    },
+    {
+      "id": "root:1101:6c82",
+      "space": "root",
+      "segment": 4353,
+      "offset": 27778,
+      "size": 206,
+      "sha256": "b5d29661a5aa662e9f2416f3d766f4cc72bb534606d4262508cce33bfe6a2178",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:6682 names 1101:6c82.",
+        "Linear decode reviewed over [1101:6c82,1101:6d50). The next contribution starts at 6d50."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and indirect raster-op dispatch."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 8.",
+      "original_name": null,
+      "semantic_name_hypothesis": "fill_vga_rectangle"
+    },
+    {
+      "id": "root:1101:6d60",
+      "space": "root",
+      "segment": 4353,
+      "offset": 28000,
+      "size": 430,
+      "sha256": "8699610a56ad33de3f4cdcdb8d420c61fc196fe97077a46d30622e93f4a682a0",
+      "state": "ANALYZED",
+      "boundary_status": "REVIEWED",
+      "entry_kind": "direct-code",
+      "call_sites": [],
+      "boundary_evidence": [
+        "original CS mode descriptor word at 1101:6684 names 1101:6d60.",
+        "Linear decode reviewed over [1101:6d60,1101:6f0e). The next contribution starts at 6f0e."
+      ],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "ADD SP with a negative immediate and a CS-relative raster dispatch table."
+      ],
+      "classification_status": "Reviewed DOS graphics adapter code",
+      "abi": "Far Pascal stack ABI, RETF 10.",
+      "original_name": null,
+      "semantic_name_hypothesis": "composite_vga_bitmap"
     }
   ],
   "schema": 1,

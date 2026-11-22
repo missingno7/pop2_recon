@@ -3,7 +3,9 @@
 EXTRN CURRENT_CONTEXT:WORD
 .CODE
 EXTRN DRAW_COUNTED_TEXT_IN_RECT:NEAR
-EXTRN MEASURE_COUNTED_TEXT:NEAR
+EXTRN MEASURE_CHARACTER:NEAR
+EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
+
 PUBLIC SET_ORIGIN, SET_RELATIVE_PEN_STATE
 PUBLIC DRAW_NUL_TEXT_IN_RECT, MEASURE_NUL_TERMINATED_TEXT
 
@@ -86,9 +88,112 @@ MEASURE_NUL_TERMINATED_TEXT PROC FAR
     dec cx
     push cx
     push cs
-    call MEASURE_COUNTED_TEXT
+    call NEAR PTR MEASURE_COUNTED_TEXT
     pop di
     pop bp
     retf 4
 MEASURE_NUL_TERMINATED_TEXT ENDP
+PUBLIC alignment_5397
+alignment_5397 DB 0  ; Link-address alignment between routines.
+
+PUBLIC FIT_TEXT_PREFIX
+
+FIT_TEXT_PREFIX PROC FAR
+    push bp
+    mov bp, sp
+    add sp, -4
+    push di
+    push si
+    sub di, di
+    mov [bp-2], di
+    mov [bp-4], di
+    les si, DWORD PTR [bp+12]
+next_char_5398:
+    cmp di, [bp+10]
+    je count_read_5398
+    push es
+    push WORD PTR es:[si]
+    push cs
+    call MEASURE_CHARACTER
+    pop es
+    add ax, [bp-4]
+    mov [bp-4], ax
+    cmp ax, [bp+8]
+    ja exceeds_width_5398
+    inc di
+    lods BYTE PTR es:[si]
+    cmp al, 0dh
+    je count_read_5398
+    cmp al, '-'
+    je save_break_5398
+    cmp WORD PTR [bp+6], 0
+    jg before_next_word_5398
+    cmp al, ' '
+    je save_break_5398
+    cmp BYTE PTR es:[si], ' '
+    je save_break_5398
+    jmp SHORT next_char_5398
+before_next_word_5398:
+    cmp BYTE PTR es:[si], ' '
+    jne next_char_5398
+    cmp al, ' '
+    je next_char_5398
+save_break_5398:
+    mov [bp-2], di
+    jmp SHORT next_char_5398
+exceeds_width_5398:
+    mov ax, [bp-2]
+    test ax, ax
+    jnz done_5398
+count_read_5398:
+    xchg ax, di
+done_5398:
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
+    retf 10
+FIT_TEXT_PREFIX ENDP
+
+PUBLIC MEASURE_COUNTED_TEXT
+
+MEASURE_COUNTED_TEXT PROC FAR
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push ds
+    mov di, CURRENT_CONTEXT
+    push WORD PTR [di+2ah]
+    push cs
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
+    xchg ax, bx
+    mov ds, dx
+    sub ax, ax
+    mov cx, [bp+6]
+    jcxz done_5400
+    cwd
+    les si, DWORD PTR [bp+8]
+glyph_5400:
+    lods BYTE PTR es:[si]
+    cmp al, [bx+1]
+    ja next_glyph_5400
+    sub al, [bx]
+    jb next_glyph_5400
+    mov di, ax
+    shl di, 1
+    mov di, [bx+di+0ah]
+    add di, bx
+    add dx, [di+2]
+    add dx, [bx+8]
+next_glyph_5400:
+    loop glyph_5400
+    xchg ax, dx
+done_5400:
+    pop ds
+    pop si
+    pop di
+    pop bp
+    retf 6
+MEASURE_COUNTED_TEXT ENDP
 END

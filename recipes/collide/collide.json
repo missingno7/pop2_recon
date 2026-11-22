@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "c55b5c2a42c9cbbdd00a6a5af04bd62247a839db8668eb05634d0abebd808689",
+  "binding_sha256": "d5c29fc1e3831f91aa0580e4cc9f95278d4db71c584c0abe623f384cdb6f28e3",
   "claims": [
     {
       "fixup_count": 62,
@@ -231,6 +231,22 @@
       "target_id": "overlay-3:2802:0c94"
     },
     {
+      "fixup_count": 21,
+      "public": "CHECK_GATE_FOR_PLAYER",
+      "relocation_indices": [
+        430,
+        440,
+        457,
+        463,
+        505
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:0d56"
+    },
+    {
       "fixup_count": 20,
       "public": "PUSH_AWAY_FROM_GATE",
       "relocation_indices": [
@@ -297,10 +313,6 @@
     {
       "object_offset": 2196,
       "public": "GATE_BLOCKS_PASSAGE"
-    },
-    {
-      "object_offset": 3400,
-      "public": "CHECK_GATE_FOR_PLAYER"
     }
   ],
   "emitted_size": 4376,

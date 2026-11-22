@@ -1,8 +1,11 @@
 .MODEL MEDIUM
 .DATA
 EXTRN DEFAULT_PORT:BYTE
+EXTRN CURRENT_PORT:WORD
 .CODE
 EXTRN FINISH_PORT:NEAR
+EXTRN DRAW_AXIS_SEGMENT:FAR
+
 PUBLIC init_port
 
 init_port PROC FAR
@@ -44,4 +47,57 @@ init_port PROC FAR
     pop bp
     retf 6
 init_port ENDP
+PUBLIC alignment_5029
+alignment_5029 DB 0  ; Link-address alignment between routines.
+
+PUBLIC INSETRECT
+
+INSETRECT PROC FAR
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push ds
+    lds si, DWORD PTR [bp+10]
+    les di, DWORD PTR [bp+14]
+    push di
+
+    ; Move the top and left edges inward and subtract from the opposite edges.
+    lodsw
+    add ax, WORD PTR [bp+6]
+    stosw
+    lodsw
+    add ax, WORD PTR [bp+8]
+    stosw
+    lodsw
+    sub ax, WORD PTR [bp+6]
+    stosw
+    lodsw
+    sub ax, WORD PTR [bp+8]
+    stosw
+
+    pop ax
+    mov dx, es
+    pop ds
+    pop si
+    pop di
+    pop bp
+    retf 12
+INSETRECT ENDP
+PUBLIC alignment_5055
+alignment_5055 DB 0  ; Link-address alignment between routines.
+
+PUBLIC DRAW_RELATIVE_AXIS_SEGMENT
+
+DRAW_RELATIVE_AXIS_SEGMENT PROC FAR
+    push bp
+    mov bp, sp
+    mov bx, CURRENT_PORT
+    mov ax, [bx+24h]
+    add [bp+8], ax
+    mov ax, [bx+22h]
+    add [bp+6], ax
+    pop bp
+    jmp DRAW_AXIS_SEGMENT
+DRAW_RELATIVE_AXIS_SEGMENT ENDP
 END

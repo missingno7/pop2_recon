@@ -58,7 +58,8 @@ extern unsigned char falling_floors[];
 extern signed char bridge_y[];
 extern signed char bridge_images[];
 extern int floor_x[], row_y[];
-extern int floor_y_adjustment[], floor_x_adjustment[];
+static int floor_y_adjustment[] = {6, 20, 20, 20, 20, 20, 26, 36, 51, 87};
+static int floor_x_adjustment[] = {8, 18, 24, 18, 24, 10, 20, 23, 19, 23};
 extern Tile tile_state[];
 extern Tile near *room_tiles;
 extern ImageTable near *image_table;
@@ -70,7 +71,7 @@ extern void load_kid(void), load_opponent(char), save_opponent(void), update_cha
 extern int get_sequence(int); /* Column-to-X helper at 02cc:0360. */
 extern void turn_skeleton(void); /* Removes the current character at 02cc:1bd6. */
 extern void wait_skeleton(void); /* Starts the opponent running at overlay-12:2c3e:00d6. */
-extern void turn_to_guard(void), set_sequence(int);
+extern void turn_engarde(void), set_sequence(int);
 extern void trigger_gate_with_reverse_plate(char, char);
 extern Gate near *get_gate(char, int);
 extern unsigned char get_tile(char, char, char);
@@ -84,9 +85,12 @@ typedef void far pascal DrawCallback(char cell, Rect near *rect);
 extern DrawCallback mark_bridge_top, mark_bridge_floor;
 extern void redraw_cells(DrawCallback *, Rect near *, char);
 extern void change_tile(char, char, char, char);
-extern void load_tile_row(char);
-extern signed char get_cell(char, int);
-extern long image_bounds(char, Rect far *);
+extern char far pascal FirstInRow(signed char);
+extern signed char far pascal IndexCell1(signed char, signed char);
+typedef struct {
+    unsigned int width, height;
+} ShapeSize;
+extern ShapeSize far *GetCustomPieceSize(unsigned char, ShapeSize far *);
 extern void draw_mob(char), get_mob_rect(Rect near *), update_mob_y(int), add_mob(void);
 extern void far _fastcall draw_shape(char, int, void near *, int, char);
 extern void near *foreground_tiles;
@@ -98,7 +102,7 @@ extern int mob_x, mob_y, mob_index, mob_slot;
 extern signed char mob_room, mob_type, mob_row;
 extern unsigned int mob_modifier;
 extern signed char floor_cell;
-extern int redraw_top, redraw_left;
+extern int mob_heights[], mob_widths[];
 
 int bridge_watch_kid(void);
 int bridge_watch_opponent(void);
@@ -253,12 +257,12 @@ int bridge_skeleton_progress(void)
                     wait_skeleton();
                     keep_going = 0;
                 } else if (col >= 9) {
-                    turn_to_guard();
+                    turn_engarde();
                     keep_going = 0;
                 }
             }
         } else if (bridge_skeleton_at_plate()) {
-            turn_to_guard();
+            turn_engarde();
             keep_going = 0;
         }
     }
@@ -475,11 +479,11 @@ void animate_bridge_mob(void)
     signed char col, image;
     register int phase;
     int old_x, old_y;
-    struct { int top, left; } bounds;
+    ShapeSize bounds;
     Rect redraw;
 
     if (room != current_room) {
-        if (room_below == (room = mob_room))
+        if (room_below == mob_room)
             y += 191;
         else if (mob_room == room_above)
             y -= 191;
@@ -493,14 +497,14 @@ void animate_bridge_mob(void)
     }
 get_position:
     col = x / 32;
-    floor_cell = get_cell(col, y / 63);
+    floor_cell = IndexCell1(col, y / 63);
     if (floor_cell != 30) {
         if (col)
             --floor_cell;
         if (floor_cell < 20)
             floor_cell += 10;
     }
-    load_tile_row(mob_row);
+    FirstInRow(mob_row);
     phase = mob_modifier & 15;
     image = bridge_images[phase];
     if (STATE_LEVEL == 5 && room == 10) {
@@ -509,9 +513,9 @@ get_position:
         y += floor_y_adjustment[phase];
         old_x = mob_x;
         mob_x += floor_x_adjustment[phase];
-        if (image_bounds(image, (Rect far *)&bounds)) {
-            redraw_top = bounds.top + 1;
-            redraw_left = bounds.left + 1;
+        if (GetCustomPieceSize(image, &bounds)) {
+            mob_heights[11] = bounds.width + 1;
+            mob_widths[11] = bounds.height + 1;
         }
         draw_mob(0);
         if (mob_index != -1) {

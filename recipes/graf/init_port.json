@@ -1,27 +1,51 @@
 {
   "binding": "evidence/bindings/graf/init_port.json",
-  "binding_sha256": "491e07fa7a5167c3a9e7d02669c43a609f811025bb696de653f643cd79717684",
+  "binding_sha256": "98d9ece9e016048225b43f62aca31650ebfd295e95d7e818b91f13316a1a8f75",
   "claims": [
     {
       "fixup_count": 2,
       "public": "INIT_PORT",
       "target_id": "root:1101:4fe0"
+    },
+    {
+      "fixup_count": 0,
+      "public": "INSETRECT",
+      "target_id": "root:1101:502a"
+    },
+    {
+      "fixup_count": 2,
+      "public": "DRAW_RELATIVE_AXIS_SEGMENT",
+      "relocation_indices": [
+        1474
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:5056"
     }
   ],
-  "drafts": [],
-  "emitted_size": 73,
+  "drafts": [
+    {
+      "object_offset": 73,
+      "public": "ALIGNMENT_5029"
+    },
+    {
+      "object_offset": 117,
+      "public": "ALIGNMENT_5055"
+    }
+  ],
+  "emitted_size": 143,
   "flags": [],
   "frame": 4353,
   "group_id": "group:graf/init_port",
   "kind": "same_source_group",
   "language": "asm",
   "name": "graf/init_port",
-  "object_sha256": "c13b6b7b7d8c083a4dc3a61c7d6aaabbe59778c056664529f3a21e80d854c251",
+  "object_sha256": "adfd33fb781b05a1565495f3a4c3bdfd9a0aeec20364ba9ea3faebaedfc208e7",
   "origin": 90096,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/graf/init_port.asm",
-  "source_sha256": "ed06c25301b27c3c04de19166859968c962acccfa3645051815a3aa5be726872",
+  "source_sha256": "d84ba9bb30edb373344b6ab18c729d50844ccf8366e0529048a78b0cc8f917bd",
   "space": "root"
 }

@@ -1,7 +1,12 @@
 {
   "binding": "evidence/bindings/graf/graphics_mode.json",
-  "binding_sha256": "51d16d7accba72c179b01d16cb39fec9c7cff13f939c74bdc0fbe29ec489672b",
+  "binding_sha256": "8edf7337704283a94a79cc48eb66c67042f907f0ff13d2165a468924d3891a10",
   "claims": [
+    {
+      "fixup_count": 1,
+      "public": "COPY_CURRENT_PORT_ORIGIN",
+      "target_id": "root:1101:4e8e"
+    },
     {
       "fixup_count": 12,
       "public": "SHUTDOWN_GRAPHICS_MODE",
@@ -23,20 +28,25 @@
       "target_id": "root:1101:4f84"
     }
   ],
-  "drafts": [],
-  "emitted_size": 154,
+  "drafts": [
+    {
+      "object_offset": 26,
+      "public": "INITIALIZE_GRAPHICS_MODE"
+    }
+  ],
+  "emitted_size": 284,
   "flags": [],
   "frame": 4353,
   "group_id": "group:graf/graphics_mode",
   "kind": "same_source_group",
   "language": "asm",
   "name": "graf/graphics_mode",
-  "object_sha256": "31998eb2a388a2a0e28fcd302a09f40dc0cb49f798a624f76b2994587a202316",
-  "origin": 89888,
+  "object_sha256": "b3d2686d207ba0afdfbf338810eae6aea8a3d339eb0e0e4d438c989e629fc219",
+  "origin": 89758,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/graf/graphics_mode.asm",
-  "source_sha256": "18c3375455ea3a36d2ee33d9501a3eebd7e6093e04995bfda2ef0b2ee92a4d8b",
+  "source_sha256": "1ddf8292933a171e9d838c2695a648c27569d6e7dc4495a182c10bdadda7286e",
   "space": "root"
 }
