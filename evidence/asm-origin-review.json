@@ -3075,6 +3075,14 @@
       ],
       "group": "nmalloc/nmalloc",
       "verdict": "asm"
+    },
+    "root:1101:2bee": {
+      "evidence": [
+        "DOS fixed 0100h entry / -4 allocation-header ABI, two successive LDS instructions, explicit preservation of caller DS, and PUSH DS; PUSH BX; PUSH CS; CALL 25e4.",
+        "Contiguous with the known DOS assembly loader and file reader. The loader writes the same entry and header, and the reader's release routine uses the same assembly helper."
+      ],
+      "group": "sound2/load_sound_driver",
+      "verdict": "asm"
     }
   },
   "summary": {

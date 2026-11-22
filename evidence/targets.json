@@ -70213,6 +70213,30 @@
       "state": "ANALYZED",
       "original_bytes_hex": "56803e115c007d0c803e125c007505c606115c00833e9e62007404ff0e9e620ee84f019a00100000a0180a983b06465e750e803e0e5c007407833e195c3b75082ac0a2305ea2315e0ee846010ee876009a0200a40d8bf00ee807018bc65ecb90",
       "sha256": "fbf9b565a345229e17c7ceefcbcf378ecd1a2c7a20f88fabd2b6ba77f36ec382"
+    },
+    {
+      "abi": "Far cdecl far entry pointer at BP+6. Preserves DS and BP. RETF with caller cleanup.",
+      "boundary_evidence": [
+        "Distinct BP frame immediately after LOAD_SOUND_DRIVER's RETF at 2bed and before the independently relocated READ_DOS_FILE_TO_BUFFER BP entry at 2c0c.",
+        "The 2bf9 and 2c01 guards and fallthrough from PUSH CS/CALL at 2c05 all join at 2c09, then POP DS, POP BP, RETF at 2c0b. CALL at 2c06 reaches accepted release helper 1101:25e4, also called from 2c8a.",
+        "Offset 0100h and the allocation pointer at entry minus four mirror the allocation/header writes in the preceding loader. Discovery and relocation records show no incoming caller."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "ASM_LIKELY",
+      "classification_evidence": [
+        "The body explicitly sets DS from the driver pointer twice, passes DS:BX with PUSH CS; CALL to the assembly release helper, and restores the caller's DS before RETF. It follows the known MASM loader and shares its driver-header layout."
+      ],
+      "classification_status": "Wave 19 original extent and ABI review",
+      "entry_kind": "direct-code",
+      "id": "root:1101:2bee",
+      "offset": 11246,
+      "segment": 4353,
+      "semantic_name_hypothesis": "release_loaded_driver",
+      "sha256": "00a73c6620c4f8e910870ffcb61f80df11793a06045abdb66dc7fb7c45e7c603",
+      "size": 30,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
