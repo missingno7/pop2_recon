@@ -8513,13 +8513,17 @@
       "external_name_lead": "CycleColors",
       "id": "root:1ead:0044",
       "offset": 68,
-      "original_name": null,
+      "original_name": "CycleColors",
       "segment": 7853,
       "semantic_name_hypothesis": "rotate_colors",
       "sha256": "1bd67e3beb70d81edd9b7d9c2cf9f8e8ed5fe8cad47bc306751e0bb233bf6afe",
       "size": 144,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns LGRAF.C @CycleColors at 2812:023f is bracketed by AllocBackPort and DeallocBackPort as in DOS. Both multiply the count by 3, read a palette block, save its first triplet, shift the buffer left by 3 bytes with far memcpy, restore the saved triplet at base + 3*count - 3, install the block, and release storage.",
+        "FM Towns ReadDACBlock and SetDACBlock calls at 2812:0276 and 2812:02e0 match the surrounding DOS call roles at 1ead:006f and 1ead:00bc."
+      ]
     },
     {
       "abi": "far Pascal, one near pointer word, RETF 2",
@@ -8865,13 +8869,17 @@
       "external_name_lead": "InvertBitMap",
       "id": "root:1ead:01a2",
       "offset": 418,
-      "original_name": null,
+      "original_name": "InvertBitMap",
       "segment": 7853,
       "semantic_name_hypothesis": "forward_record_fields",
       "sha256": "f5a4a34ea3938c372dd0e515bb993956058509eeb12a75f4a26b351e909fc663",
       "size": 38,
       "space": "root",
-      "state": "ANALYZED"
+      "state": "ANALYZED",
+      "original_name_evidence": [
+        "FM Towns LGRAF.C @InvertBitMap at 2812:0366 reads the far bitmap record's words at +2, +0, +0c and +08. DOS passes the same fields in its Pascal stack order (+2, +0, +08, +0c). Both return with RETF 4.",
+        "FM Towns @InvertBlock at 343a:029e swaps rows from opposite ends using a 320-byte buffer and three far copies. The relocated DOS callee at 1101:0256 performs the same operation with a 320-byte stack buffer and REP MOVSB."
+      ]
     },
     {
       "abi": "far Pascal-style, no stack arguments; AX Boolean, RETF",

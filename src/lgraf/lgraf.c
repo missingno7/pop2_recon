@@ -7,8 +7,10 @@ typedef struct {
     char bounds[12];
 } GraphicsRecord;
 typedef struct {
-    unsigned first, second, reserved, other, fourth, unused, fifth;
-} FarRecord;
+    void far *pixels;
+    unsigned reserved[2];
+    unsigned rows, unused, pitch;
+} BitmapRecord;
 typedef struct {
     unsigned char bytes[3];
 } Color;
@@ -17,7 +19,7 @@ typedef struct {
 } Rect;
 
 extern unsigned graphics_port;
-extern char allocation_message[];
+static char allocation_message[] = "ERROR:  Couldn't allocate backport.";
 
 void near * far cdecl malloc(unsigned);
 void far cdecl free(void near *);
@@ -33,7 +35,7 @@ void far pascal dispose_record(GraphicsRecord near *);
 void far pascal dispose_record_pair(unsigned, unsigned);
 Rect far * far pascal union_rect(Rect far *, const Rect far *, const Rect far *);
 void far pascal draw_record(unsigned, GraphicsRecord near *, void far *, void far *, int);
-void far pascal initialize_far_record(unsigned, unsigned, unsigned, unsigned);
+void far pascal flip_rows(void far *, unsigned, unsigned);
 
 void near * far pascal AllocBackPort(const Rect far *bounds)
 {
@@ -47,15 +49,15 @@ void far pascal CycleColors(int first, int count, int setting)
 {
     int bytes = count * 3;
     Color far *colors;
-    Color saved;
+    /* MSC keeps the allocation ahead of the Pascal argument pushes through this alias. */
+    Color far *near *palette_buffer = &colors;
 
     colors = allocate_colors((long)bytes);
-    read_colors(first, count, colors);
+    read_colors(first, count, *palette_buffer);
     {
-        int remaining = bytes - 3;
-        saved = colors[0];
-        memcpy(colors, colors + 1, remaining);
-        *(Color far *)((char far *)colors + remaining) = saved;
+        Color saved = colors[0];
+        memcpy(colors, colors + 1, bytes - 3);
+        *(Color far *)((char far *)colors + bytes - 3) = saved;
     }
     install_colors(first, count, colors, setting);
     release_far_block(colors);
@@ -93,7 +95,7 @@ void far pascal draw_record_bounds(GraphicsRecord near *record)
     draw_record(graphics_port, record, bounds, bounds, 0);
 }
 
-void far pascal forward_record_fields(const FarRecord far *record)
+void far pascal InvertBitMap(const BitmapRecord far *bitmap)
 {
-    initialize_far_record(record->second, record->first, record->fourth, record->fifth);
+    flip_rows(bitmap->pixels, bitmap->rows, bitmap->pitch);
 }

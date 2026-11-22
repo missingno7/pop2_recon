@@ -1,7 +1,63 @@
 {
   "binding": "evidence/bindings/lgraf/lgraf.json",
-  "binding_sha256": "c5fc4899d97d96f551b246de3d9bd46929a068bfb5ab646f4d108f119fc9fd03",
+  "binding_sha256": "ef847a933d562354759e770fee97790ee5e5ccd4ff17e1f1859749ba77e011f5",
   "claims": [
+    {
+      "fixup_count": 4,
+      "public": "ALLOCBACKPORT",
+      "relocation_indices": [
+        1783,
+        1790,
+        1791
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1ead:000a"
+    },
+    {
+      "fixup_count": 5,
+      "public": "CYCLECOLORS",
+      "relocation_indices": [
+        1776,
+        1784,
+        1785,
+        1788,
+        1792
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1ead:0044"
+    },
+    {
+      "fixup_count": 2,
+      "public": "DEALLOCBACKPORT",
+      "relocation_indices": [
+        1779,
+        1781
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1ead:00d4"
+    },
+    {
+      "fixup_count": 2,
+      "public": "FREE_RECORD_PAIR",
+      "relocation_indices": [
+        1777,
+        1780
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1ead:00f6"
+    },
     {
       "fixup_count": 2,
       "public": "ENCLOSERECT",
@@ -24,34 +80,29 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1000:ec2a"
+    },
+    {
+      "fixup_count": 2,
+      "public": "DRAW_RECORD_BOUNDS",
+      "relocation_indices": [
+        1789
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1ead:0180"
+    },
+    {
+      "fixup_count": 1,
+      "public": "INVERTBITMAP",
+      "relocation_indices": [
+        1778
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1ead:01a2"
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 0,
-      "public": "ALLOCBACKPORT"
-    },
-    {
-      "object_offset": 58,
-      "public": "CYCLECOLORS"
-    },
-    {
-      "object_offset": 202,
-      "public": "DEALLOCBACKPORT"
-    },
-    {
-      "object_offset": 236,
-      "public": "FREE_RECORD_PAIR"
-    },
-    {
-      "object_offset": 374,
-      "public": "DRAW_RECORD_BOUNDS"
-    },
-    {
-      "object_offset": 408,
-      "public": "FORWARD_RECORD_FIELDS"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 446,
   "flags": [
     "/c",
@@ -66,12 +117,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "lgraf/lgraf",
-  "object_sha256": "ebb3ec818dcd691ebf0ce1fa71a6d01866cbb0365080420916eebc5fea0c1e40",
+  "object_sha256": "c1c1901d95c4d3f7ca74d2beba32f6e1ccfd6a4b60aa9192a198bc5e4ecac883",
   "origin": 125658,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/lgraf/lgraf.c",
-  "source_sha256": "e89e08e124ac4be9432b6a4eb3eb79447493b80755dd2d4bdc0f6a7b9f8a542b",
+  "source_sha256": "5d18b9d451f10b73f03e913cf2c3b5ad20cf96e74487d516e335f783f816c2dd",
   "space": "root"
 }
