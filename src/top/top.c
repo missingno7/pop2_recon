@@ -105,7 +105,9 @@ extern char room_render_flags[10];                  /* ds:6248 */
 extern unsigned char *room_kinds;                   /* ds:6294 */
 extern unsigned int entry_cells_a[];                /* ds:3faa */
 extern unsigned int entry_cells_b[];                /* ds:328e */
-extern char interlude_name[];                       /* ds:09fe */
+static char level_option[] = "LEVEL";
+struct gameplay_rect { int top, left, bottom, right; };
+struct gameplay_rect GamePlayRect = { 0, 0, 192, 320 };
 extern char loading_name[];                         /* ds:1fe0 */
 
 extern void check_graphics_port(void);              /* far:0a5c:004e */
@@ -268,7 +270,7 @@ int start_game(signed char requested)
         remaining_minutes = 75;
         remaining_ticks = 719;
         starting_health = 3;
-        if (option_flags && find_option("LEVEL")) {
+        if (option_flags && find_option(level_option)) {
             signed char health = stage_number;
             health = health < 3 ? 3 : health;
             starting_health = health > 12 ? 12 : health;
@@ -463,7 +465,7 @@ void clean_cut(void)
 {
     cut_required = 0;
     if (draw_interlude) {
-        show_interlude(interlude_name, 12);
+        show_interlude((char *)&GamePlayRect, 12);
     } else {
         input_enabled = 1;
         wait_refresh();
@@ -485,7 +487,7 @@ void clean_cut(void)
             play_room_sound((char *)room_sound_offset);
         wait_refresh();
         finish_overlay_pass();
-        show_message(interlude_name);
+        show_message((char *)&GamePlayRect);
         update_interlude();
         wait_refresh();
         if (message_frames)
@@ -766,7 +768,7 @@ int advance_frame(void)
         draw_room();
         finish_room_view();
         if (draw_interlude)
-            start_named_effect(interlude_name);
+            start_named_effect((char *)&GamePlayRect);
         if (message_frames)
             play_room_sound((char *)room_sound_offset);
         render_screen();
@@ -1030,7 +1032,7 @@ signed char reset_level(void)
     restart_request = 0;
     if (level == next_level) {
         reset_level_display();
-        start_named_effect(interlude_name);
+        start_named_effect((char *)&GamePlayRect);
         if (game_request)
             return level;
         return 0;

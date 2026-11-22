@@ -21,7 +21,7 @@ extern void near *back_port;
 extern Rect back_port_bounds;
 extern int level_resource_files[];
 extern Byte background;
-static int background_overlay_flags[8];
+extern int background_overlay_flags[8];
 extern int background_overlay_first[];
 static const int _based(_segname("_CONST")) background_overlay_last[8] = {
     126, 161, 91, 114, 103, 90, 94, 108

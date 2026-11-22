@@ -24,8 +24,7 @@ typedef struct {
     PackedDirection direction;
 } RecordedInput;
 
-static unsigned int DEFAULT_HANDLE_TAG;
-static struct {
+extern struct {
     int mode;
     int offset;
     int input_index;

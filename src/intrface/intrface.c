@@ -35,6 +35,8 @@ extern struct LevelState *level_state;
 extern const char system_error_message[];
 
 static const char message_format[] = "%s\n";
+struct screen_port_rect { int top, left, bottom, right; };
+struct screen_port_rect ScreenPortRect = { 0, 0, 200, 320 };
 extern const char resource_error_message[];
 extern const char resource_verify_message[];
 

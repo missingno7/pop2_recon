@@ -1,10 +1,6 @@
 {
   "method": "Claims accepted before 2026-11-21 under the earlier placement rule (initialized content equal to the original bytes even when that content repeats in DGROUP, or two distinct uninitialized addends). Under the current rule each listed field lacks independent support: the content does not occur exactly once in the DGROUP image and no second claimed instruction uses the same (segment, addend). The fixup value is therefore fitted, not proven. Entries are removed when the claim is re-proven (whole-file groups, an extern v4 symbol with an outside witness, or same-key consensus); validation refuses stale entries and new ones are never added.",
   "targets": {
-    "overlay-10:29cf:15a8": {
-      "recipe": "final/final",
-      "fields": "_BSS+0"
-    },
     "overlay-6:29cf:0c1c": {
       "recipe": "movecave/movecave",
       "fields": "_BSS+0, _BSS+2"
@@ -12,10 +8,6 @@
     "root:0a5c:0144": {
       "recipe": "load/load",
       "fields": "_BSS+22"
-    },
-    "root:0a5c:070a": {
-      "recipe": "load/load",
-      "fields": "_BSS+6"
     },
     "root:0b41:1542": {
       "recipe": "move/move",
@@ -28,14 +20,6 @@
     "root:0b41:159e": {
       "recipe": "move/move",
       "fields": "_BSS+0"
-    },
-    "root:0da4:0252": {
-      "recipe": "recorder/recorder",
-      "fields": "_BSS+2, _BSS+4, _BSS+6"
-    },
-    "root:0e56:0006": {
-      "recipe": "top/top",
-      "fields": "_DATA+0"
     },
     "root:1101:2472": {
       "recipe": "handle_flags",
@@ -52,10 +36,6 @@
     "root:1101:be2f": {
       "recipe": "install_dos_vectors",
       "fields": "_DATA+2"
-    },
-    "root:1de8:000c": {
-      "recipe": "intrface/intrface",
-      "fields": "_DATA+0"
     }
   }
 }
