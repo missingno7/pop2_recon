@@ -384,6 +384,39 @@ def _frame_invariant(state, space, oracle):
                                  base <= n["callee_at"] < base + 0x10000 for base in windows for n in near)
 
 
+def _solved_frame(states, cs_proven, table_words, space, oracle, origin, publics):
+    """Root code entered only through CS-relative words. Each own-segment offset16 word is the
+    linker equation V = origin + A - base (mod 64K) on original bytes, so the words fix the frame:
+    - words inside claims not yet CS-proven (all must hold);
+    - `table_words`: own-segment words in unclaimed regions of the object (descriptor and dispatch
+      tables), each at an original position without an MZ relocation (all must hold).
+    Returns (base, solved_claims, entered_claims, word_count) for the single candidate frame (a
+    paragraph the original stores) whose 64K window holds every such claim, word and target and
+    satisfies every equation, else None. Entered claims are those whose entry a table word names."""
+    if space.name != "root":
+        return None
+    claims = {p: s for p, s in states.items() if p not in cs_proven and s["own"]}
+    by_offset = {o: p for p, o in publics.items()}
+    entered = {by_offset[a] for a, _, _ in table_words if by_offset.get(a) in states}
+    count = sum(len(s["own"]) for s in claims.values()) + len(table_words)
+    if count < 2 or not (claims or entered):
+        return None
+    spans = [(s["position"], s["position"] + len(s["piece"])) for s in claims.values()]
+    spans += [(min(origin + at, origin + a), max(origin + at + 2, origin + a + 1)) for a, at, _ in table_words]
+    fits = []
+    for base in sorted((f - space.link_segment) * 16 for f in _candidate_frames(oracle)):
+        if not all(base <= lo and hi <= base + 0x10000 for lo, hi in spans):
+            continue
+        if all((origin - base + own["addend"]) & 0xFFFF ==
+               struct.unpack_from("<H", s["expected"], own["offset"])[0]
+               for s in claims.values() for own in s["own"]) and \
+                all((origin - base + a) & 0xFFFF == v for a, _, v in table_words):
+            fits.append(base)
+    if len(fits) != 1:
+        return None
+    return fits[0], set(claims), entered - cs_proven, count
+
+
 def _code_vectors(oracle):
     """The original RTLink vector records (tu_census decoding, checked against the manager)."""
     from tu_census import overlay_vectors
@@ -1191,6 +1224,36 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 and window[0] <= near["callee_at"] < window[1])
 
     cs_proven = {p for p, s in states.items() if s["frames"]}
+    # Root code entered only through CS-relative words (docs/acceptance.md "Solved CS frames"):
+    # the original own-segment words fix one frame, which must equal any witnessed frame.
+    claimed_spans = [(s["start"], s["start"] + len(s["piece"])) for s in states.values()]
+    table_words = []
+    for fix in code_fixes:
+        at = fix["segment_offset"]
+        if not _own_segment(fix, name) or any(lo <= at < hi for lo, hi in claimed_spans) or \
+                any(lo <= at < hi for lo, hi in ((r["object_offset"], r["object_offset"] + r["emitted_size"])
+                                                 for r in reports)):
+            continue
+        position = origin + at
+        if any(position - 1 <= r["image_offset"] <= position + 1 for r in space.relocations):
+            continue
+        addend = (struct.unpack_from("<H", actual, at)[0] + (fix["displacement"] or 0)) & 0xFFFF
+        table_words.append((addend, at, struct.unpack_from("<H", space.data, position)[0]))
+    solution = _solved_frame(states, cs_proven, table_words, space, oracle, origin, publics)
+    if solution is not None and (window is None or window[0] == solution[0]):
+        base, solved, entered, count = solution
+        # Only claims that need a frame take it; a frame-invariant claim keeps its weaker class, and
+        # a group whose claims need no frame keeps no frame.
+        needing = [p for p in sorted(solved | entered)
+                   if (states[p]["near"] or states[p]["own"] or states[p]["own_bases"]) and not
+                   (not states[p]["own"] and not states[p]["own_bases"] and _frame_invariant(states[p], space, oracle))]
+        if needing and window is None:
+            window = (base, base + 0x10000)
+            frames = {base // 16 + space.link_segment}
+        for p in needing:
+            cs_proven.add(p)
+            states[p]["report"]["cs_frame"] = (f"solved from {count} own-segment words" +
+                                               (", entered through a table word" if p in entered else ""))
     changed = True
     while changed:
         changed = False
