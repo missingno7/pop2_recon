@@ -69448,6 +69448,84 @@
       "entry_kind": "direct-code",
       "original_name": null,
       "sha256": "d9ab60998dd03834faa96db95a9f98e64665ee74a84bd653bc7edc5ecd7d2c5a"
+    },
+    {
+      "id": "overlay-7:29cf:00b2",
+      "space": "overlay-7",
+      "segment": 10703,
+      "offset": 178,
+      "size": 102,
+      "sha256": "2e31fe1b42ffd24b5c2d9a693941af6293aa90c4f426616cb876ed10722f04b5",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far void(void), frameless, RETF without stack arguments",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated FAR CALLs at root+ecaa (1269) and root+ee61 (1270) both name 29cf:00b2 under TOP's stage-set 4 case.",
+        "The scythe-overlay entry starts immediately after RETF at 00b1. Tests of character action/aliveness/position and tile kinds 12 or 13 gate the PUSH CS / CALL to 0412; all paths exit at RETF 0117 before a distinct BP frame at 0118.",
+        "The scythe tests and same-frame scythe helper identify overlay-7, consistent with the anchored MOVESCYT region. Equal aliases in other overlays are interior instruction locations."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60586,
+          "file_offset": 68778,
+          "relocated_segment_site": 60589
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61025,
+          "file_offset": 69217,
+          "relocated_segment_site": 61028
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Anchored MOVESCYT C region; filters character state and tile type before dispatch to the scythe helper."
+      ],
+      "semantic_name_hypothesis": "update_room_set_b"
+    },
+    {
+      "id": "overlay-7:29cf:0118",
+      "space": "overlay-7",
+      "segment": 10703,
+      "offset": 280,
+      "size": 332,
+      "sha256": "dd86396da34487b7cff4ee8d98fef6a3c48b8a6f1b89463e5bd32acc88a679ec",
+      "state": "ANALYZED",
+      "entry_kind": "direct-code",
+      "abi": "Far void(void), BP frame, RETF without stack arguments",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "Relocated FAR CALLs at root+ecb6 (1151) and root+ee66 (1152) both name the BP frame at 29cf:0118 under the stage-set 4 and freeze-ticks zero branches.",
+        "The preceding 00b2 routine ends at RETF 0117. This routine scans adjacent tiles, dispatches by the anchored scythe-type helper 02f8, and converges at its epilogue 025e, ending RETF 0262 followed by one NOP and the distinct 0264 BP frame.",
+        "Scythe tile types and the overlay-local helper identify overlay-7; other overlay aliases do not have this entry or the paired scythe flow."
+      ],
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 60598,
+          "file_offset": 68790,
+          "relocated_segment_site": 60601
+        },
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 61030,
+          "file_offset": 69222,
+          "relocated_segment_site": 61033
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_status": "Reviewed original bytes and callers",
+      "classification_evidence": [
+        "Anchored MOVESCYT C region; scans neighboring scythe cells and dispatches to 02f8 and same-file helpers."
+      ],
+      "semantic_name_hypothesis": "touch_room_set_b"
     }
   ],
   "schema": 1,

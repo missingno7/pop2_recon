@@ -44,7 +44,7 @@ EXTRN adjust_mouse_point:NEAR
 EXTRN allocate_port_buffer:NEAR
 EXTRN draw_outline_rect:NEAR
 EXTRN offset_rect:NEAR
-EXTRN offset_window_rectangle:NEAR
+EXTRN SET_CONTEXT_ORIGIN:NEAR
 EXTRN origin_relative_rectangle:NEAR
 EXTRN release_port_buffer:NEAR
 EXTRN subtract_points:NEAR
@@ -1006,7 +1006,7 @@ OFFSET_WINDOW_AND_REDRAW PROC FAR
     push word ptr [bp + 8]
     push word ptr [bp + 6]
     push cs
-    call offset_window_rectangle
+    call SET_CONTEXT_ORIGIN
     push di
     mov ax, 1
     push ax
