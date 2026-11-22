@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawscyt/drawscyt.json",
-  "binding_sha256": "bcfb60c692eaf4dfeabaf2f2f050a00c73cab3210d81a7d60d0ab798b6062ef6",
+  "binding_sha256": "40e1c392e4b0ca5fcf39332d55e5fe7d9747f92949aa29bfd3d4affb7cca8d04",
   "claims": [
     {
       "fixup_count": 3,
@@ -12,18 +12,41 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-7:2a15:000c"
-    }
-  ],
-  "drafts": [
-    {
-      "object_offset": 68,
-      "public": "DRAWSCYTHE1"
     },
     {
-      "object_offset": 458,
-      "public": "DRAWSCYTHE2"
+      "fixup_count": 21,
+      "public": "DRAWSCYTHE1",
+      "relocation_indices": [
+        23,
+        25,
+        27,
+        29,
+        31
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-7:2a15:0050"
+    },
+    {
+      "fixup_count": 24,
+      "public": "DRAWSCYTHE2",
+      "relocation_indices": [
+        24,
+        26,
+        28,
+        30,
+        32
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-7:2a15:01d6"
     }
   ],
+  "drafts": [],
   "emitted_size": 892,
   "flags": [
     "/c",
@@ -39,12 +62,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "drawscyt/drawscyt",
-  "object_sha256": "2eeec511829113010b71ec3f41a0ff8c8db5c67f6346e0ac866131cf1a75b5c3",
+  "object_sha256": "07e1570181a4fbf50863b79b00e02d0d6f631bc00db4b4b0d5444a2965a70ef7",
   "origin": 1132,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawscyt/drawscyt.c",
-  "source_sha256": "9ff7a80c4e3a5e90408f70e1feff5f3148400f9ec68577f1397c9c49b3c508d4",
+  "source_sha256": "e5721940d634e333404380e91fc973c68d5c9eebfe90ca06550202f4aafe12f7",
   "space": "overlay-7"
 }
