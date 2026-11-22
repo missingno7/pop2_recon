@@ -60851,6 +60851,10 @@
       "entry_kind": "direct-code",
       "id": "overlay-7:29cf:0380",
       "offset": 896,
+      "original_name": "ScytheBarrToStandUp",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @ScytheBarrToStandUp at fmtowns:2d74:03c3. Both builds test the blade range on kind 12 at the current cell or kind 13 with a second lookup one column left, and the latter route checks the column origin plus 9."
+      ],
       "segment": 10703,
       "semantic_name_hypothesis": "gate_is_open",
       "sha256": "bc3decd800478dde3fcf3ebf9e8123abca30e588db46e2b8f606885e98d0fd8d",
@@ -69579,82 +69583,90 @@
       "sha256": "d9ab60998dd03834faa96db95a9f98e64665ee74a84bd653bc7edc5ecd7d2c5a"
     },
     {
-      "id": "overlay-7:29cf:00b2",
-      "space": "overlay-7",
-      "segment": 10703,
-      "offset": 178,
-      "size": 102,
-      "sha256": "2e31fe1b42ffd24b5c2d9a693941af6293aa90c4f426616cb876ed10722f04b5",
-      "state": "ANALYZED",
-      "entry_kind": "direct-code",
       "abi": "Far void(void), frameless, RETF without stack arguments",
-      "boundary_status": "REVIEWED",
       "boundary_evidence": [
         "Relocated FAR CALLs at root+ecaa (1269) and root+ee61 (1270) both name 29cf:00b2 under TOP's stage-set 4 case.",
         "The scythe-overlay entry starts immediately after RETF at 00b1. Tests of character action/aliveness/position and tile kinds 12 or 13 gate the PUSH CS / CALL to 0412; all paths exit at RETF 0117 before a distinct BP frame at 0118.",
         "The scythe tests and same-frame scythe helper identify overlay-7, consistent with the anchored MOVESCYT region. Equal aliases in other overlays are interior instruction locations."
       ],
+      "boundary_status": "REVIEWED",
       "call_sites": [
         {
-          "kind": "far_call",
-          "space": "root",
-          "image_offset": 60586,
           "file_offset": 68778,
-          "relocated_segment_site": 60589
+          "image_offset": 60586,
+          "kind": "far_call",
+          "relocated_segment_site": 60589,
+          "space": "root"
         },
         {
-          "kind": "far_call",
-          "space": "root",
-          "image_offset": 61025,
           "file_offset": 69217,
-          "relocated_segment_site": 61028
+          "image_offset": 61025,
+          "kind": "far_call",
+          "relocated_segment_site": 61028,
+          "space": "root"
         }
       ],
       "classification": "GAME_C",
-      "classification_status": "Reviewed original bytes and callers",
       "classification_evidence": [
         "Anchored MOVESCYT C region; filters character state and tile type before dispatch to the scythe helper."
       ],
-      "semantic_name_hypothesis": "update_room_set_b"
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:00b2",
+      "offset": 178,
+      "original_name": "CheckScythe",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @CheckScythe at fmtowns:2d74:00da. Both builds exclude actions 7, 8 and 11, require a negative life byte, check row * 63 + 40 against actor position, then use kinds 12/13 and column origin + 18 to decide whether to trigger the scythe."
+      ],
+      "segment": 10703,
+      "semantic_name_hypothesis": "update_room_set_b",
+      "sha256": "2e31fe1b42ffd24b5c2d9a693941af6293aa90c4f426616cb876ed10722f04b5",
+      "size": 102,
+      "space": "overlay-7",
+      "state": "ANALYZED"
     },
     {
-      "id": "overlay-7:29cf:0118",
-      "space": "overlay-7",
-      "segment": 10703,
-      "offset": 280,
-      "size": 332,
-      "sha256": "dd86396da34487b7cff4ee8d98fef6a3c48b8a6f1b89463e5bd32acc88a679ec",
-      "state": "ANALYZED",
-      "entry_kind": "direct-code",
       "abi": "Far void(void), BP frame, RETF without stack arguments",
-      "boundary_status": "REVIEWED",
       "boundary_evidence": [
         "Relocated FAR CALLs at root+ecb6 (1151) and root+ee66 (1152) both name the BP frame at 29cf:0118 under the stage-set 4 and freeze-ticks zero branches.",
         "The preceding 00b2 routine ends at RETF 0117. This routine scans adjacent tiles, dispatches by the anchored scythe-type helper 02f8, and converges at its epilogue 025e, ending RETF 0262 followed by one NOP and the distinct 0264 BP frame.",
         "Scythe tile types and the overlay-local helper identify overlay-7; other overlay aliases do not have this entry or the paired scythe flow."
       ],
+      "boundary_status": "REVIEWED",
       "call_sites": [
         {
-          "kind": "far_call",
-          "space": "root",
-          "image_offset": 60598,
           "file_offset": 68790,
-          "relocated_segment_site": 60601
+          "image_offset": 60598,
+          "kind": "far_call",
+          "relocated_segment_site": 60601,
+          "space": "root"
         },
         {
-          "kind": "far_call",
-          "space": "root",
-          "image_offset": 61030,
           "file_offset": 69222,
-          "relocated_segment_site": 61033
+          "image_offset": 61030,
+          "kind": "far_call",
+          "relocated_segment_site": 61033,
+          "space": "root"
         }
       ],
       "classification": "GAME_C",
-      "classification_status": "Reviewed original bytes and callers",
       "classification_evidence": [
         "Anchored MOVESCYT C region; scans neighboring scythe cells and dispatches to 02f8 and same-file helpers."
       ],
-      "semantic_name_hypothesis": "touch_room_set_b"
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0118",
+      "offset": 280,
+      "original_name": "CheckScytheHit",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @CheckScytheHit at fmtowns:2d74:0146. Both builds check actions 0 and 2, exclude sequence group 44, scan adjacent tiles of kind 12/13 and test the hit type and rectangle, then choose sequences 113/190 and play sound 85."
+      ],
+      "segment": 10703,
+      "semantic_name_hypothesis": "touch_room_set_b",
+      "sha256": "dd86396da34487b7cff4ee8d98fef6a3c48b8a6f1b89463e5bd32acc88a679ec",
+      "size": 332,
+      "space": "overlay-7",
+      "state": "ANALYZED"
     },
     {
       "abi": "Near register ABI: BX heap descriptor, CX size; CF indicates failure, AX contains pointer when clear.",
@@ -70917,6 +70929,262 @@
       "sha256": "202bb890486cbb3c3376f5f739f8e1d14d42e975ee558c72b99e4a9ae4c4f5b3",
       "size": 714,
       "space": "overlay-3",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void(void); saved SI, no BP frame, RETF.",
+      "boundary_evidence": [
+        "Overlay-7 starts here. Relocated root CALL FARs name 29cf:0000. The overlay-7 site frames at +0031 and +0087 name 29cf.",
+        "The original branches join at +006c; PUSH CS/CALLs at +0023 and +005d go to +0322. POP SI and RETF at +00b0..00b1 precede the independently called +00b2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 41034,
+          "image_offset": 32842,
+          "kind": "far_call",
+          "relocated_segment_site": 32845,
+          "space": "root"
+        },
+        {
+          "file_offset": 59052,
+          "image_offset": 50860,
+          "kind": "far_call",
+          "relocated_segment_site": 50863,
+          "space": "root"
+        },
+        {
+          "file_offset": 54626,
+          "image_offset": 46434,
+          "kind": "far_call",
+          "relocated_segment_site": 46437,
+          "space": "root"
+        },
+        {
+          "file_offset": 264265,
+          "image_offset": 489,
+          "kind": "far_call",
+          "relocated_segment_site": 492,
+          "space": "overlay-14"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC far Pascal code in the independently mapped MOVESCYT.C region. Both builds mask the animation word by 31, compare adjacent ScytheImg entries and queue sounds 84 and 83 at phases 0 and 15."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0000",
+      "offset": 0,
+      "original_name": "AnimScythe",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @AnimScythe, fmtowns:2d74:000c. Both builds mask the animation word by 31, compare adjacent ScytheImg entries and queue sounds 84 and 83 at phases 0 and 15."
+      ],
+      "segment": 10703,
+      "sha256": "00783fcce284c135047d3246e157d1baac9103170296108e16e104fab2a81d44",
+      "size": 178,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near output rectangle at BP+6, Boolean AX, RETF 2.",
+      "boundary_evidence": [
+        "Follows RETF +0262 and original NOP +0263. PUSH CS/CALL at +0188/+0189 targets the +0264 BP frame.",
+        "The body branches to a common output/return and RETF 2 at +02f5..02f7. The reviewed predicate at +02f8 immediately follows."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 224089,
+          "image_offset": 393,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 392,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC far Pascal code in the independently mapped MOVESCYT.C region. Both builds mask by 31 and select cases 2/16/17, combining or copying rectangles before applying the row and column displacement."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0264",
+      "offset": 612,
+      "original_name": "ComputeBladeHitRect",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @ComputeBladeHitRect, fmtowns:2d74:029d. Both builds mask by 31 and select cases 2/16/17, combining or copying rectangles before applying the row and column displacement."
+      ],
+      "segment": 10703,
+      "sha256": "735958c0bc53f99a6ee95f3860fae4116f19740d90ac685adbda7fb96898227a",
+      "size": 148,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, one word parameter at BP+6, RETF 2.",
+      "boundary_evidence": [
+        "The exact predicate before this routine ends in RETF 2 at +031e and NOP +0321; a fresh BP frame starts at +0322.",
+        "Original PUSH CS/CALL sites +0022/+0023 and +005c/+005d both target +0322. Branches join at +0377 and return via RETF 2 +037c, before NOP +037f and the reviewed +0380 frame."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 223731,
+          "image_offset": 35,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 34,
+          "space": "overlay-7"
+        },
+        {
+          "file_offset": 223789,
+          "image_offset": 93,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 92,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC far Pascal code in the independently mapped MOVESCYT.C region. Both builds check visibility, adjust an eight-byte rectangle when the argument is nonzero and pass a movement callback and byte -1 to the rectangle marker."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0322",
+      "offset": 802,
+      "original_name": "RedrawScythe",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @RedrawScythe, fmtowns:2d74:0360. Both builds check visibility, adjust an eight-byte rectangle when the argument is nonzero and pass a movement callback and byte -1 to the rectangle marker."
+      ],
+      "segment": 10703,
+      "sha256": "8edabbf191c4d4e0fa3e3fb81ce300a4e6aa7826f1c17149026ed51ff152e837",
+      "size": 94,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two byte arguments in word slots at BP+8 and BP+6, RETF 4.",
+      "boundary_evidence": [
+        "The preceding reviewed predicate ends in RETF 2 at +040f, and a fresh BP frame starts at +0412. Original PUSH CS/CALL at +0113/+0114 targets +0412.",
+        "The lookup and queue dispatch converge at the RETF 4 at +0469..046b, followed at +046c by the first DRAWSCYT BP frame. The next relocated CALL site has frame 2a15."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 223972,
+          "image_offset": 276,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 275,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MSC far Pascal code in the independently mapped MOVESCYT.C region. Both builds conditionally look up the adjacent tile on kind 12, test the low five modifier bits and add a queue entry when clear."
+      ],
+      "classification_status": "Reviewed original bytes and callers",
+      "entry_kind": "direct-code",
+      "id": "overlay-7:29cf:0412",
+      "offset": 1042,
+      "original_name": "TriggerScythe",
+      "original_name_evidence": [
+        "FM Towns MOVESCYT.C @TriggerScythe, fmtowns:2d74:044d. Both builds conditionally look up the adjacent tile on kind 12, test the low five modifier bits and add a queue entry when clear."
+      ],
+      "segment": 10703,
+      "sha256": "de307a514d06f9f8e1a7fecfcc666f0f33a8498f3880790ea0a4d5bcfc79877d",
+      "size": 90,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near eight-byte cell-record pointer at BP+6, callee cleanup RETF 2.",
+      "boundary_evidence": [
+        "Overlay-7+0469..046b ends the previous independent frame with RETF 4. +046c starts a new BP frame after the final MOVESCYT relocation site.",
+        "Conditional branches from +047b and +0482 target +04a8 and +04a2 respectively. Both relocated external calls return to paths terminating via the shared RETF 2 at +04ad..04af; the next public starts at +04b0.",
+        "Original PUSH CS / CALL sites +062a/+062b and +07dc/+07dd both land at +046c. The overlay relocation sites bracketing this target (indices 33 and 22) both name CS 2a15."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 225275,
+          "image_offset": 1579,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 1578,
+          "space": "overlay-7"
+        },
+        {
+          "file_offset": 225709,
+          "image_offset": 2013,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 2012,
+          "space": "overlay-7"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Tests rubble modifier 0x20, then dispatches by tile environment."
+      ],
+      "entry_kind": "direct-code",
+      "id": "overlay-7:2a15:000c",
+      "offset": 12,
+      "original_name": "CheckScytheForRubble",
+      "original_name_evidence": [
+        "evidence/modules.json overlay-7:29cf:046c names FM Towns DRAWSCYT @CheckScytheForRubble from the matching 0x20 and tile-kind 4 guards."
+      ],
+      "segment": 10773,
+      "sha256": "340a4c6302e42a171281d82a1b6c7299d62425d7a025c782d8e13c14f83a32fd",
+      "size": 68,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near eight-byte cell-record pointer at BP+6, callee cleanup RETF 2.",
+      "boundary_evidence": [
+        "Overlay-7+04b0 starts a separate BP frame following the helper's RETF 2 at +04ad. The sparse switch selects cases 0/1/2/5 and all paths join the epilogue at +0627; RETF 2 occupies +0633..0635.",
+        "Overlay-17+435c and +445a both store 2a15:0050 in relocated code-pointer tables (segment-word relocation indices 55, 56). Overlay-7 site records 23 and 25 also give frame 2a15.",
+        "Next independent BP prologue and paired relocated entry occur at overlay-7+0636."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Selects a scythe render pass, uses the 31-bitmask animation index, ranges 97..99 and dispatches image 12."
+      ],
+      "entry_kind": "direct-code",
+      "id": "overlay-7:2a15:0050",
+      "offset": 80,
+      "original_name": "DrawScythe1",
+      "original_name_evidence": [
+        "evidence/modules.json overlay-7:29cf:04b0 matches FM Towns DRAWSCYT @DrawScythe1 via 0x1f, 0x80 and frame thresholds 97 and 99."
+      ],
+      "segment": 10773,
+      "sha256": "4f69aad234ec5b05fc138fbf993df41229622b926077b82808c017a2926401a7",
+      "size": 390,
+      "space": "overlay-7",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, near eight-byte cell-record pointer at BP+6, callee cleanup RETF 2.",
+      "boundary_evidence": [
+        "Overlay-7+0636 starts the next BP frame immediately after +0633..0635 RETF 2. The sparse switch merges at +07b6. RETF 2 at +07e5..07e7 ends complete initialized code; eight zero fill bytes occupy +07e8..07ef.",
+        "Overlay-17+4360 and +445e both store 2a15:01d6 (segment-word relocation indices 138, 139) in the same dispatch tables. Overlay-7 records 24 and 26 corroborate frame 2a15."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Second scythe render variant, with frame tests 100/101 and image 13."
+      ],
+      "entry_kind": "direct-code",
+      "id": "overlay-7:2a15:01d6",
+      "offset": 470,
+      "original_name": "DrawScythe2",
+      "original_name_evidence": [
+        "evidence/modules.json overlay-7:29cf:0636 matches FM Towns DRAWSCYT @DrawScythe2 via shared masks and frame thresholds 100 and 101."
+      ],
+      "segment": 10773,
+      "sha256": "72632acbd8f9818055e701389283f34647ba90b0c51756f53652bfa0fe28621d",
+      "size": 434,
+      "space": "overlay-7",
       "state": "ANALYZED"
     }
   ],
