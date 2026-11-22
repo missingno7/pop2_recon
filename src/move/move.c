@@ -1442,6 +1442,19 @@ void add_mob(void)
         mobs[mob_count++] = current_mob;
 }
 
+extern void animate_mob_kind_2(void);
+extern void animate_mob_kind_4(void);
+extern void animate_mob_kind_6(void);
+extern void check_mob_kind_6(void);
+extern void animate_mob_kind_10(void);
+extern void animate_mob_kind_11(void);
+extern void animate_mob_kind_12(void);
+void animate_mob(void);
+void mob_loose(void);
+void check_loose_crush(void);
+void make_rubble(void);
+void knock_loose(void);
+
 Mob *get_mob_type_item(byte kind, int occurrence)
 {
     Mob *found = 0;
@@ -1474,19 +1487,7 @@ struct {
 
 #define mob_heights mob_dimensions.heights
 #define mob_widths mob_dimensions.widths
-extern void animate_mob_kind_2(void);
-extern void animate_mob_kind_4(void);
-extern void animate_mob_kind_6(void);
-extern void check_mob_kind_6(void);
-extern void animate_mob_kind_10(void);
-extern void animate_mob_kind_11(void);
-extern void animate_mob_kind_12(void);
 
-void animate_mob(void);
-void mob_loose(void);
-void check_loose_crush(void);
-void make_rubble(void);
-void knock_loose(void);
 void PassThru(void);
 void mark_mob_redraw(sbyte layer);
 
