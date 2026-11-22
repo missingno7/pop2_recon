@@ -81,6 +81,7 @@ def main():
     source_bytes = project_path(args.source).read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     import module_gate
     module_gate.require_no_segname(source_bytes, group_id, args.language)
+    module_gate.require_no_case_alias(source_bytes, group_id, args.language)
     stage = project_path(args.stage) if args.stage else ROOT / "build/workers/promotion" / args.name
     stage.mkdir(parents=True, exist_ok=True)
     (stage / ("CAND.ASM" if args.language == "asm" else "CAND.C")).write_bytes(source_bytes)

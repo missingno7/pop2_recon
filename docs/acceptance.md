@@ -361,3 +361,14 @@ a recorded `dos_native_asm` entry, or (for unpaired routines) a reviewed `asm` v
 A LOC2 base field whose target is a DGROUP member segment (for example
 `mov ax, seg _DATA`), framed by group DGROUP, links to the DGROUP paragraph like
 `mov ax, DGROUP`. It uses the same grounded-frame equation and relocation proof.
+
+## One name per object (2026-11-22)
+
+With `/Gc` MSC upper-cases every external, so `extern byte lower_right_room;` and
+`extern byte LOWER_RIGHT_ROOM;` link to one object while the compiler treats them as two (separate
+alias analysis, declaration order, even signedness). An original file names each global once, so a
+second case spelling is a fitting device, not a source hypothesis. `promote.py` and
+`promote_group.py` refuse any extern declared under two case spellings; the two accepted before this
+rule (move `ACTOR_COLUMN`, rooftops `STATE_BYTE`) are listed in evidence/case-alias-debt.json, which
+validation keeps equal to the accepted sources, so the list only shrinks. Declaration-order effects
+must be reproduced with the single real declaration.

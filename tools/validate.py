@@ -216,6 +216,16 @@ def _validate(run_tests=True):
     const_debt = set(read_json(ROOT / "evidence/const-layout-debt.json")["keys"])
     require(segname == const_debt, "evidence/const-layout-debt.json differs from the sources using _segname: "
             f"stale {sorted(const_debt - segname)}, unlisted {sorted(segname - const_debt)}")
+    from module_gate import case_aliases
+    aliases = {}
+    for o, r in recipes:
+        if o.get("kind") != "PINNED_RUNTIME" and r.get("language", "c") == "c" and "source" in r:
+            found = case_aliases(project_path(r["source"]).read_bytes())
+            if found:
+                aliases[r.get("group_id") or "recipe:" + r["name"]] = found
+    alias_debt = read_json(ROOT / "evidence/case-alias-debt.json")["aliases"]
+    require(aliases == {k: sorted(v) for k, v in alias_debt.items()},
+            f"evidence/case-alias-debt.json differs from the accepted sources' case aliases: {aliases}")
     # Live canonical files must still carry their pins after all compilation, so a
     # PASS never certifies files edited while proofs ran on earlier snapshots.
     check_manifest(oracle, manifest)

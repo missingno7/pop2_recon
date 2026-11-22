@@ -278,6 +278,32 @@ def require_no_segname(source_bytes, key, language="c"):
             "ordinary _DATA (docs/dgroup-binding.md, DGROUP class order)")
 
 
+# One external declared under two spellings that differ only in case: /Gc folds them to one
+# Pascal external, so the compiler sees two objects where the program has one.
+EXTERN_DECL = re.compile(r"^[ \t]*extern\b[^;(]*;", re.M)
+CASE_ALIAS_DEBT = read_json(ROOT / "evidence/case-alias-debt.json")["aliases"] \
+    if (ROOT / "evidence/case-alias-debt.json").exists() else {}
+
+
+def case_aliases(source_bytes):
+    """Sorted upper-case names of externs declared (as data) under more than one spelling."""
+    text = re.sub(r"/\*.*?\*/", " ", source_bytes.decode("latin-1"), flags=re.S)
+    spellings = {}
+    for decl in EXTERN_DECL.findall(text):
+        for name in re.findall(r"([A-Za-z_]\w*)\s*(?:\[[^\]]*\]\s*)*(?=[,;])", decl):
+            spellings.setdefault(name.upper(), set()).add(name)
+    return sorted(k for k, v in spellings.items() if len(v) > 1)
+
+
+def require_no_case_alias(source_bytes, key, language="c"):
+    """Refuse new case-folded extern aliases; listed debt keeps exactly its own."""
+    if language != "c":
+        return
+    extra = sorted(set(case_aliases(source_bytes)) - set(CASE_ALIAS_DEBT.get(key, [])))
+    require(not extra, "One external declared under two case spellings (a second C name for one object): "
+            + ", ".join(extra))
+
+
 PLACEMENT_DEBT = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])     if (ROOT / "evidence/placement-debt.json").exists() else set()
 
 

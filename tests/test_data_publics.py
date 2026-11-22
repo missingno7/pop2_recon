@@ -233,6 +233,21 @@ if __name__ == "__main__":
     unittest.main()
 
 
+class CaseAliasTests(unittest.TestCase):
+    """A second case spelling of one external is refused unless recorded as debt."""
+    SOURCE = (b"extern unsigned char room;\n/* x */\nextern unsigned char ROOM, other[4];\n"
+              b"extern int pick(int a);\n")
+
+    def test_new_alias_is_refused_and_debt_keeps_only_its_own(self):
+        self.assertEqual(module_gate.case_aliases(self.SOURCE), ["ROOM"])
+        with self.assertRaisesRegex(Exception, "two case spellings"):
+            module_gate.require_no_case_alias(self.SOURCE, "group:new/new")
+        with patch.object(module_gate, "CASE_ALIAS_DEBT", {"group:old/old": ["ROOM"]}):
+            module_gate.require_no_case_alias(self.SOURCE, "group:old/old")
+            with self.assertRaisesRegex(Exception, "OTHER"):
+                module_gate.require_no_case_alias(self.SOURCE + b"extern int OTHER;\n", "group:old/old")
+
+
 class ConstLayoutDebtTests(unittest.TestCase):
     """New explicit segment placement of data is refused; recorded debt keeps its source."""
     SOURCE = b'static const int _based(_segname("_CONST")) table[2] = {1, 2};\n'
