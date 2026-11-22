@@ -8,7 +8,10 @@ integrating writer. Paths inside it are relative to the submission's directory.
   "schema": 1,
   "groups": [{"name": "act/act", "language": "c", "source": "act.c", "binding": "binding.json",
               "profile": "msc600", "flags": ["/c", "/AM", "/Oe", "/Gs", "/Zl", "/Gc"],
-              "claims": ["overlay-3:25da:000e=RESET_ACTOR_ALERT", ...]}],
+              "claims": ["overlay-3:25da:000e=RESET_ACTOR_ALERT", ...]},
+             {"name": "tables/tables", "kind": "data", "source": "tables.c", "binding": "tables-binding.json",
+              "profile": "msc600a_bound", "flags": [...]}],   # data-only group (promote_data.py), list
+                                                            # providers before the groups that use them
   "targets": "proposed-targets.json",          # optional reviewed rows ({"functions": [...]} or list)
   "target_replacements": ["root:1101:6650"],   # optional: existing rows this submission replaces
   "asm_review": "asm-review.json",             # optional: origin evidence for new ASM claims
@@ -64,11 +67,18 @@ def _flags(ids):
 
 
 def _promote(base, group, extra, verify_only, stage=None):
-    cmd = [sys.executable, str(ROOT / "tools/promote_group.py"), str(base / group["source"]),
-           "--name", group["name"], "--profile", group["profile"], "--language", group.get("language", "c")]
+    data_only = group.get("kind") == "data"  # a data-only group (tools/promote_data.py): no claims
+    if data_only:
+        require(not group.get("claims"), "A data-only group has no claims")
+        cmd = [sys.executable, str(ROOT / "tools/promote_data.py"), str(base / group["source"]),
+               "--name", group["name"], "--profile", group["profile"]]
+        extra = []  # research flags and --replacing apply to code groups only
+    else:
+        cmd = [sys.executable, str(ROOT / "tools/promote_group.py"), str(base / group["source"]),
+               "--name", group["name"], "--profile", group["profile"], "--language", group.get("language", "c")]
     if group.get("flags"):
         cmd += ["--flags"] + group["flags"]
-    for claim in group["claims"]:
+    for claim in group.get("claims", []):
         cmd += ["--claim", claim]
     binding = group.get("binding")
     if binding:
