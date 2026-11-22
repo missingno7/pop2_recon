@@ -116,3 +116,16 @@ The smallest coherent separation that removed the coupling, without a new framew
 - 34 single-site BSS game fields cannot be proven without original symbol data; they remain CODE_MATCH obligations.
 - Between-symbol relocation order and whole-program placement stay unproven until the RTLink model and a trial link
   exist ("structural link UNRECOVERED").
+
+## 8. State after this work (main `d8e1423`)
+
+- 1,411 CODE_EXACT functions (from 1,401), 139,679 C bytes, 40,003 ASM bytes; 2 CODE_MATCH functions (148
+  bytes: FINAL RUN_FINAL_FRAME, LOAD SET_LEVEL_SPEC_PTRS) reported separately and not counted.
+- The far-pointer path works end to end: FINAL's RUN_FINAL_FRAME is a recorded code match, so LOAD's level
+  procedure table grounds all five callbacks; LOAD now publishes its real 656-byte `_DATA` at DS:0558 without
+  `_segname` and left the CONST debt list (remaining: CUSTOM, DRAW, MOVECAVE).
+- bss-layout-v1 is enforced with crt0 anchors; 383 existing violations are recorded as shrink-only debt
+  (5 misattributed `_BSS` placements, 38 externs inside the per-file `_BSS` block, 340 odd communal starts that
+  are members of larger variables).
+- Not done here: the RTLink relocation-order model, the trial link and Rule G (linker anchors), which remain the
+  highest-leverage structural steps (section 6).
