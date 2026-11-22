@@ -8,18 +8,33 @@ EXTRN current_port:WORD
 EXTRN active_window:WORD
 EXTRN menu_bounds_top:WORD
 EXTRN menu_list:WORD
-EXTRN item_state_2700:WORD
-EXTRN item_state_26fa:WORD
-EXTRN item_state_26f6:WORD
-EXTRN item_state_26fc:WORD
-EXTRN item_state_26f4:WORD
-EXTRN item_state_26fe:WORD
 EXTRN item_state_2618:WORD
-EXTRN item_state_270a:WORD
-EXTRN item_state_2712:WORD
-EXTRN item_state_270e:WORD
-EXTRN item_state_2706:WORD
-EXTRN item_state_2702:WORD
+
+; Menu and indexed item state precedes the slider tables in DGROUP.
+indexed_item_records       DW 0
+indexed_item_state    DW 0
+                          DW 0    ; Unreferenced word in the state block.
+previous_menu_item        DW 0
+menu_selection_row        DW 0
+menu_selection_column     DW 0
+current_menu_item         DW 0
+
+; Horizontal and vertical slider descriptors select keys and arrow bitmaps.
+slider_arrow_inset       DW 8, 12
+slider_decrement_key     DW 4800h, 4B00h
+slider_decrement_shape   DW OFFSET slider_up_arrow, OFFSET slider_left_arrow
+slider_increment_key     DW 5000h, 4D00h
+slider_increment_shape   DW OFFSET slider_down_arrow, OFFSET slider_right_arrow
+
+slider_down_arrow        DW 4, 8, 1
+                         DB 0FFh, 7Eh, 3Ch, 18h
+slider_left_arrow        DW 5, 6, 1
+                         DB 0Ch, 3Ch, 0FCh, 3Ch, 0Ch
+slider_right_arrow       DW 5, 6, 1
+                         DB 0C0h, 0F0h, 0FCh, 0F0h, 0C0h
+slider_up_arrow          DW 4, 8, 1
+                         DB 18h, 3Ch, 7Eh, 0FFh
+
 .CODE
 EXTRN point_in_rectangle:NEAR
 EXTRN clamp_point_to_rect:NEAR
@@ -896,7 +911,7 @@ loc_9e02:
     push word ptr [bx + 1]
     push cs
     call draw_dialog_scroll_region
-    cmp di, word ptr [item_state_2700]
+    cmp di, word ptr [current_menu_item]
     jne loc_9e40
     push ds
     push si
@@ -1089,16 +1104,16 @@ loc_9f86:
     mov di, word ptr [di]
     jmp SHORT loc_9f86
 loc_9f93:
-    cmp di, word ptr [item_state_2700]
+    cmp di, word ptr [current_menu_item]
     je loc_9fba
     call calculate_menu_bounds
     push ds
     push si
     push cs
     call toggle_rect_effect
-    mov word ptr [item_state_26fa], di
+    mov word ptr [previous_menu_item], di
 loc_9fa6:
-    xchg word ptr [item_state_2700], di
+    xchg word ptr [current_menu_item], di
     test di, di
     je loc_9fba
     call calculate_menu_bounds
@@ -1146,7 +1161,7 @@ initialize_menu_bounds LABEL NEAR
 loc_9fff:
     add ax, word ptr [menu_bounds_top]
     mov word ptr [di + 018h], ax
-    mov word ptr [item_state_26f6], ax
+    mov word ptr [indexed_item_state], ax
     push cs
     call redraw_dialog_scroll
     pop si
@@ -1233,7 +1248,7 @@ loc_a08a:
     mov dx, word ptr [di + 8]
     jmp SHORT loc_a05e
 loc_a095:
-    mov di, word ptr [item_state_26fa]
+    mov di, word ptr [previous_menu_item]
     test di, di
     jne loc_a0a5
     mov di, word ptr [menu_list]
@@ -1276,7 +1291,7 @@ loc_a0d0:
     call open_tracking_window
     test di, di
     jne loc_a085
-    mov di, word ptr [item_state_2700]
+    mov di, word ptr [current_menu_item]
     mov ax, word ptr [bp - 4]
     cmp al, 0dh
     je loc_a08a
@@ -1404,7 +1419,7 @@ loc_a1b9:
     mov di, word ptr [di]
     jmp SHORT loc_a1b9
 loc_a1d6:
-    cmp di, word ptr [item_state_2700]
+    cmp di, word ptr [current_menu_item]
     je loc_a1e8
     push word ptr [di + 8]
     push cs
@@ -1413,10 +1428,10 @@ loc_a1d6:
 loc_a1e8:
     call refresh_tracking_item
 loc_a1eb:
-    mov di, word ptr [item_state_2700]
+    mov di, word ptr [current_menu_item]
     test di, di
     je loc_a202
-    mov cx, word ptr [item_state_26fc]
+    mov cx, word ptr [menu_selection_row]
     jcxz loc_a202
     push di
     mov ax, 3
@@ -1435,7 +1450,7 @@ loc_a202:
     jmp SHORT loc_a1b2
 loc_a213:
     call close_tracking_window
-    mov bx, word ptr [item_state_2700]
+    mov bx, word ptr [current_menu_item]
     test bx, bx
     je loc_a22a
     mov ax, word ptr [bx + 018h]
@@ -1597,13 +1612,13 @@ redraw_indexed_item LABEL NEAR
     xchg word ptr [current_port], ax
     push ax
     mov di, word ptr [menu_list]
-    mov si, word ptr [item_state_26f4]
+    mov si, word ptr [indexed_item_records]
     add si, 4
 loc_a336:
     test di, di
     je loc_a363
     mov word ptr [di + 0eh], si
-    mov ax, word ptr [item_state_26f6]
+    mov ax, word ptr [indexed_item_state]
     mov word ptr [di + 0ch], ax
     push di
     mov ax, 1
@@ -1642,7 +1657,7 @@ calculate_menu_bounds LABEL NEAR
     mov word ptr [si + 6], ax
     mov ax, word ptr [menu_bounds_top]
     mov word ptr [si], ax
-    mov ax, word ptr [item_state_26f6]
+    mov ax, word ptr [indexed_item_state]
     dec ax
     mov word ptr [si + 4], ax
     ret
@@ -1650,10 +1665,10 @@ calculate_menu_bounds LABEL NEAR
 PUBLIC close_tracking_window
 close_tracking_window LABEL NEAR
     sub cx, cx
-    xchg word ptr [item_state_26fc], cx
+    xchg word ptr [menu_selection_row], cx
     jcxz loc_a3b1
     sub ax, ax
-    xchg word ptr [item_state_26fe], ax
+    xchg word ptr [menu_selection_column], ax
     test ax, ax
     je loc_a3a8
     call dispatch_window_update
@@ -1693,7 +1708,7 @@ loc_a3d5:
     cmp al, byte ptr [bx + 1]
     jne loc_a3e6
     jcxz loc_a3f0
-    cmp di, word ptr [item_state_2700]
+    cmp di, word ptr [current_menu_item]
     je loc_a3fc
 loc_a3e6:
     inc cx
@@ -1705,7 +1720,7 @@ loc_a3ec:
 loc_a3f0:
     test ah, ah
     jne loc_a418
-    cmp cx, word ptr [item_state_2700]
+    cmp cx, word ptr [current_menu_item]
     je loc_a3e6
     jmp SHORT loc_a418
 loc_a3fc:
@@ -1724,7 +1739,7 @@ loc_a407:
     test word ptr [di + 016h], dx
     je loc_a3e6
 loc_a418:
-    cmp di, word ptr [item_state_26fc]
+    cmp di, word ptr [menu_selection_row]
     jne loc_a42a
     push di
     mov ax, 4
@@ -1849,7 +1864,7 @@ refresh_tracking_item LABEL NEAR
     mov ax, word ptr [active_window]
     xchg word ptr [current_port], ax
     push ax
-    mov cx, word ptr [item_state_26fc]
+    mov cx, word ptr [menu_selection_row]
     cmp cx, di
     je loc_a520
     jcxz loc_a508
@@ -1857,8 +1872,8 @@ refresh_tracking_item LABEL NEAR
 loc_a508:
     lea ax, [di + 0ch]
     call near_ba7b
-    mov word ptr [item_state_26fe], ax
-    mov word ptr [item_state_26fc], di
+    mov word ptr [menu_selection_column], ax
+    mov word ptr [menu_selection_row], di
     push di
     mov ax, 2
     push ax
@@ -2458,10 +2473,10 @@ loc_a993:
     push cs
     call set_record_range
     mov si, word ptr [bp - 2]
-    mov ax, word ptr [si + item_state_270a]
+    mov ax, word ptr [si + slider_decrement_shape]
     lea bx, [bp - 0ah]
     call draw_slider_region
-    mov ax, word ptr [si + item_state_2712]
+    mov ax, word ptr [si + slider_increment_shape]
     lea bx, [bp - 012h]
     call draw_slider_region
     mov cx, word ptr [di + 01ah]
@@ -2478,10 +2493,10 @@ loc_a9c8:
     xchg cx, ax
     mov si, word ptr [bp - 2]
     mov dx, 1
-    cmp ax, word ptr [si + item_state_270e]
+    cmp ax, word ptr [si + slider_increment_key]
     je loc_a9ec
     neg dx
-    cmp ax, word ptr [si + item_state_2706]
+    cmp ax, word ptr [si + slider_decrement_key]
     je loc_a9ec
     mov dx, word ptr [di + 022h]
     cmp ax, 05100h
@@ -2722,12 +2737,12 @@ loc_ab8e:
 loc_abb3:
     mov word ptr [bp - 2], di
     mov ax, word ptr [bx + di + 0ch]
-    add ax, word ptr [di + item_state_2702]
+    add ax, word ptr [di + slider_arrow_inset]
     mov word ptr [bp + di - 6], ax
     dec ax
     mov word ptr [bp + di - 020h], ax
     mov ax, word ptr [bx + di + 010h]
-    sub ax, word ptr [di + item_state_2702]
+    sub ax, word ptr [di + slider_arrow_inset]
     mov word ptr [bp + di - 012h], ax
     inc ax
     mov word ptr [bp + di - 01ch], ax
@@ -2748,7 +2763,7 @@ loc_abd8:
     mov si, word ptr [bp - 2]
     mov ax, word ptr [bp + si - 01ch]
     sub ax, word ptr [bp + si - 020h]
-    sub ax, word ptr [si + item_state_2702]
+    sub ax, word ptr [si + slider_arrow_inset]
     push ax
     sub ax, ax
     push ax
@@ -2774,7 +2789,7 @@ loc_ac19:
     add dx, word ptr [bp + si - 020h]
     mov word ptr [bp + si - 036h], dx
     mov word ptr [bp + si - 04eh], dx
-    add dx, word ptr [si + item_state_2702]
+    add dx, word ptr [si + slider_arrow_inset]
     mov word ptr [bp + si - 04ah], dx
     mov word ptr [bp + si - 032h], dx
     pop si

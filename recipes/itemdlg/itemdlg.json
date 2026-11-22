@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/itemdlg/itemdlg.json",
-  "binding_sha256": "dea7c6f046701e6fe96b0dbd1a70869d9104e76f301425194d31b8a4fd7496a8",
+  "binding_sha256": "b543ece85a09bdd59de85ea5690df816d4845c7ca1fb1cba9dfce766652681f1",
   "claims": [
     {
       "fixup_count": 3,
@@ -93,6 +93,11 @@
       "target_id": "root:1000:b2dc"
     },
     {
+      "fixup_count": 7,
+      "public": "REDRAW_INDEXED_ITEM",
+      "target_id": "root:1101:a321"
+    },
+    {
       "fixup_count": 3,
       "public": "CALCULATE_MENU_BOUNDS",
       "target_id": "root:1101:a36a"
@@ -142,6 +147,16 @@
       "fixup_count": 16,
       "public": "DRAW_GRID_SELECTION",
       "target_id": "root:1101:a75c"
+    },
+    {
+      "fixup_count": 47,
+      "public": "SLIDER_ITEM_CALLBACK",
+      "relocation_indices": [
+        1563
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:a8c2"
     },
     {
       "fixup_count": 2,
@@ -244,20 +259,12 @@
       "public": "SET_INDEXED_ITEM_VALUE"
     },
     {
-      "object_offset": 2780,
-      "public": "REDRAW_INDEXED_ITEM"
-    },
-    {
       "object_offset": 2892,
       "public": "CLOSE_TRACKING_WINDOW"
     },
     {
       "object_offset": 3296,
       "public": "ALIGN_A525"
-    },
-    {
-      "object_offset": 4221,
-      "public": "SLIDER_ITEM_CALLBACK"
     },
     {
       "object_offset": 5360,
@@ -275,12 +282,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "itemdlg/itemdlg",
-  "object_sha256": "7d8787b9ab66351a58c4d20f66f8ed37dd18dde13eaa6129400519970a1a58ca",
+  "object_sha256": "9d45c5b46d7400fcb0f513c93020c760e19b4208f06e8940beae3b133ad26ba3",
   "origin": 108629,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/itemdlg/itemdlg.asm",
-  "source_sha256": "951791f5ef86353d7ec27202e8b316beac31287c07563e601524dac864073a8d",
+  "source_sha256": "5bd72b46214a0fd2002475334c4f90aca2a8e3132ad0b3b8142d818b4917a750",
   "space": "root"
 }
