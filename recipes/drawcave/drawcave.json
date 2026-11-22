@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawcave/drawcave.json",
-  "binding_sha256": "702304852eeb8ce6cd88c8ba4bafc216e8647dfc756617e4cfa52282bb8d1f03",
+  "binding_sha256": "d5bf37428d73ab2b8ac6788bf613ff71312fd0dc0e8f83178106e6f8b8082972",
   "claims": [
     {
       "fixup_count": 9,
@@ -95,6 +95,39 @@
       "target_id": "overlay-6:2a93:0346"
     },
     {
+      "fixup_count": 13,
+      "public": "DRAWCAVEEXITMOVABLE",
+      "relocation_indices": [
+        75,
+        78,
+        106,
+        131
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2a93:03e8"
+    },
+    {
+      "fixup_count": 13,
+      "public": "DRAWCAVEFLOOR",
+      "relocation_indices": [
+        72,
+        79,
+        96,
+        107,
+        124,
+        128,
+        132
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2a93:04ce"
+    },
+    {
       "fixup_count": 10,
       "public": "DRAWCAVEGATE",
       "relocation_indices": [
@@ -111,6 +144,21 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-6:2a93:05bc"
+    },
+    {
+      "fixup_count": 14,
+      "public": "DRAWCAVEGATEMOVABLE",
+      "relocation_indices": [
+        76,
+        80,
+        129,
+        133
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2a93:068e"
     },
     {
       "fixup_count": 8,
@@ -225,6 +273,20 @@
       "target_id": "overlay-6:2a93:0fc4"
     },
     {
+      "fixup_count": 6,
+      "public": "DRAW_CAVE_RUBBLE_PIECES",
+      "relocation_indices": [
+        85,
+        130,
+        138
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-6:2a93:0fea"
+    },
+    {
       "fixup_count": 2,
       "public": "DRAW_CAVE_RUBBLE_TORCH",
       "target_id": "overlay-6:2a93:104e"
@@ -298,24 +360,8 @@
   ],
   "drafts": [
     {
-      "object_offset": 990,
-      "public": "DRAWCAVEEXITMOVABLE"
-    },
-    {
-      "object_offset": 1220,
-      "public": "DRAWCAVEFLOOR"
-    },
-    {
-      "object_offset": 1668,
-      "public": "DRAWCAVEGATEMOVABLE"
-    },
-    {
       "object_offset": 3762,
       "public": "DRAWCAVEREVPLATE"
-    },
-    {
-      "object_offset": 4064,
-      "public": "DRAW_CAVE_RUBBLE_PIECES"
     }
   ],
   "emitted_size": 5006,
@@ -333,12 +379,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "drawcave/drawcave",
-  "object_sha256": "7eb8ef53a6a161dd0fe0cde2418148c0764f0f96c5a8250040170592dad6e96a",
+  "object_sha256": "5b3bb2ceda2eeddb9dd92dd7960c42f3ee00229ca7f1a85a4688a1e9f0a93e77",
   "origin": 3146,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawcave/drawcave.c",
-  "source_sha256": "542e22952d8038604b1ebb6725abb4294f1bca43c00322e13b147c824810570a",
+  "source_sha256": "d773f877d1f86886d0333cfb7bb28317fa6d839f88ddf877e4ca32ddb98d6427",
   "space": "overlay-6"
 }

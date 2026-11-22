@@ -219,7 +219,7 @@ void DrawCaveExit4(DrawCell *cell)
 void DrawCaveExitMovable(DrawCell *cell)
 {
     DrawRect saved, doorway;
-    unsigned long draw;
+    AddImage draw;
     unsigned int lift;
 
     if (cell->pass == 0) {
@@ -227,15 +227,12 @@ void DrawCaveExitMovable(DrawCell *cell)
         doorway = exit_clip;
         doorway.top = cell->row * 63 + 1;
         if (SectRect(&clip_rect, &clip_rect, &doorway)) {
-            lift = (Byte)cell->modifier;
-            if (lift > 42)
-                shape_offsets->exit_y = -57;
-            else
-                shape_offsets->exit_y = -15 - lift;
+            lift = cell->modifier & 255;
+            shape_offsets->exit_y = -(15 + (lift < 42 ? lift : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
             draw = kid_frame >= 217 && kid_frame <= 226 ?
-                (unsigned long)AddBFImgToFTable : (unsigned long)AddBFImgToBTable;
-            ((AddImage)draw)(57, -2, cell->column, cell->row, 10, 0);
+                AddBFImgToFTable : AddBFImgToBTable;
+            draw(57, -2, cell->column, cell->row, 10, 0);
         }
         clip_rect = saved;
     }
@@ -245,7 +242,7 @@ void DrawCaveFloor(DrawCell *cell)
 {
     AddImage volatile draw = 0;
     volatile int image;
-    Byte mode;
+    volatile Byte mode;
     Word variant = cell->modifier & 3;
 
     switch (cell->pass) {
@@ -308,7 +305,7 @@ void DrawCaveGate(DrawCell *cell)
 void DrawCaveGateMovable(DrawCell *cell)
 {
     DrawRect saved, gate;
-    unsigned long draw;
+    AddImage draw;
     unsigned int lift;
     int y;
 
@@ -326,19 +323,19 @@ void DrawCaveGateMovable(DrawCell *cell)
             break;
         case 1:
             shape_offsets->front_gate_y = y;
-            draw = (unsigned long)AddFImgToFTable;
+            draw = AddFImgToFTable;
+            break;
+        case 2:
+            shape_offsets->gate_y = y;
+            draw = AddBFImgToFTable;
             break;
         case 5:
-            draw = (unsigned long)AddBFImgToBTable;
-            goto gate_layer;
-        case 2:
-            draw = (unsigned long)AddBFImgToFTable;
-        gate_layer:
             shape_offsets->gate_y = y;
+            draw = AddBFImgToBTable;
             break;
         }
         if (draw)
-            ((AddImage)draw)(55, -2, cell->column, cell->row, 10, 0);
+            draw(55, -2, cell->column, cell->row, 10, 0);
     }
     clip_rect = saved;
 }
@@ -582,25 +579,31 @@ void DrawCavePosts(DrawCell *cell)
 
 void DrawCaveRevPlate(DrawCell *cell)
 {
-    unsigned long draw = 0;
+    AddImage draw = 0;
 
     switch (cell->pass) {
-    case 0: AddBImgToBTable(34, -2, cell->column, cell->row, 0, 0);
-        if (IsWall(PieceLeftId(cell->column, cell->row))) draw = (unsigned long)AddBImgToBTable;
+    case 0:
+        AddBImgToBTable(34, -2, cell->column, cell->row, 0, 0);
+        if (IsWall(PieceLeftId(cell->column, cell->row)))
+            draw = AddBImgToBTable;
         break;
     case 1:
         AddFImgToFTable(34, -2, cell->column, cell->row, 0, 0);
         DrawCaveBotEdge(cell);
         break;
-    case 2: AddBFImgToFTable(34, -2, cell->column, cell->row, 10, 0);
-        if (cell->modifier & 0x0800) draw = (unsigned long)AddBFImgToFTable;
+    case 2:
+        AddBFImgToFTable(34, -2, cell->column, cell->row, 10, 0);
+        if (cell->modifier & 0x0800)
+            draw = AddBFImgToFTable;
         break;
     case 5:
         AddBFImgToBTable(34, -2, cell->column, cell->row, 10, 0);
-        if (cell->modifier & 0x0800) draw = (unsigned long)AddBFImgToBTable;
+        if (cell->modifier & 0x0800)
+            draw = AddBFImgToBTable;
         break;
     }
-    if (draw) ((AddImage)draw)(56, -2, cell->column, cell->row, 10, 0);
+    if (draw)
+        draw(56, -2, cell->column, cell->row, 10, 0);
 }
 
 void draw_cave_rubble(DrawCell *cell)
@@ -614,15 +617,24 @@ void draw_cave_rubble(DrawCell *cell)
 
 void draw_cave_rubble_pieces(DrawCell *cell)
 {
-    unsigned long draw;
+    AddImage draw;
 
-    Word pass = cell->pass;
-
-    draw = pass == 1 ? (unsigned long)AddFImgToFTable :
-           pass == 2 ? (unsigned long)AddBFImgToFTable :
-           pass == 5 ? (unsigned long)AddBFImgToBTable : 0;
+    switch (cell->pass) {
+    case 1:
+        draw = AddFImgToFTable;
+        break;
+    case 2:
+        draw = AddBFImgToFTable;
+        break;
+    case 5:
+        draw = AddBFImgToBTable;
+        break;
+    default:
+        draw = 0;
+        break;
+    }
     if (draw)
-        ((AddImage)draw)(14, -2, cell->column, cell->row, 10, 0);
+        draw(14, -2, cell->column, cell->row, 10, 0);
 }
 
 void draw_cave_rubble_torch(DrawCell *cell)

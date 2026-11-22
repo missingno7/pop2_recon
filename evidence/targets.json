@@ -71256,6 +71256,130 @@
       "original_name_evidence": [
         "evidence/modules.json anchors FM Towns CTRL.C @GrabTest via the common FallOn caller and the above/ahead-cell test."
       ]
+    },
+    {
+      "id": "overlay-2:2344:0000",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 0,
+      "size": 186,
+      "sha256": "8705ff7665e2c637a29a2a714335cfdc8125f4ae5930032ce8b9adc600ab13a7",
+      "abi": "Far Pascal, a word at BP+10 and a doubleword at BP+6/+8; RETF 6.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "This BP frame begins at the overlay-2 load address in relocation site frame 2344. The RTLink vector entry at 016c reaches it through PUSH CS; CALL at 025e..0261.",
+        "All return paths join the restore sequence at 00b1, with RETF 6 at 00b6 and one NOP at 00b9. The next reviewed routine starts at 00ba."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Reviewed original code; C source classification is inferred.",
+      "classification_evidence": [
+        "INIT overlay vector and MSC-shaped far Pascal calls, stack/return conventions and code generation."
+      ],
+      "semantic_name_hypothesis": "report_memory",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 607,
+          "file_offset": 156543,
+          "pushed_cs_site": 606
+        }
+      ]
+    },
+    {
+      "id": "overlay-2:2344:0356",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 854,
+      "size": 60,
+      "sha256": "f3b71e740a45974388a800f600de05a302844f95c3d639080ef19272dd51b506",
+      "abi": "Far Pascal, no arguments or result consumed by caller; RETF.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The reviewed RTLink vector destination at 016c reaches it through PUSH CS; CALL at 0243..0246.",
+        "The caller ends with RETF at 0354 and one NOP at 0355. The helper begins with the mode 5 argument and both fallback branches join the mode set at 0388. RETF at 0391 precedes the separately called BP frame at 0392."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Reviewed original code; C source classification is inferred.",
+      "classification_evidence": [
+        "INIT overlay vector and MSC-shaped far Pascal calls, stack/return conventions and code generation."
+      ],
+      "semantic_name_hypothesis": "init_graphics",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 580,
+          "file_offset": 156516,
+          "pushed_cs_site": 579
+        }
+      ]
+    },
+    {
+      "id": "overlay-2:2344:0392",
+      "space": "overlay-2",
+      "segment": 9028,
+      "offset": 914,
+      "size": 202,
+      "sha256": "95925c0182c9f8733e7f9d735ab4283b4d6175e294780b5b3e9a380c982d0c86",
+      "abi": "Far Pascal, near output word pointer in BP+6, unsigned doubleword result in DX:AX, RETF 2.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The reviewed RTLink vector destination at 016c reaches it through PUSH CS; CALL at 01d6..01d9.",
+        "The previous helper ends in RETF at 0391. The choice of driver joins the common DX:AX return at 044e, RETF 2 at 0458 and one NOP at 045b, before the reviewed entry at 045c."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "PLATFORM_C_HYPOTHESIS",
+      "classification_status": "Reviewed original code; C source classification is inferred.",
+      "classification_evidence": [
+        "INIT overlay vector and MSC-shaped far Pascal calls, stack/return conventions and code generation."
+      ],
+      "semantic_name_hypothesis": "choose_memory_pool",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-2",
+          "image_offset": 471,
+          "file_offset": 156407,
+          "pushed_cs_site": 470
+        }
+      ]
+    },
+    {
+      "id": "root:0000:14b7",
+      "space": "root",
+      "segment": 0,
+      "offset": 5303,
+      "size": 114,
+      "sha256": "4ddcded12d9f35e9e11d3160d2047f2213cb858075ba024d484abd95903f9f4f",
+      "abi": "Far call with no arguments; preserves ES and DS and returns with RETF. No return value is consumed.",
+      "boundary_status": "REVIEWED",
+      "boundary_evidence": [
+        "The RTLink vector into overlay-2:2344:016c reaches the relocated CALL FAR at overlay-2+0x247, whose complete operand is 0000:14b7 (overlay relocation 16).",
+        "Entry 14b7 follows the RETF at 14b6. The routine falls through the DOS vector reads and installs to restore DS/ES and RETF at 1528. The reviewed restore routine at 1529 starts immediately after it."
+      ],
+      "entry_kind": "direct-code",
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS interrupt setup; assembly origin inferred.",
+      "classification_evidence": [
+        "Direct INT 21h calls with AH=35h and AH=25h read and install vectors; PUSH CS/POP DS establishes the segment for the replacement interrupt entry offsets."
+      ],
+      "semantic_name_hypothesis": "install_interrupt_handlers",
+      "state": "ANALYZED",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "overlay-2",
+          "image_offset": 583,
+          "file_offset": 156519,
+          "relocated_segment_site": 586
+        }
+      ]
     }
   ],
   "schema": 1,

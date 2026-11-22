@@ -37,10 +37,11 @@ extern int wait_status(void);
 extern int check_video_mode(int mode);
 extern void set_video_mode(int mode);
 extern int find_option(const char far *);
-extern unsigned long query_pool(unsigned long pool);
-extern char far extended_pool[];
-extern char far expanded_pool[];
-extern void select_pool(unsigned long pool);
+typedef unsigned long (far pascal *MemoryDriver)(void);
+extern unsigned long extended_pool(void);
+extern unsigned long expanded_pool(void);
+extern unsigned long query_pool(MemoryDriver driver);
+extern void select_pool(MemoryDriver driver);
 extern int cdecl sprintf(char *, const char *, ...);
 extern char near *cdecl strcat(char near *, const char near *);
 extern int cdecl printf(const char *, ...);
@@ -112,7 +113,7 @@ void save_initial_setting(void)
 
 extern char himem_option[], data_filename[], window_title[], config_filename[];
 extern char device_filenames[];
-extern char video_error[], file_error[];
+extern char joystick_missing_message[], video_error[], file_error[];
 extern InputPoll timer_callback, video_callback, keyboard_callback;
 extern int timer_handler(void), video_handler(void), keyboard_handler(void), base_input(void);
 extern int draw_handler(void), window_handler(void);
@@ -126,7 +127,7 @@ extern void close_config(void);
 extern void near *cdecl malloc(unsigned int);
 extern void start_platform(void);
 extern void open_game_data(const char *);
-extern void init_resources(void);
+extern void install_interrupt_handlers(void);
 extern void wait_for_ticks(int);
 extern void enable_graphics(unsigned char);
 extern int open_screen_port(int, const char far *);
@@ -175,7 +176,7 @@ void init_system(void)
     start_platform();
     open_game_data(data_filename);
     init_graphics();
-    init_resources();
+    install_interrupt_handlers();
     wait_for_ticks(60);
     report_memory(memory_class, available);
     init_sound();
@@ -183,7 +184,7 @@ void init_system(void)
         enable_graphics(0);
     current_port = open_screen_port((int)screen_port, screen_geometry);
     init_video_driver();
-    main_port = current_port = make_window(-2, screen_geometry, 0, window_title);
+    current_port = main_port = make_window(-2, screen_geometry, 0, window_title);
     activate_window(main_port, 0);
     *(InputPoll *)((char *)main_port + 0x56) = window_handler;
     setup_palette();
@@ -192,7 +193,7 @@ void init_system(void)
     read_configuration(device_filenames);
     initialize_joystick();
     if (initial_setting != configuration->video) {
-        show_init_message(video_error);
+        show_init_message(joystick_missing_message);
         initial_setting = 0;
     }
     if (initial_setting != 2)
@@ -220,16 +221,16 @@ unsigned long choose_memory_pool(int *memory_class)
 
     *memory_class = 0;
     if (!find_option(memory_option)) {
-        extended = query_pool((unsigned long)extended_pool);
-        expanded = query_pool((unsigned long)expanded_pool);
+        extended = query_pool(extended_pool);
+        expanded = query_pool(expanded_pool);
         alternate_pool_available = extended || expanded;
         if (alternate_pool_available) {
             if (expanded < extended) {
-                select_pool((unsigned long)extended_pool);
+                select_pool(extended_pool);
                 available = extended;
                 *memory_class = 1;
             } else {
-                select_pool((unsigned long)expanded_pool);
+                select_pool(expanded_pool);
                 available = expanded;
                 *memory_class = 1;
             }
