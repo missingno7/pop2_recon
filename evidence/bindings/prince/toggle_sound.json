@@ -1,6 +1,8 @@
 {
   "declarations": {
     "externals": [
+      "ISLEVELSTARTWITHNISSCREEN",
+      "REFRESH_ROOM_SCREEN",
       "LOADCUSTOMROOMDATA",
       "KID_HP",
       "KID_MAXIMUM_HP",
@@ -74,9 +76,7 @@
       "ROOM_CONTROLS",
       "OPPONENT_INDEX",
       "SET_ROOM_REDRAW",
-      "JOYSTICK_STATUS",
-      "ISLEVELSTARTWITHNISSCREEN",
-      "REFRESH_ROOM_SCREEN"
+      "JOYSTICK_STATUS"
     ],
     "groups": [
       {
@@ -109,12 +109,48 @@
       },
       {
         "frame": null,
+        "group_index": 1,
+        "name": "PRINCE_PAUSE_MESSAGE",
+        "offset": 256,
+        "segment": "_DATA",
+        "segment_index": 2,
+        "type_index": 615
+      },
+      {
+        "frame": null,
+        "group_index": 1,
+        "name": "PRINCE_PRESS_BUTTON_MESSAGE",
+        "offset": 64,
+        "segment": "_DATA",
+        "segment_index": 2,
+        "type_index": 528
+      },
+      {
+        "frame": null,
         "group_index": 0,
         "name": "KEEPTIME",
         "offset": 610,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
         "type_index": 579
+      },
+      {
+        "frame": null,
+        "group_index": 1,
+        "name": "PRINCE_PRESS_KEY_MESSAGE",
+        "offset": 90,
+        "segment": "_DATA",
+        "segment_index": 2,
+        "type_index": 521
+      },
+      {
+        "frame": null,
+        "group_index": 1,
+        "name": "PRINCE_AUDIO_MESSAGES",
+        "offset": 112,
+        "segment": "_DATA",
+        "segment_index": 2,
+        "type_index": 531
       },
       {
         "frame": null,
@@ -191,7 +227,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 242,
+        "length": 268,
         "name": "_DATA",
         "overlay": "",
         "use32": false
@@ -227,7 +263,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1258,
+        "length": 1419,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -239,7 +275,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1296,
+        "length": 1265,
         "name": "$$TYPES",
         "overlay": "",
         "use32": false
@@ -263,7 +299,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 57,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SET_OPTIONS_FROM_DISK",
@@ -277,7 +313,7 @@
       "segment_offset": 33,
       "self_relative": false,
       "target": {
-        "index": 57,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SET_OPTIONS_FROM_DISK",
@@ -290,7 +326,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 54,
+          "index": 56,
           "kind": "external",
           "method": 6,
           "name": "SET_SOUND_VOLUME",
@@ -304,7 +340,7 @@
       "segment_offset": 26,
       "self_relative": false,
       "target": {
-        "index": 54,
+        "index": 56,
         "kind": "external",
         "method": 6,
         "name": "SET_SOUND_VOLUME",
@@ -317,7 +353,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 54,
+          "index": 56,
           "kind": "external",
           "method": 6,
           "name": "SET_SOUND_VOLUME",
@@ -331,7 +367,7 @@
       "segment_offset": 12,
       "self_relative": false,
       "target": {
-        "index": 54,
+        "index": 56,
         "kind": "external",
         "method": 6,
         "name": "SET_SOUND_VOLUME",
@@ -344,7 +380,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 49,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "SOUND_VOLUME",
@@ -358,7 +394,7 @@
       "segment_offset": 3,
       "self_relative": false,
       "target": {
-        "index": 49,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "SOUND_VOLUME",
@@ -371,7 +407,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 69,
           "kind": "external",
           "method": 6,
           "name": "GAMEPORT_STATE",
@@ -385,7 +421,7 @@
       "segment_offset": 114,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 69,
         "kind": "external",
         "method": 6,
         "name": "GAMEPORT_STATE",
@@ -398,7 +434,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 67,
           "kind": "external",
           "method": 6,
           "name": "GAME_OPTIONS",
@@ -412,7 +448,7 @@
       "segment_offset": 108,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 67,
         "kind": "external",
         "method": 6,
         "name": "GAME_OPTIONS",
@@ -425,7 +461,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 66,
+          "index": 68,
           "kind": "external",
           "method": 6,
           "name": "CONTROL_MODE",
@@ -439,7 +475,7 @@
       "segment_offset": 104,
       "self_relative": false,
       "target": {
-        "index": 66,
+        "index": 68,
         "kind": "external",
         "method": 6,
         "name": "CONTROL_MODE",
@@ -474,7 +510,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 67,
           "kind": "external",
           "method": 6,
           "name": "GAME_OPTIONS",
@@ -488,7 +524,7 @@
       "segment_offset": 88,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 67,
         "kind": "external",
         "method": 6,
         "name": "GAME_OPTIONS",
@@ -501,7 +537,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 66,
+          "index": 68,
           "kind": "external",
           "method": 6,
           "name": "CONTROL_MODE",
@@ -515,7 +551,7 @@
       "segment_offset": 84,
       "self_relative": false,
       "target": {
-        "index": 66,
+        "index": 68,
         "kind": "external",
         "method": 6,
         "name": "CONTROL_MODE",
@@ -550,7 +586,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "DETECT_GAMEPORT",
@@ -564,7 +600,7 @@
       "segment_offset": 69,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "DETECT_GAMEPORT",
@@ -599,7 +635,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 67,
           "kind": "external",
           "method": 6,
           "name": "GAME_OPTIONS",
@@ -613,7 +649,7 @@
       "segment_offset": 52,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 67,
         "kind": "external",
         "method": 6,
         "name": "GAME_OPTIONS",
@@ -626,7 +662,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 64,
+          "index": 66,
           "kind": "external",
           "method": 6,
           "name": "AVAILABLE_DEVICES",
@@ -640,7 +676,7 @@
       "segment_offset": 45,
       "self_relative": false,
       "target": {
-        "index": 64,
+        "index": 66,
         "kind": "external",
         "method": 6,
         "name": "AVAILABLE_DEVICES",
@@ -653,7 +689,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 18,
+          "index": 20,
           "kind": "external",
           "method": 6,
           "name": "ADD_LAVA_TROB",
@@ -667,7 +703,7 @@
       "segment_offset": 468,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "ADD_LAVA_TROB",
@@ -680,7 +716,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "ADD_LATER_ROOM_TROB",
@@ -694,7 +730,7 @@
       "segment_offset": 450,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "ADD_LATER_ROOM_TROB",
@@ -707,7 +743,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 59,
+          "index": 61,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_FLAGS",
@@ -721,7 +757,7 @@
       "segment_offset": 433,
       "self_relative": false,
       "target": {
-        "index": 59,
+        "index": 61,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_FLAGS",
@@ -734,7 +770,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 58,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_LEVEL_NUMBER",
@@ -748,7 +784,7 @@
       "segment_offset": 423,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 58,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_LEVEL_NUMBER",
@@ -761,7 +797,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 42,
+          "index": 44,
           "kind": "external",
           "method": 6,
           "name": "ADD_SIXTH_ROOM_TROB",
@@ -775,7 +811,7 @@
       "segment_offset": 399,
       "self_relative": false,
       "target": {
-        "index": 42,
+        "index": 44,
         "kind": "external",
         "method": 6,
         "name": "ADD_SIXTH_ROOM_TROB",
@@ -788,7 +824,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 59,
+          "index": 61,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_FLAGS",
@@ -802,7 +838,7 @@
       "segment_offset": 385,
       "self_relative": false,
       "target": {
-        "index": 59,
+        "index": 61,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_FLAGS",
@@ -815,7 +851,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 58,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_LEVEL_NUMBER",
@@ -829,7 +865,7 @@
       "segment_offset": 378,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 58,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_LEVEL_NUMBER",
@@ -1815,7 +1851,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 18,
           "kind": "external",
           "method": 6,
           "name": "TILE_TYPE_EXTENDED",
@@ -1829,7 +1865,7 @@
       "segment_offset": 259,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "TILE_TYPE_EXTENDED",
@@ -1842,7 +1878,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROOM_EXTENSIONS",
@@ -1856,7 +1892,7 @@
       "segment_offset": 246,
       "self_relative": false,
       "target": {
-        "index": 61,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROOM_EXTENSIONS",
@@ -1869,7 +1905,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "TILE_TYPE",
@@ -1883,7 +1919,7 @@
       "segment_offset": 227,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "TILE_TYPE",
@@ -1896,7 +1932,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "LOAD_ROOM_TILES",
@@ -1910,7 +1946,7 @@
       "segment_offset": 207,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "LOAD_ROOM_TILES",
@@ -1923,7 +1959,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 53,
+          "index": 55,
           "kind": "external",
           "method": 6,
           "name": "RIGHT_ROOM",
@@ -1937,7 +1973,7 @@
       "segment_offset": 200,
       "self_relative": false,
       "target": {
-        "index": 53,
+        "index": 55,
         "kind": "external",
         "method": 6,
         "name": "RIGHT_ROOM",
@@ -1950,7 +1986,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 53,
+          "index": 55,
           "kind": "external",
           "method": 6,
           "name": "RIGHT_ROOM",
@@ -1964,7 +2000,7 @@
       "segment_offset": 194,
       "self_relative": false,
       "target": {
-        "index": 53,
+        "index": 55,
         "kind": "external",
         "method": 6,
         "name": "RIGHT_ROOM",
@@ -1977,7 +2013,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "LOAD_ROOM_TILES",
@@ -1991,7 +2027,7 @@
       "segment_offset": 183,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "LOAD_ROOM_TILES",
@@ -2004,7 +2040,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 53,
           "kind": "external",
           "method": 6,
           "name": "LEFT_ROOM",
@@ -2018,7 +2054,7 @@
       "segment_offset": 176,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 53,
         "kind": "external",
         "method": 6,
         "name": "LEFT_ROOM",
@@ -2031,7 +2067,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 53,
           "kind": "external",
           "method": 6,
           "name": "LEFT_ROOM",
@@ -2045,7 +2081,7 @@
       "segment_offset": 167,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 53,
         "kind": "external",
         "method": 6,
         "name": "LEFT_ROOM",
@@ -2058,7 +2094,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ROOM",
@@ -2072,7 +2108,7 @@
       "segment_offset": 141,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ROOM",
@@ -2085,7 +2121,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "CLEAR_TROBS",
@@ -2099,7 +2135,7 @@
       "segment_offset": 136,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "CLEAR_TROBS",
@@ -2112,7 +2148,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "LOAD_ROOM_TILES",
@@ -2126,7 +2162,7 @@
       "segment_offset": 600,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "LOAD_ROOM_TILES",
@@ -2139,7 +2175,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ROOM",
@@ -2153,7 +2189,7 @@
       "segment_offset": 596,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ROOM",
@@ -2166,7 +2202,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 39,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "ADD_SPECIAL_ROOM_TROB",
@@ -2180,7 +2216,7 @@
       "segment_offset": 579,
       "self_relative": false,
       "target": {
-        "index": 39,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "ADD_SPECIAL_ROOM_TROB",
@@ -2193,7 +2229,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 37,
+          "index": 39,
           "kind": "external",
           "method": 6,
           "name": "ADD_SPECIAL_GATE",
@@ -2207,7 +2243,7 @@
       "segment_offset": 564,
       "self_relative": false,
       "target": {
-        "index": 37,
+        "index": 39,
         "kind": "external",
         "method": 6,
         "name": "ADD_SPECIAL_GATE",
@@ -2220,7 +2256,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 31,
+          "index": 33,
           "kind": "external",
           "method": 6,
           "name": "ADD_CRUMBLE_TROB",
@@ -2234,7 +2270,7 @@
       "segment_offset": 546,
       "self_relative": false,
       "target": {
-        "index": 31,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "ADD_CRUMBLE_TROB",
@@ -2247,7 +2283,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "ADD_LOOSE_TROB",
@@ -2261,7 +2297,7 @@
       "segment_offset": 524,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "ADD_LOOSE_TROB",
@@ -2274,7 +2310,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "ADD_CHOMPER_TROB",
@@ -2288,7 +2324,7 @@
       "segment_offset": 503,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "ADD_CHOMPER_TROB",
@@ -2301,7 +2337,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 19,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "ADD_TORCH_TROB",
@@ -2315,7 +2351,7 @@
       "segment_offset": 488,
       "self_relative": false,
       "target": {
-        "index": 19,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "ADD_TORCH_TROB",
@@ -2328,7 +2364,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "COUNTDOWN_PENDING",
@@ -2342,7 +2378,7 @@
       "segment_offset": 880,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "COUNTDOWN_PENDING",
@@ -2355,7 +2391,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "MESSAGE_TICKS",
@@ -2369,7 +2405,7 @@
       "segment_offset": 876,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "MESSAGE_TICKS",
@@ -2382,7 +2418,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 30,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "MESSAGE_DURATION",
@@ -2396,7 +2432,7 @@
       "segment_offset": 873,
       "self_relative": false,
       "target": {
-        "index": 30,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "MESSAGE_DURATION",
@@ -2409,7 +2445,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "DRAWMESSAGE",
@@ -2423,7 +2459,7 @@
       "segment_offset": 865,
       "self_relative": false,
       "target": {
-        "index": 36,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "DRAWMESSAGE",
@@ -2458,7 +2494,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "_sprintf",
@@ -2472,7 +2508,7 @@
       "segment_offset": 847,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "_sprintf",
@@ -2507,7 +2543,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -2521,7 +2557,7 @@
       "segment_offset": 836,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -2578,7 +2614,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "TICKS_REMAINING",
@@ -2592,7 +2628,7 @@
       "segment_offset": 778,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "TICKS_REMAINING",
@@ -2605,7 +2641,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -2619,7 +2655,7 @@
       "segment_offset": 772,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -2632,7 +2668,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -2646,7 +2682,7 @@
       "segment_offset": 765,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -2659,7 +2695,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "COUNTDOWN_PENDING",
@@ -2673,7 +2709,7 @@
       "segment_offset": 758,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "COUNTDOWN_PENDING",
@@ -2686,7 +2722,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "DEFERRED_ROOM",
@@ -2700,7 +2736,7 @@
       "segment_offset": 746,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "DEFERRED_ROOM",
@@ -2713,7 +2749,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 34,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "ROOM_NUMBER",
@@ -2727,7 +2763,7 @@
       "segment_offset": 742,
       "self_relative": false,
       "target": {
-        "index": 34,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "ROOM_NUMBER",
@@ -2740,7 +2776,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "DEFERRED_ROOM",
@@ -2754,7 +2790,7 @@
       "segment_offset": 739,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "DEFERRED_ROOM",
@@ -2767,7 +2803,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "DEFERRED_ROOM",
@@ -2781,7 +2817,7 @@
       "segment_offset": 733,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "DEFERRED_ROOM",
@@ -2794,7 +2830,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "MESSAGE_TICKS",
@@ -2808,7 +2844,7 @@
       "segment_offset": 723,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "MESSAGE_TICKS",
@@ -2821,7 +2857,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "MESSAGE_TICKS",
@@ -2835,7 +2871,7 @@
       "segment_offset": 719,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "MESSAGE_TICKS",
@@ -2848,7 +2884,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 30,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "MESSAGE_DURATION",
@@ -2862,7 +2898,7 @@
       "segment_offset": 716,
       "self_relative": false,
       "target": {
-        "index": 30,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "MESSAGE_DURATION",
@@ -2875,7 +2911,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "COUNTDOWN_PENDING",
@@ -2889,7 +2925,7 @@
       "segment_offset": 709,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "COUNTDOWN_PENDING",
@@ -2902,7 +2938,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "TICKS_REMAINING",
@@ -2916,7 +2952,7 @@
       "segment_offset": 694,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "TICKS_REMAINING",
@@ -2929,7 +2965,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -2943,7 +2979,7 @@
       "segment_offset": 688,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -2956,7 +2992,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "COUNTDOWN_PENDING",
@@ -2970,7 +3006,7 @@
       "segment_offset": 679,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "COUNTDOWN_PENDING",
@@ -2983,7 +3019,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -2997,7 +3033,7 @@
       "segment_offset": 665,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -3010,7 +3046,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -3024,7 +3060,7 @@
       "segment_offset": 659,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -3037,7 +3073,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "MINUTES_REMAINING",
@@ -3051,7 +3087,7 @@
       "segment_offset": 653,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -3064,7 +3100,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "TICKS_REMAINING",
@@ -3078,7 +3114,34 @@
       "segment_offset": 647,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 30,
+        "kind": "external",
+        "method": 6,
+        "name": "TICKS_REMAINING",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 30,
+          "kind": "external",
+          "method": 6,
+          "name": "TICKS_REMAINING",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 641,
+      "self_relative": false,
+      "target": {
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "TICKS_REMAINING",
@@ -3094,33 +3157,6 @@
           "index": 28,
           "kind": "external",
           "method": 6,
-          "name": "TICKS_REMAINING",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 641,
-      "self_relative": false,
-      "target": {
-        "index": 28,
-        "kind": "external",
-        "method": 6,
-        "name": "TICKS_REMAINING",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 26,
-          "kind": "external",
-          "method": 6,
           "name": "MINUTES_REMAINING",
           "zero_displacement": true
         }
@@ -3132,7 +3168,7 @@
       "segment_offset": 634,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "MINUTES_REMAINING",
@@ -3145,7 +3181,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "KID_LIFE",
@@ -3159,7 +3195,7 @@
       "segment_offset": 627,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "KID_LIFE",
@@ -3172,7 +3208,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 23,
+          "index": 25,
           "kind": "external",
           "method": 6,
           "name": "TIMER_DISABLED",
@@ -3186,7 +3222,7 @@
       "segment_offset": 620,
       "self_relative": false,
       "target": {
-        "index": 23,
+        "index": 25,
         "kind": "external",
         "method": 6,
         "name": "TIMER_DISABLED",
@@ -3199,7 +3235,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 76,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "REFRESH_ROOM_SCREEN",
@@ -3213,7 +3249,7 @@
       "segment_offset": 943,
       "self_relative": false,
       "target": {
-        "index": 76,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "REFRESH_ROOM_SCREEN",
@@ -3226,7 +3262,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 75,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "ISLEVELSTARTWITHNISSCREEN",
@@ -3240,7 +3276,7 @@
       "segment_offset": 934,
       "self_relative": false,
       "target": {
-        "index": 75,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "ISLEVELSTARTWITHNISSCREEN",
@@ -3253,7 +3289,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "SET_ROOM_REDRAW",
@@ -3267,7 +3303,7 @@
       "segment_offset": 923,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "SET_ROOM_REDRAW",
@@ -3280,7 +3316,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ROOM",
@@ -3294,331 +3330,7 @@
       "segment_offset": 920,
       "self_relative": false,
       "target": {
-        "index": 48,
-        "kind": "external",
-        "method": 6,
-        "name": "CURRENT_ROOM",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 69,
-          "kind": "external",
-          "method": 6,
-          "name": "NEXT_ROOM",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 917,
-      "self_relative": false,
-      "target": {
-        "index": 69,
-        "kind": "external",
-        "method": 6,
-        "name": "NEXT_ROOM",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 69,
-          "kind": "external",
-          "method": 6,
-          "name": "NEXT_ROOM",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 912,
-      "self_relative": false,
-      "target": {
-        "index": 69,
-        "kind": "external",
-        "method": 6,
-        "name": "NEXT_ROOM",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 69,
-          "kind": "external",
-          "method": 6,
-          "name": "NEXT_ROOM",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 902,
-      "self_relative": false,
-      "target": {
-        "index": 69,
-        "kind": "external",
-        "method": 6,
-        "name": "NEXT_ROOM",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 48,
-          "kind": "external",
-          "method": 6,
-          "name": "CURRENT_ROOM",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 898,
-      "self_relative": false,
-      "target": {
-        "index": 48,
-        "kind": "external",
-        "method": 6,
-        "name": "CURRENT_ROOM",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 72,
-          "kind": "external",
-          "method": 6,
-          "name": "OPPONENT_INDEX",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 1041,
-      "self_relative": false,
-      "target": {
-        "index": 72,
-        "kind": "external",
-        "method": 6,
-        "name": "OPPONENT_INDEX",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 15,
-          "kind": "external",
-          "method": 6,
-          "name": "SET_ROOM_OPPONENTS",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 1036,
-      "self_relative": false,
-      "target": {
-        "index": 15,
-        "kind": "external",
-        "method": 6,
-        "name": "SET_ROOM_OPPONENTS",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 7,
-          "kind": "external",
-          "method": 6,
-          "name": "CHANGE_ROOM_SOUND",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 1025,
-      "self_relative": false,
-      "target": {
-        "index": 7,
-        "kind": "external",
-        "method": 6,
-        "name": "CHANGE_ROOM_SOUND",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 20,
-          "kind": "external",
-          "method": 6,
-          "name": "ROOM_SETTINGS",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 1009,
-      "self_relative": false,
-      "target": {
-        "index": 20,
-        "kind": "external",
-        "method": 6,
-        "name": "ROOM_SETTINGS",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 48,
-          "kind": "external",
-          "method": 6,
-          "name": "CURRENT_ROOM",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 1003,
-      "self_relative": false,
-      "target": {
-        "index": 48,
-        "kind": "external",
-        "method": 6,
-        "name": "CURRENT_ROOM",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 13,
-          "kind": "external",
-          "method": 6,
-          "name": "RESET_ROOM_CHARACTERS",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 995,
-      "self_relative": false,
-      "target": {
-        "index": 13,
-        "kind": "external",
-        "method": 6,
-        "name": "RESET_ROOM_CHARACTERS",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 4,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 11,
-          "kind": "external",
-          "method": 6,
-          "name": "LOAD_ROOM_EFFECTS",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 3,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 990,
-      "self_relative": false,
-      "target": {
-        "index": 11,
-        "kind": "external",
-        "method": 6,
-        "name": "LOAD_ROOM_EFFECTS",
-        "zero_displacement": true
-      }
-    },
-    {
-      "displacement": null,
-      "field_width": 2,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "index": 48,
-          "kind": "external",
-          "method": 6,
-          "name": "CURRENT_ROOM",
-          "zero_displacement": true
-        }
-      },
-      "kind": "fixup",
-      "loc_type": 1,
-      "segment": "UNIT_TEXT",
-      "segment_index": 1,
-      "segment_offset": 986,
-      "self_relative": false,
-      "target": {
-        "index": 48,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ROOM",
@@ -3634,6 +3346,330 @@
           "index": 71,
           "kind": "external",
           "method": 6,
+          "name": "NEXT_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 917,
+      "self_relative": false,
+      "target": {
+        "index": 71,
+        "kind": "external",
+        "method": 6,
+        "name": "NEXT_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 71,
+          "kind": "external",
+          "method": 6,
+          "name": "NEXT_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 912,
+      "self_relative": false,
+      "target": {
+        "index": 71,
+        "kind": "external",
+        "method": 6,
+        "name": "NEXT_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 71,
+          "kind": "external",
+          "method": 6,
+          "name": "NEXT_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 902,
+      "self_relative": false,
+      "target": {
+        "index": 71,
+        "kind": "external",
+        "method": 6,
+        "name": "NEXT_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 50,
+          "kind": "external",
+          "method": 6,
+          "name": "CURRENT_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 898,
+      "self_relative": false,
+      "target": {
+        "index": 50,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 74,
+          "kind": "external",
+          "method": 6,
+          "name": "OPPONENT_INDEX",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1041,
+      "self_relative": false,
+      "target": {
+        "index": 74,
+        "kind": "external",
+        "method": 6,
+        "name": "OPPONENT_INDEX",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 17,
+          "kind": "external",
+          "method": 6,
+          "name": "SET_ROOM_OPPONENTS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1036,
+      "self_relative": false,
+      "target": {
+        "index": 17,
+        "kind": "external",
+        "method": 6,
+        "name": "SET_ROOM_OPPONENTS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 9,
+          "kind": "external",
+          "method": 6,
+          "name": "CHANGE_ROOM_SOUND",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1025,
+      "self_relative": false,
+      "target": {
+        "index": 9,
+        "kind": "external",
+        "method": 6,
+        "name": "CHANGE_ROOM_SOUND",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 22,
+          "kind": "external",
+          "method": 6,
+          "name": "ROOM_SETTINGS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1009,
+      "self_relative": false,
+      "target": {
+        "index": 22,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_SETTINGS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 50,
+          "kind": "external",
+          "method": 6,
+          "name": "CURRENT_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1003,
+      "self_relative": false,
+      "target": {
+        "index": 50,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 15,
+          "kind": "external",
+          "method": 6,
+          "name": "RESET_ROOM_CHARACTERS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 995,
+      "self_relative": false,
+      "target": {
+        "index": 15,
+        "kind": "external",
+        "method": 6,
+        "name": "RESET_ROOM_CHARACTERS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 13,
+          "kind": "external",
+          "method": 6,
+          "name": "LOAD_ROOM_EFFECTS",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 990,
+      "self_relative": false,
+      "target": {
+        "index": 13,
+        "kind": "external",
+        "method": 6,
+        "name": "LOAD_ROOM_EFFECTS",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 50,
+          "kind": "external",
+          "method": 6,
+          "name": "CURRENT_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 986,
+      "self_relative": false,
+      "target": {
+        "index": 50,
+        "kind": "external",
+        "method": 6,
+        "name": "CURRENT_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 73,
+          "kind": "external",
+          "method": 6,
           "name": "ROOM_CONTROLS",
           "zero_displacement": true
         }
@@ -3645,7 +3681,7 @@
       "segment_offset": 974,
       "self_relative": false,
       "target": {
-        "index": 71,
+        "index": 73,
         "kind": "external",
         "method": 6,
         "name": "ROOM_CONTROLS",
@@ -3658,7 +3694,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 63,
+          "index": 65,
           "kind": "external",
           "method": 6,
           "name": "ADD_ROOM_TROBS",
@@ -3672,7 +3708,7 @@
       "segment_offset": 969,
       "self_relative": true,
       "target": {
-        "index": 63,
+        "index": 65,
         "kind": "external",
         "method": 6,
         "name": "ADD_ROOM_TROBS",
@@ -3685,7 +3721,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 17,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "CTRLPLAYER",
@@ -3699,7 +3735,7 @@
       "segment_offset": 963,
       "self_relative": false,
       "target": {
-        "index": 17,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "CTRLPLAYER",
@@ -3712,7 +3748,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 70,
+          "index": 72,
           "kind": "external",
           "method": 6,
           "name": "ROOM_TRANSITION_ACTIVE",
@@ -3726,7 +3762,7 @@
       "segment_offset": 958,
       "self_relative": false,
       "target": {
-        "index": 70,
+        "index": 72,
         "kind": "external",
         "method": 6,
         "name": "ROOM_TRANSITION_ACTIVE",
@@ -3739,7 +3775,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "LOADCUSTOMROOMDATA",
@@ -3753,7 +3789,7 @@
       "segment_offset": 952,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "LOADCUSTOMROOMDATA",
@@ -3766,7 +3802,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ROOM",
@@ -3780,7 +3816,7 @@
       "segment_offset": 948,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ROOM",
@@ -3793,7 +3829,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "UPDATE_STEP_DELTA",
@@ -3807,7 +3843,7 @@
       "segment_offset": 1072,
       "self_relative": true,
       "target": {
-        "index": 55,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "UPDATE_STEP_DELTA",
@@ -3820,7 +3856,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "STATE_BYTE",
@@ -3834,7 +3870,7 @@
       "segment_offset": 1068,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "STATE_BYTE",
@@ -3847,7 +3883,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "STATE_BYTE",
@@ -3861,7 +3897,7 @@
       "segment_offset": 1055,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "STATE_BYTE",
@@ -3874,7 +3910,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "STATE_DELTA",
@@ -3888,7 +3924,7 @@
       "segment_offset": 1084,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "STATE_DELTA",
@@ -3901,7 +3937,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "STATE_BASE",
@@ -3915,7 +3951,7 @@
       "segment_offset": 1081,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "STATE_BASE",
@@ -3928,7 +3964,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "STATE_BYTE",
@@ -3942,7 +3978,7 @@
       "segment_offset": 1077,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "STATE_BYTE",
@@ -3955,7 +3991,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "DRAWOPPMETER",
@@ -3969,7 +4005,7 @@
       "segment_offset": 1295,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "DRAWOPPMETER",
@@ -3982,7 +4018,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "STATE_BYTE",
@@ -3996,7 +4032,7 @@
       "segment_offset": 1290,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "STATE_BYTE",
@@ -4009,7 +4045,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4023,7 +4059,7 @@
       "segment_offset": 1283,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4036,7 +4072,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4050,7 +4086,7 @@
       "segment_offset": 1272,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4063,7 +4099,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "TICKS_REMAINING",
@@ -4077,7 +4113,7 @@
       "segment_offset": 1266,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "TICKS_REMAINING",
@@ -4090,7 +4126,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4104,7 +4140,7 @@
       "segment_offset": 1259,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4117,7 +4153,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4131,7 +4167,7 @@
       "segment_offset": 1252,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4144,7 +4180,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4158,7 +4194,7 @@
       "segment_offset": 1245,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4171,7 +4207,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "STATE_BASE",
@@ -4185,7 +4221,7 @@
       "segment_offset": 1238,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "STATE_BASE",
@@ -4198,7 +4234,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "DRAWOPPMETER",
@@ -4212,7 +4248,7 @@
       "segment_offset": 1232,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "DRAWOPPMETER",
@@ -4225,7 +4261,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "STATE_BYTE",
@@ -4239,7 +4275,7 @@
       "segment_offset": 1227,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "STATE_BYTE",
@@ -4252,7 +4288,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "STATE_BASE",
@@ -4266,7 +4302,7 @@
       "segment_offset": 1222,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "STATE_BASE",
@@ -4279,7 +4315,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4293,7 +4329,7 @@
       "segment_offset": 1218,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4306,7 +4342,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4320,7 +4356,7 @@
       "segment_offset": 1212,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4333,7 +4369,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4347,7 +4383,7 @@
       "segment_offset": 1205,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4360,7 +4396,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4374,7 +4410,7 @@
       "segment_offset": 1198,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4387,7 +4423,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "STATE_DELTA",
@@ -4401,7 +4437,7 @@
       "segment_offset": 1191,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "STATE_DELTA",
@@ -4414,7 +4450,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 34,
           "kind": "external",
           "method": 6,
           "name": "SELECT_CHARACTER",
@@ -4428,7 +4464,7 @@
       "segment_offset": 1185,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 34,
         "kind": "external",
         "method": 6,
         "name": "SELECT_CHARACTER",
@@ -4441,7 +4477,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_INDEX",
@@ -4455,7 +4491,7 @@
       "segment_offset": 1181,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_INDEX",
@@ -4468,7 +4504,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_INDEX",
@@ -4482,7 +4518,7 @@
       "segment_offset": 1175,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_INDEX",
@@ -4495,7 +4531,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4509,7 +4545,7 @@
       "segment_offset": 1164,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4522,7 +4558,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -4536,7 +4572,7 @@
       "segment_offset": 1159,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -4549,7 +4585,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "DRAWKIDMETER",
@@ -4563,7 +4599,7 @@
       "segment_offset": 1154,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "DRAWKIDMETER",
@@ -4576,7 +4612,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "VIDEO_TICKS",
@@ -4590,7 +4626,7 @@
       "segment_offset": 1125,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "VIDEO_TICKS",
@@ -4603,7 +4639,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "STATE_BASE",
@@ -4617,7 +4653,7 @@
       "segment_offset": 1119,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "STATE_BASE",
@@ -4630,7 +4666,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "DRAWKIDMETER",
@@ -4644,7 +4680,7 @@
       "segment_offset": 1113,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "DRAWKIDMETER",
@@ -4657,7 +4693,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "STATE_BYTE",
@@ -4671,7 +4707,7 @@
       "segment_offset": 1108,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "STATE_BYTE",
@@ -4684,7 +4720,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "STATE_BASE",
@@ -4698,7 +4734,7 @@
       "segment_offset": 1103,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "STATE_BASE",
@@ -4711,7 +4747,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "STATE_DELTA",
@@ -4725,7 +4761,7 @@
       "segment_offset": 1097,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "STATE_DELTA",
@@ -4738,7 +4774,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 17,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "CTRLPLAYER",
@@ -4752,7 +4788,7 @@
       "segment_offset": 1091,
       "self_relative": false,
       "target": {
-        "index": 17,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "CTRLPLAYER",
@@ -4765,7 +4801,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_METERS",
@@ -4779,7 +4815,7 @@
       "segment_offset": 1394,
       "self_relative": false,
       "target": {
-        "index": 8,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_METERS",
@@ -4792,7 +4828,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 22,
           "kind": "external",
           "method": 6,
           "name": "ROOM_SETTINGS",
@@ -4806,7 +4842,7 @@
       "segment_offset": 1373,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 22,
         "kind": "external",
         "method": 6,
         "name": "ROOM_SETTINGS",
@@ -4819,7 +4855,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ROOM",
@@ -4833,7 +4869,7 @@
       "segment_offset": 1367,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ROOM",
@@ -4846,7 +4882,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "KID_HP",
@@ -4860,7 +4896,7 @@
       "segment_offset": 1357,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "KID_HP",
@@ -4873,7 +4909,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 5,
           "kind": "external",
           "method": 6,
           "name": "KID_MAXIMUM_HP",
@@ -4887,7 +4923,7 @@
       "segment_offset": 1345,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "KID_MAXIMUM_HP",
@@ -4900,7 +4936,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "KID_HP",
@@ -4914,7 +4950,7 @@
       "segment_offset": 1335,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "KID_HP",
@@ -4927,7 +4963,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "KID_HP_CHANGE",
@@ -4941,7 +4977,7 @@
       "segment_offset": 1329,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "KID_HP_CHANGE",
@@ -4954,7 +4990,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "REFRESH_METER_ANIMATION",
@@ -4968,7 +5004,7 @@
       "segment_offset": 1324,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "REFRESH_METER_ANIMATION",
@@ -4981,7 +5017,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 8,
           "kind": "external",
           "method": 6,
           "name": "KID_METER_MODE",
@@ -4995,7 +5031,7 @@
       "segment_offset": 1318,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 8,
         "kind": "external",
         "method": 6,
         "name": "KID_METER_MODE",
@@ -5008,7 +5044,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "KID_HP_CHANGE",
@@ -5022,7 +5058,7 @@
       "segment_offset": 1311,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "KID_HP_CHANGE",

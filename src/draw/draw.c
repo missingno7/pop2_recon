@@ -1570,8 +1570,8 @@ void sort_fore_table(void)
 
 extern DrawRect message_rect;
 extern int suppress_restart, restart_style, message_timeout, message_counter;
-extern char restart_message_a[];
-static char restart_message_b[] = "PRESS KEY TO CONTINUE";
+extern char prince_press_button_message[];
+extern char prince_press_key_message[];
 extern void clear_message(int reset_timer);
 extern void clear_life_bar(void);
 extern void paint_text(DrawRect far *area, int color, int mode, const char far *text);
@@ -1600,9 +1600,9 @@ void draw_restart_message(void)
         inset_rect(&area, &message_rect, -message_rect.left, 0);
         area.right = 320;
         if (restart_style == 2)
-            paint_text(&area, 0, 1, restart_message_a);
+            paint_text(&area, 0, 1, prince_press_button_message);
         else
-            paint_text(&area, 0, 1, restart_message_b);
+            paint_text(&area, 0, 1, prince_press_key_message);
     }
 }
 

@@ -11,22 +11,23 @@ struct JoystickMessages {
     char missing[20];
 };
 
-/* The original initialized message pool is contiguous in preloaded DGROUP.
- * Fixed member sizes retain the even-aligned strings and their terminators. */
-static struct {
-    struct CountdownMessages countdown;
-    char press_button[26];
-    char press_key[22];
+/* Adjacent message data in the original DGROUP, with even-aligned strings. */
+static struct CountdownMessages countdown_messages = {
+    "1 SECOND LEFT", "%d SECONDS LEFT", "%d MINUTES LEFT", "TIME HAS EXPIRED!"
+};
+char prince_press_button_message[26] = "PRESS BUTTON TO CONTINUE";
+char prince_press_key_message[22] = "PRESS KEY TO CONTINUE";
+
+struct PrinceAudioMessages {
     char sound_on[10];
     char sound_off[10];
     char ambient_on[18];
     char ambient_off[18];
     char music_unavailable[18];
     struct JoystickMessages joystick;
-} prince_messages = {
-    { "1 SECOND LEFT", "%d SECONDS LEFT", "%d MINUTES LEFT", "TIME HAS EXPIRED!" },
-    "PRESS BUTTON TO CONTINUE",
-    "PRESS KEY TO CONTINUE",
+};
+
+struct PrinceAudioMessages prince_audio_messages = {
     "Sound On",
     "Sound Off",
     "Ambient Music On",
@@ -34,6 +35,7 @@ static struct {
     "Music Unavailable",
     { "Joystick Unavailable", "Joystick Mode", "Joystick Not Found" }
 };
+
 
 extern signed char sound_volume;
 extern void far pascal set_sound_volume(signed char level);
@@ -73,12 +75,12 @@ char *far pascal joystick_status(void)
 {
     char *message;
     if ((available_devices & 1) && game_options->buttons == 32) {
-        message = prince_messages.joystick.unavailable;
+        message = prince_audio_messages.joystick.unavailable;
     } else if (detect_gameport()) {
-        message = prince_messages.joystick.mode;
+        message = prince_audio_messages.joystick.mode;
         game_options->control_mode = control_mode = 2;
     } else {
-        message = prince_messages.joystick.missing;
+        message = prince_audio_messages.joystick.missing;
         game_options->control_mode = control_mode = 0;
         memset(gameport_state, 0, sizeof(gameport_state));
     }
@@ -231,15 +233,15 @@ void far pascal KeepTime(void)
             if (minutes_remaining == 1) {
                 seconds = (ticks_remaining + 1) / 12;
                 if (seconds == 1)
-                    strcpy(text, prince_messages.countdown.one_second);
+                    strcpy(text, countdown_messages.one_second);
                 else
-                    sprintf(text, prince_messages.countdown.seconds, seconds);
+                    sprintf(text, countdown_messages.seconds, seconds);
             } else {
-                sprintf(text, prince_messages.countdown.minutes, minutes_remaining);
+                sprintf(text, countdown_messages.minutes, minutes_remaining);
             }
             DrawMessage(text);
         } else {
-            DrawMessage(prince_messages.countdown.expired);
+            DrawMessage(countdown_messages.expired);
         }
         message_ticks = message_duration = 24;
         countdown_pending = 0;
@@ -399,3 +401,6 @@ void far pascal ChangeMeters(void)
         }
     } while (++opponent < count);
 }
+
+static char keyboard_mode_message[] = "Keyboard Mode";
+char prince_pause_message[] = "GAME PAUSED";

@@ -1011,7 +1011,7 @@ void far pascal ChangeMeters(void)
 extern unsigned char input_changed;
 extern signed char joystick[3];
 extern int paused;
-static char pause_message[] = "GAME PAUSED";
+extern char prince_pause_message[];
 
 extern void far pascal read_controls(void);
 extern unsigned int far pascal prince_poll(void);
@@ -1032,7 +1032,7 @@ int far pascal Input(void)
     result = prince_poll();
     if (paused) {
         paused = 0;
-        DrawMessage(pause_message);
+        DrawMessage(prince_pause_message);
         update_display(0);
         WaitKey();
         ClrMessage(1);
