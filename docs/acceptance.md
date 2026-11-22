@@ -410,3 +410,14 @@ callee with no outside caller). Such a function is a CODE_MATCH, recorded explic
 - Entry identity only: a recorded code match proves where its function starts, which is all a far
   pointer or far call to it needs; `far_binding.ground_symbol` grounds such a callee as
   "accepted code match entry". Its own unproven data bindings do not bear on its entry.
+
+## One name per entry (whole-link names, 2026-11-22)
+
+The first whole-image RTLink 6.10 trial link (build/workers/o10_trial/report.md) showed that per-group acceptance
+let names drift across files: publics defined by two accepted components (mostly overlapping groups such as
+prince/toggle_sound and fade/palette_tail) and binding names grounded at different addresses by different groups
+(e.g. ACTOR at DS:5c00 and 5c02, PLAY_SOUND at four far addresses). A real link resolves each name once, so
+validation refuses new cases: `module_gate.name_consistency_violations` lists duplicate publics (claims, drafts,
+data publics, pinned runtime publics) and multi-address binding names, and evidence/name-consistency-debt.json
+must equal that list (shrink-only). Fix by merging overlapping groups and by giving each original entry one name
+used by its definer and every referrer; struct members go through their base object.

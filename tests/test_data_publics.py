@@ -315,6 +315,25 @@ class BssLayoutTests(unittest.TestCase):
         self.assertEqual(module_gate.bss_layout_violations(groups, [({"recipe": "r.json"}, asm)]), set())
 
 
+class NameConsistencyTests(unittest.TestCase):
+    """One definition per public name; one address per binding name (whole-link refutation)."""
+
+    def test_duplicates_and_multi_address_names(self):
+        import tempfile
+        (ROOT / "build/workers/tests").mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=ROOT / "build/workers/tests") as tmp:
+            a, b = Path(tmp) / "a.json", Path(tmp) / "b.json"
+            a.write_text(json.dumps({"symbols": {"X": {"kind": "dgroup-offset", "offset": 0x100}}}))
+            b.write_text(json.dumps({"symbols": {"X": {"kind": "dgroup-offset", "offset": 0x102}}}))
+            r1 = {"kind": "same_source_group", "claims": [{"public": "F"}], "drafts": [], "binding": str(a)}
+            r2 = {"kind": "same_source_group", "claims": [{"public": "F"}], "drafts": [], "binding": str(b)}
+            found = module_gate.name_consistency_violations([({}, r1), ({}, r2)])
+            self.assertEqual(found, {"duplicate-public:F", "multi-address:X"})
+            b.write_text(json.dumps({"symbols": {"X": {"kind": "dgroup-offset", "offset": 0x100}}}))
+            r2["claims"] = [{"public": "G"}]
+            self.assertEqual(module_gate.name_consistency_violations([({}, r1), ({}, r2)]), set())
+
+
 class CaseAliasTests(unittest.TestCase):
     """A second case spelling of one external is refused unless recorded as debt."""
     SOURCE = (b"extern unsigned char room;\n/* x */\nextern unsigned char ROOM, other[4];\n"

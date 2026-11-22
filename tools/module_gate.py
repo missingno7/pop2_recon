@@ -882,6 +882,28 @@ def _accepted_recipes():
     return list(seen.values())
 
 
+def name_consistency_violations(recipes):
+    """Refutation only (whole-link names, 2026-11-22; o10_trial): a real link has one definition per public
+    name and resolves one external name to one address. Returns stable keys:
+    - `duplicate-public:NAME` for a public defined by more than one accepted component (claims, drafts,
+      data publics, pinned runtime publics);
+    - `multi-address:NAME` for a binding symbol name grounded at different addresses by different bindings
+      (v4 DGROUP offsets, far 16:16 aliases)."""
+    from common import project_path
+    found = {f"duplicate-public:{n}" for n, c in accepted_public_names(recipes).items() if c > 1}
+    addresses = {}
+    for owner, recipe in recipes:
+        if owner.get("kind") == "PINNED_RUNTIME" or "binding" not in recipe:
+            continue
+        for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+            if symbol.get("kind") == "dgroup-offset" and type(symbol.get("offset")) is int:
+                addresses.setdefault(name, set()).add(("DS", symbol["offset"]))
+            elif symbol.get("kind") in FAR_KINDS and type(symbol.get("segment")) is int:
+                addresses.setdefault(name, set()).add(("FAR", symbol["segment"], symbol.get("offset")))
+    found |= {f"multi-address:{n}" for n, a in addresses.items() if len(a) > 1}
+    return found
+
+
 def accepted_public_names(recipes):
     """name -> how many accepted components define it (code, drafts, data, runtime members)."""
     counts = {}

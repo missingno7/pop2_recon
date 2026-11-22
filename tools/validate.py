@@ -229,6 +229,12 @@ def _validate(run_tests=True):
     overlap_debt = set(read_json(ROOT / "evidence/placement-overlap-debt.json")["pairs"])
     require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
             f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")
+    # Whole-link name consistency (docs/acceptance.md "One name per entry"): violations may only shrink.
+    from module_gate import name_consistency_violations
+    names = name_consistency_violations(recipes)
+    name_debt = set(read_json(ROOT / "evidence/name-consistency-debt.json")["violations"])
+    require(names == name_debt, "evidence/name-consistency-debt.json differs from the name violations: "
+            f"unlisted {sorted(names - name_debt)}, stale {sorted(name_debt - names)}")
     # BSS layout refutation (docs/dgroup-binding.md "BSS layout"): violations may only shrink.
     from module_gate import bss_layout_violations
     bss = bss_layout_violations(groups, recipes)
