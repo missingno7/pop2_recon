@@ -314,8 +314,7 @@ void load_altar_room(void)
     ShapeRef ref;
 
     handle = allocate_handle(sizeof(Shape));
-    source = locate_handle(*shape_source);
-    copy = locate_handle(handle);
+    source = locate_handle(*shape_source); copy = locate_handle(handle);
     *copy = *source;
     copy->flags = 0x4000;
     copy->size = room_data->palette;

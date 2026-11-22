@@ -248,17 +248,17 @@ void PrinceMarkImgsPurgeable(ShapeList *list, int first, int last)
 void PrinceMarkRangesPurgeable(ShapeList *list, int *first, int *last)
 {
     int *begin, *end;
-    int start = *first;
+    struct { int start; } range;
+    range.start = *first;
 
-    if (start != -1) {
+    if (range.start != -1) {
         end = last;
         begin = first;
         do {
             PrinceMarkImgsPurgeable(list, *begin, *end);
             ++end;
             ++begin;
-            start = *begin;
-        } while (start != -1);
+        } while (*begin != -1);
     }
 }
 
@@ -356,7 +356,7 @@ void far *PrinceGetnShapeItemSize(ShapeList *list, int index, unsigned long far 
 {
     int slot = index;
     ShapeInfo *items = (ShapeInfo *)list;
-    Handle handle = items[slot].image;
+    volatile Handle handle = items[slot].image;
     unsigned long far *image;
 
     if (handle && (image = resolve_handle(handle)) != 0)

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dlghelp/dlghelp.json",
-  "binding_sha256": "d44fd7c2dd64e62ba9cf05cd17e495f7abc702cc5e0fb0a005c87c53994ea968",
+  "binding_sha256": "84abfc295c705457bc0cc3c69f1b73abf56061e087eadebe8c73f56f814e08d7",
   "claims": [
     {
       "fixup_count": 1,
@@ -68,6 +68,11 @@
       "target_id": "root:1000:d922"
     },
     {
+      "fixup_count": 6,
+      "public": "BLINK_EDIT_CARET",
+      "target_id": "root:1d76:01d6"
+    },
+    {
       "fixup_count": 1,
       "public": "DELETE_EDIT_CHARACTER",
       "relocation_indices": [
@@ -76,6 +81,35 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1d76:047c"
+    },
+    {
+      "fixup_count": 7,
+      "public": "CLICK_EDIT_FIELD",
+      "relocation_indices": [
+        1693,
+        1694,
+        1713,
+        1714
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1d76:04ae"
+    },
+    {
+      "fixup_count": 7,
+      "public": "CREATE_EDIT_FIELD",
+      "relocation_indices": [
+        1690,
+        1697,
+        1698
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1d76:0586"
     },
     {
       "fixup_count": 2,
@@ -108,20 +142,8 @@
   ],
   "drafts": [
     {
-      "object_offset": 458,
-      "public": "BLINK_EDIT_CARET"
-    },
-    {
       "object_offset": 552,
       "public": "HANDLE_EDIT_KEY"
-    },
-    {
-      "object_offset": 1186,
-      "public": "CLICK_EDIT_FIELD"
-    },
-    {
-      "object_offset": 1402,
-      "public": "CREATE_EDIT_FIELD"
     }
   ],
   "emitted_size": 1824,
@@ -139,12 +161,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dlghelp/dlghelp",
-  "object_sha256": "c751e0215972c0edb35299fdcc33aa169e8619411d659ef55d4fa6b3259f0bd3",
+  "object_sha256": "248cfb2aaa6e6edef156409016d1325f9b7ce4dbb54f432e5e38201eb64dbb43",
   "origin": 120684,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dlghelp/dlghelp.c",
-  "source_sha256": "0b700348511c31c24d7ebfb624586d91bdd48d14032b65763f389b1d71b58bec",
+  "source_sha256": "43e466c669056771c7a646b81e329febc37db6a87ebdfdb5d0a37b46047862a6",
   "space": "root"
 }

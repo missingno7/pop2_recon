@@ -290,12 +290,13 @@ EditField far * far pascal create_edit_field(Rect far *bounds, Rect far *clip,
     move_far_bytes(&field->clip, clip, (long)sizeof(Rect));
     field->capacity = capacity;
     field->style = -1;
-    zero = field->visible = 0;
+    zero = 0;
     field->selection_end = zero;
     field->selection_start = zero;
     field->caret = zero;
     field->x = bounds->left - 1;
     field->y = clip->top;
+    field->visible = zero;
     field->last_blink = clock_ticks;
     field->paint = 0;
     replace_edit_text(field, text);
