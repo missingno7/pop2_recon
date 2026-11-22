@@ -121,7 +121,7 @@ int anim_idle(Animation *animation)
     int status = 0;
     const unsigned char far *event;
     int idx, saved_flags;
-    unsigned int opcode;
+    int effect_id;
     unsigned long saved_pixels;
     Element *current_element;
 
@@ -142,15 +142,13 @@ next_command:
                 animation->timing.repeats = WORD_AT(event, 1);
                 animation->delay = WORD_AT(event, 3);
             }
-            if (!--animation->timing.repeats)
-                animation->commands += 5;
+            if (!--animation->timing.repeats) animation->commands += 5;
         }
         break;
     case 2:
         if (!animation->timing.deadline) {
             animation->timing.deadline = WORD_AT(event, 1) + *(volatile unsigned long *)&clock_ticks;
-            if (animation->deadline_base)
-                animation->deadline_base += WORD_AT(event, 1);
+            if (animation->deadline_base) animation->deadline_base += WORD_AT(event, 1);
         } else if (animation->timing.deadline <= *(const volatile unsigned long *)&clock_ticks) {
             animation->timing.deadline = 0;
             animation->commands += 3;
@@ -158,8 +156,8 @@ next_command:
         break;
     case 3:
         if (animation->deadline_base + animation->delay <= *(const volatile unsigned long *)&clock_ticks) {
-            idx = WORD_AT(event, 1);
-            play_animation_sound(idx);
+            effect_id = WORD_AT(event, 1);
+            play_animation_sound(effect_id);
             animation->commands += 3;
         }
         break;
@@ -168,12 +166,10 @@ next_command:
         animation->commands += 3;
         break;
     case 5:
-        if (!animation_fade_pending(WORD_AT(event, 1)))
-            animation->commands += 3;
+        if (!animation_fade_pending(WORD_AT(event, 1))) animation->commands += 3;
         break;
     case 6:
-        if (!animation->timing.wait_level)
-            animation->timing.wait_level = event[1];
+        if (!animation->timing.wait_level) animation->timing.wait_level = event[1];
         if (!animation_wait_level || animation->timing.wait_level <= animation_wait_level) {
             animation->timing.wait_level = 0;
             animation->commands += 2;
@@ -185,30 +181,30 @@ next_command:
         ++animation->commands;
         break;
     default:
-        opcode = *event;
-        if ((opcode & 0xfc) == 0x10) {
-            idx = opcode & 3;
+        if ((*event & ~3) == 0x10) {
+            idx = *event & 3;
             if (animation->callbacks[idx] &&
                 animation->callbacks[idx](animation, WORD_AT(event, 1)))
                 status = 2;
             animation->commands += 3;
             goto next_command;
         }
-        if ((opcode & 0xfc) == 0x14) {
-            idx = opcode & 3;
+        if ((*event & ~3) == 0x14) {
+            idx = *event & 3;
             if (animation->loops[idx]) {
                 --animation->loops[idx];
-                if (!animation->loops[idx])
+                if (!*(volatile int *)&animation->loops[idx])
                     goto next_element_command;
-            } else {
-                animation->loops[idx] = WORD_AT(event, 1);
+                goto continue_loop;
             }
-            *(unsigned int *)&animation->commands = (unsigned int)event + WORD_AT(event, 3) + 3;
+            animation->loops[idx] = WORD_AT(event, 1);
+        continue_loop:
+            animation->commands += WORD_AT(event, 3) + 3;
             goto next_command;
         }
-        idx = (opcode = *event) & 31;
+        idx = *event & 31;
         current_element = &animation->elements[idx];
-        switch (opcode & 0xe0) {
+        switch (*event & ~31) {
         case 0x20:
             saved_flags = current_element->flags;
             current_element->flags &= WORD_AT(event, 1);
@@ -300,13 +296,16 @@ extern int load_sheet_shape(int, int, int);
 extern int create_port(void *, const Rect far *);
 extern void set_port_origin(int, int);
 extern unsigned long allocate_pixels(unsigned long);
-extern unsigned char animation_command_codes[];
-extern unsigned char animation_operand_lengths[];
+static unsigned char animation_command_codes[] = {
+    0, 1, 2, 3, 4, 5, 6, 7, 0x10, 0x14, 0x20, 0x40, 0x60, 0x80, 0xa0, 0xc0, 0xe0
+};
+static unsigned char animation_operand_lengths[] = {
+    0, 4, 2, 2, 2, 2, 1, 0, 2, 4, 4, 4, 4, 4, 8, 8, 1
+};
 extern int load_all_animation_shapes;
 extern int animation_color_mode;
 extern int cdecl sprintf(char *, const char *, ...);
 extern void fatal_error(int, const char far *);
-extern char bad_animation_shape[];
 
 #pragma optimize("e", off)
 Animation *anim_new(const unsigned char far *commands, int sheet, int first_shape,
@@ -338,19 +337,16 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             command_cursor = commands + 8;
             while ((operation = *command_cursor) != 0) {
                 for (idx = 0; idx < 8; ++idx) {
-                    if (operation == animation_command_codes[idx])
-                        goto found_command;
+                    if (operation == animation_command_codes[idx]) goto found_command;
                 }
                 idx = 8;
-                if ((operation & 0xfc) == *(volatile unsigned char *)&animation_command_codes[8])
-                    goto found_command;
+                if ((operation & ~3) == *(volatile unsigned char *)&animation_command_codes[8]) goto found_command;
                 idx = 9;
-                if ((operation & 0xfc) == *(volatile unsigned char *)&animation_command_codes[9])
-                    goto found_command;
-                if ((operation & 0xe0) == 0x80 && (idx = WORD_AT(command_cursor, 1)) != 0) {
+                if ((operation & ~3) == *(volatile unsigned char *)&animation_command_codes[9]) goto found_command;
+                if ((operation & ~31) == 0x80 && (idx = WORD_AT(command_cursor, 1)) != 0) {
                     for (; idx <= WORD_AT(command_cursor, 3); ++idx) {
                         if (idx > last_shape) {
-                            sprintf(warning, bad_animation_shape, idx);
+                            sprintf(warning, "AnimNew(): Cast member %d out of range", idx);
                             fatal_error(1, warning);
                         } else {
                             used_entries[idx - 1] = 1;
@@ -358,7 +354,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                     }
                 }
                 for (idx = 10; idx < 17; ++idx) {
-                    if (animation_command_codes[idx] == (operation & 0xe0)) {
+                    if (animation_command_codes[idx] == (operation & ~31)) {
                     found_command:
                         command_cursor += animation_operand_lengths[idx] + 1;
                     }
@@ -376,25 +372,22 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             for (count = 0; count < anim_record->handle_count; ++count) {
                 if (used_entries[count]) {
                     if (!(anim_record->handles[count] = load_sheet_shape(sheet, count + first_shape,
-                            2 - ((unsigned int)animation_color_mode < 1)))) {
-                        if (anim_record->sound_flag)
-                            sheet_info->sound = 0;
+                            animation_color_mode == 0 ? 1 : 2))) {
+                        if (anim_record->sound_flag) sheet_info->sound = 0;
                         goto fail;
                     }
                 } else {
                     anim_record->handles[count] = 0;
                 }
             }
-            if (anim_record->sound_flag)
-                sheet_info->sound = 0;
+            if (anim_record->sound_flag) sheet_info->sound = 0;
             unlock_sheet(sheet);
             prepare_transparency(sheet);
         }
         {
             register Rect *bounds = &anim_record->bounds;
 
-            if (!create_port(anim_record, _fmemcpy(bounds, commands, sizeof(Rect))))
-                goto fail;
+            if (!create_port(anim_record, _fmemcpy(bounds, commands, sizeof(Rect)))) goto fail;
             current_port = (int)anim_record;
             set_port_origin(0, 0);
             anim_record->dirty = anim_record->source;
@@ -404,8 +397,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                 anim_record->background.pixels = allocate_pixels(
                     (long)(anim_record->port.bounds.bottom - anim_record->port.bounds.top) *
                     anim_record->port.row_bytes);
-                if (!anim_record->background.pixels)
-                    goto fail;
+                if (!anim_record->background.pixels) goto fail;
                 copy_port((int)&anim_record->background, anim_record->destination,
                           &anim_record->source, bounds, 0);
             }
@@ -587,7 +579,6 @@ extern int find_animation_palette(unsigned long, int);
 extern int load_animation_palette(int);
 extern void release_animation_commands(const unsigned char far *);
 extern int query_sound_payload(const void far *);
-extern char animation_failure[];
 extern char screen_port[];
 
 #pragma optimize("l", on)
@@ -603,18 +594,15 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     int result, aborted = 0;
     char message[80];
 
-    scene_id = scene + scene_offset;
-    commands = load_animation_commands(0x00534352UL, scene_id);
-    if (sheet_override)
-        sheet = sheet_override;
+    scene_id = scene + scene_offset; commands = load_animation_commands(0x00534352UL, scene_id);
+    if (sheet_override) sheet = sheet_override;
     else
         sheet = open_animation_sheet(scene, -1, 1);
     animation = anim_new(commands, sheet, 1, lock_sheet(sheet)->width, save_background);
     animation->callbacks[0] = callback;
-    sprintf(message, animation_failure, scene);
+    sprintf(message, "AnimNew(%d)", scene);
     saved_sheet = sheet;
-    if (!animation)
-        fatal_error(1, message);
+    if (!animation) fatal_error(1, message);
 
     load_all_animation_shapes = 0;
     palette_list = find_animation_palette(0x0050534cUL, scene_id);
@@ -626,13 +614,11 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         result = anim_idle(animation);
         if (interruptible) {
             if (result == 2 || poll_events()) {
-                reset_input();
-                reset_animation_sound(0, 0);
+                reset_input(); reset_animation_sound(0, 0);
                 aborted = 1;
                 break;
             }
-            if (result == 2)
-                result = 0;
+            if (result == 2) result = 0;
         }
         if (animation->fade && fade_finished(animation->fade)) {
             release_fade(animation->fade);
@@ -650,16 +636,12 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         }
     }
     anim_free(animation);
-    if (!sheet_override)
-        dispose_handle(saved_sheet);
+    if (!sheet_override) dispose_handle(saved_sheet);
     release_animation_commands(commands);
-    if (flags & 2)
-        set_animation_audio(0);
-    if (flags & 1)
-        reset_animation_sound(0, 0);
+    if (flags & 2) set_animation_audio(0);
+    if (flags & 1) reset_animation_sound(0, 0);
     for (result = 0; result < count; ++result)
-        if (palettes[result] && !query_sound_payload(lock_shape(palettes[result])))
-            dispose_handle(palettes[result]);
+        if (palettes[result] && !query_sound_payload(lock_shape(palettes[result]))) dispose_handle(palettes[result]);
     return aborted;
 }
 #pragma optimize("l", off)
