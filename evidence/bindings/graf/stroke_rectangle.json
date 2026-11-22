@@ -1,6 +1,8 @@
 {
   "declarations": {
-    "externals": [],
+    "externals": [
+      "STROKE_RECTANGLE_CALLBACK"
+    ],
     "groups": [
       {
         "name": "DGROUP",
@@ -40,20 +42,10 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 2,
+        "length": 0,
         "name": "_DATA",
         "overlay": "",
         "use32": false
-      }
-    ]
-  },
-  "dgroup_segment": {
-    "segment": 12531,
-    "witnesses": [
-      {
-        "image_offset": 5473,
-        "relocation_index": 42,
-        "space": "root"
       }
     ]
   },
@@ -73,10 +65,10 @@
       "segment_offset": 2,
       "self_relative": false,
       "target": {
-        "index": 2,
-        "kind": "segment",
-        "method": 4,
-        "name": "_DATA",
+        "index": 1,
+        "kind": "external",
+        "method": 6,
+        "name": "STROKE_RECTANGLE_CALLBACK",
         "zero_displacement": true
       }
     }
@@ -95,11 +87,15 @@
     }
   },
   "mode": "external-dgroup-offset16-v4",
-  "placements": {
-    "_DATA": 9706
-  },
   "schema": 1,
-  "symbols": {},
+  "symbols": {
+    "STROKE_RECTANGLE_CALLBACK": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 9706,
+      "provider": "group:graf/graphics_mode"
+    }
+  },
   "target_id": "group:graf/stroke_rectangle",
   "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
 }
