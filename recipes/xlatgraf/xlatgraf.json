@@ -1,7 +1,22 @@
 {
-  "binding": "evidence/bindings/xlatgraf/palette_and_unpack.json",
-  "binding_sha256": "c8edf32d8dad7af4b7aacc6823b75122d466fc4a35b33732b46ee9fc60a387f4",
+  "binding": "evidence/bindings/xlatgraf/xlatgraf.json",
+  "binding_sha256": "0451e42cc1342b1b680fc10306743962c6002c0b2eecabf6417eef4f44a6384c",
   "claims": [
+    {
+      "fixup_count": 2,
+      "public": "ALLOCBANKS",
+      "target_id": "root:1000:1898"
+    },
+    {
+      "fixup_count": 2,
+      "public": "RESETBANKS",
+      "target_id": "root:1101:08d2"
+    },
+    {
+      "fixup_count": 0,
+      "public": "GET1STBANK",
+      "target_id": "root:1101:09f4"
+    },
     {
       "fixup_count": 9,
       "public": "CONVERT_FONT_HANDLE",
@@ -51,34 +66,65 @@
       "fixup_count": 0,
       "public": "HALVE_FOR_MODE_TWO",
       "target_id": "root:1000:1bae"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CONVERT_SHAPE",
+      "target_id": "root:1101:0d6e"
+    },
+    {
+      "fixup_count": 0,
+      "public": "COPY_FAR_WORD",
+      "target_id": "root:1101:159e"
     }
   ],
   "drafts": [
     {
-      "object_offset": 438,
+      "object_offset": 116,
+      "public": "CALCROWBYTES"
+    },
+    {
+      "object_offset": 206,
+      "public": "MCGATOMCGA"
+    },
+    {
+      "object_offset": 842,
       "public": "XLATFONT"
+    },
+    {
+      "object_offset": 1296,
+      "public": "XLATSHAPE"
+    },
+    {
+      "object_offset": 2236,
+      "public": "CONVERT_BANDED_SHAPE"
+    },
+    {
+      "object_offset": 3092,
+      "public": "REMAP_BANDED_PIXELS"
     }
   ],
-  "emitted_size": 860,
+  "emitted_size": 3374,
   "flags": [
     "/c",
     "/AM",
     "/Oe",
     "/Gs",
     "/Zl",
-    "/Gc"
+    "/Gc",
+    "/Zi"
   ],
   "frame": 4353,
-  "group_id": "group:xlatgraf/palette_and_unpack",
+  "group_id": "group:xlatgraf/xlatgraf",
   "kind": "same_source_group",
   "language": "c",
-  "name": "xlatgraf/palette_and_unpack",
-  "object_sha256": "85bd7bc285c9df791bd5ed7cb73e083ed6eb0f866b907c1fc2d76e2409b064f2",
-  "origin": 72236,
+  "name": "xlatgraf/xlatgraf",
+  "object_sha256": "0bd8b1f9604a60e206fe894ad62f606db2e8558b54f4ba4de6e7171d32dd8bce",
+  "origin": 71832,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
-  "source": "src/xlatgraf/palette_and_unpack.c",
-  "source_sha256": "7621a2324cbf6fd66ce28380c7917e3901401548f991451514b039bfe3993943",
+  "source": "src/xlatgraf/xlatgraf.c",
+  "source_sha256": "16a91f3a71ec05487c8ef601b5de3c5c1a74f752b9da9a148f8b8b7ed5cd652a",
   "space": "root"
 }

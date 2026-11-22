@@ -69310,6 +69310,144 @@
       "size": 156,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "id": "root:1101:0956",
+      "state": "ANALYZED",
+      "space": "root",
+      "segment": 4353,
+      "offset": 2390,
+      "size": 158,
+      "boundary_status": "REVIEWED",
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Original code review; support target only",
+      "classification_evidence": [
+        "BP-framed Pascal C routine in the original DOS XLATGRAF contribution."
+      ],
+      "boundary_evidence": [
+        "Creates a 16-entry bank mapping and remaps nonzero pixels in a nested row/column loop. Restores relocated DGROUP in DS at 09db. Original RETF 10 at 09f0 plus its NOP end at the independently reviewed Get1stBank entry. The FM Towns pair shares the remapping and caller.",
+        "Complete linear decode of [0956,09f4) in frame 1101; all direct branches land on instruction starts in this extent.",
+        "Original relocation-free PUSH CS/CALL at 10d0/10d1 in the reviewed XLATGRAF call chain targets the entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "file_offset": 82145,
+          "image_offset": 73953,
+          "pushed_cs_site": 73952,
+          "relocated_segment_site": null,
+          "kind": "push_cs_near_call"
+        }
+      ],
+      "abi": "Far Pascal, far header and pixel pointers and word bank mask, RETF 10",
+      "entry_kind": "direct-code",
+      "original_name": "MCGAToMCGA",
+      "original_name_evidence": [
+        "Anchored DOS/FM Towns pair in evidence/modules.json."
+      ],
+      "sha256": "316f28ef235ec52cf0aea07fab136eff36d87abce49f380adf11b4acbf04e70b"
+    },
+    {
+      "id": "root:1101:0d98",
+      "state": "ANALYZED",
+      "space": "root",
+      "segment": 4353,
+      "offset": 3480,
+      "size": 940,
+      "boundary_status": "REVIEWED",
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Original code review; support target only",
+      "classification_evidence": [
+        "BP-framed Pascal C routine in the original DOS XLATGRAF contribution."
+      ],
+      "boundary_evidence": [
+        "Relocated calls enter the reviewed wrapper at 0d6e, whose PUSH CS/CALL enters this BP frame. The converter replaces and restores the format word, normalizes buffers and dispatches through codec and format branches. Both exits share the RETF 8 at 1141 before the independently called banded converter. The header masks and shared callees anchor XlatShape in FM Towns.",
+        "Complete linear decode of [0d98,1144) in frame 1101; all direct branches land on instruction starts in this extent.",
+        "Original relocation-free PUSH CS/CALL at 0d8e/0d8f in the reviewed XLATGRAF call chain targets the entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "file_offset": 81311,
+          "image_offset": 73119,
+          "pushed_cs_site": 73118,
+          "relocated_segment_site": null,
+          "kind": "push_cs_near_call"
+        }
+      ],
+      "abi": "Far Pascal, far shape pointer, near mask pointer, word mode, returns handle in AX, RETF 8",
+      "entry_kind": "direct-code",
+      "original_name": "XlatShape",
+      "original_name_evidence": [
+        "Anchored DOS/FM Towns pair in evidence/modules.json."
+      ],
+      "sha256": "404fd26a0f652a6fa1763d1ab3c0703b219d3fc6358086b8e9017e44e0a280b5"
+    },
+    {
+      "id": "root:1101:1144",
+      "state": "ANALYZED",
+      "space": "root",
+      "segment": 4353,
+      "offset": 4420,
+      "size": 856,
+      "boundary_status": "REVIEWED",
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Original code review; support target only",
+      "classification_evidence": [
+        "BP-framed Pascal C routine in the original DOS XLATGRAF contribution."
+      ],
+      "boundary_evidence": [
+        "The nonzero low-seven-bit path in XlatShape calls this distinct BP frame. This converter iterates length-prefixed bands and restores the source format word at its common exit. RETF 6 at 1499 ends at the BP frame independently reached by the format-specific call at 1408.",
+        "Complete linear decode of [1144,149c) in frame 1101; all direct branches land on instruction starts in this extent.",
+        "Original relocation-free PUSH CS/CALL at 0db9/0dba in the reviewed XLATGRAF call chain targets the entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "file_offset": 81354,
+          "image_offset": 73162,
+          "pushed_cs_site": 73161,
+          "relocated_segment_site": null,
+          "kind": "push_cs_near_call"
+        }
+      ],
+      "abi": "Far Pascal, far shape pointer and near mask pointer, returns handle in AX, RETF 6",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "sha256": "7d01af145c587c4fa9e46c0eb2abb1e2ae205defeba8ca60a7e03ed0de330de6"
+    },
+    {
+      "id": "root:1101:149c",
+      "state": "ANALYZED",
+      "space": "root",
+      "segment": 4353,
+      "offset": 5276,
+      "size": 258,
+      "boundary_status": "REVIEWED",
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Original code review; support target only",
+      "classification_evidence": [
+        "BP-framed Pascal C routine in the original DOS XLATGRAF contribution."
+      ],
+      "boundary_evidence": [
+        "The mode 5 branch of the banded shape converter calls this distinct BP frame. It remaps nonzero indexed pixels in signed-length runs and restores relocated DGROUP at 157a. RETF 10 at 159b ends exactly at the reviewed far word copy helper.",
+        "Complete linear decode of [149c,159e) in frame 1101; all direct branches land on instruction starts in this extent.",
+        "Original relocation-free PUSH CS/CALL at 1407/1408 in the reviewed XLATGRAF call chain targets the entry."
+      ],
+      "call_sites": [
+        {
+          "space": "root",
+          "file_offset": 82968,
+          "image_offset": 74776,
+          "pushed_cs_site": 74775,
+          "relocated_segment_site": null,
+          "kind": "push_cs_near_call"
+        }
+      ],
+      "abi": "Far Pascal, far header and pixel pointers and word bank mask, RETF 10",
+      "entry_kind": "direct-code",
+      "original_name": null,
+      "sha256": "d9ab60998dd03834faa96db95a9f98e64665ee74a84bd653bc7edc5ecd7d2c5a"
     }
   ],
   "schema": 1,
