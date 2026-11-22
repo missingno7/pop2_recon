@@ -437,12 +437,12 @@ void trigger_dart(sbyte room, sbyte cell)
     dart = saved;
 }
 
+#pragma optimize("gl", on)
 void animate_lava(void)
 {
-    sbyte i, frame, next;
+    sbyte frame, i, next;
     struct list *pool;
     struct item *bubble;
-    struct input *input;
     int persistent;
 
     i = animation_code & 7;
@@ -474,11 +474,10 @@ void animate_lava(void)
                 }
                 i = 0;
                 do {
-                    input = &lava_bubbles[i];
-                    if (input->prefix > frame)
+                    if (lava_bubbles[i].prefix > frame)
                         break;
-                    if (input->prefix == frame)
-                        TriggerLavaBubble(pool, input);
+                    if (lava_bubbles[i].prefix == frame)
+                        TriggerLavaBubble(pool, &lava_bubbles[i]);
                     ++i;
                 } while (i < 15);
             }
@@ -497,6 +496,8 @@ void animate_lava(void)
         lava_slots[i] = 0;
     }
 }
+
+#pragma optimize("", on)
 
 void check_lava_boil(void)
 {

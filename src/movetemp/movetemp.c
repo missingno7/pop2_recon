@@ -223,9 +223,7 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
     signed char column;
     unsigned char tile;
 
-    if (!rock)
-        return direction == -1 ? outside_barrier : 0;
-    {
+    if (rock) {
         barrier = rock->x + 140;
         if (direction == -1) {
             int right;
@@ -241,7 +239,10 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
             }
         } else
             barrier += 35;
-    }
+    } else if (direction == -1)
+        barrier = outside_barrier;
+    else
+        barrier = 0;
     return barrier;
 }
 

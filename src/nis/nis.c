@@ -1799,12 +1799,12 @@ int dispatch_nis(int sequence)
 extern Handle prepare_sound(int cue);
 
 #pragma optimize("e", off)
-int run_nis_dialog(register int resource, int line, register int voice, unsigned int duration)
+int run_nis_dialog(int resource, int line, int voice, unsigned int duration)
 {
-    voice += resource;
-    prepare_sound(voice);
-    draw_nis_text(resource, line);
-    return play_timed_music(voice, duration);
+    register int string_resource, cue;
+    cue = *(volatile int *)&voice, string_resource = resource;
+    prepare_sound(cue += string_resource); draw_nis_text(string_resource, line);
+    return play_timed_music(cue, duration);
 }
 #pragma optimize("", on)
 

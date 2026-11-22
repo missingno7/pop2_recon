@@ -65,8 +65,8 @@ extern Byte PieceLeftId(CellCoord, CellCoord);
 extern int IsWall(Byte);
 extern Byte PieceBelowId(CellCoord, CellCoord);
 extern Byte PieceRightId(CellCoord, CellCoord);
-extern signed char FirstInRow(CellCoord);
-extern MovingExit *find_moving_exit(Byte room, int tile);
+extern signed char FirstInRow(Byte, CellCoord);
+extern MovingExit *find_moving_exit(int tile);
 
 extern int loose_odd[], loose_even[];
 extern signed char redraw_row;
@@ -144,7 +144,6 @@ void draw_temple_back_wall(TempleCell *cell)
     }
 }
 
-#pragma optimize("g", off)
 void draw_temple_block(TempleCell *cell)
 {
     int image;
@@ -183,47 +182,46 @@ void draw_temple_block(TempleCell *cell)
     case 5:
         image = (cell->modifier & 7) + 24;
         if ((image == 24 || image > 25) && !IsWall(PieceRightId(cell->column, cell->row))) {
-            add_image = cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable;
+            if (cell->pass == 5)
+                add_image = AddBFImgToBTable;
+            else
+                add_image = AddBFImgToFTable;
             add_image(20, -2, cell->column, cell->row, 10, 0);
         }
         break;
     }
 }
-#pragma optimize("g", on)
 
-#pragma optimize("eg", off)
 void draw_temple_exit_left(TempleCell *cell)
 {
     Byte layer;
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
         if (draw_pass_mode)
             draw_temple_back_wall(cell);
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         layer = 0;
         break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
+        add_image = AddBFImgToFTable;
         goto alternate_layer;
     case 5:
-        add_image = (unsigned long)AddBFImgToBTable;
+        add_image = AddBFImgToBTable;
     alternate_layer:
         layer = 10;
         break;
     }
     if (add_image)
-        ((AddImage)add_image)(16, -2, cell->column, cell->row, layer, 0);
+        add_image(16, -2, cell->column, cell->row, layer, 0);
 }
-#pragma optimize("eg", on)
 
-#pragma optimize("eg", off)
 void draw_temple_exit_right(TempleCell *cell)
 {
     Byte layer;
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
         if (draw_pass_mode) {
@@ -232,27 +230,25 @@ void draw_temple_exit_right(TempleCell *cell)
         }
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         layer = 0;
         break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
+        add_image = AddBFImgToFTable;
         goto alternate_layer;
     case 5:
-        add_image = (unsigned long)AddBFImgToBTable;
+        add_image = AddBFImgToBTable;
     alternate_layer:
         layer = 10;
         break;
     }
     if (add_image) {
-        ((AddImage)add_image)(17, -2, cell->column, cell->row, layer, 0);
+        add_image(17, -2, cell->column, cell->row, layer, 0);
         if (cell->pass == 5)
             draw_temple_exit_movable(cell);
     }
 }
-#pragma optimize("eg", on)
 
-#pragma optimize("e", off)
 void draw_temple_exit_movable(TempleCell *cell)
 {
     AddImage add_image;
@@ -263,7 +259,7 @@ void draw_temple_exit_movable(TempleCell *cell)
         door_clip = exit_clip;
         door_clip.top = cell->row * 63 - 5;
         if (intersect_rect(&clip_rect, &clip_rect, &door_clip)) {
-            moving = find_moving_exit(drawn_room, cell->column + FirstInRow(cell->row));
+            moving = find_moving_exit(cell->column + FirstInRow(drawn_room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 0, 0);
             shape_offsets->exit_y = -(19 + ((CELL_INFO_WORD(cell, 0) & 255) < 42 ? (CELL_INFO_WORD(cell, 0) & 255) : 42));
@@ -274,41 +270,36 @@ void draw_temple_exit_movable(TempleCell *cell)
         clip_rect = saved_clip;
     }
 }
-#pragma optimize("e", on)
 
-#pragma optimize("eg", off)
 void draw_temple_floor(TempleCell *cell)
 {
     Byte layer;
     int detail = 0;
-    unsigned long add_image = 0;
+    AddImage add_image = 0;
     switch (cell->pass) {
     case 0:
         draw_temple_back_wall(cell);
         break;
     case 1:
-        add_image = (unsigned long)add_foreground_image;
+        add_image = add_foreground_image;
         layer = 0;
         break;
     case 2:
-        add_image = (unsigned long)AddBFImgToFTable;
+        add_image = AddBFImgToFTable;
         goto alternate_layer;
     case 5:
-        add_image = (unsigned long)AddBFImgToBTable;
+        add_image = AddBFImgToBTable;
     alternate_layer:
         layer = 10;
         detail = cell->modifier & 3;
         break;
     }
     if (add_image) {
-        ((AddImage)add_image)(1, -2, cell->column, cell->row, layer, 0);
+        add_image(1, -2, cell->column, cell->row, layer, 0);
         if (detail)
             draw_temple_floor_detail(cell);
     }
 }
-#pragma optimize("eg", on)
-
-
 
 #pragma optimize("g", off)
 void draw_temple_floor_detail(TempleCell *cell)
@@ -325,30 +316,28 @@ void draw_temple_floor_detail(TempleCell *cell)
 }
 
 #pragma optimize("g", on)
-#pragma optimize("e", off)
 void draw_temple_gate(TempleCell *cell)
 {
-    unsigned long draw = 0;
+    AddImage draw = 0;
     switch (cell->pass) {
     case 0:
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = (unsigned long)add_foreground_image;
+        draw = add_foreground_image;
         break;
     case 2:
-        draw = (unsigned long)AddBFImgToFTable;
+        draw = AddBFImgToFTable;
         break;
     case 5:
-        draw = (unsigned long)AddBFImgToBTable;
+        draw = AddBFImgToBTable;
         break;
     }
     if (draw) {
-        ((AddImage)draw)(4, -2, cell->column, cell->row, 10, 0);
+        draw(4, -2, cell->column, cell->row, 10, 0);
         draw_temple_gate_movable(cell);
     }
 }
-#pragma optimize("e", on)
 
 void draw_temple_gate_movable(TempleCell *cell)
 {
@@ -360,7 +349,7 @@ void draw_temple_gate_movable(TempleCell *cell)
     gate_clip = exit_clip;
     gate_clip.top = cell->row * 63 - 10;
     if (intersect_rect(&clip_rect, &clip_rect, &gate_clip)) {
-        height = (cell->modifier & 252) >> 2;
+        height = (CELL_INFO_WORD(cell, 0) & 252) >> 2;
         shape_offsets->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
         case 2:
@@ -421,53 +410,48 @@ void draw_temple_loose(TempleCell *cell)
     }
 }
 
-#pragma optimize("eg", off)
 void draw_temple_pillar_bottom(TempleCell *cell)
 {
-    unsigned long draw = 0;
+    AddImage draw = 0;
     switch (cell->pass) {
     case 0:
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = (unsigned long)add_foreground_image;
+        draw = add_foreground_image;
         break;
     case 5:
-        draw = (unsigned long)AddBImgToBTable;
+        draw = AddBImgToBTable;
         break;
     }
     if (draw)
-        ((AddImage)draw)(8, -2, cell->column, cell->row, 10, 0);
+        draw(8, -2, cell->column, cell->row, 10, 0);
 }
-#pragma optimize("eg", on)
 
-#pragma optimize("eg", off)
 void draw_temple_pillar_top(TempleCell *cell)
 {
-    unsigned long draw = 0;
+    AddImage draw = 0;
     switch (cell->pass) {
     case 0:
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = (unsigned long)add_foreground_image;
+        draw = add_foreground_image;
         break;
     case 5:
-        draw = (unsigned long)AddBImgToBTable;
+        draw = AddBImgToBTable;
         break;
     }
     if (draw)
-        ((AddImage)draw)(9, -2, cell->column, cell->row, 10, 0);
+        draw(9, -2, cell->column, cell->row, 10, 0);
 }
-#pragma optimize("eg", on)
 
-#pragma optimize("eg", off)
 void draw_temple_down_plate(TempleCell *cell)
 {
     Byte tile;
     int image;
     int pressed = CELL_INFO_WORD(cell, 0) & 0x0800;
-    unsigned long draw = 0;
+    AddImage draw = 0;
 
     switch (cell->pass) {
     case 0:
@@ -476,7 +460,7 @@ void draw_temple_down_plate(TempleCell *cell)
     case 1:
         tile = pressed ? 6 : 5;
         image = 33;
-        draw = (unsigned long)add_foreground_image;
+        draw = add_foreground_image;
         break;
     case 2:
     case 5:
@@ -487,39 +471,36 @@ void draw_temple_down_plate(TempleCell *cell)
             tile = 1;
             image = -2;
         }
-        draw = (unsigned long)(cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable);
+        draw = cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable;
         break;
     }
     if (draw)
-        ((AddImage)draw)(tile, image, cell->column, cell->row, 10, 0);
+        draw(tile, image, cell->column, cell->row, 10, 0);
 }
-#pragma optimize("eg", on)
 
-#pragma optimize("eg", off)
 void draw_temple_up_plate(TempleCell *cell)
 {
     int image;
     Byte tile = 5 + ((CELL_INFO_WORD(cell, 0) & 0x0800) != 0);
-    unsigned long draw = 0;
+    AddImage draw = 0;
 
     switch (cell->pass) {
     case 0:
         draw_temple_back_wall(cell);
         break;
     case 1:
-        draw = (unsigned long)add_foreground_image;
+        draw = add_foreground_image;
         image = 32;
         break;
     case 2:
     case 5:
-        draw = (unsigned long)(cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable);
+        draw = cell->pass == 5 ? AddBFImgToBTable : AddBFImgToFTable;
         image = 30;
         break;
     }
     if (draw)
-        ((AddImage)draw)(tile, image, cell->column, cell->row, 10, 0);
+        draw(tile, image, cell->column, cell->row, 10, 0);
 }
-#pragma optimize("eg", on)
 
 void draw_temple_posts(TempleCell *cell)
 {
@@ -581,12 +562,23 @@ void draw_temple_rubble(TempleCell *cell)
 
 void draw_temple_rubble_pieces(TempleCell *cell)
 {
-    unsigned int pass = cell->pass;
-    unsigned long draw = pass == 1 ? (unsigned long)add_foreground_image :
-                         pass == 2 ? (unsigned long)AddBFImgToFTable :
-                         pass == 5 ? (unsigned long)AddBFImgToBTable : 0;
+    AddImage draw;
+    switch (cell->pass) {
+    case 1:
+        draw = add_foreground_image;
+        break;
+    case 2:
+        draw = AddBFImgToFTable;
+        break;
+    case 5:
+        draw = AddBFImgToBTable;
+        break;
+    default:
+        draw = 0;
+        break;
+    }
     if (draw)
-        ((AddImage)draw)(14, -2, cell->column, cell->row, 10, 0);
+        draw(14, -2, cell->column, cell->row, 10, 0);
 }
 
 void draw_temple_space(TempleCell *cell)

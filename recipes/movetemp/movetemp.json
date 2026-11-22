@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/movetemp/movetemp.json",
-  "binding_sha256": "6a5d11059a8112608210b6b82ce21bcc259dd730f9638459cde82b30638a5bcb",
+  "binding_sha256": "174bab48c0e3c282ff0aa2c3c34f983d96d35d5206799014f1847f5a163e796d",
   "claims": [
     {
       "fixup_count": 1,
@@ -60,6 +60,20 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-9:2a4e:027a"
+    },
+    {
+      "fixup_count": 10,
+      "public": "SLIDE_ROCK_BARRIER",
+      "relocation_indices": [
+        28,
+        50,
+        64
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2a4e:0368"
     },
     {
       "fixup_count": 14,
@@ -128,6 +142,29 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-9:2a4e:0b3e"
+    },
+    {
+      "fixup_count": 54,
+      "public": "MOVE_TRAPDOOR",
+      "relocation_indices": [
+        0,
+        3,
+        9,
+        37,
+        39,
+        41,
+        44,
+        65,
+        66,
+        68,
+        74,
+        76
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2a4e:0c22"
     },
     {
       "fixup_count": 6,
@@ -205,39 +242,12 @@
       "fixup_count": 0,
       "public": "TEMPLE_FRAME",
       "target_id": "overlay-9:2a4e:0fd4"
-    },
-    {
-      "fixup_count": 54,
-      "public": "MOVE_TRAPDOOR",
-      "relocation_indices": [
-        0,
-        3,
-        9,
-        37,
-        39,
-        41,
-        44,
-        65,
-        66,
-        68,
-        74,
-        76
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "overlay-9:2a4e:0c22"
     }
   ],
   "drafts": [
     {
       "object_offset": 726,
       "public": "DRAW_OBJECT_SLIDE_ROCK"
-    },
-    {
-      "object_offset": 872,
-      "public": "SLIDE_ROCK_BARRIER"
     },
     {
       "object_offset": 1388,
@@ -263,9 +273,9 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "movetemp/movetemp",
-  "object_sha256": "d2fc66f78e1b7eff4af4508febb48292c81aaa454df5c7efbf3ca377062515eb",
+  "object_sha256": "1321a02de2b89175d2e085588da90929177a56c996fa6a60ca6872769eee90e4",
   "origin": 0,
-  "profile": "msc600",
+  "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "provider_span_aliases": [
     "ROCK_SPEED_A@0x08b6 in MOB_DIMENSIONS",
@@ -275,6 +285,6 @@
   ],
   "schema": 1,
   "source": "src/movetemp/movetemp.c",
-  "source_sha256": "e68cc9a62691a9ffcae2b154ccea3a67f0aa557ed81a8f8cc4d3b64c7b229ab4",
+  "source_sha256": "b2fba972ff4979a03aba26f225ce4ce67ff49ed79a1664010a13ed197c03859b",
   "space": "overlay-9"
 }
