@@ -1,11 +1,51 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "1c4c71ae6425c15f204f1033de07f2bb40332cf4ad2960d39d6198a206a8f820",
+  "binding_sha256": "a34c6d6e76718d35e78fa9a93300bcced6ab5fd1bc763ac14d34c4af8e225ed3",
   "claims": [
     {
       "fixup_count": 13,
       "public": "ANIMTROBS",
       "target_id": "root:0b41:000c"
+    },
+    {
+      "fixup_count": 12,
+      "public": "REDRAW_TORCH",
+      "target_id": "root:0b41:01fa"
+    },
+    {
+      "fixup_count": 11,
+      "public": "REDRAW_EXIT",
+      "target_id": "root:0b41:027a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "REDRAW_FLASK",
+      "target_id": "root:0b41:02d6"
+    },
+    {
+      "fixup_count": 7,
+      "public": "REDRAW_PLATE",
+      "relocation_indices": [
+        1025
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:02fe"
+    },
+    {
+      "fixup_count": 10,
+      "public": "REDRAW_LOOSE",
+      "target_id": "root:0b41:033a"
+    },
+    {
+      "fixup_count": 14,
+      "public": "REDRAW_GATE",
+      "relocation_indices": [
+        1050
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:038e"
     },
     {
       "fixup_count": 5,
@@ -442,9 +482,17 @@
   ],
   "data_publics": [
     {
+      "address": 2182,
+      "name": "CLIP_CHAR_RECTS",
+      "offset": 140,
+      "segment": "_DATA",
+      "span": 10,
+      "unique": true
+    },
+    {
       "address": 2192,
       "name": "MOB_DIMENSIONS",
-      "offset": 0,
+      "offset": 150,
       "segment": "_DATA",
       "span": 52,
       "unique": true
@@ -454,30 +502,6 @@
     {
       "object_offset": 144,
       "public": "ANIMTROB"
-    },
-    {
-      "object_offset": 494,
-      "public": "REDRAW_TORCH"
-    },
-    {
-      "object_offset": 622,
-      "public": "REDRAW_EXIT"
-    },
-    {
-      "object_offset": 714,
-      "public": "REDRAW_FLASK"
-    },
-    {
-      "object_offset": 754,
-      "public": "REDRAW_PLATE"
-    },
-    {
-      "object_offset": 814,
-      "public": "REDRAW_LOOSE"
-    },
-    {
-      "object_offset": 898,
-      "public": "REDRAW_GATE"
     },
     {
       "object_offset": 1328,
@@ -581,12 +605,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "b6639aa6b3969b98b4d59835d6e301290300706d695b4f0111024fa7b8d5b9a5",
+  "object_sha256": "a862ddba7b8d24dd05f78c7a569897c581faf596082b5f82bfb850aeb82ecef0",
   "origin": 46108,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "3497edf6c1577c96e969387a22cb628f1d065375e423bacacea5bbc087318329",
+  "source_sha256": "c9b7669ad1fde48639dc472c27468c5c65f20d306c89a5f50f5532daed4bdea7",
   "space": "root"
 }

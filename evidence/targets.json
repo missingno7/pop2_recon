@@ -33530,8 +33530,8 @@
     {
       "abi": "Framed far procedure, no stack arguments, RETF.",
       "boundary_evidence": [
-        "The preceding reviewed routine 0B41:009C ends with RETF 2 plus NOP at root+0xB606..0xB609.",
-        "PUSH CS; CALL near at root+0xBD1E reaches the BP frame at +0xB60A. Its branch joins and RETF at +0xB688 establish this zero-ownership structural extent. The untouched alignment NOP at +0xB689 separates it from the next BP frame."
+        "The preceding framed AnimTrob ends in RETF 2 and a NOP at 01f6 through 01f9. The original 090e PUSH CS and 090f CALL reach the framed entry at 01fa.",
+        "The null-rectangle and drawing paths end in the common epilogue and RETF 0278. The compiler alignment NOP at 0279 belongs to this extent. The independently reviewed original successor starts with PUSH BP at 027a."
       ],
       "boundary_status": "REVIEWED",
       "call_sites": [
@@ -33545,17 +33545,17 @@
       ],
       "classification": "GAME_C",
       "classification_evidence": [
-        "Handles resident rendered exit state and shares helpers with the adjacent routine."
+        "Tests the cave style, copies the appropriate torch rectangle, then marks visible affected cells."
       ],
       "classification_status": "Evidence-qualified",
       "entry_kind": "direct-code",
       "id": "root:0b41:01fa",
       "offset": 506,
-      "original_bytes_hex": "558bec83ec0a5756803e4745027505b80100eb022bc08946fe0bc07405b84a08eb03b842088d7ef68bf01607a5a5a5a58d46f650500ee827020bc0743c837efe007429a0ce67508d46f6500ee8870b0ee875038846ff508d46f6500ee8770b0ee8b303508d46f6500ee86a0b0ee8d202508d46f6500ee85d0b5e5f8be55dcb",
+      "original_bytes_hex": "558bec83ec0a5756803e4745027505b80100eb022bc08946fe0bc07405b84a08eb03b842088d7ef68bf01607a5a5a5a58d46f650500ee827020bc0743c837efe007429a0ce67508d46f6500ee8870b0ee875038846ff508d46f6500ee8770b0ee8b303508d46f6500ee86a0b0ee8d202508d46f6500ee85d0b5e5f8be55dcb90",
       "segment": 2881,
-      "semantic_name_hypothesis": "draw_exit_state",
-      "sha256": "827a557b8c7420126decfb9df7185f012f40e8e4e41d2c57eb69b059647242b3",
-      "size": 127,
+      "semantic_name_hypothesis": "redraw animated torch",
+      "sha256": "f7dd82ab36be332e6f299c973f54d2bd2d1c2aa2663f342ff8eb369300254986",
+      "size": 128,
       "space": "root",
       "state": "ANALYZED"
     },
@@ -70630,6 +70630,82 @@
         "FM Towns ACT.C @DoJumpHigh at 0c42:1643 performs the same ClrAll/GetFwdDist then FaceDx/GetBaseX/GetCol calculation and selects the same jump sequence constants."
       ],
       "original_bytes_hex": "558bec83ec02569ad213cc02a28e629a700b02288bf083fe047d13803ed46c01750c8d44fa509a6003cc02a3025c2bc0509a8e15cc028bf09a7410cc0203f083ee06569ad410cc028846ffa00e5c508a46ff50a00a5cfec8509af000cc02509ac8288a070bc0755a803e4745057507803e0e5c0f744c803e0e5c07751c803e4745067515803e0a5c027537803e095c027407803e095c067529803e0e5c08751c803e4745067515803e0a5c027514803e095c03740d803e095c047406b80e00eb0490b81c00500ee8feeb5e8be55dcb90"
+    },
+    {
+      "abi": "far Pascal, no parameters, void; RETF",
+      "boundary_evidence": [
+        "The function begins after the RETF at 02d4 and the alignment NOP at 02d5. The null-rectangle branch and drawn path converge at 02f9. RETF at 02fc and NOP at 02fd end before the independent plate entry at 02fe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56536,
+          "image_offset": 48344,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48343,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 61931,
+          "image_offset": 53739,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53738,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Framed far Pascal game routine with same-frame geometry and redraw calls."
+      ],
+      "classification_status": "MSC ABI and original flow reviewed",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:02d6",
+      "offset": 726,
+      "segment": 2881,
+      "sha256": "d505752e8b1ab98f5746e281b6302566172bd6bce9f1813649ab3a9d06dd2500",
+      "size": 40,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "far Pascal, no parameters, void; RETF",
+      "boundary_evidence": [
+        "Original near transfers call the prologue after the RETF at 02fc and NOP at 02fd. The function either skips marking or calls the rectangle callback dispatcher at 0332; both paths end at RETF 0339 immediately before the reviewed REDRAW_LOOSE entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59981,
+          "image_offset": 51789,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51788,
+          "relocated_segment_site": null,
+          "space": "root"
+        },
+        {
+          "file_offset": 60146,
+          "image_offset": 51954,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51953,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Framed far Pascal game routine with same-frame geometry and redraw calls."
+      ],
+      "classification_status": "MSC ABI and original flow reviewed",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:02fe",
+      "offset": 766,
+      "segment": 2881,
+      "sha256": "d964940d00c13317108a0a33448d945c44f49005249ffd9971b459f3cd5db9e7",
+      "size": 60,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

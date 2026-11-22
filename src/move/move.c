@@ -184,12 +184,36 @@ typedef struct {
 
 typedef void (far *CellMark)(sbyte cell, MoveRect *rect);
 
-extern MoveRect torch_rect, cave_torch_rect;
-extern MoveRect gate_rect, temple_gate_rect;
-extern MoveRect flask_rect, plate_rect, temple_plate_rect;
-extern MoveRect *exit_rects[], *loose_rects[];
+static MoveRect temple_gate_rect = {{-11, 17, 63, 57}};
+static MoveRect gate_rect = {{-11, 32, 63, 57}};
+static MoveRect exit_rect_templates[] = {
+    {{1, 6, 51, 46}}, {{-5, 6, 51, 49}}, {{-5, 6, 51, 50}}
+};
+static MoveRect flask_rect = {{30, 18, 52, 31}};
+static MoveRect loose_rect_templates[] = {
+    {{52, 0, 72, 50}}, {{48, 0, 69, 57}}
+};
+static MoveRect plate_rect = {{49, 0, 67, 57}};
+static MoveRect torch_rect = {{3, 32, 31, 51}};
+static MoveRect cave_torch_rect = {{-4, 25, 18, 57}};
+static MoveRect temple_plate_rect = {{51, 11, 63, 43}};
+static MoveRect clip_char_rect_templates[] = {
+    {{9, -32, 192, 46}}, {{6, -32, 192, 48}}, {{6, -32, 192, 50}}
+};
+
+static MoveRect *loose_rects[5] = {
+    0, 0, &loose_rect_templates[1], &loose_rect_templates[0], &loose_rect_templates[1]
+};
+static MoveRect *exit_rects[5] = {
+    0, 0, &exit_rect_templates[2], &exit_rect_templates[0], &exit_rect_templates[1]
+};
+/* ClipChar in CTRL.C selects its template by level type. */
+MoveRect *clip_char_rects[5] = {
+    0, 0, &clip_char_rect_templates[2], &clip_char_rect_templates[0], &clip_char_rect_templates[1]
+};
+
 extern byte viewed_room, left_room, right_room, upper_room, lower_room;
-extern byte upper_right_room, lower_right_room;
+extern byte upper_right_room;
 extern byte room_tiles[][30];
 extern int tile_has_gate(byte tile);
 extern sbyte CellToCol(byte room, int cell);
@@ -205,6 +229,8 @@ sbyte check_trob_below(void);
 void mark_move(sbyte cell, MoveRect *rect);
 void mark_bufs_for_rect(CellMark mark, MoveRect *rect, sbyte selector);
 int is_visible_room_cell(byte room, sbyte cell);
+
+extern byte lower_right_room;
 
 void redraw_torch(void)
 {
@@ -1343,9 +1369,9 @@ void make_space(unsigned char room, signed char cell)
     room_objects[*(volatile int *)&index].state = state;
 }
 
-extern sbyte pressed_source, pressed_row;
 /* MSC Pascal linkage folds this view and actor_column to the same external. */
 extern sbyte ACTOR_COLUMN;
+extern sbyte pressed_source, pressed_row;
 extern byte shake_kind;
 extern byte select_shake_cell(byte room, sbyte column, sbyte row);
 extern void damage_crystal(void);
