@@ -912,8 +912,33 @@ static const int horse_level9_origin[] = {22, 159};
 static const int horse_level10_origin[] = {102, 119};
 int horse_level14_origin[] = {37, 112};
 
-extern char missing_shape_format[];
-extern char dirty_rectangle_error[];
+extern void far pascal draw_temple_gate_movable(void near *cell);
+extern void far pascal DrawCaveGateMovable(void near *cell);
+extern void far pascal draw_ruin_gate_movable(void near *);
+
+typedef void (far pascal *LevelTileProc)(void near *);
+extern LevelTileProc desert_level_spec[], drawtemp_level_spec[];
+extern LevelTileProc drawcave_level_spec[], drawruin_level_spec[];
+extern LevelTileProc rooftops_level_spec[], final_level_spec[];
+
+int near *level_start_table[] = {
+    0, (int near *)desert_level_spec, (int near *)drawtemp_level_spec,
+    (int near *)drawcave_level_spec, (int near *)drawruin_level_spec,
+    (int near *)rooftops_level_spec, (int near *)final_level_spec
+};
+
+void far *level_sequence_table[] = {
+    0, 0, (void far *)draw_temple_gate_movable, (void far *)DrawCaveGateMovable,
+    (void far *)draw_ruin_gate_movable, 0, 0
+};
+
+static struct {
+    char missing_shape[63];
+    char rectangle_overflow[16];
+} draw_messages = {
+    "ERROR:  DrawIt().  x = %d, y = %d, mode = 0x%x, shapeType = %d",
+    "DRects Overflow"
+};
 extern int cdecl sprintf(char *out, const char *fmt, ...);
 extern void abort_with_message(int severity, const char far *message);
 extern void paint_plain(ShapeBitmap far *image, int x, int y, int flip);
@@ -933,7 +958,7 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
     char message[150];
 
     if (!image && !mask) {
-        sprintf(message, missing_shape_format, x, y, flip, mode);
+        sprintf(message, draw_messages.missing_shape, x, y, flip, mode);
         abort_with_message(1, message);
     }
     if (image) {
@@ -1068,7 +1093,7 @@ void add_dirty_rectangle(DrawRect *rect)
         }
     }
     if (dirty_rectangle_count >= 40)
-        show_message(dirty_rectangle_error, 1);
+        show_message(draw_messages.rectangle_overflow, 1);
     else
         dirty_rectangles[dirty_rectangle_count++] = *rect;
 }
@@ -1314,7 +1339,7 @@ void sort_cell_objects(void)
 int compare_objects(int first, int second)
 {
     int left_id, right_id;
-    unsigned char left_type, right_type;
+    unsigned char right_type, left_type;
     unsigned char left_priority, right_priority;
     int swap;
 

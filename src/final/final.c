@@ -392,46 +392,46 @@ typedef struct {
 } RoomShapeTable;
 
 extern RoomShapeTable near *shapes_by_room;
-extern ForegroundImage far foreground_image[];
-extern _segment foreground_segment;
+typedef unsigned int ForegroundOffset;
+extern ForegroundImage far fore_queue[];
 extern int foreground_count;
 extern void far cdecl move_bytes(void far *dst, const void far *src, unsigned int size);
 
 void far pascal sort_foreground(void)
 {
-    ForegroundImage _based(foreground_segment) *destination;
+    ForegroundOffset destination;
     int out, index;
 
     out = index = foreground_count - 1;
     if (index >= 0) {
-        int _based(foreground_segment) *shape_ptr;
+        ForegroundOffset shape_ptr;
         ForegroundImage saved;
 
-        destination = (ForegroundImage _based(foreground_segment) *)&foreground_image[out];
-        shape_ptr = (int _based(foreground_segment) *)&foreground_image[index].shape;
+        destination = (unsigned int)&fore_queue[out];
+        shape_ptr = (unsigned int)&fore_queue[index].shape;
         do {
             int shape;
 
-            shape = shapes_by_room->entries[*shape_ptr - shapes_by_room->first_shape].shape_delta
+            shape = shapes_by_room->entries[*(((_segment)fore_queue) :> (int _based(void) *)shape_ptr) - shapes_by_room->first_shape].shape_delta
                   + shapes_by_room->first_shape;
             if ((shape >= 0x1021 && shape <= 0x1024) ||
                 (shape >= 0x1058 && shape <= 0x105c)) {
                 if (index != out) {
                     ForegroundImage far *source;
                     char _based(void) *at;
-                    _segment storage_segment = (_segment)foreground_image;
+                    _segment storage_segment = (_segment)fore_queue;
 
                     at = (char _based(void) *)shape_ptr;
                     source = storage_segment :> (ForegroundImage _based(void) *)(at - 2);
                     saved = *source;
                     move_bytes(source, storage_segment :> (void _based(void) *)(at + 18),
                                (out - index) * sizeof(ForegroundImage));
-                    *destination = saved;
+                    *(((_segment)fore_queue) :> (ForegroundImage _based(void) *)destination) = saved;
                 }
-                --destination;
+                destination -= sizeof(ForegroundImage);
                 --out;
             }
-            shape_ptr -= sizeof(ForegroundImage) / sizeof(*shape_ptr);
+            shape_ptr -= sizeof(ForegroundImage);
         } while (--index >= 0);
     }
 }

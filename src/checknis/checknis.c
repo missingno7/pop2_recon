@@ -251,7 +251,7 @@ extern void load_level_map(signed char room);
 extern void load_background_set(int visible);
 extern void load_pieces_data(void);
 extern void load_code_overlays(unsigned char room, unsigned char tile);
-extern void place_room_objects(unsigned char room);
+extern void set_level_spec_ptrs(unsigned char room);
 extern void PrepCut(int mode);
 extern void clean_cut(void);
 extern void unload_set(int pass);
@@ -275,7 +275,7 @@ void draw_room_from_nis(signed char room, signed char level)
     if (old_room != Level.environment_kind)
         load_pieces_data();
     load_code_overlays(Level.environment_kind, Level.preferred_opponent);
-    place_room_objects(Level.environment_kind);
+    set_level_spec_ptrs(Level.environment_kind);
     Room.number = 0;
     CutRoom = level;
     PrepCut(1);

@@ -11,7 +11,7 @@
       "LOAD_CODE_OVERLAYS",
       "PLAYING_NIS",
       "PENDING_SOUND",
-      "PLACE_ROOM_OBJECTS",
+      "SET_LEVEL_SPEC_PTRS",
       "SCREEN_RECT",
       "LEVEL",
       "PREPCUT",
@@ -2632,7 +2632,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "PLACE_ROOM_OBJECTS",
+          "name": "SET_LEVEL_SPEC_PTRS",
           "zero_displacement": true
         }
       },
@@ -2646,7 +2646,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "PLACE_ROOM_OBJECTS",
+        "name": "SET_LEVEL_SPEC_PTRS",
         "zero_displacement": true
       }
     },
@@ -3642,10 +3642,10 @@
       ]
     },
     "LEVEL_RESOURCE_FILES": {
-      "kind": "dgroup-public",
       "group": "DGROUP",
-      "provider": "group:load/load",
-      "offset": 1564
+      "kind": "dgroup-public",
+      "offset": 1564,
+      "provider": "group:load/load"
     },
     "LOAD_BACKGROUND_SET": {
       "entry_sha256": "2b02e4ec7f59aaa922634cb4a7bc58958846c7e8665452951ae78808e2fce6f7",
@@ -3762,15 +3762,6 @@
           "space": "root"
         }
       ]
-    },
-    "PLACE_ROOM_OBJECTS": {
-      "entry_sha256": "076c3d0f903c89f9d6cc2e667f7fc66527480135a39889d075423a0c19a451e5",
-      "entry_target_id": "root:0a5c:0556",
-      "kind": "far-code-entry",
-      "offset": 1366,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
     },
     "PLAYING_NIS": {
       "group": "DGROUP",
@@ -4005,6 +3996,15 @@
       "entry_target_id": "root:0a5c:0792",
       "kind": "far-code-entry",
       "offset": 1938,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
+    "SET_LEVEL_SPEC_PTRS": {
+      "entry_sha256": "076c3d0f903c89f9d6cc2e667f7fc66527480135a39889d075423a0c19a451e5",
+      "entry_target_id": "root:0a5c:0556",
+      "kind": "far-code-entry",
+      "offset": 1366,
       "segment": 2652,
       "space": "root",
       "witnesses": []

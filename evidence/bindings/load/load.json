@@ -11575,17 +11575,9 @@
     },
     "LEVEL_SEQUENCE_TABLE": {
       "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "unproven": "DS:04ee is the segment half of the DRAW table entry. There is no independent original operand witness.",
-          "witnesses": []
-        }
-      ],
+      "kind": "dgroup-public",
       "offset": 1260,
-      "unproven": "DRAW owns the table at DS:04ec. This indexed use is the only original operand witness, and DRAW has no accepted data public for it.",
-      "witnesses": []
+      "provider": "group:draw/draw"
     },
     "LEVEL_STARTS": {
       "group": "DGROUP",
@@ -11603,17 +11595,9 @@
     },
     "LEVEL_START_TABLE": {
       "group": "DGROUP",
-      "kind": "dgroup-offset",
+      "kind": "dgroup-public",
       "offset": 1246,
-      "witnesses": [
-        {
-          "bytes_hex": "ffb7de04",
-          "entry": "overlay-2:238a:0410",
-          "image_offset": 2170,
-          "operand_offset": 2,
-          "space": "overlay-2"
-        }
-      ]
+      "provider": "group:draw/draw"
     },
     "LOAD_OPPONENT_SOUND": {
       "entry_sha256": "9fcca7e3c25aa7236843d8658cf41a71448cf21e16ccf4439766e28b7ee2f984",
