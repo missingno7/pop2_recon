@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/prince/prince.json",
-  "binding_sha256": "4220c8fee07543c850f150ff30e7c9bb33956f404fc55342b9f04eb54f4082e3",
+  "binding_sha256": "48a5f356689b94a09b422b7a567936f3955fd18a16b9c02a0bc16fd995f677d3",
   "claims": [
     {
       "fixup_count": 28,
@@ -141,6 +141,66 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0000:0492"
+    },
+    {
+      "fixup_count": 4,
+      "public": "TOGGLE_SOUND",
+      "relocation_indices": [
+        21,
+        127,
+        128
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0a5a"
+    },
+    {
+      "fixup_count": 11,
+      "public": "JOYSTICK_STATUS",
+      "relocation_indices": [
+        16
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0a84"
+    },
+    {
+      "fixup_count": 33,
+      "public": "KEEPTIME",
+      "relocation_indices": [
+        52,
+        82
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0cbc"
+    },
+    {
+      "fixup_count": 3,
+      "public": "BOOSTMETER",
+      "target_id": "root:0000:0e78"
+    },
+    {
+      "fixup_count": 3,
+      "public": "UPDATE_STEP_DELTA",
+      "target_id": "root:0000:0e8e"
+    },
+    {
+      "fixup_count": 30,
+      "public": "CHECKMETERS",
+      "relocation_indices": [
+        20,
+        47,
+        48,
+        97,
+        121,
+        122
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:0e9a"
     },
     {
       "fixup_count": 12,
@@ -297,32 +357,8 @@
   ],
   "drafts": [
     {
-      "object_offset": 2650,
-      "public": "TOGGLE_SOUND"
-    },
-    {
-      "object_offset": 2692,
-      "public": "JOYSTICK_STATUS"
-    },
-    {
-      "object_offset": 3260,
-      "public": "KEEPTIME"
-    },
-    {
       "object_offset": 3540,
       "public": "PREPCUT"
-    },
-    {
-      "object_offset": 3704,
-      "public": "BOOSTMETER"
-    },
-    {
-      "object_offset": 3726,
-      "public": "UPDATE_STEP_DELTA"
-    },
-    {
-      "object_offset": 3738,
-      "public": "CHECKMETERS"
     },
     {
       "object_offset": 3952,
@@ -344,12 +380,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "prince/prince",
-  "object_sha256": "cc37f1200f87a8a4e4f479635c66422e424c1badedf6077d602cd211070eaf2b",
+  "object_sha256": "cc93cdee4d834476d3e337a177a0659c20f109e65070c733f9a67f78c57b7c0e",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/prince/prince.c",
-  "source_sha256": "4f7c51bf1581ad77d309e591c31bd61a7f8d4117059931304161626102979417",
+  "source_sha256": "9b64da1ea7bc7efb9eec45255b21131200360a128381ff976f287f37a6e35186",
   "space": "root"
 }

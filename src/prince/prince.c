@@ -181,7 +181,9 @@ typedef struct {
     char room;
     char unknown1[5];
     char kind;
-    char unknown7[29];
+    char unknown7[11];
+    unsigned char previous_hp, hp, hp_delta;
+    char unknown21[15];
     int sequence;
     char rest[26];
 } CharacterState;
@@ -315,9 +317,8 @@ extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern void far pascal draw_message(const char *message);
 extern void far pascal LoadCustomRoomData(unsigned char room);
 extern void far pascal STROKE_PORT_RECT(const char far *asset);
-extern void far pascal debug_room_message(const char *title, const char far *text, int flags);
 extern void far pascal ToggleInvertState(void);
-extern void far pascal request_sound(int value);
+extern void far pascal AddSong(int value);
 extern void far pascal AddSound(int value);
 extern void far pascal ChangeMeters(void);
 extern void far pascal CheckMeters(void);
@@ -331,7 +332,7 @@ extern void far pascal bones_fall(void);
 extern void far pascal set_skeleton_timer(signed char opponent, int value);
 extern void far pascal CheckShadowmanCreate(void);
 extern void far pascal schedule_room_effect(int duration, int range, unsigned char color, unsigned char mode);
-extern void far pascal highlight_room(signed char id, int value, int flags);
+extern void far pascal DrawOppMeter(signed char id, int value, int flags);
 extern void far pascal clear_message(int restore);
 extern int far pascal toggle_recording_player(void);
 extern int far pascal AddCharX(int amount);
@@ -407,7 +408,7 @@ void far pascal handle_debug_input(unsigned int key)
         }
         break;
     case 'T':
-        request_sound(101); BoostMeter(); Kid = Char; break;
+        AddSong(101); BoostMeter(); Kid = Char; break;
     case 'W': GoWeightless(); break;
     case 'g':
         Kid = Char;
@@ -445,7 +446,7 @@ void far pascal handle_debug_input(unsigned int key)
         text[0] = 0;
         break;
     case 0x2000:
-        debug_room_message(0, debug_messages.debug_cheat_message, 0);
+        show_dialog(0, debug_messages.debug_cheat_message, 0);
         break;
     case 0x3b00:
         debug_show_objects = !debug_show_objects;
@@ -478,7 +479,7 @@ void far pascal handle_debug_input(unsigned int key)
         case 0x5000: next_room = below_room; break;
         }
         if (next_room)
-            highlight_room(-1, 0, 10);
+            DrawOppMeter(-1, 0, 10);
     }
 
     if (control_mode) {
@@ -573,21 +574,21 @@ void far pascal handle_debug_input(unsigned int key)
 extern char one_second_left[], seconds_left[], minutes_left[], time_expired[];
 
 extern signed char sound_volume;
-extern void far pascal set_sound_volume(signed char level);
-extern void far pascal set_options_from_disk(void);
+extern void far pascal SET_SOUND_LEVEL(signed char level);
+extern void far pascal SaveOptionsToDisk(void);
 
 int far pascal toggle_sound(void)
 {
     int enabled;
 
     if (sound_volume == 0) {
-        set_sound_volume(15);
+        SET_SOUND_LEVEL(15);
         enabled = 1;
     } else {
-        set_sound_volume(0);
+        SET_SOUND_LEVEL(0);
         enabled = 0;
     }
-    set_options_from_disk();
+    SaveOptionsToDisk();
     return enabled;
 }
 
@@ -601,7 +602,14 @@ typedef struct {
 extern unsigned char available_devices;
 extern GameOptions *game_options;
 extern int control_mode;
-extern char gameport_state[9];
+#pragma pack(1)
+typedef struct {
+    int x, y;
+    int center_x, center_y;
+    signed char button;
+} GameportState;
+#pragma pack()
+extern GameportState gameport_state;
 extern int far pascal detect_gameport(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
@@ -617,7 +625,7 @@ char *far pascal joystick_status(void)
     } else {
         message = joystick_missing_message;
         game_options->control_mode = control_mode = 0;
-        memset(gameport_state, 0, sizeof(gameport_state));
+        memset(&gameport_state, 0, sizeof(gameport_state));
     }
     return message;
 }
@@ -829,39 +837,34 @@ int far pascal PrepCut(int keep_screen)
 }
 
 extern void far pascal copy_kid_to_char(void);
-extern void far pascal select_character(char index);
 extern void far pascal DrawKidMeter(int previous, int current);
-extern void far pascal DrawOppMeter(char room, int previous, int current);
 extern int video_ticks;
 extern unsigned int ticks_remaining;
 
 extern signed char opponent_index;
 
 /* Increment the signed state byte up to 12, then refresh the step delta. */
-extern unsigned char STATE_BYTE;
-extern unsigned char STATE_BASE;
-extern unsigned char STATE_DELTA;
 char far pascal UPDATE_STEP_DELTA(void);
 
 char far pascal BoostMeter(void)
 {
-    int next = (signed char)STATE_BYTE + 1;
-    STATE_BYTE = (next > 12) ? 12 : next;
+    int next = (signed char)Char.hp + 1;
+    Char.hp = (next > 12) ? 12 : next;
     return UPDATE_STEP_DELTA();
 }
 
 char far pascal UPDATE_STEP_DELTA(void)
 {
-    STATE_DELTA = STATE_BYTE - STATE_BASE;
-    return STATE_DELTA;
+    Char.hp_delta = Char.hp - Char.previous_hp;
+    return Char.hp_delta;
 }
 
 void far pascal CheckMeters(void)
 {
     copy_kid_to_char();
-    if (STATE_DELTA)
-        DrawKidMeter((signed char)STATE_BASE, (signed char)STATE_BYTE);
-    if (STATE_BASE == 1) {
+    if (Char.hp_delta)
+        DrawKidMeter((signed char)Char.previous_hp, (signed char)Char.hp);
+    if (Char.previous_hp == 1) {
         if (video_ticks % 2)
             DrawKidMeter(1, 0);
         else
@@ -869,14 +872,14 @@ void far pascal CheckMeters(void)
     }
     Kid = Char;
     if (opponent_index != -1) {
-        select_character(opponent_index);
-        if (STATE_DELTA && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2))
-            DrawOppMeter(Char.room, (signed char)STATE_BASE, (signed char)STATE_BYTE);
-        if (STATE_BASE == 1 && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2)) {
+        load_actor_slot(opponent_index);
+        if (Char.hp_delta && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2))
+            DrawOppMeter(Char.room, (signed char)Char.previous_hp, (signed char)Char.hp);
+        if (Char.previous_hp == 1 && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2)) {
             if (ticks_remaining & 1)
-                DrawOppMeter(Char.room, 1, (signed char)STATE_BYTE);
+                DrawOppMeter(Char.room, 1, (signed char)Char.hp);
             else
-                DrawOppMeter(Char.room, 0, (signed char)STATE_BYTE);
+                DrawOppMeter(Char.room, 0, (signed char)Char.hp);
         }
     }
 }
@@ -958,9 +961,6 @@ int far pascal Input(void)
 
 
 extern int control_mode;
-extern int joystick_x_raw, joystick_y_raw;
-extern int joystick_x_center, joystick_y_center;
-extern signed char joystick_button_raw;
 extern unsigned char key_down[];
 extern void far pascal sample_gameport(void);
 extern void far pascal flush_bios_keyboard(void);
@@ -984,21 +984,21 @@ void far pascal read_keyboard_controls(void);
     int threshold;
 
     sample_gameport();
-    threshold = *(volatile int *)&joystick_y_center / 2;
-    displacement = joystick_y_raw - joystick_y_center;
+    threshold = *(volatile int *)&gameport_state.center_y / 2;
+    displacement = gameport_state.y - gameport_state.center_y;
     if (displacement > threshold)
         joystick_y = 1;
     else if (-threshold > displacement)
         joystick_y = -1;
 
-    threshold = *(volatile int *)&joystick_x_center / 2;
-    displacement = joystick_x_raw - joystick_x_center;
+    threshold = *(volatile int *)&gameport_state.center_x / 2;
+    displacement = gameport_state.x - gameport_state.center_x;
     if (displacement > threshold)
         joystick_x = 1;
     else if (-threshold > displacement)
         joystick_x = -1;
 
-    joystick_button = -joystick_button_raw;
+    joystick_button = -gameport_state.button;
     if (joystick_button < -2)
         joystick_button = -1;
 }
@@ -1058,7 +1058,6 @@ extern int room_number;
 
 extern volatile unsigned int MODE_TIMER;
 extern volatile unsigned int MODE_CHANGED;
-extern void far pascal REQUEST_IF_UNSET(unsigned int value);
 
 typedef struct {
     int top, left, bottom, right;
@@ -1092,22 +1091,21 @@ void far pascal ToggleInvertState(void)
 {
     if (MODE_TIMER != 0) {
         MODE_TIMER = 0;
-        REQUEST_IF_UNSET(154);
+        AddSong(154);
     } else {
         MODE_TIMER = 1080;
-        REQUEST_IF_UNSET(153);
+        AddSong(153);
     }
     MODE_CHANGED = 1;
 }
 
 /* Restrict the step value, then request mode 105 unless already pending. */
 extern unsigned int RESTRICTED_STEP;
-extern void far pascal REQUEST_IF_UNSET(unsigned int value);
 
 void far pascal GoWeightless(void)
 {
     RESTRICTED_STEP = 228;
-    REQUEST_IF_UNSET(105);
+    AddSong(105);
 }
 
 /* 1316 */ void far pascal ResetData(void)
