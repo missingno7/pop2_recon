@@ -12,7 +12,7 @@
       "SCROLL_CONTEXT_RECTANGLE",
       "DRAW_TEXT_HANDLE_IN_RECT",
       "RELEASE_NEAR_BUFFER",
-      "SCAN_STRING_THEN_PROCESS",
+      "DRAW_NUL_TERMINATED_TEXT",
       "UPPERCASE_EVENT_CHARACTER",
       "CONVERT_SHAPE",
       "__NFREE",
@@ -21,7 +21,7 @@
       "SHOW_MOUSE_GRAPHICS",
       "DRAW_CHARACTER",
       "POP_PORT_CLIP",
-      "NEAR_5284",
+      "SECTRECT",
       "DISPOSE_HANDLE",
       "CLAMP_POINT_TO_RECT",
       "HGETRSRC",
@@ -1544,7 +1544,7 @@
         "index": 21,
         "kind": "external",
         "method": 6,
-        "name": "NEAR_5284",
+        "name": "SECTRECT",
         "zero_displacement": true
       }
     },
@@ -1741,7 +1741,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "SCAN_STRING_THEN_PROCESS",
+        "name": "DRAW_NUL_TERMINATED_TEXT",
         "zero_displacement": true
       }
     },
@@ -8772,6 +8772,15 @@
       "space": "root",
       "witnesses": []
     },
+    "DRAW_NUL_TERMINATED_TEXT": {
+      "entry_sha256": "e062c8a208acb901b6811c25ab046b5139758517042e72dfc5f956ec60e1c5c7",
+      "entry_target_id": "root:1101:4cd2",
+      "kind": "near-code-entry",
+      "offset": 19666,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "DRAW_NUL_TEXT_IN_RECT": {
       "entry_sha256": "0eb00f234993d1e1739939d2f5175e94f2a71442340dd6e36e7408022309efbd",
       "entry_target_id": "root:1101:5352",
@@ -8911,14 +8920,7 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 9968,
-      "witnesses": [
-        {
-          "bytes_hex": "8b3ef026",
-          "image_offset": 110072,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "MOUSE_BUTTON_UNQUEUED": {
       "entry_sha256": "6aca8ccda41a6dbd6b41044efcff34a0939bb6ef9675fccc71b56a68cdcf3a52",
@@ -9042,6 +9044,15 @@
       "entry_target_id": "root:1101:c1a6",
       "kind": "near-code-entry",
       "offset": 49574,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SECTRECT": {
+      "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
+      "entry_target_id": "root:1101:5284",
+      "kind": "near-code-entry",
+      "offset": 21124,
       "segment": 4353,
       "space": "root",
       "witnesses": []

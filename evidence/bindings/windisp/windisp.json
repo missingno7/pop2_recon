@@ -31,10 +31,10 @@
       "MEASURE_COUNTED_TEXT",
       "PUSH_PORT_CLIP",
       "INSETRECT",
-      "PAINT_GRID_CELL",
       "__NMALLOC",
       "ACTIVATE_WINDOW",
       "ADD_PORT_ORIGIN",
+      "DRAW_GRID_ITEMS",
       "CURRENT_GRAPHICS_FONT",
       "GRAF",
       "FRAME_RECT",
@@ -1096,7 +1096,7 @@
       "segment_offset": 385,
       "self_relative": true,
       "target": {
-        "index": 34,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "ADD_PORT_ORIGIN",
@@ -1238,7 +1238,7 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 32,
+        "index": 31,
         "kind": "external",
         "name": "__NMALLOC"
       },
@@ -1249,7 +1249,7 @@
       "segment_offset": 478,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "__NMALLOC",
@@ -2136,7 +2136,7 @@
       "segment_offset": 1660,
       "self_relative": true,
       "target": {
-        "index": 33,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "ACTIVATE_WINDOW",
@@ -2588,7 +2588,7 @@
       "segment_offset": 1931,
       "self_relative": true,
       "target": {
-        "index": 34,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "ADD_PORT_ORIGIN",
@@ -4005,7 +4005,7 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 32,
+        "index": 31,
         "kind": "external",
         "name": "__NMALLOC"
       },
@@ -4016,7 +4016,7 @@
       "segment_offset": 2849,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "__NMALLOC",
@@ -4316,7 +4316,7 @@
       "segment_offset": 3228,
       "self_relative": true,
       "target": {
-        "index": 34,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "ADD_PORT_ORIGIN",
@@ -5737,10 +5737,10 @@
       "segment_offset": 4237,
       "self_relative": true,
       "target": {
-        "index": 31,
+        "index": 34,
         "kind": "external",
         "method": 6,
-        "name": "PAINT_GRID_CELL",
+        "name": "DRAW_GRID_ITEMS",
         "zero_displacement": true
       }
     },
@@ -5803,10 +5803,10 @@
       "segment_offset": 4315,
       "self_relative": true,
       "target": {
-        "index": 31,
+        "index": 34,
         "kind": "external",
         "method": 6,
-        "name": "PAINT_GRID_CELL",
+        "name": "DRAW_GRID_ITEMS",
         "zero_displacement": true
       }
     }
@@ -5927,6 +5927,22 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "DRAW_GRID_ITEMS": {
+      "entry_sha256": "cfc843ce5bf1ad6d32165668dd61543e5c48955ba8e823ec742bc44a60caa207",
+      "entry_target_id": "root:1101:9c4d",
+      "kind": "near-code-entry",
+      "offset": 40013,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "e83400",
+          "entry": "root:1101:9bfa",
+          "image_offset": 109606,
+          "space": "root"
+        }
+      ]
     },
     "DRAW_NUL_TERMINATED_TEXT": {
       "entry_sha256": "e062c8a208acb901b6811c25ab046b5139758517042e72dfc5f956ec60e1c5c7",
@@ -6066,22 +6082,6 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
-    },
-    "PAINT_GRID_CELL": {
-      "entry_sha256": "cfc843ce5bf1ad6d32165668dd61543e5c48955ba8e823ec742bc44a60caa207",
-      "entry_target_id": "root:1101:9c4d",
-      "kind": "near-code-entry",
-      "offset": 40013,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "e83400",
-          "entry": "root:1101:9bfa",
-          "image_offset": 109606,
-          "space": "root"
-        }
-      ]
     },
     "PAINT_PENDING_WINDOW": {
       "entry_sha256": "4bb5e1a9142afbf0a64172ab629c74de90771fec0992005f3296b07d1e7f1fe1",

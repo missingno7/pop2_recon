@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/itemdlg/itemdlg.json",
-  "binding_sha256": "f1f5a705a7bdbb0d00b651d8bed2eb0f5df88001d7cde7fb912105b4b6f8ca7d",
+  "binding_sha256": "3ba17554b9ab1b49b9a9e41870deaeac5fd506a9a95bb48ba72f7e16151a6576",
   "claims": [
     {
       "fixup_count": 3,
@@ -48,6 +48,11 @@
       "target_id": "root:1101:9c27"
     },
     {
+      "fixup_count": 16,
+      "public": "DRAW_GRID_ITEMS",
+      "target_id": "root:1101:9c4d"
+    },
+    {
       "fixup_count": 3,
       "public": "INVALIDATE_GRID_CELL",
       "target_id": "root:1101:9d69"
@@ -61,6 +66,11 @@
       "fixup_count": 0,
       "public": "COPY_PACKED_ITEM_RECTS",
       "target_id": "root:1101:9d89"
+    },
+    {
+      "fixup_count": 14,
+      "public": "REDRAW_DIALOG_SCROLL",
+      "target_id": "root:1101:9dae"
     },
     {
       "fixup_count": 8,
@@ -78,6 +88,11 @@
       "target_id": "root:1101:9f26"
     },
     {
+      "fixup_count": 12,
+      "public": "REDRAW_MENU_ITEMS",
+      "target_id": "root:1101:9f61"
+    },
+    {
       "fixup_count": 6,
       "public": "INITIALIZE_MENU_BOUNDS",
       "target_id": "root:1101:9fca"
@@ -88,9 +103,34 @@
       "target_id": "root:1101:a010"
     },
     {
+      "fixup_count": 19,
+      "public": "UPDATE_MENU_TRACKING",
+      "target_id": "root:1101:a03a"
+    },
+    {
+      "fixup_count": 16,
+      "public": "DRAW_MENU_ITEM",
+      "target_id": "root:1101:a195"
+    },
+    {
+      "fixup_count": 4,
+      "public": "DRAW_PACKED_ITEM",
+      "relocation_indices": [
+        1560
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1101:a241"
+    },
+    {
       "fixup_count": 0,
       "public": "STORE_BYTE_IN_INDEXED_SLOT",
       "target_id": "root:1000:b2dc"
+    },
+    {
+      "fixup_count": 3,
+      "public": "SET_INDEXED_ITEM_VALUE",
+      "target_id": "root:1101:a2ea"
     },
     {
       "fixup_count": 7,
@@ -101,6 +141,11 @@
       "fixup_count": 3,
       "public": "CALCULATE_MENU_BOUNDS",
       "target_id": "root:1101:a36a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "CLOSE_TRACKING_WINDOW",
+      "target_id": "root:1101:a391"
     },
     {
       "fixup_count": 6,
@@ -227,40 +272,8 @@
   ],
   "drafts": [
     {
-      "object_offset": 1032,
-      "public": "DRAW_GRID_ITEMS"
-    },
-    {
       "object_offset": 1384,
       "public": "ALIGN_9DAD"
-    },
-    {
-      "object_offset": 1385,
-      "public": "REDRAW_DIALOG_SCROLL"
-    },
-    {
-      "object_offset": 1820,
-      "public": "REDRAW_MENU_ITEMS"
-    },
-    {
-      "object_offset": 2037,
-      "public": "UPDATE_MENU_TRACKING"
-    },
-    {
-      "object_offset": 2384,
-      "public": "DRAW_MENU_ITEM"
-    },
-    {
-      "object_offset": 2556,
-      "public": "DRAW_PACKED_ITEM"
-    },
-    {
-      "object_offset": 2725,
-      "public": "SET_INDEXED_ITEM_VALUE"
-    },
-    {
-      "object_offset": 2892,
-      "public": "CLOSE_TRACKING_WINDOW"
     },
     {
       "object_offset": 3296,
@@ -282,12 +295,12 @@
   "kind": "same_source_group",
   "language": "asm",
   "name": "itemdlg/itemdlg",
-  "object_sha256": "cfec3e6540aae6bedefd4d16c5b77a8ddd2743cc63568175409a872601f388c9",
+  "object_sha256": "b4161d8610e00a03e308540cfa8b28aa54cf781ca7ba1e62698c4a9acabcbf19",
   "origin": 108629,
   "profile": "masm510",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "asm/itemdlg/itemdlg.asm",
-  "source_sha256": "c438bb09f98b60b01a6475bdb0ff4340cdc3e7810ffdce3f4b99cb4ba5c27058",
+  "source_sha256": "125aa23237720347218f21624c8b3442e82ede4271a6cc629ad55252e5199bb4",
   "space": "root"
 }

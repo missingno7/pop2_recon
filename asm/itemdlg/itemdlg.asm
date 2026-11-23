@@ -57,12 +57,12 @@ EXTRN paint_grid_items:NEAR
 EXTRN pop_port_clip:NEAR
 EXTRN copy_current_port_origin:NEAR
 EXTRN apply_default_pen_state:NEAR
-EXTRN near_5284:NEAR
+EXTRN SectRect:NEAR
 EXTRN set_relative_pen_state:NEAR
 EXTRN MEASURE_NUL_TERMINATED_TEXT:NEAR
 EXTRN resolve_handle_to_far_payload:NEAR
 EXTRN set_record_range:NEAR
-EXTRN scan_string_then_process:NEAR
+EXTRN DRAW_NUL_TERMINATED_TEXT:NEAR
 EXTRN toggle_rect_effect:NEAR
 EXTRN MoveTo:NEAR
 EXTRN update_message_display:NEAR
@@ -704,7 +704,7 @@ draw_grid_items LABEL NEAR
     push ds
     push ax
     push cs
-    call near_5284
+    call SectRect
     push cs
     call push_port_clip
     les ax, DWORD PTR [bp + 4]
@@ -799,7 +799,7 @@ loc_9d49:
     push es
     push ax
     push cs
-    call scan_string_then_process
+    call DRAW_NUL_TERMINATED_TEXT
 loc_9d5b:
     mov ax, word ptr [bp - 2]
     cmp ax, word ptr [di + 02eh]

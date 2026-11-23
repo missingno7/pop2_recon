@@ -43,7 +43,7 @@ EXTRN grid_index_to_coordinates:NEAR
 EXTRN SET_RECORD_RANGE:NEAR
 EXTRN HGETRSRC:NEAR
 EXTRN PLAY_SOUND:NEAR
-EXTRN PAINT_GRID_CELL:NEAR
+EXTRN draw_grid_items:NEAR
 EXTRN PAINT_PENDING_WINDOW:NEAR
 EXTRN RESTORE_WINDOW_CLIP:NEAR
 EXTRN LOCATE_WINDOW_AT_POINT:NEAR
@@ -2418,7 +2418,7 @@ paint_next_grid_cell:
     push cx
     add dx, word ptr [di+2ah]
     push dx
-    call PAINT_GRID_CELL
+    call draw_grid_items
     pop dx
     pop cx
     inc cx
@@ -2461,7 +2461,7 @@ repaint_indexed_grid_cell:
     push di
     push dx
     push ax
-    call PAINT_GRID_CELL
+    call draw_grid_items
 return_grid_cell_update:
     pop di
     pop bp
