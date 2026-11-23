@@ -196,7 +196,6 @@ extern int Col2PixelX[13];
 extern int Row2PixelY[5];
 extern LavaTrob current_lava;
 extern struct list *lava_slots[4];
-extern sbyte *bubble_frames[];
 extern sbyte gate_offsets[];
 /* 16-bit bubble coordinates are copied together through the legacy input
    record by TriggerLavaBubble. */
@@ -231,7 +230,8 @@ static struct {
     }
 };
 
-static const char _based(_segname("_CONST")) too_many_lava_pools[] = "All global lava info structs have been used.";
+static sbyte lava_sequence_0[] = {0, 1, 2, 3, 4, 5, 6, 14, 13, -1};
+static sbyte lava_sequence_1[] = {0, 1, 2, 3, -2, 4, 16, 12, -1};
 static struct {
     int ticks;
     ubyte state[8];
@@ -542,6 +542,18 @@ void trigger_dart(sbyte room, sbyte cell)
     }
     Mob = saved;
 }
+
+static sbyte lava_sequence_2[] = {3, 4, 5, 6, 14, 13, -1};
+static sbyte lava_sequence_3[] = {0, 1, 2, 3, 4, 5, 6, 14, 6, 5, 4, 3, 2, 1, 0, -1};
+static sbyte lava_sequence_4[] = {0, 1, 2, 3, 4, 15, 12, -2, 7, 8, 9, 10, 11, -1};
+static sbyte lava_sequence_5[] = {0, 1, 2, 3, 4, 5, 6, 14, 13, -2, 16, 9, 10, 11, -1};
+
+sbyte *bubble_frames[6] = {
+    lava_sequence_0, lava_sequence_1, lava_sequence_2,
+    lava_sequence_3, lava_sequence_4, lava_sequence_5
+};
+
+static const char too_many_lava_pools[] = "All global lava info structs have been used.";
 
 #pragma optimize("gl", on)
 void animate_lava(void)
