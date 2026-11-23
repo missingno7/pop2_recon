@@ -1,7 +1,4 @@
-/* LOAD.C, resident resource loading and overlay selection.
- * Declarations outside the verified claims retain the working TU hypotheses.
- * See notes.md for the exact claims and the unresolved draft extents.
- */
+/* LOAD.C, resident resource loading and overlay selection. */
 typedef unsigned char Byte;
 typedef signed char SByte;
 typedef unsigned Handle;
@@ -12,10 +9,6 @@ typedef struct {
     Byte reserved[12];
     SByte sword_kind;
 } KidRecord;
-typedef struct {
-    Byte x, y;
-    int flags;
-} LevelStart;
 
 /* Resource openers replace the initial name pointers with file handles. */
 int resource_files[3] = {
@@ -46,20 +39,14 @@ static const int *background_image_last[7] = {
 
 extern void near *back_port;
 extern Rect GamePlayRect;
-extern Byte background;
-extern int background_overlay_flags[8];
 extern int background_intro_group[], background_intro_number[];
-static int flask_enabled;
 extern unsigned overlay_output;
 extern Handle sprite_sets[];
-extern Byte level_number;
 extern int sound_available;
 extern int active_map, resume_mode;
 extern char level_effect[];
-extern char map_archive[], background_overlay_file[];
-extern Byte opponent, start_room_count;
+extern char background_overlay_file[];
 extern int extra_kid_overlay;
-static int sword_overlay_enabled[3];
 typedef void (far pascal *LevelFrameProc)(void);
 
 extern void far pascal desert_frame(void);
@@ -110,7 +97,6 @@ static const char map_option[] = "GAMEPLAY\0%s%s";
 
 extern SByte sword_kind;
 extern Handle level_pieces, sword_frames, opponent_frames, opponent_effect_frames;
-extern Byte viewed_room;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -151,16 +137,12 @@ extern int *level_start_table[];
 extern void far *level_sequence_table[];
 extern int *level_starts;
 extern void far *level_sequences;
+extern SByte LevelIdx;
 extern int *BlueS;
 extern Byte *sequence_opcodes;
-extern LevelStart room_starts[];
-extern Byte start_x, start_y;
-extern unsigned long room_object_info[];
-extern Byte room_trigger_data[];
 extern int *Graf;
 extern int ScreenPort[];
 extern Byte opponent_overlay_one, opponent_overlay_two;
-extern SByte LevelIdx;
 extern int saved_background_set;
 extern char resource_path_format[];
 
@@ -261,23 +243,77 @@ void far pascal CheckBPort(void)
         back_port = AllocBackPort(&GamePlayRect);
 }
 
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
+/* Word flags in the level resource, including the three sword-overlay selectors. */
+#define LEVEL_FLASK_FLAG (*(int near *)&Level.unknown_185e[0])
+#define LEVEL_SWORD_OVERLAYS ((int near *)&Level.unknown_1858[0])
+
 void far pascal load_background_set(int palette)
 {
     unsigned limit = 0x3ff0;
 
-    if (background == 5)
+    if (Level.environment_kind == 5)
         limit = 0x7ff0;
-    else if (background == 6)
+    else if (Level.environment_kind == 6)
         limit = 0xfff0;
 
     load_set(4, 3500, limit, 1, 0);
     if (palette)
         load_resource_palette(3500, 64, 160, 0);
-    check_background_overlays(background);
+    check_background_overlays(Level.environment_kind);
     background_image_count = 0;
-    if (background_image_first[background])
-        PrinceMarkRangesPurgeable(sprite_sets[4], background_image_first[background],
-                             background_image_last[background]);
+    if (background_image_first[Level.environment_kind])
+        PrinceMarkRangesPurgeable(sprite_sets[4], background_image_first[Level.environment_kind],
+                             background_image_last[Level.environment_kind]);
 }
 
 void far pascal check_background_overlays(Byte kind)
@@ -285,7 +321,7 @@ void far pascal check_background_overlays(Byte kind)
     int i;
 
     for (i = 0; i < 8; ++i) {
-        if (background_overlay_flags[i]) {
+        if (Level.background_overlays[i]) {
             if (background_overlay_first[i] != -1)
                 overlay_shape_list(sprite_sets[4], 3700, background_overlay_first[i] - 1,
                                    background_overlay_last[i] - 1, 1);
@@ -297,7 +333,7 @@ void far pascal check_background_overlays(Byte kind)
 
 void far pascal load_flask_set(void)
 {
-    if (flask_enabled) {
+    if (LEVEL_FLASK_FLAG) {
         Byte *entries = _nmalloc(35);
         int i;
 
@@ -317,7 +353,7 @@ void far pascal load_level(SByte number)
     Byte previous;
 
     unload_level(3);
-    previous = background;
+    previous = Level.environment_kind;
     if (number != -2 && number != -1) {
         if (number != LevelIdx) {
             if (resume_mode == 0)
@@ -331,23 +367,23 @@ void far pascal load_level(SByte number)
     if (!IsLevelStartWithNISScreen())
         STROKE_PORT_RECT(level_effect);
     load_flask_set();
-    open_level_resource_files(background, previous);
+    open_level_resource_files(Level.environment_kind, previous);
     load_background_set(!IsLevelStartWithNISScreen());
     load_kid_set();
     load_kid_set_overlays();
-    load_opponent_set(opponent);
+    load_opponent_set(Level.preferred_opponent);
     set_kid_sword_kind();
     load_sword_set(sword_kind);
     load_song_range(0, 26);
     load_pieces_data();
-    if (background != previous) {
-        switch_background_overlay(background, previous);
-        set_kid_palette(background);
+    if (Level.environment_kind != previous) {
+        switch_background_overlay(Level.environment_kind, previous);
+        set_kid_palette(Level.environment_kind);
     }
-    load_code_overlays(background, opponent);
-    if (number != -2 && number != -1 && background == 1)
+    load_code_overlays(Level.environment_kind, Level.preferred_opponent);
+    if (number != -2 && number != -1 && Level.environment_kind == 1)
         reset_desert_variant();
-    set_level_spec_ptrs(background);
+    set_level_spec_ptrs(Level.environment_kind);
 }
 
 void far pascal load_level_map(SByte map)
@@ -355,7 +391,7 @@ void far pascal load_level_map(SByte map)
     int id = map + 1999;
     if (find_option(map_option))
         id += 20;
-    LOAD_RESOURCE_INTO(0, 0, id, map_archive, 12025L);
+    LOAD_RESOURCE_INTO(0, 0, id, (const char far *)&Level, 12025L);
     set_initial_room_state();
     SetRebirthPtLevelStatus();
 }
@@ -376,8 +412,8 @@ void far pascal switch_background_overlay(Byte current, Byte previous)
 {
     if (previous != current && background_scene_group[previous] != -1)
         release_song_range(background_scene_group[previous], background_scene_number[previous]);
-    if (background_scene_group[background] != -1)
-        load_song_range(background_scene_group[background], background_scene_number[background]);
+    if (background_scene_group[Level.environment_kind] != -1)
+        load_song_range(background_scene_group[Level.environment_kind], background_scene_number[Level.environment_kind]);
 }
 
 void far pascal load_code_overlays(Byte background_kind, Byte opponent_kind)
@@ -417,6 +453,17 @@ void far pascal load_pieces_data(void)
     level_pieces = LOAD_RESOURCE_COPY(0x50494543UL, 3500);
 }
 
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
+
 void far pascal load_sword_set(SByte kind)
 {
     unsigned id;
@@ -436,7 +483,7 @@ void far pascal load_sword_set(SByte kind)
     id = 1000;
     if (kind == 2)
         id = 1200;
-    mode = viewed_room == 1 && level_number == 14 ? 0 : 1;
+    mode = Room.number == 1 && Level.level_number == 14 ? 0 : 1;
     load_set(0, id, 0x8000, 2, mode);
     if (kind == 1) {
         for (i = 0; i < 1; ++i) {
@@ -491,10 +538,10 @@ void far pascal set_initial_room_state(void)
 {
     Byte room;
     int index;
-    for (room = 1; room <= start_room_count; ++room) {
+    for (room = 1; room <= Level.room_count; ++room) {
         enter_room(room);
-        start_x = room_starts[room].x;
-        start_y = room_starts[room].y;
+        Room.left = Level.room_links[room - 1].left;
+        Room.right = Level.room_links[room - 1].right;
         for (index = 0; index < 30; ++index)
             clear_special_sequence_flag(index);
     }
@@ -511,7 +558,7 @@ void far pascal load_kid_set(void)
     Byte *entries;
     int i, j;
 
-    if (background == 6)
+    if (Level.environment_kind == 6)
         open_verified_resource(level_resource_files[6]);
     entries = _nmalloc(314);
     memset(entries, 0, 314);
@@ -546,33 +593,33 @@ int far pascal need_kid_overlay(int index)
         needed = 0;
         break;
     case 0:
-        needed = background_overlay_flags[0];
+        needed = Level.background_overlays[0];
         break;
     case 1:
-        needed = background == 4 || background == 2;
+        needed = Level.environment_kind == 4 || Level.environment_kind == 2;
         break;
     case 2:
-        needed = background == 3 || opponent == 5 || opponent == 6;
+        needed = Level.environment_kind == 3 || Level.preferred_opponent == 5 || Level.preferred_opponent == 6;
         break;
     case 3:
-        needed = background_overlay_flags[3];
+        needed = Level.background_overlays[3];
         break;
     case 5:
-        needed = opponent == 5 || opponent == 6;
+        needed = Level.preferred_opponent == 5 || Level.preferred_opponent == 6;
         break;
     case 6:
-        needed = level_number == 5;
+        needed = Level.level_number == 5;
         break;
     case 8:
-        needed = level_number == 13;
+        needed = Level.level_number == 13;
         break;
     case 9:
-        needed = level_number == 13 || background == 6;
+        needed = Level.level_number == 13 || Level.environment_kind == 6;
         break;
     case 4:
     case 7:
     case 10:
-        needed = background == 6;
+        needed = Level.environment_kind == 6;
         break;
     }
     return needed;
@@ -597,8 +644,8 @@ int far pascal need_opponent_overlay(SByte kind, int index)
         }
         if (count >= index) {
             if (index < 3)
-                needed = sword_overlay_enabled[index];
-            else if (kind == 7 || background == 6)
+                needed = LEVEL_SWORD_OVERLAYS[index];
+            else if (kind == 7 || Level.environment_kind == 6)
                 needed = 1;
         }
     }
@@ -610,7 +657,7 @@ int far pascal need_sword_overlay(SByte index)
     int needed; /* The original sets this local only on the success path. */
     switch ((int)index) {
     case 0:
-        if (sword_overlay_enabled[0])
+        if (LEVEL_SWORD_OVERLAYS[0])
             needed = 1;
         break;
     }
@@ -684,11 +731,6 @@ void far pascal load_opponent_overlays(SByte kind)
     }
 }
 
-extern Byte room_objects[];
-
-typedef struct {
-    unsigned flags, actor;
-} RoomObjectInfo;
 
 extern CHARREC Kid;
 
@@ -701,10 +743,10 @@ void far pascal preload_room_data(Byte room)
     tile = 0;
     do {
         int index = tile + (unsigned)(Byte)30 * room;
-        const Byte *object_code = &room_objects[index];
-        const RoomObjectInfo *object_info = &((RoomObjectInfo *)room_object_info)[index];
+        const Byte *object_code = &((const Byte near *)&Level.cell_kinds)[index - 30];
+        const LEVELCELL *cell = &((const LEVELCELL near *)Level.cell_info)[index - 30];
         unsigned object = *object_code;
-        unsigned info = object_info->flags;
+        unsigned info = cell->modifier;
         int *flag = &visited[object];
         if (*flag == 0) { visited[object] = 1;
             switch (object) {
@@ -720,7 +762,7 @@ void far pascal preload_room_data(Byte room)
             }
         }
     } while (++tile < 30);
-    if (room_trigger_data[(unsigned)(Byte)116 * room]) load_opponent_sound(opponent);
+    if (Level.room_objects[room - 1].opponent_count) load_opponent_sound(Level.preferred_opponent);
     if ((SByte)(*(unsigned char near *)&Kid.vertical_step) > 0) {
         if ((SByte)(*(unsigned char near *)&Kid.vertical_step) < 33) hGetSnd(10016);
         else hGetSnd(10000);
@@ -755,10 +797,10 @@ void far pascal set_kid_sword_kind(void)
 {
     if (hRebirthSaved)
         sword_kind = hRebirthSaved->sword_kind;
-    else if (level_number == 6)
+    else if (Level.level_number == 6)
         sword_kind = -1;
-    else if (level_number == 7 ||
-             (level_number == 8 && (*(unsigned char near *)&Kid.room) != 9 && hRebirthSaved == 0))
+    else if (Level.level_number == 7 ||
+             (Level.level_number == 8 && (*(unsigned char near *)&Kid.room) != 9 && hRebirthSaved == 0))
         sword_kind = 2;
     else
         sword_kind = 1;
@@ -779,7 +821,7 @@ void far pascal unload_level(int first)
     int i;
     unload_from(first);
     for (i = 0; i < 8; ++i) {
-        if (background_overlay_flags[i])
+        if (Level.background_overlays[i])
             release_song_range(background_intro_group[i], background_intro_number[i]);
     }
     if (first <= 3 && opponent_frames) {
@@ -807,7 +849,7 @@ void far pascal unload_level(int first)
 
 void far pascal unload_opponent_overlays(SByte previous, SByte current)
 {
-    if (sprite_sets[3] && opponent != 5 && opponent != 6) {
+    if (sprite_sets[3] && Level.preferred_opponent != 5 && Level.preferred_opponent != 6) {
         int *last_base = opponent_overlay_last[previous];
         int *first_base = opponent_overlay_first[previous];
         if (first_base) {
