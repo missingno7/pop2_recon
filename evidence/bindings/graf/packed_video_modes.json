@@ -3154,15 +3154,7 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 9660,
-      "witnesses": [
-        {
-          "bytes_hex": "0306bc25",
-          "entry": "root:1101:3fd5",
-          "image_offset": 86011,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "SCREEN_ROW_ORIGIN": {
       "group": "DGROUP",
@@ -3170,13 +3162,20 @@
       "offset": 9666,
       "witnesses": [
         {
-          "bytes_hex": "0306c225",
-          "entry": "root:1101:3fd5",
-          "image_offset": 86325,
+          "bytes_hex": "8706c225",
+          "entry": "root:1101:9546",
+          "image_offset": 108239,
           "operand_offset": 2,
           "space": "root"
         }
       ]
+    },
+    "SCREEN_SEGMENT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9662,
+      "unproven": "Only operand site: root:1101:417f. Overlay-17 relocation 107 at +4efe proves this is the segment word of the screen pointer at DGROUP:25bc. v4 has no relocated-storage witness for the offset.",
+      "witnesses": []
     },
     "SCREEN_X_ORIGIN": {
       "group": "DGROUP",
@@ -3184,9 +3183,9 @@
       "offset": 9668,
       "witnesses": [
         {
-          "bytes_hex": "0306c425",
-          "entry": "root:1101:3fd5",
-          "image_offset": 86062,
+          "bytes_hex": "8706c425",
+          "entry": "root:1101:9546",
+          "image_offset": 108232,
           "operand_offset": 2,
           "space": "root"
         }

@@ -286,15 +286,15 @@ void check_slide_rock_crush(void)
     }
 }
 
+#pragma optimize("g", on)
 void draw_object_slide_rock(unsigned char kind)
 {
     struct moving_rock *rock;
-    int x, frame;
+    int x, frame, right;
     rock = (struct moving_rock *)slide_rock_on_row(Room.number, FChar.y / 63);
-    FChar.clip_right = x = 320;
-    if (rock)
-        FChar.clip_right = x = rock->screen_x;
-    x -= FChar.x;
+    right = rock ? rock->screen_x : 320;
+    FChar.clip_right = right;
+    x = right - FChar.x;
     switch (kind) {
     case 134: frame = 79; break;
     case 135: frame = 80; break;
@@ -305,6 +305,8 @@ void draw_object_slide_rock(unsigned char kind)
     if (frame != -1)
         draw_movement_shape(4, frame, FChar.x, FChar.y, 10);
 }
+
+#pragma optimize("g", off)
 
 int slide_rock_barrier(signed char direction, unsigned char room, signed char row)
 {
