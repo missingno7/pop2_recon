@@ -3,18 +3,18 @@
     "externals": [
       "RESOURCE_VERIFY_MESSAGE",
       "STDRSRCERROR",
-      "SET_SCREEN_MODE",
+      "DISPATCH_RESOURCE_POINTER",
       "WAIT_SOUND",
-      "RESTORE_SCREEN",
-      "RELEASE_VIDEO",
+      "RESET_SOUND_DRIVERS",
+      "RESET_TIMER_HOOK",
       "STDRSRCVERIFY",
-      "RESET_INPUT",
-      "RESET_MUSIC",
-      "RESET_RESOURCES",
+      "RESTORE_DOS_VECTORS",
+      "RESTORE_INTERRUPT_VECTORS",
+      "SHUTDOWN_GRAPHICS_MODE",
       "FILE_EXISTS",
-      "RESET_FILE_STATE",
-      "RESTORE_SYSTEM",
-      "SHOW_SYSTEM_ERROR",
+      "SHUTDOWN_BACKING_DRIVER",
+      "RELEASE_HEAP_SEGMENT",
+      "SHOW_MESSAGE",
       "WAIT_KEY",
       "READ_INPUT",
       "MOUSE_BUTTON_DOWN",
@@ -41,10 +41,10 @@
       "_close",
       "WAIT_TIMER",
       "INTERFACE_BUFFER",
-      "VIDEO_STATE",
-      "MUSIC_ENABLED",
-      "RESOURCE_STATE",
-      "FILE_STATE",
+      "CLOCK_TICKS",
+      "INTERRUPT_VECTORS_INSTALLED",
+      "GRAPHICS_MODE",
+      "BACKING_DRIVER_ACTIVE",
       "WAIT_FUNCTION",
       "RESOURCE_ERROR",
       "TIMERS",
@@ -53,7 +53,7 @@
       "WAIT_TIMER_NO_POLL",
       "ACTIVE_SOUND_CHANNELS",
       "CONFIGURATION",
-      "SYSTEM_ERROR_MESSAGE",
+      "SYSTEM_ERROR",
       "RESOURCE_ERROR_MESSAGE",
       "WAIT_TICKS"
     ],
@@ -590,7 +590,7 @@
           "index": 14,
           "kind": "external",
           "method": 6,
-          "name": "SHOW_SYSTEM_ERROR",
+          "name": "SHOW_MESSAGE",
           "zero_displacement": true
         }
       },
@@ -604,7 +604,7 @@
         "index": 14,
         "kind": "external",
         "method": 6,
-        "name": "SHOW_SYSTEM_ERROR",
+        "name": "SHOW_MESSAGE",
         "zero_displacement": true
       }
     },
@@ -617,7 +617,7 @@
           "index": 53,
           "kind": "external",
           "method": 6,
-          "name": "SYSTEM_ERROR_MESSAGE",
+          "name": "SYSTEM_ERROR",
           "zero_displacement": true
         }
       },
@@ -631,7 +631,7 @@
         "index": 53,
         "kind": "external",
         "method": 6,
-        "name": "SYSTEM_ERROR_MESSAGE",
+        "name": "SYSTEM_ERROR",
         "zero_displacement": true
       }
     },
@@ -725,7 +725,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "RESTORE_SYSTEM",
+          "name": "RELEASE_HEAP_SEGMENT",
           "zero_displacement": true
         }
       },
@@ -739,7 +739,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "RESTORE_SYSTEM",
+        "name": "RELEASE_HEAP_SEGMENT",
         "zero_displacement": true
       }
     },
@@ -752,7 +752,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "RESET_FILE_STATE",
+          "name": "SHUTDOWN_BACKING_DRIVER",
           "zero_displacement": true
         }
       },
@@ -766,7 +766,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "RESET_FILE_STATE",
+        "name": "SHUTDOWN_BACKING_DRIVER",
         "zero_displacement": true
       }
     },
@@ -779,7 +779,7 @@
           "index": 44,
           "kind": "external",
           "method": 6,
-          "name": "FILE_STATE",
+          "name": "BACKING_DRIVER_ACTIVE",
           "zero_displacement": true
         }
       },
@@ -793,7 +793,7 @@
         "index": 44,
         "kind": "external",
         "method": 6,
-        "name": "FILE_STATE",
+        "name": "BACKING_DRIVER_ACTIVE",
         "zero_displacement": true
       }
     },
@@ -806,7 +806,7 @@
           "index": 10,
           "kind": "external",
           "method": 6,
-          "name": "RESET_RESOURCES",
+          "name": "SHUTDOWN_GRAPHICS_MODE",
           "zero_displacement": true
         }
       },
@@ -820,7 +820,7 @@
         "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "RESET_RESOURCES",
+        "name": "SHUTDOWN_GRAPHICS_MODE",
         "zero_displacement": true
       }
     },
@@ -833,7 +833,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "RESOURCE_STATE",
+          "name": "GRAPHICS_MODE",
           "zero_displacement": true
         }
       },
@@ -847,7 +847,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "RESOURCE_STATE",
+        "name": "GRAPHICS_MODE",
         "zero_displacement": true
       }
     },
@@ -860,7 +860,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "RESET_MUSIC",
+          "name": "RESTORE_INTERRUPT_VECTORS",
           "zero_displacement": true
         }
       },
@@ -874,7 +874,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "RESET_MUSIC",
+        "name": "RESTORE_INTERRUPT_VECTORS",
         "zero_displacement": true
       }
     },
@@ -887,7 +887,7 @@
           "index": 42,
           "kind": "external",
           "method": 6,
-          "name": "MUSIC_ENABLED",
+          "name": "INTERRUPT_VECTORS_INSTALLED",
           "zero_displacement": true
         }
       },
@@ -901,7 +901,7 @@
         "index": 42,
         "kind": "external",
         "method": 6,
-        "name": "MUSIC_ENABLED",
+        "name": "INTERRUPT_VECTORS_INSTALLED",
         "zero_displacement": true
       }
     },
@@ -914,7 +914,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "RESTORE_DOS_VECTORS",
           "zero_displacement": true
         }
       },
@@ -928,7 +928,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "RESTORE_DOS_VECTORS",
         "zero_displacement": true
       }
     },
@@ -941,7 +941,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_VIDEO",
+          "name": "RESET_TIMER_HOOK",
           "zero_displacement": true
         }
       },
@@ -955,7 +955,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_VIDEO",
+        "name": "RESET_TIMER_HOOK",
         "zero_displacement": true
       }
     },
@@ -968,7 +968,7 @@
           "index": 5,
           "kind": "external",
           "method": 6,
-          "name": "RESTORE_SCREEN",
+          "name": "RESET_SOUND_DRIVERS",
           "zero_displacement": true
         }
       },
@@ -982,7 +982,7 @@
         "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "RESTORE_SCREEN",
+        "name": "RESET_SOUND_DRIVERS",
         "zero_displacement": true
       }
     },
@@ -995,7 +995,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "SET_SCREEN_MODE",
+          "name": "DISPATCH_RESOURCE_POINTER",
           "zero_displacement": true
         }
       },
@@ -1009,7 +1009,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "SET_SCREEN_MODE",
+        "name": "DISPATCH_RESOURCE_POINTER",
         "zero_displacement": true
       }
     },
@@ -1022,7 +1022,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "VIDEO_STATE",
+          "name": "CLOCK_TICKS",
           "zero_displacement": true
         }
       },
@@ -1036,7 +1036,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "VIDEO_STATE",
+        "name": "CLOCK_TICKS",
         "zero_displacement": true
       }
     },
@@ -1049,7 +1049,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "VIDEO_STATE",
+          "name": "CLOCK_TICKS",
           "zero_displacement": true
         }
       },
@@ -1063,7 +1063,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "VIDEO_STATE",
+        "name": "CLOCK_TICKS",
         "zero_displacement": true
       }
     },
@@ -2203,6 +2203,48 @@
         }
       ]
     },
+    "BACKING_DRIVER_ACTIVE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27220,
+      "witnesses": [
+        {
+          "bytes_hex": "c706546a0000",
+          "entry": "overlay-2:2344:016c",
+          "image_offset": 1004,
+          "operand_offset": 2,
+          "space": "overlay-2"
+        }
+      ]
+    },
+    "CLOCK_TICKS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "ff365626",
+              "entry": "root:107d:0060",
+              "image_offset": 67645,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 9812,
+      "witnesses": [
+        {
+          "bytes_hex": "ff365426",
+          "entry": "root:107d:0060",
+          "image_offset": 67649,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "CLOSE_RESOURCE_CATALOG": {
       "entry_sha256": "3e835b0c92a1fab4a9cf7748e177a374e1be9602f384826f5ecda36379cb0d34",
       "entry_target_id": "root:1101:7112",
@@ -2226,6 +2268,15 @@
         }
       ]
     },
+    "DISPATCH_RESOURCE_POINTER": {
+      "entry_sha256": "e6068354b13a1685398e7113be37df1d16c53b233ff98d9a3e53c8671de9eed7",
+      "entry_target_id": "root:1101:3342",
+      "kind": "far-code-entry",
+      "offset": 13122,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "GET_MIDI_DRIVER_FLAG": {
       "entry_sha256": "e0c773cc953d3be0c1ef5a0268efef208c024bb25b6452ae45fc547d7c6e1042",
       "entry_target_id": "root:1101:2e10",
@@ -2234,6 +2285,20 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "GRAPHICS_MODE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9680,
+      "witnesses": [
+        {
+          "bytes_hex": "833ed02506",
+          "entry": "root:1101:032d",
+          "image_offset": 73209,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "INTERFACE_BUFFER": {
       "group": "DGROUP",
@@ -2247,6 +2312,20 @@
           "image_offset": 516,
           "operand_offset": 1,
           "space": "overlay-2"
+        }
+      ]
+    },
+    "INTERRUPT_VECTORS_INSTALLED": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7892,
+      "witnesses": [
+        {
+          "bytes_hex": "c706d41e0100",
+          "entry": "root:0000:14b7",
+          "image_offset": 5409,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     },
@@ -2302,6 +2381,33 @@
         }
       ]
     },
+    "RELEASE_HEAP_SEGMENT": {
+      "entry_sha256": "74eb5a196adc869876d42c89ce7b20ed73c87f52fbf6981c5d2932a2e458af58",
+      "entry_target_id": "root:1101:1a54",
+      "kind": "far-code-entry",
+      "offset": 6740,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "RESET_SOUND_DRIVERS": {
+      "entry_sha256": "8a0119a1636b4606c40a9c08936929df9199ff7e22be009b41e2d9e49e8f86cc",
+      "entry_target_id": "root:1101:32bd",
+      "kind": "far-code-entry",
+      "offset": 12989,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "RESET_TIMER_HOOK": {
+      "entry_sha256": "0b6de2f206b76657ce9bfa547fb2cbc1f44c1882dec7c5a6ea2ee5e90419809d",
+      "entry_target_id": "root:1101:7e41",
+      "kind": "far-code-entry",
+      "offset": 32321,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1101:216c",
@@ -2348,6 +2454,66 @@
           "space": "root"
         }
       ]
+    },
+    "RESTORE_DOS_VECTORS": {
+      "entry_sha256": "cf0cb55e69ff89e12c4189e8e7973041208d67be4c9a085aec4e68cce89753c1",
+      "entry_target_id": "root:1101:bda5",
+      "kind": "far-code-entry",
+      "offset": 48549,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "RESTORE_INTERRUPT_VECTORS": {
+      "entry_sha256": "18f918f94f5b23fbc12e87145c4a6bebf5a10ba2094ab678489c97590f3dbe21",
+      "entry_target_id": "root:0000:1529",
+      "kind": "far-code-entry",
+      "offset": 5417,
+      "segment": 0,
+      "space": "root",
+      "unproven": "The sole relocated caller lies inside RESET_INTERFACE. The original entry is frameless and lacks an accepted exact owner.",
+      "witnesses": []
+    },
+    "SHOW_MESSAGE": {
+      "entry_sha256": "0fea5e847260aaba4bbf094ece7d0a36d43a517640d86ba5cb31353ba956afe1",
+      "entry_target_id": "root:1f74:0030",
+      "kind": "far-code-entry",
+      "offset": 48,
+      "segment": 8052,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3000741f",
+          "file_offset": 44320,
+          "image_offset": 36128,
+          "relocation_index": 724,
+          "space": "root"
+        }
+      ]
+    },
+    "SHUTDOWN_BACKING_DRIVER": {
+      "entry_sha256": "b543351fa45770b50fdc0fe888d66126af527ab7ecef2ab486b9d6b7e52daabf",
+      "entry_target_id": "root:1101:2731",
+      "kind": "far-code-entry",
+      "offset": 10033,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SHUTDOWN_GRAPHICS_MODE": {
+      "entry_sha256": "3109cd1463905166fb0159d35ca02c875b5962066e4890ed58e805dc9721b7f3",
+      "entry_target_id": "root:1101:4f10",
+      "kind": "far-code-entry",
+      "offset": 20240,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SYSTEM_ERROR": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 3176,
+      "provider": "group:english/english"
     },
     "TIMERS": {
       "group": "DGROUP",

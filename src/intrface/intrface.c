@@ -22,17 +22,17 @@ extern int cdecl open(const char *, int, ...);
 extern int cdecl close(int);
 
 extern void *interface_buffer;
-extern void far *video_state;
-extern int music_enabled;
-extern int resource_state;
-extern int file_state;
+extern unsigned long clock_ticks;
+extern int interrupt_vectors_installed;
+extern int graphics_mode;
+extern int backing_driver_active;
 extern WaitFunction wait_function;
 extern ResourceError resource_error;
 extern volatile int timers[];
 extern ResourceMap resource_map_list;
 extern volatile unsigned char active_sound_channels;
 extern struct LevelState *configuration;
-extern const char system_error_message[];
+extern const char system_error[];
 
 static const char message_format[] = "%s\n";
 struct screen_port_rect { int top, left, bottom, right; };
@@ -40,15 +40,15 @@ struct screen_port_rect ScreenPortRect = { 0, 0, 200, 320 };
 extern const char resource_error_message[];
 extern const char resource_verify_message[];
 
-extern void set_screen_mode(int, int);
-extern void restore_screen(void);
-extern void release_video(void);
-extern void reset_input(void);
-extern void reset_music(void);
-extern void reset_resources(void);
-extern void reset_file_state(void);
-extern void restore_system(void);
-extern void show_system_error(FarName, int);
+extern void dispatch_resource_pointer(const void far *);
+extern void reset_sound_drivers(void);
+extern void reset_timer_hook(void);
+extern void restore_dos_vectors(void);
+extern void restore_interrupt_vectors(void);
+extern void shutdown_graphics_mode(void);
+extern void shutdown_backing_driver(void);
+extern void release_heap_segment(void);
+extern void show_message(FarName, int);
 extern int read_input(void);
 extern int MOUSE_BUTTON_DOWN(int);
 extern int query_sound(int);
@@ -71,19 +71,19 @@ void abort_with_message(int status, register FarName message)
 
 void reset_interface(void)
 {
-    if (video_state) {
-        set_screen_mode(0, 0);
-        restore_screen();
-        release_video();
-        reset_input();
+    if (clock_ticks) {
+        dispatch_resource_pointer(0L);
+        reset_sound_drivers();
+        reset_timer_hook();
+        restore_dos_vectors();
     }
-    if (music_enabled)
-        reset_music();
-    if (resource_state)
-        reset_resources();
-    if (file_state)
-        reset_file_state();
-    restore_system();
+    if (interrupt_vectors_installed)
+        restore_interrupt_vectors();
+    if (graphics_mode)
+        shutdown_graphics_mode();
+    if (backing_driver_active)
+        shutdown_backing_driver();
+    release_heap_segment();
 }
 
 int check_wait_function(void)
@@ -98,7 +98,7 @@ int check_wait_function(void)
 
 void report_system_error(void)
 {
-    show_system_error(system_error_message, 0);
+    show_message(system_error, 0);
     abort_with_message(1, (FarName)0);
 }
 

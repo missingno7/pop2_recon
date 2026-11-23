@@ -685,16 +685,23 @@ class PlacementTests(unittest.TestCase):
                  "frame": {"kind": "target_frame", "target": target}, "target": target, "displacement": None}
         content, image = bytes.fromhex("10000000aabb"), bytes(8) + bytes.fromhex("5000932aaabb")
         args = ([("_DATA", content, 6)], {}, {"_DATA": 8}, image, [field])
-        code = ("UNIT_TEXT", 0x40, 0x100, 0x2A93)
+        code = ("UNIT_TEXT", 0x40, 0x100, 0x2A93, {"OWN": 0x10})
         self.assertTrue(self.check(*args, relocs=[10], code=code)["_DATA"]["unique"])
         with self.assertRaisesRegex(ValueError, "witnessed frame"):
             self.check(*args, relocs=[10])
         with self.assertRaisesRegex(ValueError, "relocated words"):
             self.check(*args, code=code)
         with self.assertRaisesRegex(ValueError, "differs"):
-            self.check(*args, relocs=[10], code=("UNIT_TEXT", 0x40, 0x100, 0x2A94))
+            self.check(*args, relocs=[10], code=("UNIT_TEXT", 0x40, 0x100, 0x2A94, {}))
         with self.assertRaisesRegex(ValueError, "leaves the object's CODE"):
-            self.check(*args, relocs=[10], code=("UNIT_TEXT", 0x40, 0x10, 0x2A93))
+            self.check(*args, relocs=[10], code=("UNIT_TEXT", 0x40, 0x10, 0x2A93, {}))
+        # The same pointer through an EXTDEF of an own public (MSC), zero stored offset.
+        ext = {"kind": "external", "index": 4, "name": "OWN", "method": 6}
+        field = dict(field, target=ext, frame={"kind": "target_frame", "target": ext})
+        args = ([("_DATA", bytes.fromhex("00000000aabb"), 6)], {}, {"_DATA": 8}, image, [field])
+        self.assertTrue(self.check(*args, relocs=[10], code=code)["_DATA"]["unique"])
+        with self.assertRaisesRegex(ValueError, "grounded far code symbol"):   # not a public of this object
+            self.check(*args, relocs=[10], code=code[:4] + ({},))
 
     def test_far_code_pointer_takes_the_grounded_symbol_and_needs_its_relocation(self):
         # _DATA = {CALLBACK (far), 0xBBAA} at 8; CALLBACK grounded at 1234:0056.

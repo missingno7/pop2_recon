@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/intrface/intrface.json",
-  "binding_sha256": "6d054fa2f6eb804191da1b90efef899b945007fb388c8b1687432353877dd09a",
+  "binding_sha256": "08e9490272d45b06f9a43a80235a661086b78e7a3d578a5df9e755034e258d41",
   "claims": [
     {
       "fixup_count": 6,
@@ -20,6 +20,16 @@
       "fixup_count": 3,
       "public": "CHECK_WAIT_FUNCTION",
       "target_id": "root:1de8:009a"
+    },
+    {
+      "fixup_count": 3,
+      "public": "REPORT_SYSTEM_ERROR",
+      "relocation_indices": [
+        1730
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1de8:00b4"
     },
     {
       "fixup_count": 2,
@@ -139,6 +149,15 @@
       "target_id": "root:1de8:0386"
     }
   ],
+  "code_matches": [
+    {
+      "public": "RESET_INTERFACE",
+      "target_id": "root:1de8:004e",
+      "unproven": [
+        "RESTORE_INTERRUPT_VECTORS"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 8160,
@@ -150,14 +169,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 66,
-      "public": "RESET_INTERFACE"
-    },
-    {
-      "object_offset": 168,
-      "public": "REPORT_SYSTEM_ERROR"
-    },
     {
       "object_offset": 854,
       "public": "STDRSRCERROR"
@@ -182,12 +193,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "intrface/intrface",
-  "object_sha256": "3a039a0b70562f2962cd4b3b7bbeb3946dacb292a13579ba99b53c585c8dba07",
+  "object_sha256": "12eda04b2ee98679b1f7f34dce6423064b80ce63fbda53357b24c55e00a5ca93",
   "origin": 122508,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/intrface/intrface.c",
-  "source_sha256": "39e5dba467863e4a1b600df832a6ab57bcc08e9e1bfb9e6e53be28f9beb5507c",
+  "source_sha256": "6c05f2eddc6fda6808af2d2d09b5ca3de141239c9f018f45c7ec3aa38899c23b",
   "space": "root"
 }

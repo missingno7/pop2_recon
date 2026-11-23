@@ -217,7 +217,7 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
       grounds independently (accepted exact entry or outside witnesses): that symbol's
       offset and segment, with a zero encoded addend; its segment word is relocated in MZ.
     - a far code pointer into this object's own CODE segment, when the claims' CS frame is witnessed:
-      `code` is (segment name, its offset in that frame, its length, the frame); the linker writes
+      `code` is (segment name, its offset in that frame, its length, the frame, CODE publics); the linker writes
       offset + stored offset + D and the frame, relocated in MZ (2026-11-23)."""
     linked, relocated = bytearray(content), []
     for f in fields:
@@ -237,15 +237,18 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
             linked[at:at + 2] = symbol["segment"].to_bytes(2, "little")
             relocated.append(at)
             continue
-        if f["loc_type"] == 3 and target.get("kind") == "segment":
-            at = f["segment_offset"]
-            require(code is not None and target.get("name") == code[0] and not f["self_relative"] and
-                    f["field_width"] == 4 and content[at + 2:at + 4] == bytes(2) and
-                    (frame == {"kind": "target_frame", "target": target} or
-                     (frame.get("kind"), frame.get("name")) == ("segment", code[0])),
+        own = (code or ((),) * 5)[4] if code else {}
+        if f["loc_type"] == 3 and (target.get("kind") == "segment" or
+                                   target.get("kind") == "external" and target.get("name") in own):
+            # The target is this object's CODE segment, or an EXTDEF of one of its own CODE publics.
+            at, start = f["segment_offset"], own.get(target.get("name"), 0) if target["kind"] == "external" else 0
+            same = {k: frame.get(k) for k in ("kind", "name")} == {k: target.get(k) for k in ("kind", "name")}
+            require(code is not None and (target["kind"] == "external" or target.get("name") == code[0]) and
+                    not f["self_relative"] and f["field_width"] == 4 and content[at + 2:at + 4] == bytes(2) and
+                    (frame == {"kind": "target_frame", "target": target} or same),
                     f"Placed segment {seg} far pointer at +{at:#x} is not a pointer into this object's own CODE "
                     "with a witnessed frame")
-            entry = int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
+            entry = start + int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
             require(0 <= entry < code[2], f"Placed segment {seg} far pointer at +{at:#x} leaves the object's CODE")
             linked[at:at + 4] = ((code[1] + entry) & 0xFFFF).to_bytes(2, "little") + code[3].to_bytes(2, "little")
             relocated.append(at + 2)
@@ -1821,13 +1824,15 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
         used_far |= {f["target"].get("name") for f in data_fixes
-                     if f["loc_type"] in (2, 3) and f["target"].get("kind") == "external"}
+                     if f["loc_type"] in (2, 3) and f["target"].get("kind") == "external" and
+                     f["target"].get("name") not in publics}
         require(set(far_symbols) == used_far, "Missing or unused grounded far symbol")
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle,
                                          data_fixes, far_symbols, symbols, (origin, origin + len(actual)),
-                                         (name, origin - window[0], len(actual), next(iter(frames)))
+                                         (name, origin - window[0], len(actual), next(iter(frames)),
+                                          {p["name"]: p["offset"] for p in module.publics if p["segment"] == name})
                                          if frames and window is not None else None)
     _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
