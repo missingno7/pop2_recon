@@ -24,7 +24,7 @@
       "ADD_TROB",
       "LOAD_CHESS",
       "FINISH_BLINK_FRAME",
-      "RESERVE_OPPONENT",
+      "GETOPPINFOIDX",
       "READCELL",
       "DISPATCH_SOUND",
       "ANIMATE_JAFFAR_BLINK",
@@ -1949,7 +1949,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "RESERVE_OPPONENT",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -1963,7 +1963,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "RESERVE_OPPONENT",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -6026,7 +6026,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "RESERVE_OPPONENT",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -6040,7 +6040,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "RESERVE_OPPONENT",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -6566,7 +6566,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "RESERVE_OPPONENT",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -6580,7 +6580,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "RESERVE_OPPONENT",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -11310,7 +11310,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "RESERVE_OPPONENT",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -11324,7 +11324,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "RESERVE_OPPONENT",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -20354,6 +20354,23 @@
       "space": "overlay-3",
       "witnesses": []
     },
+    "GETOPPINFOIDX": {
+      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
+      "entry_target_id": "overlay-3:2344:08b4",
+      "kind": "overlay-code-entry",
+      "offset": 2228,
+      "segment": 9028,
+      "space": "overlay-3",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab4084423",
+          "file_offset": 63377,
+          "image_offset": 55185,
+          "relocation_index": 1000,
+          "space": "root"
+        }
+      ]
+    },
     "GETROW": {
       "entry_sha256": "38647a134ad2c843bef87f371260990aafa5a7c43bdc70ec1bd0db48a4ef2bab",
       "entry_target_id": "root:02cc:1102",
@@ -21172,23 +21189,6 @@
           "image_offset": 10091,
           "relocation_index": 154,
           "space": "overlay-3"
-        }
-      ]
-    },
-    "RESERVE_OPPONENT": {
-      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
-      "entry_target_id": "overlay-3:2344:08b4",
-      "kind": "overlay-code-entry",
-      "offset": 2228,
-      "segment": 9028,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9ab4084423",
-          "file_offset": 63377,
-          "image_offset": 55185,
-          "relocation_index": 1000,
-          "space": "root"
         }
       ]
     },

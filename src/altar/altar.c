@@ -157,7 +157,7 @@ extern void climb_up(void);
 extern int AddCharX(int), FirstInRow(signed char), transform_column(int);
 extern void decrement_life_points(Byte), set_char_state(Byte);
 extern int query_sound(int);
-extern Spawn *get_spawn(unsigned int, int);
+extern Spawn *GetOppInfoIdx(unsigned int, int);
 extern void reset_char_y(void), ClearCharVel(void), AnimChar(void);
 extern void set_resource(int, int, Byte, Byte);
 extern void far _fastcall draw_custom_room_image(Byte, Byte);
@@ -290,7 +290,7 @@ void create_shadowman(void)
         Kid = Char;
         room = (Byte)Char.room;
         id = Level.room_objects[room - 1].opponent_count++;
-        entry = get_spawn(room, id);
+        entry = GetOppInfoIdx(room, id);
         entry->position = FirstInRow(Char.row) + Char.column;
         entry->x = Char.x;
         entry->direction = Char.direction;

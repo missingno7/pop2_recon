@@ -188,7 +188,7 @@
       "GET_TROB_BY_ID",
       "CHECK_TROB_ABOVE_RIGHT",
       "CHECK_TROB_BELOW",
-      "GUARD_FOR_MOB",
+      "GETOPPINFOIDX",
       "BLUES",
       "MARK_FLOOR",
       "FLOOR_OVERRIDE",
@@ -23846,7 +23846,7 @@
           "index": 188,
           "kind": "external",
           "method": 6,
-          "name": "GUARD_FOR_MOB",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -23860,7 +23860,7 @@
         "index": 188,
         "kind": "external",
         "method": 6,
-        "name": "GUARD_FOR_MOB",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -26519,6 +26519,23 @@
         }
       ]
     },
+    "GETOPPINFOIDX": {
+      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
+      "entry_target_id": "overlay-3:2344:08b4",
+      "kind": "overlay-code-entry",
+      "offset": 2228,
+      "segment": 9028,
+      "space": "overlay-3",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab4084423",
+          "file_offset": 194659,
+          "image_offset": 9891,
+          "relocation_index": 134,
+          "space": "overlay-3"
+        }
+      ]
+    },
     "GET_ABOVE": {
       "entry_sha256": "c0f755e1b221a258bfa7c332ff4507cff99ea10ee7f34081fef5fe7af89acdbd",
       "entry_target_id": "root:02cc:153e",
@@ -26575,23 +26592,6 @@
           "file_offset": 185320,
           "image_offset": 552,
           "relocation_index": 3,
-          "space": "overlay-3"
-        }
-      ]
-    },
-    "GUARD_FOR_MOB": {
-      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
-      "entry_target_id": "overlay-3:2344:08b4",
-      "kind": "overlay-code-entry",
-      "offset": 2228,
-      "segment": 9028,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9ab4084423",
-          "file_offset": 194659,
-          "image_offset": 9891,
-          "relocation_index": 134,
           "space": "overlay-3"
         }
       ]

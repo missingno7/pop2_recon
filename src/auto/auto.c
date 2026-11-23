@@ -353,35 +353,38 @@ void far pascal initialize_room_actors(void)
 
 void far pascal check_side_rooms(void)
 {
-    int side, index;
-    unsigned char room;
-    signed char count;
-    int delta, shift;
+    struct {
+        int shift, side;
+        unsigned char room;
+        signed char count;
+        int index;
+    } scan;
+    int displacement;
     opponent_record *record;
     opponent_record copy;
 
-    for (side = 0; side < 2; ++side) {
-        if (side == 0) {
-            room = Room.left;
-            delta = -320;
+    for (scan.side = 0; scan.side < 2; ++scan.side) {
+        if (scan.side == 0) {
+            scan.room = Room.left;
+            displacement = -320;
         } else {
-            room = Room.right;
-            delta = 320;
+            scan.room = Room.right;
+            displacement = 320;
         }
-        if (room == 0)
+        if (scan.room == 0)
             continue;
-        shift = delta;
-        for (index = 0, count = Level.room_objects[room - 1].opponent_count; index < count; ++index) {
-            record = GetOppInfoIdx(room, index);
-            if ((side == 0 && record->x > 367) || (side == 1 && record->x < 208) ||
-                ((room == 7 || room == 8) && Level.environment_kind == 6 && record->appearance == 3)) {
+        scan.shift = displacement;
+        for (scan.index = 0, scan.count = Level.room_objects[scan.room - 1].opponent_count; scan.index < scan.count; ++scan.index) {
+            record = GetOppInfoIdx(scan.room, scan.index);
+            if ((scan.side == 0 && record->x > 367) || (scan.side == 1 && record->x < 208) ||
+                ((scan.room == 7 || scan.room == 8) && Level.environment_kind == 6 && record->appearance == 3)) {
                 copy = *record;
-                copy.x += shift;
+                copy.x += scan.shift;
                 copy.index = Level.room_objects[Room.number - 1].opponent_count;
                 add_opponent_to_room(Room.number, &copy);
-                RemoveOppFromRoom(room, index);
-                --index;
-                --count;
+                RemoveOppFromRoom(scan.room, scan.index);
+                --scan.index;
+                --scan.count;
             }
         }
     }
@@ -967,7 +970,7 @@ void far pascal transfer_room_actors(void)
         if ((((unsigned)(*(volatile int near *)&Char.frame) - 202u <= 10u &&
               Char.behavior == 1) ||
              ((unsigned)(*(volatile int near *)&Char.frame) >= 186u && (unsigned)(*(volatile int near *)&Char.frame) <= 201u &&
-              Char.behavior == 0)) && ((*(volatile unsigned char near *)&Char.character_kind) == 2 || (*(volatile unsigned char near *)&Char.character_kind) == 4))
+              Char.behavior != 0)) && ((*(volatile unsigned char near *)&Char.character_kind) == 2 || (*(volatile unsigned char near *)&Char.character_kind) == 4))
             goto follow;
         if (actor_follows_to_adjacent_room())
             goto follow;
@@ -1142,7 +1145,7 @@ void far pascal run_guard_script(void);
 int far pascal choose_cut_side(void)
 {
     volatile int y = Char.y;
-    volatile unsigned int mode = (*(unsigned char near *)&Char.action);
+    volatile int mode = Char.action;
     unsigned int action = (*(volatile int near *)&Char.frame);
     int none = -1;
     int side;

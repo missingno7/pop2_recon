@@ -233,7 +233,7 @@ extern int ColEdgeX[20];
 extern byte opponent_bank;
 extern const byte opponent_style_for_level[];
 
-extern OpponentSlot near *far pascal reserve_opponent(int bank, int serial);
+extern OpponentSlot near *far pascal GetOppInfoIdx(int bank, int serial);
 extern void far _fastcall reserve_opponent_bank(byte kind);
 extern void far pascal load_opponent_banks(void);
 extern void far pascal reset_char_y(void);
@@ -246,7 +246,7 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     sbyte index;
     OpponentSlot near *opponent;
 
-    opponent = reserve_opponent(3, index = Level.room_objects[2].opponent_count++);
+    opponent = GetOppInfoIdx(3, index = Level.room_objects[2].opponent_count++);
     opponent->cell = FirstInRow(room) + variant;
     opponent->x = ColEdgeX[variant + 5];
     if (variant < 5)
@@ -559,7 +559,7 @@ void far pascal jaffar_attack_in_escher(void)
     sbyte near *stance;
     OpponentSlot near *raw;
 
-    raw = reserve_opponent((byte)Char.room, Char.slot);
+    raw = GetOppInfoIdx((byte)Char.room, Char.slot);
     stance = raw->stance;
     if (raw->stance[0] != 2)
         stance[0] = 2;
@@ -591,7 +591,7 @@ void far pascal jaffar_flee_in_escher(void)
     sbyte near *stance;
     OpponentSlot near *raw;
 
-    raw = reserve_opponent((byte)Char.room, Char.slot);
+    raw = GetOppInfoIdx((byte)Char.room, Char.slot);
     stance = raw->stance;
     if (raw->stance[0] != 1)
         stance[0] = 1;
@@ -998,7 +998,7 @@ void far pascal run_jaffar_in_escher(void)
     OpponentSlot near *opponent;
     sbyte near *stance;
 
-    opponent = reserve_opponent((byte)Char.room, Char.slot);
+    opponent = GetOppInfoIdx((byte)Char.room, Char.slot);
     stance = opponent->stance;
     if (opponent->stance[0] == 1 && stance[2] != stance[1])
         flee = 1;

@@ -36,7 +36,7 @@ typedef struct {
     unsigned char field_3a;            /* 3a */
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
-struct guard_record { char prefix[7]; int active; };
+struct GetOppInfoIdx { char prefix[7]; int active; };
 typedef void (far pascal *frame_proc)(void);
 
 extern CHARREC Char;                     /* ds:5c00 */
@@ -285,7 +285,7 @@ extern void reach_rebirth_point(int);               /* far:052d:0fc4 */
 extern void shake_row(char, char);            /* far:0b41:190c */
 extern int get_opp_dist(void);                  /* far:02cc:1cac */
 extern int AddCharX(int);                     /* far:02cc:0360 */
-extern struct guard_record *guard_record(int, int); /* far:2344:08b4 */
+extern struct GetOppInfoIdx *GetOppInfoIdx(int, int); /* far:2344:08b4 */
 extern void clear_lava_slots(void);                  /* far:29cf:08c6 */
 extern void initialize_bridge(void);            /* far:29cf:0c1c */
 extern char ReadCell(char, char, char);              /* far:02cc:00f0 */
@@ -1003,14 +1003,14 @@ void reset_guard_records(void)
 {
     unsigned char room, limit;
     int index;
-    struct guard_record *guard;
+    struct GetOppInfoIdx *guard;
 
     room = 1;
     if (Level.room_count >= 1) {
         do {
             index = 0;
             do {
-                guard = guard_record(room, index++);
+                guard = GetOppInfoIdx(room, index++);
                 if (guard)
                     guard->active = 0;
             } while (guard);

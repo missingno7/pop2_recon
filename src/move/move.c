@@ -1988,7 +1988,7 @@ void add_mob_obj(int y)
 extern void crush_actor(void);
 extern void load_actor_slot(sbyte index);
 extern void save_actor_slot(void);
-extern OpponentPosition *guard_for_mob(int room, int index);
+extern OpponentPosition *GetOppInfoIdx(int room, int index);
 extern void CrushOppInfo(OpponentPosition *opp, byte room);
 extern sbyte near_crush_offset[], far_crush_offset[];
 extern int get_edge_distance(void);
@@ -2014,7 +2014,7 @@ void check_loose_crush(void)
                 save_actor_slot();
             }
         } else {
-            OpponentPosition *guard = guard_for_mob(Mob.room, index);
+            OpponentPosition *guard = GetOppInfoIdx(Mob.room, index);
             if (opp_under_mob(guard))
                 CrushOppInfo(guard, Mob.room);
         }

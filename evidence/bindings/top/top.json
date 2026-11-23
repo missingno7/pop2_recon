@@ -143,7 +143,7 @@
       "ADDCHARX",
       "START_FLOOR_FRAME",
       "VIEW_RETRY",
-      "GUARD_RECORD",
+      "GETOPPINFOIDX",
       "SHADOWS_PROCESSED",
       "UPDATE_FLOORS",
       "CHAR",
@@ -552,7 +552,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2896,
+        "length": 2897,
         "name": "$$TYPES",
         "overlay": "",
         "use32": false
@@ -15117,7 +15117,7 @@
           "index": 143,
           "kind": "external",
           "method": 6,
-          "name": "GUARD_RECORD",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -15131,7 +15131,7 @@
         "index": 143,
         "kind": "external",
         "method": 6,
-        "name": "GUARD_RECORD",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -18266,6 +18266,23 @@
         }
       ]
     },
+    "GETOPPINFOIDX": {
+      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
+      "entry_target_id": "overlay-3:2344:08b4",
+      "kind": "overlay-code-entry",
+      "offset": 2228,
+      "segment": 9028,
+      "space": "overlay-3",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab4084423",
+          "file_offset": 63377,
+          "image_offset": 55185,
+          "relocation_index": 1000,
+          "space": "root"
+        }
+      ]
+    },
     "GET_CHAR_EDGES": {
       "entry_sha256": "c11b0f15c93ca3e402b38e2f9a8320865a22406f24ba8bba96a8eca7b4f8e99b",
       "entry_target_id": "overlay-3:2802:09ca",
@@ -18327,23 +18344,6 @@
           "file_offset": 69129,
           "image_offset": 60937,
           "relocation_index": 1228,
-          "space": "root"
-        }
-      ]
-    },
-    "GUARD_RECORD": {
-      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
-      "entry_target_id": "overlay-3:2344:08b4",
-      "kind": "overlay-code-entry",
-      "offset": 2228,
-      "segment": 9028,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9ab4084423",
-          "file_offset": 63377,
-          "image_offset": 55185,
-          "relocation_index": 1000,
           "space": "root"
         }
       ]

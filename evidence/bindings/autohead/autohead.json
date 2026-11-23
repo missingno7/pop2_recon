@@ -22,7 +22,7 @@
       "HEAD_VISIBILITY",
       "LOAD_ACTOR_SLOT",
       "SNAKE_DISTANCE",
-      "GET_OPPONENT_INFO",
+      "GETOPPINFOIDX",
       "LOAD_SHADOW_WITH_OPPONENT",
       "IS_HEAD_LOCKED_ON",
       "SAVE_SHADOW_WITH_OPPONENT",
@@ -7893,7 +7893,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "GET_OPPONENT_INFO",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -7907,7 +7907,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "GET_OPPONENT_INFO",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -9378,7 +9378,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "GET_OPPONENT_INFO",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -9392,7 +9392,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "GET_OPPONENT_INFO",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -10215,7 +10215,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "GET_OPPONENT_INFO",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -10229,7 +10229,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "GET_OPPONENT_INFO",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -10539,7 +10539,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "GET_OPPONENT_INFO",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -10553,7 +10553,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "GET_OPPONENT_INFO",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -10593,7 +10593,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "GET_OPPONENT_INFO",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -10607,7 +10607,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "GET_OPPONENT_INFO",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -10944,7 +10944,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "GET_OPPONENT_INFO",
+          "name": "GETOPPINFOIDX",
           "zero_displacement": true
         }
       },
@@ -10958,7 +10958,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "GET_OPPONENT_INFO",
+        "name": "GETOPPINFOIDX",
         "zero_displacement": true
       }
     },
@@ -14798,6 +14798,23 @@
       "space": "root",
       "witnesses": []
     },
+    "GETOPPINFOIDX": {
+      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
+      "entry_target_id": "overlay-3:2344:08b4",
+      "kind": "overlay-code-entry",
+      "offset": 2228,
+      "segment": 9028,
+      "space": "overlay-3",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab4084423",
+          "file_offset": 63377,
+          "image_offset": 55185,
+          "relocation_index": 1000,
+          "space": "root"
+        }
+      ]
+    },
     "GET_BASE_X": {
       "entry_sha256": "e95febc065db9104bd3effd0a52b6dc2d8373cbbaa3afd0fd40a3b237d015858",
       "entry_target_id": "root:02cc:1074",
@@ -14896,23 +14913,6 @@
           "file_offset": 16516,
           "image_offset": 8324,
           "relocation_index": 202,
-          "space": "root"
-        }
-      ]
-    },
-    "GET_OPPONENT_INFO": {
-      "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
-      "entry_target_id": "overlay-3:2344:08b4",
-      "kind": "overlay-code-entry",
-      "offset": 2228,
-      "segment": 9028,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9ab4084423",
-          "file_offset": 63377,
-          "image_offset": 55185,
-          "relocation_index": 1000,
           "space": "root"
         }
       ]

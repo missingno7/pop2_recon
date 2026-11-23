@@ -827,7 +827,7 @@ act:
 extern int far pascal IsWall(signed char tile);
 extern int far pascal barrier_blocks_guard(void);
 extern int far pascal skeleton_room_gate(void);
-extern void far pascal advance_skeleton(void);
+extern void far pascal run_guard_script(void);
 extern void far pascal save_actor_slot(void);
 extern void far pascal set_opponent_life(Opponent near *opponent);
 extern void far pascal ClearCharVel(void);
@@ -945,7 +945,7 @@ void far pascal update_skeleton(void)
                 return;
             }
             if (active) {
-                advance_skeleton();
+                run_guard_script();
                 return;
             }
         }

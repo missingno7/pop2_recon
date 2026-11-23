@@ -203,7 +203,7 @@ extern int far pascal get_opp_dist(void);
 extern void far pascal save_actor_slot(void);
 extern void far pascal set_actor_speed(signed char id, int x, int y);
 extern void far pascal load_actor_slot(signed char id);
-extern OpponentRecord near *far pascal get_opponent_info(int room, int id);
+extern OpponentRecord near *far pascal GetOppInfoIdx(int room, int id);
 extern void far pascal load_shadow_with_opponent(signed char id);
 extern void far pascal save_shadow_with_opponent(void);
 extern void far pascal get_frame_info(void);
@@ -726,7 +726,7 @@ void far pascal head_locked_prog(HeadPlan near *plan)
                 ++plan->column;
                 JumpSeq(150 + (Char.sequence == 150));
             } else {
-                record = get_opponent_info((unsigned char)Char.room, Char.slot);
+                record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
                 if (record && record->prefix[4] >= 11)
                     JumpSeq(165);
             }
@@ -781,7 +781,7 @@ void far pascal head_prog(void)
     HeadPlan near *plan;
     if (Char.alive >= 0)
         return;
-    record = get_opponent_info((unsigned char)Char.room, Char.slot);
+    record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
     if (!record)
         return;
     plan = (HeadPlan near *)&record->mode;
@@ -852,7 +852,7 @@ int far pascal head_set_to_flee_mode(void)
     if (clear) {
         Char.stance = 0;
         Char.alert_delay = 1;
-        record = get_opponent_info((unsigned char)Char.room, Char.slot);
+        record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
         record->mode = 2;
         record->column = column;
         record->row = Char.row;
@@ -882,7 +882,7 @@ int far pascal is_able_to_flee_in_room(unsigned char room)
         available = 1;
         slot = 0;
         while (count > slot &&
-               (available = get_opponent_info(*(volatile int *)&room_number, slot)->mode != 2,
+               (available = GetOppInfoIdx(*(volatile int *)&room_number, slot)->mode != 2,
                 ++slot, available))
             ;
     } else
@@ -894,7 +894,7 @@ int far pascal is_head_locked_on(unsigned char room, int slot)
 {
     OpponentRecord near *record;
     int result;
-    record = get_opponent_info(room, slot);
+    record = GetOppInfoIdx(room, slot);
     result = record != 0 && record->mode == 3;
     return result;
 }
@@ -936,7 +936,7 @@ void far pascal snake_prog(void)
 {
     OpponentRecord near *record;
     if (Char.alive < 0) {
-        record = get_opponent_info((unsigned char)Char.room, Char.slot);
+        record = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
         if (record) {
             load_shadow_with_opponent(Char.slot);
             if (record->mode < 0) {
