@@ -372,6 +372,35 @@ class ExtendedCopyTests(unittest.TestCase):
         self.assertIsNone(self.extent("bea42afdb90600f3a5"))        # std
 
 
+class CallArgumentExtentTests(unittest.TestCase):
+    """A callee's copy through a near-pointer argument proves the passed object's extent."""
+    INIT_PORT = (0x15FF0, 0x16004)
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.root = Oracle.load().spaces["root"]
+
+    def test_init_port_copies_44_bytes_into_screen_port(self):
+        from binding import block_copy_extent, call_arguments
+        lo, hi = self.INIT_PORT
+        at = self.root.data.find(bytes.fromhex("b8625e50b8e01f1e509ae04f0111"))
+        self.assertEqual(at, 0x131E)
+        arguments = call_arguments(self.root.data[at:at + 14])
+        self.assertEqual(arguments, {6: 0x1FE0, 10: 0x5E62})
+        self.assertEqual(block_copy_extent(self.root.data[lo:hi], lo, 0x5E62, arguments), 44)
+        self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x1FE0, arguments))   # not the copied argument
+        self.assertIsNone(block_copy_extent(self.root.data[lo:hi], lo, 0x5E62, {6: 0x5E62}))  # another slot
+
+    def test_call_window_must_be_one_straight_line_call(self):
+        from binding import call_arguments
+        with self.assertRaisesRegex(ValueError, "straight-line"):
+            call_arguments(bytes.fromhex("b8625e50eb00") + bytes.fromhex("9ae04f0111"))
+        with self.assertRaisesRegex(ValueError, "stack pointer"):
+            call_arguments(bytes.fromhex("b8625e5083c4029ae04f0111"))
+        self.assertEqual(call_arguments(bytes.fromhex("b8625e33c0509ae04f0111")), {})         # overwritten
+
+
 class ProviderRelocationTests(unittest.TestCase):
     """A provider segment may hold its own relocated far-pointer words, and no others."""
 

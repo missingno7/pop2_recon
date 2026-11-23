@@ -1024,6 +1024,8 @@ def immediate_witness_violations(recipes, oracle):
             rows += [(f"{name}+{m['offset']:#x}", symbol["offset"] + m["offset"], m.get("witnesses") or [])
                      for m in symbol.get("members", [])]
             for key, address, witnesses in rows:
+                if key == name and symbol.get("extent"):
+                    continue  # the original copies through this address
                 if witnesses and all("operand_offset" in w and ambiguous(w) for w in witnesses):
                     found.add(f"imm:{gid}:{key}@{address & 0xFFFF:04x}")
     return found

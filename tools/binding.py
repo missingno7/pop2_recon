@@ -361,7 +361,39 @@ def fixes(module):
     return [e for r in module.fixups for e in r["resolved"] if e["kind"] == "fixup"]
 
 
-def block_copy_extent(raw, at, base):
+def call_arguments(raw):
+    """Stack words a straight-line original window passes to the far CALL that ends it, as {disp: value}: disp is the
+    callee's [bp+disp] after `push bp; mov bp,sp` (6 for the last word pushed), value the pushed constant. Words that
+    are not constants loaded in the window are absent; `push ds` is absent too."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    require(len(rows) >= 2 and rows[-1].bytes[0] == 0x9a and
+            not any(set(r.groups).intersection((1, 2, 3, 4, 5, 7)) for r in rows[:-1]),
+            "Call window must be straight-line code ending in one far CALL")
+    value, stack = {}, []
+    for insn in rows[:-1]:
+        ops = insn.operands
+        if insn.mnemonic == "push":
+            stack.append(value.get(insn.reg_name(ops[0].reg)) if ops[0].type == xc.X86_OP_REG else
+                         ops[0].imm & 0xFFFF if ops[0].type == xc.X86_OP_IMM else None)
+            continue
+        source = None
+        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].size == 2:
+            source = (ops[1].imm & 0xFFFF if ops[1].type == xc.X86_OP_IMM else
+                      value.get(insn.reg_name(ops[1].reg)) if ops[1].type == xc.X86_OP_REG else None)
+        written = {insn.reg_name(r) for r in insn.regs_access()[1]}
+        require("sp" not in written, "Call window moves the stack pointer")
+        for name in written:
+            for full in ("ax", "bx", "cx", "dx"):
+                if name in (full, full[0] + "l", full[0] + "h"):
+                    value.pop(full, None)
+            value.pop(name, None)
+        if source is not None:
+            value[insn.reg_name(ops[0].reg)] = source
+    return {6 + 2 * k: v for k, v in enumerate(reversed(stack)) if v is not None}
+
+
+def block_copy_extent(raw, at, base, arguments=None):
     """Length L of one original block copy anchored at DGROUP offset `base`, else None.
 
     `raw` holds straight-line original instructions starting at image offset `at`. SI or DI holds
@@ -372,8 +404,12 @@ def block_copy_extent(raw, at, base):
     needs ES loaded from that DS inside the window (`push ds; pop es` or `mov ax,ds; mov es,ax`).
     No control transfer, no `std`. The program then treats [base, base+L) as one copied unit (a
     struct assignment): any address in it belongs to the same aggregate as base (2026-11-22,
-    docs/dgroup-binding.md "Aggregate extents"; unrolled runs and DS tracking 2026-11-23)."""
+    docs/dgroup-binding.md "Aggregate extents"; unrolled runs and DS tracking 2026-11-23).
+
+    With `arguments` (a call_arguments result) `raw` starts at a callee's entry `push bp; mov bp,sp`,
+    and `mov r,[bp+disp]` loads the passed constant."""
     _, xc = _capstone()
+    require(arguments is None or raw[:3] == b"\x55\x8b\xec", "Callee window must start with its stack frame")
     moves = {b"\xa5": 2, b"\xa4": 1, b"\xf3\xa5": 2, b"\xf3\xa4": 1}
     parent = {"al": "ax", "ah": "ax", "bl": "bx", "bh": "bx", "cl": "cx", "ch": "cx", "dl": "dx", "dh": "dx"}
     value, count, es_ds, ds_ok, prev, run, copied = {}, None, False, True, b"", None, 0
@@ -405,7 +441,15 @@ def block_copy_extent(raw, at, base):
                 source = ops[1].imm & 0xFFFF
             elif ops[1].type == xc.X86_OP_REG:
                 source = value.get(insn.reg_name(ops[1].reg))
+            elif arguments and ops[1].type == xc.X86_OP_MEM and ops[1].mem.base == xc.X86_REG_BP and \
+                    ops[1].mem.index == ops[1].mem.segment == 0:
+                source = arguments.get(ops[1].mem.disp)
         written = {insn.reg_name(r) for r in insn.regs_access()[1]}
+        if arguments is not None and any(o.type == xc.X86_OP_MEM and xc.X86_REG_BP in (o.mem.base, o.mem.index)
+                                         for o in ops[:1]):
+            return None  # an argument slot may have been written
+        if "bp" in written and bytes(insn.bytes) != b"\x8b\xec":
+            return None
         for name in written:
             value.pop(parent.get(name, name), None)
             if parent.get(name, name) == "cx":
@@ -497,14 +541,29 @@ def ground(binding, target, oracle, claimed=None):
             length = 0
             if "extent" in symbol:
                 spec = symbol["extent"]
-                require(set(spec) == {"length", "witness"} and symbol["witnesses"],
+                require(set(spec) <= {"length", "witness", "call"} and {"length", "witness"} <= set(spec) and
+                        symbol["witnesses"],
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
                 # In a group the copy may itself lie inside a claim (2026-11-23): its length is an
                 # original fact about [S, S+L); S still needs its own witness outside the claims.
                 at, raw = witness(spec["witness"], draft_ok=True, anywhere=True)
                 require("entry" in spec["witness"] and at in reachable_from_entry(oracle, spec["witness"]["entry"]),
                         "Extent witness is not reached from its entry")
-                length = block_copy_extent(raw, at, offset)
+                arguments = None
+                if "call" in spec:
+                    # The copy is in a callee and the base is one of its stack arguments: an original reached far
+                    # CALL to that callee passes exactly S in the word the callee copies through.
+                    cat, craw = witness(spec["call"], draft_ok=True, anywhere=True)
+                    wspace, target_at = oracle.spaces[spec["call"]["space"]], cat + len(craw) - 4
+                    c_off, c_seg = struct.unpack_from("<HH", craw, len(craw) - 4)
+                    callee = oracle.spaces[spec["witness"]["space"]]
+                    require("entry" in spec["call"] and cat in reachable_from_entry(oracle, spec["call"]["entry"]) and
+                            sum(r["image_offset"] == target_at + 2 for r in wspace.relocations) == 1 and
+                            (c_seg - callee.link_segment) * 16 + c_off == at and callee.name == "root",
+                            "Extent call is not a reached, relocated far CALL of the copying routine")
+                    arguments = call_arguments(craw)
+                    require(offset in arguments.values(), "Extent call does not pass the symbol's address")
+                length = block_copy_extent(raw, at, offset, arguments)
                 require(length is not None and length == spec["length"],
                         "Extent witness is not a block copy of the declared length anchored at the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and

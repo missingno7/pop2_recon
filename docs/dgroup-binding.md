@@ -415,6 +415,12 @@ Extended 2026-11-23 (`binding.block_copy_extent`):
 - In a group the copy may itself lie inside a claim. The length is an original fact about [S, S+L) and is not one of
   the fields the claim is judged on. S still needs its own witness outside the claims.
 
+A copy may also be made by a callee through a near-pointer argument. The extent then has a `call`: a reached original
+window that ends in a relocated far CALL of a resident routine and passes exactly S, while `witness` starts at that
+routine's entry (`push bp; mov bp,sp`) and copies through `mov r,[bp+disp]` with the matching stack slot. First use:
+INIT_PORT copies 44 bytes into `ScreenPort` (DS:5e62). A base with a proven extent is a used address, so it needs no
+other immediate evidence.
+
 A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
 segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocated word is refused.
 
