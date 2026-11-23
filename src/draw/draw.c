@@ -508,7 +508,44 @@ typedef struct GateImage {
 } GateImage;
 #pragma pack()
 
-extern unsigned int foreground_image_number;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+
+extern CHARREC Kid;
 extern GateRoom gate_rooms[];
 extern unsigned char gate_number, gate_kind;
 extern signed char gate_column, gate_row;
@@ -531,7 +568,7 @@ void check_foreground_gate(void)
     } state;
     GateImage *image;
 
-    if (foreground_image_number >= 264 && foreground_image_number <= 266) {
+    if (Kid.frame >= 264 && Kid.frame <= 266) {
         if (level_style == 3) {
             args.pass = 0;
             args.row = draw_row;
@@ -1044,16 +1081,8 @@ void draw_half_cell(void)
     clip_rect = draw.old_clip;
 }
 
-#pragma pack(1)
-typedef struct HalfTile {
-    unsigned char kind;
-    unsigned int image;
-    unsigned char data[61];
-} HalfTile;
-#pragma pack()
-
-extern Room object_room;
-extern HalfTile room_half_tiles[];
+extern CHARREC Char;
+extern CHARREC RoomOpp[5];
 typedef struct GuardMeterRoom {
     unsigned char present;
     unsigned char rest[115];
@@ -1080,21 +1109,21 @@ int compute_half_rect(DrawRect *area)
     unsigned int image;
     struct { int byte_offset; signed char count; DrawRect source; } state;
 
-    if (foreground_image_number >= 135 && foreground_image_number < 145) {
-        image = foreground_image_number;
+    if (Kid.frame >= 135 && Kid.frame < 145) {
+        image = Kid.frame;
     } else {
         image = 0;
         index = 0;
-        state.count = guard_meter_rooms[object_room].present;
+        state.count = guard_meter_rooms[(Room)Char.room].present;
         if (state.count > 0) {
             do {
                 if (image)
                     break;
-                state.byte_offset = index * sizeof(HalfTile);
-                if (((HalfTile *)((char *)room_half_tiles + state.byte_offset))->kind == 1 &&
-                    ((HalfTile *)((char *)room_half_tiles + state.byte_offset))->image >= 135 &&
-                    ((HalfTile *)((char *)room_half_tiles + state.byte_offset))->image < 145)
-                    image = ((HalfTile *)((char *)room_half_tiles + state.byte_offset))->image;
+                state.byte_offset = index * sizeof(CHARREC);
+                if (((CHARREC *)((char *)RoomOpp + state.byte_offset))->character_kind == 1 &&
+                    ((CHARREC *)((char *)RoomOpp + state.byte_offset))->frame >= 135 &&
+                    ((CHARREC *)((char *)RoomOpp + state.byte_offset))->frame < 145)
+                    image = ((CHARREC *)((char *)RoomOpp + state.byte_offset))->frame;
                 ++index;
             } while (index < *(volatile signed char *)&state.count);
         }
@@ -1103,7 +1132,7 @@ int compute_half_rect(DrawRect *area)
         state.source = half_tile_rectangles[image - 135];
         if (drawn_tile_kind == 6)
             ++state.source.bottom;
-        if ((object_room == 7 || object_room == 8) && level_style == 6)
+        if ((Char.room == 7 || Char.room == 8) && level_style == 6)
             state.source.top += 3;
         area = ComputeOffsetCellRect(area, &state.source, draw_column, draw_row);
     }
@@ -1291,7 +1320,7 @@ int compare_objects(int first, int second)
     volatile int left_offset, right_offset;
     int left_id, right_id;
     unsigned char left_type, right_type;
-    unsigned char left_priority, right_priority;
+    unsigned char right_priority, left_priority;
     volatile int swap;
     int left_entry = first, right_entry = second;
 
@@ -1817,14 +1846,7 @@ extern signed char meter_phase, meter_limit;
 extern DrawRect meter_strip;
 extern void blit_meter_shape(int table, int image, int x, int y, int flags, int mode);
 extern void load_kid_with_opponent(signed char guard);
-extern signed char meter_guard_index;
-extern struct {
-    signed char id;
-    unsigned char before_life[0x11];
-    signed char life, max_life;
-    unsigned char tail[0x2c];
-} Opp;
-extern signed char kid_life, kid_max_life;
+extern CHARREC Opp;
 extern void draw_opponent_meter(signed char guard, int life, int max_life);
 
 void draw_kid_meter(int life, int max_life)
@@ -1859,11 +1881,11 @@ void draw_kid_meter(int life, int max_life)
 
 void draw_meters(void)
 {
-    if (meter_guard_index >= 0 && meter_guard_index < 5) {
-        load_kid_with_opponent(meter_guard_index);
-        draw_opponent_meter(Opp.id, Opp.life, Opp.max_life);
+    if (Kid.opponent_index >= 0 && Kid.opponent_index < 5) {
+        load_kid_with_opponent(Kid.opponent_index);
+        draw_opponent_meter(Opp.slot, Opp.life_points, Opp.life_initial);
     }
-    draw_kid_meter(kid_life, kid_max_life);
+    draw_kid_meter(Kid.life_points, Kid.life_initial);
 }
 
 extern unsigned char guard_kind, guard_level_room, guard_action;
@@ -1926,14 +1948,14 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
     }
 }
 
-extern unsigned char kid_display_frame, sword_kind;
+extern unsigned char sword_kind;
 
 void draw_sword(TileDrawArgs *args)
 {
     TileDrawArgs base;
     unsigned char kind;
 
-    if (loose_item_drawer->item && (kid_display_frame != 9 || level_number != 8)) {
+    if (loose_item_drawer->item && (Kid.room != 9 || level_number != 8)) {
         base = *args;
         base.info.bytes[0] &= 0xfc;
         loose_item_drawer->item(&base);
@@ -1998,7 +2020,6 @@ extern void CLEAR_PAYLOAD_HEADER(unsigned char far *palette);
 extern void READ_DAC_BLOCK(int first, int count, unsigned char far *palette);
 extern void WRITE_DAC_BLOCK(int first, int count, const unsigned char far *palette, int update);
 extern int EMPTYRECT(DrawRect far *clip);
-extern DrawRect palette_clip;
 extern unsigned int HGETRSRC(unsigned long type, int resource);
 extern unsigned char get_total_pals(int resource);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int resource);
@@ -2032,8 +2053,8 @@ void save_game_play_palette(void)
         saved_palette = ALLOCATE_PINNED_PAYLOAD(720L);
         READ_DAC_BLOCK(16, 240, saved_palette);
         WRITE_DAC_BLOCK(16, 240, 0, 1);
-        if (!EMPTYRECT(&palette_clip) &&
-            SECTRECT(&rect, &palette_clip, &GamePlayRect))
+        if (!EMPTYRECT((DrawRect *)&Kid.previous_bounds) &&
+            SECTRECT(&rect, (DrawRect *)&Kid.previous_bounds, &GamePlayRect))
             STROKE_PORT_RECT(&rect);
     }
 }

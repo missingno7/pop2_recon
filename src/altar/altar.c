@@ -4,25 +4,6 @@ typedef unsigned char Byte;
 typedef unsigned int Handle;
 typedef struct { int top, left, bottom, right; } Rect;
 typedef struct {
-    signed char id, direction;
-    int x, y;
-    Byte action;
-    unsigned int frame;
-    signed char col, row;
-    char unknown_b[3];
-    Byte room;
-    Byte unk_f, alive;
-    signed char control, image, previous_image;
-    char unk_14[5];
-    int sequence;
-    char unk_1b[8];
-    Byte unk_23;
-    int program;
-    char unk_26[14];
-    int state;
-    char tail[10];
-} Character;
-typedef struct {
     signed char type;
     int x, y;
     Byte pass, palette;
@@ -50,9 +31,46 @@ typedef struct { Byte type; char skip[3]; unsigned int modifier; } TileAnim;
 typedef struct { Byte frame, unknown; signed char col, dy; } FlameStep;
 #pragma pack()
 
-extern Character Char, Kid, RoomOpp[];
-extern signed char char_action;
-extern signed char char_image;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+
+extern CHARREC Char;
+extern CHARREC Kid;
+extern CHARREC RoomOpp[5];
 extern Byte scene_flag;                       /* DS:6290 */
 extern unsigned int candle_sound;             /* DS:3256 */
 extern int spawn_flag;                        /* DS:0a16 */
@@ -99,16 +117,16 @@ void create_shadowman(void);
 
 void altar_kid_rises_from_death(void)
 {
-    signed char id = Char.id;
+    signed char id = Char.slot;
     save_actor_slot();
     copy_kid_to_char();
     JumpSeq(231);
-    Char.control = -1;
-    char_image = Char.previous_image;
+    Char.alive = -1;
+    Char.life_points = Char.life_initial;
     clear_life_bar();
-    position_char(char_image, Char.previous_image);
-    Char.program = 13;
-    Char.alive = 0;
+    position_char(Char.life_points, Char.life_initial);
+    Char.sequence_group = 13;
+    Char.stance = 0;
     Kid = Char;
     load_actor_slot(id);
     remove_char();
@@ -121,25 +139,25 @@ void altar_shadow_progress(void)
     int distance;
     if (Char.frame == 15) {
         if (Char.direction == -1) {
-            if (Char.col >= 6) {
-                if (Char.program == 13)
+            if (Char.column >= 6) {
+                if (Char.sequence_group == 13)
                     goto turn;
-                else if (Char.col >= 8)
+                else if (Char.column >= 8)
                     sequence = 1;
                 else {
                     step_forward(0);
                     if (Char.sequence == 44)
                         sequence = 3;
                 }
-            } else if (Char.program == 13 || Char.sequence == 232) {
+            } else if (Char.sequence_group == 13 || Char.sequence == 232) {
                 sequence = 5;
                 AddSong(59);
             } else {
                 sequence = 232;
             }
-        } else if (Char.program != 13) {
+        } else if (Char.sequence_group != 13) {
             sequence = 5;
-        } else if (Char.col < 6) {
+        } else if (Char.column < 6) {
             step_forward(0);
             if (Char.sequence == 44)
                 sequence = 3;
@@ -158,20 +176,20 @@ turn:
         }
     } else if (((Char.frame >= 1 && Char.frame <= 14) ||
                 (Char.frame >= 49 && Char.frame <= 56)) &&
-               Char.col >= 6) {
+               Char.column >= 6) {
         run_jump(4);
     } else if (Char.frame >= 103 && Char.frame <= 106) {
         scene_flag = 255;
         FallOn();
     } else if (Char.frame == 91 && !IsCharSwingingFwd()) {
         climb_up();
-        if (Char.program == 13)
+        if (Char.sequence_group == 13)
             Char.y -= 2;
     } else if (Char.frame == 154) {
         candle_sound = 133;
-    } else if (Char.frame == 153 && Char.program == 13) {
+    } else if (Char.frame == 153 && Char.sequence_group == 13) {
         set_resource(room_data->palette, 48, 16, 0);
-    } else if (Char.program == 13 && Char.frame == 185) {
+    } else if (Char.sequence_group == 13 && Char.frame == 185) {
         altar_kid_rises_from_death();
     } else if (Char.frame == 44) {
         sequence = 13;
@@ -195,7 +213,7 @@ void altar_watch_kid(void)
         } else if (Char.x <= 236 && !query_sound(10061)) {
             AddSong(61);
         } else if (Char.frame == 185 && Char.row == 1 &&
-                   Char.program != 12 && spawn_flag == 1) {
+                   Char.sequence_group != 12 && spawn_flag == 1) {
             create_shadowman();
             spawn_flag = -1;
         }
@@ -210,10 +228,10 @@ void create_shadowman(void)
     int room;
     if (Char.room == 4 && altar_tile == 13) {
         Kid = Char;
-        room = Char.room;
+        room = (Byte)Char.room;
         id = room_guard_counts[room * (int)sizeof(Room)]++;
         entry = get_spawn(room, id);
-        entry->position = FirstInRow(Char.row) + Char.col;
+        entry->position = FirstInRow(Char.row) + Char.column;
         entry->x = Char.x;
         entry->direction = Char.direction;
         clear = 0;
@@ -224,16 +242,16 @@ void create_shadowman(void)
         entry->slot = zero;
         entry->flag2 = zero;
         entry->enabled = 1;
-        Char.id = id;
+        Char.slot = id;
         Char.x = entry->x;
-        char_image = char_action = 1;
-        Char.control = -1;
-        Char.state = 8;
+        Char.life_points = Char.character_kind = 1;
+        Char.alive = -1;
+        Char.field_34 = 8;
         reset_char_y();
         --Char.y;
         ClearCharVel();
-        Char.program = 0;
-        Char.unk_23 = Char.alive = 0;
+        Char.sequence_group = 0;
+        Char.alert_delay = Char.stance = 0;
         JumpSeq(231);
         AnimChar();
         AddSong(63);
@@ -252,7 +270,7 @@ int altar_shadow_active(void)
         do {
             if (result)
                 break;
-            if (RoomOpp[i].action == 1)
+            if (RoomOpp[i].character_kind == 1)
                 result = 1;
         } while (++i < count);
     }

@@ -14,46 +14,59 @@ struct rock_rect {
     int top, left, bottom, right;
 };
 
-struct character_state {
-    char kind;
-    char direction;
-    int x;
-    int y;
-    char knocked_back;
-    unsigned int sequence;
-    signed char column;
-    signed char row;
-    unsigned char action_state;
-    char field_12;
-    char contact_state;
-    unsigned char room;
-    char field_15;
-    char grounded;
-    signed char fall_speed;
-    unsigned char fall_damage;
-    char padding_19[17];
-    int action;
-    char padding_38[26];
-};
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
 #pragma pack()
 
 extern int Rnd(int);
-extern signed char FirstInRow(signed char);
-extern signed char get_char_col(int);
-extern int IsWall(unsigned char);
+extern signed char FirstInRow(signed char row);
+extern signed char get_char_col(int x);
+extern int IsWall(unsigned char kind);
 extern void draw_moving_tile(int);
-extern signed char GetRow(int);
-extern unsigned char IndexCell1(signed char, signed char);
-extern int is_visible_room_cell(unsigned char, unsigned char);
+extern signed char GetRow(int y);
+extern unsigned char IndexCell1(signed char col, signed char row);
+extern int is_visible_room_cell(unsigned char room, unsigned char cell);
 extern void mark_mob_redraw(unsigned char);
 extern void copy_kid_to_char(void);
-extern void far _fastcall draw_movement_shape(unsigned char, int, int, int, unsigned char);
+extern void far _fastcall draw_movement_shape(unsigned char kind, int x, int y, int frame, unsigned char pass);
 extern int probe_floors_toward_rock(signed char, int);
 extern void hit_character_with_rock(void);
 extern struct slide_rock *far _fastcall slide_rock_on_row(unsigned char, signed char);
 
-extern int moving_x, moving_y, moving_mode;
 extern unsigned int movement_end;
+extern int moving_x, moving_y, moving_mode;
 extern unsigned char moving_kind, moving_room;
 extern signed char moving_row;
 extern unsigned char FChar;
@@ -71,7 +84,7 @@ static struct {
     { 0, 7, 7, 12, 12, 12, 12, 7, 7, -2, 0, 7, 12, 7, -1, 0, 7 },
     { 0, 91, 91, 92, 92, 92, 92, 93, 93, 94, 21, 91, 92, 93, 94, 21, 91, 21 }
 };
-extern struct character_state Char, Kid;
+extern CHARREC Char, Kid;
 extern unsigned char slide_det_flags[];
 extern unsigned char room_foregrounds[];
 extern int tile_right_edges[], outside_barrier;
@@ -187,9 +200,9 @@ void check_slide_rock_crush(void)
     int kid_x, rock_x;
     copy_kid_to_char();
     kid_x = Char.direction == 0 ? Char.x : Char.x + 13;
-    if (moving_room == Char.room && moving_row == Char.row) {
+    if (moving_room == (unsigned char)Char.room && moving_row == Char.row) {
         rock_x = moving_x + 140;
-        if (Char.action == 4 || (rock_x < kid_x && rock_x + 16 > kid_x)) {
+        if (Char.sequence_group == 4 || (rock_x < kid_x && rock_x + 16 > kid_x)) {
             hit_character_with_rock();
             Kid = Char;
         }
@@ -256,7 +269,7 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
     } edge;
     signed char column;
 
-    rock = (struct moving_rock *)slide_rock_on_row(Char.room, row);
+    rock = (struct moving_rock *)slide_rock_on_row((unsigned char)Char.room, row);
     if (rock) {
         left = rock->x + 137;
         if (left < screen_right) {
@@ -336,7 +349,7 @@ void hit_character_with_rock(void)
     unsigned char tile;
     signed char column;
     int x;
-    if (Char.action_state != 5) {
+    if (Char.action != 5) {
         sequence = -1;
         if (Char.x - 144 > moving_x) {
             Char.x = moving_x + 140;
@@ -347,14 +360,14 @@ void hit_character_with_rock(void)
         if (Char.direction == 0)
             x -= 13;
         column = get_char_col(x);
-        tile = ReadCell(Char.room, column, Char.row);
+        tile = ReadCell((unsigned char)Char.room, column, Char.row);
         if (!IsWall(tile) && tile != 4) {
-            if (Char.fall_speed < 0) {
-                if (Char.grounded != 1)
+            if (Char.alive < 0) {
+                if (Char.stance != 1)
                     sequence = Char.direction == 0 ? 47 : 48;
                 else {
                     sequence = 93;
-                    Char.grounded = 0;
+                    Char.stance = 0;
                 }
             } else
                 Char.x -= 8;
@@ -364,41 +377,41 @@ void hit_character_with_rock(void)
                 Char.x += 17;
             if (tile != 2) {
                 if (rock_motion_state == 100) {
-                    if (Char.fall_speed < 0) {
-                        get_tile_knockback(Char.fall_damage);
-                        Char.fall_speed = 0;
+                    if (Char.alive < 0) {
+                        get_tile_knockback(Char.life_points);
+                        Char.alive = 0;
                     }
-                    Char.sequence = 185;
+                    Char.frame = 185;
                 } else {
                     x = moving_x - 10;
                     column = x / 32;
-                    tile = ReadCell(Char.room, column, Char.row);
+                    tile = ReadCell((unsigned char)Char.room, column, Char.row);
                     if (!IsWall(tile) && tile != 4) {
-                        if (Char.fall_speed < 0) {
+                        if (Char.alive < 0) {
                             int other_column;
                             x -= 5;
                             other_column = x / 32;
                             if (other_column != column) {
-                                tile = ReadCell(Char.room, other_column, Char.row);
+                                tile = ReadCell((unsigned char)Char.room, other_column, Char.row);
                                 if (IsWall(tile) || tile == 4)
                                     AddSound(1);
                             }
                         }
                     } else {
-                        if (Char.fall_speed < 0) {
+                        if (Char.alive < 0) {
                             dispatch_sound(10001);
                             AddSound(55);
                         }
                         mark_kid_contact(13);
                     }
-                    Char.action = 4;
+                    Char.sequence_group = 4;
                     sequence = 71;
                 }
             }
         }
         if (sequence != -1) {
             reset_kid_collision();
-            Char.contact_state = 0;
+            Char.vertical_step = 0;
             set_character_sequence(sequence);
             update_kid_contact();
         }
@@ -465,7 +478,6 @@ extern int trapdoor_top, trapdoor_left;
 extern void add_mob(void);
 extern unsigned char current_modifier;
 extern unsigned char level_flags;
-extern unsigned char inscription_marker;
 extern unsigned char room_tile_marker;
 extern void AddSong(int);
 extern void altar_watch_kid(void);
@@ -542,7 +554,7 @@ advance:
         }
     }
     copy_kid_to_char();
-    if (Char.sequence >= 87 && Char.sequence <= 99) {
+    if (Char.frame >= 87 && Char.frame <= 99) {
         column = (next_x - 8) / 32;
         if (moving_row - Char.row + 1 == 0 && column == Char.column)
             character_release_grip();
@@ -731,8 +743,8 @@ void check_trapdoor(void)
 {
     if ((level_flags & 0x40) &&
         (signed char)63 * Char.row - Char.y == -56 &&
-        Char.knocked_back != 1 &&
-        ReadCell(Char.room, Char.column, Char.row) == 26 &&
+        Char.character_kind != 1 &&
+        ReadCell((unsigned char)Char.room, Char.column, Char.row) == 26 &&
         !(current_tile.state & 31))
         trigger_trapdoor(current_tile.room, current_tile.cell);
 }
@@ -777,7 +789,7 @@ void draw_object_trapdoor(unsigned char modifier)
 
 void load_inscription_room(void)
 {
-    if ((signed char)inscription_marker >= 9)
+    if ((signed char)Kid.column >= 9)
         AddSong(92);
 }
 

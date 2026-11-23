@@ -1,19 +1,40 @@
 /* BRIDGE.C, DOS overlay 14. Names and packed layouts reflect the observed uses. */
 #pragma pack(1)
 
-typedef struct Character {
-    signed char state, direction;
-    int x, y;
-    signed char action;
-    unsigned int frame;
-    signed char col, row, sequence, unknown_c, unknown_d, room;
-    signed char unknown_f, alive;
-    char unknown_11[8];
-    unsigned int sequence_id;
-    char unknown_1b[8];
-    unsigned char control;
-    char other[28];
-} Character;
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
 
 typedef struct Gate {
     int timer;
@@ -48,7 +69,7 @@ typedef struct Rect {
     int top, left, bottom, right;
 } Rect;
 
-extern Character Char, Kid, RoomOpp, Opp;
+extern CHARREC Char, Kid, RoomOpp[5], Opp;
 extern volatile unsigned char STATE_LEVEL;
 extern signed char viewed_room, room_below, room_above, room_left, room_right;
 extern unsigned char room_flags[], bridge_room_flags;
@@ -132,10 +153,10 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
 
     if (bridge_break == 0) {
         if (kid_on_bridge && opponent_on_bridge) {
-            if (abs(Kid.col - RoomOpp.col) <= 3) {
+            if (abs(Kid.column - RoomOpp[0].column) <= 3) {
                 ++bridge_wait;
-                if (bridge_wait >= 60 && Kid.col >= 4 && Kid.col <= 6 &&
-                    RoomOpp.col >= 5 && RoomOpp.col <= 6 && Kid.sequence_id != 85)
+                if (bridge_wait >= 60 && Kid.column >= 4 && Kid.column <= 6 &&
+                    RoomOpp[0].column >= 5 && RoomOpp[0].column <= 6 && Kid.sequence != 85)
                     bridge_break = 1;
             } else if (bridge_wait != 0) {
                 --bridge_wait;
@@ -156,10 +177,10 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
                 AddSound(68);
                 AddSong(66);
             }
-            if (col < 3 || Kid.sequence_id == 85) {
+            if (col < 3 || Kid.sequence == 85) {
                 bridge_break = -1;
                 copy_kid_to_char();
-                if (Char.col <= 4 && Char.direction == 0)
+                if (Char.column <= 4 && Char.direction == 0)
                     Char.x = AddCharX(10);
                 Kid = Char;
             }
@@ -190,8 +211,8 @@ int bridge_watch_kid(void)
         tweak_char_y_on_bridge();
         if (Char.frame == 15 || Char.frame == 185)
             on_bridge = 0;
-    } else if (Char.room == 7 && Char.alive != -1 &&
-               bridge_gate_open() && Char.col <= 5) {
+    } else if (Char.room == 7 && Char.stance != -1 &&
+               bridge_gate_open() && Char.column <= 5) {
         trigger_gate_with_reverse_plate(7, 13);
     }
     Kid = Char;
@@ -216,7 +237,7 @@ int bridge_watch_opponent(void)
 
 int bridge_skeleton_must_advance(void)
 {
-    signed char col = BridgeGetCharCol(Char.room, Char.col);
+    signed char col = BridgeGetCharCol(Char.room, Char.column);
     int advance;
 
     if (Char.direction == 0) {
@@ -237,18 +258,18 @@ int bridge_skeleton_must_advance(void)
 
 int bridge_skeleton_progress(void)
 {
-    signed char col = BridgeGetCharCol(Char.room, Char.col);
+    signed char col = BridgeGetCharCol(Char.room, Char.column);
     int keep_going = 1;
 
-    if (Char.sequence != 5) {
-        if (Char.row >= 3 && Char.sequence == 4) {
+    if (Char.action != 5) {
+        if (Char.row >= 3 && Char.action == 4) {
             remove_char();
             keep_going = 0;
         } else if (Char.direction == 0) {
-            if (Char.sequence_id == 102 || Char.sequence_id == 216) {
+            if (Char.sequence == 102 || Char.sequence == 216) {
                 if (col >= 9) {
-                    Char.control = 2;
-                    Char.alive = 1;
+                    Char.alert_delay = 2;
+                    Char.stance = 1;
                     JumpSeq(101);
                 }
                 keep_going = 0;
@@ -271,7 +292,7 @@ int bridge_skeleton_progress(void)
 
 int bridge_skeleton_at_plate(void)
 {
-    signed char col = BridgeGetCharCol(Opp.room, Opp.col);
+    signed char col = BridgeGetCharCol(Opp.room, Opp.column);
     int open = bridge_gate_open();
     if (open) {
         if (Opp.direction == 0 && col < 2)
@@ -298,7 +319,7 @@ int bridge_gate_open(void)
 
 int bridge_skeleton_can_advance(void)
 {
-    signed char col = BridgeGetCharCol(Char.room, Char.col);
+    signed char col = BridgeGetCharCol(Char.room, Char.column);
     int advance;
     if (Char.direction == 0) {
         if (col < 3)
@@ -316,7 +337,7 @@ int bridge_skeleton_can_advance(void)
 
 int bridge_char_on_floor(void)
 {
-    if (ReadCell(Char.room, Char.col, Char.row) == 44)
+    if (ReadCell(Char.room, Char.column, Char.row) == 44)
         return 1;
     return 0;
 }
@@ -338,9 +359,9 @@ void mark_bridge_floors_for_chars(int kid_on_bridge, int opponent_on_bridge)
         floor_mask = 255;
         delay = 1;
     } else if (kid_on_bridge) {
-        mark_bridge_for_col(Kid.col);
+        mark_bridge_for_col(Kid.column);
     } else if (opponent_on_bridge) {
-        mark_bridge_for_col(RoomOpp.col);
+        mark_bridge_for_col(RoomOpp[0].column);
     } else {
         delay = 0;
     }
@@ -370,10 +391,10 @@ void tweak_char_y_on_bridge(void)
 
     if (bridge_char_on_floor() && (Char.frame < 34 || Char.frame > 44)) {
         Char.y = 63 * Char.row + 56;
-        Char.y += bridge_y[Char.col];
+        Char.y += bridge_y[Char.column];
         get_frame_info();
         if (bridge_room_flags & 64) {
-            modifier = tile_state[(signed char)(Char.col + 10)].modifier & 15;
+            modifier = tile_state[(signed char)(Char.column + 10)].modifier & 15;
             if (modifier == 1)
                 --Char.y;
             else if (modifier == 2)

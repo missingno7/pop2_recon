@@ -1,12 +1,6 @@
 {
   "declarations": {
     "externals": [
-      "SPIKE_SEQUENCE",
-      "SPIKE_ROOM",
-      "SPIKE_ROW",
-      "SPIKE_ACTION",
-      "ROOM_NUMBER",
-      "VIEWED_ROOM",
       "PLATEAU_INTRO",
       "CUTROOM",
       "COLEDGEX",
@@ -26,31 +20,22 @@
       "CLRALL",
       "LOAD_PALETTE_BANK",
       "ADDSONG",
-      "CHAR",
-      "KID",
       "CLIP_RUINS_ACTOR",
-      "ACTOR_ID",
-      "ACTOR_ACTION",
       "FALL_SPIKES",
-      "LEVEL_NUMBER",
-      "ACTOR_ROOM",
-      "ACTOR_COLUMN",
       "CUT_KID_INSIDE_LEVEL6",
-      "ACTOR_ROW",
-      "KID_DIRECTION",
-      "KID_COLUMN",
       "LOAD_RUINS_START_PALETTE",
-      "ACTOR_FRAME",
-      "PREVIOUS_ACTOR_X",
+      "TILE_ROOM",
       "UNLOAD_RUINS_START_PALETTE",
+      "CHAR",
+      "LEVEL_NUMBER",
+      "KID",
+      "LOADRUINSMOVECODE",
+      "PREVIOUS_ACTOR_X",
       "CURRENT_ACTOR_X",
+      "LOAD_PLATEAU_ROOM",
       "ACTOR_EDGE_Y",
       "ACTOR_FLOOR_X",
-      "LOADRUINSMOVECODE",
-      "ACTOR_X",
       "TILE_INDEX",
-      "LOAD_PLATEAU_ROOM",
-      "TILE_ROOM",
       "TILE_COLUMN",
       "TILE_ROW",
       "LEFT_CELL_ROW",
@@ -58,7 +43,13 @@
       "SPIKE_X",
       "SPIKE_Y",
       "SPIKE_TOP",
-      "SPIKE_LEFT"
+      "SPIKE_LEFT",
+      "SPIKE_SEQUENCE",
+      "SPIKE_ROOM",
+      "SPIKE_ROW",
+      "SPIKE_ACTION",
+      "ROOM_NUMBER",
+      "VIEWED_ROOM"
     ],
     "groups": [
       {
@@ -78,7 +69,7 @@
         "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 535
+        "type_index": 538
       },
       {
         "frame": null,
@@ -87,7 +78,7 @@
         "offset": 294,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 536
+        "type_index": 539
       },
       {
         "frame": null,
@@ -96,7 +87,7 @@
         "offset": 408,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 537
+        "type_index": 540
       },
       {
         "frame": null,
@@ -105,7 +96,7 @@
         "offset": 494,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 538
+        "type_index": 541
       },
       {
         "frame": null,
@@ -114,7 +105,7 @@
         "offset": 514,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 539
+        "type_index": 542
       },
       {
         "frame": null,
@@ -123,7 +114,7 @@
         "offset": 548,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 540
+        "type_index": 543
       },
       {
         "frame": null,
@@ -132,7 +123,7 @@
         "offset": 550,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 541
+        "type_index": 544
       }
     ],
     "segments": [
@@ -191,7 +182,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1135,
+        "length": 962,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -203,7 +194,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 238,
+        "length": 815,
         "name": "$$TYPES",
         "overlay": "",
         "use32": false
@@ -227,7 +218,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 34,
           "kind": "external",
           "method": 6,
           "name": "ACTOR_FLOOR_X",
@@ -241,7 +232,7 @@
       "segment_offset": 285,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 34,
         "kind": "external",
         "method": 6,
         "name": "ACTOR_FLOOR_X",
@@ -254,7 +245,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 54,
+          "index": 39,
           "kind": "external",
           "method": 6,
           "name": "LEFT_CELL_COLUMN",
@@ -268,7 +259,7 @@
       "segment_offset": 279,
       "self_relative": false,
       "target": {
-        "index": 54,
+        "index": 39,
         "kind": "external",
         "method": 6,
         "name": "LEFT_CELL_COLUMN",
@@ -281,7 +272,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "IS_SIX_KIND",
@@ -295,7 +286,7 @@
       "segment_offset": 267,
       "self_relative": false,
       "target": {
-        "index": 15,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "IS_SIX_KIND",
@@ -308,7 +299,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -322,7 +313,7 @@
       "segment_offset": 261,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -335,7 +326,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 53,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "LEFT_CELL_ROW",
@@ -349,7 +340,7 @@
       "segment_offset": 257,
       "self_relative": false,
       "target": {
-        "index": 53,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "LEFT_CELL_ROW",
@@ -362,10 +353,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROOM",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -376,10 +367,10 @@
       "segment_offset": 249,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROOM",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -389,7 +380,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ACTOR_X",
@@ -403,7 +394,7 @@
       "segment_offset": 223,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ACTOR_X",
@@ -416,7 +407,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "PREVIOUS_ACTOR_X",
@@ -430,7 +421,7 @@
       "segment_offset": 212,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "PREVIOUS_ACTOR_X",
@@ -443,7 +434,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "GET_COL",
@@ -457,7 +448,7 @@
       "segment_offset": 202,
       "self_relative": false,
       "target": {
-        "index": 12,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "GET_COL",
@@ -470,7 +461,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ACTOR_X",
@@ -484,7 +475,7 @@
       "segment_offset": 199,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ACTOR_X",
@@ -497,7 +488,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "GET_COL",
@@ -511,7 +502,7 @@
       "segment_offset": 190,
       "self_relative": false,
       "target": {
-        "index": 12,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "GET_COL",
@@ -524,7 +515,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "PREVIOUS_ACTOR_X",
@@ -538,7 +529,7 @@
       "segment_offset": 187,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "PREVIOUS_ACTOR_X",
@@ -551,10 +542,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_FRAME",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -565,10 +556,10 @@
       "segment_offset": 179,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_FRAME",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -578,10 +569,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_FRAME",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -592,10 +583,10 @@
       "segment_offset": 171,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_FRAME",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -605,10 +596,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_FRAME",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -619,10 +610,10 @@
       "segment_offset": 163,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_FRAME",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -632,10 +623,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_FRAME",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -646,10 +637,10 @@
       "segment_offset": 155,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_FRAME",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -659,10 +650,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_FRAME",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -673,10 +664,10 @@
       "segment_offset": 144,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_FRAME",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -686,10 +677,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_FRAME",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -700,10 +691,10 @@
       "segment_offset": 133,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_FRAME",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -713,7 +704,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 33,
           "kind": "external",
           "method": 6,
           "name": "ACTOR_EDGE_Y",
@@ -727,7 +718,7 @@
       "segment_offset": 122,
       "self_relative": false,
       "target": {
-        "index": 44,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "ACTOR_EDGE_Y",
@@ -740,7 +731,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "TILE_COLUMN",
@@ -754,7 +745,7 @@
       "segment_offset": 114,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "TILE_COLUMN",
@@ -767,10 +758,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROOM",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -781,10 +772,10 @@
       "segment_offset": 109,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROOM",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -794,7 +785,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "TILE_ROOM",
@@ -808,7 +799,7 @@
       "segment_offset": 105,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "TILE_ROOM",
@@ -821,7 +812,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 8,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -835,7 +826,7 @@
       "segment_offset": 90,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 8,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -848,7 +839,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -862,7 +853,7 @@
       "segment_offset": 81,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -875,7 +866,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 53,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "LEFT_CELL_ROW",
@@ -889,7 +880,7 @@
       "segment_offset": 77,
       "self_relative": false,
       "target": {
-        "index": 53,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "LEFT_CELL_ROW",
@@ -902,10 +893,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROOM",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -916,10 +907,10 @@
       "segment_offset": 69,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROOM",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -929,7 +920,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 8,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -943,7 +934,7 @@
       "segment_offset": 60,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 8,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -956,7 +947,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -970,7 +961,7 @@
       "segment_offset": 54,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -983,10 +974,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROW",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -997,10 +988,10 @@
       "segment_offset": 50,
       "self_relative": false,
       "target": {
-        "index": 36,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROW",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1010,10 +1001,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROOM",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1024,10 +1015,10 @@
       "segment_offset": 42,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROOM",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1037,7 +1028,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "GET_COL",
@@ -1051,7 +1042,7 @@
       "segment_offset": 34,
       "self_relative": false,
       "target": {
-        "index": 12,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "GET_COL",
@@ -1064,7 +1055,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_ACTOR_X",
@@ -1078,7 +1069,7 @@
       "segment_offset": 31,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_ACTOR_X",
@@ -1091,10 +1082,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ID",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1105,10 +1096,10 @@
       "segment_offset": 16,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ID",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1118,10 +1109,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ID",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1132,10 +1123,10 @@
       "segment_offset": 9,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ID",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1145,7 +1136,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_X",
@@ -1159,7 +1150,7 @@
       "segment_offset": 403,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_X",
@@ -1172,7 +1163,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 18,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MARK_MOB_REDRAW",
@@ -1186,7 +1177,7 @@
       "segment_offset": 397,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MARK_MOB_REDRAW",
@@ -1199,7 +1190,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_X",
@@ -1213,7 +1204,7 @@
       "segment_offset": 389,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_X",
@@ -1226,7 +1217,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "ROOM_NUMBER",
@@ -1240,7 +1231,7 @@
       "segment_offset": 383,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "ROOM_NUMBER",
@@ -1253,7 +1244,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_ROOM",
@@ -1267,7 +1258,7 @@
       "segment_offset": 379,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_ROOM",
@@ -1280,7 +1271,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_X",
@@ -1294,7 +1285,7 @@
       "segment_offset": 376,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_X",
@@ -1307,7 +1298,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 17,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "MAKE_SPACE",
@@ -1321,7 +1312,7 @@
       "segment_offset": 370,
       "self_relative": false,
       "target": {
-        "index": 17,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "MAKE_SPACE",
@@ -1334,7 +1325,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "TILE_INDEX",
@@ -1348,7 +1339,7 @@
       "segment_offset": 366,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "TILE_INDEX",
@@ -1361,7 +1352,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "TILE_ROOM",
@@ -1375,7 +1366,7 @@
       "segment_offset": 362,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "TILE_ROOM",
@@ -1388,7 +1379,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "ADD_MOB",
@@ -1402,7 +1393,7 @@
       "segment_offset": 357,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "ADD_MOB",
@@ -1415,7 +1406,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 1,
+          "index": 44,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_SEQUENCE",
@@ -1429,7 +1420,7 @@
       "segment_offset": 352,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 44,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_SEQUENCE",
@@ -1442,7 +1433,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_ROW",
@@ -1456,7 +1447,7 @@
       "segment_offset": 348,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_ROW",
@@ -1469,7 +1460,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "TILE_ROW",
@@ -1483,7 +1474,7 @@
       "segment_offset": 345,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "TILE_ROW",
@@ -1496,7 +1487,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_ACTION",
@@ -1510,7 +1501,7 @@
       "segment_offset": 341,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_ACTION",
@@ -1523,7 +1514,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 57,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_TOP",
@@ -1537,7 +1528,7 @@
       "segment_offset": 337,
       "self_relative": false,
       "target": {
-        "index": 57,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_TOP",
@@ -1550,7 +1541,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 58,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_LEFT",
@@ -1564,7 +1555,7 @@
       "segment_offset": 334,
       "self_relative": false,
       "target": {
-        "index": 58,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_LEFT",
@@ -1577,7 +1568,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_ROOM",
@@ -1591,7 +1582,7 @@
       "segment_offset": 329,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_ROOM",
@@ -1604,7 +1595,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "TILE_ROOM",
@@ -1618,7 +1609,7 @@
       "segment_offset": 326,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "TILE_ROOM",
@@ -1631,7 +1622,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_Y",
@@ -1645,7 +1636,7 @@
       "segment_offset": 323,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_Y",
@@ -1658,7 +1649,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "TILE_ROW",
@@ -1672,7 +1663,7 @@
       "segment_offset": 317,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "TILE_ROW",
@@ -1685,7 +1676,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "SPIKE_X",
@@ -1699,7 +1690,7 @@
       "segment_offset": 311,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "SPIKE_X",
@@ -1712,7 +1703,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "TILE_INDEX",
@@ -1726,7 +1717,7 @@
       "segment_offset": 298,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "TILE_INDEX",
@@ -1739,7 +1730,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "PLATEAU_INTRO",
@@ -1753,7 +1744,7 @@
       "segment_offset": 488,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "PLATEAU_INTRO",
@@ -1766,7 +1757,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 23,
+          "index": 17,
           "kind": "external",
           "method": 6,
           "name": "CLRALL",
@@ -1780,7 +1771,7 @@
       "segment_offset": 482,
       "self_relative": false,
       "target": {
-        "index": 23,
+        "index": 17,
         "kind": "external",
         "method": 6,
         "name": "CLRALL",
@@ -1793,7 +1784,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "OPEN_START_GATE",
@@ -1807,7 +1798,7 @@
       "segment_offset": 477,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "OPEN_START_GATE",
@@ -1847,7 +1838,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -1861,7 +1852,7 @@
       "segment_offset": 462,
       "self_relative": false,
       "target": {
-        "index": 27,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -1874,7 +1865,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 21,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "ANIMCHAR",
@@ -1888,7 +1879,7 @@
       "segment_offset": 457,
       "self_relative": false,
       "target": {
-        "index": 21,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "ANIMCHAR",
@@ -1901,7 +1892,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "RESET_CHAR_Y",
@@ -1915,7 +1906,7 @@
       "segment_offset": 452,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "RESET_CHAR_Y",
@@ -1928,10 +1919,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROW",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1942,10 +1933,10 @@
       "segment_offset": 448,
       "self_relative": false,
       "target": {
-        "index": 36,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROW",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1955,10 +1946,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_X",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1969,10 +1960,10 @@
       "segment_offset": 444,
       "self_relative": false,
       "target": {
-        "index": 47,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_X",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1982,7 +1973,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "COLEDGEX",
@@ -1996,7 +1987,7 @@
       "segment_offset": 438,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "COLEDGEX",
@@ -2009,10 +2000,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 34,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_COLUMN",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -2023,10 +2014,10 @@
       "segment_offset": 434,
       "self_relative": false,
       "target": {
-        "index": 34,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_COLUMN",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -2036,7 +2027,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "CUTROOM",
@@ -2050,7 +2041,7 @@
       "segment_offset": 430,
       "self_relative": false,
       "target": {
-        "index": 8,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "CUTROOM",
@@ -2063,10 +2054,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ROOM",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -2077,10 +2068,10 @@
       "segment_offset": 427,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ROOM",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -2090,7 +2081,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 19,
+          "index": 13,
           "kind": "external",
           "method": 6,
           "name": "JUMPSEQ",
@@ -2104,7 +2095,7 @@
       "segment_offset": 420,
       "self_relative": false,
       "target": {
-        "index": 19,
+        "index": 13,
         "kind": "external",
         "method": 6,
         "name": "JUMPSEQ",
@@ -2117,10 +2108,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 30,
+          "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_ACTION",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -2131,10 +2122,10 @@
       "segment_offset": 412,
       "self_relative": false,
       "target": {
-        "index": 30,
+        "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_ACTION",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -2144,7 +2135,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 18,
           "kind": "external",
           "method": 6,
           "name": "LOAD_PALETTE_BANK",
@@ -2158,7 +2149,7 @@
       "segment_offset": 509,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "LOAD_PALETTE_BANK",
@@ -2171,7 +2162,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 18,
           "kind": "external",
           "method": 6,
           "name": "LOAD_PALETTE_BANK",
@@ -2185,7 +2176,7 @@
       "segment_offset": 543,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "LOAD_PALETTE_BANK",
@@ -2198,7 +2189,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 11,
+          "index": 5,
           "kind": "external",
           "method": 6,
           "name": "RUINS_START_LOADED",
@@ -2212,7 +2203,7 @@
       "segment_offset": 523,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "RUINS_START_LOADED",
@@ -2225,10 +2216,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 37,
+          "index": 28,
           "kind": "external",
           "method": 6,
-          "name": "KID_DIRECTION",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -2239,10 +2230,10 @@
       "segment_offset": 516,
       "self_relative": false,
       "target": {
-        "index": 37,
+        "index": 28,
         "kind": "external",
         "method": 6,
-        "name": "KID_DIRECTION",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -2252,7 +2243,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "PLATEAU_ROOM_LOADED",
@@ -2266,7 +2257,7 @@
       "segment_offset": 614,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "PLATEAU_ROOM_LOADED",
@@ -2279,7 +2270,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "ADDSONG",
@@ -2293,7 +2284,7 @@
       "segment_offset": 608,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "ADDSONG",
@@ -2306,7 +2297,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "PLATEAU_ROOM_LOADED",
@@ -2320,7 +2311,7 @@
       "segment_offset": 598,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "PLATEAU_ROOM_LOADED",
@@ -2333,7 +2324,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -2347,7 +2338,7 @@
       "segment_offset": 591,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -2360,7 +2351,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -2374,7 +2365,7 @@
       "segment_offset": 584,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -2387,7 +2378,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "ADDSONG",
@@ -2401,7 +2392,7 @@
       "segment_offset": 576,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "ADDSONG",
@@ -2414,7 +2405,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_NUMBER",
@@ -2428,7 +2419,7 @@
       "segment_offset": 566,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_NUMBER",
@@ -2441,7 +2432,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -2455,7 +2446,7 @@
       "segment_offset": 559,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -2468,10 +2459,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 28,
           "kind": "external",
           "method": 6,
-          "name": "KID_COLUMN",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -2482,10 +2473,10 @@
       "segment_offset": 552,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 28,
         "kind": "external",
         "method": 6,
-        "name": "KID_COLUMN",
+        "name": "KID",
         "zero_displacement": true
       }
     }
@@ -2506,34 +2497,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "ACTOR_ACTION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23553,
-      "witnesses": [
-        {
-          "bytes_hex": "a2015c",
-          "entry": "root:0000:1000",
-          "image_offset": 1949,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTOR_COLUMN": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23561,
-      "witnesses": [
-        {
-          "bytes_hex": "a2095c",
-          "entry": "root:02cc:027e",
-          "image_offset": 12113,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ACTOR_EDGE_Y": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -2557,76 +2520,6 @@
           "bytes_hex": "a35b62",
           "entry": "root:02cc:160a",
           "image_offset": 17261,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTOR_FRAME": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23577,
-      "witnesses": [
-        {
-          "bytes_hex": "c706195c0500",
-          "entry": "root:0000:0242",
-          "image_offset": 1649,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTOR_ID": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23558,
-      "witnesses": [
-        {
-          "bytes_hex": "803e065c0a",
-          "entry": "root:0000:0242",
-          "image_offset": 1888,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTOR_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23566,
-      "witnesses": [
-        {
-          "bytes_hex": "803e0e5c00",
-          "entry": "root:0169:02c2",
-          "image_offset": 7875,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTOR_ROW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23562,
-      "witnesses": [
-        {
-          "bytes_hex": "f62e0a5c",
-          "entry": "root:02cc:07a2",
-          "image_offset": 13412,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ACTOR_X": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23554,
-      "witnesses": [
-        {
-          "bytes_hex": "a1025c",
-          "entry": "root:0000:1000",
-          "image_offset": 2333,
           "operand_offset": 1,
           "space": "root"
         }
@@ -2684,8 +2577,103 @@
       ]
     },
     "CHAR": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "bytes_hex": "be005c1e07b92000f3a5",
+          "entry": "root:0000:0242",
+          "image_offset": 1535,
+          "space": "root"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a2015c",
+              "entry": "root:0000:1000",
+              "image_offset": 1949,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "a1025c",
+              "entry": "root:0000:1000",
+              "image_offset": 2333,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "803e065c0a",
+              "entry": "root:0000:0242",
+              "image_offset": 1888,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 9,
+          "witnesses": [
+            {
+              "bytes_hex": "a2095c",
+              "entry": "root:02cc:027e",
+              "image_offset": 12113,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 10,
+          "witnesses": [
+            {
+              "bytes_hex": "f62e0a5c",
+              "entry": "root:02cc:07a2",
+              "image_offset": 13412,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 14,
+          "witnesses": [
+            {
+              "bytes_hex": "803e0e5c00",
+              "entry": "root:0169:02c2",
+              "image_offset": 7875,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 25,
+          "witnesses": [
+            {
+              "bytes_hex": "c706195c0500",
+              "entry": "root:0000:0242",
+              "image_offset": 1649,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
       "offset": 23552,
       "witnesses": [
         {
@@ -2817,8 +2805,43 @@
       ]
     },
     "KID": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "bytes_hex": "be805c1e07b92000f3a5",
+          "entry": "root:02cc:086a",
+          "image_offset": 13626,
+          "space": "root"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 9,
+          "witnesses": [
+            {
+              "bytes_hex": "3806895c",
+              "entry": "root:0b41:091a",
+              "image_offset": 48583,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 17,
+          "witnesses": [
+            {
+              "bytes_hex": "803e915c00",
+              "entry": "root:0000:0cbc",
+              "image_offset": 3275,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
       "offset": 23680,
       "witnesses": [
         {
@@ -2826,34 +2849,6 @@
           "entry": "root:0000:0e9a",
           "image_offset": 3808,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "KID_COLUMN": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23689,
-      "witnesses": [
-        {
-          "bytes_hex": "3806895c",
-          "entry": "root:0b41:091a",
-          "image_offset": 48583,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "KID_DIRECTION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23697,
-      "witnesses": [
-        {
-          "bytes_hex": "803e915c00",
-          "entry": "root:0000:0cbc",
-          "image_offset": 3275,
-          "operand_offset": 2,
           "space": "root"
         }
       ]

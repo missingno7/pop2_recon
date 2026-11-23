@@ -8,19 +8,40 @@ typedef struct {
 } Rect;
 
 #pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
 typedef struct {
-    int y, x;
-    ubyte action;
-    uword frame;
-    sbyte column, row;
-    ubyte reserved_11[3];
-    ubyte room;
-    ubyte reserved_15[2];
-    sbyte life;
-    ubyte reserved_18[7];
-    int sequence_group;
-    Rect bounds;
-} Character;
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
 
 typedef struct {
     ubyte kind;
@@ -40,7 +61,7 @@ extern uword BlueSpec;
 extern sbyte trob_index;
 extern ubyte trob_room;
 extern sbyte trob_mode;
-extern Character actor;
+extern CHARREC Char;
 extern Cell current_tile;
 extern RoomCell room_cells[24][30];
 extern RoomCell near *BlueS;
@@ -104,10 +125,10 @@ void far pascal AnimScythe(void)
 
 void far pascal CheckScythe(void)
 {
-    if (actor.action != 7 && actor.action != 8 && actor.action != 11 &&
-        actor.life < 0 && actor.row * 63 + 40 <= actor.x) {
-        char kind = ReadCell(actor.room, actor.column, actor.row);
-        if ((kind == 12 || kind == 13) && cell_x[actor.column] + 18 < actor.y)
+    if (Char.character_kind != 7 && Char.character_kind != 8 && Char.character_kind != 11 &&
+        Char.alive < 0 && Char.row * 63 + 40 <= Char.y) {
+        char kind = ReadCell(Char.room, Char.column, Char.row);
+        if ((kind == 12 || kind == 13) && cell_x[Char.column] + 18 < Char.x)
             TriggerScythe(current_tile.room, current_tile.index);
     }
 }
@@ -117,33 +138,33 @@ void far pascal CheckScytheHit(void)
     int done = 0;
     sbyte column, kind;
     Rect bounds;
-    if (actor.action != 0 && actor.action != 2)
+    if (Char.character_kind != 0 && Char.character_kind != 2)
         return;
-    if (actor.sequence_group == 44)
+    if ((int)Char.sequence == 44)
         return;
-    column = actor.column - 1;
-    while (column <= actor.column + 1) {
-        kind = ReadCell(actor.room, column, actor.row);
+    column = Char.column - 1;
+    while (column <= Char.column + 1) {
+        kind = ReadCell(Char.room, column, Char.row);
         if (kind == 12 || kind == 13) {
             if (GetScytheHitType(current_tile.modifier) &&
                 ComputeBladeHitRect(&bounds) &&
-                SectRect(&bounds, &bounds, &actor.bounds) &&
-                (actor.frame < 267 || actor.frame > 271)) {
-                if (actor.action == 0) {
+                SectRect(&bounds, &bounds, (const Rect far *)&Char.bounds) &&
+                (Char.frame < 267 || Char.frame > 271)) {
+                if (Char.character_kind == 0) {
                     JumpSeq(113);
                     SetKidDeathMethod(5);
                 } else {
                     JumpSeq(190);
-                    actor.life = 1;
+                    Char.alive = 1;
                 }
                 AnimChar();
                 decrement_life_points(100);
                 AddSound(85);
                 BlueS[current_tile.index].modifier = (current_tile.modifier |= 0x40);
                 if (kind == 12)
-                    ReadCell(actor.room, column + 1, actor.row);
+                    ReadCell(Char.room, column + 1, Char.row);
                 else
-                    ReadCell(actor.room, column - 1, actor.row);
+                    ReadCell(Char.room, column - 1, Char.row);
                 BlueS[current_tile.index].modifier = (current_tile.modifier |= 0x40);
             }
             done = 1;
@@ -204,13 +225,13 @@ void far pascal RedrawScythe(int bloody)
 int far pascal ScytheBarrToStandUp(void)
 {
     int blocked = 0;
-    char kind = ReadCell(actor.room, actor.column, actor.row);
+    char kind = ReadCell(Char.room, Char.column, Char.row);
     if (kind == 12 && ScytheBladeExtended(current_tile.modifier)) {
         blocked = 1;
     } else if (kind == 13) {
-        ReadCell(actor.room, actor.column - 1, actor.row);
+        ReadCell(Char.room, Char.column - 1, Char.row);
         if (ScytheBladeExtended(current_tile.modifier) &&
-            cell_x[actor.column] + 9 >= LeftEdge)
+            cell_x[Char.column] + 9 >= LeftEdge)
             blocked = 1;
     }
     return blocked;

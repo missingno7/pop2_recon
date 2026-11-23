@@ -177,26 +177,51 @@ next_opening_clip:
 }
 
 
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
 typedef struct {
-    char room;
-    char unknown1[5];
-    char kind;
-    char unknown7[11];
-    unsigned char previous_hp, hp, hp_delta;
-    char unknown21[15];
-    int sequence;
-    char rest[26];
-} CharacterState;
-
-extern CharacterState Char;
-extern CharacterState Kid;
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+extern CHARREC Char;
+extern CHARREC Kid;
 
 extern unsigned char viewed_room;
 extern signed char joystick[3];
 #define joystick_y (joystick[0])
 #define joystick_x (joystick[1])
 #define joystick_button (joystick[2])
-extern signed char kid_life, timer_disabled;
+extern signed char timer_disabled;
 extern int Pause;
 extern int minutes_remaining, countdown_pending, restart_blocked;
 extern int requested_level, control_mode, message_ticks, message_duration;
@@ -226,7 +251,7 @@ unsigned int far pascal prince_poll(void)
     const char *message = 0; int restart = 0; unsigned int key = poll_user();
 
     if (joystick_button || key) {
-        if ((minutes_remaining && kid_life > 6) || restart_from_demo) { restart = 1;
+        if ((minutes_remaining && Kid.alive > 6) || restart_from_demo) { restart = 1;
             if (restart_from_demo) skip_opening = 1;
         }
     }
@@ -285,24 +310,12 @@ unsigned int far pascal prince_poll(void)
 
 
 typedef struct {
-    signed char room, direction;
-    int x, y;
-    signed char kind, unk7[8], changed, unk10, unk11;
-    signed char hp, max_hp, hp_delta, trap_progress;
-    signed char rest[3], frame, unk1a[10];
-    int sequence, next_sequence;
-    signed char unk28[17], linked, unk3a[6];
-} DebugActor;
-
-typedef struct {
     signed char opponent_count;
     unsigned char remainder[0x73];
 } RoomSettingsRow;
 
-extern DebugActor RoomOpp[];
+extern CHARREC RoomOpp[5];
 
-#define debug_char (*(DebugActor near *)&Char)
-#define debug_kid  (*(DebugActor near *)&Kid)
 extern RoomSettingsRow room_settings[];
 extern unsigned char viewed_room, left_room, above_room, right_room, below_room;
 extern unsigned char CutRoom, current_level_number, stage_type;
@@ -311,7 +324,7 @@ extern int debug_alt_view, debug_reload_room;
 extern int debug_show_objects, debug_show_messages, debug_show_buildings;
 extern int debug_show_collisions, debug_show_door_links, debug_show_meters;
 extern int debug_kid_x, debug_kid_y, player_input_disabled;
-extern signed char kid_life;
+
 
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern void far pascal draw_message(const char *message);
@@ -385,22 +398,22 @@ void far pascal handle_debug_input(unsigned int key)
         }
         index = 0; count = room_settings[viewed_room].opponent_count;
         if (index < count) do {
-            RoomOpp[index].next_sequence = 0;
+            RoomOpp[index].previous_x = 0;
         } while (++index < count);
         break;
     case 'I': ToggleInvertState(); break;
     case 'K':
-        debug_char.hp_delta = -1; AddSound(31);
+        Char.life_delta = -1; AddSound(31);
         Kid = Char; ChangeMeters();
         CheckMeters(); copy_kid_to_char();
-        if (debug_char.hp == 0) JumpSeq(71);
-        debug_char.hp_delta = 0; break;
+        if (Char.life_points == 0) JumpSeq(71);
+        Char.life_delta = 0; break;
     case 'R':
         sprintf(text, debug_messages.room_number_format, (unsigned)viewed_room); draw_message(text);
         message_ticks = message_duration = 24; break;
     case 'S':
         if (current_level_number == 2 || current_level_number == 6) {
-            player_input_disabled = 7; *(int near *)&debug_char.frame = 5;
+            player_input_disabled = 7; Char.sequence = 5;
             CheckShadowmanCreate();
             if (current_level_number == 6) schedule_room_effect(2000, 48, 16, 1);
             else
@@ -412,22 +425,22 @@ void far pascal handle_debug_input(unsigned int key)
     case 'W': GoWeightless(); break;
     case 'g':
         Kid = Char;
-        if (debug_char.linked != -1) { load_actor_slot(debug_char.linked); ++debug_char.max_hp;
-            debug_char.hp_delta = 1; save_actor_slot();
+        if (Char.opponent_index != -1) { load_actor_slot(Char.opponent_index); ++Char.life_initial;
+            Char.life_delta = 1; save_actor_slot();
             ChangeMeters(); CheckMeters();
         }
         copy_kid_to_char(); break;
     case 'k':
-        debug_char.linked = -1; Kid = Char;
+        Char.opponent_index = -1; Kid = Char;
         index = 0; count = room_settings[viewed_room].opponent_count;
         if (index < count) do {
-            load_actor_slot(index); debug_char.unk11 = 0;
-            debug_char.hp_delta = -debug_char.hp;
+            load_actor_slot(index); Char.alive = 0;
+            Char.life_delta = -Char.life_points;
             if (stage_type == 2) { bones_fall();
-            } else if (debug_char.kind == 10) { set_skeleton_timer(index, 240); JumpSeq(107);
-                debug_char.changed = 1;
+            } else if (Char.character_kind == 10) { set_skeleton_timer(index, 240); JumpSeq(107);
+                Char.field_0f = 1;
             } else if (stage_type == 5 || stage_type == 6) {
-                debug_char.direction = ~debug_kid.direction; debug_char.hp = 0;
+                Char.direction = ~Kid.direction; Char.life_points = 0;
                 JumpSeq(154);
             } else {
                 JumpSeq(85);
@@ -436,9 +449,9 @@ void far pascal handle_debug_input(unsigned int key)
         } while (++index < count);
         copy_kid_to_char(); break;
     case 'r':
-        if (kid_life > 0) {
+        if (Kid.alive > 0) {
             restart_blocked = 20;
-            kid_life = -1;
+            Kid.alive = -1;
             clear_message(1);
         }
         break;
@@ -486,78 +499,78 @@ void far pascal handle_debug_input(unsigned int key)
         switch (key) {
         case '1':
             copy_kid_to_char();
-            debug_kid_x = debug_char.x;
+            debug_kid_x = Char.x;
             Kid = Char;
             memcpy(text, debug_messages.kid_x_saved_message, sizeof(debug_messages.kid_x_saved_message));
             message = text;
             break;
         case '2':
             copy_kid_to_char();
-            debug_char.x = debug_kid_x;
+            Char.x = debug_kid_x;
             Kid = Char;
             memcpy(text, debug_messages.kid_x_restored_message, sizeof(debug_messages.kid_x_restored_message));
             message = text;
             break;
         case '3':
             copy_kid_to_char();
-            debug_kid_y = debug_char.y;
+            debug_kid_y = Char.y;
             Kid = Char;
             memcpy(text, debug_messages.kid_y_saved_message, sizeof(debug_messages.kid_y_saved_message));
             message = text;
             break;
         case '4':
             copy_kid_to_char();
-            debug_char.y = debug_kid_y;
+            Char.y = debug_kid_y;
             Kid = Char;
             memcpy(text, debug_messages.kid_y_restored_message, sizeof(debug_messages.kid_y_restored_message));
             message = text;
             break;
         case 0x4700:
             copy_kid_to_char();
-            if (debug_char.direction == -1)
-                debug_char.x = AddCharX(32);
+            if (Char.direction == -1)
+                Char.x = AddCharX(32);
             else
-                debug_char.x = AddCharX(-32);
+                Char.x = AddCharX(-32);
             Kid = Char;
             break;
         case 0x4900:
             copy_kid_to_char();
-            if (debug_char.direction == 0)
-                debug_char.x = AddCharX(32);
+            if (Char.direction == 0)
+                Char.x = AddCharX(32);
             else
-                debug_char.x = AddCharX(-32);
+                Char.x = AddCharX(-32);
             Kid = Char;
             break;
         case 0x4b00:
             copy_kid_to_char();
-            if (debug_char.direction == -1)
-                debug_char.x = AddCharX(1);
+            if (Char.direction == -1)
+                Char.x = AddCharX(1);
             else
-                debug_char.x = AddCharX(-1);
+                Char.x = AddCharX(-1);
             Kid = Char;
             break;
         case 0x4d00:
             copy_kid_to_char();
-            if (debug_char.direction == 0)
-                debug_char.x = AddCharX(1);
+            if (Char.direction == 0)
+                Char.x = AddCharX(1);
             else
-                debug_char.x = AddCharX(-1);
+                Char.x = AddCharX(-1);
             Kid = Char;
             break;
         case 0x4f00:
             copy_kid_to_char();
-            if (debug_char.direction == -1)
-                debug_char.x = AddCharX(5);
+            if (Char.direction == -1)
+                Char.x = AddCharX(5);
             else
-                debug_char.x = AddCharX(-5);
+                Char.x = AddCharX(-5);
             Kid = Char;
             break;
         case 0x5100:
             copy_kid_to_char();
-            if (debug_char.direction == 0)
-                debug_char.x = AddCharX(5);
+            if (Char.direction == 0)
+                Char.x = AddCharX(5);
             else
-                debug_char.x = AddCharX(-5);
+                Char.x = AddCharX(-5);
             Kid = Char;
             break;
         }
@@ -742,7 +755,7 @@ void far pascal add_room_trobs(void)
     load_room_tiles(viewed_room);
 }
 
-extern signed char timer_disabled, kid_life;
+extern signed char timer_disabled;
 extern int minutes_remaining, countdown_pending;
 extern unsigned int ticks_remaining;
 extern int message_ticks, message_duration, deferred_room, LastResume;
@@ -756,7 +769,7 @@ void far pascal KeepTime(void)
     char text[40];
     unsigned int seconds;
 
-    if (timer_disabled >= 0 && kid_life < 0 && minutes_remaining != 0) {
+    if (timer_disabled >= 0 && Kid.alive < 0 && minutes_remaining != 0) {
         if (--ticks_remaining == 0) {
             ticks_remaining = 719;
             if (--minutes_remaining != 0 &&
@@ -798,7 +811,7 @@ void far pascal KeepTime(void)
 extern unsigned char CutRoom;
 extern int room_transition_active;
 extern unsigned char room_controls[2];
-extern signed char opponent_index;
+
 extern void far pascal set_room_redraw(void);
 extern int far pascal IsLevelStartWithNISScreen(void);
 extern void far pascal refresh_room_screen(void);
@@ -831,7 +844,7 @@ int far pascal PrepCut(int keep_screen)
         if (!room_settings[viewed_room].opponent_count)
             change_room_sound(-1, 0, 8);
         else
-            opponent_index = set_room_opponents(1);
+            Kid.opponent_index = set_room_opponents(1);
     }
     return -2;
 }
@@ -841,59 +854,49 @@ extern void far pascal DrawKidMeter(int previous, int current);
 extern int FrameNum;
 extern unsigned int ticks_remaining;
 
-extern signed char opponent_index;
 
 /* Increment the signed state byte up to 12, then refresh the step delta. */
 char far pascal UPDATE_STEP_DELTA(void);
 
 char far pascal BoostMeter(void)
 {
-    int next = (signed char)Char.hp + 1;
-    Char.hp = (next > 12) ? 12 : next;
+    int next = (signed char)Char.life_initial + 1;
+    Char.life_initial = (next > 12) ? 12 : next;
     return UPDATE_STEP_DELTA();
 }
 
 char far pascal UPDATE_STEP_DELTA(void)
 {
-    Char.hp_delta = Char.hp - Char.previous_hp;
-    return Char.hp_delta;
+    Char.life_delta = Char.life_initial - Char.life_points;
+    return Char.life_delta;
 }
 
 void far pascal CheckMeters(void)
 {
     copy_kid_to_char();
-    if (Char.hp_delta)
-        DrawKidMeter((signed char)Char.previous_hp, (signed char)Char.hp);
-    if (Char.previous_hp == 1) {
+    if (Char.life_delta)
+        DrawKidMeter((signed char)Char.life_points, (signed char)Char.life_initial);
+    if (Char.life_points == 1) {
         if (FrameNum % 2)
             DrawKidMeter(1, 0);
         else
             DrawKidMeter(0, 1);
     }
     Kid = Char;
-    if (opponent_index != -1) {
-        load_actor_slot(opponent_index);
-        if (Char.hp_delta && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2))
-            DrawOppMeter(Char.room, (signed char)Char.previous_hp, (signed char)Char.hp);
-        if (Char.previous_hp == 1 && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2)) {
+    if (Kid.opponent_index != -1) {
+        load_actor_slot(Kid.opponent_index);
+        if (Char.life_delta && !((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 2))
+            DrawOppMeter(Char.slot, (signed char)Char.life_points, (signed char)Char.life_initial);
+        if (Char.life_points == 1 && !((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 2)) {
             if (ticks_remaining & 1)
-                DrawOppMeter(Char.room, 1, (signed char)Char.hp);
+                DrawOppMeter(Char.slot, 1, (signed char)Char.life_initial);
             else
-                DrawOppMeter(Char.room, 0, (signed char)Char.hp);
+                DrawOppMeter(Char.slot, 0, (signed char)Char.life_initial);
         }
     }
 }
 
-typedef struct {
-    char unused[0x12];
-    signed char current, maximum, delta;
-    char rest[0x2b];
-} OpponentMeters;
-
-extern signed char kid_hp, kid_maximum_hp, kid_hp_change;
-extern char kid_meter_mode;
 extern unsigned char viewed_room;
-extern OpponentMeters opponent_meters[];
 extern void far pascal refresh_meter_animation(void);
 
 
@@ -901,29 +904,28 @@ void far pascal ChangeMeters(void)
 {
     int hp;
     signed char opponent, count;
-    OpponentMeters *meter;
+    CHARREC *meter;
 
-    if (kid_hp_change) {
-        if (kid_meter_mode == 1)
+    if (Kid.life_delta) {
+        if (Kid.character_kind == 1)
             refresh_meter_animation();
-        hp = kid_hp_change + kid_hp;
+        hp = Kid.life_delta + Kid.life_points;
         hp = hp > 0 ? hp : 0;
-        kid_hp = hp > kid_maximum_hp ? kid_maximum_hp : (signed char)hp;
+        Kid.life_points = hp > Kid.life_initial ? Kid.life_initial : (signed char)hp;
     }
     opponent = 0;
     count = room_settings[viewed_room].opponent_count;
     for (; opponent < count; ++opponent) {
-        meter = &opponent_meters[opponent];
-        if (meter->delta) {
-            hp = meter->current + meter->delta;
+        meter = &RoomOpp[opponent];
+        if (meter->life_delta) {
+            hp = meter->life_points + meter->life_delta;
             hp = hp > 0 ? hp : 0;
-            if (hp > meter->maximum)
-                hp = meter->maximum;
-            meter->current = hp;
+            if (hp > meter->life_initial)
+                hp = meter->life_initial;
+            meter->life_points = hp;
         }
     }
 }
-
 
 
 extern signed char joystick[3];

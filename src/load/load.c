@@ -110,8 +110,43 @@ static const char map_option[] = "GAMEPLAY\0%s%s";
 
 extern SByte sword_kind;
 extern Handle level_pieces, sword_frames, opponent_frames, opponent_effect_frames;
-extern Byte viewed_room, room_feature, music_number;
-extern KidRecord far * volatile hRebirthSaved;
+extern Byte viewed_room;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
 extern int *level_start_table[];
 extern void far *level_sequence_table[];
 extern int *level_starts;
@@ -655,6 +690,8 @@ typedef struct {
     unsigned flags, actor;
 } RoomObjectInfo;
 
+extern CHARREC Kid;
+
 void far pascal preload_room_data(Byte room)
 {
     int visited[64];
@@ -684,10 +721,10 @@ void far pascal preload_room_data(Byte room)
         }
     } while (++tile < 30);
     if (room_trigger_data[(unsigned)(Byte)116 * room]) load_opponent_sound(opponent);
-    if ((SByte)music_number > 0) {
-        if ((SByte)music_number < 33) hGetSnd(10016);
+    if ((SByte)(*(unsigned char near *)&Kid.vertical_step) > 0) {
+        if ((SByte)(*(unsigned char near *)&Kid.vertical_step) < 33) hGetSnd(10016);
         else hGetSnd(10000);
-        if ((SByte)music_number < 31) hGetSnd(10001);
+        if ((SByte)(*(unsigned char near *)&Kid.vertical_step) < 31) hGetSnd(10001);
     }
 }
 
@@ -712,6 +749,8 @@ void far pascal report_resource_path(const char far *path)
     abort_with_message(1, message);
 }
 
+extern KidRecord far * volatile hRebirthSaved;
+
 void far pascal set_kid_sword_kind(void)
 {
     if (hRebirthSaved)
@@ -719,7 +758,7 @@ void far pascal set_kid_sword_kind(void)
     else if (level_number == 6)
         sword_kind = -1;
     else if (level_number == 7 ||
-             (level_number == 8 && room_feature != 9 && hRebirthSaved == 0))
+             (level_number == 8 && (*(unsigned char near *)&Kid.room) != 9 && hRebirthSaved == 0))
         sword_kind = 2;
     else
         sword_kind = 1;

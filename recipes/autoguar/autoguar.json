@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autoguar/autoguar.json",
-  "binding_sha256": "865da345e73e078f3e063cec2317e25ff0b65a35950411bf466e3b6b07396477",
+  "binding_sha256": "617722e71e1c8831fbe961b19cc1f339c7cd43122f0ba5f58d4413340c890365",
   "claims": [
     {
       "fixup_count": 0,
@@ -210,6 +210,17 @@
       "target_id": "overlay-12:2c3e:0b74"
     },
     {
+      "fixup_count": 11,
+      "public": "GENERIC_FIGHT",
+      "relocation_indices": [
+        123,
+        127
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-12:2c3e:0c56"
+    },
+    {
       "fixup_count": 19,
       "public": "MAYBE_ADVANCE",
       "relocation_indices": [
@@ -278,6 +289,18 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-12:2c3e:0f6c"
+    },
+    {
+      "fixup_count": 18,
+      "public": "UPDATE_SKELETON",
+      "relocation_indices": [
+        27,
+        62,
+        80
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-12:2c3e:10d8"
     },
     {
       "fixup_count": 22,
@@ -505,18 +528,6 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-12:2c3e:1710"
-    },
-    {
-      "fixup_count": 18,
-      "public": "UPDATE_SKELETON",
-      "relocation_indices": [
-        27,
-        62,
-        80
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "overlay-12:2c3e:10d8"
     }
   ],
   "drafts": [
@@ -527,10 +538,6 @@
     {
       "object_offset": 2308,
       "public": "WAIT_EN_GARDE"
-    },
-    {
-      "object_offset": 3158,
-      "public": "GENERIC_FIGHT"
     }
   ],
   "emitted_size": 6202,
@@ -549,12 +556,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "autoguar/autoguar",
-  "object_sha256": "d6f662ae45e667bfd426577064debb050f202925d7060dd3a1b3c5efe32cd08f",
+  "object_sha256": "2b86de6671afaf0be8d24988e96e9e02920680e5faf14776cdeee88703993717",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autoguar/autoguar.c",
-  "source_sha256": "12663fad1f376c233333515950258072862e8ee0ea400074b00c4963f48e703e",
+  "source_sha256": "eed06d0a9abbff908cc2250ec60a3a8084029b85be0dcc2b61033c44d2dc096e",
   "space": "overlay-12"
 }

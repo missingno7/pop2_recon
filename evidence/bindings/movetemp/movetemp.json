@@ -1,7 +1,29 @@
 {
   "declarations": {
     "externals": [
+      "@draw_movement_shape",
+      "DRAW_OBJECT_TRAPDOOR",
+      "PROBE_FLOORS_TOWARD_ROCK",
+      "HIT_CHARACTER_WITH_ROCK",
+      "COMPUTE_SLIDE_ROCK_RECT",
+      "@slide_rock_on_row",
+      "MOVEMENT_END",
+      "LOAD_INSCRIPTION_ROOM",
+      "MOVING_X",
+      "MOVING_Y",
+      "CHECK_SLIDE_ROCK_CRUSH",
+      "MOVING_MODE",
+      "CHECK_TEMPLE_EVENT",
+      "MOVING_KIND",
+      "MOVING_ROOM",
+      "MOVING_ROW",
+      "TEMPLE_FRAME",
+      "GET_MOB_TYPE_ITEM",
+      "FCHAR",
+      "MOB_DIMENSIONS",
+      "SEQUENCE_A",
       "MOVE_TRAPDOOR",
+      "SEQUENCE_B",
       "ROCK_SPEED_A",
       "DRAW_OBJECT_SLIDE_ROCK",
       "ROCK_SPEED_B",
@@ -38,66 +60,43 @@
       "VIEWED_ROOM",
       "BACKGROUND_SHAPES",
       "SET_CHARACTER_SEQUENCE",
+      "CURRENT_VIEW",
       "UPDATE_KID_CONTACT",
       "CHOOSE_TRAPDOOR_DELAY",
-      "CURRENT_VIEW",
       "ROCK_MOTION_STATE",
       "ADD_MOB",
       "CURRENT_MODIFIER",
       "SLIDE_ROCK_BARRIER",
       "LEVEL_FLAGS",
-      "INSCRIPTION_MARKER",
-      "MOVE_SLIDE_BOLT",
       "ROOM_TILE_MARKER",
       "SLIDE_ROCK_NEAR_SPIKES",
+      "MOVE_SLIDE_BOLT",
       "ADDSONG",
       "ALTAR_WATCH_KID",
+      "RND",
       "GET_SET_IMAGE_SIZE",
+      "FIRSTINROW",
       "COMPUTE_MOB_RECT",
+      "GET_CHAR_COL",
       "MOVE_SLIDE_ROCK",
       "TRAPDOOR_UPDATE_RECT",
-      "MOVE_TRAPDOOR_RECORD",
-      "MARK_BUFS_FOR_RECT",
-      "CHECK_TRAPDOOR",
-      "SLIDE_ROCK_COLLISION_ROW",
-      "RND",
-      "TRIGGER_TRAPDOOR",
-      "FIRSTINROW",
-      "@get_slide_rock_x",
-      "MOVE_ROCK_RECORD",
-      "GET_CHAR_COL",
-      "SHAKE_TRAPDOOR",
       "ISWALL",
+      "MOVE_TRAPDOOR_RECORD",
       "DRAW_MOVING_TILE",
       "GETROW",
-      "CAN_SLIDE_ROCK_STOP",
+      "MARK_BUFS_FOR_RECT",
+      "CHECK_TRAPDOOR",
       "INDEXCELL1",
+      "TRIGGER_TRAPDOOR",
+      "SLIDE_ROCK_COLLISION_ROW",
+      "@get_slide_rock_x",
+      "MOVE_ROCK_RECORD",
+      "SHAKE_TRAPDOOR",
       "IS_VISIBLE_ROOM_CELL",
       "MARK_MOB_REDRAW",
-      "TRIGGER_SLIDE_ROCK",
       "COPY_KID_TO_CHAR",
-      "@draw_movement_shape",
-      "PROBE_FLOORS_TOWARD_ROCK",
-      "DRAW_OBJECT_TRAPDOOR",
-      "HIT_CHARACTER_WITH_ROCK",
-      "COMPUTE_SLIDE_ROCK_RECT",
-      "@slide_rock_on_row",
-      "MOVING_X",
-      "MOVING_Y",
-      "LOAD_INSCRIPTION_ROOM",
-      "MOVING_MODE",
-      "CHECK_SLIDE_ROCK_CRUSH",
-      "MOVEMENT_END",
-      "MOVING_KIND",
-      "CHECK_TEMPLE_EVENT",
-      "MOVING_ROOM",
-      "MOVING_ROW",
-      "GET_MOB_TYPE_ITEM",
-      "FCHAR",
-      "TEMPLE_FRAME",
-      "SEQUENCE_A",
-      "MOB_DIMENSIONS",
-      "SEQUENCE_B"
+      "CAN_SLIDE_ROCK_STOP",
+      "TRIGGER_SLIDE_ROCK"
     ],
     "groups": [
       {
@@ -113,155 +112,11 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "MOVE_TRAPDOOR",
-        "offset": 3106,
+        "name": "DRAW_OBJECT_TRAPDOOR",
+        "offset": 3930,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 649
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "DRAW_OBJECT_SLIDE_ROCK",
-        "offset": 726,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 573
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "PROBE_CHAIN_FLOOR",
-        "offset": 2688,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 633
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "CHOOSE_TRAPDOOR_DELAY",
-        "offset": 0,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 559
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "SLIDE_ROCK_BARRIER",
-        "offset": 872,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 577
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "MOVE_SLIDE_BOLT",
-        "offset": 36,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 560
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "SLIDE_ROCK_NEAR_SPIKES",
-        "offset": 2574,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 631
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "MOVE_SLIDE_ROCK",
-        "offset": 132,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 561
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "MOVE_TRAPDOOR_RECORD",
-        "offset": 3596,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 656
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "CHECK_TRAPDOOR",
-        "offset": 3652,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 657
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "SLIDE_ROCK_COLLISION_ROW",
-        "offset": 1042,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 581
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "TRIGGER_TRAPDOOR",
-        "offset": 3782,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 661
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "@get_slide_rock_x",
-        "offset": 2826,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 637
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "MOVE_ROCK_RECORD",
-        "offset": 2004,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 627
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "SHAKE_TRAPDOOR",
-        "offset": 3722,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 658
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "CAN_SLIDE_ROCK_STOP",
-        "offset": 532,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 563
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "TRIGGER_SLIDE_ROCK",
-        "offset": 2878,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 641
+        "type_index": 665
       },
       {
         "frame": null,
@@ -270,16 +125,7 @@
         "offset": 1842,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 599
-      },
-      {
-        "frame": null,
-        "group_index": 0,
-        "name": "DRAW_OBJECT_TRAPDOOR",
-        "offset": 3930,
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "type_index": 663
+        "type_index": 601
       },
       {
         "frame": null,
@@ -288,7 +134,7 @@
         "offset": 1388,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 597
+        "type_index": 599
       },
       {
         "frame": null,
@@ -297,7 +143,7 @@
         "offset": 568,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 569
+        "type_index": 571
       },
       {
         "frame": null,
@@ -306,7 +152,7 @@
         "offset": 1318,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 593
+        "type_index": 595
       },
       {
         "frame": null,
@@ -315,7 +161,7 @@
         "offset": 4014,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 664
+        "type_index": 666
       },
       {
         "frame": null,
@@ -324,7 +170,7 @@
         "offset": 634,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 571
+        "type_index": 573
       },
       {
         "frame": null,
@@ -333,7 +179,7 @@
         "offset": 4032,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 665
+        "type_index": 667
       },
       {
         "frame": null,
@@ -342,7 +188,160 @@
         "offset": 4052,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "type_index": 666
+        "type_index": 668
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOVE_TRAPDOOR",
+        "offset": 3106,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 651
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "DRAW_OBJECT_SLIDE_ROCK",
+        "offset": 726,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 575
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "PROBE_CHAIN_FLOOR",
+        "offset": 2688,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 635
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "CHOOSE_TRAPDOOR_DELAY",
+        "offset": 0,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 561
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SLIDE_ROCK_BARRIER",
+        "offset": 872,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 579
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SLIDE_ROCK_NEAR_SPIKES",
+        "offset": 2574,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 633
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOVE_SLIDE_BOLT",
+        "offset": 36,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 562
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOVE_SLIDE_ROCK",
+        "offset": 132,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 563
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOVE_TRAPDOOR_RECORD",
+        "offset": 3596,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 658
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "CHECK_TRAPDOOR",
+        "offset": 3652,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 659
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "TRIGGER_TRAPDOOR",
+        "offset": 3782,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 663
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SLIDE_ROCK_COLLISION_ROW",
+        "offset": 1042,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 583
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "@get_slide_rock_x",
+        "offset": 2826,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 639
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "MOVE_ROCK_RECORD",
+        "offset": 2004,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 629
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "SHAKE_TRAPDOOR",
+        "offset": 3722,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 660
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "CAN_SLIDE_ROCK_STOP",
+        "offset": 532,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 565
+      },
+      {
+        "frame": null,
+        "group_index": 0,
+        "name": "TRIGGER_SLIDE_ROCK",
+        "offset": 2878,
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "type_index": 643
       }
     ],
     "segments": [
@@ -401,7 +400,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 3010,
+        "length": 2983,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -413,7 +412,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2240,
+        "length": 2555,
         "name": "$$TYPES",
         "overlay": "",
         "use32": false
@@ -437,7 +436,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 60,
+          "index": 73,
           "kind": "external",
           "method": 6,
           "name": "RND",
@@ -451,7 +450,7 @@
       "segment_offset": 19,
       "self_relative": false,
       "target": {
-        "index": 60,
+        "index": 73,
         "kind": "external",
         "method": 6,
         "name": "RND",
@@ -464,7 +463,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -478,7 +477,7 @@
       "segment_offset": 122,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -491,7 +490,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -505,7 +504,7 @@
       "segment_offset": 117,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -518,7 +517,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 82,
           "kind": "external",
           "method": 6,
           "name": "DRAW_MOVING_TILE",
@@ -532,7 +531,7 @@
       "segment_offset": 111,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 82,
         "kind": "external",
         "method": 6,
         "name": "DRAW_MOVING_TILE",
@@ -545,7 +544,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -559,7 +558,7 @@
       "segment_offset": 108,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -572,7 +571,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -586,7 +585,7 @@
       "segment_offset": 104,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -599,7 +598,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -613,7 +612,7 @@
       "segment_offset": 97,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -626,7 +625,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -640,7 +639,7 @@
       "segment_offset": 93,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -653,7 +652,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -667,7 +666,7 @@
       "segment_offset": 71,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -680,7 +679,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "FIRSTINROW",
@@ -694,7 +693,7 @@
       "segment_offset": 64,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "FIRSTINROW",
@@ -707,7 +706,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -721,7 +720,7 @@
       "segment_offset": 55,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -734,7 +733,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -748,7 +747,7 @@
       "segment_offset": 51,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -761,7 +760,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -775,7 +774,7 @@
       "segment_offset": 44,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -788,7 +787,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -802,7 +801,7 @@
       "segment_offset": 505,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -815,7 +814,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "MOVE_SLIDE_BOLT",
@@ -829,7 +828,7 @@
       "segment_offset": 501,
       "self_relative": true,
       "target": {
-        "index": 47,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "MOVE_SLIDE_BOLT",
@@ -842,7 +841,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -856,7 +855,7 @@
       "segment_offset": 497,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -891,7 +890,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -905,7 +904,7 @@
       "segment_offset": 489,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -940,7 +939,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "MOVE_SLIDE_BOLT",
@@ -954,7 +953,7 @@
       "segment_offset": 481,
       "self_relative": true,
       "target": {
-        "index": 47,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "MOVE_SLIDE_BOLT",
@@ -967,7 +966,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -981,7 +980,7 @@
       "segment_offset": 476,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -994,7 +993,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1008,7 +1007,7 @@
       "segment_offset": 472,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1043,7 +1042,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -1057,7 +1056,7 @@
       "segment_offset": 462,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -1070,7 +1069,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1084,7 +1083,7 @@
       "segment_offset": 458,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1119,7 +1118,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 47,
+          "index": 70,
           "kind": "external",
           "method": 6,
           "name": "MOVE_SLIDE_BOLT",
@@ -1133,7 +1132,7 @@
       "segment_offset": 450,
       "self_relative": true,
       "target": {
-        "index": 47,
+        "index": 70,
         "kind": "external",
         "method": 6,
         "name": "MOVE_SLIDE_BOLT",
@@ -1146,7 +1145,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -1160,7 +1159,7 @@
       "segment_offset": 445,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -1173,7 +1172,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1187,7 +1186,7 @@
       "segment_offset": 441,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1222,7 +1221,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -1236,7 +1235,7 @@
       "segment_offset": 431,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -1249,7 +1248,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1263,7 +1262,7 @@
       "segment_offset": 427,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1298,7 +1297,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 82,
           "kind": "external",
           "method": 6,
           "name": "DRAW_MOVING_TILE",
@@ -1312,7 +1311,7 @@
       "segment_offset": 417,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 82,
         "kind": "external",
         "method": 6,
         "name": "DRAW_MOVING_TILE",
@@ -1325,7 +1324,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1339,7 +1338,7 @@
       "segment_offset": 414,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1352,7 +1351,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1366,7 +1365,7 @@
       "segment_offset": 410,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1379,7 +1378,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -1393,7 +1392,7 @@
       "segment_offset": 405,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -1406,7 +1405,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -1420,7 +1419,7 @@
       "segment_offset": 401,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -1433,7 +1432,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1447,7 +1446,7 @@
       "segment_offset": 379,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1460,7 +1459,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "FIRSTINROW",
@@ -1474,7 +1473,7 @@
       "segment_offset": 372,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "FIRSTINROW",
@@ -1487,7 +1486,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -1501,7 +1500,7 @@
       "segment_offset": 363,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -1514,7 +1513,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1528,7 +1527,7 @@
       "segment_offset": 359,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1541,7 +1540,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1555,7 +1554,7 @@
       "segment_offset": 356,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1568,7 +1567,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1582,7 +1581,7 @@
       "segment_offset": 351,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1595,7 +1594,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1609,7 +1608,7 @@
       "segment_offset": 347,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1622,7 +1621,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 82,
           "kind": "external",
           "method": 6,
           "name": "DRAW_MOVING_TILE",
@@ -1636,7 +1635,7 @@
       "segment_offset": 341,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 82,
         "kind": "external",
         "method": 6,
         "name": "DRAW_MOVING_TILE",
@@ -1649,7 +1648,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1663,7 +1662,7 @@
       "segment_offset": 338,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1676,7 +1675,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -1690,7 +1689,7 @@
       "segment_offset": 333,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -1703,7 +1702,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_B",
@@ -1717,7 +1716,7 @@
       "segment_offset": 329,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_B",
@@ -1730,7 +1729,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 95,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_A",
@@ -1744,7 +1743,7 @@
       "segment_offset": 326,
       "self_relative": false,
       "target": {
-        "index": 95,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_A",
@@ -1757,7 +1756,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_B",
@@ -1771,7 +1770,7 @@
       "segment_offset": 315,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_B",
@@ -1784,7 +1783,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_A",
@@ -1798,7 +1797,7 @@
       "segment_offset": 311,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_A",
@@ -1811,7 +1810,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1825,7 +1824,7 @@
       "segment_offset": 306,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1838,7 +1837,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -1852,7 +1851,7 @@
       "segment_offset": 302,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -1865,7 +1864,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "MARK_MOB_REDRAW",
@@ -1879,7 +1878,7 @@
       "segment_offset": 296,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "MARK_MOB_REDRAW",
@@ -1892,7 +1891,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_B",
@@ -1906,7 +1905,7 @@
       "segment_offset": 290,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_B",
@@ -1919,7 +1918,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 95,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_A",
@@ -1933,7 +1932,7 @@
       "segment_offset": 287,
       "self_relative": false,
       "target": {
-        "index": 95,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_A",
@@ -1946,7 +1945,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -1960,7 +1959,7 @@
       "segment_offset": 280,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -1973,7 +1972,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_B",
@@ -1987,7 +1986,7 @@
       "segment_offset": 276,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_B",
@@ -2000,7 +1999,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_B",
@@ -2014,7 +2013,7 @@
       "segment_offset": 272,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_B",
@@ -2027,7 +2026,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 26,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_B",
@@ -2041,7 +2040,7 @@
       "segment_offset": 266,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 26,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_B",
@@ -2054,7 +2053,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_A",
@@ -2068,7 +2067,7 @@
       "segment_offset": 262,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_A",
@@ -2081,7 +2080,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -2095,7 +2094,7 @@
       "segment_offset": 251,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -2108,7 +2107,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -2122,7 +2121,7 @@
       "segment_offset": 247,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -2135,7 +2134,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 24,
           "kind": "external",
           "method": 6,
           "name": "ROCK_SPEED_A",
@@ -2149,7 +2148,7 @@
       "segment_offset": 244,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 24,
         "kind": "external",
         "method": 6,
         "name": "ROCK_SPEED_A",
@@ -2162,7 +2161,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -2176,7 +2175,7 @@
       "segment_offset": 239,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -2189,7 +2188,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -2203,7 +2202,7 @@
       "segment_offset": 235,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -2216,7 +2215,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 77,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "PROBE_FLOORS_TOWARD_ROCK",
@@ -2230,7 +2229,7 @@
       "segment_offset": 227,
       "self_relative": true,
       "target": {
-        "index": 77,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "PROBE_FLOORS_TOWARD_ROCK",
@@ -2243,7 +2242,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_B",
@@ -2257,7 +2256,7 @@
       "segment_offset": 213,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_B",
@@ -2270,7 +2269,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "IS_VISIBLE_ROOM_CELL",
@@ -2284,7 +2283,7 @@
       "segment_offset": 201,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "IS_VISIBLE_ROOM_CELL",
@@ -2297,7 +2296,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -2311,7 +2310,7 @@
       "segment_offset": 197,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -2324,7 +2323,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -2338,7 +2337,7 @@
       "segment_offset": 193,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -2351,7 +2350,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -2365,7 +2364,7 @@
       "segment_offset": 190,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -2378,7 +2377,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 71,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "INDEXCELL1",
@@ -2392,7 +2391,7 @@
       "segment_offset": 185,
       "self_relative": false,
       "target": {
-        "index": 71,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "INDEXCELL1",
@@ -2405,7 +2404,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -2419,7 +2418,7 @@
       "segment_offset": 163,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -2432,7 +2431,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 69,
+          "index": 83,
           "kind": "external",
           "method": 6,
           "name": "GETROW",
@@ -2446,7 +2445,7 @@
       "segment_offset": 155,
       "self_relative": false,
       "target": {
-        "index": 69,
+        "index": 83,
         "kind": "external",
         "method": 6,
         "name": "GETROW",
@@ -2459,7 +2458,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -2473,7 +2472,7 @@
       "segment_offset": 152,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -2486,7 +2485,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -2500,7 +2499,7 @@
       "segment_offset": 142,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -2513,7 +2512,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 97,
+          "index": 23,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_B",
@@ -2527,7 +2526,7 @@
       "segment_offset": 523,
       "self_relative": false,
       "target": {
-        "index": 97,
+        "index": 23,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_B",
@@ -2540,7 +2539,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 95,
+          "index": 21,
           "kind": "external",
           "method": 6,
           "name": "SEQUENCE_A",
@@ -2554,7 +2553,7 @@
       "segment_offset": 520,
       "self_relative": false,
       "target": {
-        "index": 95,
+        "index": 21,
         "kind": "external",
         "method": 6,
         "name": "SEQUENCE_A",
@@ -2567,7 +2566,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -2581,7 +2580,7 @@
       "segment_offset": 513,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -2594,7 +2593,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -2608,7 +2607,7 @@
       "segment_offset": 509,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -2621,7 +2620,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 77,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "PROBE_FLOORS_TOWARD_ROCK",
@@ -2635,7 +2634,7 @@
       "segment_offset": 559,
       "self_relative": true,
       "target": {
-        "index": 77,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "PROBE_FLOORS_TOWARD_ROCK",
@@ -2648,7 +2647,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 77,
+          "index": 3,
           "kind": "external",
           "method": 6,
           "name": "PROBE_FLOORS_TOWARD_ROCK",
@@ -2662,7 +2661,7 @@
       "segment_offset": 544,
       "self_relative": true,
       "target": {
-        "index": 77,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "PROBE_FLOORS_TOWARD_ROCK",
@@ -2675,7 +2674,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "@slide_rock_on_row",
@@ -2689,7 +2688,7 @@
       "segment_offset": 580,
       "self_relative": true,
       "target": {
-        "index": 81,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "@slide_rock_on_row",
@@ -2702,7 +2701,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -2716,7 +2715,7 @@
       "segment_offset": 713,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -2729,7 +2728,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -2743,7 +2742,7 @@
       "segment_offset": 710,
       "self_relative": false,
       "target": {
-        "index": 8,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -2756,7 +2755,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 79,
+          "index": 4,
           "kind": "external",
           "method": 6,
           "name": "HIT_CHARACTER_WITH_ROCK",
@@ -2770,7 +2769,7 @@
       "segment_offset": 707,
       "self_relative": true,
       "target": {
-        "index": 79,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "HIT_CHARACTER_WITH_ROCK",
@@ -2783,7 +2782,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -2797,7 +2796,7 @@
       "segment_offset": 689,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -2810,7 +2809,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -2824,7 +2823,7 @@
       "segment_offset": 681,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -2837,7 +2836,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -2851,7 +2850,7 @@
       "segment_offset": 675,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -2864,7 +2863,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -2878,7 +2877,7 @@
       "segment_offset": 671,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -2891,7 +2890,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -2905,7 +2904,7 @@
       "segment_offset": 666,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -2918,7 +2917,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -2932,7 +2931,7 @@
       "segment_offset": 662,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -2945,7 +2944,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -2959,7 +2958,7 @@
       "segment_offset": 656,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -2972,7 +2971,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -2986,7 +2985,7 @@
       "segment_offset": 650,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -2999,7 +2998,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -3013,7 +3012,7 @@
       "segment_offset": 643,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -3026,7 +3025,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 75,
+          "index": 94,
           "kind": "external",
           "method": 6,
           "name": "COPY_KID_TO_CHAR",
@@ -3040,7 +3039,7 @@
       "segment_offset": 637,
       "self_relative": false,
       "target": {
-        "index": 75,
+        "index": 94,
         "kind": "external",
         "method": 6,
         "name": "COPY_KID_TO_CHAR",
@@ -3053,7 +3052,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 76,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "@draw_movement_shape",
@@ -3067,7 +3066,7 @@
       "segment_offset": 860,
       "self_relative": false,
       "target": {
-        "index": 76,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "@draw_movement_shape",
@@ -3080,7 +3079,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_X",
@@ -3094,7 +3093,7 @@
       "segment_offset": 857,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_X",
@@ -3107,7 +3106,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_Y",
@@ -3121,7 +3120,7 @@
       "segment_offset": 846,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_Y",
@@ -3134,7 +3133,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_X",
@@ -3148,7 +3147,7 @@
       "segment_offset": 771,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_X",
@@ -3161,7 +3160,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_ROCK_X",
@@ -3175,7 +3174,7 @@
       "segment_offset": 767,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_ROCK_X",
@@ -3188,7 +3187,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 32,
+          "index": 54,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_ROCK_X",
@@ -3202,7 +3201,7 @@
       "segment_offset": 756,
       "self_relative": false,
       "target": {
-        "index": 32,
+        "index": 54,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_ROCK_X",
@@ -3215,7 +3214,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "@slide_rock_on_row",
@@ -3229,7 +3228,7 @@
       "segment_offset": 747,
       "self_relative": true,
       "target": {
-        "index": 81,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "@slide_rock_on_row",
@@ -3242,7 +3241,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -3256,7 +3255,7 @@
       "segment_offset": 743,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -3269,7 +3268,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_Y",
@@ -3283,7 +3282,7 @@
       "segment_offset": 732,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_Y",
@@ -3296,7 +3295,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "TILE_RIGHT_EDGES",
@@ -3310,7 +3309,7 @@
       "segment_offset": 980,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "TILE_RIGHT_EDGES",
@@ -3323,7 +3322,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -3337,7 +3336,7 @@
       "segment_offset": 956,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -3350,7 +3349,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 34,
           "kind": "external",
           "method": 6,
           "name": "ROOM_FOREGROUNDS",
@@ -3364,7 +3363,7 @@
       "segment_offset": 949,
       "self_relative": false,
       "target": {
-        "index": 12,
+        "index": 34,
         "kind": "external",
         "method": 6,
         "name": "ROOM_FOREGROUNDS",
@@ -3377,7 +3376,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "FIRSTINROW",
@@ -3391,7 +3390,7 @@
       "segment_offset": 937,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "FIRSTINROW",
@@ -3404,7 +3403,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "GET_CHAR_COL",
@@ -3418,7 +3417,7 @@
       "segment_offset": 916,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "GET_CHAR_COL",
@@ -3431,7 +3430,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "@slide_rock_on_row",
@@ -3445,7 +3444,7 @@
       "segment_offset": 888,
       "self_relative": true,
       "target": {
-        "index": 81,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "@slide_rock_on_row",
@@ -3458,7 +3457,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 17,
+          "index": 39,
           "kind": "external",
           "method": 6,
           "name": "OUTSIDE_BARRIER",
@@ -3472,7 +3471,7 @@
       "segment_offset": 1026,
       "self_relative": false,
       "target": {
-        "index": 17,
+        "index": 39,
         "kind": "external",
         "method": 6,
         "name": "OUTSIDE_BARRIER",
@@ -3485,7 +3484,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_LEFT",
@@ -3499,7 +3498,7 @@
       "segment_offset": 997,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_LEFT",
@@ -3512,7 +3511,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 23,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_RIGHT",
@@ -3526,7 +3525,7 @@
       "segment_offset": 993,
       "self_relative": false,
       "target": {
-        "index": 23,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_RIGHT",
@@ -3539,7 +3538,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -3553,7 +3552,7 @@
       "segment_offset": 987,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -3566,7 +3565,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_DET_FLAGS",
@@ -3580,7 +3579,7 @@
       "segment_offset": 1291,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_DET_FLAGS",
@@ -3593,7 +3592,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_DET_FLAGS",
@@ -3607,7 +3606,7 @@
       "segment_offset": 1271,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_DET_FLAGS",
@@ -3620,7 +3619,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "GET_CHAR_COL",
@@ -3634,7 +3633,7 @@
       "segment_offset": 1257,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "GET_CHAR_COL",
@@ -3647,7 +3646,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -3661,7 +3660,7 @@
       "segment_offset": 1247,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -3674,7 +3673,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "GET_CHAR_COL",
@@ -3688,7 +3687,7 @@
       "segment_offset": 1204,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "GET_CHAR_COL",
@@ -3701,7 +3700,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 20,
+          "index": 42,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_LEFT",
@@ -3715,7 +3714,7 @@
       "segment_offset": 1198,
       "self_relative": false,
       "target": {
-        "index": 20,
+        "index": 42,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_LEFT",
@@ -3728,7 +3727,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_DET_FLAGS",
@@ -3742,7 +3741,7 @@
       "segment_offset": 1172,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_DET_FLAGS",
@@ -3755,7 +3754,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 32,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_DET_FLAGS",
@@ -3769,7 +3768,7 @@
       "segment_offset": 1152,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 32,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_DET_FLAGS",
@@ -3782,7 +3781,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "GET_CHAR_COL",
@@ -3796,7 +3795,7 @@
       "segment_offset": 1138,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "GET_CHAR_COL",
@@ -3809,7 +3808,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -3823,7 +3822,7 @@
       "segment_offset": 1129,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -3836,7 +3835,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "GET_CHAR_COL",
@@ -3850,7 +3849,7 @@
       "segment_offset": 1084,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "GET_CHAR_COL",
@@ -3863,7 +3862,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 23,
+          "index": 45,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_RIGHT",
@@ -3877,7 +3876,7 @@
       "segment_offset": 1078,
       "self_relative": false,
       "target": {
-        "index": 23,
+        "index": 45,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_RIGHT",
@@ -3890,7 +3889,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "@slide_rock_on_row",
@@ -3904,7 +3903,7 @@
       "segment_offset": 1058,
       "self_relative": true,
       "target": {
-        "index": 81,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "@slide_rock_on_row",
@@ -3917,7 +3916,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -3931,7 +3930,7 @@
       "segment_offset": 1051,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -3944,7 +3943,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 92,
+          "index": 18,
           "kind": "external",
           "method": 6,
           "name": "GET_MOB_TYPE_ITEM",
@@ -3958,7 +3957,7 @@
       "segment_offset": 1342,
       "self_relative": false,
       "target": {
-        "index": 92,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "GET_MOB_TYPE_ITEM",
@@ -3971,7 +3970,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -3985,7 +3984,7 @@
       "segment_offset": 1513,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -3998,7 +3997,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4012,7 +4011,7 @@
       "segment_offset": 1506,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4025,7 +4024,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -4039,7 +4038,7 @@
       "segment_offset": 1490,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -4052,7 +4051,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -4066,7 +4065,7 @@
       "segment_offset": 1481,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -4079,7 +4078,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4093,7 +4092,7 @@
       "segment_offset": 1477,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4106,7 +4105,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4120,7 +4119,7 @@
       "segment_offset": 1469,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4133,7 +4132,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 65,
+          "index": 77,
           "kind": "external",
           "method": 6,
           "name": "GET_CHAR_COL",
@@ -4147,7 +4146,7 @@
       "segment_offset": 1461,
       "self_relative": false,
       "target": {
-        "index": 65,
+        "index": 77,
         "kind": "external",
         "method": 6,
         "name": "GET_CHAR_COL",
@@ -4160,7 +4159,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4174,7 +4173,7 @@
       "segment_offset": 1451,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4187,7 +4186,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4201,7 +4200,7 @@
       "segment_offset": 1444,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4214,7 +4213,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4228,7 +4227,7 @@
       "segment_offset": 1439,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4241,7 +4240,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4255,7 +4254,7 @@
       "segment_offset": 1432,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4268,7 +4267,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4282,7 +4281,7 @@
       "segment_offset": 1428,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4295,7 +4294,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -4309,7 +4308,7 @@
       "segment_offset": 1422,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -4322,7 +4321,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -4336,7 +4335,7 @@
       "segment_offset": 1417,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -4349,7 +4348,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4363,7 +4362,7 @@
       "segment_offset": 1410,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4376,7 +4375,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4390,7 +4389,7 @@
       "segment_offset": 1398,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4403,7 +4402,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 38,
+          "index": 61,
           "kind": "external",
           "method": 6,
           "name": "UPDATE_KID_CONTACT",
@@ -4417,7 +4416,7 @@
       "segment_offset": 1832,
       "self_relative": false,
       "target": {
-        "index": 38,
+        "index": 61,
         "kind": "external",
         "method": 6,
         "name": "UPDATE_KID_CONTACT",
@@ -4430,7 +4429,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 37,
+          "index": 59,
           "kind": "external",
           "method": 6,
           "name": "SET_CHARACTER_SEQUENCE",
@@ -4444,7 +4443,7 @@
       "segment_offset": 1827,
       "self_relative": false,
       "target": {
-        "index": 37,
+        "index": 59,
         "kind": "external",
         "method": 6,
         "name": "SET_CHARACTER_SEQUENCE",
@@ -4457,7 +4456,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4471,7 +4470,7 @@
       "segment_offset": 1822,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4484,7 +4483,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 34,
+          "index": 56,
           "kind": "external",
           "method": 6,
           "name": "RESET_KID_COLLISION",
@@ -4498,7 +4497,7 @@
       "segment_offset": 1816,
       "self_relative": false,
       "target": {
-        "index": 34,
+        "index": 56,
         "kind": "external",
         "method": 6,
         "name": "RESET_KID_COLLISION",
@@ -4511,7 +4510,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4525,7 +4524,7 @@
       "segment_offset": 1803,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4538,7 +4537,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 31,
+          "index": 53,
           "kind": "external",
           "method": 6,
           "name": "MARK_KID_CONTACT",
@@ -4552,7 +4551,7 @@
       "segment_offset": 1797,
       "self_relative": false,
       "target": {
-        "index": 31,
+        "index": 53,
         "kind": "external",
         "method": 6,
         "name": "MARK_KID_CONTACT",
@@ -4565,7 +4564,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -4579,7 +4578,7 @@
       "segment_offset": 1789,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -4592,7 +4591,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "DISPATCH_SOUND",
@@ -4606,7 +4605,7 @@
       "segment_offset": 1780,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "DISPATCH_SOUND",
@@ -4619,7 +4618,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4633,7 +4632,7 @@
       "segment_offset": 1770,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4646,7 +4645,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -4660,7 +4659,7 @@
       "segment_offset": 1762,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -4673,7 +4672,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -4687,7 +4686,7 @@
       "segment_offset": 1743,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -4700,7 +4699,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -4714,7 +4713,7 @@
       "segment_offset": 1734,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -4727,7 +4726,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4741,7 +4740,7 @@
       "segment_offset": 1730,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4754,7 +4753,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4768,7 +4767,7 @@
       "segment_offset": 1723,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4781,7 +4780,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4795,7 +4794,7 @@
       "segment_offset": 1690,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4808,7 +4807,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -4822,7 +4821,7 @@
       "segment_offset": 1674,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -4835,7 +4834,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -4849,7 +4848,7 @@
       "segment_offset": 1665,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -4862,7 +4861,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4876,7 +4875,7 @@
       "segment_offset": 1661,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4889,7 +4888,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4903,7 +4902,7 @@
       "segment_offset": 1656,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4916,7 +4915,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -4930,7 +4929,7 @@
       "segment_offset": 1630,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -4943,7 +4942,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4957,7 +4956,7 @@
       "segment_offset": 1621,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4970,7 +4969,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -4984,7 +4983,7 @@
       "segment_offset": 1616,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -4997,7 +4996,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 22,
+          "index": 44,
           "kind": "external",
           "method": 6,
           "name": "GET_TILE_KNOCKBACK",
@@ -5011,7 +5010,7 @@
       "segment_offset": 1610,
       "self_relative": false,
       "target": {
-        "index": 22,
+        "index": 44,
         "kind": "external",
         "method": 6,
         "name": "GET_TILE_KNOCKBACK",
@@ -5024,7 +5023,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5038,7 +5037,7 @@
       "segment_offset": 1606,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5051,7 +5050,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5065,7 +5064,7 @@
       "segment_offset": 1600,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5078,7 +5077,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -5092,7 +5091,7 @@
       "segment_offset": 1593,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -5105,7 +5104,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5119,7 +5118,7 @@
       "segment_offset": 1579,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5132,7 +5131,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5146,7 +5145,7 @@
       "segment_offset": 1572,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5159,7 +5158,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5173,7 +5172,7 @@
       "segment_offset": 1568,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5186,7 +5185,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 14,
+          "index": 36,
           "kind": "external",
           "method": 6,
           "name": "TILE_RIGHT_EDGES",
@@ -5200,7 +5199,7 @@
       "segment_offset": 1562,
       "self_relative": false,
       "target": {
-        "index": 14,
+        "index": 36,
         "kind": "external",
         "method": 6,
         "name": "TILE_RIGHT_EDGES",
@@ -5213,7 +5212,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5227,7 +5226,7 @@
       "segment_offset": 1546,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5240,7 +5239,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5254,7 +5253,7 @@
       "segment_offset": 1537,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5267,7 +5266,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5281,7 +5280,7 @@
       "segment_offset": 1520,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5294,7 +5293,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 19,
+          "index": 41,
           "kind": "external",
           "method": 6,
           "name": "IS_SIX_KIND",
@@ -5308,7 +5307,7 @@
       "segment_offset": 1964,
       "self_relative": false,
       "target": {
-        "index": 19,
+        "index": 41,
         "kind": "external",
         "method": 6,
         "name": "IS_SIX_KIND",
@@ -5321,7 +5320,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -5335,7 +5334,7 @@
       "segment_offset": 1955,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -5348,7 +5347,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -5362,7 +5361,7 @@
       "segment_offset": 1940,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -5375,7 +5374,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -5389,7 +5388,7 @@
       "segment_offset": 1925,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -5402,7 +5401,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -5416,7 +5415,7 @@
       "segment_offset": 1901,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -5429,7 +5428,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -5443,7 +5442,7 @@
       "segment_offset": 1885,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -5456,7 +5455,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -5470,7 +5469,7 @@
       "segment_offset": 1881,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -5483,7 +5482,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -5497,7 +5496,7 @@
       "segment_offset": 1857,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -5510,7 +5509,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -5524,7 +5523,7 @@
       "segment_offset": 2024,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -5537,7 +5536,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -5551,7 +5550,7 @@
       "segment_offset": 2014,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -5564,7 +5563,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 21,
+          "index": 43,
           "kind": "external",
           "method": 6,
           "name": "ROCK_HIT_SPIKES",
@@ -5578,7 +5577,7 @@
       "segment_offset": 2504,
       "self_relative": false,
       "target": {
-        "index": 21,
+        "index": 43,
         "kind": "external",
         "method": 6,
         "name": "ROCK_HIT_SPIKES",
@@ -5591,7 +5590,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 75,
+          "index": 94,
           "kind": "external",
           "method": 6,
           "name": "COPY_KID_TO_CHAR",
@@ -5605,7 +5604,7 @@
       "segment_offset": 2499,
       "self_relative": false,
       "target": {
-        "index": 75,
+        "index": 94,
         "kind": "external",
         "method": 6,
         "name": "COPY_KID_TO_CHAR",
@@ -5618,7 +5617,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -5632,7 +5631,7 @@
       "segment_offset": 2490,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -5645,7 +5644,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -5659,7 +5658,7 @@
       "segment_offset": 2482,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -5672,7 +5671,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -5686,7 +5685,7 @@
       "segment_offset": 2476,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -5699,7 +5698,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -5713,7 +5712,7 @@
       "segment_offset": 2470,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -5726,7 +5725,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 24,
+          "index": 46,
           "kind": "external",
           "method": 6,
           "name": "CHARACTER_RELEASE_GRIP",
@@ -5740,7 +5739,7 @@
       "segment_offset": 2462,
       "self_relative": false,
       "target": {
-        "index": 24,
+        "index": 46,
         "kind": "external",
         "method": 6,
         "name": "CHARACTER_RELEASE_GRIP",
@@ -5753,7 +5752,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5767,7 +5766,7 @@
       "segment_offset": 2457,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5780,7 +5779,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -5794,7 +5793,7 @@
       "segment_offset": 2444,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -5807,7 +5806,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5821,7 +5820,7 @@
       "segment_offset": 2438,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5834,7 +5833,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5848,7 +5847,7 @@
       "segment_offset": 2409,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5861,7 +5860,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -5875,7 +5874,7 @@
       "segment_offset": 2402,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -5888,7 +5887,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 75,
+          "index": 94,
           "kind": "external",
           "method": 6,
           "name": "COPY_KID_TO_CHAR",
@@ -5902,7 +5901,7 @@
       "segment_offset": 2396,
       "self_relative": false,
       "target": {
-        "index": 75,
+        "index": 94,
         "kind": "external",
         "method": 6,
         "name": "COPY_KID_TO_CHAR",
@@ -5915,7 +5914,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -5929,7 +5928,7 @@
       "segment_offset": 2391,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -5942,7 +5941,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "QUERY_SOUND",
@@ -5956,7 +5955,7 @@
       "segment_offset": 2372,
       "self_relative": false,
       "target": {
-        "index": 15,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "QUERY_SOUND",
@@ -5969,7 +5968,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -5983,7 +5982,7 @@
       "segment_offset": 2365,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -5996,7 +5995,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -6010,7 +6009,7 @@
       "segment_offset": 2359,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -6023,7 +6022,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -6037,7 +6036,7 @@
       "segment_offset": 2352,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -6050,7 +6049,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 67,
+          "index": 80,
           "kind": "external",
           "method": 6,
           "name": "ISWALL",
@@ -6064,7 +6063,7 @@
       "segment_offset": 2330,
       "self_relative": false,
       "target": {
-        "index": 67,
+        "index": 80,
         "kind": "external",
         "method": 6,
         "name": "ISWALL",
@@ -6077,7 +6076,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -6091,7 +6090,7 @@
       "segment_offset": 2321,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -6104,7 +6103,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -6118,7 +6117,7 @@
       "segment_offset": 2317,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -6131,7 +6130,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -6145,7 +6144,7 @@
       "segment_offset": 2309,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -6158,7 +6157,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -6172,7 +6171,7 @@
       "segment_offset": 2256,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -6185,7 +6184,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -6199,7 +6198,7 @@
       "segment_offset": 2247,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -6212,7 +6211,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -6226,7 +6225,7 @@
       "segment_offset": 2238,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -6239,7 +6238,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -6253,7 +6252,7 @@
       "segment_offset": 2234,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -6266,7 +6265,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -6280,7 +6279,7 @@
       "segment_offset": 2226,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -6293,7 +6292,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6307,7 +6306,7 @@
       "segment_offset": 2186,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6320,7 +6319,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6334,7 +6333,7 @@
       "segment_offset": 2176,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6347,7 +6346,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -6361,7 +6360,7 @@
       "segment_offset": 2167,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -6374,7 +6373,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -6388,7 +6387,7 @@
       "segment_offset": 2160,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -6401,7 +6400,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -6415,7 +6414,7 @@
       "segment_offset": 2149,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -6428,7 +6427,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 27,
           "kind": "external",
           "method": 6,
           "name": "ROOM_LINKS",
@@ -6442,7 +6441,7 @@
       "segment_offset": 2146,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 27,
         "kind": "external",
         "method": 6,
         "name": "ROOM_LINKS",
@@ -6455,7 +6454,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -6469,7 +6468,7 @@
       "segment_offset": 2136,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -6482,7 +6481,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6496,7 +6495,7 @@
       "segment_offset": 2128,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6509,7 +6508,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6523,7 +6522,7 @@
       "segment_offset": 2121,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6536,7 +6535,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -6550,7 +6549,7 @@
       "segment_offset": 2116,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -6563,7 +6562,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -6577,7 +6576,7 @@
       "segment_offset": 2110,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -6590,7 +6589,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 70,
+          "index": 95,
           "kind": "external",
           "method": 6,
           "name": "CAN_SLIDE_ROCK_STOP",
@@ -6604,7 +6603,7 @@
       "segment_offset": 2099,
       "self_relative": true,
       "target": {
-        "index": 70,
+        "index": 95,
         "kind": "external",
         "method": 6,
         "name": "CAN_SLIDE_ROCK_STOP",
@@ -6617,7 +6616,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -6631,7 +6630,7 @@
       "segment_offset": 2094,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -6644,7 +6643,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 18,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_SOUND",
@@ -6658,7 +6657,7 @@
       "segment_offset": 2085,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_SOUND",
@@ -6671,7 +6670,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 18,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_SOUND",
@@ -6685,7 +6684,7 @@
       "segment_offset": 2078,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_SOUND",
@@ -6698,7 +6697,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "DISPATCH_SOUND",
@@ -6712,7 +6711,7 @@
       "segment_offset": 2072,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "DISPATCH_SOUND",
@@ -6725,7 +6724,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6739,7 +6738,7 @@
       "segment_offset": 2063,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6752,7 +6751,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6766,7 +6765,7 @@
       "segment_offset": 2056,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6779,7 +6778,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 70,
+          "index": 95,
           "kind": "external",
           "method": 6,
           "name": "CAN_SLIDE_ROCK_STOP",
@@ -6793,7 +6792,7 @@
       "segment_offset": 2048,
       "self_relative": true,
       "target": {
-        "index": 70,
+        "index": 95,
         "kind": "external",
         "method": 6,
         "name": "CAN_SLIDE_ROCK_STOP",
@@ -6806,7 +6805,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6820,7 +6819,7 @@
       "segment_offset": 2038,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6833,7 +6832,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -6847,7 +6846,7 @@
       "segment_offset": 2034,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -6860,7 +6859,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -6874,7 +6873,7 @@
       "segment_offset": 2514,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -6887,7 +6886,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 30,
           "kind": "external",
           "method": 6,
           "name": "KID",
@@ -6901,7 +6900,7 @@
       "segment_offset": 2509,
       "self_relative": false,
       "target": {
-        "index": 8,
+        "index": 30,
         "kind": "external",
         "method": 6,
         "name": "KID",
@@ -6914,7 +6913,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -6928,7 +6927,7 @@
       "segment_offset": 2548,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -6941,7 +6940,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -6955,7 +6954,7 @@
       "segment_offset": 2538,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -6968,7 +6967,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -6982,7 +6981,7 @@
       "segment_offset": 2534,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -6995,7 +6994,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -7009,7 +7008,7 @@
       "segment_offset": 2525,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -7022,7 +7021,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "DISPATCH_SOUND",
@@ -7036,7 +7035,7 @@
       "segment_offset": 2563,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "DISPATCH_SOUND",
@@ -7049,7 +7048,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7063,7 +7062,7 @@
       "segment_offset": 2663,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7076,7 +7075,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "PROBE_CHAIN_FLOOR",
@@ -7090,7 +7089,7 @@
       "segment_offset": 2657,
       "self_relative": true,
       "target": {
-        "index": 27,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "PROBE_CHAIN_FLOOR",
@@ -7103,7 +7102,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -7117,7 +7116,7 @@
       "segment_offset": 2647,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -7130,7 +7129,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7144,7 +7143,7 @@
       "segment_offset": 2643,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7157,7 +7156,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7171,7 +7170,7 @@
       "segment_offset": 2637,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7184,7 +7183,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7198,7 +7197,7 @@
       "segment_offset": 2633,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7211,7 +7210,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 27,
+          "index": 49,
           "kind": "external",
           "method": 6,
           "name": "PROBE_CHAIN_FLOOR",
@@ -7225,7 +7224,7 @@
       "segment_offset": 2623,
       "self_relative": true,
       "target": {
-        "index": 27,
+        "index": 49,
         "kind": "external",
         "method": 6,
         "name": "PROBE_CHAIN_FLOOR",
@@ -7238,7 +7237,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -7252,7 +7251,7 @@
       "segment_offset": 2613,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -7265,7 +7264,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7279,7 +7278,7 @@
       "segment_offset": 2609,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7292,7 +7291,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7306,7 +7305,7 @@
       "segment_offset": 2603,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7319,7 +7318,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7333,7 +7332,7 @@
       "segment_offset": 2599,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7346,7 +7345,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7360,7 +7359,7 @@
       "segment_offset": 2586,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7373,7 +7372,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 66,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_ROCK_BARRIER",
@@ -7387,7 +7386,7 @@
       "segment_offset": 2783,
       "self_relative": true,
       "target": {
-        "index": 44,
+        "index": 66,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_ROCK_BARRIER",
@@ -7400,7 +7399,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7414,7 +7413,7 @@
       "segment_offset": 2778,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7427,7 +7426,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7441,7 +7440,7 @@
       "segment_offset": 2774,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7454,7 +7453,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7468,7 +7467,7 @@
       "segment_offset": 2723,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7481,7 +7480,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 66,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_ROCK_BARRIER",
@@ -7495,7 +7494,7 @@
       "segment_offset": 2714,
       "self_relative": true,
       "target": {
-        "index": 44,
+        "index": 66,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_ROCK_BARRIER",
@@ -7508,7 +7507,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7522,7 +7521,7 @@
       "segment_offset": 2709,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7535,7 +7534,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7549,7 +7548,7 @@
       "segment_offset": 2705,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7562,7 +7561,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 66,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_ROCK_BARRIER",
@@ -7576,7 +7575,7 @@
       "segment_offset": 2871,
       "self_relative": true,
       "target": {
-        "index": 44,
+        "index": 66,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_ROCK_BARRIER",
@@ -7589,7 +7588,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -7603,7 +7602,7 @@
       "segment_offset": 2854,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -7616,7 +7615,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 44,
+          "index": 66,
           "kind": "external",
           "method": 6,
           "name": "SLIDE_ROCK_BARRIER",
@@ -7630,7 +7629,7 @@
       "segment_offset": 2844,
       "self_relative": true,
       "target": {
-        "index": 44,
+        "index": 66,
         "kind": "external",
         "method": 6,
         "name": "SLIDE_ROCK_BARRIER",
@@ -7643,7 +7642,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 42,
+          "index": 64,
           "kind": "external",
           "method": 6,
           "name": "ADD_MOB",
@@ -7657,7 +7656,7 @@
       "segment_offset": 3095,
       "self_relative": false,
       "target": {
-        "index": 42,
+        "index": 64,
         "kind": "external",
         "method": 6,
         "name": "ADD_MOB",
@@ -7670,7 +7669,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -7684,7 +7683,7 @@
       "segment_offset": 3091,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -7697,7 +7696,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -7711,7 +7710,7 @@
       "segment_offset": 3087,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -7724,7 +7723,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -7738,7 +7737,7 @@
       "segment_offset": 3081,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -7751,7 +7750,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 55,
           "kind": "external",
           "method": 6,
           "name": "ROW_Y",
@@ -7765,7 +7764,7 @@
       "segment_offset": 3075,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 55,
         "kind": "external",
         "method": 6,
         "name": "ROW_Y",
@@ -7778,7 +7777,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7792,7 +7791,7 @@
       "segment_offset": 3066,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7805,7 +7804,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -7819,7 +7818,7 @@
       "segment_offset": 3063,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -7832,7 +7831,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -7846,7 +7845,7 @@
       "segment_offset": 3057,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -7859,7 +7858,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -7873,7 +7872,7 @@
       "segment_offset": 3053,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -7886,7 +7885,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -7900,7 +7899,7 @@
       "segment_offset": 3042,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -7913,7 +7912,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_VIEW",
@@ -7927,7 +7926,7 @@
       "segment_offset": 3037,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_VIEW",
@@ -7940,7 +7939,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 30,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "ROOM_EDGE_X",
@@ -7954,7 +7953,7 @@
       "segment_offset": 3024,
       "self_relative": false,
       "target": {
-        "index": 30,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "ROOM_EDGE_X",
@@ -7967,7 +7966,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -7981,7 +7980,7 @@
       "segment_offset": 3015,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -7994,7 +7993,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -8008,7 +8007,7 @@
       "segment_offset": 3010,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -8021,7 +8020,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -8035,7 +8034,7 @@
       "segment_offset": 3004,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -8048,7 +8047,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -8062,7 +8061,7 @@
       "segment_offset": 2998,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -8075,7 +8074,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 81,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "@slide_rock_on_row",
@@ -8089,7 +8088,7 @@
       "segment_offset": 2903,
       "self_relative": true,
       "target": {
-        "index": 81,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "@slide_rock_on_row",
@@ -8102,7 +8101,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_VIEW",
@@ -8116,7 +8115,7 @@
       "segment_offset": 3136,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_VIEW",
@@ -8129,7 +8128,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -8143,7 +8142,7 @@
       "segment_offset": 3130,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -8156,7 +8155,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -8170,7 +8169,7 @@
       "segment_offset": 3123,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -8183,7 +8182,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -8197,7 +8196,7 @@
       "segment_offset": 3120,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -8210,7 +8209,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -8224,7 +8223,7 @@
       "segment_offset": 3116,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -8237,7 +8236,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -8251,7 +8250,7 @@
       "segment_offset": 3192,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -8264,7 +8263,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_VIEW",
@@ -8278,7 +8277,7 @@
       "segment_offset": 3183,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_VIEW",
@@ -8291,7 +8290,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -8305,7 +8304,7 @@
       "segment_offset": 3179,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -8318,7 +8317,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_VIEW",
@@ -8332,7 +8331,7 @@
       "segment_offset": 3167,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_VIEW",
@@ -8345,7 +8344,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -8359,7 +8358,7 @@
       "segment_offset": 3163,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -8372,7 +8371,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 40,
+          "index": 60,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_VIEW",
@@ -8386,7 +8385,7 @@
       "segment_offset": 3151,
       "self_relative": false,
       "target": {
-        "index": 40,
+        "index": 60,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_VIEW",
@@ -8399,7 +8398,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -8413,7 +8412,7 @@
       "segment_offset": 3147,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -8426,7 +8425,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -8440,7 +8439,7 @@
       "segment_offset": 3587,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -8453,7 +8452,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -8467,7 +8466,7 @@
       "segment_offset": 3581,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -8480,7 +8479,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 68,
+          "index": 82,
           "kind": "external",
           "method": 6,
           "name": "DRAW_MOVING_TILE",
@@ -8494,7 +8493,7 @@
       "segment_offset": 3573,
       "self_relative": false,
       "target": {
-        "index": 68,
+        "index": 82,
         "kind": "external",
         "method": 6,
         "name": "DRAW_MOVING_TILE",
@@ -8507,7 +8506,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 57,
+          "index": 84,
           "kind": "external",
           "method": 6,
           "name": "MARK_BUFS_FOR_RECT",
@@ -8521,7 +8520,7 @@
       "segment_offset": 3567,
       "self_relative": false,
       "target": {
-        "index": 57,
+        "index": 84,
         "kind": "external",
         "method": 6,
         "name": "MARK_BUFS_FOR_RECT",
@@ -8534,7 +8533,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "TRAPDOOR_UPDATE_RECT",
@@ -8548,7 +8547,7 @@
       "segment_offset": 3555,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "TRAPDOOR_UPDATE_RECT",
@@ -8561,7 +8560,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 79,
           "kind": "external",
           "method": 6,
           "name": "TRAPDOOR_UPDATE_RECT",
@@ -8575,7 +8574,7 @@
       "segment_offset": 3552,
       "self_relative": false,
       "target": {
-        "index": 55,
+        "index": 79,
         "kind": "external",
         "method": 6,
         "name": "TRAPDOOR_UPDATE_RECT",
@@ -8588,7 +8587,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 53,
+          "index": 76,
           "kind": "external",
           "method": 6,
           "name": "COMPUTE_MOB_RECT",
@@ -8602,7 +8601,7 @@
       "segment_offset": 3543,
       "self_relative": false,
       "target": {
-        "index": 53,
+        "index": 76,
         "kind": "external",
         "method": 6,
         "name": "COMPUTE_MOB_RECT",
@@ -8615,7 +8614,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -8629,7 +8628,7 @@
       "segment_offset": 3533,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -8642,7 +8641,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "MARK_MOB_REDRAW",
@@ -8656,7 +8655,7 @@
       "segment_offset": 3527,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "MARK_MOB_REDRAW",
@@ -8669,7 +8668,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 96,
+          "index": 20,
           "kind": "external",
           "method": 6,
           "name": "MOB_DIMENSIONS",
@@ -8683,7 +8682,7 @@
       "segment_offset": 3521,
       "self_relative": false,
       "target": {
-        "index": 96,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "MOB_DIMENSIONS",
@@ -8696,7 +8695,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -8710,7 +8709,7 @@
       "segment_offset": 3501,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -8723,7 +8722,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 96,
+          "index": 20,
           "kind": "external",
           "method": 6,
           "name": "MOB_DIMENSIONS",
@@ -8737,7 +8736,7 @@
       "segment_offset": 3487,
       "self_relative": false,
       "target": {
-        "index": 96,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "MOB_DIMENSIONS",
@@ -8750,7 +8749,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 52,
+          "index": 74,
           "kind": "external",
           "method": 6,
           "name": "GET_SET_IMAGE_SIZE",
@@ -8764,7 +8763,7 @@
       "segment_offset": 3474,
       "self_relative": false,
       "target": {
-        "index": 52,
+        "index": 74,
         "kind": "external",
         "method": 6,
         "name": "GET_SET_IMAGE_SIZE",
@@ -8799,7 +8798,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 36,
+          "index": 58,
           "kind": "external",
           "method": 6,
           "name": "BACKGROUND_SHAPES",
@@ -8813,7 +8812,7 @@
       "segment_offset": 3460,
       "self_relative": false,
       "target": {
-        "index": 36,
+        "index": 58,
         "kind": "external",
         "method": 6,
         "name": "BACKGROUND_SHAPES",
@@ -8826,7 +8825,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -8840,7 +8839,7 @@
       "segment_offset": 3456,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -8875,7 +8874,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -8889,7 +8888,7 @@
       "segment_offset": 3445,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -8902,7 +8901,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -8916,7 +8915,7 @@
       "segment_offset": 3440,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -8951,7 +8950,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -8965,7 +8964,7 @@
       "segment_offset": 3424,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -8978,7 +8977,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 72,
+          "index": 92,
           "kind": "external",
           "method": 6,
           "name": "IS_VISIBLE_ROOM_CELL",
@@ -8992,7 +8991,7 @@
       "segment_offset": 3412,
       "self_relative": false,
       "target": {
-        "index": 72,
+        "index": 92,
         "kind": "external",
         "method": 6,
         "name": "IS_VISIBLE_ROOM_CELL",
@@ -9005,7 +9004,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "FIRSTINROW",
@@ -9019,7 +9018,7 @@
       "segment_offset": 3403,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "FIRSTINROW",
@@ -9032,7 +9031,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -9046,7 +9045,7 @@
       "segment_offset": 3399,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -9059,7 +9058,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -9073,7 +9072,7 @@
       "segment_offset": 3390,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -9086,7 +9085,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 18,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_SOUND",
@@ -9100,7 +9099,7 @@
       "segment_offset": 3381,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_SOUND",
@@ -9113,7 +9112,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 18,
+          "index": 40,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_SOUND",
@@ -9127,7 +9126,7 @@
       "segment_offset": 3374,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 40,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_SOUND",
@@ -9140,7 +9139,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 28,
+          "index": 50,
           "kind": "external",
           "method": 6,
           "name": "DISPATCH_SOUND",
@@ -9154,7 +9153,7 @@
       "segment_offset": 3368,
       "self_relative": false,
       "target": {
-        "index": 28,
+        "index": 50,
         "kind": "external",
         "method": 6,
         "name": "DISPATCH_SOUND",
@@ -9167,7 +9166,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 34,
           "kind": "external",
           "method": 6,
           "name": "ROOM_FOREGROUNDS",
@@ -9181,7 +9180,7 @@
       "segment_offset": 3355,
       "self_relative": false,
       "target": {
-        "index": 12,
+        "index": 34,
         "kind": "external",
         "method": 6,
         "name": "ROOM_FOREGROUNDS",
@@ -9194,7 +9193,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -9208,7 +9207,7 @@
       "segment_offset": 3347,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -9221,7 +9220,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "TILE_ANIMATIONS",
@@ -9235,7 +9234,7 @@
       "segment_offset": 3338,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "TILE_ANIMATIONS",
@@ -9248,7 +9247,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -9262,7 +9261,7 @@
       "segment_offset": 3322,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -9275,7 +9274,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -9289,7 +9288,7 @@
       "segment_offset": 3314,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -9302,7 +9301,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -9316,7 +9315,7 @@
       "segment_offset": 3299,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -9329,7 +9328,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -9343,7 +9342,7 @@
       "segment_offset": 3275,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -9356,7 +9355,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 62,
+          "index": 75,
           "kind": "external",
           "method": 6,
           "name": "FIRSTINROW",
@@ -9370,7 +9369,7 @@
       "segment_offset": 3268,
       "self_relative": false,
       "target": {
-        "index": 62,
+        "index": 75,
         "kind": "external",
         "method": 6,
         "name": "FIRSTINROW",
@@ -9383,7 +9382,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -9397,7 +9396,7 @@
       "segment_offset": 3264,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -9410,7 +9409,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -9424,7 +9423,7 @@
       "segment_offset": 3260,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -9437,7 +9436,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -9451,7 +9450,7 @@
       "segment_offset": 3253,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -9464,7 +9463,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -9478,7 +9477,7 @@
       "segment_offset": 3249,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -9491,7 +9490,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 93,
+          "index": 19,
           "kind": "external",
           "method": 6,
           "name": "FCHAR",
@@ -9505,7 +9504,7 @@
       "segment_offset": 3235,
       "self_relative": false,
       "target": {
-        "index": 93,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "FCHAR",
@@ -9518,7 +9517,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 71,
+          "index": 86,
           "kind": "external",
           "method": 6,
           "name": "INDEXCELL1",
@@ -9532,7 +9531,7 @@
       "segment_offset": 3230,
       "self_relative": false,
       "target": {
-        "index": 71,
+        "index": 86,
         "kind": "external",
         "method": 6,
         "name": "INDEXCELL1",
@@ -9545,7 +9544,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -9559,7 +9558,7 @@
       "segment_offset": 3647,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -9572,7 +9571,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "QUERY_SOUND",
@@ -9586,7 +9585,7 @@
       "segment_offset": 3634,
       "self_relative": false,
       "target": {
-        "index": 15,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "QUERY_SOUND",
@@ -9599,7 +9598,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 15,
+          "index": 37,
           "kind": "external",
           "method": 6,
           "name": "QUERY_SOUND",
@@ -9613,7 +9612,7 @@
       "segment_offset": 3621,
       "self_relative": false,
       "target": {
-        "index": 15,
+        "index": 37,
         "kind": "external",
         "method": 6,
         "name": "QUERY_SOUND",
@@ -9626,7 +9625,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -9640,7 +9639,7 @@
       "segment_offset": 3614,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -9653,7 +9652,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -9667,7 +9666,7 @@
       "segment_offset": 3604,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -9680,7 +9679,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -9694,7 +9693,7 @@
       "segment_offset": 3598,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -9707,7 +9706,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 87,
           "kind": "external",
           "method": 6,
           "name": "TRIGGER_TRAPDOOR",
@@ -9721,7 +9720,7 @@
       "segment_offset": 3719,
       "self_relative": true,
       "target": {
-        "index": 61,
+        "index": 87,
         "kind": "external",
         "method": 6,
         "name": "TRIGGER_TRAPDOOR",
@@ -9734,7 +9733,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -9748,7 +9747,7 @@
       "segment_offset": 3714,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -9761,7 +9760,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -9775,7 +9774,7 @@
       "segment_offset": 3710,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -9788,7 +9787,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -9802,7 +9801,7 @@
       "segment_offset": 3704,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -9815,7 +9814,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 16,
+          "index": 38,
           "kind": "external",
           "method": 6,
           "name": "READCELL",
@@ -9829,7 +9828,7 @@
       "segment_offset": 3694,
       "self_relative": false,
       "target": {
-        "index": 16,
+        "index": 38,
         "kind": "external",
         "method": 6,
         "name": "READCELL",
@@ -9842,7 +9841,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -9856,7 +9855,7 @@
       "segment_offset": 3690,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -9869,7 +9868,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -9883,7 +9882,7 @@
       "segment_offset": 3686,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -9896,7 +9895,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -9910,7 +9909,7 @@
       "segment_offset": 3682,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -9923,7 +9922,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -9937,7 +9936,7 @@
       "segment_offset": 3676,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -9950,7 +9949,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -9964,7 +9963,7 @@
       "segment_offset": 3667,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -9977,7 +9976,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -9991,7 +9990,7 @@
       "segment_offset": 3663,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -10004,7 +10003,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 45,
+          "index": 67,
           "kind": "external",
           "method": 6,
           "name": "LEVEL_FLAGS",
@@ -10018,7 +10017,7 @@
       "segment_offset": 3654,
       "self_relative": false,
       "target": {
-        "index": 45,
+        "index": 67,
         "kind": "external",
         "method": 6,
         "name": "LEVEL_FLAGS",
@@ -10031,7 +10030,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 61,
+          "index": 87,
           "kind": "external",
           "method": 6,
           "name": "TRIGGER_TRAPDOOR",
@@ -10045,7 +10044,7 @@
       "segment_offset": 3778,
       "self_relative": true,
       "target": {
-        "index": 61,
+        "index": 87,
         "kind": "external",
         "method": 6,
         "name": "TRIGGER_TRAPDOOR",
@@ -10058,7 +10057,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10072,7 +10071,7 @@
       "segment_offset": 3773,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10085,7 +10084,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10099,7 +10098,7 @@
       "segment_offset": 3769,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10112,7 +10111,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10126,7 +10125,7 @@
       "segment_offset": 3764,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10139,7 +10138,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10153,7 +10152,7 @@
       "segment_offset": 3760,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10166,7 +10165,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 11,
+          "index": 33,
           "kind": "external",
           "method": 6,
           "name": "BLUES",
@@ -10180,7 +10179,7 @@
       "segment_offset": 3756,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 33,
         "kind": "external",
         "method": 6,
         "name": "BLUES",
@@ -10193,7 +10192,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10207,7 +10206,7 @@
       "segment_offset": 3745,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10220,7 +10219,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 28,
           "kind": "external",
           "method": 6,
           "name": "CHAR",
@@ -10234,7 +10233,7 @@
       "segment_offset": 3740,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 28,
         "kind": "external",
         "method": 6,
         "name": "CHAR",
@@ -10247,7 +10246,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10261,7 +10260,7 @@
       "segment_offset": 3731,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10274,7 +10273,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10288,7 +10287,7 @@
       "segment_offset": 3725,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10301,7 +10300,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 73,
+          "index": 93,
           "kind": "external",
           "method": 6,
           "name": "MARK_MOB_REDRAW",
@@ -10315,7 +10314,7 @@
       "segment_offset": 3919,
       "self_relative": false,
       "target": {
-        "index": 73,
+        "index": 93,
         "kind": "external",
         "method": 6,
         "name": "MARK_MOB_REDRAW",
@@ -10328,7 +10327,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 25,
+          "index": 47,
           "kind": "external",
           "method": 6,
           "name": "ADDSOUND",
@@ -10342,7 +10341,7 @@
       "segment_offset": 3911,
       "self_relative": false,
       "target": {
-        "index": 25,
+        "index": 47,
         "kind": "external",
         "method": 6,
         "name": "ADDSOUND",
@@ -10355,7 +10354,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 42,
+          "index": 64,
           "kind": "external",
           "method": 6,
           "name": "ADD_MOB",
@@ -10369,7 +10368,7 @@
       "segment_offset": 3902,
       "self_relative": false,
       "target": {
-        "index": 42,
+        "index": 64,
         "kind": "external",
         "method": 6,
         "name": "ADD_MOB",
@@ -10382,7 +10381,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 88,
+          "index": 14,
           "kind": "external",
           "method": 6,
           "name": "MOVING_KIND",
@@ -10396,7 +10395,7 @@
       "segment_offset": 3899,
       "self_relative": false,
       "target": {
-        "index": 88,
+        "index": 14,
         "kind": "external",
         "method": 6,
         "name": "MOVING_KIND",
@@ -10409,7 +10408,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 91,
+          "index": 16,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROW",
@@ -10423,7 +10422,7 @@
       "segment_offset": 3895,
       "self_relative": false,
       "target": {
-        "index": 91,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROW",
@@ -10436,7 +10435,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 83,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "MOVING_Y",
@@ -10450,7 +10449,7 @@
       "segment_offset": 3886,
       "self_relative": false,
       "target": {
-        "index": 83,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "MOVING_Y",
@@ -10463,7 +10462,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 33,
+          "index": 55,
           "kind": "external",
           "method": 6,
           "name": "ROW_Y",
@@ -10477,7 +10476,7 @@
       "segment_offset": 3883,
       "self_relative": false,
       "target": {
-        "index": 33,
+        "index": 55,
         "kind": "external",
         "method": 6,
         "name": "ROW_Y",
@@ -10490,7 +10489,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10504,7 +10503,7 @@
       "segment_offset": 3874,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10517,7 +10516,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 90,
+          "index": 15,
           "kind": "external",
           "method": 6,
           "name": "MOVING_ROOM",
@@ -10531,7 +10530,7 @@
       "segment_offset": 3871,
       "self_relative": false,
       "target": {
-        "index": 90,
+        "index": 15,
         "kind": "external",
         "method": 6,
         "name": "MOVING_ROOM",
@@ -10544,7 +10543,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 87,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "MOVEMENT_END",
@@ -10558,7 +10557,7 @@
       "segment_offset": 3865,
       "self_relative": false,
       "target": {
-        "index": 87,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "MOVEMENT_END",
@@ -10571,7 +10570,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 29,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_TILE",
@@ -10585,7 +10584,7 @@
       "segment_offset": 3849,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 29,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_TILE",
@@ -10598,7 +10597,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 82,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "MOVING_X",
@@ -10612,7 +10611,7 @@
       "segment_offset": 3846,
       "self_relative": false,
       "target": {
-        "index": 82,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "MOVING_X",
@@ -10625,7 +10624,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 30,
+          "index": 52,
           "kind": "external",
           "method": 6,
           "name": "ROOM_EDGE_X",
@@ -10639,7 +10638,7 @@
       "segment_offset": 3843,
       "self_relative": false,
       "target": {
-        "index": 30,
+        "index": 52,
         "kind": "external",
         "method": 6,
         "name": "ROOM_EDGE_X",
@@ -10652,7 +10651,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 85,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "MOVING_MODE",
@@ -10666,7 +10665,7 @@
       "segment_offset": 3824,
       "self_relative": false,
       "target": {
-        "index": 85,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "MOVING_MODE",
@@ -10679,7 +10678,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 41,
+          "index": 63,
           "kind": "external",
           "method": 6,
           "name": "ROCK_MOTION_STATE",
@@ -10693,7 +10692,7 @@
       "segment_offset": 3821,
       "self_relative": false,
       "target": {
-        "index": 41,
+        "index": 63,
         "kind": "external",
         "method": 6,
         "name": "ROCK_MOTION_STATE",
@@ -10706,7 +10705,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 13,
+          "index": 35,
           "kind": "external",
           "method": 6,
           "name": "ROOM_TRAPDOOR_FLAGS",
@@ -10720,7 +10719,7 @@
       "segment_offset": 3813,
       "self_relative": false,
       "target": {
-        "index": 13,
+        "index": 35,
         "kind": "external",
         "method": 6,
         "name": "ROOM_TRAPDOOR_FLAGS",
@@ -10733,7 +10732,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 31,
           "kind": "external",
           "method": 6,
           "name": "TILE_ANIMATIONS",
@@ -10747,7 +10746,7 @@
       "segment_offset": 3805,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 31,
         "kind": "external",
         "method": 6,
         "name": "TILE_ANIMATIONS",
@@ -10760,7 +10759,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 76,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "@draw_movement_shape",
@@ -10774,7 +10773,7 @@
       "segment_offset": 4005,
       "self_relative": false,
       "target": {
-        "index": 76,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "@draw_movement_shape",
@@ -10787,7 +10786,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_X",
@@ -10801,7 +10800,7 @@
       "segment_offset": 4002,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_X",
@@ -10814,7 +10813,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_Y",
@@ -10828,7 +10827,7 @@
       "segment_offset": 3989,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_Y",
@@ -10841,7 +10840,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_Y",
@@ -10855,7 +10854,7 @@
       "segment_offset": 3973,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_Y",
@@ -10868,7 +10867,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 76,
+          "index": 1,
           "kind": "external",
           "method": 6,
           "name": "@draw_movement_shape",
@@ -10882,7 +10881,7 @@
       "segment_offset": 3968,
       "self_relative": false,
       "target": {
-        "index": 76,
+        "index": 1,
         "kind": "external",
         "method": 6,
         "name": "@draw_movement_shape",
@@ -10895,7 +10894,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 26,
+          "index": 48,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_X",
@@ -10909,7 +10908,7 @@
       "segment_offset": 3960,
       "self_relative": false,
       "target": {
-        "index": 26,
+        "index": 48,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_X",
@@ -10922,7 +10921,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 29,
+          "index": 51,
           "kind": "external",
           "method": 6,
           "name": "SCREEN_TILE_Y",
@@ -10936,7 +10935,7 @@
       "segment_offset": 3950,
       "self_relative": false,
       "target": {
-        "index": 29,
+        "index": 51,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_TILE_Y",
@@ -10971,7 +10970,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 43,
+          "index": 65,
           "kind": "external",
           "method": 6,
           "name": "CURRENT_MODIFIER",
@@ -10985,7 +10984,7 @@
       "segment_offset": 3933,
       "self_relative": false,
       "target": {
-        "index": 43,
+        "index": 65,
         "kind": "external",
         "method": 6,
         "name": "CURRENT_MODIFIER",
@@ -10998,7 +10997,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 50,
+          "index": 71,
           "kind": "external",
           "method": 6,
           "name": "ADDSONG",
@@ -11012,7 +11011,7 @@
       "segment_offset": 4026,
       "self_relative": false,
       "target": {
-        "index": 50,
+        "index": 71,
         "kind": "external",
         "method": 6,
         "name": "ADDSONG",
@@ -11025,10 +11024,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 46,
+          "index": 30,
           "kind": "external",
           "method": 6,
-          "name": "INSCRIPTION_MARKER",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -11039,10 +11038,10 @@
       "segment_offset": 4016,
       "self_relative": false,
       "target": {
-        "index": 46,
+        "index": 30,
         "kind": "external",
         "method": 6,
-        "name": "INSCRIPTION_MARKER",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -11052,7 +11051,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 51,
+          "index": 72,
           "kind": "external",
           "method": 6,
           "name": "ALTAR_WATCH_KID",
@@ -11066,7 +11065,7 @@
       "segment_offset": 4047,
       "self_relative": false,
       "target": {
-        "index": 51,
+        "index": 72,
         "kind": "external",
         "method": 6,
         "name": "ALTAR_WATCH_KID",
@@ -11079,7 +11078,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 48,
+          "index": 68,
           "kind": "external",
           "method": 6,
           "name": "ROOM_TILE_MARKER",
@@ -11093,7 +11092,7 @@
       "segment_offset": 4041,
       "self_relative": false,
       "target": {
-        "index": 48,
+        "index": 68,
         "kind": "external",
         "method": 6,
         "name": "ROOM_TILE_MARKER",
@@ -11106,7 +11105,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 35,
+          "index": 57,
           "kind": "external",
           "method": 6,
           "name": "VIEWED_ROOM",
@@ -11120,7 +11119,7 @@
       "segment_offset": 4034,
       "self_relative": false,
       "target": {
-        "index": 35,
+        "index": 57,
         "kind": "external",
         "method": 6,
         "name": "VIEWED_ROOM",
@@ -11254,6 +11253,15 @@
       ]
     },
     "CHAR": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "bytes_hex": "be005c1e07b92000f3a5",
+          "entry": "root:0000:0242",
+          "image_offset": 1535,
+          "space": "root"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [
@@ -11310,6 +11318,10 @@
           ]
         },
         {
+          "offset": 7,
+          "witnesses": []
+        },
+        {
           "offset": 9,
           "witnesses": [
             {
@@ -11336,6 +11348,14 @@
           ]
         },
         {
+          "offset": 11,
+          "witnesses": []
+        },
+        {
+          "offset": 13,
+          "witnesses": []
+        },
+        {
           "offset": 14,
           "witnesses": [
             {
@@ -11347,6 +11367,18 @@
               "space": "root"
             }
           ]
+        },
+        {
+          "offset": 16,
+          "witnesses": []
+        },
+        {
+          "offset": 17,
+          "witnesses": []
+        },
+        {
+          "offset": 18,
+          "witnesses": []
         },
         {
           "offset": 36,
@@ -11364,6 +11396,13 @@
       ],
       "offset": 23552,
       "witnesses": [
+        {
+          "bytes_hex": "be005c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3813,
+          "operand_offset": 1,
+          "space": "root"
+        },
         {
           "bytes_hex": "be005c",
           "context": "mov si, 0x5c00 reached from root:0000:0e9a",
@@ -11720,21 +11759,6 @@
         }
       ]
     },
-    "INSCRIPTION_MARKER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23689,
-      "witnesses": [
-        {
-          "bytes_hex": "3806895c",
-          "context": "cmp byte ptr [0x5c89], al reached from root:0b41:091a",
-          "entry": "root:0b41:091a",
-          "image_offset": 48583,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "ISWALL": {
       "entry_sha256": "0369c9054de71fabeee5ed13bd1b87063018a7ffdcea3f700f9505a55d2c07dd",
       "entry_target_id": "root:078a:28fe",
@@ -11787,10 +11811,41 @@
       ]
     },
     "KID": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "bytes_hex": "be805c1e07b92000f3a5",
+          "entry": "root:02cc:086a",
+          "image_offset": 13626,
+          "space": "root"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 9,
+          "witnesses": [
+            {
+              "bytes_hex": "3806895c",
+              "context": "cmp byte ptr [0x5c89], al reached from root:0b41:091a",
+              "entry": "root:0b41:091a",
+              "image_offset": 48583,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
       "offset": 23680,
       "witnesses": [
+        {
+          "bytes_hex": "b8805c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3808,
+          "operand_offset": 1,
+          "space": "root"
+        },
         {
           "bytes_hex": "b8805c",
           "context": "mov ax, 0x5c80 reached from root:0000:0e9a",

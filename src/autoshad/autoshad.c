@@ -1,23 +1,38 @@
 #pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
 typedef struct {
-    signed char index, direction;
-    int x, y;
-    signed char kind;
-    unsigned int frame;
-    signed char column, row;
-    char reserved_b[3];
-    unsigned char room;
-    signed char merged;
-    char reserved_10[2];
-    signed char health, max_health, health_delta;
-    char reserved_15[4];
-    int repeat_sequence;
-    char reserved_1b[9];
-    int animation_contact;
-    char reserved_26[14];
-    int shadow_flags;
-    char reserved_36[10];
-} Actor;
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
 
 typedef struct {
     signed char cell;
@@ -35,7 +50,7 @@ typedef struct {
 } RoomOpponents;
 #pragma pack()
 
-extern Actor Char, Kid, Opp, RoomOpp[];
+extern CHARREC Char, Kid, Opp, RoomOpp[5];
 extern RoomOpponents room_opponents[];
 extern signed char shadow_direction_offsets[];
 extern signed char current_level, viewed_room, CutRoom;
@@ -81,9 +96,9 @@ int far pascal CheckShadowmanBackIntoKid(void)
 {
     signed char index;
     int distance, result;
-    Actor near *kid;
+    CHARREC near *kid;
 
-    index = Opp.index;
+    index = Opp.slot;
     distance = GetShadowToKidDist();
     if (abs(distance) < 32) {
         if (Opp.direction != Char.direction) {
@@ -92,7 +107,7 @@ int far pascal CheckShadowmanBackIntoKid(void)
         }
         Char.x -= distance;
         --Char.y;
-        Char.merged = 0;
+        Char.field_0f = 0;
         kid = &Kid;
         *kid = Char;
         result = 71;
@@ -105,21 +120,21 @@ int far pascal CheckShadowmanBackIntoKid(void)
 
 void far pascal CheckShadowmanCreate(void)
 {
-    if (Char.kind == 0 && Char.repeat_sequence == 5) {
+    if (Char.character_kind == 0 && Char.sequence == 5) {
         if (++shadow_timer >= 4) {
             if (shadow_timer == 4) {
                 install_palette_resource(2000, 48, 16, IsShadowImbued() != 0);
                 HGetSnd(10261);
             }
             if (!decrement_life_points(1))
-                --Char.max_health;
+                --Char.life_initial;
             else
                 JumpSeq(71);
             if (shadow_timer == 8) {
-                if (Char.health > 4) {
+                if (Char.life_points > 4) {
                     CreateKidAsOpp();
-                    Char.kind = 1;
-                    Char.shadow_flags = 8;
+                    Char.character_kind = 1;
+                    Char.field_34 = 8;
                     JumpSeq(2);
                     AddSound(261);
                     AddSong(272);
@@ -140,9 +155,9 @@ void far pascal CheckShadowPaletteChange(void)
 {
     signed char bank = -1;
 
-    if (Kid.health > 2 && Kid.health + Kid.health_delta <= 2 && Kid.repeat_sequence != 242)
+    if (Kid.life_points > 2 && Kid.life_points + Kid.life_delta <= 2 && Kid.sequence != 242)
         bank = 0;
-    else if (Kid.health <= 2 && Kid.health + Kid.health_delta > 2)
+    else if (Kid.life_points <= 2 && Kid.life_points + Kid.life_delta > 2)
         bank = 1;
     if (bank != -1)
         install_palette_resource(2000, 48, 16, bank);
@@ -155,8 +170,8 @@ void far pascal CheckTurnSeqs(void)
     else if (Char.frame >= 45 && Char.frame <= 52 &&
              !((Char.room == 1 || Char.room == 2) && current_level == 14)) {
         if (shadow_timer >= 4)
-            Char.shadow_flags = IsShadowBlinkOn(Char.frame, shadow_timer) ? 8 : 0;
-    } else if (Char.repeat_sequence != 5 && shadow_timer != 0) {
+            Char.field_34 = IsShadowBlinkOn(Char.frame, shadow_timer) ? 8 : 0;
+    } else if (Char.sequence != 5 && shadow_timer != 0) {
         set_kid_palette(current_level);
         shadow_timer = 0;
     }
@@ -164,7 +179,7 @@ void far pascal CheckTurnSeqs(void)
 
 void far pascal CreateKidAsOpp(void)
 {
-    Actor near *kid;
+    CHARREC near *kid;
     Opponent near *opp;
     signed char index;
 
@@ -175,8 +190,8 @@ void far pascal CreateKidAsOpp(void)
 
     kid = &Kid;
     *kid = Char;
-    index = room_opponents[Char.room].count++;
-    opp = GetOppInfoIdx(Char.room, index);
+    index = room_opponents[(unsigned char)Char.room].count++;
+    opp = GetOppInfoIdx((unsigned char)Char.room, index);
     opp->cell = FirstInRow(Char.row) + Char.column;
     opp->x = Char.x;
     opp->facing = Char.direction;
@@ -185,12 +200,12 @@ void far pascal CreateKidAsOpp(void)
     opp->index = index;
     opp->flags = 0;
     opp->motion = 0;
-    opp->health = Char.health;
+    opp->health = Char.life_points;
     opp->kind = 10;
-    opp->max_health = Char.max_health;
-    Char.index = index;
-    Char.kind = 0;
-    Char.shadow_flags = 2;
+    opp->max_health = Char.life_initial;
+    Char.slot = index;
+    Char.character_kind = 0;
+    Char.field_34 = 2;
     JumpSeq(71);
     AnimChar();
     save_actor_slot();
@@ -199,18 +214,18 @@ void far pascal CreateKidAsOpp(void)
 
 void far pascal CutToKidRoom(void)
 {
-    Actor near *kid;
+    CHARREC near *kid;
     signed char room;
 
     kid = &Kid;
     *kid = Char;
-    draw_kid_meter(Char.health, Char.max_health);
+    draw_kid_meter(Char.life_points, Char.life_initial);
     load_actor_slot(GetKidIdxAsOpp());
-    Char.index = 10;
-    Char.shadow_flags = 0;
-    Char.health = Kid.health;
-    Char.max_health = Kid.max_health;
-    Char.health_delta = Kid.health_delta;
+    Char.slot = 10;
+    Char.field_34 = 0;
+    Char.life_points = Kid.life_points;
+    Char.life_initial = Kid.life_initial;
+    Char.life_delta = Kid.life_delta;
     room = register_actor_room();
     if (viewed_room != room) {
         CutRoom = room;
@@ -224,11 +239,11 @@ void far pascal CutToKidRoom(void)
 signed char far pascal GetKidIdxAsOpp(void)
 {
     signed char index = 0;
-    signed char count = room_opponents[Char.room].count;
+    signed char count = room_opponents[(unsigned char)Char.room].count;
 
     if (count > 0) {
         do {
-            if (RoomOpp[index].kind == 0)
+            if (RoomOpp[index].character_kind == 0)
                 break;
             index++;
         } while (index < count);
@@ -275,7 +290,7 @@ int far pascal IsShadowImbued(void)
 {
     int result;
 
-    if (Char.animation_contact == 13 || (current_level == 6 && Char.health > 2))
+    if (Char.sequence_group == 13 || (current_level == 6 && Char.life_points > 2))
         result = 1;
     else
         result = 0;
@@ -284,18 +299,18 @@ int far pascal IsShadowImbued(void)
 
 void far pascal KidRiseFromShadowman(void)
 {
-    Actor near *kid;
+    CHARREC near *kid;
 
-    if (Opp.kind == 0) {
+    if (Opp.character_kind == 0) {
         kid = &Kid;
         *kid = Char;
-        load_actor_slot(Opp.index);
+        load_actor_slot(Opp.slot);
         remove_char();
         save_actor_slot();
         copy_kid_to_char();
-        Char.kind = 0;
-        Char.shadow_flags = 0;
-        Char.merged = 1;
+        Char.character_kind = 0;
+        Char.field_34 = 0;
+        Char.field_0f = 1;
         JumpSeq(231);
         AnimChar();
         Kid = Char;
@@ -315,7 +330,7 @@ void far pascal SetupShadowFlame(void)
         AddFCharX(13 - flame_y / 2);
         MakeFCharClipRect();
         add_char_object(14);
-        mark_bufs_for_rect(mark_foreground, flame_clip_rect, Char.index);
+        mark_bufs_for_rect(mark_foreground, flame_clip_rect, Char.slot);
         RestoreFChar();
     }
 }

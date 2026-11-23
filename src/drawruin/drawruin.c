@@ -275,7 +275,44 @@ typedef struct MovingExit {
 extern RuinPositions *shape_offsets;
 extern DrawRect GamePlayRect;
 extern Byte viewed_room;
-extern unsigned int kid_frame;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+
+extern CHARREC Kid;
 extern signed char FirstInRow(Byte, CellCoord);
 extern MovingExit *get_trob_room_cell(int);
 
@@ -335,7 +372,7 @@ void draw_ruin_exit_movable(RuinCell *cell)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
             shape_offsets->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
             AddBImgToBTable(57, -2, cell->column, cell->row, 10, 0);
-            add_image = kid_frame >= 217 && kid_frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
+            add_image = Kid.frame >= 217 && Kid.frame <= 226 ? AddBFImgToFTable : AddBFImgToBTable;
             shape_offsets->exit = exit_positions[1];
             add_image(57, -2, cell->column, cell->row, 10, 0);
         }
@@ -751,8 +788,7 @@ void LoadRuinsDrawCode(void)
 }
 
 extern CellCoord tile_room, tile_column, tile_row, tile_index;
-extern CellCoord actor_room, actor_column, actor_row;
-extern int actor_frame;
+extern CHARREC Char;
 extern Byte tile_modifier;
 extern Byte ReadCell(CellCoord, CellCoord, CellCoord);
 extern Byte get_cells_ahead(Byte);
@@ -787,8 +823,8 @@ void ruin_change_crevices(int reveal, CellCoord room, CellCoord column, CellCoor
 
 void ruin_check_crevices(void)
 {
-    if (actor_frame != 17 && get_cells_ahead(1) == 7 && (tile_modifier & 3) != 3)
-        ruin_change_crevices(1, actor_room, actor_column, actor_row);
+    if (Char.sequence != 17 && get_cells_ahead(1) == 7 && (tile_modifier & 3) != 3)
+        ruin_change_crevices(1, Char.room, Char.column, Char.row);
 }
 
 void ruin_set_crevice_revealed(int reveal)

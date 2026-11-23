@@ -28,8 +28,46 @@ typedef struct {
     char bytes[66];
 } null_area;
 
-extern int position_value, reference_x, left_edge, right_edge;
-extern signed char facing, page_number;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+extern CHARREC Kid;
+extern CHARREC Char;
+extern int left_edge, right_edge;
+
 extern long tick_count;
 extern drawing_context ScreenPort, *Graf;
 extern int ruler_bottoms[];
@@ -119,7 +157,7 @@ void limit_frame_rate(void)
             if (show_actor_position) {
                 copy_kid_to_char();
                 get_frame_info();
-                sprintf(message, position_format, position_value);
+                sprintf(message, position_format, (*(int near *)&Kid.frame));
                 draw_message(message);
             }
             wait_key();
@@ -141,7 +179,7 @@ void plot_edge_offset(register int distance)
 {
     register int x;
 
-    if (facing == 0)
+    if (Char.direction == 0)
         x = right_edge + distance;
     else
         x = left_edge - distance;
@@ -152,7 +190,7 @@ void plot_edge_offset(register int distance)
 void plot_actor_offset(int distance)
 {
     int x = get_base_x() - 130;
-    if (facing == 0)
+    if (Char.direction == 0)
         x += distance;
     else
         x -= distance;
@@ -166,7 +204,7 @@ void plot_position(int x, int color)
     volatile int saved_color;
     Graf = &ScreenPort;
     saved_color = ScreenPort.pen_color;
-    y = ((volatile int *)ruler_bottoms)[page_number] - 5;
+    y = ((volatile int *)ruler_bottoms)[Char.row] - 5;
     ScreenPort.pen_color = color;
     MOVETO(x, y);
     draw_axis_segment(x, y + 2);
@@ -185,7 +223,7 @@ void draw_ruler_marks(void)
     saved_attribute = ScreenPort.pen_attribute;
     set_pen_color(100);
     {
-        int bottom = ruler_bottoms[page_number];
+        int bottom = ruler_bottoms[Char.row];
         y = bottom - 5;
     }
     x = 0;
@@ -385,5 +423,5 @@ void draw_frame_diagnostics(void)
     if (show_ruler)
         draw_ruler_marks();
     if (show_reference_position)
-        plot_position(reference_x - 130, 9);
+        plot_position(Char.x - 130, 9);
 }

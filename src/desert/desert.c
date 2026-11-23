@@ -35,23 +35,6 @@ typedef struct {
 } Room;
 
 typedef struct {
-    sbyte type, direction;
-    int x;
-    ubyte reserved_a[3];
-    int frame;
-    sbyte column;
-    ubyte reserved_b[4];
-    sbyte room;
-    ubyte reserved_c[2];
-    sbyte alive;
-    ubyte reserved_d[7];
-    int sequence;
-    ubyte reserved_e[9];
-    int action;
-    ubyte reserved_f[26];
-} Actor;
-
-typedef struct {
     uword flags;
     uword tile;
 } RoomCell;
@@ -70,14 +53,51 @@ typedef struct {
 
 extern ubyte active_sound_channels;
 extern Rect actor_clip;
-/* The column byte has its own DGROUP operand at Char + 9. */
-extern sbyte actor_column, desert_column, previous_column;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+
+extern CHARREC Char;
+extern sbyte desert_column, previous_column;
 extern uword exit_flags, BlueSpec;
 extern RoomCell room_cells[], stone_cells[], exit_cells[];
 extern int fade_active, FrameNum;
 extern ubyte viewed_room;
 extern int sound_room;
-extern Actor Char, Kid;
+extern CHARREC Kid;
 extern sbyte level_number;
 extern int next_level, fall_transition;
 extern sbyte move_up, move_down, move_forward, move_action;
@@ -156,33 +176,36 @@ void check_desert_exit(void)
     if ((flags & 31) != 0)
         return;
     frame = (flags >> 8) & 31;
-    keep_open = desert_column - previous_column != -2;
-    cell = 0;
+    keep_open = desert_column - previous_column != -2; cell = 0;
     if (keep_open) {
-        do {
+        while (cell < 6) {
             int state = exit_cells[cell].flags & 15;
-            if ((state && cell != desert_column) ||
-                (!state && cell == desert_column && frame < 10))
+            if ((state && desert_column != cell) ||
+                (!state && desert_column == cell && frame < 10))
                 keep_open = 0;
             ++cell;
             if (!keep_open)
                 break;
-        } while (cell < 6);
+        }
     }
 
-    if (!keep_open) {
-        flags &= 0xe0ff;
-    } else if (frame >= 20) {
-        trigger_desert_exit(1, 10);
+    if (keep_open) {
+        if (frame >= 20) {
+            trigger_desert_exit(1, 10);
+        } else {
+            if (frame == 6)
+                AddSong(37);
+            else if (frame == 9)
+                AddSound(45);
+            else if (frame == 10)
+                sink_desert_stone(desert_column + 12);
+            ++frame;
+            flags &= 0xe0ff;
+            frame <<= 8;
+            flags |= frame;
+        }
     } else {
-        if (frame == 6)
-            AddSong(37);
-        else if (frame == 9)
-            AddSound(45);
-        else if (frame == 10)
-            sink_desert_stone(desert_column + 12);
         flags &= 0xe0ff;
-        flags |= ++frame << 8;
     }
     exit_flags = flags;
 }
@@ -209,7 +232,7 @@ void desert_frame(void)
     } else if (query_sound(10251)) {
         if (query_sound(10038))
             dispatch_sound(10038);
-    } else if (Kid.action != 7 && Kid.alive < 0 &&
+    } else if (Kid.sequence_group != 7 && Kid.alive < 0 &&
                !query_sound(sound_room + 10000) &&
                !query_animation(30, 1) && !is_desert_exit_open()) {
         add_desert_ambient();
@@ -220,7 +243,7 @@ void watch_desert_kid(void)
 {
     copy_kid_to_char();
     if (Char.room == 1) {
-        if (actor_column != previous_column) {
+        if (Char.column != previous_column) {
             if (is_selected_code(Char.frame)) {
                 if (previous_column >= 2) {
                     if (previous_column <= 7) {
@@ -232,7 +255,7 @@ void watch_desert_kid(void)
             }
         }
         if (is_selected_code(Char.frame))
-            previous_column = actor_column;
+            previous_column = Char.column;
         if (Char.x < 130) {
             if (level_number == next_level) {
                 ++next_level;
@@ -572,7 +595,7 @@ void trigger_all_stones_down(void)
 {
     if (previous_column != -1 && previous_column >= 2 && previous_column <= 7)
         sink_desert_stone(previous_column + 10);
-    sink_desert_stone(actor_column + 10);
+    sink_desert_stone(Char.column + 10);
 }
 
 #pragma optimize("s", on)

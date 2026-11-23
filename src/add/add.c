@@ -220,13 +220,46 @@ extern Byte actor_set;
 extern Byte actor_flags;
 extern Rect actor_clip;
 extern int actor_depth;
-extern int opponent_previous_frame;
-extern int opponent_previous_x;
-extern int actor_id;
-extern struct {
-    Byte type, action;
-    Byte remaining[62];
-} Char;
+
+
+
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+
+extern CHARREC Char;
 
 extern void ConvertX(int x, int *destination);
 extern void set_object_cell(Byte index);
@@ -248,8 +281,8 @@ void far _fastcall add_char_object(Byte kind)
         object->clip = actor_clip;
         object->depth = actor_depth;
         set_object_cell((Byte)index);
-        object->object_id = actor_id;
-        object->object_type = Char.type;
+        object->object_id = Char.frame;
+        object->object_type = Char.slot;
     }
 }
 
@@ -362,7 +395,7 @@ extern unsigned int ALLOCATE_CLIPPED_PORT(Rect far *rect);
 extern int find_character_peel(Offset actor, int occurrence);
 extern void load_actor_slot(Offset actor);
 extern int is_char_non_viewable(void);
-extern Byte actor_state;
+
 extern void far actor_redraw_callback(void);
 extern void mark_bufs_for_rect(void (far *callback)(void), unsigned int handle, Offset actor);
 extern void mark_peel_handle(unsigned int handle);
@@ -408,7 +441,7 @@ void mark_peel_front_buffers(void)
         redraw = 1;
         if (details->character >= 0 && details->character < 5) {
             load_actor_slot(details->character);
-            if (actor_state == 9 || is_char_non_viewable())
+            if (Char.action == 9 || is_char_non_viewable())
                 redraw = 0;
         }
         if (redraw)
@@ -505,9 +538,9 @@ BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte p
     return result;
 }
 
-extern Byte actor_room;
-extern Byte actor_character;
-extern Byte actor_sword;
+
+
+
 extern Byte actor_force_redraw;
 extern struct {
     Byte before_guards[0x17bf];
@@ -516,14 +549,14 @@ extern struct {
 extern unsigned int actor_equipment;
 extern int actor_shape_index;
 extern struct { Offset x, y; } actor_frame_delta;
-extern int actor_screen_offset;
-extern int actor_position_x;
-extern int actor_position_y;
+
+
+
 extern Offset actor_clip_mode;
-extern Byte opponent_clip_changed;
-extern int opponent_previous_mode;
-extern int opponent_previous_y;
-extern Rect opponent_clip;
+
+
+
+
 extern unsigned int object_position_handle;
 
 extern void copy_kid_to_char(void);
@@ -568,28 +601,28 @@ extern int far _fastcall setup_opponent(Offset opponent);
 void add_kid(void)
 {
     copy_kid_to_char();
-    if (actor_room != 0 && actor_room == viewed_room) {
+    if (Char.room != 0 && (Byte)Char.room == viewed_room) {
         setup_kid();
-        if (actor_state == 99 || actor_screen_offset == 8) {
+        if (Char.action == 99 || Char.sequence_group == 8) {
             setup_comix();
-            if (actor_screen_offset == 8)
-                actor_screen_offset = 0;
+            if (Char.sequence_group == 8)
+                Char.sequence_group = 0;
             else
-                actor_state = 5;
+                Char.action = 5;
         }
 
         if (current_level == 5)
             setup_splash();
         else if (current_level == 1)
             setup_sand();
-        else if (drawing_environment == 5 && actor_room == 3 && actor_id == 295)
+        else if (drawing_environment == 5 && Char.room == 3 && Char.frame == 295)
             setup_carpet();
-        else if ((unsigned int)actor_id >= 306 && (unsigned int)actor_id <= 318)
+        else if ((unsigned int)Char.frame >= 306 && (unsigned int)Char.frame <= 318)
             setup_flame();
-        else if ((unsigned int)actor_id >= 272 && (unsigned int)actor_id <= 281)
+        else if ((unsigned int)Char.frame >= 272 && (unsigned int)Char.frame <= 281)
             setup_fireball();
 
-        if (actor_character == 1 && current_level == 6)
+        if (Char.character_kind == 1 && current_level == 6)
             SetupShadowFlame();
         setup_sword(3);
         setup_flask();
@@ -606,21 +639,21 @@ void add_opponent(void)
         return;
     do {
         load_actor_slot(opponent);
-        if (actor_room == viewed_room) {
+        if ((Byte)Char.room == viewed_room) {
             if (!setup_opponent(opponent))
                 continue;
-            if ((actor_state == 99 || actor_screen_offset == 8 ||
-                 (actor_state == 9 && actor_id == 213)) &&
-                actor_character != 7 && actor_character != 8) {
-                if (actor_state == 99)
-                    actor_state = 5;
+            if ((Char.action == 99 || Char.sequence_group == 8 ||
+                 (Char.action == 9 && Char.frame == 213)) &&
+                Char.character_kind != 7 && Char.character_kind != 8) {
+                if (Char.action == 99)
+                    Char.action = 5;
                 setup_comix();
             }
-            if (actor_character != 10 && actor_character != 1)
+            if (Char.character_kind != 10 && Char.character_kind != 1)
                 setup_sword(9);
-            if (actor_character == 12)
+            if (Char.character_kind == 12)
                 setup_jinnee_smoke();
-            else if (actor_character == 1)
+            else if (Char.character_kind == 1)
                 SetupShadowFlame();
             else if (current_level == 5)
                 goto temple_kid;
@@ -636,46 +669,46 @@ temple_kid:
 void setup_char(void)
 {
     int equipment;
-    extern int actor_depth_source;
+
 
     init_fchar_rect();
     get_frame_info();
     equipment = equipment_shape(actor_equipment);
-    if (actor_id == 0 || (actor_shape_index == -1 && equipment == -1))
+    if (Char.frame == 0 || (actor_shape_index == -1 && equipment == -1))
         return;
 
-    actor_flags = Char.action;
-    actor_depth = actor_depth_source;
-    if (actor_character == 0 || actor_character == 6 || actor_character == 1) {
+    actor_flags = Char.direction;
+    actor_depth = Char.field_34;
+    if (Char.character_kind == 0 || Char.character_kind == 6 || Char.character_kind == 1) {
         actor_set = 2;
         actor_image = actor_shape_index;
     } else {
         actor_set = 3;
-        actor_image = actor_character == 10 ? equipment : actor_shape_index;
+        actor_image = Char.character_kind == 10 ? equipment : actor_shape_index;
     }
 
-    if ((actor_character == 7 || actor_character == 8) && actor_screen_offset == 1) {
+    if ((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 1) {
         auto_forward();
         return;
     }
-    actor_y = actor_frame_delta.y + actor_position_y;
+    actor_y = actor_frame_delta.y + Char.y;
     actor_x = AddCharX(actor_frame_delta.x) - 130;
-    if (actor_character == 10) {
+    if (Char.character_kind == 10) {
         setup_flame_sword();
         return;
     }
-    if (actor_character == 4 && (unsigned int)actor_id >= 206 && (unsigned int)actor_id <= 209) {
+    if (Char.character_kind == 4 && (unsigned int)Char.frame >= 206 && (unsigned int)Char.frame <= 209) {
         actor_set = 4;
         actor_image += 104;
     }
 }
 
-extern Byte previous_actor_character;
+extern CHARREC Opp;
 extern Offset FChar;
 
 void setup_comix(void)
 {
-    unsigned int frame = actor_id;
+    unsigned int frame = Char.frame;
 
     SaveFChar();
     FChar = -1;
@@ -684,29 +717,29 @@ void setup_comix(void)
 
     if (frame == 185 || (frame >= 106 && frame < 111))
         goto raised;
-    if (actor_character == 11) {
+    if (Char.character_kind == 11) {
         actor_y += 5;
         adjust_actor_x(-8);
         actor_set = 3;
         actor_image = 119;
         goto render;
     }
-    if (actor_character == 12) {
+    if (Char.character_kind == 12) {
         actor_y -= 11;
         adjust_actor_x(-8);
         goto render;
     }
-    if (actor_character == 0) {
-        if (previous_actor_character == 11 || actor_id == 265)
+    if (Char.character_kind == 0) {
+        if (Opp.character_kind == 11 || Char.frame == 265)
             goto default_x;
-        if (actor_id == 138 || actor_id == 139 || actor_id == 140)
+        if (Char.frame == 138 || Char.frame == 139 || Char.frame == 140)
             goto lowered;
-        if (actor_id == 338) {
+        if (Char.frame == 338) {
             actor_y -= 30;
             adjust_actor_x(29);
             goto render;
         }
-        if (actor_id == 340) {
+        if (Char.frame == 340) {
             actor_y -= 30;
             adjust_actor_x(-17);
             goto render;
@@ -756,7 +789,7 @@ void setup_fireball(void)
 
 void setup_kid(void)
 {
-    if (actor_id == 0)
+    if (Char.frame == 0)
         return;
     reread_cells();
     setup_char();
@@ -766,7 +799,7 @@ void setup_kid(void)
     quick_foreground();
     quick_floor();
     check_actor_room();
-    add_char_object(actor_character);
+    add_char_object(Char.character_kind);
 }
 
 void far _fastcall setup_sword(Byte kind)
@@ -781,9 +814,9 @@ void far _fastcall setup_sword(Byte kind)
         !(actor_equipment >= 264 && actor_equipment <= 265) &&
         !(actor_equipment >= 292 && actor_equipment <= 304))
         return;
-    if (actor_character == 0 && actor_sword == 0 && actor_id != 133 &&
-        !((unsigned int)actor_id >= 229 && (unsigned int)actor_id <= 240) &&
-        actor_id != 323 && actor_id != 324)
+    if (Char.character_kind == 0 && Char.stance == 0 && Char.frame != 133 &&
+        !((unsigned int)Char.frame >= 229 && (unsigned int)Char.frame <= 240) &&
+        Char.frame != 323 && Char.frame != 324)
         return;
 
     frame = actor_equipment;
@@ -798,8 +831,8 @@ void far _fastcall setup_sword(Byte kind)
     if (current_level == 5)
         adjust_ruins_sword();
     add_char_object(kind);
-    if (actor_state != 9)
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
+    if (Char.action != 9)
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.slot);
 }
 
 void setup_flask(void)
@@ -819,7 +852,7 @@ void setup_flask(void)
     actor_set = 1;
     MakeFCharClipRect();
     add_char_object(3);
-    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
+    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.slot);
 }
 
 void check_background_shape(int index)
@@ -878,8 +911,8 @@ void check_opponent_shape(int index)
     if (!opponent_shapes->images[index].handle || MATERIALIZE_HANDLE(opponent_shapes->images[index].handle))
         return;
     image = index + 1;
-    outfit = (actor_character == 10 || actor_character == 12)
-           ? opponent_outfit_by_character[(Offset)actor_character] : opponent_outfit;
+    outfit = (Char.character_kind == 10 || Char.character_kind == 12)
+           ? opponent_outfit_by_character[(Offset)Char.character_kind] : opponent_outfit;
     if (outfit != 5 && outfit != 6 && opponent_extra_image_limits[outfit] &&
         *opponent_extra_image_limits[outfit] <= index)
         image += 100;
@@ -927,48 +960,43 @@ int far _fastcall setup_opponent(Offset opponent)
     quick_floor();
     check_actor_room();
 
-    if (!opponent_clip_changed && opponent_previous_frame == actor_id &&
-        opponent_previous_x == actor_position_x && opponent_previous_y == actor_position_y &&
-        opponent_previous_mode == 0 && actor_character != 10 && actor_character != 11) {
-        save_character_peel(Char.type, 1);
-        save_character_peel(Char.type, 2);
+    if (!Char.alert_delay && Char.previous_frame == Char.frame &&
+        Char.previous_x == Char.x && Char.previous_y == Char.y &&
+        Char.previous_mode == 0 && Char.character_kind != 10 && Char.character_kind != 11) {
+        save_character_peel(Char.slot, 1);
+        save_character_peel(Char.slot, 2);
         added = 0;
         goto done;
     }
-    if (actor_character == 7 || actor_character == 8 || actor_character == 10 ||
-        actor_character == 6 || actor_character == 1) {
-        kind = actor_character;
+    if (Char.character_kind == 7 || Char.character_kind == 8 || Char.character_kind == 10 ||
+        Char.character_kind == 6 || Char.character_kind == 1) {
+        kind = Char.character_kind;
         if (kind == 10)
             float_flame_sword();
     } else {
         kind = 2;
     }
-    if (actor_state != 9 && !is_char_non_viewable())
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&opponent_clip, Char.type);
+    if (Char.action != 9 && !is_char_non_viewable())
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&Char.bounds, Char.slot);
     add_char_object(kind);
-    opponent_previous_x = actor_position_x;
-    opponent_previous_y = actor_position_y;
-    opponent_previous_mode = peel_restore_mode;
+    Char.previous_x = Char.x;
+    Char.previous_y = Char.y;
+    Char.previous_mode = peel_restore_mode;
     save_actor_slot();
     added = 1;
 done:
     return added;
 }
 
-typedef struct {
-    unsigned int handle;
-    Byte state[62];
-} Row;
-
-extern Row rows[5];
+extern CHARREC RoomOpp[5];
 
 /* Terminal ADD.C entry. Its one-past-end address still needs a witness. */
 void clear_row_handles(void)
 {
-    Row *row = rows;
+    char *row = (char *)&RoomOpp[0].previous_x;
     do {
-        ++row;
-        row[-1].handle = 0;
-    } while (row < rows + 5);
+        row += sizeof(CHARREC);
+        *(int *)(row - sizeof(CHARREC)) = 0;
+    } while (row < (char *)&RoomOpp[0].previous_x + sizeof(RoomOpp));
 }
 

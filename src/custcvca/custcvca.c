@@ -59,9 +59,44 @@ extern _segment mid_table_selector;             /* DS:284c */
 extern MidItem _based(mid_table_selector) mid_rows[]; /* 2fae:11f8 */
 extern int camera_y;                            /* DS:5e94 */
 extern Rect view_rect;                          /* DS:5e9d */
-extern volatile Byte char_direction;             /* DS:5c01 */
-extern volatile int char_x, char_y;               /* DS:5c02,5c04 */
-extern int char_frame, char_sequence;            /* DS:5c07,5c24 */
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+
+extern CHARREC Char;
 extern Byte tile_col, tile_row, tile_modifier, tile_flags; /* DS:6274,6273,6271,6272 */
 extern unsigned int BlueSpec;               /* DS:5e48 */
 extern signed char bar_direction;                /* DS:67d0 */
@@ -293,7 +328,7 @@ void sitting_on_carpet(void)
     Rect rect;
 
     if (carpet) {
-        if (!carpet->frame && char_frame == 295) {
+        if (!carpet->frame && Char.frame == 295) {
             carpet->frame = 1;
             ReadCell(3, 3, 2);
             make_space(tile_col, tile_row);
@@ -302,11 +337,11 @@ void sitting_on_carpet(void)
             mark_bufs_for_rect(draw_under_actor, &rect, -1);
             return;
         }
-        if (!carpet->sitting && char_y < 55 && !cave_bars_open()) {
+        if (!carpet->sitting && ((volatile CHARREC *)&Char)->y < 55 && !cave_bars_open()) {
             carpet->frame = 1;
             carpet->sitting = 1;
-            char_y = 20;
-            char_sequence = 10;
+            ((volatile CHARREC *)&Char)->y = 20;
+            Char.sequence_group = 10;
             JumpSeq(129);
             AddSound(36);
             return;
@@ -322,9 +357,9 @@ void trigger_char_on_carpet(void)
 {
     if (carpet) {
         JumpSeq(128);
-        char_x = 268;
-        if (char_direction == 0)
-            char_x = 288;
+        ((volatile CHARREC *)&Char)->x = 268;
+        if (((volatile CHARREC *)&Char)->direction == 0)
+            ((volatile CHARREC *)&Char)->x = 288;
         if (cave_bars_open()) {
             AddSong(34);
             return;

@@ -1,16 +1,16 @@
 {
   "binding": "evidence/bindings/checknis/checknis.json",
-  "binding_sha256": "9ac424e2df7ca1c5d1d38003a08d57de57f1f2ad8046c64a9f2736e501ecba22",
+  "binding_sha256": "9bdb3711ef19a7daab2fe5f4774c4668c99a75e8c05bb79b5306add0870940fe",
   "claims": [
-    {
-      "fixup_count": 2,
-      "public": "CHECKPLAYNIS",
-      "target_id": "root:0284:000e"
-    },
     {
       "fixup_count": 0,
       "public": "ERASESCREENAFTERNIS",
       "target_id": "root:0000:2878"
+    },
+    {
+      "fixup_count": 2,
+      "public": "CHECKPLAYNIS",
+      "target_id": "root:0284:000e"
     },
     {
       "fixup_count": 0,
@@ -89,6 +89,16 @@
       "target_id": "root:0284:03f0"
     }
   ],
+  "code_matches": [
+    {
+      "public": "ISTIMEFORNIS",
+      "target_id": "root:0284:00e6",
+      "unproven": [
+        "LEVEL_RESOURCE_FILES+0x6",
+        "LEVEL_RESOURCE_FILES+0x8"
+      ]
+    }
+  ],
   "data_publics": [
     {
       "address": 470,
@@ -99,12 +109,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 216,
-      "public": "ISTIMEFORNIS"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 1140,
   "flags": [
     "/c",
@@ -120,12 +125,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "checknis/checknis",
-  "object_sha256": "8de2a2c6f84a73923098fd36977f9d831312ba4e4391e242605de4acd028659b",
+  "object_sha256": "d4fd7eadc10075690c434dbf302bd631a12685ec95b7310adde874d9990affea",
   "origin": 10318,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/checknis/checknis.c",
-  "source_sha256": "e8cd88181049c4fb61dc5a365435b1a67f1341b1303b7999e908c5916bfe4fe2",
+  "source_sha256": "cef7041dd2e9cdf11588f995f0c75a4c8d07f9057265eac16dcc987cc9374617",
   "space": "root"
 }

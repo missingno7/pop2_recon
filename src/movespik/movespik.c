@@ -61,10 +61,43 @@ extern struct RoomNeighbors viewed_room;
 #define current_room viewed_room.current
 #define right_room viewed_room.right
 
-extern SByte actor_direction, actor_column, actor_row;
-extern int actor_x, actor_y;
-extern Byte actor_action, actor_room, actor_alive, actor_facing, actor_stance;
-extern Word actor_frame, actor_sequence;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+extern CHARREC Char;
 extern Byte level;
 
 extern SByte tile_column, tile_row;
@@ -151,25 +184,25 @@ void CheckImpale(void)
     int x;
     SByte last_column;
 
-    if (actor_sequence == 0x55 || actor_action == 4 || actor_action == 1
-        || is_dead_pos(actor_frame))
+    if (Char.sequence == 0x55 || Char.character_kind == 4 || Char.character_kind == 1
+        || is_dead_pos(Char.frame))
         return;
-    column = actor_column - 1;
-    if (column <= actor_column) {
+    column = Char.column - 1;
+    if (column <= Char.column) {
         do {
-            if (ReadCell(actor_room, column, actor_row) == 2 && GetSpikes() == 2) {
+            if (ReadCell(Char.room, column, Char.row) == 2 && GetSpikes() == 2) {
                 x = column_x[column] + 14;
-                if (actor_stance == 0)
+                if (Char.stance == 0)
                     x += 14;
                 else
                     x += 10;
                 if ((x > screen_edge
-                        && actor_row * 63 + 26 <= actor_y
-                        && (actor_frame < 0x79 || actor_frame > 0x84)
-                        && actor_frame != 0x0f)
+                        && Char.row * 63 + 26 <= Char.y
+                        && (Char.frame < 0x79 || Char.frame > 0x84)
+                        && Char.frame != 0x0f)
                     || (level == 2 && slide_rock_near_spikes())) {
                     DoImpale();
-                    mob = GetSpikeMobRoomRow(actor_room, actor_row);
+                    mob = GetSpikeMobRoomRow(Char.room, Char.row);
                     if (mob) {
                         mob->spikes.byte.phase = 0;
                         mob->spikes.byte.phase |= 0xf0;
@@ -177,7 +210,7 @@ void CheckImpale(void)
                     }
                 }
             }
-            last_column = actor_column;
+            last_column = Char.column;
             ++column;
         } while (column <= last_column);
     }
@@ -188,16 +221,16 @@ void CheckSpikes(void)
 {
     int x;
 
-    if (actor_column >= 0 && actor_action != 4
-        && ReadCell(actor_room, actor_column - 1, actor_row) == 2
-        && actor_row * 63 + 18 <= actor_y) {
+    if (Char.column >= 0 && Char.character_kind != 4
+        && ReadCell(Char.room, Char.column - 1, Char.row) == 2
+        && Char.row * 63 + 18 <= Char.y) {
         x = column_x[GetCellCol()] + 14;
-        x += actor_stance == 0 ? 16 : 2;
-        if (actor_direction == 0) {
+        x += Char.stance == 0 ? 16 : 2;
+        if (Char.direction == 0) {
             x += side_offset;
             x -= get_sword_width();
         }
-        if (x >= actor_x)
+        if (x >= Char.x)
             TriggerSpikes(tile_room, tile_column);
     }
 }
@@ -235,7 +268,7 @@ void DoImpale(void)
     Word sequence;
 
     state = &room_state[tile_room * 30 + tile_column].spikes;
-    if (actor_action != 4) {
+    if (Char.character_kind != 4) {
         Byte flags = tile_flags & 8;
         state->word = 0xf0 + ((Word)flags << 8);
     } else {
@@ -247,20 +280,20 @@ void DoImpale(void)
         mob->spikes.word = state->word;
 
     reset_char_y();
-    actor_alive = 0;
-    if (actor_action == 0 || actor_action == 2) {
-        actor_facing = 1;
-        actor_x = column_x[GetCellCol()] + 27;
-        if (actor_direction == 0) {
-            sequence = actor_action == 0 ? 0x36 : 0xbd;
-            actor_direction = -1;
+    Char.vertical_step = 0;
+    if (Char.character_kind == 0 || Char.character_kind == 2) {
+        Char.field_0f = 1;
+        Char.x = column_x[GetCellCol()] + 27;
+        if (Char.direction == 0) {
+            sequence = Char.character_kind == 0 ? 0x36 : 0xbd;
+            Char.direction = -1;
         } else {
-            sequence = actor_action == 0 ? 0x33 : 0xbc;
+            sequence = Char.character_kind == 0 ? 0x33 : 0xbc;
         }
         JumpSeq(sequence);
         AddSound(77);
         decrement_life_points(100);
-    } else if (actor_action != 4) {
+    } else if (Char.character_kind != 4) {
         return;
     } else {
         impale_skeleton();
@@ -402,7 +435,7 @@ void TriggerSpikes(Byte room, int index)
         } else if (state != 0xf0) {
             next = (*(volatile Word *)&tile_state_word & 0x800) + 0x8f;
             spikes->word = next;
-            mob = GetSpikeMobRoomRow(actor_room, actor_row);
+            mob = GetSpikeMobRoomRow(Char.room, Char.row);
             if (mob)
                 (*(&mob))->spikes.word = next;
         }

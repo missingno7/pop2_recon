@@ -344,7 +344,44 @@ struct save_slot_table {
 };
 
 extern signed char LevelIdx, level_to_start, main_theme, sound_effect;
-extern signed char kid_alive, kid_lives;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+
+extern CHARREC Kid;
 extern int requested_level, resume_selected, dialog_timer, dialog_timer_copy;
 extern void far pascal CLEAR_PAYLOAD_HEADER(void far *);
 extern void far pascal UnloadCustomRoomData(void);
@@ -684,7 +721,7 @@ int far pascal IsValidTimeForSaveGame(void)
 {
     int result = 1;
 
-    if (LevelIdx > 14 || kid_alive >= 0 || kid_lives <= 0)
+    if (LevelIdx > 14 || Kid.alive >= 0 || Kid.life_points <= 0)
         result = 0;
     return result;
 }
@@ -720,29 +757,9 @@ extern struct {
     struct rebirth_point rebirth_points[2];
 } Level;
 
-struct box { int left, top, right, bottom; };
-struct character {
-    char frame, direction;
-    int x, y;
-    char action;
-    unsigned sequence;
-    signed char column, row, floor, strength, fall, room, type;
-    signed char skill, alive, max_hp, hp_delta, pushed;
-    int hurt, previous_x, alternate_x;
-    struct box bounds;
-    char alert;
-    int collision;
-    char unused26[6];
-    struct box previous_bounds;
-    int previous_sequence_x;
-    char unused36[3];
-    signed char opponent;
-    char unused3a[6];
-};
-
-extern struct character Char, Kid;
+extern CHARREC Char;
 extern signed char CutRoom, starting_health, start_facing;
-extern signed char kid_max_health, cutscene_flags, timer_disabled, live_direction;
+extern signed char cutscene_flags, timer_disabled, live_direction;
 extern int saved_game_active, Invert;
 extern char room_links[3840], room_objects[3712], level_state[1088];
 extern unsigned far cdecl _dos_creat(const char *, unsigned, int *);
@@ -776,7 +793,7 @@ int far pascal ResumeGame(struct save_slot_table far *slots, int slot)
             active_menu = saved->menu;
             menu_disabled = saved->disabled;
             LevelIdx = saved->level;
-            kid_max_health = kid_lives = starting_health = saved->health;
+            Kid.life_initial = Kid.life_points = starting_health = saved->health;
             cutscene_flags = saved->saved_flags;
             start_facing = saved->facing;
             Invert = saved->Invert;
@@ -843,7 +860,7 @@ void far pascal SaveRebirthPtStatus(int point_id)
     _fmemcpy(hRebirthSaved->room_objects, room_objects, sizeof(room_objects));
     _fmemcpy(hRebirthSaved->level_state, level_state, sizeof(level_state));
     hRebirthSaved->level = stage_number;
-    hRebirthSaved->health = kid_max_health;
+    hRebirthSaved->health = Kid.life_initial;
     hRebirthSaved->direction = Kid.direction;
     hRebirthSaved->Invert = Invert;
     hRebirthSaved->facing = start_facing;

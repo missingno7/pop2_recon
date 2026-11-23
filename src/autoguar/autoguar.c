@@ -50,14 +50,46 @@ void far pascal set_overlay_state_bytes(unsigned char value)
     STATE_B = value;
 }
 
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
 typedef struct {
-    signed char bytes[64];
-} GuardActor;
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
 
-extern GuardActor Char;
-extern int death_frame;
-extern unsigned char death_count, guard_kind, game_variant;
-extern signed char guard_id;
+
+extern CHARREC Char;
+extern unsigned char guard_kind, game_variant;
 extern void far pascal JumpSeq(int sequence);
 extern void far pascal AnimChar(void);
 int far pascal get_opponent_death_sequence(unsigned char kind);
@@ -65,13 +97,13 @@ int far pascal get_opponent_death_sequence(unsigned char kind);
 void far pascal check_multiple_dead_bodies(void)
 {
     int sequence;
-    if (death_frame == 185) {
+    if (Char.frame == 185) {
         sequence = get_opponent_death_sequence(guard_kind);
         if (sequence != 0) {
             JumpSeq(sequence);
             AnimChar();
         }
-        ++death_count;
+        ++Char.alive;
     }
 }
 
@@ -92,19 +124,19 @@ int far pascal get_opponent_death_sequence(unsigned char kind)
         count = 1;
     }
 
-    if (sequence && (remainder = guard_id % (count + 1)) != 0)
+    if (sequence && (remainder = Char.slot % (count + 1)) != 0)
         sequence_result = sequence + remainder - 1;
 
     return sequence_result;
 }
 
-extern unsigned char actor_kind, running_state, alert_state;
+
 
 void far pascal start_opponent_running(void)
 {
-    JumpSeq(actor_kind == 4 ? 102 : 84);
-    running_state = 0;
-    alert_state = 0;
+    JumpSeq(Char.character_kind == 4 ? 102 : 84);
+    Char.stance = 0;
+    Char.alert_delay = 0;
 }
 
 typedef struct {
@@ -112,16 +144,15 @@ typedef struct {
     unsigned char records[5][23];
 } GuardRoom;
 
-extern GuardActor RoomOpp[];
-#define guard_id (Char.bytes[0])
+extern CHARREC RoomOpp[5];
 extern GuardRoom guard_rooms[];
-extern unsigned char actor_room, viewed_room;
-extern signed char actor_facing, target_facing, actor_row, target_row;
-extern unsigned char target_action;
+extern unsigned char viewed_room;
+
 extern unsigned char traced_room;
 extern signed char traced_column, traced_row;
 extern int allow_ledge_test, guard_wait;
 
+extern CHARREC Opp, Kid;
 extern signed char far pascal get_behind(void);
 extern signed char far pascal get_under_foot(void);
 extern signed char far pascal get_cells_ahead(signed char distance);
@@ -139,15 +170,15 @@ int far pascal check_opponent_tumble(void)
 {
     signed char tile, live, count, index;
     int result;
-    GuardActor saved;
+    CHARREC saved;
 
     if (game_variant == 5)
-        result = actor_room == 19 || actor_room == 16 ||
-            (IS_SIX_KIND(get_behind()) && actor_facing == -1);
+        result = Char.room == 19 || Char.room == 16 ||
+            (IS_SIX_KIND(get_behind()) && Char.direction == -1);
     else
         result = 0;
 
-    if (!result && generator_has_tumble(actor_room)) {
+    if (!result && generator_has_tumble(Char.room)) {
         live = count_live_opponents();
         result = (signed char)Rnd(3) <= live;
         if (!result && live != 0) {
@@ -158,11 +189,11 @@ int far pascal check_opponent_tumble(void)
                 do {
                     if (result)
                         break;
-                    if (index != saved.bytes[0]) {
+                    if (index != saved.slot) {
                         load_actor_slot(index);
-                        if (actor_row == saved.bytes[10] &&
-                            Char.bytes[9] == saved.bytes[9] &&
-                            is_dead_pos(death_frame))
+                        if (Char.row == saved.row &&
+                            Char.column == saved.column &&
+                            is_dead_pos(Char.frame))
                             result = 1;
                     }
                 } while (++index < count);
@@ -170,7 +201,7 @@ int far pascal check_opponent_tumble(void)
             Char = saved;
         }
         if (result) {
-            if (actor_facing == target_facing)
+            if (Opp.direction == Char.direction)
                 result = 0;
             else {
                 tile = get_under_foot();
@@ -192,7 +223,7 @@ void far pascal check_guard_step(void)
     signed char tile;
     int stop;
 
-    if (target_action == 2 || target_action == 6)
+    if (Opp.action == 2 || Opp.action == 6)
         return;
 
     stop = 0;
@@ -204,9 +235,9 @@ void far pascal check_guard_step(void)
     } else {
         ++traced_row;
         tile = ReadCell(traced_room, traced_column, traced_row);
-        if ((IsImpassable(tile) && actor_kind != 10) ||
+        if ((IsImpassable(tile) && Char.character_kind != 10) ||
             GetBarrCode(tile) || IS_SIX_KIND(tile) ||
-            actor_row - target_row + 1 != 0) {
+            Char.row - Opp.row + 1 != 0) {
             stop = 1;
         } else {
             if (allow_ledge_test != stop &&
@@ -232,19 +263,18 @@ signed char far pascal count_live_opponents(void)
     index = 0;
     if (index < limit) {
         do {
-            if (RoomOpp[index].bytes[17] >= 0)
+            if (RoomOpp[index].alive >= 0)
                 ++live;
         } while (++index < limit);
     }
     return live;
 }
 
-extern GuardActor Kid;
-extern unsigned char target_visible, level_number;
-extern signed char target_life;
+extern unsigned char level_number;
+
 extern int effect_y, guard_counter;
 extern void far pascal generic_fight(int distance);
-extern void far _fastcall measure_guard_range(int near *horizontal, int near *vertical);
+extern void far _fastcall get_char_strike_ranges(int near *, int near *);
 extern int far pascal bridge_skeleton_can_advance(void);
 extern int far pascal get_opp_dist(void);
 
@@ -252,18 +282,18 @@ void far pascal check_guard_range(int distance)
 {
     int horizontal, vertical;
 
-    if (target_visible == 1 && target_facing != actor_facing) {
+    if (Opp.stance == 1 && Opp.direction != Char.direction) {
         generic_fight(distance); return;
     }
 
     if (effect_y == 0) {
-        measure_guard_range(&vertical, &horizontal);
+        get_char_strike_ranges(&vertical, &horizontal);
         if (horizontal > distance) {
             set_overlay_state_bytes(254);
             return;
         }
-        if (level_number != 5 || actor_row != 1 ||
-            (actor_room != 10 && actor_room != 7 && actor_room != 12) ||
+        if (level_number != 5 || Char.row != 1 ||
+            (Char.room != 10 && Char.room != 7 && Char.room != 12) ||
             bridge_skeleton_can_advance())
             auto_forward();
     }
@@ -274,23 +304,23 @@ void far pascal alert_opponent(void)
 {
     int distance;
 
-    if (target_life < 0) {
+    if (Opp.alive < 0) {
         distance = get_opp_dist();
-        if (target_row == actor_row && distance < 0 && distance >= -18) {
-            if ((signed char)alert_state >= 2 && death_frame == 166) goto engage;
+        if (Opp.row == Char.row && distance < 0 && distance >= -18) {
+            if ((signed char)Char.alert_delay >= 2 && Char.frame == 166) goto engage;
         } else if (guard_counter) {
             if (distance < 0 && distance < -4) {
                 auto_down();
                 return;
             }
-        } else if (distance >= 0 && alert_state != 0) {
+        } else if (distance >= 0 && Char.alert_delay != 0) {
 engage:
             auto_en_garde();
         }
     }
 }
 
-extern signed char kid_row, kid_column, steps, kid_life;
+
 #pragma pack(1)
 typedef struct {
     signed char cell;
@@ -310,9 +340,9 @@ typedef struct {
 #pragma pack()
 
 
-extern unsigned int target_frame, kid_frame;
-extern unsigned char kid_action;
-extern int kid_room_test, cell_modifier;
+
+
+extern int cell_modifier;
 extern signed char far pascal actor_in_direction(signed char facing);
 extern Opponent near *far pascal GetOppInfoIdx(int room, int id);
 extern int far pascal can_continue_run_jump(signed char tile, int modifier);
@@ -323,7 +353,6 @@ void far pascal try_opponent_run_jump(void);
 
 extern int abs(int value);
 #pragma intrinsic(abs)
-#define ACTOR_WORD(actor, k) (*(int near *)&(actor).bytes[k])
 
 void far pascal chase_opponent(void)
 {
@@ -332,64 +361,64 @@ void far pascal chase_opponent(void)
     int nearest, kid_distance;
     int sequence;
 
-    if (!(((unsigned int)death_frame >= 194 && (unsigned int)death_frame <= 199 &&
-           (death_frame & 1)) || death_frame == 212)) {
-        if (steps >= 1 && (death_frame == 192 || death_frame == 196)) {
+    if (!(((unsigned int)Char.frame >= 194 && (unsigned int)Char.frame <= 199 &&
+           (Char.frame & 1)) || Char.frame == 212)) {
+        if ((signed char)Char.behavior >= 1 && (Char.frame == 192 || Char.frame == 196)) {
             try_opponent_run_jump(); return;
         }
         return;
     }
 
-    tile = actor_in_direction(~actor_facing);
-    if (tile != guard_id)
-        nearest = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(RoomOpp[tile], 2));
+    tile = actor_in_direction(~Char.direction);
+    if (tile != Char.slot)
+        nearest = abs(Char.x - RoomOpp[tile].x);
     else
         nearest = 121;
 
     tile = get_cells_ahead(1);
-    kid_distance = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(Kid, 2));
-    if ((kid_frame >= 1 && kid_frame <= 14) ||
-        (kid_frame >= 49 && kid_frame <= 56) ||
-        (kid_frame >= 34 && kid_frame <= 44)) {
-        if (Kid.bytes[1] != actor_facing)
+    kid_distance = abs(Char.x - Kid.x);
+    if ((Kid.frame >= 1 && Kid.frame <= 14) ||
+        (Kid.frame >= 49 && Kid.frame <= 56) ||
+        (Kid.frame >= 34 && Kid.frame <= 44)) {
+        if (Kid.direction != Char.direction)
             kid_distance -= 32;
         else
             kid_distance += 32;
-    } else if (kid_action != 1) {
+    } else if (Kid.stance != 1) {
         kid_distance += 32;
     }
 
-    opponent = GetOppInfoIdx(actor_room, guard_id);
-    if ((kid_row == actor_row || opponent->row == kid_row) &&
+    opponent = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
+    if ((Kid.row == Char.row || opponent->row == Kid.row) &&
         can_continue_run_jump(tile, cell_modifier)) {
-        if ((kid_row == actor_row &&
-             !(target_facing == actor_facing &&
-               ((target_frame >= 1 && target_frame <= 14) ||
-                (target_frame >= 49 && target_frame <= 56) ||
-                (target_frame >= 34 && target_frame <= 44)) &&
-               target_action != 7) &&
+        if ((Kid.row == Char.row &&
+             !(Opp.direction == Char.direction &&
+               ((Opp.frame >= 1 && Opp.frame <= 14) ||
+                (Opp.frame >= 49 && Opp.frame <= 56) ||
+                (Opp.frame >= 34 && Opp.frame <= 44)) &&
+               Opp.action != 7) &&
              (nearest <= 120 || kid_distance <= 120)) ||
-            (actor_facing == -1 && kid_column > Char.bytes[9]) ||
-            (actor_facing == 0 && kid_column < Char.bytes[9])) {
-            alert_state = 2;
+            (Char.direction == -1 && Kid.column > Char.column) ||
+            (Char.direction == 0 && Kid.column < Char.column)) {
+            Char.alert_delay = 2;
             sequence = 101;
-        } else if (kid_life < 0 && kid_room_test != 13) {
-            if (IsExitChasingSkel(actor_room) && kid_distance <= 80) {
+        } else if (Kid.alive < 0 && Kid.sequence_group != 13) {
+            if (IsExitChasingSkel(Char.room) && kid_distance <= 80) {
                 sequence = 87;
-                running_state = 1;
+                Char.stance = 1;
             } else
                 sequence = -1;
         } else {
-            alert_state = 0;
+            Char.alert_delay = 0;
             sequence = 101;
         }
     } else {
         kid_distance = get_edge_distance();
-        if ((kid_row == actor_row || opponent->row == kid_row) &&
-            !(kid_distance < 27 && steps >= 1) && steps >= 1 && tile != 4)
+        if ((Kid.row == Char.row || opponent->row == Kid.row) &&
+            !(kid_distance < 27 && (signed char)Char.behavior >= 1) && (signed char)Char.behavior >= 1 && tile != 4)
             sequence = -1;
         else {
-            alert_state = 0;
+            Char.alert_delay = 0;
             sequence = 101;
         }
     }
@@ -397,8 +426,8 @@ void far pascal chase_opponent(void)
     if (sequence != -1) {
         JumpSeq(sequence);
         tile = get_behind();
-        if (death_frame == 212 && !can_continue_run_jump(tile, cell_modifier))
-            ACTOR_WORD(Char, 2) = AddCharX(10);
+        if (Char.frame == 212 && !can_continue_run_jump(tile, cell_modifier))
+            Char.x = AddCharX(10);
     }
 }
 
@@ -423,26 +452,26 @@ void far pascal try_opponent_run_jump(void)
         if (IS_SIX_KIND(tile1)) {
             while (steps_ahead < 5) {
                 ++steps_ahead;
-                tile1 = ReadCell(actor_room, Char.bytes[9] +
-                                  direction_factor[actor_facing] * (steps_ahead + start),
-                                  actor_row);
+                tile1 = ReadCell(Char.room, Char.column +
+                                  direction_factor[Char.direction] * (steps_ahead + start),
+                                  Char.row);
                 if (!IS_SIX_KIND(tile1))
                     break;
             }
         }
 
-        if (steps_ahead < 4 || (steps_ahead == 4 && !Rnd(steps - 1)) ||
-            (actor_room == 13 && level_number == 13 && kid_room_test != 13))
+        if (steps_ahead < 4 || (steps_ahead == 4 && !Rnd((signed char)Char.behavior - 1)) ||
+            (Char.room == 13 && level_number == 13 && Kid.sequence_group != 13))
             attempt = 1;
         else {
-            opponent = GetOppInfoIdx(actor_room, guard_id);
-            attempt = opponent && opponent->row != actor_row;
+            opponent = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
+            attempt = opponent && opponent->row != Char.row;
         }
 
         selected = attempt ? run_jump(100) : 0;
         if (!selected) {
             JumpSeq(101);
-            alert_state = 2;
+            Char.alert_delay = 2;
         }
     }
 }
@@ -457,33 +486,33 @@ void far pascal guard_en_garde(void)
 {
     signed char tile;
     int upper, lower;
-    unsigned int frame = death_frame;
+    unsigned int frame = Char.frame;
     unsigned int pose;
     int distance;
 
-    if (alert_state == 1 || alert_state == 2 || frame == 166 || frame < 150)
+    if (Char.alert_delay == 1 || Char.alert_delay == 2 || frame == 166 || frame < 150)
         goto wait;
 
-    if (alert_state == 0) {
+    if (Char.alert_delay == 0) {
         if (guard_wait) {
             check_guard_step();
             goto done;
         }
-        if (actor_kind != 4)
+        if (Char.character_kind != 4)
             auto_run_away();
         goto done;
     }
 
-    pose = target_frame;
+    pose = Opp.frame;
     distance = get_opp_dist();
-    if (distance >= 27 && pose >= 102 && pose < 118 && target_action == 5)
+    if (distance >= 27 && pose >= 102 && pose < 118 && Opp.action == 5)
         goto done;
 
-    measure_guard_range(&upper, &lower);
+    get_char_strike_ranges(&upper, &lower);
     if (lower + 12 > distance) {
         if (upper > distance) {
-            if (level_number == 5 && actor_row == 1 &&
-                (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+            if (level_number == 5 && Char.row == 1 &&
+                (Char.room == 10 || Char.room == 7 || Char.room == 12) &&
                 room_allows_guard_advance()) {
                 auto_forward();
                 return;
@@ -493,8 +522,8 @@ void far pascal guard_en_garde(void)
                 auto_back();
                 return;
             }
-            if (level_number != 5 || actor_row != 1 ||
-                (actor_room != 10 && actor_room != 7 && actor_room != 12)) {
+            if (level_number != 5 || Char.row != 1 ||
+                (Char.room != 10 && Char.room != 7 && Char.room != 12)) {
                 auto_forward();
                 return;
             }
@@ -509,7 +538,7 @@ void far pascal guard_en_garde(void)
 
     if (effect_y != 0)
         goto done;
-    if (target_facing == actor_facing) {
+    if (Opp.direction == Char.direction) {
         guard_no_jump();
         return;
     }
@@ -530,52 +559,52 @@ void far pascal guard_en_garde(void)
     goto done;
 
 wait:
-    if (alert_state == 1 || alert_state == 2)
+    if (Char.alert_delay == 1 || Char.alert_delay == 2)
         wait_en_garde();
 done:
     return;
 }
 
 extern int far pascal opponent_spacing(void);
-extern int target_x;
+
 extern void far pascal maybe_advance(void);
 #define RUNNING_FRAME(frame) \
     (((frame) >= 1 && (frame) <= 14) || \
      ((frame) >= 49 && (frame) <= 56) || \
      ((frame) >= 34 && (frame) <= 44))
 
-#define SLOT_ACTOR(offset) (*(GuardActor near *)((char near *)RoomOpp + (offset)))
+#define SLOT_ACTOR(offset) (*(CHARREC near *)((char near *)RoomOpp + (offset)))
 
 void far pascal wait_en_garde(void)
 {
     signed char tile;
-    volatile signed char slot;
+    signed char slot;
     unsigned int other_offset;
     int spacing, distance, can_stand;
 
-    slot = actor_in_direction(~actor_facing);
+    slot = actor_in_direction(~Char.direction);
     if (slot == -1)
         slot = actor_in_direction(1);
     if (slot == -1)
         goto done;
-    if (slot != guard_id) {
+    if (Char.slot != slot) {
         can_stand = 0;
         if (can_continue_run_jump(tile = get_cells_ahead(1), cell_modifier) &&
             can_continue_run_jump(tile = get_cells_ahead(2), cell_modifier) &&
             can_continue_run_jump(tile = get_cells_ahead(3), cell_modifier))
             can_stand = 1;
 
-        other_offset = slot * sizeof(GuardActor);
-        distance = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(SLOT_ACTOR(other_offset), 2));
+        other_offset = slot * sizeof(CHARREC);
+        distance = abs(Char.x - SLOT_ACTOR(other_offset).x);
         spacing = opponent_spacing();
         if (spacing + 24 < distance ||
-            (SLOT_ACTOR(other_offset).bytes[1] == actor_facing && ACTOR_WORD(SLOT_ACTOR(other_offset), 25) == 84))
+            (SLOT_ACTOR(other_offset).direction == Char.direction && SLOT_ACTOR(other_offset).sequence == 84))
             goto close_path;
 
-        if (can_stand && target_facing == actor_facing &&
-            RUNNING_FRAME(target_frame) && target_action != 7 && steps &&
-            ((ACTOR_WORD(Char, 2) < target_x && target_facing == 0) ||
-             (ACTOR_WORD(Char, 2) > target_x && target_facing == -1))) {
+        if (can_stand && Opp.direction == Char.direction &&
+            RUNNING_FRAME(Opp.frame) && Opp.action != 7 && Char.behavior &&
+            ((Char.x < Opp.x && Opp.direction == 0) ||
+             (Char.x > Opp.x && Opp.direction == -1))) {
     start_run:
             start_opponent_running();
             return;
@@ -586,16 +615,16 @@ void far pascal wait_en_garde(void)
         goto done;
 
     close_path:
-        if (!can_stand || ACTOR_WORD(Char, 25) == 84)
+        if (!can_stand || Char.sequence == 84)
             goto done;
-        if (((ACTOR_WORD(SLOT_ACTOR(other_offset), 25) == 84 && SLOT_ACTOR(other_offset).bytes[1] == actor_facing) ||
-             (target_facing == actor_facing && RUNNING_FRAME(target_frame) && target_action != 7)) &&
-            steps)
+        if (((SLOT_ACTOR(other_offset).sequence == 84 && SLOT_ACTOR(other_offset).direction == Char.direction) ||
+             (Opp.direction == Char.direction && RUNNING_FRAME(Opp.frame) && Opp.action != 7)) &&
+            Char.behavior)
             goto start_run;
         auto_forward();
         return;
     }
-    distance = abs(ACTOR_WORD(Kid, 2) - ACTOR_WORD(Char, 2));
+    distance = abs(Kid.x - Char.x);
     if (distance >= 64)
         goto done;
     tile = get_cells_ahead(distance < 32 ? 1 : 2);
@@ -615,10 +644,10 @@ int far pascal opponent_spacing(void)
     signed char index, count;
 
     count = guard_rooms[viewed_room].count;
-    index = guard_id + 1;
+    index = Char.slot + 1;
     if (count > index) {
         do {
-            if (abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(RoomOpp[index], 2)) < 24)
+            if (abs(Char.x - RoomOpp[index].x) < 24)
                 spacing += 24;
         } while (++index < count);
     }
@@ -632,17 +661,17 @@ void far pascal guard_no_jump(void)
     front = get_cells_ahead(1);
     further = get_cells_ahead(2);
     if (IS_SIX_KIND(front) && IS_SIX_KIND(further)) {
-        if (!(level_number == 5 && actor_row == 1 &&
-              (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+        if (!(level_number == 5 && Char.row == 1 &&
+              (Char.room == 10 || Char.room == 7 || Char.room == 12) &&
               room_allows_guard_advance()))
             auto_back();
         return;
     }
 
-    if (target_facing == actor_facing && RUNNING_FRAME(target_frame) &&
-        target_action != 7 && steps &&
-        (level_number != 5 || actor_row != 1 ||
-         (actor_room != 10 && actor_room != 7 && actor_room != 12))) {
+    if (Opp.direction == Char.direction && RUNNING_FRAME(Opp.frame) &&
+        Opp.action != 7 && Char.behavior &&
+        (level_number != 5 || Char.row != 1 ||
+         (Char.room != 10 && Char.room != 7 && Char.room != 12))) {
         start_opponent_running();
         return;
     }
@@ -667,10 +696,10 @@ void far pascal generic_fight(int distance)
 {
     int upper, lower;
 
-    measure_guard_range(&upper, &lower);
+    get_char_strike_ranges(&upper, &lower);
     if (upper <= distance && distance < lower &&
-        !(level_number == 5 && actor_row == 1 &&
-          (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+        !(level_number == 5 && Char.row == 1 &&
+          (Char.room == 10 || Char.room == 7 || Char.room == 12) &&
           room_allows_guard_advance())) {
         maybe_block();
         if (effect_y == 0)
@@ -682,16 +711,16 @@ void far pascal generic_fight(int distance)
 
 void far pascal maybe_advance(void)
 {
-    unsigned char skill = guard_rooms[actor_room].records[guard_id][4];
+    unsigned char skill = guard_rooms[(unsigned char)Char.room].records[Char.slot][4];
 
-    if (level_number == 5 && actor_row == 1 &&
-        (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+    if (level_number == 5 && Char.row == 1 &&
+        (Char.room == 10 || Char.room == 7 || Char.room == 12) &&
         room_allows_guard_advance())
         goto advance;
     if (skill && advance_timer)
         return;
-    if (level_number == 5 && actor_row == 1 &&
-        (actor_room == 10 || actor_room == 7 || actor_room == 12) &&
+    if (level_number == 5 && Char.row == 1 &&
+        (Char.room == 10 || Char.room == 7 || Char.room == 12) &&
         !bridge_skeleton_can_advance())
         return;
 
@@ -705,10 +734,10 @@ void far pascal maybe_block(void)
 {
     unsigned char skill;
 
-    if (actor_kind == 10 ||
-        (target_frame != 152 && target_frame != 153 && target_frame != 162))
+    if (Char.character_kind == 10 ||
+        (Opp.frame != 152 && Opp.frame != 153 && Opp.frame != 162))
         return;
-    skill = guard_rooms[actor_room].records[guard_id][4];
+    skill = guard_rooms[(unsigned char)Char.room].records[Char.slot][4];
 
     if (effect_x) {
         if (quick_block_chance[skill] > Rnd(255))
@@ -723,11 +752,11 @@ void far pascal maybe_strike(void)
 {
     unsigned char skill;
 
-    if (target_frame == 169 || target_frame == 151)
+    if (Opp.frame == 169 || Opp.frame == 151)
         return;
-    skill = guard_rooms[actor_room].records[guard_id][4];
-    if (actor_kind != 7 && actor_kind != 8 &&
-        (death_frame == 161 || death_frame == 150)) {
+    skill = guard_rooms[(unsigned char)Char.room].records[Char.slot][4];
+    if (Char.character_kind != 7 && Char.character_kind != 8 &&
+        (Char.frame == 161 || Char.frame == 150)) {
         if (quick_strike_chance[skill] > Rnd(255))
             goto act;
     } else if (strike_chance[skill] > Rnd(255)) {
@@ -743,7 +772,7 @@ extern void far pascal advance_skeleton(void);
 extern void far pascal save_actor_slot(void);
 extern void far pascal set_opponent_life(Opponent near *opponent);
 extern void far pascal ClearCharVel(void);
-extern signed char pending_slot;
+
 
 int far pascal skeleton_finished_shaking(signed char id);
 void far pascal bones_fall(void);
@@ -755,16 +784,16 @@ int far pascal opponent_close(signed char slot, signed char column, signed char 
     int clear = 0;
     Opponent near *opponent = GetOppInfoIdx(viewed_room, slot);
 
-    if (!opponent || (signed char)death_count < 0 || ACTOR_WORD(Char, 36) == 5) goto done;
-    if (opponent->timer && !IsExitChasingSkel(actor_room)) goto done;
+    if (!opponent || (signed char)Char.alive < 0 || Char.sequence_group == 5) goto done;
+    if (opponent->timer && !IsExitChasingSkel(Char.room)) goto done;
 
-    if (*(volatile signed char near *)&Char.bytes[9] > column) { limit = Char.bytes[9] + 1; step = 1;
-    } else { limit = Char.bytes[9] - 1; step = -1;
+    if (*(volatile signed char near *)&Char.column > column) { limit = Char.column + 1; step = 1;
+    } else { limit = Char.column - 1; step = -1;
     }
 
-    if (actor_row == row && column - radius <= Char.bytes[9] && column + radius >= Char.bytes[9]) {
-        do { tile = ReadCell(actor_room, column, row);
-            if ((!IsImpassable(tile) || actor_kind == 10) &&
+    if (Char.row == row && column - radius <= Char.column && column + radius >= Char.column) {
+        do { tile = ReadCell(Char.room, column, row);
+            if ((!IsImpassable(tile) || Char.character_kind == 10) &&
                 !IsWall(tile) && (tile != 4 || !barrier_blocks_guard())) clear = 1;
             else clear = 0;
             column += step; } while (clear && limit != column);
@@ -779,7 +808,7 @@ void far pascal raise_nearby_opponents(void)
     int started;
     Opponent near *opponent;
 
-    if (IsExitChasingSkel((unsigned char)Kid.bytes[14]))
+    if (IsExitChasingSkel((unsigned char)Kid.room))
         radius = 8;
     else if (guard_kind == 2)
         radius = 4;
@@ -790,17 +819,17 @@ void far pascal raise_nearby_opponents(void)
     if (count > 0) {
         do {
             load_actor_slot(index);
-            if (kid_life < 0 && Kid.bytes[11] != 4 && Kid.bytes[11] != 3 &&
-                Kid.bytes[11] != 5 && opponent_close(index, kid_column, kid_row, radius)) {
-                opponent = GetOppInfoIdx(actor_room, guard_id);
+            if (Kid.alive < 0 && Kid.action != 4 && Kid.action != 3 &&
+                Kid.action != 5 && opponent_close(index, Kid.column, Kid.row, radius)) {
+                opponent = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
                 if (guard_kind == 2) {
                     if (opponent->shake_delay != -1) {
-                        started = opponent->timer; if (skeleton_finished_shaking(guard_id)) {
+                        started = opponent->timer; if (skeleton_finished_shaking(Char.slot)) {
                             JumpSeq(88);
                             started = 1;
-                            actor_kind = 4;
+                            Char.character_kind = 4;
                         } else {
-                            if (!started && ACTOR_WORD(Char, 25) != 112)
+                            if (!started && Char.sequence != 112)
                                 JumpSeq(112);
                             started = 0;
                         }
@@ -808,27 +837,27 @@ void far pascal raise_nearby_opponents(void)
                 } else {
                     JumpSeq(106);
                     started = 1;
-                    actor_kind = 10;
+                    Char.character_kind = 10;
                 }
                 AnimChar();
                 if (started) {
                     set_opponent_life(opponent);
-                    death_count = (unsigned char)-1;
-                    running_state = 1;
-                    alert_state = 3;
-                    if (actor_kind == 10) {
+                    Char.alive = (unsigned char)-1;
+                    Char.stance = 1;
+                    Char.alert_delay = 3;
+                    if (Char.character_kind == 10) {
                         signed char facing;
-                        if (ACTOR_WORD(Char, 2) >= ACTOR_WORD(Kid, 2))
+                        if (Char.x >= Kid.x)
                             facing = -1;
                         else
                             facing = 0;
-                        actor_facing = facing;
+                        Char.direction = facing;
                     }
                     *(volatile int near *)&guard_counter = 0;
                     *(volatile int near *)&effect_y = 0;
                     ClearCharVel();
-                    if (pending_slot == -1)
-                        pending_slot = guard_id;
+                    if (Kid.opponent_index == -1)
+                        Kid.opponent_index = Char.slot;
                 }
             }
             save_actor_slot();
@@ -841,18 +870,18 @@ void far pascal update_skeleton(void)
     int active;
     Opponent near *opponent;
 
-    if ((signed char)death_count < 0) {
+    if ((signed char)Char.alive < 0) {
         active = 1;
-        if (level_number == 5 && actor_row == 1 &&
-            (actor_room == 10 || actor_room == 7 || actor_room == 12))
+        if (level_number == 5 && Char.row == 1 &&
+            (Char.room == 10 || Char.room == 7 || Char.room == 12))
             active = skeleton_room_gate();
-        else if (kid_life >= 5 && actor_kind == 4 && ACTOR_WORD(Char, 25) != 120) {
+        else if (Kid.alive >= 5 && Char.character_kind == 4 && Char.sequence != 120) {
             bones_fall();
             active = 0;
         }
 
         if (active) {
-            if (ACTOR_WORD(Char, 25) == 88 && death_frame == 177) {
+            if (Char.sequence == 88 && Char.frame == 177) {
                 face_kid_for_skeleton();
                 return;
             }
@@ -862,7 +891,7 @@ void far pascal update_skeleton(void)
             }
         }
     } else {
-        opponent = GetOppInfoIdx(actor_room, guard_id);
+        opponent = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
         if (opponent && opponent->timer > 0)
             --opponent->timer;
     }
@@ -870,9 +899,8 @@ void far pascal update_skeleton(void)
 
 
 
-typedef GuardActor Actor;
 #define room_info guard_rooms
-extern unsigned char guard_kind, skeleton_kind;
+extern unsigned char guard_kind;
 #define guard_room viewed_room
 extern Opponent near *far pascal GetOppInfoIdx(int room, int id);
 extern void far pascal load_actor_slot(signed char id);
@@ -895,23 +923,23 @@ void far pascal bones_fall(void)
 
     JumpSeq(120);
     AddSound(76);
-    Char.bytes[15] = 1;
-    running_state = 0;
-    if ((signed char)death_count < 0)
-        death_count = 0;
+    Char.field_0f = 1;
+    Char.stance = 0;
+    if ((signed char)Char.alive < 0)
+        Char.alive = 0;
 
-    if (actor_facing == 0 && IS_SIX_KIND(get_behind())) {
+    if (Char.direction == 0 && IS_SIX_KIND(get_behind())) {
         distance = 32 - get_edge_distance();
         if (distance <= 35) {
             distance -= 35;
-            *(int near *)&Char.bytes[2] = AddCharX(-distance);
+            Char.x = AddCharX(-distance);
         }
     }
     save_actor_slot();
-    set_guard_life(Char.bytes[0], 0, Char.bytes[19]);
-    set_skeleton_timer(Char.bytes[0], 120);
-    set_skeleton_shakes(Char.bytes[0]);
-    load_actor_slot(Char.bytes[0]);
+    set_guard_life(Char.slot, 0, Char.life_initial);
+    set_skeleton_timer(Char.slot, 120);
+    set_skeleton_shakes(Char.slot);
+    load_actor_slot(Char.slot);
 }
 
 #define STATE_LEVEL (*(volatile unsigned char near *)&level_number)
@@ -940,19 +968,18 @@ void far pascal set_skeleton_shakes(signed char id)
 void far pascal set_skeleton_timer(signed char id, int duration)
 {
     Opponent near *opponent;
-    if (guard_kind == 2 || skeleton_kind == 10) {
+    if (guard_kind == 2 || RoomOpp[0].character_kind == 10) {
         opponent = GetOppInfoIdx(guard_room, id);
         if (opponent)
             opponent->timer = duration;
     }
 }
 
-#define CW(n) (*(int near *)&Char.bytes[n])
 
 void far pascal shake_bones(unsigned char room, signed char row)
 {
     signed char index, count;
-    Actor saved;
+    CHARREC saved;
     Opponent near *opponent;
 
     saved = Char;
@@ -961,8 +988,8 @@ void far pascal shake_bones(unsigned char room, signed char row)
     if (count > 0) {
         do {
             load_actor_slot(index);
-            if (actor_row == row && death_frame == 206 && CW(36) != 5) {
-                opponent = GetOppInfoIdx(actor_room, Char.bytes[0]);
+            if (Char.row == row && Char.frame == 206 && Char.sequence_group != 5) {
+                opponent = GetOppInfoIdx((unsigned char)Char.room, Char.slot);
                 if (opponent->shake_delay == 0) {
                     JumpSeq(112);
                     save_actor_slot();
@@ -984,31 +1011,31 @@ Opponent near *far pascal initialize_skeleton(Opponent near *opponent)
 
     if (opponent->shake_delay == 1) {
         opponent->sequence = 63;
-        running_state = 1;
+        Char.stance = 1;
     } else {
-        if (Char.bytes[0] == 0 && opponent->shake_delay == 0)
+        if (Char.slot == 0 && opponent->shake_delay == 0)
             opponent->sequence = 112;
         else
             opponent->sequence = 119;
         opponent->timer = opponent->shake_delay;
-        set_skeleton_shakes(Char.bytes[0]);
-        running_state = 0;
+        set_skeleton_shakes(Char.slot);
+        Char.stance = 0;
 
-        if ((actor_facing == -1 && IS_SIX_KIND(get_cells_ahead(1))) ||
-            (actor_facing == 0 && IS_SIX_KIND(get_behind()))) {
+        if ((Char.direction == -1 && IS_SIX_KIND(get_cells_ahead(1))) ||
+            (Char.direction == 0 && IS_SIX_KIND(get_behind()))) {
             distance = get_edge_distance();
-            if (actor_facing == 0)
+            if (Char.direction == 0)
                 distance = 32 - distance;
             if (distance <= 35) {
                 distance = 35 - distance;
-                if (actor_facing == -1)
+                if (Char.direction == -1)
                     distance = -distance;
-                CW(2) = AddCharX(distance);
+                Char.x = AddCharX(distance);
             }
         }
     }
     opponent->position = 0;
-    CW(52) = 8;
+    Char.field_34 = 8;
     return opponent;
 }
 
@@ -1039,15 +1066,15 @@ int far pascal skeleton_finished_shaking(signed char id)
         result = 0;
         reset_timer = result;
         if (opponent->shake_delay != -1) {
-            if (IsExitChasingSkel(actor_room)) {
+            if (IsExitChasingSkel(Char.room)) {
                 ReadCell(22, 4, 2);
-                if (IsExitOpen() && Kid.bytes[14] == (signed char)actor_room &&
-                    *(int near *)&Kid.bytes[2] < CW(2)) {
+                if (IsExitOpen() && Kid.room == (signed char)Char.room &&
+                    Kid.x < Char.x) {
                     if (!query_sound(10106))
                         AddSong(106);
                     result = 1;
                 } else {
-                    reset_timer = opponent->timer == 0 && CW(25) == 112;
+                    reset_timer = opponent->timer == 0 && Char.sequence == 112;
                 }
             } else if (opponent->shakes != 0) {
                 --opponent->shakes;
@@ -1069,28 +1096,26 @@ typedef struct {
     signed char y;
 } SpriteFrame;
 
-extern Actor Char, Kid;
 extern unsigned int sprite_frame_index, sprite_table_handle;
 extern int sprite_y, sprite_frame;
-#define flame_offset (Char.bytes[58])
+#define flame_offset (*(signed char near *)&Char.field_3a)
 extern int far pascal AddCharX(int delta);
 extern int far pascal offset_sprite_x(int delta);
 extern SpriteFrame far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 
-#define ACTOR_X(actor) (*(int near *)&(actor).bytes[2])
 
 void far pascal face_kid_for_skeleton(void)
 {
-    if (ACTOR_X(Kid) > ACTOR_X(Char)) {
-        if (actor_facing == 0)
+    if (Kid.x > Char.x) {
+        if (Char.direction == 0)
             return;
-        actor_facing = 0;
+        Char.direction = 0;
     } else {
-        if (actor_facing == -1)
+        if (Char.direction == -1)
             return;
-        actor_facing = -1;
+        Char.direction = -1;
     }
-    ACTOR_X(Char) = AddCharX(10);
+    Char.x = AddCharX(10);
 }
 
 void far pascal setup_flame_sword(void)
@@ -1143,10 +1168,10 @@ int far pascal reduce_flame_sword_life(signed char points)
 void far pascal drop_flame_sword(void)
 {
     JumpSeq(107);
-    set_skeleton_timer(Char.bytes[0], 240);
+    set_skeleton_timer(Char.slot, 240);
     AddSong(192);
-    death_count = 0;
-    Char.bytes[15] = 1;
+    Char.alive = 0;
+    Char.field_0f = 1;
 }
 
 
@@ -1166,8 +1191,6 @@ extern void far pascal ClearCharVel(void);
 extern void far pascal save_actor_slot(void);
 extern void far pascal copy_kid_to_char(void);
 
-#define CHAR_WORD(n) (*(int near *)&Char.bytes[n])
-#define KID_WORD(n) (*(int near *)&Kid.bytes[n])
 
 
 
@@ -1193,16 +1216,16 @@ void far pascal float_flame_sword(void)
 
     if (sprite_frame == 4 || sprite_frame == 19 || sprite_frame == 20) {
         amount = 4;
-        if ((row_y = actor_row * 63) + 54 >= CW(4)) {
+        if ((row_y = Char.row * 63) + 54 >= Char.y) {
             drift = amount = 1;
         } else {
             drift = -2;
-            if (*(volatile int near *)&row_y + 58 <= CW(4))
+            if (*(volatile int near *)&row_y + 58 <= Char.y)
                 amount = 1;
         }
 
         dy = random_below(amount) + drift;
-        CW(4) += dy;
+        Char.y += dy;
         sprite_y += dy;
         OFFSETRECT(sprite_clip, sprite_clip, 0, dy);
     }
@@ -1210,7 +1233,7 @@ void far pascal float_flame_sword(void)
 
 void far pascal check_jinnee_column(void)
 {
-    if (Char.bytes[9] < -1 || Char.bytes[9] > 10)
+    if (Char.column < -1 || Char.column > 10)
         remove_char();
 }
 
@@ -1229,7 +1252,7 @@ void far pascal setup_jinnee_smoke(void)
             sprite_style = 3;
             MakeFCharClipRect();
             set_sprite_style(9);
-            mark_bufs_for_rect(draw_smoke, sprite_clip, Char.bytes[0]);
+            mark_bufs_for_rect(draw_smoke, sprite_clip, Char.slot);
         }
     }
 }
@@ -1242,30 +1265,30 @@ void far pascal TriggerJinnee(void)
     int x;
 
     Kid = Char;
-    x = 85 * room_column[Kid.bytes[1]] + KID_WORD(2);
+    x = 85 * room_column[Kid.direction] + Kid.x;
     column = get_col(x);
-    row = kid_row;
-    opponent = GetOppInfoIdx((unsigned char)Kid.bytes[14],
-                            Char.bytes[0] = room_info[(unsigned char)Kid.bytes[14]].count++);
-    actor_kind = 12;
+    row = Kid.row;
+    opponent = GetOppInfoIdx((unsigned char)Kid.room,
+                            Char.slot = room_info[(unsigned char)Kid.room].count++);
+    Char.character_kind = 12;
     opponent->kind = 9;
-    actor_room = Kid.bytes[14];
-    actor_row = row;
+    Char.room = Kid.room;
+    Char.row = row;
     opponent->cell = FirstInRow(row) + column;
     reset_char_y();
-    CHAR_WORD(2) = opponent->x = x;
-    Char.bytes[9] = column;
-    actor_facing = opponent->facing = -1;
+    Char.x = opponent->x = x;
+    Char.column = column;
+    Char.direction = opponent->facing = -1;
     column = 0;
     opponent->motion = column;
-    steps = column;
+    *(signed char near *)&Char.behavior = column;
     opponent->secondary_motion = column;
-    Char.bytes[57] = column;
-    alert_state = column;
-    (*(volatile int near *)&Char.bytes[42]) = 0;
-    CHAR_WORD(36) = CHAR_WORD(40) = CHAR_WORD(38) = 0;
-    CHAR_WORD(52) = 4;
-    running_state = *(unsigned char near *)&Char.bytes[15] = 1;
+    Char.opponent_index = column;
+    Char.alert_delay = column;
+    (*(volatile unsigned int near *)&Char.previous_frame) = 0;
+    Char.sequence_group = Char.previous_y = Char.previous_x = 0;
+    Char.field_34 = 4;
+    Char.stance = Char.field_0f = 1;
     opponent->sequence = 180;
     opponent->position = 0;
     JumpSeq(180);
@@ -1273,12 +1296,12 @@ void far pascal TriggerJinnee(void)
     opponent->health = 6;
     set_opponent_life(opponent);
     opponent->state = 10;
-    death_count = -1;
+    Char.alive = -1;
     guard_counter = 0;
     effect_x = 0;
     effect_y = 0;
     ClearCharVel();
-    Char.bytes[11] = 1;
+    Char.action = 1;
     save_actor_slot();
     copy_kid_to_char();
 }

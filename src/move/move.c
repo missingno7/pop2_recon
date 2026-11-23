@@ -453,10 +453,44 @@ sbyte check_trob_below(void)
     return cell;
 }
 
-extern volatile byte actor_id;
-extern unsigned actor_frame;
-extern sbyte actor_action, actor_floor_contact, actor_direction;
-extern int floor_override, actor_step, drew_pressed_tile;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+extern CHARREC Char;
+extern int floor_override, drew_pressed_tile;
 extern byte current_tile_flags;
 extern void on_ground(void);
 extern void FallOn(void);
@@ -472,11 +506,11 @@ void check_floor(void)
 {
     unsigned frame;
 
-    if (actor_id == 7 || actor_id == 8 || actor_action == 9)
+    if (*(volatile unsigned char *)&Char.character_kind == 7 || *(volatile unsigned char *)&Char.character_kind == 8 || Char.action == 9)
         goto falling;
 
-    frame = actor_frame;
-    switch (actor_action) {
+    frame = Char.frame;
+    switch (Char.action) {
     default:
         on_ground();
         return;
@@ -499,7 +533,7 @@ void check_floor(void)
     return;
 
 falling:
-    if (!actor_floor_contact)
+    if (!Char.vertical_step)
         return;
 update_fall:
     check_special_floor();
@@ -511,12 +545,12 @@ void check_press(void)
     unsigned frame;
     sbyte kind;
 
-    if (actor_id == 11 || actor_id == 10 || (actor_id == 0 && floor_override)
-            || (actor_id == 1 && actor_step >= 29 && actor_step <= 42))
+    if (*(volatile unsigned char *)&Char.character_kind == 11 || *(volatile unsigned char *)&Char.character_kind == 10 || (*(volatile unsigned char *)&Char.character_kind == 0 && floor_override)
+            || (*(volatile unsigned char *)&Char.character_kind == 1 && (int)Char.sequence >= 29 && (int)Char.sequence <= 42))
         return;
 
-    action = actor_action;
-    frame = actor_frame;
+    action = Char.action;
+    frame = Char.frame;
     if ((frame >= 0x57 && frame <= 0x63) || (frame >= 0x87 && frame < 0x8d))
         kind = get_above();
     else if (action < 2 || action == 7 || action == 5 || action == 8) {
@@ -534,7 +568,7 @@ void check_press(void)
         kind = 0;
 
     if (kind == 5 || kind == 6 || kind == 34) {
-        if (actor_direction >= 0 && actor_id != 4) {
+        if (Char.alive >= 0 && *(volatile unsigned char *)&Char.character_kind != 4) {
             jam_plate();
             return;
         }
@@ -586,9 +620,7 @@ void animate_torch(int index)
 extern byte current_level, collision_state, exit_flags;
 extern int exit_sound_suppressed;
 extern sbyte gate_close_speed[], gate_open_speed[], exit_close_speed[];
-extern byte player_room;
-extern unsigned player_frame;
-extern sbyte player_column, player_row, player_action;
+extern CHARREC Kid;
 extern int limit_gate_opening(int height);
 extern void AddSound(int sound), finish_exit_opening(int value);
 void stop_gate(int height);
@@ -613,15 +645,15 @@ void animate_gate(void)
                 if (level_type == 3) {
                     row = current_trob.cell / 10;
                     col = current_trob.cell % 10;
-                    if (current_trob.room != player_room) {
+                    if (current_trob.room != (byte)Kid.room) {
                         if (current_trob.room == right_room)
                             col -= 10;
                         else if (current_trob.room == left_room)
                             col += 10;
                     }
                 }
-                if (level_type == 3 && player_frame == 118 && row == player_row
-                        && (col == player_column || player_column - col == 1)) {
+                if (level_type == 3 && Kid.sequence == 118 && row == Kid.row
+                        && (col == Kid.column || Kid.column - col == 1)) {
                     height = 36;
                     sound = 9;
                 } else {
@@ -673,12 +705,6 @@ void animate_gate(void)
         redraw_gate();
 }
 
-typedef struct {
-    byte record[64];
-} ActorSnapshot;
-
-extern ActorSnapshot Char, Kid;
-extern sbyte actor_column, actor_row, actor_facing;
 extern void refresh_actor_floor(void), JumpSeq(int sequence);
 extern sbyte FirstInRow(sbyte row);
 
@@ -689,9 +715,9 @@ void stop_gate(int height)
     current_trob.state = -1;
     add_gate_sound(level_type != 3 ? 6 : 8);
     refresh_actor_floor();
-    actor_cell = FirstInRow(actor_row - 1) + actor_column;
-    if (current_trob.cell == actor_cell && actor_facing == -1
-            && actor_action == 2 && height == 0) {
+    actor_cell = FirstInRow(Char.row - 1) + Char.column;
+    if (current_trob.cell == actor_cell && Char.direction == -1
+            && Char.action == 2 && height == 0) {
         JumpSeq(47);
         Kid = Char;
     }
@@ -699,8 +725,8 @@ void stop_gate(int height)
 
 void check_gate_fingers(void)
 {
-    if (current_trob.room == player_room && (player_action == 2 || player_action == 6)) {
-        switch (current_trob.cell - (sbyte)(FirstInRow(player_row) + player_column)) {
+    if (current_trob.room == (byte)Kid.room && (Kid.action == 2 || Kid.action == 6)) {
+        switch (current_trob.cell - (sbyte)(FirstInRow(Kid.row) + Kid.column)) {
         case -10:
             goto sound;
         case -11:
@@ -711,22 +737,13 @@ void check_gate_fingers(void)
 }
 
 typedef struct {
-    byte before_column[9];
-    sbyte column, row;
-    byte before_room[3];
-    byte room;
-    byte before_direction[2];
-    sbyte direction;
-    byte tail[46];
-} GuardPosition;
-
-typedef struct {
     sbyte guard_count;
     byte tail[115];
 } RoomGuardCount;
 
-extern GuardPosition guards[];
 extern RoomGuardCount room_guard_counts[];
+
+extern CHARREC RoomOpp[5];
 
 int did_player_escape_guard(void)
 {
@@ -735,15 +752,15 @@ int did_player_escape_guard(void)
     sbyte row = current_trob.cell / 10;
     sbyte col = current_trob.cell % 10;
     sbyte i;
-    int distance = col - player_column;
+    int distance = col - Kid.column;
 
-    if (count && player_room == current_trob.room && player_row == row
+    if (count && (byte)Kid.room == current_trob.room && Kid.row == row
             && (distance < 0 ? -distance : distance) < 5) {
         for (i = 0; i < count; ++i) {
-            GuardPosition *guard = &guards[i];
-            if (guard->row == row && guard->direction < 0 && guard->room == player_room) {
-                if ((player_column > col && guard->column > col)
-                        || (player_column <= col && guard->column <= col))
+            CHARREC *guard = &RoomOpp[i];
+            if (guard->row == row && guard->alive < 0 && (byte)guard->room == (byte)Kid.room) {
+                if ((Kid.column > col && guard->column > col)
+                        || (Kid.column <= col && guard->column <= col))
                     goto caught;
                 escaped = 1;
             }
@@ -943,18 +960,6 @@ void mark_bufs_for_rect(CellMark mark, MoveRect *rect, sbyte except)
     }
 }
 
-#pragma pack(1)
-typedef struct {
-    sbyte id;
-    byte before_rect[26];
-    MoveRect rect;
-    byte before_update[19];
-    int update;
-    byte tail[8];
-} GuardMark;
-#pragma pack()
-
-extern GuardMark RoomOpp[];
 extern RoomGuardCount room_guard_counts[];
 
 void mark_guard_updates(MoveRect *clip, sbyte except)
@@ -964,8 +969,8 @@ void mark_guard_updates(MoveRect *clip, sbyte except)
     int i;
 
     for (i = 0; i < count; ++i) {
-        if (RoomOpp[i].id != except)
-            RoomOpp[i].update |= SECTRECT(&hit, &RoomOpp[i].rect, clip);
+        if (RoomOpp[i].slot != except)
+            RoomOpp[i].previous_mode |= SECTRECT(&hit, (MoveRect *)&RoomOpp[i].bounds, clip);
     }
 }
 
@@ -1018,7 +1023,7 @@ void trigger_flask(byte room, sbyte cell)
     add_trob(room, cell, 1, 10);
 }
 
-extern byte gate_lock_room, actor_room;
+extern byte gate_lock_room;
 extern sbyte trigger_style_gate(byte room, sbyte cell);
 
 sbyte trigger_gate(byte room, sbyte cell, int action)
@@ -1035,13 +1040,13 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
             break;
         if (height >= 200) {
             object->state = flags + 250;
-            if (actor_direction >= 0 || (gate_lock_room && gate_lock_room != actor_room)) {
+            if (Char.alive >= 0 || (gate_lock_room && gate_lock_room != (byte)Char.room)) {
                 BlueS[cell].state = flags + 255;
                 state = 3;
             }
         } else {
             object->state = flags + ((height + 3) & 0xfc);
-            if (actor_direction >= 0 || (gate_lock_room && gate_lock_room != actor_room))
+            if (Char.alive >= 0 || (gate_lock_room && gate_lock_room != (byte)Char.room))
                 state = 3;
             else
                 state = 2;
@@ -1253,7 +1258,7 @@ void push_plate(sbyte kind, int link)
         ChangeLinkTimer(link, 5);
         if (previous_timer < 2) {
             add_trob(marked_room, marked_cell, 1, kind);
-            if (actor_frame != 185 && (marked_room != 4 || current_level != 13))
+            if (Char.frame != 185 && (marked_room != 4 || current_level != 13))
                 AddSound(3);
             redraw_plate();
             trigger_link(link, (byte)kind);
@@ -1369,8 +1374,6 @@ void make_space(unsigned char room, signed char cell)
     BlueS[*(volatile int *)&index].state = state;
 }
 
-/* MSC Pascal linkage folds this view and actor_column to the same external. */
-extern sbyte ACTOR_COLUMN;
 extern sbyte pressed_source, pressed_row;
 extern byte stage_mode;
 extern void shake_trapdoor(void);
@@ -1380,7 +1383,7 @@ void shake_loose_floor(void);
 
 void break_loose_floor(sbyte sound)
 {
-    if (actor_id == 1 && sound == 0) {
+    if (*(volatile unsigned char *)&Char.character_kind == 1 && sound == 0) {
         shake_loose_floor();
     } else {
         unsigned state = pressed_state & ~0x40U;
@@ -1397,7 +1400,7 @@ void shake_loose_floor(void)
     if (!(pressed_state & 15)) {
         int counter = ((pressed_state & 0x30) >> 4) + 1;
 
-        if ((pressed_source != ACTOR_COLUMN && counter != 3) || actor_id == 1) {
+        if ((pressed_source != Char.column && counter != 3) || *(volatile unsigned char *)&Char.character_kind == 1) {
             int index;
             RoomObject *objects;
 
@@ -1455,6 +1458,7 @@ void check_loose_crush(void);
 void make_rubble(void);
 void knock_loose(void);
 
+extern void redraw_cave_bars(void);
 Mob *get_mob_type_item(byte kind, int occurrence)
 {
     Mob *found = 0;
@@ -1717,7 +1721,6 @@ extern void move_dart_to_tile(void);
 extern void ATMSpikes(void);
 extern void move_slide_rock(void);
 extern void move_trapdoor(void);
-extern void redraw_cave_bars(void);
 extern void add_mob_kind_12(void);
 extern byte lower_left_room, upper_left_room;
 extern MoveRect NullRect;
@@ -1926,7 +1929,6 @@ extern void load_actor_slot(sbyte index);
 extern void save_actor_slot(void);
 extern OpponentPosition *guard_for_mob(int room, int index);
 extern void CrushOppInfo(OpponentPosition *opp, byte room);
-extern int actor_y;
 extern sbyte near_crush_offset[], far_crush_offset[];
 extern int get_edge_distance(void);
 
@@ -1944,7 +1946,7 @@ void check_loose_crush(void)
     index = 0;
     count = room_guard_counts[current_mob.room].guard_count;
     for (; index < count; ++index) {
-        if ((player_room - current_mob.room) == 0) {
+        if (((byte)Kid.room - current_mob.room) == 0) {
             load_actor_slot(index);
             if (loose_hits_actor()) {
                 crush_actor();
@@ -1964,25 +1966,25 @@ int loose_hits_actor(void)
     int y;
     sbyte column;
 
-    if (actor_id == 11)
-        y = actor_y;
-    else if (actor_id == 7 || actor_id == 8)
-        y = actor_y - 20;
+    if (*(volatile unsigned char *)&Char.character_kind == 11)
+        y = Char.y;
+    else if (*(volatile unsigned char *)&Char.character_kind == 7 || *(volatile unsigned char *)&Char.character_kind == 8)
+        y = Char.y - 20;
     else
-        y = actor_y - 30;
+        y = Char.y - 30;
 
-    if (actor_direction < 0 && actor_room == current_mob.room
-            && y < current_mob.y && actor_row == current_mob.row) {
+    if (Char.alive < 0 && (byte)Char.room == current_mob.room
+            && y < current_mob.y && Char.row == current_mob.row) {
         column = current_mob.x / 32;
-        hit = column == actor_column;
-        if (!hit && actor_id == 11) {
+        hit = column == Char.column;
+        if (!hit && *(volatile unsigned char *)&Char.character_kind == 11) {
             int reach = get_edge_distance();
             int edge;
 
-            edge = actor_column + far_crush_offset[actor_facing];
+            edge = Char.column + far_crush_offset[Char.direction];
             if (edge == column) {
                 hit = reach > 8;
-            } else if (column == actor_column + near_crush_offset[actor_facing]) {
+            } else if (column == Char.column + near_crush_offset[Char.direction]) {
                 hit = reach < 4;
             }
         }
@@ -2014,7 +2016,7 @@ void add_gate_sound(int sound)
     AddSound(sound);
     if (sound == 9 && current_level == 5 && current_trob.room == 7
             && !query_sound(10065)) {
-        if (current_level != 5 || player_room != 7 || player_column >= 3)
+        if (current_level != 5 || (byte)Kid.room != 7 || Kid.column >= 3)
             AddSong(65);
     }
 }

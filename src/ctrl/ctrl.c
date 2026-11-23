@@ -185,12 +185,50 @@ struct frame_info {
 
 extern struct frame_info current_frame;
 extern struct frame_info far default_frames[];
-extern volatile unsigned char character_kind;
-extern unsigned int frame_number;
+#pragma pack(1)
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
+#pragma pack()
+extern CHARREC Char;
+extern CHARREC Opp;
+extern CHARREC Kid;
+
 extern unsigned int frame_resource;
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 
-extern unsigned char base_cell;
+
 int far pascal get_base_x(void);
 char far pascal get_char_col(int x);
 char far pascal get_col(int x);
@@ -206,7 +244,7 @@ void far pascal reread_cells(void)
 
 void far pascal reread_base_cell(void)
 {
-    base_cell = get_char_col(get_base_x());
+    (*(unsigned char near *)&Char.column) = get_char_col(get_base_x());
 }
 
 void far pascal get_frame_info(void)
@@ -214,46 +252,36 @@ void far pascal get_frame_info(void)
     unsigned int adjust = 0;
     struct frame_info far *frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame_resource);
 
-    switch ((signed char)character_kind) {
+    switch ((signed char)(*(volatile unsigned char near *)&Char.character_kind)) {
     case 0:
     case 1:
     case 6:
-        current_frame = default_frames[frame_number];
+        current_frame = default_frames[Char.frame];
         break;
     case 2:
     case 4:
     case 10:
     case 12:
-        if (frame_number >= 102 && frame_number < 107)
+        if (Char.frame >= 102 && Char.frame < 107)
             adjust = 70;
-        current_frame = frames[frame_number + adjust - 149];
+        current_frame = frames[Char.frame + adjust - 149];
         break;
     case 8:
-        if (frame_number < 183)
+        if (Char.frame < 183)
             adjust = 43;
         /* Fall through. */
     case 7:
     case 11:
-        current_frame = frames[frame_number + adjust - 149];
+        current_frame = frames[Char.frame + adjust - 149];
         break;
     }
 }
 
-struct CharacterRecord { char bytes[64]; };
-/* The active and opponent character records are adjacent. */
-struct ActorPair {
-    struct CharacterRecord current;
-    struct CharacterRecord rival;
-};
-extern struct ActorPair actor_pair;
-extern struct CharacterRecord Kid;
-extern unsigned char hidden_facing;
-#define Char actor_pair.current
-#define opponent actor_pair.rival
-#define char_direction (*(unsigned char *)&Char.bytes[1])
-#define char_x (*(int *)&Char.bytes[2])
-#define character_row (Char.bytes[10])
-#define character_room (Char.bytes[14])
+
+#define char_direction ((unsigned char)Char.direction)
+#define char_x (Char.x)
+#define character_row (Char.row)
+#define character_room (Char.room)
 
 int far pascal AddCharX(int value)
 {
@@ -274,20 +302,12 @@ int far pascal AddFCharX(int value)
     return accumulator;
 }
 
-extern int animation_position;
-extern unsigned int animation_sequence;
-extern int animation_repeat;
-extern signed char state_code;
-extern volatile unsigned char character_kind;
-extern signed char horizontal_step;
-extern signed char vertical_step;
-extern int character_y;
-extern int animation_contact;
+
 extern int animation_advance;
 extern int restricted_step;
 extern unsigned char STATE_MODE;
 extern unsigned char STATE_LEVEL;
-extern unsigned char base_cell;
+
 extern unsigned char animation_variant;
 extern int animation_items;
 extern int animation_portion;
@@ -322,9 +342,9 @@ extern int far pascal IsExitChasingSkel(unsigned char room);
 /* The animation dispatcher and tap are placement drafts. */
 void far pascal AnimChar(void)
 {
-    int previous_position = animation_position;
+    int previous_position = Char.sequence_position;
     int reading = 1;
-    SequenceHandle sequence = (SequenceHandle)find_char_sequence(animation_sequence);
+    SequenceHandle sequence = (SequenceHandle)find_char_sequence((*(unsigned int near *)&Char.sequence_id));
     int opcode;
     int first, second;
     unsigned int status;
@@ -345,7 +365,7 @@ void far pascal AnimChar(void)
                 restore_game_play_palette();
             break;
         case -23:
-            animation_position = previous_position - 1 >= 0 ? previous_position - 1 : 0;
+            Char.sequence_position = previous_position - 1 >= 0 ? previous_position - 1 : 0;
             break;
         case -22:
             opcode = GetSeqOp(sequence);
@@ -357,13 +377,13 @@ void far pascal AnimChar(void)
                 JumpSeq(second);
             break;
         case -21:
-            animation_contact = GetSeqOp(sequence);
+            Char.sequence_group = GetSeqOp(sequence);
             break;
         case -19:
             reset_char_y();
             break;
         case -18:
-            animation_repeat = 0;
+            (*(int near *)&Char.sequence) = 0;
             break;
         case -17:
             remove_char();
@@ -372,7 +392,7 @@ void far pascal AnimChar(void)
         case -16:
             ++animation_items;
             if (STATE_LEVEL == 6)
-                animation_variant = (signed char)base_cell >= 6 ? 2 : 1;
+                animation_variant = (signed char)(*(unsigned char near *)&Char.column) >= 6 ? 2 : 1;
             break;
         case -15:
             anim_char_tap(GetSeqOp(sequence));
@@ -381,9 +401,9 @@ void far pascal AnimChar(void)
             opcode = GetSeqOp(sequence);
             if (opcode == 1 || (opcode == 2 && animation_portion == 6)) {
                 PotionEffect();
-                if (!animation_position) {
+                if (!Char.sequence_position) {
                     RESTORE_HANDLE_FLAGS(sequence, status);
-                    sequence = (SequenceHandle)find_char_sequence(animation_sequence);
+                    sequence = (SequenceHandle)find_char_sequence((*(unsigned int near *)&Char.sequence_id));
                     status = SAVE_HANDLE_FLAGS(sequence);
                     FETCH_LOCKED_SHAPE_LIST(sequence);
                     break;
@@ -409,43 +429,43 @@ void far pascal AnimChar(void)
         case -9:
             opcode = GetSeqOp(sequence);
             first = GetSeqOp(sequence);
-            if (opcode && horizontal_step < 16 &&
-                (!vertical_step || vertical_step < 32)) {
-                horizontal_step = horizontal_step + opcode > 16
-                    ? 16 : horizontal_step + opcode;
+            if (opcode && Char.horizontal_step < 16 &&
+                (!Char.vertical_step || Char.vertical_step < 32)) {
+                Char.horizontal_step = Char.horizontal_step + opcode > 16
+                    ? 16 : Char.horizontal_step + opcode;
             }
-            if (first && vertical_step < 32) {
-                vertical_step = vertical_step + first > 32
-                    ? 32 : vertical_step + first;
+            if (first && Char.vertical_step < 32) {
+                Char.vertical_step = Char.vertical_step + first > 32
+                    ? 32 : Char.vertical_step + first;
             }
             break;
         case -8:
             opcode = GetSeqOp(sequence);
             if (opcode != 10000)
-                horizontal_step = opcode;
+                Char.horizontal_step = opcode;
             opcode = GetSeqOp(sequence);
             if (opcode != 10000)
-                vertical_step = opcode;
+                Char.vertical_step = opcode;
             break;
-        case -7: state_code = GetSeqOp(sequence); break;
-        case -6: character_y += GetSeqOp(sequence); break;
+        case -7: Char.action = GetSeqOp(sequence); break;
+        case -6: Char.y += GetSeqOp(sequence); break;
         case -5: char_x = AddCharX(GetSeqOp(sequence)); break;
         case -4: ++character_row; break;
         case -3: --character_row; break;
         case -2:
-            if (character_kind == 10)
+            if ((*(volatile unsigned char near *)&Char.character_kind) == 10)
                 char_x = AddCharX(25);
-            char_direction = ~char_direction;
+            Char.direction ^= -1;
             break;
         case -1:
         change_sequence:
             opcode = GetSeqOp(sequence);
             if (STATE_LEVEL == 5 && character_row == 1 &&
                 (character_room == 10 || character_room == 7 || character_room == 12) &&
-                opcode == 57 && animation_repeat != 60 && base_cell == 9)
+                opcode == 57 && (*(int near *)&Char.sequence) != 60 && (*(unsigned char near *)&Char.column) == 9)
                 opcode = 86;
-            animation_sequence = opcode;
-            animation_position = 0;
+            (*(unsigned int near *)&Char.sequence_id) = opcode;
+            Char.sequence_position = 0;
             RESTORE_HANDLE_FLAGS(sequence, status);
             sequence = (SequenceHandle)find_char_sequence(opcode);
             if (!sequence)
@@ -454,7 +474,7 @@ void far pascal AnimChar(void)
             FETCH_LOCKED_SHAPE_LIST(sequence);
             break;
         default:
-            frame_number = opcode;
+            Char.frame = opcode;
             reading = 0;
             break;
         }
@@ -470,7 +490,7 @@ int far _fastcall GetSeqOp(SequenceHandle sequence)
 
     if (sequence) {
         entries = RESOLVE_HANDLE_TO_FAR_PAYLOAD((unsigned int)sequence);
-        opcode = entries[animation_position]; ++animation_position;
+        opcode = entries[Char.sequence_position]; ++Char.sequence_position;
     }
     return opcode;
 }
@@ -487,12 +507,12 @@ void far pascal anim_char_tap(int sound)
         ++sound_steps;
         if (STATE_MODE != 1 && !(active_sound_channels & 3)) {
             AddSound(sound_steps % 2 + 23);
-            if (character_kind == 4 && IsExitChasingSkel(character_room))
-                char_x = AddCharX(Char.bytes[0] - 1);
+            if ((*(volatile unsigned char near *)&Char.character_kind) == 4 && IsExitChasingSkel(character_room))
+                char_x = AddCharX(Char.slot - 1);
         }
         /* Fall through. */
     case 0:
-        if (!character_kind)
+        if (!(*(volatile unsigned char near *)&Char.character_kind))
             kid_step = 1;
         break;
     default:
@@ -507,23 +527,20 @@ void far pascal anim_char_tap(int sound)
 }
 
 
-#define viewed_room character_kind
-extern volatile unsigned char viewed_room;
 extern volatile unsigned char STATE_ARGUMENT;
 
 void far pascal SetKidDeathMethod(unsigned char value)
 {
-    if (viewed_room == 0 || viewed_room == 1)
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 || (*(volatile unsigned char near *)&Char.character_kind) == 1)
         STATE_ARGUMENT = value;
 }
-#undef viewed_room
 
 int far pascal reset_char_y(void)
 {
-    character_y = (signed char)63 * character_row + 56;
-    if (character_kind == 7 || character_kind == 8)
-        character_y -= 19;
-    return character_y;
+    Char.y = (signed char)63 * character_row + 56;
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 7 || (*(volatile unsigned char near *)&Char.character_kind) == 8)
+        Char.y -= 19;
+    return Char.y;
 }
 
 char far FirstInRow(signed char value)
@@ -538,7 +555,7 @@ char far FirstInRow(signed char value)
     return result;
 }
 
-extern struct CharacterRecord RoomOpp[];
+extern CHARREC RoomOpp[5];
 
 void copy_kid_to_char(void);
 void far pascal save_actor_slot(void);
@@ -548,29 +565,29 @@ void far pascal load_kid_with_opponent(signed char slot)
 {
     if (slot >= 0 && slot < 5) {
         copy_kid_to_char();
-        opponent = RoomOpp[slot];
+        Opp = RoomOpp[slot];
     }
 }
 
 void far pascal save_kid_with_opponent(void)
 {
-    if (opponent.bytes[0] >= 0 && opponent.bytes[0] < 5) {
+    if (Opp.slot >= 0 && Opp.slot < 5) {
         Kid = Char;
-        RoomOpp[opponent.bytes[0]] = opponent;
+        RoomOpp[Opp.slot] = Opp;
     }
 }
 
 void far pascal load_shadow_with_opponent(signed char slot)
 {
     load_actor_slot(slot);
-    opponent = Kid;
+    Opp = Kid;
 }
 
 void far pascal save_shadow_with_opponent(void)
 {
-    if (Char.bytes[0] >= 0 && Char.bytes[0] < 5)
+    if (Char.slot >= 0 && Char.slot < 5)
         save_actor_slot();
-    Kid = opponent;
+    Kid = Opp;
 }
 
 /* init_fchar_rect (descriptive name; FM Towns inlines it in SetupCarpet, the Mac body is unlabelled):
@@ -597,66 +614,63 @@ void far pascal ConvertX(register int value, int near *value_out) {
 }
 
 /* Names and qualifiers are reconstruction hypotheses. */
-extern signed char state_code;
-extern signed char vertical_step;
+
+
 extern int restricted_step;
 
 void far pascal Gravity(void)
 {
-    if (state_code == 4 || state_code == 9) {
+    if (Char.action == 4 || Char.action == 9) {
         if (restricted_step) {
-            ++vertical_step;
-            if (vertical_step > 4)
-                vertical_step = 4;
+            ++Char.vertical_step;
+            if (Char.vertical_step > 4)
+                Char.vertical_step = 4;
         } else {
-            vertical_step += 3;
-            if (vertical_step > 33)
-                vertical_step = 33;
+            Char.vertical_step += 3;
+            if (Char.vertical_step > 33)
+                Char.vertical_step = 33;
         }
     }
 }
 
-extern signed char horizontal_step;
 
 void far pascal add_char_velocity(void)
 {
-    if (character_y < 2000) {
-        character_y += vertical_step;
-        if (state_code == 4 || character_kind == 7 || character_kind == 8) {
-            char_x = AddCharX(horizontal_step);
+    if (Char.y < 2000) {
+        Char.y += Char.vertical_step;
+        if (Char.action == 4 || (*(volatile unsigned char near *)&Char.character_kind) == 7 || (*(volatile unsigned char near *)&Char.character_kind) == 8) {
+            char_x = AddCharX(Char.horizontal_step);
             reread_cells();
         }
     }
 }
 
 /* Names, signedness and qualifiers are reconstruction hypotheses. */
-extern signed char horizontal_step;
-extern signed char vertical_step;
+
 
 void far pascal ClearCharVel(void)
 {
     register signed char zero = 0;
-    horizontal_step = zero;
-    vertical_step = zero;
+    Char.horizontal_step = zero;
+    Char.vertical_step = zero;
 }
 
-#define life_delta (Char.bytes[20])
 
 int far pascal decrement_life_points(signed char amount)
 {
     int lethal = 0;
 
-    if (character_kind == 4 && STATE_LEVEL == 5 && character_row == 1 &&
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 4 && STATE_LEVEL == 5 && character_row == 1 &&
           (character_room == 10 || character_room == 7 || character_room == 12))
         goto done;
-    if (amount >= Char.bytes[18]) {
-        if (-Char.bytes[18] < life_delta)
-            life_delta = -Char.bytes[18];
+    if (amount >= Char.life_points) {
+        if (-Char.life_points < Char.life_delta)
+            Char.life_delta = -Char.life_points;
         lethal = 1;
-    } else if (-life_delta < amount) {
-        life_delta = -amount;
+    } else if (-Char.life_delta < amount) {
+        Char.life_delta = -amount;
     } else {
-        lethal = Char.bytes[18] + life_delta == 0;
+        lethal = Char.life_points + Char.life_delta == 0;
     }
 done:
     return lethal;
@@ -664,7 +678,7 @@ done:
 
 char far pascal get_under_foot(void)
 {
-    return ReadCell(character_room, base_cell, character_row);
+    return ReadCell(character_room, (*(unsigned char near *)&Char.column), character_row);
 }
 
 extern unsigned char frame_flags;
@@ -672,8 +686,7 @@ extern int restricted_step;
 
 extern signed char front_offsets[];
 extern signed char behind_offsets[];
-extern signed char floor_contact;
-extern signed char fall_latch;
+
 extern unsigned char grab_enabled;
 struct CopyRecord {
     char bytes[5];
@@ -714,11 +727,11 @@ void far pascal on_ground(void)
 {
     char kind;
 
-    if ((frame_flags & 0x40) && character_kind != 10) {
+    if ((frame_flags & 0x40) && (*(volatile unsigned char near *)&Char.character_kind) != 10) {
         kind = get_under_foot();
         if (IsWall(kind)) {
-            if (kind != 7 || ((frame_number < 246 || frame_number > 261) &&
-                             character_kind != 11))
+            if (kind != 7 || ((Char.frame < 246 || Char.frame > 261) &&
+                             (*(volatile unsigned char near *)&Char.character_kind) != 11))
                 kind = inside_cell();
         }
         if (IS_SIX_KIND(kind) ||
@@ -727,7 +740,7 @@ void far pascal on_ground(void)
                 return;
             if (STATE_MODE == 2 && probe_chain_floor(16))
                 return;
-            if (character_kind == 11)
+            if ((*(volatile unsigned char near *)&Char.character_kind) == 11)
                 char_x = AddCharX(get_edge_distance() - 42);
             else
                 start_fall();
@@ -737,16 +750,16 @@ void far pascal on_ground(void)
 
 void far pascal start_fall(void)
 {
-    unsigned int old_frame = frame_number;
+    unsigned int old_frame = Char.frame;
     int adjust_clearance = 0;
     int sequence = -1;
     int distance;
     int min_y;
 
     ++character_row;
-    if (floor_contact == 1)
-        floor_contact = 0;
-    if (character_kind == 0 && STATE_LEVEL == 5 && character_room == 10 &&
+    if (Char.stance == 1)
+        Char.stance = 0;
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && STATE_LEVEL == 5 && character_room == 10 &&
         ((char_direction == 0 && Dir.bytes[0]) ||
          (char_direction == 0xff && Dir.bytes[1]))) {
         sequence = 198;
@@ -771,28 +784,28 @@ void far pascal start_fall(void)
             break;
         case 81:
             sequence = 7;
-            character_y += 12;
+            Char.y += 12;
             break;
         default:
             adjust_clearance = 1;
             if (old_frame >= 81 && old_frame < 86) {
                 sequence = 19;
             } else if (old_frame - 150U < 30U) {
-                if (!character_kind) {
+                if (!(*(volatile unsigned char near *)&Char.character_kind)) {
                     crouch_fall = adjust_clearance;
-                    if (old_frame == 153 || animation_repeat == 56)
+                    if (old_frame == 153 || (*(int near *)&Char.sequence) == 56)
                         sequence = 95;
                     else
                         sequence = 81;
                 } else {
                     crouch_fall = 0;
-                    if (animation_repeat == 86 || animation_repeat == 67 ||
-                        animation_repeat == 108)
+                    if ((*(int near *)&Char.sequence) == 86 || (*(int near *)&Char.sequence) == 67 ||
+                        (*(int near *)&Char.sequence) == 108)
                         sequence = 83;
                     else
                         sequence = 82;
                 }
-            } else if (character_kind == 2 && animation_repeat == 100) {
+            } else if ((*(volatile unsigned char near *)&Char.character_kind) == 2 && (*(int near *)&Char.sequence) == 100) {
                 sequence = 186;
             } else {
                 sequence = 7;
@@ -813,8 +826,8 @@ void far pascal start_fall(void)
                 char_x = AddCharX(distance - 21);
             if (!IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front())) {
                 min_y = (signed char)63 * character_row + 1;
-                if (min_y > character_y)
-                    character_y = min_y;
+                if (min_y > Char.y)
+                    Char.y = min_y;
             }
         }
     }
@@ -823,7 +836,7 @@ void far pascal start_fall(void)
         sequence = 27;
         prepare_palace_fall();
         SetKidDeathMethod(8);
-    } else if (character_kind == 0 && restricted_step && animation_repeat != 228) {
+    } else if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && restricted_step && (*(int near *)&Char.sequence) != 228) {
         sequence = 228;
     }
     JumpSeq(sequence);
@@ -842,8 +855,8 @@ void far pascal start_fall(void)
                 char_x = AddCharX(distance - 21);
             if (!IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front())) {
                 min_y = (signed char)63 * character_row + 1;
-                if (min_y > character_y)
-                    character_y = min_y;
+                if (min_y > Char.y)
+                    Char.y = min_y;
             }
         }
     }
@@ -866,31 +879,31 @@ void far pascal FallingInUndefinedRoom(void)
     Gravity();
     add_char_velocity();
     if (STATE_MODE == 5) {
-        if (character_y > 384) {
+        if (Char.y > 384) {
             if (viewed_room != 19 && viewed_room != 16) {
                 AddSound(0);
                 decrement_life_points(100);
-                frame_number = 185;
+                Char.frame = 185;
                 SetKidDeathMethod(3);
             }
-            character_y = 384;
-            vertical_step = 0;
-            state_code = 1;
-            if (character_kind && hidden_facing == (unsigned char)Char.bytes[0])
-                hidden_facing = turn_hidden_actor(char_direction);
-        } else if (character_kind == 2 && frame_number != 185 &&
+            Char.y = 384;
+            Char.vertical_step = 0;
+            Char.action = 1;
+            if ((*(volatile unsigned char near *)&Char.character_kind) && (*(unsigned char near *)&Kid.opponent_index) == (unsigned char)Char.slot)
+                (*(unsigned char near *)&Kid.opponent_index) = turn_hidden_actor(char_direction);
+        } else if ((*(volatile unsigned char near *)&Char.character_kind) == 2 && Char.frame != 185 &&
                    !query_sound(0x2729)) {
             AddSound(25);
         }
-    } else if (character_y > 384) {
+    } else if (Char.y > 384) {
         decrement_life_points(100);
-        frame_number = 185;
+        Char.frame = 185;
         SetKidDeathMethod(3);
-        character_y = 384;
-        vertical_step = 0;
-        if (character_kind == 0)
-            state_code = 1;
-        else if (character_kind == 1)
+        Char.y = 384;
+        Char.vertical_step = 0;
+        if ((*(volatile unsigned char near *)&Char.character_kind) == 0)
+            Char.action = 1;
+        else if ((*(volatile unsigned char near *)&Char.character_kind) == 1)
             CutToKidRoom();
     }
 }
@@ -908,8 +921,8 @@ int far pascal is_undefined_room(void)
 void far pascal FallOn(void)
 {
     int position;
-    if (grab_enabled && vertical_step < 32 && fall_latch < 0 &&
-        (signed char)63 * character_row + 56 <= character_y + 25) {
+    if (grab_enabled && Char.vertical_step < 32 && Char.alive < 0 &&
+        (signed char)63 * character_row + 56 <= Char.y + 25) {
         position = char_x;
         char_x = AddCharX(-16);
         reread_cells();
@@ -925,7 +938,7 @@ void far pascal FallOn(void)
             position -= 9;
         char_x = AddCharX(position);
         reset_char_y();
-        vertical_step = 0;
+        Char.vertical_step = 0;
         JumpSeq(15);
         AnimChar();
         AddSound(11);
@@ -951,8 +964,8 @@ char far pascal inside_cell(void)
     int distance;
     char ahead;
 
-    if (animation_contact != 4 && character_kind != 11 &&
-        !(character_room == 3 && STATE_MODE == 6 && (signed char)base_cell < 0)) {
+    if (Char.sequence_group != 4 && (*(volatile unsigned char near *)&Char.character_kind) != 11 &&
+        !(character_room == 3 && STATE_MODE == 6 && (signed char)(*(unsigned char near *)&Char.column) < 0)) {
         distance = get_edge_distance();
         ahead = get_cells_ahead(1);
         if (distance < 11 && !IsWall(ahead))
@@ -968,13 +981,13 @@ char far pascal inside_cell(void)
 char far pascal get_cells_ahead(signed char distance)
 {
     return ReadCell(character_room,
-                    base_cell + front_offsets[(signed char)char_direction] * distance,
+                    (*(unsigned char near *)&Char.column) + front_offsets[(signed char)char_direction] * distance,
                     character_row);
 }
 
 char far pascal get_behind(void)
 {
-    return ReadCell(character_room, base_cell + behind_offsets[(signed char)char_direction],
+    return ReadCell(character_room, (*(unsigned char near *)&Char.column) + behind_offsets[(signed char)char_direction],
                     character_row);
 }
 
@@ -1073,19 +1086,18 @@ extern unsigned int pending_death_sound, death_timer, death_timer_limit;
 extern unsigned int delayed_death, replay_input, Invert;
 extern signed char LevelIdx;
 extern signed char state_byte_5e30, state_byte_5e31, state_byte_5e32;
-extern signed char shadow_advance;
 
 int far pascal ctrl_player(void)
 {
     int result;
     prepare_player_control();
     result = PlayerCtrl();
-    if (result != -2 || fall_latch < 0 || !is_dead_pos(frame_number))
+    if (result != -2 || Char.alive < 0 || !is_dead_pos(Char.frame))
         goto done;
 
     if (prefer_kid_state) {
         dispatch_sound(0);
-        Kid.bytes[20] = Kid.bytes[19];
+        Kid.life_delta = Kid.life_initial;
         copy_kid_to_char();
         JumpSeq(2);
         char_x += 16;
@@ -1094,7 +1106,7 @@ int far pascal ctrl_player(void)
         finish_start_kid();
     }
 
-    if (character_kind != 0 && character_kind != 1)
+    if ((*(volatile unsigned char near *)&Char.character_kind) != 0 && (*(volatile unsigned char near *)&Char.character_kind) != 1)
         goto done;
     if (query_sound(death_sequence_primary + 10000) &&
         death_sequence_primary != 4 && death_sequence_primary != 7 &&
@@ -1102,13 +1114,13 @@ int far pascal ctrl_player(void)
         goto done;
 
     pending_death_sound = 0;
-    if (fall_latch >= 0 && fall_latch < 6)
+    if (Char.alive >= 0 && Char.alive < 6)
         goto advance;
-    if (fall_latch == 6) {
+    if (Char.alive == 6) {
         AddKidDeathSong(STATE_ARGUMENT);
         goto advance;
     }
-    if (fall_latch != 7 || query_sound(death_sequence_primary + 10000))
+    if (Char.alive != 7 || query_sound(death_sequence_primary + 10000))
         goto done;
     if (query_sound(death_sequence_alternate + 10000))
         goto done;
@@ -1120,7 +1132,7 @@ int far pascal ctrl_player(void)
         draw_restart_message();
     }
 advance:
-    ++fall_latch;
+    ++Char.alive;
 done:
     return result;
 }
@@ -1128,13 +1140,13 @@ done:
 int far pascal PlayerCtrl(void)
 {
     int result;
-    if (fall_latch < 0 && !Char.bytes[18])
-        fall_latch = 0;
+    if (Char.alive < 0 && !Char.life_points)
+        Char.alive = 0;
     if (grab_delay)
         --grab_delay;
     LoadSelect();
     read_user_input();
-    if (LevelIdx != animation_items || !character_room || animation_repeat == 59)
+    if (LevelIdx != animation_items || !character_room || (*(int near *)&Char.sequence) == 59)
         state_byte_5e31 = state_byte_5e30 = 0;
     ClrJoystick();
     UserCtrl();
@@ -1149,21 +1161,21 @@ void far pascal unused_shadow_hook(void)
 
 void far pascal shad_ctrl(void)
 {
-    if (fall_latch >= 0) {
-        if (fall_latch >= 6) {
+    if (Char.alive >= 0) {
+        if (Char.alive >= 6) {
             play_shadow_death();
-            if (hidden_facing == (unsigned char)Char.bytes[0])
-                hidden_facing = -1;
-        } else if (shadow_advance) {
-            ++fall_latch;
+            if ((*(unsigned char near *)&Kid.opponent_index) == (unsigned char)Char.slot)
+                (*(unsigned char near *)&Kid.opponent_index) = -1;
+        } else if (Char.field_0f) {
+            ++Char.alive;
         }
-    } else if (!Char.bytes[18]) {
-        fall_latch = 0;
+    } else if (!Char.life_points) {
+        Char.alive = 0;
     }
     update_shadow_control();
     if (replay_input)
         handle_replay_input();
-    if (character_kind != 1 && character_kind != 12)
+    if ((*(volatile unsigned char near *)&Char.character_kind) != 1 && (*(volatile unsigned char near *)&Char.character_kind) != 12)
         apply_input();
 }
 
@@ -1297,18 +1309,18 @@ int far pascal check_ledge(char above, char ahead, unsigned int above_modifier,
 
 char far pascal get_above(void)
 {
-    return ReadCell(character_room, base_cell, character_row - 1);
+    return ReadCell(character_room, (*(unsigned char near *)&Char.column), character_row - 1);
 }
 
 char far pascal get_above_behind(void)
 {
-    return ReadCell(character_room, base_cell + behind_offsets[(signed char)char_direction],
+    return ReadCell(character_room, (*(unsigned char near *)&Char.column) + behind_offsets[(signed char)char_direction],
                     character_row - 1);
 }
 
 char far pascal get_above_front(void)
 {
-    return ReadCell(character_room, base_cell + front_offsets[(signed char)char_direction],
+    return ReadCell(character_room, (*(unsigned char near *)&Char.column) + front_offsets[(signed char)char_direction],
                     character_row - 1);
 }
 
@@ -1364,8 +1376,8 @@ int far pascal is_char_non_viewable(void);
 void far pascal ClipChar(void)
 {
     int clearance = 1;
-    unsigned int frame = frame_number;
-    int action = state_code;
+    unsigned int frame = Char.frame;
+    int action = Char.action;
     signed char row = character_row;
     int flying;
     char tile;
@@ -1377,21 +1389,21 @@ void far pascal ClipChar(void)
         fchar_rect = NullRect;
         return;
     }
-    if (character_kind == 0 && frame_number >= 217 && frame_number <= 226) {
-        tile = ReadCell(character_room, base_cell, character_row);
-        if (clip_floor(workspace.bounds, clip_tables[STATE_MODE], (tile == 16) + (signed char)base_cell, character_row)) {
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && Char.frame >= 217 && Char.frame <= 226) {
+        tile = ReadCell(character_room, (*(unsigned char near *)&Char.column), character_row);
+        if (clip_floor(workspace.bounds, clip_tables[STATE_MODE], (tile == 16) + (signed char)(*(unsigned char near *)&Char.column), character_row)) {
             fchar_rect.top = workspace.bounds[0];
             fchar_rect.right = workspace.bounds[3];
         }
         return;
     }
-    if (state_code == 9) {
+    if (Char.action == 9) {
         if (STATE_MODE == 5)
             clip_cave();
         return;
     }
 
-    flying = character_kind == 7 || character_kind == 8;
+    flying = (*(volatile unsigned char near *)&Char.character_kind) == 7 || (*(volatile unsigned char near *)&Char.character_kind) == 8;
     tile = ReadCell(character_room, above_col, above_row);
     if (IS_SIX_KIND(tile))
         goto solid;
@@ -1399,7 +1411,7 @@ void far pascal ClipChar(void)
         goto solid;
     if (cell_room == 1 && STATE_LEVEL == 14)
         goto solid;
-    if ((cell_room == 7 || cell_room == 8) && STATE_MODE == 6 && animation_repeat != 14)
+    if ((cell_room == 7 || cell_room == 8) && STATE_MODE == 6 && (*(int near *)&Char.sequence) != 14)
         goto solid;
     if (action == 0 && (frame == 79 || frame == 81))
         goto adjust;
@@ -1457,8 +1469,8 @@ void far pascal MakeFCharClipRect(void)
 
 void far pascal uneven_floor(void)
 {
-    if (character_kind != 11 && character_kind != 7 && character_kind != 8 && get_under_foot() == 6)
-        character_y = (signed char)63 * character_row + 57;
+    if ((*(volatile unsigned char near *)&Char.character_kind) != 11 && (*(volatile unsigned char near *)&Char.character_kind) != 7 && (*(volatile unsigned char near *)&Char.character_kind) != 8 && get_under_foot() == 6)
+        Char.y = (signed char)63 * character_row + 57;
 }
 
 struct FCharRecord { char bytes[20]; };
@@ -1466,14 +1478,14 @@ extern struct FCharRecord FChar, saved_fchar;
 
 void far pascal IndexChar(void)
 {
-    unsigned int frame = frame_number;
-    int action = state_code;
+    unsigned int frame = Char.frame;
+    int action = Char.action;
     if (action == 1) {
         cell_row = contact_row;
         cell_column = above_col;
     } else {
         cell_row = character_row;
-        cell_column = base_cell;
+        cell_column = (*(unsigned char near *)&Char.column);
     }
     if ((frame >= 135 && frame < 149) || action == 2 || action == 3 || action == 4 || action == 6)
         cell_column += behind_offsets[(signed char)char_direction];
@@ -1481,7 +1493,6 @@ void far pascal IndexChar(void)
 }
 
 
-extern unsigned char potion_flash;
 extern void far pascal BoostMeter(void);
 extern void far pascal GoWeightless(void);
 extern void far pascal ToggleInvertState(void);
@@ -1490,15 +1501,15 @@ void far pascal VanishChar(void);
 
 void far pascal PotionEffect(void)
 {
-    if (character_kind || !animation_portion)
+    if ((*(volatile unsigned char near *)&Char.character_kind) || !animation_portion)
         return;
     if (animation_portion == -1) {
-        potion_flash = 0;
+        (*(unsigned char near *)&Char.stance) = 0;
     } else {
         switch (--animation_portion) {
         case 0:
-            if (Char.bytes[19] != Char.bytes[18])
-                life_delta = 1;
+            if (Char.life_initial != Char.life_points)
+                Char.life_delta = 1;
             AddSong(101);
             break;
         case 1:
@@ -1532,8 +1543,8 @@ void far pascal PotionEffect(void)
 int far pascal is_static_frame(void)
 {
     int result;
-    if (is_dead_pos(frame_number) || frame_number == 0 || frame_number == 15 ||
-        frame_number == 109 || frame_number == 166 || frame_number == 171 || frame_number == 229)
+    if (is_dead_pos(Char.frame) || Char.frame == 0 || Char.frame == 15 ||
+        Char.frame == 109 || Char.frame == 166 || Char.frame == 171 || Char.frame == 229)
         result = 1;
     else
         result = 0;
@@ -1543,10 +1554,10 @@ int far pascal is_static_frame(void)
 int far pascal is_char_non_viewable(void)
 {
     int result;
-    if (animation_contact == 4 || animation_contact == 5 || animation_contact == 6 ||
-        animation_contact == 7 || animation_contact == 10 || animation_contact == 12 ||
+    if (Char.sequence_group == 4 || Char.sequence_group == 5 || Char.sequence_group == 6 ||
+        Char.sequence_group == 7 || Char.sequence_group == 10 || Char.sequence_group == 12 ||
         (STATE_MODE == 5 && character_room != 19 && character_room != 16 &&
-         character_room != 15 && is_dead_pos(frame_number)))
+         character_room != 15 && is_dead_pos(Char.frame)))
         result = 1;
     else
         result = 0;
@@ -1563,11 +1574,11 @@ int far pascal is_dead_pos(unsigned int frame)
         dead = 1;
         goto done;
     }
-    switch ((signed char)character_kind) {
+    switch ((signed char)(*(volatile unsigned char near *)&Char.character_kind)) {
     case 0:
         dead = frame == 242 || frame == 243 || frame == 185 || frame == 271 || frame == 266;
         if (!dead && STATE_LEVEL == 5 && character_room == 3)
-            dead = fall_latch >= 0 && animation_contact == 10;
+            dead = Char.alive >= 0 && Char.sequence_group == 10;
         break;
     case 2:
         if (!actor_variant) {
@@ -1598,7 +1609,7 @@ done:
 void far pascal remove_char(void)
 {
     if (character_room == 6 && STATE_MODE == 6 &&
-        animation_repeat == 240 && Kid.bytes[17] < 0)
+        (*(int near *)&Char.sequence) == 240 && Kid.alive < 0)
         transfer_jaffar_to_escher2();
     VanishChar();
     character_room = 0;
@@ -1608,13 +1619,13 @@ extern void far pascal change_actor_life(char slot, int life, int maximum);
 void far pascal VanishChar(void)
 {
     signed char zero = 0;
-    change_actor_life(Char.bytes[0], 0, Char.bytes[19]);
+    change_actor_life(Char.slot, 0, Char.life_initial);
     char_direction = 86;
-    state_code = zero;
-    fall_latch = zero;
-    Char.bytes[18] = zero;
-    if (Char.bytes[0] != zero && hidden_facing == (unsigned char)Char.bytes[0])
-        hidden_facing = turn_hidden_actor(1);
+    Char.action = zero;
+    Char.alive = zero;
+    Char.life_points = zero;
+    if (Char.slot != zero && (*(unsigned char near *)&Kid.opponent_index) == (unsigned char)Char.slot)
+        (*(unsigned char near *)&Kid.opponent_index) = turn_hidden_actor(1);
 }
 
 void SaveFChar(void) { saved_fchar = FChar; }
@@ -1624,7 +1635,7 @@ extern int far pascal can_continue_run_jump(char cell, unsigned int modifier);
 extern void far pascal engage_weapon(void);
 void far pascal guard_ctrl(void)
 {
-    if (frame_number == 166 && (signed char)Dir.bytes[3] < 0) {
+    if (Char.frame == 166 && (signed char)Dir.bytes[3] < 0) {
         if ((signed char)Dir.bytes[0] < 0) {
             if (!can_continue_run_jump(get_behind(), cell_modifier))
                 char_x = AddCharX(5);
@@ -1636,27 +1647,26 @@ void far pascal guard_ctrl(void)
     }
 }
 
-#define opponent_direction ((unsigned char)opponent.bytes[1])
-#define opponent_x (*(int *)&opponent.bytes[2])
-#define opponent_row (opponent.bytes[10])
-#define opponent_room (opponent.bytes[14])
-#define opponent_life (opponent.bytes[18])
+#define opponent_direction ((unsigned char)Opp.direction)
+#define opponent_x (Opp.x)
+#define opponent_row (Opp.row)
+#define opponent_room (Opp.room)
+#define opponent_life (Opp.life_points)
 int far pascal get_opp_dist(void)
 {
     int distance;
     if (opponent_life && opponent_room == character_room && opponent_row == character_row &&
-        (unsigned char)opponent.bytes[1] != 86) {
+        (unsigned char)Opp.direction != 86) {
         distance = opponent_x - char_x;
         if (char_direction)
             distance = -distance;
-        if (distance >= 0 && char_direction != (unsigned char)opponent.bytes[1])
+        if (distance >= 0 && char_direction != (unsigned char)Opp.direction)
             distance += 13;
     } else {
         distance = 999;
     }
     return distance;
 }
-
 
 
 static struct slot_error_messages {
@@ -1671,8 +1681,8 @@ extern void far pascal abort_with_message(int code, int first, int second);
 
 void far pascal save_actor_slot(void)
 {
-    if (Char.bytes[0] >= 0 && Char.bytes[0] < 5) {
-        RoomOpp[Char.bytes[0]] = Char;
+    if (Char.slot >= 0 && Char.slot < 5) {
+        RoomOpp[Char.slot] = Char;
         return;
     }
     if (confirm_quit((char far *)slot_errors.save))
