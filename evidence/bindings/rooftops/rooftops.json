@@ -381,7 +381,7 @@
       "PLAY_SONG",
       "WAIT_SOUND",
       "WAIT_TIMER",
-      "STEP_SCENE",
+      "CHANGEMETERS",
       "CHECKMETERS",
       "COPY_KID_TO_CHAR",
       "RESET_CHAR_Y",
@@ -2254,7 +2254,7 @@
         "target": {
           "kind": "external",
           "index": 61,
-          "name": "STEP_SCENE",
+          "name": "CHANGEMETERS",
           "method": 6,
           "zero_displacement": true
         }
@@ -2262,7 +2262,7 @@
       "target": {
         "kind": "external",
         "index": 61,
-        "name": "STEP_SCENE",
+        "name": "CHANGEMETERS",
         "method": 6,
         "zero_displacement": true
       },
@@ -8035,23 +8035,6 @@
       "offset": 27284,
       "witnesses": []
     },
-    "STEP_SCENE": {
-      "entry_sha256": "029f4274cfc412d33ad043f706a23c03a27ddede1059e9d817c346889074b898",
-      "entry_target_id": "root:0000:0f70",
-      "kind": "far-code-entry",
-      "offset": 3952,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a700f0000",
-          "file_offset": 68568,
-          "image_offset": 60376,
-          "relocation_index": 1275,
-          "space": "root"
-        }
-      ]
-    },
     "WAIT_SOUND": {
       "entry_sha256": "862d2ad31de90835658ba019ad489eabe831cc54c3a4c92599b92e90cf2018c2",
       "entry_target_id": "root:1de8:019c",
@@ -8091,6 +8074,23 @@
       "kind": "dgroup-offset",
       "offset": 27282,
       "witnesses": []
+    },
+    "CHANGEMETERS": {
+      "entry_sha256": "029f4274cfc412d33ad043f706a23c03a27ddede1059e9d817c346889074b898",
+      "entry_target_id": "root:0000:0f70",
+      "kind": "far-code-entry",
+      "offset": 3952,
+      "segment": 0,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a700f0000",
+          "file_offset": 68568,
+          "image_offset": 60376,
+          "relocation_index": 1275,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:rooftops/rooftops",

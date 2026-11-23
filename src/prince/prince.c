@@ -369,7 +369,6 @@ unsigned int far pascal prince_poll(void)
 
 extern CHARREC RoomOpp[5];
 
-extern unsigned char CutRoom;
 extern int minutes_remaining, message_ticks, message_duration, countdown_pending;
 extern int debug_alt_view, debug_reload_room;
 extern int debug_show_objects, debug_show_messages, debug_show_buildings;
@@ -384,6 +383,7 @@ extern void far pascal STROKE_PORT_RECT(const char far *asset);
 extern void far pascal ToggleInvertState(void);
 extern void far pascal AddSong(int value);
 extern void far pascal AddSound(int value);
+extern unsigned char CutRoom;
 extern void far pascal ChangeMeters(void);
 extern void far pascal CheckMeters(void);
 extern void far pascal copy_kid_to_char(void);
@@ -704,21 +704,26 @@ extern void far pascal trigger_torch(unsigned char room, signed char tile);
 extern void far pascal trigger_lava(unsigned char room, signed char tile);
 extern void far pascal add_trob(unsigned char room, signed char tile,
                                       signed char active, unsigned char type);
-extern void far pascal add_special_gate(unsigned char room, signed char tile, signed char delay);
+extern int far pascal trigger_stone_at(unsigned char room, signed char tile, signed char delay);
 extern void far pascal add_special_room_trob(unsigned char room, signed char tile);
 extern void far pascal trigger_crystal(unsigned char room, signed char tile);
 extern void far pascal trigger_gargoyle(unsigned char room, signed char tile);
-extern union {
+#pragma pack(1)
+typedef union {
     unsigned long value;
+    struct {
+        unsigned int low, high;
+    } words;
     unsigned char bytes[4];
-} BlueSpec;
+} TileInfo;
 
 typedef struct {
-    unsigned char kind;
-    unsigned char properties[4];
-} RoomExtension;
-
-extern RoomExtension room_extensions[];
+    unsigned char tile;
+    TileInfo info;
+} Tile;
+#pragma pack()
+extern TileInfo BlueSpec;
+extern Tile left_tiles[];
 
 void far pascal add_room_trobs(void)
 {
@@ -751,7 +756,7 @@ void far pascal add_room_trobs(void)
             }
             if (index < 33) {
                 tile = FirstInRow(index - 30) + 9;
-                kind = room_extensions[index].kind;
+                kind = left_tiles[index - 30].tile;
             } else {
                 tile = index - 33;
                 kind = select_trob_cell(tile);
@@ -793,7 +798,7 @@ void far pascal add_room_trobs(void)
             add_trob(room, tile, 1, kind);
             break;
         case 30:
-            add_special_gate(room, tile, 3);
+            trigger_stone_at(room, tile, 3);
             break;
         case 44:
             add_special_room_trob(room, tile);
@@ -857,18 +862,16 @@ void far pascal KeepTime(void)
     }
 }
 
-extern unsigned char CutRoom;
-extern int room_transition_active;
-extern unsigned char room_controls[2];
+extern int cut_required;
+extern unsigned char bank_opponents[2];
 
-extern void far pascal set_room_redraw(void);
+extern void far pascal get_rooms(void);
 extern int far pascal IsLevelStartWithNISScreen(void);
-extern void far pascal refresh_room_screen(void);
+extern void far pascal save_game_play_palette(void);
 extern void far pascal LoadCustomRoomData(unsigned char room);
-extern void far pascal change_room_sound(signed char character, int id, int flag);
-extern void far pascal load_room_effects(unsigned char room);
-extern void far pascal reset_room_characters(void);
-extern signed char far pascal set_room_opponents(signed char mode);
+extern void far pascal preload_room_data(unsigned char room);
+extern void far pascal initialize_room_actors(void);
+extern signed char far pascal pick_hidden_actor(signed char mode);
 extern void far pascal copy_kid_to_char(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
@@ -876,25 +879,25 @@ extern void *cdecl memset(void *destination, int value, unsigned int size);
 
 int far pascal PrepCut(int keep_screen)
 {
-    int room = Room.number;
-    if (CutRoom && CutRoom != room) {
+    signed char result = -2;
+    if (CutRoom && Room.number != CutRoom) {
         Room.number = CutRoom;
-        set_room_redraw();
+        get_rooms();
         if (!keep_screen || !IsLevelStartWithNISScreen())
-            refresh_room_screen();
+            save_game_play_palette();
         LoadCustomRoomData(Room.number);
-        room_transition_active = 1;
+        cut_required = 1;
         copy_kid_to_char();
         add_room_trobs();
-        memset(room_controls, 0, sizeof(room_controls));
-        load_room_effects(Room.number);
-        reset_room_characters();
+        memset(bank_opponents, 0, sizeof(bank_opponents));
+        preload_room_data(Room.number);
+        initialize_room_actors();
         if (!Level.room_objects[Room.number - 1].opponent_count)
-            change_room_sound(-1, 0, 8);
+            DrawOppMeter(-1, 0, 8);
         else
-            Kid.opponent_index = set_room_opponents(1);
+            Kid.opponent_index = pick_hidden_actor(1);
     }
-    return -2;
+    return result;
 }
 
 extern void far pascal copy_kid_to_char(void);
@@ -944,7 +947,7 @@ void far pascal CheckMeters(void)
     }
 }
 
-extern void far pascal refresh_meter_animation(void);
+extern void far pascal CheckShadowPaletteChange(void);
 
 
 void far pascal ChangeMeters(void)
@@ -955,22 +958,24 @@ void far pascal ChangeMeters(void)
 
     if (Kid.life_delta) {
         if (Kid.character_kind == 1)
-            refresh_meter_animation();
-        hp = Kid.life_delta + Kid.life_points;
-        hp = hp > 0 ? hp : 0;
-        Kid.life_points = hp > Kid.life_initial ? Kid.life_initial : (signed char)hp;
+            CheckShadowPaletteChange();
+        hp = Kid.life_points + Kid.life_delta;
+        hp = hp < 0 ? 0 : hp;
+        hp = hp > Kid.life_initial ? Kid.life_initial : hp;
+        Kid.life_points = hp;
     }
     opponent = 0;
     count = Level.room_objects[Room.number - 1].opponent_count;
-    for (; opponent < count; ++opponent) {
-        meter = &RoomOpp[opponent];
-        if (meter->life_delta) {
-            hp = meter->life_points + meter->life_delta;
-            hp = hp > 0 ? hp : 0;
-            if (hp > meter->life_initial)
-                hp = meter->life_initial;
-            meter->life_points = hp;
-        }
+    if (count > 0) {
+        do {
+            meter = &RoomOpp[opponent];
+            if (meter->life_delta) {
+                hp = meter->life_points + meter->life_delta;
+                hp = hp < 0 ? 0 : hp;
+                hp = hp > meter->life_initial ? meter->life_initial : hp;
+                meter->life_points = hp;
+            }
+        } while (++opponent < count);
     }
 }
 

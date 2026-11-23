@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/prince/prince.json",
-  "binding_sha256": "6dbf001193c488f00fdc26e1b5f501ed33ab8144286a4a78e4a95caab290490f",
+  "binding_sha256": "f3c1b7b5bc799eda4fc068dce241bf99018a2eb301212d92a1dd4eb862f46969",
   "claims": [
     {
       "fixup_count": 28,
@@ -176,6 +176,26 @@
       "target_id": "root:0000:0cbc"
     },
     {
+      "fixup_count": 22,
+      "public": "PREPCUT",
+      "relocation_indices": [
+        15,
+        17,
+        46,
+        57,
+        72,
+        96,
+        98,
+        108,
+        124
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0000:0dd4"
+    },
+    {
       "fixup_count": 3,
       "public": "BOOSTMETER",
       "target_id": "root:0000:0e78"
@@ -201,6 +221,16 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0000:0e9a"
+    },
+    {
+      "fixup_count": 10,
+      "public": "CHANGEMETERS",
+      "relocation_indices": [
+        24
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0000:0f70"
     },
     {
       "fixup_count": 12,
@@ -297,8 +327,8 @@
       "public": "ADD_ROOM_TROBS",
       "target_id": "root:0000:0ada",
       "unproven": [
-        "ADD_SPECIAL_GATE",
-        "ROOM_EXTENSIONS"
+        "LEFT_TILES+0xff6a",
+        "TRIGGER_STONE_AT"
       ]
     },
     {
@@ -355,16 +385,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 3540,
-      "public": "PREPCUT"
-    },
-    {
-      "object_offset": 3952,
-      "public": "CHANGEMETERS"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 4928,
   "flags": [
     "/c",
@@ -380,12 +401,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "prince/prince",
-  "object_sha256": "f56cef6d2b98f87894ac918311a495fe78f829f4f0b798d966bdf81584d8d8a2",
+  "object_sha256": "318b5f02f8bedc4b4265c8f0f004a2170d274caa4d533f56644547dd93b7ed95",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/prince/prince.c",
-  "source_sha256": "9d1017264bb12bb9f15e5b2b81e48747400bd9edbb851e94345035e5f231d054",
+  "source_sha256": "c30fa0f0f2d25d4a8e531b6f96b0de38400b225f5c6c2df54abbaa3612156446",
   "space": "root"
 }

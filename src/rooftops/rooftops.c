@@ -188,7 +188,7 @@ extern int far pascal load_palette(uword, int, ubyte, sbyte);
 extern void far pascal CycleColors(int, int, int);
 extern int far pascal query_sound(char near *);
 extern void far pascal AddSound(int), AddLeaveLevelSong(void), play_song(int);
-extern void far pascal wait_sound(int), wait_timer(int), step_scene(void);
+extern void far pascal wait_sound(int), wait_timer(int), ChangeMeters(void);
 extern void far pascal CheckMeters(void), copy_kid_to_char(void);
 extern void far pascal reset_char_y(void), JumpSeq(int), flag_sound_resource(char near *);
 extern void far pascal load_actor_slot(sbyte), save_actor_slot(void);
@@ -328,7 +328,7 @@ void far pascal kill_kid_on_wharf(void)
                 delay_count = 48;
                 decrement_life_points(1);
                 Kid = Char;
-                step_scene();
+                ChangeMeters();
                 CheckMeters();
                 copy_kid_to_char();
                 wait_timer(0);

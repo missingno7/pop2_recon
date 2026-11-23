@@ -443,7 +443,7 @@ extern void far pascal load_actor_slot(sbyte slot);
 extern sbyte far pascal GetKidIdxAsOpp(void);
 extern sbyte far pascal register_actor_room(void);
 extern void far pascal decrement_life_points(sbyte frames);
-extern void far pascal before_princess_room(void);
+extern void far pascal ChangeMeters(void);
 extern void far pascal CheckMeters(void);
 
 typedef struct {
@@ -472,7 +472,7 @@ void far pascal FinlWatchKid(void)
             decrement_life_points(100);
             JumpSeq(71);
             Kid = Char;
-            before_princess_room(); CheckMeters();
+            ChangeMeters(); CheckMeters();
         }
         copy_kid_to_char();
     }

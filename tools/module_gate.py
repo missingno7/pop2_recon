@@ -571,6 +571,8 @@ def _site_frame(target, space, oracle, hull, grouped=False):
     # paragraph of their MAP segment, and the original root table is monotone; link segment 0.
     if not ((space.descriptor and space.descriptor["flags"] == 4) or space.name == "root"):
         return None
+    if not space.relocations or any(not {"segment", "index", "image_offset", "stored_word"} <= set(r) for r in space.relocations):
+        return None  # a space without relocation site frames (synthetic test spaces) gives no evidence
     row = {"kind": "overlay site frame" if space.name != "root" else "root site frame", "space": space.name}
     if grouped:
         # Probe: a grouped segment's records name its own floor; calls use the group frame.
@@ -593,7 +595,8 @@ def _site_frame(target, space, oracle, hull, grouped=False):
     if not (base <= lo and hi <= base + 0x10000):
         return "refused", dict(row, reason="site frame window does not hold the whole object")
     # A decoded RTLink vector's jump word enters only the overlay its descriptor index names.
-    elsewhere = {v["position"] + 6 for v in _code_vectors(oracle).values() if v["target_space"] != space.name}
+    vectors = _code_vectors(oracle).values() if any(s.descriptor for s in oracle.spaces.values()) else ()
+    elsewhere = {v["position"] + 6 for v in vectors if v["target_space"] != space.name}
     for source in oracle.spaces.values():
         for record in source.relocations:
             at = record["image_offset"]
@@ -710,6 +713,11 @@ def _frame_evidence(target, space, oracle, hull, grouped=False):
                              "image_offset": ptr["image_offset"]})
         if not evidence:
             evidence += _reached_near_frames(target, space, oracle, hull)
+        if not evidence:
+            # Root site frames (2026-11-23): bracketing root MZ records, only when nothing else frames the claim.
+            site = _site_frame(target, space, oracle, hull, grouped)
+            if site:
+                (evidence if site[0] == "evidence" else unusable).append(site[1])
         return evidence, unusable
     entry = space.position(target["segment"], target["offset"])
     for vector in _code_vectors(oracle).values():

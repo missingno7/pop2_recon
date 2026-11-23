@@ -153,6 +153,8 @@ class RealOverlayTests(unittest.TestCase):
         at = space.position(target["segment"], target["offset"])
         verdict, row = module_gate._site_frame(target, space, self.oracle, (at, at + target["size"]))
         self.assertEqual((verdict, row["kind"], row["frame"]), ("evidence", "root site frame", 0x1101))
+        found, _ = module_gate._frame_evidence(target, space, self.oracle, (at, at + target["size"]))
+        self.assertEqual([(e["kind"], e["frame"]) for e in found], [("root site frame", 0x1101)])
 
     def test_section_start_brackets_final_dispatcher(self):
         # FINAL 29cf:0000 precedes overlay 10's first record (index 55 at 0x74), which names the

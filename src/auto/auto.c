@@ -886,7 +886,7 @@ void far pascal trigger_character_water(void);
 void far _fastcall AddKidScream(unsigned char room);
 int far pascal decrement_life_points(unsigned char action);
 void far pascal set_actor_fall(unsigned char state);
-void far pascal stage_new_room_actor(void);
+void far pascal ChangeMeters(void);
 signed char far pascal GetRow(int y);
 
 void far pascal cut_room_opponents(void)
@@ -948,7 +948,7 @@ void far pascal check_cut(void)
                 (*(volatile int near *)&Char.frame) = 185;
                 set_actor_fall(3);
                 Kid = Char;
-                stage_new_room_actor();
+                ChangeMeters();
                 copy_kid_to_char();
             }
         }
