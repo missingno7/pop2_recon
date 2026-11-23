@@ -188,7 +188,7 @@ extern void AnimChar(void);
 extern void reset_char_y(void);
 extern void set_room_state(Byte room);
 /* The sprite entry consumes kind, image and context in AX, DX and BX. */
-extern void _fastcall draw_spike_sprite(Byte kind, int image, int context, int x, Byte height);
+extern void _fastcall add_middle_image(Byte kind, int image, int context, int x, Byte height);
 
 int GetSpikes(void);
 Mobile *GetSpikeMobRoomRow(Byte room, SByte row);
@@ -368,7 +368,7 @@ void DrawObjSpikes(Byte object)
         return;
 
     if (image)
-        draw_spike_sprite(4, image, render_context, FChar.y, 10);
+        add_middle_image(4, image, render_context, FChar.y, 10);
 }
 
 /* GetSpikeIdx */

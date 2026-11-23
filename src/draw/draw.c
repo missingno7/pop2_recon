@@ -457,11 +457,6 @@ void draw_custom_room_images(char pass)
 }
 
 
-/* The foreground queue follows 130 background entries in the shared segment. */
-typedef struct DrawQueueStorage {
-    DrawEntry background[130];
-    DrawEntry foreground[100];
-} DrawQueueStorage;
 void far _fastcall draw_custom_room_image(char index, char pass)
 {
     RoomImage *image;
@@ -473,8 +468,7 @@ void far _fastcall draw_custom_room_image(char index, char pass)
         !SECTRECT(&clip, &image->clip, &clip_rect))
         return;
     if (pass != 0 && pass != 5 && pass != 11) {
-        entry = ((_segment)fore_queue) :>
-            (DrawEntry _based(void) *)&((DrawQueueStorage near *)0)->foreground[fore_count++];
+        entry = &fore_queue[fore_count++];
         if (Level.environment_kind != 5)
             goto queued;
         if ((Level.environment_kind == 5 && Room.number != 19 && Room.number != 16 &&
@@ -592,9 +586,9 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 
-extern signed char meter_phase;
 extern CHARREC Kid;
 extern CHARREC Char;
+extern signed char meter_phase;
 extern TileDrawer draw_gate;
 extern void DrawCaveGateSquishing(TileDrawArgs *args);
 extern void copy_kid_to_char(void);
@@ -664,13 +658,11 @@ void check_foreground_gate(void)
 }
 #pragma optimize("gl", off)
 
-extern _segment room_queue_segment;
-extern DrawEntry _based(room_queue_segment) back_entries[];
-extern unsigned char _based(room_queue_segment) back_entry_modes[];
 extern void SaveCustomRoomPeels(void);
 extern void draw_back_fore_item(unsigned char pass, unsigned char entry);
 extern void draw_middle_item(int entry);
 
+#pragma optimize("gl", on)
 void dump_draw_table(unsigned char pass)
 {
     unsigned char index, count;
@@ -687,7 +679,7 @@ void dump_draw_table(unsigned char pass)
             if (pass == 3) {
                 draw_middle_item(index);
             } else {
-                if (!prepared && back_entry_modes[index * sizeof(DrawEntry)]) {
+                if (!prepared && back_queue[index].sheet) {
                     SaveCustomRoomPeels();
                     prepared = 1;
                 }
@@ -696,6 +688,7 @@ void dump_draw_table(unsigned char pass)
         } while (++index < count);
     }
 }
+#pragma optimize("gl", off)
 
 #pragma pack(1)
 typedef struct ShapeBitmap {
@@ -724,100 +717,91 @@ typedef struct MiddleEntry {
 } MiddleEntry;
 #pragma pack()
 
-extern ShapeTable *shape_tables[];
+extern ShapeTable *sprite_tables[];
 extern MiddleEntry far middle_queue[];
-extern _segment middle_queue_segment;
-extern MiddleEntry _based(middle_queue_segment) middle_entries[];
-extern ShapeBitmap far *resolve_handle_to_far_payload(unsigned int);
-extern ShapeBitmap far *fetch_locked_shape_list(unsigned int);
-extern unsigned int mark_shape(unsigned int handle);
-extern void restore_shape(unsigned int handle, unsigned int mark);
-extern void load_shape_ref(ShapeTable *table, int image, ShapeRef far *reference);
-extern void release_shape_ref(ShapeRef far *reference);
-extern void customize_entry_clip(RoomImage *image, DrawRect far *rect);
-extern ShapeBitmap far *load_custom_shape(RoomImage *image);
-extern ShapeBitmap far *far _fastcall load_room_middle_shape(int image, ShapeRef *ref);
-extern ShapeBitmap far *far _fastcall load_animated_shape(int index, ShapeRef *ref);
+extern ShapeBitmap far *resolve_handle_to_far_payload(unsigned int handle);
+extern ShapeBitmap far *fetch_locked_shape_list(unsigned int handle);
+extern unsigned int save_handle_flags(unsigned int handle);
+extern void restore_handle_flags(unsigned int handle, unsigned int mark);
+extern void get_set_shape_item(ShapeTable *table, int image, ShapeRef far *reference);
+extern void FreeShpInfo(ShapeRef far *reference);
+extern void AddCustomPiecePeel(RoomImage *image, DrawRect far *rect);
+extern ShapeBitmap far *GetCustomPieceShape(RoomImage *image);
+extern ShapeBitmap far *far _fastcall GetCustomPieceShpInfo(int image, ShapeRef *ref);
+extern ShapeBitmap far *far _fastcall get_carpet_shape_info(int index, ShapeRef *ref);
 extern ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref);
-extern void prepare_animated_shapes(void);
+extern void save_under_carpet(void);
 extern void set_shape_variant(int variant);
-extern void remember_shape(int shape);
-extern void apply_shape_palette(unsigned char far *data, int width, int stride);
-extern void apply_custom_shape_palette(unsigned char far *data, int width, int stride);
-extern void apply_shape_scheme(unsigned char far *data, int width, int height, int stride);
-extern void set_draw_clip(DrawRect far *rect);
-extern void restore_draw_clip(void);
-extern void far _fastcall update_middle_peel(int x, int height, int y, int width, char mode, char flags);
+extern unsigned int mark_purgeable(unsigned int handle);
+extern void MIRRORMCGABLOCK(unsigned char far *data, int width, int stride);
+extern void set_frame_dimensions(unsigned char far *data, int width, int stride);
+extern void flip_image(unsigned char far *data, int width, int height, int stride);
+extern void push_port_clip(DrawRect far *rect);
+extern void pop_port_clip(void);
+extern void far _fastcall add_peel(int x, int height, int y, int width, char mode, char flags);
 extern void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
                         int flip, int mode, unsigned int flags);
 
+#pragma optimize("gl", on)
 void draw_back_fore_item(unsigned char pass, unsigned char index)
 {
     DrawEntry far *entry;
-    ShapeTable *table;
     ShapeBitmap far *image;
     ShapeBitmap far *mask;
     RoomImage *custom;
     ShapeRef ref;
-    int mode, image_number;
-    unsigned char initial_type;
+    int mode;
     unsigned int flags;
+
     if (pass == 0)
-        entry = room_queue_segment :> (DrawEntry _based(void) *)&back_entries[index];
+        entry = &back_queue[index];
     else
-        entry = room_queue_segment :> (DrawEntry _based(void) *)&fore_queue[index];
+        entry = &fore_queue[index];
     mode = 2;
+    flags = 0;
     custom = 0;
-    initial_type = entry->type;
-    table = shape_tables[initial_type];
-    image_number = entry->shape;
-    if (table->count >= image_number) {
-        if (initial_type == 1) {
+    if (sprite_tables[entry->type]->count >= entry->shape) {
+        if (entry->type == 1) {
             mode = 3;
             flags = 0x4000;
-        } else if (initial_type == 0) {
+        } else if (entry->type == 0) {
             mode = 3;
             flags = 0x8000;
-        } else {
-            flags = 0;
         }
-        load_shape_ref(table, image_number, &ref);
+        get_set_shape_item(sprite_tables[entry->type], entry->shape, &ref);
         image = resolve_handle_to_far_payload(ref.handle);
         if (!image)
             return;
     } else {
-        flags = 0;
         if (!room_images && (entry->shape < 0x6370 || entry->shape > 0x6372))
             return;
         if (room_images) {
             custom = &room_images->images[entry->shape - room_images->first_shape];
             if (custom->sheet == 1)
-                customize_entry_clip(custom, &entry->clip);
+                AddCustomPiecePeel(custom, &entry->clip);
         }
         if (entry->shape >= 0x6370 && entry->shape <= 0x6372) {
             image = load_horse_shape(entry->shape, &ref);
             entry->shape = 0;
         } else if (entry->shape >= 0x62d7 && entry->shape <= 0x62e2) {
-            prepare_animated_shapes();
-            image = load_animated_shape(entry->shape - 0x62d7, &ref);
+            save_under_carpet();
+            image = get_carpet_shape_info(entry->shape - 0x62d7, &ref);
             ref.palette = entry->attributes;
-        } else {
-            if (room_images) {
-                image = load_custom_shape(custom);
-                ref.palette = entry->attributes;
-            }
+        } else if (room_images) {
+            image = GetCustomPieceShape(custom);
+            ref.palette = entry->attributes;
         }
         ref.separate_mask = 0;
     }
     if (entry->attributes != ref.palette) {
         if (ref.separate_mask)
-            apply_shape_palette(image->data, image->width, image->stride);
+            MIRRORMCGABLOCK(image->data, image->width, image->stride);
         else if (ref.kind == 2)
-            apply_shape_scheme(image->data, image->width, image->height, image->stride);
+            flip_image(image->data, image->width, image->height, image->stride);
         else if (ref.kind == 1)
-            apply_custom_shape_palette(image->data, image->width, image->stride);
+            set_frame_dimensions(image->data, image->width, image->stride);
         if (entry->shape < 0x6370 || entry->shape > 0x6372)
-            ((unsigned char *)shape_tables[entry->type])[6 * entry->shape + 3] = entry->attributes;
+            ((unsigned char *)sprite_tables[entry->type])[6 * entry->shape + 3] = entry->attributes;
     }
     if (ref.separate_mask) {
         mask = image;
@@ -825,45 +809,44 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
     } else {
         mask = 0;
     }
-    set_draw_clip(&entry->clip);
+    push_port_clip(&entry->clip);
     draw_bitmap(image, mask, entry->x, entry->y, entry->flip, mode, flags);
-    restore_draw_clip();
-    if (shape_tables[entry->type]->count > entry->shape)
-        release_shape_ref(&ref);
+    pop_port_clip();
+    if (sprite_tables[entry->type]->count > entry->shape)
+        FreeShpInfo(&ref);
     else if (custom && custom->pass == 0 && custom->attributes == 0)
-        remember_shape(custom->upper);
+        mark_purgeable(custom->upper);
 }
+#pragma optimize("gl", off)
 
+#pragma optimize("gl", on)
 void draw_middle_item(int index)
 {
-    MiddleEntry _based(middle_queue_segment) *entry;
     ShapeRef ref;
     ShapeBitmap far *image;
     signed char type;
-    unsigned char far *palette;
     unsigned int mark, flags;
-    int mode, flip, x, height, width;
+    int mode, flip, x;
+    struct { int width, height; } peel;
 
-    entry = &middle_entries[index];
     type = middle_queue[index].type;
     if (middle_queue[index].shape >= 0x62d7 && middle_queue[index].shape <= 0x62e2) {
-        load_animated_shape(entry->shape - 0x62d7, &ref);
+        get_carpet_shape_info(middle_queue[index].shape - 0x62d7, &ref);
     } else if (((unsigned char)Level.level_number) == 5 && Room.number == 10 && type == 4 &&
-               entry->shape < room_images->count) {
-        load_room_middle_shape(entry->shape, &ref);
+               middle_queue[index].shape < room_images->count) {
+        GetCustomPieceShpInfo(middle_queue[index].shape, &ref);
     } else {
-        if (type == 2 && entry->mode)
-            set_shape_variant(entry->mode);
-        load_shape_ref(shape_tables[type], entry->shape + 1, &ref);
-        if (type == 2 && entry->mode)
+        if (type == 2 && middle_queue[index].mode)
+            set_shape_variant(middle_queue[index].mode);
+        get_set_shape_item(sprite_tables[type], middle_queue[index].shape + 1, &ref);
+        if (type == 2 && middle_queue[index].mode)
             set_shape_variant(2);
     }
-    flip = middle_entries[index].attributes;
-    mark = mark_shape(ref.handle);
+    flip = middle_queue[index].attributes;
+    mark = save_handle_flags(ref.handle);
     image = fetch_locked_shape_list(ref.handle);
-    x = entry->x;
-    palette = &entry->palette;
-    if (*palette)
+    x = middle_queue[index].x;
+    if (middle_queue[index].palette)
         x -= image->height;
     if (type == 2) {
         flags = 0;
@@ -877,32 +860,33 @@ void draw_middle_item(int index)
         else if (type == 1)
             flags = 0x4000;
         else
-            flags = entry->mode;
+            flags = middle_queue[index].mode;
         mode = 3;
     }
-    if (*palette != ref.palette) {
+    if (middle_queue[index].palette != ref.palette) {
         if (mode == 1)
-            apply_shape_palette(image->data, image->width, image->stride);
+            MIRRORMCGABLOCK(image->data, image->width, image->stride);
         else if (mode == 2)
-            apply_custom_shape_palette(image->data, image->width, image->stride);
+            set_frame_dimensions(image->data, image->width, image->stride);
         else
-            apply_shape_scheme(image->data, image->width, image->height, image->stride);
-        ((unsigned char *)shape_tables[type])[6 * entry->shape + 9] = *palette;
+            flip_image(image->data, image->width, image->height, image->stride);
+        ((unsigned char *)sprite_tables[type])[6 * middle_queue[index].shape + 9] =
+            middle_queue[index].palette;
     }
-    entry = &middle_entries[index];
-    height = x + image->height;
-    if (height > entry->clip.right)
-        height = entry->clip.right;
-    width = entry->clip.bottom - entry->y;
-    if (width > image->width)
-        width = image->width;
-    update_middle_peel(x, height, entry->y, width, entry->update_peel, 0);
-    set_draw_clip(&middle_queue[index].clip);
-    draw_bitmap(image, 0, x, entry->y, flip, mode, flags);
-    restore_draw_clip();
-    restore_shape(ref.handle, mark);
-    release_shape_ref(&ref);
+    peel.height = x + image->height;
+    if (peel.height > middle_queue[index].clip.right)
+        peel.height = middle_queue[index].clip.right;
+    peel.width = middle_queue[index].clip.bottom - middle_queue[index].y;
+    if (peel.width > image->width)
+        peel.width = image->width;
+    add_peel(x, peel.height, middle_queue[index].y, peel.width, middle_queue[index].update_peel, 0);
+    push_port_clip(&middle_queue[index].clip);
+    draw_bitmap(image, 0, x, middle_queue[index].y, flip, mode, flags);
+    pop_port_clip();
+    restore_handle_flags(ref.handle, mark);
+    FreeShpInfo(&ref);
 }
+#pragma optimize("gl", off)
 
 typedef struct DrawDestination {
     unsigned char header[24];
@@ -1133,8 +1117,8 @@ extern DrawRect *ComputeOffsetCellRect(DrawRect *area, DrawRect *source, int col
 
 int compute_half_rect(DrawRect *area)
 {
-    signed char index;
     unsigned int image;
+    signed char index;
     struct { int byte_offset; signed char count; DrawRect source; } state;
 
     if (Kid.frame >= 135 && Kid.frame < 145) {
@@ -1330,7 +1314,7 @@ void sort_cell_objects(void)
 int compare_objects(int first, int second)
 {
     int left_id, right_id;
-    unsigned char right_type, left_type;
+    unsigned char left_type, right_type;
     unsigned char left_priority, right_priority;
     int swap;
 
@@ -1432,7 +1416,7 @@ void draw_cell_object(signed char index)
             add_middle_image(FChar.image_set, FChar.image + 1,
                              active_object_offset, FChar.y, 10);
             if (FChar.depth) {
-                middle_entries[middle_count - 1].mode = FChar.depth;
+                middle_queue[middle_count - 1].mode = FChar.depth;
             }
         }
         break;
@@ -1529,39 +1513,36 @@ void set_object_cell(signed char index)
         redraw_cell_objects[FChar.index] = 1;
 }
 
-extern _segment fore_queue_segment;
-extern void far *far cdecl move_far_memory(void far *out, const void far *src, unsigned count);
+extern void far *far cdecl _fmemmove(void far *out, const void far *src, unsigned count);
 extern void sort_fore_overlay(void);
 
+#pragma optimize("gl", on)
 void sort_back_table(void)
 {
-    int source, dest, first_offset, sheet_offset;
+    int dest, source;
     DrawEntry item;
 
-    source = dest = 0;
-    if (back_count > 0) {
-        first_offset = 0;
-        sheet_offset = 1;
+    dest = source = 0;
+    if (*(int *)redraw_flags > 0) {
         do {
-            if (!*(room_queue_segment :> (unsigned char _based(void) *)sheet_offset)) {
+            if (!back_queue[source].sheet) {
                 if (source != dest) {
-                    item = *(room_queue_segment :> (DrawEntry _based(void) *)(sheet_offset - 1));
-                    move_far_memory(room_queue_segment :> (void _based(void) *)(first_offset + sizeof(DrawEntry)),
-                                    room_queue_segment :> (void _based(void) *)first_offset,
+                    item = back_queue[source];
+                    _fmemmove(&back_queue[dest + 1], &back_queue[dest],
                                     (source - dest) * sizeof(DrawEntry));
-                    *(room_queue_segment :> (DrawEntry _based(void) *)first_offset) = item;
+                    back_queue[dest] = item;
                 }
-                first_offset += sizeof(DrawEntry);
                 ++dest;
             }
-            sheet_offset += sizeof(DrawEntry);
-        } while (++source < back_count);
+        } while (++source < *(int *)redraw_flags);
     }
 }
+#pragma optimize("gl", off)
 
+#pragma optimize("gl", on)
 void sort_fore_table(void)
 {
-    int source, dest, first_offset, shape_offset, shape;
+    int dest, source, shape;
     DrawEntry item;
 
     shape = 0;
@@ -1577,27 +1558,23 @@ void sort_fore_table(void)
         return;
     }
     if (shape) {
-        source = dest = 0;
+        dest = source = 0;
         if (fore_count > 0) {
-            first_offset = (int)&fore_queue[0];
-            shape_offset = (int)&fore_queue[0].shape;
             do {
-                if (*(fore_queue_segment :> (int _based(void) *)shape_offset) == shape) {
+                if (fore_queue[source].shape == shape) {
                     if (source != dest) {
-                        item = *(((_segment)fore_queue) :> (DrawEntry _based(void) *)(shape_offset - 2));
-                        move_far_memory(((_segment)fore_queue) :> (void _based(void) *)(first_offset + sizeof(DrawEntry)),
-                                        ((_segment)fore_queue) :> (void _based(void) *)first_offset,
-                                        (source - dest) * (int)sizeof(DrawEntry));
-                        *(((_segment)fore_queue) :> (DrawEntry _based(void) *)first_offset) = item;
+                        item = fore_queue[source];
+                        _fmemmove(&fore_queue[dest + 1], &fore_queue[dest],
+                                        (source - dest) * sizeof(DrawEntry));
+                        fore_queue[dest] = item;
                     }
-                    first_offset += sizeof(DrawEntry);
                     ++dest;
                 }
-                shape_offset += sizeof(DrawEntry);
             } while (++source < fore_count);
         }
     }
 }
+#pragma optimize("gl", off)
 
 extern DrawRect message_rect;
 extern int suppress_restart, restart_style, message_timeout, message_counter;
@@ -1616,10 +1593,8 @@ void draw_message(const char *message)
 {
     char text[100];
 
-    strcpy(text, message);
-    strupr(text);
-    clear_message(1);
-    DRAW_NUL_TEXT_IN_RECT(&message_rect, 0, 1, text);
+    strcpy(text, message); strupr(text);
+    clear_message(1); DRAW_NUL_TEXT_IN_RECT(&message_rect, 0, 1, text);
 }
 
 void draw_restart_message(void)
@@ -1628,12 +1603,9 @@ void draw_restart_message(void)
 
     if (!suppress_restart) {
         clear_life_bar();
-        INSETRECT(&area, &message_rect, -message_rect.left, 0);
-        area.right = 320;
-        if (restart_style == 2)
-            DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message2);
-        else
-            DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message1);
+        INSETRECT(&area, &message_rect, -message_rect.left, 0); area.right = 320;
+        if (restart_style == 2) DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message2);
+        else DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message1);
     }
 }
 
@@ -1642,8 +1614,7 @@ void clear_life_bar(void)
     DrawRect area;
 
     INSETRECT(&area, &message_rect, -message_rect.left, 0);
-    area.right = 320;
-    STROKE_PORT_RECT(&area);
+    area.right = 320; STROKE_PORT_RECT(&area);
 }
 
 void clear_message(int reset_timer)
@@ -1657,14 +1628,12 @@ void clear_message(int reset_timer)
     } else {
         SET_RECORD_RANGE(&message_rect, 0);
     }
-    if (reset_timer)
-        message_timeout = message_counter = 0;
+    if (reset_timer) message_timeout = message_counter = 0;
 }
 
 void copy_dirty_rectangles(void)
 {
-    while (dirty_rectangle_count--)
-        PrinceCopy(&dirty_rectangles[dirty_rectangle_count]);
+    while (dirty_rectangle_count--) PrinceCopy(&dirty_rectangles[dirty_rectangle_count]);
     dirty_rectangle_count = 0;
 }
 
@@ -1681,7 +1650,6 @@ extern int suppress_horse;
 extern unsigned int HGetRsrc(unsigned long type, int shape);
 extern unsigned int find_shape_list(int shape);
 extern unsigned int convert_shape(HorseShapeHeader far *out, HorseShapeHeader far *header, int count);
-extern unsigned int mark_purgeable(unsigned int handle);
 extern ShapeBitmap far *materialize_handle(unsigned int handle);
 extern void dispose_handle(unsigned int handle);
 #pragma optimize("gl", on)
@@ -1693,28 +1661,22 @@ ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
     HorseShapeHeader far *metadata;
 
     if (!horse_shape_ref.handle || !materialize_handle(horse_shape_ref.handle)) {
-        if (horse_shape_ref.handle)
-            dispose_handle(horse_shape_ref.handle);
+        if (horse_shape_ref.handle) dispose_handle(horse_shape_ref.handle);
         handle = HGetRsrc(0x53484150UL, id);
         if (handle) {
             metadata = (HorseShapeHeader far *)resolve_handle_to_far_payload(find_shape_list(0x61a9));
             header = *(HorseShapeHeader far *)((char far *)metadata + 4);
-            header.palette = 0xf0;
-            header.mode = -2;
+            header.palette = 0xf0; header.mode = -2;
             new_handle = convert_shape((HorseShapeHeader far *)fetch_locked_shape_list(handle), &header, 1);
             dispose_handle(handle);
-            horse_shape_ref.kind = 1;
-            horse_shape_ref.reserved = 0;
-            horse_shape_ref.separate_mask = 0;
-            horse_shape_ref.palette = 0;
+            horse_shape_ref.kind = 1; horse_shape_ref.reserved = 0;
+            horse_shape_ref.separate_mask = 0; horse_shape_ref.palette = 0;
             horse_shape_ref.handle = mark_purgeable(new_handle);
         }
     }
     *ref = horse_shape_ref;
-    if (horse_shape_ref.handle)
-        result = resolve_handle_to_far_payload(horse_shape_ref.handle);
-    else
-        result = 0;
+    if (horse_shape_ref.handle) result = resolve_handle_to_far_payload(horse_shape_ref.handle);
+    else result = 0;
     return result;
 }
 #pragma optimize("gl", off)
@@ -1756,8 +1718,7 @@ void draw_horse(unsigned int shape, unsigned int origin, char pass)
         if (pass == 0)
             entry = &back_queue[(*(int *)redraw_flags)++];
         else
-            entry = ((_segment)fore_queue) :>
-                (DrawEntry _based(void) *)&((DrawQueueStorage near *)0)->foreground[fore_count++];
+            entry = &fore_queue[fore_count++];
         entry->attributes = 0;
         entry->y = point[0];
         entry->x = point[1];
@@ -2069,16 +2030,17 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
     unsigned char total;
     register unsigned int handle;
     unsigned char far *volatile colors;
-    int success;
 
     total = get_total_pals(resource);
     handle = HGETRSRC(0x50414c53UL, resource);
-    if (handle && total > palette) {
+    if (!handle || total <= palette)
+        return 0;
+    {
         colors = (unsigned char far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
         if (first < 16) {
             if (saved_palette) {
                 total = count < 16 - first ? count : 16 - first;
-                if (count - total > 0)
+                if (count > total)
                     copy_palette_bytes(saved_palette, colors + (count * palette + total) * 3,
                                        (count - total) * 3);
             } else {
@@ -2091,11 +2053,8 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
             WRITE_DAC_BLOCK(first, count, colors + count * palette * 3, 1);
         }
         DISPOSE_HANDLE(handle);
-        success = 1;
-    } else {
-        success = 0;
+        return 1;
     }
-    return success;
 }
 
 unsigned char get_total_pals(int resource)

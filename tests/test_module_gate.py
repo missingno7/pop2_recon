@@ -565,6 +565,39 @@ int far pascal Sw(int k)
         self.assertGreaterEqual(sum(e["kind"] == "own-segment offset16" for e in claim["equations"]), 9)
 
 
+class ExclusiveSelectorTests(unittest.TestCase):
+    """A CONST piece of far-data selector words is placed by who loads them."""
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.oracle = Oracle.load()
+        cls.home = cls.oracle.spaces["overlay-17"]
+
+    def place(self, p, length, name, space):
+        from module_gate import _exclusive_selectors
+        r = common.read_json(ROOT / f"recipes/{name}.json")
+        content = self.home.data[0x2940 + p:0x2940 + p + length]
+        return _exclusive_selectors(self.oracle, self.home, 0x2940, p, content, self.oracle.spaces[space],
+                                    (r["origin"], r["origin"] + r["emitted_size"]))
+
+    def test_const_start_is_the_end_of_the_termination_table(self):
+        import module_gate
+        root = self.oracle.spaces["root"]
+        self.assertEqual(root.data[0x200C0:0x200C6], bytes.fromhex("be3228bf3628"))
+        self.assertEqual(module_gate.CONST_START, 0x2836)
+
+    def test_original_files_own_their_selector_words(self):
+        self.assertTrue(self.place(0x2842, 2, "auto/auto", "overlay-3"))
+        self.assertTrue(self.place(0x2844, 2, "drawruin/drawruin", "overlay-8"))
+        self.assertTrue(self.place(0x2846, 6, "final/final", "overlay-10"))
+
+    def test_another_files_word_or_a_wrong_object_is_refused(self):
+        self.assertFalse(self.place(0x2848, 2, "auto/auto", "overlay-3"))      # FINAL loads it
+        self.assertFalse(self.place(0x2842, 2, "final/final", "overlay-10"))   # AUTO loads it
+        self.assertFalse(self.place(0x2822, 2, "auto/auto", "overlay-3"))      # before CONST, never loaded
+
+
 class FarConsensusTests(unittest.TestCase):
     """A far data address without an outside witness needs two equal exact claimed sites."""
 
@@ -589,7 +622,7 @@ class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""
 
     def check(self, segments, uses, placements, image=b"", data_fixes=(), far_symbols=None, relocs=(),
-              data_symbols=None):
+              data_symbols=None, code=None):
         from module_gate import _check_placements
         from oracle import Space
         module = SimpleNamespace(
@@ -604,7 +637,7 @@ class PlacementTests(unittest.TestCase):
                    "dgroup_segment": {"segment": 0x10, "witnesses": [
                        {"space": "root", "image_offset": 0x100 + len(image), "relocation_index": 0}]}}
         return _check_placements(module, placements, uses, binding, space, oracle, data_fixes, far_symbols,
-                                 data_symbols)
+                                 data_symbols, None, code)
 
     @staticmethod
     def pointer(at, frame=None):
@@ -644,6 +677,24 @@ class PlacementTests(unittest.TestCase):
         target = {"kind": "external", "index": 3, "name": "CALLBACK", "method": 6}
         return {"segment": "_DATA", "segment_offset": at, "loc_type": 3, "field_width": 4, "self_relative": False,
                 "frame": {"kind": "target_frame", "target": target}, "target": target, "displacement": None}
+
+    def test_far_pointer_into_own_code_uses_the_witnessed_frame(self):
+        # _DATA = {own function at CODE+0x10, 0xBBAA}; CODE lies at 2a93:0040.
+        target = {"kind": "segment", "index": 1, "name": "UNIT_TEXT", "method": 4}
+        field = {"segment": "_DATA", "segment_offset": 0, "loc_type": 3, "field_width": 4, "self_relative": False,
+                 "frame": {"kind": "target_frame", "target": target}, "target": target, "displacement": None}
+        content, image = bytes.fromhex("10000000aabb"), bytes(8) + bytes.fromhex("5000932aaabb")
+        args = ([("_DATA", content, 6)], {}, {"_DATA": 8}, image, [field])
+        code = ("UNIT_TEXT", 0x40, 0x100, 0x2A93)
+        self.assertTrue(self.check(*args, relocs=[10], code=code)["_DATA"]["unique"])
+        with self.assertRaisesRegex(ValueError, "witnessed frame"):
+            self.check(*args, relocs=[10])
+        with self.assertRaisesRegex(ValueError, "relocated words"):
+            self.check(*args, code=code)
+        with self.assertRaisesRegex(ValueError, "differs"):
+            self.check(*args, relocs=[10], code=("UNIT_TEXT", 0x40, 0x100, 0x2A94))
+        with self.assertRaisesRegex(ValueError, "leaves the object's CODE"):
+            self.check(*args, relocs=[10], code=("UNIT_TEXT", 0x40, 0x10, 0x2A93))
 
     def test_far_code_pointer_takes_the_grounded_symbol_and_needs_its_relocation(self):
         # _DATA = {CALLBACK (far), 0xBBAA} at 8; CALLBACK grounded at 1234:0056.

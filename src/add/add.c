@@ -47,7 +47,7 @@ typedef struct {
     ShapeItem images[1];
 } ShapeSet;
 
-extern ShapeItem *shape_sets[];
+extern ShapeItem *sprite_sets[];
 extern ShapeSet *kid_shapes;
 extern ShapeSet *opponent_shapes;
 extern int image_y_offsets[];
@@ -113,13 +113,9 @@ extern void load_set_shape(unsigned int resource, int image,
                            ShapeItem far *entry, int slot);
 extern void MARK_PURGEABLE(unsigned int handle);
 extern void PrinceFreeShp(int id);
-extern TileImages *tile_images;
+extern TileImages *level_pieces;
 extern BFItem far back_table[];
 extern BFItem far front_table[];
-extern _segment back_table_selector;
-extern _segment front_table_selector;
-extern BFItem _based(back_table_selector) back_rows[];
-extern BFItem _based(front_table_selector) front_rows[];
 
 static struct {
     char back[sizeof("BackTable overflow in AddBImgToBTable(). Quit?")];
@@ -156,7 +152,7 @@ int far _fastcall add_image_info(Byte set, int image, ImagePlacement *placement,
 
     if (set == 4) check_background_shape(image - 1);
 
-    shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(shape_sets[set][image].handle);
+    shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sprite_sets[set][image].handle);
     if (shape == 0 || *shape == 0) return 0;
 
     item->placement.y += image_y_offsets[y] - *shape;
@@ -183,10 +179,10 @@ int AddBImgToBTable(Byte tile, int image, Offset x, Offset y, Byte order, Byte l
     int added;
 
     if (i >= 130 && confirm_quit(overflow.back)) return 0;
-    added = add_image_info(4, image, &tile_images[tile].background,
+    added = add_image_info(4, image, &level_pieces[tile].background,
                            &back_table[i], x, y, order, layer);
     if (added) {
-        back_rows[i].mode = tile_images[tile].mode;
+        back_table[i].mode = level_pieces[tile].mode;
         ++back_count;
     }
     return added;
@@ -203,10 +199,10 @@ int add_back_foreground_to_back(Byte tile, int image, Offset x, Offset y,
         i = back_count;
         if (i >= 130 && confirm_quit(overflow.back_foreground)) return 0;
         added = add_image_info(4, image,
-                               &tile_images[tile].background_foreground,
+                               &level_pieces[tile].background_foreground,
                                &back_table[i], x, y, order, layer);
         if (added) {
-            back_rows[i].mode = tile_images[tile].mode;
+            back_table[i].mode = level_pieces[tile].mode;
             ++back_count;
         }
     }
@@ -221,10 +217,10 @@ int add_back_foreground_to_front(Byte tile, int image, Offset x, Offset y,
 
     if (i >= 100 && confirm_quit(overflow.front_foreground)) return 0;
     added = add_image_info(4, image,
-                           &tile_images[tile].background_foreground,
+                           &level_pieces[tile].background_foreground,
                            &front_table[i], x, y, order, layer);
     if (added) {
-        front_rows[i].mode = tile_images[tile].mode;
+        front_table[i].mode = level_pieces[tile].mode;
         ++front_count;
     }
     return added;
@@ -308,9 +304,17 @@ typedef struct {
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
 
-extern CHARREC Char;
 
 extern void ConvertX(int x, int *destination);
+extern CHARREC Char;
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+extern ROOMREC Room;
 extern void set_object_cell(Byte index);
 
 void far _fastcall add_char_object(Byte kind)
@@ -335,7 +339,7 @@ void far _fastcall add_char_object(Byte kind)
     }
 }
 
-int add_foreground_image(Byte tile, int image, Offset x, Offset y,
+int add_middle_item(Byte tile, int image, Offset x, Offset y,
                     Byte order, Byte layer)
 {
     Byte set;
@@ -347,10 +351,10 @@ int add_foreground_image(Byte tile, int image, Offset x, Offset y,
 
     i = front_count;
     if (i >= 100 && confirm_quit(overflow.front)) return 0;
-    added = add_image_info(set, image, &tile_images[tile].foreground,
+    added = add_image_info(set, image, &level_pieces[tile].foreground,
                            &front_table[i], x, y, order, layer);
     if (added) {
-        front_rows[i].mode = tile_images[tile].mode;
+        front_table[i].mode = level_pieces[tile].mode;
         ++front_count;
     }
     return added;
@@ -374,19 +378,33 @@ typedef struct {
 } ImageSize;
 
 extern int mid_count;
-extern _segment mid_table_selector;
-extern MidItem _based(mid_table_selector) mid_rows[];
+extern MidItem far mid_table[];
 typedef struct {
-    unsigned char number;                             /* 00 */
-    unsigned char left, right, above, below;           /* 01-04 */
-    unsigned char above_left, above_right;             /* 05-06 */
-    unsigned char below_left, below_right;             /* 07-08 */
-    unsigned char custom;                             /* 09 */
-} ROOMREC;
-extern ROOMREC Room;
-extern Offset *custom_shapes;
-extern signed char background_depth;
-extern void get_custom_shape_size(int index, ImageSize far *size);
+    int left, top, right, bottom;
+} CustomRect;
+
+typedef unsigned int ShapeHandle;
+typedef struct {
+    signed char shape;
+    int x, y;
+    unsigned char pass, palette;
+    int resource;
+    ShapeHandle handle;
+    CustomRect rect;
+    unsigned char flags, peel_type;
+    char tail[4];
+} CustomPiece;
+
+typedef struct {
+    signed char count;
+    unsigned char template_id;
+    int shape_base, last_shape, reserved;
+    int sound_first, sound_last;
+    char header_tail[16];
+    CustomPiece pieces[1];
+} CustomRoom;
+extern CustomRoom *custom_room;
+extern ImageSize far *GetCustomPieceSize(Byte index, ImageSize far *size);
 extern int far *get_set_image_size(ShapeSet *set, int index, ImageSize far *size);
 
 int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order)
@@ -395,29 +413,27 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
     int image_index;
     ImageSize size;
     int added;
-    MidItem _based(mid_table_selector) *row;
 
     if (image != 0 && mid_count < 30) {
         image_index = image - 1;
         index = mid_count;
-        row = &mid_rows[index];
-        row->x = x;
+        mid_table[index].x = x;
         if ((Byte)Level.level_number == 5 && Room.number == 10 &&
-            set == 4 && *custom_shapes > image_index) {
-            get_custom_shape_size(image_index, &size);
+            set == 4 && custom_room->count > image_index) {
+            GetCustomPieceSize(image_index, &size);
         } else {
-            if (!get_set_image_size((ShapeSet *)shape_sets[set], image_index, &size) || !size.height) return 0;
+            if (!get_set_image_size((ShapeSet *)sprite_sets[set], image_index, &size) || !size.height) return 0;
         }
 
-        row->y = y - size.height + 1;
-        row->set = set;
-        row->image = image_index;
-        row->clip = (*(Rect near *)&FChar.clip_top);
-        row->order = order;
-        row->reserved = 0;
-        if (FChar.flipped == 0 && (set != 4 || background_depth >= 0)) row->visible = 1;
-        else row->visible = 0;
-        row->depth = 255;
+        mid_table[index].y = y - size.height + 1;
+        mid_table[index].set = set;
+        mid_table[index].image = image_index;
+        mid_table[index].clip = (*(Rect near *)&FChar.clip_top);
+        mid_table[index].order = order;
+        mid_table[index].reserved = 0;
+        if (FChar.flipped == 0 && (set != 4 || (signed char)FChar.object_type >= 0)) mid_table[index].visible = 1;
+        else mid_table[index].visible = 0;
+        mid_table[index].depth = 255;
         ++mid_count;
         added = 1;
     } else {
@@ -453,7 +469,6 @@ extern int is_char_non_viewable(void);
 
 extern void far actor_redraw_callback(void);
 extern void mark_bufs_for_rect(void (far *callback)(void), unsigned int handle, Offset actor);
-extern void mark_peel_handle(unsigned int handle);
 extern void retain_peel(unsigned int handle);
 extern void restore_saved_pixels(unsigned int handle);
 extern int peel_restore_mode;
@@ -527,6 +542,8 @@ int find_character_peel(Offset actor, int occurrence)
     }
     return found;
 }
+
+extern void mark_peel_handle(unsigned int handle);
 
 void restore_peels(void)
 {

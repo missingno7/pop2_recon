@@ -1498,7 +1498,7 @@ extern void far pascal mark_mob_redraw(byte changed);
 extern int far pascal IsWall(sbyte tile);
 extern void far pascal dispatch_sound(unsigned int image);
 extern void far pascal add_mob(void);
-extern void far _fastcall queue_fireball(byte layer, int frame, int x, int y, byte flags);
+extern void far _fastcall add_middle_image(byte layer, int frame, int x, int y, byte flags);
 
 typedef struct {
     int x;
@@ -1644,7 +1644,7 @@ void far pascal draw_fireball_object(FinalObject near *object)
 {
     int image = get_fireball_image(FChar.image);
 
-    queue_fireball(2, image + 1, FChar.x, FChar.y, 10);
+    add_middle_image(2, image + 1, FChar.x, FChar.y, 10);
     fireball_queue[object_counter].flags = 8;
     fireball_queue[object_counter].mode = 0;
 }

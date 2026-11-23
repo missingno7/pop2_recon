@@ -53,12 +53,13 @@ def compile_object(source_text, recipe, workdir):
 
 def extern_map(old_module, new_module, renames):
     """Old object external name -> new one. Externals pair by the source renames (pascal names are the
-    uppercased identifier, cdecl names `_` + identifier); EXTDEF order may change with spelling."""
+    uppercased identifier, cdecl `_` + identifier, _fastcall `@` + identifier); EXTDEF order may change
+    with spelling."""
     require(len(old_module.externals) == len(new_module.externals), "Renaming changed the external count")
     def emitted(name):
         for old, new in renames:
-            if name == "_" + old:
-                return "_" + new
+            if name in ("_" + old, "@" + old):   # cdecl, _fastcall
+                return name[0] + new
             if name.upper() == old.upper() and name == name.upper():
                 return new.upper()
         return name

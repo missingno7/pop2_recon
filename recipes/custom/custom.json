@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custom/custom.json",
-  "binding_sha256": "94c6b971501c8c5bbd8118ba4969325334d76b5c95e3910ed82ff048afffac68",
+  "binding_sha256": "837d08baabdbcb533a187cbf2690a8d079b17e9bbd325cdb64b8f72bf5eb12d4",
   "claims": [
     {
       "fixup_count": 1,
@@ -140,6 +140,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:04a6:0784"
+    },
+    {
+      "fixup_count": 4,
+      "public": "SETCUSTOMROOMTEMPLATE",
+      "target_id": "root:04a6:0706"
     }
   ],
   "code_matches": [
@@ -149,14 +154,16 @@
       "unproven": [
         "CUSTOM_ABOVE+0x3"
       ]
-    },
+    }
+  ],
+  "data_publics": [
     {
-      "public": "SETCUSTOMROOMTEMPLATE",
-      "target_id": "root:04a6:0706",
-      "unproven": [
-        "DEFAULT_TEMPLATE",
-        "TEMPLATE_TABLE"
-      ]
+      "address": 960,
+      "name": "ROOM_TEMPLATE",
+      "offset": 406,
+      "segment": "_DATA",
+      "span": 2,
+      "unique": true
     }
   ],
   "drafts": [
@@ -180,12 +187,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "custom/custom",
-  "object_sha256": "3c038a4f699587b0b6eb30a85ad1cc30e29f87179999c9358cd6ec866da9fb71",
+  "object_sha256": "968bf69cef0edf1e6f1e6c45721eba08eed4f9c1621fb1204a56ee0d83e7ae9a",
   "origin": 19046,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custom/custom.c",
-  "source_sha256": "1b01162930579ffcc50f16abbac8ae780c858fc91ea10234b8e2f89f1e45fd9a",
+  "source_sha256": "44596b6dd1350e95767c932caa84c6bf13ef0928ae8b3ad0d21060d3b44cbbe4",
   "space": "root"
 }

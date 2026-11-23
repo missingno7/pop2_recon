@@ -71847,6 +71847,55 @@
       "size": 38,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far cdecl, two far pointers and an unsigned byte count. Returns a far pointer.",
+      "boundary_evidence": [
+        "Complete independent medium-model hmemcpy.asm OMF member (archive offset 16112, 405 bytes) whose whole 202-byte CODE segment lies at root 0x21e32 (1fe6:1fd2) in the contiguous monotone MSC 6.00 library run of runtime frame 1fe6; every fixup proven by runtime-symbolic-v1 equations."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 36429,
+          "image_offset": 28237,
+          "kind": "far_call",
+          "relocated_segment_site": 28240,
+          "space": "root"
+        },
+        {
+          "file_offset": 47060,
+          "image_offset": 38868,
+          "kind": "far_call",
+          "relocated_segment_site": 38871,
+          "space": "root"
+        },
+        {
+          "file_offset": 47289,
+          "image_offset": 39097,
+          "kind": "far_call",
+          "relocated_segment_site": 39100,
+          "space": "root"
+        },
+        {
+          "file_offset": 241636,
+          "image_offset": 1220,
+          "kind": "far_call",
+          "relocated_segment_site": 1223,
+          "space": "overlay-10"
+        }
+      ],
+      "classification": "RUNTIME",
+      "classification_evidence": [
+        "Public __fmemmove of the independently pinned medium-model runtime member."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1fd2",
+      "offset": 8146,
+      "segment": 8166,
+      "sha256": "34d636f98d37e5b1687f527005ff0cf87d5932093a74fe3fdbad386fd301c4e3",
+      "size": 202,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

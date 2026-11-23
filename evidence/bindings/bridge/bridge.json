@@ -73,11 +73,11 @@
       "ROOMOPP",
       "GETCUSTOMPIECESIZE",
       "OPP",
-      "DRAW_MOB",
+      "MARK_MOB_REDRAW",
       "GET_MOB_RECT",
       "UPDATE_MOB_Y",
       "ADD_MOB",
-      "@draw_shape",
+      "@add_middle_image",
       "LOAD_BRIDGE_CODE",
       "FCHAR",
       "BLUESPEC"
@@ -5066,7 +5066,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_MOB",
+          "name": "MARK_MOB_REDRAW",
           "zero_displacement": true
         }
       },
@@ -5080,7 +5080,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_MOB",
+        "name": "MARK_MOB_REDRAW",
         "zero_displacement": true
       }
     },
@@ -5591,7 +5591,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "@draw_shape",
+          "name": "@add_middle_image",
           "zero_displacement": true
         }
       },
@@ -5605,7 +5605,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "@draw_shape",
+        "name": "@add_middle_image",
         "zero_displacement": true
       }
     },
@@ -6126,7 +6126,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_MOB",
+          "name": "MARK_MOB_REDRAW",
           "zero_displacement": true
         }
       },
@@ -6140,7 +6140,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_MOB",
+        "name": "MARK_MOB_REDRAW",
         "zero_displacement": true
       }
     },
@@ -6456,7 +6456,7 @@
   },
   "schema": 1,
   "symbols": {
-    "@draw_shape": {
+    "@add_middle_image": {
       "entry_sha256": "9c22bb1c83498ed94d0c1d48e35d1a7d17ae4542e29de2fc5614ff45f57a2318",
       "entry_target_id": "root:0169:0402",
       "kind": "far-code-entry",
@@ -6523,6 +6523,15 @@
           "space": "root"
         }
       ]
+    },
+    "ADD_MOB": {
+      "entry_sha256": "01ef3a320292b1f73570fa900fbcbba9c073dcab3ffff5b9ec1dc8ca1337e33c",
+      "entry_target_id": "root:0b41:1992",
+      "kind": "far-code-entry",
+      "offset": 6546,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": []
     },
     "ADD_TROB": {
       "entry_sha256": "88a4e6273aac4130a606efd2797947c56a41b3ec69ba2c82bbe9ad8f4ea65e42",
@@ -6766,6 +6775,12 @@
         }
       ]
     },
+    "COL2PIXELX": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 3492,
+      "provider": "group:tables/tables"
+    },
     "COMPUTEOFFSETCELLRECT": {
       "entry_sha256": "240b4d30c7994b56bd14c36bdc0428e4e0f3cf3c1b85a58a3ca5f550418f8361",
       "entry_target_id": "root:0f77:0164",
@@ -6821,15 +6836,7 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 27291,
-      "witnesses": [
-        {
-          "bytes_hex": "88879b6a",
-          "entry": "overlay-14:2dc2:0000",
-          "image_offset": 2429,
-          "operand_offset": 2,
-          "space": "overlay-14"
-        }
-      ]
+      "witnesses": []
     },
     "FCHAR": {
       "extent": {
@@ -7045,20 +7052,21 @@
       ]
     },
     "LEVEL": {
+      "extent": {
+        "length": 12025,
+        "witness": {
+          "bytes_hex": "be022dc47ef6b97c17f3a5a4",
+          "entry": "overlay-16:2dc2:0062",
+          "image_offset": 132,
+          "space": "overlay-16"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [
         {
           "offset": 2040,
-          "witnesses": [
-            {
-              "bytes_hex": "c787fa3400c0",
-              "entry": "overlay-14:2dc2:0000",
-              "image_offset": 2338,
-              "operand_offset": 2,
-              "space": "overlay-14"
-            }
-          ]
+          "witnesses": []
         },
         {
           "offset": 6131,
@@ -7083,6 +7091,10 @@
               "space": "root"
             }
           ]
+        },
+        {
+          "offset": 270,
+          "witnesses": []
         }
       ],
       "offset": 11522,
@@ -7151,6 +7163,15 @@
         }
       ]
     },
+    "MARK_MOB_REDRAW": {
+      "entry_sha256": "29a765b9be4189675b0ec639d3d93e83331cbec3f408ec851f477d7770c0d8d0",
+      "entry_target_id": "root:0b41:2264",
+      "kind": "far-code-entry",
+      "offset": 8804,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": []
+    },
     "MOB": {
       "extent": {
         "length": 13,
@@ -7187,6 +7208,26 @@
               "space": "root"
             }
           ]
+        },
+        {
+          "offset": 2,
+          "witnesses": []
+        },
+        {
+          "offset": 4,
+          "witnesses": []
+        },
+        {
+          "offset": 7,
+          "witnesses": []
+        },
+        {
+          "offset": 9,
+          "witnesses": []
+        },
+        {
+          "offset": 10,
+          "witnesses": []
         }
       ],
       "offset": 26558,
@@ -7396,6 +7437,12 @@
           "space": "root"
         }
       ]
+    },
+    "ROW2PIXELY": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 3518,
+      "provider": "group:tables/tables"
     },
     "SAVE_ACTOR_SLOT": {
       "entry_sha256": "62784221e9aab866888663625cd2c3a05c71ed80964f3475f96d942b9cac4ec3",

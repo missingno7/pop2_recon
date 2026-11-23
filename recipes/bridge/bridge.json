@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/bridge/bridge.json",
-  "binding_sha256": "6c6842501177d6ed7462069cbe2fbdb7dfd2fda1b3268287482004718a37c440",
+  "binding_sha256": "c48c0b6b7bfee7bd15adadf0973983787b10c5fa3885e28e0228669398a111ca",
   "claims": [
     {
       "fixup_count": 4,
@@ -226,6 +226,20 @@
       "fixup_count": 7,
       "public": "STEP_BRIDGE_MOB",
       "target_id": "overlay-14:2dc2:08b8"
+    },
+    {
+      "fixup_count": 20,
+      "public": "TRIGGER_BRIDGE_FLOOR_MOB",
+      "relocation_indices": [
+        3,
+        12,
+        25
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-14:2dc2:090c"
     }
   ],
   "data_publics": [
@@ -242,10 +256,6 @@
     {
       "object_offset": 1864,
       "public": "ANIMATE_BRIDGE_MOB"
-    },
-    {
-      "object_offset": 2316,
-      "public": "TRIGGER_BRIDGE_FLOOR_MOB"
     }
   ],
   "emitted_size": 2504,
@@ -263,12 +273,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "bridge/bridge",
-  "object_sha256": "d30e260a30671c7ddcfd1bba037a9342c2d320a7616cf92feac5dac50288fc6c",
+  "object_sha256": "5447bc556eb8dafeda068508625a02bb87468e78952193e9a5059e3971d01ddb",
   "origin": 0,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/bridge/bridge.c",
-  "source_sha256": "30a9c1fd5c52b8f846a7d3416e4444f5d533e0c2c7c97f9e5b4a604adc613cdb",
+  "source_sha256": "780c55e56fdf328c638a96550ab6cc8c0742eb22a34687523ca69ffebc51805a",
   "space": "overlay-14"
 }

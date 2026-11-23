@@ -39,12 +39,13 @@ typedef struct {
 } PieceShapeInfo;
 
 typedef union {
-    void (far *call)(void);
+    void (far pascal *call)(void);
     unsigned long address;
 } RoomCallback;
 
 typedef struct {
     RoomCallback load, unload;
+    unsigned char reserved[20];
 } RoomTemplate;
 
 typedef struct {
@@ -123,8 +124,74 @@ extern ShapeHandle room_specific_handle;
 extern const int TopRowRect[4];
 extern AboveCell custom_above[];
 extern PeelRecord peel_records[];
-extern RoomTemplate *template_table[];
-extern RoomTemplate default_template, *room_template;
+extern void far pascal LoadCarpetCode(void);
+extern void far pascal UnloadCarpetCode(void);
+extern void far pascal load_bridge_code(void);
+extern void far pascal unload_bridge_code(void);
+extern void far pascal LoadDsrtCode(void);
+extern void far pascal load_throne_room(void);
+extern void far pascal unload_throne_room(void);
+extern void far pascal load_ruins_start_palette(void);
+extern void far pascal unload_ruins_start_palette(void);
+extern void far pascal load_plateau_room(void);
+extern void far pascal load_altar_room(void);
+extern void far pascal unload_altar_room(void);
+extern void far pascal load_inscription_room(void);
+extern void far pascal load_chess(void);
+extern void far pascal setup_crystal_room(void);
+extern void far pascal load_tower_top(void);
+
+enum {
+    TEMPLATE_CARPET,
+    TEMPLATE_BRIDGE,
+    TEMPLATE_DESERT,
+    TEMPLATE_THRONE,
+    TEMPLATE_RUINS_PALETTE,
+    TEMPLATE_PLATEAU,
+    TEMPLATE_ALTAR,
+    TEMPLATE_INSCRIPTION,
+    TEMPLATE_CHESS,
+    TEMPLATE_CRYSTAL,
+    TEMPLATE_TOWER_TOP,
+    TEMPLATE_DEFAULT
+};
+
+/* The reserved fields are zero in each 28-byte DOS template record. */
+#define UNUSED_TEMPLATE_FIELDS { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+
+static RoomTemplate templates[] = {
+    { { LoadCarpetCode }, { UnloadCarpetCode }, UNUSED_TEMPLATE_FIELDS },
+    { { load_bridge_code }, { unload_bridge_code }, UNUSED_TEMPLATE_FIELDS },
+    { { LoadDsrtCode }, { 0 }, UNUSED_TEMPLATE_FIELDS },
+    { { load_throne_room }, { unload_throne_room }, UNUSED_TEMPLATE_FIELDS },
+    { { load_ruins_start_palette }, { unload_ruins_start_palette }, UNUSED_TEMPLATE_FIELDS },
+    { { load_plateau_room }, { 0 }, UNUSED_TEMPLATE_FIELDS },
+    { { load_altar_room }, { unload_altar_room }, UNUSED_TEMPLATE_FIELDS },
+    { { load_inscription_room }, { 0 }, UNUSED_TEMPLATE_FIELDS },
+    { { load_chess }, { 0 }, UNUSED_TEMPLATE_FIELDS },
+    { { setup_crystal_room }, { 0 }, UNUSED_TEMPLATE_FIELDS },
+    { { load_tower_top }, { 0 }, UNUSED_TEMPLATE_FIELDS },
+    { { 0 }, { 0 }, UNUSED_TEMPLATE_FIELDS }
+};
+
+#undef UNUSED_TEMPLATE_FIELDS
+
+static RoomTemplate *template_table[] = {
+    &templates[TEMPLATE_CARPET], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
+    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
+    &templates[TEMPLATE_DESERT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
+    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
+    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
+    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT],
+    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_PLATEAU],
+    &templates[TEMPLATE_PLATEAU], &templates[TEMPLATE_RUINS_PALETTE], &templates[TEMPLATE_TOWER_TOP],
+    &templates[TEMPLATE_DEFAULT], &templates[TEMPLATE_CHESS], &templates[TEMPLATE_CHESS],
+    &templates[TEMPLATE_CHESS], &templates[TEMPLATE_CRYSTAL], &templates[TEMPLATE_CRYSTAL],
+    &templates[TEMPLATE_CRYSTAL], &templates[TEMPLATE_INSCRIPTION], &templates[TEMPLATE_ALTAR],
+    &templates[TEMPLATE_BRIDGE], &templates[TEMPLATE_THRONE]
+};
+
+RoomTemplate *room_template = &templates[TEMPLATE_DEFAULT];
 extern unsigned int *background_shapes;
 extern CustomRect empty_piece_rect;
 extern struct Rect {
@@ -153,7 +220,6 @@ extern void set_archive_position(unsigned int archive, int position);
 extern ShapeHandle PrinceUnpackShape(unsigned int resource, int format, void far *archive);
 extern void load_song_range(int first, int last);
 extern void release_song_range(int first, int last);
-extern void reset_custom_room_sound(void);
 extern void shape_rect(CustomRect far *rect, int x, int y, void far *shape);
 extern int rect_is_empty(CustomRect far *);
 extern void unite_rect(CustomRect far *, CustomRect far *, CustomRect far *);
@@ -326,7 +392,7 @@ void LoadCustomRoomData(unsigned char room_number_arg)
         UnloadCustomRoomData();
         if ((((unsigned char)Level.level_number) == 5 && Room.number == 7) ||
             (((unsigned char)Level.level_number) == 5 && Room.number == 12))
-            reset_custom_room_sound();
+            load_bridge_code();
     }
 }
 
@@ -481,7 +547,7 @@ void SetCustomRoomTemplate(unsigned char type)
         room_template = template_table[type];
         return;
     }
-    room_template = &default_template;
+    room_template = &templates[TEMPLATE_DEFAULT];
 }
 #pragma optimize("e", on)
 

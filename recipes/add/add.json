@@ -1,7 +1,44 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "9406e1acf4c12d643a03177bd9d2a9c76791f9c52459c02e3b04171e9b88d03d",
+  "binding_sha256": "f6366451b5e918c52a51763edccdde7d5826e7123698715781c4252fbcef83fe",
   "claims": [
+    {
+      "fixup_count": 11,
+      "public": "ADDBIMGTOBTABLE",
+      "relocation_indices": [
+        205,
+        220
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:0122"
+    },
+    {
+      "fixup_count": 11,
+      "public": "ADD_BACK_FOREGROUND_TO_BACK",
+      "relocation_indices": [
+        206,
+        221
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:01a8"
+    },
+    {
+      "fixup_count": 11,
+      "public": "ADD_BACK_FOREGROUND_TO_FRONT",
+      "relocation_indices": [
+        186,
+        207
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0169:023a"
+    },
     {
       "fixup_count": 4,
       "public": "ADD_CHARACTERS",
@@ -23,6 +60,17 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0169:02d6"
+    },
+    {
+      "fixup_count": 11,
+      "public": "ADD_MIDDLE_ITEM",
+      "relocation_indices": [
+        187,
+        208
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0169:0358"
     },
     {
       "fixup_count": 2,
@@ -89,6 +137,39 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0169:082e"
+    },
+    {
+      "fixup_count": 29,
+      "public": "ADD_OPPONENT",
+      "relocation_indices": [
+        156,
+        161,
+        166,
+        199,
+        233
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:0906"
+    },
+    {
+      "fixup_count": 36,
+      "public": "SETUP_CHAR",
+      "relocation_indices": [
+        137,
+        164,
+        175,
+        189,
+        196,
+        202
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:09ee"
     },
     {
       "fixup_count": 34,
@@ -251,37 +332,14 @@
       "target_id": "root:0169:10aa"
     },
     {
-      "fixup_count": 29,
-      "public": "ADD_OPPONENT",
+      "fixup_count": 26,
+      "public": "@add_middle_image",
       "relocation_indices": [
-        156,
-        161,
-        166,
-        199,
-        233
+        154
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:0169:0906"
-    },
-    {
-      "fixup_count": 36,
-      "public": "SETUP_CHAR",
-      "relocation_indices": [
-        137,
-        164,
-        175,
-        189,
-        196,
-        202
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:0169:09ee"
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0169:0402"
     }
   ],
   "code_matches": [
@@ -304,26 +362,6 @@
     {
       "object_offset": 0,
       "public": "@add_image_info"
-    },
-    {
-      "object_offset": 284,
-      "public": "ADDBIMGTOBTABLE"
-    },
-    {
-      "object_offset": 418,
-      "public": "ADD_BACK_FOREGROUND_TO_BACK"
-    },
-    {
-      "object_offset": 564,
-      "public": "ADD_BACK_FOREGROUND_TO_FRONT"
-    },
-    {
-      "object_offset": 850,
-      "public": "ADD_FOREGROUND_IMAGE"
-    },
-    {
-      "object_offset": 1020,
-      "public": "@add_middle_image"
     },
     {
       "object_offset": 1716,
@@ -351,12 +389,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "1229a4bc0975d3ff8ec1e537abd63b65120dd964e57fd9abe90dcb7af82ef8e8",
+  "object_sha256": "fc90e24a15f88115a376dfc109ca371f3456c66ccdb1c180858efbf3b3b3f4e4",
   "origin": 5782,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "a66abb863ad9c551051e6b059a92796675045168310f3ff5ab138d47f973451a",
+  "source_sha256": "0517ebcd7ef183abc58bf91dce5c9350dc0ca4ac730d874133e1f80202365e21",
   "space": "root"
 }

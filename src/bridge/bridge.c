@@ -174,8 +174,8 @@ typedef struct {
     unsigned int width, height;
 } ShapeSize;
 extern ShapeSize far *GetCustomPieceSize(unsigned char, ShapeSize far *);
-extern void draw_mob(char), get_mob_rect(Rect near *), update_mob_y(int), add_mob(void);
-extern void far _fastcall draw_shape(char, int, void near *, int, char);
+extern void mark_mob_redraw(char), get_mob_rect(Rect near *), update_mob_y(int), add_mob(void);
+extern void far _fastcall add_middle_image(char, int, void near *, int, char);
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
     int x, y, image;                                   /* 02,04,06 */
@@ -611,7 +611,7 @@ get_position:
             mob_heights[11] = bounds.width + 1;
             mob_widths[11] = bounds.height + 1;
         }
-        draw_mob(0);
+        mark_mob_redraw(0);
         if (Mob.velocity != -1) {
             get_mob_rect(&redraw);
             redraw.left += 16;
@@ -625,7 +625,7 @@ get_position:
 
 void draw_bridge_mob_object(int unused)
 {
-    draw_shape(4, (unsigned char)bridge_images[(*(unsigned char *)&FChar.image) & 15] + 1,
+    add_middle_image(4, (unsigned char)bridge_images[(*(unsigned char *)&FChar.image) & 15] + 1,
                (*(void near **)&FChar.x), FChar.y - 1, 10);
 }
 
@@ -673,5 +673,5 @@ void trigger_bridge_floor_mob(unsigned char room, signed char cell)
     Mob.y += bridge_y[col - 1];
     Mob.kind = 11;
     add_mob();
-    draw_mob(0);
+    mark_mob_redraw(0);
 }

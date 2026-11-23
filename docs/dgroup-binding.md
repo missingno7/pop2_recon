@@ -371,6 +371,11 @@ writes the far segment symbol's paragraph (a `far-data` or `segment-base` bindin
 independently as usual) and the original must relocate that word. These are the only relocations a
 placed segment may contain.
 
+Since 2026-11-23 a table may also point into the same object's own CODE (a level table of the file's own functions).
+The frame is the claims' independently witnessed CS frame F, so the linker writes the contribution's offset in F +
+the stored offset + D, then F. The segment word must carry an original MZ relocation, and the entry must lie inside
+the emitted CODE. Without a witnessed frame the field is refused.
+
 ## Data-only groups (2026-11-22)
 
 Some original source files define initialized DGROUP data and no code (FM Towns ENGLISH.C,
@@ -449,3 +454,16 @@ Otherwise the immediate may be a plain number that equals the address by chance.
 (DS:0000 from `mov word [00b0],0`, DS:005a from `mov ax,90`). A symbol or member whose every witness is ambiguous is
 listed in evidence/immediate-witness-debt.json (shrink-only, equal to `module_gate.immediate_witness_violations`).
 Retire an entry with a memory-operand witness, a provider data public, internal consensus or an aggregate extent.
+
+## Far-data selector words in CONST (2026-11-23)
+
+MSC loads the segment of an external far object from a private CONST word (`mov es,[D]`, LOC2 base16 to the object).
+Such words repeat (2fae, 2e5f), so content alone places nothing. `module_gate._exclusive_selectors` places a CONST
+piece made only of selector words when both hold:
+- every word of the piece is referenced only from inside the object's own code (raw byte search over every space)
+  and is loaded there;
+- every other CONST position with the same relocated content has a word loaded by reached code outside the object, so
+  that position is another file's.
+
+CONST starts at DS:2836, the end of the C termination table that the exit code walks (root+200c0/200c3). The report
+basis says `exclusive selector words`.

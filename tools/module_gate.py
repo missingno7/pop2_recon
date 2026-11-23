@@ -205,7 +205,7 @@ def _initialized_with_alignment_holes(ranges, length):
             all(b[0] - a[1] == 1 for a, b in zip(merged, merged[1:])))
 
 
-def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbols=None):
+def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbols=None, code=None):
     """The bytes the linker writes for a placed initialized segment, and the segment-word offsets
     that must carry original MZ relocations. Accepted field forms:
     - a near pointer into this object's placed DGROUP data (offset16, frame DGROUP, target a
@@ -215,7 +215,10 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
       unproven one): its grounded offset + stored offset + D (2026-11-23; DRAW's level tables);
     - a far code pointer (16:16, frame = its target) to an external far code symbol the binding
       grounds independently (accepted exact entry or outside witnesses): that symbol's
-      offset and segment, with a zero encoded addend; its segment word is relocated in MZ."""
+      offset and segment, with a zero encoded addend; its segment word is relocated in MZ.
+    - a far code pointer into this object's own CODE segment, when the claims' CS frame is witnessed:
+      `code` is (segment name, its offset in that frame, its length, the frame); the linker writes
+      offset + stored offset + D and the frame, relocated in MZ (2026-11-23)."""
     linked, relocated = bytearray(content), []
     for f in fields:
         target, frame = f["target"], f["frame"]
@@ -233,6 +236,19 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
                     "grounded far segment symbol")
             linked[at:at + 2] = symbol["segment"].to_bytes(2, "little")
             relocated.append(at)
+            continue
+        if f["loc_type"] == 3 and target.get("kind") == "segment":
+            at = f["segment_offset"]
+            require(code is not None and target.get("name") == code[0] and not f["self_relative"] and
+                    f["field_width"] == 4 and content[at + 2:at + 4] == bytes(2) and
+                    (frame == {"kind": "target_frame", "target": target} or
+                     (frame.get("kind"), frame.get("name")) == ("segment", code[0])),
+                    f"Placed segment {seg} far pointer at +{at:#x} is not a pointer into this object's own CODE "
+                    "with a witnessed frame")
+            entry = int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
+            require(0 <= entry < code[2], f"Placed segment {seg} far pointer at +{at:#x} leaves the object's CODE")
+            linked[at:at + 4] = ((code[1] + entry) & 0xFFFF).to_bytes(2, "little") + code[3].to_bytes(2, "little")
+            relocated.append(at + 2)
             continue
         if f["loc_type"] == 3:
             symbol = (far_symbols or {}).get(target.get("name"))
@@ -262,8 +278,75 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
     return bytes(linked), relocated
 
 
+# CONST begins where the C termination table [2832, 2836) ends: root+0x200c3 `mov di,2836` (tests re-read it).
+CONST_START = 0x2836
+
+
+def _selector_references(oracle, home, offset):
+    """(space, image offset) of every byte sequence, reached or not, that reads or loads the DGROUP word at
+    `offset` directly (mov/push/cmp/les/lds/mov-sreg with a disp16 operand, mov ax/al moffs)."""
+    found, word = [], struct.pack("<H", offset)
+    for holder in oracle.spaces.values():
+        if holder is home:
+            continue
+        at = holder.data.find(word)
+        while at >= 0:
+            if at >= 2 and holder.data[at - 1] & 0xC7 == 0x06 and holder.data[at - 2] in (
+                    0x03, 0x2b, 0x33, 0x39, 0x3b, 0x81, 0x83, 0x89, 0x8b, 0x8c, 0x8e, 0xc4, 0xc5, 0xc7, 0xf7, 0xff):
+                found.append((holder.name, at - 2))
+            if at >= 1 and holder.data[at - 1] in (0xa1, 0xa3):
+                found.append((holder.name, at - 1))
+            at = holder.data.find(word, at + 1)
+    return found
+
+
+def _exclusive_selectors(oracle, home, dgroup, p, content, space, hull):
+    """True when a CONST piece made only of far-data selector words must lie at `p` (2026-11-23).
+
+    MSC keeps the segment of an external far object in a private CONST word that only its own file loads
+    (`mov es,[D]`). The piece's content may repeat, so: every word of the piece is referenced only from inside
+    this object's code, and is loaded there at least once; and every other CONST position holding the same content
+    as relocated words has a word loaded by reached code outside this object, so it is another file's. Then the
+    object's words can only be the ones at `p`."""
+    from binding import reachable_from_entry
+    relocated = {r["image_offset"] - dgroup for r in home.relocations}
+
+    def loads(offset):
+        return [(name, at) for name, at in _selector_references(oracle, home, offset)
+                if oracle.spaces[name].data[at:at + 2] == b"\x8e\x06"]
+
+    def inside(name, at):
+        return name == space.name and hull[0] <= at and at + 4 <= hull[1]
+
+    def reached(name, at):
+        holder = oracle.spaces[name]
+        for t in read_json(ROOT / "evidence/targets.json")["functions"]:
+            lo = (t["segment"] - holder.link_segment) * 16 + t["offset"]
+            if t["space"] == name and t.get("boundary_status") == "REVIEWED" and lo <= at < lo + t["size"] and \
+                    t.get("entry_kind", "direct-code") == "direct-code":
+                if at in reachable_from_entry(oracle, f"{name}:{t['segment']:04x}:{t['offset']:04x}"):
+                    return True
+        return False
+
+    length = len(content)
+    words = range(0, length, 2)
+    if p < CONST_START or length % 2 or any(p + k not in relocated for k in words):
+        return False
+    for k in words:
+        if not all(inside(*ref) for ref in _selector_references(oracle, home, p + k)) or \
+                not any(inside(*ref) for ref in loads(p + k)):
+            return False
+    for q in range(CONST_START, BSS_START - length + 1, 2):
+        if q == p or any(q + k not in relocated for k in words) or \
+                home.data[dgroup + q:dgroup + q + length] != content:
+            continue
+        if not any(not inside(*ref) and reached(*ref) for k in words for ref in loads(q + k)):
+            return False
+    return True
+
+
 def _check_placements(module, placements, uses, binding, space, oracle, data_fixes=(), far_symbols=None,
-                      data_symbols=None):
+                      data_symbols=None, hull=None, code=None):
     """Each placed DGROUP segment must be over-determined: initialized bytes equal the original
     DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree.
     Near-pointer fixups inside initialized data take their linked values (_linked_data)."""
@@ -289,7 +372,8 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
         require(initialized or not fields, f"Fixups in uninitialized placed segment {seg['name']}")
         relocated = []
         if fields:
-            content, relocated = _linked_data(seg["name"], content, fields, placements, far_symbols, data_symbols)
+            content, relocated = _linked_data(seg["name"], content, fields, placements, far_symbols, data_symbols,
+                                              code)
         if initialized:
             require("dgroup_segment" in binding,
                     "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
@@ -306,8 +390,13 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
             # repeated content (zero words, short constants) fixes nothing, so each field then needs
             # its own support (_placed_support), like an unwitnessed v4 address.
             unique = _occurs_once(home, dgroup, content)
+            exclusive = (not unique and seg["name"] == "CONST" and hull is not None and
+                         sorted(relocated) == list(range(0, seg["length"], 2)) and
+                         _exclusive_selectors(oracle, home, dgroup, p, content, space, hull))
+            unique = unique or exclusive
             basis = (f"initialized content equals original {home.name}+{start:#x}" +
-                     ("" if unique else ", repeated content: per-field consensus"))
+                     (", exclusive selector words" if exclusive else
+                      "" if unique else ", repeated content: per-field consensus"))
         else:
             # Uninitialized layout (array sizes, order) is chosen by the source, so distinct addends
             # never support each other; each field needs its own support (_placed_support).
@@ -1735,7 +1824,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle,
-                                         data_fixes, far_symbols, symbols)
+                                         data_fixes, far_symbols, symbols, (origin, origin + len(actual)),
+                                         (name, origin - window[0], len(actual), next(iter(frames)))
+                                         if frames and window is not None else None)
     _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,

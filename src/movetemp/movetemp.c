@@ -60,7 +60,7 @@ extern unsigned char IndexCell1(signed char col, signed char row);
 extern int is_visible_room_cell(unsigned char room, unsigned char cell);
 extern void mark_mob_redraw(unsigned char cell);
 extern void copy_kid_to_char(void);
-extern void far _fastcall draw_movement_shape(unsigned char kind, int x, int y, int frame, unsigned char pass);
+extern void far _fastcall add_middle_image(unsigned char kind, int x, int y, int frame, unsigned char pass);
 extern int probe_floors_toward_rock(signed char row, int row_delta);
 extern void hit_character_with_rock(void);
 extern struct slide_rock *far _fastcall slide_rock_on_row(unsigned char, signed char);
@@ -303,7 +303,7 @@ void draw_object_slide_rock(unsigned char kind)
     default: frame = -1; break;
     }
     if (frame != -1)
-        draw_movement_shape(4, frame, FChar.x, FChar.y, 10);
+        add_middle_image(4, frame, FChar.x, FChar.y, 10);
 }
 
 #pragma optimize("g", off)
@@ -865,10 +865,10 @@ void draw_object_trapdoor(unsigned char modifier)
 {
     int shape = temple_draw_offsets.trapdoor_shape[(*(unsigned char *)&FChar.image) & 31];
     if (shape == 21) {
-        draw_movement_shape(4, shape, FChar.x + 1, FChar.y - 2, 10);
-        draw_movement_shape(4, 22, FChar.x, FChar.y - 1, 0);
+        add_middle_image(4, shape, FChar.x + 1, FChar.y - 2, 10);
+        add_middle_image(4, 22, FChar.x, FChar.y - 1, 0);
     } else
-        draw_movement_shape(4, shape, FChar.x, FChar.y - 1, 10);
+        add_middle_image(4, shape, FChar.x, FChar.y - 1, 10);
 }
 
 void load_inscription_room(void)
