@@ -38,7 +38,7 @@ slider_up_arrow          DW 4, 8, 1
 .CODE
 EXTRN point_in_rectangle:NEAR
 EXTRN clamp_point_to_rect:NEAR
-EXTRN near_bdda:NEAR
+EXTRN mouse_button_unqueued:NEAR
 EXTRN read_mouse_event_position:NEAR
 EXTRN add_port_origin:NEAR
 EXTRN scroll_context_rectangle:NEAR
@@ -49,45 +49,45 @@ EXTRN copy_current_port_origin:NEAR
 EXTRN apply_default_pen_state:NEAR
 EXTRN near_5284:NEAR
 EXTRN set_relative_pen_state:NEAR
-EXTRN scan_string_then_process_alt:NEAR
+EXTRN MEASURE_NUL_TERMINATED_TEXT:NEAR
 EXTRN resolve_handle_to_far_payload:NEAR
 EXTRN set_record_range:NEAR
 EXTRN scan_string_then_process:NEAR
 EXTRN toggle_rect_effect:NEAR
 EXTRN MoveTo:NEAR
 EXTRN update_message_display:NEAR
-EXTRN ascii_upper_byte:NEAR
+EXTRN UPPERCASE_EVENT_CHARACTER:NEAR
 EXTRN draw_character:NEAR
 EXTRN draw_relative_axis_segment:NEAR
 EXTRN show_mouse_graphics:NEAR
-EXTRN allocate_tagged_handle:NEAR
-EXTRN near_2362:NEAR
+EXTRN HGETRSRC:NEAR
+EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
 EXTRN dispose_handle:NEAR
 EXTRN read_queued_event:NEAR
-EXTRN dispatch_window_update:NEAR
+EXTRN RELEASE_BACKGROUND_PORT:NEAR
 EXTRN invalidate_window_rectangle:NEAR
-EXTRN near_ba7b:NEAR
-EXTRN process_record_rectangle:NEAR
+EXTRN ALLOCATE_BACKGROUND_PORT:NEAR
+EXTRN FRAME_RECT:NEAR
 EXTRN skip_nul_strings:NEAR
 EXTRN allocate_payload_handle:NEAR
 EXTRN release_near_buffer:NEAR
-EXTRN near_25b2:NEAR
+EXTRN CLEAR_HANDLE_OWNED:NEAR
 EXTRN InsetRect:NEAR
-EXTRN near_5352:NEAR
+EXTRN DRAW_NUL_TEXT_IN_RECT:NEAR
 EXTRN subtract_port_origin:NEAR
 EXTRN stroke_offset_edges:NEAR
-EXTRN update_window_region:NEAR
+EXTRN DRAG_OUTLINE_WITH_MOUSE:NEAR
 EXTRN divide_timer_interval:NEAR
 EXTRN multiply_timer_interval:NEAR
-EXTRN translate_graphics:NEAR
+EXTRN convert_shape:NEAR
 EXTRN paint_four_bit:NEAR
 EXTRN create_string_handle:NEAR
-EXTRN start_named_effect:NEAR
+EXTRN STROKE_PORT_RECT:NEAR
 EXTRN draw_text_handle_in_rect:NEAR
 EXTRN measure_character:NEAR
 EXTRN draw_axis_segment:NEAR
-EXTRN allocate_near:FAR
-EXTRN free_near:FAR
+EXTRN __nmalloc:FAR
+EXTRN __nfree:FAR
 EXTRN find_string_byte:FAR
 
 PUBLIC navigate_grid_items
@@ -316,7 +316,7 @@ loc_99c0:
 loc_99cc:
     push word ptr [bp + 6]
     push cs
-    call near_bdda
+    call mouse_button_unqueued
     xchg cx, ax
     jcxz loc_99e6
     push si
@@ -357,7 +357,7 @@ assemble_packed_item LABEL NEAR
     add ax, 032h
     push ax
     push ax
-    call FAR PTR allocate_near
+    call FAR PTR __nmalloc
     add sp, 2
     pop cx
     xchg si, ax
@@ -734,7 +734,7 @@ loc_9cce:
     push es
     push ax
     push cs
-    call scan_string_then_process_alt
+    call MEASURE_NUL_TERMINATED_TEXT
     push ax
     push word ptr [di + 2]
     push cs
@@ -945,7 +945,7 @@ draw_dialog_scroll_region LABEL NEAR
     mov al, byte ptr [bp + 6]
     push ax
     push cs
-    call ascii_upper_byte
+    call UPPERCASE_EVENT_CHARACTER
     mov word ptr [bp + 6], ax
     mov si, word ptr [bp + 8]
 loc_9e74:
@@ -956,7 +956,7 @@ loc_9e74:
     push ax
     xchg di, ax
     push cs
-    call ascii_upper_byte
+    call UPPERCASE_EVENT_CHARACTER
     cmp ax, word ptr [bp + 6]
     jne loc_9ec4
     mov ax, word ptr [current_port]
@@ -1052,13 +1052,13 @@ load_menu_handle LABEL NEAR
     push ax
     push word ptr [bp + 6]
     push cs
-    call allocate_tagged_handle
+    call HGETRSRC
     test ax, ax
     je loc_9f5d
     push ax
     push ax
     push cs
-    call near_2362
+    call FETCH_LOCKED_SHAPE_LIST
     xchg bx, ax
     mov es, dx
     push word ptr [bp + 6]
@@ -1441,7 +1441,7 @@ loc_a1eb:
 loc_a202:
     push word ptr [bp + 6]
     push cs
-    call near_bdda
+    call mouse_button_unqueued
     xchg cx, ax
     jcxz loc_a213
     push si
@@ -1491,7 +1491,7 @@ loc_a251:
     add ax, 01ch
     push ax
     push ax
-    call FAR PTR allocate_near
+    call FAR PTR __nmalloc
     add sp, 2
     pop cx
     test ax, ax
@@ -1516,7 +1516,7 @@ loc_a251:
     mov ax, 0
     push ax
     push cs
-    call allocate_tagged_handle
+    call HGETRSRC
     push ax
     push cs
     call resolve_handle_to_far_payload
@@ -1631,7 +1631,7 @@ loc_a336:
     push ds
     push ax
     push cs
-    call scan_string_then_process_alt
+    call MEASURE_NUL_TERMINATED_TEXT
     add ax, 6
     add si, ax
     mov di, word ptr [di]
@@ -1649,7 +1649,7 @@ calculate_menu_bounds LABEL NEAR
     push ds
     push ax
     push cs
-    call scan_string_then_process_alt
+    call MEASURE_NUL_TERMINATED_TEXT
     mov cx, word ptr [di + 0eh]
     mov word ptr [si + 2], cx
     add ax, cx
@@ -1671,7 +1671,7 @@ close_tracking_window LABEL NEAR
     xchg word ptr [menu_selection_column], ax
     test ax, ax
     je loc_a3a8
-    call dispatch_window_update
+    call RELEASE_BACKGROUND_PORT
     jmp SHORT loc_a3b1
 loc_a3a8:
     add cx, 0ch
@@ -1686,7 +1686,7 @@ PUBLIC open_tracking_window
 open_tracking_window LABEL NEAR
     push ax
     push cs
-    call ascii_upper_byte
+    call UPPERCASE_EVENT_CHARACTER
     mov di, word ptr [menu_list]
 loc_a3bb:
     test di, di
@@ -1773,7 +1773,7 @@ replace_packed_item LABEL NEAR
     mov si, word ptr [bx + 01ch]
     push si
     rep movsb
-    call FAR PTR free_near
+    call FAR PTR __nfree
     add sp, 2
     jmp SHORT loc_a460
     xchg si, ax
@@ -1812,7 +1812,7 @@ loc_a493:
     sub ah, ah
     push ax
     push cs
-    call ascii_upper_byte
+    call UPPERCASE_EVENT_CHARACTER
     pop es
     mov byte ptr [bp - 3], al
     lods BYTE PTR es:[si]
@@ -1827,7 +1827,7 @@ loc_a4a8:
     not cx
     add cx, 3
     push cx
-    call FAR PTR allocate_near
+    call FAR PTR __nmalloc
     add sp, 2
     mov bx, word ptr [bp + 8]
     shl bx, 1
@@ -1871,7 +1871,7 @@ refresh_tracking_item LABEL NEAR
     call close_tracking_window
 loc_a508:
     lea ax, [di + 0ch]
-    call near_ba7b
+    call ALLOCATE_BACKGROUND_PORT
     mov word ptr [menu_selection_column], ax
     mov word ptr [menu_selection_row], di
     push di
@@ -1967,7 +1967,7 @@ loc_a5b9:
     push ds
     push ax
     push cs
-    call process_record_rectangle
+    call FRAME_RECT
     call draw_grid_cell_frame
     jmp SHORT loc_a583
 loc_a5c7:
@@ -2049,7 +2049,7 @@ loc_a655:
 loc_a658:
     mov ax, 024h
     push ax
-    call FAR PTR allocate_near
+    call FAR PTR __nmalloc
     add sp, 2
     test ax, ax
     je loc_a6d5
@@ -2120,11 +2120,11 @@ release_grid_item_records LABEL NEAR
     call release_near_buffer
     push word ptr [di + 022h]
     push cs
-    call near_25b2
+    call CLEAR_HANDLE_OWNED
     mov cx, word ptr [bp - 2]
     jcxz loc_a6f9
     xchg cx, ax
-    call dispatch_window_update
+    call RELEASE_BACKGROUND_PORT
 loc_a6f1:
     mov ax, word ptr [di + 2]
     mov word ptr [current_port], ax
@@ -2185,7 +2185,7 @@ loc_a72c:
     push dx
     push ax
     push cs
-    call near_5352
+    call DRAW_NUL_TEXT_IN_RECT
     pop bx
     pop word ptr [bx + 028h]
     pop si
@@ -2285,7 +2285,7 @@ loc_a806:
     pop word ptr [current_port]
     push word ptr [di + 022h]
     push cs
-    call near_2362
+    call FETCH_LOCKED_SHAPE_LIST
     push si
     lea bx, [bp - 026h]
     push bx
@@ -2320,14 +2320,14 @@ loc_a83c:
     add word ptr [si + 6], 2
     add word ptr [si + 4], 1
     mov ax, si
-    call near_ba7b
+    call ALLOCATE_BACKGROUND_PORT
     mov word ptr [bp - 2], ax
     sub word ptr [si + 6], 2
     sub word ptr [si + 4], 1
     push ds
     push si
     push cs
-    call process_record_rectangle
+    call FRAME_RECT
     push si
     mov ax, 2
     push ax
@@ -2423,7 +2423,7 @@ loc_a923:
 loc_a929:
     mov ax, 024h
     push ax
-    call FAR PTR allocate_near
+    call FAR PTR __nmalloc
     add sp, 2
     test ax, ax
     je loc_a913
@@ -2487,7 +2487,7 @@ loc_a9bc:
     push ds
     push ax
     push cs
-    call process_record_rectangle
+    call FRAME_RECT
     jmp NEAR PTR loc_a907
 loc_a9c8:
     xchg cx, ax
@@ -2618,7 +2618,7 @@ loc_aaba:
     call notify_slider_changed
     push word ptr [bp + 6]
     push cs
-    call near_bdda
+    call mouse_button_unqueued
     xchg cx, ax
     jcxz loc_aaca
     jmp NEAR PTR loc_aa00
@@ -2687,7 +2687,7 @@ loc_aad9:
     call InsetRect
     push ax
     push cs
-    call update_window_region
+    call DRAG_OUTLINE_WITH_MOUSE
     mov word ptr [bp - 016h], ax
     mov word ptr [bp - 018h], dx
     pop bx
@@ -2814,7 +2814,7 @@ loc_ac41:
     push ds
     push ax
     push cs
-    call process_record_rectangle
+    call FRAME_RECT
     xchg bx, ax
     mov cx, word ptr [bx + 6]
     sub cx, word ptr [bx + 2]
@@ -2841,11 +2841,11 @@ loc_ac41:
     push ax
     inc ax
     push cs
-    call translate_graphics
+    call convert_shape
     xchg bp, ax
     push bp
     push cs
-    call near_2362
+    call FETCH_LOCKED_SHAPE_LIST
     pop si
     pop cx
     push dx
@@ -2882,7 +2882,7 @@ loc_acab:
     push ds
     push ax
     push cs
-    call process_record_rectangle
+    call FRAME_RECT
     ret
 
 PUBLIC convert_slider_bounds
@@ -3036,7 +3036,7 @@ loc_ad9d:
     push ds
     push ax
     push cs
-    call start_named_effect
+    call STROKE_PORT_RECT
 loc_adbb:
     mov si, word ptr [di + 2]
     mov ax, word ptr [di + 018h]
@@ -3072,7 +3072,7 @@ loc_adbb:
 loc_ae07:
     mov ax, 028h
     push ax
-    call FAR PTR allocate_near
+    call FAR PTR __nmalloc
     add sp, 2
     test ax, ax
     je loc_ae5f
@@ -3163,7 +3163,7 @@ loc_aead:
     push ds
     push ax
     push cs
-    call scan_string_then_process_alt
+    call MEASURE_NUL_TERMINATED_TEXT
     add ax, 0bh
     mov cx, word ptr [si + 1]
     jcxz loc_aeed
@@ -3286,7 +3286,7 @@ loc_af7e:
     push ds
     push si
     push cs
-    call process_record_rectangle
+    call FRAME_RECT
     add word ptr [si + 6], 2
     add word ptr [si + 4], 1
     mov ax, word ptr [di + 01ah]

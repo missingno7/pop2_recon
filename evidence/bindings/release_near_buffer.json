@@ -1,54 +1,9 @@
 {
   "declarations": {
-    "segments": [
-      {
-        "name": "UNIT_TEXT",
-        "class": "CODE",
-        "overlay": "",
-        "length": 18,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "_DATA",
-        "class": "DATA",
-        "overlay": "",
-        "length": 0,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "CONST",
-        "class": "CONST",
-        "overlay": "",
-        "length": 0,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "_BSS",
-        "class": "BSS",
-        "overlay": "",
-        "length": 0,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      }
+    "externals": [
+      "__acrtused",
+      "__nfree",
+      "RELEASE_NEAR_BUFFER"
     ],
     "groups": [
       {
@@ -62,48 +17,93 @@
     ],
     "publics": [
       {
+        "frame": null,
+        "group_index": 0,
         "name": "RELEASE_NEAR_BUFFER",
+        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 0,
-        "group_index": 0,
-        "frame": null,
         "type_index": 0
       }
     ],
-    "externals": [
-      "__acrtused",
-      "_NEAR_HEAP_FREE",
-      "RELEASE_NEAR_BUFFER"
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 18,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      }
     ]
   },
   "fixups": [
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 7,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 2,
-          "name": "_NEAR_HEAP_FREE",
+          "kind": "external",
           "method": 6,
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 7,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 2,
-        "name": "_NEAR_HEAP_FREE",
+        "kind": "external",
         "method": 6,
+        "name": "__nfree",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     }
   ],
   "mode": "external-far-call-v1",
@@ -112,7 +112,7 @@
   ],
   "schema": 1,
   "symbols": {
-    "_NEAR_HEAP_FREE": {
+    "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
       "kind": "far-code-entry",

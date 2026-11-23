@@ -15,33 +15,33 @@ EXTRN SCREEN_CONTEXT:WORD
 .CODE
 EXTRN UPDATE_MESSAGE_DISPLAY:NEAR
 EXTRN SHOW_MOUSE_GRAPHICS:NEAR
-EXTRN RESOLVE_HANDLE:NEAR
+EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
 EXTRN DISPOSE_HANDLE:NEAR
 EXTRN SAVE_HANDLE_FLAGS:NEAR
-EXTRN LOCK_HANDLE:NEAR
+EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
 EXTRN RESTORE_HANDLE_FLAGS:NEAR
 EXTRN FINISH_PORT:NEAR
 EXTRN PUSH_PORT_CLIP:NEAR
 EXTRN POP_PORT_CLIP:NEAR
-EXTRN DRAW_TEXT:NEAR
+EXTRN DRAW_NUL_TERMINATED_TEXT:NEAR
 EXTRN STROKE_PORT_RECT:NEAR
 EXTRN FRAME_RECT:NEAR
 EXTRN COPY_CURRENT_PORT_ORIGIN:NEAR
-EXTRN INSET_RECT:NEAR
+EXTRN INSETRECT:NEAR
 EXTRN DRAW_AXIS_SEGMENT:NEAR
-EXTRN MOVE_PEN_TO:NEAR
-EXTRN INTERSECT_RECT:NEAR
+EXTRN MOVETO:NEAR
+EXTRN SECTRECT:NEAR
 EXTRN SET_RELATIVE_PEN_STATE:NEAR
-EXTRN DRAW_TEXT_ALTERNATE:NEAR
+EXTRN MEASURE_NUL_TERMINATED_TEXT:NEAR
 EXTRN MEASURE_COUNTED_TEXT:NEAR
 EXTRN RESTORE_SAVED_WINDOW_RECT:NEAR
 EXTRN SAVE_WINDOW_RECT:NEAR
 EXTRN DISPOSE_WINDOW:NEAR
 EXTRN ACTIVATE_WINDOW:NEAR
-EXTRN SET_GRID_SELECTION:NEAR
-EXTRN INDEX_TO_GRID_COORDS:NEAR
+EXTRN select_grid_item:NEAR
+EXTRN grid_index_to_coordinates:NEAR
 EXTRN SET_RECORD_RANGE:NEAR
-EXTRN ALLOCATE_TAGGED_HANDLE:NEAR
+EXTRN HGETRSRC:NEAR
 EXTRN PLAY_SOUND:NEAR
 EXTRN PAINT_GRID_CELL:NEAR
 EXTRN PAINT_PENDING_WINDOW:NEAR
@@ -57,12 +57,12 @@ EXTRN DRAW_CHARACTER:NEAR
 EXTRN ADD_PORT_ORIGIN:NEAR
 EXTRN TOGGLE_RECT_EFFECT:NEAR
 EXTRN APPLY_DEFAULT_PEN_STATE:NEAR
-EXTRN POINT_IN_RECT:NEAR
-EXTRN RESOLVE_AND_PROCESS_STRING:NEAR
+EXTRN POINT_IN_RECTANGLE:NEAR
+EXTRN draw_text_handle:NEAR
 EXTRN CREATE_STRING_HANDLE:NEAR
-EXTRN MEASURE_STRING_HANDLE:NEAR
-EXTRN FREE_NEAR:FAR
-EXTRN ALLOCATE_NEAR:FAR
+EXTRN measure_text_handle:NEAR
+EXTRN __nfree:FAR
+EXTRN __nmalloc:FAR
 EXTRN COMPARE_FAR_STRINGS:FAR
 
 PUBLIC DEFAULT_ITEM_HANDLER
@@ -215,7 +215,7 @@ set_item_pen:
     sub ax, ax
     push ax
     push cs
-    call INSET_RECT
+    call INSETRECT
     push ds
     push ax
     push cs
@@ -224,12 +224,12 @@ set_item_pen:
     jcxz finish_item_paint
     push cx
     push cs
-    call MEASURE_STRING_HANDLE
+    call measure_text_handle
     push ax
     mov bx, CURRENT_PORT
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     pop ax
@@ -253,10 +253,10 @@ set_item_pen:
     push cx
     push dx
     push cs
-    call MOVE_PEN_TO
+    call MOVETO
     push word ptr [di+1eh]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg si, ax
     mov es, dx
     mov cx, word ptr [di+1ah]
@@ -301,7 +301,7 @@ draw_remaining_text:
     push es
     push si
     push cs
-    call DRAW_TEXT
+    call DRAW_NUL_TERMINATED_TEXT
     jmp SHORT finish_item_paint
 track_item_press:
     mov word ptr [bp-2], 0
@@ -333,9 +333,9 @@ inset_press_rect:
     push cx
     push cx
     push cs
-    call INSET_RECT
+    call INSETRECT
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     xchg word ptr [bp-2], ax
     cmp ax, word ptr [bp-2]
     je invoke_press_action
@@ -367,7 +367,7 @@ return_press_result:
 allocate_item_record:
     mov ax, 20h
     push ax
-    call ALLOCATE_NEAR
+    call __nmalloc
     add sp, 2
     test ax, ax
     je finish_item_creation
@@ -634,7 +634,7 @@ search_next_item:
     push ds
     push ax
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     xchg cx, ax
     jcxz search_next_item
 search_done:
@@ -685,7 +685,7 @@ redraw_bounds:
     push ax
     call DWORD PTR [di+4]
     push di
-    call FREE_NEAR
+    call __nfree
     add sp, 2
     pop di
     pop bp
@@ -756,10 +756,10 @@ LOAD_ITEM_DEFINITION PROC FAR
     les bx, DWORD PTR [si]
     push WORD PTR es:[bx]
     push cs
-    call ALLOCATE_TAGGED_HANDLE
+    call HGETRSRC
     push ax
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     or dx, bx
@@ -1263,7 +1263,7 @@ CREATE_WINDOW_FROM_RESOURCE PROC FAR
     push ax
     push WORD PTR [bp+6]
     push cs
-    call ALLOCATE_TAGGED_HANDLE
+    call HGETRSRC
     test ax, ax
     jz done
     xchg di, ax
@@ -1274,7 +1274,7 @@ CREATE_WINDOW_FROM_RESOURCE PROC FAR
     push ax
     push di
     push cs
-    call LOCK_HANDLE
+    call FETCH_LOCKED_SHAPE_LIST
     push dx
     push ax
     push cs
@@ -1435,7 +1435,7 @@ loc_9049:
     push es
     push bx
     push cs
-    call INTERSECT_RECT
+    call SECTRECT
     xchg cx, ax
     pop bx
     pop es
@@ -1511,7 +1511,7 @@ initialize_frame_item:
     push ds
     push ax
     push cs
-    call INTERSECT_RECT
+    call SECTRECT
     jmp SHORT restore_frame_item_port
 hit_test_frame_item:
     push ds
@@ -1520,7 +1520,7 @@ hit_test_frame_item:
     push ds
     push ax
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     xchg cx, ax
     mov ax, 0
     jcxz return_frame_hit
@@ -1693,7 +1693,7 @@ allocate_list_item:
     add ax, 39h
     push ax
     push ax
-    call ALLOCATE_NEAR
+    call __nmalloc
     add sp, 2
     pop cx
     test ax, ax
@@ -1738,7 +1738,7 @@ initialize_list_item:
     mov bx, word ptr [di+2]
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     mov dx, word ptr [di+10h]
@@ -1857,7 +1857,7 @@ loc_939e:
     jcxz loc_9379
     push cx
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     push dx
     push ax
     lea ax, [di+38h]
@@ -1869,7 +1869,7 @@ loc_939e:
     jcxz loc_9379
     push word ptr [di+32h]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     call NEAR PTR COPY_LIST_TEXT
     jmp SHORT loc_9365
 handle_list_pointer:
@@ -1889,7 +1889,7 @@ handle_list_pointer:
     push ds
     push ax
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     jmp NEAR PTR restore_list_port
 dispose_list_text:
     push word ptr [di+32h]
@@ -1934,7 +1934,7 @@ TOGGLE_LIST_CURSOR PROC NEAR
     push ax
     push ax
     push cs
-    call INSET_RECT
+    call INSETRECT
     push ds
     push ax
     push cs
@@ -1953,7 +1953,7 @@ TOGGLE_LIST_CURSOR PROC NEAR
     dec ax
     push ax
     push cs
-    call MOVE_PEN_TO
+    call MOVETO
     push word ptr [di+2eh]
     push cs
     call DRAW_AXIS_SEGMENT
@@ -1990,7 +1990,7 @@ REPAINT_LIST_ITEM PROC NEAR
     push ax
     push ax
     push cs
-    call INSET_RECT
+    call INSETRECT
     push ds
     push ax
     push cs
@@ -2003,7 +2003,7 @@ REPAINT_LIST_ITEM PROC NEAR
     push ds
     push ax
     push cs
-    call DRAW_TEXT_ALTERNATE
+    call MEASURE_NUL_TERMINATED_TEXT
     sub bx, bx
     mov cx, word ptr [di+2ch]
     mov dx, word ptr [di+30h]
@@ -2026,7 +2026,7 @@ loc_94c3:
     mov word ptr [si+24h], cx
     push word ptr [si+2ah]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx+2]
@@ -2043,7 +2043,7 @@ loc_94e8:
     push ds
     push ax
     push cs
-    call DRAW_TEXT
+    call DRAW_NUL_TERMINATED_TEXT
     pop word ptr [si+28h]
     push cs
     call POP_PORT_CLIP
@@ -2150,7 +2150,7 @@ initialize_grid_item:
     mov si, CURRENT_PORT
     push word ptr [si+2ah]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx+2]
@@ -2171,7 +2171,7 @@ initialize_grid_item:
     push ds
     push ax
     push cs
-    call INTERSECT_RECT
+    call SECTRECT
     jmp SHORT restore_grid_item_port
 hit_test_grid_item:
     call NEAR PTR UPDATE_GRID_ITEM_BOUNDS
@@ -2184,7 +2184,7 @@ hit_test_grid_item:
     push ds
     push ax
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     test ax, ax
     mov ax, 4
     jne loc_962b
@@ -2195,7 +2195,7 @@ loc_9605:
     push ds
     push ax
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     test ax, ax
     mov ax, 3
     jne loc_962b
@@ -2205,7 +2205,7 @@ loc_9605:
     push ds
     push ax
     push cs
-    call POINT_IN_RECT
+    call POINT_IN_RECTANGLE
     xchg cx, ax
     mov ax, 0
     jcxz loc_962b
@@ -2281,7 +2281,7 @@ loc_9642:
     push ax
     push ax
     push cs
-    call INSET_RECT
+    call INSETRECT
     mov cx, word ptr [di+34h]
     jcxz loc_96fb
     mov ax, word ptr [si+2]
@@ -2321,7 +2321,7 @@ loc_96fb:
     jcxz loc_975f
     push cx
     push cs
-    call MEASURE_STRING_HANDLE
+    call measure_text_handle
     mov dx, word ptr [si+6]
     sub dx, word ptr [si+2]
     sub dx, ax
@@ -2349,17 +2349,17 @@ loc_971a:
     mov bx, CURRENT_PORT
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     mov ax, word ptr es:[bx+2]
     add ax, word ptr [si]
     push ax
     push cs
-    call MOVE_PEN_TO
+    call MOVETO
     push word ptr [di+5ah]
     push cs
-    call RESOLVE_AND_PROCESS_STRING
+    call draw_text_handle
     push cs
     call POP_PORT_CLIP
 loc_975f:
@@ -2373,7 +2373,7 @@ UPDATE_GRID_ITEM_BOUNDS PROC NEAR
     mov bx, SCREEN_CONTEXT
     push word ptr [bx+2ah]
     push cs
-    call RESOLVE_HANDLE
+    call RESOLVE_HANDLE_TO_FAR_PAYLOAD
     xchg bx, ax
     mov es, dx
     mov ax, word ptr [di+3eh]
@@ -2454,10 +2454,10 @@ DRAW_INDEXED_ITEM PROC FAR
     push di
     push cx
     push cs
-    call SET_GRID_SELECTION
+    call select_grid_item
 repaint_indexed_grid_cell:
     pop ax
-    call INDEX_TO_GRID_COORDS
+    call grid_index_to_coordinates
     push di
     push dx
     push ax

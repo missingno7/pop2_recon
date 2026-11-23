@@ -63,28 +63,28 @@ static int floor_x_adjustment[] = {8, 18, 24, 18, 24, 10, 20, 23, 19, 23};
 extern Tile tile_state[];
 extern Tile near *room_tiles;
 extern ImageTable near *image_table;
-extern int random_range(int);
+extern int Rnd(int);
 int abs(int);
 #pragma intrinsic(abs)
-extern void play_sound(int), stop_sound(int);
-extern void load_kid(void), load_opponent(char), save_opponent(void), update_char(void);
-extern int get_sequence(int); /* Column-to-X helper at 02cc:0360. */
-extern void turn_skeleton(void); /* Removes the current character at 02cc:1bd6. */
-extern void wait_skeleton(void); /* Starts the opponent running at overlay-12:2c3e:00d6. */
-extern void turn_engarde(void), set_sequence(int);
+extern void AddSound(int), AddSong(int);
+extern void copy_kid_to_char(void), load_actor_slot(char), save_actor_slot(void), get_frame_info(void);
+extern int AddCharX(int); /* Column-to-X helper at 02cc:0360. */
+extern void remove_char(void); /* Removes the current character at 02cc:1bd6. */
+extern void start_opponent_running(void); /* Starts the opponent running at overlay-12:2c3e:00d6. */
+extern void turn_engarde(void), JumpSeq(int);
 extern void trigger_gate_with_reverse_plate(char, char);
-extern Gate near *get_gate(char, int);
-extern unsigned char get_tile(char, char, char);
+extern Gate near *get_trob_room_cell(char, int);
+extern unsigned char ReadCell(char, char, char);
 extern void set_resource(int, unsigned int, unsigned char, unsigned char);
-extern int sound_is_playing(int);
+extern int query_sound(int);
 
-extern void draw_tile(char, TileAnim near *);
-extern void translate_rect(void far *, void far *, int, int);
-extern void calc_tile_rect(Rect near *, void near *, int, int);
+extern void DrawCustomRoomImgAtInfo(char, TileAnim near *);
+extern void OFFSETRECT(void far *, void far *, int, int);
+extern void ComputeOffsetCellRect(Rect near *, void near *, int, int);
 typedef void far pascal DrawCallback(char cell, Rect near *rect);
 extern DrawCallback mark_bridge_top, mark_bridge_floor;
-extern void redraw_cells(DrawCallback *, Rect near *, char);
-extern void change_tile(char, char, char, char);
+extern void mark_bufs_for_rect(DrawCallback *, Rect near *, char);
+extern void add_trob(char, char, char, char);
 extern char far pascal FirstInRow(signed char);
 extern signed char far pascal IndexCell1(signed char, signed char);
 typedef struct {
@@ -153,14 +153,14 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
                 }
             } while (--col >= 3);
             if (col == 7) {
-                play_sound(68);
-                stop_sound(66);
+                AddSound(68);
+                AddSong(66);
             }
             if (col < 3 || kid.sequence_id == 85) {
                 bridge_break = -1;
-                load_kid();
+                copy_kid_to_char();
                 if (current_char.col <= 4 && current_char.direction == 0)
-                    current_char.x = get_sequence(10);
+                    current_char.x = AddCharX(10);
                 kid = current_char;
             }
         } else {
@@ -184,7 +184,7 @@ int bridge_watch_kid(void)
 {
     int on_bridge;
 
-    load_kid();
+    copy_kid_to_char();
     on_bridge = bridge_char_on_floor();
     if (on_bridge) {
         tweak_char_y_on_bridge();
@@ -203,11 +203,11 @@ int bridge_watch_opponent(void)
     int on_bridge;
 
     if (room_flags[(unsigned char)current_room * 116]) {
-        load_opponent(0);
+        load_actor_slot(0);
         on_bridge = bridge_char_on_floor();
         if (on_bridge)
             tweak_char_y_on_bridge();
-        save_opponent();
+        save_actor_slot();
     } else {
         on_bridge = 0;
     }
@@ -242,19 +242,19 @@ int bridge_skeleton_progress(void)
 
     if (current_char.sequence != 5) {
         if (current_char.row >= 3 && current_char.sequence == 4) {
-            turn_skeleton();
+            remove_char();
             keep_going = 0;
         } else if (current_char.direction == 0) {
             if (current_char.sequence_id == 102 || current_char.sequence_id == 216) {
                 if (col >= 9) {
                     current_char.control = 2;
                     current_char.alive = 1;
-                    set_sequence(101);
+                    JumpSeq(101);
                 }
                 keep_going = 0;
             } else if (kid.x < current_char.x) {
                 if (bridge_skeleton_at_plate()) {
-                    wait_skeleton();
+                    start_opponent_running();
                     keep_going = 0;
                 } else if (col >= 9) {
                     turn_engarde();
@@ -286,7 +286,7 @@ int bridge_skeleton_at_plate(void)
 
 int bridge_gate_open(void)
 {
-    register Gate near *gate = get_gate(7, 13);
+    register Gate near *gate = get_trob_room_cell(7, 13);
     int open;
 
     if (gate && (gate->state == 0 || gate->state == 2))
@@ -316,7 +316,7 @@ int bridge_skeleton_can_advance(void)
 
 int bridge_char_on_floor(void)
 {
-    if (get_tile(current_char.room, current_char.col, current_char.row) == 44)
+    if (ReadCell(current_char.room, current_char.col, current_char.row) == 44)
         return 1;
     return 0;
 }
@@ -344,8 +344,8 @@ void mark_bridge_floors_for_chars(int kid_on_bridge, int opponent_on_bridge)
     } else {
         delay = 0;
     }
-    if (delay && !sound_is_playing(10067) && !random_range(delay * 40))
-        play_sound(67);
+    if (delay && !query_sound(10067) && !Rnd(delay * 40))
+        AddSound(67);
 }
 
 void mark_bridge_for_col(char col)
@@ -371,7 +371,7 @@ void tweak_char_y_on_bridge(void)
     if (bridge_char_on_floor() && (current_char.frame < 34 || current_char.frame > 44)) {
         current_char.y = 63 * current_char.row + 56;
         current_char.y += bridge_y[current_char.col];
-        update_char();
+        get_frame_info();
         if (bridge_room_flags & 64) {
             modifier = tile_state[(signed char)(current_char.col + 10)].modifier & 15;
             if (modifier == 1)
@@ -397,7 +397,7 @@ void animate_bridge_floor(void)
         if (!(floor_mask & (1 << (animation_cell % (signed char)10 - 1)))) {
             phase = 0;
         } else {
-            phase = random_range(3);
+            phase = Rnd(3);
             if (phase > 1) {
                 if (old_phase)
                     phase = 0;
@@ -423,7 +423,7 @@ void draw_bridge_floor(TileAnim near *tile)
     if (tile->type == 5 || tile->type == 2) {
         image = (tile->modifier & 15) + 3;
         old_y = offset_bridge_floor_y(image, tile->col);
-        draw_tile(image, tile);
+        DrawCustomRoomImgAtInfo(image, tile);
         restore_bridge_floor_y(image, old_y);
     }
 }
@@ -435,7 +435,7 @@ int far _fastcall offset_bridge_floor_y(unsigned char image, char col)
     int delta = bridge_y[col];
 
     entry->y += delta;
-    translate_rect(entry->rect, entry->rect, 0, delta);
+    OFFSETRECT(entry->rect, entry->rect, 0, delta);
     return old_y;
 }
 
@@ -445,7 +445,7 @@ void far _fastcall restore_bridge_floor_y(unsigned char image, int old_y)
     int delta = entry->y - old_y;
 
     entry->y = old_y;
-    translate_rect(entry->rect, entry->rect, 0, -delta);
+    OFFSETRECT(entry->rect, entry->rect, 0, -delta);
 }
 
 void redraw_bridge_floor(int phase, char cell)
@@ -455,9 +455,9 @@ void redraw_bridge_floor(int phase, char cell)
     signed char col = cell % (signed char)10;
     int old_y = offset_bridge_floor_y(image, col);
 
-    calc_tile_rect(&rect, image_table->images[image].rect, col, cell / (signed char)10 + 1);
+    ComputeOffsetCellRect(&rect, image_table->images[image].rect, col, cell / (signed char)10 + 1);
     --rect.top;
-    redraw_cells(&mark_bridge_top, &rect, -1);
+    mark_bufs_for_rect(&mark_bridge_top, &rect, -1);
     restore_bridge_floor_y(image, old_y);
 }
 
@@ -467,7 +467,7 @@ void trigger_bridge_floor(char room, char cell)
     int phase = tiles[cell].modifier & 0xfff0;
     tiles[cell].modifier = phase;
 
-    change_tile(room, cell, 1, 44);
+    add_trob(room, cell, 1, 44);
     redraw_bridge_floor(phase, cell);
 }
 
@@ -521,7 +521,7 @@ get_position:
         if (mob_index != -1) {
             get_mob_rect(&redraw);
             redraw.left += 16;
-            redraw_cells(&mark_bridge_floor, &redraw, -1);
+            mark_bufs_for_rect(&mark_bridge_floor, &redraw, -1);
             update_mob_y(y);
         }
         mob_x = old_x;
@@ -566,7 +566,7 @@ void trigger_bridge_floor_mob(unsigned char room, signed char cell)
     col = cell % (signed char)10;
     row = cell / (signed char)10;
     mob_x = floor_x[col];
-    if (random_range(1)) {
+    if (Rnd(1)) {
         mob_modifier = 5;
         speed = 2;
     } else {

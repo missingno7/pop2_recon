@@ -25,21 +25,21 @@ extern int window_style;
 extern struct rectangle screen_clip;
 
 extern struct window_item *far pascal find_window_item(void *, int);
-extern void far pascal start_named_effect(const void far *);
+extern void far pascal STROKE_PORT_RECT(const void far *);
 extern int far pascal get_current_dos_directory(char far *);
 extern int far pascal set_current_dos_directory(const char far *);
 extern void far pascal discard_queued_events(int);
-extern unsigned far pascal allocate_tagged_handle(unsigned long, int);
+extern unsigned far pascal HGETRSRC(unsigned long, int);
 extern struct Record *far pascal create_window_from_resource(int);
 extern unsigned far cdecl far_string_length(const char far *);
-extern void *far cdecl near_heap_alloc(unsigned);
+extern void *far cdecl _nmalloc(unsigned);
 extern char far *far cdecl far_string_copy(char far *, const char far *);
 extern int far pascal wait_for_window_result(void (far pascal *)(void));
-extern void far cdecl near_heap_free(void *);
+extern void far cdecl _nfree(void *);
 extern void far pascal dispose_window(struct Record *);
 extern void far pascal dispose_bitmap_port(void *);
 extern unsigned far pascal save_handle_flags(unsigned);
-extern struct rectangle far *far pascal get_handle_data(unsigned);
+extern struct rectangle far *far pascal FETCH_LOCKED_SHAPE_LIST(unsigned);
 extern struct rectangle far *far pascal InsetRect(struct rectangle far *,
                                                   const struct rectangle far *, int, int);
 extern void *far pascal allocate_clipped_port(const struct rectangle far *);
@@ -80,7 +80,7 @@ void far pascal run_window_item_effect(void *port, int id)
 
     current_port = port;
     item = find_window_item(port, id);
-    start_named_effect(item->effect_name);
+    STROKE_PORT_RECT(item->effect_name);
     item->action(item, 2, item->argument);
     current_port = saved_port;
 }
@@ -103,7 +103,7 @@ int far pascal run_dialog_preserving_directory(dialog_proc show, int first, int 
 
 unsigned far pascal allocate_gold_handle(int id)
 {
-    return allocate_tagged_handle(0x444c4f47UL, id); /* GOLD */
+    return HGETRSRC(0x444c4f47UL, id); /* GOLD */
 }
 
 int far pascal show_resource_dialog(int resource, int item, const char far *message, int replace_port)
@@ -117,11 +117,11 @@ int far pascal show_resource_dialog(int resource, int item, const char far *mess
     if (replace_port)
         port = create_dialog_port(resource);
     window = create_window_from_resource(resource);
-    far_string_copy(text = near_heap_alloc(far_string_length(message) + 1), message);
+    far_string_copy(text = _nmalloc(far_string_length(message) + 1), message);
     set_window_item_text(window, item, text);
     SET_NEAR_RECORD_WORD20(window, 15);
     result = wait_for_window_result(0);
-    near_heap_free(text);
+    _nfree(text);
     dispose_window(window);
     if (replace_port)
         restore_dialog_port(port);
@@ -148,9 +148,9 @@ void *far pascal create_dialog_port(int resource)
     struct rectangle bounds;
 
     current_port = dialog_port;
-    handle = allocate_tagged_handle(0x444c4f47UL, resource);
+    handle = HGETRSRC(0x444c4f47UL, resource);
     saved_flags = save_handle_flags(handle);
-    InsetRect(&bounds, get_handle_data(handle), -3, -2);
+    InsetRect(&bounds, FETCH_LOCKED_SHAPE_LIST(handle), -3, -2);
     port = allocate_clipped_port(&bounds);
     restore_handle_flags(handle, saved_flags);
     current_port = saved_port;

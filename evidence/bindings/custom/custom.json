@@ -1,78 +1,66 @@
 {
   "declarations": {
-    "segments": [
-      {
-        "name": "UNIT_TEXT",
-        "class": "CODE",
-        "overlay": "",
-        "length": 2168,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "_DATA",
-        "class": "DATA",
-        "overlay": "",
-        "length": 8,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "CONST",
-        "class": "CONST",
-        "overlay": "",
-        "length": 8,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "_BSS",
-        "class": "BSS",
-        "overlay": "",
-        "length": 0,
-        "alignment": 2,
-        "combine": 2,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "$$SYMBOLS",
-        "class": "DEBSYM",
-        "overlay": "",
-        "length": 1732,
-        "alignment": 1,
-        "combine": 0,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      },
-      {
-        "name": "$$TYPES",
-        "class": "DEBTYP",
-        "overlay": "",
-        "length": 1741,
-        "alignment": 1,
-        "combine": 0,
-        "big": false,
-        "use32": false,
-        "frame": null,
-        "frame_offset": null
-      }
+    "externals": [
+      "PEEL_RECORDS",
+      "TEMPLATE_TABLE",
+      "DEFAULT_TEMPLATE",
+      "ROOM_TEMPLATE",
+      "SHAPE_RECT",
+      "CUSTOM_SHAPE_ARCHIVE",
+      "RECT_IS_EMPTY",
+      "EMPTY_PIECE_RECT",
+      "UNITE_RECT",
+      "GETCUSTOMPIECESIZE",
+      "CUSTOM_FLOOR_IMAGE",
+      "ADDDSRTSTONEUPPEELS",
+      "MARK_BUFS_FOR_RECT",
+      "__nmalloc",
+      "__nfree",
+      "@add_peel",
+      "CUSTOM_TILES",
+      "FIND_CHARACTER_PEEL",
+      "LOADCUSTOMROOMSHAPES",
+      "ISCUSTOMIZEDROOM",
+      "UNLOADCUSTOMROOMSHAPES",
+      "STROKE_PORT_RECT",
+      "UNLOADCUSTOMROOMDATA",
+      "CHECK_ROOF_ROOM",
+      "FINAL_NOOP",
+      "NEEDDRAWROOMBELOWCUSTOM",
+      "SETCUSTOMROOMTEMPLATE",
+      "DISPOSE_HANDLE",
+      "ADDCUSTOMPIECEPEEL",
+      "LOADCUSTOMROOMDATA",
+      "CHECKROOMSPECIFIC",
+      "RESTOREKEEPCUSTOMPEEL",
+      "OFFSETRECT",
+      "@draw_custom_room_image",
+      "SAVECUSTOMROOMPEELS",
+      "MATERIALIZE_HANDLE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "HGETRSRC",
+      "DRAWCUSTOMROOMIMGATINFO",
+      "LOAD_RESOURCE_COPY",
+      "FETCH_LOCKED_SHAPE_LIST",
+      "CLEAR_HANDLE_OWNED",
+      "GETCUSTOMABOVEARY",
+      "PREPARE_ARCHIVE",
+      "ARCHIVE_POSITION",
+      "SET_ARCHIVE_POSITION",
+      "GETCUSTOMPIECESHAPE",
+      "CUSTOM_ROOM",
+      "PRINCEUNPACKSHAPE",
+      "LEVEL_STYLE",
+      "ROOM_STYLE",
+      "ROOM_NUMBER",
+      "LOAD_SONG_RANGE",
+      "ROOM_SPECIFIC_READY",
+      "CUSTOM_ROOM_ENABLED",
+      "ROOM_SPECIFIC_HANDLE",
+      "RELEASE_SONG_RANGE",
+      "RESET_CUSTOM_ROOM_SOUND",
+      "@GetCustomPieceShpInfo",
+      "CUSTOM_ABOVE"
     ],
     "groups": [
       {
@@ -86,211 +74,223 @@
     ],
     "publics": [
       {
+        "frame": null,
+        "group_index": 0,
         "name": "GETCUSTOMPIECESIZE",
+        "offset": 528,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 528,
-        "group_index": 0,
-        "frame": null,
         "type_index": 635
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "LOADCUSTOMROOMSHAPES",
+        "offset": 900,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 900,
-        "group_index": 0,
-        "frame": null,
         "type_index": 649
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "ISCUSTOMIZEDROOM",
+        "offset": 614,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 614,
-        "group_index": 0,
-        "frame": null,
         "type_index": 644
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "UNLOADCUSTOMROOMSHAPES",
+        "offset": 1918,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1918,
-        "group_index": 0,
-        "frame": null,
         "type_index": 661
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "UNLOADCUSTOMROOMDATA",
+        "offset": 1830,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1830,
-        "group_index": 0,
-        "frame": null,
         "type_index": 659
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "NEEDDRAWROOMBELOWCUSTOM",
+        "offset": 1618,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1618,
-        "group_index": 0,
-        "frame": null,
         "type_index": 651
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "SETCUSTOMROOMTEMPLATE",
+        "offset": 1792,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1792,
-        "group_index": 0,
-        "frame": null,
         "type_index": 658
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "ADDCUSTOMPIECEPEEL",
+        "offset": 0,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 0,
-        "group_index": 0,
-        "frame": null,
         "type_index": 607
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "LOADCUSTOMROOMDATA",
+        "offset": 682,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 682,
-        "group_index": 0,
-        "frame": null,
         "type_index": 647
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "CHECKROOMSPECIFIC",
+        "offset": 56,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 56,
-        "group_index": 0,
-        "frame": null,
         "type_index": 608
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "RESTOREKEEPCUSTOMPEEL",
+        "offset": 1648,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1648,
-        "group_index": 0,
-        "frame": null,
         "type_index": 653
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "SAVECUSTOMROOMPEELS",
+        "offset": 1696,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 1696,
-        "group_index": 0,
-        "frame": null,
         "type_index": 654
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "DRAWCUSTOMROOMIMGATINFO",
+        "offset": 130,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 130,
-        "group_index": 0,
-        "frame": null,
         "type_index": 612
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "GETCUSTOMABOVEARY",
+        "offset": 302,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 302,
-        "group_index": 0,
-        "frame": null,
         "type_index": 616
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "GETCUSTOMPIECESHAPE",
+        "offset": 354,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 354,
-        "group_index": 0,
-        "frame": null,
         "type_index": 620
       },
       {
+        "frame": null,
+        "group_index": 0,
         "name": "@GetCustomPieceShpInfo",
+        "offset": 472,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 472,
-        "group_index": 0,
-        "frame": null,
         "type_index": 629
       }
     ],
-    "externals": [
-      "PEEL_RECORDS",
-      "TEMPLATE_TABLE",
-      "DEFAULT_TEMPLATE",
-      "ROOM_TEMPLATE",
-      "SHAPE_RECT",
-      "CUSTOM_SHAPE_ARCHIVE",
-      "RECT_IS_EMPTY",
-      "EMPTY_PIECE_RECT",
-      "UNITE_RECT",
-      "GETCUSTOMPIECESIZE",
-      "CUSTOM_FLOOR_IMAGE",
-      "SAVE_SPECIAL_PEEL",
-      "DRAW_FLOOR_FOREGROUND",
-      "_malloc",
-      "_free",
-      "@add_peel",
-      "CUSTOM_TILES",
-      "RESTORE_PEEL",
-      "LOADCUSTOMROOMSHAPES",
-      "ISCUSTOMIZEDROOM",
-      "UNLOADCUSTOMROOMSHAPES",
-      "STROKE_PORT_RECT",
-      "UNLOADCUSTOMROOMDATA",
-      "CHECK_ROOFTOPS_ROOM",
-      "CHECK_STYLE_SIX_ROOM",
-      "NEEDDRAWROOMBELOWCUSTOM",
-      "SETCUSTOMROOMTEMPLATE",
-      "FREE_SHAPE",
-      "ADDCUSTOMPIECEPEEL",
-      "LOADCUSTOMROOMDATA",
-      "CHECKROOMSPECIFIC",
-      "RESTOREKEEPCUSTOMPEEL",
-      "OFFSET_RECT",
-      "@draw_custom_room_image",
-      "SAVECUSTOMROOMPEELS",
-      "PROBE_SHAPE",
-      "LOCATE_SHAPE",
-      "FIND_RESOURCE",
-      "DRAWCUSTOMROOMIMGATINFO",
-      "LOAD_ROOM_RESOURCE",
-      "LOCK_ARCHIVE",
-      "UNLOCK_ARCHIVE",
-      "GETCUSTOMABOVEARY",
-      "PREPARE_ARCHIVE",
-      "ARCHIVE_POSITION",
-      "SET_ARCHIVE_POSITION",
-      "GETCUSTOMPIECESHAPE",
-      "CUSTOM_ROOM",
-      "LOAD_SHAPE",
-      "LEVEL_STYLE",
-      "ROOM_STYLE",
-      "ROOM_NUMBER",
-      "INIT_ROOM_SOUND",
-      "ROOM_SPECIFIC_READY",
-      "CUSTOM_ROOM_ENABLED",
-      "ROOM_SPECIFIC_HANDLE",
-      "RELEASE_ROOM_SOUND",
-      "RESET_CUSTOM_ROOM_SOUND",
-      "@GetCustomPieceShpInfo",
-      "CUSTOM_ABOVE"
+    "segments": [
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CODE",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 2168,
+        "name": "UNIT_TEXT",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "DATA",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 8,
+        "name": "_DATA",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "CONST",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 8,
+        "name": "CONST",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 2,
+        "big": false,
+        "class": "BSS",
+        "combine": 2,
+        "frame": null,
+        "frame_offset": null,
+        "length": 0,
+        "name": "_BSS",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 1,
+        "big": false,
+        "class": "DEBSYM",
+        "combine": 0,
+        "frame": null,
+        "frame_offset": null,
+        "length": 1732,
+        "name": "$$SYMBOLS",
+        "overlay": "",
+        "use32": false
+      },
+      {
+        "alignment": 1,
+        "big": false,
+        "class": "DEBTYP",
+        "combine": 0,
+        "frame": null,
+        "frame_offset": null,
+        "length": 1741,
+        "name": "$$TYPES",
+        "overlay": "",
+        "use32": false
+      }
     ]
   },
   "dgroup_segment": {
@@ -305,3261 +305,3261 @@
   },
   "fixups": [
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 43,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 16,
+          "kind": "external",
+          "method": 6,
           "name": "@add_peel",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 43,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 16,
+        "kind": "external",
+        "method": 6,
         "name": "@add_peel",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 56,
+          "kind": "external",
+          "method": 6,
+          "name": "ROOM_SPECIFIC_HANDLE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 125,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 56,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_SPECIFIC_HANDLE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 28,
           "kind": "external",
-          "index": 56,
-          "name": "ROOM_SPECIFIC_HANDLE",
           "method": 6,
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 56,
-        "name": "ROOM_SPECIFIC_HANDLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 119,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 28,
+        "kind": "external",
+        "method": 6,
+        "name": "DISPOSE_HANDLE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 56,
           "kind": "external",
-          "index": 28,
-          "name": "FREE_SHAPE",
           "method": 6,
+          "name": "ROOM_SPECIFIC_HANDLE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 28,
-        "name": "FREE_SHAPE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 116,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 56,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_SPECIFIC_HANDLE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 56,
-          "name": "ROOM_SPECIFIC_HANDLE",
+          "kind": "external",
           "method": 6,
+          "name": "ROOM_SPECIFIC_HANDLE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 56,
-        "name": "ROOM_SPECIFIC_HANDLE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 109,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 56,
-          "name": "ROOM_SPECIFIC_HANDLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 56,
+        "kind": "external",
+        "method": 6,
         "name": "ROOM_SPECIFIC_HANDLE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 103,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 25,
-          "name": "CHECK_STYLE_SIX_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "FINAL_NOOP",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 103,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 25,
-        "name": "CHECK_STYLE_SIX_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "FINAL_NOOP",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 95,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 24,
-          "name": "CHECK_ROOFTOPS_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CHECK_ROOF_ROOM",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 95,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 24,
-        "name": "CHECK_ROOFTOPS_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CHECK_ROOF_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 87,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 22,
+          "kind": "external",
+          "method": 6,
           "name": "STROKE_PORT_RECT",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 87,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 22,
+        "kind": "external",
+        "method": 6,
         "name": "STROKE_PORT_RECT",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 1,
+        "kind": "group",
+        "name": "DGROUP"
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 82,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "group",
-        "index": 1,
-        "name": "DGROUP"
-      },
       "target": {
-        "kind": "segment",
         "index": 3,
+        "kind": "segment",
+        "method": 4,
         "name": "CONST",
-        "method": 4,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 76,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 54,
+          "kind": "external",
+          "method": 6,
           "name": "ROOM_SPECIFIC_READY",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 76,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 54,
+        "kind": "external",
+        "method": 6,
         "name": "ROOM_SPECIFIC_READY",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 57,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 50,
+          "kind": "external",
+          "method": 6,
           "name": "LEVEL_STYLE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 57,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 50,
+        "kind": "external",
+        "method": 6,
         "name": "LEVEL_STYLE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 257,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 34,
+          "kind": "external",
+          "method": 6,
           "name": "@draw_custom_room_image",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 257,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 34,
+        "kind": "external",
+        "method": 6,
         "name": "@draw_custom_room_image",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 33,
+          "kind": "external",
+          "method": 6,
+          "name": "OFFSETRECT",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 233,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 33,
+        "kind": "external",
+        "method": 6,
+        "name": "OFFSETRECT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 33,
-          "name": "OFFSET_RECT",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 33,
-        "name": "OFFSET_RECT",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 145,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 60,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "CUSTOM_ABOVE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 337,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 60,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ABOVE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 60,
-          "name": "CUSTOM_ABOVE",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ABOVE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 60,
-        "name": "CUSTOM_ABOVE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 331,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 60,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ABOVE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 60,
-          "name": "CUSTOM_ABOVE",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ABOVE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 60,
-        "name": "CUSTOM_ABOVE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 326,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 60,
-          "name": "CUSTOM_ABOVE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 60,
+        "kind": "external",
+        "method": 6,
         "name": "CUSTOM_ABOVE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 37,
+          "kind": "external",
+          "method": 6,
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 461,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 37,
-          "name": "LOCATE_SHAPE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 37,
-        "name": "LOCATE_SHAPE",
+        "kind": "external",
         "method": 6,
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 453,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 42,
-          "name": "UNLOCK_ARCHIVE",
+          "kind": "external",
           "method": 6,
+          "name": "CLEAR_HANDLE_OWNED",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 453,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 42,
-        "name": "UNLOCK_ARCHIVE",
+        "kind": "external",
         "method": 6,
+        "name": "CLEAR_HANDLE_OWNED",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 6,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 448,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 6,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 49,
           "kind": "external",
-          "index": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
           "method": 6,
+          "name": "PRINCEUNPACKSHAPE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 439,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 49,
+        "kind": "external",
+        "method": 6,
+        "name": "PRINCEUNPACKSHAPE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 41,
           "kind": "external",
-          "index": 49,
-          "name": "LOAD_SHAPE",
           "method": 6,
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 49,
-        "name": "LOAD_SHAPE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 432,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 41,
+        "kind": "external",
+        "method": 6,
+        "name": "FETCH_LOCKED_SHAPE_LIST",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 6,
           "kind": "external",
-          "index": 41,
-          "name": "LOCK_ARCHIVE",
           "method": 6,
+          "name": "CUSTOM_SHAPE_ARCHIVE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 41,
-        "name": "LOCK_ARCHIVE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 427,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 6,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 38,
           "kind": "external",
-          "index": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
           "method": 6,
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 416,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 38,
+        "kind": "external",
+        "method": 6,
+        "name": "HGETRSRC",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 38,
-          "name": "FIND_RESOURCE",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 38,
-        "name": "FIND_RESOURCE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 409,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 28,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 392,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 28,
-          "name": "FREE_SHAPE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 28,
-        "name": "FREE_SHAPE",
+        "kind": "external",
         "method": 6,
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 374,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 36,
-          "name": "PROBE_SHAPE",
+          "kind": "external",
           "method": 6,
+          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 374,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 36,
-        "name": "PROBE_SHAPE",
+        "kind": "external",
         "method": 6,
+        "name": "MATERIALIZE_HANDLE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 507,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 480,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 567,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 47,
+          "kind": "external",
+          "method": 6,
           "name": "GETCUSTOMPIECESHAPE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 567,
+      "self_relative": true,
       "target": {
-        "kind": "external",
         "index": 47,
+        "kind": "external",
+        "method": 6,
         "name": "GETCUSTOMPIECESHAPE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 559,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 537,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 631,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 17,
+          "kind": "external",
+          "method": 6,
           "name": "CUSTOM_TILES",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 631,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 17,
+        "kind": "external",
+        "method": 6,
         "name": "CUSTOM_TILES",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 888,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 58,
+          "kind": "external",
+          "method": 6,
           "name": "RESET_CUSTOM_ROOM_SOUND",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 888,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 58,
+        "kind": "external",
+        "method": 6,
         "name": "RESET_CUSTOM_ROOM_SOUND",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 52,
+          "kind": "external",
+          "method": 6,
+          "name": "ROOM_NUMBER",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 882,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 52,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_NUMBER",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 51,
           "kind": "external",
-          "index": 52,
-          "name": "ROOM_NUMBER",
           "method": 6,
+          "name": "ROOM_STYLE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 52,
-        "name": "ROOM_NUMBER",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 875,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 51,
-          "name": "ROOM_STYLE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 51,
-        "name": "ROOM_STYLE",
+        "kind": "external",
         "method": 6,
+        "name": "ROOM_STYLE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 868,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 52,
+          "kind": "external",
+          "method": 6,
           "name": "ROOM_NUMBER",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 868,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 52,
+        "kind": "external",
+        "method": 6,
         "name": "ROOM_NUMBER",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 861,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 51,
+          "kind": "external",
+          "method": 6,
           "name": "ROOM_STYLE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 861,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 51,
+        "kind": "external",
+        "method": 6,
         "name": "ROOM_STYLE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 23,
+          "kind": "external",
+          "method": 6,
+          "name": "UNLOADCUSTOMROOMDATA",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 857,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": true,
+      "target": {
+        "index": 23,
+        "kind": "external",
+        "method": 6,
+        "name": "UNLOADCUSTOMROOMDATA",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 23,
-          "name": "UNLOADCUSTOMROOMDATA",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 23,
-        "name": "UNLOADCUSTOMROOMDATA",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 850,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 4,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "ROOM_TEMPLATE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 826,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_TEMPLATE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 27,
           "kind": "external",
-          "index": 4,
-          "name": "ROOM_TEMPLATE",
           "method": 6,
+          "name": "SETCUSTOMROOMTEMPLATE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "ROOM_TEMPLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 822,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": true,
+      "target": {
+        "index": 27,
+        "kind": "external",
+        "method": 6,
+        "name": "SETCUSTOMROOMTEMPLATE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 27,
-          "name": "SETCUSTOMROOMTEMPLATE",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 27,
-        "name": "SETCUSTOMROOMTEMPLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 814,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 808,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 53,
-          "name": "INIT_ROOM_SOUND",
+          "kind": "external",
           "method": 6,
+          "name": "LOAD_SONG_RANGE",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 808,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 53,
-        "name": "INIT_ROOM_SOUND",
+        "kind": "external",
         "method": 6,
+        "name": "LOAD_SONG_RANGE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 799,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 23,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "UNLOADCUSTOMROOMDATA",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 795,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": true,
+      "target": {
+        "index": 23,
+        "kind": "external",
+        "method": 6,
+        "name": "UNLOADCUSTOMROOMDATA",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 19,
           "kind": "external",
-          "index": 23,
-          "name": "UNLOADCUSTOMROOMDATA",
           "method": 6,
+          "name": "LOADCUSTOMROOMSHAPES",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 23,
-        "name": "UNLOADCUSTOMROOMDATA",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 791,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": true,
+      "target": {
+        "index": 19,
+        "kind": "external",
+        "method": 6,
+        "name": "LOADCUSTOMROOMSHAPES",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 19,
-          "name": "LOADCUSTOMROOMSHAPES",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 19,
-        "name": "LOADCUSTOMROOMSHAPES",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 783,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 15,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 774,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 15,
+        "kind": "external",
+        "method": 6,
+        "name": "__nfree",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 15,
-          "name": "_free",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 15,
-        "name": "_free",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 771,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 21,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "UNLOADCUSTOMROOMSHAPES",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 767,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 21,
-          "name": "UNLOADCUSTOMROOMSHAPES",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 21,
-        "name": "UNLOADCUSTOMROOMSHAPES",
+        "kind": "external",
         "method": 6,
+        "name": "UNLOADCUSTOMROOMSHAPES",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 759,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 19,
+          "kind": "external",
+          "method": 6,
           "name": "LOADCUSTOMROOMSHAPES",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 759,
+      "self_relative": true,
       "target": {
-        "kind": "external",
         "index": 19,
+        "kind": "external",
+        "method": 6,
         "name": "LOADCUSTOMROOMSHAPES",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 747,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 737,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 722,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 40,
-          "name": "LOAD_ROOM_RESOURCE",
+          "kind": "external",
           "method": 6,
+          "name": "LOAD_RESOURCE_COPY",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 722,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 40,
-        "name": "LOAD_ROOM_RESOURCE",
+        "kind": "external",
         "method": 6,
+        "name": "LOAD_RESOURCE_COPY",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 691,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 55,
+          "kind": "external",
+          "method": 6,
           "name": "CUSTOM_ROOM_ENABLED",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 691,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 55,
+        "kind": "external",
+        "method": 6,
         "name": "CUSTOM_ROOM_ENABLED",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 987,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 14,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "__nmalloc",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 960,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 14,
+        "kind": "external",
+        "method": 6,
+        "name": "__nmalloc",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 14,
-          "name": "_malloc",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 14,
-        "name": "_malloc",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 931,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 918,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 15,
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1603,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 15,
+        "kind": "external",
+        "method": 6,
+        "name": "__nfree",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 15,
-          "name": "_free",
+          "kind": "external",
           "method": 6,
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 15,
-        "name": "_free",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1592,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
+      "target": {
+        "index": 15,
+        "kind": "external",
+        "method": 6,
+        "name": "__nfree",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 28,
           "kind": "external",
-          "index": 15,
-          "name": "_free",
           "method": 6,
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 15,
-        "name": "_free",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1579,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 28,
-          "name": "FREE_SHAPE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 28,
-        "name": "FREE_SHAPE",
+        "kind": "external",
         "method": 6,
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1533,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 46,
+          "kind": "external",
+          "method": 6,
           "name": "SET_ARCHIVE_POSITION",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1533,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 46,
+        "kind": "external",
+        "method": 6,
         "name": "SET_ARCHIVE_POSITION",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 6,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1525,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_SHAPE_ARCHIVE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1487,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 8,
+          "kind": "external",
+          "method": 6,
           "name": "EMPTY_PIECE_RECT",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1487,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 8,
+        "kind": "external",
+        "method": 6,
         "name": "EMPTY_PIECE_RECT",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1454,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 9,
+          "kind": "external",
+          "method": 6,
           "name": "UNITE_RECT",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1454,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 9,
+        "kind": "external",
+        "method": 6,
         "name": "UNITE_RECT",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1440,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 33,
-          "name": "OFFSET_RECT",
+          "kind": "external",
           "method": 6,
+          "name": "OFFSETRECT",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1440,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 33,
-        "name": "OFFSET_RECT",
+        "kind": "external",
         "method": 6,
+        "name": "OFFSETRECT",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1397,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 7,
+          "kind": "external",
+          "method": 6,
           "name": "RECT_IS_EMPTY",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1397,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 7,
+        "kind": "external",
+        "method": 6,
         "name": "RECT_IS_EMPTY",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1379,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 5,
+          "kind": "external",
+          "method": 6,
           "name": "SHAPE_RECT",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1379,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 5,
+        "kind": "external",
+        "method": 6,
         "name": "SHAPE_RECT",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1351,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 37,
-          "name": "LOCATE_SHAPE",
+          "kind": "external",
           "method": 6,
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1351,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 37,
-        "name": "LOCATE_SHAPE",
+        "kind": "external",
         "method": 6,
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1307,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 49,
-          "name": "LOAD_SHAPE",
+          "kind": "external",
           "method": 6,
+          "name": "PRINCEUNPACKSHAPE",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1307,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 49,
-        "name": "LOAD_SHAPE",
+        "kind": "external",
         "method": 6,
+        "name": "PRINCEUNPACKSHAPE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1289,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 38,
-          "name": "FIND_RESOURCE",
+          "kind": "external",
           "method": 6,
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1289,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 38,
-        "name": "FIND_RESOURCE",
+        "kind": "external",
         "method": 6,
+        "name": "HGETRSRC",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 14,
+          "kind": "external",
+          "method": 6,
+          "name": "__nmalloc",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 3,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1135,
-      "loc_type": 3,
-      "field_width": 4,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 14,
-          "name": "_malloc",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 14,
-        "name": "_malloc",
+        "kind": "external",
         "method": 6,
+        "name": "__nmalloc",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1114,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 41,
-          "name": "LOCK_ARCHIVE",
+          "kind": "external",
           "method": 6,
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1114,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 41,
-        "name": "LOCK_ARCHIVE",
+        "kind": "external",
         "method": 6,
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 6,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1109,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_SHAPE_ARCHIVE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1103,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 44,
+          "kind": "external",
+          "method": 6,
           "name": "PREPARE_ARCHIVE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1103,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 44,
+        "kind": "external",
+        "method": 6,
         "name": "PREPARE_ARCHIVE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 6,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1098,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_SHAPE_ARCHIVE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1089,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 45,
+          "kind": "external",
+          "method": 6,
           "name": "ARCHIVE_POSITION",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1089,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 45,
+        "kind": "external",
+        "method": 6,
         "name": "ARCHIVE_POSITION",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1084,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 6,
+          "kind": "external",
+          "method": 6,
           "name": "CUSTOM_SHAPE_ARCHIVE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1084,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 6,
+        "kind": "external",
+        "method": 6,
         "name": "CUSTOM_SHAPE_ARCHIVE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1074,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 23,
+          "kind": "external",
+          "method": 6,
           "name": "UNLOADCUSTOMROOMDATA",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1074,
+      "self_relative": true,
       "target": {
-        "kind": "external",
         "index": 23,
+        "kind": "external",
+        "method": 6,
         "name": "UNLOADCUSTOMROOMDATA",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1045,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1627,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1620,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1684,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 1,
+          "kind": "external",
+          "method": 6,
           "name": "PEEL_RECORDS",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1684,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 1,
+        "kind": "external",
+        "method": 6,
         "name": "PEEL_RECORDS",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1663,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 18,
-          "name": "RESTORE_PEEL",
+          "kind": "external",
           "method": 6,
+          "name": "FIND_CHARACTER_PEEL",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1663,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 18,
-        "name": "RESTORE_PEEL",
+        "kind": "external",
         "method": 6,
+        "name": "FIND_CHARACTER_PEEL",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1709,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1700,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1744,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 29,
+          "kind": "external",
+          "method": 6,
           "name": "ADDCUSTOMPIECEPEEL",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1744,
+      "self_relative": true,
       "target": {
-        "kind": "external",
         "index": 29,
+        "kind": "external",
+        "method": 6,
         "name": "ADDCUSTOMPIECEPEEL",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1727,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1770,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 12,
-          "name": "SAVE_SPECIAL_PEEL",
+          "kind": "external",
           "method": 6,
+          "name": "ADDDSRTSTONEUPPEELS",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1770,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 12,
-        "name": "SAVE_SPECIAL_PEEL",
+        "kind": "external",
         "method": 6,
+        "name": "ADDDSRTSTONEUPPEELS",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1761,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1750,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1779,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1824,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 3,
+          "kind": "external",
+          "method": 6,
           "name": "DEFAULT_TEMPLATE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1824,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 3,
+        "kind": "external",
+        "method": 6,
         "name": "DEFAULT_TEMPLATE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "ROOM_TEMPLATE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1822,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_TEMPLATE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 4,
-          "name": "ROOM_TEMPLATE",
+          "kind": "external",
           "method": 6,
+          "name": "ROOM_TEMPLATE",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "ROOM_TEMPLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
+      "loc_type": 1,
       "segment": "UNIT_TEXT",
+      "segment_index": 1,
       "segment_offset": 1813,
-      "loc_type": 1,
-      "field_width": 2,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 4,
-          "name": "ROOM_TEMPLATE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 4,
-        "name": "ROOM_TEMPLATE",
+        "kind": "external",
         "method": 6,
+        "name": "ROOM_TEMPLATE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1810,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 2,
+          "kind": "external",
+          "method": 6,
           "name": "TEMPLATE_TABLE",
-          "method": 6,
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1810,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 2,
+        "kind": "external",
+        "method": 6,
         "name": "TEMPLATE_TABLE",
-        "method": 6,
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1912,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": true,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 27,
+          "kind": "external",
+          "method": 6,
           "name": "SETCUSTOMROOMTEMPLATE",
-          "method": 6,
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 27,
-        "name": "SETCUSTOMROOMTEMPLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1903,
       "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1894,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 15,
-          "name": "_free",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 15,
-        "name": "_free",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
       "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1891,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1868,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 4,
-          "name": "ROOM_TEMPLATE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 4,
-        "name": "ROOM_TEMPLATE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1862,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 57,
-          "name": "RELEASE_ROOM_SOUND",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 57,
-        "name": "RELEASE_ROOM_SOUND",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1853,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1849,
-      "loc_type": 1,
-      "field_width": 2,
+      "segment_offset": 1912,
       "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 21,
-          "name": "UNLOADCUSTOMROOMSHAPES",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
+        "index": 27,
         "kind": "external",
-        "index": 21,
-        "name": "UNLOADCUSTOMROOMSHAPES",
         "method": 6,
+        "name": "SETCUSTOMROOMTEMPLATE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1838,
-      "loc_type": 1,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 48,
-          "name": "CUSTOM_ROOM",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2078,
       "loc_type": 1,
-      "field_width": 2,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1903,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 48,
-        "name": "CUSTOM_ROOM",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_ROOM",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2044,
-      "loc_type": 3,
+      "displacement": null,
       "field_width": 4,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
-          "index": 28,
-          "name": "FREE_SHAPE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 28,
-        "name": "FREE_SHAPE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1977,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1951,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 14,
-          "name": "_malloc",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 14,
-        "name": "_malloc",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1938,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1928,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2153,
-      "loc_type": 3,
-      "field_width": 4,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
           "index": 15,
-          "name": "_free",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 15,
-        "name": "_free",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2136,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
           "kind": "external",
-          "index": 48,
-          "name": "CUSTOM_ROOM",
           "method": 6,
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 48,
-        "name": "CUSTOM_ROOM",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2130,
       "loc_type": 3,
-      "field_width": 4,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1894,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 13,
-          "name": "DRAW_FLOOR_FOREGROUND",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
+        "index": 15,
         "kind": "external",
-        "index": 13,
-        "name": "DRAW_FLOOR_FOREGROUND",
         "method": 6,
+        "name": "__nfree",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2118,
-      "loc_type": 2,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
+          "index": 48,
           "kind": "external",
-          "index": 11,
-          "name": "CUSTOM_FLOOR_IMAGE",
           "method": 6,
+          "name": "CUSTOM_ROOM",
           "zero_displacement": true
         }
       },
-      "target": {
-        "kind": "external",
-        "index": 11,
-        "name": "CUSTOM_FLOOR_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
       "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2115,
-      "loc_type": 5,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 11,
-          "name": "CUSTOM_FLOOR_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 11,
-        "name": "CUSTOM_FLOOR_IMAGE",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2109,
       "loc_type": 1,
-      "field_width": 2,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1891,
       "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
       "frame": {
-        "kind": "group",
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "ROOM_TEMPLATE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1868,
+      "self_relative": false,
+      "target": {
+        "index": 4,
+        "kind": "external",
+        "method": 6,
+        "name": "ROOM_TEMPLATE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 57,
+          "kind": "external",
+          "method": 6,
+          "name": "RELEASE_SONG_RANGE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1862,
+      "self_relative": false,
+      "target": {
+        "index": 57,
+        "kind": "external",
+        "method": 6,
+        "name": "RELEASE_SONG_RANGE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1853,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 21,
+          "kind": "external",
+          "method": 6,
+          "name": "UNLOADCUSTOMROOMSHAPES",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1849,
+      "self_relative": true,
+      "target": {
+        "index": 21,
+        "kind": "external",
+        "method": 6,
+        "name": "UNLOADCUSTOMROOMSHAPES",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1838,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2078,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 28,
+          "kind": "external",
+          "method": 6,
+          "name": "DISPOSE_HANDLE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2044,
+      "self_relative": false,
+      "target": {
+        "index": 28,
+        "kind": "external",
+        "method": 6,
+        "name": "DISPOSE_HANDLE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1977,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 14,
+          "kind": "external",
+          "method": 6,
+          "name": "__nmalloc",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1951,
+      "self_relative": false,
+      "target": {
+        "index": 14,
+        "kind": "external",
+        "method": 6,
+        "name": "__nmalloc",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1938,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 1928,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 15,
+          "kind": "external",
+          "method": 6,
+          "name": "__nfree",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2153,
+      "self_relative": false,
+      "target": {
+        "index": 15,
+        "kind": "external",
+        "method": 6,
+        "name": "__nfree",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 48,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_ROOM",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2136,
+      "self_relative": false,
+      "target": {
+        "index": 48,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_ROOM",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 4,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 13,
+          "kind": "external",
+          "method": 6,
+          "name": "MARK_BUFS_FOR_RECT",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 3,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2130,
+      "self_relative": false,
+      "target": {
+        "index": 13,
+        "kind": "external",
+        "method": 6,
+        "name": "MARK_BUFS_FOR_RECT",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 11,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_FLOOR_IMAGE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 2,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2118,
+      "self_relative": false,
+      "target": {
+        "index": 11,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_FLOOR_IMAGE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 11,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_FLOOR_IMAGE",
+          "zero_displacement": true
+        }
+      },
+      "kind": "fixup",
+      "loc_type": 5,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2115,
+      "self_relative": false,
+      "target": {
+        "index": 11,
+        "kind": "external",
+        "method": 6,
+        "name": "CUSTOM_FLOOR_IMAGE",
+        "zero_displacement": true
+      }
+    },
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
         "index": 1,
+        "kind": "group",
         "name": "DGROUP"
       },
+      "kind": "fixup",
+      "loc_type": 1,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2109,
+      "self_relative": false,
       "target": {
-        "kind": "segment",
         "index": 2,
-        "name": "_DATA",
+        "kind": "segment",
         "method": 4,
+        "name": "_DATA",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "index": 11,
+          "kind": "external",
+          "method": 6,
+          "name": "CUSTOM_FLOOR_IMAGE",
+          "zero_displacement": true
+        }
+      },
       "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2104,
       "loc_type": 2,
-      "field_width": 2,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2104,
       "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 11,
-          "name": "CUSTOM_FLOOR_IMAGE",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
       "target": {
-        "kind": "external",
         "index": 11,
-        "name": "CUSTOM_FLOOR_IMAGE",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_FLOOR_IMAGE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     },
     {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2101,
-      "loc_type": 5,
+      "displacement": null,
       "field_width": 2,
-      "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
-          "kind": "external",
           "index": 11,
-          "name": "CUSTOM_FLOOR_IMAGE",
+          "kind": "external",
           "method": 6,
+          "name": "CUSTOM_FLOOR_IMAGE",
           "zero_displacement": true
         }
       },
+      "kind": "fixup",
+      "loc_type": 5,
+      "segment": "UNIT_TEXT",
+      "segment_index": 1,
+      "segment_offset": 2101,
+      "self_relative": false,
       "target": {
-        "kind": "external",
         "index": 11,
-        "name": "CUSTOM_FLOOR_IMAGE",
+        "kind": "external",
         "method": 6,
+        "name": "CUSTOM_FLOOR_IMAGE",
         "zero_displacement": true
-      },
-      "displacement": null
+      }
     }
   ],
   "frame": {
@@ -3620,7 +3620,16 @@
         }
       ]
     },
-    "CHECK_ROOFTOPS_ROOM": {
+    "ADDDSRTSTONEUPPEELS": {
+      "entry_sha256": "50007c46c79fcd7ff423d262409636a8c3f172bb4fe63b2687b3e81a06b4415d",
+      "entry_target_id": "overlay-5:29cf:0772",
+      "kind": "overlay-code-entry",
+      "offset": 1906,
+      "segment": 10703,
+      "space": "overlay-5",
+      "witnesses": []
+    },
+    "CHECK_ROOF_ROOM": {
       "entry_sha256": "ff0b5e0200b66d42de827105a7e4f43b3b8de21b32e88c47454c00367b2e5834",
       "entry_target_id": "overlay-4:29cf:0186",
       "kind": "overlay-code-entry",
@@ -3629,14 +3638,57 @@
       "space": "overlay-4",
       "witnesses": []
     },
-    "CHECK_STYLE_SIX_ROOM": {
-      "entry_sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
-      "entry_target_id": "overlay-10:29cf:02e4",
-      "kind": "overlay-code-entry",
-      "offset": 740,
-      "segment": 10703,
-      "space": "overlay-10",
-      "witnesses": []
+    "CLEAR_HANDLE_OWNED": {
+      "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
+      "entry_target_id": "root:1101:25b2",
+      "kind": "far-code-entry",
+      "offset": 9650,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 81262,
+          "image_offset": 73070,
+          "kind": "far_call",
+          "relocated_segment_site": 73073,
+          "relocation_index": 1443,
+          "space": "root"
+        }
+      ]
+    },
+    "CUSTOM_ABOVE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "b8a762",
+              "entry": "root:0f77:01b0",
+              "image_offset": 64032,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 3,
+          "unproven": "No independent original operand witness for DGROUP offset 0x62a9; used at root+0x4bb7.",
+          "witnesses": []
+        }
+      ],
+      "offset": 25254,
+      "witnesses": [
+        {
+          "bytes_hex": "b8a662",
+          "entry": "root:0f77:01b0",
+          "image_offset": 64028,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
     },
     "CUSTOM_FLOOR_IMAGE": {
       "kind": "far-data",
@@ -3675,6 +3727,20 @@
         }
       ]
     },
+    "CUSTOM_ROOM_ENABLED": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24125,
+      "witnesses": [
+        {
+          "bytes_hex": "a23d5e",
+          "entry": "root:078a:0000",
+          "image_offset": 31147,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "CUSTOM_SHAPE_ARCHIVE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -3705,45 +3771,14 @@
         }
       ]
     },
-    "DRAW_FLOOR_FOREGROUND": {
-      "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
-      "entry_target_id": "root:0b41:0f62",
-      "kind": "far-code-entry",
-      "offset": 3938,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a620f410b",
-          "file_offset": 15606,
-          "image_offset": 7414,
-          "kind": "far_call",
-          "relocated_segment_site": 7417,
-          "relocation_index": 143,
-          "space": "root"
-        }
-      ]
+    "DEFAULT_TEMPLATE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 862,
+      "unproven": "No independent original operand witness for DGROUP offset 0x035e; used at root+0x5186.",
+      "witnesses": []
     },
-    "FIND_RESOURCE": {
-      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
-      "entry_target_id": "root:1101:6f6a",
-      "kind": "far-code-entry",
-      "offset": 28522,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6a6f0111",
-          "file_offset": 17855,
-          "image_offset": 9663,
-          "kind": "far_call",
-          "relocated_segment_site": 9666,
-          "relocation_index": 223,
-          "space": "root"
-        }
-      ]
-    },
-    "FREE_SHAPE": {
+    "DISPOSE_HANDLE": {
       "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
       "entry_target_id": "root:1101:22a0",
       "kind": "far-code-entry",
@@ -3758,6 +3793,72 @@
           "kind": "far_call",
           "relocated_segment_site": 9448,
           "relocation_index": 163,
+          "space": "root"
+        }
+      ]
+    },
+    "FETCH_LOCKED_SHAPE_LIST": {
+      "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
+      "entry_target_id": "root:1101:2362",
+      "kind": "far-code-entry",
+      "offset": 9058,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a62230111",
+          "file_offset": 20609,
+          "image_offset": 12417,
+          "kind": "far_call",
+          "relocated_segment_site": 12420,
+          "relocation_index": 371,
+          "space": "root"
+        }
+      ]
+    },
+    "FINAL_NOOP": {
+      "entry_sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "entry_target_id": "overlay-10:29cf:02e4",
+      "kind": "overlay-code-entry",
+      "offset": 740,
+      "segment": 10703,
+      "space": "overlay-10",
+      "witnesses": []
+    },
+    "FIND_CHARACTER_PEEL": {
+      "entry_sha256": "bf1fab38795745977955b6e6c63d6e3387ab04c12468ebc0fcd419fb9ee082ce",
+      "entry_target_id": "root:0169:067c",
+      "kind": "far-code-entry",
+      "offset": 1660,
+      "segment": 361,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a7c066901",
+          "file_offset": 214264,
+          "image_offset": 2344,
+          "kind": "far_call",
+          "relocated_segment_site": 2347,
+          "relocation_index": 60,
+          "space": "overlay-5"
+        }
+      ]
+    },
+    "HGETRSRC": {
+      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "entry_target_id": "root:1101:6f6a",
+      "kind": "far-code-entry",
+      "offset": 28522,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6a6f0111",
+          "file_offset": 17855,
+          "image_offset": 9663,
+          "kind": "far_call",
+          "relocated_segment_site": 9666,
+          "relocation_index": 223,
           "space": "root"
         }
       ]
@@ -3777,64 +3878,83 @@
         }
       ]
     },
-    "LOAD_SHAPE": {
-      "entry_sha256": "508fe141b6c42ce7851b916a42356854d3106ab7b93301c4b5d510be86f94eb0",
-      "entry_target_id": "root:1ecf:0710",
+    "LOAD_RESOURCE_COPY": {
+      "entry_sha256": "925393f41f6ff0cf309bf37f1aec8f9fab00d6358be3f10a7f38338f500beca4",
+      "entry_target_id": "root:1101:6f8a",
       "kind": "far-code-entry",
-      "offset": 1808,
-      "segment": 7887,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1007cf1e",
-          "file_offset": 28542,
-          "image_offset": 20350,
-          "kind": "far_call",
-          "relocated_segment_site": 20353,
-          "relocation_index": 418,
-          "space": "root"
-        }
-      ]
-    },
-    "LOCATE_SHAPE": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
-      "kind": "far-code-entry",
-      "offset": 8556,
+      "offset": 28554,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
+          "bytes_hex": "9a8a6f0111",
+          "file_offset": 51660,
+          "image_offset": 43468,
           "kind": "far_call",
-          "relocated_segment_site": 5884,
-          "relocation_index": 234,
+          "relocated_segment_site": 43471,
+          "relocation_index": 970,
           "space": "root"
         }
       ]
     },
-    "LOCK_ARCHIVE": {
-      "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
-      "entry_target_id": "root:1101:2362",
+    "LOAD_SONG_RANGE": {
+      "entry_sha256": "2cf4c29e1539508eef8a87ee2b73f7061f09805b7698f6c70a283a1e39d3c715",
+      "entry_target_id": "root:0dd7:0350",
       "kind": "far-code-entry",
-      "offset": 9058,
+      "offset": 848,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a5003d70d",
+          "file_offset": 50927,
+          "image_offset": 42735,
+          "kind": "far_call",
+          "relocated_segment_site": 42738,
+          "relocation_index": 936,
+          "space": "root"
+        }
+      ]
+    },
+    "MARK_BUFS_FOR_RECT": {
+      "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
+      "entry_target_id": "root:0b41:0f62",
+      "kind": "far-code-entry",
+      "offset": 3938,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a620f410b",
+          "file_offset": 15606,
+          "image_offset": 7414,
+          "kind": "far_call",
+          "relocated_segment_site": 7417,
+          "relocation_index": 143,
+          "space": "root"
+        }
+      ]
+    },
+    "MATERIALIZE_HANDLE": {
+      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
+      "entry_target_id": "root:1101:22e2",
+      "kind": "far-code-entry",
+      "offset": 8930,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a62230111",
-          "file_offset": 20609,
-          "image_offset": 12417,
+          "bytes_hex": "9ae2220111",
+          "file_offset": 17610,
+          "image_offset": 9418,
           "kind": "far_call",
-          "relocated_segment_site": 12420,
-          "relocation_index": 371,
+          "relocated_segment_site": 9421,
+          "relocation_index": 134,
           "space": "root"
         }
       ]
     },
-    "OFFSET_RECT": {
+    "OFFSETRECT": {
       "entry_sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
       "entry_target_id": "root:1101:510a",
       "kind": "far-code-entry",
@@ -3883,26 +4003,26 @@
         }
       ]
     },
-    "PROBE_SHAPE": {
-      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
-      "entry_target_id": "root:1101:22e2",
+    "PRINCEUNPACKSHAPE": {
+      "entry_sha256": "508fe141b6c42ce7851b916a42356854d3106ab7b93301c4b5d510be86f94eb0",
+      "entry_target_id": "root:1ecf:0710",
       "kind": "far-code-entry",
-      "offset": 8930,
-      "segment": 4353,
+      "offset": 1808,
+      "segment": 7887,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ae2220111",
-          "file_offset": 17610,
-          "image_offset": 9418,
+          "bytes_hex": "9a1007cf1e",
+          "file_offset": 28542,
+          "image_offset": 20350,
           "kind": "far_call",
-          "relocated_segment_site": 9421,
-          "relocation_index": 134,
+          "relocated_segment_site": 20353,
+          "relocation_index": 418,
           "space": "root"
         }
       ]
     },
-    "RELEASE_ROOM_SOUND": {
+    "RELEASE_SONG_RANGE": {
       "entry_sha256": "2852a44b68190ab0e25640a4f6a13b5c545d8fde0f9f751c58d5bd2173c34c7e",
       "entry_target_id": "root:0dd7:07ac",
       "kind": "far-code-entry",
@@ -3921,22 +4041,53 @@
         }
       ]
     },
-    "RESTORE_PEEL": {
-      "entry_sha256": "bf1fab38795745977955b6e6c63d6e3387ab04c12468ebc0fcd419fb9ee082ce",
-      "entry_target_id": "root:0169:067c",
-      "kind": "far-code-entry",
-      "offset": 1660,
-      "segment": 361,
+    "RESET_CUSTOM_ROOM_SOUND": {
+      "kind": "rtlink-vector",
+      "offset": 3521,
+      "segment": 8707,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a7c066901",
-          "file_offset": 214264,
-          "image_offset": 2344,
+          "bytes_hex": "9ac10d0322",
+          "file_offset": 218493,
+          "image_offset": 3101,
           "kind": "far_call",
-          "relocated_segment_site": 2347,
-          "relocation_index": 60,
-          "space": "overlay-5"
+          "relocated_segment_site": 3104,
+          "relocation_index": 44,
+          "space": "overlay-6"
+        }
+      ]
+    },
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
+      "kind": "far-code-entry",
+      "offset": 8556,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6c210111",
+          "file_offset": 14073,
+          "image_offset": 5881,
+          "kind": "far_call",
+          "relocated_segment_site": 5884,
+          "relocation_index": 234,
+          "space": "root"
+        }
+      ]
+    },
+    "ROOM_NUMBER": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "803e345e04",
+          "entry": "root:0000:0242",
+          "image_offset": 1126,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     },
@@ -3970,28 +4121,33 @@
         }
       ]
     },
+    "ROOM_STYLE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 17737,
+      "witnesses": [
+        {
+          "bytes_hex": "a24945",
+          "entry": "root:0000:0000",
+          "image_offset": 194,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "ROOM_TEMPLATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 960,
       "witnesses": [
         {
-          "space": "root",
-          "image_offset": 25276,
           "bytes_hex": "b8c003",
+          "entry": "root:052d:0fc4",
+          "image_offset": 25276,
           "operand_offset": 1,
-          "entry": "root:052d:0fc4"
+          "space": "root"
         }
       ]
-    },
-    "SAVE_SPECIAL_PEEL": {
-      "entry_sha256": "50007c46c79fcd7ff423d262409636a8c3f172bb4fe63b2687b3e81a06b4415d",
-      "entry_target_id": "overlay-5:29cf:0772",
-      "kind": "overlay-code-entry",
-      "offset": 1906,
-      "segment": 10703,
-      "space": "overlay-5",
-      "witnesses": []
     },
     "STROKE_PORT_RECT": {
       "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
@@ -4010,26 +4166,14 @@
         }
       ]
     },
-    "UNLOCK_ARCHIVE": {
-      "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
-      "entry_target_id": "root:1101:25b2",
-      "kind": "far-code-entry",
-      "offset": 9650,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ab2250111",
-          "file_offset": 81262,
-          "image_offset": 73070,
-          "kind": "far_call",
-          "relocated_segment_site": 73073,
-          "relocation_index": 1443,
-          "space": "root"
-        }
-      ]
+    "TEMPLATE_TABLE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 890,
+      "unproven": "No independent original operand witness for DGROUP offset 0x037a; used at root+0x5178.",
+      "witnesses": []
     },
-    "_free": {
+    "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
       "kind": "far-code-entry",
@@ -4048,7 +4192,7 @@
         }
       ]
     },
-    "_malloc": {
+    "__nmalloc": {
       "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
       "entry_target_id": "root:1fe6:003b",
       "kind": "far-code-entry",
@@ -4066,150 +4210,6 @@
           "space": "root"
         }
       ]
-    },
-    "CUSTOM_ROOM_ENABLED": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 24125,
-      "witnesses": [
-        {
-          "bytes_hex": "a23d5e",
-          "entry": "root:078a:0000",
-          "image_offset": 31147,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOM_STYLE": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 17737,
-      "witnesses": [
-        {
-          "bytes_hex": "a24945",
-          "entry": "root:0000:0000",
-          "image_offset": 194,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOM_NUMBER": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "803e345e04",
-          "entry": "root:0000:0242",
-          "image_offset": 1126,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "LOAD_ROOM_RESOURCE": {
-      "kind": "far-code-entry",
-      "space": "root",
-      "segment": 4353,
-      "offset": 28554,
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 43468,
-          "relocation_index": 970,
-          "bytes_hex": "9a8a6f0111",
-          "relocated_segment_site": 43471,
-          "file_offset": 51660,
-          "kind": "far_call"
-        }
-      ],
-      "entry_target_id": "root:1101:6f8a",
-      "entry_sha256": "925393f41f6ff0cf309bf37f1aec8f9fab00d6358be3f10a7f38338f500beca4"
-    },
-    "INIT_ROOM_SOUND": {
-      "kind": "far-code-entry",
-      "space": "root",
-      "segment": 3543,
-      "offset": 848,
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 42735,
-          "relocation_index": 936,
-          "bytes_hex": "9a5003d70d",
-          "relocated_segment_site": 42738,
-          "file_offset": 50927,
-          "kind": "far_call"
-        }
-      ],
-      "entry_target_id": "root:0dd7:0350",
-      "entry_sha256": "2cf4c29e1539508eef8a87ee2b73f7061f09805b7698f6c70a283a1e39d3c715"
-    },
-    "RESET_CUSTOM_ROOM_SOUND": {
-      "kind": "rtlink-vector",
-      "space": "root",
-      "segment": 8707,
-      "offset": 3521,
-      "witnesses": [
-        {
-          "space": "overlay-6",
-          "image_offset": 3101,
-          "relocation_index": 44,
-          "bytes_hex": "9ac10d0322",
-          "relocated_segment_site": 3104,
-          "file_offset": 218493,
-          "kind": "far_call"
-        }
-      ]
-    },
-    "CUSTOM_ABOVE": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 25254,
-      "witnesses": [
-        {
-          "space": "root",
-          "image_offset": 64028,
-          "bytes_hex": "b8a662",
-          "operand_offset": 1,
-          "entry": "root:0f77:01b0"
-        }
-      ],
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "space": "root",
-              "image_offset": 64032,
-              "bytes_hex": "b8a762",
-              "operand_offset": 1,
-              "entry": "root:0f77:01b0"
-            }
-          ]
-        },
-        {
-          "offset": 3,
-          "witnesses": [],
-          "unproven": "No independent original operand witness for DGROUP offset 0x62a9; used at root+0x4bb7."
-        }
-      ]
-    },
-    "DEFAULT_TEMPLATE": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 862,
-      "witnesses": [],
-      "unproven": "No independent original operand witness for DGROUP offset 0x035e; used at root+0x5186."
-    },
-    "TEMPLATE_TABLE": {
-      "kind": "dgroup-offset",
-      "group": "DGROUP",
-      "offset": 890,
-      "witnesses": [],
-      "unproven": "No independent original operand witness for DGROUP offset 0x037a; used at root+0x5178."
     }
   },
   "target_id": "group:custom/custom",

@@ -112,7 +112,7 @@ class RelocationOrderTests(unittest.TestCase):
         # source shape, with both raw pointer operands still zero and unedited.
         code = bytes.fromhex('558becff76069a00000000509a000000008be55dca020090')
         base = make_omf(code, publics=('LOAD_AND_EXCHANGE_ATTRIBUTE',),
-                        externals=('EXCHANGE_CONTEXT_ATTRIBUTE', 'LOAD_FONT_ATTRIBUTE'))
+                        externals=('HSETFONT', 'HGETFONT'))
         raw = b''.join(omf_record(k, b) for k, b, _ in OmfReader.records(base) if k != 0x8a)
         raw += omf_record(0x9c, bytes.fromhex('cc0d5601cc075602')) + omf_record(0x8a)
         obj = OmfReader().read(raw)

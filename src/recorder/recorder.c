@@ -39,12 +39,12 @@ extern signed char move_x, move_y, move_horizontal, move_vertical, move_action;
 extern int recording_player_enabled, recording_player_started;
 extern signed char recording_start_level;
 
-extern void far *far pascal lock_handle(unsigned int handle);
+extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 extern void far pascal dispose_handle(unsigned int handle);
-extern void far pascal stop_with_error(int exit_status, char far *message);
-extern void far pascal reset_random_seed(int enabled);
-extern int far pascal advance_random_seed(int value);
-extern void far pascal release_saved_screen(void);
+extern void far pascal abort_with_message(int exit_status, char far *message);
+extern void far pascal SetRndSeed(int enabled);
+extern int far pascal Rnd(int value);
+extern void far pascal RemoveRebirthPt(void);
 extern void *cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
@@ -58,7 +58,7 @@ int far pascal CheckForEndOfRecording(void)
     Recording far *recording;
 
     if (playback.mode == 3 && playback.handle) {
-        recording = lock_handle(playback.handle);
+        recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
         tick = game_tick;
         if (tick > recording->end_tick) {
             playback.mode = 0;
@@ -88,7 +88,7 @@ void far pascal CheckRecordedDirForChar(void)
             character.raw = 5;
         else
             character.value = current_character;
-        recording = lock_handle(playback.handle);
+        recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
         if (playback.offset < recording->data_size) {
             frame = (RecordedFrame far *)(recording->data + *(volatile int *)&playback.offset);
             if (game_tick > frame->tick)
@@ -141,16 +141,16 @@ RecordedFrame far *far pascal IncRecordedGameToNextFrame(Recording far *recordin
     playback.input_index = 0;
     frame = (RecordedFrame far *)(recording->data + playback.offset);
     if (playback.mode == 3 && recording->data_size < playback.offset)
-        stop_with_error(0, "Error playing recorded game");
+        abort_with_message(0, "Error playing recorded game");
     return frame;
 }
 
 extern unsigned int DEFAULT_HANDLE_TAG;
-extern unsigned int far pascal ALLOCATE_TAGGED_HANDLE(void far *value, unsigned int tag);
+extern unsigned int far pascal HGETRSRC(void far *value, unsigned int tag);
 
 unsigned int far pascal ALLOCATE_DEFAULT_HANDLE(void)
 {
-    return ALLOCATE_TAGGED_HANDLE((void far *)0, DEFAULT_HANDLE_TAG);
+    return HGETRSRC((void far *)0, DEFAULT_HANDLE_TAG);
 }
 
 void far pascal reset_recorded_playback(void)
@@ -165,9 +165,9 @@ void far pascal reset_recorded_playback(void)
         if (recording_player_enabled)
             playback.handle = ALLOCATE_DEFAULT_HANDLE();
         game_tick = 0;
-        reset_random_seed(1);
-        advance_random_seed(17);
-        release_saved_screen();
+        SetRndSeed(1);
+        Rnd(17);
+        RemoveRebirthPt();
     }
 }
 
@@ -196,7 +196,7 @@ void far pascal TurnRecordedGamePlayerOn(void)
     if (!DEFAULT_HANDLE_TAG || (int)++DEFAULT_HANDLE_TAG >= 28)
         DEFAULT_HANDLE_TAG = 25;
     handle = ALLOCATE_DEFAULT_HANDLE();
-    recording = lock_handle(handle);
+    recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
     recording_player_enabled = 1;
     recording_player_started = 0;
     recording_start_level = recording->level;

@@ -1,0 +1,18 @@
+{
+ "schema": 1,
+ "note": "Worker scratch (o11_relorder). Grants no reconstruction or acceptance.",
+ "vectored_public_ids": {
+  "value": "id = 1 + index in the original $$OVLVEC table (36 vectors, ids 1..36), as RTLink assigns to ALWAYS names in ALWAYS order",
+  "flags": "0x048D/0x0C8D (referencing modules carry COMENT A1, i.e. MSC 6 objects)",
+  "evidence": "receipt_vector_ids.json: 28 ordered pairs of vector-target groups in 9 original tables; offsets 0..4999 tested, consistent offsets with flags 8D = [1, 346, 512, 857], with 8B = none; offset 1 is the a-priori value from the candidate link",
+  "status": "determined (1 free parameter, 28 pair constraints, a-priori value among 4/5000 survivors)"
+ },
+ "pre_registered_names": {
+  "value_candidate_link": "36 ALWAYS names first (ids 1..36), then 10 unnamed names (37..46); first object id 47 (probe-measured: n0 = 47)",
+  "original": "consistent with ids 1..36 for the vectored publics; the 10-name block and the first object registration are not identified (no accepted module's block fits at id 47)",
+  "status": "partly determined"
+ },
+ "names_before_library_search": {"status": "not determined", "why": "requires the registration counts of the unreconstructed root/overlay modules"},
+ "main_id": {"status": "not determined", "why": "only the $$OVLMGR table constrains it; the manager member registration order is not reproduced even on the candidate link"},
+ "other_ids": "orig_dom4.pkl: per-symbol id domains (671 address-keyed symbols, median 380 of 4095 values) after propagating all original table orders with the vector ids fixed; no unique solution"
+}

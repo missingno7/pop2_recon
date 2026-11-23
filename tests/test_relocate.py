@@ -18,7 +18,7 @@ class RelocateTests(unittest.TestCase):
         new = SimpleNamespace(externals=["STATEBYTE", "CALLEE"])
         with patch.object(relocate, "declarations", return_value="new-decl"), \
              patch.object(relocate, "fixes", return_value="new-fixups"):
-            out = relocate.renamed_binding(binding, old, new, "group:misc/new")
+            out = relocate.renamed_binding(binding, old, new, "group:misc/new", [("state_byte", "StateByte")])
         self.assertEqual(out["symbols"], {"STATEBYTE": {"offset": 23571, "witnesses": [witness]}})
         self.assertEqual((out["declarations"], out["fixups"], out["target_id"]),
                          ("new-decl", "new-fixups", "group:misc/new"))

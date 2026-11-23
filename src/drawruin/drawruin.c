@@ -26,13 +26,13 @@ typedef int (far pascal *AddImage)(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int draw_pass_mode;
 extern DrawRect clip_rect;
 extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte column, Byte row);
-extern int intersect_rect(DrawRect far *, const DrawRect far *, const DrawRect far *);
-extern void union_rect(DrawRect far *, const DrawRect far *, const DrawRect far *);
+extern int SECTRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
+extern void UNIONRECT(DrawRect far *, const DrawRect far *, const DrawRect far *);
 extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int AddBFImgToFTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int add_foreground_image(Byte, int, CellCoord, CellCoord, Byte, Byte);
-extern Byte PieceLeftId(CellCoord, CellCoord);
+extern Byte PieceRightId(CellCoord, CellCoord);
 
 void draw_ruin_flaw(RuinCell *cell);
 
@@ -49,13 +49,13 @@ void draw_ruin_back_wall(RuinCell *cell)
     if (image) {
         if (!draw_pass_mode) {
             shape = get_back_table_image_row(image, cell->column - 1, cell->row);
-            if (shape && intersect_rect(&overlap, &shape->clip, &clip_rect)) {
+            if (shape && SECTRECT(&overlap, &shape->clip, &clip_rect)) {
                 fallback = 0;
-                union_rect(&shape->clip, &shape->clip, &clip_rect);
+                UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
                 if (image >= 1 && image <= 5) {
                     shape = get_back_table_image_row(7, cell->column - 1, cell->row);
-                    if (shape && intersect_rect(&overlap, &shape->clip, &clip_rect))
-                        union_rect(&shape->clip, &shape->clip, &clip_rect);
+                    if (shape && SECTRECT(&overlap, &shape->clip, &clip_rect))
+                        UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
                 }
             } else {
                 shape = 0;
@@ -97,7 +97,7 @@ void draw_ruin_block(RuinCell *cell)
         break;
     case 5:
         image = (cell->modifier & 12) >> 2;
-        if (image != 2 && PieceLeftId(cell->column, cell->row) != 20) {
+        if (image != 2 && PieceRightId(cell->column, cell->row) != 20) {
             image = image != 3 ? image + 12 : 53;
             AddBImgToBTable(20, image, cell->column, cell->row, 10, 0);
         }
@@ -277,7 +277,7 @@ extern DrawRect door_clip_rect;
 extern Byte drawn_room;
 extern unsigned int kid_frame;
 extern signed char FirstInRow(Byte, CellCoord);
-extern MovingExit *find_moving_exit(int);
+extern MovingExit *get_trob_room_cell(int);
 
 void draw_ruin_exit_movable(RuinCell *cell);
 
@@ -329,8 +329,8 @@ void draw_ruin_exit_movable(RuinCell *cell)
         saved_clip = clip_rect;
         door_clip = door_clip_rect;
         door_clip.top = cell->row * 63 - 5;
-        if (intersect_rect(&clip_rect, &clip_rect, &door_clip)) {
-            moving = find_moving_exit(cell->column + FirstInRow(drawn_room, cell->row));
+        if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
+            moving = get_trob_room_cell(cell->column + FirstInRow(drawn_room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
             shape_offsets->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
@@ -449,7 +449,7 @@ void draw_ruin_gate(RuinCell *cell)
 }
 
 extern Byte level_number;
-extern void draw_ruin_gate_detail(void);
+extern void draw_throne_room_gate_in_fore(void);
 
 void draw_ruin_gate_movable(RuinCell *cell)
 {
@@ -459,7 +459,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
     saved_clip = clip_rect;
     gate_clip = door_clip_rect;
     gate_clip.top = cell->row * 63 - 10;
-    if (intersect_rect(&clip_rect, &clip_rect, &gate_clip)) {
+    if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
         unsigned int height = (cell->modifier & 0xfc) >> 2;
         shape_offsets->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
@@ -476,7 +476,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
         if (add_image) {
             if (drawn_room == 9 && level_number == 8) {
                 if (cell->pass == 2)
-                    draw_ruin_gate_detail();
+                    draw_throne_room_gate_in_fore();
             } else {
                 add_image(55, -2, cell->column, cell->row, 10, 0);
             }
@@ -723,7 +723,7 @@ void draw_ruin_rubble_pieces(RuinCell *cell)
 #pragma optimize("g", on)
 
 extern Byte below_tile_kind;
-extern int test_back_neighbor(CellCoord, CellCoord);
+extern int visible_above_piece(CellCoord, CellCoord);
 extern int is_six_kind(Byte);
 extern int ruins_draw_state;
 
@@ -736,7 +736,7 @@ void draw_ruin_space(RuinCell *cell)
         if (cell->row == hidden_flaw_row)
             back_wall = 1;
         else if (cell->row - hidden_flaw_row == 1)
-            back_wall = test_back_neighbor(cell->column, cell->row);
+            back_wall = visible_above_piece(cell->column, cell->row);
         if (!back_wall && hidden_flaw_row == -1 && is_six_kind(below_tile_kind))
             back_wall = 1;
         if (back_wall)
@@ -754,10 +754,10 @@ extern CellCoord tile_room, tile_column, tile_row, tile_index;
 extern CellCoord actor_room, actor_column, actor_row;
 extern int actor_frame;
 extern Byte tile_modifier;
-extern Byte select_tile(CellCoord, CellCoord, CellCoord);
-extern Byte select_tile_below(Byte);
-extern int need_redraw(CellCoord, CellCoord);
-extern void redraw_cell(void);
+extern Byte ReadCell(CellCoord, CellCoord, CellCoord);
+extern Byte get_cells_ahead(Byte);
+extern int is_visible_room_cell(CellCoord, CellCoord);
+extern void mark_cell_redraw(void);
 typedef struct CellState {
     unsigned int flags, other;
 } CellState;
@@ -773,21 +773,21 @@ void ruin_change_crevices(int reveal, CellCoord room, CellCoord column, CellCoor
     stop = column + 3 >= 10 ? column + 3 : 10;
     column = column - 2 <= 0 ? column - 2 : 0;
     do {
-        tile = select_tile(room, column, row);
+        tile = ReadCell(room, column, row);
     } while (stop != ++column && tile != 7);
     if (tile == 7) {
-        while (select_tile(tile_room, tile_column - 1, tile_row) == 7)
+        while (ReadCell(tile_room, tile_column - 1, tile_row) == 7)
             ;
-        select_tile(tile_room, tile_column + 1, tile_row);
+        ReadCell(tile_room, tile_column + 1, tile_row);
         do
             ruin_set_crevice_revealed(reveal);
-        while (select_tile(tile_room, tile_column + 1, tile_row) == 7);
+        while (ReadCell(tile_room, tile_column + 1, tile_row) == 7);
     }
 }
 
 void ruin_check_crevices(void)
 {
-    if (actor_frame != 17 && select_tile_below(1) == 7 && (tile_modifier & 3) != 3)
+    if (actor_frame != 17 && get_cells_ahead(1) == 7 && (tile_modifier & 3) != 3)
         ruin_change_crevices(1, actor_room, actor_column, actor_row);
 }
 
@@ -807,12 +807,12 @@ void ruin_set_crevice_revealed(int reveal)
             flags &= ~0x80;
     }
     if (changed) {
-        if (need_redraw(tile_room, tile_index))
-            redraw_cell();
+        if (is_visible_room_cell(tile_room, tile_index))
+            mark_cell_redraw();
         if (!(flags & 3) && tile_column != 9) {
-            select_tile(tile_room, tile_column + 1, tile_row);
-            redraw_cell();
-            select_tile(tile_room, tile_column - 1, tile_row);
+            ReadCell(tile_room, tile_column + 1, tile_row);
+            mark_cell_redraw();
+            ReadCell(tile_room, tile_column - 1, tile_row);
         }
         cell_states[(Byte)tile_room * 30 + tile_index].flags = flags;
     }

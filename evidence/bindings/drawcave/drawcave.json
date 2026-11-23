@@ -8,12 +8,12 @@
       "DRAWCAVEEXIT1",
       "BACKGROUND_IMAGES",
       "LOAD_CAVE_DRAWING",
-      "GETLAVAINFOPTR",
+      "GET_LAVA_INFO",
       "CHECKBGSETIMG",
-      "LOCK_IMAGE",
-      "PIECE_ABOVE_ID",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "PIECEABOVEID",
       "PIECEABOVERIGHTID",
-      "SUPPORTS_CAVE_FLOOR",
+      "IS_SIX_KIND",
       "COMPUTEOFFSETCELLRECT",
       "ENCLOSERECT",
       "DRAWCAVEPOSTS",
@@ -3395,7 +3395,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "GETLAVAINFOPTR",
+          "name": "GET_LAVA_INFO",
           "zero_displacement": true
         }
       },
@@ -3409,7 +3409,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "GETLAVAINFOPTR",
+        "name": "GET_LAVA_INFO",
         "zero_displacement": true
       }
     },
@@ -3665,7 +3665,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "GETLAVAINFOPTR",
+          "name": "GET_LAVA_INFO",
           "zero_displacement": true
         }
       },
@@ -3679,7 +3679,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "GETLAVAINFOPTR",
+        "name": "GET_LAVA_INFO",
         "zero_displacement": true
       }
     },
@@ -4092,7 +4092,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "GETLAVAINFOPTR",
+          "name": "GET_LAVA_INFO",
           "zero_displacement": true
         }
       },
@@ -4106,7 +4106,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "GETLAVAINFOPTR",
+        "name": "GET_LAVA_INFO",
         "zero_displacement": true
       }
     },
@@ -5702,7 +5702,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "SUPPORTS_CAVE_FLOOR",
+          "name": "IS_SIX_KIND",
           "zero_displacement": true
         }
       },
@@ -5716,7 +5716,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "SUPPORTS_CAVE_FLOOR",
+        "name": "IS_SIX_KIND",
         "zero_displacement": true
       }
     },
@@ -5783,7 +5783,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "SUPPORTS_CAVE_FLOOR",
+          "name": "IS_SIX_KIND",
           "zero_displacement": true
         }
       },
@@ -5797,7 +5797,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "SUPPORTS_CAVE_FLOOR",
+        "name": "IS_SIX_KIND",
         "zero_displacement": true
       }
     },
@@ -5864,7 +5864,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "SUPPORTS_CAVE_FLOOR",
+          "name": "IS_SIX_KIND",
           "zero_displacement": true
         }
       },
@@ -5878,7 +5878,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "SUPPORTS_CAVE_FLOOR",
+        "name": "IS_SIX_KIND",
         "zero_displacement": true
       }
     },
@@ -5918,7 +5918,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "SUPPORTS_CAVE_FLOOR",
+          "name": "IS_SIX_KIND",
           "zero_displacement": true
         }
       },
@@ -5932,7 +5932,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "SUPPORTS_CAVE_FLOOR",
+        "name": "IS_SIX_KIND",
         "zero_displacement": true
       }
     },
@@ -5945,7 +5945,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "PIECE_ABOVE_ID",
+          "name": "PIECEABOVEID",
           "zero_displacement": true
         }
       },
@@ -5959,7 +5959,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "PIECE_ABOVE_ID",
+        "name": "PIECEABOVEID",
         "zero_displacement": true
       }
     },
@@ -6269,7 +6269,7 @@
           "index": 10,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_IMAGE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -6283,7 +6283,7 @@
         "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_IMAGE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -6922,7 +6922,7 @@
         }
       ]
     },
-    "GETLAVAINFOPTR": {
+    "GET_LAVA_INFO": {
       "entry_sha256": "91b1f0cc559af55e205a9fc5a36450f7c70e9cd0b7a207ef3ecbe808889905a8",
       "entry_target_id": "overlay-6:29cf:0846",
       "kind": "overlay-code-entry",
@@ -6948,6 +6948,15 @@
         }
       ]
     },
+    "IS_SIX_KIND": {
+      "entry_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
+      "entry_target_id": "root:078a:28c8",
+      "kind": "far-code-entry",
+      "offset": 10440,
+      "segment": 1930,
+      "space": "root",
+      "witnesses": []
+    },
     "KID_FRAME": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6962,22 +6971,14 @@
         }
       ]
     },
-    "LOCK_IMAGE": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+    "PIECEABOVEID": {
+      "entry_sha256": "5eefa83b7507520721a83645acdf1260268d95722af9711868fc05332b557381",
+      "entry_target_id": "root:0f77:04ec",
       "kind": "far-code-entry",
-      "offset": 8556,
-      "segment": 4353,
+      "offset": 1260,
+      "segment": 3959,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "PIECEABOVERIGHTID": {
       "entry_sha256": "3e842ed519dedfd395b34b602864d3c77c7e464c55fc7f65637267c0dcc19813",
@@ -7022,15 +7023,6 @@
         }
       ]
     },
-    "PIECE_ABOVE_ID": {
-      "entry_sha256": "5eefa83b7507520721a83645acdf1260268d95722af9711868fc05332b557381",
-      "entry_target_id": "root:0f77:04ec",
-      "kind": "far-code-entry",
-      "offset": 1260,
-      "segment": 3959,
-      "space": "root",
-      "witnesses": []
-    },
     "REDRAW_COLUMN": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7055,6 +7047,23 @@
           "entry": "root:0169:0006",
           "image_offset": 6007,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
+      "kind": "far-code-entry",
+      "offset": 8556,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6c210111",
+          "file_offset": 14073,
+          "image_offset": 5881,
+          "relocation_index": 234,
           "space": "root"
         }
       ]
@@ -7109,15 +7118,6 @@
           "space": "root"
         }
       ]
-    },
-    "SUPPORTS_CAVE_FLOOR": {
-      "entry_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
-      "entry_target_id": "root:078a:28c8",
-      "kind": "far-code-entry",
-      "offset": 10440,
-      "segment": 1930,
-      "space": "root",
-      "witnesses": []
     },
     "TORCH_BOUNDS": {
       "group": "DGROUP",

@@ -59,24 +59,24 @@ int debug_kid_y = 63;
 int debug_kid_x = 140;
 static int diagnostic_position_defaults[4] = { 20, 79, 34, 109 };
 
-extern void load_sixtyfour_byte_state(void);
+extern void copy_kid_to_char(void);
 extern void get_frame_info(void);
-extern void display_position_text(char *);
-extern void wait_for_input(void);
+extern void draw_message(char *);
+extern void wait_key(void);
 extern int get_base_x(void);
-extern void move_pen(int, int);
+extern void MOVETO(int, int);
 extern void draw_axis_segment(int, int);
 extern void set_pen_color(int);
-extern int exchange_context_attribute(int);
-extern void draw_text(const char far *);
-extern void far *resolve_handle(int);
-extern void start_named_effect(const char far *);
+extern int hSetFont(int);
+extern void DRAW_NUL_TERMINATED_TEXT(const char far *);
+extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
+extern void STROKE_PORT_RECT(const char far *);
 extern void paint_plain(const void far *, int, int, int);
-extern void paint_mode(const void far *, int, int, int, unsigned);
+extern void PAINT_INDEXED_SHAPE(const void far *, int, int, int, unsigned);
 extern void paint_rle(const void far *, int, int, int);
 extern int start_sound_payload(const unsigned char far *, void far *);
-extern void set_sound_mode(int);
-extern void reset_sound_state(int);
+extern void wait_sound(int);
+extern void dispatch_sound(int);
 extern const char *find_option(const char far *);
 extern void reclaim_heap_blocks(unsigned long);
 extern void compact_heap(unsigned long);
@@ -85,7 +85,7 @@ extern resource_metadata far *lookup_shape_metadata(resource_metadata far *, int
 extern heap_block far *next_heap_block(heap_block far *);
 extern unsigned long largest_far_block(void);
 extern int check_heap_chain(void);
-extern void fatal_error(int, const char far *);
+extern void abort_with_message(int, const char far *);
 
 extern int _cdecl sprintf(char *, const char *, ...);
 extern char *_cdecl itoa(int, char *, int);
@@ -113,16 +113,16 @@ void limit_frame_rate(void)
     char message[80];
 
     if (frame_diagnostics) {
-        load_sixtyfour_byte_state();
+        copy_kid_to_char();
         draw_frame_diagnostics();
         if (pause_on_frame) {
             if (show_actor_position) {
-                load_sixtyfour_byte_state();
+                copy_kid_to_char();
                 get_frame_info();
                 sprintf(message, position_format, position_value);
-                display_position_text(message);
+                draw_message(message);
             }
-            wait_for_input();
+            wait_key();
         }
     }
 }
@@ -168,7 +168,7 @@ void plot_position(int x, int color)
     saved_color = screen_context.pen_color;
     y = ((volatile int *)ruler_bottoms)[page_number] - 5;
     screen_context.pen_color = color;
-    move_pen(x, y);
+    MOVETO(x, y);
     draw_axis_segment(x, y + 2);
     drawing_port->pen_color = saved_color;
     drawing_port = saved_port;
@@ -191,21 +191,21 @@ void draw_ruler_marks(void)
     x = 0;
     do {
         drawing_port->pen_color = (x % 2) ? 12 : 9;
-        move_pen(x, y);
+        MOVETO(x, y);
         if (x % 10)
             draw_axis_segment(x, y);
         else {
             draw_axis_segment(x, y + 1);
             if (x % 20 == 0) {
-                move_pen(x, y + 15);
+                MOVETO(x, y + 15);
                 itoa(x / 20, label, 10);
-                draw_text(label);
+                DRAW_NUL_TERMINATED_TEXT(label);
             }
         }
         ++x;
     } while (x < 320);
     drawing_port->pen_color = saved_color;
-    exchange_context_attribute(saved_attribute);
+    hSetFont(saved_attribute);
     drawing_port = saved_port;
 }
 
@@ -213,29 +213,29 @@ static int preview_x = 0;
 
 void preview_resource(int handle)
 {
-    image_header far *image = resolve_handle(handle);
+    image_header far *image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
 
     if (preview_x == 0)
-        start_named_effect(screen_name);
+        STROKE_PORT_RECT(screen_name);
     if (image->width < 200 && image->height < 320 && image->width && image->height) {
         drawing_port = &screen_context;
         paint_plain(image, 0, preview_x, 0);
-        paint_mode(image, 100, preview_x, 0, 0x8000);
+        PAINT_INDEXED_SHAPE(image, 100, preview_x, 0, 0x8000);
         paint_rle(image, 200, preview_x, 0);
         preview_x += image->width;
         if (preview_x > 280) {
-            move_pen(0, 300);
-            draw_text("Waiting");
-            wait_for_input();
+            MOVETO(0, 300);
+            DRAW_NUL_TERMINATED_TEXT("Waiting");
+            wait_key();
             preview_x = 0;
         }
     }
 
-    image = resolve_handle(handle);
+    image = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
     if (*(unsigned char far *)image <= 2) {
         start_sound_payload((const unsigned char far *)image, 0);
-        set_sound_mode(0);
-        reset_sound_state(0);
+        wait_sound(0);
+        dispatch_sound(0);
     }
 }
 
@@ -330,13 +330,13 @@ void check_heaps(const char *label)
         strcpy(message, label);
         if (strlen(message) < 120)
             strcat(message, " far heap trashed.");
-        fatal_error(0, message);
+        abort_with_message(0, message);
     }
     if (check_near_heap()) {
         strcpy(message, label);
         if (strlen(message) < 120)
             strcat(message, " Near heap trashed.");
-        fatal_error(0, message);
+        abort_with_message(0, message);
     }
 }
 
@@ -372,7 +372,7 @@ void check_null_area(const char *label)
         if (strlen(message) < 120)
             strcat(message, " NULL area trashed.");
         /* The DOS path passes the original label here. */
-        fatal_error(0, label);
+        abort_with_message(0, label);
     }
 }
 

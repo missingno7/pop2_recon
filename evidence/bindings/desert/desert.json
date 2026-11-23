@@ -39,46 +39,46 @@
       "ANIMATION_TILE",
       "ANIMATION_REMOVE",
       "PEEL_RECORDS",
-      "QUEUE_MOVE_SOUND",
-      "PLAY_SOUND",
-      "ROTATE_PALETTE",
+      "ADDSONG",
+      "ADDSOUND",
+      "CYCLECOLORS",
       "ANIMATE_DESERT_EXIT",
-      "SOUND_PLAYING",
-      "STOP_SOUND",
+      "QUERY_SOUND",
+      "DISPATCH_SOUND",
       "QUERY_ANIMATION",
       "COPY_KID_TO_CHAR",
       "DRAW_DESERT_STONE",
-      "RESET_PLAYER",
-      "START_SEQUENCE",
-      "BOUNDED_RANDOM",
-      "LOCK_ARCHIVE",
-      "UNLOCK_ARCHIVE",
+      "RESET_CHAR_Y",
+      "JUMPSEQ",
+      "RND",
+      "FETCH_LOCKED_SHAPE_LIST",
+      "CLEAR_HANDLE_OWNED",
       "DESERT_FRAME",
-      "FREE_SHAPE",
+      "DISPOSE_HANDLE",
       "DRAW_DESERT_EXIT",
-      "GET_RESOURCE",
-      "LOAD_SHAPE",
-      "LOCATE_SHAPE",
-      "SHAPE_RECT",
-      "REDRAW_OBJECT",
+      "HGETRSRC",
+      "PRINCEUNPACKSHAPE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "MAKESHAPERECT",
+      "MARK_MOVE",
       "REDRAW_CALLBACK",
-      "MARK_REDRAW",
+      "MARK_BUFS_FOR_RECT",
       "@draw_image",
-      "FIND_TILE_ANIMATION",
+      "GET_TROB_ROOM_CELL",
       "ANIMATE_DESERT_PLANKS",
-      "START_TILE_ANIMATION",
-      "UPDATE_ANIMATION",
+      "ADD_TROB",
+      "CHECK_TROB_VISIBILITY",
       "RESTOREKEEPCUSTOMPEEL",
       "DRAWCUSTOMROOMIMGATINFO",
-      "OFFSET_RECT",
+      "OFFSETRECT",
       "@add_peel",
-      "GET_TILE_BOUNDS",
+      "COMPUTE_TROB_MOVE_RECT",
       "GET_ADJACENT_ANIMATION",
       "DRAW_DESERT_PLANKS",
       "SOUND_FLAGS",
-      "GET_OTHER_ANIMATION",
+      "CHECK_TROB_BELOW",
       "ACTOR_CLIP",
-      "RESTORE_PEEL",
+      "FIND_CHARACTER_PEEL",
       "ACTOR_COLUMN",
       "CHECK_DESERT_EXIT",
       "DESERT_COLUMN",
@@ -497,7 +497,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -511,7 +511,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -605,7 +605,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -619,7 +619,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -632,7 +632,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -646,7 +646,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -659,7 +659,7 @@
           "index": 44,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SOUND",
+          "name": "DISPATCH_SOUND",
           "zero_displacement": true
         }
       },
@@ -673,7 +673,7 @@
         "index": 44,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SOUND",
+        "name": "DISPATCH_SOUND",
         "zero_displacement": true
       }
     },
@@ -686,7 +686,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -700,7 +700,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -713,7 +713,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -727,7 +727,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -740,7 +740,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -754,7 +754,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -875,7 +875,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "ROTATE_PALETTE",
+          "name": "CYCLECOLORS",
           "zero_displacement": true
         }
       },
@@ -889,7 +889,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "ROTATE_PALETTE",
+        "name": "CYCLECOLORS",
         "zero_displacement": true
       }
     },
@@ -902,7 +902,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "ROTATE_PALETTE",
+          "name": "CYCLECOLORS",
           "zero_displacement": true
         }
       },
@@ -916,7 +916,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "ROTATE_PALETTE",
+        "name": "CYCLECOLORS",
         "zero_displacement": true
       }
     },
@@ -929,7 +929,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "ROTATE_PALETTE",
+          "name": "CYCLECOLORS",
           "zero_displacement": true
         }
       },
@@ -943,7 +943,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "ROTATE_PALETTE",
+        "name": "CYCLECOLORS",
         "zero_displacement": true
       }
     },
@@ -1118,7 +1118,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -1132,7 +1132,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -1145,7 +1145,7 @@
           "index": 39,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_MOVE_SOUND",
+          "name": "ADDSONG",
           "zero_displacement": true
         }
       },
@@ -1159,7 +1159,7 @@
         "index": 39,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_MOVE_SOUND",
+        "name": "ADDSONG",
         "zero_displacement": true
       }
     },
@@ -1469,7 +1469,7 @@
           "index": 39,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_MOVE_SOUND",
+          "name": "ADDSONG",
           "zero_displacement": true
         }
       },
@@ -1483,7 +1483,7 @@
         "index": 39,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_MOVE_SOUND",
+        "name": "ADDSONG",
         "zero_displacement": true
       }
     },
@@ -1523,7 +1523,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "GET_RESOURCE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -1537,7 +1537,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "GET_RESOURCE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -1550,7 +1550,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "FREE_SHAPE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -1564,7 +1564,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "FREE_SHAPE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -1604,7 +1604,7 @@
           "index": 57,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SHAPE",
+          "name": "PRINCEUNPACKSHAPE",
           "zero_displacement": true
         }
       },
@@ -1618,7 +1618,7 @@
         "index": 57,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SHAPE",
+        "name": "PRINCEUNPACKSHAPE",
         "zero_displacement": true
       }
     },
@@ -1631,7 +1631,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "GET_RESOURCE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -1645,7 +1645,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "GET_RESOURCE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -1712,7 +1712,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "FREE_SHAPE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -1726,7 +1726,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "FREE_SHAPE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -1766,7 +1766,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_ARCHIVE",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -1780,7 +1780,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_ARCHIVE",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -1874,7 +1874,7 @@
           "index": 50,
           "kind": "external",
           "method": 6,
-          "name": "BOUNDED_RANDOM",
+          "name": "RND",
           "zero_displacement": true
         }
       },
@@ -1888,7 +1888,7 @@
         "index": 50,
         "kind": "external",
         "method": 6,
-        "name": "BOUNDED_RANDOM",
+        "name": "RND",
         "zero_displacement": true
       }
     },
@@ -1928,7 +1928,7 @@
           "index": 50,
           "kind": "external",
           "method": 6,
-          "name": "BOUNDED_RANDOM",
+          "name": "RND",
           "zero_displacement": true
         }
       },
@@ -1942,7 +1942,7 @@
         "index": 50,
         "kind": "external",
         "method": 6,
-        "name": "BOUNDED_RANDOM",
+        "name": "RND",
         "zero_displacement": true
       }
     },
@@ -2144,7 +2144,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -2158,7 +2158,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -2171,7 +2171,7 @@
           "index": 50,
           "kind": "external",
           "method": 6,
-          "name": "BOUNDED_RANDOM",
+          "name": "RND",
           "zero_displacement": true
         }
       },
@@ -2185,7 +2185,7 @@
         "index": 50,
         "kind": "external",
         "method": 6,
-        "name": "BOUNDED_RANDOM",
+        "name": "RND",
         "zero_displacement": true
       }
     },
@@ -2225,7 +2225,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -2239,7 +2239,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -2252,7 +2252,7 @@
           "index": 48,
           "kind": "external",
           "method": 6,
-          "name": "RESET_PLAYER",
+          "name": "RESET_CHAR_Y",
           "zero_displacement": true
         }
       },
@@ -2266,7 +2266,7 @@
         "index": 48,
         "kind": "external",
         "method": 6,
-        "name": "RESET_PLAYER",
+        "name": "RESET_CHAR_Y",
         "zero_displacement": true
       }
     },
@@ -2279,7 +2279,7 @@
           "index": 49,
           "kind": "external",
           "method": 6,
-          "name": "START_SEQUENCE",
+          "name": "JUMPSEQ",
           "zero_displacement": true
         }
       },
@@ -2293,7 +2293,7 @@
         "index": 49,
         "kind": "external",
         "method": 6,
-        "name": "START_SEQUENCE",
+        "name": "JUMPSEQ",
         "zero_displacement": true
       }
     },
@@ -2495,7 +2495,7 @@
           "index": 49,
           "kind": "external",
           "method": 6,
-          "name": "START_SEQUENCE",
+          "name": "JUMPSEQ",
           "zero_displacement": true
         }
       },
@@ -2509,7 +2509,7 @@
         "index": 49,
         "kind": "external",
         "method": 6,
-        "name": "START_SEQUENCE",
+        "name": "JUMPSEQ",
         "zero_displacement": true
       }
     },
@@ -2522,7 +2522,7 @@
           "index": 49,
           "kind": "external",
           "method": 6,
-          "name": "START_SEQUENCE",
+          "name": "JUMPSEQ",
           "zero_displacement": true
         }
       },
@@ -2536,7 +2536,7 @@
         "index": 49,
         "kind": "external",
         "method": 6,
-        "name": "START_SEQUENCE",
+        "name": "JUMPSEQ",
         "zero_displacement": true
       }
     },
@@ -2765,7 +2765,7 @@
           "index": 39,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_MOVE_SOUND",
+          "name": "ADDSONG",
           "zero_displacement": true
         }
       },
@@ -2779,7 +2779,7 @@
         "index": 39,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_MOVE_SOUND",
+        "name": "ADDSONG",
         "zero_displacement": true
       }
     },
@@ -3116,7 +3116,7 @@
           "index": 39,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_MOVE_SOUND",
+          "name": "ADDSONG",
           "zero_displacement": true
         }
       },
@@ -3130,7 +3130,7 @@
         "index": 39,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_MOVE_SOUND",
+        "name": "ADDSONG",
         "zero_displacement": true
       }
     },
@@ -3143,7 +3143,7 @@
           "index": 66,
           "kind": "external",
           "method": 6,
-          "name": "START_TILE_ANIMATION",
+          "name": "ADD_TROB",
           "zero_displacement": true
         }
       },
@@ -3157,7 +3157,7 @@
         "index": 66,
         "kind": "external",
         "method": 6,
-        "name": "START_TILE_ANIMATION",
+        "name": "ADD_TROB",
         "zero_displacement": true
       }
     },
@@ -3170,7 +3170,7 @@
           "index": 64,
           "kind": "external",
           "method": 6,
-          "name": "FIND_TILE_ANIMATION",
+          "name": "GET_TROB_ROOM_CELL",
           "zero_displacement": true
         }
       },
@@ -3184,7 +3184,7 @@
         "index": 64,
         "kind": "external",
         "method": 6,
-        "name": "FIND_TILE_ANIMATION",
+        "name": "GET_TROB_ROOM_CELL",
         "zero_displacement": true
       }
     },
@@ -3386,7 +3386,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -3400,7 +3400,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -3440,7 +3440,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -3454,7 +3454,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -3494,7 +3494,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -3508,7 +3508,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -3548,7 +3548,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -3562,7 +3562,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -3683,7 +3683,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -3697,7 +3697,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -3710,7 +3710,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -3724,7 +3724,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -3737,7 +3737,7 @@
           "index": 44,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SOUND",
+          "name": "DISPATCH_SOUND",
           "zero_displacement": true
         }
       },
@@ -3751,7 +3751,7 @@
         "index": 44,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SOUND",
+        "name": "DISPATCH_SOUND",
         "zero_displacement": true
       }
     },
@@ -3818,7 +3818,7 @@
           "index": 67,
           "kind": "external",
           "method": 6,
-          "name": "UPDATE_ANIMATION",
+          "name": "CHECK_TROB_VISIBILITY",
           "zero_displacement": true
         }
       },
@@ -3832,7 +3832,7 @@
         "index": 67,
         "kind": "external",
         "method": 6,
-        "name": "UPDATE_ANIMATION",
+        "name": "CHECK_TROB_VISIBILITY",
         "zero_displacement": true
       }
     },
@@ -3926,7 +3926,7 @@
           "index": 62,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -3940,7 +3940,7 @@
         "index": 62,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -4007,7 +4007,7 @@
           "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -4021,7 +4021,7 @@
         "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -4034,7 +4034,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "LOCATE_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -4048,7 +4048,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "LOCATE_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -4250,7 +4250,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "UNLOCK_ARCHIVE",
+          "name": "CLEAR_HANDLE_OWNED",
           "zero_displacement": true
         }
       },
@@ -4264,7 +4264,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "UNLOCK_ARCHIVE",
+        "name": "CLEAR_HANDLE_OWNED",
         "zero_displacement": true
       }
     },
@@ -4304,7 +4304,7 @@
           "index": 57,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SHAPE",
+          "name": "PRINCEUNPACKSHAPE",
           "zero_displacement": true
         }
       },
@@ -4318,7 +4318,7 @@
         "index": 57,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SHAPE",
+        "name": "PRINCEUNPACKSHAPE",
         "zero_displacement": true
       }
     },
@@ -4439,7 +4439,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -4453,7 +4453,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -4574,7 +4574,7 @@
           "index": 70,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_RECT",
+          "name": "OFFSETRECT",
           "zero_displacement": true
         }
       },
@@ -4588,7 +4588,7 @@
         "index": 70,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_RECT",
+        "name": "OFFSETRECT",
         "zero_displacement": true
       }
     },
@@ -4736,7 +4736,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -4750,7 +4750,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -4898,7 +4898,7 @@
           "index": 67,
           "kind": "external",
           "method": 6,
-          "name": "UPDATE_ANIMATION",
+          "name": "CHECK_TROB_VISIBILITY",
           "zero_displacement": true
         }
       },
@@ -4912,7 +4912,7 @@
         "index": 67,
         "kind": "external",
         "method": 6,
-        "name": "UPDATE_ANIMATION",
+        "name": "CHECK_TROB_VISIBILITY",
         "zero_displacement": true
       }
     },
@@ -5060,7 +5060,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -5074,7 +5074,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -5222,7 +5222,7 @@
           "index": 67,
           "kind": "external",
           "method": 6,
-          "name": "UPDATE_ANIMATION",
+          "name": "CHECK_TROB_VISIBILITY",
           "zero_displacement": true
         }
       },
@@ -5236,7 +5236,7 @@
         "index": 67,
         "kind": "external",
         "method": 6,
-        "name": "UPDATE_ANIMATION",
+        "name": "CHECK_TROB_VISIBILITY",
         "zero_displacement": true
       }
     },
@@ -5735,7 +5735,7 @@
           "index": 78,
           "kind": "external",
           "method": 6,
-          "name": "RESTORE_PEEL",
+          "name": "FIND_CHARACTER_PEEL",
           "zero_displacement": true
         }
       },
@@ -5749,7 +5749,7 @@
         "index": 78,
         "kind": "external",
         "method": 6,
-        "name": "RESTORE_PEEL",
+        "name": "FIND_CHARACTER_PEEL",
         "zero_displacement": true
       }
     },
@@ -5762,7 +5762,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -5776,7 +5776,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -5789,7 +5789,7 @@
           "index": 76,
           "kind": "external",
           "method": 6,
-          "name": "GET_OTHER_ANIMATION",
+          "name": "CHECK_TROB_BELOW",
           "zero_displacement": true
         }
       },
@@ -5803,7 +5803,7 @@
         "index": 76,
         "kind": "external",
         "method": 6,
-        "name": "GET_OTHER_ANIMATION",
+        "name": "CHECK_TROB_BELOW",
         "zero_displacement": true
       }
     },
@@ -5816,7 +5816,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -5830,7 +5830,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -5870,7 +5870,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_OBJECT",
+          "name": "MARK_MOVE",
           "zero_displacement": true
         }
       },
@@ -5884,7 +5884,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_OBJECT",
+        "name": "MARK_MOVE",
         "zero_displacement": true
       }
     },
@@ -5924,7 +5924,7 @@
           "index": 72,
           "kind": "external",
           "method": 6,
-          "name": "GET_TILE_BOUNDS",
+          "name": "COMPUTE_TROB_MOVE_RECT",
           "zero_displacement": true
         }
       },
@@ -5938,7 +5938,7 @@
         "index": 72,
         "kind": "external",
         "method": 6,
-        "name": "GET_TILE_BOUNDS",
+        "name": "COMPUTE_TROB_MOVE_RECT",
         "zero_displacement": true
       }
     },
@@ -6378,7 +6378,7 @@
           "index": 66,
           "kind": "external",
           "method": 6,
-          "name": "START_TILE_ANIMATION",
+          "name": "ADD_TROB",
           "zero_displacement": true
         }
       },
@@ -6392,7 +6392,7 @@
         "index": 66,
         "kind": "external",
         "method": 6,
-        "name": "START_TILE_ANIMATION",
+        "name": "ADD_TROB",
         "zero_displacement": true
       }
     },
@@ -6459,7 +6459,7 @@
           "index": 64,
           "kind": "external",
           "method": 6,
-          "name": "FIND_TILE_ANIMATION",
+          "name": "GET_TROB_ROOM_CELL",
           "zero_displacement": true
         }
       },
@@ -6473,7 +6473,7 @@
         "index": 64,
         "kind": "external",
         "method": 6,
-        "name": "FIND_TILE_ANIMATION",
+        "name": "GET_TROB_ROOM_CELL",
         "zero_displacement": true
       }
     },
@@ -6486,7 +6486,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -6500,7 +6500,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -6513,7 +6513,7 @@
           "index": 50,
           "kind": "external",
           "method": 6,
-          "name": "BOUNDED_RANDOM",
+          "name": "RND",
           "zero_displacement": true
         }
       },
@@ -6527,7 +6527,7 @@
         "index": 50,
         "kind": "external",
         "method": 6,
-        "name": "BOUNDED_RANDOM",
+        "name": "RND",
         "zero_displacement": true
       }
     },
@@ -6730,6 +6730,57 @@
         }
       ]
     },
+    "ADDSONG": {
+      "entry_sha256": "cdf0308626fc23cc06e8c27c9a72719e6561ce6e19d47d3eba856e7851ada53d",
+      "entry_target_id": "root:0dd7:01b0",
+      "kind": "far-code-entry",
+      "offset": 432,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab001d70d",
+          "file_offset": 9902,
+          "image_offset": 1710,
+          "relocation_index": 68,
+          "space": "root"
+        }
+      ]
+    },
+    "ADDSOUND": {
+      "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
+      "entry_target_id": "root:0dd7:01ce",
+      "kind": "far-code-entry",
+      "offset": 462,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ace01d70d",
+          "file_offset": 9717,
+          "image_offset": 1525,
+          "relocation_index": 3,
+          "space": "root"
+        }
+      ]
+    },
+    "ADD_TROB": {
+      "entry_sha256": "88a4e6273aac4130a606efd2797947c56a41b3ec69ba2c82bbe9ad8f4ea65e42",
+      "entry_target_id": "root:0b41:13f4",
+      "kind": "far-code-entry",
+      "offset": 5108,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9af413410b",
+          "file_offset": 11387,
+          "image_offset": 3195,
+          "relocation_index": 80,
+          "space": "root"
+        }
+      ]
+    },
     "ANIMATION_FLAGS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6772,20 +6823,63 @@
         }
       ]
     },
-    "BOUNDED_RANDOM": {
-      "entry_sha256": "f5248cccc4adaaf66380d0659e47af0bd2539af10706d98974e307ff905149f3",
-      "entry_target_id": "root:1f61:0090",
+    "CHECK_TROB_BELOW": {
+      "entry_sha256": "f74bb7c864b3a30649a71761942c516cec49f361817445c483039c48967ed1b8",
+      "entry_target_id": "root:0b41:06ae",
       "kind": "far-code-entry",
-      "offset": 144,
-      "segment": 8033,
+      "offset": 1710,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": []
+    },
+    "CHECK_TROB_VISIBILITY": {
+      "entry_sha256": "6310c75698caf48eec5cc67ca5455015080d2a8e3fcaebad6a186ecf68c920b6",
+      "entry_target_id": "root:0b41:04d4",
+      "kind": "far-code-entry",
+      "offset": 1236,
+      "segment": 2881,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a9000611f",
-          "file_offset": 8229,
-          "image_offset": 37,
-          "relocation_index": 4,
+          "bytes_hex": "9ad404410b",
+          "file_offset": 210469,
+          "image_offset": 1605,
+          "relocation_index": 15,
+          "space": "overlay-4"
+        }
+      ]
+    },
+    "CLEAR_HANDLE_OWNED": {
+      "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
+      "entry_target_id": "root:1101:25b2",
+      "kind": "far-code-entry",
+      "offset": 9650,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ab2250111",
+          "file_offset": 27690,
+          "image_offset": 19498,
+          "relocation_index": 386,
           "space": "root"
+        }
+      ]
+    },
+    "COMPUTE_TROB_MOVE_RECT": {
+      "entry_sha256": "2e1b4291607f5ff2d841bf60573fd58ea2b49dbc66d03c086beaf4c6b5b96688",
+      "entry_target_id": "root:0b41:045a",
+      "kind": "far-code-entry",
+      "offset": 1114,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a5a04410b",
+          "file_offset": 217744,
+          "image_offset": 2352,
+          "relocation_index": 22,
+          "space": "overlay-6"
         }
       ]
     },
@@ -6834,6 +6928,23 @@
         }
       ]
     },
+    "CYCLECOLORS": {
+      "entry_sha256": "1bd67e3beb70d81edd9b7d9c2cf9f8e8ed5fe8cad47bc306751e0bb233bf6afe",
+      "entry_target_id": "root:1ead:0044",
+      "kind": "far-code-entry",
+      "offset": 68,
+      "segment": 7853,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a4400ad1e",
+          "file_offset": 209409,
+          "image_offset": 545,
+          "relocation_index": 35,
+          "space": "overlay-4"
+        }
+      ]
+    },
     "DESERT_COLUMN": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6845,6 +6956,40 @@
       "kind": "dgroup-offset",
       "offset": 5644,
       "witnesses": []
+    },
+    "DISPATCH_SOUND": {
+      "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
+      "entry_target_id": "root:1101:83f0",
+      "kind": "far-code-entry",
+      "offset": 33776,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 9350,
+          "image_offset": 1158,
+          "relocation_index": 114,
+          "space": "root"
+        }
+      ]
+    },
+    "DISPOSE_HANDLE": {
+      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
+      "entry_target_id": "root:1101:22a0",
+      "kind": "far-code-entry",
+      "offset": 8864,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aa0220111",
+          "file_offset": 17637,
+          "image_offset": 9445,
+          "relocation_index": 163,
+          "space": "root"
+        }
+      ]
     },
     "DRAWCUSTOMROOMIMGATINFO": {
       "entry_sha256": "bcd076fdc0fa2ce8e198d5cbe52f3e97d4dfe56b5c9391f1fce9b89aa4311e57",
@@ -6919,19 +7064,36 @@
         }
       ]
     },
-    "FIND_TILE_ANIMATION": {
-      "entry_sha256": "a172ccc7edf065a36a439c9dc76f19d4ece71a5d072cf16ca2d3c3fd7afba04e",
-      "entry_target_id": "root:0b41:255c",
+    "FETCH_LOCKED_SHAPE_LIST": {
+      "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
+      "entry_target_id": "root:1101:2362",
       "kind": "far-code-entry",
-      "offset": 9564,
-      "segment": 2881,
+      "offset": 9058,
+      "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a5c25410b",
-          "file_offset": 33790,
-          "image_offset": 25598,
-          "relocation_index": 573,
+          "bytes_hex": "9a62230111",
+          "file_offset": 20609,
+          "image_offset": 12417,
+          "relocation_index": 371,
+          "space": "root"
+        }
+      ]
+    },
+    "FIND_CHARACTER_PEEL": {
+      "entry_sha256": "bf1fab38795745977955b6e6c63d6e3387ab04c12468ebc0fcd419fb9ee082ce",
+      "entry_target_id": "root:0169:067c",
+      "kind": "far-code-entry",
+      "offset": 1660,
+      "segment": 361,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a7c066901",
+          "file_offset": 28900,
+          "image_offset": 20708,
+          "relocation_index": 414,
           "space": "root"
         }
       ]
@@ -6946,23 +7108,6 @@
           "entry": "root:0000:0e9a",
           "image_offset": 3774,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "FREE_SHAPE": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
-      "kind": "far-code-entry",
-      "offset": 8864,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aa0220111",
-          "file_offset": 17637,
-          "image_offset": 9445,
-          "relocation_index": 163,
           "space": "root"
         }
       ]
@@ -6984,16 +7129,24 @@
         }
       ]
     },
-    "GET_OTHER_ANIMATION": {
-      "entry_sha256": "f74bb7c864b3a30649a71761942c516cec49f361817445c483039c48967ed1b8",
-      "entry_target_id": "root:0b41:06ae",
+    "GET_TROB_ROOM_CELL": {
+      "entry_sha256": "a172ccc7edf065a36a439c9dc76f19d4ece71a5d072cf16ca2d3c3fd7afba04e",
+      "entry_target_id": "root:0b41:255c",
       "kind": "far-code-entry",
-      "offset": 1710,
+      "offset": 9564,
       "segment": 2881,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "bytes_hex": "9a5c25410b",
+          "file_offset": 33790,
+          "image_offset": 25598,
+          "relocation_index": 573,
+          "space": "root"
+        }
+      ]
     },
-    "GET_RESOURCE": {
+    "HGETRSRC": {
       "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
       "entry_target_id": "root:1101:6f6a",
       "kind": "far-code-entry",
@@ -7010,20 +7163,20 @@
         }
       ]
     },
-    "GET_TILE_BOUNDS": {
-      "entry_sha256": "2e1b4291607f5ff2d841bf60573fd58ea2b49dbc66d03c086beaf4c6b5b96688",
-      "entry_target_id": "root:0b41:045a",
-      "kind": "far-code-entry",
-      "offset": 1114,
-      "segment": 2881,
-      "space": "root",
+    "JUMPSEQ": {
+      "entry_sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
+      "entry_target_id": "overlay-3:25da:0016",
+      "kind": "overlay-code-entry",
+      "offset": 22,
+      "segment": 9690,
+      "space": "overlay-3",
       "witnesses": [
         {
-          "bytes_hex": "9a5a04410b",
-          "file_offset": 217744,
-          "image_offset": 2352,
-          "relocation_index": 22,
-          "space": "overlay-6"
+          "bytes_hex": "9a1600da25",
+          "file_offset": 9761,
+          "image_offset": 1569,
+          "relocation_index": 37,
+          "space": "root"
         }
       ]
     },
@@ -7041,58 +7194,24 @@
         }
       ]
     },
-    "LOAD_SHAPE": {
-      "entry_sha256": "508fe141b6c42ce7851b916a42356854d3106ab7b93301c4b5d510be86f94eb0",
-      "entry_target_id": "root:1ecf:0710",
+    "MAKESHAPERECT": {
+      "entry_sha256": "fd4e66c3350ca5db43910ff2947eca5b98464c835b104fc1e050a9e67e8f76e4",
+      "entry_target_id": "root:1101:02c3",
       "kind": "far-code-entry",
-      "offset": 1808,
-      "segment": 7887,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1007cf1e",
-          "file_offset": 27676,
-          "image_offset": 19484,
-          "relocation_index": 417,
-          "space": "root"
-        }
-      ]
-    },
-    "LOCATE_SHAPE": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
-      "kind": "far-code-entry",
-      "offset": 8556,
+      "offset": 707,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
+          "bytes_hex": "9ac3020111",
+          "file_offset": 14157,
+          "image_offset": 5965,
+          "relocation_index": 209,
           "space": "root"
         }
       ]
     },
-    "LOCK_ARCHIVE": {
-      "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
-      "entry_target_id": "root:1101:2362",
-      "kind": "far-code-entry",
-      "offset": 9058,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a62230111",
-          "file_offset": 20609,
-          "image_offset": 12417,
-          "relocation_index": 371,
-          "space": "root"
-        }
-      ]
-    },
-    "MARK_REDRAW": {
+    "MARK_BUFS_FOR_RECT": {
       "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
       "entry_target_id": "root:0b41:0f62",
       "kind": "far-code-entry",
@@ -7106,6 +7225,23 @@
           "image_offset": 7414,
           "relocation_index": 143,
           "space": "root"
+        }
+      ]
+    },
+    "MARK_MOVE": {
+      "entry_sha256": "9be5777265562d1cd48afa98b0bc593bd106cb968830f2266869f9f6ffff54e3",
+      "entry_target_id": "root:0b41:0dd0",
+      "kind": "far-code-entry",
+      "offset": 3536,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad00d410b",
+          "file_offset": 217808,
+          "image_offset": 2416,
+          "relocation_index": 37,
+          "space": "overlay-6"
         }
       ]
     },
@@ -7179,7 +7315,7 @@
         }
       ]
     },
-    "OFFSET_RECT": {
+    "OFFSETRECT": {
       "entry_sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
       "entry_target_id": "root:1101:510a",
       "kind": "far-code-entry",
@@ -7224,28 +7360,28 @@
         }
       ]
     },
-    "PLAY_SOUND": {
-      "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
-      "entry_target_id": "root:0dd7:01ce",
-      "kind": "far-code-entry",
-      "offset": 462,
-      "segment": 3543,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ace01d70d",
-          "file_offset": 9717,
-          "image_offset": 1525,
-          "relocation_index": 3,
-          "space": "root"
-        }
-      ]
-    },
     "PREVIOUS_COLUMN": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11473,
       "witnesses": []
+    },
+    "PRINCEUNPACKSHAPE": {
+      "entry_sha256": "508fe141b6c42ce7851b916a42356854d3106ab7b93301c4b5d510be86f94eb0",
+      "entry_target_id": "root:1ecf:0710",
+      "kind": "far-code-entry",
+      "offset": 1808,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a1007cf1e",
+          "file_offset": 27676,
+          "image_offset": 19484,
+          "relocation_index": 417,
+          "space": "root"
+        }
+      ]
     },
     "QUERY_ANIMATION": {
       "entry_sha256": "30f8f6ae1f8f6e249d08227a9b146634c9c84d3a5ea405e8c27923654eb1402e",
@@ -7264,19 +7400,19 @@
         }
       ]
     },
-    "QUEUE_MOVE_SOUND": {
-      "entry_sha256": "cdf0308626fc23cc06e8c27c9a72719e6561ce6e19d47d3eba856e7851ada53d",
-      "entry_target_id": "root:0dd7:01b0",
+    "QUERY_SOUND": {
+      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
+      "entry_target_id": "root:1101:8444",
       "kind": "far-code-entry",
-      "offset": 432,
-      "segment": 3543,
+      "offset": 33860,
+      "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ab001d70d",
-          "file_offset": 9902,
-          "image_offset": 1710,
-          "relocation_index": 68,
+          "bytes_hex": "9a44840111",
+          "file_offset": 23329,
+          "image_offset": 15137,
+          "relocation_index": 291,
           "space": "root"
         }
       ]
@@ -7302,24 +7438,7 @@
         }
       ]
     },
-    "REDRAW_OBJECT": {
-      "entry_sha256": "9be5777265562d1cd48afa98b0bc593bd106cb968830f2266869f9f6ffff54e3",
-      "entry_target_id": "root:0b41:0dd0",
-      "kind": "far-code-entry",
-      "offset": 3536,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ad00d410b",
-          "file_offset": 217808,
-          "image_offset": 2416,
-          "relocation_index": 37,
-          "space": "overlay-6"
-        }
-      ]
-    },
-    "RESET_PLAYER": {
+    "RESET_CHAR_Y": {
       "entry_sha256": "29d45b1e94cfeeb7c013cac32a16c564701d04d7872c145ce43eb21ca8b0f8d7",
       "entry_target_id": "root:02cc:07a2",
       "kind": "far-code-entry",
@@ -7332,6 +7451,23 @@
           "file_offset": 67661,
           "image_offset": 59469,
           "relocation_index": 1213,
+          "space": "root"
+        }
+      ]
+    },
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
+      "kind": "far-code-entry",
+      "offset": 8556,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6c210111",
+          "file_offset": 14073,
+          "image_offset": 5881,
+          "relocation_index": 234,
           "space": "root"
         }
       ]
@@ -7353,19 +7489,19 @@
         }
       ]
     },
-    "RESTORE_PEEL": {
-      "entry_sha256": "bf1fab38795745977955b6e6c63d6e3387ab04c12468ebc0fcd419fb9ee082ce",
-      "entry_target_id": "root:0169:067c",
+    "RND": {
+      "entry_sha256": "f5248cccc4adaaf66380d0659e47af0bd2539af10706d98974e307ff905149f3",
+      "entry_target_id": "root:1f61:0090",
       "kind": "far-code-entry",
-      "offset": 1660,
-      "segment": 361,
+      "offset": 144,
+      "segment": 8033,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a7c066901",
-          "file_offset": 28900,
-          "image_offset": 20708,
-          "relocation_index": 414,
+          "bytes_hex": "9a9000611f",
+          "file_offset": 8229,
+          "image_offset": 37,
+          "relocation_index": 4,
           "space": "root"
         }
       ]
@@ -7381,23 +7517,6 @@
           "image_offset": 2790,
           "operand_offset": 1,
           "space": "root"
-        }
-      ]
-    },
-    "ROTATE_PALETTE": {
-      "entry_sha256": "1bd67e3beb70d81edd9b7d9c2cf9f8e8ed5fe8cad47bc306751e0bb233bf6afe",
-      "entry_target_id": "root:1ead:0044",
-      "kind": "far-code-entry",
-      "offset": 68,
-      "segment": 7853,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a4400ad1e",
-          "file_offset": 209409,
-          "image_offset": 545,
-          "relocation_index": 35,
-          "space": "overlay-4"
         }
       ]
     },
@@ -7467,23 +7586,6 @@
         }
       ]
     },
-    "SHAPE_RECT": {
-      "entry_sha256": "fd4e66c3350ca5db43910ff2947eca5b98464c835b104fc1e050a9e67e8f76e4",
-      "entry_target_id": "root:1101:02c3",
-      "kind": "far-code-entry",
-      "offset": 707,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ac3020111",
-          "file_offset": 14157,
-          "image_offset": 5965,
-          "relocation_index": 209,
-          "space": "root"
-        }
-      ]
-    },
     "SOUND_FLAGS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7494,23 +7596,6 @@
           "entry": "root:0000:0a84",
           "image_offset": 2693,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "SOUND_PLAYING": {
-      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
-      "entry_target_id": "root:1101:8444",
-      "kind": "far-code-entry",
-      "offset": 33860,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a44840111",
-          "file_offset": 23329,
-          "image_offset": 15137,
-          "relocation_index": 291,
           "space": "root"
         }
       ]
@@ -7571,40 +7656,6 @@
         }
       ]
     },
-    "START_SEQUENCE": {
-      "entry_sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
-      "entry_target_id": "overlay-3:25da:0016",
-      "kind": "overlay-code-entry",
-      "offset": 22,
-      "segment": 9690,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1600da25",
-          "file_offset": 9761,
-          "image_offset": 1569,
-          "relocation_index": 37,
-          "space": "root"
-        }
-      ]
-    },
-    "START_TILE_ANIMATION": {
-      "entry_sha256": "88a4e6273aac4130a606efd2797947c56a41b3ec69ba2c82bbe9ad8f4ea65e42",
-      "entry_target_id": "root:0b41:13f4",
-      "kind": "far-code-entry",
-      "offset": 5108,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9af413410b",
-          "file_offset": 11387,
-          "image_offset": 3195,
-          "relocation_index": 80,
-          "space": "root"
-        }
-      ]
-    },
     "STONE_CELLS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7616,57 +7667,6 @@
           "image_offset": 25308,
           "operand_offset": 1,
           "space": "root"
-        }
-      ]
-    },
-    "STOP_SOUND": {
-      "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
-      "entry_target_id": "root:1101:83f0",
-      "kind": "far-code-entry",
-      "offset": 33776,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9af0830111",
-          "file_offset": 9350,
-          "image_offset": 1158,
-          "relocation_index": 114,
-          "space": "root"
-        }
-      ]
-    },
-    "UNLOCK_ARCHIVE": {
-      "entry_sha256": "df93f08dae16b20fade0af0078f95269d93ec01d3314890a64e008663275bcc7",
-      "entry_target_id": "root:1101:25b2",
-      "kind": "far-code-entry",
-      "offset": 9650,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ab2250111",
-          "file_offset": 27690,
-          "image_offset": 19498,
-          "relocation_index": 386,
-          "space": "root"
-        }
-      ]
-    },
-    "UPDATE_ANIMATION": {
-      "entry_sha256": "6310c75698caf48eec5cc67ca5455015080d2a8e3fcaebad6a186ecf68c920b6",
-      "entry_target_id": "root:0b41:04d4",
-      "kind": "far-code-entry",
-      "offset": 1236,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ad404410b",
-          "file_offset": 210469,
-          "image_offset": 1605,
-          "relocation_index": 15,
-          "space": "overlay-4"
         }
       ]
     }

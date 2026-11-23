@@ -36,13 +36,13 @@
       "CONTROL_TURNING",
       "ADDSOUND",
       "GET_BASE_X",
-      "HANDLE_STAIR_EXIT",
+      "REDRAW_EXIT",
       "DIRECTION_BACK",
       "CONTROL_STARTING",
       "FALLON",
       "DIRECTION_UP",
       "BEGIN_STANDING_JUMP",
-      "SIGNED_DIV32_REMAINDER_ADJUSTED",
+      "GET_COL",
       "DIRECTION_DOWN",
       "CONTROL_RUNNING",
       "GETROW",
@@ -67,38 +67,38 @@
       "STAIRCLIMBING",
       "RETREAT_ACTOR",
       "ADDSONG",
-      "SHADOW_CROUCH_SEQUENCE",
+      "CHECKSHADOWMANBACKINTOKID",
       "COLEDGEX",
       "CONTROL_DEAD",
       "IS_SIX_KIND",
       "KID_ACTOR_RECORD",
       "CONTROL_STANDING",
       "GETOPPINFOIDX",
-      "RECORD_PICKUP_TYPE",
+      "LOAD_SWORD_SET",
       "ACTOR_LIFE",
       "GENCTRL",
-      "BREAK_FLOOR",
+      "BREAK_LOOSE_FLOOR",
       "OPPTOFIGHT",
       "PICKUP_TYPE",
       "ACTOR_MAX_LIFE",
       "FALL_SPIKES",
       "CAN_TURN_ON_GATE",
-      "SHADOW_DISTANCE",
-      "LOOKUP_TILE_KIND",
-      "FALL_BLADES",
-      "CHECK_SHADOW_CREATE",
-      "MERGE_SHADOW",
+      "GETSHADOWTOKIDDIST",
+      "READCELL",
+      "SHAKE_TRAPDOOR",
+      "CHECKSHADOWMANCREATE",
+      "KIDRISEFROMSHADOWMAN",
       "GETCELLCOL",
-      "TRIGGER_DEATH_SCENE",
-      "ANIMATE_CRAWL_ROOM",
+      "PLAY_THRONE_ROOM_NIS",
+      "RUIN_CHECK_CREVICES",
       "DECREMENT_LIFE_POINTS",
       "SAVE_ACTOR_SLOT",
       "TRIGGER_CROUCH_EVENT",
       "ADVANCE_ACTOR",
       "COPY_KID_TO_CHAR",
       "CROUCH_OBSTRUCTED",
-      "ANIMATION_TIMER",
-      "GATE_IS_OPEN",
+      "DISPATCH_SOUND",
+      "SCYTHEBARRTOSTANDUP",
       "HITFLOOR",
       "FIGHT_LISTS",
       "LOAD_ACTOR_SLOT",
@@ -118,7 +118,7 @@
       "REMOVEOPPFROMROOM",
       "STRIKE_DELAY",
       "CHOOSE_WEAPON_DRAW",
-      "QUERY_RUN_DISTANCE",
+      "GET_FORWARD_DISTANCE",
       "SEQUENCE_ID",
       "SHEATHE_DELAY",
       "SPECIAL_SHADOW_DRAW",
@@ -128,16 +128,16 @@
       "CLIMB_DELAY",
       "SEQUENCE_POSITION",
       "CRUSHOPPINFO",
-      "ALERT_SPECIAL_ACTOR",
-      "ROOM_ALLOWS_DROP",
+      "UNUSED_HEAD_ALERT",
+      "ROOFHANGINGFROMSHIP",
       "ACTOR_KIND",
       "SELECTED_OPPONENT",
       "GET_BEHIND",
       "ACTOR_DIRECTION",
-      "CLIMB_SPECIAL_GATE",
+      "PROBE_CHAIN_FLOOR",
       "OPPONENT_HEALTH",
       "ACTOR_FRAME",
-      "SPECIAL_TURN_ENGARDE",
+      "IS_HEAD_LOCKED_ON",
       "CLIMB_UP",
       "AREA_NUMBER",
       "ISMOBFLOOR",
@@ -149,10 +149,10 @@
       "STRIKE_ACTOR",
       "EXIT_COLUMN",
       "BLOCK_ACTOR",
-      "IS_DROP_TILE",
-      "ALLOCATE_TAGGED_HANDLE",
+      "IS_WALKABLE_TILE",
+      "HGETRSRC",
       "STRIDE_COLUMNS",
-      "IS_DROP_LEDGE",
+      "IS_OPEN_TILE",
       "CELL_MODIFIER_WORD",
       "ANIMATION_CONTACT",
       "ADDCHARX",
@@ -160,7 +160,7 @@
       "GUARD_TURN_COUNTER",
       "REREAD_CELLS",
       "SQUISHCHAR",
-      "ACTOR_SPACING",
+      "GET_OPP_DIST",
       "FALL_LATCH",
       "RESET_ACTOR_ALERT",
       "GET_EDGE_DISTANCE_AT",
@@ -168,7 +168,7 @@
       "PICK_HIDDEN_ACTOR",
       "STATE_MODE",
       "CHECK_LEDGE",
-      "CHECK_TURN_SEQUENCES",
+      "CHECKTURNSEQS",
       "LANDING_SOUND_PENDING",
       "JUMPSEQ",
       "CAN_CONTINUE_RUN_JUMP",
@@ -187,11 +187,11 @@
       "GET_ABOVE",
       "STEP_FORWARD",
       "RUNNING_LATCH",
-      "LAND_ON_HAZARD",
+      "DO_LAVA_BOIL",
       "GET_ABOVE_FRONT",
       "STANDING_JUMP",
       "PREVIOUS_OPPONENT",
-      "PLAY_GUARD_LANDING",
+      "BONES_FALL",
       "GET_ABOVE_BEHIND",
       "JUMP_UP",
       "FALL_SCREAM_STARTED",
@@ -1098,7 +1098,7 @@
           "index": 150,
           "kind": "external",
           "method": 6,
-          "name": "ALLOCATE_TAGGED_HANDLE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -1112,7 +1112,7 @@
         "index": 150,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_TAGGED_HANDLE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -1179,7 +1179,7 @@
           "index": 97,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATION_TIMER",
+          "name": "DISPATCH_SOUND",
           "zero_displacement": true
         }
       },
@@ -1193,7 +1193,7 @@
         "index": 97,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATION_TIMER",
+        "name": "DISPATCH_SOUND",
         "zero_displacement": true
       }
     },
@@ -1503,7 +1503,7 @@
           "index": 85,
           "kind": "external",
           "method": 6,
-          "name": "FALL_BLADES",
+          "name": "SHAKE_TRAPDOOR",
           "zero_displacement": true
         }
       },
@@ -1517,7 +1517,7 @@
         "index": 85,
         "kind": "external",
         "method": 6,
-        "name": "FALL_BLADES",
+        "name": "SHAKE_TRAPDOOR",
         "zero_displacement": true
       }
     },
@@ -1557,7 +1557,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "BREAK_FLOOR",
+          "name": "BREAK_LOOSE_FLOOR",
           "zero_displacement": true
         }
       },
@@ -1571,7 +1571,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "BREAK_FLOOR",
+        "name": "BREAK_LOOSE_FLOOR",
         "zero_displacement": true
       }
     },
@@ -2583,7 +2583,7 @@
           "index": 191,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_GUARD_LANDING",
+          "name": "BONES_FALL",
           "zero_displacement": true
         }
       },
@@ -2597,7 +2597,7 @@
         "index": 191,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_GUARD_LANDING",
+        "name": "BONES_FALL",
         "zero_displacement": true
       }
     },
@@ -3096,7 +3096,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "LAND_ON_HAZARD",
+          "name": "DO_LAVA_BOIL",
           "zero_displacement": true
         }
       },
@@ -3110,7 +3110,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "LAND_ON_HAZARD",
+        "name": "DO_LAVA_BOIL",
         "zero_displacement": true
       }
     },
@@ -5310,7 +5310,7 @@
           "index": 98,
           "kind": "external",
           "method": 6,
-          "name": "GATE_IS_OPEN",
+          "name": "SCYTHEBARRTOSTANDUP",
           "zero_displacement": true
         }
       },
@@ -5324,7 +5324,7 @@
         "index": 98,
         "kind": "external",
         "method": 6,
-        "name": "GATE_IS_OPEN",
+        "name": "SCYTHEBARRTOSTANDUP",
         "zero_displacement": true
       }
     },
@@ -5580,7 +5580,7 @@
           "index": 90,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATE_CRAWL_ROOM",
+          "name": "RUIN_CHECK_CREVICES",
           "zero_displacement": true
         }
       },
@@ -5594,7 +5594,7 @@
         "index": 90,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATE_CRAWL_ROOM",
+        "name": "RUIN_CHECK_CREVICES",
         "zero_displacement": true
       }
     },
@@ -5661,7 +5661,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "LOOKUP_TILE_KIND",
+          "name": "READCELL",
           "zero_displacement": true
         }
       },
@@ -5675,7 +5675,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "LOOKUP_TILE_KIND",
+        "name": "READCELL",
         "zero_displacement": true
       }
     },
@@ -5985,7 +5985,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "LOOKUP_TILE_KIND",
+          "name": "READCELL",
           "zero_displacement": true
         }
       },
@@ -5999,7 +5999,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "LOOKUP_TILE_KIND",
+        "name": "READCELL",
         "zero_displacement": true
       }
     },
@@ -6093,7 +6093,7 @@
           "index": 90,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATE_CRAWL_ROOM",
+          "name": "RUIN_CHECK_CREVICES",
           "zero_displacement": true
         }
       },
@@ -6107,7 +6107,7 @@
         "index": 90,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATE_CRAWL_ROOM",
+        "name": "RUIN_CHECK_CREVICES",
         "zero_displacement": true
       }
     },
@@ -6363,7 +6363,7 @@
           "index": 98,
           "kind": "external",
           "method": 6,
-          "name": "GATE_IS_OPEN",
+          "name": "SCYTHEBARRTOSTANDUP",
           "zero_displacement": true
         }
       },
@@ -6377,7 +6377,7 @@
         "index": 98,
         "kind": "external",
         "method": 6,
-        "name": "GATE_IS_OPEN",
+        "name": "SCYTHEBARRTOSTANDUP",
         "zero_displacement": true
       }
     },
@@ -6552,7 +6552,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "LOOKUP_TILE_KIND",
+          "name": "READCELL",
           "zero_displacement": true
         }
       },
@@ -6566,7 +6566,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "LOOKUP_TILE_KIND",
+        "name": "READCELL",
         "zero_displacement": true
       }
     },
@@ -6795,7 +6795,7 @@
           "index": 90,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATE_CRAWL_ROOM",
+          "name": "RUIN_CHECK_CREVICES",
           "zero_displacement": true
         }
       },
@@ -6809,7 +6809,7 @@
         "index": 90,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATE_CRAWL_ROOM",
+        "name": "RUIN_CHECK_CREVICES",
         "zero_displacement": true
       }
     },
@@ -7632,7 +7632,7 @@
           "index": 89,
           "kind": "external",
           "method": 6,
-          "name": "TRIGGER_DEATH_SCENE",
+          "name": "PLAY_THRONE_ROOM_NIS",
           "zero_displacement": true
         }
       },
@@ -7646,7 +7646,7 @@
         "index": 89,
         "kind": "external",
         "method": 6,
-        "name": "TRIGGER_DEATH_SCENE",
+        "name": "PLAY_THRONE_ROOM_NIS",
         "zero_displacement": true
       }
     },
@@ -7740,7 +7740,7 @@
           "index": 87,
           "kind": "external",
           "method": 6,
-          "name": "MERGE_SHADOW",
+          "name": "KIDRISEFROMSHADOWMAN",
           "zero_displacement": true
         }
       },
@@ -7754,7 +7754,7 @@
         "index": 87,
         "kind": "external",
         "method": 6,
-        "name": "MERGE_SHADOW",
+        "name": "KIDRISEFROMSHADOWMAN",
         "zero_displacement": true
       }
     },
@@ -7767,7 +7767,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "SHADOW_DISTANCE",
+          "name": "GETSHADOWTOKIDDIST",
           "zero_displacement": true
         }
       },
@@ -7781,7 +7781,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "SHADOW_DISTANCE",
+        "name": "GETSHADOWTOKIDDIST",
         "zero_displacement": true
       }
     },
@@ -7794,7 +7794,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "SHADOW_DISTANCE",
+          "name": "GETSHADOWTOKIDDIST",
           "zero_displacement": true
         }
       },
@@ -7808,7 +7808,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "SHADOW_DISTANCE",
+        "name": "GETSHADOWTOKIDDIST",
         "zero_displacement": true
       }
     },
@@ -7821,7 +7821,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "SHADOW_DISTANCE",
+          "name": "GETSHADOWTOKIDDIST",
           "zero_displacement": true
         }
       },
@@ -7835,7 +7835,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "SHADOW_DISTANCE",
+        "name": "GETSHADOWTOKIDDIST",
         "zero_displacement": true
       }
     },
@@ -8550,7 +8550,7 @@
           "index": 168,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_TURN_SEQUENCES",
+          "name": "CHECKTURNSEQS",
           "zero_displacement": true
         }
       },
@@ -8564,7 +8564,7 @@
         "index": 168,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_TURN_SEQUENCES",
+        "name": "CHECKTURNSEQS",
         "zero_displacement": true
       }
     },
@@ -8739,7 +8739,7 @@
           "index": 160,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SPACING",
+          "name": "GET_OPP_DIST",
           "zero_displacement": true
         }
       },
@@ -8753,7 +8753,7 @@
         "index": 160,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SPACING",
+        "name": "GET_OPP_DIST",
         "zero_displacement": true
       }
     },
@@ -10710,7 +10710,7 @@
           "index": 36,
           "kind": "external",
           "method": 6,
-          "name": "HANDLE_STAIR_EXIT",
+          "name": "REDRAW_EXIT",
           "zero_displacement": true
         }
       },
@@ -10724,7 +10724,7 @@
         "index": 36,
         "kind": "external",
         "method": 6,
-        "name": "HANDLE_STAIR_EXIT",
+        "name": "REDRAW_EXIT",
         "zero_displacement": true
       }
     },
@@ -11250,7 +11250,7 @@
           "index": 168,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_TURN_SEQUENCES",
+          "name": "CHECKTURNSEQS",
           "zero_displacement": true
         }
       },
@@ -11264,7 +11264,7 @@
         "index": 168,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_TURN_SEQUENCES",
+        "name": "CHECKTURNSEQS",
         "zero_displacement": true
       }
     },
@@ -11412,7 +11412,7 @@
           "index": 67,
           "kind": "external",
           "method": 6,
-          "name": "SHADOW_CROUCH_SEQUENCE",
+          "name": "CHECKSHADOWMANBACKINTOKID",
           "zero_displacement": true
         }
       },
@@ -11426,7 +11426,7 @@
         "index": 67,
         "kind": "external",
         "method": 6,
-        "name": "SHADOW_CROUCH_SEQUENCE",
+        "name": "CHECKSHADOWMANBACKINTOKID",
         "zero_displacement": true
       }
     },
@@ -11520,7 +11520,7 @@
           "index": 86,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_SHADOW_CREATE",
+          "name": "CHECKSHADOWMANCREATE",
           "zero_displacement": true
         }
       },
@@ -11534,7 +11534,7 @@
         "index": 86,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_SHADOW_CREATE",
+        "name": "CHECKSHADOWMANCREATE",
         "zero_displacement": true
       }
     },
@@ -12060,7 +12060,7 @@
           "index": 118,
           "kind": "external",
           "method": 6,
-          "name": "QUERY_RUN_DISTANCE",
+          "name": "GET_FORWARD_DISTANCE",
           "zero_displacement": true
         }
       },
@@ -12074,7 +12074,7 @@
         "index": 118,
         "kind": "external",
         "method": 6,
-        "name": "QUERY_RUN_DISTANCE",
+        "name": "GET_FORWARD_DISTANCE",
         "zero_displacement": true
       }
     },
@@ -12789,7 +12789,7 @@
           "index": 118,
           "kind": "external",
           "method": 6,
-          "name": "QUERY_RUN_DISTANCE",
+          "name": "GET_FORWARD_DISTANCE",
           "zero_displacement": true
         }
       },
@@ -12803,7 +12803,7 @@
         "index": 118,
         "kind": "external",
         "method": 6,
-        "name": "QUERY_RUN_DISTANCE",
+        "name": "GET_FORWARD_DISTANCE",
         "zero_displacement": true
       }
     },
@@ -13221,7 +13221,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "RECORD_PICKUP_TYPE",
+          "name": "LOAD_SWORD_SET",
           "zero_displacement": true
         }
       },
@@ -13235,7 +13235,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "RECORD_PICKUP_TYPE",
+        "name": "LOAD_SWORD_SET",
         "zero_displacement": true
       }
     },
@@ -15597,7 +15597,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "LOOKUP_TILE_KIND",
+          "name": "READCELL",
           "zero_displacement": true
         }
       },
@@ -15611,7 +15611,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "LOOKUP_TILE_KIND",
+        "name": "READCELL",
         "zero_displacement": true
       }
     },
@@ -15678,7 +15678,7 @@
           "index": 42,
           "kind": "external",
           "method": 6,
-          "name": "SIGNED_DIV32_REMAINDER_ADJUSTED",
+          "name": "GET_COL",
           "zero_displacement": true
         }
       },
@@ -15692,7 +15692,7 @@
         "index": 42,
         "kind": "external",
         "method": 6,
-        "name": "SIGNED_DIV32_REMAINDER_ADJUSTED",
+        "name": "GET_COL",
         "zero_displacement": true
       }
     },
@@ -15840,7 +15840,7 @@
           "index": 118,
           "kind": "external",
           "method": 6,
-          "name": "QUERY_RUN_DISTANCE",
+          "name": "GET_FORWARD_DISTANCE",
           "zero_displacement": true
         }
       },
@@ -15854,7 +15854,7 @@
         "index": 118,
         "kind": "external",
         "method": 6,
-        "name": "QUERY_RUN_DISTANCE",
+        "name": "GET_FORWARD_DISTANCE",
         "zero_displacement": true
       }
     },
@@ -15921,7 +15921,7 @@
           "index": 129,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_ALLOWS_DROP",
+          "name": "ROOFHANGINGFROMSHIP",
           "zero_displacement": true
         }
       },
@@ -15935,7 +15935,7 @@
         "index": 129,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_ALLOWS_DROP",
+        "name": "ROOFHANGINGFROMSHIP",
         "zero_displacement": true
       }
     },
@@ -16569,7 +16569,7 @@
           "index": 129,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_ALLOWS_DROP",
+          "name": "ROOFHANGINGFROMSHIP",
           "zero_displacement": true
         }
       },
@@ -16583,7 +16583,7 @@
         "index": 129,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_ALLOWS_DROP",
+        "name": "ROOFHANGINGFROMSHIP",
         "zero_displacement": true
       }
     },
@@ -16623,7 +16623,7 @@
           "index": 134,
           "kind": "external",
           "method": 6,
-          "name": "CLIMB_SPECIAL_GATE",
+          "name": "PROBE_CHAIN_FLOOR",
           "zero_displacement": true
         }
       },
@@ -16637,7 +16637,7 @@
         "index": 134,
         "kind": "external",
         "method": 6,
-        "name": "CLIMB_SPECIAL_GATE",
+        "name": "PROBE_CHAIN_FLOOR",
         "zero_displacement": true
       }
     },
@@ -17136,7 +17136,7 @@
           "index": 152,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_LEDGE",
+          "name": "IS_OPEN_TILE",
           "zero_displacement": true
         }
       },
@@ -17150,7 +17150,7 @@
         "index": 152,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_LEDGE",
+        "name": "IS_OPEN_TILE",
         "zero_displacement": true
       }
     },
@@ -17190,7 +17190,7 @@
           "index": 152,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_LEDGE",
+          "name": "IS_OPEN_TILE",
           "zero_displacement": true
         }
       },
@@ -17204,7 +17204,7 @@
         "index": 152,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_LEDGE",
+        "name": "IS_OPEN_TILE",
         "zero_displacement": true
       }
     },
@@ -17217,7 +17217,7 @@
           "index": 149,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_TILE",
+          "name": "IS_WALKABLE_TILE",
           "zero_displacement": true
         }
       },
@@ -17231,7 +17231,7 @@
         "index": 149,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_TILE",
+        "name": "IS_WALKABLE_TILE",
         "zero_displacement": true
       }
     },
@@ -17244,7 +17244,7 @@
           "index": 149,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_TILE",
+          "name": "IS_WALKABLE_TILE",
           "zero_displacement": true
         }
       },
@@ -17258,7 +17258,7 @@
         "index": 149,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_TILE",
+        "name": "IS_WALKABLE_TILE",
         "zero_displacement": true
       }
     },
@@ -17892,7 +17892,7 @@
           "index": 118,
           "kind": "external",
           "method": 6,
-          "name": "QUERY_RUN_DISTANCE",
+          "name": "GET_FORWARD_DISTANCE",
           "zero_displacement": true
         }
       },
@@ -17906,7 +17906,7 @@
         "index": 118,
         "kind": "external",
         "method": 6,
-        "name": "QUERY_RUN_DISTANCE",
+        "name": "GET_FORWARD_DISTANCE",
         "zero_displacement": true
       }
     },
@@ -18189,7 +18189,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "LOOKUP_TILE_KIND",
+          "name": "READCELL",
           "zero_displacement": true
         }
       },
@@ -18203,7 +18203,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "LOOKUP_TILE_KIND",
+        "name": "READCELL",
         "zero_displacement": true
       }
     },
@@ -19431,7 +19431,7 @@
           "index": 152,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_LEDGE",
+          "name": "IS_OPEN_TILE",
           "zero_displacement": true
         }
       },
@@ -19445,7 +19445,7 @@
         "index": 152,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_LEDGE",
+        "name": "IS_OPEN_TILE",
         "zero_displacement": true
       }
     },
@@ -19512,7 +19512,7 @@
           "index": 152,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_LEDGE",
+          "name": "IS_OPEN_TILE",
           "zero_displacement": true
         }
       },
@@ -19526,7 +19526,7 @@
         "index": 152,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_LEDGE",
+        "name": "IS_OPEN_TILE",
         "zero_displacement": true
       }
     },
@@ -20700,7 +20700,7 @@
           "index": 160,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SPACING",
+          "name": "GET_OPP_DIST",
           "zero_displacement": true
         }
       },
@@ -20714,7 +20714,7 @@
         "index": 160,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SPACING",
+        "name": "GET_OPP_DIST",
         "zero_displacement": true
       }
     },
@@ -22266,7 +22266,7 @@
           "index": 128,
           "kind": "external",
           "method": 6,
-          "name": "ALERT_SPECIAL_ACTOR",
+          "name": "UNUSED_HEAD_ALERT",
           "zero_displacement": true
         }
       },
@@ -22280,7 +22280,7 @@
         "index": 128,
         "kind": "external",
         "method": 6,
-        "name": "ALERT_SPECIAL_ACTOR",
+        "name": "UNUSED_HEAD_ALERT",
         "zero_displacement": true
       }
     },
@@ -23049,7 +23049,7 @@
           "index": 137,
           "kind": "external",
           "method": 6,
-          "name": "SPECIAL_TURN_ENGARDE",
+          "name": "IS_HEAD_LOCKED_ON",
           "zero_displacement": true
         }
       },
@@ -23063,7 +23063,7 @@
         "index": 137,
         "kind": "external",
         "method": 6,
-        "name": "SPECIAL_TURN_ENGARDE",
+        "name": "IS_HEAD_LOCKED_ON",
         "zero_displacement": true
       }
     },
@@ -23562,7 +23562,7 @@
           "index": 152,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_LEDGE",
+          "name": "IS_OPEN_TILE",
           "zero_displacement": true
         }
       },
@@ -23576,7 +23576,7 @@
         "index": 152,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_LEDGE",
+        "name": "IS_OPEN_TILE",
         "zero_displacement": true
       }
     },
@@ -23643,7 +23643,7 @@
           "index": 152,
           "kind": "external",
           "method": 6,
-          "name": "IS_DROP_LEDGE",
+          "name": "IS_OPEN_TILE",
           "zero_displacement": true
         }
       },
@@ -23657,7 +23657,7 @@
         "index": 152,
         "kind": "external",
         "method": 6,
-        "name": "IS_DROP_LEDGE",
+        "name": "IS_OPEN_TILE",
         "zero_displacement": true
       }
     },
@@ -23940,7 +23940,7 @@
           "index": 160,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SPACING",
+          "name": "GET_OPP_DIST",
           "zero_displacement": true
         }
       },
@@ -23954,7 +23954,7 @@
         "index": 160,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SPACING",
+        "name": "GET_OPP_DIST",
         "zero_displacement": true
       }
     },
@@ -24183,7 +24183,7 @@
           "index": 191,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_GUARD_LANDING",
+          "name": "BONES_FALL",
           "zero_displacement": true
         }
       },
@@ -24197,7 +24197,7 @@
         "index": 191,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_GUARD_LANDING",
+        "name": "BONES_FALL",
         "zero_displacement": true
       }
     },
@@ -25027,23 +25027,6 @@
         }
       ]
     },
-    "ACTOR_SPACING": {
-      "entry_sha256": "94abb8dfa16a1d115a07d2440ef144eb914b0ba738867ae2262e91bc219b010d",
-      "entry_target_id": "root:02cc:1cac",
-      "kind": "far-code-entry",
-      "offset": 7340,
-      "segment": 716,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aac1ccc02",
-          "file_offset": 70729,
-          "image_offset": 62537,
-          "relocation_index": 1264,
-          "space": "root"
-        }
-      ]
-    },
     "ACTOR_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25149,15 +25132,6 @@
         }
       ]
     },
-    "ALERT_SPECIAL_ACTOR": {
-      "entry_sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
-      "entry_target_id": "overlay-11:2c3e:0d52",
-      "kind": "overlay-code-entry",
-      "offset": 3410,
-      "segment": 11326,
-      "space": "overlay-11",
-      "witnesses": []
-    },
     "ALIGN_TO_FLOOR": {
       "entry_sha256": "0beb08c5925b3303158c6cff6bf62104e6c0ea19f5fdd0e611e436220147c192",
       "entry_target_id": "root:02cc:0394",
@@ -25175,32 +25149,6 @@
         }
       ]
     },
-    "ALLOCATE_TAGGED_HANDLE": {
-      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
-      "entry_target_id": "root:1101:6f6a",
-      "kind": "far-code-entry",
-      "offset": 28522,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6a6f0111",
-          "file_offset": 17855,
-          "image_offset": 9663,
-          "relocation_index": 223,
-          "space": "root"
-        }
-      ]
-    },
-    "ANIMATE_CRAWL_ROOM": {
-      "entry_sha256": "08694ecf854a96aad6c491fe4b15aa6b228315040e2c89c81c73e6bb1f370360",
-      "entry_target_id": "overlay-8:2a74:1062",
-      "kind": "overlay-code-entry",
-      "offset": 4194,
-      "segment": 10868,
-      "space": "overlay-8",
-      "witnesses": []
-    },
     "ANIMATION_CONTACT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25211,23 +25159,6 @@
           "entry": "root:0000:0e9a",
           "image_offset": 3860,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ANIMATION_TIMER": {
-      "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
-      "entry_target_id": "root:1101:83f0",
-      "kind": "far-code-entry",
-      "offset": 33776,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9af0830111",
-          "file_offset": 9350,
-          "image_offset": 1158,
-          "relocation_index": 114,
           "space": "root"
         }
       ]
@@ -25246,7 +25177,16 @@
         }
       ]
     },
-    "BREAK_FLOOR": {
+    "BONES_FALL": {
+      "entry_sha256": "a5e5a2c888a5bb4f0e506ab48579db43b92d9c39ef88fb143b8cc4a9436926b8",
+      "entry_target_id": "overlay-12:2c3e:1172",
+      "kind": "overlay-code-entry",
+      "offset": 4466,
+      "segment": 11326,
+      "space": "overlay-12",
+      "witnesses": []
+    },
+    "BREAK_LOOSE_FLOOR": {
       "entry_sha256": "2a9b99daa7b968a4b3050a7a9482e86a87356b1098bc8f67b2d46953c725544e",
       "entry_target_id": "root:0b41:183e",
       "kind": "far-code-entry",
@@ -25303,16 +25243,16 @@
         }
       ]
     },
-    "CHECK_LEDGE": {
-      "entry_sha256": "a72407e08e9a45adaf350ccc4d212eb59b2c22f6ae29f31bb4e0399e68cc95f0",
-      "entry_target_id": "root:02cc:14ca",
-      "kind": "far-code-entry",
-      "offset": 5322,
-      "segment": 716,
-      "space": "root",
+    "CHECKSHADOWMANBACKINTOKID": {
+      "entry_sha256": "a1e44028996ac717f29d475f35af6f9c00238b6af1a2bc158760c5301b0838b7",
+      "entry_target_id": "overlay-3:2587:0004",
+      "kind": "overlay-code-entry",
+      "offset": 4,
+      "segment": 9607,
+      "space": "overlay-3",
       "witnesses": []
     },
-    "CHECK_SHADOW_CREATE": {
+    "CHECKSHADOWMANCREATE": {
       "entry_sha256": "f6fa513c64935487fd9c7c52000ca9aad0907bdfd5251944d63cb8605d5ac81f",
       "entry_target_id": "overlay-3:2587:0072",
       "kind": "overlay-code-entry",
@@ -25329,13 +25269,22 @@
         }
       ]
     },
-    "CHECK_TURN_SEQUENCES": {
+    "CHECKTURNSEQS": {
       "entry_sha256": "6cb5371f57e600e5d7c95cd65347d01ffc9878540d4bd3250371fe1289425794",
       "entry_target_id": "overlay-3:2587:01a6",
       "kind": "overlay-code-entry",
       "offset": 422,
       "segment": 9607,
       "space": "overlay-3",
+      "witnesses": []
+    },
+    "CHECK_LEDGE": {
+      "entry_sha256": "a72407e08e9a45adaf350ccc4d212eb59b2c22f6ae29f31bb4e0399e68cc95f0",
+      "entry_target_id": "root:02cc:14ca",
+      "kind": "far-code-entry",
+      "offset": 5322,
+      "segment": 716,
+      "space": "root",
       "witnesses": []
     },
     "CLIMB_DELAY": {
@@ -25348,23 +25297,6 @@
           "entry": "root:02cc:0ee8",
           "image_offset": 15422,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "CLIMB_SPECIAL_GATE": {
-      "entry_sha256": "7c18f7a68080281517681c71e4060af04f909f4cc08237a2887be971b008d7af",
-      "entry_target_id": "overlay-9:2a4e:0a80",
-      "kind": "overlay-code-entry",
-      "offset": 2688,
-      "segment": 10830,
-      "space": "overlay-9",
-      "witnesses": [
-        {
-          "bytes_hex": "9a800a4e2a",
-          "file_offset": 22320,
-          "image_offset": 14128,
-          "relocation_index": 304,
           "space": "root"
         }
       ]
@@ -25552,6 +25484,32 @@
         }
       ]
     },
+    "DISPATCH_SOUND": {
+      "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
+      "entry_target_id": "root:1101:83f0",
+      "kind": "far-code-entry",
+      "offset": 33776,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 9350,
+          "image_offset": 1158,
+          "relocation_index": 114,
+          "space": "root"
+        }
+      ]
+    },
+    "DO_LAVA_BOIL": {
+      "entry_sha256": "1e7315f4e77b95b6a40c426ea3ec67241411d31296621263a5e6974069db0102",
+      "entry_target_id": "overlay-6:29cf:0756",
+      "kind": "overlay-code-entry",
+      "offset": 1878,
+      "segment": 10703,
+      "space": "overlay-6",
+      "witnesses": []
+    },
     "EXIT_CELL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25631,23 +25589,6 @@
           "file_offset": 56140,
           "image_offset": 47948,
           "relocation_index": 1060,
-          "space": "root"
-        }
-      ]
-    },
-    "FALL_BLADES": {
-      "entry_sha256": "ead8f504e588b27bfe4a7baa1721cbb58bdf7a2b4da418ad310a40ba900da946",
-      "entry_target_id": "overlay-9:2a4e:0e8a",
-      "kind": "overlay-code-entry",
-      "offset": 3722,
-      "segment": 10830,
-      "space": "overlay-9",
-      "witnesses": [
-        {
-          "bytes_hex": "9a8a0e4e2a",
-          "file_offset": 60778,
-          "image_offset": 52586,
-          "relocation_index": 1039,
           "space": "root"
         }
       ]
@@ -25739,23 +25680,6 @@
         }
       ]
     },
-    "GATE_IS_OPEN": {
-      "entry_sha256": "bc3decd800478dde3fcf3ebf9e8123abca30e588db46e2b8f606885e98d0fd8d",
-      "entry_target_id": "overlay-7:29cf:0380",
-      "kind": "overlay-code-entry",
-      "offset": 896,
-      "segment": 10703,
-      "space": "overlay-7",
-      "witnesses": [
-        {
-          "bytes_hex": "9a8003cf29",
-          "file_offset": 197546,
-          "image_offset": 12778,
-          "relocation_index": 342,
-          "space": "overlay-3"
-        }
-      ]
-    },
     "GETOPPINFOIDX": {
       "entry_sha256": "cecc6943ef48e32bb59142c49e6aefad853ae2b50743223db6ab8c1a21a12d02",
       "entry_target_id": "overlay-3:2344:08b4",
@@ -25789,6 +25713,15 @@
           "space": "root"
         }
       ]
+    },
+    "GETSHADOWTOKIDDIST": {
+      "entry_sha256": "7fb1963e37d4743b3f8f91a22d6668ad50b7ec496b6408fcbb6d40fdd794c94c",
+      "entry_target_id": "overlay-3:2587:03be",
+      "kind": "overlay-code-entry",
+      "offset": 958,
+      "segment": 9607,
+      "space": "overlay-3",
+      "witnesses": []
     },
     "GET_ABOVE": {
       "entry_sha256": "c0f755e1b221a258bfa7c332ff4507cff99ea10ee7f34081fef5fe7af89acdbd",
@@ -25885,6 +25818,15 @@
         }
       ]
     },
+    "GET_COL": {
+      "entry_sha256": "61a394972ed052ae62c001263494006962993aa1727147ce532af7343e51bd3b",
+      "entry_target_id": "root:02cc:10d4",
+      "kind": "far-code-entry",
+      "offset": 4308,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
+    },
     "GET_EDGE_DISTANCE": {
       "entry_sha256": "a51efa9526aaf8e3a36d70e9568f3780ff71865e39a96c6137aa554c51acdeca",
       "entry_target_id": "root:02cc:1088",
@@ -25910,6 +25852,32 @@
       "segment": 716,
       "space": "root",
       "witnesses": []
+    },
+    "GET_FORWARD_DISTANCE": {
+      "entry_sha256": "198e59eb8a055664da17f62f1bd90985ad8064776b1c75a9aef63b9031fedcd7",
+      "entry_target_id": "overlay-3:2802:0b70",
+      "kind": "overlay-code-entry",
+      "offset": 2928,
+      "segment": 10242,
+      "space": "overlay-3",
+      "witnesses": []
+    },
+    "GET_OPP_DIST": {
+      "entry_sha256": "94abb8dfa16a1d115a07d2440ef144eb914b0ba738867ae2262e91bc219b010d",
+      "entry_target_id": "root:02cc:1cac",
+      "kind": "far-code-entry",
+      "offset": 7340,
+      "segment": 716,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aac1ccc02",
+          "file_offset": 70729,
+          "image_offset": 62537,
+          "relocation_index": 1264,
+          "space": "root"
+        }
+      ]
     },
     "GET_UNDER_FOOT": {
       "entry_sha256": "6793f16d2b6d21afd173fd7d296f6128fd8ae28a7311d2222253d48bea78a7f3",
@@ -25942,14 +25910,22 @@
         }
       ]
     },
-    "HANDLE_STAIR_EXIT": {
-      "entry_sha256": "727a81e1f7b0c7970fdeff221aae3df453f2417c298cf74493fd77111cc457e2",
-      "entry_target_id": "root:0b41:027a",
+    "HGETRSRC": {
+      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "entry_target_id": "root:1101:6f6a",
       "kind": "far-code-entry",
-      "offset": 634,
-      "segment": 2881,
+      "offset": 28522,
+      "segment": 4353,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "bytes_hex": "9a6a6f0111",
+          "file_offset": 17855,
+          "image_offset": 9663,
+          "relocation_index": 223,
+          "space": "root"
+        }
+      ]
     },
     "INDEX_CELL": {
       "entry_sha256": "adfaefd660fd4031e288f76309e3778c131a6b6b74caee7659dcdb0a945d3d05",
@@ -26062,7 +26038,16 @@
         }
       ]
     },
-    "IS_DROP_LEDGE": {
+    "IS_HEAD_LOCKED_ON": {
+      "entry_sha256": "e6fee42b77dc2b4562b49dae615db8a744ff58d2c4a63124000357cd4b300644",
+      "entry_target_id": "overlay-11:2c3e:1102",
+      "kind": "overlay-code-entry",
+      "offset": 4354,
+      "segment": 11326,
+      "space": "overlay-11",
+      "witnesses": []
+    },
+    "IS_OPEN_TILE": {
       "entry_sha256": "8561a2d56f74fd02d3f48a10486f328c0f4a9262d6831c2835e591c6bc560aa1",
       "entry_target_id": "root:078a:2804",
       "kind": "far-code-entry",
@@ -26078,15 +26063,6 @@
           "space": "root"
         }
       ]
-    },
-    "IS_DROP_TILE": {
-      "entry_sha256": "edb9d61cb4a2ecf4d00fac0db5542b71d1f7cf23ca86c31e4a934645ccb705fc",
-      "entry_target_id": "root:078a:286c",
-      "kind": "far-code-entry",
-      "offset": 10348,
-      "segment": 1930,
-      "space": "root",
-      "witnesses": []
     },
     "IS_SIX_KIND": {
       "entry_sha256": "30458f59d82f623554eac84b42bc012e43946251827e66add797d0d9ff34553e",
@@ -26104,6 +26080,24 @@
           "space": "root"
         }
       ]
+    },
+    "IS_WALKABLE_TILE": {
+      "entry_sha256": "edb9d61cb4a2ecf4d00fac0db5542b71d1f7cf23ca86c31e4a934645ccb705fc",
+      "entry_target_id": "root:078a:286c",
+      "kind": "far-code-entry",
+      "offset": 10348,
+      "segment": 1930,
+      "space": "root",
+      "witnesses": []
+    },
+    "KIDRISEFROMSHADOWMAN": {
+      "entry_sha256": "6e2e753e6553fa046dc6cebbfa1a001d4826db407ef42691f72e9c7aed8e8f7c",
+      "entry_target_id": "overlay-3:2587:047e",
+      "kind": "overlay-code-entry",
+      "offset": 1150,
+      "segment": 9607,
+      "space": "overlay-3",
+      "witnesses": []
     },
     "KID_ACTOR_RECORD": {
       "group": "DGROUP",
@@ -26132,15 +26126,6 @@
           "space": "root"
         }
       ]
-    },
-    "LAND_ON_HAZARD": {
-      "entry_sha256": "1e7315f4e77b95b6a40c426ea3ec67241411d31296621263a5e6974069db0102",
-      "entry_target_id": "overlay-6:29cf:0756",
-      "kind": "overlay-code-entry",
-      "offset": 1878,
-      "segment": 10703,
-      "space": "overlay-6",
-      "witnesses": []
     },
     "LEVEL_NUMBER": {
       "group": "DGROUP",
@@ -26173,30 +26158,13 @@
         }
       ]
     },
-    "LOOKUP_TILE_KIND": {
-      "entry_sha256": "68209b79c846e56f505ff94ac586a8d505c88c30362317e5f90d2bd35f803e27",
-      "entry_target_id": "root:02cc:00f0",
+    "LOAD_SWORD_SET": {
+      "entry_sha256": "fb05ef844ca4cd291ff588e12a6ba230bce08bd0d26aeef97d254456b84f2eb7",
+      "entry_target_id": "root:0a5c:0416",
       "kind": "far-code-entry",
-      "offset": 240,
-      "segment": 716,
+      "offset": 1046,
+      "segment": 2652,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9af000cc02",
-          "file_offset": 59591,
-          "image_offset": 51399,
-          "relocation_index": 1006,
-          "space": "root"
-        }
-      ]
-    },
-    "MERGE_SHADOW": {
-      "entry_sha256": "6e2e753e6553fa046dc6cebbfa1a001d4826db407ef42691f72e9c7aed8e8f7c",
-      "entry_target_id": "overlay-3:2587:047e",
-      "kind": "overlay-code-entry",
-      "offset": 1150,
-      "segment": 9607,
-      "space": "overlay-3",
       "witnesses": []
     },
     "OPPONENT_HEALTH": {
@@ -26286,30 +26254,55 @@
         }
       ]
     },
-    "PLAY_GUARD_LANDING": {
-      "entry_sha256": "a5e5a2c888a5bb4f0e506ab48579db43b92d9c39ef88fb143b8cc4a9436926b8",
-      "entry_target_id": "overlay-12:2c3e:1172",
+    "PLAY_THRONE_ROOM_NIS": {
+      "entry_sha256": "96bd385462c17912548c07b6c419a5025b2420666396084bca2e567c89a16e25",
+      "entry_target_id": "overlay-16:2dc2:0062",
       "kind": "overlay-code-entry",
-      "offset": 4466,
-      "segment": 11326,
-      "space": "overlay-12",
+      "offset": 98,
+      "segment": 11714,
+      "space": "overlay-16",
       "witnesses": []
     },
-    "QUERY_RUN_DISTANCE": {
-      "entry_sha256": "198e59eb8a055664da17f62f1bd90985ad8064776b1c75a9aef63b9031fedcd7",
-      "entry_target_id": "overlay-3:2802:0b70",
+    "PROBE_CHAIN_FLOOR": {
+      "entry_sha256": "7c18f7a68080281517681c71e4060af04f909f4cc08237a2887be971b008d7af",
+      "entry_target_id": "overlay-9:2a4e:0a80",
       "kind": "overlay-code-entry",
-      "offset": 2928,
-      "segment": 10242,
-      "space": "overlay-3",
-      "witnesses": []
+      "offset": 2688,
+      "segment": 10830,
+      "space": "overlay-9",
+      "witnesses": [
+        {
+          "bytes_hex": "9a800a4e2a",
+          "file_offset": 22320,
+          "image_offset": 14128,
+          "relocation_index": 304,
+          "space": "root"
+        }
+      ]
     },
-    "RECORD_PICKUP_TYPE": {
-      "entry_sha256": "fb05ef844ca4cd291ff588e12a6ba230bce08bd0d26aeef97d254456b84f2eb7",
-      "entry_target_id": "root:0a5c:0416",
+    "READCELL": {
+      "entry_sha256": "68209b79c846e56f505ff94ac586a8d505c88c30362317e5f90d2bd35f803e27",
+      "entry_target_id": "root:02cc:00f0",
       "kind": "far-code-entry",
-      "offset": 1046,
-      "segment": 2652,
+      "offset": 240,
+      "segment": 716,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9af000cc02",
+          "file_offset": 59591,
+          "image_offset": 51399,
+          "relocation_index": 1006,
+          "space": "root"
+        }
+      ]
+    },
+    "REDRAW_EXIT": {
+      "entry_sha256": "727a81e1f7b0c7970fdeff221aae3df453f2417c298cf74493fd77111cc457e2",
+      "entry_target_id": "root:0b41:027a",
+      "kind": "far-code-entry",
+      "offset": 634,
+      "segment": 2881,
       "space": "root",
       "witnesses": []
     },
@@ -26379,7 +26372,7 @@
       "space": "root",
       "witnesses": []
     },
-    "ROOM_ALLOWS_DROP": {
+    "ROOFHANGINGFROMSHIP": {
       "entry_sha256": "ab1980b7d72c08c460711c1ffdfecb88018cdd6dce62b0c8f4175636a633a444",
       "entry_target_id": "overlay-4:29cf:0a54",
       "kind": "overlay-code-entry",
@@ -26401,6 +26394,15 @@
           "space": "root"
         }
       ]
+    },
+    "RUIN_CHECK_CREVICES": {
+      "entry_sha256": "08694ecf854a96aad6c491fe4b15aa6b228315040e2c89c81c73e6bb1f370360",
+      "entry_target_id": "overlay-8:2a74:1062",
+      "kind": "overlay-code-entry",
+      "offset": 4194,
+      "segment": 10868,
+      "space": "overlay-8",
+      "witnesses": []
     },
     "RUNNING_COLLISION": {
       "group": "DGROUP",
@@ -26430,6 +26432,23 @@
           "image_offset": 1786,
           "relocation_index": 125,
           "space": "root"
+        }
+      ]
+    },
+    "SCYTHEBARRTOSTANDUP": {
+      "entry_sha256": "bc3decd800478dde3fcf3ebf9e8123abca30e588db46e2b8f606885e98d0fd8d",
+      "entry_target_id": "overlay-7:29cf:0380",
+      "kind": "overlay-code-entry",
+      "offset": 896,
+      "segment": 10703,
+      "space": "overlay-7",
+      "witnesses": [
+        {
+          "bytes_hex": "9a8003cf29",
+          "file_offset": 197546,
+          "image_offset": 12778,
+          "relocation_index": 342,
+          "space": "overlay-3"
         }
       ]
     },
@@ -26492,23 +26511,22 @@
         }
       ]
     },
-    "SHADOW_CROUCH_SEQUENCE": {
-      "entry_sha256": "a1e44028996ac717f29d475f35af6f9c00238b6af1a2bc158760c5301b0838b7",
-      "entry_target_id": "overlay-3:2587:0004",
+    "SHAKE_TRAPDOOR": {
+      "entry_sha256": "ead8f504e588b27bfe4a7baa1721cbb58bdf7a2b4da418ad310a40ba900da946",
+      "entry_target_id": "overlay-9:2a4e:0e8a",
       "kind": "overlay-code-entry",
-      "offset": 4,
-      "segment": 9607,
-      "space": "overlay-3",
-      "witnesses": []
-    },
-    "SHADOW_DISTANCE": {
-      "entry_sha256": "7fb1963e37d4743b3f8f91a22d6668ad50b7ec496b6408fcbb6d40fdd794c94c",
-      "entry_target_id": "overlay-3:2587:03be",
-      "kind": "overlay-code-entry",
-      "offset": 958,
-      "segment": 9607,
-      "space": "overlay-3",
-      "witnesses": []
+      "offset": 3722,
+      "segment": 10830,
+      "space": "overlay-9",
+      "witnesses": [
+        {
+          "bytes_hex": "9a8a0e4e2a",
+          "file_offset": 60778,
+          "image_offset": 52586,
+          "relocation_index": 1039,
+          "space": "root"
+        }
+      ]
     },
     "SHEATHE_DELAY": {
       "group": "DGROUP",
@@ -26523,24 +26541,6 @@
           "space": "overlay-12"
         }
       ]
-    },
-    "SIGNED_DIV32_REMAINDER_ADJUSTED": {
-      "entry_sha256": "61a394972ed052ae62c001263494006962993aa1727147ce532af7343e51bd3b",
-      "entry_target_id": "root:02cc:10d4",
-      "kind": "far-code-entry",
-      "offset": 4308,
-      "segment": 716,
-      "space": "root",
-      "witnesses": []
-    },
-    "SPECIAL_TURN_ENGARDE": {
-      "entry_sha256": "e6fee42b77dc2b4562b49dae615db8a744ff58d2c4a63124000357cd4b300644",
-      "entry_target_id": "overlay-11:2c3e:1102",
-      "kind": "overlay-code-entry",
-      "offset": 4354,
-      "segment": 11326,
-      "space": "overlay-11",
-      "witnesses": []
     },
     "STATE_CODE": {
       "group": "DGROUP",
@@ -26612,13 +26612,13 @@
         }
       ]
     },
-    "TRIGGER_DEATH_SCENE": {
-      "entry_sha256": "96bd385462c17912548c07b6c419a5025b2420666396084bca2e567c89a16e25",
-      "entry_target_id": "overlay-16:2dc2:0062",
+    "UNUSED_HEAD_ALERT": {
+      "entry_sha256": "c8a51d4867300f9df2241e4d32f72b027916ca03fcef86fac7fa83fae59c529c",
+      "entry_target_id": "overlay-11:2c3e:0d52",
       "kind": "overlay-code-entry",
-      "offset": 98,
-      "segment": 11714,
-      "space": "overlay-16",
+      "offset": 3410,
+      "segment": 11326,
+      "space": "overlay-11",
       "witnesses": []
     }
   },

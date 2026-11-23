@@ -10,8 +10,8 @@ EXTRN MOVE_HUGE_BYTES:NEAR
 PUBLIC RESIZE_HANDLE
 EXTRN ALLOCATE_BACKING_SPACE_GUARDED:NEAR
 EXTRN RELEASE_HANDLE_STORAGE:NEAR
-EXTRN FREE_NEAR_HEAP:FAR
-EXTRN ALLOCATE_NEAR_HEAP:FAR
+EXTRN __nfree:FAR
+EXTRN __nmalloc:FAR
 PUBLIC ALLOCATE_PAYLOAD_HANDLE, ALLOCATE_EMPTY_HANDLE
 
 ALLOCATE_PAYLOAD_HANDLE PROC FAR
@@ -41,7 +41,7 @@ alloc_failed:
     push ss
     pop ds
     push bp
-    call FREE_NEAR_HEAP
+    call __nfree
     add sp, 2
     sub bp, bp
     jmp SHORT alloc_done
@@ -55,7 +55,7 @@ ALLOCATE_EMPTY_HANDLE PROC NEAR
     mov handle_scratch_saved, ax
     mov ax, 4
     push ax
-    call ALLOCATE_NEAR_HEAP
+    call __nmalloc
     add sp, 2
     sub dx, dx
     cmp dx, ax

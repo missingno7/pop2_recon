@@ -25,7 +25,7 @@ struct fade_state {
 extern fade_state far *far pascal allocate_fade_storage(long size);
 extern void far pascal CLEAR_FAR_BLOCK_FLAGS(void far *block);
 extern void far pascal read_palette_raw(int first, int count, component far *colors);
-extern void far pascal set_palette_raw(int first, int count, component far *colors, int sync);
+extern void far pascal WRITE_DAC_BLOCK(int first, int count, component far *colors, int sync);
 extern int far pascal poll_fade_abort(void);
 extern void far pascal queue_fade(int slot, int port, fade_state far *draw,
     fade_state far *update, int flags);
@@ -154,26 +154,26 @@ void far pascal set_dac_blocks(unsigned blocks, component far *colors)
 
     /* The fast paths reread the original far pointer after checking for null. */
     if (blocks == 0xffff)
-        set_palette_raw(0, 256, colors, 1);
+        WRITE_DAC_BLOCK(0, 256, colors, 1);
     else if (blocks == 0xfffe) {
         if (*(component far *volatile *)&colors)
-            set_palette_raw(16, 240, colors + 48, 1);
+            WRITE_DAC_BLOCK(16, 240, colors + 48, 1);
         else
-            set_palette_raw(16, 240, (component far *)0L, 1);
+            WRITE_DAC_BLOCK(16, 240, (component far *)0L, 1);
     } else if (blocks == 0xfff8) {
         if (*(component far *volatile *)&colors)
-            set_palette_raw(48, 208, colors + 144, 1);
+            WRITE_DAC_BLOCK(48, 208, colors + 144, 1);
         else
-            set_palette_raw(48, 208, (component far *)0L, 1);
+            WRITE_DAC_BLOCK(48, 208, (component far *)0L, 1);
     } else {
         bit = 1;
         offset = first = changed = 0;
         do {
             if (blocks & bit) {
                 if (colors)
-                    set_palette_raw(first, 16, colors + offset, (changed++ & 3) == 0);
+                    WRITE_DAC_BLOCK(first, 16, colors + offset, (changed++ & 3) == 0);
                 else
-                    set_palette_raw(first, 16, (component far *)0L, (changed++ & 3) == 0);
+                    WRITE_DAC_BLOCK(first, 16, (component far *)0L, (changed++ & 3) == 0);
             }
             first += 16;
             bit <<= 1;
@@ -273,8 +273,8 @@ void far pascal fade_palette_up(component far *first, component far *last)
     step = 0;
     do {
         blend_palette(colors, first, last, 63 - step, step);
-        set_palette_raw(0, 128, colors, 1);
-        set_palette_raw(128, 128, colors + 384, 1);
+        WRITE_DAC_BLOCK(0, 128, colors, 1);
+        WRITE_DAC_BLOCK(128, 128, colors + 384, 1);
     } while (++step < 64);
 }
 
@@ -286,8 +286,8 @@ void far pascal fade_palette_down(component far *first, component far *last)
     step = 63;
     do {
         blend_palette(colors, first, last, 63 - step, step);
-        set_palette_raw(0, 128, colors, 1);
-        set_palette_raw(128, 128, colors + 384, 1);
+        WRITE_DAC_BLOCK(0, 128, colors, 1);
+        WRITE_DAC_BLOCK(128, 128, colors + 384, 1);
     } while (--step >= 0);
 }
 

@@ -45,17 +45,17 @@ cursor_callback_depth DW -1
 CURSOR_DATA ENDS
 
 .CODE
-EXTRN BLIT_PORT_RECT:NEAR
-EXTRN READ_HANDLE_FLAGS:NEAR
-EXTRN GET_LOCKED_HANDLE_PAYLOAD:NEAR
-EXTRN TRANSLATE_CURSOR_BITMAP:NEAR
+EXTRN MEASURE_TEXT:NEAR
+EXTRN SAVE_HANDLE_FLAGS:NEAR
+EXTRN FETCH_LOCKED_SHAPE_LIST:NEAR
+EXTRN convert_shape:NEAR
 EXTRN DISPOSE_HANDLE:NEAR
 EXTRN RESTORE_HANDLE_FLAGS:NEAR
-EXTRN COMPACT_CURSOR_HANDLE:NEAR
+EXTRN RELOCATE_HANDLE_PAYLOAD:NEAR
 EXTRN ALLOCATE_BUFFER:NEAR
 EXTRN CLAMP_POINT_TO_RECT:NEAR
 EXTRN RELEASE_BUFFER:NEAR
-EXTRN ALLOCATE_TAGGED_HANDLE:NEAR
+EXTRN HGETRSRC:NEAR
 EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
 EXTRN PAINT_FOUR_BIT:NEAR
 
@@ -420,7 +420,7 @@ swap_context:
     mov ax, 0
     push ax
     push cs
-    call BLIT_PORT_RECT
+    call MEASURE_TEXT
     pop CURRENT_CONTEXT
     retf
 decrease_only:
@@ -440,12 +440,12 @@ BUILD_CURSOR_IMAGES PROC FAR
     mov di, [bp+6]
     push di
     push cs
-    call READ_HANDLE_FLAGS
+    call SAVE_HANDLE_FLAGS
     push di
     push ax
     push di
     push cs
-    call GET_LOCKED_HANDLE_PAYLOAD
+    call FETCH_LOCKED_SHAPE_LIST
     mov [bp-4], ax
     mov [bp-2], dx
     or ax, dx
@@ -478,7 +478,7 @@ read_cursor_mask:
     inc ax
     push ax
     push cs
-    call TRANSLATE_CURSOR_BITMAP
+    call convert_shape
     xchg cx, ax
     jcxz release_cursor_resource
     push cx
@@ -505,7 +505,7 @@ read_cursor_image:
     inc ax
     push ax
     push cs
-    call TRANSLATE_CURSOR_BITMAP
+    call convert_shape
     test ax, ax
     jnz install_cursor_images
     push cs
@@ -539,17 +539,17 @@ dispose_old_mask:
     call DISPOSE_HANDLE
 install_new_images:
     push cs
-    call COMPACT_CURSOR_HANDLE
+    call RELOCATE_HANDLE_PAYLOAD
     mov cursor_mask_handle, ax
     push ax
     push cs
-    call GET_LOCKED_HANDLE_PAYLOAD
+    call FETCH_LOCKED_SHAPE_LIST
     push cs
-    call COMPACT_CURSOR_HANDLE
+    call RELOCATE_HANDLE_PAYLOAD
     mov cursor_image_handle, ax
     push ax
     push cs
-    call GET_LOCKED_HANDLE_PAYLOAD
+    call FETCH_LOCKED_SHAPE_LIST
     les bx, DWORD PTR [bp-4]
     les dx, DWORD PTR es:[bx]
     mov cx, es
@@ -758,7 +758,7 @@ LOAD_CURSOR_RESOURCE PROC FAR
     mov ax, [bp+6]
     push ax
     push cs
-    call ALLOCATE_TAGGED_HANDLE
+    call HGETRSRC
     push ax
     push cs
     call near ptr BUILD_CURSOR_IMAGES
@@ -814,7 +814,7 @@ repaint_cursor:
     mov ax, 0
     push ax
     push cs
-    call BLIT_PORT_RECT
+    call MEASURE_TEXT
     push cursor_mask_handle
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD

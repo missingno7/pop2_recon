@@ -64,23 +64,23 @@ extern SoundRule sound_rules[];
 extern SoundHandle sound_handles[];
 extern char ambient_on_message[], ambient_off_message[], music_unavailable_message[];
 
-extern int sound_playing(int resource);
+extern int query_sound(int resource);
 extern int OppToFight(void);
 extern void *find_active_generator(unsigned char room, signed char column);
-extern void queue_actor_sound(signed char sound);
-extern SoundData get_sound_data(SoundHandle handle);
-extern void release_sound(SoundHandle handle);
-extern SoundHandle read_sound(int resource);
-extern SoundHandle prepare_sound(SoundHandle handle);
+extern void load_actor_slot(signed char sound);
+extern SoundData MATERIALIZE_HANDLE(SoundHandle handle);
+extern void DISPOSE_HANDLE(SoundHandle handle);
+extern SoundHandle hGetSnd(int resource);
+extern SoundHandle MARK_PURGEABLE(SoundHandle handle);
 extern SoundData lock_sound_data(SoundHandle handle);
-extern int command_option(const char far *option);
+extern int find_option(const char far *option);
 extern void advance_sound(void);
 extern int random_below(int limit);
 extern signed char map_room_row(signed char room);
-extern void stop_sound(int resource);
+extern void dispatch_sound(int resource);
 extern void start_sound(SoundHandle handle);
-extern int check_ambient_actor(signed char room);
-extern void update_sound_menu(void);
+extern int IsExitChasingSkel(signed char room);
+extern void SaveOptionsToDisk(void);
 extern void *memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
@@ -129,19 +129,19 @@ void add_opponent_death_song(void)
             break;
         case 7:
         case 8:
-            allowed = !sound_playing(10088);
+            allowed = !query_sound(10088);
             song = 147;
             break;
         case 10:
-            allowed = !sound_playing(10195);
+            allowed = !query_sound(10195);
             song = 192;
             break;
         case 11:
             opponent_pending = 0;
         default:
             allowed = opponent_state < 0 && opponent_sequence == 120 &&
-                      stage > 4 && !sound_playing(10076) &&
-                      !sound_playing(10097) && !sound_playing(10098) &&
+                      stage > 4 && !query_sound(10076) &&
+                      !query_sound(10097) && !query_sound(10098) &&
                       opponent_state < 0 ? 1 : 0;
             song = 74;
             break;
@@ -159,7 +159,7 @@ void add_actor_sfx(void)
     signed char sound = kid_sound;
 
     if (sound != -1) {
-        queue_actor_sound(sound);
+        load_actor_slot(sound);
         if ((opponent_action == 167 || kid_action == 167) &&
             opponent_kind != 7 && opponent_kind != 8)
             AddSound(12);
@@ -188,13 +188,13 @@ SoundData load_song(int song)
     SoundData data;
     SoundHandle *handle = &sound_handles[song];
 
-    data = *handle ? get_sound_data(*handle) : (SoundData)0;
+    data = *handle ? MATERIALIZE_HANDLE(*handle) : (SoundData)0;
     if ((unsigned long)data == 0) {
         if (*handle)
-            release_sound(*handle);
-        *handle = read_sound(song + 10000);
+            DISPOSE_HANDLE(*handle);
+        *handle = hGetSnd(song + 10000);
         if (*handle) {
-            SoundHandle prepared = prepare_sound(*(*(SoundHandle *volatile *)&handle));
+            SoundHandle prepared = MARK_PURGEABLE(*(*(SoundHandle *volatile *)&handle));
             *handle = prepared;
             data = lock_sound_data(prepared);
         }
@@ -236,7 +236,7 @@ int is_leave_level_music_on(void)
 
     if (song != -1) {
         song += 10000;
-        playing = sound_playing(song);
+        playing = query_sound(song);
     } else {
         playing = 0;
     }
@@ -262,7 +262,7 @@ void load_song_range(int first, int last)
     SoundHandle *handle;
     int start;
 
-    if (!command_option(no_load_sound))
+    if (!find_option(no_load_sound))
         if (first != -1) {
             start = first;
             song = start;
@@ -271,14 +271,14 @@ void load_song_range(int first, int last)
             handle = &sound_handles[song];
             do {
                 if (*handle)
-                    get_sound_data(*handle);
-                if (!*handle || !get_sound_data(*handle)) {
+                    MATERIALIZE_HANDLE(*handle);
+                if (!*handle || !MATERIALIZE_HANDLE(*handle)) {
                     if (*handle)
-                        release_sound(*handle);
-                    *handle = read_sound(song + 10000);
+                        DISPOSE_HANDLE(*handle);
+                    *handle = hGetSnd(song + 10000);
                 }
                 if (*handle)
-                    *handle = prepare_sound(*handle);
+                    *handle = MARK_PURGEABLE(*handle);
                 ++handle;
             } while (++song <= last);
         }
@@ -323,14 +323,14 @@ play:
 
 void play_sounds(void)
 {
-    if (!command_option(no_sounds)) {
+    if (!find_option(no_sounds)) {
         if (should_replace_effect(pending_effect, current_effect)) {
-            stop_sound(current_effect + 10000);
+            dispatch_sound(current_effect + 10000);
             play_song(current_effect = pending_effect);
         }
         pending_effect = -1;
         if (pending_song != -1) {
-            stop_sound(current_song + 10000);
+            dispatch_sound(current_song + 10000);
             play_song(current_song = pending_song);
             remember_ambient_song(&ambient_state, pending_song);
             pending_song = -1;
@@ -342,8 +342,8 @@ void play_song(int song)
 {
     SoundHandle *handle = &sound_handles[song];
 
-    if (!*handle || !get_sound_data(*handle))
-        *handle = read_sound(song + 10000);
+    if (!*handle || !MATERIALIZE_HANDLE(*handle))
+        *handle = hGetSnd(song + 10000);
     start_sound(*(*(SoundHandle *volatile *)&handle));
 }
 
@@ -352,8 +352,8 @@ int should_replace_effect(int effect, int playing)
     int replace = 0;
 
     if (effect != -1 &&
-        ((sound_flags & 3) || current_song == -1 || !sound_playing(current_song + 10000))) {
-        if (!sound_playing(playing + 10000)) {
+        ((sound_flags & 3) || current_song == -1 || !query_sound(current_song + 10000))) {
+        if (!query_sound(playing + 10000)) {
             replace = 1;
         } else {
             int index = playing;
@@ -378,7 +378,7 @@ int special_no_ambient_case(AmbientState *state)
 {
     int blocked = 0;
     if (is_leave_level_music_on() ||
-        (location_kind == 2 && check_ambient_actor(ambient_actor_room) &&
+        (location_kind == 2 && IsExitChasingSkel(ambient_actor_room) &&
          (ambient_actor_action == 88 || ambient_actor_action == 102 || ambient_actor_action == 216)) ||
         (ambient_enabled == 16 && scene == 9))
         blocked = 1;
@@ -395,7 +395,7 @@ int _fastcall should_change_ambient(AmbientState *state)
     } cue;
 
     if (state->enabled && stage < 0 && !special_no_ambient_case(state)) {
-        if (!sound_playing(state->song + 10000)) {
+        if (!query_sound(state->song + 10000)) {
             change = 1;
         } else if (state->cue != -1) {
             special = OppToFight();
@@ -420,8 +420,8 @@ char *toggle_ambient(void)
         ambient_state.enabled = !ambient_state.enabled;
         message = ambient_state.enabled ? ambient_on_message : ambient_off_message;
         if (!ambient_state.enabled && ambient_last_song && pending_song != ambient_last_song)
-            stop_sound(ambient_last_song + 10000);
-        update_sound_menu();
+            dispatch_sound(ambient_last_song + 10000);
+        SaveOptionsToDisk();
     } else {
         message = music_unavailable_message;
     }
@@ -451,8 +451,8 @@ void release_song_range(int first, int last)
             return;
         handle = &sound_handles[song];
         do {
-            if (*handle && !sound_playing(song + 10000)) {
-                release_sound(*handle);
+            if (*handle && !query_sound(song + 10000)) {
+                DISPOSE_HANDLE(*handle);
                 *handle = 0;
             }
             ++handle;

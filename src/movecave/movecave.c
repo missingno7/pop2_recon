@@ -142,48 +142,48 @@ static struct {
 #define lava_bubbles ((struct input *)cave_motion.bubbles)
 
 extern int reverse_plate_active(void);
-extern Trob *find_trob(sbyte, int);
-extern ubyte get_tile(sbyte, sbyte, sbyte);
+extern Trob *get_trob_room_cell(sbyte, int);
+extern ubyte ReadCell(sbyte, sbyte, sbyte);
 extern void add_trob(sbyte, sbyte, sbyte, sbyte);
-extern int should_redraw(void);
-extern void mark_redraw_area(int *);
-extern sbyte get_floor_kind(int);
-extern int tile_at_pixel(int, int);
-extern void set_exit_sound(sbyte);
+extern int check_trob_visibility(void);
+extern void redraw_trob(int *);
+extern sbyte IndexCell1(int);
+extern int GetRow(int, int);
+extern void mark_mob_redraw(sbyte);
 extern void play_exit_sound(int);
-extern Projectile *find_projectile(sbyte, int);
-extern int intersect_rect(Rect far *, Rect far *, Rect far *);
-extern void queue_move_sound(int);
-extern int blocks_dart(ubyte);
-extern int stops_dart(ubyte);
+extern Projectile *get_mob_type_item(sbyte, int);
+extern int SECTRECT(Rect far *, Rect far *, Rect far *);
+extern void AddSound(int);
+extern int IS_SIX_KIND(ubyte);
+extern int IsWall(ubyte);
 extern int gate_blocks_dart(void);
-extern int change_hp(sbyte);
-extern int get_actor_edge(void);
-extern int get_actor_tile(void);
-extern int snap_actor_x(int);
-extern void move_actor_up(void);
-extern void start_sequence(int);
-extern void hit_actor(void);
-extern void reset_actor_fall(void);
+extern int decrement_life_points(sbyte);
+extern int get_edge_distance(void);
+extern int get_behind(void);
+extern int AddCharX(int);
+extern void reread_cells(void);
+extern void JumpSeq(int);
+extern void begin_actor_death(void);
+extern void reset_char_y(void);
 extern void set_actor_action(sbyte);
-extern void add_dart_mob(void);
-extern int get_actor_center(void);
-extern unsigned int random_word(unsigned int);
-extern void reset_actor_hp(void);
-extern void swim_sequence(void);
+extern void add_mob(void);
+extern int get_base_x(void);
+extern unsigned int Rnd(unsigned int);
+extern void ClearCharVel(void);
+extern void AnimChar(void);
 extern void load_room(sbyte);
-extern void redraw_object(sbyte, Rect *);
-extern int get_tile_bounds(Rect *, int *);
+extern void mark_move(sbyte, Rect *);
+extern int compute_trob_move_rect(Rect *, int *);
 extern sbyte get_adjacent_animation(void);
-extern void set_gate_sequence(int);
-extern sbyte row_to_cell(sbyte);
-extern void finish_gate(void);
+extern void add_gate_sound(int);
+extern sbyte FirstInRow(sbyte);
+extern void redraw_gate(void);
 extern void frame_water_effect(void);
 extern void initialize_cave_drawing(void);
 extern void configure_cave_view(int, int, ubyte, ubyte);
-extern void report_error(const char far *, int);
-extern void *cdecl malloc(uword);
-extern void cdecl free(void *);
+extern void show_message(const char far *, int);
+extern void *cdecl _nmalloc(uword);
+extern void cdecl _nfree(void *);
 extern void *cdecl memset(void *, int, uword);
 #pragma intrinsic(memset)
 
@@ -219,7 +219,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
     saved.low = state & 255;
     saved.high = state & 0xff00;
     pressed = reverse_plate_active();
-    saved.trob = find_trob(room, cell_index);
+    saved.trob = get_trob_room_cell(room, cell_index);
     if (saved.trob != 0) {
         if (saved.trob->action <= 1) {
             if (pressed)
@@ -228,7 +228,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
                 saved.previous_tile = tile_state;
                 saved.previous_number = current_tile_number;
                 saved.previous_cells = cell_states;
-                saved.flags = get_tile(actor_cell, actor_column, actor_row) == 34
+                saved.flags = ReadCell(actor_cell, actor_column, actor_row) == 34
                     ? tile_state.flags : 0;
                 cell_states = saved.previous_cells;
                 current_tile_number = saved.previous_number;
@@ -274,9 +274,9 @@ void animate_dart(void)
 void move_dart_to_tile(void)
 {
     if (dart.velocity_y != -1 && dart.velocity_y != -2) {
-        current_floor_kind = get_floor_kind(tile_at_pixel(dart.x / 32, dart.y));
+        current_floor_kind = IndexCell1(GetRow(dart.x / 32, dart.y));
         if (room_number == dart.room) {
-            set_exit_sound(1);
+            mark_mob_redraw(1);
             play_exit_sound(dart.y);
             dart.mode = 2;
         }
@@ -292,13 +292,13 @@ void check_dart_hit(void)
     if (!(actor_frame >= 108 && actor_frame <= 112 && actor_sequence == 79)) {
         index = 1;
         do {
-            dart_mob = find_projectile(2, index++);
+            dart_mob = get_mob_type_item(2, index++);
             if (dart_mob && dart_mob->top != -1) {
                 bounds.right = dart_mob->y + 14;
                 bounds.left = bounds.right - 4;
                 bounds.bottom = dart_mob->x;
                 bounds.top = dart_mob->x - 2;
-                if (intersect_rect(&hit, &bounds, &actor_state.bounds))
+                if (SECTRECT(&hit, &bounds, &actor_state.bounds))
                     goto hit_dart;
                 if (actor_state.bounds.left > bounds.left ||
                     actor_state.bounds.top - 2 > bounds.bottom ||
@@ -337,7 +337,7 @@ void move_dart_mob(void)
                 motion.x -= 320;
             } else {
                 if (!room_links[dart.room].link[0])
-                    queue_move_sound(82);
+                    AddSound(82);
                 dart.velocity_y = -2;
             }
         }
@@ -347,25 +347,25 @@ void move_dart_mob(void)
                 y += 192;
             } else {
                 if (!room_links[dart.room].link[1])
-                    queue_move_sound(82);
+                    AddSound(82);
                 dart.velocity_y = -2;
             }
         }
         if (dart.velocity_y != -2) {
             register int next_x = motion.x;
             if (63 * dart.row + 3 >= y) {
-                if (!blocks_dart(get_tile(dart.room, next_x / 32, --dart.row)))
+                if (!IS_SIX_KIND(ReadCell(dart.room, next_x / 32, --dart.row)))
                     dart.velocity_y = -2;
             } else {
                 *(volatile int *)&next_col = next_x / 32;
                 if (dart.x / 32 != next_col) {
-                    motion.tile[1] = get_tile(dart.room, next_col, dart.row);
-                    if (stops_dart(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_dart()))
+                    motion.tile[1] = ReadCell(dart.room, next_col, dart.row);
+                    if (IsWall(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_dart()))
                         dart.velocity_y = -2;
                 }
             }
             if (dart.velocity_y == -2)
-                queue_move_sound(82);
+                AddSound(82);
             dart.y = y;
             dart.x = next_x;
         }
@@ -378,34 +378,34 @@ void hit_actor_with_dart(void)
     int edge;
 
     if (actor_life < 0) {
-        if (!change_hp(1)) {
+        if (!decrement_life_points(1)) {
             actor_sequence_group = 8;
             if (actor_id == 0)
-                queue_move_sound(31);
+                AddSound(31);
             else
-                queue_move_sound(72);
+                AddSound(72);
         } else {
-            edge = get_actor_edge();
-            if (blocks_dart(get_actor_tile()) && edge >= 4) {
-                actor_x = snap_actor_x(edge - 40);
-                move_actor_up();
+            edge = get_edge_distance();
+            if (IS_SIX_KIND(get_behind()) && edge >= 4) {
+                actor_x = AddCharX(edge - 40);
+                reread_cells();
                 ++actor_row;
-                start_sequence(18);
+                JumpSeq(18);
             } else {
-                hit_actor();
-                reset_actor_fall();
+                begin_actor_death();
+                reset_char_y();
                 actor_fall = 0;
             }
         }
-        queue_move_sound(81);
+        AddSound(81);
         set_actor_action(0);
     }
 }
 
 void redraw_dart(void)
 {
-    if (should_redraw())
-        mark_redraw_area(&dart_redraw_type);
+    if (check_trob_visibility())
+        redraw_trob(&dart_redraw_type);
     else
         animation_code = 1;
 }
@@ -420,7 +420,7 @@ void trigger_dart(sbyte room, sbyte cell)
     saved = dart;
     if (!frame) {
         add_trob(room, cell, 1, 36);
-        queue_move_sound(80);
+        AddSound(80);
         dart.velocity_x = 18;
         dart.velocity_y = -11;
         x = cell_x_clipped[current_lava.cell % (sbyte)10] + 30;
@@ -437,7 +437,7 @@ void trigger_dart(sbyte room, sbyte cell)
             dart.y = floor_y[current_lava.cell / (sbyte)10] - 15;
             dart.mode = 2;
             dart.row = current_lava.cell / (sbyte)10;
-            add_dart_mob();
+            add_mob();
         }
     }
     dart = saved;
@@ -453,7 +453,7 @@ void animate_lava(void)
 
     i = animation_code & 7;
     pool = lava_slots[i];
-    if (should_redraw()) {
+    if (check_trob_visibility()) {
         frame = pool->prefix & 63;
         if (frame != 23 && !((pool->prefix & 128) && frame == 3)) {
             ++pool->prefix;
@@ -461,7 +461,7 @@ void animate_lava(void)
                 if (pool->prefix & 128) {
                     if (frame == 4) {
                         pool->prefix &= 127;
-                        queue_move_sound(97);
+                        AddSound(97);
                     }
                     frame -= 3;
                 }
@@ -498,7 +498,7 @@ void animate_lava(void)
         }
         redraw_lava();
     } else {
-        free(pool);
+        _nfree(pool);
         lava_slots[i] = 0;
     }
 }
@@ -509,9 +509,9 @@ void check_lava_boil(void)
 {
     uword kind;
     int y, center, reach;
-    kind = get_tile(actor_cell, actor_column, actor_row);
+    kind = ReadCell(actor_cell, actor_column, actor_row);
     y = (sbyte)63 * actor_row + 41;
-    center = get_actor_center();
+    center = get_base_x();
     reach = cell_x[actor_column] - center + 26;
     if ((kind == 23 || (kind == 24 && reach >= 0)) &&
         (current_row_flags & 64) && y < actor_y && actor_sequence_group != 5)
@@ -526,20 +526,20 @@ void do_lava_boil(void)
     pool = get_lava_info(actor_cell, actor_column, actor_row);
     if (pool) {
         pool->prefix = 0x80;
-        if (actor_id == 0 && random_word(3) == 0) {
-            start_sequence(116);
-            pool->prefix |= 64; queue_move_sound(99);
+        if (actor_id == 0 && Rnd(3) == 0) {
+            JumpSeq(116);
+            pool->prefix |= 64; AddSound(99);
         } else {
-            if (actor_id == 0) queue_move_sound(99);
-            else queue_move_sound(98);
-            start_sequence(115);
+            if (actor_id == 0) AddSound(99);
+            else AddSound(98);
+            JumpSeq(115);
         }
         actor_action = 0;
         actor_hit = 1;
         actor_sequence_group = 5;
-        reset_actor_hp();
-        change_hp(100);
-        swim_sequence();
+        ClearCharVel();
+        decrement_life_points(100);
+        AnimChar();
         trob = get_lava_trob(actor_cell, actor_column, actor_row);
         if (trob) {
             current_lava = *trob;
@@ -557,7 +557,7 @@ ubyte get_free_lava_slot(void)
         ++slot;
     } while (slot < 4);
     if (slot == 4) {
-        report_error(too_many_lava_pools, 1);
+        show_message(too_many_lava_pools, 1);
         --slot;
     }
     return slot;
@@ -584,11 +584,11 @@ LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
     ubyte kind;
     LavaTrob *trob;
 
-    kind = get_tile(room, col, row);
+    kind = ReadCell(room, col, row);
     cell = tile_state.cell;
     if (kind == 24)
         --cell;
-    trob = (LavaTrob *)find_trob(room, cell);
+    trob = (LavaTrob *)get_trob_room_cell(room, cell);
     load_room(room_number);
     return trob;
 }
@@ -600,7 +600,7 @@ void clear_lava_slots(void)
 
     for (i = 0; i < 4; ++i) {
         if (lava_slots[i]) {
-            free(lava_slots[i]);
+            _nfree(lava_slots[i]);
             lava_slots[i] = 0;
         }
     }
@@ -613,12 +613,12 @@ void redraw_lava(void)
 
     redraw.flags = lava_slots[animation_code]->prefix;
     lava_redraw_type = redraw.flags & 128 ? 16 : (redraw.flags & 64 ? 39 : 48);
-    if (get_tile_bounds((Rect *)redraw.bounds, &lava_redraw_type)) {
-        redraw_object(current_lava.cell, (Rect *)redraw.bounds);
-        redraw_object(get_adjacent_animation(), (Rect *)redraw.bounds);
+    if (compute_trob_move_rect((Rect *)redraw.bounds, &lava_redraw_type)) {
+        mark_move(current_lava.cell, (Rect *)redraw.bounds);
+        mark_move(get_adjacent_animation(), (Rect *)redraw.bounds);
         if (current_lava.cell % (sbyte)10 < 8) {
             ++current_lava.cell;
-            redraw_object(get_adjacent_animation(), (Rect *)redraw.bounds);
+            mark_move(get_adjacent_animation(), (Rect *)redraw.bounds);
             --current_lava.cell;
         }
     }
@@ -666,9 +666,9 @@ void reset_lava_info(struct list *pool, int type)
 void trigger_lava(sbyte room, sbyte cell)
 {
     ubyte slot;
-    if (!find_trob(room, cell)) {
+    if (!get_trob_room_cell(room, cell)) {
         slot = get_free_lava_slot();
-        lava_slots[slot] = malloc(sizeof(struct list));
+        lava_slots[slot] = _nmalloc(sizeof(struct list));
         reset_lava_info(lava_slots[slot], cell % (sbyte)3);
         add_trob(room, cell, slot, 23);
     }
@@ -703,7 +703,7 @@ int move_cave_gate(int sequence)
 {
     sbyte cell;
 
-    cell = row_to_cell(guard_row) + guard_cell;
+    cell = FirstInRow(guard_row) + guard_cell;
     if (guard_room != current_lava.room) {
         if (right_room == current_lava.room)
             cell += 10;
@@ -715,14 +715,14 @@ int move_cave_gate(int sequence)
     if (cell == current_lava.cell || current_lava.cell - cell + 1 == 0) {
         if (guard_sequence_group == 3) {
             sequence = 12;
-            set_gate_sequence(9);
+            add_gate_sound(9);
         } else if (guard_frame == 264) {
             sequence -= gate_offsets[animation_code] + 2;
         } else if (guard_frame == 265) {
             sequence = 36;
         } else if (guard_frame == 266) {
             animation_code = -1;
-            finish_gate();
+            redraw_gate();
         }
     }
     return sequence;
@@ -730,7 +730,7 @@ int move_cave_gate(int sequence)
 
 uword get_cave_torch_frame(uword previous)
 {
-    uword frame = random_word(8);
+    uword frame = Rnd(8);
     if (frame == previous) {
         ++frame;
         if (frame >= 9)

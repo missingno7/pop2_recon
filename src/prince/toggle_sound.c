@@ -2,21 +2,21 @@ extern char one_second_left[], seconds_left[], minutes_left[], time_expired[];
 extern char joystick_unavailable_message[], joystick_mode_message[], joystick_missing_message[];
 
 extern signed char sound_volume;
-extern void far pascal set_sound_volume(signed char level);
-extern void far pascal set_options_from_disk(void);
+extern void far pascal SET_SOUND_LEVEL(signed char level);
+extern void far pascal SaveOptionsToDisk(void);
 
 int far pascal toggle_sound(void)
 {
     int enabled;
 
     if (sound_volume == 0) {
-        set_sound_volume(15);
+        SET_SOUND_LEVEL(15);
         enabled = 1;
     } else {
-        set_sound_volume(0);
+        SET_SOUND_LEVEL(0);
         enabled = 0;
     }
-    set_options_from_disk();
+    SaveOptionsToDisk();
     return enabled;
 }
 
@@ -163,7 +163,7 @@ extern signed char timer_disabled, kid_life;
 extern int minutes_remaining, countdown_pending;
 extern unsigned int ticks_remaining;
 extern int message_ticks, message_duration, deferred_room, room_number;
-extern void far pascal DrawMessage(const char *message);
+extern void far pascal draw_message(const char *message);
 extern int far cdecl sprintf(char *buffer, const char *format, ...);
 extern char *cdecl strcpy(char *destination, const char *source);
 #pragma intrinsic(strcpy)
@@ -203,9 +203,9 @@ void far pascal KeepTime(void)
             } else {
                 sprintf(text, minutes_left, minutes_remaining);
             }
-            DrawMessage(text);
+            draw_message(text);
         } else {
-            DrawMessage(time_expired);
+            draw_message(time_expired);
         }
         message_ticks = message_duration = 24;
         countdown_pending = 0;
@@ -224,7 +224,7 @@ extern void far pascal change_room_sound(signed char character, int id, int flag
 extern void far pascal load_room_effects(unsigned char room);
 extern void far pascal reset_room_characters(void);
 extern signed char far pascal set_room_opponents(signed char mode);
-extern void far pascal CtrlPlayer(void);
+extern void far pascal copy_kid_to_char(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
 
@@ -245,7 +245,7 @@ int far pascal PrepCut(int keep_screen)
             refresh_room_screen();
         LoadCustomRoomData(current_room);
         room_transition_active = 1;
-        CtrlPlayer();
+        copy_kid_to_char();
         add_room_trobs();
         memset(room_controls, 0, sizeof(room_controls));
         load_room_effects(current_room);
@@ -258,8 +258,8 @@ int far pascal PrepCut(int keep_screen)
     return -2;
 }
 
-extern void far pascal CtrlPlayer(void);
-extern void far pascal select_character(char index);
+extern void far pascal copy_kid_to_char(void);
+extern void far pascal load_actor_slot(char index);
 extern void far pascal DrawKidMeter(int previous, int current);
 extern void far pascal DrawOppMeter(char room, int previous, int current);
 extern int video_ticks;
@@ -299,7 +299,7 @@ char far pascal UPDATE_STEP_DELTA(void)
 
 void far pascal CheckMeters(void)
 {
-    CtrlPlayer();
+    copy_kid_to_char();
     if (STATE_DELTA)
         DrawKidMeter((signed char)STATE_BASE, (signed char)STATE_BYTE);
     if (STATE_BASE == 1) {
@@ -310,7 +310,7 @@ void far pascal CheckMeters(void)
     }
     Kid = Char;
     if (opponent_index != -1) {
-        select_character(opponent_index);
+        load_actor_slot(opponent_index);
         if (STATE_DELTA && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2))
             DrawOppMeter(Char.room, (signed char)STATE_BASE, (signed char)STATE_BYTE);
         if (STATE_BASE == 1 && !((Char.kind == 7 || Char.kind == 8) && Char.sequence == 2)) {

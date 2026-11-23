@@ -188,7 +188,7 @@ extern struct frame_info far default_frames[];
 extern volatile unsigned char character_kind;
 extern unsigned int frame_number;
 extern unsigned int frame_resource;
-extern void far *far pascal lock_frame_resource(unsigned int handle);
+extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 
 extern unsigned char base_cell;
 int far pascal get_base_x(void);
@@ -212,7 +212,7 @@ void far pascal reread_base_cell(void)
 void far pascal get_frame_info(void)
 {
     unsigned int adjust = 0;
-    struct frame_info far *frames = lock_frame_resource(frame_resource);
+    struct frame_info far *frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame_resource);
 
     switch ((signed char)character_kind) {
     case 0:
@@ -306,18 +306,18 @@ void far pascal SetKidDeathMethod(unsigned char method);
 void far pascal PotionEffect(void);
 void far pascal remove_char(void);
 
-extern unsigned int far pascal resource_status(SequenceHandle handle);
-extern void far pascal retain_resource(SequenceHandle handle);
-extern void far pascal restore_resource(SequenceHandle handle, unsigned int status);
-extern unsigned int far pascal find_resource(unsigned long type, unsigned int id);
-extern void far pascal play_sequence_music(int cue);
-extern void far pascal stop_sequence_music(void);
-extern int far pascal test_animation_condition(int condition);
-extern void far pascal animation_event(int event);
+extern unsigned int far pascal SAVE_HANDLE_FLAGS(SequenceHandle handle);
+extern void far pascal FETCH_LOCKED_SHAPE_LIST(SequenceHandle handle);
+extern void far pascal RESTORE_HANDLE_FLAGS(SequenceHandle handle, unsigned int status);
+extern unsigned int far pascal HGETRSRC(unsigned long type, unsigned int id);
+extern void far pascal fill_palette_with_color(int cue);
+extern void far pascal restore_game_play_palette(void);
+extern int far pascal Rnd(int condition);
+extern void far pascal JumpSeq(int event);
 extern void far pascal TriggerJinnee(void);
-extern void far pascal play_special_step(int sound);
-extern void far pascal play_step(int sound);
-extern int far pascal should_shift_step(unsigned char room);
+extern void far pascal AddSong(int sound);
+extern void far pascal AddSound(int sound);
+extern int far pascal IsExitChasingSkel(unsigned char room);
 
 /* The animation dispatcher and tap are placement drafts. */
 void far pascal AnimChar(void)
@@ -332,17 +332,17 @@ void far pascal AnimChar(void)
     if (!sequence)
         return;
 
-    status = resource_status(sequence);
-    retain_resource(sequence);
+    status = SAVE_HANDLE_FLAGS(sequence);
+    FETCH_LOCKED_SHAPE_LIST(sequence);
 
     do {
         opcode = GetSeqOp(sequence);
         switch (opcode) {
         case -24:
             if (GetSeqOp(sequence))
-                play_sequence_music(GetSeqOp(sequence));
+                fill_palette_with_color(GetSeqOp(sequence));
             else
-                stop_sequence_music();
+                restore_game_play_palette();
             break;
         case -23:
             animation_position = previous_position - 1 >= 0 ? previous_position - 1 : 0;
@@ -351,10 +351,10 @@ void far pascal AnimChar(void)
             opcode = GetSeqOp(sequence);
             first = GetSeqOp(sequence);
             second = GetSeqOp(sequence);
-            if (test_animation_condition(opcode))
-                animation_event(first);
+            if (Rnd(opcode))
+                JumpSeq(first);
             else
-                animation_event(second);
+                JumpSeq(second);
             break;
         case -21:
             animation_contact = GetSeqOp(sequence);
@@ -382,10 +382,10 @@ void far pascal AnimChar(void)
             if (opcode == 1 || (opcode == 2 && animation_portion == 6)) {
                 PotionEffect();
                 if (!animation_position) {
-                    restore_resource(sequence, status);
+                    RESTORE_HANDLE_FLAGS(sequence, status);
                     sequence = (SequenceHandle)find_char_sequence(animation_sequence);
-                    status = resource_status(sequence);
-                    retain_resource(sequence);
+                    status = SAVE_HANDLE_FLAGS(sequence);
+                    FETCH_LOCKED_SHAPE_LIST(sequence);
                     break;
                 }
             } else if (opcode == 3) {
@@ -446,12 +446,12 @@ void far pascal AnimChar(void)
                 opcode = 86;
             animation_sequence = opcode;
             animation_position = 0;
-            restore_resource(sequence, status);
+            RESTORE_HANDLE_FLAGS(sequence, status);
             sequence = (SequenceHandle)find_char_sequence(opcode);
             if (!sequence)
                 break;
-            status = resource_status(sequence);
-            retain_resource(sequence);
+            status = SAVE_HANDLE_FLAGS(sequence);
+            FETCH_LOCKED_SHAPE_LIST(sequence);
             break;
         default:
             frame_number = opcode;
@@ -460,7 +460,7 @@ void far pascal AnimChar(void)
         }
     } while (reading);
 
-    restore_resource(sequence, status);
+    RESTORE_HANDLE_FLAGS(sequence, status);
 }
 
 int far _fastcall GetSeqOp(SequenceHandle sequence)
@@ -469,7 +469,7 @@ int far _fastcall GetSeqOp(SequenceHandle sequence)
     int far *entries;
 
     if (sequence) {
-        entries = lock_frame_resource((unsigned int)sequence);
+        entries = RESOLVE_HANDLE_TO_FAR_PAYLOAD((unsigned int)sequence);
         opcode = entries[animation_position]; ++animation_position;
     }
     return opcode;
@@ -477,7 +477,7 @@ int far _fastcall GetSeqOp(SequenceHandle sequence)
 
 unsigned int far _fastcall find_char_sequence(unsigned int id)
 {
-    return find_resource(0x53455153UL, id);
+    return HGETRSRC(0x53455153UL, id);
 }
 
 void far pascal anim_char_tap(int sound)
@@ -486,8 +486,8 @@ void far pascal anim_char_tap(int sound)
     case 1:
         ++sound_steps;
         if (STATE_MODE != 1 && !(animation_tick & 3)) {
-            play_step(sound_steps % 2 + 23);
-            if (character_kind == 4 && should_shift_step(character_room))
+            AddSound(sound_steps % 2 + 23);
+            if (character_kind == 4 && IsExitChasingSkel(character_room))
                 char_x = AddCharX(Char.bytes[0] - 1);
         }
         /* Fall through. */
@@ -498,9 +498,9 @@ void far pascal anim_char_tap(int sound)
     default:
         if (sound <= 273) {
             if (sound == 271)
-                play_special_step(sound);
+                AddSong(sound);
             else
-                play_step(sound);
+                AddSound(sound);
         }
         break;
     }
@@ -686,16 +686,16 @@ extern unsigned int grab_delay;
 extern unsigned int ledge_hold;
 extern char fall_check_before[], fall_check_after[];
 extern int far pascal check_fall_state(char far *name);
-extern int far pascal tile_blocks_movement(char kind);
-extern int far pascal tile_has_floor(char kind);
+extern int far pascal IsWall(char kind);
+extern int far pascal IS_SIX_KIND(char kind);
 extern int far pascal tile_is_ledge(char kind);
-extern int far pascal cave_floor_blocks_fall(void);
+extern int far pascal RoofClimbingIntoShip(void);
 extern void far pascal prepare_palace_fall(void);
 extern int far pascal palace_grab_test(void);
-extern int far pascal chain_floor_blocks_fall(int index);
+extern int far pascal probe_chain_floor(int index);
 extern unsigned char far pascal turn_hidden_actor(unsigned char direction);
-extern int far pascal sequence_available(int mask);
-extern void far pascal on_undefined_room_death(void);
+extern int far pascal query_sound(int mask);
+extern void far pascal CutToKidRoom(void);
 
 void far pascal start_fall(void);
 char far pascal inside_cell(void);
@@ -716,16 +716,16 @@ void far pascal on_ground(void)
 
     if ((frame_flags & 0x40) && character_kind != 10) {
         kind = get_under_foot();
-        if (tile_blocks_movement(kind)) {
+        if (IsWall(kind)) {
             if (kind != 7 || ((frame_number < 246 || frame_number > 261) &&
                              character_kind != 11))
                 kind = inside_cell();
         }
-        if (tile_has_floor(kind) ||
+        if (IS_SIX_KIND(kind) ||
             (kind == 30 && ((unsigned char)cell_modifier & 15) < 2)) {
-            if (STATE_MODE == 5 && cave_floor_blocks_fall())
+            if (STATE_MODE == 5 && RoofClimbingIntoShip())
                 return;
-            if (STATE_MODE == 2 && chain_floor_blocks_fall(16))
+            if (STATE_MODE == 2 && probe_chain_floor(16))
                 return;
             if (character_kind == 11)
                 char_x = AddCharX(get_edge_distance() - 42);
@@ -802,16 +802,16 @@ void far pascal start_fall(void)
     }
 
     if (!check_fall_state((char far *)fall_check_before) && adjust_clearance) {
-        if (tile_blocks_movement(get_cells_ahead(1)) ||
-            tile_blocks_movement(get_behind()) ||
-            !tile_has_floor(get_above()) || !tile_has_floor(get_above_front()) ||
-            !tile_has_floor(get_above_behind())) {
+        if (IsWall(get_cells_ahead(1)) ||
+            IsWall(get_behind()) ||
+            !IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front()) ||
+            !IS_SIX_KIND(get_above_behind())) {
             distance = get_edge_distance();
             if (distance <= 7)
                 char_x = AddCharX(distance - 11);
             else if (distance >= 25)
                 char_x = AddCharX(distance - 21);
-            if (!tile_has_floor(get_above()) || !tile_has_floor(get_above_front())) {
+            if (!IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front())) {
                 min_y = (signed char)63 * character_row + 1;
                 if (min_y > character_y)
                     character_y = min_y;
@@ -826,21 +826,21 @@ void far pascal start_fall(void)
     } else if (character_kind == 0 && restricted_step && animation_repeat != 228) {
         sequence = 228;
     }
-    animation_event(sequence);
+    JumpSeq(sequence);
     AnimChar();
     reread_cells();
 
     if (check_fall_state((char far *)fall_check_after) && adjust_clearance) {
-        if (tile_blocks_movement(get_cells_ahead(1)) ||
-            tile_blocks_movement(get_behind()) ||
-            !tile_has_floor(get_above()) || !tile_has_floor(get_above_front()) ||
-            !tile_has_floor(get_above_behind())) {
+        if (IsWall(get_cells_ahead(1)) ||
+            IsWall(get_behind()) ||
+            !IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front()) ||
+            !IS_SIX_KIND(get_above_behind())) {
             distance = get_edge_distance();
             if (distance <= 7)
                 char_x = AddCharX(distance - 11);
             else if (distance >= 25)
                 char_x = AddCharX(distance - 21);
-            if (!tile_has_floor(get_above()) || !tile_has_floor(get_above_front())) {
+            if (!IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front())) {
                 min_y = (signed char)63 * character_row + 1;
                 if (min_y > character_y)
                     character_y = min_y;
@@ -848,11 +848,11 @@ void far pascal start_fall(void)
         }
     }
 
-    if (tile_blocks_movement(get_under_foot())) {
+    if (IsWall(get_under_foot())) {
         inside_cell();
-    } else if (tile_blocks_movement(get_cells_ahead(1))) {
+    } else if (IsWall(get_cells_ahead(1))) {
         if (old_frame == 44 && get_edge_distance() < 14) {
-            animation_event(114);
+            JumpSeq(114);
             AnimChar();
         } else {
             char_x = AddCharX(-2);
@@ -868,7 +868,7 @@ void far pascal FallingInUndefinedRoom(void)
     if (STATE_MODE == 5) {
         if (character_y > 384) {
             if (STATE_KIND != 19 && STATE_KIND != 16) {
-                play_step(0);
+                AddSound(0);
                 decrement_life_points(100);
                 frame_number = 185;
                 SetKidDeathMethod(3);
@@ -879,8 +879,8 @@ void far pascal FallingInUndefinedRoom(void)
             if (character_kind && hidden_facing == (unsigned char)Char.bytes[0])
                 hidden_facing = turn_hidden_actor(char_direction);
         } else if (character_kind == 2 && frame_number != 185 &&
-                   !sequence_available(0x2729)) {
-            play_step(25);
+                   !query_sound(0x2729)) {
+            AddSound(25);
         }
     } else if (character_y > 384) {
         decrement_life_points(100);
@@ -891,7 +891,7 @@ void far pascal FallingInUndefinedRoom(void)
         if (character_kind == 0)
             state_code = 1;
         else if (character_kind == 1)
-            on_undefined_room_death();
+            CutToKidRoom();
     }
 }
 
@@ -926,9 +926,9 @@ void far pascal FallOn(void)
         char_x = AddCharX(position);
         reset_char_y();
         vertical_step = 0;
-        animation_event(15);
+        JumpSeq(15);
         AnimChar();
-        play_step(11);
+        AddSound(11);
         grab_delay = 12;
         ledge_hold = 0;
     }
@@ -955,7 +955,7 @@ char far pascal inside_cell(void)
         !(character_room == 3 && STATE_MODE == 6 && (signed char)base_cell < 0)) {
         distance = get_edge_distance();
         ahead = get_cells_ahead(1);
-        if (distance < 11 && !tile_blocks_movement(ahead))
+        if (distance < 11 && !IsWall(ahead))
             distance += 11;
         else
             distance = 15 - distance;
@@ -1055,14 +1055,14 @@ extern void far pascal ClrJoystick(void);
 extern void far pascal UserCtrl(void);
 extern void far pascal FaceJoystick(void);
 extern void far pascal InvertJoystick(void);
-extern void far pascal reset_actor_state(int actor);
-extern void far pascal update_player_room(void);
-extern void far pascal play_death_method(unsigned char method);
-extern void far pascal resolve_player_death(void);
-extern void far pascal refresh_death_timer(void);
+extern void far pascal dispatch_sound(int actor);
+extern void far pascal finish_start_kid(void);
+extern void far pascal AddKidDeathSong(unsigned char method);
+extern void far pascal lose_game(void);
+extern void far pascal draw_restart_message(void);
 extern int far pascal is_dead_pos(unsigned int frame);
 extern void far pascal read_user_input(void);
-extern int far pascal check_recording_end(void);
+extern int far pascal CheckForEndOfRecording(void);
 extern void far pascal play_shadow_death(void);
 extern void far pascal update_shadow_control(void);
 extern void far pascal handle_replay_input(void);
@@ -1084,19 +1084,19 @@ int far pascal ctrl_player(void)
         goto done;
 
     if (prefer_kid_state) {
-        reset_actor_state(0);
+        dispatch_sound(0);
         Kid.bytes[20] = Kid.bytes[19];
         copy_kid_to_char();
-        animation_event(2);
+        JumpSeq(2);
         char_x += 16;
         AnimChar();
         reread_cells();
-        update_player_room();
+        finish_start_kid();
     }
 
     if (character_kind != 0 && character_kind != 1)
         goto done;
-    if (sequence_available(death_sequence_primary + 10000) &&
+    if (query_sound(death_sequence_primary + 10000) &&
         death_sequence_primary != 4 && death_sequence_primary != 7 &&
         death_sequence_primary != 54)
         goto done;
@@ -1105,19 +1105,19 @@ int far pascal ctrl_player(void)
     if (fall_latch >= 0 && fall_latch < 6)
         goto advance;
     if (fall_latch == 6) {
-        play_death_method(STATE_ARGUMENT);
+        AddKidDeathSong(STATE_ARGUMENT);
         goto advance;
     }
-    if (fall_latch != 7 || sequence_available(death_sequence_primary + 10000))
+    if (fall_latch != 7 || query_sound(death_sequence_primary + 10000))
         goto done;
-    if (sequence_available(death_sequence_alternate + 10000))
+    if (query_sound(death_sequence_alternate + 10000))
         goto done;
     if (!delayed_death) {
-        resolve_player_death();
+        lose_game();
         result = -1;
     } else if (death_timer_limit != 600) {
         death_timer = death_timer_limit = 600;
-        refresh_death_timer();
+        draw_restart_message();
     }
 advance:
     ++fall_latch;
@@ -1138,7 +1138,7 @@ int far pascal PlayerCtrl(void)
         state_byte_5e31 = state_byte_5e30 = 0;
     ClrJoystick();
     UserCtrl();
-    result = check_recording_end();
+    result = CheckForEndOfRecording();
     SaveSelect();
     return result;
 }
@@ -1278,15 +1278,15 @@ void far pascal ClrJoystick(void)
         grab_enabled = 0;
 }
 
-extern int far pascal ledge_material(char kind);
+extern int far pascal is_open_tile(char kind);
 
 int far pascal check_ledge(char above, char ahead, unsigned int above_modifier,
                            unsigned int ahead_modifier)
 {
     int result;
-    if (!tile_has_floor(above) || (STATE_MODE == 2 && (above_modifier & 0x80)) ||
+    if (!IS_SIX_KIND(above) || (STATE_MODE == 2 && (above_modifier & 0x80)) ||
         ((ahead == 11 || ahead == 15) && (ahead_modifier & 15)) ||
-        !ledge_material(ahead) ||
+        !is_open_tile(ahead) ||
         (ahead == 4 && !(ahead_modifier & 255) && char_direction == 255) ||
         (STATE_MODE == 5 && character_room == 15 && character_row != 0))
         result = 0;
@@ -1326,7 +1326,7 @@ int far pascal FaceDx(int value)
 extern int special_object_flag;
 extern unsigned char object_removed[];
 extern struct object_modifier { unsigned int flags, reserved; } object_modifiers[];
-extern void far pascal redraw_removed_object(void);
+extern void far pascal mark_cell_redraw(void);
 void far pascal RemoveObj(int portion)
 {
     unsigned int modifier;
@@ -1344,7 +1344,7 @@ void far pascal RemoveObj(int portion)
     index = (unsigned char)30 * cell_room + cell_index;
     object_removed[index] = 1;
     object_modifiers[index].flags = modifier;
-    redraw_removed_object();
+    mark_cell_redraw();
 }
 
 extern Rect default_clip_rect;
@@ -1393,7 +1393,7 @@ void far pascal ClipChar(void)
 
     flying = character_kind == 7 || character_kind == 8;
     tile = ReadCell(character_room, above_col, above_row);
-    if (tile_has_floor(tile))
+    if (IS_SIX_KIND(tile))
         goto solid;
     if (STATE_MODE == 3 && tile == 20 && clip_desert_floor(cell_modifier))
         goto solid;
@@ -1404,7 +1404,7 @@ void far pascal ClipChar(void)
     if (action == 0 && (frame == 79 || frame == 81))
         goto adjust;
     tile = ReadCell(character_room, front_col, above_row);
-    if (tile_has_floor(tile) || (tile == 20 && STATE_MODE == 3 && clip_desert_floor(cell_modifier))) {
+    if (IS_SIX_KIND(tile) || (tile == 20 && STATE_MODE == 3 && clip_desert_floor(cell_modifier))) {
     solid:
         clearance = 0;
     }
@@ -1435,12 +1435,12 @@ adjust:
 extern int sprite_id;
 extern unsigned char sprite_table_index;
 extern unsigned int sprite_tables[];
-extern void far *far pascal sprite_dimensions(unsigned int table, int id, int far *size);
+extern void far *far pascal get_set_image_size(unsigned int table, int id, int far *size);
 
 void far pascal MakeFCharClipRect(void)
 {
     int size[2];
-    if (sprite_id != -1 && sprite_dimensions(sprite_tables[sprite_table_index], sprite_id, size)) {
+    if (sprite_id != -1 && get_set_image_size(sprite_tables[sprite_table_index], sprite_id, size)) {
         fchar_rect.top = sprite_y - size[0];
         fchar_rect.bottom = sprite_y + 1;
         if (!signflag) {
@@ -1482,10 +1482,10 @@ void far pascal IndexChar(void)
 
 
 extern unsigned char potion_flash;
-extern void far pascal apply_life_potion(void);
-extern void far pascal apply_motion_potion(void);
-extern void far pascal apply_environment_potion(void);
-extern void far pascal on_remove_shadow(void);
+extern void far pascal BoostMeter(void);
+extern void far pascal GoWeightless(void);
+extern void far pascal ToggleInvertState(void);
+extern void far pascal transfer_jaffar_to_escher2(void);
 void far pascal VanishChar(void);
 
 void far pascal PotionEffect(void)
@@ -1499,30 +1499,30 @@ void far pascal PotionEffect(void)
         case 0:
             if (Char.bytes[19] != Char.bytes[18])
                 life_delta = 1;
-            play_special_step(101);
+            AddSong(101);
             break;
         case 1:
-            apply_life_potion();
-            play_special_step(101);
+            BoostMeter();
+            AddSong(101);
             break;
         case 2:
-            apply_motion_potion();
+            GoWeightless();
             break;
         case 3:
-            apply_environment_potion();
+            ToggleInvertState();
             break;
         case 4:
             if (invert_input) {
-                apply_environment_potion();
+                ToggleInvertState();
                 break;
             }
             if (decrement_life_points(1))
-                animation_event(71);
-            play_step(14);
+                JumpSeq(71);
+            AddSound(14);
             break;
         case 5:
-            play_step(14);
-            animation_event(111);
+            AddSound(14);
+            JumpSeq(111);
             break;
         }
     }
@@ -1599,7 +1599,7 @@ void far pascal remove_char(void)
 {
     if (character_room == 6 && STATE_MODE == 6 &&
         animation_repeat == 240 && Kid.bytes[17] < 0)
-        on_remove_shadow();
+        transfer_jaffar_to_escher2();
     VanishChar();
     character_room = 0;
 }
@@ -1620,18 +1620,18 @@ void far pascal VanishChar(void)
 void SaveFChar(void) { saved_fchar = FChar; }
 void RestoreFChar(void) { FChar = saved_fchar; }
 
-extern int far pascal guard_cell_passable(char cell, unsigned int modifier);
-extern void far pascal guard_adjustment(void);
+extern int far pascal can_continue_run_jump(char cell, unsigned int modifier);
+extern void far pascal engage_weapon(void);
 void far pascal guard_ctrl(void)
 {
     if (frame_number == 166 && (signed char)Dir.bytes[3] < 0) {
         if ((signed char)Dir.bytes[0] < 0) {
-            if (!guard_cell_passable(get_behind(), cell_modifier))
+            if (!can_continue_run_jump(get_behind(), cell_modifier))
                 char_x = AddCharX(5);
-            guard_adjustment();
+            engage_weapon();
         } else {
             Dir.bytes[3] = 1;
-            animation_event(80);
+            JumpSeq(80);
         }
     }
 }
@@ -1666,8 +1666,8 @@ static struct slot_error_messages {
     "Error in SaveShad(). Quit?",
     "Error in LoadShad(). Quit?"
 };
-extern int far pascal report_slot_error(char far *message);
-extern void far pascal stop_on_slot_error(int code, int first, int second);
+extern int far pascal confirm_quit(char far *message);
+extern void far pascal abort_with_message(int code, int first, int second);
 
 void far pascal save_actor_slot(void)
 {
@@ -1675,16 +1675,16 @@ void far pascal save_actor_slot(void)
         actor_slots[Char.bytes[0]] = Char;
         return;
     }
-    if (report_slot_error((char far *)slot_errors.save))
-        stop_on_slot_error(1, 0, 0);
+    if (confirm_quit((char far *)slot_errors.save))
+        abort_with_message(1, 0, 0);
 }
 
 void far pascal load_actor_slot(signed char slot)
 {
     if (slot >= 0 && slot < 5)
         Char = actor_slots[slot];
-    else if (report_slot_error((char far *)slot_errors.load))
-        stop_on_slot_error(1, 0, 0);
+    else if (confirm_quit((char far *)slot_errors.load))
+        abort_with_message(1, 0, 0);
 }
 
 void copy_kid_to_char(void)

@@ -1,7 +1,7 @@
 .MODEL MEDIUM
 .CODE
-EXTRN _MALLOC:FAR
-EXTRN _FREE:FAR
+EXTRN __nmalloc:FAR
+EXTRN __nfree:FAR
 PUBLIC UNPACKLZH, UNPACKLZV
 
 ring_base EQU WORD PTR [bp-2]
@@ -19,7 +19,7 @@ UNPACKLZH PROC FAR
     mov si, WORD PTR [bp+8]
     mov ax, 400h
     push ax
-    call _MALLOC
+    call __nmalloc
     add sp, 2
     test ax, ax
     jne h_init
@@ -72,7 +72,7 @@ h_finished:
     push ss
     pop ds
     push ring_base
-    call _FREE
+    call __nfree
     add sp, 2
     les ax, DWORD PTR [bp+12]
     mov dx, es
@@ -130,7 +130,7 @@ UNPACKLZV PROC FAR
     mov si, WORD PTR [bp+12]
     mov ax, 400h
     push ax
-    call _MALLOC
+    call __nmalloc
     add sp, 2
     test ax, ax
     jne v_init
@@ -192,7 +192,7 @@ v_finished:
     push ss
     pop ds
     push ring_base
-    call _FREE
+    call __nfree
     add sp, 2
     les ax, DWORD PTR [bp+16]
     mov dx, es

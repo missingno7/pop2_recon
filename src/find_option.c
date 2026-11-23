@@ -25,7 +25,7 @@ extern void *far cdecl near_calloc(unsigned count, unsigned size);
 extern unsigned far cdecl dos_read(int handle, void far *buffer, unsigned size,
                                    unsigned *bytes_read);
 extern unsigned far cdecl dos_close(int handle);
-extern void far cdecl near_free(void *allocation);
+extern void far cdecl _nfree(void *allocation);
 
 SoundSettings *far pascal load_sound_settings(const char *path)
 {
@@ -56,7 +56,7 @@ SoundSettings *far pascal load_sound_settings(const char *path)
 
     if (failed) {
         if (result)
-            near_free(result);
+            _nfree(result);
         return 0;
     }
     return sound_settings = result;

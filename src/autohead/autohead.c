@@ -69,40 +69,40 @@ static const int flee_length[12] = {
 extern int cell_x[];
 extern signed char move_with_facing[], move_against_facing[];
 
-extern signed char far pascal read_tile(unsigned char room, signed char column, signed char row);
-extern int far pascal tile_blocks_head(signed char tile);
-extern int far pascal tile_allows_vertical(signed char tile);
+extern signed char far pascal ReadCell(unsigned char room, signed char column, signed char row);
+extern int far pascal IsWall(signed char tile);
+extern int far pascal IS_SIX_KIND(signed char tile);
 extern int far pascal GetBarrCode(unsigned char tile);
 extern int far pascal head_has_target(void);
 extern int far pascal gate_blocks_head(void);
-extern int far pascal bounded_random(int maximum);
+extern int far pascal Rnd(int maximum);
 extern void far pascal reset_char_y(void);
-extern void far pascal clear_char_velocity(void);
-extern void far pascal play_sound(int sound);
-extern void far pascal play_loop_sound(int sound);
-extern int far pascal sound_is_playing(int sound);
-extern int far pascal lose_life(signed char amount);
-extern int far pascal offset_char_x(int amount);
-extern void far pascal select_animation_sequence(int sequence);
-extern int far pascal target_wall_gap(unsigned char room, unsigned char column, unsigned char row);
-extern signed char far pascal actor_x_to_column(void);
-extern signed char far pascal random_open_column(int room);
-extern int far pascal get_move_room(void);
-extern int far pascal target_distance(void);
-extern void far pascal clear_actor_motion(void);
+extern void far pascal ClearCharVel(void);
+extern void far pascal AddSound(int sound);
+extern void far pascal AddSong(int sound);
+extern int far pascal query_sound(int sound);
+extern int far pascal decrement_life_points(signed char amount);
+extern int far pascal AddCharX(int amount);
+extern void far pascal JumpSeq(int sequence);
+extern int far pascal barrier_distance_from_face(unsigned char room, unsigned char column, unsigned char row);
+extern signed char far pascal GetCellCol(void);
+extern signed char far pascal get_char_col(int room);
+extern int far pascal get_base_x(void);
+extern int far pascal get_opp_dist(void);
+extern void far pascal save_actor_slot(void);
 extern void far pascal set_actor_speed(signed char id, int x, int y);
-extern void far pascal refresh_actor_movement(signed char id);
-extern OpponentRecord near *far pascal get_opponent_info(int room, int id);
 extern void far pascal load_actor_slot(signed char id);
-extern void far pascal store_actor_slot(void);
-extern void far pascal advance_actor_frame(void);
-extern void far pascal update_actor_sprite(void);
+extern OpponentRecord near *far pascal get_opponent_info(int room, int id);
+extern void far pascal load_shadow_with_opponent(signed char id);
+extern void far pascal save_shadow_with_opponent(void);
+extern void far pascal get_frame_info(void);
+extern void far pascal get_char_edges(void);
 extern signed char far pascal get_cells_ahead(signed char direction);
-extern int far pascal tile_blocks_snake(signed char tile);
-extern signed char far pascal last_clear_column(unsigned char room, signed char column,
+extern int far pascal is_open_tile(signed char tile);
+extern signed char far pascal find_wall_column(unsigned char room, signed char column,
                                                 signed char row, signed char direction);
-extern signed char far pascal tile_under_actor(void);
-extern int far pascal distance_into_cell(void);
+extern signed char far pascal get_under_foot(void);
+extern int far pascal get_edge_distance(void);
 
 int far pascal head_clear_in_dir(int direction);
 int far pascal head_go_to_dest(HeadPlan near *plan);
@@ -201,7 +201,7 @@ int far pascal head_visibility(void)
             column += step_column;
             if ((step_column > 0 && column % 2 == 0) ||
                 (step_column < 0 && column % 2 != 0))
-                clear = !tile_blocks_head(read_tile(actor_room, column / 2, row / 2));
+                clear = !IsWall(ReadCell(actor_room, column / 2, row / 2));
             if (clear) {
                 if (error < 0)
                     error += end_column;
@@ -209,9 +209,9 @@ int far pascal head_visibility(void)
                     if ((step_row > 0 && row % 2 != 0) ||
                         (step_row < 0 && row % 2 == 0)) {
                         if (step_row < 0)
-                            clear = tile_allows_vertical(read_tile(actor_room, column / 2, (row - 1) / 2));
+                            clear = IS_SIX_KIND(ReadCell(actor_room, column / 2, (row - 1) / 2));
                         else
-                            clear = tile_allows_vertical(read_tile(actor_room, column / 2, row / 2));
+                            clear = IS_SIX_KIND(ReadCell(actor_room, column / 2, row / 2));
                     }
                     row += step_row;
                     error += diagonal;
@@ -226,9 +226,9 @@ int far pascal head_visibility(void)
             if ((step_row > 0 && row % 2 != 0) ||
                 (step_row < 0 && row % 2 == 0)) {
                 if (step_row < 0)
-                    clear = tile_allows_vertical(read_tile(actor_room, column / 2, (row - 1) / 2));
+                    clear = IS_SIX_KIND(ReadCell(actor_room, column / 2, (row - 1) / 2));
                 else
-                    clear = tile_allows_vertical(read_tile(actor_room, column / 2, row / 2));
+                    clear = IS_SIX_KIND(ReadCell(actor_room, column / 2, row / 2));
             }
             if (clear) {
                 row += step_row;
@@ -238,7 +238,7 @@ int far pascal head_visibility(void)
                     column += step_column;
                     if ((step_column > 0 && column % 2 == 0) ||
                         (step_column < 0 && column % 2 != 0))
-                        clear = !tile_blocks_head(read_tile(actor_room, column / 2, row / 2));
+                        clear = !IsWall(ReadCell(actor_room, column / 2, row / 2));
                     error += diagonal;
                 }
             }
@@ -268,7 +268,7 @@ int far pascal chomp_again(HeadPlan near *plan)
     else if (last_chomp[room_skill] <= (column = plan->column))
         result = 0;
     else
-        result = bounded_random(1);
+        result = Rnd(1);
     return result;
 }
 
@@ -291,7 +291,7 @@ HeadSprite near *far pascal head_add_opponent(HeadSprite near *sprite)
                 actor_timer = 6;
             }
             head_active = 1;
-            play_sound(71);
+            AddSound(71);
         } else
             head_active = 0;
     } else {
@@ -333,18 +333,18 @@ void far pascal head_attack_prog(HeadPlan near *plan)
             vertical_sequence = actor_x < target_x ? 1 : 0;
             if (dx == 0 || head_clear_in_dir(vertical_sequence)) {
                 if (actor_sequence != 147)
-                    select_animation_sequence(147);
+                    JumpSeq(147);
             } else
                 goto stop_horizontal;
         } else if (dx == 0 && dy == 1 && head_clear_in_dir(direction)) {
             vertical_sequence = target_row < actor_row ? 143 : 144;
             if (vertical_sequence != actor_sequence)
-                select_animation_sequence(vertical_sequence);
+                JumpSeq(vertical_sequence);
         } else if (direction == 4) {
             if (dx || dy) {
 stop_horizontal:
                 if (actor_sequence != 166 && YWithinMiddleOfCell(actor_y, 15))
-                    select_animation_sequence(166);
+                    JumpSeq(166);
             }
         } else {
             plan->row = target_row;
@@ -363,10 +363,10 @@ stop_horizontal:
                 }
             } else {
                 direction = 166;
-                clear_char_velocity();
+                ClearCharVel();
             }
             if (actor_sequence != direction)
-                select_animation_sequence(direction);
+                JumpSeq(direction);
         }
     } else {
         if (plan->direction != 0) {
@@ -381,10 +381,10 @@ stop_horizontal:
 int far pascal head_blocked(void)
 {
     register int sequence;
-    if (lose_life(1))
+    if (decrement_life_points(1))
         sequence = 154;
     else {
-        play_sound(87);
+        AddSound(87);
         head_set_to_flee_mode();
         sequence = 153;
     }
@@ -399,8 +399,8 @@ int far pascal head_clear_in_dir(int direction)
     case 0:
         if (actor_column < -1 || just_start_vertical_seq())
             break;
-        tile = read_tile(actor_room, actor_column - 1, actor_row);
-        if (tile_blocks_head(tile))
+        tile = ReadCell(actor_room, actor_column - 1, actor_row);
+        if (IsWall(tile))
             break;
         if (tile == 4 && gate_blocks_head())
             break;
@@ -409,21 +409,21 @@ int far pascal head_clear_in_dir(int direction)
     case 1:
         if (actor_column > 10 || just_start_vertical_seq())
             break;
-        tile = read_tile(actor_room, actor_column + 1, actor_row);
-        if (tile_blocks_head(tile))
+        tile = ReadCell(actor_room, actor_column + 1, actor_row);
+        if (IsWall(tile))
             break;
         if (tile == 4 && gate_blocks_head())
             break;
-        if (read_tile(actor_room, actor_column, actor_row) != 4 || !gate_blocks_head())
+        if (ReadCell(actor_room, actor_column, actor_row) != 4 || !gate_blocks_head())
             clear = 1;
         break;
     case 2:
         if (actor_row != 2 && XWithinMiddleOfCell(actor_x, 8))
-            clear = tile_allows_vertical(read_tile(actor_room, actor_column, actor_row));
+            clear = IS_SIX_KIND(ReadCell(actor_room, actor_column, actor_row));
         break;
     case 3:
         if (actor_row != 0 && XWithinMiddleOfCell(actor_x, 8))
-            clear = tile_allows_vertical(read_tile(actor_room, actor_column, actor_row - 1));
+            clear = IS_SIX_KIND(ReadCell(actor_room, actor_column, actor_row - 1));
         break;
     }
     return clear;
@@ -441,20 +441,20 @@ int far pascal head_enemy_collide(int minimum_gap)
     int gap;
 
     if (actor_timer != 1) {
-        gap = target_wall_gap(collision_room, collision_column, collision_row);
+        gap = barrier_distance_from_face(collision_room, collision_column, collision_row);
         if (gap < 5 && minimum_gap <= gap && gap < 5 && -snake_distance <= gap) {
-            actor_x = offset_char_x(-(gap + 14));
+            actor_x = AddCharX(-(gap + 14));
             if (actor_life < 0 && actor_sequence != 153)
                 sequence = 157;
             else if (actor_sequence != 164) {
                 if (actor_frame <= 191) {
                     sequence = 164;
-                    actor_x = cell_x[actor_x_to_column()] + 14;
+                    actor_x = cell_x[GetCellCol()] + 14;
                     if (actor_facing == -1)
                         actor_x += 32;
                 } else
-                    select_animation_sequence(145);
-                lose_life(100);
+                    JumpSeq(145);
+                decrement_life_points(100);
             }
         }
     }
@@ -466,11 +466,11 @@ void far pascal head_face_kid(void)
     signed char column = actor_column;
     if (column < target_column) {
         if (actor_facing != 0) {
-            actor_x = offset_char_x(-14);
+            actor_x = AddCharX(-14);
             actor_facing = 0;
         }
     } else if (actor_facing != -1) {
-        actor_x = offset_char_x(-14);
+        actor_x = AddCharX(-14);
         actor_facing = -1;
     }
 }
@@ -483,7 +483,7 @@ void far pascal head_flee_prog(HeadPlan near *plan)
                 if (actor_row == target_row && abs(actor_column - target_column) < 3)
                     head_get_angry(plan);
                 else {
-                    select_animation_sequence(160);
+                    JumpSeq(160);
                     *(int near *)&plan->direction = flee_length[room_opponents[actor_room][actor_slot * 23 + 5]];
                 }
             }
@@ -494,19 +494,19 @@ void far pascal head_flee_prog(HeadPlan near *plan)
             if (target_visible && (target_frame != 70 || (target_progress != 0 && target_progress < 223)) &&
                 head_visibility() != -1) {
                 head_get_angry(plan);
-                select_animation_sequence(162);
+                JumpSeq(162);
             } else {
                 head_get_peaceful(plan);
-                select_animation_sequence(163);
+                JumpSeq(163);
             }
         }
-        if (!plan->sound_played && !sound_is_playing(10087)) {
+        if (!plan->sound_played && !query_sound(10087)) {
             plan->sound_played = 1;
-            play_loop_sound(146);
+            AddSong(146);
         }
     } else if (actor_timer == 2) {
         actor_alert = 0;
-        select_animation_sequence(159);
+        JumpSeq(159);
     }
 }
 
@@ -521,19 +521,19 @@ void far pascal head_focus_on_neck(HeadPlan near *plan)
             low = -3;
             high = 30;
         }
-        distance = target_distance();
+        distance = get_opp_dist();
         if (actor_row == target_row && low <= distance && high >= distance) {
-            clear_char_velocity();
-            select_animation_sequence(bounded_random(1) + 150);
+            ClearCharVel();
+            JumpSeq(Rnd(1) + 150);
             plan->mode = 3;
             plan->column = 1;
         } else {
             if ((target_facing == 1 ? -35 : -13) > distance && actor_sequence == 147) {
-                clear_char_velocity();
-                select_animation_sequence(156);
+                ClearCharVel();
+                JumpSeq(156);
             }
             if (distance - 64 <= high && actor_row == target_row && actor_sequence != 144)
-                play_sound(90);
+                AddSound(90);
         }
     }
 }
@@ -544,18 +544,18 @@ void far pascal head_get_angry(HeadPlan near *plan)
     plan->row = target_row;
     plan->column = target_column;
     plan->direction = 1;
-    select_animation_sequence(140);
-    clear_char_velocity();
+    JumpSeq(140);
+    ClearCharVel();
     head_face_kid();
     actor_alert = 3;
     head_active = 1;
     if (camera_actor == -1) {
-        clear_actor_motion();
+        save_actor_slot();
         set_actor_speed(actor_slot, actor_velocity_x, actor_velocity_y);
-        refresh_actor_movement(actor_slot);
+        load_actor_slot(actor_slot);
         camera_actor = actor_slot;
     }
-    play_sound(87);
+    AddSound(87);
 }
 
 void far pascal head_get_peaceful(HeadPlan near *plan)
@@ -563,9 +563,9 @@ void far pascal head_get_peaceful(HeadPlan near *plan)
     signed char zero = 0;
     plan->mode = zero;
     head_active = zero;
-    clear_char_velocity();
-    select_animation_sequence(139);
-    actor_column = random_open_column(get_move_room());
+    ClearCharVel();
+    JumpSeq(139);
+    actor_column = get_char_col(get_base_x());
     actor_x = cell_x[actor_column] + 30;
     reset_char_y();
     actor_alert = 0;
@@ -587,7 +587,7 @@ int far pascal head_go_to_dest(HeadPlan near *plan)
             }
             clear = head_clear_in_dir(direction);
             if (clear && actor_sequence != sequence)
-                select_animation_sequence(sequence);
+                JumpSeq(sequence);
         }
         if (!clear && actor_column != plan->column) {
             if (plan->column > actor_column)
@@ -596,7 +596,7 @@ int far pascal head_go_to_dest(HeadPlan near *plan)
                 sequence = 0;
             clear = head_clear_in_dir(sequence);
             if (clear && actor_sequence != 142)
-                select_animation_sequence(142);
+                JumpSeq(142);
         }
     }
     if (!clear)
@@ -613,15 +613,15 @@ void far pascal head_locked_prog(HeadPlan near *plan)
         if (chomp_again(plan)) {
             if (target_life < 0) {
                 ++plan->column;
-                select_animation_sequence(150 + (actor_sequence == 150));
+                JumpSeq(150 + (actor_sequence == 150));
             } else {
                 record = get_opponent_info(actor_room, actor_slot);
                 if (record && record->prefix[4] >= 11)
-                    select_animation_sequence(165);
+                    JumpSeq(165);
             }
         } else {
-            select_animation_sequence(152);
-            actor_x = offset_char_x(-8);
+            JumpSeq(152);
+            actor_x = AddCharX(-8);
             lost = 1;
         }
     }
@@ -641,7 +641,7 @@ void far pascal head_peaceful_prog(HeadPlan near *plan)
     int direction, sequence;
     if (actor_frame != 150)
         return;
-    direction = bounded_random(3);
+    direction = Rnd(3);
     if (direction == 3) {
         if (actor_sequence >= 131 && actor_sequence <= 133)
             direction = 0;
@@ -650,17 +650,17 @@ void far pascal head_peaceful_prog(HeadPlan near *plan)
         else
             direction = -1;
     } else if (direction == 2)
-        direction += bounded_random(1);
+        direction += Rnd(1);
     if (direction != -1 && head_clear_in_dir(direction)) {
         if (direction == 3)
             sequence = 137;
         else if (direction == 2)
             sequence = 138;
         else if (direction == 0)
-            sequence = bounded_random(2) + 131;
+            sequence = Rnd(2) + 131;
         else
-            sequence = bounded_random(2) + 134;
-        select_animation_sequence(sequence);
+            sequence = Rnd(2) + 134;
+        JumpSeq(sequence);
     }
 }
 
@@ -674,11 +674,11 @@ void far pascal head_prog(void)
     if (!record)
         return;
     plan = (HeadPlan near *)&record->mode;
-    load_actor_slot(actor_slot);
-    advance_actor_frame();
+    load_shadow_with_opponent(actor_slot);
+    get_frame_info();
     if (current_sprite_frame != -1) {
         kid_frame = current_sprite_frame;
-        update_actor_sprite();
+        get_char_edges();
     }
     switch (plan->mode) {
     case 0:
@@ -705,7 +705,7 @@ void far pascal head_prog(void)
             head_done_attacking_kid(plan);
         break;
     }
-    store_actor_slot();
+    save_shadow_with_opponent();
 }
 
 int far pascal head_set_to_flee_mode(void)
@@ -716,7 +716,7 @@ int far pascal head_set_to_flee_mode(void)
     OpponentRecord near *record;
 
     skill = room_opponents[actor_room][actor_slot * 23 + 5];
-    if (!is_able_to_flee_in_room(actor_room) || bounded_random(skill / 3 + 1) != 0 ||
+    if (!is_able_to_flee_in_room(actor_room) || Rnd(skill / 3 + 1) != 0 ||
         !((actor_facing == 0 && actor_column >= 3) ||
           (actor_facing == -1 && actor_column + 3 <= 10)))
         goto cannot_flee;
@@ -727,7 +727,7 @@ int far pascal head_set_to_flee_mode(void)
         do {
             if (!clear)
                 break;
-            skill = read_tile(actor_room, column, actor_row);
+            skill = ReadCell(actor_room, column, actor_row);
             if (GetBarrCode(skill) && (skill != 4 || gate_blocks_head()))
                 clear = 0;
             column += move_against_facing[actor_facing];
@@ -747,9 +747,9 @@ int far pascal head_set_to_flee_mode(void)
         record->row = actor_row;
         record->timer = -1;
         record->sound_played = 0;
-        clear_actor_motion();
+        save_actor_slot();
         set_actor_speed(actor_slot, 0, actor_velocity_y);
-        refresh_actor_movement(actor_slot);
+        load_actor_slot(actor_slot);
         if (actor_slot == camera_actor)
             camera_actor = -1;
     }
@@ -827,7 +827,7 @@ void far pascal snake_prog(void)
     if (actor_life < 0) {
         record = get_opponent_info(actor_room, actor_slot);
         if (record) {
-            load_actor_slot(actor_slot);
+            load_shadow_with_opponent(actor_slot);
             if (record->mode < 0) {
                 if (snake_slithering_toward_opp())
                     snake_attack(record);
@@ -835,7 +835,7 @@ void far pascal snake_prog(void)
                     snake_go_into_hole(record);
             } else
                 snake_come_out_of_hole(record);
-            store_actor_slot();
+            save_shadow_with_opponent();
         }
     }
 }
@@ -843,7 +843,7 @@ void far pascal snake_prog(void)
 void far pascal snake_attack(OpponentRecord near *record)
 {
     int hit = 0;
-    int distance = target_distance();
+    int distance = get_opp_dist();
     signed char tile;
     if (distance >= 13 && distance <= 45) {
         if (actor_frame == 278 || actor_frame == 279 ||
@@ -851,8 +851,8 @@ void far pascal snake_attack(OpponentRecord near *record)
              ((target_progress >= 1 && target_progress <= 14) || (target_progress >= 49 && target_progress <= 56))))
             hit = 1;
         else if (actor_sequence != 176 && actor_sequence != 173) {
-            select_animation_sequence(176);
-            play_sound(71);
+            JumpSeq(176);
+            AddSound(71);
         }
     } else if (actor_sequence == 176 &&
                ((target_progress >= 1 && target_progress <= 14) || (target_progress >= 49 && target_progress <= 56)) &&
@@ -864,12 +864,12 @@ void far pascal snake_attack(OpponentRecord near *record)
     else if ((actor_frame == 278 || actor_frame == 279) &&
              (distance < 13 || distance > 49)) {
         tile = get_cells_ahead(1);
-        if (tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128)))
-            select_animation_sequence(177);
+        if (is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
+            JumpSeq(177);
     }
     if (hit && actor_sequence != 173) {
-        actor_x = offset_char_x(distance - 32);
-        select_animation_sequence(173);
+        actor_x = AddCharX(distance - 32);
+        JumpSeq(173);
     }
 }
 
@@ -880,25 +880,25 @@ void far pascal snake_come_out_of_hole(OpponentRecord near *record)
     if (--record->mode > 0)
         return;
     record->mode = -1;
-    left = last_clear_column(actor_room, actor_column, actor_row, -1);
-    right = last_clear_column(actor_room, actor_column, actor_row, 1);
-    tile = tile_under_actor();
+    left = find_wall_column(actor_room, actor_column, actor_row, -1);
+    right = find_wall_column(actor_room, actor_column, actor_row, 1);
+    tile = get_under_foot();
     if (target_room == actor_room && actor_row == target_row &&
         actor_column > left && actor_column < right) {
         if (actor_column <= target_column &&
-            (!tile_blocks_head(tile) || tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128))))
+            (!IsWall(tile) || is_open_tile(tile) || (tile == 7 && (tile_flags & 128))))
             actor_facing = 0;
         else
             actor_facing = -1;
     } else
         actor_facing = ~actor_facing;
-    if (!tile_blocks_head(tile) || tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128)))
+    if (!IsWall(tile) || is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
         goto emerge_in_place;
-    select_animation_sequence(170);
-    actor_x = offset_char_x(38);
+    JumpSeq(170);
+    actor_x = AddCharX(38);
     goto reset_timer;
 emerge_in_place:
-    select_animation_sequence(172);
+    JumpSeq(172);
 reset_timer:
     actor_timer = 0;
 }
@@ -909,11 +909,11 @@ void far pascal snake_go_into_hole(OpponentRecord near *record)
     int distance;
     if (target_life >= 0) {
         if (actor_sequence != 176 && actor_frame != 278 && actor_frame != 279)
-            select_animation_sequence(176);
+            JumpSeq(176);
         return;
     }
     if (actor_sequence != 171 && actor_sequence != 172 && actor_timer != 9) {
-        tile_under_actor();
+        get_under_foot();
         if ((tile_modifier & 15) == 12) {
             distance = (actor_x - 144) % 32;
             if (distance >= 14 && distance <= 18) {
@@ -922,16 +922,16 @@ void far pascal snake_go_into_hole(OpponentRecord near *record)
                     distance = -distance;
                 else
                     distance += 8;
-                actor_x = offset_char_x(distance);
-                select_animation_sequence(171);
+                actor_x = AddCharX(distance);
+                JumpSeq(171);
             }
         } else if (actor_sequence != 176 && actor_sequence != 168 &&
                    actor_frame != 278 && actor_frame != 279) {
             tile = get_cells_ahead(1);
-            if (tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128)))
+            if (is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
                 return;
-            if (!tile_blocks_head(tile))
-                select_animation_sequence(176);
+            if (!IsWall(tile))
+                JumpSeq(176);
             else {
                 if (tile != 7) {
                     if (actor_facing == 0) {
@@ -941,25 +941,25 @@ void far pascal snake_go_into_hole(OpponentRecord near *record)
                     if (actor_frame != 254)
                         return;
                 }
-                select_animation_sequence(168);
+                JumpSeq(168);
             }
         } else {
             tile = get_cells_ahead(1);
-            if (tile_blocks_snake(tile) || (tile == 7 && (tile_flags & 128)))
-                select_animation_sequence(177);
+            if (is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
+                JumpSeq(177);
         }
     } else {
         if (actor_timer == 9) {
-            tile = tile_under_actor();
-            distance = distance_into_cell();
-            if (tile_blocks_head(tile) && distance < 8) {
+            tile = get_under_foot();
+            distance = get_edge_distance();
+            if (IsWall(tile) && distance < 8) {
                 actor_frame = 264;
-                select_animation_sequence(168);
+                JumpSeq(168);
             }
         }
         if (actor_frame == 264) {
             actor_timer = 6;
-            record->mode = actor_alert == 2 ? 6 : bounded_random(60) + 36;
+            record->mode = actor_alert == 2 ? 6 : Rnd(60) + 36;
         }
     }
 }
@@ -988,13 +988,13 @@ void far pascal snake_update_opp_info(OpponentRecord near *record)
     signed char tile;
     if (actor_sequence == 171 || actor_timer == 9) {
         actor_timer = 6;
-        record->mode = bounded_random(60) + 36;
+        record->mode = Rnd(60) + 36;
     } else {
         tile = get_cells_ahead(1);
-        if (!tile_blocks_snake(tile) && (tile != 7 || !(tile_flags & 128)) &&
+        if (!is_open_tile(tile) && (tile != 7 || !(tile_flags & 128)) &&
             (actor_sequence == 176 || actor_sequence == 168 || actor_sequence == 170)) {
             record->prefix[3] = ~actor_facing;
-            *(int near *)&record->prefix[1] = offset_char_x(-32);
+            *(int near *)&record->prefix[1] = AddCharX(-32);
             return;
         }
     }

@@ -9,7 +9,7 @@ EXTRN surface_scanline_offsets:WORD
 .CODE
 EXTRN show_mouse_graphics:NEAR
 EXTRN check_cursor_overlap:NEAR
-EXTRN allocate_near_heap:FAR
+EXTRN __nmalloc:FAR
 
 PUBLIC copy_vga_rectangle
 PUBLIC probe_vga
@@ -364,7 +364,7 @@ initialize_vga PROC FAR
     mov ax, WORD PTR [surface_scanline_count]
     shl ax, 1
     push ax
-    call allocate_near_heap
+    call __nmalloc
     add sp, 2
     mov WORD PTR [surface_scanline_offsets], ax
     test ax, ax

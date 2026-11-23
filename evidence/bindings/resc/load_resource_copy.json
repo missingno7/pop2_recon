@@ -1,12 +1,12 @@
 {
   "declarations": {
     "externals": [
+      "__NFREE",
       "FIND_RESOURCE_ENTRY",
-      "FREE_NEAR_HEAP",
+      "__NMALLOC",
       "READ_RESOURCE_PAYLOAD",
       "MOVE_HUGE_BYTES",
       "QUERY_RESOURCE_PAYLOAD",
-      "ALLOCATE_NEAR_HEAP",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
     ],
     "groups": [
@@ -71,7 +71,7 @@
       "segment_offset": 23,
       "self_relative": true,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "FIND_RESOURCE_ENTRY",
@@ -93,7 +93,7 @@
       "segment_offset": 28,
       "self_relative": true,
       "target": {
-        "index": 5,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "QUERY_RESOURCE_PAYLOAD",
@@ -104,9 +104,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 6,
+        "index": 3,
         "kind": "external",
-        "name": "ALLOCATE_NEAR_HEAP"
+        "name": "__NMALLOC"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -115,10 +115,10 @@
       "segment_offset": 55,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_NEAR_HEAP",
+        "name": "__NMALLOC",
         "zero_displacement": true
       }
     },
@@ -159,7 +159,7 @@
       "segment_offset": 94,
       "self_relative": true,
       "target": {
-        "index": 4,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "MOVE_HUGE_BYTES",
@@ -181,7 +181,7 @@
       "segment_offset": 119,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "READ_RESOURCE_PAYLOAD",
@@ -192,9 +192,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
-        "name": "FREE_NEAR_HEAP"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -203,10 +203,10 @@
       "segment_offset": 136,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "FREE_NEAR_HEAP",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     }
@@ -227,23 +227,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "ALLOCATE_NEAR_HEAP": {
-      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
-      "entry_target_id": "root:1fe6:003b",
-      "kind": "far-code-entry",
-      "offset": 59,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3b00e61f",
-          "file_offset": 13191,
-          "image_offset": 4999,
-          "relocation_index": 65,
-          "space": "root"
-        }
-      ]
-    },
     "FIND_RESOURCE_ENTRY": {
       "entry_sha256": "826ec55e98dd4de8780d178ac8611867dd36d19948a6fac695043bf00783ff12",
       "entry_target_id": "root:1101:755d",
@@ -256,23 +239,6 @@
           "bytes_hex": "e8e205",
           "entry": "root:1101:6f6a",
           "image_offset": 98184,
-          "space": "root"
-        }
-      ]
-    },
-    "FREE_NEAR_HEAP": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
-      "kind": "far-code-entry",
-      "offset": 26,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
           "space": "root"
         }
       ]
@@ -326,6 +292,40 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "__NFREE": {
+      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "entry_target_id": "root:1fe6:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "relocation_index": 14,
+          "space": "root"
+        }
+      ]
+    },
+    "__NMALLOC": {
+      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
+      "entry_target_id": "root:1fe6:003b",
+      "kind": "far-code-entry",
+      "offset": 59,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3b00e61f",
+          "file_offset": 13191,
+          "image_offset": 4999,
+          "relocation_index": 65,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:resc/load_resource_copy",

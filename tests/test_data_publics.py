@@ -333,6 +333,31 @@ class NameConsistencyTests(unittest.TestCase):
             r2["claims"] = [{"public": "G"}]
             self.assertEqual(module_gate.name_consistency_violations([({}, r1), ({}, r2)]), set())
 
+    def test_code_entry_aliases(self):
+        import tempfile
+        (ROOT / "build/workers/tests").mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=ROOT / "build/workers/tests") as tmp:
+            a = Path(tmp) / "a.json"
+            entry = {"kind": "far-code-entry", "entry_target_id": "root:0001:0000", "segment": 1, "offset": 0}
+            a.write_text(json.dumps({"symbols": {"OLD": entry, "OTHER": entry}}))
+            definer = {"kind": "same_source_group", "group_id": "group:d/d", "drafts": [],
+                       "claims": [{"public": "NEW", "target_id": "root:0001:0000"}]}
+            user = {"kind": "same_source_group", "group_id": "group:u/u", "claims": [], "drafts": [],
+                    "binding": str(a)}
+            self.assertEqual(module_gate.name_consistency_violations([({}, definer), ({}, user)]),
+                             {"alias:group:u/u:OLD", "alias:group:u/u:OTHER", "same-entry:group:u/u:root:0001:0000"})
+            a.write_text(json.dumps({"symbols": {"NEW": entry}}))
+            self.assertEqual(module_gate.name_consistency_violations([({}, definer), ({}, user)]), set())
+
+
+class AlignmentTests(unittest.TestCase):
+    """A contribution starts at a multiple of its SEGDEF alignment (whole-link refutation)."""
+
+    def test_misaligned_starts(self):
+        rows = [("a", "CODE", 2, 0x15d1), ("b", "CODE", 1, 0x15d1), ("c", "_DATA", 2, 0x1d6),
+                ("d", "X", 3, 0x18), ("e", "Y", 3, 0x20)]
+        self.assertEqual(module_gate.alignment_violations(rows), {"alignment:a:CODE@15d1", "alignment:d:X@18"})
+
 
 class CaseAliasTests(unittest.TestCase):
     """A second case spelling of one external is refused unless recorded as debt."""

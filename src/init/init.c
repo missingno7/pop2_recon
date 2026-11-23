@@ -18,20 +18,20 @@ extern int alternate_pool_available;
 extern InputPoll poll_input;
 extern int message_input(void);
 
-extern void start_drawing(Rect far *);
+extern void STROKE_PORT_RECT(Rect far *);
 extern void frame_rect(Rect far *);
-extern void inset_rect(Rect far *, Rect far *, int, int);
-extern void draw_string_at(Rect far *, int, int, const char far *);
-extern void pause_for_input(void);
-extern int cdecl sound_setup(int);
+extern void INSETRECT(Rect far *, Rect far *, int, int);
+extern void DRAW_NUL_TEXT_IN_RECT(Rect far *, int, int, const char far *);
+extern void wait_key(void);
+extern int cdecl initialize_sound_drivers(int);
 extern void report_memory(int memory_class, unsigned long available);
 extern void show_init_message(const char *message);
 extern void init_graphics(void);
 extern unsigned long choose_memory_pool(int *memory_class);
 extern void wait_for_ready(void);
-extern int wait_status(void);
-extern int check_video_mode(int mode);
-extern void set_video_mode(int mode);
+extern int get_sound_startup_flag(void);
+extern int SELECT_GRAPHICS_MODE(int mode);
+extern void INITIALIZE_GRAPHICS_MODE(int mode);
 extern int find_option(const char far *);
 typedef unsigned long (far pascal *MemoryDriver)(void);
 extern unsigned long extended_pool(void);
@@ -83,14 +83,14 @@ void show_init_message(const char *message)
     Rect rect;
     InputPoll saved_input;
 
-    start_drawing(&message_port);
+    STROKE_PORT_RECT(&message_port);
     frame_rect(&message_port);
-    inset_rect(&rect, &message_port, 5, 8);
-    draw_string_at(&rect, 0, 0, message);
+    INSETRECT(&rect, &message_port, 5, 8);
+    DRAW_NUL_TEXT_IN_RECT(&rect, 0, 0, message);
     saved_input = poll_input;
     poll_input = message_input;
-    pause_for_input();
-    start_drawing(&message_port);
+    wait_key();
+    STROKE_PORT_RECT(&message_port);
     poll_input = saved_input;
 }
 
@@ -98,7 +98,7 @@ extern const char digital_sound_error[], midi_sound_error[];
 
 void init_sound(void)
 {
-    sound_setup(0);
+    initialize_sound_drivers(0);
     if (configuration_flags & 4)
         show_init_message(digital_sound_error);
     if (configuration_flags & 8)
@@ -206,11 +206,11 @@ void init_system(void)
 
 void init_graphics(void)
 {
-    if (!check_video_mode(5) && !find_option("NOVIDEODETECT")) {
+    if (!SELECT_GRAPHICS_MODE(5) && !find_option("NOVIDEODETECT")) {
         printf(video_error);
         exit(0);
     }
-    set_video_mode(5);
+    INITIALIZE_GRAPHICS_MODE(5);
 }
 
 unsigned long choose_memory_pool(int *memory_class)
@@ -241,6 +241,6 @@ unsigned long choose_memory_pool(int *memory_class)
 
 void wait_for_ready(void)
 {
-    while (!wait_status())
+    while (!get_sound_startup_flag())
         ;
 }

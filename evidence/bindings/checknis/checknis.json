@@ -1,7 +1,7 @@
 {
   "declarations": {
     "externals": [
-      "DRAW_ROOM_TILES",
+      "LOAD_CODE_OVERLAYS",
       "PLAYING_NIS",
       "PENDING_SOUND",
       "GUARD_PAIR",
@@ -10,19 +10,19 @@
       "GUARD_OTHER",
       "MODE_CODE",
       "REFRESH_CHARACTER",
-      "SET_DRAW_MODE",
+      "UNLOAD_LEVEL",
       "STATE_CODE",
-      "FINISH_ROOM_DRAWING",
-      "CLEAR_DIALOG",
+      "CLEAN_CUT",
+      "REMOVEREBIRTHPT",
       "LEVEL_CODE",
       "ISLEVELSTARTWITHNISSCREEN",
-      "DRAW_ROOM_PASS",
-      "STOP_SOUND",
-      "PRESENT_ROOM",
+      "UNLOAD_SET",
+      "DEALLOCBACKPORT",
+      "UNLOAD_PIECES_DATA",
       "RESTORE_ROOM_VECTOR",
       "DRAW_ROOM_FROM_NIS",
-      "SET_PALETTE",
-      "ERASE_SCREEN",
+      "WRITE_DAC_BLOCK",
+      "STROKE_PORT_RECT",
       "CINEMATICS_ENABLED",
       "PLAY_INTRO",
       "QUOTE_INDEX",
@@ -37,22 +37,22 @@
       "FIND_OPTION",
       "KID_FACING",
       "PLAY_OTHER_VECTOR",
-      "FINISH_DRAWING",
+      "SET_DEFAULT_PALETTE",
       "_atoi",
       "HGETSL",
-      "REDRAW_ROOM",
-      "START_MUSIC",
+      "SET_KID_PALETTE",
+      "OPEN_VERIFIED_RESOURCE",
       "CURRENT_ROOM",
-      "PREPARE_MUSIC",
+      "CLOSE_RESOURCE_FILE",
       "LOAD_NIS_IMAGE",
       "REPORT_OPTION",
-      "LOCK_IMAGE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "FLIP_IMAGE",
       "ISTIMEFORNIS",
       "PLAY_NIS",
-      "DRAW_IMAGE",
+      "PAINT_INDEXED_SHAPE",
       "CHECKPLAYNIS",
-      "RELEASE_IMAGE",
+      "DISPOSE_HANDLE",
       "DRAW_DEAD_KID",
       "ROOM_TO_DRAW",
       "ERASESCREENAFTERNIS",
@@ -60,11 +60,11 @@
       "LEVEL_REDRAW_FLAG",
       "ROOM_TO_DRAW_WORD",
       "NIS_SOUND",
-      "BEGIN_ROOM_DRAWING",
-      "SELECT_ROOM",
+      "RESET_LEVEL_OVERLAYS",
+      "LOAD_LEVEL_MAP",
       "ERASESCREENBEFORENIS",
-      "SET_ROOM_VISIBILITY",
-      "UPDATE_ROOM"
+      "LOAD_BACKGROUND_SET",
+      "LOAD_PIECES_DATA"
     ],
     "groups": [
       {
@@ -623,7 +623,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "START_MUSIC",
+          "name": "OPEN_VERIFIED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -637,7 +637,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "START_MUSIC",
+        "name": "OPEN_VERIFIED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -1385,7 +1385,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "PREPARE_MUSIC",
+          "name": "CLOSE_RESOURCE_FILE",
           "zero_displacement": true
         }
       },
@@ -1399,7 +1399,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "PREPARE_MUSIC",
+        "name": "CLOSE_RESOURCE_FILE",
         "zero_displacement": true
       }
     },
@@ -1439,7 +1439,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "START_MUSIC",
+          "name": "OPEN_VERIFIED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -1453,7 +1453,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "START_MUSIC",
+        "name": "OPEN_VERIFIED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -1520,7 +1520,7 @@
           "index": 40,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_ROOM",
+          "name": "SET_KID_PALETTE",
           "zero_displacement": true
         }
       },
@@ -1534,7 +1534,7 @@
         "index": 40,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_ROOM",
+        "name": "SET_KID_PALETTE",
         "zero_displacement": true
       }
     },
@@ -1547,7 +1547,7 @@
           "index": 37,
           "kind": "external",
           "method": 6,
-          "name": "FINISH_DRAWING",
+          "name": "SET_DEFAULT_PALETTE",
           "zero_displacement": true
         }
       },
@@ -1561,7 +1561,7 @@
         "index": 37,
         "kind": "external",
         "method": 6,
-        "name": "FINISH_DRAWING",
+        "name": "SET_DEFAULT_PALETTE",
         "zero_displacement": true
       }
     },
@@ -1574,7 +1574,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "ERASE_SCREEN",
+          "name": "STROKE_PORT_RECT",
           "zero_displacement": true
         }
       },
@@ -1588,7 +1588,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "ERASE_SCREEN",
+        "name": "STROKE_PORT_RECT",
         "zero_displacement": true
       }
     },
@@ -1763,7 +1763,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "ERASE_SCREEN",
+          "name": "STROKE_PORT_RECT",
           "zero_displacement": true
         }
       },
@@ -1777,7 +1777,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "ERASE_SCREEN",
+        "name": "STROKE_PORT_RECT",
         "zero_displacement": true
       }
     },
@@ -1817,7 +1817,7 @@
           "index": 21,
           "kind": "external",
           "method": 6,
-          "name": "SET_PALETTE",
+          "name": "WRITE_DAC_BLOCK",
           "zero_displacement": true
         }
       },
@@ -1831,7 +1831,7 @@
         "index": 21,
         "kind": "external",
         "method": 6,
-        "name": "SET_PALETTE",
+        "name": "WRITE_DAC_BLOCK",
         "zero_displacement": true
       }
     },
@@ -1898,7 +1898,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SOUND",
+          "name": "DEALLOCBACKPORT",
           "zero_displacement": true
         }
       },
@@ -1912,7 +1912,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SOUND",
+        "name": "DEALLOCBACKPORT",
         "zero_displacement": true
       }
     },
@@ -1979,7 +1979,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "CLEAR_DIALOG",
+          "name": "REMOVEREBIRTHPT",
           "zero_displacement": true
         }
       },
@@ -1993,7 +1993,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "CLEAR_DIALOG",
+        "name": "REMOVEREBIRTHPT",
         "zero_displacement": true
       }
     },
@@ -2006,7 +2006,7 @@
           "index": 10,
           "kind": "external",
           "method": 6,
-          "name": "SET_DRAW_MODE",
+          "name": "UNLOAD_LEVEL",
           "zero_displacement": true
         }
       },
@@ -2020,7 +2020,7 @@
         "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "SET_DRAW_MODE",
+        "name": "UNLOAD_LEVEL",
         "zero_displacement": true
       }
     },
@@ -2087,7 +2087,7 @@
           "index": 61,
           "kind": "external",
           "method": 6,
-          "name": "SELECT_ROOM",
+          "name": "LOAD_LEVEL_MAP",
           "zero_displacement": true
         }
       },
@@ -2101,7 +2101,7 @@
         "index": 61,
         "kind": "external",
         "method": 6,
-        "name": "SELECT_ROOM",
+        "name": "LOAD_LEVEL_MAP",
         "zero_displacement": true
       }
     },
@@ -2276,7 +2276,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "BEGIN_ROOM_DRAWING",
+          "name": "RESET_LEVEL_OVERLAYS",
           "zero_displacement": true
         }
       },
@@ -2290,7 +2290,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "BEGIN_ROOM_DRAWING",
+        "name": "RESET_LEVEL_OVERLAYS",
         "zero_displacement": true
       }
     },
@@ -2384,7 +2384,7 @@
           "index": 43,
           "kind": "external",
           "method": 6,
-          "name": "PREPARE_MUSIC",
+          "name": "CLOSE_RESOURCE_FILE",
           "zero_displacement": true
         }
       },
@@ -2398,7 +2398,7 @@
         "index": 43,
         "kind": "external",
         "method": 6,
-        "name": "PREPARE_MUSIC",
+        "name": "CLOSE_RESOURCE_FILE",
         "zero_displacement": true
       }
     },
@@ -2465,7 +2465,7 @@
           "index": 18,
           "kind": "external",
           "method": 6,
-          "name": "PRESENT_ROOM",
+          "name": "UNLOAD_PIECES_DATA",
           "zero_displacement": true
         }
       },
@@ -2479,7 +2479,7 @@
         "index": 18,
         "kind": "external",
         "method": 6,
-        "name": "PRESENT_ROOM",
+        "name": "UNLOAD_PIECES_DATA",
         "zero_displacement": true
       }
     },
@@ -2492,7 +2492,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_ROOM_PASS",
+          "name": "UNLOAD_SET",
           "zero_displacement": true
         }
       },
@@ -2506,7 +2506,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_ROOM_PASS",
+        "name": "UNLOAD_SET",
         "zero_displacement": true
       }
     },
@@ -2519,7 +2519,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_ROOM_PASS",
+          "name": "UNLOAD_SET",
           "zero_displacement": true
         }
       },
@@ -2533,7 +2533,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_ROOM_PASS",
+        "name": "UNLOAD_SET",
         "zero_displacement": true
       }
     },
@@ -2546,7 +2546,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "FINISH_ROOM_DRAWING",
+          "name": "CLEAN_CUT",
           "zero_displacement": true
         }
       },
@@ -2560,7 +2560,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "FINISH_ROOM_DRAWING",
+        "name": "CLEAN_CUT",
         "zero_displacement": true
       }
     },
@@ -2708,7 +2708,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_ROOM_TILES",
+          "name": "LOAD_CODE_OVERLAYS",
           "zero_displacement": true
         }
       },
@@ -2722,7 +2722,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_ROOM_TILES",
+        "name": "LOAD_CODE_OVERLAYS",
         "zero_displacement": true
       }
     },
@@ -2789,7 +2789,7 @@
           "index": 64,
           "kind": "external",
           "method": 6,
-          "name": "UPDATE_ROOM",
+          "name": "LOAD_PIECES_DATA",
           "zero_displacement": true
         }
       },
@@ -2803,7 +2803,7 @@
         "index": 64,
         "kind": "external",
         "method": 6,
-        "name": "UPDATE_ROOM",
+        "name": "LOAD_PIECES_DATA",
         "zero_displacement": true
       }
     },
@@ -2843,7 +2843,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "SET_ROOM_VISIBILITY",
+          "name": "LOAD_BACKGROUND_SET",
           "zero_displacement": true
         }
       },
@@ -2857,7 +2857,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "SET_ROOM_VISIBILITY",
+        "name": "LOAD_BACKGROUND_SET",
         "zero_displacement": true
       }
     },
@@ -2897,7 +2897,7 @@
           "index": 41,
           "kind": "external",
           "method": 6,
-          "name": "START_MUSIC",
+          "name": "OPEN_VERIFIED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -2911,7 +2911,7 @@
         "index": 41,
         "kind": "external",
         "method": 6,
-        "name": "START_MUSIC",
+        "name": "OPEN_VERIFIED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -2978,7 +2978,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_IMAGE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -2992,7 +2992,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_IMAGE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -3005,7 +3005,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_IMAGE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -3019,7 +3019,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_IMAGE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -3032,7 +3032,7 @@
           "index": 50,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_IMAGE",
+          "name": "PAINT_INDEXED_SHAPE",
           "zero_displacement": true
         }
       },
@@ -3046,7 +3046,7 @@
         "index": 50,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_IMAGE",
+        "name": "PAINT_INDEXED_SHAPE",
         "zero_displacement": true
       }
     },
@@ -3140,7 +3140,7 @@
           "index": 46,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_IMAGE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -3154,7 +3154,7 @@
         "index": 46,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_IMAGE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -3286,36 +3286,28 @@
   },
   "schema": 1,
   "symbols": {
-    "BEGIN_ROOM_DRAWING": {
-      "entry_sha256": "0299e2e600c57b7592d870eab01c063f5a550f35d4ebae00a26b0e3a04435540",
-      "entry_target_id": "root:0e56:0192",
+    "CLEAN_CUT": {
+      "entry_sha256": "bc446d80d0d8720cb620c5f8b64031458c9cf34ff089f0947bc09df8e5778407",
+      "entry_target_id": "root:0e56:0432",
       "kind": "far-code-entry",
-      "offset": 402,
+      "offset": 1074,
       "segment": 3670,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a9201560e",
-          "file_offset": 8693,
-          "image_offset": 501,
-          "relocation_index": 130,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
-    "CLEAR_DIALOG": {
-      "entry_sha256": "e5052bfbe5aac6a314e4da485fe199e0b2d5083bc02606b90d6d4c2f3c06d3dd",
-      "entry_target_id": "root:052d:109e",
+    "CLOSE_RESOURCE_FILE": {
+      "entry_sha256": "c05f711f00cb10d69dcc5b08eaa380c87dcbb174504733b9266f07b511866f7e",
+      "entry_target_id": "root:1de8:01dc",
       "kind": "far-code-entry",
-      "offset": 4254,
-      "segment": 1325,
+      "offset": 476,
+      "segment": 7656,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a9e102d05",
-          "file_offset": 51107,
-          "image_offset": 42915,
-          "relocation_index": 931,
+          "bytes_hex": "9adc01e81d",
+          "file_offset": 50674,
+          "image_offset": 42482,
+          "relocation_index": 897,
           "space": "root"
         }
       ]
@@ -3366,73 +3358,29 @@
         }
       ]
     },
-    "DRAW_IMAGE": {
-      "entry_sha256": "49ef1ac9332d4796229a24ea6047b000d6642c8e39cf1d1ed933e6f237bc86a9",
-      "entry_target_id": "root:1101:072a",
+    "DEALLOCBACKPORT": {
+      "entry_sha256": "30461441b607bc4843b14a614be5eae0048363c0809b456d0226efb3720148a6",
+      "entry_target_id": "root:1ead:00d4",
       "kind": "far-code-entry",
-      "offset": 1834,
-      "segment": 4353,
+      "offset": 212,
+      "segment": 7853,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a2a070111",
-          "file_offset": 43750,
-          "image_offset": 35558,
-          "relocation_index": 799,
+          "bytes_hex": "9ad400ad1e",
+          "file_offset": 30132,
+          "image_offset": 21940,
+          "relocation_index": 632,
           "space": "root"
         }
       ]
     },
-    "DRAW_ROOM_PASS": {
-      "entry_sha256": "8417e7f61f0bc9aa0d4308b482284583e71ce53a3266f9018ff1f60ed2849893",
-      "entry_target_id": "root:0a5c:0e2c",
+    "DISPOSE_HANDLE": {
+      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
+      "entry_target_id": "root:1101:22a0",
       "kind": "far-code-entry",
-      "offset": 3628,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
-    "DRAW_ROOM_TILES": {
-      "entry_sha256": "476f0b3512dc33c3294169df63677b75ea1018644d776b82a8290dc244e53990",
-      "entry_target_id": "root:0a5c:0378",
-      "kind": "far-code-entry",
-      "offset": 888,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
-    "ERASE_SCREEN": {
-      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
-      "entry_target_id": "root:1101:4d90",
-      "kind": "far-code-entry",
-      "offset": 19856,
+      "offset": 8864,
       "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "FINISH_DRAWING": {
-      "entry_sha256": "4c0ee235674daf094f3f73e2e2d2e3d716d552e17e1530ef9a68434e9d2747f0",
-      "entry_target_id": "root:078a:2928",
-      "kind": "far-code-entry",
-      "offset": 10536,
-      "segment": 1930,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a28298a07",
-          "file_offset": 30192,
-          "image_offset": 22000,
-          "relocation_index": 617,
-          "space": "root"
-        }
-      ]
-    },
-    "FINISH_ROOM_DRAWING": {
-      "entry_sha256": "bc446d80d0d8720cb620c5f8b64031458c9cf34ff089f0947bc09df8e5778407",
-      "entry_target_id": "root:0e56:0432",
-      "kind": "far-code-entry",
-      "offset": 1074,
-      "segment": 3670,
       "space": "root",
       "witnesses": []
     },
@@ -3627,6 +3575,33 @@
         }
       ]
     },
+    "LOAD_BACKGROUND_SET": {
+      "entry_sha256": "2b02e4ec7f59aaa922634cb4a7bc58958846c7e8665452951ae78808e2fce6f7",
+      "entry_target_id": "root:0a5c:0064",
+      "kind": "far-code-entry",
+      "offset": 100,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_CODE_OVERLAYS": {
+      "entry_sha256": "476f0b3512dc33c3294169df63677b75ea1018644d776b82a8290dc244e53990",
+      "entry_target_id": "root:0a5c:0378",
+      "kind": "far-code-entry",
+      "offset": 888,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_LEVEL_MAP": {
+      "entry_sha256": "0d86b1d96bb16748fde6899e5c2181cc0bae060e8d77b8faacc97ba6522761bf",
+      "entry_target_id": "root:0a5c:02b0",
+      "kind": "far-code-entry",
+      "offset": 688,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
     "LOAD_NIS_IMAGE": {
       "entry_sha256": "5c02113820a55ae872673de3cb95c1af0863573063a2f5dd6c70c802d0fff988",
       "entry_target_id": "root:1d58:00f8",
@@ -3644,12 +3619,12 @@
         }
       ]
     },
-    "LOCK_IMAGE": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+    "LOAD_PIECES_DATA": {
+      "entry_sha256": "2a7476852a2ff60d6b44c18d3c68cd1eb7c0ef29029d8c23befaab48da07bc71",
+      "entry_target_id": "root:0a5c:03fc",
       "kind": "far-code-entry",
-      "offset": 8556,
-      "segment": 4353,
+      "offset": 1020,
+      "segment": 2652,
       "space": "root",
       "witnesses": []
     },
@@ -3679,6 +3654,40 @@
           "entry": "root:0000:0000",
           "image_offset": 4908,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "OPEN_VERIFIED_RESOURCE": {
+      "entry_sha256": "ed34c25955f54ae8a9e9e2118b13dd9ade001157a4b958b447f3e80773b4201a",
+      "entry_target_id": "root:1de8:01fa",
+      "kind": "far-code-entry",
+      "offset": 506,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9afa01e81d",
+          "file_offset": 8212,
+          "image_offset": 20,
+          "relocation_index": 78,
+          "space": "root"
+        }
+      ]
+    },
+    "PAINT_INDEXED_SHAPE": {
+      "entry_sha256": "49ef1ac9332d4796229a24ea6047b000d6642c8e39cf1d1ed933e6f237bc86a9",
+      "entry_target_id": "root:1101:072a",
+      "kind": "far-code-entry",
+      "offset": 1834,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a2a070111",
+          "file_offset": 43750,
+          "image_offset": 35558,
+          "relocation_index": 799,
           "space": "root"
         }
       ]
@@ -3752,41 +3761,6 @@
       "space": "root",
       "witnesses": []
     },
-    "PREPARE_MUSIC": {
-      "entry_sha256": "c05f711f00cb10d69dcc5b08eaa380c87dcbb174504733b9266f07b511866f7e",
-      "entry_target_id": "root:1de8:01dc",
-      "kind": "far-code-entry",
-      "offset": 476,
-      "segment": 7656,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9adc01e81d",
-          "file_offset": 50674,
-          "image_offset": 42482,
-          "relocation_index": 897,
-          "space": "root"
-        }
-      ]
-    },
-    "PRESENT_ROOM": {
-      "entry_sha256": "43f5b3d8d7d37c9412f9a8707520dcb22b3e9a4d8c02ab80a61618403a502b30",
-      "entry_target_id": "root:0a5c:0e12",
-      "kind": "far-code-entry",
-      "offset": 3602,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
-    "REDRAW_ROOM": {
-      "entry_sha256": "6e42119ef86371757634dc8c7b63286f8a4ee8e20bf6f4a4d1abc5348f7f4690",
-      "entry_target_id": "root:0a5c:0792",
-      "kind": "far-code-entry",
-      "offset": 1938,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
     "REFRESH_CHARACTER": {
       "entry_sha256": "69c7e60e9af078a65c4496debf9af842f7f312728d988dff60711b6461697005",
       "entry_target_id": "root:0000:0dd4",
@@ -3804,11 +3778,45 @@
         }
       ]
     },
-    "RELEASE_IMAGE": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
+    "REMOVEREBIRTHPT": {
+      "entry_sha256": "e5052bfbe5aac6a314e4da485fe199e0b2d5083bc02606b90d6d4c2f3c06d3dd",
+      "entry_target_id": "root:052d:109e",
       "kind": "far-code-entry",
-      "offset": 8864,
+      "offset": 4254,
+      "segment": 1325,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9e102d05",
+          "file_offset": 51107,
+          "image_offset": 42915,
+          "relocation_index": 931,
+          "space": "root"
+        }
+      ]
+    },
+    "RESET_LEVEL_OVERLAYS": {
+      "entry_sha256": "0299e2e600c57b7592d870eab01c063f5a550f35d4ebae00a26b0e3a04435540",
+      "entry_target_id": "root:0e56:0192",
+      "kind": "far-code-entry",
+      "offset": 402,
+      "segment": 3670,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9201560e",
+          "file_offset": 8693,
+          "image_offset": 501,
+          "relocation_index": 130,
+          "space": "root"
+        }
+      ]
+    },
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
+      "kind": "far-code-entry",
+      "offset": 8556,
       "segment": 4353,
       "space": "root",
       "witnesses": []
@@ -3888,58 +3896,31 @@
         }
       ]
     },
-    "SELECT_ROOM": {
-      "entry_sha256": "0d86b1d96bb16748fde6899e5c2181cc0bae060e8d77b8faacc97ba6522761bf",
-      "entry_target_id": "root:0a5c:02b0",
+    "SET_DEFAULT_PALETTE": {
+      "entry_sha256": "4c0ee235674daf094f3f73e2e2d2e3d716d552e17e1530ef9a68434e9d2747f0",
+      "entry_target_id": "root:078a:2928",
       "kind": "far-code-entry",
-      "offset": 688,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
-    "SET_DRAW_MODE": {
-      "entry_sha256": "186053eb14336f321591cfab440db7f96bd616579bb1e5e0c959e9a9606e1b98",
-      "entry_target_id": "root:0a5c:0ce2",
-      "kind": "far-code-entry",
-      "offset": 3298,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
-    "SET_PALETTE": {
-      "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
-      "entry_target_id": "root:1101:79c1",
-      "kind": "far-code-entry",
-      "offset": 31169,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "SET_ROOM_VISIBILITY": {
-      "entry_sha256": "2b02e4ec7f59aaa922634cb4a7bc58958846c7e8665452951ae78808e2fce6f7",
-      "entry_target_id": "root:0a5c:0064",
-      "kind": "far-code-entry",
-      "offset": 100,
-      "segment": 2652,
-      "space": "root",
-      "witnesses": []
-    },
-    "START_MUSIC": {
-      "entry_sha256": "ed34c25955f54ae8a9e9e2118b13dd9ade001157a4b958b447f3e80773b4201a",
-      "entry_target_id": "root:1de8:01fa",
-      "kind": "far-code-entry",
-      "offset": 506,
-      "segment": 7656,
+      "offset": 10536,
+      "segment": 1930,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9afa01e81d",
-          "file_offset": 8212,
-          "image_offset": 20,
-          "relocation_index": 78,
+          "bytes_hex": "9a28298a07",
+          "file_offset": 30192,
+          "image_offset": 22000,
+          "relocation_index": 617,
           "space": "root"
         }
       ]
+    },
+    "SET_KID_PALETTE": {
+      "entry_sha256": "6e42119ef86371757634dc8c7b63286f8a4ee8e20bf6f4a4d1abc5348f7f4690",
+      "entry_target_id": "root:0a5c:0792",
+      "kind": "far-code-entry",
+      "offset": 1938,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
     },
     "STATE_CODE": {
       "group": "DGROUP",
@@ -3956,29 +3937,48 @@
         }
       ]
     },
-    "STOP_SOUND": {
-      "entry_sha256": "30461441b607bc4843b14a614be5eae0048363c0809b456d0226efb3720148a6",
-      "entry_target_id": "root:1ead:00d4",
+    "STROKE_PORT_RECT": {
+      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
+      "entry_target_id": "root:1101:4d90",
       "kind": "far-code-entry",
-      "offset": 212,
-      "segment": 7853,
+      "offset": 19856,
+      "segment": 4353,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ad400ad1e",
-          "file_offset": 30132,
-          "image_offset": 21940,
-          "relocation_index": 632,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
-    "UPDATE_ROOM": {
-      "entry_sha256": "2a7476852a2ff60d6b44c18d3c68cd1eb7c0ef29029d8c23befaab48da07bc71",
-      "entry_target_id": "root:0a5c:03fc",
+    "UNLOAD_LEVEL": {
+      "entry_sha256": "186053eb14336f321591cfab440db7f96bd616579bb1e5e0c959e9a9606e1b98",
+      "entry_target_id": "root:0a5c:0ce2",
       "kind": "far-code-entry",
-      "offset": 1020,
+      "offset": 3298,
       "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
+    "UNLOAD_PIECES_DATA": {
+      "entry_sha256": "43f5b3d8d7d37c9412f9a8707520dcb22b3e9a4d8c02ab80a61618403a502b30",
+      "entry_target_id": "root:0a5c:0e12",
+      "kind": "far-code-entry",
+      "offset": 3602,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
+    "UNLOAD_SET": {
+      "entry_sha256": "8417e7f61f0bc9aa0d4308b482284583e71ce53a3266f9018ff1f60ed2849893",
+      "entry_target_id": "root:0a5c:0e2c",
+      "kind": "far-code-entry",
+      "offset": 3628,
+      "segment": 2652,
+      "space": "root",
+      "witnesses": []
+    },
+    "WRITE_DAC_BLOCK": {
+      "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
+      "entry_target_id": "root:1101:79c1",
+      "kind": "far-code-entry",
+      "offset": 31169,
+      "segment": 4353,
       "space": "root",
       "witnesses": []
     }

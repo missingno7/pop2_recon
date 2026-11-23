@@ -51,12 +51,12 @@ extern int draw_pass_mode;
 extern signed char *bubble_frames[];
 extern TileNeighbor right_tile;
 extern BackgroundImage *background_images;
-extern LavaInfo *GetLavaInfoPtr(Byte, CellCoord, CellCoord);
+extern LavaInfo *get_lava_info(Byte, CellCoord, CellCoord);
 extern void CheckBGSetImg(int);
-extern int far *lock_image(int);
-extern Byte piece_above_id(CellCoord, CellCoord);
+extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
+extern Byte PieceAboveId(CellCoord, CellCoord);
 extern Byte PieceAboveRightId(CellCoord, CellCoord);
-extern int supports_cave_floor(Byte);
+extern int IS_SIX_KIND(Byte);
 extern DrawRect *ComputeOffsetCellRect(DrawRect *, const DrawRect *, int, int);
 extern int EncloseRect(const DrawRect far *, const DrawRect far *);
 static struct {
@@ -364,7 +364,7 @@ void DrawCaveLava1(DrawCell *cell)
 
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
-    lava = GetLavaInfoPtr(drawn_room, cell->column, cell->row);
+    lava = get_lava_info(drawn_room, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -403,7 +403,7 @@ void DrawCaveLava2(DrawCell *cell)
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
     ++floor.modifier;
-    lava = GetLavaInfoPtr(drawn_room, cell->column, cell->row);
+    lava = get_lava_info(drawn_room, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -443,7 +443,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
     if (draw_pass_mode && !right)
         return;
     draw = cell->pass == 2 ? AddBFImgToFTable : AddBFImgToBTable;
-    lava = GetLavaInfoPtr(drawn_room, cell->column, cell->row);
+    lava = get_lava_info(drawn_room, cell->column, cell->row);
     if (!lava)
         return;
     frame = lava->flags & 0x3f;
@@ -654,9 +654,9 @@ void DrawCaveSpace(DrawCell *cell)
         modifier &= 7;
         if (cell->row == redraw_row) { draw_floor = 1; }
         else if (cell->row == redraw_row + 1 &&
-                   (supports_cave_floor(piece_above_id(cell->column, cell->row)) ||
-                    supports_cave_floor(PieceAboveRightId(cell->column, cell->row)))) { draw_floor = 1; }
-        else if (redraw_row == -1 && supports_cave_floor(cave_edge_tile)) { draw_floor = 1; }
+                   (IS_SIX_KIND(PieceAboveId(cell->column, cell->row)) ||
+                    IS_SIX_KIND(PieceAboveRightId(cell->column, cell->row)))) { draw_floor = 1; }
+        else if (redraw_row == -1 && IS_SIX_KIND(cave_edge_tile)) { draw_floor = 1; }
         else {
             draw_floor = 0;
         }
@@ -667,7 +667,7 @@ void DrawCaveSpace(DrawCell *cell)
             break;
         if (modifier < 3) {
             AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
-            if (!supports_cave_floor(right_tile.kind))
+            if (!IS_SIX_KIND(right_tile.kind))
                 goto check_column;
             if (right_tile.modifier >= 3) {
             check_column:
@@ -685,7 +685,7 @@ void DrawCaveSpace(DrawCell *cell)
         if (!draw_floor)
             break;
         if (modifier < 3) {
-            if ((!supports_cave_floor(right_tile.kind) || right_tile.modifier >= 3) &&
+            if ((!IS_SIX_KIND(right_tile.kind) || right_tile.modifier >= 3) &&
                 cell->column == redraw_column)
                 AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
         } else {
@@ -735,7 +735,7 @@ void DrawCaveTopEdge(DrawCell *cell)
             shape_offsets->top_edge_x = cave_images.top_edge_x[image - 1];
             image += 91;
             CheckBGSetImg(image);
-            height = lock_image(background_images[image].handle);
+            height = RESOLVE_HANDLE_TO_FAR_PAYLOAD(background_images[image].handle);
             shape_offsets->top_edge_y = *height - 63;
             AddFImgToFTable(61, image, cell->column, cell->row, 10, 0);
         }

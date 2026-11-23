@@ -62,8 +62,8 @@ typedef struct
 extern int current_port;
 extern unsigned int active_animation_flags;
 extern unsigned long clock_ticks;
-extern void copy_port(int, int, const Rect far *, const Rect far *, int);
-extern void release_fade(unsigned long);
+extern void MEASURE_TEXT(int, int, const Rect far *, const Rect far *, int);
+extern void QuitFadeTo(unsigned long);
 extern int fade_finished(unsigned long);
 extern void dispose_handle(int);
 extern void release_port(void *);
@@ -75,7 +75,7 @@ Animation *anim_draw(Animation *animation)
     int saved_port = current_port;
 
     current_port = animation->destination;
-    copy_port(current_port, (int)animation, &animation->bounds, &animation->source, 0);
+    MEASURE_TEXT(current_port, (int)animation, &animation->bounds, &animation->source, 0);
     current_port = saved_port;
     return animation;
 }
@@ -86,7 +86,7 @@ void anim_free(Animation *animation)
     register int i;
 
     if (animation->fade)
-        release_fade(animation->fade);
+        QuitFadeTo(animation->fade);
     for (i = 0; i < animation->handle_count; ++i) {
         if (animation->handles[i])
             dispose_handle(animation->handles[i]);
@@ -305,7 +305,7 @@ static unsigned char animation_operand_lengths[] = {
 extern int load_all_animation_shapes;
 extern int animation_color_mode;
 extern int cdecl sprintf(char *, const char *, ...);
-extern void fatal_error(int, const char far *);
+extern void abort_with_message(int, const char far *);
 
 #pragma optimize("e", off)
 Animation *anim_new(const unsigned char far *commands, int sheet, int first_shape,
@@ -347,7 +347,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                     for (; idx <= WORD_AT(command_cursor, 3); ++idx) {
                         if (idx > last_shape) {
                             sprintf(warning, "AnimNew(): Cast member %d out of range", idx);
-                            fatal_error(1, warning);
+                            abort_with_message(1, warning);
                         } else {
                             used_entries[idx - 1] = 1;
                         }
@@ -398,7 +398,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                     (long)(anim_record->port.bounds.bottom - anim_record->port.bounds.top) *
                     anim_record->port.row_bytes);
                 if (!anim_record->background.pixels) goto fail;
-                copy_port((int)&anim_record->background, anim_record->destination,
+                MEASURE_TEXT((int)&anim_record->background, anim_record->destination,
                           &anim_record->source, bounds, 0);
             }
         }
@@ -415,10 +415,10 @@ restore:
 }
 
 #pragma optimize("e", on)
-extern Rect far *offset_rect(Rect far *, const Rect far *, int, int);
-extern void clear_rect(Rect far *);
-extern void fill_rect(Rect far *, int);
-extern void finish_paint(void);
+extern Rect far *OFFSETRECT(Rect far *, const Rect far *, int, int);
+extern void PUSH_PORT_CLIP(Rect far *);
+extern void SET_RECORD_RANGE(Rect far *, int);
+extern void POP_PORT_CLIP(void);
 extern int animation_callback_argument;
 
 Animation *near advance_frame(Animation *animation)
@@ -434,8 +434,8 @@ Animation *near advance_frame(Animation *animation)
     if (!animation->skip_draw)
         draw_frame(animation);
     animation->skip_draw = 0;
-    offset_rect(&region.box, &animation->dirty, animation->bounds.left, animation->bounds.top);
-    copy_port(animation->destination, (int)animation, &region.box, &animation->dirty, 0);
+    OFFSETRECT(&region.box, &animation->dirty, animation->bounds.left, animation->bounds.top);
+    MEASURE_TEXT(animation->destination, (int)animation, &region.box, &animation->dirty, 0);
     memset(&animation->dirty, 0, sizeof(Rect));
     cursor = animation->elements;
     count = 32;
@@ -488,24 +488,24 @@ Animation *draw_frame(Animation *animation)
     int i;
     Element *element;
 
-    clear_rect(&animation->dirty);
+    PUSH_PORT_CLIP(&animation->dirty);
     if (animation->background.pixels) {
-        copy_port((int)animation, (int)&animation->background,
+        MEASURE_TEXT((int)animation, (int)&animation->background,
                   &animation->source, &animation->source, 0);
     } else {
-        fill_rect(&animation->source, *(int *)((char *)animation->destination + 0x20));
+        SET_RECORD_RANGE(&animation->source, *(int *)((char *)animation->destination + 0x20));
     }
     i = 0;
     element = animation->elements;
     do {
         paint_element(animation, element);
         if (i && animation->frame_index > 1 && animation->fade && fade_finished(animation->fade)) {
-            release_fade(animation->fade);
+            QuitFadeTo(animation->fade);
             animation->fade = 0;
         }
         ++element;
     } while (++i < 32);
-    finish_paint();
+    POP_PORT_CLIP();
     if (animation_callback_argument && animation->callbacks[0])
         animation->callbacks[0](animation, animation_callback_argument);
     return animation;
@@ -514,7 +514,7 @@ Animation *draw_frame(Animation *animation)
 extern ShapeHeader far *lock_shape(int);
 extern int high_color_shape_boundary;
 extern void paint_low_color_shape(const ShapeHeader far *, int, int, int);
-extern void paint_shape(const ShapeHeader far *, int, int, int);
+extern void PAINT_PLAIN(const ShapeHeader far *, int, int, int);
 
 void near paint_element(Animation *animation, Element *element)
 {
@@ -528,16 +528,16 @@ void near paint_element(Animation *animation, Element *element)
     goto done;
 
 high_color:
-    paint_shape(lock_shape(animation->handles[element->shape - 1]),
+    PAINT_PLAIN(lock_shape(animation->handles[element->shape - 1]),
                 (int)(element->x >> 16), (int)(element->y >> 16),
                 element->flags & 15);
 done:
     return;
 }
 
-extern int clip_rect(Rect far *, const Rect far *, const Rect far *);
-extern int rect_is_empty(const Rect far *);
-extern void union_rect(Rect far *, const Rect far *, const Rect far *);
+extern int SECTRECT(Rect far *, const Rect far *, const Rect far *);
+extern int EMPTYRECT(const Rect far *);
+extern void UNIONRECT(Rect far *, const Rect far *, const Rect far *);
 
 #pragma optimize("g", on)
 void near accumulate_element_bounds(Animation *animation, Element *element)
@@ -551,11 +551,11 @@ void near accumulate_element_bounds(Animation *animation, Element *element)
         rect.top = (int)(element->y >> 16);
         rect.bottom = rect.top +
                       lock_shape(animation->handles[element->shape - 1])->height;
-        if (clip_rect(&rect, &rect, &animation->source)) {
-            if (rect_is_empty(&animation->dirty))
+        if (SECTRECT(&rect, &rect, &animation->source)) {
+            if (EMPTYRECT(&animation->dirty))
                 animation->dirty = rect;
             else
-                union_rect(&animation->dirty, &animation->dirty, &rect);
+                UNIONRECT(&animation->dirty, &animation->dirty, &rect);
         }
     }
 }
@@ -569,15 +569,15 @@ void near reset_element(Element *element)
     element->x = 0x80000000UL;
 }
 
-extern int poll_events(void);
+extern int check_wait_function(void);
 extern void reset_input(void);
-extern void reset_animation_sound(int, int);
-extern void set_animation_audio(int);
-extern const unsigned char far *load_animation_commands(unsigned long, int);
-extern int open_animation_sheet(int, int, int);
-extern int find_animation_palette(unsigned long, int);
-extern int load_animation_palette(int);
-extern void release_animation_commands(const unsigned char far *);
+extern void DISPATCH_RESOURCE_POINTER(int, int);
+extern void wait_sound(int);
+extern const unsigned char far *LOAD_RESOURCE_PINNED(unsigned long, int);
+extern int hGetNMapShpList(int, int, int);
+extern int HGETRSRC(unsigned long, int);
+extern int hGetSnd(int);
+extern void CLEAR_PAYLOAD_HEADER(const unsigned char far *);
 extern int query_sound_payload(const void far *);
 extern char screen_port[];
 
@@ -595,51 +595,51 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     int result, aborted = 0;
     char message[80];
 
-    scene_id = scene + scene_offset; commands = load_animation_commands(0x00534352UL, scene_id);
+    scene_id = scene + scene_offset; commands = LOAD_RESOURCE_PINNED(0x00534352UL, scene_id);
     if (sheet_override) sheet = sheet_override;
     else
-        sheet = open_animation_sheet(scene, -1, 1);
+        sheet = hGetNMapShpList(scene, -1, 1);
     animation = anim_new(commands, sheet, 1, lock_sheet(sheet)->width, save_background);
     animation->callbacks[0] = callback;
     sprintf(message, "AnimNew(%d)", scene);
-    if (!animation) fatal_error(1, message);
+    if (!animation) abort_with_message(1, message);
 
     load_all_animation_shapes = 0;
-    palette_list = find_animation_palette(0x0050534cUL, scene_id);
+    palette_list = HGETRSRC(0x0050534cUL, scene_id);
     count = *(int far *)lock_shape(palette_list);
     for (result = 0; result < count; ++result)
-        palettes[result] = load_animation_palette(((int far *)lock_shape(palette_list) + 1)[result]);
+        palettes[result] = hGetSnd(((int far *)lock_shape(palette_list) + 1)[result]);
     dispose_handle(palette_list);
     do {
         result = anim_idle(animation);
         if (interruptible) {
-            if (result == 2 || poll_events()) {
-                reset_input(); reset_animation_sound(0, 0);
+            if (result == 2 || check_wait_function()) {
+                reset_input(); DISPATCH_RESOURCE_POINTER(0, 0);
                 aborted = 1;
                 break;
             }
             if (result == 2) result = 0;
         }
         if (animation->fade && fade_finished(animation->fade)) {
-            release_fade(animation->fade);
+            QuitFadeTo(animation->fade);
             animation->fade = 0;
         }
     } while (!result);
     if (restore) {
         if (save_background) {
             Rect rect;
-            copy_port((int)screen_port, (int)&animation->background, &animation->bounds,
-                      offset_rect(&rect, &animation->bounds, -animation->bounds.left,
+            MEASURE_TEXT((int)screen_port, (int)&animation->background, &animation->bounds,
+                      OFFSETRECT(&rect, &animation->bounds, -animation->bounds.left,
                                   -animation->bounds.top), 0);
         } else {
-            fill_rect((Rect far *)commands, 0);
+            SET_RECORD_RANGE((Rect far *)commands, 0);
         }
     }
     anim_free(animation);
     if (!sheet_override) dispose_handle(sheet);
-    release_animation_commands(commands);
-    if (flags & 2) set_animation_audio(0);
-    if (flags & 1) reset_animation_sound(0, 0);
+    CLEAR_PAYLOAD_HEADER(commands);
+    if (flags & 2) wait_sound(0);
+    if (flags & 1) DISPATCH_RESOURCE_POINTER(0, 0);
     for (result = 0; result < count; ++result)
         if (palettes[result] && !query_sound_payload(lock_shape(palettes[result]))) dispose_handle(palettes[result]);
     return aborted;

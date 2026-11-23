@@ -1,10 +1,10 @@
 {
   "declarations": {
     "externals": [
-      "CHECK_VIDEO_MODE",
+      "SELECT_GRAPHICS_MODE",
       "WORK_BUFFER",
       "VIDEO_DESCRIPTOR",
-      "SET_VIDEO_MODE",
+      "INITIALIZE_GRAPHICS_MODE",
       "GRAPHICS_STATE",
       "FIND_OPTION",
       "CURRENT_PORT",
@@ -55,15 +55,15 @@
       "INIT_SOUND",
       "POLL_INPUT",
       "MESSAGE_INPUT",
-      "START_DRAWING",
+      "STROKE_PORT_RECT",
       "FRAME_RECT",
       "SAVE_INITIAL_SETTING",
-      "INSET_RECT",
-      "DRAW_STRING_AT",
+      "INSETRECT",
+      "DRAW_NUL_TEXT_IN_RECT",
       "CONFIG_FILENAME",
-      "PAUSE_FOR_INPUT",
+      "WAIT_KEY",
       "JOYSTICK_MISSING_MESSAGE",
-      "_sound_setup",
+      "_initialize_sound_drivers",
       "VIDEO_ERROR",
       "FILE_ERROR",
       "TIMER_CALLBACK",
@@ -78,7 +78,7 @@
       "KEYBOARD_HANDLER",
       "BASE_INPUT",
       "WAIT_FOR_READY",
-      "WAIT_STATUS",
+      "GET_SOUND_STARTUP_FLAG",
       "DRAW_HANDLER",
       "WINDOW_HANDLER"
     ],
@@ -565,7 +565,7 @@
           "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "START_DRAWING",
+          "name": "STROKE_PORT_RECT",
           "zero_displacement": true
         }
       },
@@ -579,7 +579,7 @@
         "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "START_DRAWING",
+        "name": "STROKE_PORT_RECT",
         "zero_displacement": true
       }
     },
@@ -614,7 +614,7 @@
           "index": 61,
           "kind": "external",
           "method": 6,
-          "name": "PAUSE_FOR_INPUT",
+          "name": "WAIT_KEY",
           "zero_displacement": true
         }
       },
@@ -628,7 +628,7 @@
         "index": 61,
         "kind": "external",
         "method": 6,
-        "name": "PAUSE_FOR_INPUT",
+        "name": "WAIT_KEY",
         "zero_displacement": true
       }
     },
@@ -803,7 +803,7 @@
           "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_STRING_AT",
+          "name": "DRAW_NUL_TEXT_IN_RECT",
           "zero_displacement": true
         }
       },
@@ -817,7 +817,7 @@
         "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_STRING_AT",
+        "name": "DRAW_NUL_TEXT_IN_RECT",
         "zero_displacement": true
       }
     },
@@ -830,7 +830,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "INSET_RECT",
+          "name": "INSETRECT",
           "zero_displacement": true
         }
       },
@@ -844,7 +844,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "INSET_RECT",
+        "name": "INSETRECT",
         "zero_displacement": true
       }
     },
@@ -928,7 +928,7 @@
           "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "START_DRAWING",
+          "name": "STROKE_PORT_RECT",
           "zero_displacement": true
         }
       },
@@ -942,7 +942,7 @@
         "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "START_DRAWING",
+        "name": "STROKE_PORT_RECT",
         "zero_displacement": true
       }
     },
@@ -1139,7 +1139,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "_sound_setup",
+          "name": "_initialize_sound_drivers",
           "zero_displacement": true
         }
       },
@@ -1153,7 +1153,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "_sound_setup",
+        "name": "_initialize_sound_drivers",
         "zero_displacement": true
       }
     },
@@ -3414,7 +3414,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "SET_VIDEO_MODE",
+          "name": "INITIALIZE_GRAPHICS_MODE",
           "zero_displacement": true
         }
       },
@@ -3428,7 +3428,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "SET_VIDEO_MODE",
+        "name": "INITIALIZE_GRAPHICS_MODE",
         "zero_displacement": true
       }
     },
@@ -3571,7 +3571,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_VIDEO_MODE",
+          "name": "SELECT_GRAPHICS_MODE",
           "zero_displacement": true
         }
       },
@@ -3585,7 +3585,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_VIDEO_MODE",
+        "name": "SELECT_GRAPHICS_MODE",
         "zero_displacement": true
       }
     },
@@ -4079,7 +4079,7 @@
           "index": 78,
           "kind": "external",
           "method": 6,
-          "name": "WAIT_STATUS",
+          "name": "GET_SOUND_STARTUP_FLAG",
           "zero_displacement": true
         }
       },
@@ -4093,7 +4093,7 @@
         "index": 78,
         "kind": "external",
         "method": 6,
-        "name": "WAIT_STATUS",
+        "name": "GET_SOUND_STARTUP_FLAG",
         "zero_displacement": true
       }
     },
@@ -4271,15 +4271,6 @@
   },
   "schema": 1,
   "symbols": {
-    "CHECK_VIDEO_MODE": {
-      "entry_sha256": "f722dfc0849350a5857d02780c0aa36d4501f1a2f6879340c68c296d12c19237",
-      "entry_target_id": "root:1101:4f5e",
-      "kind": "far-code-entry",
-      "offset": 20318,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
     "CONFIGURATION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4314,7 +4305,7 @@
       "offset": 2992,
       "provider": "group:english/english"
     },
-    "DRAW_STRING_AT": {
+    "DRAW_NUL_TEXT_IN_RECT": {
       "entry_sha256": "0eb00f234993d1e1739939d2f5175e94f2a71442340dd6e36e7408022309efbd",
       "entry_target_id": "root:1101:5352",
       "kind": "far-code-entry",
@@ -4357,6 +4348,24 @@
         }
       ]
     },
+    "GET_SOUND_STARTUP_FLAG": {
+      "entry_sha256": "10b9fc8caddc90608bc1bd8dfb0a62564c1240a2e6aa01ea3369d4cc045392d0",
+      "entry_target_id": "root:1101:2e0c",
+      "kind": "far-code-entry",
+      "offset": 11788,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "INITIALIZE_GRAPHICS_MODE": {
+      "entry_sha256": "37778dd370e04b69d4230a223e980fba6f390072f4082abe1865b8538e08558f",
+      "entry_target_id": "root:1101:4ea8",
+      "kind": "far-code-entry",
+      "offset": 20136,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "INITIAL_SETTING": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4371,7 +4380,7 @@
         }
       ]
     },
-    "INSET_RECT": {
+    "INSETRECT": {
       "entry_sha256": "182d4e7c3e5a692de062d2c420c518cdee9e337466fdf52c60a462758c2f683b",
       "entry_target_id": "root:1101:502a",
       "kind": "far-code-entry",
@@ -4414,23 +4423,6 @@
       "offset": 3078,
       "provider": "group:english/english"
     },
-    "PAUSE_FOR_INPUT": {
-      "entry_sha256": "20e8ef8c5005c5d1008c577700c6d2e99221c836cc17f99058d5be2fc712c2f1",
-      "entry_target_id": "root:1de8:01ce",
-      "kind": "far-code-entry",
-      "offset": 462,
-      "segment": 7656,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ace01e81d",
-          "file_offset": 12349,
-          "image_offset": 4157,
-          "relocation_index": 131,
-          "space": "root"
-        }
-      ]
-    },
     "POLL_INPUT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4451,16 +4443,16 @@
         }
       ]
     },
-    "SET_VIDEO_MODE": {
-      "entry_sha256": "37778dd370e04b69d4230a223e980fba6f390072f4082abe1865b8538e08558f",
-      "entry_target_id": "root:1101:4ea8",
+    "SELECT_GRAPHICS_MODE": {
+      "entry_sha256": "f722dfc0849350a5857d02780c0aa36d4501f1a2f6879340c68c296d12c19237",
+      "entry_target_id": "root:1101:4f5e",
       "kind": "far-code-entry",
-      "offset": 20136,
+      "offset": 20318,
       "segment": 4353,
       "space": "root",
       "witnesses": []
     },
-    "START_DRAWING": {
+    "STROKE_PORT_RECT": {
       "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
       "entry_target_id": "root:1101:4d90",
       "kind": "far-code-entry",
@@ -4483,14 +4475,22 @@
       "offset": 2856,
       "provider": "group:english/english"
     },
-    "WAIT_STATUS": {
-      "entry_sha256": "10b9fc8caddc90608bc1bd8dfb0a62564c1240a2e6aa01ea3369d4cc045392d0",
-      "entry_target_id": "root:1101:2e0c",
+    "WAIT_KEY": {
+      "entry_sha256": "20e8ef8c5005c5d1008c577700c6d2e99221c836cc17f99058d5be2fc712c2f1",
+      "entry_target_id": "root:1de8:01ce",
       "kind": "far-code-entry",
-      "offset": 11788,
-      "segment": 4353,
+      "offset": 462,
+      "segment": 7656,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "bytes_hex": "9ace01e81d",
+          "file_offset": 12349,
+          "image_offset": 4157,
+          "relocation_index": 131,
+          "space": "root"
+        }
+      ]
     },
     "_exit": {
       "entry_sha256": "00bc5021f10a5684ed511f7fee9b15b21693b4a401f7fb7f008837277d341c19",
@@ -4509,6 +4509,15 @@
         }
       ]
     },
+    "_initialize_sound_drivers": {
+      "entry_sha256": "a8fbfd4223b1c25f2a3d2b9d5fff5aca7340d679d20a4b5fe2e42badaed54fe7",
+      "entry_target_id": "root:1101:2c9a",
+      "kind": "far-code-entry",
+      "offset": 11418,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "_printf": {
       "entry_sha256": "5fe12427cbd1e30ac6100cca20259da74cc284420f62c7db1330ae24b06136f7",
       "entry_target_id": "root:1fe6:0786",
@@ -4525,15 +4534,6 @@
           "space": "root"
         }
       ]
-    },
-    "_sound_setup": {
-      "entry_sha256": "a8fbfd4223b1c25f2a3d2b9d5fff5aca7340d679d20a4b5fe2e42badaed54fe7",
-      "entry_target_id": "root:1101:2c9a",
-      "kind": "far-code-entry",
-      "offset": 11418,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
     },
     "_sprintf": {
       "entry_sha256": "36e913b51ca8e483e907f93b9972a636d8c6be67fb1373ff44dd2ead2b9e19e6",

@@ -1,11 +1,11 @@
 typedef unsigned Handle;
 
-extern unsigned far pascal Read_Handle_Flags(Handle handle);
-extern unsigned long far pascal Text_Expansion_Size(Handle handle);
-extern unsigned far *far pascal Deref_Handle(Handle handle);
+extern unsigned far pascal SAVE_HANDLE_FLAGS(Handle handle);
+extern unsigned long far pascal QUERY_HANDLE_SIZE(Handle handle);
+extern unsigned far *far pascal MATERIALIZE_HANDLE(Handle handle);
 extern int far pascal Resize_Handle(Handle handle, unsigned long bytes);
-extern char far *far pascal Handle_Payload(Handle handle);
-extern char far *far pascal Move_Far_Bytes(char far *destination, const char far *source, unsigned long bytes);
+extern char far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle handle);
+extern char far *far pascal MOVE_HUGE_BYTES(char far *destination, const char far *source, unsigned long bytes);
 extern char far *far pascal XlatTxt4(char far *destination, const char far *source);
 extern Handle far pascal Mark_Handle_Converted(Handle handle);
 
@@ -15,18 +15,18 @@ Handle convert_text_handle(Handle handle)
     unsigned original_size;
     char far *payload;
 
-    if (!(Read_Handle_Flags(handle) & 0x2000)) {
-        expansion = (unsigned)Text_Expansion_Size(handle);
+    if (!(SAVE_HANDLE_FLAGS(handle) & 0x2000)) {
+        expansion = (unsigned)QUERY_HANDLE_SIZE(handle);
         if (!expansion)
             goto fail;
-        payload = (char far *)Deref_Handle(handle);
+        payload = (char far *)MATERIALIZE_HANDLE(handle);
         if (!payload)
             goto fail;
         original_size = *(unsigned far *)payload;
         if (Resize_Handle(handle, (unsigned long)(original_size + expansion)))
             goto fail;
-        payload = Handle_Payload(handle);
-        XlatTxt4(payload, Move_Far_Bytes(payload + original_size, payload, expansion));
+        payload = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+        XlatTxt4(payload, MOVE_HUGE_BYTES(payload + original_size, payload, expansion));
         Resize_Handle(handle, original_size);
         Mark_Handle_Converted(handle);
     }

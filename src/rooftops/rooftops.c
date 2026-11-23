@@ -95,20 +95,20 @@ extern char quit_prompt[], restart_prompt[];
 
 typedef void (far pascal *RedrawCallback)(void);
 extern void far pascal redraw_object(void), restore_object(void);
-extern int far pascal intersect_rect(Rect far *, Rect far *, Rect far *);
-extern void far pascal mark_redraw(RedrawCallback, Rect near *, sbyte);
-extern void far pascal change_hp(sbyte), play_cutscene_sound(sbyte);
+extern int far pascal SECTRECT(Rect far *, Rect far *, Rect far *);
+extern void far pascal mark_bufs_for_rect(RedrawCallback, Rect near *, sbyte);
+extern void far pascal decrement_life_points(sbyte), play_cutscene_sound(sbyte);
 extern int far pascal load_palette(uword, int, ubyte, sbyte);
-extern void far pascal rotate_palette(int, int, int);
-extern int far pascal show_prompt(char near *);
-extern void far pascal play_sound(int), stop_ship_sound(void), misc_sound(int);
-extern void far pascal set_sound(int), wait_timer(int), step_scene(void);
-extern void far pascal CheckMeters(void), animate_character(void);
-extern void far pascal reset_player(void), start_sequence(int), hide_prompt(char near *);
-extern void far pascal select_opponent(sbyte), restore_character(void);
-extern int far pascal update_animation(void);
-extern void far *far pascal get_shape(int);
-extern Rect far *far pascal offset_shape_rect(Rect far *, int, int, void far *);
+extern void far pascal CycleColors(int, int, int);
+extern int far pascal query_sound(char near *);
+extern void far pascal AddSound(int), AddLeaveLevelSong(void), play_song(int);
+extern void far pascal wait_sound(int), wait_timer(int), step_scene(void);
+extern void far pascal CheckMeters(void), copy_kid_to_char(void);
+extern void far pascal reset_char_y(void), JumpSeq(int), flag_sound_resource(char near *);
+extern void far pascal load_actor_slot(sbyte), save_actor_slot(void);
+extern int far pascal check_trob_visibility(void);
+extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
+extern Rect far *far pascal MAKESHAPERECT(Rect far *, int, int, void far *);
 extern void far _fastcall draw_image(ubyte, ubyte);
 extern sbyte far pascal RestoreKeepCustomPeel(ubyte);
 
@@ -130,7 +130,7 @@ int far _fastcall keep_image_in_back(DrawPiece near *piece)
 
     if ((piece->kind == 35 || piece->kind == 22 ||
          piece->kind == 72 || piece->kind == 23) &&
-        intersect_rect(&intersection, &piece->bounds, &character_clip) &&
+        SECTRECT(&intersection, &piece->bounds, &character_clip) &&
         draw_char_frame != 68 &&
         (draw_char_action == 3 || draw_char_action == 4))
         result = 1;
@@ -158,13 +158,13 @@ void far pascal check_character_water(void)
         if (splash_frame < 7) {
             if (draw_list->bank != 18 && draw_list->bank != 19)
                 return;
-            mark_redraw(redraw_object, &draw_list->pieces[splash_images[splash_frame].index].bounds, -1);
+            mark_bufs_for_rect(redraw_object, &draw_list->pieces[splash_images[splash_frame].index].bounds, -1);
         } else if (splash_frame >= 8) {
             splash_frame = 0;
             water_character = -1;
             if (char_hp >= 2) {
                 STATE_CODE = 185;
-                change_hp(100);
+                decrement_life_points(100);
                 play_cutscene_sound(15);
             }
             return;
@@ -210,9 +210,9 @@ void far pascal cycle_roof_colors(void)
 {
     if (!fade_active && (room_number == 19 || room_number == 16 || room_number == 15) &&
         frame_number % 3 == 0) {
-        rotate_palette(230, 3, 0);
-        rotate_palette(233, 3, 0);
-        rotate_palette(236, 2, 0);
+        CycleColors(230, 3, 0);
+        CycleColors(233, 3, 0);
+        CycleColors(236, 2, 0);
     }
 }
 
@@ -228,29 +228,29 @@ void far pascal kill_kid_on_wharf(void)
     int hp;
 
     if (POSITION_WORD > 513) {
-        if ((scene_flags & 1) && !show_prompt(quit_prompt) && !show_prompt(restart_prompt)) {
-            play_sound(32);
+        if ((scene_flags & 1) && !query_sound(quit_prompt) && !query_sound(restart_prompt)) {
+            AddSound(32);
             return;
         }
-        set_sound((int)quit_prompt);
+        wait_sound((int)quit_prompt);
         delay_count = 30;
         wait_timer(0);
-        misc_sound(47);
+        play_song(47);
         hp = char_life;
         if (hp > 0) {
             do {
                 delay_count = 48;
-                change_hp(1);
+                decrement_life_points(1);
                 saved_kid = current_character;
                 step_scene();
                 CheckMeters();
-                animate_character();
+                copy_kid_to_char();
                 wait_timer(0);
             } while (--hp);
         }
-        reset_player();
-        start_sequence(71);
-        hide_prompt(restart_prompt);
+        reset_char_y();
+        JumpSeq(71);
+        flag_sound_resource(restart_prompt);
     }
 }
 
@@ -281,19 +281,19 @@ void far pascal trigger_character_water(void)
             splash_x -= character_width / 2;
         else
             splash_x += character_width / 2;
-        play_sound(48);
+        AddSound(48);
     }
 }
 
 void far pascal watch_kid(void)
 {
     if (kid_room == 19 || kid_room == 16 || water_character == 10) {
-        animate_character();
+        copy_kid_to_char();
         check_character_water();
         if (kid_room == 19 && (RoofHangingFromShip() || RoofClimbingIntoShip())) {
             --POSITION_WORD;
             if (RoofClimbingIntoShip() && STATE_CODE == 149)
-                stop_ship_sound();
+                AddLeaveLevelSong();
         }
         saved_kid = current_character;
     }
@@ -308,10 +308,10 @@ void far pascal watch_opponents(void)
         index = 0;
         if (count > 0) {
             do {
-                select_opponent(index);
+                load_actor_slot(index);
                 if (state_byte == 19 || state_byte == 16 || index == water_character) {
                     check_character_water();
-                    restore_character();
+                    save_actor_slot();
                 }
             } while (++index < count);
         }
@@ -333,13 +333,13 @@ void far pascal setup_splash(void)
         if (STATE_KIND == 9)
             piece->y += 14;
         piece->x = (piece->bounds.left - piece->bounds.right) / 2 + splash_x;
-        offset_shape_rect(&piece->bounds, piece->y, piece->x, get_shape(piece->image_set));
+        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_clip = piece->bounds;
         piece->pass = 1;
         draw_image(image, piece->pass);
         piece->pass = 11;
         if (STATE_KIND != 9)
-            mark_redraw(restore_object, &piece->bounds, -1);
+            mark_bufs_for_rect(restore_object, &piece->bounds, -1);
         draw_clip = clip;
     }
 }
@@ -352,8 +352,8 @@ void far pascal animate_roof_glass(void)
     }
     ++roof_animation;
     if (roof_animation == 1)
-        play_sound(49);
-    mark_redraw(redraw_object, &draw_list->pieces[(ubyte)(roof_animation + 30)].bounds, -1);
+        AddSound(49);
+    mark_bufs_for_rect(redraw_object, &draw_list->pieces[(ubyte)(roof_animation + 30)].bounds, -1);
 }
 
 void far pascal draw_roof_glass(RoofAnimation near *animation)
@@ -367,7 +367,7 @@ void far pascal draw_roof_glass(RoofAnimation near *animation)
         image = (ubyte)(animation->frame + 31);
         draw_image(image, 11);
         if (image + 1 < draw_list->piece_count)
-            mark_redraw(restore_object, &draw_list->pieces[image + 1].bounds, -1);
+            mark_bufs_for_rect(restore_object, &draw_list->pieces[image + 1].bounds, -1);
         draw_clip = clip;
     }
 }
@@ -378,7 +378,7 @@ void far pascal AnimRoofPillar(void)
     sbyte image;
     int step;
 
-    if (update_animation()) {
+    if (check_trob_visibility()) {
         step = roof_animation & 15;
         if (step == 7)
             step = 0;
@@ -389,9 +389,9 @@ void far pascal AnimRoofPillar(void)
         make_water_test_rect(&water);
         image = SELECT_PAIR_CODE(animation_room, animation_tile % 10);
         if (image && (!splash_frame ||
-            !intersect_rect(&water, &water, &draw_list->pieces[(ubyte)image].bounds))) {
-            mark_redraw(redraw_object, &draw_list->pieces[(ubyte)image].bounds, -1);
-            mark_redraw(redraw_object, &draw_list->pieces[(ubyte)(image + 4)].bounds, -1);
+            !SECTRECT(&water, &water, &draw_list->pieces[(ubyte)image].bounds))) {
+            mark_bufs_for_rect(redraw_object, &draw_list->pieces[(ubyte)image].bounds, -1);
+            mark_bufs_for_rect(redraw_object, &draw_list->pieces[(ubyte)(image + 4)].bounds, -1);
         }
     }
 }
@@ -424,7 +424,7 @@ int far pascal draw_pillar_in_back(DrawPiece near *piece)
 
     if (splash_frame && splash_low == 1 && piece->kind >= 6 && piece->kind <= 11) {
         make_water_test_rect(&water);
-        if (intersect_rect(&water, &water, &piece->bounds))
+        if (SECTRECT(&water, &water, &piece->bounds))
             result = 1;
     }
     return result;
@@ -454,17 +454,17 @@ void far pascal animate_roof_ship(void)
     if (room_number == animation_room) {
         piece = &draw_list->pieces[55];
         piece->x = -roof_animation;
-        offset_shape_rect(&bounds, piece->y, piece->x, get_shape(piece->image_set));
+        MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         ++bounds.right;
-        mark_redraw(redraw_object, &bounds, -1);
+        mark_bufs_for_rect(redraw_object, &bounds, -1);
         slot = RestoreKeepCustomPeel(piece->kind);
         update_ship_peel(slot, bounds.right);
 
         piece = &draw_list->pieces[(sbyte)(((roof_animation - 1) & 3) + 62)];
         piece->x = 1 - roof_animation;
-        offset_shape_rect(&bounds, piece->y, piece->x, get_shape(piece->image_set));
+        MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         ++bounds.right;
-        mark_redraw(redraw_object, &bounds, -1);
+        mark_bufs_for_rect(redraw_object, &bounds, -1);
     }
 }
 
@@ -482,13 +482,13 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
         position = animation->frame;
         piece = &draw_list->pieces[55];
         piece->x = -position;
-        offset_shape_rect(&piece->bounds, piece->y, piece->x, get_shape(piece->image_set));
+        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_image(55, 11);
 
         piece = &draw_list->pieces[61];
         ship_x = position;
         piece->x = 45 - ship_x;
-        offset_shape_rect(&piece->bounds, piece->y, piece->x, get_shape(piece->image_set));
+        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         piece->pass = 1;
         draw_image(61, 1);
         piece->pass = 11;
@@ -496,7 +496,7 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
         image = (position & 3) + 62;
         piece = &draw_list->pieces[image];
         piece->x = -ship_x;
-        offset_shape_rect(&piece->bounds, piece->y, piece->x, get_shape(piece->image_set));
+        MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_image(image, 11);
         draw_clip = clip;
     }

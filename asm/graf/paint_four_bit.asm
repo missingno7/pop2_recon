@@ -5,11 +5,11 @@ EXTRN HORIZONTAL_PIXELS_PER_BYTE:BYTE
 EXTRN PAINT_FOUR_BIT_CALLBACK:WORD
 EXTRN PAINT_PLAIN_CALLBACK:WORD
 .CODE
-EXTRN BLIT_RECT:NEAR
+EXTRN MEASURE_TEXT:NEAR
 EXTRN RELEASE_BUFFER:NEAR
-EXTRN FREE_PORT_DESCRIPTOR:FAR
+EXTRN __nfree:FAR
 EXTRN ALLOCATE_BUFFER:NEAR
-EXTRN ALLOCATE_PORT_DESCRIPTOR:FAR
+EXTRN __nmalloc:FAR
 
 PUBLIC MOVETO
 
@@ -137,10 +137,10 @@ DISPOSE_BITMAP_PORT PROC FAR
     mov ax, 0
     push ax
     push cs
-    call BLIT_RECT
+    call MEASURE_TEXT
     push cs
     call RELEASE_BUFFER
-    call FREE_PORT_DESCRIPTOR
+    call __nfree
     add sp, 2
     pop bp
     retf 2
@@ -201,7 +201,7 @@ ALLOCATE_CLIPPED_PORT PROC FAR
     shl ax, 1
     add ax, 18h
     push ax
-    call ALLOCATE_PORT_DESCRIPTOR
+    call __nmalloc
     add sp, 2
     test ax, ax
     jz port_ready_51b2
@@ -232,7 +232,7 @@ allocate_pixels_51b2:
     or ax, dx
     jne finish_bitmap_51b2
     push si
-    call FREE_PORT_DESCRIPTOR
+    call __nfree
     add sp, 2
     sub ax, ax
 port_ready_51b2:
@@ -252,7 +252,7 @@ finish_bitmap_51b2:
     mov ax, 0
     push ax
     push cs
-    call BLIT_RECT
+    call MEASURE_TEXT
     xchg si, ax
     jmp SHORT port_ready_51b2
 ALLOCATE_CLIPPED_PORT ENDP

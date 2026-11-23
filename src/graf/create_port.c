@@ -13,12 +13,12 @@ extern Port *Current_Port;
 extern signed char Byte_Alignment;
 
 extern void far pascal Init_Port(Port *port, const Rect far *rect);
-extern void far pascal Offset_Rect(Rect far *out, const Rect far *in, int x, int y);
+extern void far pascal OFFSETRECT(Rect far *out, const Rect far *in, int x, int y);
 extern void far *far pascal Allocate_Buffer(long bytes);
 extern void far pascal Set_Origin(int x, int y);
 extern void far pascal Finish_Port(Port *port);
-extern void *far cdecl malloc(unsigned bytes);
-extern void far cdecl free(void *memory);
+extern void *far cdecl _nmalloc(unsigned bytes);
+extern void far cdecl _nfree(void *memory);
 
 Port *create_port(Port *port, const Rect far *rect)
 {
@@ -28,16 +28,16 @@ Port *create_port(Port *port, const Rect far *rect)
 
     Init_Port(port, rect);
     rows = rect->bottom - rect->top;
-    port->row_offsets = malloc(rows * sizeof(int));
+    port->row_offsets = _nmalloc(rows * sizeof(int));
     if (!port->row_offsets)
         goto fail;
-    Offset_Rect(&port->bounds, rect, -rect->left, -rect->top);
+    OFFSETRECT(&port->bounds, rect, -rect->left, -rect->top);
     left_adjustment = (rect->left - Current_Port->bounds.left) & (Byte_Alignment - 1);
     port->bounds.left -= left_adjustment;
     port->row_bytes = (Byte_Alignment + (rect->right - rect->left) + left_adjustment - 1) / Byte_Alignment;
     port->buffer = Allocate_Buffer((long)port->row_bytes * rows);
     if (!port->buffer) {
-        free(port->row_offsets);
+        _nfree(port->row_offsets);
         goto fail;
     }
     while (rows-- != 0) {

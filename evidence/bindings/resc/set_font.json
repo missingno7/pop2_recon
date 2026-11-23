@@ -1,8 +1,8 @@
 {
   "declarations": {
     "externals": [
-      "EXCHANGE_CONTEXT_ATTRIBUTE",
-      "LOAD_FONT_ATTRIBUTE",
+      "HSETFONT",
+      "HGETFONT",
       "SETFONT"
     ],
     "groups": [
@@ -87,7 +87,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "EXCHANGE_CONTEXT_ATTRIBUTE",
+          "name": "HSETFONT",
           "zero_displacement": true
         }
       },
@@ -101,7 +101,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "EXCHANGE_CONTEXT_ATTRIBUTE",
+        "name": "HSETFONT",
         "zero_displacement": true
       }
     },
@@ -114,7 +114,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_FONT_ATTRIBUTE",
+          "name": "HGETFONT",
           "zero_displacement": true
         }
       },
@@ -128,7 +128,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_FONT_ATTRIBUTE",
+        "name": "HGETFONT",
         "zero_displacement": true
       }
     }
@@ -144,38 +144,7 @@
   ],
   "schema": 1,
   "symbols": {
-    "EXCHANGE_CONTEXT_ATTRIBUTE": {
-      "entry_sha256": "cd1e308d4f1b4e4a89185dcf8378dfebef88ec0005f336fdedd2440375016606",
-      "entry_target_id": "root:1101:4fca",
-      "kind": "far-code-entry",
-      "offset": 20426,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aca4f0111",
-          "file_offset": 76277,
-          "image_offset": 68085,
-          "relocation_index": 1426,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9aca4f0111",
-          "file_offset": 128987,
-          "image_offset": 120795,
-          "relocation_index": 1719,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "9aca4f0111",
-          "file_offset": 128950,
-          "image_offset": 120758,
-          "relocation_index": 1720,
-          "space": "root"
-        }
-      ]
-    },
-    "LOAD_FONT_ATTRIBUTE": {
+    "HGETFONT": {
       "entry_sha256": "c6f7d1676eac2ecfa81767740f5393c4e0f8ed61b404abdb74032c621a795ffd",
       "entry_target_id": "root:1101:4faa",
       "kind": "far-code-entry",
@@ -251,6 +220,37 @@
           "file_offset": 38638,
           "image_offset": 30446,
           "relocation_index": 475,
+          "space": "root"
+        }
+      ]
+    },
+    "HSETFONT": {
+      "entry_sha256": "cd1e308d4f1b4e4a89185dcf8378dfebef88ec0005f336fdedd2440375016606",
+      "entry_target_id": "root:1101:4fca",
+      "kind": "far-code-entry",
+      "offset": 20426,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aca4f0111",
+          "file_offset": 76277,
+          "image_offset": 68085,
+          "relocation_index": 1426,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aca4f0111",
+          "file_offset": 128987,
+          "image_offset": 120795,
+          "relocation_index": 1719,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "9aca4f0111",
+          "file_offset": 128950,
+          "image_offset": 120758,
+          "relocation_index": 1720,
           "space": "root"
         }
       ]

@@ -5,13 +5,13 @@ typedef struct Port {
 } Port;
 
 extern Port CurrentPort;
-extern void far pascal ReleaseBuffer(void far *buffer);
-extern void far cdecl free(void *memory);
+extern void far pascal RELEASE_BUFFER(void far *buffer);
+extern void far cdecl _nfree(void *memory);
 
 void release_port(Port *port)
 {
     if (port->buffer != CurrentPort.buffer)
-        ReleaseBuffer(port->buffer);
+        RELEASE_BUFFER(port->buffer);
     if (port->row_offsets != CurrentPort.row_offsets)
-        free(port->row_offsets);
+        _nfree(port->row_offsets);
 }

@@ -22,19 +22,19 @@ extern CharState current_char, opponent;      /* DS:5c00,5c80 */
 extern Byte scene_flag;                      /* DS:6290 */
 
 extern void far _fastcall draw_tile_image(Byte, Byte);
-extern void set_resource(int, unsigned int, Byte, Byte), start_sound(int);
-extern Handle allocate_handle(long);
-extern RoomState far *locate_handle(Handle);
-extern void free_handle(Handle);
-extern int check_scene_state(int);
-extern void update_scene(void), load_opponent(void), sync_char(void);
-extern void set_sequence(int);
-extern void play_scene(Byte);
-extern void setup_throne_room(Byte);
+extern void set_resource(int, unsigned int, Byte, Byte), AddSong(int);
+extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
+extern RoomState far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
+extern void DISPOSE_HANDLE(Handle);
+extern int play_nis(int);
+extern void reset_level_overlays(void), copy_kid_to_char(void), reset_char_y(void);
+extern void JumpSeq(int);
+extern void load_level(Byte);
+extern void LoadCustomRoomData(Byte);
 typedef void far pascal DrawCallback(void);
 extern DrawCallback draw_under_actor;
-extern void redraw_cells(DrawCallback *, Rect *, Byte);
-extern void save_kid(void), reset_char(void);
+extern void mark_bufs_for_rect(DrawCallback *, Rect *, Byte);
+extern void AnimChar(void), ClrAll(void);
 
 void draw_throne_room_gate_in_fore(void)
 {
@@ -48,10 +48,10 @@ void load_throne_room(void)
 {
     set_resource(3500, 64, 160, 2);
     if (opponent_sequence < 9) {
-        start_sound(253);
+        AddSong(253);
         return;
     }
-    start_sound(152);
+    AddSong(152);
 }
 
 void unload_throne_room(void)
@@ -65,26 +65,26 @@ void play_throne_room_nis(void)
     Handle saved_handle;
     RoomState far *saved;
 
-    saved_handle = allocate_handle(sizeof(RoomState));
-    saved = locate_handle(saved_handle);
+    saved_handle = ALLOCATE_PAYLOAD_HANDLE(sizeof(RoomState));
+    saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
     *saved = room_state;
-    if (check_scene_state(6) == 2)
+    if (play_nis(6) == 2)
         room_lighting = 0;
-    update_scene();
-    load_opponent();
+    reset_level_overlays();
+    copy_kid_to_char();
     char_direction = 0;
-    set_sequence(231);
+    JumpSeq(231);
     room_number = char_room = 9;
-    sync_char();
+    reset_char_y();
     char_old_image_x = char_image_x;
-    play_scene(throne_sound);
-    saved = locate_handle(saved_handle);
+    load_level(throne_sound);
+    saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
     room_state = *saved;
-    free_handle(saved_handle);
-    setup_throne_room(9);
-    redraw_cells(draw_under_actor, &throne_rect, 10);
-    save_kid();
+    DISPOSE_HANDLE(saved_handle);
+    LoadCustomRoomData(9);
+    mark_bufs_for_rect(draw_under_actor, &throne_rect, 10);
+    AnimChar();
     opponent = current_char;
-    reset_char();
+    ClrAll();
     scene_flag = 0;
 }

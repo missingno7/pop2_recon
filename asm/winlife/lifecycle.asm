@@ -15,13 +15,13 @@ EXTRN WINDOW_LIST:BYTE
 SEND_WINDOW_BACK_COMMAND DW 6800h
 MOVE_WINDOW_COMMAND DW 6900h
 .CODE
-EXTRN ALLOCATE_WINDOW_MEMORY:FAR
+EXTRN __nmalloc:FAR
 EXTRN CREATE_STRING_HANDLE:NEAR
 EXTRN DISCARD_QUEUED_EVENTS:NEAR
 EXTRN DISPOSE_HANDLE:NEAR
 EXTRN DISPOSE_WINDOW_ITEM:NEAR
 EXTRN EMPTYRECT:NEAR
-EXTRN FREE_NEAR:FAR
+EXTRN __nfree:FAR
 EXTRN HGETRSRC:NEAR
 EXTRN INIT_PORT:NEAR
 EXTRN MOUSE_BUTTON_UNQUEUED:NEAR
@@ -41,14 +41,14 @@ EXTRN SUBTRACT_RECTANGLE_STRIP:NEAR
 EXTRN UNIONRECT:NEAR
 EXTRN UPDATE_MESSAGE_DISPLAY:NEAR
 EXTRN adjust_mouse_point:NEAR
-EXTRN allocate_port_buffer:NEAR
-EXTRN draw_outline_rect:NEAR
-EXTRN offset_rect:NEAR
+EXTRN ALLOCATE_CLIPPED_PORT:NEAR
+EXTRN FRAME_RECT:NEAR
+EXTRN OFFSETRECT:NEAR
 EXTRN SET_CONTEXT_ORIGIN:NEAR
-EXTRN origin_relative_rectangle:NEAR
-EXTRN release_port_buffer:NEAR
-EXTRN subtract_points:NEAR
-EXTRN translate_port_point:NEAR
+EXTRN INSETRECT:NEAR
+EXTRN DISPOSE_BITMAP_PORT:NEAR
+EXTRN CLAMP_POINT_TO_RECT:NEAR
+EXTRN SUBTRACT_PORT_ORIGIN:NEAR
 PUBLIC PAINT_PENDING_WINDOW
 PUBLIC BRING_WINDOW_FORWARD
 PUBLIC CLOSE_WINDOW
@@ -327,7 +327,7 @@ begin_key_move:
     add ax, word ptr [di + 3eh]
     push ax
     push cs
-    call origin_relative_rectangle
+    call INSETRECT
     lea bx, [di + 3eh]
     push bx
     push ax
@@ -372,7 +372,7 @@ DRAG_WINDOW_FROM_POINT PROC FAR
     mov ax, 2
     push ax
     push cs
-    call origin_relative_rectangle
+    call INSETRECT
     mov si, word ptr [bp + 8]
     mov ax, word ptr [si + 2]
     cmp ax, word ptr [di + 2]
@@ -490,7 +490,7 @@ DISPOSE_WINDOW PROC FAR
     push cs
     call NEAR PTR CLOSE_WINDOW
     push WORD PTR [bp+6]
-    call FREE_NEAR
+    call __nfree
     add sp, 2
     pop bp
     retf 2
@@ -568,7 +568,7 @@ INVALIDATE_WINDOW_BEHIND_PORT PROC FAR
     push ds
     push di
     push cs
-    call translate_port_point
+    call SUBTRACT_PORT_ORIGIN
     lea ax, [si + 4]
     push ds
     push ax
@@ -576,7 +576,7 @@ INVALIDATE_WINDOW_BEHIND_PORT PROC FAR
     push ds
     push ax
     push cs
-    call translate_port_point
+    call SUBTRACT_PORT_ORIGIN
     mov di, OFFSET WINDOW_LIST
 scan_windows_behind:
     mov di, word ptr [di + 2ch]
@@ -725,7 +725,7 @@ MOVE_OUTLINE_BY_KEYBOARD PROC FAR
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
 wait_for_move_key:
     lea ax, [bp - 18h]
     push ax
@@ -746,7 +746,7 @@ finish_key_move:
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
     push cs
     call SHOW_MOUSE_GRAPHICS
     pop dx
@@ -824,9 +824,9 @@ offset_key_outline:
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
     push cs
-    call offset_rect
+    call OFFSETRECT
     mov cx, word ptr [si + 2]
     sub cx, word ptr [di + 2]
     jg clamp_vertical_offset
@@ -851,12 +851,12 @@ clamp_key_outline:
     push cx
     push dx
     push cs
-    call offset_rect
+    call OFFSETRECT
 redraw_key_outline:
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
     jmp SHORT poll_move_keys
 MOVE_OUTLINE_BY_KEYBOARD ENDP
 
@@ -895,7 +895,7 @@ test_drag_point:
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
 offset_mouse_outline:
     lea ax, [bp - 10h]
     push ds
@@ -905,7 +905,7 @@ offset_mouse_outline:
     push ds
     push word ptr [bp + 8]
     push cs
-    call subtract_points
+    call CLAMP_POINT_TO_RECT
     xchg bx, ax
     mov cx, word ptr [bx + 2]
     mov dx, word ptr [bx]
@@ -919,7 +919,7 @@ offset_mouse_outline:
     push cx
     push dx
     push cs
-    call offset_rect
+    call OFFSETRECT
     mov word ptr [bp - 12h], di
     jmp SHORT redraw_mouse_outline
 drag_point_outside:
@@ -929,7 +929,7 @@ redraw_mouse_outline:
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
 poll_drag_button:
     push word ptr [bp + 0ch]
     push cs
@@ -965,7 +965,7 @@ finish_mouse_drag:
     push ds
     push di
     push cs
-    call draw_outline_rect
+    call FRAME_RECT
     mov ax, word ptr [di + 2]
     mov dx, word ptr [di]
     mov bx, word ptr [bp + 0ah]
@@ -1032,7 +1032,7 @@ CREATE_WINDOW PROC FAR
     mov bp, sp
     mov ax, 5ch
     push ax
-    call ALLOCATE_WINDOW_MEMORY
+    call __nmalloc
     add sp, 2
     test ax, ax
     jz create_window_done
@@ -1374,9 +1374,9 @@ TRANSLATE_WINDOW_CLIP PROC FAR
     push ds
     push bx
     push cs
-    call translate_port_point
+    call SUBTRACT_PORT_ORIGIN
     push cs
-    call translate_port_point
+    call SUBTRACT_PORT_ORIGIN
     push cs
     call NEAR PTR TRIM_PENDING_WINDOW_UPDATES
     mov ax, word ptr [bp + 6]
@@ -1428,7 +1428,7 @@ RELEASE_BACKGROUND_PORT PROC NEAR
     push ax
     push cx
     push cs
-    call release_port_buffer
+    call DISPOSE_BITMAP_PORT
     pop word ptr CURRENT_PORT
 release_background_done:
     ret
@@ -1456,7 +1456,7 @@ ALLOCATE_BACKGROUND_PORT PROC NEAR
     push ds
     push cx
     push cs
-    call allocate_port_buffer
+    call ALLOCATE_CLIPPED_PORT
     les bx, dword ptr BACKING_PORT_DESCRIPTOR
     pop word ptr es:[bx + 12h]
     pop word ptr es:[bx + 14h]

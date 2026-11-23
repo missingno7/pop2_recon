@@ -4,12 +4,12 @@
       "CURRENT_PORT",
       "BYTE_ALIGNMENT",
       "INIT_PORT",
-      "OFFSET_RECT",
+      "OFFSETRECT",
       "ALLOCATE_BUFFER",
       "SET_ORIGIN",
       "FINISH_PORT",
-      "_malloc",
-      "_free",
+      "__nmalloc",
+      "__nfree",
       "CREATE_PORT"
     ],
     "groups": [
@@ -229,7 +229,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -243,7 +243,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -364,7 +364,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_RECT",
+          "name": "OFFSETRECT",
           "zero_displacement": true
         }
       },
@@ -378,7 +378,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_RECT",
+        "name": "OFFSETRECT",
         "zero_displacement": true
       }
     },
@@ -391,7 +391,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "_malloc",
+          "name": "__nmalloc",
           "zero_displacement": true
         }
       },
@@ -405,7 +405,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "_malloc",
+        "name": "__nmalloc",
         "zero_displacement": true
       }
     },
@@ -526,7 +526,7 @@
         }
       ]
     },
-    "OFFSET_RECT": {
+    "OFFSETRECT": {
       "entry_sha256": "b810192b013c6e9847cf42ccd53e15007c4eef77e9fa9ebd40eb0e5f04740c8d",
       "entry_target_id": "root:1101:510a",
       "kind": "far-code-entry",
@@ -560,7 +560,7 @@
         }
       ]
     },
-    "_free": {
+    "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
       "kind": "far-code-entry",
@@ -577,7 +577,7 @@
         }
       ]
     },
-    "_malloc": {
+    "__nmalloc": {
       "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
       "entry_target_id": "root:1fe6:003b",
       "kind": "far-code-entry",

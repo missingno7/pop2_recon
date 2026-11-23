@@ -1,8 +1,8 @@
 {
   "declarations": {
     "externals": [
-      "_MALLOC",
-      "_FREE"
+      "__NFREE",
+      "__NMALLOC"
     ],
     "groups": [
       {
@@ -64,9 +64,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
-        "name": "_MALLOC"
+        "name": "__NMALLOC"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -75,10 +75,10 @@
       "segment_offset": 17,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "_MALLOC",
+        "name": "__NMALLOC",
         "zero_displacement": true
       }
     },
@@ -86,9 +86,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
-        "name": "_FREE"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -97,10 +97,10 @@
       "segment_offset": 111,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "_FREE",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     },
@@ -108,9 +108,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
-        "name": "_MALLOC"
+        "name": "__NMALLOC"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -119,10 +119,10 @@
       "segment_offset": 202,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "_MALLOC",
+        "name": "__NMALLOC",
         "zero_displacement": true
       }
     },
@@ -130,9 +130,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
-        "name": "_FREE"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -141,10 +141,10 @@
       "segment_offset": 320,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "_FREE",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     },
@@ -173,7 +173,7 @@
   "mode": "external-far-call-v1",
   "schema": 1,
   "symbols": {
-    "_FREE": {
+    "__NFREE": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
       "kind": "far-code-entry",
@@ -190,7 +190,7 @@
         }
       ]
     },
-    "_MALLOC": {
+    "__NMALLOC": {
       "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
       "entry_target_id": "root:1fe6:003b",
       "kind": "far-code-entry",

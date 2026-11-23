@@ -5,8 +5,8 @@ EXTRN QUERY_RESOURCE_PAYLOAD:NEAR
 EXTRN READ_RESOURCE_PAYLOAD:NEAR
 EXTRN RESOLVE_HANDLE_TO_FAR_PAYLOAD:NEAR
 EXTRN MOVE_HUGE_BYTES:NEAR
-EXTRN ALLOCATE_NEAR_HEAP:FAR
-EXTRN FREE_NEAR_HEAP:FAR
+EXTRN __nmalloc:FAR
+EXTRN __nfree:FAR
 PUBLIC LOAD_RESOURCE_COPY
 
 LOAD_RESOURCE_COPY PROC FAR
@@ -35,7 +35,7 @@ LOAD_RESOURCE_COPY PROC FAR
     push dx
     push ss
     pop ds
-    call ALLOCATE_NEAR_HEAP
+    call __nmalloc
     add sp, 2
     mov [bp-2], ax
     pop bx
@@ -80,7 +80,7 @@ load_file:
     sub ax, ax
     xchg ax, [bp-2]
     push ax
-    call FREE_NEAR_HEAP
+    call __nfree
     add sp, 2
     jmp SHORT load_done
 LOAD_RESOURCE_COPY ENDP

@@ -19,7 +19,7 @@
       "TILE_TYPE",
       "SET_ROOM_OPPONENTS",
       "TILE_TYPE_EXTENDED",
-      "CTRLPLAYER",
+      "COPY_KID_TO_CHAR",
       "ADD_LAVA_TROB",
       "ADD_TORCH_TROB",
       "ROOM_SETTINGS",
@@ -34,11 +34,11 @@
       "MESSAGE_TICKS",
       "MESSAGE_DURATION",
       "ADD_CRUMBLE_TROB",
-      "SELECT_CHARACTER",
+      "LOAD_ACTOR_SLOT",
       "DEFERRED_ROOM",
       "ROOM_NUMBER",
       "DRAWKIDMETER",
-      "DRAWMESSAGE",
+      "DRAW_MESSAGE",
       "ADD_SPECIAL_GATE",
       "_sprintf",
       "ONE_SECOND_LEFT",
@@ -63,10 +63,10 @@
       "LEFT_ROOM",
       "STATE_DELTA",
       "RIGHT_ROOM",
-      "SET_SOUND_VOLUME",
+      "SET_SOUND_LEVEL",
       "UPDATE_STEP_DELTA",
       "CURRENT_LEVEL_NUMBER",
-      "SET_OPTIONS_FROM_DISK",
+      "SAVEOPTIONSTODISK",
       "BOOSTMETER",
       "LEVEL_FLAGS",
       "TOGGLE_SOUND",
@@ -273,7 +273,7 @@
           "index": 66,
           "kind": "external",
           "method": 6,
-          "name": "SET_OPTIONS_FROM_DISK",
+          "name": "SAVEOPTIONSTODISK",
           "zero_displacement": true
         }
       },
@@ -287,7 +287,7 @@
         "index": 66,
         "kind": "external",
         "method": 6,
-        "name": "SET_OPTIONS_FROM_DISK",
+        "name": "SAVEOPTIONSTODISK",
         "zero_displacement": true
       }
     },
@@ -300,7 +300,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "SET_SOUND_VOLUME",
+          "name": "SET_SOUND_LEVEL",
           "zero_displacement": true
         }
       },
@@ -314,7 +314,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "SET_SOUND_VOLUME",
+        "name": "SET_SOUND_LEVEL",
         "zero_displacement": true
       }
     },
@@ -327,7 +327,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "SET_SOUND_VOLUME",
+          "name": "SET_SOUND_LEVEL",
           "zero_displacement": true
         }
       },
@@ -341,7 +341,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "SET_SOUND_VOLUME",
+        "name": "SET_SOUND_LEVEL",
         "zero_displacement": true
       }
     },
@@ -2434,7 +2434,7 @@
           "index": 38,
           "kind": "external",
           "method": 6,
-          "name": "DRAWMESSAGE",
+          "name": "DRAW_MESSAGE",
           "zero_displacement": true
         }
       },
@@ -2448,7 +2448,7 @@
         "index": 38,
         "kind": "external",
         "method": 6,
-        "name": "DRAWMESSAGE",
+        "name": "DRAW_MESSAGE",
         "zero_displacement": true
       }
     },
@@ -3784,7 +3784,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "CTRLPLAYER",
+          "name": "COPY_KID_TO_CHAR",
           "zero_displacement": true
         }
       },
@@ -3798,7 +3798,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "CTRLPLAYER",
+        "name": "COPY_KID_TO_CHAR",
         "zero_displacement": true
       }
     },
@@ -4459,7 +4459,7 @@
           "index": 34,
           "kind": "external",
           "method": 6,
-          "name": "SELECT_CHARACTER",
+          "name": "LOAD_ACTOR_SLOT",
           "zero_displacement": true
         }
       },
@@ -4473,7 +4473,7 @@
         "index": 34,
         "kind": "external",
         "method": 6,
-        "name": "SELECT_CHARACTER",
+        "name": "LOAD_ACTOR_SLOT",
         "zero_displacement": true
       }
     },
@@ -4783,7 +4783,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "CTRLPLAYER",
+          "name": "COPY_KID_TO_CHAR",
           "zero_displacement": true
         }
       },
@@ -4797,7 +4797,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "CTRLPLAYER",
+        "name": "COPY_KID_TO_CHAR",
         "zero_displacement": true
       }
     },
@@ -5157,21 +5157,7 @@
         }
       ]
     },
-    "COUNTDOWN_PENDING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24110,
-      "witnesses": [
-        {
-          "bytes_hex": "c7062e5e0100",
-          "entry": "root:0000:1000",
-          "image_offset": 802,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "CTRLPLAYER": {
+    "COPY_KID_TO_CHAR": {
       "entry_sha256": "a2a62980f8508b634bf68774db21a40cacb768b10100046f1a5fcd12530f09c2",
       "entry_target_id": "root:02cc:1d94",
       "kind": "far-code-entry",
@@ -5184,6 +5170,20 @@
           "file_offset": 9035,
           "image_offset": 843,
           "relocation_index": 83,
+          "space": "root"
+        }
+      ]
+    },
+    "COUNTDOWN_PENDING": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24110,
+      "witnesses": [
+        {
+          "bytes_hex": "c7062e5e0100",
+          "entry": "root:0000:1000",
+          "image_offset": 802,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -5236,23 +5236,6 @@
         }
       ]
     },
-    "DRAWMESSAGE": {
-      "entry_sha256": "8f2a77ff9a4efe5845185b68ae3143059263b900221bd5bad9be3e5f692b59c7",
-      "entry_target_id": "root:078a:2050",
-      "kind": "far-code-entry",
-      "offset": 8272,
-      "segment": 1930,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a50208a07",
-          "file_offset": 9291,
-          "image_offset": 1099,
-          "relocation_index": 49,
-          "space": "root"
-        }
-      ]
-    },
     "DRAWOPPMETER": {
       "entry_sha256": "850183977d6d2dc0008ad213c1bfed98118a3f84368d5f8738b7d29298aa8c8e",
       "entry_target_id": "root:078a:25c8",
@@ -5266,6 +5249,23 @@
           "file_offset": 10423,
           "image_offset": 2231,
           "relocation_index": 45,
+          "space": "root"
+        }
+      ]
+    },
+    "DRAW_MESSAGE": {
+      "entry_sha256": "8f2a77ff9a4efe5845185b68ae3143059263b900221bd5bad9be3e5f692b59c7",
+      "entry_target_id": "root:078a:2050",
+      "kind": "far-code-entry",
+      "offset": 8272,
+      "segment": 1930,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a50208a07",
+          "file_offset": 9291,
+          "image_offset": 1099,
+          "relocation_index": 49,
           "space": "root"
         }
       ]
@@ -5340,6 +5340,23 @@
           "entry": "root:0000:1000",
           "image_offset": 620,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "LOAD_ACTOR_SLOT": {
+      "entry_sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
+      "entry_target_id": "root:02cc:1d42",
+      "kind": "far-code-entry",
+      "offset": 7490,
+      "segment": 716,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 10047,
+          "image_offset": 1855,
+          "relocation_index": 18,
           "space": "root"
         }
       ]
@@ -5426,30 +5443,7 @@
         }
       ]
     },
-    "SECONDS_LEFT": {
-      "group": "DGROUP",
-      "kind": "dgroup-public",
-      "offset": 2602,
-      "provider": "group:english/english"
-    },
-    "SELECT_CHARACTER": {
-      "entry_sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
-      "entry_target_id": "root:02cc:1d42",
-      "kind": "far-code-entry",
-      "offset": 7490,
-      "segment": 716,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a421dcc02",
-          "file_offset": 10047,
-          "image_offset": 1855,
-          "relocation_index": 18,
-          "space": "root"
-        }
-      ]
-    },
-    "SET_OPTIONS_FROM_DISK": {
+    "SAVEOPTIONSTODISK": {
       "entry_sha256": "91db59eeeebfcb2d7ff4127bf2e0fe14b0f8b7c26f237af5169a0a7ef10777d2",
       "entry_target_id": "root:052d:218e",
       "kind": "far-code-entry",
@@ -5466,7 +5460,13 @@
         }
       ]
     },
-    "SET_SOUND_VOLUME": {
+    "SECONDS_LEFT": {
+      "group": "DGROUP",
+      "kind": "dgroup-public",
+      "offset": 2602,
+      "provider": "group:english/english"
+    },
+    "SET_SOUND_LEVEL": {
       "entry_sha256": "f68a46fc4f9a60e3d396739cdf2020d0d9bd845788de6823720447ff18d66e8c",
       "entry_target_id": "root:1101:33a2",
       "kind": "far-code-entry",

@@ -26,10 +26,10 @@ extern int bump_pending;
 extern int far _fastcall slide_rock_on_row(unsigned char room, signed char row);
 extern void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned char *edges);
 extern signed char get_char_col(int x);
-extern unsigned char read_cell(unsigned char room, signed char col, signed char row);
-extern int is_open_cell(unsigned char cell);
-extern int shift_x(int distance);
-extern void select_animation_sequence(int sequence);
+extern unsigned char ReadCell(unsigned char room, signed char col, signed char row);
+extern int IS_SIX_KIND(unsigned char cell);
+extern int AddCharX(int distance);
+extern void JumpSeq(int sequence);
 
 void CheckWeightlessBarr(void);
 void InitColDetBufs(void);
@@ -50,10 +50,10 @@ extern unsigned int gate_opening;
 #define cell_flags (*(unsigned char *)&gate_opening)
 
 extern int slide_rock_barrier(signed char direction, unsigned char room, signed char row);
-extern int slide_rock_has_floor(int cell);
-extern int is_related_cell(unsigned char cell);
-extern void animate_char(void);
-extern void update_char_cell(void);
+extern int probe_chain_floor(int cell);
+extern int IsWall(unsigned char cell);
+extern void AnimChar(void);
+extern void reread_cells(void);
 extern void update_floor_y(void);
 extern void cue_sound(int);
 extern int far _fastcall sword_room_boundary(unsigned char room, signed char row);
@@ -123,10 +123,10 @@ weightless:
 void CheckWeightlessBarr(void)
 {
     if ((int)((signed char)63 * char_row) - 4 > char_y - floor_y &&
-        !is_open_cell(read_cell(char_room, char_col, char_row - 1))) {
-        char_x = shift_x(-4);
+        !IS_SIX_KIND(ReadCell(char_room, char_col, char_row - 1))) {
+        char_x = AddCharX(-4);
         char_floor = 0;
-        select_animation_sequence(229);
+        JumpSeq(229);
     }
 }
 
@@ -210,7 +210,7 @@ void GetColDetData(signed char row, unsigned char *rooms, unsigned char *edges)
 
 int GetLeftBarr(unsigned char room, signed char col, signed char row)
 {
-    int code = GetBarrCode(read_cell(room, col, row));
+    int code = GetBarrCode(ReadCell(room, col, row));
     int edge;
 
     if (code)
@@ -222,7 +222,7 @@ int GetLeftBarr(unsigned char room, signed char col, signed char row)
 
 int GetRightBarr(unsigned char room, signed char col, signed char row)
 {
-    int code = GetBarrCode(read_cell(room, col, row));
+    int code = GetBarrCode(ReadCell(room, col, row));
     int edge;
 
     if (code)
@@ -276,7 +276,7 @@ int check_collision_col(signed char col)
         row += 3;
     if (row >= 3)
         row -= 3;
-    return check_collision_tile(read_cell(current_rooms[col], col, row));
+    return check_collision_tile(ReadCell(current_rooms[col], col, row));
 }
 
 int check_collision_tile(unsigned char cell)
@@ -332,17 +332,17 @@ void apply_collision(int displacement, signed char direction)
     char_x += displacement;
     cell = cell_type;
     if (direction == -1) {
-        if (is_related_cell(cell))
-            cell = read_cell(resolved_room, --resolved_col, resolved_row);
-    } else if (is_related_cell(cell)) {
+        if (IsWall(cell))
+            cell = ReadCell(resolved_room, --resolved_col, resolved_row);
+    } else if (IsWall(cell)) {
         ++resolved_col;
         if (resolved_room == 0 && resolved_col == 10) {
             resolved_room = char_room;
             resolved_col = 0;
         }
-        cell = read_cell(resolved_room, resolved_col, resolved_row);
+        cell = ReadCell(resolved_room, resolved_col, resolved_row);
     }
-    if (is_open_cell(cell) && (level != 2 || !slide_rock_has_floor(8)))
+    if (IS_SIX_KIND(cell) && (level != 2 || !probe_chain_floor(8)))
         apply_air_bump();
     else
         apply_ground_bump(direction);
@@ -350,12 +350,12 @@ void apply_collision(int displacement, signed char direction)
 
 void apply_air_bump(void)
 {
-    char_x = shift_x(-8);
+    char_x = AddCharX(-8);
     if (char_kind == 4)
         char_floor = 0;
     else {
-        select_animation_sequence(45);
-        animate_char();
+        JumpSeq(45);
+        AnimChar();
     }
     BumpSound();
 }
@@ -374,7 +374,7 @@ void apply_ground_bump(signed char direction)
     }
     update_floor_y();
     if (char_fall >= 22) {
-        char_x = shift_x(-10), update_char_cell();
+        char_x = AddCharX(-10), reread_cells();
         return;
     }
     char_fall = 0;
@@ -384,15 +384,15 @@ void apply_ground_bump(signed char direction)
         boundary = sword_room_boundary(char_room, char_row);
         if (!(char_direction ^ direction)) {
             if (sequence_id == 55 && char_frame == 207)
-                char_x = shift_x(10);
-            char_x = shift_x(2), sequence = 65;
+                char_x = AddCharX(10);
+            char_x = AddCharX(2), sequence = 65;
         } else {
             sequence = 64;
             if (is_sword_motion(char_action, char_frame)) {
                 if (cell_type == 4 && cell_flags > 64)
                     sequence = -1;
                 else
-                    char_x = shift_x(16);
+                    char_x = AddCharX(16);
             }
         }
         if (boundary != 0 && boundary > char_x) {
@@ -401,7 +401,7 @@ void apply_ground_bump(signed char direction)
     } else {
         frame = char_frame;
         if (frame >= 246 && frame <= 261) {
-            char_x = shift_x(-3), sequence = 121, char_sword_frame = 0;
+            char_x = AddCharX(-3), sequence = 121, char_sword_frame = 0;
         } else if (frame == 24 || frame == 25 ||
                    (frame >= 40 && frame < 43) || (frame >= 102 && frame < 107)) {
             sequence = 46;
@@ -410,9 +410,9 @@ void apply_ground_bump(signed char direction)
         }
     }
     if (sequence != -1) {
-        select_animation_sequence(sequence);
-        animate_char();
-        update_char_cell();
+        JumpSeq(sequence);
+        AnimChar();
+        reread_cells();
     }
     if (sequence != 64)
         BumpSound();
@@ -475,10 +475,10 @@ finished:
 extern unsigned char char_room, stage;
 extern signed char char_col, char_row, resolved_col;
 extern int col_positions[];
-extern unsigned char read_cell(unsigned char room, signed char col, signed char row);
-extern unsigned char read_adjacent_cell(signed char direction);
-extern unsigned char read_floor_cell(void);
-extern int shift_x(int distance);
+extern unsigned char ReadCell(unsigned char room, signed char col, signed char row);
+extern unsigned char get_cells_ahead(signed char direction);
+extern unsigned char get_behind(void);
+extern int AddCharX(int distance);
 
 int gate_blocks_standing(void)
 {
@@ -487,10 +487,10 @@ int gate_blocks_standing(void)
 
     if (char_room == 9 && stage == 8)
         goto done;
-    if (read_cell(char_room, char_col, char_row) == 4 ||
-        read_adjacent_cell(1) == 4 || read_floor_cell() == 4) {
+    if (ReadCell(char_room, char_col, char_row) == 4 ||
+        get_cells_ahead(1) == 4 || get_behind() == 4) {
         opening = gate_opening & 255;
-        position = shift_x(-6) - 14;
+        position = AddCharX(-6) - 14;
         if (opening != 0 && opening < 200 && col_positions[resolved_col] + 12 <= position &&
             col_positions[resolved_col + 1] + 4 >= position)
             position = 1;
@@ -501,14 +501,14 @@ done:
     return position;
 }
 
-extern int scythe_is_active(unsigned int flags);
+extern int ScytheBladeExtended(unsigned int flags);
 
 int scythe_blocks_passage(void)
 {
     int blocked;
 
     if (char_action != 1 && char_action != 7 && char_action != 8 && char_action != 11 &&
-        floor_y > 25 && scythe_is_active(gate_opening)) {
+        floor_y > 25 && ScytheBladeExtended(gate_opening)) {
         blocked = 1;
     } else {
         blocked = 0;
@@ -532,12 +532,12 @@ extern struct collision_box char_box, empty_box;
 extern unsigned char sprite_bank, top_collision_row, bottom_collision_row;
 extern unsigned char collision_first_col, collision_last_col, collision_flags;
 extern int sprite_tables[], sprite_width, sprite_left, sprite_right, sprite_top;
-extern void far *find_sprite_size(int table, int index, struct sprite_size far *size);
+extern void far *get_set_image_size(int table, int index, struct sprite_size far *size);
 extern int get_sword_width(void);
-extern signed char get_sprite_col(int x);
-extern signed char get_sprite_row(int y);
-extern void select_sword_frame(void);
-extern struct sword_frame far *get_sword_table(int id);
+extern signed char get_col(int x);
+extern signed char GetRow(int y);
+extern void get_frame_info(void);
+extern struct sword_frame far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int id);
 
 void get_char_edges(void)
 {
@@ -547,7 +547,7 @@ void get_char_edges(void)
 
     previous = char_box;
     char_box = empty_box;
-    if (sprite_index == -1 || !find_sprite_size(sprite_tables[sprite_bank], sprite_index, &size))
+    if (sprite_index == -1 || !get_set_image_size(sprite_tables[sprite_bank], sprite_index, &size))
         return;
     sprite_width = size.width + 1;
     floor_y = size.height;
@@ -570,16 +570,16 @@ void get_char_edges(void)
         bounds.right = sprite_x;
     }
     char_box = bounds;
-    top_collision_row = get_sprite_row(sprite_top);
-    bottom_collision_row = get_sprite_row(sprite_y);
+    top_collision_row = GetRow(sprite_top);
+    bottom_collision_row = GetRow(sprite_y);
     if (bottom_collision_row == 255)
         bottom_collision_row = 3;
-    if (get_sprite_col(sprite_left) < 0)
+    if (get_col(sprite_left) < 0)
         collision_first_col = 0;
     else
-        collision_first_col = get_sprite_col(sprite_left);
-    if (get_sprite_col(sprite_right) <= 9)
-        collision_last_col = get_sprite_col(sprite_right);
+        collision_first_col = get_col(sprite_left);
+    if (get_col(sprite_right) <= 9)
+        collision_last_col = get_col(sprite_right);
     else
         collision_last_col = 9;
     if (collision_flags & 32) {
@@ -594,9 +594,9 @@ int get_sword_width(void)
     struct sword_frame far *frames;
 
     if (char_sword == 1 && char_action != 7 && char_action != 8) {
-        select_sword_frame();
+        get_frame_info();
         if (sword_index != width) {
-            frames = get_sword_table(sword_table_id);
+            frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sword_table_id);
             width = frames[sword_index].width;
             width = width - 2 < 0 ? 0 : width - 2;
         }
@@ -606,13 +606,13 @@ int get_sword_width(void)
 
 extern int barrier_distance_from_face(unsigned char cell, unsigned char room, signed char col);
 extern int barrier_distance_from_back(unsigned char cell, unsigned char room, signed char col);
-extern unsigned char read_cell_below_character(void);
+extern unsigned char get_under_foot(void);
 extern void select_character_frame(void);
-extern void prepare_character_cell(void);
+extern void reread_base_cell(void);
 extern signed char facing_col_step[];
 extern unsigned char forward_barrier_kind;
-extern int cell_forward_distance(void);
-extern int is_floor_cell(unsigned char cell);
+extern int get_edge_distance(void);
+extern int IsImpassable(unsigned char cell);
 extern int abs(int);
 #pragma intrinsic(abs)
 
@@ -621,10 +621,10 @@ int get_forward_distance(void)
     unsigned char cell;
     int distance;
 
-    prepare_character_cell();
+    reread_base_cell();
     select_character_frame();
     get_char_edges();
-    cell = read_cell_below_character();
+    cell = get_under_foot();
     if (GetBarrCode(cell)) {
         distance = barrier_distance_from_face(cell, char_room, char_col);
         if (distance >= 0)
@@ -632,15 +632,15 @@ int get_forward_distance(void)
     }
     if (cell == 24)
         goto facing_left;
-    cell = read_adjacent_cell(1);
+    cell = get_cells_ahead(1);
     if (GetBarrCode(cell)) {
         distance = barrier_distance_from_face(cell, char_room, char_col + facing_col_step[char_direction]);
         if (distance >= 0)
             goto barrier;
     }
-    if ((is_open_cell(cell) || is_floor_cell(cell) || cell == 30) && cell != 24) {
+    if ((IS_SIX_KIND(cell) || IsImpassable(cell) || cell == 30) && cell != 24) {
         forward_barrier_kind = 0;
-        distance = cell_forward_distance();
+        distance = get_edge_distance();
         goto done;
     }
     if (cell == 6 || cell == 22 || cell == 2 || cell == 34)
@@ -649,14 +649,14 @@ int get_forward_distance(void)
         goto fallback;
     goto facing_left;
 partial:
-    if ((distance = cell_forward_distance()) == 0)
+    if ((distance = get_edge_distance()) == 0)
         goto fallback;
     --distance;
     forward_barrier_kind = 0;
     goto done;
 facing_left:
     if (char_direction == -1) {
-        distance = cell_forward_distance();
+        distance = get_edge_distance();
         if (char_col == resolved_col)
             distance -= 15;
         else
@@ -677,13 +677,13 @@ done:
 }
 
 extern void push_away_from_gate(void);
-extern void release_gate_trap(void);
+extern void SquishChar(void);
 
 void check_gate_for_opponent(void)
 {
     int left, right;
 
-    if (read_cell_below_character() != 4 && read_floor_cell() != 4 && read_adjacent_cell(1) != 4)
+    if (get_under_foot() != 4 && get_behind() != 4 && get_cells_ahead(1) != 4)
         return;
     if ((resolved_room == 9 && stage == 8) || char_action == 12 || !gate_blocks_passage())
         return;
@@ -708,9 +708,9 @@ void check_gate_for_opponent(void)
 
 void check_gate_for_player(void)
 {
-    unsigned char cell = read_cell_below_character();
+    unsigned char cell = get_under_foot();
 
-    if (char_sequence == 118 || (cell != 4 && read_floor_cell() != 4 && read_adjacent_cell(1) != 4))
+    if (char_sequence == 118 || (cell != 4 && get_behind() != 4 && get_cells_ahead(1) != 4))
         return;
     if (resolved_room == 9 && stage == 8)
         return;
@@ -718,9 +718,9 @@ void check_gate_for_player(void)
         return;
     if (char_frame != 109 && gate_opening != 0 && char_sword != 1) {
         if (char_sequence != 50)
-            select_animation_sequence(50);
+            JumpSeq(50);
     } else if (level == 3 && gate_opening != 0 && char_sword != 1) {
-        release_gate_trap();
+        SquishChar();
     } else {
         BumpSound();
         push_away_from_gate();
@@ -739,10 +739,10 @@ void push_away_from_gate(void)
         back = barrier_distance_from_back(4, resolved_room, resolved_col);
     else
         back = -barrier_distance_from_back(4, resolved_room, resolved_col);
-    char_x = shift_x(back > face ? -face : back);
+    char_x = AddCharX(back > face ? -face : back);
 }
 
-extern int jump_barrier_sequence(int distance);
+extern int head_enemy_collide(int distance);
 
 void collide_enemy_with_barrier(void)
 {
@@ -756,10 +756,10 @@ void collide_enemy_with_barrier(void)
         return;
     if ((char_alive >= 0 && !airborne) || char_sword != 1)
         return;
-    cell = read_cell_below_character();
-    if (!is_related_cell(cell) && (cell != 4 || !gate_blocks_passage())) {
-        cell = read_adjacent_cell(1);
-        if (!is_related_cell(cell) && (cell != 4 || !gate_blocks_passage()))
+    cell = get_under_foot();
+    if (!IsWall(cell) && (cell != 4 || !gate_blocks_passage())) {
+        cell = get_cells_ahead(1);
+        if (!IsWall(cell) && (cell != 4 || !gate_blocks_passage()))
             cell = 0;
     }
     if (!cell)
@@ -773,20 +773,20 @@ void collide_enemy_with_barrier(void)
     front = barrier_distance_from_face(cell_type, resolved_room, resolved_col);
     distance = abs(front) < abs(back) ? front : back;
     if (airborne)
-        sequence = jump_barrier_sequence(front);
+        sequence = head_enemy_collide(front);
     if (sequence == -1 && distance < 5 && -sprite_width <= distance) {
         if (cell == 4 && distance > 0)
             distance = -distance;
-        char_x = shift_x(-distance);
+        char_x = AddCharX(-distance);
         if (distance >= 0 && cell == 4 && !airborne)
             sequence = 64;
         else if (!airborne || (char_sequence != 145 && char_sequence != 164 && char_motion != 1))
             sequence = (char_action == 7 || char_action == 8) ? 158 : 65;
     }
     if (sequence != -1) {
-        select_animation_sequence(sequence);
-        animate_char();
-        update_char_cell();
+        JumpSeq(sequence);
+        AnimChar();
+        reread_cells();
     }
 }
 

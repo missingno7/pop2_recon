@@ -28,20 +28,20 @@ extern int ColEdgeX[20];
 extern int plateau_room_loaded;
 extern int ruins_start_loaded;
 
-extern CellCoord column_from_x(int);
-extern Byte select_tile(CellCoord, CellCoord, CellCoord);
+extern CellCoord get_col(int);
+extern Byte ReadCell(CellCoord, CellCoord, CellCoord);
 extern int IsWall(Byte);
 extern int is_six_kind(Byte);
-extern void add_spike_actor(void);
-extern void redraw_spike(CellCoord, CellCoord);
-extern void draw_spike(Byte);
-extern void initialize_cutscene_actor(int);
-extern void update_actor_frame(void);
-extern void update_actor_coordinates(void);
+extern void add_mob(void);
+extern void make_space(CellCoord, CellCoord);
+extern void mark_mob_redraw(Byte);
+extern void JumpSeq(int);
+extern void reset_char_y(void);
+extern void AnimChar(void);
 extern void open_start_gate(void);
 extern Byte ClrAll(void);
 extern int load_palette_bank(unsigned int, int, Byte, Byte);
-extern void queue_room_event(int);
+extern void AddSong(int);
 extern ActorState Char, Kid;
 
 void clip_ruins_actor(void)
@@ -51,23 +51,23 @@ void clip_ruins_actor(void)
     int previous_cell_remaining, current_cell_offset;
 
     clip_lower = actor_id == 7 || actor_id == 8;
-    column = column_from_x(current_actor_x);
-    if (IsWall(select_tile(actor_room, column, actor_row))) {
-        left_column = select_tile(actor_room, column, left_cell_row);
+    column = get_col(current_actor_x);
+    if (IsWall(ReadCell(actor_room, column, actor_row))) {
+        left_column = ReadCell(actor_room, column, left_cell_row);
         if (IsWall(left_column) && left_column != 7 && actor_room == tile_room)
             actor_edge_y = tile_column * 32;
     }
     if (clip_lower && actor_frame != 137 && actor_frame != 138 &&
         actor_frame != 143 && actor_frame > 144 &&
         actor_frame != 143 && actor_frame != 144) {
-        left_column = column_from_x(previous_actor_x);
-        if (column_from_x(current_actor_x) != left_column) {
+        left_column = get_col(previous_actor_x);
+        if (get_col(current_actor_x) != left_column) {
             previous_cell_remaining = 32 - (previous_actor_x - 130) % 32;
             current_cell_offset = (current_actor_x - 32) % 32;
             if (previous_cell_remaining > current_cell_offset)
                 --column;
         }
-        if (!is_six_kind(select_tile(actor_room, column, left_cell_row)))
+        if (!is_six_kind(ReadCell(actor_room, column, left_cell_row)))
             actor_floor_x = 63 * left_cell_column + 3;
     }
 }
@@ -83,12 +83,12 @@ void fall_spikes(void)
     spike_action = 3;
     spike_row = tile_row;
     spike_sequence = 0;
-    add_spike_actor();
-    redraw_spike(tile_room, tile_index);
+    add_mob();
+    make_space(tile_room, tile_index);
     saved_x = spike_x;
     if (room_number == spike_room)
         spike_x -= 320;
-    draw_spike(0);
+    mark_mob_redraw(0);
     spike_x = saved_x;
 }
 
@@ -98,15 +98,15 @@ void cut_kid_inside_level6(void)
     CellCoord start_room;
 
     actor_action = 0;
-    initialize_cutscene_actor(5);
+    JumpSeq(5);
     start_room = 3;
     actor_room = start_room;
     passed_plateau_room = start_room;
     actor_column = 4;
     actor_x = ColEdgeX[9] + 14;
     actor_row = 2;
-    update_actor_frame();
-    update_actor_coordinates();
+    reset_char_y();
+    AnimChar();
     Kid = Char;
     open_start_gate();
     ClrAll();
@@ -134,11 +134,11 @@ void load_plateau_room(void)
 {
     if (kid_column >= 9) {
         if (ruins_start_column == 16 && level_number == 9) {
-            queue_room_event(92);
+            AddSong(92);
             return;
         }
         if (ruins_start_column == 2 && level_number == 9 && !plateau_room_loaded) {
-            queue_room_event(91);
+            AddSong(91);
             plateau_room_loaded = 1;
         }
     }

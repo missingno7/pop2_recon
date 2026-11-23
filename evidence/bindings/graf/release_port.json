@@ -2,8 +2,8 @@
   "declarations": {
     "externals": [
       "CURRENTPORT",
-      "RELEASEBUFFER",
-      "_free",
+      "RELEASE_BUFFER",
+      "__nfree",
       "RELEASE_PORT"
     ],
     "groups": [
@@ -88,7 +88,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -102,7 +102,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -142,7 +142,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "RELEASEBUFFER",
+          "name": "RELEASE_BUFFER",
           "zero_displacement": true
         }
       },
@@ -156,7 +156,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "RELEASEBUFFER",
+        "name": "RELEASE_BUFFER",
         "zero_displacement": true
       }
     },
@@ -271,7 +271,7 @@
         }
       ]
     },
-    "RELEASEBUFFER": {
+    "RELEASE_BUFFER": {
       "entry_sha256": "9d630ddd7549c050ab980da7ef6a9ac3514cf68724dade2b3180512c03ed0074",
       "entry_target_id": "root:1101:64ec",
       "kind": "far-code-entry",
@@ -280,7 +280,7 @@
       "space": "root",
       "witnesses": []
     },
-    "_free": {
+    "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
       "kind": "far-code-entry",

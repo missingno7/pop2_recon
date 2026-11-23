@@ -2,20 +2,20 @@
   "declarations": {
     "externals": [
       "REPORT_RESOURCE_PATH",
-      "SET_LOADING_PROGRESS",
       "OPPONENT_EFFECT_FRAMES",
+      "MOVETO",
       "LOAD_RESOURCE_ERROR",
       "@load_opponent_extra",
       "PLAY_STATE",
       "CHECKBPORT",
       "ROOM_FEATURE",
-      "LOAD_TYPED_HANDLE",
+      "HGETSND",
       "BACK_PORT",
-      "LOCK_HANDLE",
+      "SAVE_HANDLE_FLAGS",
       "MUSIC_NUMBER",
       "BACK_PORT_BOUNDS",
       "SAVED_KID",
-      "GET_HANDLE_DATA",
+      "FETCH_LOCKED_SHAPE_LIST",
       "BACKGROUND",
       "_copy_far_string",
       "LEVEL_START_TABLE",
@@ -27,11 +27,11 @@
       "_sprintf",
       "LEVEL_STARTS",
       "BACKGROUND_INTRO_NUMBER",
-      "REPORT_ERROR",
+      "ABORT_WITH_MESSAGE",
       "LEVEL_SEQUENCES",
-      "RESET_SOUND_DATA",
+      "CLEAR_PEELS",
       "SEQUENCE_FLAGS",
-      "RELEASE_SOUND_DATA",
+      "UNLOADCUSTOMROOMDATA",
       "SEQUENCE_OPCODES",
       "SPRITE_SETS",
       "ROOM_STARTS",
@@ -65,49 +65,49 @@
       "CHECK_TEMPLE_EVENT",
       "CLOSE_RESOURCE_FILE",
       "LOAD_KID_SET",
-      "SELECT_RESOURCE_FILE",
+      "OPEN_VERIFIED_RESOURCE",
       "CAVE_FRAME",
-      "LOAD_SPRITE_SET",
+      "LOAD_SHAPE_LIST",
       "LOAD_KID_SET_OVERLAYS",
       "ROOF_FRAME",
-      "RELEASE_SPRITE_SET",
+      "UNLOADSHAPELIST",
       "RUN_FINAL_FRAME",
       "LOAD_OPPONENT_SET",
-      "LOAD_OVERLAY_RANGE",
+      "OVERLAY_SHAPE_LIST",
       "ROOM_OBJECTS",
       "@get_sword_frame_image",
-      "HAS_SET_OVERLAY",
+      "ISOVERLAYLOADED",
       "SET_KID_SWORD_KIND",
-      "RELEASE_OVERLAY_RANGE",
+      "UNLOAD_OVERLAY",
       "LOAD_SWORD_SET",
-      "PRELOAD_SPRITE_RANGE",
+      "PRINCEMARKRANGESPURGEABLE",
       "LOAD_PIECES_DATA",
       "LOAD_LEVEL",
-      "LOAD_SCENE_OVERLAY",
+      "LOAD_SONG_RANGE",
       "PRELOAD_ROOM_DATA",
-      "UNLOAD_SCENE_OVERLAY",
+      "RELEASE_SONG_RANGE",
       "LOAD_OPPONENT_SOUND",
       "SWITCH_BACKGROUND_OVERLAY",
       "LOAD_RESOURCE_PALETTE",
-      "_malloc",
+      "__nmalloc",
       "NEED_OPPONENT_OVERLAY",
       "@clear_special_sequence_flag",
-      "_free",
+      "__nfree",
       "LOAD_CODE_OVERLAYS",
-      "RESET_CHECKPOINT",
+      "REMOVEREBIRTHPT",
       "ISLEVELSTARTWITHNISSCREEN",
       "SET_KID_PALETTE",
-      "START_NAMED_EFFECT",
-      "INITIALIZE_LEVEL_OVERLAY",
+      "STROKE_PORT_RECT",
+      "RESET_DESERT_VARIANT",
       "SET_LEVEL_SPEC_PTRS",
       "FIND_OPTION",
       "SET_INITIAL_ROOM_STATE",
       "UNLOAD_PIECES_DATA",
-      "LOAD_MAP_RESOURCE",
+      "LOAD_RESOURCE_INTO",
       "SETREBIRTHPTLEVELSTATUS",
       "LOAD_SWORD_FRAMES",
       "LOAD_MINIMUM_LEVEL",
-      "RESET_LEVEL_DISPLAY",
+      "SAVE_GAME_PLAY_PALETTE",
       "LOAD_OVERLAY_ONE",
       "NEED_SWORD_OVERLAY",
       "LOAD_OVERLAY_TWO",
@@ -124,12 +124,12 @@
       "LOAD_OVERLAY_TEN",
       "NEED_KID_OVERLAY",
       "LOAD_OVERLAY_ELEVEN",
-      "FIND_NEAR_RESOURCE",
-      "RELEASE_HANDLE",
+      "LOAD_RESOURCE_COPY",
+      "DISPOSE_HANDLE",
       "UNLOAD_OPPONENT_OVERLAYS",
-      "ALLOCATE_TAGGED_HANDLE",
+      "HGETRSRC",
       "SWORD_KIND",
-      "RELEASE_TAGGED_HANDLE",
+      "RELEASE_TAGGED_RESOURCE",
       "LEVEL_PIECES",
       "LOAD_OPPONENT_OVERLAYS",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -622,7 +622,7 @@
           "index": 65,
           "kind": "external",
           "method": 6,
-          "name": "SELECT_RESOURCE_FILE",
+          "name": "OPEN_VERIFIED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -636,7 +636,7 @@
         "index": 65,
         "kind": "external",
         "method": 6,
-        "name": "SELECT_RESOURCE_FILE",
+        "name": "OPEN_VERIFIED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -855,7 +855,7 @@
           "index": 80,
           "kind": "external",
           "method": 6,
-          "name": "PRELOAD_SPRITE_RANGE",
+          "name": "PRINCEMARKRANGESPURGEABLE",
           "zero_displacement": true
         }
       },
@@ -869,7 +869,7 @@
         "index": 80,
         "kind": "external",
         "method": 6,
-        "name": "PRELOAD_SPRITE_RANGE",
+        "name": "PRINCEMARKRANGESPURGEABLE",
         "zero_displacement": true
       }
     },
@@ -1186,7 +1186,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SCENE_OVERLAY",
+          "name": "LOAD_SONG_RANGE",
           "zero_displacement": true
         }
       },
@@ -1200,7 +1200,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SCENE_OVERLAY",
+        "name": "LOAD_SONG_RANGE",
         "zero_displacement": true
       }
     },
@@ -1294,7 +1294,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_OVERLAY_RANGE",
+          "name": "OVERLAY_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -1308,7 +1308,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_OVERLAY_RANGE",
+        "name": "OVERLAY_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -1495,7 +1495,7 @@
           "index": 92,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -1509,7 +1509,7 @@
         "index": 92,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -1549,7 +1549,7 @@
           "index": 89,
           "kind": "external",
           "method": 6,
-          "name": "_malloc",
+          "name": "__nmalloc",
           "zero_displacement": true
         }
       },
@@ -1563,7 +1563,7 @@
         "index": 89,
         "kind": "external",
         "method": 6,
-        "name": "_malloc",
+        "name": "__nmalloc",
         "zero_displacement": true
       }
     },
@@ -1598,7 +1598,7 @@
           "index": 94,
           "kind": "external",
           "method": 6,
-          "name": "RESET_CHECKPOINT",
+          "name": "REMOVEREBIRTHPT",
           "zero_displacement": true
         }
       },
@@ -1612,7 +1612,7 @@
         "index": 94,
         "kind": "external",
         "method": 6,
-        "name": "RESET_CHECKPOINT",
+        "name": "REMOVEREBIRTHPT",
         "zero_displacement": true
       }
     },
@@ -1787,7 +1787,7 @@
           "index": 98,
           "kind": "external",
           "method": 6,
-          "name": "INITIALIZE_LEVEL_OVERLAY",
+          "name": "RESET_DESERT_VARIANT",
           "zero_displacement": true
         }
       },
@@ -1801,7 +1801,7 @@
         "index": 98,
         "kind": "external",
         "method": 6,
-        "name": "INITIALIZE_LEVEL_OVERLAY",
+        "name": "RESET_DESERT_VARIANT",
         "zero_displacement": true
       }
     },
@@ -2084,7 +2084,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SCENE_OVERLAY",
+          "name": "LOAD_SONG_RANGE",
           "zero_displacement": true
         }
       },
@@ -2098,7 +2098,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SCENE_OVERLAY",
+        "name": "LOAD_SONG_RANGE",
         "zero_displacement": true
       }
     },
@@ -2435,7 +2435,7 @@
           "index": 97,
           "kind": "external",
           "method": 6,
-          "name": "START_NAMED_EFFECT",
+          "name": "STROKE_PORT_RECT",
           "zero_displacement": true
         }
       },
@@ -2449,7 +2449,7 @@
         "index": 97,
         "kind": "external",
         "method": 6,
-        "name": "START_NAMED_EFFECT",
+        "name": "STROKE_PORT_RECT",
         "zero_displacement": true
       }
     },
@@ -2732,7 +2732,7 @@
           "index": 103,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_MAP_RESOURCE",
+          "name": "LOAD_RESOURCE_INTO",
           "zero_displacement": true
         }
       },
@@ -2746,7 +2746,7 @@
         "index": 103,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_MAP_RESOURCE",
+        "name": "LOAD_RESOURCE_INTO",
         "zero_displacement": true
       }
     },
@@ -2835,7 +2835,7 @@
           "index": 97,
           "kind": "external",
           "method": 6,
-          "name": "START_NAMED_EFFECT",
+          "name": "STROKE_PORT_RECT",
           "zero_displacement": true
         }
       },
@@ -2849,7 +2849,7 @@
         "index": 97,
         "kind": "external",
         "method": 6,
-        "name": "START_NAMED_EFFECT",
+        "name": "STROKE_PORT_RECT",
         "zero_displacement": true
       }
     },
@@ -2943,7 +2943,7 @@
           "index": 107,
           "kind": "external",
           "method": 6,
-          "name": "RESET_LEVEL_DISPLAY",
+          "name": "SAVE_GAME_PLAY_PALETTE",
           "zero_displacement": true
         }
       },
@@ -2957,7 +2957,7 @@
         "index": 107,
         "kind": "external",
         "method": 6,
-        "name": "RESET_LEVEL_DISPLAY",
+        "name": "SAVE_GAME_PLAY_PALETTE",
         "zero_displacement": true
       }
     },
@@ -3078,7 +3078,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SCENE_OVERLAY",
+          "name": "LOAD_SONG_RANGE",
           "zero_displacement": true
         }
       },
@@ -3092,7 +3092,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SCENE_OVERLAY",
+        "name": "LOAD_SONG_RANGE",
         "zero_displacement": true
       }
     },
@@ -3213,7 +3213,7 @@
           "index": 85,
           "kind": "external",
           "method": 6,
-          "name": "UNLOAD_SCENE_OVERLAY",
+          "name": "RELEASE_SONG_RANGE",
           "zero_displacement": true
         }
       },
@@ -3227,7 +3227,7 @@
         "index": 85,
         "kind": "external",
         "method": 6,
-        "name": "UNLOAD_SCENE_OVERLAY",
+        "name": "RELEASE_SONG_RANGE",
         "zero_displacement": true
       }
     },
@@ -3804,7 +3804,7 @@
           "index": 124,
           "kind": "external",
           "method": 6,
-          "name": "FIND_NEAR_RESOURCE",
+          "name": "LOAD_RESOURCE_COPY",
           "zero_displacement": true
         }
       },
@@ -3818,7 +3818,7 @@
         "index": 124,
         "kind": "external",
         "method": 6,
-        "name": "FIND_NEAR_RESOURCE",
+        "name": "LOAD_RESOURCE_COPY",
         "zero_displacement": true
       }
     },
@@ -3880,7 +3880,7 @@
           "index": 78,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_OVERLAY_RANGE",
+          "name": "UNLOAD_OVERLAY",
           "zero_displacement": true
         }
       },
@@ -3894,7 +3894,7 @@
         "index": 78,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_OVERLAY_RANGE",
+        "name": "UNLOAD_OVERLAY",
         "zero_displacement": true
       }
     },
@@ -3978,7 +3978,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_OVERLAY_RANGE",
+          "name": "OVERLAY_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -3992,7 +3992,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_OVERLAY_RANGE",
+        "name": "OVERLAY_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -4076,7 +4076,7 @@
           "index": 76,
           "kind": "external",
           "method": 6,
-          "name": "HAS_SET_OVERLAY",
+          "name": "ISOVERLAYLOADED",
           "zero_displacement": true
         }
       },
@@ -4090,7 +4090,7 @@
         "index": 76,
         "kind": "external",
         "method": 6,
-        "name": "HAS_SET_OVERLAY",
+        "name": "ISOVERLAYLOADED",
         "zero_displacement": true
       }
     },
@@ -4395,7 +4395,7 @@
           "index": 125,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_HANDLE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -4409,7 +4409,7 @@
         "index": 125,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_HANDLE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -4498,7 +4498,7 @@
           "index": 127,
           "kind": "external",
           "method": 6,
-          "name": "ALLOCATE_TAGGED_HANDLE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -4512,7 +4512,7 @@
         "index": 127,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_TAGGED_HANDLE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -5011,7 +5011,7 @@
           "index": 67,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SPRITE_SET",
+          "name": "LOAD_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -5025,7 +5025,7 @@
         "index": 67,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SPRITE_SET",
+        "name": "LOAD_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -5065,7 +5065,7 @@
           "index": 80,
           "kind": "external",
           "method": 6,
-          "name": "PRELOAD_SPRITE_RANGE",
+          "name": "PRINCEMARKRANGESPURGEABLE",
           "zero_displacement": true
         }
       },
@@ -5079,7 +5079,7 @@
         "index": 80,
         "kind": "external",
         "method": 6,
-        "name": "PRELOAD_SPRITE_RANGE",
+        "name": "PRINCEMARKRANGESPURGEABLE",
         "zero_displacement": true
       }
     },
@@ -5163,7 +5163,7 @@
           "index": 92,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -5177,7 +5177,7 @@
         "index": 92,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -5217,7 +5217,7 @@
           "index": 89,
           "kind": "external",
           "method": 6,
-          "name": "_malloc",
+          "name": "__nmalloc",
           "zero_displacement": true
         }
       },
@@ -5231,7 +5231,7 @@
         "index": 89,
         "kind": "external",
         "method": 6,
-        "name": "_malloc",
+        "name": "__nmalloc",
         "zero_displacement": true
       }
     },
@@ -5244,7 +5244,7 @@
           "index": 65,
           "kind": "external",
           "method": 6,
-          "name": "SELECT_RESOURCE_FILE",
+          "name": "OPEN_VERIFIED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -5258,7 +5258,7 @@
         "index": 65,
         "kind": "external",
         "method": 6,
-        "name": "SELECT_RESOURCE_FILE",
+        "name": "OPEN_VERIFIED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -5320,7 +5320,7 @@
           "index": 78,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_OVERLAY_RANGE",
+          "name": "UNLOAD_OVERLAY",
           "zero_displacement": true
         }
       },
@@ -5334,7 +5334,7 @@
         "index": 78,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_OVERLAY_RANGE",
+        "name": "UNLOAD_OVERLAY",
         "zero_displacement": true
       }
     },
@@ -5418,7 +5418,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_OVERLAY_RANGE",
+          "name": "OVERLAY_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -5432,7 +5432,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_OVERLAY_RANGE",
+        "name": "OVERLAY_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -5516,7 +5516,7 @@
           "index": 76,
           "kind": "external",
           "method": 6,
-          "name": "HAS_SET_OVERLAY",
+          "name": "ISOVERLAYLOADED",
           "zero_displacement": true
         }
       },
@@ -5530,7 +5530,7 @@
         "index": 76,
         "kind": "external",
         "method": 6,
-        "name": "HAS_SET_OVERLAY",
+        "name": "ISOVERLAYLOADED",
         "zero_displacement": true
       }
     },
@@ -6510,7 +6510,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -6524,7 +6524,7 @@
       "segment_offset": 2190,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -6540,7 +6540,7 @@
           "index": 125,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_HANDLE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -6554,7 +6554,7 @@
         "index": 125,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_HANDLE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -6564,7 +6564,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -6578,7 +6578,7 @@
       "segment_offset": 2181,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -6591,7 +6591,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -6605,7 +6605,7 @@
       "segment_offset": 2174,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -6648,7 +6648,7 @@
           "index": 125,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_HANDLE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -6662,7 +6662,7 @@
         "index": 125,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_HANDLE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -6802,10 +6802,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 2,
+          "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "SET_LOADING_PROGRESS",
+          "name": "MOVETO",
           "zero_displacement": true
         }
       },
@@ -6816,10 +6816,10 @@
       "segment_offset": 2117,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "SET_LOADING_PROGRESS",
+        "name": "MOVETO",
         "zero_displacement": true
       }
     },
@@ -6851,7 +6851,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -6865,7 +6865,7 @@
       "segment_offset": 2460,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -6881,7 +6881,7 @@
           "index": 127,
           "kind": "external",
           "method": 6,
-          "name": "ALLOCATE_TAGGED_HANDLE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -6895,7 +6895,7 @@
         "index": 127,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_TAGGED_HANDLE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -6905,7 +6905,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -6919,7 +6919,7 @@
       "segment_offset": 2441,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -6962,7 +6962,7 @@
           "index": 127,
           "kind": "external",
           "method": 6,
-          "name": "ALLOCATE_TAGGED_HANDLE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -6976,7 +6976,7 @@
         "index": 127,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_TAGGED_HANDLE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -7016,7 +7016,7 @@
           "index": 80,
           "kind": "external",
           "method": 6,
-          "name": "PRELOAD_SPRITE_RANGE",
+          "name": "PRINCEMARKRANGESPURGEABLE",
           "zero_displacement": true
         }
       },
@@ -7030,7 +7030,7 @@
         "index": 80,
         "kind": "external",
         "method": 6,
-        "name": "PRELOAD_SPRITE_RANGE",
+        "name": "PRINCEMARKRANGESPURGEABLE",
         "zero_displacement": true
       }
     },
@@ -7217,7 +7217,7 @@
           "index": 65,
           "kind": "external",
           "method": 6,
-          "name": "SELECT_RESOURCE_FILE",
+          "name": "OPEN_VERIFIED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -7231,7 +7231,7 @@
         "index": 65,
         "kind": "external",
         "method": 6,
-        "name": "SELECT_RESOURCE_FILE",
+        "name": "OPEN_VERIFIED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -7342,7 +7342,7 @@
           "index": 78,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_OVERLAY_RANGE",
+          "name": "UNLOAD_OVERLAY",
           "zero_displacement": true
         }
       },
@@ -7356,7 +7356,7 @@
         "index": 78,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_OVERLAY_RANGE",
+        "name": "UNLOAD_OVERLAY",
         "zero_displacement": true
       }
     },
@@ -7504,7 +7504,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_OVERLAY_RANGE",
+          "name": "OVERLAY_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -7518,7 +7518,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_OVERLAY_RANGE",
+        "name": "OVERLAY_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -7558,7 +7558,7 @@
           "index": 76,
           "kind": "external",
           "method": 6,
-          "name": "HAS_SET_OVERLAY",
+          "name": "ISOVERLAYLOADED",
           "zero_displacement": true
         }
       },
@@ -7572,7 +7572,7 @@
         "index": 76,
         "kind": "external",
         "method": 6,
-        "name": "HAS_SET_OVERLAY",
+        "name": "ISOVERLAYLOADED",
         "zero_displacement": true
       }
     },
@@ -7980,7 +7980,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_SCENE_OVERLAY",
+          "name": "LOAD_SONG_RANGE",
           "zero_displacement": true
         }
       },
@@ -7994,7 +7994,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_SCENE_OVERLAY",
+        "name": "LOAD_SONG_RANGE",
         "zero_displacement": true
       }
     },
@@ -8218,7 +8218,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_TYPED_HANDLE",
+          "name": "HGETSND",
           "zero_displacement": true
         }
       },
@@ -8232,7 +8232,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_TYPED_HANDLE",
+        "name": "HGETSND",
         "zero_displacement": true
       }
     },
@@ -8272,7 +8272,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_TYPED_HANDLE",
+          "name": "HGETSND",
           "zero_displacement": true
         }
       },
@@ -8286,7 +8286,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_TYPED_HANDLE",
+        "name": "HGETSND",
         "zero_displacement": true
       }
     },
@@ -8483,7 +8483,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "GET_HANDLE_DATA",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -8497,7 +8497,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "GET_HANDLE_DATA",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -8510,7 +8510,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_HANDLE",
+          "name": "SAVE_HANDLE_FLAGS",
           "zero_displacement": true
         }
       },
@@ -8524,7 +8524,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_HANDLE",
+        "name": "SAVE_HANDLE_FLAGS",
         "zero_displacement": true
       }
     },
@@ -8537,7 +8537,7 @@
           "index": 27,
           "kind": "external",
           "method": 6,
-          "name": "REPORT_ERROR",
+          "name": "ABORT_WITH_MESSAGE",
           "zero_displacement": true
         }
       },
@@ -8551,7 +8551,7 @@
         "index": 27,
         "kind": "external",
         "method": 6,
-        "name": "REPORT_ERROR",
+        "name": "ABORT_WITH_MESSAGE",
         "zero_displacement": true
       }
     },
@@ -8969,7 +8969,7 @@
           "index": 31,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SOUND_DATA",
+          "name": "UNLOADCUSTOMROOMDATA",
           "zero_displacement": true
         }
       },
@@ -8983,7 +8983,7 @@
         "index": 31,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SOUND_DATA",
+        "name": "UNLOADCUSTOMROOMDATA",
         "zero_displacement": true
       }
     },
@@ -9050,7 +9050,7 @@
           "index": 29,
           "kind": "external",
           "method": 6,
-          "name": "RESET_SOUND_DATA",
+          "name": "CLEAR_PEELS",
           "zero_displacement": true
         }
       },
@@ -9064,7 +9064,7 @@
         "index": 29,
         "kind": "external",
         "method": 6,
-        "name": "RESET_SOUND_DATA",
+        "name": "CLEAR_PEELS",
         "zero_displacement": true
       }
     },
@@ -9126,7 +9126,7 @@
           "index": 125,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_HANDLE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -9140,7 +9140,7 @@
         "index": 125,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_HANDLE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -9319,7 +9319,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -9333,7 +9333,7 @@
       "segment_offset": 3387,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -9349,7 +9349,7 @@
           "index": 129,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_TAGGED_HANDLE",
+          "name": "RELEASE_TAGGED_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -9363,7 +9363,7 @@
         "index": 129,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_TAGGED_HANDLE",
+        "name": "RELEASE_TAGGED_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -9373,7 +9373,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 3,
+          "index": 2,
           "kind": "external",
           "method": 6,
           "name": "OPPONENT_EFFECT_FRAMES",
@@ -9387,7 +9387,7 @@
       "segment_offset": 3367,
       "self_relative": false,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
         "name": "OPPONENT_EFFECT_FRAMES",
@@ -9430,7 +9430,7 @@
           "index": 125,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_HANDLE",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -9444,7 +9444,7 @@
         "index": 125,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_HANDLE",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -9511,7 +9511,7 @@
           "index": 85,
           "kind": "external",
           "method": 6,
-          "name": "UNLOAD_SCENE_OVERLAY",
+          "name": "RELEASE_SONG_RANGE",
           "zero_displacement": true
         }
       },
@@ -9525,7 +9525,7 @@
         "index": 85,
         "kind": "external",
         "method": 6,
-        "name": "UNLOAD_SCENE_OVERLAY",
+        "name": "RELEASE_SONG_RANGE",
         "zero_displacement": true
       }
     },
@@ -9646,7 +9646,7 @@
           "index": 31,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SOUND_DATA",
+          "name": "UNLOADCUSTOMROOMDATA",
           "zero_displacement": true
         }
       },
@@ -9660,7 +9660,7 @@
         "index": 31,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SOUND_DATA",
+        "name": "UNLOADCUSTOMROOMDATA",
         "zero_displacement": true
       }
     },
@@ -9700,7 +9700,7 @@
           "index": 78,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_OVERLAY_RANGE",
+          "name": "UNLOAD_OVERLAY",
           "zero_displacement": true
         }
       },
@@ -9714,7 +9714,7 @@
         "index": 78,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_OVERLAY_RANGE",
+        "name": "UNLOAD_OVERLAY",
         "zero_displacement": true
       }
     },
@@ -9933,7 +9933,7 @@
           "index": 92,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -9947,7 +9947,7 @@
         "index": 92,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -10014,7 +10014,7 @@
           "index": 70,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SPRITE_SET",
+          "name": "UNLOADSHAPELIST",
           "zero_displacement": true
         }
       },
@@ -10028,7 +10028,7 @@
         "index": 70,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SPRITE_SET",
+        "name": "UNLOADSHAPELIST",
         "zero_displacement": true
       }
     },
@@ -10936,6 +10936,15 @@
         }
       ]
     },
+    "ABORT_WITH_MESSAGE": {
+      "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
+      "entry_target_id": "root:1de8:000c",
+      "kind": "far-code-entry",
+      "offset": 12,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": []
+    },
     "ACTIVE_MAP": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -10949,15 +10958,6 @@
           "space": "root"
         }
       ]
-    },
-    "ALLOCATE_TAGGED_HANDLE": {
-      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
-      "entry_target_id": "root:1101:6f6a",
-      "kind": "far-code-entry",
-      "offset": 28522,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
     },
     "ALLOCBACKPORT": {
       "entry_sha256": "bc4188570b458495026ec9db23c07398fde405abaf3d01e75200dcfab5a05c04",
@@ -11080,6 +11080,15 @@
       "space": "overlay-9",
       "witnesses": []
     },
+    "CLEAR_PEELS": {
+      "entry_sha256": "5de3c077e2776745058d669fff2fc5dc620319ec149055afc7aba809e1e81c7c",
+      "entry_target_id": "root:0169:0794",
+      "kind": "far-code-entry",
+      "offset": 1940,
+      "segment": 361,
+      "space": "root",
+      "witnesses": []
+    },
     "CLOSE_RESOURCE_FILE": {
       "entry_sha256": "c05f711f00cb10d69dcc5b08eaa380c87dcbb174504733b9266f07b511866f7e",
       "entry_target_id": "root:1de8:01dc",
@@ -11106,6 +11115,15 @@
       "space": "overlay-5",
       "witnesses": []
     },
+    "DISPOSE_HANDLE": {
+      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
+      "entry_target_id": "root:1101:22a0",
+      "kind": "far-code-entry",
+      "offset": 8864,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "ENTER_ROOM": {
       "entry_sha256": "1fd4a78cb4294ace8c159fe2256530af90f1c99cd25751b4e238fb61ddbf22a5",
       "entry_target_id": "root:0f77:0002",
@@ -11123,25 +11141,7 @@
         }
       ]
     },
-    "FIND_NEAR_RESOURCE": {
-      "entry_sha256": "925393f41f6ff0cf309bf37f1aec8f9fab00d6358be3f10a7f38338f500beca4",
-      "entry_target_id": "root:1101:6f8a",
-      "kind": "far-code-entry",
-      "offset": 28554,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "FIND_OPTION": {
-      "entry_sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551",
-      "entry_target_id": "root:1101:29aa",
-      "kind": "far-code-entry",
-      "offset": 10666,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "GET_HANDLE_DATA": {
+    "FETCH_LOCKED_SHAPE_LIST": {
       "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
       "entry_target_id": "root:1101:2362",
       "kind": "far-code-entry",
@@ -11158,23 +11158,40 @@
         }
       ]
     },
-    "HAS_SET_OVERLAY": {
-      "entry_sha256": "4303892db7207749f41a7dfdc3b339d317678894323ad4ef9198a5bd00a5c505",
-      "entry_target_id": "root:1ecf:00e4",
+    "FIND_OPTION": {
+      "entry_sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551",
+      "entry_target_id": "root:1101:29aa",
       "kind": "far-code-entry",
-      "offset": 228,
-      "segment": 7887,
+      "offset": 10666,
+      "segment": 4353,
       "space": "root",
       "witnesses": []
     },
-    "INITIALIZE_LEVEL_OVERLAY": {
-      "entry_sha256": "03f6e7f8e6fe49305b7e41e361848b28f00f7e7d23539b5a0e0d7b9fcf7164e6",
-      "entry_target_id": "overlay-5:29cf:031a",
-      "kind": "overlay-code-entry",
-      "offset": 794,
-      "segment": 10703,
-      "space": "overlay-5",
+    "HGETRSRC": {
+      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "entry_target_id": "root:1101:6f6a",
+      "kind": "far-code-entry",
+      "offset": 28522,
+      "segment": 4353,
+      "space": "root",
       "witnesses": []
+    },
+    "HGETSND": {
+      "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
+      "entry_target_id": "root:1101:807a",
+      "kind": "far-code-entry",
+      "offset": 32890,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a7a800111",
+          "file_offset": 65470,
+          "image_offset": 57278,
+          "relocation_index": 1130,
+          "space": "root"
+        }
+      ]
     },
     "ISLEVELSTARTWITHNISSCREEN": {
       "entry_sha256": "9ac00f333629e74eff85c7dba331b31fc9cb2277b7cb90d3d1de99a05e4bc706",
@@ -11182,6 +11199,15 @@
       "kind": "far-code-entry",
       "offset": 150,
       "segment": 644,
+      "space": "root",
+      "witnesses": []
+    },
+    "ISOVERLAYLOADED": {
+      "entry_sha256": "4303892db7207749f41a7dfdc3b339d317678894323ad4ef9198a5bd00a5c505",
+      "entry_target_id": "root:1ecf:00e4",
+      "kind": "far-code-entry",
+      "offset": 228,
+      "segment": 7887,
       "space": "root",
       "witnesses": []
     },
@@ -11297,15 +11323,6 @@
         }
       ]
     },
-    "LOAD_MAP_RESOURCE": {
-      "entry_sha256": "f67a5eb70e9a9014937e96dbcfcf0f6025507ce21edd694ba9007cf43e4917c6",
-      "entry_target_id": "root:1101:70ac",
-      "kind": "far-code-entry",
-      "offset": 28844,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
     "LOAD_OPPONENT_SOUND": {
       "entry_sha256": "9fcca7e3c25aa7236843d8658cf41a71448cf21e16ccf4439766e28b7ee2f984",
       "entry_target_id": "root:0dd7:02f4",
@@ -11357,15 +11374,6 @@
       "space": "root",
       "witnesses": []
     },
-    "LOAD_OVERLAY_RANGE": {
-      "entry_sha256": "43d593a9ca732156c65937e2486b7c7e84a2332d820d092f1202c9313c12d1d5",
-      "entry_target_id": "root:1ecf:0294",
-      "kind": "far-code-entry",
-      "offset": 660,
-      "segment": 7887,
-      "space": "root",
-      "witnesses": []
-    },
     "LOAD_OVERLAY_SEVEN": {
       "kind": "rtlink-vector",
       "offset": 3431,
@@ -11401,6 +11409,24 @@
       "space": "root",
       "witnesses": []
     },
+    "LOAD_RESOURCE_COPY": {
+      "entry_sha256": "925393f41f6ff0cf309bf37f1aec8f9fab00d6358be3f10a7f38338f500beca4",
+      "entry_target_id": "root:1101:6f8a",
+      "kind": "far-code-entry",
+      "offset": 28554,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_RESOURCE_INTO": {
+      "entry_sha256": "f67a5eb70e9a9014937e96dbcfcf0f6025507ce21edd694ba9007cf43e4917c6",
+      "entry_target_id": "root:1101:70ac",
+      "kind": "far-code-entry",
+      "offset": 28844,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "LOAD_RESOURCE_PALETTE": {
       "entry_sha256": "4eb94aa76dc5b816dd37b6da52bdcda8b9be4f3d7463f65782c687458dad91c5",
       "entry_target_id": "root:078a:2b0a",
@@ -11418,7 +11444,16 @@
         }
       ]
     },
-    "LOAD_SCENE_OVERLAY": {
+    "LOAD_SHAPE_LIST": {
+      "entry_sha256": "5475394523ff88743c4bca5a4f37a48323c885e185996a3299e7810a03160a62",
+      "entry_target_id": "root:1ecf:0136",
+      "kind": "far-code-entry",
+      "offset": 310,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": []
+    },
+    "LOAD_SONG_RANGE": {
       "entry_sha256": "2cf4c29e1539508eef8a87ee2b73f7061f09805b7698f6c70a283a1e39d3c715",
       "entry_target_id": "root:0dd7:0350",
       "kind": "far-code-entry",
@@ -11431,49 +11466,6 @@
           "file_offset": 28045,
           "image_offset": 19853,
           "relocation_index": 407,
-          "space": "root"
-        }
-      ]
-    },
-    "LOAD_SPRITE_SET": {
-      "entry_sha256": "5475394523ff88743c4bca5a4f37a48323c885e185996a3299e7810a03160a62",
-      "entry_target_id": "root:1ecf:0136",
-      "kind": "far-code-entry",
-      "offset": 310,
-      "segment": 7887,
-      "space": "root",
-      "witnesses": []
-    },
-    "LOAD_TYPED_HANDLE": {
-      "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
-      "entry_target_id": "root:1101:807a",
-      "kind": "far-code-entry",
-      "offset": 32890,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 65470,
-          "image_offset": 57278,
-          "relocation_index": 1130,
-          "space": "root"
-        }
-      ]
-    },
-    "LOCK_HANDLE": {
-      "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
-      "entry_target_id": "root:1101:22d0",
-      "kind": "far-code-entry",
-      "offset": 8912,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ad0220111",
-          "file_offset": 20600,
-          "image_offset": 12408,
-          "relocation_index": 338,
           "space": "root"
         }
       ]
@@ -11492,10 +11484,28 @@
         }
       ]
     },
+    "MOVETO": {
+      "entry_sha256": "a4f5fac21cb25ce0cbebb3142c3013ea14a802cbff700b4de7643869d6d8ffdc",
+      "entry_target_id": "root:1101:50f6",
+      "kind": "far-code-entry",
+      "offset": 20726,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "MUSIC_NUMBER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 23693,
+      "witnesses": []
+    },
+    "OPEN_VERIFIED_RESOURCE": {
+      "entry_sha256": "ed34c25955f54ae8a9e9e2118b13dd9ade001157a4b958b447f3e80773b4201a",
+      "entry_target_id": "root:1de8:01fa",
+      "kind": "far-code-entry",
+      "offset": 506,
+      "segment": 7656,
+      "space": "root",
       "witnesses": []
     },
     "OPPONENT": {
@@ -11561,6 +11571,15 @@
         }
       ]
     },
+    "OVERLAY_SHAPE_LIST": {
+      "entry_sha256": "43d593a9ca732156c65937e2486b7c7e84a2332d820d092f1202c9313c12d1d5",
+      "entry_target_id": "root:1ecf:0294",
+      "kind": "far-code-entry",
+      "offset": 660,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": []
+    },
     "PLAY_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -11575,7 +11594,7 @@
         }
       ]
     },
-    "PRELOAD_SPRITE_RANGE": {
+    "PRINCEMARKRANGESPURGEABLE": {
       "entry_sha256": "d91ce5c1b0d8b04b3534dc2d6d39493c488a8ac25681308fa16be493f4e04edf",
       "entry_target_id": "root:1ecf:03e0",
       "kind": "far-code-entry",
@@ -11584,43 +11603,24 @@
       "space": "root",
       "witnesses": []
     },
-    "RELEASE_HANDLE": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
+    "RELEASE_SONG_RANGE": {
+      "entry_sha256": "2852a44b68190ab0e25640a4f6a13b5c545d8fde0f9f751c58d5bd2173c34c7e",
+      "entry_target_id": "root:0dd7:07ac",
       "kind": "far-code-entry",
-      "offset": 8864,
-      "segment": 4353,
+      "offset": 1964,
+      "segment": 3543,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "bytes_hex": "9aac07d70d",
+          "file_offset": 29099,
+          "image_offset": 20907,
+          "relocation_index": 412,
+          "space": "root"
+        }
+      ]
     },
-    "RELEASE_OVERLAY_RANGE": {
-      "entry_sha256": "7d64b77ff608d1bb4dd83799d94497af0403e9217f9d15a4ebf512a6b6fcc2ab",
-      "entry_target_id": "root:1ecf:0774",
-      "kind": "far-code-entry",
-      "offset": 1908,
-      "segment": 7887,
-      "space": "root",
-      "witnesses": []
-    },
-    "RELEASE_SOUND_DATA": {
-      "entry_sha256": "dbb2776983ca329e8d0e7f98e8b9206e42310ed0e7f9865de4bc197ea2408f9f",
-      "entry_target_id": "root:04a6:072c",
-      "kind": "far-code-entry",
-      "offset": 1836,
-      "segment": 1190,
-      "space": "root",
-      "witnesses": []
-    },
-    "RELEASE_SPRITE_SET": {
-      "entry_sha256": "ffe91c49a23a06d53f2d71d3e2c5d2ac74ce15c66d5fecde779786587295e32c",
-      "entry_target_id": "root:1ecf:07f0",
-      "kind": "far-code-entry",
-      "offset": 2032,
-      "segment": 7887,
-      "space": "root",
-      "witnesses": []
-    },
-    "RELEASE_TAGGED_HANDLE": {
+    "RELEASE_TAGGED_RESOURCE": {
       "entry_sha256": "cbb7e0272489974fdecbe9fade5079decee019200d3abfc9857f7814ac00c334",
       "entry_target_id": "root:1101:6f22",
       "kind": "far-code-entry",
@@ -11629,30 +11629,7 @@
       "space": "root",
       "witnesses": []
     },
-    "REPORT_ERROR": {
-      "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
-      "entry_target_id": "root:1de8:000c",
-      "kind": "far-code-entry",
-      "offset": 12,
-      "segment": 7656,
-      "space": "root",
-      "witnesses": []
-    },
-    "REQUESTED_MAP": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a0180a",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "RESET_CHECKPOINT": {
+    "REMOVEREBIRTHPT": {
       "entry_sha256": "e5052bfbe5aac6a314e4da485fe199e0b2d5083bc02606b90d6d4c2f3c06d3dd",
       "entry_target_id": "root:052d:109e",
       "kind": "far-code-entry",
@@ -11669,30 +11646,27 @@
         }
       ]
     },
-    "RESET_LEVEL_DISPLAY": {
-      "entry_sha256": "f22cb2183490d5bca92ff267c404df593401259817966c8245a3cce1af6cb59b",
-      "entry_target_id": "root:078a:29a6",
-      "kind": "far-code-entry",
-      "offset": 10662,
-      "segment": 1930,
-      "space": "root",
+    "REQUESTED_MAP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2584,
       "witnesses": [
         {
-          "bytes_hex": "9aa6298a07",
-          "file_offset": 11784,
-          "image_offset": 3592,
-          "relocation_index": 108,
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
     },
-    "RESET_SOUND_DATA": {
-      "entry_sha256": "5de3c077e2776745058d669fff2fc5dc620319ec149055afc7aba809e1e81c7c",
-      "entry_target_id": "root:0169:0794",
-      "kind": "far-code-entry",
-      "offset": 1940,
-      "segment": 361,
-      "space": "root",
+    "RESET_DESERT_VARIANT": {
+      "entry_sha256": "03f6e7f8e6fe49305b7e41e361848b28f00f7e7d23539b5a0e0d7b9fcf7164e6",
+      "entry_target_id": "overlay-5:29cf:031a",
+      "kind": "overlay-code-entry",
+      "offset": 794,
+      "segment": 10703,
+      "space": "overlay-5",
       "witnesses": []
     },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
@@ -11887,14 +11861,39 @@
         }
       ]
     },
-    "SELECT_RESOURCE_FILE": {
-      "entry_sha256": "ed34c25955f54ae8a9e9e2118b13dd9ade001157a4b958b447f3e80773b4201a",
-      "entry_target_id": "root:1de8:01fa",
+    "SAVE_GAME_PLAY_PALETTE": {
+      "entry_sha256": "f22cb2183490d5bca92ff267c404df593401259817966c8245a3cce1af6cb59b",
+      "entry_target_id": "root:078a:29a6",
       "kind": "far-code-entry",
-      "offset": 506,
-      "segment": 7656,
+      "offset": 10662,
+      "segment": 1930,
       "space": "root",
-      "witnesses": []
+      "witnesses": [
+        {
+          "bytes_hex": "9aa6298a07",
+          "file_offset": 11784,
+          "image_offset": 3592,
+          "relocation_index": 108,
+          "space": "root"
+        }
+      ]
+    },
+    "SAVE_HANDLE_FLAGS": {
+      "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
+      "entry_target_id": "root:1101:22d0",
+      "kind": "far-code-entry",
+      "offset": 8912,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad0220111",
+          "file_offset": 20600,
+          "image_offset": 12408,
+          "relocation_index": 338,
+          "space": "root"
+        }
+      ]
     },
     "SEQUENCE_FLAGS": {
       "group": "DGROUP",
@@ -11930,15 +11929,6 @@
       "kind": "far-code-entry",
       "offset": 4522,
       "segment": 1325,
-      "space": "root",
-      "witnesses": []
-    },
-    "SET_LOADING_PROGRESS": {
-      "entry_sha256": "a4f5fac21cb25ce0cbebb3142c3013ea14a802cbff700b4de7643869d6d8ffdc",
-      "entry_target_id": "root:1101:50f6",
-      "kind": "far-code-entry",
-      "offset": 20726,
-      "segment": 4353,
       "space": "root",
       "witnesses": []
     },
@@ -12008,15 +11998,6 @@
         }
       ]
     },
-    "START_NAMED_EFFECT": {
-      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
-      "entry_target_id": "root:1101:4d90",
-      "kind": "far-code-entry",
-      "offset": 19856,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
     "START_ROOM_COUNT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -12062,6 +12043,15 @@
         }
       ]
     },
+    "STROKE_PORT_RECT": {
+      "entry_sha256": "e209f4590fa6e838d88195812d30bc5187bfebac8421a6d2d93b8b81c557f2fb",
+      "entry_target_id": "root:1101:4d90",
+      "kind": "far-code-entry",
+      "offset": 19856,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "SWORD_FRAMES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -12090,19 +12080,63 @@
         }
       ]
     },
-    "UNLOAD_SCENE_OVERLAY": {
-      "entry_sha256": "2852a44b68190ab0e25640a4f6a13b5c545d8fde0f9f751c58d5bd2173c34c7e",
-      "entry_target_id": "root:0dd7:07ac",
+    "UNLOADCUSTOMROOMDATA": {
+      "entry_sha256": "dbb2776983ca329e8d0e7f98e8b9206e42310ed0e7f9865de4bc197ea2408f9f",
+      "entry_target_id": "root:04a6:072c",
       "kind": "far-code-entry",
-      "offset": 1964,
-      "segment": 3543,
+      "offset": 1836,
+      "segment": 1190,
+      "space": "root",
+      "witnesses": []
+    },
+    "UNLOADSHAPELIST": {
+      "entry_sha256": "ffe91c49a23a06d53f2d71d3e2c5d2ac74ce15c66d5fecde779786587295e32c",
+      "entry_target_id": "root:1ecf:07f0",
+      "kind": "far-code-entry",
+      "offset": 2032,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": []
+    },
+    "UNLOAD_OVERLAY": {
+      "entry_sha256": "7d64b77ff608d1bb4dd83799d94497af0403e9217f9d15a4ebf512a6b6fcc2ab",
+      "entry_target_id": "root:1ecf:0774",
+      "kind": "far-code-entry",
+      "offset": 1908,
+      "segment": 7887,
+      "space": "root",
+      "witnesses": []
+    },
+    "__nfree": {
+      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "entry_target_id": "root:1fe6:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8166,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9aac07d70d",
-          "file_offset": 29099,
-          "image_offset": 20907,
-          "relocation_index": 412,
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "relocation_index": 14,
+          "space": "root"
+        }
+      ]
+    },
+    "__nmalloc": {
+      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
+      "entry_target_id": "root:1fe6:003b",
+      "kind": "far-code-entry",
+      "offset": 59,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3b00e61f",
+          "file_offset": 13191,
+          "image_offset": 4999,
+          "relocation_index": 65,
           "space": "root"
         }
       ]
@@ -12120,40 +12154,6 @@
           "file_offset": 32028,
           "image_offset": 23836,
           "relocation_index": 525,
-          "space": "root"
-        }
-      ]
-    },
-    "_free": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
-      "kind": "far-code-entry",
-      "offset": 26,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
-          "space": "root"
-        }
-      ]
-    },
-    "_malloc": {
-      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
-      "entry_target_id": "root:1fe6:003b",
-      "kind": "far-code-entry",
-      "offset": 59,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3b00e61f",
-          "file_offset": 13191,
-          "image_offset": 4999,
-          "relocation_index": 65,
           "space": "root"
         }
       ]

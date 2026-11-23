@@ -1,12 +1,12 @@
 {
   "declarations": {
     "externals": [
-      "READ_HANDLE_FLAGS",
-      "TEXT_EXPANSION_SIZE",
-      "DEREF_HANDLE",
+      "SAVE_HANDLE_FLAGS",
+      "QUERY_HANDLE_SIZE",
+      "MATERIALIZE_HANDLE",
       "RESIZE_HANDLE",
-      "HANDLE_PAYLOAD",
-      "MOVE_FAR_BYTES",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
+      "MOVE_HUGE_BYTES",
       "XLATTXT4",
       "MARK_HANDLE_CONVERTED",
       "CONVERT_TEXT_HANDLE"
@@ -174,7 +174,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "MOVE_FAR_BYTES",
+          "name": "MOVE_HUGE_BYTES",
           "zero_displacement": true
         }
       },
@@ -188,7 +188,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "MOVE_FAR_BYTES",
+        "name": "MOVE_HUGE_BYTES",
         "zero_displacement": true
       }
     },
@@ -201,7 +201,7 @@
           "index": 5,
           "kind": "external",
           "method": 6,
-          "name": "HANDLE_PAYLOAD",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -215,7 +215,7 @@
         "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "HANDLE_PAYLOAD",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -255,7 +255,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "DEREF_HANDLE",
+          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -269,7 +269,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "DEREF_HANDLE",
+        "name": "MATERIALIZE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -282,7 +282,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "TEXT_EXPANSION_SIZE",
+          "name": "QUERY_HANDLE_SIZE",
           "zero_displacement": true
         }
       },
@@ -296,7 +296,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "TEXT_EXPANSION_SIZE",
+        "name": "QUERY_HANDLE_SIZE",
         "zero_displacement": true
       }
     },
@@ -309,7 +309,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "READ_HANDLE_FLAGS",
+          "name": "SAVE_HANDLE_FLAGS",
           "zero_displacement": true
         }
       },
@@ -323,7 +323,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "READ_HANDLE_FLAGS",
+        "name": "SAVE_HANDLE_FLAGS",
         "zero_displacement": true
       }
     }
@@ -344,40 +344,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "DEREF_HANDLE": {
-      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
-      "entry_target_id": "root:1101:22e2",
-      "kind": "far-code-entry",
-      "offset": 8930,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ae2220111",
-          "file_offset": 17610,
-          "image_offset": 9418,
-          "relocation_index": 134,
-          "space": "root"
-        }
-      ]
-    },
-    "HANDLE_PAYLOAD": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
-      "kind": "far-code-entry",
-      "offset": 8556,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
-          "space": "root"
-        }
-      ]
-    },
     "MARK_HANDLE_CONVERTED": {
       "entry_sha256": "acd58479c7db44f27fe8728be1702c9e4005e38d2f5be76f532c382ee1e4d71d",
       "entry_target_id": "root:1101:237c",
@@ -395,7 +361,24 @@
         }
       ]
     },
-    "MOVE_FAR_BYTES": {
+    "MATERIALIZE_HANDLE": {
+      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
+      "entry_target_id": "root:1101:22e2",
+      "kind": "far-code-entry",
+      "offset": 8930,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ae2220111",
+          "file_offset": 17610,
+          "image_offset": 9418,
+          "relocation_index": 134,
+          "space": "root"
+        }
+      ]
+    },
+    "MOVE_HUGE_BYTES": {
       "entry_sha256": "3b3b95e719396cb84058833b723ff924c0807ee7a2790bac6819003a4c94d5ce",
       "entry_target_id": "root:1101:1b7c",
       "kind": "far-code-entry",
@@ -412,19 +395,19 @@
         }
       ]
     },
-    "READ_HANDLE_FLAGS": {
-      "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
-      "entry_target_id": "root:1101:22d0",
+    "QUERY_HANDLE_SIZE": {
+      "entry_sha256": "a557c8c0a5bed1cc42e9277d0b5df2ff17ab5958ca061a7d4a7c36a011de1d62",
+      "entry_target_id": "root:1101:c030",
       "kind": "far-code-entry",
-      "offset": 8912,
+      "offset": 49200,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ad0220111",
-          "file_offset": 20600,
-          "image_offset": 12408,
-          "relocation_index": 338,
+          "bytes_hex": "9a30c00111",
+          "file_offset": 110984,
+          "image_offset": 102792,
+          "relocation_index": 1598,
           "space": "root"
         }
       ]
@@ -446,19 +429,36 @@
         }
       ]
     },
-    "TEXT_EXPANSION_SIZE": {
-      "entry_sha256": "a557c8c0a5bed1cc42e9277d0b5df2ff17ab5958ca061a7d4a7c36a011de1d62",
-      "entry_target_id": "root:1101:c030",
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
       "kind": "far-code-entry",
-      "offset": 49200,
+      "offset": 8556,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a30c00111",
-          "file_offset": 110984,
-          "image_offset": 102792,
-          "relocation_index": 1598,
+          "bytes_hex": "9a6c210111",
+          "file_offset": 14073,
+          "image_offset": 5881,
+          "relocation_index": 234,
+          "space": "root"
+        }
+      ]
+    },
+    "SAVE_HANDLE_FLAGS": {
+      "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
+      "entry_target_id": "root:1101:22d0",
+      "kind": "far-code-entry",
+      "offset": 8912,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad0220111",
+          "file_offset": 20600,
+          "image_offset": 12408,
+          "relocation_index": 338,
           "space": "root"
         }
       ]

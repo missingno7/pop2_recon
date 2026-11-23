@@ -21,27 +21,27 @@ typedef struct {
 extern unsigned graphics_port;
 static char allocation_message[] = "ERROR:  Couldn't allocate backport.";
 
-void near * far cdecl malloc(unsigned);
-void far cdecl free(void near *);
+void near * far cdecl _nmalloc(unsigned);
+void far cdecl _nfree(void near *);
 void far * far cdecl memcpy(void far *, const void far *, unsigned);
 int far cdecl memcmp(const void far *, const void far *, unsigned);
-int far pascal initialize_record(void near *, const Rect far *);
-void far pascal report_error(int, const char far *);
-Color far * far pascal allocate_colors(long);
-void far pascal read_colors(int, int, Color far *);
-void far pascal install_colors(int, int, Color far *, int);
-void far pascal release_far_block(void far *);
-void far pascal dispose_record(GraphicsRecord near *);
-void far pascal dispose_record_pair(unsigned, unsigned);
-Rect far * far pascal union_rect(Rect far *, const Rect far *, const Rect far *);
-void far pascal draw_record(unsigned, GraphicsRecord near *, void far *, void far *, int);
+int far pascal create_port(void near *, const Rect far *);
+void far pascal abort_with_message(int, const char far *);
+Color far * far pascal ALLOCATE_PINNED_PAYLOAD(long);
+void far pascal READ_DAC_BLOCK(int, int, Color far *);
+void far pascal WRITE_DAC_BLOCK(int, int, Color far *, int);
+void far pascal CLEAR_PAYLOAD_HEADER(void far *);
+void far pascal release_port(GraphicsRecord near *);
+void far pascal RELEASE_BUFFER(unsigned, unsigned);
+Rect far * far pascal UNIONRECT(Rect far *, const Rect far *, const Rect far *);
+void far pascal MEASURE_TEXT(unsigned, GraphicsRecord near *, void far *, void far *, int);
 void far pascal flip_rows(void far *, unsigned, unsigned);
 
 void near * far pascal AllocBackPort(const Rect far *bounds)
 {
-    void near *record = malloc(44);
-    if (!initialize_record(record, bounds))
-        report_error(1, allocation_message);
+    void near *record = _nmalloc(44);
+    if (!create_port(record, bounds))
+        abort_with_message(1, allocation_message);
     return record;
 }
 
@@ -52,35 +52,35 @@ void far pascal CycleColors(int first, int count, int setting)
     /* MSC keeps the allocation ahead of the Pascal argument pushes through this alias. */
     Color far *near *palette_buffer = &colors;
 
-    colors = allocate_colors((long)bytes);
-    read_colors(first, count, *palette_buffer);
+    colors = ALLOCATE_PINNED_PAYLOAD((long)bytes);
+    READ_DAC_BLOCK(first, count, *palette_buffer);
     {
         Color saved = colors[0];
         memcpy(colors, colors + 1, bytes - 3);
         *(Color far *)((char far *)colors + bytes - 3) = saved;
     }
-    install_colors(first, count, colors, setting);
-    release_far_block(colors);
+    WRITE_DAC_BLOCK(first, count, colors, setting);
+    CLEAR_PAYLOAD_HEADER(colors);
 }
 
 void far pascal DeallocBackPort(GraphicsRecord near *record)
 {
     if (record) {
-        dispose_record(record);
-        free(record);
+        release_port(record);
+        _nfree(record);
     }
 }
 
 void far pascal free_record_pair(GraphicsRecord near *record)
 {
-    dispose_record_pair(record->second, record->first);
-    free(record);
+    RELEASE_BUFFER(record->second, record->first);
+    _nfree(record);
 }
 
 int far pascal EncloseRect(const Rect far *rect, const Rect far *other)
 {
     Rect work;
-    union_rect(&work, rect, other);
+    UNIONRECT(&work, rect, other);
     return memcmp(&work, rect, sizeof(work)) == 0;
 }
 
@@ -92,7 +92,7 @@ int far pascal EqualRect(const Rect far *a, const Rect far *b)
 void far pascal draw_record_bounds(GraphicsRecord near *record)
 {
     void far *bounds = (char near *)record + 16;
-    draw_record(graphics_port, record, bounds, bounds, 0);
+    MEASURE_TEXT(graphics_port, record, bounds, bounds, 0);
 }
 
 void far pascal InvertBitMap(const BitmapRecord far *bitmap)

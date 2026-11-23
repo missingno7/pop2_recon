@@ -11,14 +11,14 @@ extern char room_is_custom;
 extern RoomLinks room_links[];
 extern char draw_row, draw_column;
 
-extern void begin_full_redraw(void);
-extern void prepare_full_redraw(void);
-extern void finish_full_redraw(void);
+extern void clear_peels(void);
+extern void init_fchar_rect(void);
+extern void ZeroBuffers(void);
 extern void select_room(Room room);
-extern int check_custom_room(Room room);
-extern void begin_room_rows(void);
+extern int IsCustomizedRoom(Room room);
+extern void SetSideRoomInfo(void);
 extern void prepare_row(void);
-extern void prepare_row_images(void);
+extern void GetBelowAry(void);
 extern void select_draw_cell(void);
 extern void draw_custom_above_row(void);
 extern void redraw_room_sure(void);
@@ -29,11 +29,11 @@ void * cdecl memset(void *, int, unsigned int);
 
 void full_redraw(void)
 {
-    begin_full_redraw();
+    clear_peels();
     memset(redraw_flags, 0, sizeof redraw_flags);
-    prepare_full_redraw();
+    init_fchar_rect();
     redraw_room_sure();
-    finish_full_redraw();
+    ZeroBuffers();
 }
 
 void get_rooms(void)
@@ -64,7 +64,7 @@ void get_rooms(void)
             if (right_room)
                 below_right_room = room_links[right_room].below;
         }
-        room_is_custom = check_custom_room(drawn_room);
+        room_is_custom = IsCustomizedRoom(drawn_room);
     } else {
         left_room = right_room = above_room = below_room = 0;
     }
@@ -74,11 +74,11 @@ void redraw_room_sure(void)
 {
     int saved_room;
 
-    begin_room_rows();
+    SetSideRoomInfo();
     draw_row = 3;
     while (draw_row--) {
         prepare_row();
-        prepare_row_images();
+        GetBelowAry();
         draw_column = 0;
         do {
             select_draw_cell();
@@ -90,10 +90,10 @@ void redraw_room_sure(void)
         drawn_room = above_room;
         get_rooms();
         below_room = (Room)saved_room;
-        begin_room_rows();
+        SetSideRoomInfo();
         draw_row = 2;
         prepare_row();
-        prepare_row_images();
+        GetBelowAry();
         draw_row = -1;
         draw_column = 0;
         do {
@@ -134,7 +134,7 @@ extern unsigned char redraw_cell_objects[];
 extern DirtyCell redraw_back_cells[], redraw_floor_cells[];
 extern DirtyCell redraw_fore_cells[], redraw_top_cells[];
 
-extern int intersect_rect(DrawRect far *out, const DrawRect far *a,
+extern int SECTRECT(DrawRect far *out, const DrawRect far *a,
                           const DrawRect far *b);
 extern void union_rect(DrawRect far *out, const DrawRect far *a,
                        const DrawRect far *b);
@@ -164,7 +164,7 @@ void redraw_cell_fast(char column)
         if (DIRTY_CELL(redraw_back_cells, state.dirty_offset).pending) {
             DIRTY_CELL(redraw_back_cells, state.dirty_offset).pending = 0;
             old_clip = clip_rect;
-            if (intersect_rect(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_back_cells, state.dirty_offset).area)) {
+            if (SECTRECT(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_back_cells, state.dirty_offset).area)) {
                 draw_back_image(0);
                 draw_back_image(5);
                 draw_back_image(11);
@@ -180,7 +180,7 @@ void redraw_cell_fast(char column)
             union_rect(&DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area,
                        &DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area, &old_clip);
         old_clip = clip_rect;
-        if (intersect_rect(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area))
+        if (SECTRECT(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area))
             draw_floor_buffer();
         clip_rect = old_clip;
     } else if (WORD_FLAG(redraw_half_cell, state.word_offset)) {
@@ -193,7 +193,7 @@ void redraw_cell_fast(char column)
     }
     if (DIRTY_CELL(redraw_fore_cells, state.dirty_offset).pending) {
         DIRTY_CELL(redraw_fore_cells, state.dirty_offset).pending = 0;
-        if (intersect_rect(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_fore_cells, state.dirty_offset).area))
+        if (SECTRECT(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_fore_cells, state.dirty_offset).area))
             draw_fore_image();
     }
 }
@@ -287,10 +287,10 @@ extern unsigned char back_image_start_pass(void);
 extern void draw_custom_room_images(char pass);
 extern void far _fastcall draw_custom_room_image(char image, char pass);
 extern void check_foreground_gate(void);
-extern int custom_bottom_has_image(void);
-extern void prepare_level_room_image(void);
+extern int NeedDrawRoomBelowCustom(void);
+extern void load_tower_top(void);
 extern int far _fastcall keep_image_in_back(RoomImage *image);
-extern int keep_gate_image(RoomImage *image);
+extern int draw_pillar_in_back(RoomImage *image);
 extern void draw_horse(unsigned int sheet, unsigned int shape, char pass);
 extern unsigned int far _fastcall horse_room_image(Room room, char pass, unsigned int *sheet);
 
@@ -363,7 +363,7 @@ unsigned char back_image_start_pass(void)
     if (custom_edge)
         pass = 3;
     else if ((force_full_clip && draw_column == 0 && draw_row != 2) ||
-             (room_images && draw_row == 2 && !custom_bottom_has_image()))
+             (room_images && draw_row == 2 && !NeedDrawRoomBelowCustom()))
         pass = 2;
     else
         pass = 0;
@@ -380,7 +380,7 @@ void draw_custom_room_images(char pass)
         draw_column == 0 && draw_row == 2) {
         draw_images = 1;
         if (drawn_room == 1 && level_number == 14)
-            prepare_level_room_image();
+            load_tower_top();
     } else if ((pass == 0 && !force_full_clip && room_images &&
                 room_images->background_shape) ||
                ((pass == 1 || pass == 2) &&
@@ -419,7 +419,7 @@ void far _fastcall draw_custom_room_image(char index, char pass)
 
     image = &room_images->images[index];
     if (image->shape == -1 || image->pass != pass ||
-        !intersect_rect(&clip, &image->clip, &clip_rect))
+        !SECTRECT(&clip, &image->clip, &clip_rect))
         return;
     if (pass != 0 && pass != 5 && pass != 11) {
         entry = ((_segment)fore_queue) :>
@@ -428,7 +428,7 @@ void far _fastcall draw_custom_room_image(char index, char pass)
             goto queued;
         if ((level_style == 5 && drawn_room != 19 && drawn_room != 16 &&
              drawn_room != 15 && keep_image_in_back(image)) ||
-            ((drawn_room == 19 || drawn_room == 16) && keep_gate_image(image))) {
+            ((drawn_room == 19 || drawn_room == 16) && draw_pillar_in_back(image))) {
             entry = &back_queue[(*(int *)redraw_flags)++];
             --fore_count;
         }
@@ -578,7 +578,7 @@ void check_foreground_gate(void)
             if (force_full_clip)
                 clip_rect.top = 63 * args.row + 3;
             else if (image)
-                intersect_rect(&clip_rect, &clip_rect, &image->clip);
+                SECTRECT(&clip_rect, &clip_rect, &image->clip);
             if (!empty_rect(&clip_rect))
                 draw_gate(&args);
         }
@@ -589,7 +589,7 @@ void check_foreground_gate(void)
 extern _segment room_queue_segment;
 extern DrawEntry _based(room_queue_segment) back_entries[];
 extern unsigned char _based(room_queue_segment) back_entry_modes[];
-extern void prepare_room_queue(void);
+extern void SaveCustomRoomPeels(void);
 extern void draw_back_fore_item(unsigned char pass, unsigned char entry);
 extern void draw_middle_item(int entry);
 
@@ -610,7 +610,7 @@ void dump_draw_table(unsigned char pass)
                 draw_middle_item(index);
             } else {
                 if (!prepared && back_entry_modes[index * sizeof(DrawEntry)]) {
-                    prepare_room_queue();
+                    SaveCustomRoomPeels();
                     prepared = 1;
                 }
                 draw_back_fore_item(pass, index);
@@ -883,22 +883,22 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
         area.right += size.height;
         area.bottom = area.top = y;
         area.bottom += size.width;
-        if (intersect_rect(&area, &area, &draw_destination->clip))
+        if (SECTRECT(&area, &area, &draw_destination->clip))
             add_dirty_rectangle(&area);
     }
 }
 
-extern void clear_fast_draw_state(void);
-extern void prepare_fast_objects(void);
-extern void prepare_fast_tiles(void);
+extern void add_mobs(void);
+extern void add_characters(void);
+extern void mark_peel_front_buffers(void);
 extern void redraw_room_fast(void);
-extern signed char row_to_first_cell(signed char row);
+extern signed char FirstInRow(signed char row);
 
 void full_redraw_fast(void)
 {
-    clear_fast_draw_state();
-    prepare_fast_objects();
-    prepare_fast_tiles();
+    add_mobs();
+    add_characters();
+    mark_peel_front_buffers();
     redraw_room_fast();
 }
 
@@ -906,17 +906,17 @@ void redraw_room_fast(void)
 {
     Room saved_room;
 
-    begin_room_rows();
+    SetSideRoomInfo();
     draw_cell_objects(30);
     draw_row = 3;
     goto next_row;
 paint_row:
     prepare_row();
-    prepare_row_images();
+    GetBelowAry();
     draw_column = 0;
 next_cell:
     select_draw_cell();
-    redraw_cell_fast((signed char)(row_to_first_cell(draw_row) + draw_column));
+    redraw_cell_fast((signed char)(FirstInRow(draw_row) + draw_column));
     if (++draw_column < 10)
         goto next_cell;
 next_row:
@@ -926,10 +926,10 @@ next_row:
         saved_room = drawn_room;
         drawn_room = above_room;
         get_rooms();
-        begin_room_rows();
+        SetSideRoomInfo();
         draw_row = 2;
         prepare_row();
-        prepare_row_images();
+        GetBelowAry();
         draw_column = 0;
         do {
             select_draw_cell();
@@ -949,11 +949,11 @@ extern int draw_room_frame;
 extern int dirty_rectangle_count;
 extern DrawRect dirty_rectangles[40];
 extern char dirty_rectangle_error[];
-extern void draw_room_border(DrawRect far *area, int style);
+extern void SET_RECORD_RANGE(DrawRect far *area, int style);
 extern void sort_back_table(void);
 extern void sort_fore_table(void);
 extern void prepare_room_tables(void);
-extern DrawRect far *inset_rect(DrawRect far *out, const DrawRect far *area, int x, int y);
+extern DrawRect far *INSETRECT(DrawRect far *out, const DrawRect far *area, int x, int y);
 extern void report_rect_error(const char far *message, int severity);
 
 void draw_all(void)
@@ -961,7 +961,7 @@ void draw_all(void)
     dirty_rectangle_count = 0;
     draw_destination = room_destination;
     if (draw_room_frame)
-        draw_room_border(&screen_clip, 12);
+        SET_RECORD_RANGE(&screen_clip, 12);
     if (level_style == 4 || level_style == 2 || level_style == 5)
         sort_back_table();
     if ((drawn_room == 1 && level_number == 14) ||
@@ -983,8 +983,8 @@ void add_dirty_rectangle(DrawRect *rect)
     if (dirty_rectangle_count > index) {
         entry = dirty_rectangles;
         do {
-            inset_rect(&expanded, rect, -1, -1);
-            if (intersect_rect(&expanded, &expanded, entry))
+            INSETRECT(&expanded, rect, -1, -1);
+            if (SECTRECT(&expanded, &expanded, entry))
                 goto merge;
             ++entry;
             ++index;
@@ -1005,8 +1005,8 @@ done:
     return;
 }
 
-extern int room_row_clip(DrawRect *area, Room room, signed char row);
-extern void mark_floor_area(signed char cell, DrawRect *area);
+extern int compute_slide_rock_rect(DrawRect *area, Room room, signed char row);
+extern void mark_foreground(signed char cell, DrawRect *area);
 
 extern struct LooseItemDrawer *loose_item_drawer;
 
@@ -1022,8 +1022,8 @@ void draw_half_cell(void)
 
     if (!compute_half_rect(&area))
         return;
-    if (level_style == 2 && room_row_clip(&draw.row_clip, drawn_room, draw_row) &&
-        intersect_rect(&draw.row_clip, &draw.row_clip, &area))
+    if (level_style == 2 && compute_slide_rock_rect(&draw.row_clip, drawn_room, draw_row) &&
+        SECTRECT(&draw.row_clip, &draw.row_clip, &area))
         area.top = draw.row_clip.bottom - 1;
     draw.old_clip = clip_rect;
     clip_rect = area;
@@ -1036,7 +1036,7 @@ void draw_half_cell(void)
         draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[(unsigned char)current_tile];
         if (draw.address) {
             ((TileDrawer)draw.address)(&draw.args);
-            mark_floor_area((signed char)(row_to_first_cell(draw_row) + draw_column), &area);
+            mark_foreground((signed char)(FirstInRow(draw_row) + draw_column), &area);
         }
     }
     if (room_images && room_images->floor_image)
@@ -1126,12 +1126,12 @@ void draw_floor_buffer(void)
         clip_rect.top = floor_y;
     floor_edge = 0;
     if (level_style == 2) {
-        if (room_row_clip(&row_clip, drawn_room, draw_row) &&
-            intersect_rect(&row_clip, &row_clip, &clip_rect)) {
+        if (compute_slide_rock_rect(&row_clip, drawn_room, draw_row) &&
+            SECTRECT(&row_clip, &row_clip, &clip_rect)) {
             clip_rect.top = row_clip.bottom - 1;
             floor_edge = 1;
-        } else if (room_row_clip(&row_clip, drawn_room, (signed char)(draw_row + 1)) &&
-                   intersect_rect(&row_clip, &row_clip, &clip_rect)) {
+        } else if (compute_slide_rock_rect(&row_clip, drawn_room, (signed char)(draw_row + 1)) &&
+                   SECTRECT(&row_clip, &row_clip, &clip_rect)) {
             floor_edge = 1;
         }
     }
@@ -1158,7 +1158,7 @@ void draw_floor_buffer(void)
                 args.kind = current_tile;
                 args.info = current_tile_info;
                 (*callbacks.current_draw)(&args);
-                mark_floor_area((signed char)(row_to_first_cell(draw_row) + draw_column), &clip_rect);
+                mark_foreground((signed char)(FirstInRow(draw_row) + draw_column), &clip_rect);
             }
         }
         if (room_images && room_images->floor_image)
@@ -1222,7 +1222,7 @@ void draw_cell_objects(char column)
             state.byte_offset = state.index * sizeof(CellObject);
             if (((CellObject *)((char *)cell_objects + state.byte_offset))->status == column ||
                 (((CellObject *)((char *)cell_objects + state.byte_offset))->status >= 0 &&
-                 intersect_rect(&state.object_clip, &state.merged_clip,
+                 SECTRECT(&state.object_clip, &state.merged_clip,
                                 &((CellObject *)((char *)cell_objects + state.byte_offset))->clip))) {
                 sorted_objects[sorted_object_total++] = state.index;
                 union_rect(&state.object_clip, &state.merged_clip,
@@ -1581,9 +1581,9 @@ extern char restart_key_message2[];
 extern char restart_key_message1[];
 extern void clear_message(int reset_timer);
 extern void clear_life_bar(void);
-extern void paint_text(DrawRect far *area, int color, int mode, const char far *text);
-extern void clear_text_area(DrawRect far *area);
-extern void copy_dirty_rectangle(DrawRect far *area);
+extern void DRAW_NUL_TEXT_IN_RECT(DrawRect far *area, int color, int mode, const char far *text);
+extern void STROKE_PORT_RECT(DrawRect far *area);
+extern void PrinceCopy(DrawRect far *area);
 extern char *cdecl strcpy(char *out, const char *in);
 extern char *cdecl strupr(char *str);
 #pragma intrinsic(strcpy)
@@ -1595,7 +1595,7 @@ void draw_message(const char *message)
     strcpy(text, message);
     strupr(text);
     clear_message(1);
-    paint_text(&message_rect, 0, 1, text);
+    DRAW_NUL_TEXT_IN_RECT(&message_rect, 0, 1, text);
 }
 
 void draw_restart_message(void)
@@ -1604,12 +1604,12 @@ void draw_restart_message(void)
 
     if (!suppress_restart) {
         clear_life_bar();
-        inset_rect(&area, &message_rect, -message_rect.left, 0);
+        INSETRECT(&area, &message_rect, -message_rect.left, 0);
         area.right = 320;
         if (restart_style == 2)
-            paint_text(&area, 0, 1, restart_key_message2);
+            DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message2);
         else
-            paint_text(&area, 0, 1, restart_key_message1);
+            DRAW_NUL_TEXT_IN_RECT(&area, 0, 1, restart_key_message1);
     }
 }
 
@@ -1617,9 +1617,9 @@ void clear_life_bar(void)
 {
     DrawRect area;
 
-    inset_rect(&area, &message_rect, -message_rect.left, 0);
+    INSETRECT(&area, &message_rect, -message_rect.left, 0);
     area.right = 320;
-    clear_text_area(&area);
+    STROKE_PORT_RECT(&area);
 }
 
 void clear_message(int reset_timer)
@@ -1627,11 +1627,11 @@ void clear_message(int reset_timer)
     DrawRect area;
 
     if (message_counter == 600) {
-        inset_rect(&area, &message_rect, -message_rect.left, 0);
+        INSETRECT(&area, &message_rect, -message_rect.left, 0);
         area.right = 320;
-        draw_room_border(&area, 0);
+        SET_RECORD_RANGE(&area, 0);
     } else {
-        draw_room_border(&message_rect, 0);
+        SET_RECORD_RANGE(&message_rect, 0);
     }
     if (reset_timer)
         message_timeout = message_counter = 0;
@@ -1640,7 +1640,7 @@ void clear_message(int reset_timer)
 void copy_dirty_rectangles(void)
 {
     while (dirty_rectangle_count--)
-        copy_dirty_rectangle(&dirty_rectangles[dirty_rectangle_count]);
+        PrinceCopy(&dirty_rectangles[dirty_rectangle_count]);
     dirty_rectangle_count = 0;
 }
 
@@ -1816,7 +1816,7 @@ extern int meter_sheet;
 extern signed char meter_phase, meter_limit;
 extern DrawRect meter_strip;
 extern void blit_meter_shape(int table, int image, int x, int y, int flags, int mode);
-extern void show_meter_for_guard(signed char guard);
+extern void load_kid_with_opponent(signed char guard);
 extern signed char meter_guard_index;
 extern struct {
     signed char id;
@@ -1853,14 +1853,14 @@ void draw_kid_meter(int life, int max_life)
         state.rect.left = x;
         state.rect.bottom = meter_strip.bottom;
         state.rect.right = 98;
-        clear_text_area(&state.rect);
+        STROKE_PORT_RECT(&state.rect);
     }
 }
 
 void draw_meters(void)
 {
     if (meter_guard_index >= 0 && meter_guard_index < 5) {
-        show_meter_for_guard(meter_guard_index);
+        load_kid_with_opponent(meter_guard_index);
         draw_opponent_meter(meter_guard.id, meter_guard.life, meter_guard.max_life);
     }
     draw_kid_meter(kid_life, kid_max_life);
@@ -1890,7 +1890,7 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
          (guard_action == 10 || guard_action == 7 || guard_action == 12))) {
         rect.top = 193; rect.left = 218;
         rect.bottom = meter_strip.bottom; rect.right = meter_strip.right;
-        clear_text_area(&rect);
+        STROKE_PORT_RECT(&rect);
     } else if (game_tick_counter != 600) {
         origin = 308;
         if (guard_kind == 7 || guard_kind == 8) {
@@ -1919,7 +1919,7 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
             do {
                 rect.left = x;
                 rect.right = x + 10;
-                clear_text_area(&rect);
+                STROKE_PORT_RECT(&rect);
                 x -= 10;
             } while (--count);
         }
@@ -1993,16 +1993,16 @@ int far pascal IsWall(char kind)
 
 extern int set_palette(int resource, int first, unsigned char count, unsigned char palette);
 extern unsigned char far *saved_palette, far *saved_text_palette;
-extern unsigned char far *allocate_palette(long bytes);
-extern void release_palette(unsigned char far *palette);
-extern void read_palette(int first, int count, unsigned char far *palette);
-extern void write_palette(int first, int count, const unsigned char far *palette, int update);
-extern int no_palette_clip(DrawRect far *clip);
+extern unsigned char far *ALLOCATE_PINNED_PAYLOAD(long bytes);
+extern void CLEAR_PAYLOAD_HEADER(unsigned char far *palette);
+extern void READ_DAC_BLOCK(int first, int count, unsigned char far *palette);
+extern void WRITE_DAC_BLOCK(int first, int count, const unsigned char far *palette, int update);
+extern int EMPTYRECT(DrawRect far *clip);
 extern DrawRect palette_clip;
-extern unsigned int find_palette(unsigned long type, int resource);
+extern unsigned int HGETRSRC(unsigned long type, int resource);
 extern unsigned char get_total_pals(int resource);
-extern void far *lock_resource(unsigned int resource);
-extern void unlock_resource(unsigned int resource);
+extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int resource);
+extern void DISPOSE_HANDLE(unsigned int resource);
 extern void far *far cdecl copy_palette_bytes(void far *dst, const void far *src, unsigned int bytes);
 
 void set_default_palette(void)
@@ -2013,13 +2013,13 @@ void set_default_palette(void)
 void restore_game_play_palette(void)
 {
     if (saved_palette) {
-        write_palette(16, 240, saved_palette, 1);
-        release_palette(saved_palette);
+        WRITE_DAC_BLOCK(16, 240, saved_palette, 1);
+        CLEAR_PAYLOAD_HEADER(saved_palette);
         saved_palette = 0;
     }
     if (saved_text_palette) {
-        write_palette(0, 16, saved_text_palette, 0);
-        release_palette(saved_text_palette);
+        WRITE_DAC_BLOCK(0, 16, saved_text_palette, 0);
+        CLEAR_PAYLOAD_HEADER(saved_text_palette);
         saved_text_palette = 0;
     }
 }
@@ -2029,12 +2029,12 @@ void save_game_play_palette(void)
     DrawRect rect;
 
     if (!saved_palette) {
-        saved_palette = allocate_palette(720L);
-        read_palette(16, 240, saved_palette);
-        write_palette(16, 240, 0, 1);
-        if (!no_palette_clip(&palette_clip) &&
-            intersect_rect(&rect, &palette_clip, &screen_clip))
-            clear_text_area(&rect);
+        saved_palette = ALLOCATE_PINNED_PAYLOAD(720L);
+        READ_DAC_BLOCK(16, 240, saved_palette);
+        WRITE_DAC_BLOCK(16, 240, 0, 1);
+        if (!EMPTYRECT(&palette_clip) &&
+            SECTRECT(&rect, &palette_clip, &screen_clip))
+            STROKE_PORT_RECT(&rect);
     }
 }
 
@@ -2048,8 +2048,8 @@ void fill_palette_with_color(unsigned char color)
     PaletteColor far *next;
     int remaining;
 
-    palette = (PaletteColor far *)allocate_palette(768L);
-    read_palette(color, 1, (unsigned char far *)palette);
+    palette = (PaletteColor far *)ALLOCATE_PINNED_PAYLOAD(768L);
+    READ_DAC_BLOCK(color, 1, (unsigned char far *)palette);
     next = palette + 1;
     remaining = 255;
     do {
@@ -2057,15 +2057,15 @@ void fill_palette_with_color(unsigned char color)
         ++next;
     } while (--remaining);
     if (!saved_palette) {
-        saved_palette = allocate_palette(720L);
-        read_palette(16, 240, saved_palette);
+        saved_palette = ALLOCATE_PINNED_PAYLOAD(720L);
+        READ_DAC_BLOCK(16, 240, saved_palette);
     }
     if (!saved_text_palette) {
-        saved_text_palette = allocate_palette(48L);
-        read_palette(0, 16, saved_text_palette);
+        saved_text_palette = ALLOCATE_PINNED_PAYLOAD(48L);
+        READ_DAC_BLOCK(0, 16, saved_text_palette);
     }
-    write_palette(0, 256, (unsigned char far *)palette, 1);
-    release_palette((unsigned char far *)palette);
+    WRITE_DAC_BLOCK(0, 256, (unsigned char far *)palette, 1);
+    CLEAR_PAYLOAD_HEADER((unsigned char far *)palette);
 }
 
 int set_palette(int resource, int first, unsigned char count, unsigned char palette)
@@ -2076,9 +2076,9 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
     int success;
 
     total = get_total_pals(resource);
-    handle = find_palette(0x50414c53UL, resource);
+    handle = HGETRSRC(0x50414c53UL, resource);
     if (handle && total > palette) {
-        colors = (unsigned char far *)lock_resource(handle);
+        colors = (unsigned char far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
         if (first < 16) {
             if (saved_palette) {
                 total = count < 16 - first ? count : 16 - first;
@@ -2088,13 +2088,13 @@ int set_palette(int resource, int first, unsigned char count, unsigned char pale
             } else {
                 total = count;
             }
-            write_palette(first, total, colors + count * palette * 3, 1);
+            WRITE_DAC_BLOCK(first, total, colors + count * palette * 3, 1);
         } else if (saved_palette) {
             copy_palette_bytes(saved_palette + first * 3 - 48, colors + count * palette * 3, count * 3);
         } else {
-            write_palette(first, count, colors + count * palette * 3, 1);
+            WRITE_DAC_BLOCK(first, count, colors + count * palette * 3, 1);
         }
-        unlock_resource(handle);
+        DISPOSE_HANDLE(handle);
         success = 1;
     } else {
         success = 0;
@@ -2107,10 +2107,10 @@ unsigned char get_total_pals(int resource)
     unsigned int handle;
     int total;
 
-    handle = find_palette(0x50414c43UL, resource);
+    handle = HGETRSRC(0x50414c43UL, resource);
     if (handle) {
-        total = *(int far *)lock_resource(handle);
-        unlock_resource(handle);
+        total = *(int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
+        DISPOSE_HANDLE(handle);
     } else {
         total = 0;
     }
@@ -2121,23 +2121,23 @@ extern unsigned int *kid_meter_shapes;
 
 void set_shape_variant(int variant)
 {
-    ((int far *)lock_resource(*kid_meter_shapes))[2] = variant;
+    ((int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(*kid_meter_shapes))[2] = variant;
 }
 
-extern char above_tile_kind(Room room, unsigned char piece);
-extern char upper_left_tile_kind(Room room, unsigned char piece);
+extern char PieceAboveId(Room room, unsigned char piece);
+extern char PieceAboveRightId(Room room, unsigned char piece);
 
 int visible_above_piece(Room room, unsigned char piece)
 {
     int visible = 0;
     char above, upper_left;
 
-    above = above_tile_kind(room, piece);
+    above = PieceAboveId(room, piece);
     if (IS_SIX_KIND(above) || above == 5 || above == 6 ||
         (above == 3 && level_number == 13)) {
         visible = 1;
     } else {
-        upper_left = upper_left_tile_kind(room, piece);
+        upper_left = PieceAboveRightId(room, piece);
         if (IS_SIX_KIND(upper_left) || upper_left == 5 || upper_left == 6 ||
             (above == 3 && level_number == 13))
             visible = 1;

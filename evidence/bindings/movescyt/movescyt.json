@@ -4,16 +4,16 @@
       "CHECKSCYTHEHIT",
       "READCELL",
       "SECTRECT",
-      "JUMP_SEQUENCE",
+      "JUMPSEQ",
       "SETKIDDEATHMETHOD",
       "ANIMCHAR",
-      "DECREASE_LIFE",
+      "DECREMENT_LIFE_POINTS",
       "UNIONRECT",
       "OFFSETRECT",
       "CHECK_TROB_VISIBILITY",
       "COMPUTE_TROB_MOVE_RECT",
       "MARK_MOVE",
-      "MARK_BUFFERS_FOR_RECT",
+      "MARK_BUFS_FOR_RECT",
       "ADD_TROB",
       "GETSCYTHEHITTYPE",
       "SCYTHEBLADEEXTENDED",
@@ -33,7 +33,7 @@
       "CELL_X",
       "COLLISION_X",
       "CHECKSCYTHE",
-      "QUEUE_SOUND"
+      "ADDSOUND"
     ],
     "groups": [
       {
@@ -691,7 +691,7 @@
           "index": 33,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -705,7 +705,7 @@
         "index": 33,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -1599,7 +1599,7 @@
           "index": 33,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -1613,7 +1613,7 @@
         "index": 33,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -1626,7 +1626,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "DECREASE_LIFE",
+          "name": "DECREMENT_LIFE_POINTS",
           "zero_displacement": true
         }
       },
@@ -1640,7 +1640,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "DECREASE_LIFE",
+        "name": "DECREMENT_LIFE_POINTS",
         "zero_displacement": true
       }
     },
@@ -1707,7 +1707,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "JUMP_SEQUENCE",
+          "name": "JUMPSEQ",
           "zero_displacement": true
         }
       },
@@ -1721,7 +1721,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "JUMP_SEQUENCE",
+        "name": "JUMPSEQ",
         "zero_displacement": true
       }
     },
@@ -1761,7 +1761,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "JUMP_SEQUENCE",
+          "name": "JUMPSEQ",
           "zero_displacement": true
         }
       },
@@ -1775,7 +1775,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "JUMP_SEQUENCE",
+        "name": "JUMPSEQ",
         "zero_displacement": true
       }
     },
@@ -2497,7 +2497,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "MARK_BUFFERS_FOR_RECT",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -2511,7 +2511,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "MARK_BUFFERS_FOR_RECT",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -3410,6 +3410,23 @@
         }
       ]
     },
+    "ADDSOUND": {
+      "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
+      "entry_target_id": "root:0dd7:01ce",
+      "kind": "far-code-entry",
+      "offset": 462,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ace01d70d",
+          "file_offset": 9717,
+          "image_offset": 1525,
+          "relocation_index": 3,
+          "space": "root"
+        }
+      ]
+    },
     "ADD_TROB": {
       "entry_sha256": "88a4e6273aac4130a606efd2797947c56a41b3ec69ba2c82bbe9ad8f4ea65e42",
       "entry_target_id": "root:0b41:13f4",
@@ -3520,7 +3537,7 @@
         }
       ]
     },
-    "DECREASE_LIFE": {
+    "DECREMENT_LIFE_POINTS": {
       "entry_sha256": "9bdfa1c302b1c3f0b0ec29549795bd2da5d6f481ee8b3730a44ad37718496498",
       "entry_target_id": "root:02cc:094e",
       "kind": "far-code-entry",
@@ -3537,7 +3554,7 @@
         }
       ]
     },
-    "JUMP_SEQUENCE": {
+    "JUMPSEQ": {
       "entry_sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
       "entry_target_id": "overlay-3:25da:0016",
       "kind": "overlay-code-entry",
@@ -3554,7 +3571,7 @@
         }
       ]
     },
-    "MARK_BUFFERS_FOR_RECT": {
+    "MARK_BUFS_FOR_RECT": {
       "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
       "entry_target_id": "root:0b41:0f62",
       "kind": "far-code-entry",
@@ -3605,23 +3622,6 @@
           "file_offset": 27470,
           "image_offset": 19278,
           "relocation_index": 405,
-          "space": "root"
-        }
-      ]
-    },
-    "QUEUE_SOUND": {
-      "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
-      "entry_target_id": "root:0dd7:01ce",
-      "kind": "far-code-entry",
-      "offset": 462,
-      "segment": 3543,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ace01d70d",
-          "file_offset": 9717,
-          "image_offset": 1525,
-          "relocation_index": 3,
           "space": "root"
         }
       ]

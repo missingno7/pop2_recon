@@ -111,50 +111,50 @@ struct gameplay_rect { int top, left, bottom, right; };
 struct gameplay_rect GamePlayRect = { 0, 0, 192, 320 };
 extern char loading_name[];                         /* ds:1fe0 */
 
-extern void check_graphics_port(void);              /* far:0a5c:004e */
+extern void CheckBPort(void);              /* far:0a5c:004e */
 extern int find_option(char far *);                  /* far:1101:29aa */
-extern int check_level_change(int, int);             /* far:0284:000e */
-extern char select_preview_level(void);             /* far:0000:0210 */
+extern int CheckPlayNIS(int, int);             /* far:0284:000e */
+extern char poll_and_clear_pending_state(void);             /* far:0000:0210 */
 extern void load_level(char);                       /* far:0a5c:01b4 */
-extern void load_level_minimum(char);               /* far:0a5c:02f4 */
-extern void initialize_guard_controls(void);        /* far:2802:0848 */
+extern void load_minimum_level(char);               /* far:0a5c:02f4 */
+extern void InitCollisionDetection(void);        /* far:2802:0848 */
 extern void InitInput(void);                        /* far:02cc:1404 */
-extern void start_recording(void);                  /* far:0da4:0252 */
-extern void finish_recording(void);                 /* far:0da4:0122 */
-extern void finish_level(void);                     /* far:0169:0794 */
+extern void reset_recorded_playback(void);                  /* far:0da4:0252 */
+extern void CheckRecordedGamePlayer(void);                 /* far:0da4:0122 */
+extern void clear_peels(void);                     /* far:0169:0794 */
 extern void reset_vector_a(void);                   /* far:2203:0d21 */
 extern void reset_vector_b(void);                   /* far:2203:0d0d */
 extern void reset_vector_c(void);                   /* far:2203:0d17 */
 extern void reset_vector_d(void);                   /* far:2203:0d2b */
 extern int starting_sequence(void);                 /* far:052d:1234 */
-extern void start_sequence(int);                    /* far:25da:0016 */
-extern void advance_character(void);               /* far:02cc:0394 */
-extern void reset_velocity(void);                   /* far:02cc:07a2 */
-extern void face_joystick(void);                    /* far:02cc:0944 */
+extern void JumpSeq(int);                    /* far:25da:0016 */
+extern void AnimChar(void);               /* far:02cc:0394 */
+extern void reset_char_y(void);                   /* far:02cc:07a2 */
+extern void ClearCharVel(void);                    /* far:02cc:0944 */
 extern void select_room(char);                       /* far:0f77:0002 */
-extern void open_entrance(char, char);               /* far:0b41:16fa */
-extern void play_sound(int);                        /* far:1101:807a */
+extern void close_exit(char, char);               /* far:0b41:16fa */
+extern void hGetSnd(int);                        /* far:1101:807a */
 extern int check_frame_input(int);                  /* far:0000:0dd4 */
-extern int allow_fade(void);                         /* far:0284:0096 */
-extern void start_named_effect(char far *);          /* far:1101:4d90 */
-extern void update_display(int);                    /* far:078a:213a */
+extern int IsLevelStartWithNISScreen(void);                         /* far:0284:0096 */
+extern void STROKE_PORT_RECT(char far *);          /* far:1101:4d90 */
+extern void clear_message(int);                    /* far:078a:213a */
 extern void update_health(int, int);                /* far:078a:24ee */
-extern void wait_refresh(void);                     /* far:0000:125a */
-extern void show_interlude(char far *, int);         /* far:1101:6650 */
-extern void start_room_pass(void);                  /* far:078a:0000 */
-extern void init_room_view(void);                   /* far:04a6:003e */
-extern void finish_room_view(void);                 /* far:078a:13b2 */
-extern void set_room_view_mode(int);                 /* far:04a6:0784 */
-extern void draw_room(void);                        /* far:078a:12e4 */
-extern void play_room_sound(char far *);            /* far:1ead:01a2 */
-extern void finish_overlay_pass(void);              /* far:2344:0f4e */
-extern void show_message(char far *);               /* far:0000:1268 */
-extern void update_interlude(void);                 /* far:078a:293a */
-extern int sound_busy(void);                         /* far:0dd7:02ce */
-extern int start_level_track(int);                  /* far:1101:8444 */
-extern void stop_sound(int);                        /* far:1101:83f0 */
-extern void finish_level_scene(void);                /* far:052d:109e */
-extern void set_frame_wait(int);                    /* far:1de8:015a */
+extern void clear_keyboard(void);                     /* far:0000:125a */
+extern void SET_RECORD_RANGE(char far *, int);         /* far:1101:6650 */
+extern void full_redraw(void);                  /* far:078a:0000 */
+extern void CheckRoomSpecific(void);                   /* far:04a6:003e */
+extern void draw_all(void);                 /* far:078a:13b2 */
+extern void UnloadCustomRoomShapes(int);                 /* far:04a6:0784 */
+extern void full_redraw_fast(void);                        /* far:078a:12e4 */
+extern void InvertBitMap(char far *);            /* far:1ead:01a2 */
+extern void load_opponent_banks(void);              /* far:2344:0f4e */
+extern void PrinceCopy(char far *);               /* far:0000:1268 */
+extern void restore_game_play_palette(void);                 /* far:078a:293a */
+extern int is_leave_level_music_on(void);                         /* far:0dd7:02ce */
+extern int query_sound(int);                  /* far:1101:8444 */
+extern void dispatch_sound(int);                        /* far:1101:83f0 */
+extern void RemoveRebirthPt(void);                /* far:052d:109e */
+extern void wait_timer_no_poll(int);                    /* far:1de8:015a */
 extern void limit_frame_rate(void);                 /* far:107d:000c */
 extern void start_floor_frame(void);                /* far:0b41:1a42 */
 extern void update_floors(void);                    /* far:0b41:000c */
@@ -167,31 +167,31 @@ extern void advance_screen_logic(void);              /* far:0000:0f70 */
 extern void update_guard_frame(void);               /* far:2344:1088 */
 extern void wait_overlay_frame(void);               /* far:2344:0fae */
 extern void check_clock(void);                      /* far:0000:0cbc */
-extern void load_kid(void);                         /* far:02cc:1d94 */
-extern int test_character_control(void);            /* far:02cc:0eb6 */
+extern void copy_kid_to_char(void);                         /* far:02cc:1d94 */
+extern int is_undefined_room(void);            /* far:02cc:0eb6 */
 extern signed char find_opponent(signed char);       /* far:2344:08f0 */
-extern void set_opponent(signed char);               /* far:02cc:07fc */
-extern void update_character_cells(void);           /* far:02cc:027e */
-extern int control_kid(void);                       /* far:02cc:116e */
-extern void update_position(void);                  /* far:02cc:08d6 */
-extern void update_fall(void);                       /* far:02cc:090e */
+extern void load_kid_with_opponent(signed char);               /* far:02cc:07fc */
+extern void reread_cells(void);           /* far:02cc:027e */
+extern int ctrl_player(void);                       /* far:02cc:116e */
+extern void Gravity(void);                  /* far:02cc:08d6 */
+extern void add_char_velocity(void);                       /* far:02cc:090e */
 extern void check_controls(void);                   /* far:0169:09ee */
-extern void check_collisions(void);                 /* far:2802:09ca */
-extern void collide_floor(void);                    /* far:2802:000e */
-extern void collide_walls(void);                    /* far:2802:0402 */
-extern void collide_objects(void);                  /* far:2802:0d56 */
-extern void process_floor(void);                    /* far:0b41:06f8 */
-extern void process_gate(void);                     /* far:0b41:075e */
-extern void prepare_room_set(void);                 /* far:101f:01ae */
-extern void update_room_set_a(void);                /* far:2a4e:0e44 */
-extern void finish_room_set(void);                  /* far:101f:00a0 */
-extern void update_room_set_b(void);                /* far:29cf:00b2 */
-extern void touch_room_set_b(void);                 /* far:29cf:0118 */
-extern void update_room_set_c(void);                /* far:29cf:01f4 */
-extern void touch_room_set_c(void);                 /* far:29cf:06e8 */
-extern void schedule_sound(int);                    /* far:0dd7:01ce */
-extern void release_character_control(void);        /* far:02cc:0dda */
-extern void load_shadow(char);                      /* far:02cc:1d42 */
+extern void get_char_edges(void);                 /* far:2802:09ca */
+extern void CheckBarr(void);                    /* far:2802:000e */
+extern void collide_with_barriers(void);                    /* far:2802:0402 */
+extern void check_gate_for_player(void);                  /* far:2802:0d56 */
+extern void check_floor(void);                    /* far:0b41:06f8 */
+extern void check_press(void);                     /* far:0b41:075e */
+extern void CheckSpikes(void);                 /* far:101f:01ae */
+extern void check_trapdoor(void);                /* far:2a4e:0e44 */
+extern void CheckImpale(void);                  /* far:101f:00a0 */
+extern void CheckScythe(void);                /* far:29cf:00b2 */
+extern void CheckScytheHit(void);                 /* far:29cf:0118 */
+extern void check_dart_hit(void);                /* far:29cf:01f4 */
+extern void check_lava_boil(void);                 /* far:29cf:06e8 */
+extern void AddSound(int);                    /* far:0dd7:01ce */
+extern void FallingInUndefinedRoom(void);        /* far:02cc:0dda */
+extern void load_actor_slot(char);                      /* far:02cc:1d42 */
 extern void set_shadow_opponent(char);              /* far:02cc:086a */
 extern void control_shadow(void);                   /* far:02cc:12e4 */
 extern void change_view_room(void);                 /* far:078a:0024 */
@@ -201,7 +201,7 @@ extern void collide_shadow_walls(void);              /* far:2802:0c94 */
 extern void update_room_set_d(void);                 /* far:29cf:1b60 */
 extern char sequence_row(int);                      /* far:02cc:1102 */
 extern void check_shadow_exit(void);                 /* far:2c3e:1674 */
-extern void save_shadow(void);                       /* far:02cc:1cf6 */
+extern void save_actor_slot(void);                       /* far:02cc:1cf6 */
 extern void remove_shadow(unsigned char, int);       /* far:2344:07bc */
 extern void select_room_view(char);                  /* far:04a6:02b0 */
 extern void update_room_screen(void);               /* far:078a:2590 */
@@ -211,25 +211,25 @@ extern void step_sound(void);                       /* far:0dd7:04d0 */
 extern void finish_queued_sound(int *);              /* far:0dd7:03cc */
 extern void update_flash(void);                     /* far:078a:20a8 */
 extern void set_sound_flags(int);                    /* far:1101:842c */
-extern void draw_floor_foreground(void far *, struct box *, char); /* far:0b41:0f62 */
+extern void mark_bufs_for_rect(void far *, struct box *, char); /* far:0b41:0f62 */
 extern void floor_foreground_resource(void);        /* far:0b41:0f1e */
-extern int get_cell_index(char, char);               /* far:02cc:020a */
-extern void draw_single_floor(int);                 /* far:0b41:0e60 */
-extern void scan_floor(int, struct box *);           /* far:0b41:0e1c */
+extern int index_cell(char, char);               /* far:02cc:020a */
+extern void mark_half(int);                 /* far:0b41:0e60 */
+extern void mark_floor(int, struct box *);           /* far:0b41:0e1c */
 extern char first_in_row(char);                     /* far:02cc:07c6 */
 extern void reach_rebirth_point(int);               /* far:052d:0fc4 */
-extern void scroll_guard_view(char, char);            /* far:0b41:190c */
-extern int distance_to_guard(void);                  /* far:02cc:1cac */
-extern int guard_start_x(int);                     /* far:02cc:0360 */
+extern void shake_row(char, char);            /* far:0b41:190c */
+extern int get_opp_dist(void);                  /* far:02cc:1cac */
+extern int AddCharX(int);                     /* far:02cc:0360 */
 extern struct guard_record *guard_record(int, int); /* far:2344:08b4 */
-extern void init_room_set_c(void);                  /* far:29cf:08c6 */
-extern void init_room_set_c_level5(void);            /* far:29cf:0c1c */
-extern char read_cell(char, char, char);              /* far:02cc:00f0 */
-extern int blocks_guard_view(char);                  /* far:078a:28fe */
-extern int blocks_guard_floor(char);                 /* far:078a:2830 */
-extern int obscures_guard_floor(char);               /* far:078a:28c8 */
-extern void reset_level_display(void);               /* far:078a:29a6 */
-extern int lose_game_dialog(int);                   /* far:0284:0226 */
+extern void clear_lava_slots(void);                  /* far:29cf:08c6 */
+extern void initialize_bridge(void);            /* far:29cf:0c1c */
+extern char ReadCell(char, char, char);              /* far:02cc:00f0 */
+extern int IsWall(char);                  /* far:078a:28fe */
+extern int IsImpassable(char);                 /* far:078a:2830 */
+extern int IS_SIX_KIND(char);               /* far:078a:28c8 */
+extern void save_game_play_palette(void);               /* far:078a:29a6 */
+extern int play_nis(int);                   /* far:0284:0226 */
 extern void *memset(void *, int, unsigned);
 #pragma intrinsic(memset)
 int cdecl abs(int);
@@ -264,7 +264,7 @@ void lose_game(void);
 
 int start_game(signed char requested)
 {
-    check_graphics_port();
+    CheckBPort();
     reset_level_overlays();
     skip_frame = freeze_ticks = sequence_delay = pending_sequence = 0;
     if (!resume_mode) {
@@ -289,11 +289,11 @@ int restart_level(signed char requested)
         if (requested == -1 || requested > 14)
             break;
         if (!resume_mode) {
-            reload = check_level_change(current_level, requested);
+            reload = CheckPlayNIS(current_level, requested);
             if (preview_mode) {
                 previous_request = game_request;
                 game_request = requested;
-                requested = select_preview_level();
+                requested = poll_and_clear_pending_state();
                 game_request = previous_request;
                 reload = 1;
             }
@@ -307,10 +307,10 @@ int restart_level(signed char requested)
             reset_level_overlays();
             load_level(requested);
         } else {
-            load_level_minimum(current_level);
+            load_minimum_level(current_level);
         }
         reset_guard_records();
-        initialize_guard_controls();
+        InitCollisionDetection();
         InitInput();
         init_level_specific();
         current_room = 0;
@@ -323,12 +323,12 @@ int restart_level(signed char requested)
         requested = first_frame(requested);
         if (requested != -1) {
             if (recording_mode)
-                start_recording();
+                reset_recorded_playback();
             requested = run_frames();
             if (requested != -1)
-                finish_level();
+                clear_peels();
             if (recording_mode) {
-                finish_recording();
+                CheckRecordedGamePlayer();
                 requested = current_level = 0;
                 next_level = 0;
             }
@@ -380,10 +380,10 @@ void start_kid(void)
             seq = 5;
         }
     }
-    start_sequence(seq);
+    JumpSeq(seq);
     if (repeat) {
         do {
-            advance_character();
+            AnimChar();
         } while (--repeat);
     }
     finish_start_kid();
@@ -400,11 +400,11 @@ void finish_start_kid(void)
     *(volatile int *)&Char.collision = 0;
     *(volatile int *)&Char.previous_sequence_x = 0;
     Char.opponent = Char.alive = -1;
-    reset_velocity();
-    face_joystick();
+    reset_char_y();
+    ClearCharVel();
     action_timer = guard_timer = block_ticks = view_retry = 0;
     Char.skill = start_facing == -1 ? -1 : 0;
-    advance_character();
+    AnimChar();
     Kid = Char;
 }
 
@@ -434,8 +434,8 @@ void open_start_gate(void)
         } while (++cell < 30);
         return;
 found_gate:
-        open_entrance(Kid.room, cell);
-        play_sound(10009);
+        close_exit(Kid.room, cell);
+        hGetSnd(10009);
     }
 }
 
@@ -445,17 +445,17 @@ int first_frame(signed char requested)
     room_to_draw = Kid.room;
     result = check_frame_input(requested != -2 ? 1 : 0);
     if (result == -2) {
-        if (!allow_fade())
-            start_named_effect(loading_name);
+        if (!IsLevelStartWithNISScreen())
+            STROKE_PORT_RECT(loading_name);
         else
-            update_display(1);
+            clear_message(1);
         sequence_delay = pending_sequence = 0;
         clean_cut();
         update_health(Kid.max_hp, Kid.hp_delta);
         tick_delay = 5;
         if (tick_delay) {
             do {
-                wait_refresh();
+                clear_keyboard();
             } while (tick_delay);
         }
     }
@@ -466,34 +466,34 @@ void clean_cut(void)
 {
     cut_required = 0;
     if (draw_interlude) {
-        show_interlude((char *)&GamePlayRect, 12);
+        SET_RECORD_RANGE((char *)&GamePlayRect, 12);
     } else {
         input_enabled = 1;
-        wait_refresh();
-        start_room_pass();
-        wait_refresh();
+        clear_keyboard();
+        full_redraw();
+        clear_keyboard();
         queued_track = room_sound_offset;
-        init_room_view(); finish_room_view();
-        wait_refresh();
+        CheckRoomSpecific(); draw_all();
+        clear_keyboard();
         if (sound_enabled)
-            set_room_view_mode(0);
-        wait_refresh();
+            UnloadCustomRoomShapes(0);
+        clear_keyboard();
         draw_interlude = input_enabled = 0;
         memset(room_render_flags, 0, sizeof(room_render_flags));
-        draw_room();
-        wait_refresh();
-        finish_room_view();
-        wait_refresh();
+        full_redraw_fast();
+        clear_keyboard();
+        draw_all();
+        clear_keyboard();
         if (message_frames)
-            play_room_sound((char *)room_sound_offset);
-        wait_refresh();
-        finish_overlay_pass();
-        show_message((char *)&GamePlayRect);
-        update_interlude();
-        wait_refresh();
+            InvertBitMap((char *)room_sound_offset);
+        clear_keyboard();
+        load_opponent_banks();
+        PrinceCopy((char *)&GamePlayRect);
+        restore_game_play_palette();
+        clear_keyboard();
         if (message_frames)
-            play_room_sound((char *)room_sound_offset);
-        wait_refresh();
+            InvertBitMap((char *)room_sound_offset);
+        clear_keyboard();
     }
     draw_pass = 2;
 }
@@ -508,20 +508,20 @@ int run_frames(void)
         if (request == -2) {
             if (restart_request) {
                 request = reset_level();
-            } else if (current_level != next_level && !sound_busy() &&
-                       (!start_level_track(resource_index + 10000) ||
+            } else if (current_level != next_level && !is_leave_level_music_on() &&
+                       (!query_sound(resource_index + 10000) ||
                         resource_index == 4 || resource_index == 7 || resource_index == 54)) {
                 if (next_level == -1 || (stage_number != 9 && stage_number != 5))
-                    stop_sound(0);
+                    dispatch_sound(0);
                 starting_health = Kid.hp_delta;
                 request = next_level;
-                finish_level_scene();
+                RemoveRebirthPt();
             } else {
                 request = advance_frame();
                 if (request == -2) {
                     if (tick_delay) {
                         script_status = 0;
-                        set_frame_wait(1);
+                        wait_timer_no_poll(1);
                     } else {
                         script_status = 1;
                     }
@@ -582,42 +582,42 @@ int run_kid(void)
     int saved_result;
     int result;
 
-    load_kid();
-    if (!test_character_control()) {
+    copy_kid_to_char();
+    if (!is_undefined_room()) {
         if ((opponent = Char.opponent) == -1) {
             if ((opponent = find_opponent(1)) == -1)
                 opponent = 0;
         }
-        set_opponent(opponent);
-        update_character_cells();
-        result = control_kid();
+        load_kid_with_opponent(opponent);
+        reread_cells();
+        result = ctrl_player();
         if (result != -1) {
             if (!restart_request) {
-                advance_character();
+                AnimChar();
                 if (!Char.sequence)
                     goto normal_result;
-                update_position();
-                update_fall();
+                Gravity();
+                add_char_velocity();
                 check_controls();
-                update_character_cells();
-                check_collisions();
+                reread_cells();
+                get_char_edges();
                 face_first_guard();
-                collide_floor();
-                collide_walls();
-                collide_objects();
-                process_floor();
-                process_gate();
+                CheckBarr();
+                collide_with_barriers();
+                check_gate_for_player();
+                check_floor();
+                check_press();
                 switch (stage_set) {
                 case 2:
-                    prepare_room_set();
-                    update_room_set_a();
+                    CheckSpikes();
+                    check_trapdoor();
                     if (!freeze_ticks)
-                        finish_room_set();
+                        CheckImpale();
                     /* fall through */
                 case 4:
-                    update_room_set_b();
+                    CheckScythe();
                     if (!freeze_ticks)
-                        touch_room_set_b();
+                        CheckScytheHit();
                     break;
                 case 3:
                     goto room_set_c;
@@ -628,11 +628,11 @@ normal_result:
                 result = 0;
                 goto save_result;
 room_set_c:
-                prepare_room_set();
+                CheckSpikes();
                 if (!freeze_ticks) {
-                    update_room_set_c();
-                    finish_room_set();
-                    touch_room_set_c();
+                    check_dart_hit();
+                    CheckImpale();
+                    check_lava_boil();
                 }
                 goto finish_room_set_update;
             } else {
@@ -643,12 +643,12 @@ save_result:
         saved_result = result;
         if (death_countdown >= 0) {
             if (!death_countdown)
-                schedule_sound(26);
+                AddSound(26);
             --death_countdown;
         }
     } else {
-        saved_result = control_kid();
-        release_character_control();
+        saved_result = ctrl_player();
+        FallingInUndefinedRoom();
     }
     Kid = Char;
     {
@@ -664,51 +664,51 @@ void run_shadows(void)
     unsigned char old_room;
 
     if (count > 0) do {
-        load_shadow(index);
-        if (Char.direction == 0x56 || test_character_control() ||
+        load_actor_slot(index);
+        if (Char.direction == 0x56 || is_undefined_room() ||
             (Char.y > 254 && !((struct room_links *)room_states)[(unsigned char)Char.room].left)) {
-            release_character_control();
+            FallingInUndefinedRoom();
         } else {
             set_shadow_opponent(index);
-            update_character_cells();
+            reread_cells();
             control_shadow();
             old_room = current_room;
             if (old_room != (unsigned char)Char.room) {
                 current_room = Char.room;
                 change_view_room();
             }
-            advance_character();
+            AnimChar();
             if (Char.action == 2)
                 shadow_bump();
             if ((Char.x >= 34 && Char.x <= 545) ||
                 (stage_number == 5 && Char.row == 1 &&
                  (Char.room == 10 || Char.room == 7 || Char.room == 12)) ||
                 ((Char.room == 7 || Char.room == 8) && stage_set == 6)) {
-                update_position();
-                update_fall();
+                Gravity();
+                add_char_velocity();
                 check_controls();
-                update_character_cells();
-                check_collisions();
+                reread_cells();
+                get_char_edges();
                 if (Char.floor != 9) {
                     collide_shadow_floor();
                     collide_shadow_walls();
-                    process_floor();
-                    process_gate();
+                    check_floor();
+                    check_press();
                     switch (stage_set) {
                     case 2:
-                        prepare_room_set();
-                        update_room_set_a();
-                        finish_room_set();
+                        CheckSpikes();
+                        check_trapdoor();
+                        CheckImpale();
                         /* fall through */
                     case 4:
-                        update_room_set_b();
-                        touch_room_set_b();
+                        CheckScythe();
+                        CheckScytheHit();
                         break;
                     case 3:
-                        prepare_room_set();
-                        update_room_set_c();
-                        finish_room_set();
-                        touch_room_set_c();
+                        CheckSpikes();
+                        check_dart_hit();
+                        CheckImpale();
+                        check_lava_boil();
                         break;
                     case 6:
                         update_room_set_d();
@@ -728,13 +728,13 @@ void run_shadows(void)
                 }
             }
         }
-        save_shadow();
+        save_actor_slot();
     } while (++index < count);
 
     index = 0;
     if (count > 0) do {
         if (shadows[index].direction == 0x56) {
-            load_shadow(index);
+            load_actor_slot(index);
             remove_shadow(current_room, index);
             if (Kid.opponent > Char.frame)
                 --Kid.opponent;
@@ -766,15 +766,15 @@ int advance_frame(void)
         update_room_screen();
     } else {
         memset(room_render_flags, 0, sizeof(room_render_flags));
-        draw_room();
-        finish_room_view();
+        full_redraw_fast();
+        draw_all();
         if (draw_interlude)
-            start_named_effect((char *)&GamePlayRect);
+            STROKE_PORT_RECT((char *)&GamePlayRect);
         if (message_frames)
-            play_room_sound((char *)room_sound_offset);
+            InvertBitMap((char *)room_sound_offset);
         render_screen();
         if (message_frames) {
-            play_room_sound((char *)room_sound_offset);
+            InvertBitMap((char *)room_sound_offset);
             if (message_frames == 1)
                 check_message_end();
             else if (Kid.alive < 0)
@@ -788,7 +788,7 @@ int advance_frame(void)
             game_request = 0;
             result = -1;
         } else {
-            update_display(1);
+            clear_message(1);
         }
         return result;
     }
@@ -804,7 +804,7 @@ int advance_frame(void)
                     return result;
                 }
                 if (phase != 3) {
-                    update_display(0);
+                    clear_message(0);
                     return result;
                 } else {
                     update_flash();
@@ -828,12 +828,12 @@ void reset_frame_vars(void)
     index = 0;
     count = room_states[current_room].guard_count;
     if (count > 0) do {
-        load_shadow(index);
+        load_actor_slot(index);
         Char.pushed = 0;
         Char.previous_bounds = Char.bounds;
         if (Char.collision == 8)
             Char.collision = 0;
-        save_shadow();
+        save_actor_slot();
     } while (++index < count);
     tick_misc_timers();
 }
@@ -841,7 +841,7 @@ void reset_frame_vars(void)
 void quick_foreground(void)
 {
     if (Char.frame == 10)
-        draw_floor_foreground((void far *)floor_foreground_resource, &Char.bounds, -1);
+        mark_bufs_for_rect((void far *)floor_foreground_resource, &Char.bounds, -1);
 }
 
 void quick_floor(void)
@@ -851,7 +851,7 @@ void quick_floor(void)
     unsigned seq = Char.sequence;
 
     if (seq >= 135 && seq < 145 && !Char.direction) {
-        draw_single_floor(get_cell_index(sweep_right, sweep_row));
+        mark_half(index_cell(sweep_right, sweep_row));
         return;
     }
     if (floor != 2 && floor != 3 && floor != 4 && floor != 6 && seq != 79 && seq != 81) {
@@ -859,7 +859,7 @@ void quick_floor(void)
             (Char.alternate_x == 137 || Char.alternate_x == 138 || Char.alternate_x == 143 ||
              Char.alternate_x <= 144 || Char.alternate_x == 143 || Char.alternate_x == 144)) {
             if ((sweep_column = sweep_right) >= sweep_left) do {
-                scan_floor(get_cell_index(sweep_column, sweep_row), &Char.bounds);
+                mark_floor(index_cell(sweep_column, sweep_row), &Char.bounds);
                 left_edge = sweep_left;
                 --sweep_column;
             } while (sweep_column >= left_edge);
@@ -869,10 +869,10 @@ void quick_floor(void)
     }
     if ((sweep_column = sweep_right) >= sweep_left) do {
         if (floor != 2)
-            scan_floor(get_cell_index(sweep_column, previous_sweep_row), &Char.bounds);
+            mark_floor(index_cell(sweep_column, previous_sweep_row), &Char.bounds);
         if (previous_sweep_row != sweep_row &&
             !(Char.alternate_x == 28 && (Char.room == 7 || Char.room == 8) && stage_set == 6))
-            scan_floor(get_cell_index(sweep_column, sweep_row), &Char.bounds);
+            mark_floor(index_cell(sweep_column, sweep_row), &Char.bounds);
         left_edge = sweep_left;
         --sweep_column;
     } while (sweep_column >= left_edge);
@@ -900,7 +900,7 @@ void check_rebirth_points(void)
 void adjust_guard_view(void)
 {
     if (view_retry) {
-        scroll_guard_view(Char.room, (signed char)(Char.row - (view_retry >= 1 ? 1 : 0)));
+        shake_row(Char.room, (signed char)(Char.row - (view_retry >= 1 ? 1 : 0)));
         view_retry = 0;
     }
 }
@@ -923,15 +923,15 @@ void face_first_guard(void)
         !(FChar.action == 12 && FChar.sequence >= 179 && FChar.sequence <= 235) &&
         !(FChar.action == 4 && FChar.sequence == 206) &&
         !(FChar.action == 2 && FChar.alternate_x == 110) &&
-        Char.alive < 0 && abs(distance_to_guard()) <= 15) {
-        reset_velocity();
+        Char.alive < 0 && abs(get_opp_dist()) <= 15) {
+        reset_char_y();
         Char.fall = 0;
         if (Char.sequence >= 246 && Char.sequence <= 261) {
-            Char.x = guard_start_x(-6);
+            Char.x = AddCharX(-6);
             return;
         }
-        start_sequence(47);
-        advance_character();
+        JumpSeq(47);
+        AnimChar();
     }
 }
 
@@ -959,9 +959,9 @@ void reset_guard_records(void)
 void init_level_specific(void)
 {
     if (stage_set == 3) {
-        init_room_set_c();
+        clear_lava_slots();
         if (stage_number == 5)
-            init_room_set_c_level5();
+            initialize_bridge();
     } else if (stage_set == 4) {
         stage_state = 0;
     }
@@ -979,7 +979,7 @@ void check_alert(void)
         count = room_states[(unsigned char)Kid.room].guard_count;
         index = 0;
         if (count > 0) do {
-            load_shadow(index);
+            load_actor_slot(index);
             if (!sequence || (sequence >= 217 && sequence < 226) || Kid.alive >= 0 || Char.alive >= 0 ||
                 Char.direction == 0x56 || (Kid.row != Char.row && Char.action != 7 && Char.action != 8) ||
                 (Char.action == 11 && Char.collision == 6) || (Kid.action == 1 && stage_set == 2)) {
@@ -993,19 +993,19 @@ void check_alert(void)
                     left = right;
                     right = swap;
                 }
-                if (read_cell(Kid.room, right, Kid.row) == 4)
+                if (ReadCell(Kid.room, right, Kid.row) == 4)
                     --right;
                 if (left < right) {
                     if (left <= right) do {
                         if (Char.alert != 3)
                             break;
-                        kind = read_cell(Kid.room, left, Kid.row);
-                        if (blocks_guard_view(kind) &&
+                        kind = ReadCell(Kid.room, left, Kid.row);
+                        if (IsWall(kind) &&
                             !(Char.action == 11 && kind == 7 && (cell_flags & 0x80))) {
                             Char.alert = 0;
                         } else if ((kind == 4 && cell_flags < 0x70) ||
-                                   (blocks_guard_floor(kind) && Char.action != 10) ||
-                                   (obscures_guard_floor(kind) && Char.action != 10 &&
+                                   (IsImpassable(kind) && Char.action != 10) ||
+                                   (IS_SIX_KIND(kind) && Char.action != 10 &&
                                     Char.action != 7 && Char.action != 8)) {
                             Char.alert = 1;
                         }
@@ -1018,7 +1018,7 @@ void check_alert(void)
                         Char.skill = 1;
                 }
             }
-            save_shadow();
+            save_actor_slot();
         } while (++index < count);
     }
 }
@@ -1034,8 +1034,8 @@ signed char reset_level(void)
 {
     restart_request = 0;
     if (current_level == next_level) {
-        reset_level_display();
-        start_named_effect((char *)&GamePlayRect);
+        save_game_play_palette();
+        STROKE_PORT_RECT((char *)&GamePlayRect);
         if (game_request)
             return current_level;
         return 0;
@@ -1047,8 +1047,8 @@ void lose_game(void)
 {
     int result;
 
-    stop_sound(0);
-    result = lose_game_dialog(28);
+    dispatch_sound(0);
+    result = play_nis(28);
     remaining_minutes = 0;
     key_result = 8;
     if (result == 2)

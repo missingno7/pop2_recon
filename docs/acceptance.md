@@ -418,6 +418,27 @@ let names drift across files: publics defined by two accepted components (mostly
 prince/toggle_sound and fade/palette_tail) and binding names grounded at different addresses by different groups
 (e.g. ACTOR at DS:5c00 and 5c02, PLAY_SOUND at four far addresses). A real link resolves each name once, so
 validation refuses new cases: `module_gate.name_consistency_violations` lists duplicate publics (claims, drafts,
-data publics, pinned runtime publics) and multi-address binding names, and evidence/name-consistency-debt.json
-must equal that list (shrink-only). Fix by merging overlapping groups and by giving each original entry one name
-used by its definer and every referrer; struct members go through their base object.
+data publics, pinned runtime publics) and multi-address binding names, and evidence/link-consistency-debt.json
+must equal that list together with the alignment violations below (shrink-only). Fix by merging overlapping
+groups and by giving each original entry one name used by its definer and every referrer; struct members go
+through their base object. The 2026-11-23 unification renamed 777 extern spellings to their definers' publics
+through tools/relocate.py (each file re-proved; relocate pairs renamed externals by name, since MSC's EXTDEF
+order can change with spelling), retiring 1,055 of 1,214 violations.
+
+The same list carries two code-entry checks. `alias:GROUP:NAME` is a far code entry symbol whose
+`entry_target_id` is an accepted claim or draft that publishes the entry under another name; rename the extern
+to the definer's public (tools/relocate.py `--rename`). `same-entry:GROUP:TARGET` is one file declaring one
+entry under several names. Merging the two declarations changes C1 symbol ids, so a file that stays exact only
+with both is a modelling error to resolve by matching work (the real declaration list), never by a dummy
+declaration. Data aliases are not checked: a struct's first member shares its base address.
+
+## Segment alignment (whole-link, 2026-11-22)
+
+A linker starts each object's contribution to a segment at a multiple of the object's SEGDEF alignment (byte,
+word, paragraph, page, dword). Root and overlay sections and DGROUP begin on paragraphs, so the start position of
+an accepted CODE segment in its space, and the DGROUP offset of each placed data piece, must keep that residue.
+The trial link found word-aligned code and data at odd addresses (MASM `.CODE` pieces inside a byte-packed
+segment; C `_DATA` pieces that start mid-object). `module_gate.alignment_violations` lists them as
+`alignment:COMPONENT:SEGMENT@ADDRESS`; they join the name violations in evidence/link-consistency-debt.json
+(shrink-only). Fix by the real segment declaration (for genuine assembly, an explicit `SEGMENT BYTE` where the
+original packed pieces) or by the real object boundary; never by padding.

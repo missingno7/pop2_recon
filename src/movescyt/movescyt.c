@@ -55,19 +55,19 @@ int ScytheImg[20] = {
     97, 97, 97, 97, 97, 97, 99, 100, 101, 0
 };
 
-extern void far pascal queue_sound(int sound);
+extern void far pascal AddSound(int sound);
 extern char far pascal ReadCell(ubyte room, sbyte column, sbyte row);
 extern int far pascal SectRect(Rect far *out, const Rect far *left, const Rect far *right);
-extern void far pascal jump_sequence(int seq);
+extern void far pascal JumpSeq(int seq);
 extern void far pascal SetKidDeathMethod(sbyte method);
 extern void far pascal AnimChar(void);
-extern int far pascal decrease_life(sbyte amount);
+extern int far pascal decrement_life_points(sbyte amount);
 extern Rect far *far pascal UnionRect(Rect far *out, const Rect far *left, const Rect far *right);
 extern Rect far *far pascal OffsetRect(Rect far *out, const Rect far *in, int x, int y);
 extern int far pascal check_trob_visibility(void);
 extern int far pascal compute_trob_move_rect(Rect near *out, const Rect near *in);
 extern void far pascal mark_move(sbyte cell, const Rect near *rect);
-extern void far pascal mark_buffers_for_rect(void (far pascal *mark)(sbyte, const Rect near *),
+extern void far pascal mark_bufs_for_rect(void (far pascal *mark)(sbyte, const Rect near *),
                                              const Rect near *rect, sbyte cell);
 extern void far pascal add_trob(ubyte room, sbyte index, sbyte mode, ubyte kind);
 
@@ -85,9 +85,9 @@ void far pascal AnimScythe(void)
         if (ScytheImg[frame] != ScytheImg[frame + 1])
             RedrawScythe(0);
         if (frame == 0)
-            queue_sound(84);
+            AddSound(84);
         else if (frame == 15)
-            queue_sound(83);
+            AddSound(83);
         else if (frame >= 16 && (animation_word & 0x40) && !(animation_word & 0x80)) {
             animation_word |= 0x80;
             RedrawScythe(1);
@@ -130,15 +130,15 @@ void far pascal CheckScytheHit(void)
                 SectRect(&bounds, &bounds, &actor.bounds) &&
                 (actor.frame < 267 || actor.frame > 271)) {
                 if (actor.action == 0) {
-                    jump_sequence(113);
+                    JumpSeq(113);
                     SetKidDeathMethod(5);
                 } else {
-                    jump_sequence(190);
+                    JumpSeq(190);
                     actor.life = 1;
                 }
                 AnimChar();
-                decrease_life(100);
-                queue_sound(85);
+                decrement_life_points(100);
+                AddSound(85);
                 room_modifiers[tile_state.index].modifier = (tile_state.modifier |= 0x40);
                 if (kind == 12)
                     ReadCell(actor.room, column + 1, actor.row);
@@ -195,7 +195,7 @@ void far pascal RedrawScythe(int bloody)
             --bounds.top;
         }
         if (compute_trob_move_rect(&bounds, &bounds))
-            mark_buffers_for_rect(mark_move, &bounds, -1);
+            mark_bufs_for_rect(mark_move, &bounds, -1);
     } else {
         trob_mode = 1;
     }

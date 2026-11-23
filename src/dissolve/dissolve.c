@@ -37,16 +37,16 @@ typedef union
 extern long cached_area;
 extern unsigned long cached_time;
 
-extern int poll_events(void);
-extern void copy_port(int source, int destination, const Rect far *source_rect,
+extern int check_wait_function(void);
+extern void MEASURE_TEXT(int source, int destination, const Rect far *source_rect,
                       const Rect far *destination_rect, int mode);
 extern void release_port(void near *port);
 extern int create_port(void near *port, const Rect far *rect);
 extern int find_option(const char far *option);
-extern void mix_ports(int source, int destination, const Rect far *source_rect,
+extern void COPY_DITHERED_PORT_REGION(int source, int destination, const Rect far *source_rect,
                       const Rect far *destination_rect, int level);
-extern void near *cdecl malloc(unsigned int size);
-extern void cdecl free(void near *pointer);
+extern void near *cdecl _nmalloc(unsigned int size);
+extern void cdecl _nfree(void near *pointer);
 
 Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long duration);
 void dissolve_free(Dissolve *record, int restore);
@@ -62,9 +62,9 @@ int dissolve_do_all(int mode, int source, const Rect far *bounds, long duration)
     record = dissolve_new(mode, source, bounds, duration);
     if (record) {
         do {
-            interrupted = poll_events();
+            interrupted = check_wait_function();
             more = dissolve_step(record) == 0;
-            copy_port((int)screen_port, record->destination,
+            MEASURE_TEXT((int)screen_port, record->destination,
                       &record->rect, &record->rect, 0);
         } while (!interrupted && more);
         dissolve_free(record, 0);
@@ -75,17 +75,17 @@ int dissolve_do_all(int mode, int source, const Rect far *bounds, long duration)
 void dissolve_free(Dissolve *record, int restore)
 {
     if (restore)
-        copy_port(record->destination, record->source, &record->rect, &record->rect, 0);
+        MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 0);
     if (record->mode == 2)
         release_port(&record->temporary);
-    free(record);
+    _nfree(record);
 }
 
 Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long duration)
 {
     Dissolve *record;
 
-    record = malloc(sizeof(*record));
+    record = _nmalloc(sizeof(*record));
     if (record) {
         record->source = source;
         record->rect = *bounds;
@@ -100,16 +100,16 @@ Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long durati
 
         if (record->mode == 2) {
             if (create_port(&record->temporary, bounds))
-                copy_port((int)&record->temporary, record->source, bounds, bounds, 0);
+                MEASURE_TEXT((int)&record->temporary, record->source, bounds, bounds, 0);
             else {
-                free(record);
+                _nfree(record);
                 record = 0;
             }
         }
         if (record)
             dissolve_set_inc_amt(record);
         if (record->mode == 2)
-            copy_port((int)&record->temporary, record->destination, bounds, bounds, 0);
+            MEASURE_TEXT((int)&record->temporary, record->destination, bounds, bounds, 0);
     }
     return record;
 }
@@ -133,7 +133,7 @@ void dissolve_set_inc_amt(Dissolve *record)
         record->increment = 0;
         for (steps = 2; steps; --steps) {
             dissolve_step(record);
-            copy_port(record->source, record->source, &record->rect, &record->rect, 0);
+            MEASURE_TEXT(record->source, record->source, &record->rect, &record->rect, 0);
         }
         record->destination = saved_destination;
         record->level = 0;
@@ -197,15 +197,15 @@ int dissolve_step(Dissolve *record)
         if (record->mode == 1)
             drawing_pattern = record->pattern;
         else if (record->mode == 2)
-            copy_port(record->destination, (int)&record->temporary,
+            MEASURE_TEXT(record->destination, (int)&record->temporary,
                       &record->rect, &record->rect, 0);
         if (!find_option(dissolve_option))
-            mix_ports(record->destination, record->source, &record->rect, &record->rect, record->level);
+            COPY_DITHERED_PORT_REGION(record->destination, record->source, &record->rect, &record->rect, record->level);
         else
-            copy_port(record->destination, record->source, &record->rect, &record->rect, 2);
+            MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 2);
         current_port = scratch.words.high;
     } else {
-        copy_port(record->destination, record->source, &record->rect, &record->rect, 0);
+        MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 0);
     }
     return finished;
 }

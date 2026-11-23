@@ -163,6 +163,7 @@ def _validate(run_tests=True):
         verify_assembler(profile)
     accepted = []
     groups = {}
+    aligned = []  # (component, segment, SEGDEF alignment, start) for the whole-link alignment check
     for owner in manifest["owners"]:
         recipe = read_json(project_path(owner["recipe"]))
         if recipe.get("kind") == GROUP_KIND:
@@ -195,6 +196,9 @@ def _validate(run_tests=True):
                 report.get("covered_relocation_indices", []) == recipe.get("relocation_indices", []),
                 "Fresh original relocation index coverage changed")
         check_relocation_order(recipe, report)
+        target, space, _ = get_target(owner["target_id"], oracle)
+        aligned.append((recipe["name"], "CODE", report["segment"]["alignment"],
+                        space.position(target["segment"], target["offset"])))
         accepted.append(report)
     # Data-only groups (string/table modules without code): recompiled and rechecked like groups;
     # their placements join the overlap check below.
@@ -229,12 +233,24 @@ def _validate(run_tests=True):
     overlap_debt = set(read_json(ROOT / "evidence/placement-overlap-debt.json")["pairs"])
     require(overlaps == overlap_debt, "Placed DGROUP segments of different groups overlap: "
             f"unlisted {sorted(overlaps - overlap_debt)}, stale {sorted(overlap_debt - overlaps)}")
-    # Whole-link name consistency (docs/acceptance.md "One name per entry"): violations may only shrink.
-    from module_gate import name_consistency_violations
-    names = name_consistency_violations(recipes)
-    name_debt = set(read_json(ROOT / "evidence/name-consistency-debt.json")["violations"])
-    require(names == name_debt, "evidence/name-consistency-debt.json differs from the name violations: "
-            f"unlisted {sorted(names - name_debt)}, stale {sorted(name_debt - names)}")
+    # Whole-link consistency (docs/acceptance.md "One name per entry", "Segment alignment"):
+    # violations may only shrink.
+    from module_gate import alignment_violations, name_consistency_violations
+    by_path = {owner.get("recipe"): recipe for owner, recipe in recipes}
+    for path, report in groups.items():
+        recipe = by_path.get(path) or read_json(project_path(path))
+        component = recipe.get("group_id") or recipe["name"]
+        if report.get("emitted_size"):
+            aligned.append((component, "CODE", report["segment"]["alignment"], report["origin"]))
+        if report.get("placements"):
+            declared = {s["name"]: s["alignment"]
+                        for s in read_json(project_path(recipe["binding"]))["declarations"]["segments"]}
+            aligned += [(component, seg, declared[seg], p["placement"])
+                        for seg, p in report["placements"].items() if p["length"]]
+    link = name_consistency_violations(recipes) | alignment_violations(aligned)
+    link_debt = set(read_json(ROOT / "evidence/link-consistency-debt.json")["violations"])
+    require(link == link_debt, "evidence/link-consistency-debt.json differs from the whole-link violations: "
+            f"unlisted {sorted(link - link_debt)}, stale {sorted(link_debt - link)}")
     # BSS layout refutation (docs/dgroup-binding.md "BSS layout"): violations may only shrink.
     from module_gate import bss_layout_violations
     bss = bss_layout_violations(groups, recipes)

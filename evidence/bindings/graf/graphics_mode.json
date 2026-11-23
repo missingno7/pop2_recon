@@ -2,10 +2,10 @@
   "declarations": {
     "externals": [
       "SHUTDOWN_MOUSE_GRAPHICS",
+      "__NFREE",
       "INITIALIZE_MOUSE_GRAPHICS",
       "DISPOSE_HANDLE",
       "HGETFONT",
-      "FREE_NEAR_HEAP",
       "SAVED_BIOS_EQUIPMENT",
       "SAVED_BIOS_MODE",
       "INIT_PORT",
@@ -367,7 +367,7 @@
       "segment_offset": 90,
       "self_relative": true,
       "target": {
-        "index": 4,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "HGETFONT",
@@ -497,7 +497,7 @@
       "segment_offset": 122,
       "self_relative": true,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "INITIALIZE_MOUSE_GRAPHICS",
@@ -659,9 +659,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 5,
+        "index": 2,
         "kind": "external",
-        "name": "FREE_NEAR_HEAP"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -670,10 +670,10 @@
       "segment_offset": 174,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "FREE_NEAR_HEAP",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     },
@@ -713,7 +713,7 @@
       "segment_offset": 187,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "DISPOSE_HANDLE",
@@ -937,23 +937,6 @@
       "space": "root",
       "witnesses": []
     },
-    "FREE_NEAR_HEAP": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
-      "kind": "far-code-entry",
-      "offset": 26,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
-          "space": "root"
-        }
-      ]
-    },
     "HGETFONT": {
       "entry_sha256": "c6f7d1676eac2ecfa81767740f5393c4e0f8ed61b404abdb74032c621a795ffd",
       "entry_target_id": "root:1101:4faa",
@@ -1025,6 +1008,23 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "__NFREE": {
+      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "entry_target_id": "root:1fe6:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "relocation_index": 14,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:graf/graphics_mode",

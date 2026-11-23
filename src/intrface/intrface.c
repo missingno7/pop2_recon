@@ -14,7 +14,7 @@ struct LevelState {
     int level;
 };
 
-extern void cdecl free(void *);
+extern void cdecl _nfree(void *);
 extern int cdecl printf(const char *, ...);
 extern void cdecl exit(int);
 extern char far *cdecl far_find_string(FarName, FarName);
@@ -50,11 +50,11 @@ extern void reset_file_state(void);
 extern void restore_system(void);
 extern void show_system_error(FarName, int);
 extern int read_input(void);
-extern int input_active(int);
-extern int sound_playing(int);
+extern int MOUSE_BUTTON_DOWN(int);
+extern int query_sound(int);
 extern void close_resource_catalog(ResourceMap);
-extern ResourceMap open_resource_map(FarName);
-extern struct ResourceMapData far *lock_resource_map(ResourceMap);
+extern ResourceMap MOUNT_RESOURCE_CATALOG(FarName);
+extern struct ResourceMapData far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(ResourceMap);
 extern int get_midi_driver_flag(void);
 
 void reset_interface(void);
@@ -62,7 +62,7 @@ ResourceMap find_resource_map(const char *);
 
 void abort_with_message(int status, register FarName message)
 {
-    free(interface_buffer);
+    _nfree(interface_buffer);
     reset_interface();
     if (message)
         printf(message_format, message);
@@ -116,9 +116,9 @@ unsigned int poll_user(void)
         key = 0;
     }
     if (!key) {
-        if (input_active(1))
+        if (MOUSE_BUTTON_DOWN(1))
             key = 0xe100;
-        else if (input_active(2))
+        else if (MOUSE_BUTTON_DOWN(2))
             key = 0xe200;
     }
     return key;
@@ -150,12 +150,12 @@ void wait_ticks(int timer, int ticks)
 int wait_sound(register int sound)
 {
     register int key = 0;
-    if (sound_playing(sound)) {
+    if (query_sound(sound)) {
         do {
             if (key)
                 break;
             key = check_wait_function();
-        } while (sound_playing(sound));
+        } while (query_sound(sound));
     }
     return key;
 }
@@ -180,7 +180,7 @@ ResourceMap open_verified_resource(const char *name)
 {
     ResourceMap map = find_resource_map(name);
     if (!map) {
-        map = open_resource_map(name);
+        map = MOUNT_RESOURCE_CATALOG(name);
         if (!map)
             resource_error(name);
     }
@@ -194,7 +194,7 @@ ResourceMap find_resource_map(const char *name)
     struct ResourceMapData far *data;
     if (!found) {
         while (map) {
-            data = lock_resource_map(map);
+            data = RESOLVE_HANDLE_TO_FAR_PAYLOAD(map);
             if (far_find_string(data->name, name))
                 found = 1;
             else
@@ -238,7 +238,7 @@ void open_level_resources(const char **names)
 void close_level_resources(const char **names)
 {
     int index;
-    if (!sound_playing(0)) {
+    if (!query_sound(0)) {
         for (index = 0; index < 5; ++index) {
             if (names[index])
                 close_resource_file(names[index]);

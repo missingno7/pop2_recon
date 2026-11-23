@@ -6,7 +6,7 @@
       "CHECKSHADOWPALETTECHANGE",
       "DECREMENT_LIFE_POINTS",
       "JUMPSEQ",
-      "DRAW_FLOOR_FOREGROUND",
+      "MARK_BUFS_FOR_RECT",
       "ADDSOUND",
       "MARK_FOREGROUND",
       "CHECKTURNSEQS",
@@ -26,7 +26,7 @@
       "CUTTOKIDROOM",
       "DRAW_KID_METER",
       "LOAD_ACTOR_SLOT",
-      "FIND_ACTOR_ROOM",
+      "REGISTER_ACTOR_ROOM",
       "REMOVE_CHAR",
       "SAVEFCHAR",
       "ADDFCHARX",
@@ -2783,7 +2783,7 @@
           "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "FIND_ACTOR_ROOM",
+          "name": "REGISTER_ACTOR_ROOM",
           "zero_displacement": true
         }
       },
@@ -2797,7 +2797,7 @@
         "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "FIND_ACTOR_ROOM",
+        "name": "REGISTER_ACTOR_ROOM",
         "zero_displacement": true
       }
     },
@@ -4079,7 +4079,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_FLOOR_FOREGROUND",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -4093,7 +4093,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_FLOOR_FOREGROUND",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -4825,23 +4825,6 @@
         }
       ]
     },
-    "DRAW_FLOOR_FOREGROUND": {
-      "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
-      "entry_target_id": "root:0b41:0f62",
-      "kind": "far-code-entry",
-      "offset": 3938,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a620f410b",
-          "file_offset": 15606,
-          "image_offset": 7414,
-          "relocation_index": 143,
-          "space": "root"
-        }
-      ]
-    },
     "DRAW_KID_METER": {
       "entry_sha256": "6d88f56d67f90060d88ec300541b28e0a4a54fb646476df7e48380002763e1aa",
       "entry_target_id": "root:078a:24ee",
@@ -4856,23 +4839,6 @@
           "image_offset": 3803,
           "relocation_index": 121,
           "space": "root"
-        }
-      ]
-    },
-    "FIND_ACTOR_ROOM": {
-      "entry_sha256": "919a1d49ec2219a96b047490a3a93a10fb4ac0ed19924d7d5e3253a77bbf49bb",
-      "entry_target_id": "overlay-3:2344:133a",
-      "kind": "overlay-code-entry",
-      "offset": 4922,
-      "segment": 9028,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3a134423",
-          "file_offset": 241759,
-          "image_offset": 1343,
-          "relocation_index": 121,
-          "space": "overlay-10"
         }
       ]
     },
@@ -5183,6 +5149,23 @@
         }
       ]
     },
+    "MARK_BUFS_FOR_RECT": {
+      "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
+      "entry_target_id": "root:0b41:0f62",
+      "kind": "far-code-entry",
+      "offset": 3938,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a620f410b",
+          "file_offset": 15606,
+          "image_offset": 7414,
+          "relocation_index": 143,
+          "space": "root"
+        }
+      ]
+    },
     "MARK_FOREGROUND": {
       "kind": "far-data",
       "offset": 3870,
@@ -5321,6 +5304,23 @@
           "image_offset": 3547,
           "operand_offset": 2,
           "space": "root"
+        }
+      ]
+    },
+    "REGISTER_ACTOR_ROOM": {
+      "entry_sha256": "919a1d49ec2219a96b047490a3a93a10fb4ac0ed19924d7d5e3253a77bbf49bb",
+      "entry_target_id": "overlay-3:2344:133a",
+      "kind": "overlay-code-entry",
+      "offset": 4922,
+      "segment": 9028,
+      "space": "overlay-3",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3a134423",
+          "file_offset": 241759,
+          "image_offset": 1343,
+          "relocation_index": 121,
+          "space": "overlay-10"
         }
       ]
     },

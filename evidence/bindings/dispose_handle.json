@@ -1,7 +1,7 @@
 {
   "declarations": {
     "externals": [
-      "FREE_NEAR_HEAP",
+      "__NFREE",
       "UNLINK_SHAPE_METADATA",
       "RELEASE_BACKING_RECORD",
       "HEAP_STATE"
@@ -164,7 +164,7 @@
       "frame": {
         "index": 1,
         "kind": "external",
-        "name": "FREE_NEAR_HEAP"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -176,7 +176,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "FREE_NEAR_HEAP",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     }
@@ -197,23 +197,6 @@
   "mode": "external-dgroup-offset16-v4",
   "schema": 1,
   "symbols": {
-    "FREE_NEAR_HEAP": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
-      "kind": "far-code-entry",
-      "offset": 26,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
-          "space": "root"
-        }
-      ]
-    },
     "HEAP_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -253,6 +236,23 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "__NFREE": {
+      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "entry_target_id": "root:1fe6:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "relocation_index": 14,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:dispose_handle",

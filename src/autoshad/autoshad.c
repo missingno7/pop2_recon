@@ -63,7 +63,7 @@ extern void far pascal save_actor_slot(void);
 extern void far pascal copy_kid_to_char(void);
 extern void far pascal draw_kid_meter(int health, int max_health);
 extern void far pascal load_actor_slot(signed char index);
-extern signed char far pascal find_actor_room(void);
+extern signed char far pascal register_actor_room(void);
 extern void far pascal remove_char(void);
 extern void far pascal SaveFChar(void);
 extern int far pascal AddFCharX(int distance);
@@ -211,7 +211,7 @@ void far pascal CutToKidRoom(void)
     Char.health = Kid.health;
     Char.max_health = Kid.max_health;
     Char.health_delta = Kid.health_delta;
-    room = find_actor_room();
+    room = register_actor_room();
     if (active_room != room) {
         pending_room = room;
         Char.room = room;
@@ -303,7 +303,7 @@ void far pascal KidRiseFromShadowman(void)
 }
 
 typedef void (far pascal *ForegroundMarker)(signed char cell, void near *rect);
-extern void far pascal draw_floor_foreground(ForegroundMarker effect, void near *rect, signed char actor);
+extern void far pascal mark_bufs_for_rect(ForegroundMarker effect, void near *rect, signed char actor);
 extern void far pascal mark_foreground(signed char cell, void near *rect);
 extern char flame_clip_rect[];
 
@@ -315,7 +315,7 @@ void far pascal SetupShadowFlame(void)
         AddFCharX(13 - flame_y / 2);
         MakeFCharClipRect();
         add_char_object(14);
-        draw_floor_foreground(mark_foreground, flame_clip_rect, Char.index);
+        mark_bufs_for_rect(mark_foreground, flame_clip_rect, Char.index);
         RestoreFChar();
     }
 }

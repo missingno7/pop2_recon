@@ -882,24 +882,54 @@ def _accepted_recipes():
     return list(seen.values())
 
 
+OMF_ALIGNMENT = {1: 1, 2: 2, 3: 16, 4: 256, 5: 4}  # SEGDEF A field: byte, word, para, page, dword
+
+
+def alignment_violations(rows):
+    """Refutation only (whole-link alignment, 2026-11-22; o10_trial): a linker starts every object's
+    contribution at a multiple of its SEGDEF alignment. Root and overlay sections and DGROUP start on
+    paragraphs, so a space position or DGROUP offset keeps the absolute residue. `rows` are
+    (component, segment, alignment code, address); returns `alignment:COMPONENT:SEGMENT@ADDRESS` keys."""
+    return {f"alignment:{c}:{s}@{a:x}" for c, s, code, a in rows if a % OMF_ALIGNMENT.get(code, 1)}
+
+
 def name_consistency_violations(recipes):
     """Refutation only (whole-link names, 2026-11-22; o10_trial): a real link has one definition per public
     name and resolves one external name to one address. Returns stable keys:
     - `duplicate-public:NAME` for a public defined by more than one accepted component (claims, drafts,
       data publics, pinned runtime publics);
     - `multi-address:NAME` for a binding symbol name grounded at different addresses by different bindings
-      (v4 DGROUP offsets, far 16:16 aliases)."""
+      (v4 DGROUP offsets, far 16:16 aliases);
+    - `alias:GROUP:NAME` for a far code entry symbol of GROUP whose entry is an accepted claim or draft
+      published under another name (the linker resolves EXTDEFs by name, never by address; RTLink 6.10
+      symbol ids are case-insensitive, o11_relorder);
+    - `same-entry:GROUP:TARGET` for one binding naming the same code entry under several names (one
+      original declaration, two in the source)."""
     from common import project_path
     found = {f"duplicate-public:{n}" for n, c in accepted_public_names(recipes).items() if c > 1}
+    entry_names = {}
+    for owner, recipe in recipes:
+        rows = recipe.get("claims", []) + recipe.get("drafts", []) + ([recipe] if "target_id" in recipe else [])
+        for row in rows:
+            if "target_id" in row and "public" in row:
+                entry_names.setdefault(row["target_id"], set()).add(row["public"])
     addresses = {}
     for owner, recipe in recipes:
         if owner.get("kind") == "PINNED_RUNTIME" or "binding" not in recipe:
             continue
+        gid = recipe.get("group_id") or recipe.get("name")
+        entries = {}
         for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+            target = symbol.get("entry_target_id")
+            if type(target) is str:
+                entries.setdefault(target, set()).add(name)
+                if target in entry_names and name.upper() not in {n.upper() for n in entry_names[target]}:
+                    found.add(f"alias:{gid}:{name}")
             if symbol.get("kind") == "dgroup-offset" and type(symbol.get("offset")) is int:
                 addresses.setdefault(name, set()).add(("DS", symbol["offset"]))
             elif symbol.get("kind") in FAR_KINDS and type(symbol.get("segment")) is int:
                 addresses.setdefault(name, set()).add(("FAR", symbol["segment"], symbol.get("offset")))
+        found |= {f"same-entry:{gid}:{t}" for t, names in entries.items() if len(names) > 1}
     found |= {f"multi-address:{n}" for n, a in addresses.items() if len(a) > 1}
     return found
 

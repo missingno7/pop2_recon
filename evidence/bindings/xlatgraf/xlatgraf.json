@@ -23,9 +23,9 @@
       "ALLOCATED_UNIT_BITS",
       "ALLOCBANKS",
       "UNPACKRLEH",
-      "READ_HANDLE_FLAGS",
+      "SAVE_HANDLE_FLAGS",
       "VIDEO_MODE",
-      "GET_LOCKED_PAYLOAD",
+      "FETCH_LOCKED_SHAPE_LIST",
       "CHUNK_BYTE_LIMIT",
       "UNPACKRLEV",
       "RESETBANKS",
@@ -605,7 +605,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "GET_LOCKED_PAYLOAD",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -619,7 +619,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "GET_LOCKED_PAYLOAD",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -632,7 +632,7 @@
           "index": 23,
           "kind": "external",
           "method": 6,
-          "name": "READ_HANDLE_FLAGS",
+          "name": "SAVE_HANDLE_FLAGS",
           "zero_displacement": true
         }
       },
@@ -646,7 +646,7 @@
         "index": 23,
         "kind": "external",
         "method": 6,
-        "name": "READ_HANDLE_FLAGS",
+        "name": "SAVE_HANDLE_FLAGS",
         "zero_displacement": true
       }
     },
@@ -956,7 +956,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "GET_LOCKED_PAYLOAD",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -970,7 +970,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "GET_LOCKED_PAYLOAD",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -1172,7 +1172,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "GET_LOCKED_PAYLOAD",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -1186,7 +1186,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "GET_LOCKED_PAYLOAD",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -1928,7 +1928,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "GET_LOCKED_PAYLOAD",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -1942,7 +1942,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "GET_LOCKED_PAYLOAD",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -2414,7 +2414,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "GET_LOCKED_PAYLOAD",
+          "name": "FETCH_LOCKED_SHAPE_LIST",
           "zero_displacement": true
         }
       },
@@ -2428,7 +2428,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "GET_LOCKED_PAYLOAD",
+        "name": "FETCH_LOCKED_SHAPE_LIST",
         "zero_displacement": true
       }
     },
@@ -2657,7 +2657,7 @@
       "space": "root",
       "witnesses": []
     },
-    "GET_LOCKED_PAYLOAD": {
+    "FETCH_LOCKED_SHAPE_LIST": {
       "entry_sha256": "2515cd3a32c0b60796deeb161a4b0d38ee4e71e7bf3c49925c8613ff83d6f681",
       "entry_target_id": "root:1101:2362",
       "kind": "far-code-entry",
@@ -2675,20 +2675,20 @@
       "space": "root",
       "witnesses": []
     },
-    "READ_HANDLE_FLAGS": {
-      "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
-      "entry_target_id": "root:1101:22d0",
-      "kind": "far-code-entry",
-      "offset": 8912,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
     "RESTORE_HANDLE_FLAGS": {
       "entry_sha256": "b11e892fd5ac4d1621aea19606f5b884db6912c9b0ebb83e6adeaba21ce5f760",
       "entry_target_id": "root:1101:2594",
       "kind": "far-code-entry",
       "offset": 9620,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "SAVE_HANDLE_FLAGS": {
+      "entry_sha256": "29c459c57ffbbe5953ba8d83f46b94fbd07d6980092f20f0e5020960b9957486",
+      "entry_target_id": "root:1101:22d0",
+      "kind": "far-code-entry",
+      "offset": 8912,
       "segment": 4353,
       "space": "root",
       "witnesses": []

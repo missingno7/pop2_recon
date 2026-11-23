@@ -51,10 +51,25 @@ def compile_object(source_text, recipe, workdir):
     return OmfReader().read(result.obj_bytes), result
 
 
-def renamed_binding(binding, old_module, new_module, group_id):
-    """Witness-preserving rename: externals pair by declaration position in old and new objects."""
+def extern_map(old_module, new_module, renames):
+    """Old object external name -> new one. Externals pair by the source renames (pascal names are the
+    uppercased identifier, cdecl names `_` + identifier); EXTDEF order may change with spelling."""
     require(len(old_module.externals) == len(new_module.externals), "Renaming changed the external count")
-    key_map = dict(zip(old_module.externals, new_module.externals))
+    def emitted(name):
+        for old, new in renames:
+            if name == "_" + old:
+                return "_" + new
+            if name.upper() == old.upper() and name == name.upper():
+                return new.upper()
+        return name
+    key_map = {e: emitted(e) for e in old_module.externals}
+    require(sorted(key_map.values()) == sorted(new_module.externals), "Renamed externals do not pair by name")
+    return key_map
+
+
+def renamed_binding(binding, old_module, new_module, group_id, renames):
+    """Witness-preserving rename: binding symbol keys follow the renamed externals."""
+    key_map = extern_map(old_module, new_module, renames)
     out = json.loads(json.dumps(binding))
     for holder in (out, out.get("data") or {}):
         if "symbols" in holder:
@@ -91,8 +106,8 @@ def main():
     stage = ROOT / "build/workers/relocation" / args.name
     old_module, _ = compile_object(old_source.decode("ascii"), recipe, stage / "old")
     new_module, result = compile_object(new_text, recipe, stage / "new")
-    old_offsets = {p["name"]: p["offset"] for p in old_module.publics}
-    new_by_offset = {p["offset"]: p["name"] for p in new_module.publics}
+    old_offsets = {p["name"]: (p["segment"], p["offset"]) for p in old_module.publics}
+    new_by_offset = {(p["segment"], p["offset"]): p["name"] for p in new_module.publics}
     public_map = {name: new_by_offset[offset] for name, offset in old_offsets.items()}
 
     binding = None
@@ -100,18 +115,28 @@ def main():
         raw = project_path(recipe["binding"]).read_bytes()
         require(sha(raw) == recipe["binding_sha256"], "Canonical binding changed without acceptance")
         binding = renamed_binding(json.loads(raw), old_module, new_module,
-                                  "group:" + args.name if group else None)
+                                  "group:" + args.name if group else None, args.rename)
 
     if group:
         from module_gate import compile_group
-        claims = [{"target_id": c["target_id"], "public": public_map[c["public"]]} for c in recipe["claims"]]
+        # Recorded code matches stay code matches; their unproven names follow the renamed externals.
+        matches = recipe.get("code_matches", [])
+        claims = [{"target_id": c["target_id"], "public": public_map[c["public"]]} for c in recipe["claims"] + matches]
         result, report = compile_group(new_text, recipe["profile"], recipe["flags"], claims, stage / "proof",
                                        binding=binding, group_id="group:" + args.name,
                                        language=recipe.get("language", "c"))
-        require(report["exact"], "Relocated group is not exact")
+        fresh = {c["target_id"]: c for c in report["claims"]}
+        require(all(fresh[c["target_id"]]["exact"] for c in recipe["claims"]), "Relocated group is not exact")
+        renamed = extern_map(old_module, new_module, args.rename)
+        require(all(fresh[c["target_id"]]["state"] == "CODE_MATCH" and
+                    sorted(fresh[c["target_id"]]["unproven"]) == sorted(renamed.get(u, u) for u in c["unproven"])
+                    for c in matches), "Relocated code match changed")
         new_recipe = dict(recipe, name=args.name, group_id="group:" + args.name, object_sha256=report["object_sha256"],
                           claims=[dict(c, public=public_map[c["public"]]) for c in recipe["claims"]],
                           drafts=report["drafts"])
+        if matches:
+            new_recipe["code_matches"] = [dict(c, public=public_map[c["public"]],
+                                               unproven=fresh[c["target_id"]]["unproven"]) for c in matches]
     else:
         from match import compile_and_check
         stage.mkdir(parents=True, exist_ok=True)
@@ -151,7 +176,10 @@ def main():
         if not still:
             retire.append(project_path(recipe["binding"]))
     retire = [p for p in retire if p not in files]
-    publish(ROOT, files, manifest_before, manifest, lambda: check_manifest(oracle, manifest), retire=retire)
+    # Renaming in place (same canonical name) replaces the component's own files.
+    replace = [p for p in files if p.exists()] if args.name == args.old_name else []
+    publish(ROOT, files, manifest_before, manifest, lambda: check_manifest(oracle, manifest), retire=retire,
+            replace=replace)
     print(f"Published {source_path.relative_to(ROOT)}; retired {[p.relative_to(ROOT).as_posix() for p in retire]}")
 
 

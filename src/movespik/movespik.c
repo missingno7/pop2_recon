@@ -91,21 +91,21 @@ static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
 extern TileState room_state[];
 extern TileState *current_room_state;
 
-extern Byte row_to_render_column(SByte row);
+extern Byte FirstInRow(SByte row);
 extern void add_mobile_sprite(int y);
-extern int immune_frame(Word frame);
-extern Byte get_tile(Byte room, SByte column, SByte row);
-extern int impale_override(void);
-extern SByte tile_to_actor_column(void);
-extern int actor_x_adjustment(void);
-extern void add_mobile(void);
-extern Mobile *get_mobile(Byte kind, int index);
-extern void impale_other_actor(void);
-extern void select_sequence(Word sequence);
-extern void play_sound(int sound);
-extern void set_actor_health(Byte amount);
-extern void advance_actor(void);
-extern void snap_actor_to_floor(void);
+extern int is_dead_pos(Word frame);
+extern Byte ReadCell(Byte room, SByte column, SByte row);
+extern int slide_rock_near_spikes(void);
+extern SByte GetCellCol(void);
+extern int get_sword_width(void);
+extern void add_mob(void);
+extern Mobile *get_mob_type_item(Byte kind, int index);
+extern void impale_skeleton(void);
+extern void JumpSeq(Word sequence);
+extern void AddSound(int sound);
+extern void decrement_life_points(Byte amount);
+extern void AnimChar(void);
+extern void reset_char_y(void);
 extern void set_room_state(Byte room);
 /* The sprite entry consumes kind, image and context in AX, DX and BX. */
 extern void _fastcall draw_spike_sprite(Byte kind, int image, int context, int x, Byte height);
@@ -131,7 +131,7 @@ void ATMSpikes(void)
         }
     }
     if (mob_slot != -1) {
-        render_cell.column = row_to_render_column(mob_row) + column;
+        render_cell.column = FirstInRow(mob_row) + column;
         add_mobile_sprite(mob_y);
         mob_kind = 5;
         mob_x -= 4;
@@ -152,12 +152,12 @@ void CheckImpale(void)
     SByte last_column;
 
     if (actor_sequence == 0x55 || actor_action == 4 || actor_action == 1
-        || immune_frame(actor_frame))
+        || is_dead_pos(actor_frame))
         return;
     column = actor_column - 1;
     if (column <= actor_column) {
         do {
-            if (get_tile(actor_room, column, actor_row) == 2 && GetSpikes() == 2) {
+            if (ReadCell(actor_room, column, actor_row) == 2 && GetSpikes() == 2) {
                 x = column_x[column] + 14;
                 if (actor_stance == 0)
                     x += 14;
@@ -167,7 +167,7 @@ void CheckImpale(void)
                         && actor_row * 63 + 26 <= actor_y
                         && (actor_frame < 0x79 || actor_frame > 0x84)
                         && actor_frame != 0x0f)
-                    || (level == 2 && impale_override())) {
+                    || (level == 2 && slide_rock_near_spikes())) {
                     DoImpale();
                     mob = GetSpikeMobRoomRow(actor_room, actor_row);
                     if (mob) {
@@ -189,13 +189,13 @@ void CheckSpikes(void)
     int x;
 
     if (actor_column >= 0 && actor_action != 4
-        && get_tile(actor_room, actor_column - 1, actor_row) == 2
+        && ReadCell(actor_room, actor_column - 1, actor_row) == 2
         && actor_row * 63 + 18 <= actor_y) {
-        x = column_x[tile_to_actor_column()] + 14;
+        x = column_x[GetCellCol()] + 14;
         x += actor_stance == 0 ? 16 : 2;
         if (actor_direction == 0) {
             x += side_offset;
-            x -= actor_x_adjustment();
+            x -= get_sword_width();
         }
         if (x >= actor_x)
             TriggerSpikes(tile_room, tile_column);
@@ -222,7 +222,7 @@ void CheckSpikesJammed(Byte room, int index)
             mob_slot = zero;
             mob_kind = 4;
             mob_spikes_state = state;
-            add_mobile();
+            add_mob();
         }
     }
 }
@@ -242,30 +242,30 @@ void DoImpale(void)
         state->signed_word = 0x8f;
     }
 
-    mob = get_mobile(4, 1);
+    mob = get_mob_type_item(4, 1);
     if (mob && mob->room == tile_room && mob->row == tile_row)
         mob->spikes.word = state->word;
 
-    snap_actor_to_floor();
+    reset_char_y();
     actor_alive = 0;
     if (actor_action == 0 || actor_action == 2) {
         actor_facing = 1;
-        actor_x = column_x[tile_to_actor_column()] + 27;
+        actor_x = column_x[GetCellCol()] + 27;
         if (actor_direction == 0) {
             sequence = actor_action == 0 ? 0x36 : 0xbd;
             actor_direction = -1;
         } else {
             sequence = actor_action == 0 ? 0x33 : 0xbc;
         }
-        select_sequence(sequence);
-        play_sound(77);
-        set_actor_health(100);
+        JumpSeq(sequence);
+        AddSound(77);
+        decrement_life_points(100);
     } else if (actor_action != 4) {
         return;
     } else {
-        impale_other_actor();
+        impale_skeleton();
     }
-    advance_actor();
+    AnimChar();
 }
 
 /* DrawObjSpikes */
@@ -312,7 +312,7 @@ Mobile *GetSpikeMobRoomRow(Byte room, SByte row)
     Mobile *mob;
 
     do {
-        mob = get_mobile(4, index++);
+        mob = get_mob_type_item(4, index++);
         if (!mob || (mob->room == room && mob->row == row))
             found = 1;
     } while (!found);
@@ -345,14 +345,14 @@ void MobSpikes(void)
     Word state;
     TileState *room;
 
-    get_tile(mob_room, mob_x / 32 - 1, mob_row);
+    ReadCell(mob_room, mob_x / 32 - 1, mob_row);
     state = tile_object;
     if (state != 0xf0) {
         if (state & 0x80) {
             --*(Byte *)&state; /* Decrement the low byte without changing the flags. */
             if (!(state & 0x7f)) {
                 state = 6;
-                play_sound(79);
+                AddSound(79);
             }
         } else {
             ++state;
@@ -397,8 +397,8 @@ void TriggerSpikes(Byte room, int index)
             next = spikes->word + 1;
             spikes->word = next;
             mob_spikes_state = next;
-            add_mobile();
-            play_sound(78);
+            add_mob();
+            AddSound(78);
         } else if (state != 0xf0) {
             next = (*(volatile Word *)&tile_state_word & 0x800) + 0x8f;
             spikes->word = next;

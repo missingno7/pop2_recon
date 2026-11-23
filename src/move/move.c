@@ -215,7 +215,7 @@ MoveRect *clip_char_rects[5] = {
 extern byte viewed_room, left_room, right_room, upper_room, lower_room;
 extern byte upper_right_room;
 extern byte room_tiles[][30];
-extern int tile_has_gate(byte tile);
+extern int IS_SIX_KIND(byte tile);
 extern sbyte CellToCol(byte room, int cell);
 extern sbyte CellToRow(byte room, int cell);
 extern MoveRect *ComputeOffsetCellRect(MoveRect *out, MoveRect *base, int col, int row);
@@ -302,7 +302,7 @@ void redraw_gate(void)
     else
         work.rect = gate_rect;
     work.cell = check_trob_above_right();
-    if (work.cell != 30 && work.cell >= 0 && !tile_has_gate(room_tiles[viewed_room][work.cell]))
+    if (work.cell != 30 && work.cell >= 0 && !IS_SIX_KIND(room_tiles[viewed_room][work.cell]))
         work.rect.edges[0] = 0;
     if (compute_trob_move_rect(&work.rect, &work.rect)) {
         mark_move(current_trob.cell, &work.rect);
@@ -458,12 +458,12 @@ extern unsigned actor_frame;
 extern sbyte actor_action, actor_floor_contact, actor_direction;
 extern int floor_override, actor_step, drew_pressed_tile;
 extern byte current_tile_flags;
-extern void check_floor_below(void);
-extern void check_climbing_floor(void);
+extern void on_ground(void);
+extern void FallOn(void);
 extern void check_special_floor(void);
-extern sbyte locate_actor_tile(void);
-extern sbyte locate_press_tile(void);
-extern void damage_press_tile(void);
+extern sbyte get_above(void);
+extern sbyte get_under_foot(void);
+extern void fall_spikes(void);
 void break_loose_floor(sbyte sound);
 void jam_plate(void);
 void push_plate(sbyte sound, int link);
@@ -478,14 +478,14 @@ void check_floor(void)
     frame = actor_frame;
     switch (actor_action) {
     default:
-        check_floor_below();
+        on_ground();
         return;
     case 2:
     case 6:
         break;
     case 3:
         if (frame >= 0x66 && frame < 0x6a) {
-            check_climbing_floor();
+            FallOn();
             return;
         }
         break;
@@ -493,7 +493,7 @@ void check_floor(void)
         goto update_fall;
     case 5:
         if (frame == 0x6d)
-            check_floor_below();
+            on_ground();
         break;
     }
     return;
@@ -518,18 +518,18 @@ void check_press(void)
     action = actor_action;
     frame = actor_frame;
     if ((frame >= 0x57 && frame <= 0x63) || (frame >= 0x87 && frame < 0x8d))
-        kind = locate_actor_tile();
+        kind = get_above();
     else if (action < 2 || action == 7 || action == 5 || action == 8) {
-        kind = locate_actor_tile();
+        kind = get_above();
         if (frame == 0x4f && kind == 11)
             break_loose_floor(0);
         else if (frame == 0x4f && kind == 15)
-            damage_press_tile();
+            fall_spikes();
         else
             if (!(current_tile_flags & 0x40))
                 kind = 0;
             else
-                kind = locate_press_tile();
+                kind = get_under_foot();
     } else
         kind = 0;
 
@@ -546,7 +546,7 @@ void check_press(void)
             return;
         }
         if (kind == 15)
-            damage_press_tile();
+            fall_spikes();
     }
 }
 
@@ -590,7 +590,7 @@ extern byte player_room;
 extern unsigned player_frame;
 extern sbyte player_column, player_row, player_action;
 extern int limit_gate_opening(int height);
-extern void play_move_sound(int sound), finish_exit_opening(int value);
+extern void AddSound(int sound), finish_exit_opening(int value);
 void stop_gate(int height);
 void check_gate_fingers(void);
 int did_player_escape_guard(void);
@@ -679,8 +679,8 @@ typedef struct {
 
 extern ActorSnapshot actor_snapshot, player_snapshot;
 extern sbyte actor_column, actor_row, actor_facing;
-extern void refresh_actor_floor(void), set_gate_reaction(int sequence);
-extern sbyte row_first_cell(sbyte row);
+extern void refresh_actor_floor(void), JumpSeq(int sequence);
+extern sbyte FirstInRow(sbyte row);
 
 void stop_gate(int height)
 {
@@ -689,10 +689,10 @@ void stop_gate(int height)
     current_trob.state = -1;
     add_gate_sound(level_type != 3 ? 6 : 8);
     refresh_actor_floor();
-    actor_cell = row_first_cell(actor_row - 1) + actor_column;
+    actor_cell = FirstInRow(actor_row - 1) + actor_column;
     if (current_trob.cell == actor_cell && actor_facing == -1
             && actor_action == 2 && height == 0) {
-        set_gate_reaction(47);
+        JumpSeq(47);
         player_snapshot = actor_snapshot;
     }
 }
@@ -700,12 +700,12 @@ void stop_gate(int height)
 void check_gate_fingers(void)
 {
     if (current_trob.room == player_room && (player_action == 2 || player_action == 6)) {
-        switch (current_trob.cell - (sbyte)(row_first_cell(player_row) + player_column)) {
+        switch (current_trob.cell - (sbyte)(FirstInRow(player_row) + player_column)) {
         case -10:
             goto sound;
         case -11:
         sound:
-            play_move_sound(31);
+            AddSound(31);
         }
     }
 }
@@ -766,19 +766,19 @@ void animate_exit(void)
         if (height < 0) {
             height = 0;
             current_trob.state = -1;
-            play_move_sound(9);
+            AddSound(9);
         } else if (current_trob.state == 4 && (exit_flags & 1) && !exit_sound_suppressed)
-            play_move_sound(7);
+            AddSound(7);
     } else if (current_trob.state >= 0) {
         ++height;
         if (height >= 42) {
             current_trob.state = -1;
             if (viewed_room != 4 || current_level != 13) {
                 finish_exit_opening(0);
-                play_move_sound(8);
+                AddSound(8);
             }
         } else if (viewed_room != 4 || current_level != 13)
-            play_move_sound(7);
+            AddSound(7);
     }
     room_object.state = (room_object.state & 0xff00U) + height;
     redraw_exit();
@@ -794,15 +794,15 @@ int IsExitOpen(void)
     return 0;
 }
 
-extern int temple_torch_frame(int frame), standard_torch_frame(int frame);
+extern int get_cave_torch_frame(int frame), choose_trapdoor_delay(int frame);
 
 int get_torch_frame(int frame)
 {
     int result;
     if (level_type == 3)
-        result = temple_torch_frame(frame);
+        result = get_cave_torch_frame(frame);
     else
-        result = standard_torch_frame(frame);
+        result = choose_trapdoor_delay(frame);
     return result;
 }
 
@@ -816,11 +816,11 @@ extern int half_marks[30];
 extern byte marked_room;
 extern sbyte marked_cell;
 
-extern int rect_empty(MoveRect far *rect);
-extern sbyte room_cell(sbyte column, sbyte row);
-extern void get_cell_rect(MoveRect far *out, int column, int row);
-extern int intersect_rect(MoveRect far *out, MoveRect far *a, MoveRect far *b);
-extern void union_rect(MoveRect far *out, MoveRect far *a, MoveRect far *b);
+extern int EMPTYRECT(MoveRect far *rect);
+extern sbyte index_cell(sbyte column, sbyte row);
+extern void ComputeClipRect(MoveRect far *out, int column, int row);
+extern int SECTRECT(MoveRect far *out, MoveRect far *a, MoveRect far *b);
+extern void UNIONRECT(MoveRect far *out, MoveRect far *a, MoveRect far *b);
 
 void mark_rect_buf(MarkedRect *mark, int cell, MoveRect *clip);
 void mark_guard_updates(MoveRect *clip, sbyte except);
@@ -830,12 +830,12 @@ void mark_top(int cell, MoveRect *clip)
     MoveRect rect;
 
     if (cell <= -1 && cell >= -10) {
-        get_cell_rect(&rect, -((cell + 1) % 10), -1);
-        if (!clip || intersect_rect(&rect, &rect, clip)) {
+        ComputeClipRect(&rect, -((cell + 1) % 10), -1);
+        if (!clip || SECTRECT(&rect, &rect, clip)) {
             ++cell;
             cell = -cell;
             if (top_marks[cell].dirty)
-                union_rect(&top_marks[cell].rect, &top_marks[cell].rect, &rect);
+                UNIONRECT(&top_marks[cell].rect, &top_marks[cell].rect, &rect);
             else {
                 top_marks[cell].dirty = 1;
                 top_marks[cell].rect = rect;
@@ -924,7 +924,7 @@ void mark_bufs_for_rect(CellMark mark, MoveRect *rect, sbyte except)
     } bounds;
     sbyte row, column;
 
-    if (!rect_empty(rect)) {
+    if (!EMPTYRECT(rect)) {
         if (rect->edges[0] >= 3)
             bounds.top = (rect->edges[0] - 3) / 63;
         else
@@ -937,7 +937,7 @@ void mark_bufs_for_rect(CellMark mark, MoveRect *rect, sbyte except)
         bounds.right = rect->edges[3] / 32;
         for (row = bounds.top; row <= bounds.bottom; ++row) {
             for (column = bounds.left; column <= bounds.right; ++column)
-                mark(room_cell(column, row), rect);
+                mark(index_cell(column, row), rect);
         }
         mark_guard_updates(rect, except);
     }
@@ -965,7 +965,7 @@ void mark_guard_updates(MoveRect *clip, sbyte except)
 
     for (i = 0; i < count; ++i) {
         if (guard_marks[i].id != except)
-            guard_marks[i].update |= intersect_rect(&hit, &guard_marks[i].rect, clip);
+            guard_marks[i].update |= SECTRECT(&hit, &guard_marks[i].rect, clip);
     }
 }
 
@@ -973,10 +973,10 @@ void mark_rect_buf(MarkedRect *mark, int cell, MoveRect *clip)
 {
     MoveRect rect;
 
-    get_cell_rect(&rect, cell % 10, cell / 10);
-    if (intersect_rect(&rect, &rect, clip)) {
+    ComputeClipRect(&rect, cell % 10, cell / 10);
+    if (SECTRECT(&rect, &rect, clip)) {
         if (mark->dirty)
-            union_rect(&mark->rect, &mark->rect, &rect);
+            UNIONRECT(&mark->rect, &mark->rect, &rect);
         else {
             mark->dirty = 1;
             mark->rect = rect;
@@ -1067,7 +1067,7 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
 extern byte exit_room, exit_unlocked, trigger_flags;
 extern const char exit_sound_name[];
 extern int has_sound_override(const char *name);
-extern void queue_move_sound(int sound);
+extern void AddSong(int sound);
 extern void trigger_desert_floor(byte room, sbyte cell, sbyte state);
 extern sbyte trigger_bridge_floor(byte room, sbyte cell);
 extern void trigger_style_floor(byte room, sbyte cell);
@@ -1086,7 +1086,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
         } else {
             state = 2 * ((byte)room_objects[cell].state < 1) - 1;
             if (state == 1 && !has_sound_override(exit_sound_name) && current_level != 13)
-                queue_move_sound(27);
+                AddSong(27);
         }
         break;
     case 25:
@@ -1156,14 +1156,14 @@ void ZeroBuffers(void)
     memset(TopBuf, 0, sizeof(TopBuf));
 }
 
-extern byte get_room_tile(byte room, sbyte column, sbyte row);
-extern int is_wall_tile(byte tile);
+extern byte ReadCell(byte room, sbyte column, sbyte row);
+extern int IsWall(byte tile);
 
 sbyte find_wall_column(byte room, sbyte column, sbyte row, sbyte step)
 {
     do {
         column += step;
-        if (is_wall_tile(get_room_tile(room, column, row)))
+        if (IsWall(ReadCell(room, column, row)))
             break;
     } while (column >= 0 && column <= 10);
     return column;
@@ -1254,7 +1254,7 @@ void push_plate(sbyte kind, int link)
         if (previous_timer < 2) {
             add_trob(marked_room, marked_cell, 1, kind);
             if (actor_frame != 185 && (marked_room != 4 || current_level != 13))
-                play_move_sound(3);
+                AddSound(3);
             redraw_plate();
             trigger_link(link, (byte)kind);
             drew_pressed_tile = 1;
@@ -1373,8 +1373,8 @@ void make_space(unsigned char room, signed char cell)
 extern sbyte ACTOR_COLUMN;
 extern sbyte pressed_source, pressed_row;
 extern byte stage_mode;
-extern void damage_crystal(void);
-extern void shake_style_row(byte room, sbyte row);
+extern void shake_trapdoor(void);
+extern void shake_bones(byte room, sbyte row);
 
 void shake_loose_floor(void);
 
@@ -1388,7 +1388,7 @@ void break_loose_floor(sbyte sound)
             state = (state & ~4U) | 11;
         room_objects[marked_cell].state = state;
         add_trob(marked_room, marked_cell, sound, 11);
-        play_move_sound(20);
+        AddSound(20);
     }
 }
 
@@ -1408,7 +1408,7 @@ void shake_loose_floor(void)
             objects[index].state = pressed_state | 0x40;
         }
         add_trob(marked_room, marked_cell, 1, 11);
-        play_move_sound(20);
+        AddSound(20);
     }
 }
 
@@ -1418,21 +1418,21 @@ void shake_row(byte room, sbyte row)
     sbyte column = 0;
 
     do {
-        switch (get_room_tile(room, column, row)) {
+        switch (ReadCell(room, column, row)) {
         case 11:
             shake_loose_floor();
             break;
         case 15:
-            damage_press_tile();
+            fall_spikes();
             break;
         case 26:
-            damage_crystal();
+            shake_trapdoor();
             break;
         }
     } while (++column < 10);
 
     if (stage_mode == 2)
-        shake_style_row(room, row);
+        shake_bones(room, row);
     current_mob = saved;
 }
 
@@ -1442,13 +1442,13 @@ void add_mob(void)
         mobs[mob_count++] = current_mob;
 }
 
-extern void animate_mob_kind_2(void);
-extern void animate_mob_kind_4(void);
+extern void move_dart_mob(void);
+extern void MobSpikes(void);
 extern void animate_mob_kind_6(void);
-extern void check_mob_kind_6(void);
-extern void animate_mob_kind_10(void);
-extern void animate_mob_kind_11(void);
-extern void animate_mob_kind_12(void);
+extern void check_slide_rock_crush(void);
+extern void move_trapdoor_record(void);
+extern void step_bridge_mob(void);
+extern void move_fireball(void);
 void animate_mob(void);
 void mob_loose(void);
 void check_loose_crush(void);
@@ -1539,23 +1539,23 @@ void animate_mob(void)
         check_loose_crush();
         break;
     case 2:
-        animate_mob_kind_2();
+        move_dart_mob();
         return;
     case 4:
-        animate_mob_kind_4();
+        MobSpikes();
         return;
     case 6:
         animate_mob_kind_6();
-        check_mob_kind_6();
+        check_slide_rock_crush();
         return;
     case 10:
-        animate_mob_kind_10();
+        move_trapdoor_record();
         return;
     case 11:
-        animate_mob_kind_11();
+        step_bridge_mob();
         return;
     case 12:
-        animate_mob_kind_12();
+        move_fireball();
         return;
     }
 }
@@ -1575,14 +1575,14 @@ void mob_loose(void)
                 return;
             }
         } else if ((current_mob.row + 1) * 63 <= current_mob.y) {
-            kind = get_room_tile(current_mob.room, current_mob.x / 32, current_mob.row);
+            kind = ReadCell(current_mob.room, current_mob.x / 32, current_mob.row);
             if (kind == 11)
                 knock_loose();
             else if (kind == 15)
-                damage_press_tile();
+                fall_spikes();
 
-            if (kind != 11 && kind != 15 && !tile_has_gate(kind)) {
-                play_move_sound(2);
+            if (kind != 11 && kind != 15 && !IS_SIX_KIND(kind)) {
+                AddSound(2);
                 shake_row(current_mob.room, current_mob.row);
                 current_mob.y = (current_mob.row + 1) * 63;
                 current_mob.speed = -2;
@@ -1607,7 +1607,7 @@ void make_rubble(void)
     } work;
 
     work.plate = 0;
-    work.kind = get_room_tile(current_mob.room, current_mob.x / 32, current_mob.row);
+    work.kind = ReadCell(current_mob.room, current_mob.x / 32, current_mob.row);
     work.room = marked_room;
     work.column = pressed_source;
     work.row = pressed_row;
@@ -1621,7 +1621,7 @@ void make_rubble(void)
         push_plate(work.plate, -1);
         if (work.kind == 34)
             room_records[work.room][work.cell].state = pressed_state | 0x1800;
-        get_room_tile(current_mob.room, current_mob.x / 32, current_mob.row);
+        ReadCell(current_mob.room, current_mob.x / 32, current_mob.row);
         *(byte *)&pressed_state = 0;
         if (work.kind == 5)
             *(byte *)&pressed_state |= 4;
@@ -1641,7 +1641,7 @@ void make_rubble(void)
         }
     case 19:
     case 32:
-        work.kind = get_room_tile(work.room, work.column, work.row);
+        work.kind = ReadCell(work.room, work.column, work.row);
         if (work.kind == 19 || work.kind == 32) {
             room_tiles[work.room][work.cell] = 32;
         } else {
@@ -1713,15 +1713,15 @@ void add_mob_obj(int y);
 int opp_under_mob(OpponentPosition *opp);
 int loose_hits_actor(void);
 
-extern void add_mob_kind_2(void);
-extern void add_mob_kind_4(void);
-extern void add_mob_kind_6(void);
-extern void add_mob_kind_10(void);
-extern void add_mob_kind_11(void);
+extern void move_dart_to_tile(void);
+extern void ATMSpikes(void);
+extern void move_slide_rock(void);
+extern void move_trapdoor(void);
+extern void redraw_cave_bars(void);
 extern void add_mob_kind_12(void);
 extern byte lower_left_room, upper_left_room;
 extern MoveRect empty_mob_rect;
-extern void offset_move_rect(MoveRect far *out, MoveRect far *base, int x, int y);
+extern void OFFSETRECT(MoveRect far *out, MoveRect far *base, int x, int y);
 extern sbyte room_row_at_y(int y);
 extern sbyte floor_row_for_draw(sbyte column, sbyte row);
 extern sbyte mob_floor_row;
@@ -1767,19 +1767,19 @@ void add_mob_to_frame(void)
         add_loose_to_frame();
         break;
     case 2:
-        add_mob_kind_2();
+        move_dart_to_tile();
         return;
     case 4:
-        add_mob_kind_4();
+        ATMSpikes();
         return;
     case 6:
-        add_mob_kind_6();
+        move_slide_rock();
         return;
     case 10:
-        add_mob_kind_10();
+        move_trapdoor();
         return;
     case 11:
-        add_mob_kind_11();
+        redraw_cave_bars();
         return;
     case 12:
         add_mob_kind_12();
@@ -1829,12 +1829,12 @@ void add_loose_to_frame(void)
         compute_mob_rect(&work.rect);
         add_mob_obj(y);
         ++work.column;
-        work.cell = room_cell(work.column, work.row);
+        work.cell = index_cell(work.column, work.row);
         if (upper_room != current_mob.room)
             mark_floor(work.cell, &work.rect);
         work.cell = room_row_at_y(y - height);
         if (work.cell != work.row)
-            mark_floor(room_cell(work.column, work.cell), &work.rect);
+            mark_floor(index_cell(work.column, work.cell), &work.rect);
     }
 }
 
@@ -1862,7 +1862,7 @@ void compute_mob_rect(MoveRect *rect)
         else
             y = 0;
         if (x || y)
-            offset_move_rect(rect, rect, x, y);
+            OFFSETRECT(rect, rect, x, y);
         else
             *rect = empty_mob_rect;
     }
@@ -1900,7 +1900,7 @@ typedef struct {
 
 extern int mob_draw_count;
 extern MobDraw mob_draw_list[];
-extern void order_mob_object(sbyte index);
+extern void set_object_cell(sbyte index);
 
 void add_mob_obj(int y)
 {
@@ -1917,18 +1917,18 @@ void add_mob_obj(int y)
     mob_draw_list[index].sequence = zero;
     mob_draw_list[index].scratch = zero;
     mob_draw_list[index].order = -1;
-    order_mob_object(index);
+    set_object_cell(index);
 }
 
 extern void load_player_actor(void);
-extern void hit_actor_with_loose(void);
-extern void load_guard_actor(sbyte index);
-extern void save_guard_actor(void);
+extern void crush_actor(void);
+extern void load_actor_slot(sbyte index);
+extern void save_actor_slot(void);
 extern OpponentPosition *guard_for_mob(int room, int index);
-extern void hit_unloaded_guard(OpponentPosition *opp, byte room);
+extern void CrushOppInfo(OpponentPosition *opp, byte room);
 extern int actor_y;
 extern sbyte near_crush_offset[], far_crush_offset[];
-extern int get_crush_reach(void);
+extern int get_edge_distance(void);
 
 void check_loose_crush(void)
 {
@@ -1937,7 +1937,7 @@ void check_loose_crush(void)
 
     load_player_actor();
     if (loose_hits_actor()) {
-        hit_actor_with_loose();
+        crush_actor();
         player_snapshot = actor_snapshot;
     }
 
@@ -1945,15 +1945,15 @@ void check_loose_crush(void)
     count = room_guard_counts[current_mob.room].guard_count;
     for (; index < count; ++index) {
         if ((player_room - current_mob.room) == 0) {
-            load_guard_actor(index);
+            load_actor_slot(index);
             if (loose_hits_actor()) {
-                hit_actor_with_loose();
-                save_guard_actor();
+                crush_actor();
+                save_actor_slot();
             }
         } else {
             OpponentPosition *guard = guard_for_mob(current_mob.room, index);
             if (opp_under_mob(guard))
-                hit_unloaded_guard(guard, current_mob.room);
+                CrushOppInfo(guard, current_mob.room);
         }
     }
 }
@@ -1976,7 +1976,7 @@ int loose_hits_actor(void)
         column = current_mob.x / 32;
         hit = column == actor_column;
         if (!hit && actor_id == 11) {
-            int reach = get_crush_reach();
+            int reach = get_edge_distance();
             int edge;
 
             edge = actor_column + far_crush_offset[actor_facing];
@@ -2007,15 +2007,15 @@ int opp_under_mob(OpponentPosition *opp)
     return result;
 }
 
-extern int sound_playing(int resource);
+extern int query_sound(int resource);
 
 void add_gate_sound(int sound)
 {
-    play_move_sound(sound);
+    AddSound(sound);
     if (sound == 9 && current_level == 5 && current_trob.room == 7
-            && !sound_playing(10065)) {
+            && !query_sound(10065)) {
         if (current_level != 5 || player_room != 7 || player_column >= 3)
-            queue_move_sound(65);
+            AddSong(65);
     }
 }
 

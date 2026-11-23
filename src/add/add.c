@@ -61,11 +61,11 @@ extern ShapeSet *background_shapes;
 extern Byte current_level;
 extern int background_image_limits[];
 extern void release_shape(unsigned int handle);
-extern int far *find_locked_shape(unsigned int handle);
+extern int far *MATERIALIZE_HANDLE(unsigned int handle);
 extern void load_set_shape(unsigned int resource, int image,
                            ShapeItem far *entry, int slot);
-extern void retain_shape(unsigned int handle);
-extern void remember_loaded_image(int id);
+extern void MARK_PURGEABLE(unsigned int handle);
+extern void PrinceFreeShp(int id);
 extern TileImages *tile_images;
 extern BFItem far back_table[];
 extern BFItem far front_table[];
@@ -87,7 +87,7 @@ static struct {
 };
 
 extern void check_background_shape(int index);
-extern int far *lock_shape(unsigned int handle);
+extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 extern void shape_rect(Rect far *bounds, int y, int x, int far *shape);
 extern int clip_rect(Rect far *result, Rect far *bounds, Rect far *clip);
 extern int confirm_quit(const char far *message);
@@ -109,7 +109,7 @@ int far _fastcall add_image_info(Byte set, int image, ImagePlacement *placement,
 
     if (set == 4) check_background_shape(image - 1);
 
-    shape = lock_shape(shape_sets[set][image].handle);
+    shape = RESOLVE_HANDLE_TO_FAR_PAYLOAD(shape_sets[set][image].handle);
     if (shape == 0 || *shape == 0) return 0;
 
     item->placement.y += image_y_offsets[y] - *shape;
@@ -186,15 +186,15 @@ int add_back_foreground_to_front(Byte tile, int image, Offset x, Offset y,
 
 extern void add_kid(void);
 extern void add_opponent(void);
-extern void add_auxiliary_character(void);
-extern void add_remaining_objects(void);
+extern void init_fchar_rect(void);
+extern void CheckMeters(void);
 
 void add_characters(void)
 {
     add_kid();
     add_opponent();
-    add_auxiliary_character();
-    add_remaining_objects();
+    init_fchar_rect();
+    CheckMeters();
 }
 
 typedef struct {
@@ -229,7 +229,7 @@ extern struct {
 } Char;
 
 extern void ConvertX(int x, int *destination);
-extern void update_char_object(Byte index);
+extern void set_object_cell(Byte index);
 
 void far _fastcall add_char_object(Byte kind)
 {
@@ -247,7 +247,7 @@ void far _fastcall add_char_object(Byte kind)
         object->flags = actor_flags;
         object->clip = actor_clip;
         object->depth = actor_depth;
-        update_char_object((Byte)index);
+        set_object_cell((Byte)index);
         object->object_id = actor_id;
         object->object_type = Char.type;
     }
@@ -345,7 +345,7 @@ typedef struct {
 } PeelEntry;
 extern PeelEntry peel_entries[];
 extern int peel_count;
-extern void free_peel(unsigned int handle);
+extern void free_record_pair(unsigned int handle);
 
 /* Packed bytes within the first payload word of the peel record. */
 #define PEEL_CHARACTER(entry) (((Offset *)&(entry).x)[0])
@@ -357,14 +357,14 @@ typedef struct {
     int retain;
 } PeelDetails;
 
-extern int rectangle_is_empty(Rect far *rect);
-extern unsigned int save_peel_rectangle(Rect far *rect);
+extern int EMPTYRECT(Rect far *rect);
+extern unsigned int ALLOCATE_CLIPPED_PORT(Rect far *rect);
 extern int find_character_peel(Offset actor, int occurrence);
-extern void select_actor(Offset actor);
-extern int suppress_actor_callback(void);
+extern void load_actor_slot(Offset actor);
+extern int is_char_non_viewable(void);
 extern Byte actor_state;
 extern void far actor_redraw_callback(void);
-extern void schedule_actor_redraw(void (far *callback)(void), unsigned int handle, Offset actor);
+extern void mark_bufs_for_rect(void (far *callback)(void), unsigned int handle, Offset actor);
 extern void mark_peel_handle(unsigned int handle);
 extern void retain_peel(unsigned int handle);
 extern void restore_saved_pixels(unsigned int handle);
@@ -378,9 +378,9 @@ void far _fastcall add_peel(int y, int bottom, int x, int width, Offset actor, O
     rect.left = y; rect.right = bottom;
     rect.top = x;
     rect.bottom = x + width;
-    if (rectangle_is_empty(&rect)) return;
+    if (EMPTYRECT(&rect)) return;
 
-    peel_entries[*(volatile int *)&peel_count].handle = save_peel_rectangle(&rect);
+    peel_entries[*(volatile int *)&peel_count].handle = ALLOCATE_CLIPPED_PORT(&rect);
     PEEL_CHARACTER(peel_entries[*(volatile int *)&peel_count]) = actor;
     PEEL_MODE(peel_entries[*(volatile int *)&peel_count]) = mode;
     if (mode != 2 && mode != 3) peel_entries[*(volatile int *)&peel_count].y = 0;
@@ -407,12 +407,12 @@ void mark_peel_front_buffers(void)
             continue;
         redraw = 1;
         if (details->character >= 0 && details->character < 5) {
-            select_actor(details->character);
-            if (actor_state == 9 || suppress_actor_callback())
+            load_actor_slot(details->character);
+            if (actor_state == 9 || is_char_non_viewable())
                 redraw = 0;
         }
         if (redraw)
-            schedule_actor_redraw(actor_redraw_callback,
+            mark_bufs_for_rect(actor_redraw_callback,
                                   ((unsigned int *)details)[-1] + 16,
                                   details->character);
     }
@@ -482,7 +482,7 @@ void clear_peels(void)
     if (count > 0) {
         entry = peel_entries + count;
         do {
-            free_peel((--entry)->handle);
+            free_record_pair((--entry)->handle);
         } while (--count > 0);
     }
     peel_count = 0;
@@ -526,36 +526,36 @@ extern int opponent_previous_y;
 extern Rect opponent_clip;
 extern unsigned int object_position_handle;
 
-extern void select_kid(void);
+extern void copy_kid_to_char(void);
 extern void check_actor_room(void);
-extern void set_actor_position(void);
+extern void get_frame_info(void);
 extern void update_actor_frame(void);
 extern int far _fastcall equipment_shape(unsigned int frame);
 extern void adjust_actor_x(int delta);
-extern int actor_world_x(int delta);
-extern void update_actor_clip(void);
-extern void prepare_actor_display(void);
-extern void clip_actor_left(void);
-extern void clip_actor_right(void);
-extern void adjust_kid_clip(void);
-extern void adjust_actor_for_room(void);
-extern void adjust_actor_clip_for_tiles(void);
-extern void save_opponent_display_state(void);
-extern void save_actor_object_state(void);
-extern void restore_actor_object_state(void);
+extern int AddCharX(int delta);
+extern void MakeFCharClipRect(void);
+extern void reread_cells(void);
+extern void uneven_floor(void);
+extern void IndexChar(void);
+extern void quick_foreground(void);
+extern void get_char_edges(void);
+extern void quick_floor(void);
+extern void save_actor_slot(void);
+extern void SaveFChar(void);
+extern void RestoreFChar(void);
 
 extern void draw_temple_guard(void);
-extern void draw_temple_kid(void);
+extern void setup_splash(void);
 extern void adjust_ruins_sword(void);
 extern void draw_rooftop_opponent(void);
-extern void draw_drink_effect(void);
-extern void draw_jump_effect(void);
-extern void draw_temple_effect(void);
-extern void draw_room_effect(void);
-extern void draw_special_actor(void);
-extern void draw_opponent_effect(void);
-extern void draw_shadow_effect(void);
-extern void draw_special_opponent(void);
+extern void setup_carpet(void);
+extern void setup_flame(void);
+extern void setup_sand(void);
+extern void SetupShadowFlame(void);
+extern void auto_forward(void);
+extern void setup_jinnee_smoke(void);
+extern void setup_flame_sword(void);
+extern void float_flame_sword(void);
 
 extern void setup_char(void);
 extern void setup_comix(void);
@@ -567,7 +567,7 @@ extern int far _fastcall setup_opponent(Offset opponent);
 
 void add_kid(void)
 {
-    select_kid();
+    copy_kid_to_char();
     if (actor_room != 0 && actor_room == special_scene) {
         setup_kid();
         if (actor_state == 99 || actor_screen_offset == 8) {
@@ -579,22 +579,22 @@ void add_kid(void)
         }
 
         if (current_level == 5)
-            draw_temple_kid();
+            setup_splash();
         else if (current_level == 1)
-            draw_temple_effect();
+            setup_sand();
         else if (drawing_environment == 5 && actor_room == 3 && actor_id == 295)
-            draw_drink_effect();
+            setup_carpet();
         else if ((unsigned int)actor_id >= 306 && (unsigned int)actor_id <= 318)
-            draw_jump_effect();
+            setup_flame();
         else if ((unsigned int)actor_id >= 272 && (unsigned int)actor_id <= 281)
             setup_fireball();
 
         if (actor_character == 1 && current_level == 6)
-            draw_room_effect();
+            SetupShadowFlame();
         setup_sword(3);
         setup_flask();
     } else if (current_level == 5) {
-        draw_temple_kid();
+        setup_splash();
     }
 }
 
@@ -605,7 +605,7 @@ void add_opponent(void)
     if ((Offset)Level.rooms[special_scene].count <= 0)
         return;
     do {
-        select_actor(opponent);
+        load_actor_slot(opponent);
         if (actor_room == special_scene) {
             if (!setup_opponent(opponent))
                 continue;
@@ -619,16 +619,16 @@ void add_opponent(void)
             if (actor_character != 10 && actor_character != 1)
                 setup_sword(9);
             if (actor_character == 12)
-                draw_opponent_effect();
+                setup_jinnee_smoke();
             else if (actor_character == 1)
-                draw_room_effect();
+                SetupShadowFlame();
             else if (current_level == 5)
                 goto temple_kid;
             else if (current_level == 6)
                 draw_temple_guard();
         } else if (current_level == 5) {
 temple_kid:
-            draw_temple_kid();
+            setup_splash();
         }
     } while ((Offset)Level.rooms[special_scene].count > ++opponent);
 }
@@ -638,8 +638,8 @@ void setup_char(void)
     int equipment;
     extern int actor_depth_source;
 
-    add_auxiliary_character();
-    set_actor_position();
+    init_fchar_rect();
+    get_frame_info();
     equipment = equipment_shape(actor_equipment);
     if (actor_id == 0 || (actor_shape_index == -1 && equipment == -1))
         return;
@@ -655,13 +655,13 @@ void setup_char(void)
     }
 
     if ((actor_character == 7 || actor_character == 8) && actor_screen_offset == 1) {
-        draw_special_actor();
+        auto_forward();
         return;
     }
     actor_y = actor_frame_delta.y + actor_position_y;
-    actor_x = actor_world_x(actor_frame_delta.x) - 130;
+    actor_x = AddCharX(actor_frame_delta.x) - 130;
     if (actor_character == 10) {
-        draw_shadow_effect();
+        setup_flame_sword();
         return;
     }
     if (actor_character == 4 && (unsigned int)actor_id >= 206 && (unsigned int)actor_id <= 209) {
@@ -677,7 +677,7 @@ void setup_comix(void)
 {
     unsigned int frame = actor_id;
 
-    save_actor_object_state();
+    SaveFChar();
     actor_object_type = -1;
     actor_set = 2;
     actor_image = 218;
@@ -726,10 +726,10 @@ raised:
 default_x:
     adjust_actor_x(10);
 render:
-    update_actor_clip();
+    MakeFCharClipRect();
     add_char_object(5);
-    schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, -1);
-    restore_actor_object_state();
+    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, -1);
+    RestoreFChar();
 }
 
 typedef struct {
@@ -740,31 +740,31 @@ typedef struct {
 
 void setup_fireball(void)
 {
-    save_actor_object_state();
+    SaveFChar();
     if (actor_equipment) {
         unsigned int frame = actor_equipment;
-        EquipmentPlacement far *entries = (EquipmentPlacement far *)lock_shape(object_position_handle);
+        EquipmentPlacement far *entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
         actor_image = entries[frame].image;
         adjust_actor_x(entries[frame].x);
         actor_y += entries[frame].y;
-        update_actor_clip();
+        MakeFCharClipRect();
         add_char_object(3);
-        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, -1);
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, -1);
     }
-    restore_actor_object_state();
+    RestoreFChar();
 }
 
 void setup_kid(void)
 {
     if (actor_id == 0)
         return;
-    prepare_actor_display();
+    reread_cells();
     setup_char();
-    clip_actor_left();
-    adjust_actor_for_room();
-    clip_actor_right();
-    adjust_kid_clip();
-    adjust_actor_clip_for_tiles();
+    uneven_floor();
+    get_char_edges();
+    IndexChar();
+    quick_foreground();
+    quick_floor();
     check_actor_room();
     add_char_object(actor_character);
 }
@@ -774,7 +774,7 @@ void far _fastcall setup_sword(Byte kind)
     unsigned int frame;
     EquipmentPlacement far *entries;
 
-    if (suppress_actor_callback() || actor_equipment == 0)
+    if (is_char_non_viewable() || actor_equipment == 0)
         return;
     if (actor_equipment > 144 &&
         !(actor_equipment >= 200 && actor_equipment < 251) &&
@@ -787,19 +787,19 @@ void far _fastcall setup_sword(Byte kind)
         return;
 
     frame = actor_equipment;
-    entries = (EquipmentPlacement far *)lock_shape(object_position_handle);
+    entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
     actor_image = entries[frame].image;
     if (actor_image == -1)
         return;
     adjust_actor_x(entries[frame].x);
     actor_y += entries[frame].y;
     actor_set = 0;
-    update_actor_clip();
+    MakeFCharClipRect();
     if (current_level == 5)
         adjust_ruins_sword();
     add_char_object(kind);
     if (actor_state != 9)
-        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
 }
 
 void setup_flask(void)
@@ -810,16 +810,16 @@ void setup_flask(void)
     if (actor_equipment < 145 || actor_equipment > 168)
         return;
     frame = actor_equipment;
-    entries = (EquipmentPlacement far *)lock_shape(object_position_handle);
+    entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
     if (entries[frame].image == -1)
         return;
     actor_image = entries[frame].image;
     adjust_actor_x(entries[frame].x);
     actor_y += entries[frame].y;
     actor_set = 1;
-    update_actor_clip();
+    MakeFCharClipRect();
     add_char_object(3);
-    schedule_actor_redraw(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
+    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.type);
 }
 
 void check_background_shape(int index)
@@ -830,7 +830,7 @@ void check_background_shape(int index)
     if (index < 0)
         return;
     if ((handle = background_shapes->images[index].handle) &&
-        find_locked_shape(background_shapes->images[index].handle))
+        MATERIALIZE_HANDLE(background_shapes->images[index].handle))
         return;
     if ((handle = background_shapes->images[index].handle) != 0) {
         release_shape(background_shapes->images[index].handle);
@@ -841,22 +841,22 @@ void check_background_shape(int index)
         image += 200;
     load_set_shape(background_shapes->resource, image,
                    &background_shapes->images[index], 1);
-    retain_shape(background_shapes->images[index].handle);
-    remember_loaded_image(image + 3500);
+    MARK_PURGEABLE(background_shapes->images[index].handle);
+    PrinceFreeShp(image + 3500);
 }
 
-extern unsigned int find_named_shape(unsigned long resource, int image);
+extern unsigned int HGETRSRC(unsigned long resource, int image);
 extern Offset opponent_outfit_by_character[];
 extern Offset opponent_outfit;
 extern int *opponent_extra_image_limits[];
-extern ShapeItem far *read_shape_item(ShapeSet *set, int image, ImageSize far *size);
-extern int far *read_shape_size(ShapeSet *set, int image, ImageSize far *size);
+extern ShapeItem far *get_list_item(ShapeSet *set, int image, ImageSize far *size);
+extern int far *PrinceGetnShapeItemSize(ShapeSet *set, int image, ImageSize far *size);
 
 void check_kid_shape(int index)
 {
     int image;
 
-    if (index < 0 || find_locked_shape(kid_shapes->images[index].handle))
+    if (index < 0 || MATERIALIZE_HANDLE(kid_shapes->images[index].handle))
         return;
     image = kid_shapes->first_image + index + 1;
     if (index >= 222)
@@ -864,8 +864,8 @@ void check_kid_shape(int index)
     if ((index >= 131 && index <= 132) || (index >= 216 && index <= 218))
         load_set_shape(kid_shapes->resource, image, &kid_shapes->images[index], 1);
     else
-        kid_shapes->images[index].handle = find_named_shape(0x53484150UL, image);
-    retain_shape(kid_shapes->images[index].handle);
+        kid_shapes->images[index].handle = HGETRSRC(0x53484150UL, image);
+    MARK_PURGEABLE(kid_shapes->images[index].handle);
 }
 
 void check_opponent_shape(int index)
@@ -875,7 +875,7 @@ void check_opponent_shape(int index)
 
     if (index < 0)
         return;
-    if (!opponent_shapes->images[index].handle || find_locked_shape(opponent_shapes->images[index].handle))
+    if (!opponent_shapes->images[index].handle || MATERIALIZE_HANDLE(opponent_shapes->images[index].handle))
         return;
     image = index + 1;
     outfit = (actor_character == 10 || actor_character == 12)
@@ -884,8 +884,8 @@ void check_opponent_shape(int index)
         *opponent_extra_image_limits[outfit] <= index)
         image += 100;
     load_set_shape(opponent_shapes->resource, image, &opponent_shapes->images[index], 2);
-    retain_shape(opponent_shapes->images[index].handle);
-    remember_loaded_image(image + 750);
+    MARK_PURGEABLE(opponent_shapes->images[index].handle);
+    PrinceFreeShp(image + 750);
 }
 
 int far *get_set_image_size(ShapeSet *set, int index, ImageSize far *size)
@@ -897,7 +897,7 @@ int far *get_set_image_size(ShapeSet *set, int index, ImageSize far *size)
     else if (set == background_shapes)
         check_background_shape(index);
 
-    size = (ImageSize far *)read_shape_size(set, index + 1, size);
+    size = (ImageSize far *)PrinceGetnShapeItemSize(set, index + 1, size);
     return (int far *)size;
 }
 
@@ -910,7 +910,7 @@ ShapeItem far *get_set_shape_item(ShapeSet *set, int image, ImageSize far *size)
     else if (set == background_shapes)
         check_background_shape(image - 1);
 
-    size = (ImageSize far *)read_shape_item(set, image, size);
+    size = (ImageSize far *)get_list_item(set, image, size);
     return (ShapeItem far *)size;
 }
 
@@ -919,12 +919,12 @@ int far _fastcall setup_opponent(Offset opponent)
     Byte kind;
     int added;
 
-    prepare_actor_display();
+    reread_cells();
     setup_char();
-    clip_actor_left();
-    adjust_actor_for_room();
-    clip_actor_right();
-    adjust_actor_clip_for_tiles();
+    uneven_floor();
+    get_char_edges();
+    IndexChar();
+    quick_floor();
     check_actor_room();
 
     if (!opponent_clip_changed && opponent_previous_frame == actor_id &&
@@ -939,17 +939,17 @@ int far _fastcall setup_opponent(Offset opponent)
         actor_character == 6 || actor_character == 1) {
         kind = actor_character;
         if (kind == 10)
-            draw_special_opponent();
+            float_flame_sword();
     } else {
         kind = 2;
     }
-    if (actor_state != 9 && !suppress_actor_callback())
-        schedule_actor_redraw(actor_redraw_callback, (unsigned int)&opponent_clip, Char.type);
+    if (actor_state != 9 && !is_char_non_viewable())
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&opponent_clip, Char.type);
     add_char_object(kind);
     opponent_previous_x = actor_position_x;
     opponent_previous_y = actor_position_y;
     opponent_previous_mode = peel_restore_mode;
-    save_opponent_display_state();
+    save_actor_slot();
     added = 1;
 done:
     return added;

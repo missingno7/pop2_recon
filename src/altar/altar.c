@@ -71,28 +71,28 @@ extern Handle *shape_source;                  /* DS:6242 */
 extern Handle flame_steps_handle;             /* DS:6268 */
 extern int flame_step, actor_y;                /* DS:5e12,6256 */
 
-extern void save_state(void), load_other(void), load_state(signed char), remove_character(void);
-extern void update_char(void), position_char(int, int), start_sound(int), play_sound(int);
-extern void set_sequence(int), walk_distance(int), set_action(int), finish_scene(void);
-extern int advance_animation(void);
-extern void process_animation(void);
-extern int column_x(int), row_offset(signed char), transform_column(int);
-extern void move_char(Byte), set_char_state(Byte);
-extern int palette_loaded(int);
+extern void save_actor_slot(void), copy_kid_to_char(void), load_actor_slot(signed char), remove_char(void);
+extern void clear_life_bar(void), position_char(int, int), AddSong(int), AddSound(int);
+extern void JumpSeq(int), step_forward(int), run_jump(int), FallOn(void);
+extern int IsCharSwingingFwd(void);
+extern void climb_up(void);
+extern int AddCharX(int), FirstInRow(signed char), transform_column(int);
+extern void decrement_life_points(Byte), set_char_state(Byte);
+extern int query_sound(int);
 extern Spawn *get_spawn(unsigned int, int);
-extern void calculate_y(void), align_char(void), advance_char(void);
+extern void reset_char_y(void), ClearCharVel(void), AnimChar(void);
 extern void set_resource(int, int, Byte, Byte);
 extern void far _fastcall draw_tile_image(Byte, Byte);
 typedef void far pascal DrawCallback(void);
 extern DrawCallback draw_under_actor;
-extern void redraw_cells(DrawCallback *, Rect *, signed char);
+extern void mark_bufs_for_rect(DrawCallback *, Rect *, signed char);
 extern Handle allocate_handle(long);
-extern void far *locate_handle(Handle);
+extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
 extern void free_handle(Handle);
 extern void create_shape(Handle, int, ShapeRef far *, int);
 extern void free_resource_shape(int);
-extern void shape_rect(Rect far *, int, int, void far *);
-extern void enter_char_context(void), leave_char_context(void);
+extern void MAKESHAPERECT(Rect far *, int, int, void far *);
+extern void SaveFChar(void), RestoreFChar(void);
 
 void altar_kid_rises_from_death(void);
 void create_shadowman(void);
@@ -100,19 +100,19 @@ void create_shadowman(void);
 void altar_kid_rises_from_death(void)
 {
     signed char id = current_char.id;
-    save_state();
-    load_other();
-    set_sequence(231);
+    save_actor_slot();
+    copy_kid_to_char();
+    JumpSeq(231);
     current_char.control = -1;
     char_image = current_char.previous_image;
-    update_char();
+    clear_life_bar();
     position_char(char_image, current_char.previous_image);
     current_char.program = 13;
     current_char.alive = 0;
     opponent = current_char;
-    load_state(id);
-    remove_character();
-    start_sound(60);
+    load_actor_slot(id);
+    remove_char();
+    AddSong(60);
 }
 
 void altar_shadow_progress(void)
@@ -127,20 +127,20 @@ void altar_shadow_progress(void)
                 else if (current_char.col >= 8)
                     sequence = 1;
                 else {
-                    walk_distance(0);
+                    step_forward(0);
                     if (current_char.sequence == 44)
                         sequence = 3;
                 }
             } else if (current_char.program == 13 || current_char.sequence == 232) {
                 sequence = 5;
-                start_sound(59);
+                AddSong(59);
             } else {
                 sequence = 232;
             }
         } else if (current_char.program != 13) {
             sequence = 5;
         } else if (current_char.col < 6) {
-            walk_distance(0);
+            step_forward(0);
             if (current_char.sequence == 44)
                 sequence = 3;
         } else {
@@ -148,7 +148,7 @@ void altar_shadow_progress(void)
             if (opponent.direction == current_char.direction)
                 distance += 6;
             if (distance)
-                walk_distance(distance);
+                step_forward(distance);
             else if (opponent.direction != current_char.direction)
                 sequence = 5;
             else {
@@ -159,12 +159,12 @@ turn:
     } else if (((current_char.frame >= 1 && current_char.frame <= 14) ||
                 (current_char.frame >= 49 && current_char.frame <= 56)) &&
                current_char.col >= 6) {
-        set_action(4);
+        run_jump(4);
     } else if (current_char.frame >= 103 && current_char.frame <= 106) {
         scene_flag = 255;
-        finish_scene();
-    } else if (current_char.frame == 91 && !advance_animation()) {
-        process_animation();
+        FallOn();
+    } else if (current_char.frame == 91 && !IsCharSwingingFwd()) {
+        climb_up();
         if (current_char.program == 13)
             current_char.y -= 2;
     } else if (current_char.frame == 154) {
@@ -175,25 +175,25 @@ turn:
         altar_kid_rises_from_death();
     } else if (current_char.frame == 44) {
         sequence = 13;
-        current_char.x = column_x(-8);
+        current_char.x = AddCharX(-8);
     }
     if (sequence != -1)
-        set_sequence(sequence);
+        JumpSeq(sequence);
 }
 
 void altar_watch_kid(void)
 {
-    load_other();
+    copy_kid_to_char();
     if (current_char.row == 1 && current_char.sequence != 230) {
         if (current_char.x <= 218) {
-            set_sequence(230);
+            JumpSeq(230);
             current_char.x = 210;
-            move_char(100);
-            play_sound(57);
+            decrement_life_points(100);
+            AddSound(57);
             set_char_state(16);
             candle_sound = 133;
-        } else if (current_char.x <= 236 && !palette_loaded(10061)) {
-            start_sound(61);
+        } else if (current_char.x <= 236 && !query_sound(10061)) {
+            AddSong(61);
         } else if (current_char.frame == 185 && current_char.row == 1 &&
                    current_char.program != 12 && spawn_flag == 1) {
             create_shadowman();
@@ -213,7 +213,7 @@ void create_shadowman(void)
         room = current_char.room;
         id = room_guard_counts[room * (int)sizeof(Room)]++;
         entry = get_spawn(room, id);
-        entry->position = row_offset(current_char.row) + current_char.col;
+        entry->position = FirstInRow(current_char.row) + current_char.col;
         entry->x = current_char.x;
         entry->direction = current_char.direction;
         clear = 0;
@@ -229,16 +229,16 @@ void create_shadowman(void)
         char_image = char_action = 1;
         current_char.control = -1;
         current_char.state = 8;
-        calculate_y();
+        reset_char_y();
         --current_char.y;
-        align_char();
+        ClearCharVel();
         current_char.program = 0;
         current_char.unk_23 = current_char.alive = 0;
-        set_sequence(231);
-        advance_char();
-        start_sound(63);
-        save_state();
-        load_other();
+        JumpSeq(231);
+        AnimChar();
+        AddSong(63);
+        save_actor_slot();
+        copy_kid_to_char();
     }
 }
 
@@ -280,7 +280,7 @@ void animate_sacred_flame(void)
                 phase = 0;
             image = phase + 11;
         }
-        redraw_cells(draw_under_actor, &room_data->pieces[image].rect, -1);
+        mark_bufs_for_rect(draw_under_actor, &room_data->pieces[image].rect, -1);
         tile_modifier = phase;
     } else {
         tile_animation = -1;
@@ -317,7 +317,7 @@ void load_altar_room(void)
     ShapeRef ref;
 
     handle = allocate_handle(sizeof(Shape));
-    source = locate_handle(*shape_source); copy = locate_handle(handle);
+    source = RESOLVE_HANDLE_TO_FAR_PAYLOAD(*shape_source); copy = RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
     *copy = *source;
     copy->flags = 0x4000;
     copy->size = room_data->palette;
@@ -342,20 +342,20 @@ void setup_flame(void)
     Byte image;
     RoomPiece *piece;
     if (current_char.room == 4 && altar_tile == 13) {
-        enter_char_context();
+        SaveFChar();
         saved = current_clip;
-        steps = locate_handle(flame_steps_handle);
+        steps = RESOLVE_HANDLE_TO_FAR_PAYLOAD(flame_steps_handle);
         image = steps[flame_step].frame + 23;
         piece = &room_data->pieces[image];
         piece->y = transform_column(steps[flame_step].col);
         piece->x = steps[flame_step].dy + actor_y;
-        shape_rect(&piece->rect, piece->x, piece->y, locate_handle(piece->shape));
+        MAKESHAPERECT(&piece->rect, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->shape));
         current_clip = piece->rect;
         piece->pass = 0;
         draw_tile_image(image, 0);
         piece->pass = 11;
         current_clip = saved;
-        leave_char_context();
+        RestoreFChar();
     }
 }
 

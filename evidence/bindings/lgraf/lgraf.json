@@ -9,20 +9,20 @@
       "DRAW_RECORD_BOUNDS",
       "INVERTBITMAP",
       "GRAPHICS_PORT",
-      "_malloc",
-      "_free",
+      "__nmalloc",
+      "__nfree",
       "_memcpy",
       "_memcmp",
-      "INITIALIZE_RECORD",
-      "REPORT_ERROR",
-      "ALLOCATE_COLORS",
-      "READ_COLORS",
-      "INSTALL_COLORS",
-      "RELEASE_FAR_BLOCK",
-      "DISPOSE_RECORD",
-      "DISPOSE_RECORD_PAIR",
-      "UNION_RECT",
-      "DRAW_RECORD",
+      "CREATE_PORT",
+      "ABORT_WITH_MESSAGE",
+      "ALLOCATE_PINNED_PAYLOAD",
+      "READ_DAC_BLOCK",
+      "WRITE_DAC_BLOCK",
+      "CLEAR_PAYLOAD_HEADER",
+      "RELEASE_PORT",
+      "RELEASE_BUFFER",
+      "UNIONRECT",
+      "MEASURE_TEXT",
       "FLIP_ROWS",
       "ALLOCBACKPORT"
     ],
@@ -208,7 +208,7 @@
           "index": 22,
           "kind": "external",
           "method": 6,
-          "name": "DRAW_RECORD",
+          "name": "MEASURE_TEXT",
           "zero_displacement": true
         }
       },
@@ -222,7 +222,7 @@
         "index": 22,
         "kind": "external",
         "method": 6,
-        "name": "DRAW_RECORD",
+        "name": "MEASURE_TEXT",
         "zero_displacement": true
       }
     },
@@ -316,7 +316,7 @@
           "index": 21,
           "kind": "external",
           "method": 6,
-          "name": "UNION_RECT",
+          "name": "UNIONRECT",
           "zero_displacement": true
         }
       },
@@ -330,7 +330,7 @@
         "index": 21,
         "kind": "external",
         "method": 6,
-        "name": "UNION_RECT",
+        "name": "UNIONRECT",
         "zero_displacement": true
       }
     },
@@ -343,7 +343,7 @@
           "index": 10,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -357,7 +357,7 @@
         "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -370,7 +370,7 @@
           "index": 20,
           "kind": "external",
           "method": 6,
-          "name": "DISPOSE_RECORD_PAIR",
+          "name": "RELEASE_BUFFER",
           "zero_displacement": true
         }
       },
@@ -384,7 +384,7 @@
         "index": 20,
         "kind": "external",
         "method": 6,
-        "name": "DISPOSE_RECORD_PAIR",
+        "name": "RELEASE_BUFFER",
         "zero_displacement": true
       }
     },
@@ -397,7 +397,7 @@
           "index": 10,
           "kind": "external",
           "method": 6,
-          "name": "_free",
+          "name": "__nfree",
           "zero_displacement": true
         }
       },
@@ -411,7 +411,7 @@
         "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "_free",
+        "name": "__nfree",
         "zero_displacement": true
       }
     },
@@ -424,7 +424,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "DISPOSE_RECORD",
+          "name": "RELEASE_PORT",
           "zero_displacement": true
         }
       },
@@ -438,7 +438,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "DISPOSE_RECORD",
+        "name": "RELEASE_PORT",
         "zero_displacement": true
       }
     },
@@ -451,7 +451,7 @@
           "index": 18,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_FAR_BLOCK",
+          "name": "CLEAR_PAYLOAD_HEADER",
           "zero_displacement": true
         }
       },
@@ -465,7 +465,7 @@
         "index": 18,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_FAR_BLOCK",
+        "name": "CLEAR_PAYLOAD_HEADER",
         "zero_displacement": true
       }
     },
@@ -478,7 +478,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "INSTALL_COLORS",
+          "name": "WRITE_DAC_BLOCK",
           "zero_displacement": true
         }
       },
@@ -492,7 +492,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "INSTALL_COLORS",
+        "name": "WRITE_DAC_BLOCK",
         "zero_displacement": true
       }
     },
@@ -532,7 +532,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "READ_COLORS",
+          "name": "READ_DAC_BLOCK",
           "zero_displacement": true
         }
       },
@@ -546,7 +546,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "READ_COLORS",
+        "name": "READ_DAC_BLOCK",
         "zero_displacement": true
       }
     },
@@ -559,7 +559,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "ALLOCATE_COLORS",
+          "name": "ALLOCATE_PINNED_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -573,7 +573,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_COLORS",
+        "name": "ALLOCATE_PINNED_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -586,7 +586,7 @@
           "index": 14,
           "kind": "external",
           "method": 6,
-          "name": "REPORT_ERROR",
+          "name": "ABORT_WITH_MESSAGE",
           "zero_displacement": true
         }
       },
@@ -600,7 +600,7 @@
         "index": 14,
         "kind": "external",
         "method": 6,
-        "name": "REPORT_ERROR",
+        "name": "ABORT_WITH_MESSAGE",
         "zero_displacement": true
       }
     },
@@ -635,7 +635,7 @@
           "index": 13,
           "kind": "external",
           "method": 6,
-          "name": "INITIALIZE_RECORD",
+          "name": "CREATE_PORT",
           "zero_displacement": true
         }
       },
@@ -649,7 +649,7 @@
         "index": 13,
         "kind": "external",
         "method": 6,
-        "name": "INITIALIZE_RECORD",
+        "name": "CREATE_PORT",
         "zero_displacement": true
       }
     },
@@ -662,7 +662,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "_malloc",
+          "name": "__nmalloc",
           "zero_displacement": true
         }
       },
@@ -676,7 +676,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "_malloc",
+        "name": "__nmalloc",
         "zero_displacement": true
       }
     }
@@ -700,7 +700,24 @@
   },
   "schema": 1,
   "symbols": {
-    "ALLOCATE_COLORS": {
+    "ABORT_WITH_MESSAGE": {
+      "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
+      "entry_target_id": "root:1de8:000c",
+      "kind": "far-code-entry",
+      "offset": 12,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a0c00e81d",
+          "file_offset": 27130,
+          "image_offset": 18938,
+          "relocation_index": 307,
+          "space": "root"
+        }
+      ]
+    },
+    "ALLOCATE_PINNED_PAYLOAD": {
       "entry_sha256": "3852a22711ea66ec3c9c0187cce6d46782a8cff55d7ac8001fec60129f59f63e",
       "entry_target_id": "root:1101:297c",
       "kind": "far-code-entry",
@@ -717,54 +734,37 @@
         }
       ]
     },
-    "DISPOSE_RECORD": {
-      "entry_sha256": "3fbf4c418b664f227f9d7484c73e6662fd29ede14207c065663a44e3bd0ccff1",
-      "entry_target_id": "root:1101:4e54",
+    "CLEAR_PAYLOAD_HEADER": {
+      "entry_sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
+      "entry_target_id": "root:1101:25e4",
       "kind": "far-code-entry",
-      "offset": 20052,
+      "offset": 9700,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a544e0111",
-          "file_offset": 157901,
-          "image_offset": 1965,
-          "relocation_index": 164,
+          "bytes_hex": "9ae4250111",
+          "file_offset": 30874,
+          "image_offset": 22682,
+          "relocation_index": 584,
+          "space": "root"
+        }
+      ]
+    },
+    "CREATE_PORT": {
+      "entry_sha256": "4275bf5062ac6bc21da177c84078c93a42bfb9a72a0b8573368c970d9f6d8f60",
+      "entry_target_id": "root:1101:38ae",
+      "kind": "far-code-entry",
+      "offset": 14510,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aae380111",
+          "file_offset": 157593,
+          "image_offset": 1657,
+          "relocation_index": 345,
           "space": "overlay-2"
-        }
-      ]
-    },
-    "DISPOSE_RECORD_PAIR": {
-      "entry_sha256": "9d630ddd7549c050ab980da7ef6a9ac3514cf68724dade2b3180512c03ed0074",
-      "entry_target_id": "root:1101:64ec",
-      "kind": "far-code-entry",
-      "offset": 25836,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aec640111",
-          "file_offset": 97918,
-          "image_offset": 89726,
-          "relocation_index": 1452,
-          "space": "root"
-        }
-      ]
-    },
-    "DRAW_RECORD": {
-      "entry_sha256": "96e847e2f606b37c10fd54b168565a868a82ec0bb7663869e7ee95cc9800c4c0",
-      "entry_target_id": "root:1101:4cce",
-      "kind": "far-code-entry",
-      "offset": 19662,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ace4c0111",
-          "file_offset": 13009,
-          "image_offset": 4817,
-          "relocation_index": 64,
-          "space": "root"
         }
       ]
     },
@@ -791,41 +791,24 @@
         }
       ]
     },
-    "INITIALIZE_RECORD": {
-      "entry_sha256": "4275bf5062ac6bc21da177c84078c93a42bfb9a72a0b8573368c970d9f6d8f60",
-      "entry_target_id": "root:1101:38ae",
+    "MEASURE_TEXT": {
+      "entry_sha256": "96e847e2f606b37c10fd54b168565a868a82ec0bb7663869e7ee95cc9800c4c0",
+      "entry_target_id": "root:1101:4cce",
       "kind": "far-code-entry",
-      "offset": 14510,
+      "offset": 19662,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9aae380111",
-          "file_offset": 157593,
-          "image_offset": 1657,
-          "relocation_index": 345,
-          "space": "overlay-2"
-        }
-      ]
-    },
-    "INSTALL_COLORS": {
-      "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
-      "entry_target_id": "root:1101:79c1",
-      "kind": "far-code-entry",
-      "offset": 31169,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ac1790111",
-          "file_offset": 19139,
-          "image_offset": 10947,
-          "relocation_index": 240,
+          "bytes_hex": "9ace4c0111",
+          "file_offset": 13009,
+          "image_offset": 4817,
+          "relocation_index": 64,
           "space": "root"
         }
       ]
     },
-    "READ_COLORS": {
+    "READ_DAC_BLOCK": {
       "entry_sha256": "895d5fdae24805a9ae4fb27d734a8428936412f513e1f28c7726ae95f729f595",
       "entry_target_id": "root:1101:7987",
       "kind": "far-code-entry",
@@ -842,41 +825,41 @@
         }
       ]
     },
-    "RELEASE_FAR_BLOCK": {
-      "entry_sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
-      "entry_target_id": "root:1101:25e4",
+    "RELEASE_BUFFER": {
+      "entry_sha256": "9d630ddd7549c050ab980da7ef6a9ac3514cf68724dade2b3180512c03ed0074",
+      "entry_target_id": "root:1101:64ec",
       "kind": "far-code-entry",
-      "offset": 9700,
+      "offset": 25836,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ae4250111",
-          "file_offset": 30874,
-          "image_offset": 22682,
-          "relocation_index": 584,
+          "bytes_hex": "9aec640111",
+          "file_offset": 97918,
+          "image_offset": 89726,
+          "relocation_index": 1452,
           "space": "root"
         }
       ]
     },
-    "REPORT_ERROR": {
-      "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
-      "entry_target_id": "root:1de8:000c",
+    "RELEASE_PORT": {
+      "entry_sha256": "3fbf4c418b664f227f9d7484c73e6662fd29ede14207c065663a44e3bd0ccff1",
+      "entry_target_id": "root:1101:4e54",
       "kind": "far-code-entry",
-      "offset": 12,
-      "segment": 7656,
+      "offset": 20052,
+      "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a0c00e81d",
-          "file_offset": 27130,
-          "image_offset": 18938,
-          "relocation_index": 307,
-          "space": "root"
+          "bytes_hex": "9a544e0111",
+          "file_offset": 157901,
+          "image_offset": 1965,
+          "relocation_index": 164,
+          "space": "overlay-2"
         }
       ]
     },
-    "UNION_RECT": {
+    "UNIONRECT": {
       "entry_sha256": "133d52d3c840f5135c55060589bd21c1065daa19ac176fbf6de876a76f249705",
       "entry_target_id": "root:1101:649c",
       "kind": "far-code-entry",
@@ -893,7 +876,24 @@
         }
       ]
     },
-    "_free": {
+    "WRITE_DAC_BLOCK": {
+      "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",
+      "entry_target_id": "root:1101:79c1",
+      "kind": "far-code-entry",
+      "offset": 31169,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ac1790111",
+          "file_offset": 19139,
+          "image_offset": 10947,
+          "relocation_index": 240,
+          "space": "root"
+        }
+      ]
+    },
+    "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
       "kind": "far-code-entry",
@@ -910,7 +910,7 @@
         }
       ]
     },
-    "_malloc": {
+    "__nmalloc": {
       "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
       "entry_target_id": "root:1fe6:003b",
       "kind": "far-code-entry",

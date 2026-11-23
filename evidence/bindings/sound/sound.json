@@ -51,29 +51,29 @@
       "AMBIENT_OFF_MESSAGE",
       "MUSIC_UNAVAILABLE_MESSAGE",
       "CHANGE_SONG_RANGE",
-      "SOUND_PLAYING",
+      "QUERY_SOUND",
       "OPPTOFIGHT",
       "@AddKidScream",
       "FIND_ACTIVE_GENERATOR",
       "SPECIAL_NO_AMBIENT_CASE",
-      "QUEUE_ACTOR_SOUND",
+      "LOAD_ACTOR_SLOT",
       "ADD_OPPONENT_DEATH_SONG",
-      "GET_SOUND_DATA",
-      "RELEASE_SOUND",
-      "READ_SOUND",
-      "PREPARE_SOUND",
+      "MATERIALIZE_HANDLE",
+      "DISPOSE_HANDLE",
+      "HGETSND",
+      "MARK_PURGEABLE",
       "LOCK_SOUND_DATA",
-      "COMMAND_OPTION",
+      "FIND_OPTION",
       "ADVANCE_SOUND",
       "RANDOM_BELOW",
       "ADD_ACTOR_SFX",
       "MAP_ROOM_ROW",
-      "STOP_SOUND",
+      "DISPATCH_SOUND",
       "PLAY_AMBIENT",
       "TOGGLE_AMBIENT",
       "START_SOUND",
-      "CHECK_AMBIENT_ACTOR",
-      "UPDATE_SOUND_MENU"
+      "ISEXITCHASINGSKEL",
+      "SAVEOPTIONSTODISK"
     ],
     "groups": [
       {
@@ -852,7 +852,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -866,7 +866,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -879,7 +879,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -893,7 +893,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -906,7 +906,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -920,7 +920,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -1041,7 +1041,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -1055,7 +1055,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -1068,7 +1068,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -1082,7 +1082,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -1558,7 +1558,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "QUEUE_ACTOR_SOUND",
+          "name": "LOAD_ACTOR_SLOT",
           "zero_displacement": true
         }
       },
@@ -1572,7 +1572,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "QUEUE_ACTOR_SOUND",
+        "name": "LOAD_ACTOR_SLOT",
         "zero_displacement": true
       }
     },
@@ -1855,7 +1855,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "READ_SOUND",
+          "name": "HGETSND",
           "zero_displacement": true
         }
       },
@@ -1869,7 +1869,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "READ_SOUND",
+        "name": "HGETSND",
         "zero_displacement": true
       }
     },
@@ -1882,7 +1882,7 @@
           "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SOUND",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -1896,7 +1896,7 @@
         "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SOUND",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -1909,7 +1909,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "GET_SOUND_DATA",
+          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -1923,7 +1923,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "GET_SOUND_DATA",
+        "name": "MATERIALIZE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -1990,7 +1990,7 @@
           "index": 61,
           "kind": "external",
           "method": 6,
-          "name": "PREPARE_SOUND",
+          "name": "MARK_PURGEABLE",
           "zero_displacement": true
         }
       },
@@ -2004,7 +2004,7 @@
         "index": 61,
         "kind": "external",
         "method": 6,
-        "name": "PREPARE_SOUND",
+        "name": "MARK_PURGEABLE",
         "zero_displacement": true
       }
     },
@@ -2071,7 +2071,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -2085,7 +2085,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -2338,7 +2338,7 @@
           "index": 61,
           "kind": "external",
           "method": 6,
-          "name": "PREPARE_SOUND",
+          "name": "MARK_PURGEABLE",
           "zero_displacement": true
         }
       },
@@ -2352,7 +2352,7 @@
         "index": 61,
         "kind": "external",
         "method": 6,
-        "name": "PREPARE_SOUND",
+        "name": "MARK_PURGEABLE",
         "zero_displacement": true
       }
     },
@@ -2365,7 +2365,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "READ_SOUND",
+          "name": "HGETSND",
           "zero_displacement": true
         }
       },
@@ -2379,7 +2379,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "READ_SOUND",
+        "name": "HGETSND",
         "zero_displacement": true
       }
     },
@@ -2392,7 +2392,7 @@
           "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SOUND",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -2406,7 +2406,7 @@
         "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SOUND",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -2419,7 +2419,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "GET_SOUND_DATA",
+          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -2433,7 +2433,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "GET_SOUND_DATA",
+        "name": "MATERIALIZE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -2446,7 +2446,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "GET_SOUND_DATA",
+          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -2460,7 +2460,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "GET_SOUND_DATA",
+        "name": "MATERIALIZE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -2500,7 +2500,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "COMMAND_OPTION",
+          "name": "FIND_OPTION",
           "zero_displacement": true
         }
       },
@@ -2514,7 +2514,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "COMMAND_OPTION",
+        "name": "FIND_OPTION",
         "zero_displacement": true
       }
     },
@@ -3329,7 +3329,7 @@
           "index": 68,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SOUND",
+          "name": "DISPATCH_SOUND",
           "zero_displacement": true
         }
       },
@@ -3343,7 +3343,7 @@
         "index": 68,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SOUND",
+        "name": "DISPATCH_SOUND",
         "zero_displacement": true
       }
     },
@@ -3518,7 +3518,7 @@
           "index": 68,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SOUND",
+          "name": "DISPATCH_SOUND",
           "zero_displacement": true
         }
       },
@@ -3532,7 +3532,7 @@
         "index": 68,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SOUND",
+        "name": "DISPATCH_SOUND",
         "zero_displacement": true
       }
     },
@@ -3653,7 +3653,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "COMMAND_OPTION",
+          "name": "FIND_OPTION",
           "zero_displacement": true
         }
       },
@@ -3667,7 +3667,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "COMMAND_OPTION",
+        "name": "FIND_OPTION",
         "zero_displacement": true
       }
     },
@@ -3729,7 +3729,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "READ_SOUND",
+          "name": "HGETSND",
           "zero_displacement": true
         }
       },
@@ -3743,7 +3743,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "READ_SOUND",
+        "name": "HGETSND",
         "zero_displacement": true
       }
     },
@@ -3756,7 +3756,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "GET_SOUND_DATA",
+          "name": "MATERIALIZE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -3770,7 +3770,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "GET_SOUND_DATA",
+        "name": "MATERIALIZE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -3864,7 +3864,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -3878,7 +3878,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -3891,7 +3891,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -3905,7 +3905,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -4242,7 +4242,7 @@
           "index": 72,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_AMBIENT_ACTOR",
+          "name": "ISEXITCHASINGSKEL",
           "zero_displacement": true
         }
       },
@@ -4256,7 +4256,7 @@
         "index": 72,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_AMBIENT_ACTOR",
+        "name": "ISEXITCHASINGSKEL",
         "zero_displacement": true
       }
     },
@@ -4605,7 +4605,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -4619,7 +4619,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -4713,7 +4713,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "UPDATE_SOUND_MENU",
+          "name": "SAVEOPTIONSTODISK",
           "zero_displacement": true
         }
       },
@@ -4727,7 +4727,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "UPDATE_SOUND_MENU",
+        "name": "SAVEOPTIONSTODISK",
         "zero_displacement": true
       }
     },
@@ -4740,7 +4740,7 @@
           "index": 68,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SOUND",
+          "name": "DISPATCH_SOUND",
           "zero_displacement": true
         }
       },
@@ -4754,7 +4754,7 @@
         "index": 68,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SOUND",
+        "name": "DISPATCH_SOUND",
         "zero_displacement": true
       }
     },
@@ -5037,7 +5037,7 @@
           "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SOUND",
+          "name": "DISPOSE_HANDLE",
           "zero_displacement": true
         }
       },
@@ -5051,7 +5051,7 @@
         "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SOUND",
+        "name": "DISPOSE_HANDLE",
         "zero_displacement": true
       }
     },
@@ -5064,7 +5064,7 @@
           "index": 51,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_PLAYING",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -5078,7 +5078,7 @@
         "index": 51,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_PLAYING",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -5380,40 +5380,6 @@
       "offset": 24098,
       "witnesses": []
     },
-    "CHECK_AMBIENT_ACTOR": {
-      "entry_sha256": "1b23e72fccf86b0bd3fb3813d884edc1dd037bc894ccc4d35ea9232c5d945d34",
-      "entry_target_id": "overlay-12:2c3e:1204",
-      "kind": "overlay-code-entry",
-      "offset": 4612,
-      "segment": 11326,
-      "space": "overlay-12",
-      "witnesses": [
-        {
-          "bytes_hex": "9a04123e2c",
-          "file_offset": 21531,
-          "image_offset": 13339,
-          "relocation_index": 335,
-          "space": "root"
-        }
-      ]
-    },
-    "COMMAND_OPTION": {
-      "entry_sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551",
-      "entry_target_id": "root:1101:29aa",
-      "kind": "far-code-entry",
-      "offset": 10666,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aaa290111",
-          "file_offset": 8335,
-          "image_offset": 143,
-          "relocation_index": 9,
-          "space": "root"
-        }
-      ]
-    },
     "CURRENT_EFFECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5442,6 +5408,40 @@
         }
       ]
     },
+    "DISPATCH_SOUND": {
+      "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
+      "entry_target_id": "root:1101:83f0",
+      "kind": "far-code-entry",
+      "offset": 33776,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9af0830111",
+          "file_offset": 9350,
+          "image_offset": 1158,
+          "relocation_index": 114,
+          "space": "root"
+        }
+      ]
+    },
+    "DISPOSE_HANDLE": {
+      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
+      "entry_target_id": "root:1101:22a0",
+      "kind": "far-code-entry",
+      "offset": 8864,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aa0220111",
+          "file_offset": 17637,
+          "image_offset": 9445,
+          "relocation_index": 163,
+          "space": "root"
+        }
+      ]
+    },
     "FIND_ACTIVE_GENERATOR": {
       "entry_sha256": "243385327a85b1cf3c1aed33e41f2d925f0bf082c8a860e5fe769a714552e48f",
       "entry_target_id": "overlay-3:2344:0c6e",
@@ -5451,19 +5451,53 @@
       "space": "overlay-3",
       "witnesses": []
     },
-    "GET_SOUND_DATA": {
-      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
-      "entry_target_id": "root:1101:22e2",
+    "FIND_OPTION": {
+      "entry_sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551",
+      "entry_target_id": "root:1101:29aa",
       "kind": "far-code-entry",
-      "offset": 8930,
+      "offset": 10666,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ae2220111",
-          "file_offset": 17610,
-          "image_offset": 9418,
-          "relocation_index": 134,
+          "bytes_hex": "9aaa290111",
+          "file_offset": 8335,
+          "image_offset": 143,
+          "relocation_index": 9,
+          "space": "root"
+        }
+      ]
+    },
+    "HGETSND": {
+      "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
+      "entry_target_id": "root:1101:807a",
+      "kind": "far-code-entry",
+      "offset": 32890,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a7a800111",
+          "file_offset": 53608,
+          "image_offset": 45416,
+          "relocation_index": 956,
+          "space": "root"
+        }
+      ]
+    },
+    "ISEXITCHASINGSKEL": {
+      "entry_sha256": "1b23e72fccf86b0bd3fb3813d884edc1dd037bc894ccc4d35ea9232c5d945d34",
+      "entry_target_id": "overlay-12:2c3e:1204",
+      "kind": "overlay-code-entry",
+      "offset": 4612,
+      "segment": 11326,
+      "space": "overlay-12",
+      "witnesses": [
+        {
+          "bytes_hex": "9a04123e2c",
+          "file_offset": 21531,
+          "image_offset": 13339,
+          "relocation_index": 335,
           "space": "root"
         }
       ]
@@ -5543,6 +5577,23 @@
         }
       ]
     },
+    "LOAD_ACTOR_SLOT": {
+      "entry_sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
+      "entry_target_id": "root:02cc:1d42",
+      "kind": "far-code-entry",
+      "offset": 7490,
+      "segment": 716,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a421dcc02",
+          "file_offset": 10047,
+          "image_offset": 1855,
+          "relocation_index": 18,
+          "space": "root"
+        }
+      ]
+    },
     "LOCATION_KIND": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5554,6 +5605,40 @@
           "entry": "root:0000:0242",
           "image_offset": 1873,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "MARK_PURGEABLE": {
+      "entry_sha256": "9a80e9f09e2df9a0f690ab345b823d0faa696c6042f603292ef35501a0b57b89",
+      "entry_target_id": "root:1101:24aa",
+      "kind": "far-code-entry",
+      "offset": 9386,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aaa240111",
+          "file_offset": 17711,
+          "image_offset": 9519,
+          "relocation_index": 158,
+          "space": "root"
+        }
+      ]
+    },
+    "MATERIALIZE_HANDLE": {
+      "entry_sha256": "96ff22c908c6dd2cde8e27d9666f0141f168397a3ab56c5a193660ab0a8d6aef",
+      "entry_target_id": "root:1101:22e2",
+      "kind": "far-code-entry",
+      "offset": 8930,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ae2220111",
+          "file_offset": 17610,
+          "image_offset": 9418,
+          "relocation_index": 134,
           "space": "root"
         }
       ]
@@ -5677,70 +5762,36 @@
         }
       ]
     },
-    "PREPARE_SOUND": {
-      "entry_sha256": "9a80e9f09e2df9a0f690ab345b823d0faa696c6042f603292ef35501a0b57b89",
-      "entry_target_id": "root:1101:24aa",
+    "QUERY_SOUND": {
+      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
+      "entry_target_id": "root:1101:8444",
       "kind": "far-code-entry",
-      "offset": 9386,
+      "offset": 33860,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9aaa240111",
-          "file_offset": 17711,
-          "image_offset": 9519,
-          "relocation_index": 158,
+          "bytes_hex": "9a44840111",
+          "file_offset": 23329,
+          "image_offset": 15137,
+          "relocation_index": 291,
           "space": "root"
         }
       ]
     },
-    "QUEUE_ACTOR_SOUND": {
-      "entry_sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
-      "entry_target_id": "root:02cc:1d42",
+    "SAVEOPTIONSTODISK": {
+      "entry_sha256": "91db59eeeebfcb2d7ff4127bf2e0fe14b0f8b7c26f237af5169a0a7ef10777d2",
+      "entry_target_id": "root:052d:218e",
       "kind": "far-code-entry",
-      "offset": 7490,
-      "segment": 716,
+      "offset": 8590,
+      "segment": 1325,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a421dcc02",
-          "file_offset": 10047,
-          "image_offset": 1855,
-          "relocation_index": 18,
-          "space": "root"
-        }
-      ]
-    },
-    "READ_SOUND": {
-      "entry_sha256": "94a7e966bf800b2f37d5e2c500994db7b63be0fd3203a0aed1d8fdd9dd315350",
-      "entry_target_id": "root:1101:807a",
-      "kind": "far-code-entry",
-      "offset": 32890,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a7a800111",
-          "file_offset": 53608,
-          "image_offset": 45416,
-          "relocation_index": 956,
-          "space": "root"
-        }
-      ]
-    },
-    "RELEASE_SOUND": {
-      "entry_sha256": "5c5db9b6ddbbd1e9e47f1fcad6ec4e754fdbcc204f85ef59ede7ec0db3fadbc2",
-      "entry_target_id": "root:1101:22a0",
-      "kind": "far-code-entry",
-      "offset": 8864,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aa0220111",
-          "file_offset": 17637,
-          "image_offset": 9445,
-          "relocation_index": 163,
+          "bytes_hex": "9a8e212d05",
+          "file_offset": 10874,
+          "image_offset": 2682,
+          "relocation_index": 21,
           "space": "root"
         }
       ]
@@ -5791,23 +5842,6 @@
           "entry": "root:0000:0242",
           "image_offset": 4870,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "SOUND_PLAYING": {
-      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
-      "entry_target_id": "root:1101:8444",
-      "kind": "far-code-entry",
-      "offset": 33860,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a44840111",
-          "file_offset": 23329,
-          "image_offset": 15137,
-          "relocation_index": 291,
           "space": "root"
         }
       ]
@@ -5868,40 +5902,6 @@
           "file_offset": 111688,
           "image_offset": 103496,
           "relocation_index": 1611,
-          "space": "root"
-        }
-      ]
-    },
-    "STOP_SOUND": {
-      "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
-      "entry_target_id": "root:1101:83f0",
-      "kind": "far-code-entry",
-      "offset": 33776,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9af0830111",
-          "file_offset": 9350,
-          "image_offset": 1158,
-          "relocation_index": 114,
-          "space": "root"
-        }
-      ]
-    },
-    "UPDATE_SOUND_MENU": {
-      "entry_sha256": "91db59eeeebfcb2d7ff4127bf2e0fe14b0f8b7c26f237af5169a0a7ef10777d2",
-      "entry_target_id": "root:052d:218e",
-      "kind": "far-code-entry",
-      "offset": 8590,
-      "segment": 1325,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a8e212d05",
-          "file_offset": 10874,
-          "image_offset": 2682,
-          "relocation_index": 21,
           "space": "root"
         }
       ]

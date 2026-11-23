@@ -131,29 +131,29 @@ extern char resource_path_format[];
 
 extern void near * far pascal AllocBackPort(const Rect far *);
 extern void far pascal close_resource_file(int);
-extern void far pascal select_resource_file(int);
-extern Handle far pascal load_sprite_set(int, unsigned, unsigned, int);
-extern void far pascal release_sprite_set(Handle);
-extern void far pascal load_overlay_range(Handle, unsigned, int, int, int);
-extern int far pascal has_set_overlay(Handle, int);
-extern void far pascal release_overlay_range(Handle, int, int);
-extern void far pascal preload_sprite_range(Handle, const int *, const int *);
-extern void far pascal load_scene_overlay(int, int);
-extern void far pascal unload_scene_overlay(int, int);
+extern void far pascal open_verified_resource(int);
+extern Handle far pascal load_shape_list(int, unsigned, unsigned, int);
+extern void far pascal UnloadShapeList(Handle);
+extern void far pascal overlay_shape_list(Handle, unsigned, int, int, int);
+extern int far pascal IsOverlayLoaded(Handle, int);
+extern void far pascal unload_overlay(Handle, int, int);
+extern void far pascal PrinceMarkRangesPurgeable(Handle, const int *, const int *);
+extern void far pascal load_song_range(int, int);
+extern void far pascal release_song_range(int, int);
 extern void far pascal load_opponent_sound(SByte);
 extern void far pascal load_resource_palette(unsigned, int, Byte, Byte);
-extern void * far cdecl malloc(unsigned);
-extern void far cdecl free(void *);
+extern void * far cdecl _nmalloc(unsigned);
+extern void far cdecl _nfree(void *);
 extern void * far cdecl memset(void *, int, unsigned);
 #pragma intrinsic(memset)
-extern void far pascal reset_checkpoint(void);
+extern void far pascal RemoveRebirthPt(void);
 extern int far pascal IsLevelStartWithNISScreen(void);
-extern void far pascal start_named_effect(const char far *);
-extern void far pascal initialize_level_overlay(void);
+extern void far pascal STROKE_PORT_RECT(const char far *);
+extern void far pascal reset_desert_variant(void);
 extern void * far pascal find_option(const char far *);
-extern void far pascal load_map_resource(int, int, int, const char far *, long);
+extern void far pascal LOAD_RESOURCE_INTO(int, int, int, const char far *, long);
 extern void far pascal SetRebirthPtLevelStatus(void);
-extern void far pascal reset_level_display(void);
+extern void far pascal save_game_play_palette(void);
 extern void far pascal load_overlay_one(void);
 extern void far pascal load_overlay_two(void);
 extern void far pascal load_overlay_three(void);
@@ -165,23 +165,23 @@ extern void far pascal load_overlay_eight(void);
 extern void far pascal load_overlay_nine(void);
 extern void far pascal load_overlay_ten(void);
 extern void far pascal load_overlay_eleven(void);
-extern Handle far pascal find_near_resource(unsigned long, unsigned);
-extern void far pascal release_handle(Handle);
-extern Handle far pascal allocate_tagged_handle(unsigned long, unsigned);
-extern void far pascal release_tagged_handle(unsigned long, unsigned);
+extern Handle far pascal LOAD_RESOURCE_COPY(unsigned long, unsigned);
+extern void far pascal DISPOSE_HANDLE(Handle);
+extern Handle far pascal HGETRSRC(unsigned long, unsigned);
+extern void far pascal RELEASE_TAGGED_RESOURCE(unsigned long, unsigned);
 extern unsigned long far * far pascal resolve_handle_to_far_payload(Handle);
 extern void far pascal enter_room(Byte);
-extern void far pascal set_loading_progress(int, int);
+extern void far pascal MOVETO(int, int);
 extern void far _fastcall load_opponent_extra(Byte);
-extern Handle far pascal load_typed_handle(unsigned);
-extern void far pascal lock_handle(Handle);
-extern const char far * far pascal get_handle_data(Handle);
+extern Handle far pascal hGetSnd(unsigned);
+extern void far pascal SAVE_HANDLE_FLAGS(Handle);
+extern const char far * far pascal FETCH_LOCKED_SHAPE_LIST(Handle);
 extern char far * far cdecl copy_far_string(char far *, const char far *);
 extern void far cdecl split_path(char *, char *, char *, char *, char *);
 extern int far cdecl sprintf(char *, const char *, ...);
-extern void far pascal report_error(int, const char far *);
-extern void far pascal reset_sound_data(void);
-extern void far pascal release_sound_data(void);
+extern void far pascal abort_with_message(int, const char far *);
+extern void far pascal clear_peels(void);
+extern void far pascal UnloadCustomRoomData(void);
 
 void far pascal unload_set(register int set);
 void far pascal check_background_overlays(Byte kind);
@@ -211,7 +211,7 @@ void far pascal open_level_resource_files(Byte current, Byte previous)
                 unload_set(2);
             close_resource_file(level_resource_files[previous]);
         }
-        select_resource_file(level_resource_files[current]);
+        open_verified_resource(level_resource_files[current]);
     }
 }
 
@@ -241,7 +241,7 @@ void far pascal load_background_set(int palette)
     check_background_overlays(background);
     background_image_count = 0;
     if (background_image_first[background])
-        preload_sprite_range(sprite_sets[4], background_image_first[background],
+        PrinceMarkRangesPurgeable(sprite_sets[4], background_image_first[background],
                              background_image_last[background]);
 }
 
@@ -252,10 +252,10 @@ void far pascal check_background_overlays(Byte kind)
     for (i = 0; i < 8; ++i) {
         if (background_overlay_flags[i]) {
             if (background_overlay_first[i] != -1)
-                load_overlay_range(sprite_sets[4], 3700, background_overlay_first[i] - 1,
+                overlay_shape_list(sprite_sets[4], 3700, background_overlay_first[i] - 1,
                                    background_overlay_last[i] - 1, 1);
             if (background_intro_group[i] != -1)
-                load_scene_overlay(background_intro_group[i], background_intro_number[i]);
+                load_song_range(background_intro_group[i], background_intro_number[i]);
         }
     }
 }
@@ -263,14 +263,14 @@ void far pascal check_background_overlays(Byte kind)
 void far pascal load_flask_set(void)
 {
     if (flask_enabled) {
-        Byte *entries = malloc(35);
+        Byte *entries = _nmalloc(35);
         int i;
 
         memset(entries, 2, 35);
         for (i = 2; i <= 21; ++i)
             entries[i] = 1;
         load_set(1, 3000, 0x4000, (int)entries, 0);
-        free(entries);
+        _nfree(entries);
         load_resource_palette(3000, 224, 16, 0);
     } else {
         unload_set(1);
@@ -286,7 +286,7 @@ void far pascal load_level(SByte number)
     if (number != -2 && number != -1) {
         if (number != requested_map) {
             if (resume_mode == 0)
-                reset_checkpoint();
+                RemoveRebirthPt();
             requested_map = number;
         }
     }
@@ -294,7 +294,7 @@ void far pascal load_level(SByte number)
     CheckBPort();
     load_level_map(requested_map);
     if (!IsLevelStartWithNISScreen())
-        start_named_effect(level_effect);
+        STROKE_PORT_RECT(level_effect);
     load_flask_set();
     open_level_resource_files(background, previous);
     load_background_set(!IsLevelStartWithNISScreen());
@@ -303,7 +303,7 @@ void far pascal load_level(SByte number)
     load_opponent_set(opponent);
     set_kid_sword_kind();
     load_sword_set(sword_kind);
-    load_scene_overlay(0, 26);
+    load_song_range(0, 26);
     load_pieces_data();
     if (background != previous) {
         switch_background_overlay(background, previous);
@@ -311,7 +311,7 @@ void far pascal load_level(SByte number)
     }
     load_code_overlays(background, opponent);
     if (number != -2 && number != -1 && background == 1)
-        initialize_level_overlay();
+        reset_desert_variant();
     set_level_spec_ptrs(background);
 }
 
@@ -320,7 +320,7 @@ void far pascal load_level_map(SByte map)
     int id = map + 1999;
     if (find_option(map_option))
         id += 20;
-    load_map_resource(0, 0, id, map_archive, 12025L);
+    LOAD_RESOURCE_INTO(0, 0, id, map_archive, 12025L);
     set_initial_room_state();
     SetRebirthPtLevelStatus();
 }
@@ -330,9 +330,9 @@ void far pascal load_minimum_level(SByte number)
     load_level_map(number);
     set_kid_sword_kind();
     load_sword_set(sword_kind);
-    reset_level_display();
+    save_game_play_palette();
     room_init_ptr = room_init_data;
-    start_named_effect(level_effect);
+    STROKE_PORT_RECT(level_effect);
 }
 
 extern int background_scene_group[], background_scene_number[];
@@ -340,9 +340,9 @@ extern int background_scene_group[], background_scene_number[];
 void far pascal switch_background_overlay(Byte current, Byte previous)
 {
     if (previous != current && background_scene_group[previous] != -1)
-        unload_scene_overlay(background_scene_group[previous], background_scene_number[previous]);
+        release_song_range(background_scene_group[previous], background_scene_number[previous]);
     if (background_scene_group[background] != -1)
-        load_scene_overlay(background_scene_group[background], background_scene_number[background]);
+        load_song_range(background_scene_group[background], background_scene_number[background]);
 }
 
 void far pascal load_code_overlays(Byte background_kind, Byte opponent_kind)
@@ -379,7 +379,7 @@ void far pascal load_code_overlays(Byte background_kind, Byte opponent_kind)
 void far pascal load_pieces_data(void)
 {
     unload_pieces_data();
-    level_pieces = find_near_resource(0x50494543UL, 3500);
+    level_pieces = LOAD_RESOURCE_COPY(0x50494543UL, 3500);
 }
 
 void far pascal load_sword_set(SByte kind)
@@ -390,7 +390,7 @@ void far pascal load_sword_set(SByte kind)
 
     if (loaded_sword != kind) {
         if (sword_frames) {
-            release_handle(sword_frames);
+            DISPOSE_HANDLE(sword_frames);
             sword_frames = 0;
         }
         unload_set(0);
@@ -406,11 +406,11 @@ void far pascal load_sword_set(SByte kind)
     if (kind == 1) {
         for (i = 0; i < 1; ++i) {
             if (need_sword_overlay(i)) {
-                if (!has_set_overlay(sprite_sets[0], sword_overlay_first[i]))
-                    load_overlay_range(sprite_sets[0], 1100, sword_overlay_first[i],
+                if (!IsOverlayLoaded(sprite_sets[0], sword_overlay_first[i]))
+                    overlay_shape_list(sprite_sets[0], 1100, sword_overlay_first[i],
                                        sword_overlay_last[i], 2);
             } else {
-                release_overlay_range(sprite_sets[0], sword_overlay_first[i], sword_overlay_last[i]);
+                unload_overlay(sprite_sets[0], sword_overlay_first[i], sword_overlay_last[i]);
             }
         }
     }
@@ -422,7 +422,7 @@ Handle far pascal load_sword_frames(Byte kind)
     unsigned id = 1000;
     if (kind == 2)
         id = 1200;
-    return allocate_tagged_handle(0x4652414dUL, id);
+    return HGETRSRC(0x4652414dUL, id);
 }
 
 int far _fastcall get_sword_frame_image(unsigned index)
@@ -468,7 +468,7 @@ void far pascal set_initial_room_state(void)
 void far pascal load_set(register int set, unsigned id, unsigned limit, int count, int mode)
 {
     if (sprite_sets[set] == 0)
-        sprite_sets[set] = load_sprite_set(id, limit, count, mode);
+        sprite_sets[set] = load_shape_list(id, limit, count, mode);
 }
 
 void far pascal load_kid_set(void)
@@ -477,16 +477,16 @@ void far pascal load_kid_set(void)
     int i, j;
 
     if (background == 6)
-        select_resource_file(level_resource_files[6]);
-    entries = malloc(314);
+        open_verified_resource(level_resource_files[6]);
+    entries = _nmalloc(314);
     memset(entries, 0, 314);
     for (i = 131; i <= 132; ++i)
         entries[i] = 1;
     for (j = 216; j <= 218; ++j)
         entries[j] = 1;
     load_set(2, 25001U, 2, (int)entries, 0);
-    free(entries);
-    preload_sprite_range(sprite_sets[2], kid_image_first, kid_image_last);
+    _nfree(entries);
+    PrinceMarkRangesPurgeable(sprite_sets[2], kid_image_first, kid_image_last);
 }
 
 void far pascal load_kid_set_overlays(void)
@@ -494,11 +494,11 @@ void far pascal load_kid_set_overlays(void)
     int i;
     for (i = 0; i < 11; ++i) {
         if (need_kid_overlay(i)) {
-            if (!has_set_overlay(sprite_sets[2], kid_overlay_first[i]))
-                load_overlay_range(sprite_sets[2], 24601, kid_overlay_first[i],
+            if (!IsOverlayLoaded(sprite_sets[2], kid_overlay_first[i]))
+                overlay_shape_list(sprite_sets[2], 24601, kid_overlay_first[i],
                                    kid_overlay_last[i], 0);
         } else {
-            release_overlay_range(sprite_sets[2], kid_overlay_first[i], kid_overlay_last[i]);
+            unload_overlay(sprite_sets[2], kid_overlay_first[i], kid_overlay_last[i]);
         }
     }
 }
@@ -584,15 +584,15 @@ int far pascal need_sword_overlay(SByte index)
 
 void far pascal load_opponent_set(SByte kind)
 {
-    set_loading_progress(50, 100);
+    MOVETO(50, 100);
     if (kind == -1 || kind != loaded_opponent || sprite_sets[3] == 0) {
         unload_set(3);
         if (opponent_frames) {
-            release_handle(opponent_frames);
+            DISPOSE_HANDLE(opponent_frames);
             opponent_frames = 0;
         }
         if (opponent_effect_frames) {
-            release_handle(opponent_effect_frames);
+            DISPOSE_HANDLE(opponent_effect_frames);
             opponent_effect_frames = 0;
         }
         if (loaded_opponent != -1 && kind != loaded_opponent)
@@ -606,18 +606,18 @@ void far pascal load_opponent_set(SByte kind)
             if (kind == loaded_opponent)
                 load_opponent_overlays(kind);
         } else {
-            select_resource_file(opponent_resource_files[kind]);
+            open_verified_resource(opponent_resource_files[kind]);
             load_set(3, 750, 4, 2, 0);
             load_resource_palette(750, 32, 16, 0);
             if (opponent_overlay_first[kind]) {
                 load_opponent_overlays(kind);
-                preload_sprite_range(sprite_sets[3], opponent_overlay_first[kind],
+                PrinceMarkRangesPurgeable(sprite_sets[3], opponent_overlay_first[kind],
                                      opponent_overlay_last[kind]);
             }
             load_opponent_sound(kind);
-            opponent_frames = allocate_tagged_handle(0x4652414dUL, 750);
+            opponent_frames = HGETRSRC(0x4652414dUL, 750);
             if ((kind == 5 || kind == 6) && opponent_effect_frames == 0)
-                opponent_effect_frames = allocate_tagged_handle(0L, 755);
+                opponent_effect_frames = HGETRSRC(0L, 755);
         }
     }
     loaded_opponent = kind;
@@ -633,8 +633,8 @@ void far pascal load_opponent_overlays(SByte kind)
             return;
         do {
             if (need_opponent_overlay(kind, i)) {
-                if (!has_set_overlay(sprite_sets[3], first_base[i]))
-                    load_overlay_range(sprite_sets[3], 850, first_base[i], last_base[i], 2);
+                if (!IsOverlayLoaded(sprite_sets[3], first_base[i]))
+                    overlay_shape_list(sprite_sets[3], 850, first_base[i], last_base[i], 2);
                 if (i == 0 && (kind == 0 || kind == 5 || kind == 6)) {
                     if (!opponent_overlay_one)
                         load_opponent_extra(1);
@@ -642,7 +642,7 @@ void far pascal load_opponent_overlays(SByte kind)
                         load_opponent_extra(2);
                 }
             } else {
-                release_overlay_range(sprite_sets[3], first_base[i], last_base[i]);
+                unload_overlay(sprite_sets[3], first_base[i], last_base[i]);
             }
             ++i;
         } while (first_base[i] != -1);
@@ -671,23 +671,23 @@ void far pascal preload_room_data(Byte room)
         int *flag = &visited[object];
         if (*flag == 0) { visited[object] = 1;
             switch (object) {
-            case 2: load_scene_overlay(background_intro_group[0], background_intro_number[0]); break;
+            case 2: load_song_range(background_intro_group[0], background_intro_number[0]); break;
             case 10:
                 if (((Byte)info & 0xe0) == 0xc0 && loaded_opponent != 9) load_opponent_set(9);
                 /* fall through */
-            case 23: load_scene_overlay(background_intro_group[1], background_intro_number[1]); break;
-            case 13: load_scene_overlay(background_intro_group[3], background_intro_number[3]); break;
-            case 25: load_scene_overlay(background_intro_group[5], background_intro_number[5]); break;
-            case 26: load_scene_overlay(background_intro_group[6], background_intro_number[6]); break;
-            case 36: load_scene_overlay(background_intro_group[4], background_intro_number[4]); break;
+            case 23: load_song_range(background_intro_group[1], background_intro_number[1]); break;
+            case 13: load_song_range(background_intro_group[3], background_intro_number[3]); break;
+            case 25: load_song_range(background_intro_group[5], background_intro_number[5]); break;
+            case 26: load_song_range(background_intro_group[6], background_intro_number[6]); break;
+            case 36: load_song_range(background_intro_group[4], background_intro_number[4]); break;
             }
         }
     } while (++tile < 30);
     if (room_trigger_data[(unsigned)(Byte)116 * room]) load_opponent_sound(opponent);
     if ((SByte)music_number > 0) {
-        if ((SByte)music_number < 33) load_typed_handle(10016);
-        else load_typed_handle(10000);
-        if ((SByte)music_number < 31) load_typed_handle(10001);
+        if ((SByte)music_number < 33) hGetSnd(10016);
+        else hGetSnd(10000);
+        if ((SByte)music_number < 31) hGetSnd(10001);
     }
 }
 
@@ -696,8 +696,8 @@ int far pascal load_resource_error(Handle resource)
     char path[120];
     char drive[4], directory[256], basename[256], extension[256];
 
-    lock_handle(resource);
-    copy_far_string(path, get_handle_data(resource) + 16);
+    SAVE_HANDLE_FLAGS(resource);
+    copy_far_string(path, FETCH_LOCKED_SHAPE_LIST(resource) + 16);
     split_path(path, drive, directory, basename, extension);
     sprintf(path, map_option + sizeof("GAMEPLAY"), basename, extension);
     report_resource_path(path);
@@ -709,7 +709,7 @@ void far pascal report_resource_path(const char far *path)
     char message[100];
 
     sprintf(message, resource_path_format, path);
-    report_error(1, message);
+    abort_with_message(1, message);
 }
 
 void far pascal set_kid_sword_kind(void)
@@ -728,11 +728,11 @@ void far pascal set_kid_sword_kind(void)
 void far pascal unload_from(int first)
 {
     int i;
-    reset_sound_data();
+    clear_peels();
     for (i = first; i < 5; ++i)
         unload_set(i);
     if (first <= 4 && sound_available)
-        release_sound_data();
+        UnloadCustomRoomData();
 }
 
 void far pascal unload_level(int first)
@@ -741,15 +741,15 @@ void far pascal unload_level(int first)
     unload_from(first);
     for (i = 0; i < 8; ++i) {
         if (background_overlay_flags[i])
-            unload_scene_overlay(background_intro_group[i], background_intro_number[i]);
+            release_song_range(background_intro_group[i], background_intro_number[i]);
     }
     if (first <= 3 && opponent_frames) {
         if (opponent_frames) {
-            release_handle(opponent_frames);
+            DISPOSE_HANDLE(opponent_frames);
             opponent_frames = 0;
         }
         if (opponent_effect_frames) {
-            release_tagged_handle(0L, 755);
+            RELEASE_TAGGED_RESOURCE(0L, 755);
             opponent_effect_frames = 0;
         }
         if (loaded_opponent != -1) {
@@ -758,12 +758,12 @@ void far pascal unload_level(int first)
         }
     }
     if (first <= 0 && sword_frames) {
-        release_handle(sword_frames);
+        DISPOSE_HANDLE(sword_frames);
         sword_frames = 0;
         loaded_sword = 0;
     }
     unload_pieces_data();
-    release_sound_data();
+    UnloadCustomRoomData();
 }
 
 void far pascal unload_opponent_overlays(SByte previous, SByte current)
@@ -777,7 +777,7 @@ void far pascal unload_opponent_overlays(SByte previous, SByte current)
                 return;
             do {
                 if (current != previous || !need_opponent_overlay(current, i))
-                    release_overlay_range(sprite_sets[3], first_base[i], last_base[i]);
+                    unload_overlay(sprite_sets[3], first_base[i], last_base[i]);
                 ++i;
             } while (first_base[i] != -1);
         }
@@ -787,7 +787,7 @@ void far pascal unload_opponent_overlays(SByte previous, SByte current)
 void far pascal unload_pieces_data(void)
 {
     if (level_pieces) {
-        free((void *)level_pieces);
+        _nfree((void *)level_pieces);
         level_pieces = 0;
     }
 }
@@ -795,7 +795,7 @@ void far pascal unload_pieces_data(void)
 void far pascal unload_set(register int set)
 {
     if (sprite_sets[set]) {
-        release_sprite_set(sprite_sets[set]);
+        UnloadShapeList(sprite_sets[set]);
         sprite_sets[set] = 0;
     }
 }

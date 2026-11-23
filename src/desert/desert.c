@@ -91,35 +91,35 @@ extern sbyte animation_tile, animation_remove;
 static Rect stone_bounds = {49, 11, 70, 54};
 extern PeelRecord peel_records[];
 
-extern void queue_move_sound(int), play_sound(int);
-extern void rotate_palette(int, int, int);
-extern int sound_playing(int);
-extern void stop_sound(int);
+extern void AddSong(int), AddSound(int);
+extern void CycleColors(int, int, int);
+extern int query_sound(int);
+extern void dispatch_sound(int);
 extern int query_animation(sbyte, sbyte);
-extern void copy_kid_to_char(void), reset_player(void);
-extern void start_sequence(int);
-extern int bounded_random(int);
-extern void far *lock_archive(uword);
-extern void unlock_archive(uword), free_shape(uword);
-extern uword get_resource(unsigned long, int);
-extern uword load_shape(uword, int, void far *);
-extern void far *locate_shape(uword);
-extern Rect far *shape_rect(Rect far *, int, int, void far *);
-extern void redraw_object(sbyte, Rect *);
+extern void copy_kid_to_char(void), reset_char_y(void);
+extern void JumpSeq(int);
+extern int Rnd(int);
+extern void far *FETCH_LOCKED_SHAPE_LIST(uword);
+extern void CLEAR_HANDLE_OWNED(uword), DISPOSE_HANDLE(uword);
+extern uword HGETRSRC(unsigned long, int);
+extern uword PrinceUnpackShape(uword, int, void far *);
+extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(uword);
+extern Rect far *MAKESHAPERECT(Rect far *, int, int, void far *);
+extern void mark_move(sbyte, Rect *);
 /* The callback address and direct calls have different relocation forms. */
 extern void redraw_callback(sbyte, Rect *);
-extern void mark_redraw(void (far *)(sbyte, Rect *), Rect *, sbyte);
+extern void mark_bufs_for_rect(void (far *)(sbyte, Rect *), Rect *, sbyte);
 extern void far _fastcall draw_image(sbyte, sbyte);
-extern int find_tile_animation(sbyte, int);
-extern void start_tile_animation(sbyte, sbyte, sbyte, sbyte);
-extern int update_animation(void);
+extern int get_trob_room_cell(sbyte, int);
+extern void add_trob(sbyte, sbyte, sbyte, sbyte);
+extern int check_trob_visibility(void);
 extern sbyte RestoreKeepCustomPeel(ubyte);
 extern void DrawCustomRoomImgAtInfo(ubyte, Piece *);
-extern void offset_rect(Rect far *, Rect far *, int, int);
+extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern void far _fastcall add_peel(int, int, int, int, ubyte, ubyte);
-extern int get_tile_bounds(Rect *, Rect *);
-extern sbyte get_adjacent_animation(void), get_other_animation(void);
-extern int restore_peel(ubyte, int);
+extern int compute_trob_move_rect(Rect *, Rect *);
+extern sbyte get_adjacent_animation(void), check_trob_below(void);
+extern int find_character_peel(ubyte, int);
 
 void check_desert_exit(void);
 void cycle_desert_colors(void);
@@ -136,7 +136,7 @@ int trigger_stone_at(ubyte, sbyte, sbyte);
 void add_desert_ambient(void)
 {
     if (sound_flags & 2)
-        queue_move_sound(251);
+        AddSong(251);
 }
 
 void clip_desert_character(void)
@@ -176,9 +176,9 @@ void check_desert_exit(void)
         trigger_desert_exit(1, 10);
     } else {
         if (frame == 6)
-            queue_move_sound(37);
+            AddSong(37);
         else if (frame == 9)
-            play_sound(45);
+            AddSound(45);
         else if (frame == 10)
             sink_desert_stone(desert_column + 12);
         flags &= 0xe0ff;
@@ -190,9 +190,9 @@ void check_desert_exit(void)
 void cycle_desert_colors(void)
 {
     if (!fade_active && room_number != 1 && frame_number % 3 == 0) {
-        rotate_palette(176, 13, 0);
-        rotate_palette(196, 4, 0);
-        rotate_palette(191, 5, 0);
+        CycleColors(176, 13, 0);
+        CycleColors(196, 4, 0);
+        CycleColors(191, 5, 0);
     }
 }
 
@@ -202,15 +202,15 @@ void desert_frame(void)
     watch_desert_kid();
     check_desert_exit();
     if (room_number != 1) {
-        if (!sound_playing(10038))
-            play_sound(38);
-        if (sound_playing(10251))
-            stop_sound(10251);
-    } else if (sound_playing(10251)) {
-        if (sound_playing(10038))
-            stop_sound(10038);
+        if (!query_sound(10038))
+            AddSound(38);
+        if (query_sound(10251))
+            dispatch_sound(10251);
+    } else if (query_sound(10251)) {
+        if (query_sound(10038))
+            dispatch_sound(10038);
     } else if (saved_kid.action != 7 && saved_kid.alive < 0 &&
-               !sound_playing(sound_room + 10000) &&
+               !query_sound(sound_room + 10000) &&
                !query_animation(30, 1) && !is_desert_exit_open()) {
         add_desert_ambient();
     }
@@ -226,7 +226,7 @@ void watch_desert_kid(void)
                     if (previous_column <= 7) {
                         if (sink_desert_stone(previous_column + 10) &&
                             desert_column - previous_column == -2)
-                            queue_move_sound(41);
+                            AddSong(41);
                     }
                 }
             }
@@ -236,20 +236,20 @@ void watch_desert_kid(void)
         if (actor.x < 130) {
             if (level_number == next_level) {
                 ++next_level;
-                start_sequence(2);
+                JumpSeq(2);
             } else {
-                start_sequence(2);
+                JumpSeq(2);
                 fall_transition = -1;
             }
         }
     } else if (actor.room == 3) {
         if (actor.x >= 489) {
             if (move_up || move_down || (!actor.direction && move_forward)) {
-                start_sequence(2);
-                reset_player();
+                JumpSeq(2);
+                reset_char_y();
             }
-            if (!sound_playing(10046) && (move_action < 0 || !bounded_random(20)))
-                play_sound(46);
+            if (!query_sound(10046) && (move_action < 0 || !Rnd(20)))
+                AddSound(46);
         }
     }
     saved_kid = actor;
@@ -288,21 +288,21 @@ void LoadDsrtCode(void)
     if (custom_room != 0) {
         if (custom_room->template_id == 6) {
             if (desert_variant == -1) {
-                desert_variant = (sbyte)bounded_random(2);
-                desert_column = (sbyte)bounded_random(4) + 1;
+                desert_variant = (sbyte)Rnd(2);
+                desert_column = (sbyte)Rnd(4) + 1;
             }
             if (desert_variant != 2) {
-                archive = lock_archive(*custom_shape_archive);
+                archive = FETCH_LOCKED_SHAPE_LIST(*custom_shape_archive);
                 piece = &custom_room->pieces[15];
-                free_shape(piece->handle);
+                DISPOSE_HANDLE(piece->handle);
                 resource = desert_variant + custom_room->shape_base + 15;
-                piece->handle = get_resource(0x53484150UL, resource);
-                piece->handle = load_shape(piece->handle, 2, archive);
+                piece->handle = HGETRSRC(0x53484150UL, resource);
+                piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
                 piece = &custom_room->pieces[16];
-                free_shape(piece->handle);
-                piece->handle = get_resource(0x53484150UL, resource + 3);
-                piece->handle = load_shape(piece->handle, 2, archive);
-                unlock_archive(*custom_shape_archive);
+                DISPOSE_HANDLE(piece->handle);
+                piece->handle = HGETRSRC(0x53484150UL, resource + 3);
+                piece->handle = PrinceUnpackShape(piece->handle, 2, archive);
+                CLEAR_HANDLE_OWNED(*custom_shape_archive);
             }
             }
     }
@@ -324,8 +324,8 @@ void setup_sand(void)
         if (!sprite_flipped)
             piece->y -= sprite_width;
         bounds = &piece->rect;
-        shape_rect(bounds, piece->x, piece->y, locate_shape(piece->handle));
-        mark_redraw(redraw_callback, bounds, -1);
+        MAKESHAPERECT(bounds, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle));
+        mark_bufs_for_rect(redraw_callback, bounds, -1);
         draw_clip = *bounds;
         draw_image(index, piece->pass = 1);
         piece->pass = 11;
@@ -339,25 +339,25 @@ void animate_desert_exit(void)
     Piece *piece;
     Rect *bounds;
 
-    if (update_animation()) {
+    if (check_trob_visibility()) {
         frame = animation_flags & 31;
         if (frame == 20) {
             animation_remove = -1;
-            stop_sound(10007);
+            dispatch_sound(10007);
         } else {
             ++frame;
-            if (!sound_playing(10045))
-                play_sound(7);
+            if (!query_sound(10045))
+                AddSound(7);
         }
         animation_flags &= ~31;
         animation_flags |= frame;
         piece = &custom_room->pieces[2];
         piece->rect.top -= 2;
         bounds = &piece->rect;
-        redraw_object(animation_tile, bounds);
-        redraw_object(animation_tile + 1, bounds);
-        redraw_object(animation_tile - 10, bounds);
-        redraw_object(animation_tile - 9, bounds);
+        mark_move(animation_tile, bounds);
+        mark_move(animation_tile + 1, bounds);
+        mark_move(animation_tile - 10, bounds);
+        mark_move(animation_tile - 9, bounds);
         RestoreKeepCustomPeel(piece->shape);
     }
 }
@@ -383,9 +383,9 @@ uword is_desert_exit_open(void)
 
 void trigger_desert_exit(sbyte room, sbyte cell)
 {
-    if (!find_tile_animation(room, cell)) {
-        start_tile_animation(room, cell, 1, 4);
-        queue_move_sound(39);
+    if (!get_trob_room_cell(room, cell)) {
+        add_trob(room, cell, 1, 4);
+        AddSong(39);
     }
 }
 
@@ -393,7 +393,7 @@ void animate_desert_planks(void)
 {
     uword frame;
 
-    if (update_animation()) {
+    if (check_trob_visibility()) {
         frame = (ubyte)animation_flags & 15;
         if (frame == 7)
             frame = 0;
@@ -401,7 +401,7 @@ void animate_desert_planks(void)
             ++frame;
         animation_flags &= ~15;
         animation_flags |= frame;
-        redraw_object(animation_tile, &custom_room->pieces[1].rect);
+        mark_move(animation_tile, &custom_room->pieces[1].rect);
     }
 }
 
@@ -423,7 +423,7 @@ void animate_desert_rocks(void)
 {
     uword frame;
 
-    if (update_animation()) {
+    if (check_trob_visibility()) {
         frame = (ubyte)animation_flags & 15;
         if (frame == 7)
             frame = 0;
@@ -431,7 +431,7 @@ void animate_desert_rocks(void)
             ++frame;
         animation_flags &= ~15;
         animation_flags |= frame;
-        redraw_object(animation_tile, &custom_room->pieces[1].rect);
+        mark_move(animation_tile, &custom_room->pieces[1].rect);
     }
 }
 
@@ -462,7 +462,7 @@ void AddDsrtStoneUpPeels(Piece *piece)
     x = 64;
     count = 6;
     do {
-        offset_rect(&bounds, &piece->rect, x, y);
+        OFFSETRECT(&bounds, &piece->rect, x, y);
         add_peel(bounds.top, bounds.bottom, bounds.left,
                  bounds.right - bounds.left, id, 3);
         x += 32;
@@ -478,7 +478,7 @@ void animate_desert_stone(void)
     if (delay == 0) {
         frame = animation_flags & 15;
         if (animation_remove == 3 && frame == 0)
-            play_sound(42);
+            AddSound(42);
 
         if ((frame == 10 && animation_remove == 3) ||
             (frame == 0 && animation_remove == 1)) {
@@ -516,10 +516,10 @@ void redraw_stone(void)
 {
     Rect bounds;
 
-    if (get_tile_bounds(&bounds, &stone_bounds)) {
-        redraw_object(animation_tile, &bounds);
-        redraw_object(get_adjacent_animation(), &bounds);
-        redraw_object(get_other_animation(), &bounds);
+    if (compute_trob_move_rect(&bounds, &stone_bounds)) {
+        mark_move(animation_tile, &bounds);
+        mark_move(get_adjacent_animation(), &bounds);
+        mark_move(check_trob_below(), &bounds);
     }
 }
 
@@ -534,7 +534,7 @@ void remove_last_stone_peel(sbyte column)
     Rect far *bounds;
 
     do {
-        slot = restore_peel(114, occurrence);
+        slot = find_character_peel(114, occurrence);
         if (slot != -1) {
             bounds = &peel_records[slot].peel->bounds;
             if (bounds->top == x || bounds->bottom == x) {
@@ -587,12 +587,12 @@ int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
 
     if (action == 3 && frame == 0) {
         original &= ~0x1f0;
-        *flags = original | ((bounded_random(10) + 21) << 4);
+        *flags = original | ((Rnd(10) + 21) << 4);
     } else if (action == 1) {
         if (frame) {
-            play_sound(43);
+            AddSound(43);
         } else {
-            started = find_tile_animation(room, index) == 0;
+            started = get_trob_room_cell(room, index) == 0;
             if (original & 0x1f0) {
                 original &= ~0x1f0;
                 *flags = original;
@@ -605,7 +605,7 @@ int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
     }
 
     if (started) {
-        start_tile_animation(room, cell, action, 30);
+        add_trob(room, cell, action, 30);
         if (action == 1)
             remove_last_stone_peel((sbyte)(cell % 10));
     }

@@ -15,7 +15,7 @@ EXTRN mode_scanline_offsets:WORD
 .CODE
 EXTRN check_cursor_overlap:NEAR
 EXTRN show_mouse_graphics:NEAR
-EXTRN allocate_near_heap:FAR
+EXTRN __nmalloc:FAR
 hercules_config_port EQU 3BFh
 mono_mode_port EQU 3B8h
 mono_crtc_port EQU 3B4h
@@ -822,7 +822,7 @@ initialize_cga PROC FAR
     mov ax, WORD PTR [mode_scanline_count]
     shl ax, 1
     push ax
-    call allocate_near_heap
+    call __nmalloc
     add sp, 2
     mov WORD PTR [mode_scanline_offsets], ax
     test ax, ax
@@ -2342,7 +2342,7 @@ initialize_hercules PROC FAR
     mov ax, WORD PTR [mode_scanline_count]
     shl ax, 1
     push ax
-    call allocate_near_heap
+    call __nmalloc
     add sp, 2
     mov WORD PTR [mode_scanline_offsets], ax
     test ax, ax

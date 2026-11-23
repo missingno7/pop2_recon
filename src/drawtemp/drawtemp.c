@@ -53,10 +53,10 @@ extern ShapeOffsets *shape_offsets;
 extern Byte drawn_room;
 extern unsigned int kid_frame;
 extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte column, Byte row);
-extern int intersect_rect(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
-extern void union_rect(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
-extern int test_back_neighbor(CellCoord column, CellCoord row);
-extern int is_rectangle_empty(const DrawRect far *rect);
+extern int SECTRECT(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
+extern void UNIONRECT(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
+extern int visible_above_piece(CellCoord column, CellCoord row);
+extern int EMPTYRECT(const DrawRect far *rect);
 extern int AddBImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int AddBFImgToBTable(Byte, int, CellCoord, CellCoord, Byte, Byte);
 extern int add_foreground_image(Byte, int, CellCoord, CellCoord, Byte, Byte);
@@ -66,7 +66,7 @@ extern int IsWall(Byte);
 extern Byte PieceBelowId(CellCoord, CellCoord);
 extern Byte PieceRightId(CellCoord, CellCoord);
 extern signed char FirstInRow(Byte, CellCoord);
-extern MovingExit *find_moving_exit(int tile);
+extern MovingExit *get_trob_room_cell(int tile);
 
 static int loose_odd[12] = { 0, 1, 0, 2, 2, 0, 0, 0, 1, 1, 1, 0 };
 static int loose_even[12] = { 0, 2, 2, 0, 1, 1, 0, 2, 2, 2, 0, 1 };
@@ -105,14 +105,14 @@ void draw_temple_back_wall(TempleCell *cell)
 
         if (!draw_pass_mode) {
             shape = get_back_table_image_row(image, cell->column - 1, cell->row);
-            if (shape && intersect_rect(&overlap, &shape->clip, &clip_rect)) {
+            if (shape && SECTRECT(&overlap, &shape->clip, &clip_rect)) {
                 fallback = 0;
-                union_rect(&shape->clip, &shape->clip, &clip_rect);
+                UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
                 if (paired) {
                     shape = get_back_table_image_row(image + 1, cell->column - 1, cell->row);
                     if (shape) {
-                        if (intersect_rect(&overlap, &shape->clip, &clip_rect))
-                            union_rect(&shape->clip, &shape->clip, &clip_rect);
+                        if (SECTRECT(&overlap, &shape->clip, &clip_rect))
+                            UNIONRECT(&shape->clip, &shape->clip, &clip_rect);
                     }
                 }
             } else {
@@ -128,10 +128,10 @@ void draw_temple_back_wall(TempleCell *cell)
                        (cell->column == -1 && modifier <= 3) || cell->row == 3)) {
             fallback = 1;
             saved_top = clip_rect.top;
-            if (cell->row >= 0 && !test_back_neighbor(cell->column, cell->row)) {
+            if (cell->row >= 0 && !visible_above_piece(cell->column, cell->row)) {
                 if (Row2PixelY[cell->row] > clip_rect.left) {
                     clip_rect.top = Row2PixelY[cell->row] < saved_top ? saved_top : Row2PixelY[cell->row];
-                    if (is_rectangle_empty(&clip_rect))
+                    if (EMPTYRECT(&clip_rect))
                         fallback = 0;
                 }
             }
@@ -260,8 +260,8 @@ void draw_temple_exit_movable(TempleCell *cell)
         saved_clip = clip_rect;
         door_clip = exit_clip;
         door_clip.top = cell->row * 63 - 5;
-        if (intersect_rect(&clip_rect, &clip_rect, &door_clip)) {
-            moving = find_moving_exit(cell->column + FirstInRow(drawn_room, cell->row));
+        if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
+            moving = get_trob_room_cell(cell->column + FirstInRow(drawn_room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 0, 0);
             shape_offsets->exit_y = -(19 + ((CELL_INFO_WORD(cell, 0) & 255) < 42 ? (CELL_INFO_WORD(cell, 0) & 255) : 42));
@@ -350,7 +350,7 @@ void draw_temple_gate_movable(TempleCell *cell)
     saved_clip = clip_rect;
     gate_clip = exit_clip;
     gate_clip.top = cell->row * 63 - 10;
-    if (intersect_rect(&clip_rect, &clip_rect, &gate_clip)) {
+    if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
         height = (CELL_INFO_WORD(cell, 0) & 252) >> 2;
         shape_offsets->gate_y = -(4 + (height < 50 ? height : 50));
         switch (cell->pass) {
@@ -589,7 +589,7 @@ void draw_temple_space(TempleCell *cell)
         if (cell->row == redraw_row)
             draw = 1;
         else if (cell->row - redraw_row == 1)
-            draw = test_back_neighbor(cell->column, cell->row);
+            draw = visible_above_piece(cell->column, cell->row);
         if (!draw && redraw_row == -1 && is_six_kind(redraw_below_tile))
             draw = 1;
         if (draw)

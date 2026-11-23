@@ -2,16 +2,16 @@
   "declarations": {
     "externals": [
       "COPY_CURRENT_PORT_ORIGIN",
+      "CLEAR_PAYLOAD_HEADER",
       "MEASURE_COUNTED_TEXT",
-      "CLEAR_FAR_BLOCK_FLAGS",
       "CURRENT_CONTEXT",
       "FIT_TEXT_PREFIX",
       "STROKE_RECTANGLE",
       "RELEASE_BUFFER_CALLBACK",
       "SET_RELATIVE_PEN_STATE",
+      "ALLOCATE_PINNED_PAYLOAD",
       "ALLOCATE_BUFFER_CALLBACK",
       "DRAW_COUNTED_TEXT",
-      "ALLOCATE_FAR_BLOCK",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD"
     ],
     "groups": [
@@ -152,10 +152,10 @@
       "segment_offset": 98,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "CLEAR_FAR_BLOCK_FLAGS",
+        "name": "CLEAR_PAYLOAD_HEADER",
         "zero_displacement": true
       }
     },
@@ -174,7 +174,7 @@
       "segment_offset": 106,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "ALLOCATE_BUFFER_CALLBACK",
@@ -196,10 +196,10 @@
       "segment_offset": 122,
       "self_relative": true,
       "target": {
-        "index": 11,
+        "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_FAR_BLOCK",
+        "name": "ALLOCATE_PINNED_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -306,7 +306,7 @@
       "segment_offset": 365,
       "self_relative": true,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "MEASURE_COUNTED_TEXT",
@@ -328,7 +328,7 @@
       "segment_offset": 405,
       "self_relative": true,
       "target": {
-        "index": 10,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "DRAW_COUNTED_TEXT",
@@ -402,7 +402,7 @@
       "offset": 9698,
       "provider": "group:graf/graphics_mode"
     },
-    "ALLOCATE_FAR_BLOCK": {
+    "ALLOCATE_PINNED_PAYLOAD": {
       "entry_sha256": "3852a22711ea66ec3c9c0187cce6d46782a8cff55d7ac8001fec60129f59f63e",
       "entry_target_id": "root:1101:297c",
       "kind": "near-code-entry",
@@ -418,7 +418,7 @@
         }
       ]
     },
-    "CLEAR_FAR_BLOCK_FLAGS": {
+    "CLEAR_PAYLOAD_HEADER": {
       "entry_sha256": "7480576624c47fc3fd3eb07778f9b2e14d5ed8db3b5e71a117e29b9368aeb30f",
       "entry_target_id": "root:1101:25e4",
       "kind": "near-code-entry",

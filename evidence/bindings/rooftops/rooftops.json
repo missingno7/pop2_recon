@@ -62,44 +62,44 @@
       "ANIMATE_ROOF_GLASS",
       "REDRAW_OBJECT",
       "RESTORE_OBJECT",
-      "INTERSECT_RECT",
-      "MARK_REDRAW",
-      "CHANGE_HP",
+      "SECTRECT",
+      "MARK_BUFS_FOR_RECT",
+      "DECREMENT_LIFE_POINTS",
       "STATE_BYTE",
       "DRAW_ROOF_GLASS",
       "CHECK_ROOF_ROOM",
       "PLAY_CUTSCENE_SOUND",
       "LOAD_PALETTE",
-      "ROTATE_PALETTE",
+      "CYCLECOLORS",
       "CLIP_CHARACTER_AT_WATER",
-      "SHOW_PROMPT",
-      "PLAY_SOUND",
-      "STOP_SHIP_SOUND",
+      "QUERY_SOUND",
+      "ADDSOUND",
+      "ADDLEAVELEVELSONG",
       "ANIMROOFPILLAR",
-      "MISC_SOUND",
-      "SET_SOUND",
+      "PLAY_SONG",
+      "WAIT_SOUND",
       "WAIT_TIMER",
       "STEP_SCENE",
       "CHECKMETERS",
-      "ANIMATE_CHARACTER",
-      "RESET_PLAYER",
-      "START_SEQUENCE",
+      "COPY_KID_TO_CHAR",
+      "RESET_CHAR_Y",
+      "JUMPSEQ",
       "ROOF_FRAME",
       "WATER_CHARACTER",
-      "HIDE_PROMPT",
+      "FLAG_SOUND_RESOURCE",
       "SPLASH_FRAME",
-      "SELECT_OPPONENT",
+      "LOAD_ACTOR_SLOT",
       "SPLASH_X",
       "KILL_KID_ON_WHARF",
-      "RESTORE_CHARACTER",
+      "SAVE_ACTOR_SLOT",
       "SPLASH_LOW",
       "DRAW_ROOF_PILLAR",
-      "UPDATE_ANIMATION",
+      "CHECK_TROB_VISIBILITY",
       "PALETTE_BANK",
-      "GET_SHAPE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "PALETTE_THEME",
       "ANIMATION_ROOM",
-      "OFFSET_SHAPE_RECT"
+      "MAKESHAPERECT"
     ],
     "groups": [
       {
@@ -513,7 +513,7 @@
           "index": 62,
           "kind": "external",
           "method": 6,
-          "name": "INTERSECT_RECT",
+          "name": "SECTRECT",
           "zero_displacement": true
         }
       },
@@ -527,7 +527,7 @@
         "index": 62,
         "kind": "external",
         "method": 6,
-        "name": "INTERSECT_RECT",
+        "name": "SECTRECT",
         "zero_displacement": true
       }
     },
@@ -702,7 +702,7 @@
           "index": 64,
           "kind": "external",
           "method": 6,
-          "name": "CHANGE_HP",
+          "name": "DECREMENT_LIFE_POINTS",
           "zero_displacement": true
         }
       },
@@ -716,7 +716,7 @@
         "index": 64,
         "kind": "external",
         "method": 6,
-        "name": "CHANGE_HP",
+        "name": "DECREMENT_LIFE_POINTS",
         "zero_displacement": true
       }
     },
@@ -864,7 +864,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -878,7 +878,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -1809,7 +1809,7 @@
           "index": 70,
           "kind": "external",
           "method": 6,
-          "name": "ROTATE_PALETTE",
+          "name": "CYCLECOLORS",
           "zero_displacement": true
         }
       },
@@ -1823,7 +1823,7 @@
         "index": 70,
         "kind": "external",
         "method": 6,
-        "name": "ROTATE_PALETTE",
+        "name": "CYCLECOLORS",
         "zero_displacement": true
       }
     },
@@ -1836,7 +1836,7 @@
           "index": 70,
           "kind": "external",
           "method": 6,
-          "name": "ROTATE_PALETTE",
+          "name": "CYCLECOLORS",
           "zero_displacement": true
         }
       },
@@ -1850,7 +1850,7 @@
         "index": 70,
         "kind": "external",
         "method": 6,
-        "name": "ROTATE_PALETTE",
+        "name": "CYCLECOLORS",
         "zero_displacement": true
       }
     },
@@ -1863,7 +1863,7 @@
           "index": 70,
           "kind": "external",
           "method": 6,
-          "name": "ROTATE_PALETTE",
+          "name": "CYCLECOLORS",
           "zero_displacement": true
         }
       },
@@ -1877,7 +1877,7 @@
         "index": 70,
         "kind": "external",
         "method": 6,
-        "name": "ROTATE_PALETTE",
+        "name": "CYCLECOLORS",
         "zero_displacement": true
       }
     },
@@ -2106,7 +2106,7 @@
           "index": 86,
           "kind": "external",
           "method": 6,
-          "name": "HIDE_PROMPT",
+          "name": "FLAG_SOUND_RESOURCE",
           "zero_displacement": true
         }
       },
@@ -2120,7 +2120,7 @@
         "index": 86,
         "kind": "external",
         "method": 6,
-        "name": "HIDE_PROMPT",
+        "name": "FLAG_SOUND_RESOURCE",
         "zero_displacement": true
       }
     },
@@ -2160,7 +2160,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "START_SEQUENCE",
+          "name": "JUMPSEQ",
           "zero_displacement": true
         }
       },
@@ -2174,7 +2174,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "START_SEQUENCE",
+        "name": "JUMPSEQ",
         "zero_displacement": true
       }
     },
@@ -2187,7 +2187,7 @@
           "index": 82,
           "kind": "external",
           "method": 6,
-          "name": "RESET_PLAYER",
+          "name": "RESET_CHAR_Y",
           "zero_displacement": true
         }
       },
@@ -2201,7 +2201,7 @@
         "index": 82,
         "kind": "external",
         "method": 6,
-        "name": "RESET_PLAYER",
+        "name": "RESET_CHAR_Y",
         "zero_displacement": true
       }
     },
@@ -2241,7 +2241,7 @@
           "index": 81,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATE_CHARACTER",
+          "name": "COPY_KID_TO_CHAR",
           "zero_displacement": true
         }
       },
@@ -2255,7 +2255,7 @@
         "index": 81,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATE_CHARACTER",
+        "name": "COPY_KID_TO_CHAR",
         "zero_displacement": true
       }
     },
@@ -2376,7 +2376,7 @@
           "index": 64,
           "kind": "external",
           "method": 6,
-          "name": "CHANGE_HP",
+          "name": "DECREMENT_LIFE_POINTS",
           "zero_displacement": true
         }
       },
@@ -2390,7 +2390,7 @@
         "index": 64,
         "kind": "external",
         "method": 6,
-        "name": "CHANGE_HP",
+        "name": "DECREMENT_LIFE_POINTS",
         "zero_displacement": true
       }
     },
@@ -2457,7 +2457,7 @@
           "index": 76,
           "kind": "external",
           "method": 6,
-          "name": "MISC_SOUND",
+          "name": "PLAY_SONG",
           "zero_displacement": true
         }
       },
@@ -2471,7 +2471,7 @@
         "index": 76,
         "kind": "external",
         "method": 6,
-        "name": "MISC_SOUND",
+        "name": "PLAY_SONG",
         "zero_displacement": true
       }
     },
@@ -2538,7 +2538,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "SET_SOUND",
+          "name": "WAIT_SOUND",
           "zero_displacement": true
         }
       },
@@ -2552,7 +2552,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "SET_SOUND",
+        "name": "WAIT_SOUND",
         "zero_displacement": true
       }
     },
@@ -2592,7 +2592,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -2606,7 +2606,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -2619,7 +2619,7 @@
           "index": 72,
           "kind": "external",
           "method": 6,
-          "name": "SHOW_PROMPT",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -2633,7 +2633,7 @@
         "index": 72,
         "kind": "external",
         "method": 6,
-        "name": "SHOW_PROMPT",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -2673,7 +2673,7 @@
           "index": 72,
           "kind": "external",
           "method": 6,
-          "name": "SHOW_PROMPT",
+          "name": "QUERY_SOUND",
           "zero_displacement": true
         }
       },
@@ -2687,7 +2687,7 @@
         "index": 72,
         "kind": "external",
         "method": 6,
-        "name": "SHOW_PROMPT",
+        "name": "QUERY_SOUND",
         "zero_displacement": true
       }
     },
@@ -2943,7 +2943,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -2957,7 +2957,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -3348,7 +3348,7 @@
           "index": 81,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATE_CHARACTER",
+          "name": "COPY_KID_TO_CHAR",
           "zero_displacement": true
         }
       },
@@ -3362,7 +3362,7 @@
         "index": 81,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATE_CHARACTER",
+        "name": "COPY_KID_TO_CHAR",
         "zero_displacement": true
       }
     },
@@ -3510,7 +3510,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "STOP_SHIP_SOUND",
+          "name": "ADDLEAVELEVELSONG",
           "zero_displacement": true
         }
       },
@@ -3524,7 +3524,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "STOP_SHIP_SOUND",
+        "name": "ADDLEAVELEVELSONG",
         "zero_displacement": true
       }
     },
@@ -3699,7 +3699,7 @@
           "index": 91,
           "kind": "external",
           "method": 6,
-          "name": "RESTORE_CHARACTER",
+          "name": "SAVE_ACTOR_SLOT",
           "zero_displacement": true
         }
       },
@@ -3713,7 +3713,7 @@
         "index": 91,
         "kind": "external",
         "method": 6,
-        "name": "RESTORE_CHARACTER",
+        "name": "SAVE_ACTOR_SLOT",
         "zero_displacement": true
       }
     },
@@ -3834,7 +3834,7 @@
           "index": 88,
           "kind": "external",
           "method": 6,
-          "name": "SELECT_OPPONENT",
+          "name": "LOAD_ACTOR_SLOT",
           "zero_displacement": true
         }
       },
@@ -3848,7 +3848,7 @@
         "index": 88,
         "kind": "external",
         "method": 6,
-        "name": "SELECT_OPPONENT",
+        "name": "LOAD_ACTOR_SLOT",
         "zero_displacement": true
       }
     },
@@ -3942,7 +3942,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -3956,7 +3956,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -4104,7 +4104,7 @@
           "index": 99,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -4118,7 +4118,7 @@
         "index": 99,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -4131,7 +4131,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "GET_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -4145,7 +4145,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "GET_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -4455,7 +4455,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -4469,7 +4469,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -4590,7 +4590,7 @@
           "index": 73,
           "kind": "external",
           "method": 6,
-          "name": "PLAY_SOUND",
+          "name": "ADDSOUND",
           "zero_displacement": true
         }
       },
@@ -4604,7 +4604,7 @@
         "index": 73,
         "kind": "external",
         "method": 6,
-        "name": "PLAY_SOUND",
+        "name": "ADDSOUND",
         "zero_displacement": true
       }
     },
@@ -4752,7 +4752,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -4766,7 +4766,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -4995,7 +4995,7 @@
           "index": 94,
           "kind": "external",
           "method": 6,
-          "name": "UPDATE_ANIMATION",
+          "name": "CHECK_TROB_VISIBILITY",
           "zero_displacement": true
         }
       },
@@ -5009,7 +5009,7 @@
         "index": 94,
         "kind": "external",
         "method": 6,
-        "name": "UPDATE_ANIMATION",
+        "name": "CHECK_TROB_VISIBILITY",
         "zero_displacement": true
       }
     },
@@ -5022,7 +5022,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -5036,7 +5036,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -5130,7 +5130,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -5144,7 +5144,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -5238,7 +5238,7 @@
           "index": 62,
           "kind": "external",
           "method": 6,
-          "name": "INTERSECT_RECT",
+          "name": "SECTRECT",
           "zero_displacement": true
         }
       },
@@ -5252,7 +5252,7 @@
         "index": 62,
         "kind": "external",
         "method": 6,
-        "name": "INTERSECT_RECT",
+        "name": "SECTRECT",
         "zero_displacement": true
       }
     },
@@ -5724,7 +5724,7 @@
           "index": 62,
           "kind": "external",
           "method": 6,
-          "name": "INTERSECT_RECT",
+          "name": "SECTRECT",
           "zero_displacement": true
         }
       },
@@ -5738,7 +5738,7 @@
         "index": 62,
         "kind": "external",
         "method": 6,
-        "name": "INTERSECT_RECT",
+        "name": "SECTRECT",
         "zero_displacement": true
       }
     },
@@ -5832,7 +5832,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -5846,7 +5846,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -5913,7 +5913,7 @@
           "index": 99,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -5927,7 +5927,7 @@
         "index": 99,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -5940,7 +5940,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "GET_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -5954,7 +5954,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "GET_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -6102,7 +6102,7 @@
           "index": 63,
           "kind": "external",
           "method": 6,
-          "name": "MARK_REDRAW",
+          "name": "MARK_BUFS_FOR_RECT",
           "zero_displacement": true
         }
       },
@@ -6116,7 +6116,7 @@
         "index": 63,
         "kind": "external",
         "method": 6,
-        "name": "MARK_REDRAW",
+        "name": "MARK_BUFS_FOR_RECT",
         "zero_displacement": true
       }
     },
@@ -6183,7 +6183,7 @@
           "index": 99,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -6197,7 +6197,7 @@
         "index": 99,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -6210,7 +6210,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "GET_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -6224,7 +6224,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "GET_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -6480,7 +6480,7 @@
           "index": 99,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -6494,7 +6494,7 @@
         "index": 99,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -6507,7 +6507,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "GET_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -6521,7 +6521,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "GET_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -6588,7 +6588,7 @@
           "index": 99,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -6602,7 +6602,7 @@
         "index": 99,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -6615,7 +6615,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "GET_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -6629,7 +6629,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "GET_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -6696,7 +6696,7 @@
           "index": 99,
           "kind": "external",
           "method": 6,
-          "name": "OFFSET_SHAPE_RECT",
+          "name": "MAKESHAPERECT",
           "zero_displacement": true
         }
       },
@@ -6710,7 +6710,7 @@
         "index": 99,
         "kind": "external",
         "method": 6,
-        "name": "OFFSET_SHAPE_RECT",
+        "name": "MAKESHAPERECT",
         "zero_displacement": true
       }
     },
@@ -6723,7 +6723,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "GET_SHAPE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -6737,7 +6737,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "GET_SHAPE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -7207,19 +7207,36 @@
         }
       ]
     },
-    "ANIMATE_CHARACTER": {
-      "entry_sha256": "a2a62980f8508b634bf68774db21a40cacb768b10100046f1a5fcd12530f09c2",
-      "entry_target_id": "root:02cc:1d94",
+    "ADDLEAVELEVELSONG": {
+      "entry_sha256": "2dd339daea66731754ab93651dfcf22740f5c71a9621705acd7758f83d79e64d",
+      "entry_target_id": "root:0dd7:0024",
       "kind": "far-code-entry",
-      "offset": 7572,
-      "segment": 716,
+      "offset": 36,
+      "segment": 3543,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a941dcc02",
-          "file_offset": 9035,
-          "image_offset": 843,
-          "relocation_index": 83,
+          "bytes_hex": "9a2400d70d",
+          "file_offset": 198858,
+          "image_offset": 14090,
+          "relocation_index": 236,
+          "space": "overlay-3"
+        }
+      ]
+    },
+    "ADDSOUND": {
+      "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
+      "entry_target_id": "root:0dd7:01ce",
+      "kind": "far-code-entry",
+      "offset": 462,
+      "segment": 3543,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ace01d70d",
+          "file_offset": 9717,
+          "image_offset": 1525,
+          "relocation_index": 3,
           "space": "root"
         }
       ]
@@ -7262,23 +7279,6 @@
           "entry": "root:0b41:000c",
           "image_offset": 46142,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "CHANGE_HP": {
-      "entry_sha256": "9bdfa1c302b1c3f0b0ec29549795bd2da5d6f481ee8b3730a44ad37718496498",
-      "entry_target_id": "root:02cc:094e",
-      "kind": "far-code-entry",
-      "offset": 2382,
-      "segment": 716,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a4e09cc02",
-          "file_offset": 75122,
-          "image_offset": 66930,
-          "relocation_index": 1366,
           "space": "root"
         }
       ]
@@ -7384,6 +7384,40 @@
         }
       ]
     },
+    "CHECK_TROB_VISIBILITY": {
+      "entry_sha256": "6310c75698caf48eec5cc67ca5455015080d2a8e3fcaebad6a186ecf68c920b6",
+      "entry_target_id": "root:0b41:04d4",
+      "kind": "far-code-entry",
+      "offset": 1236,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad404410b",
+          "file_offset": 213248,
+          "image_offset": 1328,
+          "relocation_index": 21,
+          "space": "overlay-5"
+        }
+      ]
+    },
+    "COPY_KID_TO_CHAR": {
+      "entry_sha256": "a2a62980f8508b634bf68774db21a40cacb768b10100046f1a5fcd12530f09c2",
+      "entry_target_id": "root:02cc:1d94",
+      "kind": "far-code-entry",
+      "offset": 7572,
+      "segment": 716,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a941dcc02",
+          "file_offset": 9035,
+          "image_offset": 843,
+          "relocation_index": 83,
+          "space": "root"
+        }
+      ]
+    },
     "CURRENT_CHARACTER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7408,6 +7442,40 @@
           "entry": "root:0169:0526",
           "image_offset": 7168,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "CYCLECOLORS": {
+      "entry_sha256": "1bd67e3beb70d81edd9b7d9c2cf9f8e8ed5fe8cad47bc306751e0bb233bf6afe",
+      "entry_target_id": "root:1ead:0044",
+      "kind": "far-code-entry",
+      "offset": 68,
+      "segment": 7853,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a4400ad1e",
+          "file_offset": 212272,
+          "image_offset": 352,
+          "relocation_index": 54,
+          "space": "overlay-5"
+        }
+      ]
+    },
+    "DECREMENT_LIFE_POINTS": {
+      "entry_sha256": "9bdfa1c302b1c3f0b0ec29549795bd2da5d6f481ee8b3730a44ad37718496498",
+      "entry_target_id": "root:02cc:094e",
+      "kind": "far-code-entry",
+      "offset": 2382,
+      "segment": 716,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a4e09cc02",
+          "file_offset": 75122,
+          "image_offset": 66930,
+          "relocation_index": 1366,
           "space": "root"
         }
       ]
@@ -7510,6 +7578,15 @@
         }
       ]
     },
+    "FLAG_SOUND_RESOURCE": {
+      "entry_sha256": "94e0d1927774a9e0106d69d3b850b63c321a4dff88d0b0b59c40160a1f126ef1",
+      "entry_target_id": "root:1101:83b4",
+      "kind": "far-code-entry",
+      "offset": 33716,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "FRAME_NUMBER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7524,45 +7601,19 @@
         }
       ]
     },
-    "GET_SHAPE": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
-      "kind": "far-code-entry",
-      "offset": 8556,
-      "segment": 4353,
-      "space": "root",
+    "JUMPSEQ": {
+      "entry_sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
+      "entry_target_id": "overlay-3:25da:0016",
+      "kind": "overlay-code-entry",
+      "offset": 22,
+      "segment": 9690,
+      "space": "overlay-3",
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
-          "space": "root"
-        }
-      ]
-    },
-    "HIDE_PROMPT": {
-      "entry_sha256": "94e0d1927774a9e0106d69d3b850b63c321a4dff88d0b0b59c40160a1f126ef1",
-      "entry_target_id": "root:1101:83b4",
-      "kind": "far-code-entry",
-      "offset": 33716,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
-    "INTERSECT_RECT": {
-      "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
-      "entry_target_id": "root:1101:5284",
-      "kind": "far-code-entry",
-      "offset": 21124,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a84520111",
-          "file_offset": 14174,
-          "image_offset": 5982,
-          "relocation_index": 167,
+          "bytes_hex": "9a1600da25",
+          "file_offset": 9761,
+          "image_offset": 1569,
+          "relocation_index": 37,
           "space": "root"
         }
       ]
@@ -7581,6 +7632,15 @@
         }
       ]
     },
+    "LOAD_ACTOR_SLOT": {
+      "entry_sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
+      "entry_target_id": "root:02cc:1d42",
+      "kind": "far-code-entry",
+      "offset": 7490,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
+    },
     "LOAD_PALETTE": {
       "entry_sha256": "4eb94aa76dc5b816dd37b6da52bdcda8b9be4f3d7463f65782c687458dad91c5",
       "entry_target_id": "root:078a:2b0a",
@@ -7598,41 +7658,7 @@
         }
       ]
     },
-    "MARK_REDRAW": {
-      "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
-      "entry_target_id": "root:0b41:0f62",
-      "kind": "far-code-entry",
-      "offset": 3938,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a620f410b",
-          "file_offset": 15606,
-          "image_offset": 7414,
-          "relocation_index": 143,
-          "space": "root"
-        }
-      ]
-    },
-    "MISC_SOUND": {
-      "entry_sha256": "041b51a11a1648e6cb545c8f728098e1dde9086b5d043530c4efb3c648398adb",
-      "entry_target_id": "root:0dd7:053c",
-      "kind": "far-code-entry",
-      "offset": 1340,
-      "segment": 3543,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3c05d70d",
-          "file_offset": 31859,
-          "image_offset": 23667,
-          "relocation_index": 574,
-          "space": "root"
-        }
-      ]
-    },
-    "OFFSET_SHAPE_RECT": {
+    "MAKESHAPERECT": {
       "entry_sha256": "fd4e66c3350ca5db43910ff2947eca5b98464c835b104fc1e050a9e67e8f76e4",
       "entry_target_id": "root:1101:02c3",
       "kind": "far-code-entry",
@@ -7645,6 +7671,23 @@
           "file_offset": 14157,
           "image_offset": 5965,
           "relocation_index": 209,
+          "space": "root"
+        }
+      ]
+    },
+    "MARK_BUFS_FOR_RECT": {
+      "entry_sha256": "f9c94012a1abdca5163902c78a288c3080079c8112b9048f50f0d569d95a7df4",
+      "entry_target_id": "root:0b41:0f62",
+      "kind": "far-code-entry",
+      "offset": 3938,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a620f410b",
+          "file_offset": 15606,
+          "image_offset": 7414,
+          "relocation_index": 143,
           "space": "root"
         }
       ]
@@ -7700,19 +7743,19 @@
         }
       ]
     },
-    "PLAY_SOUND": {
-      "entry_sha256": "dd3a2906bebc50ed73587e1a8d570b2d054da6121db6d0a1c9da50118fd619ae",
-      "entry_target_id": "root:0dd7:01ce",
+    "PLAY_SONG": {
+      "entry_sha256": "041b51a11a1648e6cb545c8f728098e1dde9086b5d043530c4efb3c648398adb",
+      "entry_target_id": "root:0dd7:053c",
       "kind": "far-code-entry",
-      "offset": 462,
+      "offset": 1340,
       "segment": 3543,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9ace01d70d",
-          "file_offset": 9717,
-          "image_offset": 1525,
-          "relocation_index": 3,
+          "bytes_hex": "9a3c05d70d",
+          "file_offset": 31859,
+          "image_offset": 23667,
+          "relocation_index": 574,
           "space": "root"
         }
       ]
@@ -7727,6 +7770,23 @@
           "entry": "root:0000:1000",
           "image_offset": 2333,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "QUERY_SOUND": {
+      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
+      "entry_target_id": "root:1101:8444",
+      "kind": "far-code-entry",
+      "offset": 33860,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a44840111",
+          "file_offset": 23329,
+          "image_offset": 15137,
+          "relocation_index": 291,
           "space": "root"
         }
       ]
@@ -7758,7 +7818,7 @@
         }
       ]
     },
-    "RESET_PLAYER": {
+    "RESET_CHAR_Y": {
       "entry_sha256": "29d45b1e94cfeeb7c013cac32a16c564701d04d7872c145ce43eb21ca8b0f8d7",
       "entry_target_id": "root:02cc:07a2",
       "kind": "far-code-entry",
@@ -7771,6 +7831,23 @@
           "file_offset": 67661,
           "image_offset": 59469,
           "relocation_index": 1213,
+          "space": "root"
+        }
+      ]
+    },
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
+      "kind": "far-code-entry",
+      "offset": 8556,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6c210111",
+          "file_offset": 14073,
+          "image_offset": 5881,
+          "relocation_index": 234,
           "space": "root"
         }
       ]
@@ -7797,15 +7874,6 @@
           "space": "overlay-5"
         }
       ]
-    },
-    "RESTORE_CHARACTER": {
-      "entry_sha256": "62784221e9aab866888663625cd2c3a05c71ed80964f3475f96d942b9cac4ec3",
-      "entry_target_id": "root:02cc:1cf6",
-      "kind": "far-code-entry",
-      "offset": 7414,
-      "segment": 716,
-      "space": "root",
-      "witnesses": []
     },
     "RESTORE_OBJECT": {
       "kind": "far-data",
@@ -7870,23 +7938,6 @@
         }
       ]
     },
-    "ROTATE_PALETTE": {
-      "entry_sha256": "1bd67e3beb70d81edd9b7d9c2cf9f8e8ed5fe8cad47bc306751e0bb233bf6afe",
-      "entry_target_id": "root:1ead:0044",
-      "kind": "far-code-entry",
-      "offset": 68,
-      "segment": 7853,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a4400ad1e",
-          "file_offset": 212272,
-          "image_offset": 352,
-          "relocation_index": 54,
-          "space": "overlay-5"
-        }
-      ]
-    },
     "SAVED_KID": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7900,6 +7951,15 @@
           "space": "root"
         }
       ]
+    },
+    "SAVE_ACTOR_SLOT": {
+      "entry_sha256": "62784221e9aab866888663625cd2c3a05c71ed80964f3475f96d942b9cac4ec3",
+      "entry_target_id": "root:02cc:1cf6",
+      "kind": "far-code-entry",
+      "offset": 7414,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
     },
     "SCENE_FLAGS": {
       "group": "DGROUP",
@@ -7915,28 +7975,19 @@
         }
       ]
     },
-    "SELECT_OPPONENT": {
-      "entry_sha256": "4c6948d8829ba58fcf8caa7cda7d372f658b00de326f5554e55dfb842cdb76ca",
-      "entry_target_id": "root:02cc:1d42",
+    "SECTRECT": {
+      "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
+      "entry_target_id": "root:1101:5284",
       "kind": "far-code-entry",
-      "offset": 7490,
-      "segment": 716,
-      "space": "root",
-      "witnesses": []
-    },
-    "SET_SOUND": {
-      "entry_sha256": "862d2ad31de90835658ba019ad489eabe831cc54c3a4c92599b92e90cf2018c2",
-      "entry_target_id": "root:1de8:019c",
-      "kind": "far-code-entry",
-      "offset": 412,
-      "segment": 7656,
+      "offset": 21124,
+      "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a9c01e81d",
-          "file_offset": 76538,
-          "image_offset": 68346,
-          "relocation_index": 1409,
+          "bytes_hex": "9a84520111",
+          "file_offset": 14174,
+          "image_offset": 5982,
+          "relocation_index": 167,
           "space": "root"
         }
       ]
@@ -7951,23 +8002,6 @@
           "entry": "root:0000:1000",
           "image_offset": 1424,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "SHOW_PROMPT": {
-      "entry_sha256": "0a67198028549909d95cab7e9c08531c4205d38a877f6725133d71e8e76e0f64",
-      "entry_target_id": "root:1101:8444",
-      "kind": "far-code-entry",
-      "offset": 33860,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a44840111",
-          "file_offset": 23329,
-          "image_offset": 15137,
-          "relocation_index": 291,
           "space": "root"
         }
       ]
@@ -7995,23 +8029,6 @@
       "kind": "dgroup-offset",
       "offset": 27284,
       "witnesses": []
-    },
-    "START_SEQUENCE": {
-      "entry_sha256": "d748de639549dfc7cd5a479b42dabc547e6a190751ef9404edd212099d38b468",
-      "entry_target_id": "overlay-3:25da:0016",
-      "kind": "overlay-code-entry",
-      "offset": 22,
-      "segment": 9690,
-      "space": "overlay-3",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1600da25",
-          "file_offset": 9761,
-          "image_offset": 1569,
-          "relocation_index": 37,
-          "space": "root"
-        }
-      ]
     },
     "STATE_BYTE": {
       "group": "DGROUP",
@@ -8086,37 +8103,20 @@
         }
       ]
     },
-    "STOP_SHIP_SOUND": {
-      "entry_sha256": "2dd339daea66731754ab93651dfcf22740f5c71a9621705acd7758f83d79e64d",
-      "entry_target_id": "root:0dd7:0024",
+    "WAIT_SOUND": {
+      "entry_sha256": "862d2ad31de90835658ba019ad489eabe831cc54c3a4c92599b92e90cf2018c2",
+      "entry_target_id": "root:1de8:019c",
       "kind": "far-code-entry",
-      "offset": 36,
-      "segment": 3543,
+      "offset": 412,
+      "segment": 7656,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a2400d70d",
-          "file_offset": 198858,
-          "image_offset": 14090,
-          "relocation_index": 236,
-          "space": "overlay-3"
-        }
-      ]
-    },
-    "UPDATE_ANIMATION": {
-      "entry_sha256": "6310c75698caf48eec5cc67ca5455015080d2a8e3fcaebad6a186ecf68c920b6",
-      "entry_target_id": "root:0b41:04d4",
-      "kind": "far-code-entry",
-      "offset": 1236,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ad404410b",
-          "file_offset": 213248,
-          "image_offset": 1328,
-          "relocation_index": 21,
-          "space": "overlay-5"
+          "bytes_hex": "9a9c01e81d",
+          "file_offset": 76538,
+          "image_offset": 68346,
+          "relocation_index": 1409,
+          "space": "root"
         }
       ]
     },

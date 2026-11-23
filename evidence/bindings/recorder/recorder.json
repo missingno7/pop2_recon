@@ -1,9 +1,9 @@
 {
   "declarations": {
     "externals": [
-      "RESET_RANDOM_SEED",
-      "ADVANCE_RANDOM_SEED",
-      "RELEASE_SAVED_SCREEN",
+      "SETRNDSEED",
+      "RND",
+      "REMOVEREBIRTHPT",
       "CONVERTRECDIRTODIR",
       "INCRECORDEDGAMETONEXTFRAME",
       "CHECKFORENDOFRECORDING",
@@ -15,7 +15,7 @@
       "GAME_TICK",
       "CURRENT_CHARACTER",
       "PENDING_DIRECTION",
-      "ALLOCATE_TAGGED_HANDLE",
+      "HGETRSRC",
       "MOVE_X",
       "ALLOCATE_DEFAULT_HANDLE",
       "MOVE_Y",
@@ -27,11 +27,11 @@
       "RECORDING_PLAYER_STARTED",
       "RECORDING_START_LEVEL",
       "TOGGLE_RECORDING_PLAYER",
-      "LOCK_HANDLE",
+      "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "TURNRECORDEDGAMEPLAYEROFF",
       "DISPOSE_HANDLE",
       "TURNRECORDEDGAMEPLAYERON",
-      "STOP_WITH_ERROR"
+      "ABORT_WITH_MESSAGE"
     ],
     "groups": [
       {
@@ -401,7 +401,7 @@
           "index": 27,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_HANDLE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -415,7 +415,7 @@
         "index": 27,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_HANDLE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -806,7 +806,7 @@
           "index": 27,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_HANDLE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -820,7 +820,7 @@
         "index": 27,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_HANDLE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -1476,7 +1476,7 @@
           "index": 31,
           "kind": "external",
           "method": 6,
-          "name": "STOP_WITH_ERROR",
+          "name": "ABORT_WITH_MESSAGE",
           "zero_displacement": true
         }
       },
@@ -1490,7 +1490,7 @@
         "index": 31,
         "kind": "external",
         "method": 6,
-        "name": "STOP_WITH_ERROR",
+        "name": "ABORT_WITH_MESSAGE",
         "zero_displacement": true
       }
     },
@@ -1525,7 +1525,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "ALLOCATE_TAGGED_HANDLE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -1539,7 +1539,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_TAGGED_HANDLE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -1579,7 +1579,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "RELEASE_SAVED_SCREEN",
+          "name": "REMOVEREBIRTHPT",
           "zero_displacement": true
         }
       },
@@ -1593,7 +1593,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "RELEASE_SAVED_SCREEN",
+        "name": "REMOVEREBIRTHPT",
         "zero_displacement": true
       }
     },
@@ -1606,7 +1606,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ADVANCE_RANDOM_SEED",
+          "name": "RND",
           "zero_displacement": true
         }
       },
@@ -1620,7 +1620,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ADVANCE_RANDOM_SEED",
+        "name": "RND",
         "zero_displacement": true
       }
     },
@@ -1633,7 +1633,7 @@
           "index": 1,
           "kind": "external",
           "method": 6,
-          "name": "RESET_RANDOM_SEED",
+          "name": "SETRNDSEED",
           "zero_displacement": true
         }
       },
@@ -1647,7 +1647,7 @@
         "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "RESET_RANDOM_SEED",
+        "name": "SETRNDSEED",
         "zero_displacement": true
       }
     },
@@ -2335,7 +2335,7 @@
           "index": 27,
           "kind": "external",
           "method": 6,
-          "name": "LOCK_HANDLE",
+          "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
           "zero_displacement": true
         }
       },
@@ -2349,7 +2349,7 @@
         "index": 27,
         "kind": "external",
         "method": 6,
-        "name": "LOCK_HANDLE",
+        "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
         "zero_displacement": true
       }
     },
@@ -2535,36 +2535,19 @@
   },
   "schema": 1,
   "symbols": {
-    "ADVANCE_RANDOM_SEED": {
-      "entry_sha256": "f5248cccc4adaaf66380d0659e47af0bd2539af10706d98974e307ff905149f3",
-      "entry_target_id": "root:1f61:0090",
+    "ABORT_WITH_MESSAGE": {
+      "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
+      "entry_target_id": "root:1de8:000c",
       "kind": "far-code-entry",
-      "offset": 144,
-      "segment": 8033,
+      "offset": 12,
+      "segment": 7656,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a9000611f",
-          "file_offset": 8229,
-          "image_offset": 37,
-          "relocation_index": 4,
-          "space": "root"
-        }
-      ]
-    },
-    "ALLOCATE_TAGGED_HANDLE": {
-      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
-      "entry_target_id": "root:1101:6f6a",
-      "kind": "far-code-entry",
-      "offset": 28522,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6a6f0111",
-          "file_offset": 17855,
-          "image_offset": 9663,
-          "relocation_index": 223,
+          "bytes_hex": "9a0c00e81d",
+          "file_offset": 27130,
+          "image_offset": 18938,
+          "relocation_index": 307,
           "space": "root"
         }
       ]
@@ -2606,19 +2589,19 @@
         }
       ]
     },
-    "LOCK_HANDLE": {
-      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
-      "entry_target_id": "root:1101:216c",
+    "HGETRSRC": {
+      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "entry_target_id": "root:1101:6f6a",
       "kind": "far-code-entry",
-      "offset": 8556,
+      "offset": 28522,
       "segment": 4353,
       "space": "root",
       "witnesses": [
         {
-          "bytes_hex": "9a6c210111",
-          "file_offset": 14073,
-          "image_offset": 5881,
-          "relocation_index": 234,
+          "bytes_hex": "9a6a6f0111",
+          "file_offset": 17855,
+          "image_offset": 9663,
+          "relocation_index": 223,
           "space": "root"
         }
       ]
@@ -2797,7 +2780,7 @@
         }
       ]
     },
-    "RELEASE_SAVED_SCREEN": {
+    "REMOVEREBIRTHPT": {
       "entry_sha256": "e5052bfbe5aac6a314e4da485fe199e0b2d5083bc02606b90d6d4c2f3c06d3dd",
       "entry_target_id": "root:052d:109e",
       "kind": "far-code-entry",
@@ -2814,7 +2797,41 @@
         }
       ]
     },
-    "RESET_RANDOM_SEED": {
+    "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
+      "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
+      "entry_target_id": "root:1101:216c",
+      "kind": "far-code-entry",
+      "offset": 8556,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6c210111",
+          "file_offset": 14073,
+          "image_offset": 5881,
+          "relocation_index": 234,
+          "space": "root"
+        }
+      ]
+    },
+    "RND": {
+      "entry_sha256": "f5248cccc4adaaf66380d0659e47af0bd2539af10706d98974e307ff905149f3",
+      "entry_target_id": "root:1f61:0090",
+      "kind": "far-code-entry",
+      "offset": 144,
+      "segment": 8033,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a9000611f",
+          "file_offset": 8229,
+          "image_offset": 37,
+          "relocation_index": 4,
+          "space": "root"
+        }
+      ]
+    },
+    "SETRNDSEED": {
       "entry_sha256": "ea317631f7b80d269c7b2a72fab477641e8a6a0d71b34082dc99ae7f53997b49",
       "entry_target_id": "root:1f61:00e0",
       "kind": "far-code-entry",
@@ -2822,23 +2839,6 @@
       "segment": 8033,
       "space": "root",
       "witnesses": []
-    },
-    "STOP_WITH_ERROR": {
-      "entry_sha256": "c0c2b6c8803a0497bde37a5ba5b23ffd482a6eb7ee39188cab92d17603a7cc1b",
-      "entry_target_id": "root:1de8:000c",
-      "kind": "far-code-entry",
-      "offset": 12,
-      "segment": 7656,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a0c00e81d",
-          "file_offset": 27130,
-          "image_offset": 18938,
-          "relocation_index": 307,
-          "space": "root"
-        }
-      ]
     }
   },
   "target_id": "group:recorder/recorder",

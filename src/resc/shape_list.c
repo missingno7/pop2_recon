@@ -37,7 +37,7 @@ typedef struct ShapeListBanks {
 } ShapeListBanks;
 
 extern unsigned int far pascal AllocBanks(unsigned char units);
-extern unsigned int far pascal load_selected_banks(unsigned far *bank_bits);
+extern unsigned int far pascal MapPalInfo(unsigned far *bank_bits);
 extern unsigned int far pascal save_handle_flags(Handle handle);
 extern ShapeListBanks far *far pascal fetch_locked_shape_list(Handle handle);
 extern Handle far pascal restore_handle_flags(Handle handle, unsigned int flags);
@@ -55,7 +55,7 @@ Handle far pascal load_shape_list_banks(Handle list)
         if (shape->bank_bits == 0 && (banks = AllocBanks(shape->requested_units)) != 0) {
             shape->bank_bits = banks;
             occupied_banks |= banks;
-            load_selected_banks(&shape->bank_bits);
+            MapPalInfo(&shape->bank_bits);
             mark_fixed(restore_handle_flags(list, saved));
         } else
             restore_handle_flags(list, saved);

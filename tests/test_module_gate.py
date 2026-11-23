@@ -1066,7 +1066,7 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
     def check(self, at):
         from module_gate import check_group
         binding = copy.deepcopy(self.binding)
-        binding["symbols"]["TILE_HAS_FLOOR"]["witnesses"] = [self.witness(at)]
+        binding["symbols"]["IS_SIX_KIND"]["witnesses"] = [self.witness(at)]
         return check_group(self.obj, recipe_claims(self.recipe), self.oracle, binding=binding,
                            group_id=self.recipe["group_id"])
 
@@ -1076,9 +1076,9 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
     def test_call_inside_a_claim_is_refused(self):
         report = self.check(0x39e6)
         claimed = next(c for c in report["claims"] for e in c["equations"]
-                       if e.get("kind") == "far-call" and e.get("symbol") == "TILE_HAS_FLOOR")
+                       if e.get("kind") == "far-call" and e.get("symbol") == "IS_SIX_KIND")
         at = report["origin"] + claimed["object_offset"] + next(
-            e["offset"] for e in claimed["equations"] if e.get("symbol") == "TILE_HAS_FLOOR") - 1
+            e["offset"] for e in claimed["equations"] if e.get("symbol") == "IS_SIX_KIND") - 1
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
             self.check(at)
 

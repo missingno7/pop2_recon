@@ -127,8 +127,8 @@ typedef struct Glyph {
     unsigned char bits[1];
 } Glyph;
 
-extern unsigned far pascal read_handle_flags(Handle handle);
-extern void far *far pascal get_locked_payload(Handle handle);
+extern unsigned far pascal SAVE_HANDLE_FLAGS(Handle handle);
+extern void far *far pascal FETCH_LOCKED_SHAPE_LIST(Handle handle);
 extern void far pascal restore_handle_flags(Handle handle, unsigned flags);
 extern void far *far pascal detach_handle_payload(Handle handle);
 extern int far pascal attach_handle_payload(Handle handle, void far *payload);
@@ -149,9 +149,9 @@ Handle far pascal convert_font_handle(Handle handle)
     void far *replacement;
     Handle temporary;
 
-    flags = read_handle_flags(handle);
+    flags = SAVE_HANDLE_FLAGS(handle);
     if (!(flags & 0x2000)) {
-        source = get_locked_payload(handle);
+        source = FETCH_LOCKED_SHAPE_LIST(handle);
         if (source) {
             temporary = XlatFont(source);
             restore_handle_flags(handle, flags);
@@ -267,7 +267,7 @@ Handle far pascal XlatFont(FontHeader far *font)
 
     handle = allocate_payload_handle(size);
     if (handle) {
-        translated = get_locked_payload(handle);
+        translated = FETCH_LOCKED_SHAPE_LIST(handle);
         far_copy(translated, font, 10);
         glyph_position = (count + 5) * 2;
         if (count) {
@@ -349,7 +349,7 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
     output_allocation += sizeof(ShapeHeader);
     handle = allocate_payload_handle(output_allocation < input_allocation ? input_allocation : output_allocation);
     if (handle) {
-        output = get_locked_payload(handle);
+        output = FETCH_LOCKED_SHAPE_LIST(handle);
         *output = *shape;
         band_rows = chunk_byte_limit / shape->width < shape->height ? chunk_byte_limit / shape->width : shape->height;
         rows_left = shape->height;
@@ -441,7 +441,7 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
         unsigned band_limit;
         volatile int planar_mode;
 
-        output = get_locked_payload(handle);
+        output = FETCH_LOCKED_SHAPE_LIST(handle);
         *output = *shape;
         band_limit = 58238L / (long)(short)((shape->width + 1) * 2);
         band_rows = band_limit < (rows_left = shape->height) ? band_limit : rows_left;
@@ -458,7 +458,7 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
                 added = band_bytes;
                 if (resize_payload(handle, added + output_size))
                     goto discard;
-                output = get_locked_payload(handle);
+                output = FETCH_LOCKED_SHAPE_LIST(handle);
                 output_bits = (unsigned char far *)output + (unsigned)output_size;
                 output_size += added;
                 input_bits = NormalizePtr(input_bits);

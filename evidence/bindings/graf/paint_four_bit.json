@@ -1,12 +1,12 @@
 {
   "declarations": {
     "externals": [
-      "ALLOCATE_PORT_DESCRIPTOR",
+      "MEASURE_TEXT",
+      "__NFREE",
       "PAINT_PLAIN_CALLBACK",
       "RELEASE_BUFFER",
       "ALLOCATE_BUFFER",
-      "FREE_PORT_DESCRIPTOR",
-      "BLIT_RECT",
+      "__NMALLOC",
       "HORIZONTAL_PIXELS_PER_BYTE",
       "CURRENT_CONTEXT",
       "PAINT_FOUR_BIT_CALLBACK"
@@ -216,7 +216,7 @@
       "segment_offset": 70,
       "self_relative": false,
       "target": {
-        "index": 2,
+        "index": 3,
         "kind": "external",
         "method": 6,
         "name": "PAINT_PLAIN_CALLBACK",
@@ -260,10 +260,10 @@
       "segment_offset": 169,
       "self_relative": true,
       "target": {
-        "index": 6,
+        "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "BLIT_RECT",
+        "name": "MEASURE_TEXT",
         "zero_displacement": true
       }
     },
@@ -282,7 +282,7 @@
       "segment_offset": 173,
       "self_relative": true,
       "target": {
-        "index": 3,
+        "index": 4,
         "kind": "external",
         "method": 6,
         "name": "RELEASE_BUFFER",
@@ -293,9 +293,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 5,
+        "index": 2,
         "kind": "external",
-        "name": "FREE_PORT_DESCRIPTOR"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -304,10 +304,10 @@
       "segment_offset": 176,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "FREE_PORT_DESCRIPTOR",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     },
@@ -380,9 +380,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 1,
+        "index": 6,
         "kind": "external",
-        "name": "ALLOCATE_PORT_DESCRIPTOR"
+        "name": "__NMALLOC"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -391,10 +391,10 @@
       "segment_offset": 294,
       "self_relative": false,
       "target": {
-        "index": 1,
+        "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "ALLOCATE_PORT_DESCRIPTOR",
+        "name": "__NMALLOC",
         "zero_displacement": true
       }
     },
@@ -413,7 +413,7 @@
       "segment_offset": 344,
       "self_relative": true,
       "target": {
-        "index": 4,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "ALLOCATE_BUFFER",
@@ -424,9 +424,9 @@
       "displacement": null,
       "field_width": 4,
       "frame": {
-        "index": 5,
+        "index": 2,
         "kind": "external",
-        "name": "FREE_PORT_DESCRIPTOR"
+        "name": "__NFREE"
       },
       "kind": "fixup",
       "loc_type": 3,
@@ -435,10 +435,10 @@
       "segment_offset": 357,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "FREE_PORT_DESCRIPTOR",
+        "name": "__NFREE",
         "zero_displacement": true
       }
     },
@@ -479,10 +479,10 @@
       "segment_offset": 392,
       "self_relative": true,
       "target": {
-        "index": 6,
+        "index": 1,
         "kind": "external",
         "method": 6,
-        "name": "BLIT_RECT",
+        "name": "MEASURE_TEXT",
         "zero_displacement": true
       }
     }
@@ -512,32 +512,6 @@
       "space": "root",
       "witnesses": []
     },
-    "ALLOCATE_PORT_DESCRIPTOR": {
-      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
-      "entry_target_id": "root:1fe6:003b",
-      "kind": "far-code-entry",
-      "offset": 59,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3b00e61f",
-          "file_offset": 13191,
-          "image_offset": 4999,
-          "relocation_index": 65,
-          "space": "root"
-        }
-      ]
-    },
-    "BLIT_RECT": {
-      "entry_sha256": "96e847e2f606b37c10fd54b168565a868a82ec0bb7663869e7ee95cc9800c4c0",
-      "entry_target_id": "root:1101:4cce",
-      "kind": "near-code-entry",
-      "offset": 19662,
-      "segment": 4353,
-      "space": "root",
-      "witnesses": []
-    },
     "CURRENT_CONTEXT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -549,23 +523,6 @@
           "entry": "root:0000:0000",
           "image_offset": 4908,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "FREE_PORT_DESCRIPTOR": {
-      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
-      "entry_target_id": "root:1fe6:001a",
-      "kind": "far-code-entry",
-      "offset": 26,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a1a00e61f",
-          "file_offset": 13306,
-          "image_offset": 5114,
-          "relocation_index": 14,
           "space": "root"
         }
       ]
@@ -584,6 +541,15 @@
           "space": "root"
         }
       ]
+    },
+    "MEASURE_TEXT": {
+      "entry_sha256": "96e847e2f606b37c10fd54b168565a868a82ec0bb7663869e7ee95cc9800c4c0",
+      "entry_target_id": "root:1101:4cce",
+      "kind": "near-code-entry",
+      "offset": 19662,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
     },
     "PAINT_FOUR_BIT_CALLBACK": {
       "group": "DGROUP",
@@ -605,6 +571,40 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "__NFREE": {
+      "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
+      "entry_target_id": "root:1fe6:001a",
+      "kind": "far-code-entry",
+      "offset": 26,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a1a00e61f",
+          "file_offset": 13306,
+          "image_offset": 5114,
+          "relocation_index": 14,
+          "space": "root"
+        }
+      ]
+    },
+    "__NMALLOC": {
+      "entry_sha256": "8d4d4e13c438d61e00c93b535c557bb5ea1362317a91893cbfba9cdc1494b41a",
+      "entry_target_id": "root:1fe6:003b",
+      "kind": "far-code-entry",
+      "offset": 59,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3b00e61f",
+          "file_offset": 13191,
+          "image_offset": 4999,
+          "relocation_index": 65,
+          "space": "root"
+        }
+      ]
     }
   },
   "target_id": "group:graf/paint_four_bit",

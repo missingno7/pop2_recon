@@ -43,11 +43,11 @@ extern byte *selected_tiles;
 extern TileInfo *selected_info;
 extern byte view_room, left_room, right_room, above_room, below_room;
 
-extern int intersect_rect(Rect far *, Rect far *, Rect far *);
-extern void offset_rect(Rect far *, Rect far *, int, int);
-extern int tile_has_upper_edge(byte);
+extern int SECTRECT(Rect far *, Rect far *, Rect far *);
+extern void OFFSETRECT(Rect far *, Rect far *, int, int);
+extern int is_open_tile(byte);
 extern int tile_has_side_edge(byte);
-extern sbyte row_to_cell(sbyte);
+extern sbyte FirstInRow(sbyte);
 extern void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
@@ -102,7 +102,7 @@ void ComputeClipRect(Rect far *rect, int col, int row)
     rect->bottom = rect->top + 32;
     rect->right = col_x[row];
     rect->left = rect->right - 63;
-    intersect_rect(rect, rect, &screen_clip);
+    SECTRECT(rect, rect, &screen_clip);
     if (clip_left_edge && !row)
         rect->left -= 3;
 }
@@ -112,8 +112,8 @@ Rect *ComputeOffsetCellRect(Rect *rect, Rect *base, int col, int row)
     if (col == 30 || row == 30) {
         rect = 0;
     } else {
-        offset_rect(rect, base, col * 32, row * 63);
-        if (!intersect_rect(rect, rect, &screen_clip))
+        OFFSETRECT(rect, base, col * 32, row * 63);
+        if (!SECTRECT(rect, rect, &screen_clip))
             rect = 0;
     }
     return rect;
@@ -148,7 +148,7 @@ void GetAboveAry(void)
             GetObject(room, col - 1, row, &above_tiles[col].tile,
                       info = &above_tiles[col].info, missing);
             if (clip_left_edge && view_row == 0 && Level.style == 3 &&
-                tile_has_upper_edge(room_tiles[view_room][col - 1])) {
+                is_open_tile(room_tiles[view_room][col - 1])) {
                 TileInfo *field = *(TileInfo * volatile *)&info;
                 field->words.low = (field->words.low & 0x3fff) | 0x4000;
             }
@@ -198,7 +198,7 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
         *tile = right_tiles[row].tile;
         info->value = right_tiles[row].info.value;
     } else if (room) {
-        cell = row_to_cell(row) + col;
+        cell = FirstInRow(row) + col;
         *tile = selected_tiles[cell];
         info->value = selected_info[cell].value;
     } else {
@@ -243,7 +243,7 @@ byte PieceAboveId(sbyte col, sbyte row)
         col -= 10;
     }
     if (room)
-        tile = room_tiles[room][row_to_cell(row) + col];
+        tile = room_tiles[room][FirstInRow(row) + col];
     else
         tile = 1;
     return tile;
@@ -270,7 +270,7 @@ byte PieceAboveRightId(sbyte col, sbyte row)
         ++col;
     }
     if (room)
-        tile = room_tiles[room][row_to_cell(row) + col];
+        tile = room_tiles[room][FirstInRow(row) + col];
     else
         tile = 1;
     return tile;
@@ -295,7 +295,7 @@ byte PieceBelowId(sbyte col, sbyte row)
         col -= 10;
     }
     if (room)
-        tile = room_tiles[room][row_to_cell(row) + col];
+        tile = room_tiles[room][FirstInRow(row) + col];
     else
         tile = 20;
     return tile;
@@ -313,7 +313,7 @@ byte PieceLeftId(sbyte col, sbyte row)
         col = 9;
     }
     if (room)
-        tile = room_tiles[room][row_to_cell(row) + col];
+        tile = room_tiles[room][FirstInRow(row) + col];
     else
         tile = 20;
     return tile;
@@ -335,7 +335,7 @@ byte PieceRightId(sbyte col, sbyte row)
         row = 0;
     }
     if (room)
-        tile = room_tiles[room][row_to_cell(row) + col];
+        tile = room_tiles[room][FirstInRow(row) + col];
     else
         tile = 20;
     return tile;
@@ -410,45 +410,45 @@ extern int fallback_images_released;
 extern const char low_memory_message[];
 static const char fatal_memory_message[] = "Insufficient near Memory.";
 
-extern int resource_can_purge(int);
-extern void purge_resource(int);
-extern void mark_images_purgeable(ImageTable *, int, int);
-extern void mark_image_purgeable(unsigned int *);
+extern int query_sound(int);
+extern void dispatch_sound(int);
+extern void PrinceMarkImgsPurgeable(ImageTable *, int, int);
+extern void MARK_FIXED(unsigned int *);
 extern void save_cleanup_state(int, const char far *, void *);
-extern void shutdown_with_message(int, const char far *);
+extern void abort_with_message(int, const char far *);
 
 #pragma optimize("l", on)
 int release_discardable_images(void)
 {
     int i;
 
-    if (resource_can_purge(0)) {
-        purge_resource(0);
+    if (query_sound(0)) {
+        dispatch_sound(0);
         goto done;
     }
     if (first_image_table && !(*first_image_table->image[0].handle & 0x4000)) {
-        mark_images_purgeable(first_image_table, 0, first_image_table->count - 1);
+        PrinceMarkImgsPurgeable(first_image_table, 0, first_image_table->count - 1);
         goto done;
     }
     if (!second_image_table || (*second_image_table->image[0].handle & 0x4000))
         goto check_fallback;
-    mark_images_purgeable(second_image_table, 0, second_image_table->count - 1);
+    PrinceMarkImgsPurgeable(second_image_table, 0, second_image_table->count - 1);
     for (i = 131; i <= 132; ++i)
         if (second_image_table->image[i].handle)
-            mark_image_purgeable(second_image_table->image[i].handle);
+            MARK_FIXED(second_image_table->image[i].handle);
     for (i = 216; i <= 218; ++i)
         if (second_image_table->image[i].handle)
-            mark_image_purgeable(second_image_table->image[i].handle);
+            MARK_FIXED(second_image_table->image[i].handle);
     goto done;
 
 check_fallback:
     if (fallback_image_table && !fallback_images_released) {
-        mark_images_purgeable(fallback_image_table, 0, fallback_image_table->count - 1);
+        PrinceMarkImgsPurgeable(fallback_image_table, 0, fallback_image_table->count - 1);
         fallback_images_released = 1;
         goto done;
     }
     save_cleanup_state(0, low_memory_message, (void *)0);
-    shutdown_with_message(1, low_memory_message);
+    abort_with_message(1, low_memory_message);
 done:
     return 1;
 }
@@ -456,6 +456,6 @@ done:
 #pragma optimize("l", off)
 int report_fatal_memory(void)
 {
-    shutdown_with_message(1, fatal_memory_message);
+    abort_with_message(1, fatal_memory_message);
     return 1;
 }
