@@ -190,9 +190,12 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
         witnessed(spec, offset)
     # A member O+k (k > 0, e.g. ES:[BX+1] into a far table) is proven only by its own
     # independent offset witnesses, as v4 members are: a free addend would re-fit O.
+    # An `unproven` member (a reason, no witness) makes every claim that uses it a CODE_MATCH, as for v4 members.
     members = symbol.get("members", [])
     require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
-                (m.get("offset_witnesses") or consensus(m)) for m in members) and len({m["offset"] for m in members}) == len(members),
+                (m.get("offset_witnesses") or consensus(m) or
+                 claimed is not None and type(m.get("unproven")) is str and m["unproven"].strip())
+                for m in members) and len({m["offset"] for m in members}) == len(members),
             "Every far data member needs a positive offset and its own offset witnesses")
     for member in members:
         for spec in member.get("offset_witnesses", []):

@@ -1502,15 +1502,17 @@ typedef struct {
 } FireballSlot;
 
 typedef struct {
-    byte coordinates[10];
-    unsigned int flags;
-    byte mode;
-    byte reserved[7];
-} FireballQueueItem;
+    int x, y;
+    sbyte type;
+    int shape;
+    Rect clip;
+    byte attributes;
+    int mode;
+    byte palette, update_peel;
+} MiddleEntry;
 
 extern FireballSlot near *far pascal get_mob_type_item(byte kind, int index);
-extern _segment fireball_queue_segment;
-extern FireballQueueItem _based(fireball_queue_segment) fireball_queue[];
+extern MiddleEntry far middle_queue[];
 int far _fastcall get_fireball_image(unsigned int state);
 void far pascal trigger_fireball(void);
 
@@ -1635,8 +1637,8 @@ void far pascal draw_fireball_object(FinalObject near *object)
     int image = get_fireball_image(FChar.image);
 
     add_middle_image(2, image + 1, FChar.x, FChar.y, 10);
-    fireball_queue[object_counter].flags = 8;
-    fireball_queue[object_counter].mode = 0;
+    middle_queue[object_counter - 1].mode = 8;
+    middle_queue[object_counter - 1].palette = 0;
 }
 
 int far _fastcall get_fireball_image(unsigned int state)

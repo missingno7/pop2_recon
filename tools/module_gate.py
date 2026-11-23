@@ -1886,7 +1886,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                           {p for p, s in states.items()
                            if s["names"] & set(unproven) or any(f["key"] in unproven_keys for f in s["v4"])})
     if binding is not None:
-        _far_consensus(far_symbols, states, reports, {p for p, s in states.items() if s["names"] & set(unproven)})
+        unproven_far = {(n, m["offset"]) for n, s in far_symbols.items() for m in s.get("members", []) if m.get("unproven")}
+        _far_consensus(far_symbols, states, reports,
+                       {p for p, s in states.items() if s["names"] & set(unproven) or
+                        any(f["key"] in unproven_far for f in s["far_fields"])})
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     # Near pointers in placed initialized data use grounded DGROUP symbols too (_linked_data).
     used_symbols |= {f["target"].get("name") for f in data_fixes
@@ -1918,7 +1921,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     for r in reports:
         state = states.get(r["public"])
         used = sorted((state["names"] & unproven_names) |
-                      {f"{k[0]}+{k[1]:#x}" for k in (f["key"] for f in state["v4"]) if k in unproven_keys}) if state else []
+                      {f"{k[0]}+{k[1]:#x}" for k in (f["key"] for f in state["v4"] + state["far_fields"])
+                       if k in unproven_keys}) if state else []
         if r.get("exact") and used:
             r.update(exact=False, state="CODE_MATCH", unproven=used)
     return {"exact": all(r["exact"] for r in reports), "object_sha256": sha(obj_data),

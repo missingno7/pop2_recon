@@ -391,19 +391,17 @@ void draw_ruin_exit_movable(RuinCell *cell)
 
 extern CellCoord hidden_flaw_column, hidden_flaw_row;
 extern int last_front_table_slot;
-extern _segment front_table_segment;
 
 #pragma pack(1)
-typedef struct FrontImage {
-    char drawing[10];
+typedef struct DrawEntry {
+    Byte type, sheet;
+    int shape, x, y;
+    CellCoord column, row;
     DrawRect clip;
-    char tail[2];
-} FrontImage;
-typedef struct FrontImageBank {
-    char before_images[0xa14];
-    FrontImage images[1];
-} FrontImageBank;
+    Byte flip, attributes;
+} DrawEntry;
 #pragma pack()
+extern DrawEntry far fore_queue[];
 
 
 void draw_ruin_flaw(RuinCell *cell)
@@ -437,9 +435,7 @@ void draw_ruin_flaw(RuinCell *cell)
                 else
                     emitted = AddBFImgToFTable(18, -2, cell->column, cell->row, 10, 0);
                 if (emitted && flaw == 4)
-                    ((FrontImageBank far *)(front_table_segment :>
-                        (void _based(void) *)(last_front_table_slot * sizeof(FrontImage))))->images[0].clip =
-                        GamePlayRect;
+                    fore_queue[last_front_table_slot - 1].clip = GamePlayRect;
             }
         }
     }

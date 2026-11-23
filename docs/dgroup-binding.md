@@ -491,3 +491,7 @@ piece made only of selector words when both hold:
 
 CONST starts at DS:2836, the end of the C termination table that the exit code walks (root+200c0/200c3). The report
 basis says `exclusive selector words`.
+
+A witness displacement with an ES/CS override or a BP base (without a DS override) addresses something else and is
+refused (`binding._not_dgroup`, 2026-11-23). A far-data member may carry `unproven` (a reason, no witness): every claim
+that uses it is then a CODE_MATCH, as for v4 members.

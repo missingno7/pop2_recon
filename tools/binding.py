@@ -31,6 +31,14 @@ def registers_written(insn):
     return names
 
 
+def _not_dgroup(operand):
+    """A memory operand that does not address DGROUP: an ES/CS/FS/GS override, or BP-based without a DS override."""
+    _, xc = _capstone()
+    mem = operand.mem
+    return (mem.segment in (xc.X86_REG_ES, xc.X86_REG_CS, xc.X86_REG_FS, xc.X86_REG_GS) or
+            mem.segment != xc.X86_REG_DS and xc.X86_REG_BP in (mem.base, mem.index))
+
+
 def direct_operand(insn):
     """One unprefixed, direct default-DS memory operand with a 16-bit offset."""
     _, xc = _capstone()
@@ -654,6 +662,9 @@ def ground(binding, target, oracle, claimed=None):
                 require(field is not None and
                         struct.unpack_from("<H", raw, spec["operand_offset"])[0] == expected_value,
                         "Witness operand field does not equal this DGROUP address")
+                memory = [o for o in rows[0].operands if o.type == _capstone()[1].X86_OP_MEM]
+                require(field != "displacement" or not any(_not_dgroup(o) for o in memory),
+                        "Witness displacement is relative to ES, CS or the stack frame, not DGROUP")
             continue
         if binding["mode"] == IMMEDIATE_MODE and symbol["kind"] == "near-data-address-alias":
             offset = symbol["offset"]

@@ -347,6 +347,22 @@ class FarWindowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "without another ES"):
             self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, raw=raw, **extra)
 
+    def test_unproven_member_needs_a_reason_and_a_group(self):
+        from far_binding import _ground_far_data
+        symbol = {"segment": 0x2FAE, "offset": 4600, "consensus": True,
+                  "segment_witnesses": [{"image_offset": 20858, "relocation_index": 149, "space": "overlay-17"}],
+                  "members": [{"offset": 0xFFFE, "unproven": "no independent operand"}]}
+        target = {"space": "root", "segment": 0, "offset": 0, "size": 0}
+        _ground_far_data(symbol, target, self.oracle, claimed=[])
+        with self.assertRaisesRegex(ValueError, "own offset witnesses"):
+            _ground_far_data({**symbol, "members": [{"offset": 0xFFFE, "unproven": " "}]}, target, self.oracle, claimed=[])
+
+    def test_es_relative_operand_is_no_dgroup_witness(self):
+        from binding import _not_dgroup, instructions
+        for code, expected in (("268987f411", True), ("8987f411", False), ("8986f411", True), ("3e8986f411", False)):
+            insn = instructions(bytes.fromhex(code))[0]
+            self.assertEqual(any(_not_dgroup(o) for o in insn.operands if o.type == 3), expected, code)
+
     def test_les_is_another_es_load(self):
         # mov es,[283c]; les bx,[bp+6]; cmp byte es:[bx+1],0
         with self.assertRaisesRegex(ValueError, "without another ES"):
