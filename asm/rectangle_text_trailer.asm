@@ -3,7 +3,7 @@
 EXTRN Graf:WORD, DEFAULT_PEN_PATTERN:WORD, DEFAULT_PEN_MODE:WORD
 .CODE
 EXTRN GET_BLOCK_PAYLOAD_SIZE:NEAR, SECTRECT:NEAR, DRAW_COUNTED_TEXT:NEAR
-EXTRN STROKE_RECTANGLE:NEAR, OFFSET_RECTANGLE:NEAR, COPY_GRAPHICS_REGION:NEAR
+EXTRN STROKE_RECTANGLE:NEAR, OFFSETRECT:NEAR, MEASURE_TEXT:NEAR
 EXTRN STROKE_PORT_RECT:NEAR, CHECK_CURSOR_OVERLAP:NEAR
 
 
@@ -199,7 +199,7 @@ set_context_origin proc far
     push cx
     push dx
     push cs
-    call offset_rectangle
+    call OFFSETRECT
     pop bp
     retf 6
 set_context_origin endp
@@ -349,7 +349,7 @@ shift_down:
     mov [bp-12], ax
 move_region:
     push cs
-    call copy_graphics_region
+    call MEASURE_TEXT
     les di, dword ptr [bp+6]
     mov dx, es
     or dx, di
@@ -388,7 +388,7 @@ check_context_cursor_overlap proc far
     push ax
     push dx
     push cs
-    call offset_rectangle
+    call OFFSETRECT
     mov bx, Graf
     les ax, dword ptr [bx]
     call check_cursor_overlap

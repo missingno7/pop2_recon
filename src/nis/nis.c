@@ -299,14 +299,14 @@ extern int (far *saved_poll_input)(void);
 extern void open_level_resources(const char * const *files);
 extern void install_nis_input(void);
 extern void open_verified_resource(const char *name);
-extern void close_data_file(const char *name);
+extern void close_resource_file(const char *name);
 extern void close_level_resources(const char * const *files);
 extern void WRITE_DAC_BLOCK(int first, int count, const void far *colors, int sync);
 extern int play_nis_animation(Handle shapes, int resource, int scene, int mode,
                               AnimationCallback callback, int x, int y, int options);
 extern int wait_ticks(int mode, unsigned int duration);
-extern void finish_nis_animation(void);
-extern void stop_nis_sound(const void far *sound);
+extern void reset_input(void);
+extern void dispatch_resource_pointer(const void far *sound);
 
 void tree_check(int scene)
 {
@@ -348,11 +348,11 @@ void tree_check(int scene)
         interrupted = wait_sound(0);
         if (!interrupted) wait_ticks(0, 60);
     }
-    finish_nis_animation();
-    if (interrupted) stop_nis_sound(0L);
+    reset_input();
+    if (interrupted) dispatch_resource_pointer(0L);
 
     FreeDialog(); dispose_handle(shapes); dispose_handle(dialog_shape);
-    close_data_file(nis_file);
+    close_resource_file(nis_file);
     poll_input = saved_poll_input;
     close_level_resources(nis_data_files);
 }
@@ -469,8 +469,8 @@ int Transition(int scene)
         }
         if (!interrupted)
             interrupted = PLAY_TRANSITION(3, 1, 0);
-        close_data_file(ruins_file);
-        close_data_file(caverns_file);
+        close_resource_file(ruins_file);
+        close_resource_file(caverns_file);
     } else if (scene == 2) {
         open_verified_resource(ruins_file);
         transition_background_shapes = hGetSL(3500, -8);
@@ -576,15 +576,15 @@ int Transition(int scene)
     }
 
     if (interrupted) {
-        finish_nis_animation();
-        stop_nis_sound(0L);
+        reset_input();
+        dispatch_resource_pointer(0L);
     }
     dispose_handle(transition_shapes);
     poll_input = saved_poll_input;
     if (scene != 5)
-        close_data_file(transition_file);
+        close_resource_file(transition_file);
     if (scene != 6)
-        close_data_file(ruins_file);
+        close_resource_file(ruins_file);
     transition_animation_state = 0; close_level_resources(nis_data_files);
     return interrupted;
 }
@@ -951,8 +951,6 @@ extern Rect nis_clip;
 extern Handle nis_palette;
 extern volatile int delay_count;
 extern int wait_timer(int timer);
-extern void finish_palette_effect(void);
-extern void dispatch_resource_pointer(const void far *resource);
 void clear_nis(DrawPort *port, int color);
 void add_nis(DrawPort *port, Handle shapes, int item, int x, int y, int mode);
 void copy_nis(const void *source);
@@ -1162,7 +1160,7 @@ int aboard_ship(void)
             interrupted = fade_to(0, -1, 4);
     }
 
-    finish_palette_effect();
+    reset_input();
     if (interrupted)
         dispatch_resource_pointer(0L);
     dispose_handle(nis_palette);
@@ -1361,7 +1359,7 @@ next_dialog:
         if (!interrupted) interrupted = run_nis_dialog(OPENING_SCENE, 16, 14, 145); if (!interrupted) interrupted = wait_ticks(0, 90);
     }
     dispose_handle(nis_palette);
-    finish_palette_effect();
+    reset_input();
     if (interrupted) {
         dispatch_resource_pointer(0L);
     }
@@ -1702,7 +1700,7 @@ int opening_two(void)
         if (!was_interrupted) was_interrupted = fade_to(was_interrupted, -1, 2);
     }
     dispose_handle(nis_palette);
-    finish_palette_effect();
+    reset_input();
     if (was_interrupted) dispatch_resource_pointer(0L);
     FreeDialog(); dispose_handle(anim_table);
     release_port(&temporary_port);
@@ -1812,7 +1810,7 @@ int dispatch_nis(int sequence)
         interrupted = ending();
 
     if (opened_nis_file)
-        close_data_file(nis_file);
+        close_resource_file(nis_file);
     poll_input = saved_poll_input;
     close_level_resources(nis_data_files);
     return interrupted;
@@ -1843,7 +1841,6 @@ Rect *get_shape_rect(Rect far *bounds, Handle shapes, int item, int x, int y)
 }
 
 extern void select_resource_file(const char *name);
-extern void close_resource_file(const char *name);
 extern void PUSH_PORT_CLIP(const Rect far *bounds);
 extern void POP_PORT_CLIP(void);
 extern ImagePort *save_screen_patch(const Rect far *bounds);
@@ -1949,11 +1946,11 @@ int ending(void)
         dispose_handle(ending_palette_two); dispose_handle(ending_palette_one);
         DISPOSE_BITMAP_PORT(alternate_port);
     }
-    finish_palette_effect();
+    reset_input();
     if (interrupted) dispatch_resource_pointer(0L);
     dispose_handle(nis_palette); FreeDialog();
     dispose_handle(ending_shapes); release_port(&port);
-    close_data_file(nis_file);
+    close_resource_file(nis_file);
     return interrupted;
 }
 
@@ -2275,7 +2272,7 @@ int discovery(void)
         }
     }
     dispose_handle(nis_palette);
-    finish_palette_effect();
+    reset_input();
     if (interrupted) {
         dispatch_resource_pointer(0L);
     }

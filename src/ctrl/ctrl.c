@@ -1074,7 +1074,7 @@ extern void far pascal AddKidDeathSong(unsigned char method);
 extern void far pascal lose_game(void);
 extern void far pascal draw_restart_message(void);
 extern int far pascal is_dead_pos(unsigned int frame);
-extern void far pascal read_user_input(void);
+extern int far pascal Input(void);
 extern int far pascal CheckForEndOfRecording(void);
 extern void far pascal play_shadow_death(void);
 extern void far pascal update_shadow_control(void);
@@ -1145,7 +1145,7 @@ int far pascal PlayerCtrl(void)
     if (grab_delay)
         --grab_delay;
     LoadSelect();
-    read_user_input();
+    Input();
     if (LevelIdx != animation_items || !character_room || (*(int near *)&Char.sequence) == 59)
         state_byte_5e31 = state_byte_5e30 = 0;
     ClrJoystick();

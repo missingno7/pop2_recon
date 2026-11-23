@@ -207,7 +207,7 @@ extern void far pascal RELEASE_TAGGED_RESOURCE(unsigned long, unsigned);
 extern unsigned long far * far pascal resolve_handle_to_far_payload(Handle);
 extern void far pascal enter_room(Byte);
 extern void far pascal MOVETO(int, int);
-extern void far _fastcall load_opponent_extra(Byte);
+extern void far _fastcall reserve_opponent_bank(Byte);
 extern Handle far pascal hGetSnd(unsigned);
 extern void far pascal SAVE_HANDLE_FLAGS(Handle);
 extern const char far * far pascal FETCH_LOCKED_SHAPE_LIST(Handle);
@@ -672,9 +672,9 @@ void far pascal load_opponent_overlays(SByte kind)
                     overlay_shape_list(sprite_sets[3], 850, first_base[i], last_base[i], 2);
                 if (i == 0 && (kind == 0 || kind == 5 || kind == 6)) {
                     if (!opponent_overlay_one)
-                        load_opponent_extra(1);
+                        reserve_opponent_bank(1);
                     if (!opponent_overlay_two)
-                        load_opponent_extra(2);
+                        reserve_opponent_bank(2);
                 }
             } else {
                 unload_overlay(sprite_sets[3], first_base[i], last_base[i]);

@@ -10,14 +10,14 @@ driver_header DD 0
 EXTRN ALLOCATE_PINNED_PAYLOAD:NEAR
 EXTRN CLEAR_PAYLOAD_HEADER:NEAR
 EXTRN CPU_PROBE:FAR
-PUBLIC INVALID_DRIVER_STUB, LOAD_SOUND_DRIVER
+PUBLIC INVALID_DRIVER_STUB, _load_sound_driver
 
 INVALID_DRIVER_STUB PROC FAR
     mov ax, -1
     retf
 INVALID_DRIVER_STUB ENDP
 
-LOAD_SOUND_DRIVER PROC FAR
+_load_sound_driver PROC FAR
     push bp
     mov bp, sp
     push ds
@@ -155,7 +155,7 @@ return_driver_entry:
     pop ds
     pop bp
     retf
-LOAD_SOUND_DRIVER ENDP
+_load_sound_driver ENDP
 
 PUBLIC RELEASE_LOADED_DRIVER
 
@@ -180,9 +180,9 @@ driver_release_done:
     retf
 RELEASE_LOADED_DRIVER ENDP
 
-PUBLIC READ_DOS_FILE_TO_BUFFER, RELEASE_DRIVER_PAYLOAD
+PUBLIC _read_dos_file_to_buffer, _release_driver_payload
 
-READ_DOS_FILE_TO_BUFFER PROC FAR
+_read_dos_file_to_buffer PROC FAR
     push bp
     mov bp, sp
     push ds
@@ -239,9 +239,9 @@ close_file:
     pop ds
     pop bp
     retf
-READ_DOS_FILE_TO_BUFFER ENDP
+_read_dos_file_to_buffer ENDP
 
-RELEASE_DRIVER_PAYLOAD PROC FAR
+_release_driver_payload PROC FAR
     push bp
     mov bp, sp
     push es
@@ -253,5 +253,5 @@ RELEASE_DRIVER_PAYLOAD PROC FAR
     pop es
     pop bp
     retf
-RELEASE_DRIVER_PAYLOAD ENDP
+_release_driver_payload ENDP
 END

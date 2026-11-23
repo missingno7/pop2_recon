@@ -830,7 +830,7 @@ int far pascal can_actor_follow(void);
 int far pascal actor_follows_to_adjacent_room(void);
 int far pascal AddCharX(int x);
 void far pascal trigger_character_water(void);
-void far _fastcall queue_room_audio(unsigned char room);
+void far _fastcall AddKidScream(unsigned char room);
 int far pascal decrement_life_points(unsigned char action);
 void far pascal set_actor_fall(unsigned char state);
 void far pascal stage_new_room_actor(void);
@@ -889,7 +889,7 @@ void far pascal check_cut(void)
             Char.x = AddCharX(320);
             trigger_character_water();
         } else {
-            queue_room_audio(viewed_room);
+            AddKidScream(viewed_room);
             if (room_style != 5) {
                 decrement_life_points(100);
                 (*(volatile int near *)&Char.frame) = 185;

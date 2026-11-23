@@ -100,7 +100,7 @@ extern int query_sound(int);
 extern Spawn *get_spawn(unsigned int, int);
 extern void reset_char_y(void), ClearCharVel(void), AnimChar(void);
 extern void set_resource(int, int, Byte, Byte);
-extern void far _fastcall draw_tile_image(Byte, Byte);
+extern void far _fastcall draw_custom_room_image(Byte, Byte);
 typedef void far pascal DrawCallback(void);
 extern DrawCallback draw_under_actor;
 extern void mark_bufs_for_rect(DrawCallback *, Rect *, signed char);
@@ -317,10 +317,10 @@ void draw_temp_sacred_flame(TileAnim *tile)
             draw.image = flame_image_map[draw.modifier & 0xff7f];
             piece = &room_data->pieces[draw.image];
             piece->pass = 1;
-            draw_tile_image(draw.image, 1);
+            draw_custom_room_image(draw.image, 1);
             piece->pass = 11;
         } else {
-            draw_tile_image((Byte)draw.modifier + 11, 11);
+            draw_custom_room_image((Byte)draw.modifier + 11, 11);
         }
         current_clip = draw.saved;
     }
@@ -370,7 +370,7 @@ void setup_flame(void)
         MAKESHAPERECT(&piece->rect, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->shape));
         current_clip = piece->rect;
         piece->pass = 0;
-        draw_tile_image(image, 0);
+        draw_custom_room_image(image, 0);
         piece->pass = 11;
         current_clip = saved;
         RestoreFChar();

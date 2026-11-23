@@ -54,7 +54,7 @@ extern Byte CutRoom;                     /* DS:6ccd */
 extern Byte LevelIdx;                    /* DS:0a18 */
 extern Byte scene_flag;                      /* DS:6290 */
 
-extern void far _fastcall draw_tile_image(Byte, Byte);
+extern void far _fastcall draw_custom_room_image(Byte, Byte);
 extern void set_resource(int, unsigned int, Byte, Byte), AddSong(int);
 extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
 extern RoomState far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
@@ -73,7 +73,7 @@ void draw_throne_room_gate_in_fore(void)
 {
     GateDraw *gate = (GateDraw *)(throne_tiles + 203);
     gate->foreground = 1;
-    draw_tile_image(7, 1);
+    draw_custom_room_image(7, 1);
     gate->foreground = 0;
 }
 

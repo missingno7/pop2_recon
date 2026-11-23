@@ -288,7 +288,8 @@ extern void far *cdecl _fmemcpy(void far *, const void far *, unsigned int);
 
 extern int retain_sheet(int);
 extern void restore_sheet(int, int);
-extern ShapeHeader far *lock_sheet(int);
+extern ShapeHeader far *resolve_handle_to_far_payload(int);
+extern ShapeHeader far *fetch_locked_shape_list(int);
 extern void prepare_sheet(int);
 extern void unlock_sheet(int);
 extern void prepare_transparency(int);
@@ -362,7 +363,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             }
         }
         anim_record->handle_count = count;
-        sheet_info = lock_sheet(sheet);
+        sheet_info = fetch_locked_shape_list(sheet);
         if (sheet_info) {
             animation_color_mode = sheet_info->depth <= 16;
             if (!sheet_info->sound) {
@@ -511,7 +512,6 @@ Animation *draw_frame(Animation *animation)
     return animation;
 }
 
-extern ShapeHeader far *lock_shape(int);
 extern int high_color_shape_boundary;
 extern void paint_low_color_shape(const ShapeHeader far *, int, int, int);
 extern void PAINT_PLAIN(const ShapeHeader far *, int, int, int);
@@ -522,13 +522,13 @@ void near paint_element(Animation *animation, Element *element)
         goto done;
     if (animation_color_mode || !(high_color_shape_boundary < element->shape))
         goto high_color;
-    paint_low_color_shape(lock_shape(animation->handles[element->shape - 1]),
+    paint_low_color_shape(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
                           (int)(element->x >> 16), (int)(element->y >> 16),
                           element->flags & 15);
     goto done;
 
 high_color:
-    PAINT_PLAIN(lock_shape(animation->handles[element->shape - 1]),
+    PAINT_PLAIN(resolve_handle_to_far_payload(animation->handles[element->shape - 1]),
                 (int)(element->x >> 16), (int)(element->y >> 16),
                 element->flags & 15);
 done:
@@ -547,10 +547,10 @@ void near accumulate_element_bounds(Animation *animation, Element *element)
     if (element->shape) {
         rect.left = (int)(element->x >> 16);
         rect.right = rect.left +
-                     lock_shape(animation->handles[element->shape - 1])->width;
+                     resolve_handle_to_far_payload(animation->handles[element->shape - 1])->width;
         rect.top = (int)(element->y >> 16);
         rect.bottom = rect.top +
-                      lock_shape(animation->handles[element->shape - 1])->height;
+                      resolve_handle_to_far_payload(animation->handles[element->shape - 1])->height;
         if (SECTRECT(&rect, &rect, &animation->source)) {
             if (EMPTYRECT(&animation->dirty))
                 animation->dirty = rect;
@@ -599,16 +599,16 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     if (sheet_override) sheet = sheet_override;
     else
         sheet = hGetNMapShpList(scene, -1, 1);
-    animation = anim_new(commands, sheet, 1, lock_sheet(sheet)->width, save_background);
+    animation = anim_new(commands, sheet, 1, resolve_handle_to_far_payload(sheet)->width, save_background);
     animation->callbacks[0] = callback;
     sprintf(message, "AnimNew(%d)", scene);
     if (!animation) abort_with_message(1, message);
 
     load_all_animation_shapes = 0;
     palette_list = HGETRSRC(0x0050534cUL, scene_id);
-    count = *(int far *)lock_shape(palette_list);
+    count = *(int far *)resolve_handle_to_far_payload(palette_list);
     for (result = 0; result < count; ++result)
-        palettes[result] = hGetSnd(((int far *)lock_shape(palette_list) + 1)[result]);
+        palettes[result] = hGetSnd(((int far *)resolve_handle_to_far_payload(palette_list) + 1)[result]);
     dispose_handle(palette_list);
     do {
         result = anim_idle(animation);
@@ -641,7 +641,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     if (flags & 2) wait_sound(0);
     if (flags & 1) DISPATCH_RESOURCE_POINTER(0, 0);
     for (result = 0; result < count; ++result)
-        if (palettes[result] && !query_sound_payload(lock_shape(palettes[result]))) dispose_handle(palettes[result]);
+        if (palettes[result] && !query_sound_payload(resolve_handle_to_far_payload(palettes[result]))) dispose_handle(palettes[result]);
     return aborted;
 }
 #pragma optimize("g", off)

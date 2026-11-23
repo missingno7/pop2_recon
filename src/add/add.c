@@ -563,7 +563,7 @@ extern void copy_kid_to_char(void);
 extern void check_actor_room(void);
 extern void get_frame_info(void);
 extern void update_actor_frame(void);
-extern int far _fastcall equipment_shape(unsigned int frame);
+extern int far _fastcall get_sword_frame_image(unsigned int frame);
 extern void adjust_actor_x(int delta);
 extern int AddCharX(int delta);
 extern void MakeFCharClipRect(void);
@@ -673,7 +673,7 @@ void setup_char(void)
 
     init_fchar_rect();
     get_frame_info();
-    equipment = equipment_shape(actor_equipment);
+    equipment = get_sword_frame_image(actor_equipment);
     if (Char.frame == 0 || (actor_shape_index == -1 && equipment == -1))
         return;
 

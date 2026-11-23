@@ -143,7 +143,7 @@ extern void far pascal do_lava_boil(void);
 extern void far pascal bones_fall(void);
 extern void far pascal set_actor_action(signed char action);
 void far pascal PutDeadBodyOnSolidGround(void);
-extern void far pascal align_to_floor(void);
+extern void far pascal AnimChar(void);
 
 /* The original calls to and from this draft are far returns through the ACT frame. */
 void far pascal HitFloor(void)
@@ -209,7 +209,7 @@ void far pascal HitFloor(void)
             Char.x = AddCharX(6);
             sequence = 155;
         }
-        JumpSeq(sequence); align_to_floor(); Char.vertical_step = 0;
+        JumpSeq(sequence); AnimChar(); Char.vertical_step = 0;
         if (sound != -1) {
             AddSound(sound);
             if (Char.character_kind == 0)
@@ -1138,7 +1138,8 @@ void far pascal control_drop(void)
     JumpSeq(sequence);
 }
 
-extern void far pascal advance_character(void);
+
+extern signed char stride_columns[];
 
 int far pascal IsCharSwingingFwd(void)
 {
@@ -1147,7 +1148,7 @@ int far pascal IsCharSwingingFwd(void)
     int old_sequence = Char.sequence_id;
     unsigned int old_frame = (*(int near *)&Char.frame);
 
-    advance_character();
+    AnimChar();
     Char.sequence_id = old_sequence;
     Char.sequence_position = old_position;
     (*(int near *)&Char.sequence) = old_repeat;
@@ -1176,7 +1177,6 @@ void far pascal jump_hang(int back)
     }
 }
 
-extern signed char stride_columns[];
 extern signed char far pascal get_char_col(int x);
 extern int far pascal get_edge_distance_at(int x);
 extern int far pascal can_continue_run_jump(signed char tile, unsigned int modifier);
@@ -1667,7 +1667,7 @@ cannot_block:
             direction_up = 1;
             JumpSeq(sequence);
             if (advance)
-                advance_character();
+                AnimChar();
         }
     }
 }

@@ -494,7 +494,7 @@ extern int floor_override, drew_pressed_tile;
 extern byte current_tile_flags;
 extern void on_ground(void);
 extern void FallOn(void);
-extern void check_special_floor(void);
+extern void Falling(void);
 extern sbyte get_above(void);
 extern sbyte get_under_foot(void);
 extern void fall_spikes(void);
@@ -536,7 +536,7 @@ falling:
     if (!Char.vertical_step)
         return;
 update_fall:
-    check_special_floor();
+    Falling();
 }
 
 void check_press(void)
@@ -705,7 +705,8 @@ void animate_gate(void)
         redraw_gate();
 }
 
-extern void refresh_actor_floor(void), JumpSeq(int sequence);
+extern void copy_kid_to_char(void);
+extern void JumpSeq(int sequence);
 extern sbyte FirstInRow(sbyte row);
 
 void stop_gate(int height)
@@ -714,7 +715,7 @@ void stop_gate(int height)
 
     current_trob.state = -1;
     add_gate_sound(level_type != 3 ? 6 : 8);
-    refresh_actor_floor();
+    copy_kid_to_char();
     actor_cell = FirstInRow(Char.row - 1) + Char.column;
     if (current_trob.cell == actor_cell && Char.direction == -1
             && Char.action == 2 && height == 0) {
@@ -1923,7 +1924,6 @@ void add_mob_obj(int y)
     set_object_cell(index);
 }
 
-extern void load_player_actor(void);
 extern void crush_actor(void);
 extern void load_actor_slot(sbyte index);
 extern void save_actor_slot(void);
@@ -1937,7 +1937,7 @@ void check_loose_crush(void)
     sbyte index;
     sbyte count;
 
-    load_player_actor();
+    copy_kid_to_char();
     if (loose_hits_actor()) {
         crush_actor();
         Kid = Char;

@@ -118,7 +118,7 @@ extern void far _fastcall save_under_shape(int, int, int, int, Byte, Byte);
 extern void set_floor_restore(Byte);
 extern void translate_rect(Rect far *, Rect far *, int, int);
 extern void SaveFChar(void), RestoreFChar(void), init_fchar_rect(void);
-extern void far _fastcall set_draw_mode(Byte);
+extern void far _fastcall add_char_object(Byte);
 typedef void far pascal DrawCallback(void);
 extern DrawCallback draw_under_actor, draw_carpet_foreground;
 extern void mark_bufs_for_rect(DrawCallback *, Rect near *, signed char);
@@ -126,7 +126,7 @@ extern void ReadCell(signed char, signed char, signed char);
 extern void make_space(Byte, Byte);
 extern void JumpSeq(int);
 extern void decrement_life_points(Byte), set_char_state(Byte);
-extern void far _fastcall draw_cave_bars_image(Byte, Byte);
+extern void far _fastcall draw_custom_room_image(Byte, Byte);
 extern int compute_trob_move_rect(Rect near *, Rect near *);
 extern void * _cdecl _nmalloc(unsigned int);
 extern void _cdecl free(void *);
@@ -315,7 +315,7 @@ void setup_carpet(void)
         init_fchar_rect();
         shape = get_carpet_shape_info(&ref, actor_image - CARPET_SHAPE_ID);
         MAKESHAPERECT(&actor_clip, actor_y - shape->height, actor_x, shape);
-        set_draw_mode(13);
+        add_char_object(13);
         mark_bufs_for_rect(draw_carpet_foreground, &actor_clip, -1);
         RestoreFChar();
     }
@@ -425,7 +425,7 @@ void draw_cave_bars(TileAnim *tile)
             saved = current_clip;
             current_clip = GamePlayRect;
         }
-        draw_cave_bars_image((tile->modifier & 7) + 2, 11);
+        draw_custom_room_image((tile->modifier & 7) + 2, 11);
         if (!carpet_view_enabled)
             current_clip = saved;
     }

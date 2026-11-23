@@ -129,7 +129,7 @@ extern void mark_move(sbyte, Rect *);
 /* The callback address and direct calls have different relocation forms. */
 extern void redraw_callback(sbyte, Rect *);
 extern void mark_bufs_for_rect(void (far *)(sbyte, Rect *), Rect *, sbyte);
-extern void far _fastcall draw_image(sbyte, sbyte);
+extern void far _fastcall draw_custom_room_image(sbyte, sbyte);
 extern int get_trob_room_cell(sbyte, int);
 extern void add_trob(sbyte, sbyte, sbyte, sbyte);
 extern int check_trob_visibility(void);
@@ -350,7 +350,7 @@ void setup_sand(void)
         MAKESHAPERECT(bounds, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle));
         mark_bufs_for_rect(redraw_callback, bounds, -1);
         draw_clip = *bounds;
-        draw_image(index, piece->pass = 1);
+        draw_custom_room_image(index, piece->pass = 1);
         piece->pass = 11;
         draw_clip = saved_clip;
     }
@@ -394,8 +394,8 @@ void draw_desert_exit(Piece *piece)
         custom_room->pieces[2].y = (4 - frame) * 2;
         custom_room->pieces[15].y = 27 - frame * 2;
         custom_room->pieces[15].rect.top = 0;
-        draw_image(2, 11);
-        draw_image(15, 11);
+        draw_custom_room_image(2, 11);
+        draw_custom_room_image(15, 11);
     }
 }
 
@@ -437,7 +437,7 @@ void draw_desert_planks(Piece *piece)
         index = ((piece_state(piece) >> 1) & 7) + 1;
         saved_clip = draw_clip;
         draw_clip = GamePlayRect;
-        draw_image(index, 11);
+        draw_custom_room_image(index, 11);
         draw_clip = saved_clip;
     }
 }
@@ -467,7 +467,7 @@ void draw_desert_rocks(Piece *piece)
         index = ((piece_state(piece) >> 1) & 7) + 1;
         saved_clip = draw_clip;
         draw_clip = GamePlayRect;
-        draw_image(index, 11);
+        draw_custom_room_image(index, 11);
         draw_clip = saved_clip;
     }
 }

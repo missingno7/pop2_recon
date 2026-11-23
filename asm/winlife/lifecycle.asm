@@ -40,7 +40,7 @@ EXTRN STROKE_RECTANGLE:NEAR
 EXTRN SUBTRACT_RECTANGLE_STRIP:NEAR
 EXTRN UNIONRECT:NEAR
 EXTRN UPDATE_MESSAGE_DISPLAY:NEAR
-EXTRN adjust_mouse_point:NEAR
+EXTRN ADD_PORT_ORIGIN:NEAR
 EXTRN ALLOCATE_CLIPPED_PORT:NEAR
 EXTRN FRAME_RECT:NEAR
 EXTRN OFFSETRECT:NEAR
@@ -946,7 +946,7 @@ poll_drag_button:
     push ds
     push ax
     push cs
-    call adjust_mouse_point
+    call ADD_PORT_ORIGIN
     pop dx
     pop cx
     xchg word ptr [si + 2], cx

@@ -130,7 +130,7 @@ extern void far pascal load_actor_slot(sbyte), save_actor_slot(void);
 extern int far pascal check_trob_visibility(void);
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
 extern Rect far *far pascal MAKESHAPERECT(Rect far *, int, int, void far *);
-extern void far _fastcall draw_image(ubyte, ubyte);
+extern void far _fastcall draw_custom_room_image(ubyte, ubyte);
 extern sbyte far pascal RestoreKeepCustomPeel(ubyte);
 
 void far pascal check_character_water(void);
@@ -357,7 +357,7 @@ void far pascal setup_splash(void)
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         draw_clip = piece->bounds;
         piece->pass = 1;
-        draw_image(image, piece->pass);
+        draw_custom_room_image(image, piece->pass);
         piece->pass = 11;
         if (Char.action != 9)
             mark_bufs_for_rect(restore_object, &piece->bounds, -1);
@@ -386,7 +386,7 @@ void far pascal draw_roof_glass(RoofAnimation near *animation)
         clip = draw_clip;
         draw_clip = GamePlayRect;
         image = (ubyte)(animation->frame + 31);
-        draw_image(image, 11);
+        draw_custom_room_image(image, 11);
         if (image + 1 < draw_list->piece_count)
             mark_bufs_for_rect(restore_object, &draw_list->pieces[image + 1].bounds, -1);
         draw_clip = clip;
@@ -427,12 +427,12 @@ void far pascal draw_roof_pillar(RoofAnimation near *animation)
         image = SELECT_PAIR_CODE(viewed_room, animation->variant);
         if (image) {
             image += (animation->frame >> 1) & 7;
-            draw_image(image, 11);
+            draw_custom_room_image(image, 11);
             image = image + 4;
             offset = 25 * *(volatile ubyte *)&image;
             pass = !draw_pillar_in_back((DrawPiece near *)((char near *)draw_list + 28 + *(volatile uword *)&offset));
             ((DrawPiece *)((char *)draw_list + *(volatile uword *)&offset + 28))->pass = pass;
-            draw_image(image, pass);
+            draw_custom_room_image(image, pass);
             ((DrawPiece *)((char *)draw_list + *(volatile uword *)&offset + 28))->pass = 11;
         }
     }
@@ -504,21 +504,21 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
         piece = &draw_list->pieces[55];
         piece->x = -position;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
-        draw_image(55, 11);
+        draw_custom_room_image(55, 11);
 
         piece = &draw_list->pieces[61];
         ship_x = position;
         piece->x = 45 - ship_x;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         piece->pass = 1;
-        draw_image(61, 1);
+        draw_custom_room_image(61, 1);
         piece->pass = 11;
 
         image = (position & 3) + 62;
         piece = &draw_list->pieces[image];
         piece->x = -ship_x;
         MAKESHAPERECT(&piece->bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
-        draw_image(image, 11);
+        draw_custom_room_image(image, 11);
         draw_clip = clip;
     }
 }

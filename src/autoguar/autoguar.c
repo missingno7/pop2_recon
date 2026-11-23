@@ -1198,7 +1198,7 @@ extern void far pascal remove_char(void);
 extern SpriteFrame far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
 extern int far pascal offset_sprite_x(int x);
 extern void far pascal MakeFCharClipRect(void);
-extern void far _fastcall set_sprite_style(unsigned char style);
+extern void far _fastcall add_char_object(unsigned char style);
 typedef void (far pascal *SmokeDrawer)(void);
 extern void far pascal draw_smoke(void);
 extern void far pascal mark_bufs_for_rect(SmokeDrawer draw, void near *clip, signed char id);
@@ -1251,7 +1251,7 @@ void far pascal setup_jinnee_smoke(void)
             sprite_y += table[frame].y;
             sprite_style = 3;
             MakeFCharClipRect();
-            set_sprite_style(9);
+            add_char_object(9);
             mark_bufs_for_rect(draw_smoke, sprite_clip, Char.slot);
         }
     }

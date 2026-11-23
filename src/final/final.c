@@ -162,7 +162,7 @@ extern sbyte level_kind;
 extern const byte opponent_style_for_level[];
 
 extern OpponentSlot near *far pascal reserve_opponent(int bank, int serial);
-extern void far _fastcall select_opponent_bank(byte kind);
+extern void far _fastcall reserve_opponent_bank(byte kind);
 extern void far pascal load_opponent_banks(void);
 extern void far pascal reset_char_y(void);
 extern void far pascal ClearCharVel(void);
@@ -183,7 +183,7 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
         *(byte near *)&opponent->direction = 0xff;
     opponent->style = 7;
     if (opponent_bank == 0) {
-        select_opponent_bank(1);
+        reserve_opponent_bank(1);
         load_opponent_banks();
     }
     opponent->bank = opponent_bank;
@@ -1163,7 +1163,7 @@ static byte gargoyle_layer[] = {
     0, 0, 0, 0, 0, 1, 0, 1, 1, 0
 };
 extern void far pascal OFFSETRECT(Rect far *output, Rect far *input, unsigned long shapes);
-extern void far _fastcall update_final_image(byte index, byte layer);
+extern void far _fastcall draw_custom_room_image(byte index, byte layer);
 
 extern unsigned int BlueSpec;
 extern int blink_always;
@@ -1203,7 +1203,7 @@ void far pascal draw_jaffar_blink(FinalObject near *object)
         if (!blink_always)
             frame -= 5;
         if (frame < 6)
-            update_final_image(blink_frame_order[frame] + 2, 11);
+            draw_custom_room_image(blink_frame_order[frame] + 2, 11);
     }
 }
 
@@ -1244,7 +1244,7 @@ void far pascal draw_spider(FinalObject near *object)
         int previous = sprite_vertical_origin;
 
         sprite_vertical_origin -= 6;
-        update_final_image((object->animation & 7) + 6, 11);
+        draw_custom_room_image((object->animation & 7) + 6, 11);
         sprite_vertical_origin = previous;
     }
 }
@@ -1324,7 +1324,7 @@ void far pascal draw_crystal(FinalObject near *object)
     image->shape_list = crystal_shapes[shape];
     OFFSETRECT(&image->bounds, &image->bounds, *(volatile unsigned long near *)&image->shape_list);
     image->layer = crystal_layer[shape];
-    update_final_image(index, crystal_layer[shape]);
+    draw_custom_room_image(index, crystal_layer[shape]);
     image->layer = 11;
     image->bounds = bounds;
     ((unsigned int near *)&image->shape_list)[0] = 0;
@@ -1398,7 +1398,7 @@ void far pascal draw_gargoyle(FinalObject near *object)
     image->shape_list = gargoyle_shapes[shape];
     OFFSETRECT(&image->bounds, &image->bounds, *(volatile unsigned long near *)&image->shape_list);
     image->layer = gargoyle_layer[shape];
-    update_final_image(index, gargoyle_layer[shape]);
+    draw_custom_room_image(index, gargoyle_layer[shape]);
     image->layer = 11;
     image->bounds = bounds;
     ((unsigned int near *)&image->shape_list)[0] = 0;

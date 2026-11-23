@@ -225,7 +225,7 @@ extern int far pascal create_frame_asset(DialogAsset, int, int);
 extern void far pascal PaintRLEShapeItem(DialogAsset, int, int, int, int);
 extern void far pascal fill_frame_buffer(void far *, int, int, int);
 extern void far pascal set_frame_dimensions(void far *, int, int);
-extern void far pascal inset_rect(struct dialog_rect far *, void far *, int, int);
+extern void far pascal InsetRect(struct dialog_rect far *, const void far *, int, int);
 extern void far pascal SET_RECORD_RANGE(struct dialog_rect far *, int);
 extern void far pascal release_shape_list(DialogAsset);
 extern void far pascal dispatch_sound(int);
@@ -303,7 +303,7 @@ void far pascal DrawDialogFrame(DialogAsset asset)
     set_frame_dimensions(bitmap->pixels, bitmap->width, bitmap->height);
     fill_frame_buffer(bitmap, 312, 8, 0);
     DISPOSE_HANDLE(handle);
-    inset_rect(&border, saved_port, 9, 9);
+    InsetRect(&border, saved_port, 9, 9);
     SET_RECORD_RANGE(&border, 12);
     if (temporary)
         release_shape_list(asset);
@@ -393,7 +393,6 @@ extern void far pascal play_song(int);
 extern unsigned far cdecl _fstrlen(const char far *);
 extern char far * far cdecl _fstrcpy(char far *, const char far *);
 extern void far pascal FRAME_RECT(const struct dialog_rect far *);
-extern void far pascal draw_bevel_rect(struct dialog_rect far *, const struct dialog_rect far *, int, int);
 extern void far pascal menu_sound(int);
 
 int far pascal load_game_dialog(void);
@@ -534,7 +533,7 @@ void far pascal draw_save_slot(struct save_slot_table far *slots, int index, int
     draw_save_slot_frame(&rect, selected);
     style = selected != 0;
     if (_fstrlen(slots->initials[index])) {
-        draw_bevel_rect(&rect, &rect, 2, 2);
+        InsetRect(&rect, &rect, 2, 2);
         DialogDrawStr(slots->initials[index], 10, style, 0, &rect, 0);
     }
 }
@@ -629,7 +628,7 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
             draw_save_slot(slots, slot, 1);
             if (saving == 1) {
                 compute_save_slot_rect(&rect, slot);
-                draw_bevel_rect(&rect, &rect, 2, 2);
+                InsetRect(&rect, &rect, 2, 2);
                 _fstrcpy(initials, slots->initials[slot]);
                 editor = create_edit_field(&rect, &rect, initials, 24);
                 editor->draw = draw_dialog_text_block;
@@ -1232,12 +1231,12 @@ void far pascal enter_hall_record(int score)
         edit_hall_name(entries, index);
         Graf = (struct ScreenPort *)dialog_port_handle;
         ComputeHallPlayerRect((int far *)&rect, index);
-        inset_rect(&rect, &rect, -2, 0);
+        InsetRect(&rect, &rect, -2, 0);
         SET_RECORD_RANGE(&rect, 12);
-        inset_rect(&rect, &rect, 2, 0);
+        InsetRect(&rect, &rect, 2, 0);
         table = entries;
         DialogDrawStr(table->records[index].name, 10, 0, 0, &rect, 0);
-        inset_rect(&rect, &rect, -2, 0);
+        InsetRect(&rect, &rect, -2, 0);
         MEASURE_TEXT(Graf = &ScreenPort, dialog_port_handle, &rect, &rect, 0);
         write_hall_file(table);
         wait_ticks(0, 900);
@@ -1313,9 +1312,9 @@ void far pascal edit_hall_name(struct hall_table far *table, int row)
     int key, done = 0;
 
     ComputeHallPlayerRect((int far *)&rect, row);
-    inset_rect(&rect, &rect, -2, 0);
+    InsetRect(&rect, &rect, -2, 0);
     draw_save_slot_frame(&rect, 1);
-    inset_rect(&rect, &rect, 2, 2);
+    InsetRect(&rect, &rect, 2, 2);
     editor = (struct hall_editor far *)create_edit_field(
         &rect, &rect, table->records[row].name, 24);
     editor->draw = draw_dialog_text_block;
