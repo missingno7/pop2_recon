@@ -146,6 +146,14 @@ class RealOverlayTests(unittest.TestCase):
         self.assertFalse(module_gate._other_overlay_frame(self.oracle, self.oracle.spaces["overlay-9"],
                                                           0x2a4f, 0x0a70))
 
+    def test_root_site_frames_bracket_a_gamelib_claim(self):
+        # ITEMDLG's root 1101:9c4d has no far caller; root MZ records before and after it name 1101.
+        import module_gate
+        target, space, _ = self.get_target("root:1101:9c4d", self.oracle)
+        at = space.position(target["segment"], target["offset"])
+        verdict, row = module_gate._site_frame(target, space, self.oracle, (at, at + target["size"]))
+        self.assertEqual((verdict, row["kind"], row["frame"]), ("evidence", "root site frame", 0x1101))
+
     def test_section_start_brackets_final_dispatcher(self):
         # FINAL 29cf:0000 precedes overlay 10's first record (index 55 at 0x74), which names the
         # link segment 29cf: the segment holding position 0 has that floor, so the claim does.

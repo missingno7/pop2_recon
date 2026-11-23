@@ -566,9 +566,12 @@ def _site_frame(target, space, oracle, hull, grouped=False):
     that lands inside the object uses F, and F's 64K window holds the whole object.
     A word of another frame G is excused only when it cannot enter the claim's segment
     (`_foreign_frame`): G > F, or G cannot be the floor of any segment of this overlay."""
-    if not (space.descriptor and space.descriptor["flags"] == 4):
+    # Root (2026-11-23): the MZ relocation table has the same property. In the RTLink 6.10 trial link
+    # (build/workers/o10_trial POP_diag.EXE/.MAP) all 1,949 root MZ entries at CODE sites name the floor
+    # paragraph of their MAP segment, and the original root table is monotone; link segment 0.
+    if not ((space.descriptor and space.descriptor["flags"] == 4) or space.name == "root"):
         return None
-    row = {"kind": "overlay site frame", "space": space.name}
+    row = {"kind": "overlay site frame" if space.name != "root" else "root site frame", "space": space.name}
     if grouped:
         # Probe: a grouped segment's records name its own floor; calls use the group frame.
         return "refused", dict(row, reason="code segment is a group member; site frame is not its CS")

@@ -396,6 +396,13 @@ frame 2344 but has no reviewed target yet. Tests:
 targets, an unbracketed `25da:000e`, the alias in overlay 9, and synthetic
 straddle, alias, group and monotonicity refusals).
 
+**Root site frames (2026-11-23).** The same rule applies to the root MZ relocation table, with link segment 0
+and kind `root site frame`. Probe: in the RTLink 6.10 whole-image trial link (build/workers/o10_trial
+POP_diag.EXE/.MAP), all 1,949 root MZ entries at CODE sites name the floor paragraph of their MAP segment, and
+the original root table is monotone. All the overlay conditions still hold: no grouped CODE segment, every
+relocated far word landing in the object uses F, and F's window holds the object. First use: ITEMDLG's frame-1101
+routines that have no far caller.
+
 ## Far data members (2026-11-21)
 
 A `far-data` symbol may list `members: [{offset: k, offset_witnesses: [...]}]`.
