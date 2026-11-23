@@ -568,3 +568,10 @@ pairs the offset with a relocated N:
 In a group, an offset or member with no outside witness may carry `"consensus": true`. It is then proven only by
 equal fields at two or more distinct original instruction starts in CODE_EXACT claims, as for v4 internal support.
 An arithmetic immediate alone, or a displacement whose ES load is not in the window, proves nothing.
+
+## Split far code pointers (2026-11-23)
+
+A callback argument may be built in halves (`mov ax,offset f` LOC1/LOC5, `mov dx,seg f` LOC2 base16). Both halves of
+a grounded `far-code-entry` or `overlay-code-entry` symbol are accepted in claims: the offset half must have a zero
+addend and equals the entry's offset, the segment half equals its segment and consumes its original MZ relocation
+(field kind base16). The symbol is grounded exactly as for a far CALL; the halves themselves prove nothing.

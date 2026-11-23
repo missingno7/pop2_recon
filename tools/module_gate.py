@@ -1548,7 +1548,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     require(fix["target"]["name"] not in publics,
                             "Far fixup target resolves to a CODE public of this object")
                     state["far"].append(dict(fix, segment_offset=at))
-                    if far_symbols[fix["target"]["name"]].get("kind") not in ("segment-base", "far-data"):
+                    if far_symbols[fix["target"]["name"]].get("kind") not in ("segment-base", "far-data") and                             fix["loc_type"] == 3:
                         state["calls"][at - 1] = None  # a far callee, not a claim
                 elif (fix["target"].get("kind") == "segment" and fix["target"].get("name") in placements and
                       fix["loc_type"] == 1 and not fix["self_relative"] and fix["field_width"] == 2):
@@ -1755,8 +1755,11 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                     at, ref = fix["segment_offset"], fix["target"]
                     symbol = far_symbols[ref["name"]]
                     # LOC5 (loader-resolved offset16) writes the same value as LOC1 here.
-                    if symbol.get("kind") == "far-data" and fix["loc_type"] in (1, 5) and not fix["self_relative"]:
-                        # Offset half of a far data pointer: O within the object's own segment.
+                    # A far code pointer taken in halves (`mov ax,offset f; mov dx,seg f`, a callback argument):
+                    # the linker writes the grounded entry's offset and segment (2026-11-23).
+                    split = symbol.get("kind") in ("far-code-entry", "overlay-code-entry")
+                    if (split or symbol.get("kind") == "far-data") and fix["loc_type"] in (1, 5) and                             not fix["self_relative"]:
+                        # Offset half of a far data or code pointer: O within the target's own segment.
                         same_ext = {k: fix["frame"].get(k) for k in ("kind", "index", "name")} ==                             {"kind": "external", "index": ref.get("index"), "name": ref.get("name")}
                         require(fix["field_width"] == 2 and ref["kind"] == "external" and fix["displacement"] is None and
                                 (fix["frame"] == {"kind": "target_frame", "target": ref} or same_ext),
@@ -1777,7 +1780,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         state["occupied"].update(range(at, at+2))
                         used_far.add(ref["name"])
                         continue
-                    if symbol.get("kind") in ("segment-base", "far-data") and fix["loc_type"] == 2:
+                    if (split or symbol.get("kind") in ("segment-base", "far-data")) and fix["loc_type"] == 2:
                         # LOC2 base16 of an external far segment (`mov ax, seg Table`): the
                         # linker writes that segment's paragraph, relocated in MZ at the field.
                         # F5, or F2 naming the same external (MASM `mov ax, SEG X`): X's own frame.
