@@ -70,7 +70,6 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 
-extern CHARREC Char;
 
 
 #pragma pack(1)
@@ -127,6 +126,7 @@ extern int ledge_check, right_edge, left_edge, ImHeight;
 extern int bump_pending;
 
 extern int far _fastcall slide_rock_on_row(unsigned char room, signed char row);
+extern CHARREC Char;
 extern void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned char *edges);
 extern signed char get_char_col(int x);
 extern unsigned char ReadCell(unsigned char room, signed char col, signed char row);
@@ -154,7 +154,7 @@ extern void AnimChar(void);
 extern void reread_cells(void);
 extern void reset_char_y(void);
 extern void AddSound(int);
-extern int far _fastcall sword_room_boundary(unsigned char room, signed char row);
+extern int far _fastcall probe_jump_anchor(unsigned char room, signed char row);
 extern int is_striking_position(unsigned char action, unsigned int frame);
 
 void right_collision(void);
@@ -494,7 +494,7 @@ void apply_ground_bump(signed char direction)
     if (Char.alive == 0)
         return;
     if (Char.stance == 1) {
-        boundary = sword_room_boundary(Char.room, Char.row);
+        boundary = probe_jump_anchor(Char.room, Char.row);
         if (direction == Char.direction) {
             if (Char.sequence_id == 55 && Char.frame == 207)
                 Char.x = AddCharX(10);

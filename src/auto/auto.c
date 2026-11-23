@@ -101,6 +101,7 @@ typedef struct {
     unsigned char field_3a;            /* 3a */
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
+extern CELLREC Cell;
 
 /* AUTO.C ordered reconstruction through 2344:0fae. */
 
@@ -394,7 +395,7 @@ extern signed char appearance_for_kind[];
 
 
 extern int actor_y_offset[];
-extern int generator_x_left[], generator_x_right[];
+extern int ColEdgeX[20];
 extern signed char direction_row_adjustment[];
 
 
@@ -575,11 +576,10 @@ opponent_record *far pascal GetOppInfoIdx(int room, int index)
     return result;
 }
 
-#pragma optimize("s", on)
 signed char far pascal pick_hidden_actor(signed char direction)
 {
     signed char best = -1, index, count;
-    int dx, dy, best_dx, best_dy, dy_difference, kx;
+    int dx, dy, best_dx, best_dy;
     CHARREC *actor;
     opponent_record *record;
 
@@ -592,40 +592,36 @@ signed char far pascal pick_hidden_actor(signed char direction)
             dy = abs(actor->y - Kid.y);
             if (actor->alive < 0 && actor->character_kind != 11 &&
                 !((actor->character_kind == 7 || actor->character_kind == 8) && (unsigned char)record->saved_y == 2)) {
-                if (direction == 1) {
-                    dx = abs(Kid.x - actor->x);
-                } else if (direction == -1 && actor->x <= Kid.x) {
-                    dx = Kid.x - actor->x;
-                    goto clamp_distance;
-                } else if (direction == 0 && actor->x > Kid.x) {
-                    dx = actor->x - Kid.x;
-clamp_distance:
-                    if (dx < 0)
-                        dx = 0;
-                }
+                if (direction == 1)
+                    dx = abs(actor->x - Kid.x);
+                else if (direction == -1 && actor->x <= Kid.x)
+                    dx = Kid.x - actor->x < 0 ? 0 : Kid.x - actor->x;
+                else if (direction == 0 && actor->x > Kid.x)
+                    dx = actor->x - Kid.x < 0 ? 0 : actor->x - Kid.x;
                 else
                     dy = -1;
             } else
                 dy = -1;
 
             if (dy >= 0 && dx >= 0) {
-                if (best == -1) {
-                    best = index;
-                } else {
+                if (best != -1) {
+                    int difference;
                     best_dx = abs(RoomOpp[best].x - Kid.x);
                     best_dy = abs(RoomOpp[best].y - Kid.y);
-                    dy_difference = abs(dy - best_dy);
-                    if ((dy_difference > 43 && dy < best_dy) ||
-                        (dy_difference < 43 && best_dx > dx))
-                        best = index;
+                    difference = abs(dy - best_dy);
+                    if (difference > 43 && dy < best_dy)
+                        goto choose_actor;
+                    if (difference >= 43 || dx >= best_dx)
+                        continue;
                 }
+choose_actor:
+                best = index;
             }
         }
     }
     return best;
 }
 
-#pragma optimize("", on)
 int far pascal is_selected_actor(void)
 {
     if (pick_hidden_actor(Kid.x >= Char.x ? -1 : 0) == actor_index)
@@ -652,24 +648,22 @@ void far pascal check_generator_points(unsigned char room)
 
 void far pascal GenerateOpponent(generator_point *point, unsigned char room)
 {
-    int room_index = room;
-    ROOMOBJECTS *list = &Level.room_objects[room_index - 1];
-    signed char index = list->opponent_count;
+    signed char index = Level.room_objects[room - 1].opponent_count;
     signed char row;
     opponent_record *record;
 
     if (index < 5) {
-        list->opponent_count = index + 1;
-        record = GetOppInfoIdx(room_index, index);
+        ++Level.room_objects[room - 1].opponent_count;
+        record = GetOppInfoIdx(room, index);
         record->tile = FirstInRow(point->column) + point->row;
         if (point->row <= 5) {
-            record->x = generator_x_left[point->row];
+            record->x = ColEdgeX[point->row + 3];
             record->direction = 0;
         } else {
-            record->x = generator_x_right[point->row];
+            record->x = ColEdgeX[point->row + 7];
             record->direction = -1;
         }
-        record->flags = Level.generators[room_index - 1].spawn_flags;
+        record->flags = Level.generators[room - 1].spawn_flags;
         record->palette_kind = bank_opponents[0];
         record->index = index;
         record->combat_mode = 0;
@@ -1127,13 +1121,13 @@ extern int opponent_cooldown;
 
 extern signed char script_motion;
 
-void far pascal probe_room_edge(unsigned char room, signed char column, signed char row);
-void far pascal leave_special_room(void);
-void far pascal on_left_exit(void);
-void far pascal run_actor_kind_four(void);
-void far pascal run_actor_kind_six(void);
-void far pascal run_actor_kind_seven(void);
-void far pascal run_actor_kind_eleven(void);
+void far pascal ReadCell(unsigned char room, signed char column, signed char row);
+void far pascal kill_kid_on_wharf(void);
+void far pascal cut_kid_inside_level6(void);
+void far pascal update_skeleton(void);
+void far pascal run_jaffar(void);
+void far pascal Head_Prog(void);
+void far pascal Snake_Prog(void);
 void far pascal altar_shadow_progress(void);
 void far pascal chase_opponent(void);
 void far pascal alert_opponent(void);
@@ -1144,79 +1138,52 @@ void far pascal run_guard_script(void);
 
 int far pascal choose_cut_side(void)
 {
-    volatile int y = Char.y;
-    volatile int mode = Char.action;
+    int y = Char.y;
+    int mode = Char.action;
     unsigned int action = (*(volatile int near *)&Char.frame);
-    int none = -1;
-    int side;
+    int side = -1;
 
     if (LevelIdx != generator_level || (*(volatile int near *)&Char.sequence) == 70 ||
         ((*(volatile unsigned char near *)&Char.character_kind) == 1 && action == 185))
-        goto leave_unchanged;
-    if (mode == 5 || mode == 4 || mode == 3)
-        goto check_lower_exit;
-    if (y < 10 && y >= -16) {
+        goto check_side;
+    if (mode != 5 && mode != 4 && mode != 3 && y < 10 && y >= -16) {
         if (Level.level_number == 5) {
-            side = none;
             if (actor_room == 3)
                 goto check_side;
         }
         side = 2;
-        goto check_side;
-    }
-check_lower_exit:
-    if (y >= 231 &&
-        (Level.room_links[actor_room - 1].below || y >= lower_exit_margin + 231) &&
-        (Level.environment_kind != 5 || actor_index != cut_blocked_index)) {
+    } else if (y >= 231 &&
+               (Level.room_links[actor_room - 1].below || y >= lower_exit_margin + 231) &&
+               (Level.environment_kind != 5 || actor_index != cut_blocked_index)) {
         side = 3;
-        goto check_side;
+    } else if ((action >= 135 && action < 150) ||
+               (action >= 110 && action <= 119) ||
+               (action >= 150 && action < 163) ||
+               (action >= 166 && action < 169) || mode == 7) {
+        side = -1;
+    } else if ((*(volatile signed char near *)&Char.direction) == -1) {
+        if (left_edge_x <= 125 &&
+            (Level.room_links[actor_room - 1].left || left_edge_x <= 125 - horizontal_exit_margin)) {
+            if (Level.level_number == 9 && actor_room == 8 && Char.row == 0 && action == 40)
+                ++generator_level;
+            else
+                side = 0;
+        } else if (left_edge_x >= 450 &&
+                   (Level.room_links[actor_room - 1].right || left_edge_x >= horizontal_exit_margin + 449) &&
+                   (Level.environment_kind != 1 || actor_room != 3)) {
+            side = 1;
+        }
+    } else {
+        ReadCell(actor_room, 9, Char.row);
+        if (right_edge_x >= 454 &&
+            (Level.room_links[actor_room - 1].right || right_edge_x >= horizontal_exit_margin + 454) &&
+            (Level.environment_kind != 1 || actor_room != 3)) {
+            side = 1;
+        } else if (right_edge_x <= 129 &&
+                   (Level.room_links[actor_room - 1].left || right_edge_x <= 130 - horizontal_exit_margin)) {
+            side = 0;
+        }
     }
-    if ((action >= 135 && action < 150) ||
-        (action >= 110 && action <= 119) ||
-        (action >= 150 && action < 163) ||
-        (action >= 166 && action < 169) || mode == 7)
-        goto keep_actor;
-
-    if ((*(volatile signed char near *)&Char.direction) == -1) {
-        if (left_edge_x > 125 ||
-            (!Level.room_links[actor_room - 1].left && left_edge_x > 125 - horizontal_exit_margin))
-            goto check_right_of_actor;
-        if (Level.level_number != 9 || actor_room != 8 || Char.row != 0 || action != 40)
-            goto leave_left;
-        ++generator_level;
-leave_unchanged:
-        side = none;
-        goto check_side;
-check_right_of_actor:
-        side = none;
-        if (left_edge_x < 450)
-            goto check_side;
-        if (!Level.room_links[actor_room - 1].right && left_edge_x < horizontal_exit_margin + 449)
-            goto check_side;
-        if (Level.environment_kind == 1 && actor_room == 3)
-            goto check_side;
-leave_right:
-        side = 1;
-        goto check_side;
-    }
-
-    side = none;
-    probe_room_edge(actor_room, 9, Char.row);
-    if (right_edge_x >= 454 &&
-        (Level.room_links[actor_room - 1].right || right_edge_x >= horizontal_exit_margin + 454) &&
-        (Level.environment_kind != 1 || actor_room != 3))
-        goto leave_right;
-    if (right_edge_x > 129)
-        goto check_side;
-    if (Level.room_links[actor_room - 1].left == 0) {
-        if (right_edge_x > 130 - horizontal_exit_margin)
-            goto check_side;
-    }
-leave_left:
-    side = 0;
-    goto check_side;
-keep_actor:
-    side = -1;
 check_side:
     switch (side) {
       case 0:
@@ -1227,7 +1194,7 @@ check_side:
         if (Level.environment_kind == 5 && actor_room == 15) {
             side = -1;
             if ((*(volatile int near *)&Char.sequence) != 71)
-                leave_special_room();
+                kill_kid_on_wharf();
         } else if (actor_room == 3 && Level.environment_kind == 6)
             side = -1;
         break;
@@ -1255,7 +1222,7 @@ check_side:
     if (side != -1)
         cut_actor(side);
     if (side == 0 && Room.number == 27 && Level.level_number == 6)
-        on_left_exit();
+        cut_kid_inside_level6();
     return side;
 }
 
@@ -1274,26 +1241,23 @@ void far pascal update_automatic_actor(void)
 
     switch (kind) {
       default:
-        kind = (*(volatile unsigned char near *)&Char.character_kind);
-        if (kind == 0) run_actor_kind_eleven();
-        else run_guard_script();
+        if (Char.character_kind != 0) run_guard_script();
         return;
       case 1:
-        run_shadow_script();
-        return;
+        run_shadow_script(); return;
       case 4:
       case 10:
-        run_actor_kind_four();
+        update_skeleton();
         return;
       case 6:
-        run_actor_kind_six();
+        run_jaffar();
         return;
       case 7:
       case 8:
-        run_actor_kind_seven();
+        Head_Prog();
         return;
       case 11:
-        run_actor_kind_eleven();
+        Snake_Prog();
         return;
     }
 }
@@ -1343,7 +1307,6 @@ typedef struct {
     unsigned char head[6];
     unsigned char flags;
 } hit_action_record;
-extern CELLREC Cell;
 extern hit_action_record far hit_actions[];
 
 
@@ -1356,7 +1319,6 @@ static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
 };
 
-extern int ColEdgeX[20];
 extern unsigned int hit_actor_phase;
 
 void far pascal begin_actor_death(void);

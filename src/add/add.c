@@ -579,7 +579,6 @@ void restore_peels(void)
     peel_count = remaining;
 }
 
-#pragma optimize("g", off)
 void clear_peels(void)
 {
     int count = peel_count;
@@ -592,7 +591,6 @@ void clear_peels(void)
     }
     peel_count = 0;
 }
-#pragma optimize("g", on)
 
 BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte palette)
 {

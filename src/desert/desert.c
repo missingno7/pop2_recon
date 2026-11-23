@@ -199,7 +199,7 @@ extern void DrawCustomRoomImgAtInfo(ubyte, Piece *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern void far _fastcall add_peel(int, int, int, int, ubyte, ubyte);
 extern int compute_trob_move_rect(Rect *, Rect *);
-extern sbyte get_adjacent_animation(void), check_trob_below(void);
+extern sbyte check_trob_right(void), check_trob_below(void);
 extern int find_character_peel(ubyte, int);
 
 void check_desert_exit(void);
@@ -602,7 +602,7 @@ void redraw_stone(void)
 
     if (compute_trob_move_rect(&bounds, &stone_bounds)) {
         mark_move(animation_tile, &bounds);
-        mark_move(get_adjacent_animation(), &bounds);
+        mark_move(check_trob_right(), &bounds);
         mark_move(check_trob_below(), &bounds);
     }
 }

@@ -274,7 +274,7 @@ extern void AnimChar(void);
 extern void load_room(sbyte);
 extern void mark_move(sbyte, struct char_bounds *);
 extern int compute_trob_move_rect(struct char_bounds *, int *);
-extern sbyte get_adjacent_animation(void);
+extern sbyte check_trob_right(void);
 extern void add_gate_sound(int);
 extern sbyte FirstInRow(sbyte);
 extern void redraw_gate(void);
@@ -727,10 +727,10 @@ void redraw_lava(void)
     lava_redraw_type = redraw.flags & 128 ? 16 : (redraw.flags & 64 ? 39 : 48);
     if (compute_trob_move_rect((struct char_bounds *)redraw.bounds, &lava_redraw_type)) {
         mark_move(current_lava.cell, (struct char_bounds *)redraw.bounds);
-        mark_move(get_adjacent_animation(), (struct char_bounds *)redraw.bounds);
+        mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);
         if (current_lava.cell % (sbyte)10 < 8) {
             ++current_lava.cell;
-            mark_move(get_adjacent_animation(), (struct char_bounds *)redraw.bounds);
+            mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);
             --current_lava.cell;
         }
     }

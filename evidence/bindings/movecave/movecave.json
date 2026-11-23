@@ -7,7 +7,7 @@
       "COMPUTE_TROB_MOVE_RECT",
       "ANIMATE_LAVA",
       "GET_CAVE_TORCH_FRAME",
-      "GET_ADJACENT_ANIMATION",
+      "CHECK_TROB_RIGHT",
       "ADD_GATE_SOUND",
       "FIRSTINROW",
       "REDRAW_GATE",
@@ -5852,7 +5852,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "GET_ADJACENT_ANIMATION",
+          "name": "CHECK_TROB_RIGHT",
           "zero_displacement": true
         }
       },
@@ -5866,7 +5866,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "GET_ADJACENT_ANIMATION",
+        "name": "CHECK_TROB_RIGHT",
         "zero_displacement": true
       }
     },
@@ -5960,7 +5960,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "GET_ADJACENT_ANIMATION",
+          "name": "CHECK_TROB_RIGHT",
           "zero_displacement": true
         }
       },
@@ -5974,7 +5974,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "GET_ADJACENT_ANIMATION",
+        "name": "CHECK_TROB_RIGHT",
         "zero_displacement": true
       }
     },
@@ -8438,6 +8438,23 @@
         }
       ]
     },
+    "CHECK_TROB_RIGHT": {
+      "entry_sha256": "35f3e1ae87a395216a4e63dd351ba79e0880cfd73106b9f7906f7b9e4b23581b",
+      "entry_target_id": "root:0b41:053c",
+      "kind": "far-code-entry",
+      "offset": 1340,
+      "segment": 2881,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3c05410b",
+          "file_offset": 214196,
+          "image_offset": 2276,
+          "relocation_index": 62,
+          "space": "overlay-5"
+        }
+      ]
+    },
     "CHECK_TROB_VISIBILITY": {
       "entry_sha256": "6310c75698caf48eec5cc67ca5455015080d2a8e3fcaebad6a186ecf68c920b6",
       "entry_target_id": "root:0b41:04d4",
@@ -8730,23 +8747,6 @@
           "image_offset": 54644,
           "relocation_index": 1063,
           "space": "root"
-        }
-      ]
-    },
-    "GET_ADJACENT_ANIMATION": {
-      "entry_sha256": "35f3e1ae87a395216a4e63dd351ba79e0880cfd73106b9f7906f7b9e4b23581b",
-      "entry_target_id": "root:0b41:053c",
-      "kind": "far-code-entry",
-      "offset": 1340,
-      "segment": 2881,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3c05410b",
-          "file_offset": 214196,
-          "image_offset": 2276,
-          "relocation_index": 62,
-          "space": "overlay-5"
         }
       ]
     },

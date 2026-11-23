@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/autohead/autohead.json",
-  "binding_sha256": "5879b73446040441a20a1881a676864b556b59de76973b74515bb844f9314f19",
+  "binding_sha256": "2e6d57740ba04b81305e3c5836904bfc3a7d0fb600dc75284cdaeca58a9d270a",
   "claims": [
     {
       "fixup_count": 0,
@@ -377,6 +377,16 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-11:2c3e:1668"
+    },
+    {
+      "fixup_count": 2,
+      "public": "IS_ABLE_TO_FLEE_IN_ROOM",
+      "relocation_indices": [
+        22
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-11:2c3e:10a0"
     }
   ],
   "drafts": [
@@ -387,34 +397,29 @@
     {
       "object_offset": 1204,
       "public": "HEAD_ATTACK_PROG"
-    },
-    {
-      "object_offset": 4256,
-      "public": "IS_ABLE_TO_FLEE_IN_ROOM"
     }
   ],
   "emitted_size": 5878,
   "flags": [
     "/c",
     "/AM",
-    "/Oe",
+    "/Oegl",
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zi",
-    "/Og"
+    "/Zi"
   ],
   "frame": 11326,
   "group_id": "group:autohead/autohead",
   "kind": "same_source_group",
   "language": "c",
   "name": "autohead/autohead",
-  "object_sha256": "1a5a60ac2867f8d11f2b81187dd29f6636a4a80da79b5491d0f1374ee23ec763",
+  "object_sha256": "c2e0ddf7b0612f896e1da30b0be50e4e4b47861acb329d489dcdda35c88d7875",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/autohead/autohead.c",
-  "source_sha256": "b477336738f16881fe4f5d6d32f33bd743620c9e559dcae3e50ba0093871d8af",
+  "source_sha256": "70cbc0b29b7105ea688fec7b6941c13aa7ebff15e4ad05f73dfdbd6d6253fb56",
   "space": "overlay-11"
 }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/movetemp/movetemp.json",
-  "binding_sha256": "61b7720190b40633277022717e8e51031018b6d9eb8f8ce513f5e9298aa047ec",
+  "binding_sha256": "8da16c16858d5f3e0f1009f52a29e6f582a8049880b9b3d056ce3385d7f67266",
   "claims": [
     {
       "fixup_count": 1,
@@ -252,16 +252,36 @@
       "fixup_count": 0,
       "public": "TEMPLE_FRAME",
       "target_id": "overlay-9:2a4e:0fd4"
+    },
+    {
+      "fixup_count": 57,
+      "public": "MOVE_ROCK_RECORD",
+      "relocation_indices": [
+        6,
+        7,
+        8,
+        12,
+        22,
+        23,
+        32,
+        45,
+        59,
+        60,
+        70,
+        72,
+        73
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-9:2a4e:07d4"
     }
   ],
   "drafts": [
     {
       "object_offset": 1388,
       "public": "HIT_CHARACTER_WITH_ROCK"
-    },
-    {
-      "object_offset": 2004,
-      "public": "MOVE_ROCK_RECORD"
     }
   ],
   "emitted_size": 4054,
@@ -279,7 +299,7 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "movetemp/movetemp",
-  "object_sha256": "85c1b47d7763a6425fd1ed28d7b80ed95ee7e7718db4025bd7bf83e1a24fc5d7",
+  "object_sha256": "ff13edc40a3024a2cc0a50be67d0f303181ad0a564629ad099f1e9d4bfe16d2c",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
@@ -291,6 +311,6 @@
   ],
   "schema": 1,
   "source": "src/movetemp/movetemp.c",
-  "source_sha256": "13c7fc464db5a8d09491828e005d28f654a6547c8ec27445b60261d5718fc4ca",
+  "source_sha256": "26fdd63635469829d902988f5e0c175dc6a78570f3ade4c739a2d8a4d0e2700a",
   "space": "overlay-9"
 }

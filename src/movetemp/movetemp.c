@@ -85,6 +85,7 @@ typedef struct {
 #pragma pack()
 
 extern MOBREC Mob;
+extern CHARREC Char;
 extern FCHARREC FChar;
 extern int sequence_a, sequence_b, rock_speed_a, rock_speed_b;
 static struct {
@@ -100,7 +101,7 @@ static struct {
     { 0, 7, 7, 12, 12, 12, 12, 7, 7, -2, 0, 7, 12, 7, -1, 0, 7 },
     { 0, 91, 91, 92, 92, 92, 92, 93, 93, 94, 21, 91, 92, 93, 94, 21, 91, 21 }
 };
-extern CHARREC Char, Kid;
+extern CHARREC Kid;
 extern unsigned char slide_det_flags[];
 #pragma pack(1)
 typedef struct {
@@ -545,8 +546,8 @@ extern unsigned short *BlueS;
 extern unsigned char *room_trapdoor_flags;
 extern int query_sound(int);
 extern int current_sound;
-extern void rock_hit_spikes(void);
-extern void character_release_grip(void);
+extern void DoImpale(void);
+extern void control_drop(void);
 extern int probe_chain_floor(int);
 extern int background_shapes;
 extern int trapdoor_top, trapdoor_left;
@@ -562,8 +563,9 @@ extern void trigger_trapdoor(unsigned char room, signed char cell);
 
 void move_rock_record(void)
 {
-    int next_x, x, prior_column;
-    signed char prev_column, new_column;
+    int x, prior_column;
+    signed char prev_column;
+    signed char new_column;
     unsigned char tile;
     signed char column;
 
@@ -589,53 +591,49 @@ void move_rock_record(void)
         Mob.room = Level.room_links[Mob.room - 1].left;
         x += 320;
     }
-    next_x = x;
-    if (!Mob.room)
-        goto no_room;
-    if (Mob.auxiliary == 0 || Mob.auxiliary == 100)
-        goto done;
-    prior_column = next_x - 20;
-    column = prior_column / 32;
-    if (prior_column <= 0)
-        --column;
-    tile = ReadCell(Mob.room, column, Mob.row);
-    if (Mob.velocity != 1)
-        goto advance;
-    Mob.velocity = 0;
-    Mob.auxiliary = 100;
-    ++Mob.y;
-    Mob.x = next_x + 2;
-    if (tile != 2)
-        goto finish;
-    copy_kid_to_char();
-    rock_hit_spikes();
-    goto copy_kid;
-no_room:
-    Mob.velocity = -1;
-    goto stop_timer;
-advance:
-    new_column = (next_x - 4) / 32;
-    prev_column = (Mob.x - 4) / 32;
-    if (new_column != prev_column || column != prev_column) {
-        column = ReadCell(Mob.room, new_column, Mob.row);
-        if ((IsWall(column) || column == 4 || tile == 2) && Mob.velocity == 0) {
-            Mob.velocity = 1;
-            --Mob.y;
-            if (!query_sound(10055) && tile != 2)
-                AddSound(8);
+    do {
+        if (!Mob.room) {
+            Mob.velocity = -1;
+            goto stop_timer;
         }
-    }
-    copy_kid_to_char();
-    if (Char.frame >= 87 && Char.frame <= 99) {
-        column = (next_x - 8) / 32;
-        if (Mob.row - Char.row + 1 == 0 && column == Char.column)
-            character_release_grip();
-    }
-copy_kid:
-    Kid = Char;
-finish:
+        if (Mob.auxiliary == 0 || Mob.auxiliary == 100)
+            goto done;
+        prior_column = x - 20;
+        column = prior_column / 32;
+        if (prior_column <= 0)
+            --column;
+        tile = ReadCell(Mob.room, column, Mob.row);
+        if (Mob.velocity == 1) {
+            Mob.velocity = 0;
+            Mob.auxiliary = 100;
+            ++Mob.y;
+            Mob.x = x + 2;
+            if (tile != 2)
+                break;
+            copy_kid_to_char();
+            DoImpale();
+        } else {
+            prev_column = (Mob.x - 4) / 32;
+            if ((new_column = (x - 4) / 32) != prev_column || prev_column != column) {
+                column = ReadCell(Mob.room, new_column, Mob.row);
+                if ((IsWall(column) || column == 4 || tile == 2) && Mob.velocity == 0) {
+                    Mob.velocity = 1;
+                    --Mob.y;
+                    if (!query_sound(10055) && tile != 2)
+                        AddSound(8);
+                }
+            }
+            copy_kid_to_char();
+            if (Char.frame >= 87 && Char.frame <= 99) {
+                column = (x - 8) / 32;
+                if (Mob.row - Char.row + 1 == 0 && column == Char.column)
+                    control_drop();
+            }
+        }
+        Kid = Char;
+    } while (0);
     if (Mob.auxiliary != 100) {
-        Mob.x = next_x;
+        Mob.x = x;
         if (Mob.auxiliary != 0)
             AddSound(54);
         return;

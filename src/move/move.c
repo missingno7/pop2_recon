@@ -449,8 +449,10 @@ sbyte check_trob_right(void)
             cell = 18 - cell;
         else
             cell = 30;
-    } else
-        cell = Room.above_left == current_trob.room && cell == 29 ? -1 : 30;
+    } else if (Room.above_left == current_trob.room)
+        cell = cell == 29 ? -1 : 30;
+    else
+        cell = 30;
     return cell;
 }
 
@@ -476,26 +478,27 @@ sbyte check_trob_above_right(void)
 
     if (Room.number == current_trob.room) {
         if (cell % 10 == 9)
-            return cell = 30;
+            cell = 30;
         else if (cell < 10)
             cell = -2 - cell;
         else
             cell -= 9;
     } else if (Room.left == current_trob.room) {
-        if (cell % 10 == 9) {
-            if (cell == 9)
-                cell = -1;
-            else
-                cell -= 19;
-        } else
+        if (cell == 9)
+            cell = -1;
+        else if (cell % 10 == 9)
+            cell -= 19;
+        else
             cell = 30;
     } else if (Room.below == current_trob.room) {
         if (cell < 9)
             cell += 21;
         else
             cell = 30;
-    } else
-        cell = Room.below_left == current_trob.room && cell == 9 ? 20 : 30;
+    } else if (Room.below_left == current_trob.room)
+        cell = cell == 9 ? 20 : 30;
+    else
+        cell = 30;
     return cell;
 }
 
@@ -563,9 +566,9 @@ extern void on_ground(void);
 extern void FallOn(void);
 extern void Falling(void);
 extern sbyte get_above(void);
-extern CHARREC Char;
 extern sbyte get_under_foot(void);
 extern void fall_spikes(void);
+extern CHARREC Char;
 void break_loose_floor(sbyte);
 extern byte CutRoom;
 void jam_plate(void);
@@ -692,16 +695,17 @@ extern byte collision_state, active_sound_channels;
 extern int exit_sound_suppressed;
 
 extern int limit_gate_opening(int height);
-extern void AddSound(int sound), dispatch_sound(int value);
+extern void AddSound(int), dispatch_sound(int);
 void stop_gate(int);
 void check_gate_fingers(void);
 int did_player_escape_guard(void);
-extern CHARREC Kid;
 void add_gate_sound(int sound);
+extern CHARREC Kid;
 
 void animate_gate(void)
 {
-    int height = BlueSpec.state & 255;
+    unsigned modifier = BlueSpec.state;
+    int height = modifier & 255;
     sbyte phase = current_trob.state;
     int sound;
 
@@ -729,7 +733,7 @@ void animate_gate(void)
                     sound = 9;
                 } else {
                     height = 0;
-                    sound = Level.environment_kind == 3 ? 9 : 15;
+                    sound = Level.environment_kind != 3 ? 15 : 9;
                     check_gate_fingers();
                     if (did_player_escape_guard())
                         collision_state = 4;
@@ -739,7 +743,7 @@ void animate_gate(void)
             }
         } else {
             if (height == 255)
-                stop_gate(height);
+                stop_gate((byte)height);
             else {
                 height += gate_open_speed[phase];
                 if (phase == 0 || phase == 1) {
@@ -748,22 +752,23 @@ void animate_gate(void)
                         stop_gate(height);
                         check_gate_fingers();
                     } else if (height < 200) {
-                        add_gate_sound(Level.environment_kind == 3 ? 7 : 4);
+                        add_gate_sound(Level.environment_kind != 3 ? 4 : 7);
                         current_trob.state = 1;
                         if (Level.environment_kind == 3)
                             height = limit_gate_opening(height);
                     } else if (Level.level_number == 5 && current_trob.room == 7)
-                        height = 0;
+                        height -= gate_open_speed[phase];
                 } else if (height < 200) {
-                    if (Level.environment_kind == 3)
+                    if (Level.environment_kind != 3) {
+                        if (height % 8 == 0)
+                            add_gate_sound(4);
+                    } else
                         add_gate_sound(7);
-                    else if (height % 8 == 0)
-                        add_gate_sound(4);
                 } else if (phase < 3) {
                     redraw_gate();
                     height = 250;
                     current_trob.state = 0;
-                    add_gate_sound(Level.environment_kind == 3 ? 8 : 5);
+                    add_gate_sound(Level.environment_kind != 3 ? 5 : 8);
                 } else {
                     height = 255;
                     stop_gate(height);
@@ -798,13 +803,9 @@ void stop_gate(int height)
 void check_gate_fingers(void)
 {
     if (current_trob.room == (byte)Kid.room && (Kid.action == 2 || Kid.action == 6)) {
-        switch (current_trob.cell - (sbyte)(FirstInRow(Kid.row) + Kid.column)) {
-        case -10:
-            goto sound;
-        case -11:
-        sound:
+        sbyte actor_cell = FirstInRow(Kid.row) + Kid.column;
+        if (current_trob.cell - actor_cell == -10 || current_trob.cell - actor_cell == -11)
             AddSound(31);
-        }
     }
 }
 
@@ -812,13 +813,14 @@ extern CHARREC RoomOpp[5];
 
 int did_player_escape_guard(void)
 {
-    int escaped = 0;
+    int escaped;
     sbyte count = Level.room_objects[current_trob.room - 1].opponent_count;
     sbyte row = current_trob.cell / 10;
     sbyte col = current_trob.cell % 10;
     sbyte i;
     int distance = col - Kid.column;
 
+    escaped = 0;
     if (count && (byte)Kid.room == current_trob.room && Kid.row == row
             && (distance < 0 ? -distance : distance) < 5) {
         for (i = 0; i < count; ++i) {
@@ -879,6 +881,9 @@ typedef struct {
     unsigned char top_row, bottom_row;                 /* 09-0a */
 } CELLREC;
 #pragma pack()
+extern int get_cave_torch_frame(int frame), choose_trapdoor_delay(int frame);
+extern int EMPTYRECT(MoveRect far *rect);
+extern sbyte index_cell(sbyte column, sbyte row);
 extern CELLREC Cell;
 #define exit_height (*(byte *)&Cell.modifier)
 
@@ -889,7 +894,6 @@ int IsExitOpen(void)
     return 0;
 }
 
-extern int get_cave_torch_frame(int frame), choose_trapdoor_delay(int frame);
 
 int get_torch_frame(int frame)
 {
@@ -909,8 +913,6 @@ typedef struct {
 extern MarkedRect top_marks[10], move_marks[30], floor_marks[30], foreground_marks[30];
 extern int half_marks[30];
 
-extern int EMPTYRECT(MoveRect far *rect);
-extern sbyte index_cell(sbyte column, sbyte row);
 extern void ComputeClipRect(MoveRect far *out, int column, int row);
 extern int SECTRECT(MoveRect far *out, MoveRect far *a, MoveRect far *b);
 extern void UNIONRECT(MoveRect far *out, MoveRect far *a, MoveRect far *b);
@@ -1383,7 +1385,7 @@ void make_space(byte room, sbyte cell);
 void add_mob(void);
 extern int MobI;
 void PassThru(void);
-void mark_mob_redraw(sbyte);
+void mark_mob_redraw(sbyte layer);
 extern MOBREC Mob;
 extern MOBREC mobs[];
 extern int mob_count;
@@ -1517,7 +1519,7 @@ void add_mob(void)
 
 extern void move_dart_mob(void);
 extern void MobSpikes(void);
-extern void animate_mob_kind_6(void);
+extern void move_rock_record(void);
 extern void check_slide_rock_crush(void);
 extern void move_trapdoor_record(void);
 extern void move_fireball(void);
@@ -1615,7 +1617,7 @@ void animate_mob(void)
         MobSpikes();
         return;
     case 6:
-        animate_mob_kind_6();
+        move_rock_record();
         check_slide_rock_crush();
         return;
     case 10:

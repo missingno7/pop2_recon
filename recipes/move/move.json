@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "7d5d6bf609d8570e48626366cfb7a767d84e7e59a9b9436775e52d1a7f1efc74",
+  "binding_sha256": "46b96d5fc2b1885f6c89d8e4507c2060aae0bccae5c7ec2289556e73462796a3",
   "claims": [
     {
       "fixup_count": 13,
@@ -595,16 +595,48 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0b41:009c"
+    },
+    {
+      "fixup_count": 26,
+      "public": "ANIMATE_MOB",
+      "relocation_indices": [
+        980,
+        994,
+        1003,
+        1032,
+        1036,
+        1058,
+        1068
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:1b00"
+    },
+    {
+      "fixup_count": 9,
+      "public": "CHECK_GATE_FINGERS",
+      "relocation_indices": [
+        984,
+        1067
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0b41:0b62"
+    },
+    {
+      "fixup_count": 9,
+      "public": "CHECK_TROB_RIGHT",
+      "target_id": "root:0b41:053c"
+    },
+    {
+      "fixup_count": 9,
+      "public": "CHECK_TROB_ABOVE_RIGHT",
+      "target_id": "root:0b41:0610"
     }
   ],
   "code_matches": [
-    {
-      "public": "ANIMATE_MOB",
-      "target_id": "root:0b41:1b00",
-      "unproven": [
-        "ANIMATE_MOB_KIND_6"
-      ]
-    },
     {
       "public": "ADD_MOB_TO_FRAME",
       "target_id": "root:0b41:1ffc",
@@ -666,23 +698,11 @@
   ],
   "drafts": [
     {
-      "object_offset": 1328,
-      "public": "CHECK_TROB_RIGHT"
-    },
-    {
-      "object_offset": 1540,
-      "public": "CHECK_TROB_ABOVE_RIGHT"
-    },
-    {
       "object_offset": 2318,
       "public": "ANIMATE_GATE"
     },
     {
-      "object_offset": 2902,
-      "public": "CHECK_GATE_FINGERS"
-    },
-    {
-      "object_offset": 2966,
+      "object_offset": 2968,
       "public": "DID_PLAYER_ESCAPE_GUARD"
     },
     {
@@ -715,12 +735,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "a3d526203443bb4e1d28f5e99f215b18769da7a43f054dff348b6988d517286e",
+  "object_sha256": "3b6645da65ca646d32afe0b7006181bbd0a7c193e7909ada195b6bd03b3b7743",
   "origin": 46108,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "d232b70567c67c4d71d809b948336cbc63f582a7f2fc791d0bbe3ed3165d6dc5",
+  "source_sha256": "3023dd874c8b0ac9289f45605ae39c123323a2cf3c5f3cc6b060b2f0e49508b4",
   "space": "root"
 }

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "d6451ea4b24709074913f058b5dbfd6a5eb9d0b642975c33d35c7a3bcf605f1d",
+  "binding_sha256": "cb58c3c7f03af4c9914dd1cc3b6d7cf5fa3c00df2a229d9dd94a98bdc5a8e922",
   "claims": [
     {
       "fixup_count": 62,
@@ -306,16 +306,36 @@
       "fixup_count": 1,
       "public": "RESET_BARRIER_STATE",
       "target_id": "overlay-3:2802:111e"
+    },
+    {
+      "fixup_count": 41,
+      "public": "APPLY_GROUND_BUMP",
+      "relocation_indices": [
+        432,
+        434,
+        435,
+        436,
+        459,
+        462,
+        472,
+        473,
+        474,
+        475,
+        476,
+        492,
+        494
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2802:06cc"
     }
   ],
   "drafts": [
     {
       "object_offset": 440,
       "public": "INITCOLDETBUFS"
-    },
-    {
-      "object_offset": 1726,
-      "public": "APPLY_GROUND_BUMP"
     },
     {
       "object_offset": 2196,
@@ -338,12 +358,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "083125534d8ff655bce70c5eb2cdd92a44aeaf4c37e99539832d319617fcd4b1",
+  "object_sha256": "ba3cef84193e8016c48b9c9a4fc340402804e3f9bf724c13e22625210b70cea1",
   "origin": 19438,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "67c3f1dc299774a46e7af5d565c9c79968dabbbf236b236cb94ee69f3fb8d38d",
+  "source_sha256": "bfeb6f51b0c6f8a227b89efcfbef4eec284301b849541f9603e69293adfcc70e",
   "space": "overlay-3"
 }

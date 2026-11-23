@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "5ff79eee68c87ecc1bd597a50324e4203a6b078605736487d093eb7d1feb8151",
+  "binding_sha256": "ecedc8e80a90b4b1f067c8986d91b5063fc906a2dcd2945df8d37e187dbc7eac",
   "claims": [
     {
       "fixup_count": 28,
@@ -595,15 +595,21 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:02cc:0f8c"
-    }
-  ],
-  "code_matches": [
+    },
     {
+      "fixup_count": 16,
       "public": "SHAD_CTRL",
-      "target_id": "root:02cc:12e4",
-      "unproven": [
-        "UPDATE_AUTOMATIC_ACTOR"
-      ]
+      "relocation_indices": [
+        281,
+        296,
+        332,
+        362
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:12e4"
     }
   ],
   "drafts": [

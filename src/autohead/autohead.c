@@ -874,7 +874,7 @@ done:
 
 int far pascal is_able_to_flee_in_room(unsigned char room)
 {
-    signed char count, slot;
+    signed char slot, count;
     int room_number = room;
     int available;
 
@@ -885,9 +885,14 @@ int far pascal is_able_to_flee_in_room(unsigned char room)
         do {
             if (!(slot < count))
                 break;
-            available = GetOppInfoIdx(*(volatile int *)&room_number, slot)->mode != 2;
-            ++slot;
-        } while (available);
+            {
+                int can_flee = GetOppInfoIdx(room, slot)->mode != 2;
+                available = can_flee;
+                ++slot;
+                if (!can_flee)
+                    break;
+            }
+        } while (1);
     } else
         available = 0;
     return available;
