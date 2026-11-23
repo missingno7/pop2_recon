@@ -1234,6 +1234,10 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
         need.update((name, m["offset"]) for m in symbol.get("members", [])
                     if not m.get("witnesses") and not m["offset"] < extent and not m.get("unproven"))
     by_public = {r["public"]: r for r in reports}
+    # An aggregate whose base has no witness: its in-extent members stand only on the base's own consensus.
+    bases = {name: s["extent"]["length"] for name, s in symbols.items()
+             if s.get("kind") == "dgroup-offset" and s.get("extent") and not s.get("witnesses") and
+             s["extent"].get("kind") != "index"}
     for state in states.values():
         for field in state["v4"]:
             for equation in state["equations"]:
@@ -1258,7 +1262,9 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
                     sites.setdefault(field["key"], set()).add(field["insn"])
         for public in exact:
             lacking = sorted({f["key"] for f in states[public]["v4"]
-                              if f["key"] in need and len(sites.get(f["key"], ())) < 2})
+                              if f["key"] in need and len(sites.get(f["key"], ())) < 2} |
+                             {(f["key"][0], 0) for f in states[public]["v4"]
+                              if f["key"][1] < bases.get(f["key"][0], 0) and len(sites.get((f["key"][0], 0), ())) < 2})
             if lacking:
                 by_public[public].update(exact=False, state="REFUSED",
                                          reason="v4 address without witness lacks a second equal claimed site: " +
@@ -1267,7 +1273,7 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
 
 
 def _far_consensus(far_symbols, states, reports, conditional):
-    """Far data addresses marked `consensus` (no outside witness): every claimed field with that
+    """Far data addresses and far callees marked `consensus` (no outside witness): every claimed field with that
     (symbol, addend) needs equal fields at two or more distinct original instruction starts, all in
     CODE_EXACT claims, exactly as `_internal_support` requires for v4 (2026-11-23)."""
     need = set()
@@ -1275,6 +1281,8 @@ def _far_consensus(far_symbols, states, reports, conditional):
         if symbol.get("kind") == "far-data":
             need.update([(name, 0)] if symbol.get("consensus") else [])
             need.update((name, m["offset"]) for m in symbol.get("members", []) if m.get("consensus"))
+        elif symbol.get("consensus"):
+            need.add((name, 0))  # a far callee whose only callers are claims
     by_public = {r["public"]: r for r in reports}
     changed = bool(need)
     while changed:
@@ -1289,7 +1297,7 @@ def _far_consensus(far_symbols, states, reports, conditional):
                               if f["key"] in need and len(sites.get(f["key"], ())) < 2})
             if lacking:
                 by_public[public].update(exact=False, state="REFUSED",
-                                         reason="Far data address lacks a second equal claimed site: " +
+                                         reason="Far address lacks a second equal claimed site: " +
                                          ", ".join(f"{n}+{k}" for n, k in lacking))
                 changed = True
 
@@ -1822,6 +1830,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         state["differences"].append(at)
                     state["occupied"].update(range(at, at+4))
                     sites.append({"site": state["position"] + at + 2, "offset": at, "symbol": ref["name"], "field": "pointer32"})
+                    state["far_fields"].append({"key": (ref["name"], 0), "equal": value == observed,
+                                                "insn": state["position"] + insn.address})
                     used_far.add(ref["name"])
                 sites += [{"site": state["position"] + g, "offset": g, "symbol": "DGROUP", "field": "base16"} for g in state["group_bases"]]
                 sites += [{"site": state["position"] + g, "offset": g, "symbol": state["own_base_labels"][g], "field": "base16"}

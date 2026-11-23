@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "6177969354552349aac20fa9edffeced70f32a3c6e38e34fb8f6f8b685e34561",
+  "binding_sha256": "e83d4bf1d3362dd1b7ea09953e42aa1103af9af887706727c4382a9b76e1d993",
   "claims": [
     {
       "fixup_count": 4,
@@ -587,6 +587,20 @@
       "fixup_count": 11,
       "public": "SETREBIRTHPTKIDSTATUS",
       "target_id": "root:052d:1234"
+    },
+    {
+      "fixup_count": 4,
+      "public": "WRITE_HALL_FILE",
+      "relocation_indices": [
+        451,
+        459,
+        646
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:1d5c"
     }
   ],
   "code_matches": [
@@ -632,10 +646,6 @@
       "public": "SHOW_HALL_RECORDS"
     },
     {
-      "object_offset": 7502,
-      "public": "WRITE_HALL_FILE"
-    },
-    {
       "object_offset": 7686,
       "public": "MAIN_MENU_CHOICE"
     },
@@ -659,12 +669,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "d0ad95cd178ccdd41dd9906238dd812fd3755dbbf4b19b84b3447ff8e07d92f8",
+  "object_sha256": "ac41fa25889d94299b3ca9c46cad147abf0fd42811b9a0a613bf7d2c03bb3a2d",
   "origin": 21214,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "74714b9a7d31099e871e056a3846edc662f28293770050b83ef6d64837c7eb41",
+  "source_sha256": "9d3ee444103eb7271cbb19a39b6fb3d831fd85e90a0c1b4c909bdac0185c9be4",
   "space": "root"
 }

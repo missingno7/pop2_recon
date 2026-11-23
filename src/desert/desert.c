@@ -96,7 +96,6 @@ typedef struct {
 #pragma pack()
 
 extern CHARREC Char;
-extern sbyte desert_column, previous_column;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -114,6 +113,7 @@ typedef struct {
 typedef struct {
     signed char room, cell;
 } REBIRTHPOINT;
+extern sbyte desert_column, previous_column;
 
 typedef struct {
     signed char count;

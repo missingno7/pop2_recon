@@ -13,13 +13,13 @@
       "__aFulrem",
       "RANDOM_STATE",
       "_memcpy",
-      "FIND_RESOURCE",
-      "LOAD_TEXT_IMAGE",
-      "SET_MEMORY_LIMIT_A",
-      "SET_MEMORY_LIMIT_B",
+      "HGETRSRC",
+      "CONVERT_TEXT_HANDLE",
+      "RESIZE_DOS_HEAP",
+      "COMPACT_HEAP_BLOCKS",
       "__bios_timeofday",
-      "IS_ACTION_PENDING",
-      "SERVICE_EVENTS",
+      "MOUSE_BUTTON_UNQUEUED",
+      "CHECK_WAIT_FUNCTION",
       "SETRNDSEED",
       "ALTERRECT",
       "HGETTXT4",
@@ -163,7 +163,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "IS_ACTION_PENDING",
+          "name": "MOUSE_BUTTON_UNQUEUED",
           "zero_displacement": true
         }
       },
@@ -177,7 +177,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "IS_ACTION_PENDING",
+        "name": "MOUSE_BUTTON_UNQUEUED",
         "zero_displacement": true
       }
     },
@@ -190,7 +190,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "SERVICE_EVENTS",
+          "name": "CHECK_WAIT_FUNCTION",
           "zero_displacement": true
         }
       },
@@ -204,7 +204,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "SERVICE_EVENTS",
+        "name": "CHECK_WAIT_FUNCTION",
         "zero_displacement": true
       }
     },
@@ -217,7 +217,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "IS_ACTION_PENDING",
+          "name": "MOUSE_BUTTON_UNQUEUED",
           "zero_displacement": true
         }
       },
@@ -231,7 +231,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "IS_ACTION_PENDING",
+        "name": "MOUSE_BUTTON_UNQUEUED",
         "zero_displacement": true
       }
     },
@@ -585,7 +585,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "SET_MEMORY_LIMIT_B",
+          "name": "COMPACT_HEAP_BLOCKS",
           "zero_displacement": true
         }
       },
@@ -599,7 +599,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "SET_MEMORY_LIMIT_B",
+        "name": "COMPACT_HEAP_BLOCKS",
         "zero_displacement": true
       }
     },
@@ -612,7 +612,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "SET_MEMORY_LIMIT_A",
+          "name": "RESIZE_DOS_HEAP",
           "zero_displacement": true
         }
       },
@@ -626,7 +626,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "SET_MEMORY_LIMIT_A",
+        "name": "RESIZE_DOS_HEAP",
         "zero_displacement": true
       }
     },
@@ -639,7 +639,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "LOAD_TEXT_IMAGE",
+          "name": "CONVERT_TEXT_HANDLE",
           "zero_displacement": true
         }
       },
@@ -653,7 +653,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "LOAD_TEXT_IMAGE",
+        "name": "CONVERT_TEXT_HANDLE",
         "zero_displacement": true
       }
     },
@@ -666,7 +666,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "FIND_RESOURCE",
+          "name": "HGETRSRC",
           "zero_displacement": true
         }
       },
@@ -680,7 +680,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "FIND_RESOURCE",
+        "name": "HGETRSRC",
         "zero_displacement": true
       }
     },
@@ -731,6 +731,51 @@
   },
   "schema": 1,
   "symbols": {
+    "CHECK_WAIT_FUNCTION": {
+      "entry_sha256": "2c597f8126393fc45fa7e4f7c1630275c2811228dafb24eacc621e1f92185ed5",
+      "entry_target_id": "root:1de8:009a",
+      "kind": "far-code-entry",
+      "offset": 154,
+      "segment": 7656,
+      "space": "root",
+      "witnesses": []
+    },
+    "COMPACT_HEAP_BLOCKS": {
+      "entry_sha256": "e29907e63ef299bc8ce26fe3e995844809b21b4df6ceb947756e347e8f0112e1",
+      "entry_target_id": "root:1101:15b6",
+      "kind": "far-code-entry",
+      "offset": 5558,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "CONVERT_TEXT_HANDLE": {
+      "entry_sha256": "55d6f0c33a98cfee46d5144af1a8dda2337acf630ad812d4b6d990242c1161b6",
+      "entry_target_id": "root:1101:85d8",
+      "kind": "far-code-entry",
+      "offset": 34264,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "HGETRSRC": {
+      "entry_sha256": "2efde896e864cef9155506e995f8d919ddcc4fd437f2b96ac33ffbd157494f2f",
+      "entry_target_id": "root:1101:6f6a",
+      "kind": "far-code-entry",
+      "offset": 28522,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
+    "MOUSE_BUTTON_UNQUEUED": {
+      "entry_sha256": "6aca8ccda41a6dbd6b41044efcff34a0939bb6ef9675fccc71b56a68cdcf3a52",
+      "entry_target_id": "root:1101:bdda",
+      "kind": "far-code-entry",
+      "offset": 48602,
+      "segment": 4353,
+      "space": "root",
+      "witnesses": []
+    },
     "RANDOM_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -741,6 +786,15 @@
         }
       ],
       "offset": 27336,
+      "witnesses": []
+    },
+    "RESIZE_DOS_HEAP": {
+      "entry_sha256": "6450b619c70bf15a64cd2f8b386d1379bf69b9caea28ebe95829ed6bdd7ad25c",
+      "entry_target_id": "root:1101:16ef",
+      "kind": "far-code-entry",
+      "offset": 5871,
+      "segment": 4353,
+      "space": "root",
       "witnesses": []
     },
     "__aFulmul": {

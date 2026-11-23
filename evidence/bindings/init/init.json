@@ -44,7 +44,7 @@
       "DETECT_GAMEPORT",
       "INIT_AMBIENT",
       "SET_DEFAULT_PALETTE",
-      "FIND_DIALOG_STRING",
+      "HGETTXT4",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "OWNER_OF_PAYLOAD",
       "DISPOSE_HANDLE",
@@ -2452,7 +2452,7 @@
           "index": 44,
           "kind": "external",
           "method": 6,
-          "name": "FIND_DIALOG_STRING",
+          "name": "HGETTXT4",
           "zero_displacement": true
         }
       },
@@ -2466,7 +2466,7 @@
         "index": 44,
         "kind": "external",
         "method": 6,
-        "name": "FIND_DIALOG_STRING",
+        "name": "HGETTXT4",
         "zero_displacement": true
       }
     },
@@ -4471,23 +4471,6 @@
       "offset": 3258,
       "provider": "group:english/english"
     },
-    "FIND_DIALOG_STRING": {
-      "entry_sha256": "50815c46071e4bb462534348aa67cd4d5b5ce29aa537ffb076ffed03b2ac146c",
-      "entry_target_id": "root:1f61:0054",
-      "kind": "far-code-entry",
-      "offset": 84,
-      "segment": 8033,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a5400611f",
-          "file_offset": 29897,
-          "image_offset": 21705,
-          "relocation_index": 529,
-          "space": "root"
-        }
-      ]
-    },
     "FIND_OPTION": {
       "entry_sha256": "aac44f73ff1681b5be824f08392224594e9b62e2c2d73cd421e35ba037f36551",
       "entry_target_id": "root:1101:29aa",
@@ -4547,6 +4530,23 @@
           "entry": "root:107d:0060",
           "image_offset": 68636,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "HGETTXT4": {
+      "entry_sha256": "50815c46071e4bb462534348aa67cd4d5b5ce29aa537ffb076ffed03b2ac146c",
+      "entry_target_id": "root:1f61:0054",
+      "kind": "far-code-entry",
+      "offset": 84,
+      "segment": 8033,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a5400611f",
+          "file_offset": 29897,
+          "image_offset": 21705,
+          "relocation_index": 529,
           "space": "root"
         }
       ]

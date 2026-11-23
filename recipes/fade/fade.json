@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/fade/fade.json",
-  "binding_sha256": "40ee1658277392643900a6d14ef45f8f769a303b330e785372fa849ec48344a5",
+  "binding_sha256": "4f6851efb125b1560d450e90d793d320926205ba7319907f8e6d81a0a6cd52f7",
   "claims": [
     {
       "fixup_count": 3,
@@ -141,6 +141,16 @@
       "fixup_count": 0,
       "public": "SCALE_THREE_COMPONENT_BYTES63",
       "target_id": "root:1e23:07fe"
+    },
+    {
+      "fixup_count": 9,
+      "public": "FADE_OUT_AND_RESTORE_PALETTE",
+      "relocation_indices": [
+        1747
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1e23:0866"
     }
   ],
   "drafts": [
@@ -151,10 +161,6 @@
     {
       "object_offset": 1234,
       "public": "FADE_TO_STEP"
-    },
-    {
-      "object_offset": 2142,
-      "public": "FADE_OUT_AND_RESTORE_PALETTE"
     }
   ],
   "emitted_size": 2210,

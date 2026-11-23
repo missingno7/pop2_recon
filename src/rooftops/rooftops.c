@@ -288,9 +288,8 @@ void far pascal clip_character_at_water(void)
     if ((Char.room == 19 || Char.room == 16) && Char.slot == water_character) {
         limit = 172;
         if (Char.action == 9) limit = 186;
-        if (FChar.clip_bottom < limit) limit = FChar.clip_bottom;
-        FChar.clip_bottom = limit;
-        if (limit < FChar.clip_top)
+        FChar.clip_bottom = limit > FChar.clip_bottom ? FChar.clip_bottom : limit;
+        if (FChar.clip_bottom < FChar.clip_top)
             FChar.clip_top = FChar.clip_bottom;
     }
 }
@@ -390,8 +389,8 @@ void far pascal watch_kid(void)
 
 void far pascal watch_opponents(void)
 {
-    sbyte index;
     sbyte count = Level.room_objects[Room.number - 1].opponent_count;
+    sbyte index;
 
     if (count) {
         index = 0;

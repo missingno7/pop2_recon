@@ -153,7 +153,7 @@ extern void open_level_resources(const char **);
 extern void detect_gameport(void);
 extern void init_ambient(AmbientState *);
 extern void set_default_palette(void);
-extern int find_dialog_string(int);
+extern int hGetTxt4(int);
 extern unsigned long resolve_handle_to_far_payload(int);
 extern int owner_of_payload(unsigned long);
 extern void dispose_handle(int);
@@ -213,7 +213,7 @@ void init_system(void)
     init_ambient(&ambient_state);
     set_default_palette();
     wait_for_ready();
-    sound = resolve_handle_to_far_payload(find_dialog_string(10));
+    sound = resolve_handle_to_far_payload(hGetTxt4(10));
     option_flags = find_option((const char far *)sound) != 0;
     dispose_handle(owner_of_payload(sound));
 }

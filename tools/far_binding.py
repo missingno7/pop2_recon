@@ -52,16 +52,19 @@ def _far_window(spec, raw, at, wspace, symbol, value, oracle):
     - `selector-access`: `mov es,[D]` first, straight-line code with no write to ES or DS, and a
       last instruction whose ES: memory operand has displacement `value`. The DGROUP word at D is
       one original relocated word storing N (an MSC far-data selector in CONST).
+      A `push es ... pop es` pair with no other stack operation between restores ES (2026-11-23).
+    - `selector-copy`: the same start, then `lea di,[r+B]` and, as the window's end, a run of plain MOVSW/MOVSB
+      through ES:DI of L bytes: the original copies one unit to [B, B+L), and `value` lies in it (2026-11-23).
     - `address-construction`: `add r16,value` directly followed by `mov r16,N`, N relocated.
     - `stored-pointer`: `mov word [bp+d],value` directly followed by `mov word [bp+d+2],N`, N
       relocated (the two halves of one far pointer local)."""
-    from binding import instructions
+    from binding import instructions, registers_written
     from disasm import _capstone
     _, xc = _capstone()
     rows = instructions(raw)
     segment = symbol["segment"]
     relocated = {r["image_offset"] for r in wspace.relocations}
-    if spec["kind"] == "selector-access":
+    if spec["kind"] in ("selector-access", "selector-copy"):
         from module_gate import _dgroup_home
         require(len(rows) >= 2 and bytes(rows[0].bytes[:2]) == b"\x8e\x06" and
                 struct.unpack_from("<H", raw, 2)[0] == spec["selector_offset"], "Selector window must start with mov es,[D]")
@@ -71,10 +74,35 @@ def _far_window(spec, raw, at, wspace, symbol, value, oracle):
         require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
                 struct.unpack_from("<H", home.data, word)[0] == segment,
                 "Selector word is not an original relocated DGROUP word storing the segment")
+        saved = False
         for insn in rows[1:]:
-            require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)) and
-                    not {insn.reg_name(r) for r in insn.regs_access()[1]}.intersection(("es", "ds")),
+            written = registers_written(insn)
+            if bytes(insn.bytes) == b"\x06" and not saved:      # push es
+                saved = True
+                continue
+            if bytes(insn.bytes) == b"\x07" and saved:          # pop es, the value just pushed
+                saved = False
+                continue
+            require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)) and not written.intersection(("es", "ds")) and
+                    not (saved and written.intersection(("sp", "ss"))),
                     "Selector window must be straight-line without another ES or DS load")
+        if spec["kind"] == "selector-copy":
+            moves = []
+            for insn in reversed(rows):
+                if bytes(insn.bytes) not in (b"\xa4", b"\xa5"):
+                    break
+                moves.append(1 if bytes(insn.bytes) == b"\xa4" else 2)
+            head = rows[:len(rows) - len(moves)]
+            loads = [i for i in head if i.mnemonic == "lea" and i.op_str.startswith("di,")]
+            require(moves and len(loads) == 1 and loads[0].disp_size == 2 and
+                    loads[0].operands[1].mem.index == loads[0].operands[1].mem.segment == 0 and
+                    loads[0].operands[1].mem.base in (xc.X86_REG_BX, xc.X86_REG_SI, xc.X86_REG_DI) and
+                    not any("di" in registers_written(i) or i.mnemonic in ("std", "popf")
+                            for i in head[head.index(loads[0]) + 1:]),
+                    "Selector copy must be one `lea di,[r+B]` followed by a run of MOVS")
+            base = loads[0].operands[1].mem.disp & 0xFFFF
+            require(base <= value < base + sum(moves), "Address lies outside the unit the selector window copies")
+            return
         last = rows[-1]
         mem = [o for o in last.operands if o.type == xc.X86_OP_MEM]
         require(len(mem) == 1 and mem[0].mem.segment == xc.X86_REG_ES and last.disp_size == 2 and
@@ -370,6 +398,8 @@ def ground_symbol(symbol, target, oracle, claimed=None):
             require(can_coexist(space, cspace), "Direct far call into an overlay that cannot be "
                     "resident together with the caller's overlay")
         _inside_accepted(oracle, cspace.name, entry, len(raw))
+    require("consensus" not in symbol or kind != "rtlink-vector" and not symbol.get("witnesses"),
+            "Far callee consensus is for a direct entry without CALL witnesses")
     if not symbol.get("witnesses"):
         # Without an outside caller, the entry may instead be the start of accepted exact
         # code elsewhere: its reconstruction independently proves a function starts there.
@@ -392,6 +422,16 @@ def ground_symbol(symbol, target, oracle, claimed=None):
             # group); its own unproven data bindings do not bear on where it starts.
             return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
                     "offset": symbol["offset"], "witnesses": [], "grounded_by": "accepted code match entry",
+                    "callee_owned_bytes": 0}
+        if symbol.get("consensus"):
+            # Group rule (2026-11-23): every caller is a claim of this group, so no outside CALL exists. The entry
+            # is a frozen reviewed direct-code target; module_gate requires equal relocated CALL FAR fields at two
+            # or more distinct instruction starts in CODE_EXACT claims, as for far data and v4 addresses.
+            require(symbol["consensus"] is True and claimed is not None and callee.get("entry_kind") == "direct-code" and
+                    callee.get("boundary_status") == "REVIEWED",
+                    "Far callee consensus is a group rule for a reviewed direct-code entry")
+            return {"kind": kind, "entry_target_id": callee["id"], "segment": symbol["segment"],
+                    "offset": symbol["offset"], "witnesses": [], "grounded_by": "internal consensus",
                     "callee_owned_bytes": 0}
         # Last resort for a resident callee whose only caller is the candidate: structural
         # original-byte proof that a routine starts there (weaker; recorded as such).

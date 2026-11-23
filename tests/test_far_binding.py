@@ -334,6 +334,38 @@ class FarWindowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "without another ES"):
             self.selector(1, raw=bytes.fromhex("8e063c288ec02680bf010000"))
 
+    def test_selector_window_across_a_saved_es(self):
+        # root+1b2a: mov es,[283a] ... push es; lea di; movs; pop es; mov es:[bx+1207],al
+        extra = dict(selector_offset=0x283A, relocation_index=self.index(0x283A), dgroup_segment=self.DGROUP)
+        self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, **extra)
+        raw = bytearray(self.root.data[0x1B2A:0x1B5C])
+        raw[0x1B47 - 0x1B2A], raw[0x1B53 - 0x1B2A] = 0x90, 0x07         # pop es without its push
+        with self.assertRaisesRegex(ValueError, "without another ES"):
+            self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, raw=raw, **extra)
+        raw[0x1B47 - 0x1B2A], raw[0x1B53 - 0x1B2A] = 0x06, 0x07
+        raw[0x1B4F - 0x1B2A] = 0x50                                     # push ax between: pop es takes AX
+        with self.assertRaisesRegex(ValueError, "without another ES"):
+            self.window("selector-access", 0x1B2A, 0x1B5C, 0x1207, raw=raw, **extra)
+
+    def test_les_is_another_es_load(self):
+        # mov es,[283c]; les bx,[bp+6]; cmp byte es:[bx+1],0
+        with self.assertRaisesRegex(ValueError, "without another ES"):
+            self.selector(1, raw=bytes.fromhex("8e063c28c45e062680bf010000"))
+
+    def test_selector_copy_proves_the_copied_unit(self):
+        extra = dict(selector_offset=0x283A, relocation_index=self.index(0x283A), dgroup_segment=self.DGROUP)
+        for value in (0x11FF, 0x1203, 0x1206):
+            self.window("selector-copy", 0x1B2A, 0x1B53, value, **extra)
+        for value in (0x11FE, 0x1207):
+            with self.assertRaisesRegex(ValueError, "outside the unit"):
+                self.window("selector-copy", 0x1B2A, 0x1B53, value, **extra)
+        with self.assertRaisesRegex(ValueError, "run of MOVS"):         # window ends before the copy
+            self.window("selector-copy", 0x1B2A, 0x1B4F, 0x11FF, **extra)
+
+    def index(self, selector):
+        home = self.oracle.spaces["overlay-17"]
+        return next(r["index"] for r in home.relocations if r["image_offset"] == 0x2940 + selector)
+
     def test_address_construction_needs_the_adjacent_relocated_segment(self):
         self.window("address-construction", 0x84AD, 0x84B3, 0x0A28)     # add ax,0a28; mov dx,2fae
         with self.assertRaisesRegex(ValueError, "does not pair"):

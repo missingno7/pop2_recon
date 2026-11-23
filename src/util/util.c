@@ -7,13 +7,13 @@ unsigned long random_state;
 static int random_seeded = 0;
 
 void far * far cdecl memcpy(void far *, const void far *, unsigned);
-int far pascal find_resource(unsigned long, int);
-unsigned far pascal load_text_image(int);
-void far pascal set_memory_limit_a(unsigned long);
-void far pascal set_memory_limit_b(unsigned long);
+int far pascal HGETRSRC(unsigned long, int);
+unsigned far pascal convert_text_handle(int);
+void far pascal RESIZE_DOS_HEAP(unsigned long);
+void far pascal COMPACT_HEAP_BLOCKS(unsigned long);
 unsigned far cdecl _bios_timeofday(unsigned, long near *);
-int far pascal is_action_pending(int);
-void far pascal service_events(void);
+int far pascal mouse_button_unqueued(int);
+void far pascal check_wait_function(void);
 void far pascal SetRndSeed(unsigned);
 
 Rect far * far pascal AlterRect(register Rect far *destination,
@@ -30,13 +30,13 @@ Rect far * far pascal AlterRect(register Rect far *destination,
 
 unsigned far pascal hGetTxt4(int id)
 {
-    return load_text_image(find_resource(0x54585434UL, id));
+    return convert_text_handle(HGETRSRC(0x54585434UL, id));
 }
 
 void far pascal expand_memory_limits(void)
 {
-    set_memory_limit_a(0x00ffffffUL);
-    set_memory_limit_b(0x00ffffffUL);
+    RESIZE_DOS_HEAP(0x00ffffffUL);
+    COMPACT_HEAP_BLOCKS(0x00ffffffUL);
 }
 
 unsigned far pascal Rnd(unsigned maximum)
@@ -60,9 +60,9 @@ void far pascal SetRndSeed(unsigned seed)
 
 void far pascal wait_for_action(int action)
 {
-    if (is_action_pending(action)) {
+    if (mouse_button_unqueued(action)) {
         do {
-            service_events();
-        } while (is_action_pending(action));
+            check_wait_function();
+        } while (mouse_button_unqueued(action));
     }
 }

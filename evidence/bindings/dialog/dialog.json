@@ -16,7 +16,7 @@
       "ISVALIDTIMEFORSAVEGAME",
       "SHOW_EDIT_CARET",
       "DIALOGFADEOUT",
-      "FIND_DIALOG_STRING",
+      "HGETTXT4",
       "PAINT_PLAIN",
       "BLINK_EDIT_CARET",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -1454,7 +1454,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "FIND_DIALOG_STRING",
+          "name": "HGETTXT4",
           "zero_displacement": true
         }
       },
@@ -1468,7 +1468,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "FIND_DIALOG_STRING",
+        "name": "HGETTXT4",
         "zero_displacement": true
       }
     },
@@ -12519,7 +12519,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "FIND_DIALOG_STRING",
+          "name": "HGETTXT4",
           "zero_displacement": true
         }
       },
@@ -12533,7 +12533,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "FIND_DIALOG_STRING",
+        "name": "HGETTXT4",
         "zero_displacement": true
       }
     },
@@ -12865,7 +12865,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "FIND_DIALOG_STRING",
+          "name": "HGETTXT4",
           "zero_displacement": true
         }
       },
@@ -12879,7 +12879,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "FIND_DIALOG_STRING",
+        "name": "HGETTXT4",
         "zero_displacement": true
       }
     },
@@ -19062,7 +19062,7 @@
           "index": 16,
           "kind": "external",
           "method": 6,
-          "name": "FIND_DIALOG_STRING",
+          "name": "HGETTXT4",
           "zero_displacement": true
         }
       },
@@ -19076,7 +19076,7 @@
         "index": 16,
         "kind": "external",
         "method": 6,
-        "name": "FIND_DIALOG_STRING",
+        "name": "HGETTXT4",
         "zero_displacement": true
       }
     }
@@ -19682,23 +19682,6 @@
         }
       ]
     },
-    "FIND_DIALOG_STRING": {
-      "entry_sha256": "50815c46071e4bb462534348aa67cd4d5b5ce29aa537ffb076ffed03b2ac146c",
-      "entry_target_id": "root:1f61:0054",
-      "kind": "far-code-entry",
-      "offset": 84,
-      "segment": 8033,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a5400611f",
-          "file_offset": 156739,
-          "image_offset": 803,
-          "relocation_index": 22,
-          "space": "overlay-2"
-        }
-      ]
-    },
     "FIND_SHAPE_LIST": {
       "entry_sha256": "f164e7cfd177d6668064815f8d5d6894948b6810abcbfdd044a137ff62361d7b",
       "entry_target_id": "root:1101:7f96",
@@ -19814,6 +19797,23 @@
           "file_offset": 181083,
           "image_offset": 25147,
           "relocation_index": 788,
+          "space": "overlay-2"
+        }
+      ]
+    },
+    "HGETTXT4": {
+      "entry_sha256": "50815c46071e4bb462534348aa67cd4d5b5ce29aa537ffb076ffed03b2ac146c",
+      "entry_target_id": "root:1f61:0054",
+      "kind": "far-code-entry",
+      "offset": 84,
+      "segment": 8033,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a5400611f",
+          "file_offset": 156739,
+          "image_offset": 803,
+          "relocation_index": 22,
           "space": "overlay-2"
         }
       ]
@@ -20837,21 +20837,14 @@
       ]
     },
     "__dos_creat": {
+      "consensus": true,
       "entry_sha256": "9515cca4780fcb1a7c7a8b5db95567afd6eaa837d3c3afa5ec17a8d58e68655d",
       "entry_target_id": "root:1fe6:1ba9",
       "kind": "far-code-entry",
       "offset": 7081,
       "segment": 8166,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aa91be61f",
-          "file_offset": 36932,
-          "image_offset": 28740,
-          "relocation_index": 646,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "__dos_open": {
       "entry_sha256": "8e72d48fd7a93e0ce5f4e53aa104fd48c5f879bcd314a3f3e7a212698209d4d7",
@@ -20888,21 +20881,14 @@
       ]
     },
     "__dos_write": {
+      "consensus": true,
       "entry_sha256": "cf63135f166370d05499ea5f26fab9321e46584c6e3ea6ccc6bc406b34021cde",
       "entry_target_id": "root:1fe6:1beb",
       "kind": "far-code-entry",
       "offset": 7147,
       "segment": 8166,
       "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aeb1be61f",
-          "file_offset": 36970,
-          "image_offset": 28778,
-          "relocation_index": 451,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "__fmemcpy": {
       "entry_sha256": "753abe2022a393943e6f95c11aa492be1a7dee2bc440aa8d2faa3934fb4c722a",

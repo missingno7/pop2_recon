@@ -562,12 +562,24 @@ pairs the offset with a relocated N:
 - `selector-access`: `mov es,[D]`, straight-line code with no other write to ES or DS, then an ES: access with
   displacement O. The DGROUP word at D must be one original relocated word storing N: MSC keeps the segment of an
   external far array in a CONST selector word. Fields: `selector_offset`, `relocation_index`, `dgroup_segment`.
+  A `push es ... pop es` pair with no other stack operation between keeps ES.
+- `selector-copy`: the same start, then one `lea di,[r+B]` and a final run of plain MOVSW/MOVSB (L bytes) through
+  ES:DI. The original copies one unit to [B, B+L), which proves every member address in it (`draw.c`'s queue
+  rectangles, copied by `@add_middle_image`).
 - `address-construction`: `add r16,O` directly followed by `mov r16,N` with N relocated (`&far_array[i]`).
 - `stored-pointer`: `mov word [bp+d],O` directly followed by `mov word [bp+d+2],N` with N relocated.
 
 In a group, an offset or member with no outside witness may carry `"consensus": true`. It is then proven only by
 equal fields at two or more distinct original instruction starts in CODE_EXACT claims, as for v4 internal support.
 An arithmetic immediate alone, or a displacement whose ES load is not in the window, proves nothing.
+
+## Far callees called only by claims (2026-11-23)
+
+When every original CALL FAR of a callee lies in claims of one group, no outside witness exists. Such a
+`far-code-entry` or `overlay-code-entry` may carry `"consensus": true`: the entry is a frozen REVIEWED direct-code
+target and every claim that calls it needs equal, relocated CALL FAR fields at two or more distinct instruction starts
+in CODE_EXACT claims. Split halves and code matches give no support; the weaker structural-entry proof is not combined
+with it. First use: `__dos_write`, called only by DIALOG's hall-file writers (its library member stays unpinned).
 
 ## Split far code pointers (2026-11-23)
 

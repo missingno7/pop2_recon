@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/desert/desert.json",
-  "binding_sha256": "a6a339c35f6e9c06070f3b7747fe47e58015cd831985db05272d00a734ee88c1",
+  "binding_sha256": "12782c045af2a5a1a7f44453b85ec7b0b1952c8b758ec1b1c517d19c2a75d4bf",
   "claims": [
     {
       "fixup_count": 2,
@@ -282,6 +282,17 @@
       "fixup_count": 7,
       "public": "TRIGGER_ALL_STONES_DOWN",
       "target_id": "overlay-5:29cf:09f0"
+    },
+    {
+      "fixup_count": 12,
+      "public": "CHECK_DESERT_EXIT",
+      "relocation_indices": [
+        3,
+        51
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "overlay-5:29cf:002a"
     }
   ],
   "data_publics": [
@@ -295,10 +306,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 42,
-      "public": "CHECK_DESERT_EXIT"
-    },
     {
       "object_offset": 2586,
       "public": "TRIGGER_STONE_AT"
@@ -319,12 +326,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "desert/desert",
-  "object_sha256": "d87bb7f9f3c58a59e16eb8942b2cc81bbdef96ee44bf4c05eb509c47a8b3a82f",
+  "object_sha256": "6a9227b0fae515a3f2d332bb103b1d0ac3a3671ac3f897724fa1a095b245fbcf",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/desert/desert.c",
-  "source_sha256": "35d01eb34185ccef380abe347373c01c364ca66a82e430f6cf24a84df2ae66f8",
+  "source_sha256": "edbf3ad3ded5919416a76e1b6bf72821b6068c95873729157a9c1f6bbc153ee4",
   "space": "overlay-5"
 }

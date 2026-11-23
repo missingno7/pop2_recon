@@ -132,21 +132,21 @@ void animate_exit(void);
 void animate_torch(int index);
 void animate_gate(void);
 void animate_plate(void);
-extern void animate_level_gate(void);
-extern void animate_special_floor(void);
-extern void animate_kind_23(void);
+extern void animate_desert_exit(void);
+extern void AnimScythe(void);
+extern void animate_lava(void);
 extern void animate_kind_27(void);
-extern void animate_kind_28(void);
-extern void animate_kind_29(void);
-extern void animate_kind_30(void);
-extern void animate_kind_31(void);
-extern void animate_kind_36(void);
-extern void animate_kind_37(void);
-extern void animate_kind_38(void);
-extern void animate_kind_39(void);
-extern void animate_kind_40(void);
-extern void animate_kind_41(void);
-extern void animate_kind_42(void);
+extern void animate_desert_rocks(void);
+extern void animate_desert_planks(void);
+extern void animate_desert_stone(void);
+extern void animate_jaffar_blink(void);
+extern void animate_dart(void);
+extern void AnimRoofPillar(void);
+extern void animate_roof_ship(void);
+extern void animate_roof_glass(void);
+extern void animate_spider(void);
+extern void animate_crystal(void);
+extern void animate_gargoyle(void);
 extern void animate_kind_43(void);
 extern void animate_kind_44(void);
 
@@ -161,7 +161,7 @@ void AnimTrob(int index)
         break;
     case 4:
         if (Level.environment_kind == 1)
-            animate_level_gate();
+            animate_desert_exit();
         else
             animate_gate();
         break;
@@ -177,7 +177,7 @@ void AnimTrob(int index)
         animate_loose_floor();
         break;
     case 13:
-        animate_special_floor();
+        AnimScythe();
         break;
     case 17:
         animate_exit();
@@ -187,43 +187,43 @@ void AnimTrob(int index)
         animate_torch(index);
         break;
     case 23:
-        animate_kind_23();
+        animate_lava();
         break;
     case 27:
         animate_kind_27();
         break;
     case 28:
-        animate_kind_28();
+        animate_desert_rocks();
         break;
     case 29:
-        animate_kind_29();
+        animate_desert_planks();
         break;
     case 30:
-        animate_kind_30();
+        animate_desert_stone();
         break;
     case 31:
-        animate_kind_31();
+        animate_jaffar_blink();
         break;
     case 36:
-        animate_kind_36();
+        animate_dart();
         break;
     case 37:
-        animate_kind_37();
+        AnimRoofPillar();
         break;
     case 38:
-        animate_kind_38();
+        animate_roof_ship();
         break;
     case 39:
-        animate_kind_39();
+        animate_roof_glass();
         break;
     case 40:
-        animate_kind_40();
+        animate_spider();
         break;
     case 41:
-        animate_kind_41();
+        animate_crystal();
         break;
     case 42:
-        animate_kind_42();
+        animate_gargoyle();
         break;
     case 43:
         animate_kind_43();

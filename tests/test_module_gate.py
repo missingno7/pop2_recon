@@ -617,6 +617,54 @@ class FarConsensusTests(unittest.TestCase):
         self.assertEqual(self.run_rule({"A": [(0, 10, True)]}), {"A": True})                   # witnessed base
         self.assertEqual(self.run_rule({"A": [(1, 10, True)], "B": [(1, 20, True)]}, ["B"])["A"], False)
 
+    def test_far_callee_called_only_by_claims(self):
+        from module_gate import _far_consensus
+
+        def run(rows):
+            states = {p: {"far_fields": [{"key": ("F", 0), "insn": at, "equal": eq} for at, eq in v]}
+                      for p, v in rows.items()}
+            reports = [{"public": p, "exact": True} for p in rows]
+            _far_consensus({"F": {"kind": "far-code-entry", "consensus": True}}, states, reports, set())
+            return {r["public"]: r["exact"] for r in reports}
+        self.assertEqual(run({"A": [(10, True)], "B": [(20, True)]}), {"A": True, "B": True})
+        self.assertEqual(run({"A": [(10, True)]}), {"A": False})
+        self.assertEqual(run({"A": [(10, True), (20, False)]}), {"A": False})
+
+    def test_far_callee_consensus_is_a_group_rule_for_a_reviewed_entry(self):
+        from far_binding import ground_symbol
+        from oracle import Oracle
+        oracle = Oracle.load()
+        rows = common.read_json(ROOT / "evidence/targets.json")["functions"]
+        callee = next(t for t in rows if t["id"] == "root:1fe6:1beb")
+        symbol = {"kind": "far-code-entry", "space": "root", "segment": 0x1fe6, "offset": 0x1beb,
+                  "entry_target_id": callee["id"], "entry_sha256": callee["sha256"], "witnesses": [], "consensus": True}
+        target = next(t for t in rows if t["id"] == "root:052d:0518")
+        self.assertEqual(ground_symbol(symbol, target, oracle, claimed=[])["grounded_by"], "internal consensus")
+        with self.assertRaisesRegex(ValueError, "group rule"):
+            ground_symbol(symbol, target, oracle)
+        with self.assertRaisesRegex(ValueError, "without CALL witnesses"):
+            ground_symbol({**symbol, "witnesses": [{}]}, target, oracle, claimed=[])
+
+
+class UnwitnessedExtentTests(unittest.TestCase):
+    """In-extent members of an aggregate without a witness stand only on its base's own consensus."""
+
+    def run_rule(self, fields, witnesses=()):
+        from module_gate import _internal_support
+        symbols = {"A": {"kind": "dgroup-offset", "offset": 8, "witnesses": list(witnesses), "extent": {"length": 13},
+                         "members": [{"offset": 5, "witnesses": []}]}}
+        states = {p: {"v4": [{"key": ("A", k), "insn": at, "equal": True, "offset": at} for k, at in rows],
+                      "equations": []} for p, rows in fields.items()}
+        reports = [{"public": p, "exact": True} for p in fields]
+        _internal_support(symbols, states, reports, set())
+        return {r["public"]: r["exact"] for r in reports}
+
+    def test_member_needs_two_base_sites_unless_the_base_is_witnessed(self):
+        self.assertEqual(self.run_rule({"F": [(0, 1), (0, 2)], "G": [(5, 3)]}), {"F": True, "G": True})
+        self.assertEqual(self.run_rule({"F": [(0, 1)], "G": [(5, 3)]}), {"F": False, "G": False})
+        self.assertEqual(self.run_rule({"G": [(5, 3)]}), {"G": False})
+        self.assertEqual(self.run_rule({"G": [(5, 3)]}, witnesses=[{}]), {"G": True})
+
 
 class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""

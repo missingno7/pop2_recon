@@ -489,6 +489,8 @@ class CallArgumentExtentTests(unittest.TestCase):
             call_arguments(bytes.fromhex("b8625e50eb00") + bytes.fromhex("9ae04f0111"))
         with self.assertRaisesRegex(ValueError, "stack pointer"):
             call_arguments(bytes.fromhex("b8625e5083c4029ae04f0111"))
+        with self.assertRaisesRegex(ValueError, "stack pointer"):
+            call_arguments(bytes.fromhex("b8625e505b9ae04f0111"))                              # pop bx
         self.assertEqual(call_arguments(bytes.fromhex("b8625e33c0509ae04f0111")), {})         # overwritten
 
 

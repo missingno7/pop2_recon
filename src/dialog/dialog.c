@@ -69,7 +69,7 @@ extern void far pascal DRAW_NUL_TEXT_IN_RECT(const struct dialog_rect far *,
                                         struct dialog_range, const char far *);
 extern void far pascal MoveTo(int, int);
 extern void far pascal DRAW_NUL_TERMINATED_TEXT(const char far *);
-extern int far pascal find_dialog_string(int);
+extern int far pascal hGetTxt4(int);
 extern char far * far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
 extern char far * far pascal FETCH_LOCKED_SHAPE_LIST(int);
 extern int far pascal ALLOCATE_PAYLOAD_HANDLE(unsigned long);
@@ -167,7 +167,7 @@ void far pascal DialogDrawStrId(int string_id, int font, int style,
 {
     int handle;
 
-    handle = find_dialog_string(string_id);
+    handle = hGetTxt4(string_id);
     if (handle) {
         DialogDrawStr(FETCH_LOCKED_SHAPE_LIST(handle), font, style, point, rect, range);
         DISPOSE_HANDLE(handle);
@@ -1093,7 +1093,7 @@ void far pascal draw_notice_symbols(unsigned symbol, DialogAsset asset, int atte
 
     if (attempt)
         SET_RECORD_RANGE((struct dialog_rect far *)notice_port, 12);
-    text_handle = find_dialog_string(8006);
+    text_handle = hGetTxt4(8006);
     format = FETCH_LOCKED_SHAPE_LIST(text_handle);
     near_format = _nmalloc(_fstrlen(format) + 1);
     _fstrcpy(near_format, format);
@@ -1154,7 +1154,7 @@ int far pascal read_notice_selection(void)
     unsigned key;
 
     if (notice_keyboard_text) {
-        confirmation = FETCH_LOCKED_SHAPE_LIST(find_dialog_string(10));
+        confirmation = FETCH_LOCKED_SHAPE_LIST(hGetTxt4(10));
         confirmation_length = _fstrlen(confirmation);
         typed_count = 0;
     } else {
@@ -1830,7 +1830,7 @@ void far pascal draw_credit_category(int id)
     char far *strings, far *payload;
     char far *title;
     unsigned char line;
-    int handle = find_dialog_string(id);
+    int handle = hGetTxt4(id);
 
     if (!handle)
         return;

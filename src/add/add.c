@@ -650,7 +650,7 @@ extern void RestoreFChar(void);
 
 extern void setup_guard_smoke(void);
 extern void setup_splash(void);
-extern void adjust_ruins_sword(void);
+extern void clip_character_at_water(void);
 extern void draw_rooftop_opponent(void);
 extern void setup_carpet(void);
 extern void setup_flame(void);
@@ -899,7 +899,7 @@ void far _fastcall setup_sword(Byte kind)
     FChar.image_set = 0;
     MakeFCharClipRect();
     if (Level.environment_kind == 5)
-        adjust_ruins_sword();
+        clip_character_at_water();
     add_char_object(kind);
     if (Char.action != 9)
         mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), Char.slot);

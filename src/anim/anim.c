@@ -570,7 +570,7 @@ void near reset_element(Element *element)
 }
 
 extern int check_wait_function(void);
-extern void reset_input(void);
+extern void fade_out_and_restore_palette(void);
 extern void DISPATCH_RESOURCE_POINTER(int, int);
 extern void wait_sound(int);
 extern const unsigned char far *LOAD_RESOURCE_PINNED(unsigned long, int);
@@ -614,7 +614,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         result = anim_idle(animation);
         if (interruptible) {
             if (result == 2 || check_wait_function()) {
-                reset_input(); DISPATCH_RESOURCE_POINTER(0, 0);
+                fade_out_and_restore_palette(); DISPATCH_RESOURCE_POINTER(0, 0);
                 aborted = 1;
                 break;
             }

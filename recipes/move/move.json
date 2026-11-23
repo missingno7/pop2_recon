@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/move/move.json",
-  "binding_sha256": "630b1edccdb2bde290f29d80156923eb4c8294d5f331c77408e044519ae5648f",
+  "binding_sha256": "7d5d6bf609d8570e48626366cfb7a767d84e7e59a9b9436775e52d1a7f1efc74",
   "claims": [
     {
       "fixup_count": 13,
@@ -561,6 +561,40 @@
       "fixup_count": 4,
       "public": "IS_VISIBLE_ROOM_CELL",
       "target_id": "root:0b41:25e4"
+    },
+    {
+      "fixup_count": 16,
+      "public": "ANIM_MOBS",
+      "target_id": "root:0b41:1a42"
+    },
+    {
+      "fixup_count": 75,
+      "public": "ANIMTROB",
+      "relocation_indices": [
+        997,
+        998,
+        1002,
+        1005,
+        1015,
+        1018,
+        1019,
+        1033,
+        1037,
+        1040,
+        1046,
+        1055,
+        1061,
+        1062,
+        1069,
+        1079,
+        1083,
+        1086
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0b41:009c"
     }
   ],
   "code_matches": [
@@ -632,10 +666,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 144,
-      "public": "ANIMTROB"
-    },
-    {
       "object_offset": 1328,
       "public": "CHECK_TROB_RIGHT"
     },
@@ -664,10 +694,6 @@
       "public": "TRIGGER_OBJECT"
     },
     {
-      "object_offset": 6710,
-      "public": "ANIM_MOBS"
-    },
-    {
       "object_offset": 8262,
       "public": "ADD_LOOSE_TO_FRAME"
     }
@@ -689,12 +715,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "move/move",
-  "object_sha256": "21ac45b9185c9a85ebe294ee6176a416c41f387a3280d9faa0b9d773f51aa7d8",
+  "object_sha256": "a3d526203443bb4e1d28f5e99f215b18769da7a43f054dff348b6988d517286e",
   "origin": 46108,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/move/move.c",
-  "source_sha256": "8ba5dfe726a3308e96a49853f0687232c30f05883292af9911b154f48c42b7ba",
+  "source_sha256": "d232b70567c67c4d71d809b948336cbc63f582a7f2fc791d0bbe3ed3165d6dc5",
   "space": "root"
 }

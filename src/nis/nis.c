@@ -305,7 +305,7 @@ extern void WRITE_DAC_BLOCK(int first, int count, const void far *colors, int sy
 extern int play_nis_animation(Handle shapes, int resource, int scene, int mode,
                               AnimationCallback callback, int x, int y, int options);
 extern int wait_ticks(int mode, unsigned int duration);
-extern void reset_input(void);
+extern void fade_out_and_restore_palette(void);
 extern void dispatch_resource_pointer(const void far *sound);
 
 void tree_check(int scene)
@@ -348,7 +348,7 @@ void tree_check(int scene)
         interrupted = wait_sound(0);
         if (!interrupted) wait_ticks(0, 60);
     }
-    reset_input();
+    fade_out_and_restore_palette();
     if (interrupted) dispatch_resource_pointer(0L);
 
     FreeDialog(); dispose_handle(shapes); dispose_handle(dialog_shape);
@@ -576,7 +576,7 @@ int Transition(int scene)
     }
 
     if (interrupted) {
-        reset_input();
+        fade_out_and_restore_palette();
         dispatch_resource_pointer(0L);
     }
     dispose_handle(transition_shapes);
@@ -1159,7 +1159,7 @@ int aboard_ship(void)
             interrupted = fade_to(0, -1, 4);
     }
 
-    reset_input();
+    fade_out_and_restore_palette();
     if (interrupted)
         dispatch_resource_pointer(0L);
     dispose_handle(nis_palette);
@@ -1358,7 +1358,7 @@ next_dialog:
         if (!interrupted) interrupted = run_nis_dialog(OPENING_SCENE, 16, 14, 145); if (!interrupted) interrupted = wait_ticks(0, 90);
     }
     dispose_handle(nis_palette);
-    reset_input();
+    fade_out_and_restore_palette();
     if (interrupted) {
         dispatch_resource_pointer(0L);
     }
@@ -1699,7 +1699,7 @@ int opening_two(void)
         if (!was_interrupted) was_interrupted = fade_to(was_interrupted, -1, 2);
     }
     dispose_handle(nis_palette);
-    reset_input();
+    fade_out_and_restore_palette();
     if (was_interrupted) dispatch_resource_pointer(0L);
     FreeDialog(); dispose_handle(anim_table);
     release_port(&temporary_port);
@@ -1944,7 +1944,7 @@ int ending(void)
         dispose_handle(ending_palette_two); dispose_handle(ending_palette_one);
         DISPOSE_BITMAP_PORT(alternate_port);
     }
-    reset_input();
+    fade_out_and_restore_palette();
     if (interrupted) dispatch_resource_pointer(0L);
     dispose_handle(nis_palette); FreeDialog();
     dispose_handle(ending_shapes); release_port(&port);
@@ -2270,7 +2270,7 @@ int discovery(void)
         }
     }
     dispose_handle(nis_palette);
-    reset_input();
+    fade_out_and_restore_palette();
     if (interrupted) {
         dispatch_resource_pointer(0L);
     }

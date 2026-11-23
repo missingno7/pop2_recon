@@ -102,7 +102,7 @@
       "ENDING_SHAPES",
       "WAIT_TICKS",
       "ENDING_SPRITE",
-      "RESET_INPUT",
+      "FADE_OUT_AND_RESTORE_PALETTE",
       "OFFSETRECT",
       "ENDING_PALETTE_ONE",
       "GET_SHAPE_RECT",
@@ -3865,7 +3865,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -3879,7 +3879,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -10210,7 +10210,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -10224,7 +10224,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -22063,7 +22063,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -22077,7 +22077,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -25141,7 +25141,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -25155,7 +25155,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -33646,7 +33646,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -33660,7 +33660,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -38614,7 +38614,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -38628,7 +38628,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -45094,7 +45094,7 @@
           "index": 102,
           "kind": "external",
           "method": 6,
-          "name": "RESET_INPUT",
+          "name": "FADE_OUT_AND_RESTORE_PALETTE",
           "zero_displacement": true
         }
       },
@@ -45108,7 +45108,7 @@
         "index": 102,
         "kind": "external",
         "method": 6,
-        "name": "RESET_INPUT",
+        "name": "FADE_OUT_AND_RESTORE_PALETTE",
         "zero_displacement": true
       }
     },
@@ -47731,6 +47731,23 @@
       "offset": 11400,
       "witnesses": []
     },
+    "FADE_OUT_AND_RESTORE_PALETTE": {
+      "entry_sha256": "6e7fab5933e992665bcc4c5787517475db34e6cde0150db13f8013432e47eddb",
+      "entry_target_id": "root:1e23:0866",
+      "kind": "far-code-entry",
+      "offset": 2150,
+      "segment": 7715,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a6608231e",
+          "file_offset": 181376,
+          "image_offset": 25440,
+          "relocation_index": 784,
+          "space": "overlay-2"
+        }
+      ]
+    },
     "FADE_TO": {
       "entry_sha256": "f20850e3ff8bec8633072c28eef60421e0f26d9bfbae5f617411358a9098d181",
       "entry_target_id": "root:1e23:0378",
@@ -48359,23 +48376,6 @@
         }
       ]
     },
-    "RESET_INPUT": {
-      "entry_sha256": "6e7fab5933e992665bcc4c5787517475db34e6cde0150db13f8013432e47eddb",
-      "entry_target_id": "root:1e23:0866",
-      "kind": "far-code-entry",
-      "offset": 2150,
-      "segment": 7715,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a6608231e",
-          "file_offset": 181376,
-          "image_offset": 25440,
-          "relocation_index": 784,
-          "space": "overlay-2"
-        }
-      ]
-    },
     "RESOLVE_HANDLE_TO_FAR_PAYLOAD": {
       "entry_sha256": "ed3c605d59b4d187ff36ddae9501ca0de1fe64ee1e607223d98d813b4331d320",
       "entry_target_id": "root:1101:216c",
@@ -48412,6 +48412,21 @@
       "witnesses": []
     },
     "SCREENPORT": {
+      "extent": {
+        "call": {
+          "bytes_hex": "b8625e50b8e01f1e509ae04f0111",
+          "entry": "root:0000:1316",
+          "image_offset": 4894,
+          "space": "root"
+        },
+        "length": 44,
+        "witness": {
+          "bytes_hex": "558bec57568b5e0ab92c008bfbbeee251e07f3a4",
+          "entry": "root:1101:4fe0",
+          "image_offset": 90096,
+          "space": "root"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24162,
@@ -48423,22 +48438,7 @@
           "operand_offset": 1,
           "space": "root"
         }
-      ],
-      "extent": {
-        "length": 44,
-        "witness": {
-          "bytes_hex": "558bec57568b5e0ab92c008bfbbeee251e07f3a4",
-          "entry": "root:1101:4fe0",
-          "image_offset": 90096,
-          "space": "root"
-        },
-        "call": {
-          "bytes_hex": "b8625e50b8e01f1e509ae04f0111",
-          "entry": "root:0000:1316",
-          "image_offset": 4894,
-          "space": "root"
-        }
-      }
+      ]
     },
     "SCREEN_BOUNDS": {
       "group": "DGROUP",

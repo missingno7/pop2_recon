@@ -420,6 +420,10 @@ Extended 2026-11-23 (`binding.block_copy_extent`):
 - In a group the copy may itself lie inside a claim. The length is an original fact about [S, S+L) and is not one of
   the fields the claim is judged on. S still needs its own witness outside the claims.
 
+When every original S+0 reference lies in claims, S has no witness. In a group the copy (or pointer access) may then
+itself lie in a claim, and S stands on internal consensus: no in-extent member is accepted unless S+0 has equal fields
+at two or more distinct claimed instruction starts. First use: `MOBS` (DS:2aa4, 13-byte records copied by ANIM_MOBS).
+
 A copy may also be made by a callee through a near-pointer argument. The extent then has a `call`: a reached original
 window that ends in a relocated far CALL of a resident routine and passes exactly S, while `witness` starts at that
 routine's entry (`push bp; mov bp,sp`) and copies through `mov r,[bp+disp]` with the matching stack slot. First use:

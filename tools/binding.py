@@ -20,6 +20,17 @@ def instructions(raw):
     return rows
 
 
+def registers_written(insn):
+    """Names of the registers an instruction writes. Capstone omits the segment register LES/LDS load and calls the
+    16-bit stack pointer `esp` for PUSH/POP (2026-11-23)."""
+    names = {insn.reg_name(r) for r in insn.regs_access()[1]}
+    if "esp" in names or insn.mnemonic.startswith(("push", "pop", "enter", "leave", "call", "lcall", "ret")):
+        names.add("sp")
+    if insn.mnemonic in ("les", "lds", "lss"):
+        names.add(insn.mnemonic[1:])
+    return names
+
+
 def direct_operand(insn):
     """One unprefixed, direct default-DS memory operand with a 16-bit offset."""
     _, xc = _capstone()
@@ -384,7 +395,7 @@ def index_extent(raw, base):
         require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Index window must be straight-line before the bound")
         if bytes(insn.bytes) in (b"\x2a\xff", b"\x32\xff", b"\x28\xff", b"\x30\xff"):   # sub/xor bh,bh
             cleared = True
-        elif {insn.reg_name(r) for r in insn.regs_access()[1]} & {"bx", "bh"}:
+        elif registers_written(insn) & {"bx", "bh"}:
             cleared = False
     return compare.operands[1].imm & 0xFF if cleared else None
 
@@ -422,7 +433,7 @@ def call_arguments(raw):
         if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].size == 2:
             source = (ops[1].imm & 0xFFFF if ops[1].type == xc.X86_OP_IMM else
                       value.get(insn.reg_name(ops[1].reg)) if ops[1].type == xc.X86_OP_REG else None)
-        written = {insn.reg_name(r) for r in insn.regs_access()[1]}
+        written = registers_written(insn)
         require("sp" not in written, "Call window moves the stack pointer")
         for name in written:
             for full in ("ax", "bx", "cx", "dx"):
@@ -485,7 +496,7 @@ def block_copy_extent(raw, at, base, arguments=None):
             elif arguments and ops[1].type == xc.X86_OP_MEM and ops[1].mem.base == xc.X86_REG_BP and \
                     ops[1].mem.index == ops[1].mem.segment == 0:
                 source = arguments.get(ops[1].mem.disp)
-        written = {insn.reg_name(r) for r in insn.regs_access()[1]}
+        written = registers_written(insn)
         if arguments is not None and any(o.type == xc.X86_OP_MEM and xc.X86_REG_BP in (o.mem.base, o.mem.index)
                                          for o in ops[:1]):
             return None  # an argument slot may have been written
@@ -584,12 +595,13 @@ def ground(binding, target, oracle, claimed=None):
                 spec = symbol["extent"]
                 kind = spec.get("kind")
                 require(set(spec) <= {"length", "witness", "call", "kind"} and {"length", "witness"} <= set(spec) and
-                        (symbol["witnesses"] and kind is None or kind in ("index", "pointer") and "call" not in spec),
+                        ((symbol["witnesses"] or internal and "call" not in spec) and kind is None or
+                         kind in ("index", "pointer") and "call" not in spec),
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
                 # In a group the copy may itself lie inside a claim (2026-11-23): its length is an
-                # original fact about [S, S+L); S still needs its own witness outside the claims.
-                # An index witness is S's only evidence, so it must stay outside the claims. A pointer access
-                # inside one leaves S to internal consensus (two equal claimed sites) when S has no witness.
+                # original fact about [S, S+L). An index witness is S's only evidence, so it must stay outside
+                # the claims. A copy or pointer access inside one leaves S to internal consensus when S has no
+                # witness: module_gate requires two equal claimed S+0 sites before any in-extent member is used.
                 at, raw = witness(spec["witness"], draft_ok=True, anywhere=kind != "index")
                 require("entry" in spec["witness"] and at in reachable_from_entry(oracle, spec["witness"]["entry"]),
                         "Extent witness is not reached from its entry")

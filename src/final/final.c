@@ -757,30 +757,24 @@ int far pascal jaffar_go_to_position_0(sbyte near *stance)
 
     if (stance[2] == 3) {
         if (Char.frame == 15) {
-            if (x == 6)
-                standing_jump();
-            else if (x > 7 && x < rule->room_x - 1)
-                start_running();
+            if (x == 6) standing_jump();
+            else if (x > 7 && x < rule->room_x - 1) start_running();
             else
                 goto settle;
         } else if (Char.frame == 7 || Char.frame == 11) {
-            if ((x >= 5 && x <= 6) || (x >= 10 && x <= 11))
-                run_jump(4);
-            else if (x >= rule->room_x - 1)
-                sequence = 13;
+            if ((x >= 5 && x <= 6) || (x >= 10 && x <= 11)) run_jump(4);
+            else if (x >= rule->room_x - 1) sequence = 13;
         }
     } else if (Char.row == 2) {
         if (Char.frame == 15) {
-            if (Char.direction != 0)
-                goto turn;
+            if (Char.direction != 0) goto turn;
             jump_up();
         } else if (Char.frame == 91)
             climb_up();
     } else if (Char.row == 1) {
         if (Char.frame == 15) {
             if (Char.direction == 0) {
-                if (x < 17)
-                    start_running();
+                if (x < 17) start_running();
                 else
                     goto turn;
             } else if (x >= 17)
@@ -791,10 +785,8 @@ turn:
             }
         } else if (Char.frame == 7 && x >= 17)
             sequence = 13;
-        else if (Char.frame == 91)
-            climb_up();
-        else if (Char.frame == 109)
-            sequence = 49;
+        else if (Char.frame == 91) climb_up();
+        else if (Char.frame == 109) sequence = 49;
     } else {
 settle:
         sequence = settle_jaffar_at_position(stance);
@@ -864,8 +856,7 @@ int far pascal jaffar_go_to_position_2(sbyte near *stance)
         }
     } else if (Char.row == 0) {
         if (Char.frame == 15) {
-            if (Char.direction == 0)
-                sequence = 5;
+            if (Char.direction == 0) sequence = 5;
             else
                 actor_down();
         }
@@ -873,16 +864,14 @@ int far pascal jaffar_go_to_position_2(sbyte near *stance)
         if (Char.frame >= 87 && Char.frame <= 91) {
             control_drop();
         } else if (Char.frame == 15) {
-            if (Char.direction == -1)
-                start_running();
+            if (Char.direction == -1) start_running();
             else
                 sequence = 5;
         } else if (Char.frame == 109) {
             sequence = 49;
         }
     } else if (Char.row == 2) {
-        if (Char.frame == 109)
-            sequence = 49;
+        if (Char.frame == 109) sequence = 49;
         else {
 settle:
             sequence = settle_jaffar_at_position(stance);
@@ -1298,7 +1287,8 @@ void far pascal animate_spider(void)
             }
         }
         state &= 0xf807;
-        BlueSpec = (ticks << 3) | state;
+        state |= ticks << 3;
+        BlueSpec = state;
         return;
     }
     final_object_visibility = (byte)-1;
