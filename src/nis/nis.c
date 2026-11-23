@@ -639,14 +639,13 @@ typedef struct {
 
 extern Rect small_throne_bounds;
 extern void draw_dead_kid(void);
-extern DrawPort *allocate_clipped_port(const Rect far *bounds);
+extern ImagePort *allocate_clipped_port(const Rect far *bounds);
 extern DrawPort *AllocBackPort(const Rect far *bounds);
 extern void DeallocBackPort(DrawPort *port);
 extern void free_record_pair(ImagePort *port);
 extern int animate_port(int mode, DrawPort *port, const Rect far *bounds, long duration);
 extern int ruined_throne_callback(void *playback, int frame);
 enum { THRONE_DIALOG_RESOURCE = 31000, THRONE_MUSIC = 31020, THRONE_NEXT_MUSIC = 31021 };
-extern ImagePort *make_dialog_port(const Rect far *bounds);
 extern void far *init_fade_to(Handle palette, int timing, int options);
 extern void set_dac_blocks(int timing, const void far *colors);
 
@@ -697,7 +696,7 @@ int trans_throne_room(Handle shapes)
     }
     if (!interrupted) {
         Graf = &ScreenPort;
-        extended_port = make_dialog_port(&extended_dialog_rect);
+        extended_port = allocate_clipped_port(&extended_dialog_rect);
     }
     if (!interrupted) interrupted = run_nis_dialog(THRONE_DIALOG_RESOURCE, 1, 1, 311);
     if (!interrupted) interrupted = run_nis_dialog(THRONE_DIALOG_RESOURCE, 2, 2, 278);
@@ -1843,7 +1842,6 @@ Rect *get_shape_rect(Rect far *bounds, Handle shapes, int item, int x, int y)
 extern void select_resource_file(const char *name);
 extern void PUSH_PORT_CLIP(const Rect far *bounds);
 extern void POP_PORT_CLIP(void);
-extern ImagePort *save_screen_patch(const Rect far *bounds);
 extern void DISPOSE_BITMAP_PORT(ImagePort *patch);
 extern Handle MARK_PURGEABLE(Handle shape);
 extern Rect ending_fill_bounds, ending_patch_bounds;
@@ -1902,7 +1900,7 @@ int ending(void)
         draw_nis_text(ENDING_SCENE, 1);
         add_nis(&port.draw, ending_shapes, 7, 40, 32, 0);
         get_shape_rect(&bounds, ending_shapes, 44, 161, 64);
-        portrait_patch = save_screen_patch(&bounds);
+        portrait_patch = allocate_clipped_port(&bounds);
         hGetSnd(ENDING_SCENE + 2);
         PaintRLEShapeItem(ending_shapes, 44, 161, 64, 10);
         delay_count = 6; interrupted = wait_timer(0);
@@ -1928,7 +1926,7 @@ int ending(void)
     if (!interrupted) {
         SET_RECORD_RANGE(&ending_fill_bounds, 48);
         PaintRLEShapeItem(ending_shapes, 8, 0, 6, 0);
-        alternate_port = save_screen_patch(&dialog_rect);
+        alternate_port = allocate_clipped_port(&dialog_rect);
         ending_palette_one = HGETRSRC(0x50414c54UL, ENDING_SCENE + 2);
         ending_palette_two = HGETRSRC(0x50414c54UL, ENDING_SCENE + 3);
         ending_palette_three = HGETRSRC(0x50414c54UL, ENDING_SCENE + 4);
@@ -2043,7 +2041,7 @@ int ending_callback(void *state, int frame)
         saved = Graf;
         Graf = &ScreenPort;
         get_shape_rect(&bounds, ending_shapes, 44, 161, 64);
-        patch = save_screen_patch(&bounds);
+        patch = allocate_clipped_port(&bounds);
         PaintRLEShapeItem(ending_shapes, 44, 161, 64, 10);
         delay_count = 6;
         while (delay_count)
@@ -2312,7 +2310,6 @@ extern void paint_animation_frame(AnimationState *playback);
 
 int title_callback(void *state, int frame)
 {
-    unsigned long frame_end_time;
     Rect title_bounds;
     int interrupted;
     int old_frame_suppression;
@@ -2327,7 +2324,7 @@ int title_callback(void *state, int frame)
         get_shape_rect(&title_bounds, transition_shapes, 312, 43, 53);
         title_bounds.bottom = playback->port.clip.top;
         Graf = &ScreenPort;
-        title_patch = save_screen_patch(&title_bounds);
+        title_patch = allocate_clipped_port(&title_bounds);
         Graf = saved_port;
         init_fade_to_primary((AnimationState *)playback, 1);
         interrupted = WaitMidiPlayTime(100);
@@ -2362,6 +2359,7 @@ int title_callback(void *state, int frame)
         case 102:
         case 104: {
             TitleAnimationState *playback;
+            unsigned long frame_end_time;
 
             playback = state;
             frame_end_time = playback->frame_clock + playback->frame_delay;
