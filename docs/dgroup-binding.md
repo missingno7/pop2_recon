@@ -341,6 +341,12 @@ no field is skipped. Any other fixup in a data segment (far pointers with a segm
 pointers to externs or to code, a non-DGROUP frame, a segment without a placement) is
 refused. The placement report records `pointer_fields` for such segments.
 
+Since 2026-11-23 a near pointer may also target another file's data, i.e. an external, when the binding grounds
+that external independently: a v4 symbol with its own original witnesses, or a provider data public. The linked
+value is then the grounded offset + stored offset + D. Such a symbol counts as used by the group. A symbol marked
+`unproven`, or one the binding does not ground, is refused: pointer bytes that happen to equal the original never
+prove the symbol. DRAW's level-spec table at DS:04e0..04ea needs this.
+
 ## Alignment holes in placed initialized data (2026-11-22)
 
 MSC word-aligns items inside `_DATA` by skipping a byte without emitting LEDATA for it; the linker

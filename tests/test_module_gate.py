@@ -568,7 +568,8 @@ int far pascal Sw(int k)
 class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""
 
-    def check(self, segments, uses, placements, image=b"", data_fixes=(), far_symbols=None, relocs=()):
+    def check(self, segments, uses, placements, image=b"", data_fixes=(), far_symbols=None, relocs=(),
+              data_symbols=None):
         from module_gate import _check_placements
         from oracle import Space
         module = SimpleNamespace(
@@ -582,7 +583,8 @@ class PlacementTests(unittest.TestCase):
         binding = {"frame": {"segment": 0x10},
                    "dgroup_segment": {"segment": 0x10, "witnesses": [
                        {"space": "root", "image_offset": 0x100 + len(image), "relocation_index": 0}]}}
-        return _check_placements(module, placements, uses, binding, space, oracle, data_fixes, far_symbols)
+        return _check_placements(module, placements, uses, binding, space, oracle, data_fixes, far_symbols,
+                                 data_symbols)
 
     @staticmethod
     def pointer(at, frame=None):
@@ -605,6 +607,17 @@ class PlacementTests(unittest.TestCase):
         frame = {"kind": "segment", "index": 2, "name": "_DATA"}
         with self.assertRaisesRegex(ValueError, "not a DGROUP near pointer"):
             self.check([("_DATA", b"\x02\x00\xaa\xbb", 4)], {}, {"_DATA": 8}, image, [self.pointer(0, frame)])
+
+    def test_near_pointer_to_another_files_grounded_data(self):
+        # _DATA = {&TABLE[2], 0xBBAA}; TABLE grounded at DS:0x40 elsewhere: the linker writes 0x0042.
+        target = {"kind": "external", "index": 3, "name": "TABLE", "method": 6}
+        field = dict(self.pointer(0), target=target)
+        image = bytes(8) + b"\x42\x00\xaa\xbb"
+        args = ([("_DATA", b"\x02\x00\xaa\xbb", 4)], {}, {"_DATA": 8}, image, [field])
+        self.assertTrue(self.check(*args, data_symbols={"TABLE": {"offset": 0x40}})["_DATA"]["unique"])
+        for symbols in (None, {"TABLE": {"offset": 0x40, "unproven": "single site"}}):  # ungrounded: refused
+            with self.assertRaisesRegex(ValueError, "independently grounded"):
+                self.check(*args, data_symbols=symbols)
 
     @staticmethod
     def far_pointer(at):

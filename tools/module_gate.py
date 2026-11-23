@@ -205,11 +205,14 @@ def _initialized_with_alignment_holes(ranges, length):
             all(b[0] - a[1] == 1 for a, b in zip(merged, merged[1:])))
 
 
-def _linked_data(seg, content, fields, placements, far_symbols=None):
+def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbols=None):
     """The bytes the linker writes for a placed initialized segment, and the segment-word offsets
-    that must carry original MZ relocations. Two field forms are accepted:
+    that must carry original MZ relocations. Accepted field forms:
     - a near pointer into this object's placed DGROUP data (offset16, frame DGROUP, target a
       placed segment): P(target) + stored offset + D, mod 64K;
+    - a near pointer to another file's DGROUP data (offset16, frame DGROUP, target an external the
+      binding grounds independently: a witnessed v4 symbol or a provider data public, never an
+      unproven one): its grounded offset + stored offset + D (2026-11-23; DRAW's level tables);
     - a far code pointer (16:16, frame = its target) to an external far code symbol the binding
       grounds independently (accepted exact entry or outside witnesses): that symbol's
       offset and segment, with a zero encoded addend; its segment word is relocated in MZ."""
@@ -245,18 +248,22 @@ def _linked_data(seg, content, fields, placements, far_symbols=None):
             linked[at:at + 4] = symbol["offset"].to_bytes(2, "little") + symbol["segment"].to_bytes(2, "little")
             relocated.append(at + 2)
             continue
+        external = (data_symbols or {}).get(target.get("name")) if target.get("kind") == "external" else None
         require(not f["self_relative"] and f["loc_type"] in (1, 5) and f["field_width"] == 2 and
                 {k: frame.get(k) for k in ("kind", "name")} == {"kind": "group", "name": "DGROUP"} and
-                target.get("kind") == "segment" and target.get("name") in placements,
+                ((target.get("kind") == "segment" and target.get("name") in placements) or
+                 (external is not None and type(external.get("offset")) is int and not external.get("unproven"))),
                 f"Placed segment {seg} fixup at +{f['segment_offset']:#x} is not a DGROUP near pointer "
-                "to placed data of this object")
+                "to placed data of this object or to an independently grounded DGROUP symbol")
         at = f["segment_offset"]
-        value = placements[target["name"]] + int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
+        base = external["offset"] if external is not None else placements[target["name"]]
+        value = base + int.from_bytes(content[at:at + 2], "little") + (f["displacement"] or 0)
         linked[at:at + 2] = (value & 0xFFFF).to_bytes(2, "little")
     return bytes(linked), relocated
 
 
-def _check_placements(module, placements, uses, binding, space, oracle, data_fixes=(), far_symbols=None):
+def _check_placements(module, placements, uses, binding, space, oracle, data_fixes=(), far_symbols=None,
+                      data_symbols=None):
     """Each placed DGROUP segment must be over-determined: initialized bytes equal the original
     DGROUP bytes at its placement, or (uninitialized) at least two distinct addends agree.
     Near-pointer fixups inside initialized data take their linked values (_linked_data)."""
@@ -282,7 +289,7 @@ def _check_placements(module, placements, uses, binding, space, oracle, data_fix
         require(initialized or not fields, f"Fixups in uninitialized placed segment {seg['name']}")
         relocated = []
         if fields:
-            content, relocated = _linked_data(seg["name"], content, fields, placements, far_symbols)
+            content, relocated = _linked_data(seg["name"], content, fields, placements, far_symbols, data_symbols)
         if initialized:
             require("dgroup_segment" in binding,
                     "Initialized placed data needs the grounded runtime DGROUP paragraph (dgroup_segment)")
@@ -1639,6 +1646,10 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                           {p for p, s in states.items()
                            if s["names"] & set(unproven) or any(f["key"] in unproven_keys for f in s["v4"])})
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
+    # Near pointers in placed initialized data use grounded DGROUP symbols too (_linked_data).
+    used_symbols |= {f["target"].get("name") for f in data_fixes
+                     if f["loc_type"] in (1, 5) and f["target"].get("kind") == "external" and
+                     f["target"].get("name") in (symbols or {})}
     if symbols is not None and not any(r["state"] == "REFUSED" for r in reports):
         require(set(symbols) == used_symbols, "Missing or unused grounded data symbol")
         used_far |= {f["target"].get("name") for f in data_fixes
@@ -1647,7 +1658,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
     if not any(r["state"] == "REFUSED" for r in reports):
         require(set(near_symbols) == used_near, "Missing or unused grounded near-code entry")
     placement_report = _check_placements(module, placements, placed_uses, binding, space, oracle,
-                                         data_fixes, far_symbols)
+                                         data_fixes, far_symbols, symbols)
     _placed_support(placement_report, states, reports)
     claimed = {c["public"] for c in claims}
     data_public_report = [dict(d, address=(placements[d["segment"]] + d["offset"]) & 0xFFFF,
