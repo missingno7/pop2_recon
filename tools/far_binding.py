@@ -47,17 +47,79 @@ def _ground_segment(symbol, target, oracle, claimed=None):
     return {"kind": "segment-base", "segment": symbol["segment"], "witnesses": receipts}
 
 
+def _far_window(spec, raw, at, wspace, symbol, value, oracle):
+    """Explicit original far-address forms pairing offset `value` with segment N (2026-11-23):
+    - `selector-access`: `mov es,[D]` first, straight-line code with no write to ES or DS, and a
+      last instruction whose ES: memory operand has displacement `value`. The DGROUP word at D is
+      one original relocated word storing N (an MSC far-data selector in CONST).
+    - `address-construction`: `add r16,value` directly followed by `mov r16,N`, N relocated.
+    - `stored-pointer`: `mov word [bp+d],value` directly followed by `mov word [bp+d+2],N`, N
+      relocated (the two halves of one far pointer local)."""
+    from binding import instructions
+    from disasm import _capstone
+    _, xc = _capstone()
+    rows = instructions(raw)
+    segment = symbol["segment"]
+    relocated = {r["image_offset"] for r in wspace.relocations}
+    if spec["kind"] == "selector-access":
+        from module_gate import _dgroup_home
+        require(len(rows) >= 2 and bytes(rows[0].bytes[:2]) == b"\x8e\x06" and
+                struct.unpack_from("<H", raw, 2)[0] == spec["selector_offset"], "Selector window must start with mov es,[D]")
+        home, dgroup = _dgroup_home({"dgroup_segment": spec["dgroup_segment"]}, oracle.spaces["root"], oracle)
+        word = dgroup + spec["selector_offset"]
+        relocs = [r for r in home.relocations if r["image_offset"] == word]
+        require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
+                struct.unpack_from("<H", home.data, word)[0] == segment,
+                "Selector word is not an original relocated DGROUP word storing the segment")
+        for insn in rows[1:]:
+            require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)) and
+                    not {insn.reg_name(r) for r in insn.regs_access()[1]}.intersection(("es", "ds")),
+                    "Selector window must be straight-line without another ES or DS load")
+        last = rows[-1]
+        mem = [o for o in last.operands if o.type == xc.X86_OP_MEM]
+        require(len(mem) == 1 and mem[0].mem.segment == xc.X86_REG_ES and last.disp_size == 2 and
+                mem[0].mem.disp & 0xFFFF == value,
+                "Selector window does not end in an ES access with that displacement")
+        return
+    require(len(rows) == 2, "Far address window must be two adjacent instructions")
+    first, second = rows
+    if spec["kind"] == "address-construction":
+        ok = (first.mnemonic == "add" and second.mnemonic == "mov" and
+              all(len(r.operands) == 2 and r.operands[0].type == xc.X86_OP_REG and r.operands[0].size == 2 and
+                  r.operands[1].type == xc.X86_OP_IMM for r in rows) and
+              first.operands[0].reg != second.operands[0].reg and first.imm_size == 2)
+    else:
+        require(spec["kind"] == "stored-pointer", "Unsupported far data offset witness kind")
+        ok = (all(r.mnemonic == "mov" and len(r.operands) == 2 and r.operands[0].type == xc.X86_OP_MEM and
+                  r.operands[0].size == 2 and r.operands[1].type == xc.X86_OP_IMM and
+                  r.operands[0].mem.base == xc.X86_REG_BP and r.operands[0].mem.index == 0 and
+                  r.operands[0].mem.segment == 0 for r in rows) and
+              second.operands[0].mem.disp == first.operands[0].mem.disp + 2)
+    require(ok and first.operands[1].imm & 0xFFFF == value and second.operands[1].imm & 0xFFFF == segment and
+            at + second.address + second.imm_offset in relocated,
+            "Far address window does not pair the offset with a relocated segment")
+
+
 def _ground_far_data(symbol, target, oracle, claimed=None):
     """A far data object at N:O. N is grounded like a segment base; O by reached original
     instructions whose address field equals O and that sit within 16 bytes of an original
-    relocated word storing N (the same far-pointer construction in other code)."""
+    relocated word storing N (the same far-pointer construction in other code), or by one of the
+    explicit forms of `_far_window` (docs/far-call-binding.md "Far data offset witnesses"). In a
+    group an offset or member may instead carry `"consensus": true`: module_gate then requires
+    equal fields at two or more distinct claimed instruction starts (as for v4)."""
     from binding import instructions, operand_field, reachable_from_entry
     segment = _ground_segment({"segment": symbol["segment"], "witnesses": symbol["segment_witnesses"]},
                               target, oracle, claimed)
     offset = symbol.get("offset")
     # Offset 0 (an object starting its own far segment) is not a free choice: it needs no
     # offset witness, and any mismatch is caught against the original field directly.
-    require(type(offset) is int and 0 <= offset <= 65535 and (offset == 0 or symbol.get("offset_witnesses")),
+    def consensus(row):
+        require("consensus" not in row or (row["consensus"] is True and claimed is not None and
+                                           not row.get("offset_witnesses")),
+                "Far data consensus is a group rule for an address without offset witnesses")
+        return row.get("consensus", False)
+    require(type(offset) is int and 0 <= offset <= 65535 and
+            (offset == 0 or symbol.get("offset_witnesses") or consensus(symbol)),
             "Far data symbol needs an offset and independent offset witnesses")
     space = oracle.spaces[target["space"]]
     start = space.position(target["segment"], target["offset"])
@@ -81,6 +143,11 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
         require(wspace.data[at:at+len(raw)] == raw and
                 (wspace.name != space.name or not any(lo <= at+len(raw) and at < hi for lo, hi in spans)),
                 "Far data offset witness changed or overlaps candidate")
+        if "kind" in spec:
+            require(spec["entry"].split(":")[0] == spec["space"] and at in reachable_from_entry(oracle, spec["entry"]),
+                    "Far data offset witness is not reached code")
+            _far_window(spec, raw, at, wspace, symbol, value, oracle)
+            return
         rows = instructions(raw)
         require(len(rows) == 1 and operand_field(rows[0], spec["operand_offset"]) is not None and
                 struct.unpack_from("<H", raw, spec["operand_offset"])[0] == value,
@@ -96,11 +163,11 @@ def _ground_far_data(symbol, target, oracle, claimed=None):
     # A member O+k (k > 0, e.g. ES:[BX+1] into a far table) is proven only by its own
     # independent offset witnesses, as v4 members are: a free addend would re-fit O.
     members = symbol.get("members", [])
-    require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and m.get("offset_witnesses")
-                for m in members) and len({m["offset"] for m in members}) == len(members),
+    require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
+                (m.get("offset_witnesses") or consensus(m)) for m in members) and len({m["offset"] for m in members}) == len(members),
             "Every far data member needs a positive offset and its own offset witnesses")
     for member in members:
-        for spec in member["offset_witnesses"]:
+        for spec in member.get("offset_witnesses", []):
             witnessed(spec, (offset + member["offset"]) & 0xFFFF)
     return {"kind": "far-data", "segment": symbol["segment"], "offset": offset,
             "segment_witnesses": segment["witnesses"], "offset_witnesses": len(symbol.get("offset_witnesses", []))}

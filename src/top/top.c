@@ -196,7 +196,7 @@ extern void reset_vector_a(void);                   /* far:2203:0d21 */
 extern void reset_vector_b(void);                   /* far:2203:0d0d */
 extern void reset_vector_c(void);                   /* far:2203:0d17 */
 extern void reset_vector_d(void);                   /* far:2203:0d2b */
-extern int starting_sequence(void);                 /* far:052d:1234 */
+extern int SetRebirthPtKidStatus(void);                 /* far:052d:1234 */
 extern void JumpSeq(int);                    /* far:25da:0016 */
 extern void AnimChar(void);               /* far:02cc:0394 */
 extern void reset_char_y(void);                   /* far:02cc:07a2 */
@@ -245,7 +245,7 @@ extern void reread_cells(void);           /* far:02cc:027e */
 extern int ctrl_player(void);                       /* far:02cc:116e */
 extern void Gravity(void);                  /* far:02cc:08d6 */
 extern void add_char_velocity(void);                       /* far:02cc:090e */
-extern void check_controls(void);                   /* far:0169:09ee */
+extern void setup_char(void);                   /* far:0169:09ee */
 extern void get_char_edges(void);                 /* far:2802:09ca */
 extern void CheckBarr(void);                    /* far:2802:000e */
 extern void collide_with_barriers(void);                    /* far:2802:0402 */
@@ -426,7 +426,7 @@ void start_kid(void)
     Char.column = Level.entry_cell % 10;
     Char.row = Level.entry_cell / 10;
     Char.direction = ~Level.entry_facing;
-    seq = starting_sequence();
+    seq = SetRebirthPtKidStatus();
     Char.x = ColEdgeX[Char.column + 5] + 14;
     Char.life_initial = Char.life_points = LevelIdx ? starting_health : 4;
     repeat = 0;
@@ -667,7 +667,7 @@ int run_kid(void)
                     goto normal_result;
                 Gravity();
                 add_char_velocity();
-                check_controls();
+                setup_char();
                 reread_cells();
                 get_char_edges();
                 face_first_guard();
@@ -754,7 +754,7 @@ void run_shadows(void)
                  (Char.room == 10 || Char.room == 7 || Char.room == 12)) ||
                 ((Char.room == 7 || Char.room == 8) && Level.environment_kind == 6)) {
                 Gravity(); add_char_velocity();
-                check_controls(); reread_cells();
+                setup_char(); reread_cells();
                 get_char_edges();
                 if (Char.action != 9) {
                     collide_enemy_with_barrier(); check_gate_for_opponent();

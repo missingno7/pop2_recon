@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "b41a81c9b07c06e0cd77e40a7c1081bd8149eeb5c3e909247e34bb4c81f7f68f",
+  "binding_sha256": "0cf1eb7827137f670aa3158cd73f95f3e9a32ccef1827864b569c138374f6e7a",
   "claims": [
     {
       "fixup_count": 7,
@@ -618,24 +618,41 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-10:29cf:1e18"
+    },
+    {
+      "fixup_count": 23,
+      "public": "CHECK_DEAD_OPPONENT",
+      "relocation_indices": [
+        10,
+        25,
+        55,
+        59,
+        84,
+        143,
+        145,
+        170
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:0054"
+    },
+    {
+      "fixup_count": 9,
+      "public": "RUN_FINAL_FRAME",
+      "relocation_indices": [
+        23,
+        122
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:037c"
     }
   ],
   "code_matches": [
-    {
-      "public": "CHECK_DEAD_OPPONENT",
-      "target_id": "overlay-10:29cf:0054",
-      "unproven": [
-        "LEVEL+0x3c",
-        "LEVEL+0x4b0"
-      ]
-    },
-    {
-      "public": "RUN_FINAL_FRAME",
-      "target_id": "overlay-10:29cf:037c",
-      "unproven": [
-        "LEVEL+0x1aab"
-      ]
-    },
     {
       "public": "DRAW_FIREBALL_OBJECT",
       "target_id": "overlay-10:29cf:1cea",

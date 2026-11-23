@@ -875,7 +875,7 @@ int far pascal query_sound(int object_id);
 void far pascal add_opponent_death_song(void);
 void far pascal refresh_actor_life(signed char index, int change, int life);
 void far pascal copy_kid_to_char(void);
-void far pascal update_room_resources(void);
+void far pascal setup_char(void);
 void far pascal get_char_edges(void);
 int far pascal choose_cut_side(void);
 void far pascal transfer_room_actors(void);
@@ -926,7 +926,7 @@ void far pascal check_cut(void)
     }
 
     copy_kid_to_char();
-    update_room_resources();
+    setup_char();
     get_char_edges();
     previous_actor = choose_cut_side();
 

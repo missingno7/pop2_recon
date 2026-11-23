@@ -552,3 +552,19 @@ An accepted exact entry may also be a secondary public of a pinned runtime
 member, for example `__dos_creat` at +7 of the `_dos_creatnew` member. Its offset
 comes from the hash-checked archive member's own PUBDEF record. Interior
 positions without a public are not entries.
+
+## Far data offset witnesses (2026-11-23)
+
+A far data object N:O needs its segment N grounded by original relocated words and its offset O (and each member
+O+k) grounded by original code outside the claims. Besides an address field within 16 bytes of a relocated word
+storing N, and a relocated `dd N:O`, three explicit forms count. Each is a window of reached original code that
+pairs the offset with a relocated N:
+- `selector-access`: `mov es,[D]`, straight-line code with no other write to ES or DS, then an ES: access with
+  displacement O. The DGROUP word at D must be one original relocated word storing N: MSC keeps the segment of an
+  external far array in a CONST selector word. Fields: `selector_offset`, `relocation_index`, `dgroup_segment`.
+- `address-construction`: `add r16,O` directly followed by `mov r16,N` with N relocated (`&far_array[i]`).
+- `stored-pointer`: `mov word [bp+d],O` directly followed by `mov word [bp+d+2],N` with N relocated.
+
+In a group, an offset or member with no outside witness may carry `"consensus": true`. It is then proven only by
+equal fields at two or more distinct original instruction starts in CODE_EXACT claims, as for v4 internal support.
+An arithmetic immediate alone, or a displacement whose ES load is not in the window, proves nothing.

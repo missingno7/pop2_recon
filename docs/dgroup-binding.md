@@ -400,6 +400,19 @@ k with 0 < k < L then needs no further witness, and every access to it must stay
 (k + width <= L); equations report support "aggregate extent". This proves the address lies in the
 same aggregate as S; it says nothing about the member's name or type.
 
+Extended 2026-11-23 (`binding.block_copy_extent`):
+- The base may reach SI or DI through a register move (`mov ax,base; ...; mov di,ax`).
+- The copied length is the whole uninterrupted run of string moves, so MSC's unrolled `movsw`/`movsb` struct copies
+  count as well as `rep`. Any other instruction ends the run.
+- DS and ES are tracked. A SI source needs DS unchanged since the window began, and a DI destination needs ES loaded
+  from that DS inside the window. Before this, a DS reload inside the window was not refused; no accepted extent
+  relied on that.
+- In a group the copy may itself lie inside a claim. The length is an original fact about [S, S+L) and is not one of
+  the fields the claim is judged on. S still needs its own witness outside the claims.
+
+A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
+segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocated word is refused.
+
 ## BSS layout (bss-layout-v1, 2026-11-22; refutation only)
 
 Original anchors (C startup, root image): `_edata` = 2930 (`mov di` at 0x1ff57), `_end` = 6cd6 (`mov cx` at

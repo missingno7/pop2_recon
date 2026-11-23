@@ -712,7 +712,7 @@ int get_sword_width(void)
 extern int barrier_distance_from_face(unsigned char cell, unsigned char room, signed char col);
 extern int barrier_distance_from_back(unsigned char cell, unsigned char room, signed char col);
 extern unsigned char get_under_foot(void);
-extern void select_character_frame(void);
+extern void setup_char(void);
 extern void reread_base_cell(void);
 extern signed char facing_col_step[];
 extern unsigned char forward_barrier_kind;
@@ -727,7 +727,7 @@ int get_forward_distance(void)
     int distance;
 
     reread_base_cell();
-    select_character_frame();
+    setup_char();
     get_char_edges();
     cell = get_under_foot();
     if (GetBarrCode(cell)) {
@@ -869,7 +869,7 @@ void collide_enemy_with_barrier(void)
     }
     if (!cell)
         return;
-    select_character_frame();
+    setup_char();
     get_char_edges();
     if (!check_collision_tile(cell))
         return;

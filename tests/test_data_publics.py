@@ -292,6 +292,82 @@ class AggregateExtentTests(unittest.TestCase):
         self.assertIsNone(block_copy_extent(bytes.fromhex("8db7a42ab9060041f3a5"), 0, 0x2AA4))
 
 
+class SwitchReachTests(unittest.TestCase):
+    """Recursive descent follows a bounded MSC switch table and no other indirect jump."""
+
+    def test_original_switch_cases_are_reached(self):
+        from oracle import Oracle
+        from binding import reachable_from_entry
+        reached = reachable_from_entry(Oracle.load(), "root:02cc:0296")   # GetFrameInfo: 13 cases
+        self.assertTrue({0x2F9C, 0x2FBC, 0x2FE8, 0x2FF3} <= reached)
+        self.assertFalse(any(0x2F82 <= at < 0x2F9C for at in reached))    # the table itself is data
+
+    def test_only_an_unsigned_bound_directly_before_the_jump_counts(self):
+        from binding import _switch_targets
+        good = bytes.fromhex("3d0c007603e99f0003c0932effa7c202")
+        self.assertEqual(_switch_targets(good, 11, {0}), (0x2C2, 13))
+        self.assertEqual(_switch_targets(good, 11, set()), ())                         # bound check not reached
+        self.assertEqual(_switch_targets(bytes.fromhex("3d0c007e03e99f0003c0932effa7c202"), 11, {0}), ())  # signed
+        self.assertEqual(_switch_targets(bytes.fromhex("3d0c007603e99f009003c0932effa7c202"), 12, {0}), ())
+        self.assertEqual(_switch_targets(bytes.fromhex("3d0c007310d1e0932effa71000"), 8, {0}), (0x10, 12))
+        self.assertEqual(_switch_targets(bytes.fromhex("3d1e007603e94e01932effa7d201"), 9, {0}), (0x1D2, 16))
+        self.assertEqual(_switch_targets(bytes.fromhex("3d1f007603e94e01932effa7d201"), 9, {0}), ())       # odd
+
+
+class ExtendedCopyTests(unittest.TestCase):
+    """Unrolled copies, register bases and DS/ES tracking (2026-11-23)."""
+
+    def extent(self, code, base=0x2AA4):
+        from binding import block_copy_extent
+        return block_copy_extent(bytes.fromhex(code), 0, base)
+
+    def test_original_frame_record_copy_through_ax(self):
+        # root+2ff3: mov ax,5e10; ...; push ds; mov di,ax; push ds; pop es; mov ds,cx; movsw x3; movsb
+        from oracle import Oracle
+        from binding import block_copy_extent
+        root = Oracle.load().spaces["root"]
+        self.assertEqual(block_copy_extent(root.data[0x2FF3:0x3018], 0x2FF3, 0x5E10), 7)
+
+    def test_unrolled_run_ends_at_the_first_other_instruction(self):
+        self.assertEqual(self.extent("bea42a1e07a5a5a4"), 5)
+        self.assertEqual(self.extent("bea42a1e07a5a590a5"), 4)      # nop splits the run
+        self.assertIsNone(self.extent("bea42a46a5a5"))              # inc si: no longer the base
+
+    def test_a_changed_ds_or_es_proves_nothing(self):
+        self.assertIsNone(self.extent("bea42a8ed8b90600f3a5"))      # mov ds,ax before a DS:SI copy
+        self.assertIsNone(self.extent("bea42a1fb90600f3a5"))        # pop ds
+        self.assertIsNone(self.extent("bfa42ab90600f3a5"))          # ES never loaded from DS
+        self.assertEqual(self.extent("bfa42a1e07b90600f3a5"), 12)
+        self.assertIsNone(self.extent("bfa42a1e078ec0b90600f3a5"))  # ES replaced afterwards
+        self.assertIsNone(self.extent("bea42afdb90600f3a5"))        # std
+
+
+class ProviderRelocationTests(unittest.TestCase):
+    """A provider segment may hold its own relocated far-pointer words, and no others."""
+
+    def test_load_level_frame_procs_grounds_by_name(self):
+        from oracle import Oracle
+        recipe = common.read_json(ROOT / "recipes/load/load.json")
+        public = next(d for d in recipe["data_publics"] if d["address"] == 0x06D4)
+        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x06D4}
+        grounded = module_gate._provider_public(public["name"], symbol, Oracle.load(), "group:other", set())
+        self.assertEqual(grounded["offset"], 0x06D4)
+
+    def test_an_unexplained_relocated_word_is_refused(self):
+        from oracle import Oracle
+        recipe = common.read_json(ROOT / "recipes/load/load.json")
+        public = next(d for d in recipe["data_publics"] if d["address"] == 0x06D4)
+        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": recipe["group_id"], "offset": 0x06D4}
+        real = json.loads
+        def without_fixups(raw, *a, **k):
+            data = real(raw, *a, **k)
+            if isinstance(data, dict) and data.get("target_id") == recipe["group_id"]:
+                data["fixups"] = []
+            return data
+        with patch("json.loads", without_fixups), self.assertRaisesRegex(ValueError, "not fixed by unique"):
+            module_gate._provider_public(public["name"], symbol, Oracle.load(), "group:other", set())
+
+
 class BssLayoutTests(unittest.TestCase):
     """bss-layout-v1: anchors come from the original C startup; impossible layouts are flagged."""
 

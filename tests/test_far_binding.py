@@ -13,7 +13,7 @@ from binding import declarations, fixes
 from common import sha
 from match import check_object
 from omf import OmfReader
-from oracle import Space
+from oracle import Oracle, Space
 from test_match import make_omf, omf_record
 import test_binding
 
@@ -299,6 +299,56 @@ class FarBindingTests(unittest.TestCase):
             recipe['relocation_indices'] = [1]; owner['relocation_count'] = 0
             with self.assertRaisesRegex(ValueError, 'original relocation indices'):
                 check_manifest(self.oracle, {'owners': [owner]})
+
+
+class FarWindowTests(unittest.TestCase):
+    """Original far-address forms that pair an offset with a relocated segment (2026-11-23)."""
+    DGROUP = {"segment": 12531, "witnesses": [{"space": "root", "image_offset": 5473, "relocation_index": 42}]}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.oracle = Oracle.load()
+        cls.root = cls.oracle.spaces["root"]
+
+    def window(self, kind, lo, hi, value, segment=0x2FAE, raw=None, **extra):
+        from far_binding import _far_window
+        raw = self.root.data[lo:hi] if raw is None else raw
+        _far_window(dict(extra, kind=kind), bytes(raw), lo, self.root, {"segment": segment}, value, self.oracle)
+
+    def selector(self, value, selector=0x283C, index=160, **kw):
+        # root+8459: mov es,[283c]; cmp byte es:[bx+1],0
+        self.window("selector-access", 0x8459, 0x8463, value, selector_offset=selector, relocation_index=index,
+                    dgroup_segment=self.DGROUP, **kw)
+
+    def test_selector_word_access(self):
+        self.selector(1)
+        with self.assertRaisesRegex(ValueError, "that displacement"):
+            self.selector(2)
+        with self.assertRaisesRegex(ValueError, "relocated DGROUP word"):
+            self.selector(1, segment=0x2E5F)
+        with self.assertRaisesRegex(ValueError, "relocated DGROUP word"):
+            self.selector(1, index=159)
+        with self.assertRaisesRegex(ValueError, "start with mov es"):
+            self.selector(1, selector=0x2838)
+        # mov es,[283c]; mov es,ax; cmp byte es:[bx+1],0: another ES load
+        with self.assertRaisesRegex(ValueError, "without another ES"):
+            self.selector(1, raw=bytes.fromhex("8e063c288ec02680bf010000"))
+
+    def test_address_construction_needs_the_adjacent_relocated_segment(self):
+        self.window("address-construction", 0x84AD, 0x84B3, 0x0A28)     # add ax,0a28; mov dx,2fae
+        with self.assertRaisesRegex(ValueError, "does not pair"):
+            self.window("address-construction", 0x84AD, 0x84B3, 0x0A29)
+        with self.assertRaisesRegex(ValueError, "does not pair"):       # same bytes, no relocation there
+            self.window("address-construction", 0x100, 0x106, 0x0A28, raw=self.root.data[0x84AD:0x84B3])
+
+    def test_consensus_is_explicit_and_exclusive(self):
+        from far_binding import _ground_far_data
+        symbol = {"kind": "far-data", "segment": 0x2FAE, "offset": 0x0A28, "consensus": True,
+                  "segment_witnesses": [{"space": "overlay-17", "image_offset": 20860, "relocation_index": 160}]}
+        target = {"space": "root", "segment": 0, "offset": 0, "size": 16}
+        _ground_far_data(symbol, target, self.oracle, claimed=[(0, 16)])
+        with self.assertRaisesRegex(ValueError, "group rule"):          # not outside a group
+            _ground_far_data(symbol, target, self.oracle)
 
 
 if __name__ == '__main__':

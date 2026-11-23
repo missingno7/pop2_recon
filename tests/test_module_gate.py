@@ -565,6 +565,26 @@ int far pascal Sw(int k)
         self.assertGreaterEqual(sum(e["kind"] == "own-segment offset16" for e in claim["equations"]), 9)
 
 
+class FarConsensusTests(unittest.TestCase):
+    """A far data address without an outside witness needs two equal exact claimed sites."""
+
+    def run_rule(self, fields, conditional=()):
+        symbols = {"T": {"kind": "far-data", "offset": 8, "members": [{"offset": 1, "consensus": True}]}}
+        states = {p: {"far_fields": [{"key": ("T", k), "insn": at, "equal": eq} for k, at, eq in rows]}
+                  for p, rows in fields.items()}
+        reports = [{"public": p, "exact": True} for p in fields]
+        from module_gate import _far_consensus
+        _far_consensus(symbols, states, reports, set(conditional))
+        return {r["public"]: r["exact"] for r in reports}
+
+    def test_two_sites_support_each_other_and_one_does_not(self):
+        self.assertEqual(self.run_rule({"A": [(1, 10, True)], "B": [(1, 20, True)]}), {"A": True, "B": True})
+        self.assertEqual(self.run_rule({"A": [(1, 10, True)]}), {"A": False})
+        self.assertEqual(self.run_rule({"A": [(1, 10, True), (1, 10, True)]}), {"A": False})   # one instruction
+        self.assertEqual(self.run_rule({"A": [(0, 10, True)]}), {"A": True})                   # witnessed base
+        self.assertEqual(self.run_rule({"A": [(1, 10, True)], "B": [(1, 20, True)]}, ["B"])["A"], False)
+
+
 class PlacementTests(unittest.TestCase):
     """A file's own DGROUP segment is placed only when over-determined."""
 

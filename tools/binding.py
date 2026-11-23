@@ -4,6 +4,7 @@ Every field is checked by a linker equation and every other byte by equality.
 This is component proof only: symbol aliases, not original PUBLIC names; no
 natural placement, TU identity, DS runtime trace, or complete link is claimed.
 """
+import re
 import struct
 
 from common import require, sha
@@ -42,12 +43,43 @@ OPERAND_MODE = "external-dgroup-offset16-v4"
 _REACH = {}
 
 
+# MSC switch dispatch, immediately before `jmp cs:[bx+T]`: an unsigned bound check on the index, then its
+# scaling by two (or an index already scaled, checked against an even bound).
+_SWITCH = re.compile(rb"(?:(?P<ax>\x3d(?P<axn>..))|(?P<bx>\x83\xfb(?P<b8>[\x00-\x7f])|\x81\xfb(?P<b16>..)))"
+                     rb"(?:(?P<le>\x76\x03\xe9..|\x77.)|(?P<lt>\x72\x03\xe9..|\x73.))"
+                     rb"(?P<scale>\x03\xc0\x93|\xd1\xe0\x93|\x93|\xd1\xe3|\x03\xdb)$", re.S)
+
+
+def _switch_targets(data, pos, seen):
+    """Offsets stored in the jump table of a bounded MSC switch whose `jmp cs:[bx+T]` is at `pos`, else ().
+
+    The bound check must be reached code directly before the jump; the table then has exactly
+    bound+1 (`ja`/`jbe`) or bound (`jae`/`jb`) words, and every one is a CS offset of code."""
+    if data[pos:pos + 3] != b"\x2e\xff\xa7":
+        return ()
+    match = _SWITCH.search(data[max(0, pos - 16):pos])
+    if match is None or pos - len(match.group(0)) not in seen:
+        return ()
+    scale, on_ax = match.group("scale"), match.group("ax") is not None
+    if on_ax != (scale in (b"\x03\xc0\x93", b"\xd1\xe0\x93", b"\x93")):
+        return ()
+    bound = int.from_bytes(match.group("axn") or match.group("b16") or match.group("b8"), "little")
+    count = bound + (1 if match.group("le") else 0)
+    if scale == b"\x93":
+        if match.group("lt") or bound % 2:
+            return ()
+        count = bound // 2 + 1
+    table = struct.unpack_from("<H", data, pos + 3)[0]
+    return table, count
+
+
 def reachable_from_entry(oracle, entry):
     """Instruction starts reached from a root entry that some original relocated CALL FAR targets.
 
     Recursive descent within the entry's 64K CS window: conditional branches and loops
     follow both edges, JMP follows its target, calls fall through, returns and indirect
-    jumps stop. Result is cached per entry."""
+    jumps stop, except a bounded MSC switch table (`_switch_targets`), whose words are
+    followed. Result is cached per entry."""
     # Keyed by id, holding the oracle itself: a collected test oracle's id can be reused.
     key = (id(oracle), entry)
     if key in _REACH and _REACH[key][0] is oracle:
@@ -107,7 +139,15 @@ def reachable_from_entry(oracle, entry):
                 if op is not None and op.type == 2:  # immediate near target, both edges followed
                     work.append(base + (op.imm & 0xFFFF))
                 if op_name == "jmp":
-                    break  # unconditional: direct target queued above, indirect stops
+                    switch = _switch_targets(root.data, pos, seen)
+                    if switch:
+                        table, entries = switch
+                        for k in range(entries):
+                            word = base + ((table + 2 * k) & 0xFFFF)
+                            if not 0 <= word <= root.size - 2:
+                                break
+                            work.append(base + struct.unpack_from("<H", root.data, word)[0])
+                    break  # unconditional: direct target queued above, other indirect jumps stop
             pos += insn.size
     _REACH[key] = (oracle, seen)
     return seen
@@ -253,55 +293,62 @@ def fixes(module):
 def block_copy_extent(raw, at, base):
     """Length L of one original block copy anchored at DGROUP offset `base`, else None.
 
-    `raw` holds straight-line original instructions starting at image offset `at`: SI or DI is
-    loaded with exactly `base` (`lea r,[bx+base]`, `lea r,[base]` or `mov r,base`), then
-    `mov cx,n` and `rep movsw` (optionally followed by one `movsb`) or `rep movsb` copy L bytes
-    through that register, with no control transfer and no other write to it or to CX in
-    between. A DI destination also needs ES loaded from DS inside the window. The program then
-    treats [base, base+L) as one copied unit (a struct assignment): any address in it belongs
-    to the same aggregate as base (2026-11-22, docs/dgroup-binding.md "Aggregate extents")."""
+    `raw` holds straight-line original instructions starting at image offset `at`. SI or DI holds
+    exactly `base` (`mov r,base`, `lea r,[base]`, `lea r,[bx+base]`, or a register move of such a
+    value) when the first uninterrupted run of string moves starts: `rep movsw`/`rep movsb` with
+    `mov cx,n`, and/or unrolled `movsw`/`movsb`, with nothing between them. The run copies L bytes
+    through that register. A SI source needs DS unchanged since the window began; a DI destination
+    needs ES loaded from that DS inside the window (`push ds; pop es` or `mov ax,ds; mov es,ax`).
+    No control transfer, no `std`. The program then treats [base, base+L) as one copied unit (a
+    struct assignment): any address in it belongs to the same aggregate as base (2026-11-22,
+    docs/dgroup-binding.md "Aggregate extents"; unrolled runs and DS tracking 2026-11-23)."""
     _, xc = _capstone()
-    rows = instructions(raw)
-    regs = {xc.X86_REG_SI: "si", xc.X86_REG_DI: "di"}
-    loaded, count, es_ds, prev = {}, None, False, None
-    for k, insn in enumerate(rows):
+    moves = {b"\xa5": 2, b"\xa4": 1, b"\xf3\xa5": 2, b"\xf3\xa4": 1}
+    parent = {"al": "ax", "ah": "ax", "bl": "bx", "bh": "bx", "cl": "cx", "ch": "cx", "dl": "dx", "dh": "dx"}
+    value, count, es_ds, ds_ok, prev, run, copied = {}, None, False, True, b"", None, 0
+    for insn in instructions(raw):
         b = bytes(insn.bytes)
-        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)) or b in (b"\xf3\xa5", b"\xf3\xa4"),
-                "Extent witness window must be straight-line")
-        if b in (b"\xf3\xa5", b"\xf3\xa4"):
-            extra = 1 if (b == b"\xf3\xa5" and k + 1 < len(rows) and bytes(rows[k + 1].bytes) == b"\xa4") else 0
-            if count is None or not loaded:
-                return None
-            for reg in loaded:
-                if reg == "di" and not es_ds:
-                    continue
-                return count * (2 if b == b"\xf3\xa5" else 1) + extra
+        if b in moves:
+            if run is None:
+                run = (ds_ok and value.get("si") == base) or (es_ds and value.get("di") == base)
+            if b[0] == 0xf3:
+                if count is None:
+                    return None
+                copied, count = copied + count * moves[b], 0
+            else:
+                copied += moves[b]
+            continue
+        if run is not None:
+            break
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Extent witness window must be straight-line")
+        if b == b"\xfd":
             return None
         ops = insn.operands
-        if insn.mnemonic in ("lea", "mov") and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].reg in regs:
-            reg = regs[ops[0].reg]
-            value = (ops[1].mem.disp & 0xFFFF if insn.mnemonic == "lea" and ops[1].type == xc.X86_OP_MEM and
-                     ops[1].mem.segment == 0 and ops[1].mem.index == 0 and ops[1].mem.base in (0, xc.X86_REG_BX)
-                     else ops[1].imm & 0xFFFF if insn.mnemonic == "mov" and ops[1].type == xc.X86_OP_IMM else None)
-            if value == base:
-                loaded[reg] = True
-            else:
-                loaded.pop(reg, None)
-            continue
-        written = {regs[o.reg] for o in ops[:1] if o.type == xc.X86_OP_REG and o.reg in regs}
-        for reg in written:
-            loaded.pop(reg, None)
-        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and ops[0].reg == xc.X86_REG_CX:
-            count = ops[1].imm if ops[1].type == xc.X86_OP_IMM else None
-        elif ops and ops[0].type == xc.X86_OP_REG and ops[0].reg in (xc.X86_REG_CX, xc.X86_REG_CL, xc.X86_REG_CH):
-            count = None
-        if b == b"\x07" and prev == b"\x1e":      # push ds; pop es
-            es_ds = True
-        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].type == xc.X86_OP_REG and \
-                ops[0].reg == xc.X86_REG_ES and prev == b"\x8c\xd8":   # mov ax,ds; mov es,ax
-            es_ds = True
+        source = None
+        if insn.mnemonic in ("mov", "lea") and len(ops) == 2 and ops[0].type == xc.X86_OP_REG:
+            if insn.mnemonic == "lea":
+                mem = ops[1].mem
+                if mem.segment == mem.index == 0 and mem.base in (0, xc.X86_REG_BX) and insn.disp_size == 2:
+                    source = mem.disp & 0xFFFF
+            elif ops[1].type == xc.X86_OP_IMM:
+                source = ops[1].imm & 0xFFFF
+            elif ops[1].type == xc.X86_OP_REG:
+                source = value.get(insn.reg_name(ops[1].reg))
+        written = {insn.reg_name(r) for r in insn.regs_access()[1]}
+        for name in written:
+            value.pop(parent.get(name, name), None)
+            if parent.get(name, name) == "cx":
+                count = None
+        if "ds" in written:
+            ds_ok = False
+        if "es" in written:
+            es_ds = ds_ok and ((b == b"\x07" and prev == b"\x1e") or (b == b"\x8e\xc0" and prev == b"\x8c\xd8"))
+        if source is not None and ops[0].size == 2:
+            value[insn.reg_name(ops[0].reg)] = source
+            if insn.reg_name(ops[0].reg) == "cx":
+                count = source
         prev = b
-    return None
+    return copied if run else None
 
 
 def ground(binding, target, oracle, claimed=None):
@@ -329,7 +376,7 @@ def ground(binding, target, oracle, claimed=None):
     start = oracle.spaces[target["space"]].position(target["segment"], target["offset"])
     end = start + target["size"]
 
-    def witness(spec, draft_ok=False):
+    def witness(spec, draft_ok=False, anywhere=False):
         # v4 witnesses may sit in overlay code (reached from that overlay's own entries);
         # every other mode and the DGROUP frame witness stay resident.
         overlay_ok = binding["mode"] == OPERAND_MODE and "entry" in spec and spec["space"] in oracle.spaces
@@ -337,7 +384,8 @@ def ground(binding, target, oracle, claimed=None):
         wspace = oracle.spaces[spec["space"]]
         at, raw = spec["image_offset"], bytes.fromhex(spec["bytes_hex"])
         same = spec["space"] == target["space"]
-        inside = ([(lo, hi) for lo, hi in claimed] if draft_ok and claimed is not None else [(start, end)])
+        inside = ([] if anywhere and claimed is not None else
+                  [(lo, hi) for lo, hi in claimed] if draft_ok and claimed is not None else [(start, end)])
         require(raw and 0 <= at and at+len(raw) <= wspace.size and
                 not (same and any(at < hi and lo < at+len(raw) for lo, hi in inside)),
                 "Binding witness overlaps candidate or escapes its space")
@@ -380,7 +428,9 @@ def ground(binding, target, oracle, claimed=None):
                 spec = symbol["extent"]
                 require(set(spec) == {"length", "witness"} and symbol["witnesses"],
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
-                at, raw = witness(spec["witness"], draft_ok=True)
+                # In a group the copy may itself lie inside a claim (2026-11-23): its length is an
+                # original fact about [S, S+L); S still needs its own witness outside the claims.
+                at, raw = witness(spec["witness"], draft_ok=True, anywhere=True)
                 require("entry" in spec["witness"] and at in reachable_from_entry(oracle, spec["witness"]["entry"]),
                         "Extent witness is not reached from its entry")
                 length = block_copy_extent(raw, at, offset)

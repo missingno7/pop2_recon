@@ -1009,12 +1009,16 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
     require(0 <= entry["offset"] and entry["span"] > 0 and entry["offset"] + entry["span"] <= length and
             entry["address"] == p + entry["offset"] and symbol["offset"] == entry["address"],
             f"Provider data public {name} address or span disagrees with its placement")
-    # Recheck from the original image: the placed window occurs once and holds no relocated word.
+    # Recheck from the original image: the placed window occurs once, and its relocated words are
+    # exactly the provider's own far-pointer and segment-word fields (its pinned fixups).
     home, dgroup = _dgroup_home(provider_binding, oracle.spaces[recipe["space"]], oracle)
     start = dgroup + p
+    relocated = {r["image_offset"] - start for r in home.relocations
+                 if start - 1 <= r["image_offset"] < start + length}
+    own = {f["segment_offset"] + (2 if f["loc_type"] == 3 else 0) for f in provider_binding.get("fixups", [])
+           if f["segment"] == seg and f["loc_type"] in (2, 3)}
     require(length >= 2 and start + length <= home.size and
-            _occurs_once(home, dgroup, home.data[start:start + length]) and
-            not any(start - 1 <= r["image_offset"] < start + length for r in home.relocations),
+            _occurs_once(home, dgroup, home.data[start:start + length]) and relocated == own,
             f"Placement of {name} is not fixed by unique original DGROUP content")
     # One DGROUP byte has one defining object: no other accepted group places data over it.
     for _, other in recipes:
@@ -1077,6 +1081,34 @@ def _internal_support(symbols, states, reports, conditional=frozenset()):
             if lacking:
                 by_public[public].update(exact=False, state="REFUSED",
                                          reason="v4 address without witness lacks a second equal claimed site: " +
+                                         ", ".join(f"{n}+{k}" for n, k in lacking))
+                changed = True
+
+
+def _far_consensus(far_symbols, states, reports, conditional):
+    """Far data addresses marked `consensus` (no outside witness): every claimed field with that
+    (symbol, addend) needs equal fields at two or more distinct original instruction starts, all in
+    CODE_EXACT claims, exactly as `_internal_support` requires for v4 (2026-11-23)."""
+    need = set()
+    for name, symbol in far_symbols.items():
+        if symbol.get("kind") == "far-data":
+            need.update([(name, 0)] if symbol.get("consensus") else [])
+            need.update((name, m["offset"]) for m in symbol.get("members", []) if m.get("consensus"))
+    by_public = {r["public"]: r for r in reports}
+    changed = bool(need)
+    while changed:
+        changed, sites = False, {}
+        exact = [p for p in states if by_public[p].get("exact") and p not in conditional]
+        for public in exact:
+            for field in states[public]["far_fields"]:
+                if field["key"] in need and field["equal"]:
+                    sites.setdefault(field["key"], set()).add(field["insn"])
+        for public in exact:
+            lacking = sorted({f["key"] for f in states[public]["far_fields"]
+                              if f["key"] in need and len(sites.get(f["key"], ())) < 2})
+            if lacking:
+                by_public[public].update(exact=False, state="REFUSED",
+                                         reason="Far data address lacks a second equal claimed site: " +
                                          ", ".join(f"{n}+{k}" for n, k in lacking))
                 changed = True
 
@@ -1255,7 +1287,7 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                 require(rows is not None or not mine, "Fixup-bearing claim does not decode completely")
             state = {"start": start, "piece": piece, "expected": expected, "rows": rows,
                      "occupied": set(), "differences": [], "equations": [], "calls": {}, "data": [],
-                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "own_base_labels": {}, "v4": [], "placed": [],
+                     "near": [], "far": [], "own": [], "tables": tables, "group_bases": [], "own_bases": [], "own_base_labels": {}, "v4": [], "far_fields": [], "placed": [],
                      "proven_jumps": set(),
                      "fixups": len(mine), "frames": {row["frame"] for row in evidence},
                      "names": {f["target"].get("name") for f in mine if f["target"].get("kind") == "external"},
@@ -1556,6 +1588,9 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
                         state["equations"].append({"offset": at, "kind": "far-data offset", "symbol": ref["name"],
                                                    "encoded_addend": addend, "linked_offset": linked,
                                                    "original_offset": observed, "equal": linked == observed})
+                        insn = next(i for i in state["rows"] if i.address <= at < i.address + i.size)
+                        state["far_fields"].append({"key": (ref["name"], addend), "equal": linked == observed,
+                                                    "insn": state["position"] + insn.address})
                         if linked != observed:
                             state["differences"].append(at)
                         state["occupied"].update(range(at, at+2))
@@ -1656,6 +1691,8 @@ def check_group(obj_data, claims, oracle, *, binding=None, group_id=None):
         _internal_support(binding["symbols"], states, reports,
                           {p for p, s in states.items()
                            if s["names"] & set(unproven) or any(f["key"] in unproven_keys for f in s["v4"])})
+    if binding is not None:
+        _far_consensus(far_symbols, states, reports, {p for p, s in states.items() if s["names"] & set(unproven)})
     # A refused claim never evaluated its data fields; report it instead of masking the reason.
     # Near pointers in placed initialized data use grounded DGROUP symbols too (_linked_data).
     used_symbols |= {f["target"].get("name") for f in data_fixes
