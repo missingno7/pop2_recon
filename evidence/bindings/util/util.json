@@ -1,9 +1,17 @@
 {
   "declarations": {
+    "communals": [
+      {
+        "kind": "near",
+        "length": 4,
+        "name": "RANDOM_STATE"
+      }
+    ],
     "externals": [
       "WAIT_FOR_ACTION",
       "__aFulmul",
       "__aFulrem",
+      "RANDOM_STATE",
       "_memcpy",
       "FIND_RESOURCE",
       "LOAD_TEXT_IMAGE",
@@ -128,7 +136,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 4,
+        "length": 0,
         "name": "_BSS",
         "overlay": "",
         "use32": false
@@ -152,7 +160,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "IS_ACTION_PENDING",
@@ -166,7 +174,7 @@
       "segment_offset": 280,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "IS_ACTION_PENDING",
@@ -179,7 +187,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 11,
+          "index": 12,
           "kind": "external",
           "method": 6,
           "name": "SERVICE_EVENTS",
@@ -193,7 +201,7 @@
       "segment_offset": 274,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 12,
         "kind": "external",
         "method": 6,
         "name": "SERVICE_EVENTS",
@@ -206,7 +214,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 10,
+          "index": 11,
           "kind": "external",
           "method": 6,
           "name": "IS_ACTION_PENDING",
@@ -220,7 +228,7 @@
       "segment_offset": 265,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "IS_ACTION_PENDING",
@@ -231,9 +239,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -243,9 +256,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -253,9 +266,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -265,9 +283,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -277,7 +295,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 9,
+          "index": 10,
           "kind": "external",
           "method": 6,
           "name": "__bios_timeofday",
@@ -291,7 +309,7 @@
       "segment_offset": 232,
       "self_relative": false,
       "target": {
-        "index": 9,
+        "index": 10,
         "kind": "external",
         "method": 6,
         "name": "__bios_timeofday",
@@ -302,9 +320,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -314,9 +337,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -351,9 +374,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -363,9 +391,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -373,9 +401,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -385,9 +418,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -422,9 +455,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -434,9 +472,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -444,9 +482,14 @@
       "displacement": null,
       "field_width": 2,
       "frame": {
-        "index": 1,
-        "kind": "group",
-        "name": "DGROUP"
+        "kind": "target_frame",
+        "target": {
+          "index": 4,
+          "kind": "external",
+          "method": 6,
+          "name": "RANDOM_STATE",
+          "zero_displacement": true
+        }
       },
       "kind": "fixup",
       "loc_type": 1,
@@ -456,9 +499,9 @@
       "self_relative": false,
       "target": {
         "index": 4,
-        "kind": "segment",
-        "method": 4,
-        "name": "_BSS",
+        "kind": "external",
+        "method": 6,
+        "name": "RANDOM_STATE",
         "zero_displacement": true
       }
     },
@@ -490,7 +533,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 12,
+          "index": 13,
           "kind": "external",
           "method": 6,
           "name": "SETRNDSEED",
@@ -504,7 +547,7 @@
       "segment_offset": 149,
       "self_relative": true,
       "target": {
-        "index": 12,
+        "index": 13,
         "kind": "external",
         "method": 6,
         "name": "SETRNDSEED",
@@ -539,7 +582,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 8,
+          "index": 9,
           "kind": "external",
           "method": 6,
           "name": "SET_MEMORY_LIMIT_B",
@@ -553,7 +596,7 @@
       "segment_offset": 128,
       "self_relative": false,
       "target": {
-        "index": 8,
+        "index": 9,
         "kind": "external",
         "method": 6,
         "name": "SET_MEMORY_LIMIT_B",
@@ -566,7 +609,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 7,
+          "index": 8,
           "kind": "external",
           "method": 6,
           "name": "SET_MEMORY_LIMIT_A",
@@ -580,7 +623,7 @@
       "segment_offset": 115,
       "self_relative": false,
       "target": {
-        "index": 7,
+        "index": 8,
         "kind": "external",
         "method": 6,
         "name": "SET_MEMORY_LIMIT_A",
@@ -593,7 +636,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 6,
+          "index": 7,
           "kind": "external",
           "method": 6,
           "name": "LOAD_TEXT_IMAGE",
@@ -607,7 +650,7 @@
       "segment_offset": 95,
       "self_relative": false,
       "target": {
-        "index": 6,
+        "index": 7,
         "kind": "external",
         "method": 6,
         "name": "LOAD_TEXT_IMAGE",
@@ -620,7 +663,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 5,
+          "index": 6,
           "kind": "external",
           "method": 6,
           "name": "FIND_RESOURCE",
@@ -634,7 +677,7 @@
       "segment_offset": 89,
       "self_relative": false,
       "target": {
-        "index": 5,
+        "index": 6,
         "kind": "external",
         "method": 6,
         "name": "FIND_RESOURCE",
@@ -647,7 +690,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 4,
+          "index": 5,
           "kind": "external",
           "method": 6,
           "name": "_memcpy",
@@ -661,7 +704,7 @@
       "segment_offset": 26,
       "self_relative": false,
       "target": {
-        "index": 4,
+        "index": 5,
         "kind": "external",
         "method": 6,
         "name": "_memcpy",
@@ -684,11 +727,22 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_BSS": 27336,
     "_DATA": 8382
   },
   "schema": 1,
   "symbols": {
+    "RANDOM_STATE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "offset": 27336,
+      "witnesses": []
+    },
     "__aFulmul": {
       "entry_sha256": "8c62adb4c675947443e01a6ed0c071c6226326bcf97f2e8dc07a2e3461f161d4",
       "entry_target_id": "root:1fe6:1cae",
