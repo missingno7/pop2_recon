@@ -40,7 +40,11 @@ typedef struct {
 typedef struct {
     unsigned char cell_kinds[32][30];                  /* 0000 */
     LEVELCELL cell_info[32][30];                       /* 03c0 */
-    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    struct {
+        byte room;
+        sbyte cell;
+        byte timer, prev, next;
+    } tile_links[256];                                 /* 12c0 */
     ROOMLINKS room_links[32];                          /* 17c0 */
     unsigned char room_count;                         /* 1840 */
     unsigned char unknown_1841[4];
@@ -270,7 +274,7 @@ typedef struct {
     unsigned char custom;                             /* 09 */
 } ROOMREC;
 #pragma pack()
-extern int IS_SIX_KIND(byte tile);
+extern int IS_SIX_KIND(byte);
 extern sbyte CellToCol(byte room, int cell);
 extern sbyte CellToRow(byte room, int cell);
 extern ROOMREC Room;
@@ -1251,51 +1255,43 @@ int far _fastcall probe_jump_anchor(signed char room, signed char row)
     return x;
 }
 
-typedef struct {
-    byte room;
-    sbyte cell;
-    byte timer, prev, next;
-} TileLink;
-
-static TileLink links[255];
-
 int get_link_next(int link)
 {
-    return links[link].next;
+    return Level.tile_links[link].next;
 }
 
 int GetLinkTimer(int link)
 {
-    return links[link].timer;
+    return Level.tile_links[link].timer;
 }
 
 int ChangeLinkTimer(int link, byte timer)
 {
-    return links[link].timer = timer;
+    return Level.tile_links[link].timer = timer;
 }
 
 int get_link_cell(int link)
 {
-    return links[link].cell;
+    return Level.tile_links[link].cell;
 }
 
 int link_has_previous(int link)
 {
-    if (links[link].prev != 0xfd)
+    if (Level.tile_links[link].prev != 0xfd)
         return 1;
     return 0;
 }
 
 int link_has_next(int link)
 {
-    if (links[link].next != 0xfd)
+    if (Level.tile_links[link].next != 0xfd)
         return 1;
     return 0;
 }
 
 byte get_link_room(int link)
 {
-    return links[link].room;
+    return Level.tile_links[link].room;
 }
 
 /* PushPlate and JamPlate at 15b4 through 16ac are pending. */
@@ -1381,6 +1377,9 @@ void close_exit(byte room, sbyte cell)
 
 void make_space(byte room, sbyte cell);
 void add_mob(void);
+extern int MobI;
+void PassThru(void);
+void mark_mob_redraw(sbyte);
 extern MOBREC Mob;
 extern MOBREC mobs[];
 extern int mob_count;
@@ -1545,7 +1544,6 @@ void select_trob_cell(int cell)
     drawn_tile_kind = room_kinds[cell];
 }
 
-extern int MobI;
 struct {
     int heights[13];
     int widths[13];
@@ -1556,9 +1554,6 @@ struct {
 
 #define mob_heights mob_dimensions.heights
 #define mob_widths mob_dimensions.widths
-
-void PassThru(void);
-void mark_mob_redraw(sbyte);
 
 void anim_mobs(void)
 {

@@ -164,3 +164,37 @@ The smallest coherent separation that removed the coupling, without a new framew
   - Misplaced CONST and _BSS pieces (const-layout and BSS ledgers).
   - Drafts.
   - The original symbol registration order.
+
+### 9.1 State after the whole-image waves (2026-11-23, main f15a13c)
+
+- **Exactness.**
+  - 1,436 CODE_EXACT functions, up from 1,416.
+  - 36 code matches, reported separately.
+  - 7 claims with placement debt, down from 9.
+- **Whole-link ledger (names, aliases, alignment): empty.** It started at 1,214.
+  - Fixes:
+    - extern names unified with their definers;
+    - anchored DGROUP and public renames;
+    - overlapping groups merged;
+    - BYTE-aligned MASM segments;
+    - real C data starts;
+    - six string pins moved to LIBH;
+    - calling conventions corrected from original bytes.
+  - MOVE's resident wrapper at 0b41:14dc is a `_fastcall` forwarder to MOVETEMP. The sound2 MASM entries are
+    cdecl.
+- **Other ledgers.**
+  - BSS layout: 383 to 53 entries.
+  - Case aliases: 2 to 0.
+  - `_segname` CONST: 4 files to 1 (MOVECAVE).
+- **DGROUP aggregates.** The aggregates are now real structs across the game files: CHARREC Char, Opp, Kid and
+  RoomOpp; ROOMREC; CELLREC; FCHARREC; FRAMEREC; MOBREC; LEVELREC; the coordinate tables.
+  - Member access was code-identical in most files.
+  - In CTRL, ACT, MOVE, LOAD and NIS, the correct declarations changed codegen until the real declaration
+    positions were found. That is evidence the earlier scalar sources fit by accident.
+  - New exact functions came from it: GENERIC_FIGHT, APPLY_INPUT, MAKE_RUBBLE.
+- **Gate additions**, all narrow:
+  - near pointers in placed data to independently grounded DGROUP symbols;
+  - near COMDEF communals;
+  - `pin_runtime --replaces`;
+  - relocate renames in place.
+- **Strict trial link:** 67.1% to 90.9% equal bytes; relocations equal in site and frame 1,332 to 4,370.
