@@ -15,14 +15,14 @@ struct window {
 };
 typedef int (far pascal *dialog_proc)(int, int, int);
 
-extern void *current_port;
+extern void *Graf;
 extern int foreground_ink;
 extern int background_ink;
-extern char dialog_port[];
+extern char ScreenPort[];
 extern struct window *window_head;
 extern int graphics_mode;
 extern int window_style;
-extern struct rectangle screen_clip;
+extern struct rectangle NullRect;
 
 extern struct window_item *far pascal find_window_item(void *, int);
 extern void far pascal STROKE_PORT_RECT(const void far *);
@@ -75,14 +75,14 @@ int far pascal confirm_quit(const char far *message)
 
 void far pascal run_window_item_effect(void *port, int id)
 {
-    void *saved_port = current_port;
+    void *saved_port = Graf;
     struct window_item *item;
 
-    current_port = port;
+    Graf = port;
     item = find_window_item(port, id);
     STROKE_PORT_RECT(item->effect_name);
     item->action(item, 2, item->argument);
-    current_port = saved_port;
+    Graf = saved_port;
 }
 
 int far pascal run_dialog_preserving_directory(dialog_proc show, int first, int second, int third)
@@ -108,7 +108,7 @@ unsigned far pascal allocate_gold_handle(int id)
 
 int far pascal show_resource_dialog(int resource, int item, const char far *message, int replace_port)
 {
-    void *saved_port = current_port;
+    void *saved_port = Graf;
     struct Record *window;
     char *text;
     int result;
@@ -125,35 +125,35 @@ int far pascal show_resource_dialog(int resource, int item, const char far *mess
     dispose_window(window);
     if (replace_port)
         restore_dialog_port(port);
-    current_port = saved_port;
+    Graf = saved_port;
     return result;
 }
 
 void far pascal restore_dialog_port(void *port)
 {
-    void *saved_port = current_port;
+    void *saved_port = Graf;
 
-    current_port = dialog_port;
+    Graf = ScreenPort;
     dispose_bitmap_port(port);
-    current_port = saved_port;
+    Graf = saved_port;
     window_head->needs_update = 0;
 }
 
 void *far pascal create_dialog_port(int resource)
 {
-    void *saved_port = current_port;
+    void *saved_port = Graf;
     unsigned handle;
     unsigned saved_flags;
     void *port;
     struct rectangle bounds;
 
-    current_port = dialog_port;
+    Graf = ScreenPort;
     handle = HGETRSRC(0x444c4f47UL, resource);
     saved_flags = save_handle_flags(handle);
     InsetRect(&bounds, FETCH_LOCKED_SHAPE_LIST(handle), -3, -2);
     port = allocate_clipped_port(&bounds);
     restore_handle_flags(handle, saved_flags);
-    current_port = saved_port;
+    Graf = saved_port;
     return port;
 }
 
@@ -171,13 +171,13 @@ void far pascal set_window_item_text(void *port, int id, const void *text)
     void *saved_port;
     struct window_item *item;
 
-    saved_port = current_port;
-    current_port = port;
+    saved_port = Graf;
+    Graf = port;
     item = find_window_item(port, id);
-    push_port_clip(&screen_clip);
+    push_port_clip(&NullRect);
     item->action(item, 9, text);
     pop_port_clip();
-    current_port = saved_port;
+    Graf = saved_port;
 }
 
 struct Record {

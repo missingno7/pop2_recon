@@ -53,7 +53,7 @@ extern int actor_x, actor_y;                     /* DS:6254,6256 */
 extern Byte actor_depth;                        /* DS:6253 */
 extern unsigned int actor_image;                  /* DS:6258 */
 extern Rect actor_clip;                         /* DS:625b */
-extern Byte draw_col, draw_row, draw_flags;       /* DS:6ccf,6cce,6cd2 */
+extern Byte draw_col, draw_row, drawn_tile_kind;       /* DS:6ccf,6cce,6cd2 */
 extern CarpetDraw far carpet_draw_queue[];       /* 2fae:0000 */
 extern _segment mid_table_selector;             /* DS:284c */
 extern MidItem _based(mid_table_selector) mid_rows[]; /* 2fae:11f8 */
@@ -63,9 +63,9 @@ extern volatile Byte char_direction;             /* DS:5c01 */
 extern volatile int char_x, char_y;               /* DS:5c02,5c04 */
 extern int char_frame, char_sequence;            /* DS:5c07,5c24 */
 extern Byte tile_col, tile_row, tile_modifier, tile_flags; /* DS:6274,6273,6271,6272 */
-extern unsigned int bar_modifier;               /* DS:5e48 */
+extern unsigned int BlueSpec;               /* DS:5e48 */
 extern signed char bar_direction;                /* DS:67d0 */
-extern Rect current_clip, cave_bars_clip;         /* DS:6236,09fe */
+extern Rect current_clip, GamePlayRect;         /* DS:6236,09fe */
 typedef struct { int state, timer; } CaveTile;
 extern CaveTile cave_tiles[];                   /* DS:304a */
 
@@ -166,7 +166,7 @@ void draw_carpet(Byte *tile)
         shape = get_carpet_shape_info(&ref, 0);
         MAKESHAPERECT(&entry->bounds, entry->y, entry->x, shape);
         entry->order = 10;
-        entry->flags = draw_flags;
+        entry->flags = drawn_tile_kind;
     }
 }
 
@@ -353,21 +353,21 @@ void unload_carpet_data(void)
 
 void animate_cave_bars(void)
 {
-    unsigned int phase = bar_modifier & 7;
+    unsigned int phase = BlueSpec & 7;
     if (!bar_direction) {
         if (phase < 3) {
             if (!phase)
                 AddSound(78);
-            bar_modifier &= ~7;
-            bar_modifier |= phase + 1;
+            BlueSpec &= ~7;
+            BlueSpec |= phase + 1;
             redraw_cave_bars();
             return;
         }
     } else if (phase) {
         if (phase == 3)
             AddSound(79);
-        bar_modifier &= ~7;
-        bar_modifier |= phase - 1;
+        BlueSpec &= ~7;
+        BlueSpec |= phase - 1;
         redraw_cave_bars();
         return;
     }
@@ -388,7 +388,7 @@ void draw_cave_bars(TileAnim *tile)
     if (tile->kind == 11 && tile->row == draw_col) {
         if (!carpet_view_enabled) {
             saved = current_clip;
-            current_clip = cave_bars_clip;
+            current_clip = GamePlayRect;
         }
         draw_cave_bars_image((tile->modifier & 7) + 2, 11);
         if (!carpet_view_enabled)

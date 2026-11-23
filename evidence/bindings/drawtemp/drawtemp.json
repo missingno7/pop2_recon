@@ -21,13 +21,13 @@
       "FIRSTINROW",
       "GET_TROB_ROOM_CELL",
       "REDRAW_ROW",
-      "REDRAW_BELOW_TILE",
+      "DRAWN_TILE_KIND",
       "DRAW_TEMPLE_TRAPDOOR",
       "IS_SIX_KIND",
-      "TORCH_BOUNDS",
+      "TEMPTORCHRECT",
       "COMPUTEOFFSETCELLRECT",
       "ENCLOSERECT",
-      "TEMPLE_DRAW_STATE",
+      "PAUSE",
       "DRAW_TEMPLE_PILLAR_TOP",
       "DRAW_TEMPLE_GATE",
       "DRAW_TEMPLE_EXIT_LEFT",
@@ -44,10 +44,10 @@
       "DRAW_PASS_MODE",
       "CLIP_RECT",
       "DRAW_TEMPLE_SPACE",
-      "EXIT_CLIP",
+      "GAMEPLAYRECT",
       "ROW2PIXELY",
       "SHAPE_OFFSETS",
-      "DRAWN_ROOM",
+      "VIEWED_ROOM",
       "KID_FRAME",
       "DRAW_TEMPLE_LOOSE",
       "DRAW_TEMPLE_UP_PLATE",
@@ -329,7 +329,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2061,
+        "length": 2052,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2285,7 +2285,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "DRAWN_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2299,7 +2299,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "DRAWN_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2366,7 +2366,7 @@
           "index": 44,
           "kind": "external",
           "method": 6,
-          "name": "EXIT_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -2380,7 +2380,7 @@
         "index": 44,
         "kind": "external",
         "method": 6,
-        "name": "EXIT_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -3257,7 +3257,7 @@
           "index": 44,
           "kind": "external",
           "method": 6,
-          "name": "EXIT_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -3271,7 +3271,7 @@
         "index": 44,
         "kind": "external",
         "method": 6,
-        "name": "EXIT_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -4894,7 +4894,7 @@
           "index": 21,
           "kind": "external",
           "method": 6,
-          "name": "REDRAW_BELOW_TILE",
+          "name": "DRAWN_TILE_KIND",
           "zero_displacement": true
         }
       },
@@ -4908,7 +4908,7 @@
         "index": 21,
         "kind": "external",
         "method": 6,
-        "name": "REDRAW_BELOW_TILE",
+        "name": "DRAWN_TILE_KIND",
         "zero_displacement": true
       }
     },
@@ -5380,7 +5380,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "TORCH_BOUNDS",
+          "name": "TEMPTORCHRECT",
           "zero_displacement": true
         }
       },
@@ -5394,7 +5394,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "TORCH_BOUNDS",
+        "name": "TEMPTORCHRECT",
         "zero_displacement": true
       }
     },
@@ -5461,7 +5461,7 @@
           "index": 27,
           "kind": "external",
           "method": 6,
-          "name": "TEMPLE_DRAW_STATE",
+          "name": "PAUSE",
           "zero_displacement": true
         }
       },
@@ -5475,7 +5475,7 @@
         "index": 27,
         "kind": "external",
         "method": 6,
-        "name": "TEMPLE_DRAW_STATE",
+        "name": "PAUSE",
         "zero_displacement": true
       }
     }
@@ -5633,15 +5633,15 @@
       "space": "root",
       "witnesses": []
     },
-    "DRAWN_ROOM": {
+    "DRAWN_TILE_KIND": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 24116,
+      "offset": 27858,
       "witnesses": [
         {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
+          "bytes_hex": "a0d26c",
+          "entry": "root:078a:0000",
+          "image_offset": 32160,
           "operand_offset": 1,
           "space": "root"
         }
@@ -5694,7 +5694,16 @@
       "space": "root",
       "witnesses": []
     },
-    "EXIT_CLIP": {
+    "FIRSTINROW": {
+      "entry_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
+      "entry_target_id": "root:02cc:07c6",
+      "kind": "far-code-entry",
+      "offset": 1990,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
+    },
+    "GAMEPLAYRECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 2558,
@@ -5707,15 +5716,6 @@
           "space": "root"
         }
       ]
-    },
-    "FIRSTINROW": {
-      "entry_sha256": "321a7306e64a515702d6ead566cc1d1821e2ccdc73f32c622b340d4e642b2d17",
-      "entry_target_id": "root:02cc:07c6",
-      "kind": "far-code-entry",
-      "offset": 1990,
-      "segment": 716,
-      "space": "root",
-      "witnesses": []
     },
     "GET_TROB_ROOM_CELL": {
       "entry_sha256": "a172ccc7edf065a36a439c9dc76f19d4ece71a5d072cf16ca2d3c3fd7afba04e",
@@ -5774,6 +5774,19 @@
         }
       ]
     },
+    "PAUSE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24096,
+      "witnesses": [
+        {
+          "bytes_hex": "c706205e0000",
+          "image_offset": 4134,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "PIECEBELOWID": {
       "entry_sha256": "35f72e937dfbd87c6e5422652ad6ef854511759a68b774fba092930d711d4c03",
       "entry_target_id": "root:0f77:060e",
@@ -5814,20 +5827,6 @@
           "image_offset": 3308,
           "relocation_index": 92,
           "space": "overlay-6"
-        }
-      ]
-    },
-    "REDRAW_BELOW_TILE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27858,
-      "witnesses": [
-        {
-          "bytes_hex": "a0d26c",
-          "entry": "root:078a:0000",
-          "image_offset": 32160,
-          "operand_offset": 1,
-          "space": "root"
         }
       ]
     },
@@ -5882,20 +5881,7 @@
         }
       ]
     },
-    "TEMPLE_DRAW_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24096,
-      "witnesses": [
-        {
-          "bytes_hex": "c706205e0000",
-          "image_offset": 4134,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "TORCH_BOUNDS": {
+    "TEMPTORCHRECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 2122,
@@ -5929,6 +5915,20 @@
           "file_offset": 44344,
           "image_offset": 36152,
           "relocation_index": 748,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

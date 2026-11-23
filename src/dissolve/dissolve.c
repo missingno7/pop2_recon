@@ -23,10 +23,10 @@ typedef struct
     int pattern;
 } Dissolve;
 
-extern int current_port;
+extern int Graf;
 extern volatile int drawing_pattern;
 extern volatile long clock_ticks;
-extern char screen_port[];
+extern char ScreenPort[];
 static const char dissolve_option[] = "NODIS";
 extern int cached_mode;
 typedef union
@@ -64,7 +64,7 @@ int dissolve_do_all(int mode, int source, const Rect far *bounds, long duration)
         do {
             interrupted = check_wait_function();
             more = dissolve_step(record) == 0;
-            MEASURE_TEXT((int)screen_port, record->destination,
+            MEASURE_TEXT((int)ScreenPort, record->destination,
                       &record->rect, &record->rect, 0);
         } while (!interrupted && more);
         dissolve_free(record, 0);
@@ -91,7 +91,7 @@ Dissolve *dissolve_new(int mode, int source, const Rect far *bounds, long durati
         record->rect = *bounds;
         record->duration = duration;
         record->level = 0;
-        record->destination = current_port;
+        record->destination = Graf;
         record->step = 0;
         record->step_argument = 0;
         record->mode = mode;
@@ -192,8 +192,8 @@ int dissolve_step(Dissolve *record)
     if (record->step)
         record->step(record->step_argument, record->level);
     if (!finished) {
-        scratch.words.high = current_port;
-        current_port = record->destination;
+        scratch.words.high = Graf;
+        Graf = record->destination;
         if (record->mode == 1)
             drawing_pattern = record->pattern;
         else if (record->mode == 2)
@@ -203,7 +203,7 @@ int dissolve_step(Dissolve *record)
             COPY_DITHERED_PORT_REGION(record->destination, record->source, &record->rect, &record->rect, record->level);
         else
             MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 2);
-        current_port = scratch.words.high;
+        Graf = scratch.words.high;
     } else {
         MEASURE_TEXT(record->destination, record->source, &record->rect, &record->rect, 0);
     }

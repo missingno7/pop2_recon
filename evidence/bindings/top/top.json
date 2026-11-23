@@ -55,8 +55,8 @@
       "SKIP_FRAME",
       "LOAD_ACTOR_SLOT",
       "JUMPSEQ",
+      "VIEWED_ROOM",
       "INIT_LEVEL_SPECIFIC",
-      "CURRENT_ROOM",
       "SET_SHADOW_OPPONENT",
       "CHECK_ALERT",
       "ANIMCHAR",
@@ -82,9 +82,9 @@
       "START_GAME",
       "FRAME_COUNT",
       "UPDATE_ROOM_SET_D",
-      "CHECK_FRAME_INPUT",
+      "PREPCUT",
       "SEQUENCE_ROW",
-      "MESSAGE_FRAMES",
+      "INVERT",
       "ISLEVELSTARTWITHNISSCREEN",
       "CHECK_SHADOW_EXIT",
       "STROKE_PORT_RECT",
@@ -108,8 +108,8 @@
       "INPUT_ENABLED",
       "CHECKROOMSPECIFIC",
       "STEP_SOUND",
+      "GRAF",
       "DRAW_ALL",
-      "QUEUED_TRACK",
       "FINISH_QUEUED_SOUND",
       "UNLOADCUSTOMROOMSHAPES",
       "SOUND_ENABLED",
@@ -130,8 +130,8 @@
       "OPTION_FLAGS",
       "MARK_HALF",
       "IS_LEAVE_LEVEL_MUSIC_ON",
+      "LEVELIDX",
       "PREVIEW_MODE",
-      "CURRENT_LEVEL",
       "MARK_FLOOR",
       "QUERY_SOUND",
       "VIEW_RETRY",
@@ -157,9 +157,9 @@
       "LEVEL_SPECIAL_FLOOR",
       "CHAR",
       "FADE_TICKS",
-      "KEY_RESULT",
+      "TIMER_DISABLED",
       "INITIALIZE_BRIDGE",
-      "FCHAR",
+      "OPP",
       "SELECT_GUARDS_IN_ROOM",
       "READCELL",
       "CELL_FLAGS",
@@ -168,7 +168,7 @@
       "ISWALL",
       "SWEEP_COLUMN",
       "CHECK_GUARD_CHANGES",
-      "SHADOWS",
+      "ROOMOPP",
       "ISIMPASSABLE",
       "SWEEP_LEFT",
       "ROOM_STATES",
@@ -212,7 +212,7 @@
       "GAME_REQUEST",
       "ADD_CHAR_VELOCITY",
       "LOADING_NAME",
-      "ROOM_TO_DRAW",
+      "CUTROOM",
       "OPEN_START_GATE",
       "CHECK_CONTROLS",
       "STARTING_HEALTH",
@@ -545,7 +545,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 3179,
+        "length": 3154,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -1040,10 +1040,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -1054,10 +1054,10 @@
       "segment_offset": 364,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -1313,7 +1313,7 @@
           "index": 168,
           "kind": "external",
           "method": 6,
-          "name": "SHADOWS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -1327,7 +1327,7 @@
         "index": 168,
         "kind": "external",
         "method": 6,
-        "name": "SHADOWS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -1553,10 +1553,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1567,10 +1567,10 @@
       "segment_offset": 259,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1580,7 +1580,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 55,
+          "index": 56,
           "kind": "external",
           "method": 6,
           "name": "INIT_LEVEL_SPECIFIC",
@@ -1594,7 +1594,7 @@
       "segment_offset": 255,
       "self_relative": true,
       "target": {
-        "index": 55,
+        "index": 56,
         "kind": "external",
         "method": 6,
         "name": "INIT_LEVEL_SPECIFIC",
@@ -1715,10 +1715,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -1729,10 +1729,10 @@
       "segment_offset": 231,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -1796,10 +1796,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -1810,10 +1810,10 @@
       "segment_offset": 201,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -1931,7 +1931,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 130,
+          "index": 131,
           "kind": "external",
           "method": 6,
           "name": "PREVIEW_MODE",
@@ -1945,7 +1945,7 @@
       "segment_offset": 166,
       "self_relative": false,
       "target": {
-        "index": 130,
+        "index": 131,
         "kind": "external",
         "method": 6,
         "name": "PREVIEW_MODE",
@@ -1985,10 +1985,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -1999,10 +1999,10 @@
       "segment_offset": 148,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -2741,10 +2741,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -2755,10 +2755,10 @@
       "segment_offset": 506,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -3041,7 +3041,7 @@
           "index": 212,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_TO_DRAW",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -3055,7 +3055,7 @@
         "index": 212,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_TO_DRAW",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -4526,7 +4526,7 @@
           "index": 82,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_FRAME_INPUT",
+          "name": "PREPCUT",
           "zero_displacement": true
         }
       },
@@ -4540,7 +4540,7 @@
         "index": 82,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_FRAME_INPUT",
+        "name": "PREPCUT",
         "zero_displacement": true
       }
     },
@@ -4553,7 +4553,7 @@
           "index": 212,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_TO_DRAW",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -4567,7 +4567,7 @@
         "index": 212,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_TO_DRAW",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -4631,7 +4631,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 108,
+          "index": 109,
           "kind": "external",
           "method": 6,
           "name": "DRAW_ALL",
@@ -4645,7 +4645,7 @@
       "segment_offset": 1133,
       "self_relative": false,
       "target": {
-        "index": 108,
+        "index": 109,
         "kind": "external",
         "method": 6,
         "name": "DRAW_ALL",
@@ -4685,10 +4685,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 109,
+          "index": 108,
           "kind": "external",
           "method": 6,
-          "name": "QUEUED_TRACK",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -4699,10 +4699,10 @@
       "segment_offset": 1125,
       "self_relative": false,
       "target": {
-        "index": 109,
+        "index": 108,
         "kind": "external",
         "method": 6,
-        "name": "QUEUED_TRACK",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -5061,7 +5061,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "MESSAGE_FRAMES",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -5075,7 +5075,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "MESSAGE_FRAMES",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -5299,7 +5299,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "MESSAGE_FRAMES",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -5313,7 +5313,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "MESSAGE_FRAMES",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -5350,7 +5350,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 108,
+          "index": 109,
           "kind": "external",
           "method": 6,
           "name": "DRAW_ALL",
@@ -5364,7 +5364,7 @@
       "segment_offset": 1193,
       "self_relative": false,
       "target": {
-        "index": 108,
+        "index": 109,
         "kind": "external",
         "method": 6,
         "name": "DRAW_ALL",
@@ -6160,10 +6160,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -6174,10 +6174,10 @@
       "segment_offset": 1323,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -6376,10 +6376,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -6390,10 +6390,10 @@
       "segment_offset": 1521,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -6433,7 +6433,7 @@
           "index": 168,
           "kind": "external",
           "method": 6,
-          "name": "SHADOWS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -6447,7 +6447,7 @@
         "index": 168,
         "kind": "external",
         "method": 6,
-        "name": "SHADOWS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -6757,7 +6757,7 @@
           "index": 82,
           "kind": "external",
           "method": 6,
-          "name": "CHECK_FRAME_INPUT",
+          "name": "PREPCUT",
           "zero_displacement": true
         }
       },
@@ -6771,7 +6771,7 @@
         "index": 82,
         "kind": "external",
         "method": 6,
-        "name": "CHECK_FRAME_INPUT",
+        "name": "PREPCUT",
         "zero_displacement": true
       }
     },
@@ -8833,10 +8833,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -8847,10 +8847,10 @@
       "segment_offset": 2110,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -8914,10 +8914,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -8928,10 +8928,10 @@
       "segment_offset": 2095,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -9211,10 +9211,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -9225,10 +9225,10 @@
       "segment_offset": 1998,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -9508,10 +9508,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -9522,10 +9522,10 @@
       "segment_offset": 2446,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -9565,7 +9565,7 @@
           "index": 168,
           "kind": "external",
           "method": 6,
-          "name": "SHADOWS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -9579,7 +9579,7 @@
         "index": 168,
         "kind": "external",
         "method": 6,
-        "name": "SHADOWS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -9670,10 +9670,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -9684,10 +9684,10 @@
       "segment_offset": 2378,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -10210,10 +10210,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -10224,10 +10224,10 @@
       "segment_offset": 2586,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -10318,10 +10318,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -10332,10 +10332,10 @@
       "segment_offset": 2563,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -10348,7 +10348,7 @@
           "index": 212,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_TO_DRAW",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -10362,7 +10362,7 @@
         "index": 212,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_TO_DRAW",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -10723,10 +10723,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -10737,10 +10737,10 @@
       "segment_offset": 2808,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -11104,7 +11104,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "MESSAGE_FRAMES",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -11118,7 +11118,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "MESSAGE_FRAMES",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -11185,7 +11185,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "MESSAGE_FRAMES",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -11199,7 +11199,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "MESSAGE_FRAMES",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -11266,7 +11266,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "MESSAGE_FRAMES",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -11280,7 +11280,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "MESSAGE_FRAMES",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -11374,7 +11374,7 @@
           "index": 84,
           "kind": "external",
           "method": 6,
-          "name": "MESSAGE_FRAMES",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -11388,7 +11388,7 @@
         "index": 84,
         "kind": "external",
         "method": 6,
-        "name": "MESSAGE_FRAMES",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -11474,7 +11474,7 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 108,
+          "index": 109,
           "kind": "external",
           "method": 6,
           "name": "DRAW_ALL",
@@ -11488,7 +11488,7 @@
       "segment_offset": 2626,
       "self_relative": false,
       "target": {
-        "index": 108,
+        "index": 109,
         "kind": "external",
         "method": 6,
         "name": "DRAW_ALL",
@@ -11771,10 +11771,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 56,
+          "index": 55,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -11785,10 +11785,10 @@
       "segment_offset": 2970,
       "self_relative": false,
       "target": {
-        "index": 56,
+        "index": 55,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -14636,7 +14636,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14650,7 +14650,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14663,7 +14663,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14677,7 +14677,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14690,7 +14690,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14704,7 +14704,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14717,7 +14717,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14731,7 +14731,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14744,7 +14744,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14758,7 +14758,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14771,7 +14771,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14785,7 +14785,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14798,7 +14798,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14812,7 +14812,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14825,7 +14825,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14839,7 +14839,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14852,7 +14852,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14866,7 +14866,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14879,7 +14879,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14893,7 +14893,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14906,7 +14906,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14920,7 +14920,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14960,7 +14960,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -14974,7 +14974,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -14987,7 +14987,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -15001,7 +15001,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -15068,7 +15068,7 @@
           "index": 159,
           "kind": "external",
           "method": 6,
-          "name": "FCHAR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -15082,7 +15082,7 @@
         "index": 159,
         "kind": "external",
         "method": 6,
-        "name": "FCHAR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -16712,10 +16712,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -16726,10 +16726,10 @@
       "segment_offset": 4567,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -16869,10 +16869,10 @@
       "frame": {
         "kind": "target_frame",
         "target": {
-          "index": 131,
+          "index": 130,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -16883,10 +16883,10 @@
       "segment_offset": 4535,
       "self_relative": false,
       "target": {
-        "index": 131,
+        "index": 130,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -16953,7 +16953,7 @@
           "index": 157,
           "kind": "external",
           "method": 6,
-          "name": "KEY_RESULT",
+          "name": "TIMER_DISABLED",
           "zero_displacement": true
         }
       },
@@ -16967,7 +16967,7 @@
         "index": 157,
         "kind": "external",
         "method": 6,
-        "name": "KEY_RESULT",
+        "name": "TIMER_DISABLED",
         "zero_displacement": true
       }
     },
@@ -17651,23 +17651,6 @@
         }
       ]
     },
-    "CHECK_FRAME_INPUT": {
-      "entry_sha256": "69c7e60e9af078a65c4496debf9af842f7f312728d988dff60711b6461697005",
-      "entry_target_id": "root:0000:0dd4",
-      "kind": "far-code-entry",
-      "offset": 3540,
-      "segment": 0,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9ad40d0000",
-          "file_offset": 19433,
-          "image_offset": 11241,
-          "relocation_index": 250,
-          "space": "root"
-        }
-      ]
-    },
     "CHECK_GATE_FOR_PLAYER": {
       "entry_sha256": "3ff039e54f81f223a9e4565a3312139486ca4f4e874984c4667cf19b65a36906",
       "entry_target_id": "overlay-3:2802:0d56",
@@ -17883,30 +17866,16 @@
       "space": "root",
       "witnesses": []
     },
-    "CURRENT_LEVEL": {
+    "CUTROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 2584,
+      "offset": 27853,
       "witnesses": [
         {
-          "bytes_hex": "a0180a",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "CURRENT_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
+          "bytes_hex": "803ecd6c00",
           "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
+          "image_offset": 3547,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -18080,94 +18049,6 @@
         }
       ]
     },
-    "FCHAR": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "803e415c56",
-              "entry": "root:02cc:1cac",
-              "image_offset": 18821,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 6,
-          "witnesses": [
-            {
-              "bytes_hex": "803e465c0b",
-              "entry": "root:0169:02c2",
-              "image_offset": 8643,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 7,
-          "witnesses": [
-            {
-              "bytes_hex": "8b36475c",
-              "entry": "overlay-3:25da:047e",
-              "image_offset": 18956,
-              "operand_offset": 2,
-              "space": "overlay-3"
-            }
-          ]
-        },
-        {
-          "offset": 11,
-          "witnesses": [
-            {
-              "bytes_hex": "803e4b5c02",
-              "entry": "overlay-12:2c3e:0236",
-              "image_offset": 573,
-              "operand_offset": 2,
-              "space": "overlay-12"
-            }
-          ]
-        },
-        {
-          "offset": 16,
-          "witnesses": [
-            {
-              "bytes_hex": "803e505c01",
-              "entry": "overlay-12:2c3e:0358",
-              "image_offset": 862,
-              "operand_offset": 2,
-              "space": "overlay-12"
-            }
-          ]
-        },
-        {
-          "offset": 25,
-          "witnesses": [
-            {
-              "bytes_hex": "833e595c6e",
-              "entry": "overlay-3:2344:1f0e",
-              "image_offset": 8190,
-              "operand_offset": 2,
-              "space": "overlay-3"
-            }
-          ]
-        }
-      ],
-      "offset": 23616,
-      "witnesses": [
-        {
-          "bytes_hex": "bf405c",
-          "entry": "root:02cc:07fc",
-          "image_offset": 13531,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "FIND_OPPONENT": {
       "entry_sha256": "3dd7bb9f2d435db3be2aab45f21478bae5dca62384cc2b7cf6a35b633a554b75",
       "entry_target_id": "overlay-3:2344:08f0",
@@ -18311,6 +18192,20 @@
         }
       ]
     },
+    "GRAF": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "GRAVITY": {
       "entry_sha256": "fabe8643614349c186f01ea8e6e14dcec88259de45b09998cef99080e35950a4",
       "entry_target_id": "root:02cc:08d6",
@@ -18448,6 +18343,20 @@
         }
       ]
     },
+    "INVERT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24206,
+      "witnesses": [
+        {
+          "bytes_hex": "833e8e5e00",
+          "entry": "root:0000:1000",
+          "image_offset": 4830,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "INVERTBITMAP": {
       "entry_sha256": "f5a4a34ea3938c372dd0e515bb993956058509eeb12a75f4a26b351e909fc663",
       "entry_target_id": "root:1ead:01a2",
@@ -18580,20 +18489,6 @@
           "file_offset": 9761,
           "image_offset": 1569,
           "relocation_index": 37,
-          "space": "root"
-        }
-      ]
-    },
-    "KEY_RESULT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 470,
-      "witnesses": [
-        {
-          "bytes_hex": "803ed60100",
-          "entry": "root:0000:0cbc",
-          "image_offset": 3268,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -18870,6 +18765,20 @@
         }
       ]
     },
+    "LEVELIDX": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2584,
+      "witnesses": [
+        {
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "LEVEL_FRAME_PROCS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -19019,20 +18928,6 @@
       "space": "root",
       "witnesses": []
     },
-    "MESSAGE_FRAMES": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24206,
-      "witnesses": [
-        {
-          "bytes_hex": "833e8e5e00",
-          "entry": "root:0000:1000",
-          "image_offset": 4830,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "MIRROR_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -19056,6 +18951,94 @@
           "bytes_hex": "a3465e",
           "entry": "root:0284:0326",
           "image_offset": 11135,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "OPP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "803e415c56",
+              "entry": "root:02cc:1cac",
+              "image_offset": 18821,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "803e465c0b",
+              "entry": "root:0169:02c2",
+              "image_offset": 8643,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 7,
+          "witnesses": [
+            {
+              "bytes_hex": "8b36475c",
+              "entry": "overlay-3:25da:047e",
+              "image_offset": 18956,
+              "operand_offset": 2,
+              "space": "overlay-3"
+            }
+          ]
+        },
+        {
+          "offset": 11,
+          "witnesses": [
+            {
+              "bytes_hex": "803e4b5c02",
+              "entry": "overlay-12:2c3e:0236",
+              "image_offset": 573,
+              "operand_offset": 2,
+              "space": "overlay-12"
+            }
+          ]
+        },
+        {
+          "offset": 16,
+          "witnesses": [
+            {
+              "bytes_hex": "803e505c01",
+              "entry": "overlay-12:2c3e:0358",
+              "image_offset": 862,
+              "operand_offset": 2,
+              "space": "overlay-12"
+            }
+          ]
+        },
+        {
+          "offset": 25,
+          "witnesses": [
+            {
+              "bytes_hex": "833e595c6e",
+              "entry": "overlay-3:2344:1f0e",
+              "image_offset": 8190,
+              "operand_offset": 2,
+              "space": "overlay-3"
+            }
+          ]
+        }
+      ],
+      "offset": 23616,
+      "witnesses": [
+        {
+          "bytes_hex": "bf405c",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13531,
           "operand_offset": 1,
           "space": "root"
         }
@@ -19114,6 +19097,23 @@
       "segment": 0,
       "space": "root",
       "witnesses": []
+    },
+    "PREPCUT": {
+      "entry_sha256": "69c7e60e9af078a65c4496debf9af842f7f312728d988dff60711b6461697005",
+      "entry_target_id": "root:0000:0dd4",
+      "kind": "far-code-entry",
+      "offset": 3540,
+      "segment": 0,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9ad40d0000",
+          "file_offset": 19433,
+          "image_offset": 11241,
+          "relocation_index": 250,
+          "space": "root"
+        }
+      ]
     },
     "PREVIEW_MODE": {
       "group": "DGROUP",
@@ -19180,20 +19180,6 @@
           "file_offset": 23329,
           "image_offset": 15137,
           "relocation_index": 291,
-          "space": "root"
-        }
-      ]
-    },
-    "QUEUED_TRACK": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9664,
-      "witnesses": [
-        {
-          "bytes_hex": "a3c025",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -19404,6 +19390,34 @@
         }
       ]
     },
+    "ROOMOPP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "80bfc15c56",
+              "entry": "root:0e56:0006",
+              "image_offset": 61158,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 23744,
+      "witnesses": [
+        {
+          "bytes_hex": "8db7c05c",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13534,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "ROOM_CHANGED": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -19523,20 +19537,6 @@
         }
       ]
     },
-    "ROOM_TO_DRAW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27853,
-      "witnesses": [
-        {
-          "bytes_hex": "803ecd6c00",
-          "entry": "root:0000:0dd4",
-          "image_offset": 3547,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "SAVE_ACTOR_SLOT": {
       "entry_sha256": "62784221e9aab866888663625cd2c3a05c71ed80964f3475f96d942b9cac4ec3",
       "entry_target_id": "root:02cc:1cf6",
@@ -19629,34 +19629,6 @@
           "file_offset": 30572,
           "image_offset": 22380,
           "relocation_index": 430,
-          "space": "root"
-        }
-      ]
-    },
-    "SHADOWS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "80bfc15c56",
-              "entry": "root:0e56:0006",
-              "image_offset": 61158,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 23744,
-      "witnesses": [
-        {
-          "bytes_hex": "8db7c05c",
-          "entry": "root:02cc:07fc",
-          "image_offset": 13534,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -19898,6 +19870,20 @@
       "offset": 9806,
       "witnesses": []
     },
+    "TIMER_DISABLED": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 470,
+      "witnesses": [
+        {
+          "bytes_hex": "803ed60100",
+          "entry": "root:0000:0cbc",
+          "image_offset": 3268,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "TRANSITION_PENDING": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -19934,6 +19920,20 @@
           "file_offset": 11995,
           "image_offset": 3803,
           "relocation_index": 121,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

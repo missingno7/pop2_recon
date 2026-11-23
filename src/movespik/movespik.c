@@ -57,9 +57,9 @@ struct RoomNeighbors {
     Byte current;
     Byte right;
 };
-extern struct RoomNeighbors rooms;
-#define current_room rooms.current
-#define right_room rooms.right
+extern struct RoomNeighbors viewed_room;
+#define current_room viewed_room.current
+#define right_room viewed_room.right
 
 extern SByte actor_direction, actor_column, actor_row;
 extern int actor_x, actor_y;
@@ -80,7 +80,7 @@ extern struct {
     int y, x;
     SpikeState spikes;
     Byte tail[12];
-} render_cell;
+} FChar;
 #pragma pack()
 extern int render_context;
 extern int screen_edge;
@@ -89,7 +89,7 @@ extern const volatile int column_x[];
 static const int spike_images_a[] = {0, 116, 117, 118, 119, 120, 117, 116, 120};
 static const int spike_images_b[] = {0, 121, 122, 123, 124, 125, 122, 121, 126};
 extern TileState room_state[];
-extern TileState *current_room_state;
+extern TileState *BlueS;
 
 extern Byte FirstInRow(SByte row);
 extern void add_mobile_sprite(int y);
@@ -131,7 +131,7 @@ void ATMSpikes(void)
         }
     }
     if (mob_slot != -1) {
-        render_cell.column = FirstInRow(mob_row) + column;
+        FChar.column = FirstInRow(mob_row) + column;
         add_mobile_sprite(mob_y);
         mob_kind = 5;
         mob_x -= 4;
@@ -273,22 +273,22 @@ void DrawObjSpikes(Byte object)
 {
     int image;
 
-    if (render_cell.spikes.word == 0xf0)
-        render_cell.spikes.word = 8;
-    else if (render_cell.spikes.byte.phase & 0x80)
-        render_cell.spikes.word = 5;
+    if (FChar.spikes.word == 0xf0)
+        FChar.spikes.word = 8;
+    else if (FChar.spikes.byte.phase & 0x80)
+        FChar.spikes.word = 5;
     else
-        render_cell.spikes.byte.flags = 0;
+        FChar.spikes.byte.flags = 0;
 
     if (object == 0x84)
-        image = spike_images_a[render_cell.spikes.word];
+        image = spike_images_a[FChar.spikes.word];
     else if (object == 0x85)
-        image = spike_images_b[render_cell.spikes.word];
+        image = spike_images_b[FChar.spikes.word];
     else
         return;
 
     if (image)
-        draw_spike_sprite(4, image, render_context, render_cell.x, 10);
+        draw_spike_sprite(4, image, render_context, FChar.x, 10);
 }
 
 /* GetSpikeIdx */
@@ -364,7 +364,7 @@ void MobSpikes(void)
             }
         }
         set_room_state(tile_room);
-        room = current_room_state;
+        room = BlueS;
         room[tile_column].spikes.word = (state += (tile_flags << 8) & 0x800);
         mob_spikes_state = state;
     }
@@ -380,7 +380,7 @@ void TriggerSpikes(Byte room, int index)
     Mobile *mob;
     int zero;
 
-    spikes = &current_room_state[index].spikes;
+    spikes = &BlueS[index].spikes;
     /* Taking the addresses of the pointer locals affects MSC allocation. */
     state = (*(&spikes))->byte.phase;
     if (state == 0 || (state & 0x80)) {

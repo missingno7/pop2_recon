@@ -10,7 +10,7 @@ extern unsigned int cell_modifier;
 #define cell_kind (((char near *)&cell_modifier)[-1])
 extern unsigned char *room_kinds;
 /* Each modifier entry occupies two words. ReadCell uses its first word. */
-extern unsigned int (*room_modifiers)[2];
+extern unsigned int (*BlueS)[2];
 
 struct room_links {
     unsigned char left;
@@ -91,7 +91,7 @@ char far pascal ReadCell(unsigned char room, signed char column, signed char row
     if (cell_room) {
         select_cell_tables(cell_room);
         cell_kind = room_kinds[cell_index];
-        cell_modifier = room_modifiers[cell_index][0];
+        cell_modifier = BlueS[cell_index][0];
     } else {
         cell_modifier = 0;
         cell_kind = GetUndefineCellId(column, row);
@@ -101,7 +101,7 @@ char far pascal ReadCell(unsigned char room, signed char column, signed char row
 
 extern unsigned char STATE_MODE;
 extern unsigned char STATE_LEVEL;
-extern unsigned char STATE_KIND;
+extern unsigned char viewed_room;
 extern unsigned char STATE_FLAG;
 
 char far pascal GetUndefineCellId(signed char x, signed char y)
@@ -109,8 +109,8 @@ char far pascal GetUndefineCellId(signed char x, signed char y)
     char result;
     switch (STATE_MODE) {
     case 2:
-        if ((STATE_KIND == 4 && STATE_LEVEL == 13) ||
-            (STATE_LEVEL == 13 && STATE_KIND == 13))
+        if ((viewed_room == 4 && STATE_LEVEL == 13) ||
+            (STATE_LEVEL == 13 && viewed_room == 13))
             result = 0;
         else
             result = 20;
@@ -120,7 +120,7 @@ char far pascal GetUndefineCellId(signed char x, signed char y)
             result = 0;
             break;
         }
-        if (STATE_KIND == 27 && STATE_LEVEL == 6) {
+        if (viewed_room == 27 && STATE_LEVEL == 6) {
             result = 0;
             break;
         }
@@ -130,8 +130,8 @@ char far pascal GetUndefineCellId(signed char x, signed char y)
         result = 0;
         break;
     case 6:
-        if (((STATE_KIND == 7 || STATE_KIND == 8) && STATE_MODE == 6) ||
-            (STATE_KIND == 3 && STATE_MODE == 6 && (x < 0 || x == 9) && y == 2))
+        if (((viewed_room == 7 || viewed_room == 8) && STATE_MODE == 6) ||
+            (viewed_room == 3 && STATE_MODE == 6 && (x < 0 || x == 9) && y == 2))
             result = 20;
         else
             result = 0;
@@ -292,7 +292,7 @@ extern unsigned char animation_variant;
 extern int animation_items;
 extern int animation_portion;
 extern int sound_steps;
-extern unsigned char animation_tick;
+extern unsigned char active_sound_channels;
 extern int kid_step;
 
 
@@ -485,7 +485,7 @@ void far pascal anim_char_tap(int sound)
     switch (sound) {
     case 1:
         ++sound_steps;
-        if (STATE_MODE != 1 && !(animation_tick & 3)) {
+        if (STATE_MODE != 1 && !(active_sound_channels & 3)) {
             AddSound(sound_steps % 2 + 23);
             if (character_kind == 4 && IsExitChasingSkel(character_room))
                 char_x = AddCharX(Char.bytes[0] - 1);
@@ -507,16 +507,16 @@ void far pascal anim_char_tap(int sound)
 }
 
 
-#define STATE_KIND character_kind
-extern volatile unsigned char STATE_KIND;
+#define viewed_room character_kind
+extern volatile unsigned char viewed_room;
 extern volatile unsigned char STATE_ARGUMENT;
 
 void far pascal SetKidDeathMethod(unsigned char value)
 {
-    if (STATE_KIND == 0 || STATE_KIND == 1)
+    if (viewed_room == 0 || viewed_room == 1)
         STATE_ARGUMENT = value;
 }
-#undef STATE_KIND
+#undef viewed_room
 
 int far pascal reset_char_y(void)
 {
@@ -538,7 +538,7 @@ char far FirstInRow(signed char value)
     return result;
 }
 
-extern struct CharacterRecord actor_slots[];
+extern struct CharacterRecord RoomOpp[];
 
 void copy_kid_to_char(void);
 void far pascal save_actor_slot(void);
@@ -548,7 +548,7 @@ void far pascal load_kid_with_opponent(signed char slot)
 {
     if (slot >= 0 && slot < 5) {
         copy_kid_to_char();
-        opponent = actor_slots[slot];
+        opponent = RoomOpp[slot];
     }
 }
 
@@ -556,7 +556,7 @@ void far pascal save_kid_with_opponent(void)
 {
     if (opponent.bytes[0] >= 0 && opponent.bytes[0] < 5) {
         Kid = Char;
-        actor_slots[opponent.bytes[0]] = opponent;
+        RoomOpp[opponent.bytes[0]] = opponent;
     }
 }
 
@@ -867,7 +867,7 @@ void far pascal FallingInUndefinedRoom(void)
     add_char_velocity();
     if (STATE_MODE == 5) {
         if (character_y > 384) {
-            if (STATE_KIND != 19 && STATE_KIND != 16) {
+            if (viewed_room != 19 && viewed_room != 16) {
                 AddSound(0);
                 decrement_life_points(100);
                 frame_number = 185;
@@ -1034,7 +1034,7 @@ char far pascal GetCellCol(void)
 {
     signed char col = cell_column;
 
-    if (cell_room != STATE_KIND && cell_room != state_other_room && cell_room != STATE_FLAG) {
+    if (cell_room != viewed_room && cell_room != state_other_room && cell_room != STATE_FLAG) {
         if (cell_room == state_left_room)
             col -= 10;
         else if (cell_room == state_right_room)
@@ -1070,8 +1070,8 @@ extern void far pascal apply_input(void);
 extern unsigned int prefer_kid_state;
 extern unsigned int death_sequence_primary, death_sequence_alternate;
 extern unsigned int pending_death_sound, death_timer, death_timer_limit;
-extern unsigned int delayed_death, replay_input, invert_input;
-extern signed char input_room;
+extern unsigned int delayed_death, replay_input, Invert;
+extern signed char LevelIdx;
 extern signed char state_byte_5e30, state_byte_5e31, state_byte_5e32;
 extern signed char shadow_advance;
 
@@ -1134,7 +1134,7 @@ int far pascal PlayerCtrl(void)
         --grab_delay;
     LoadSelect();
     read_user_input();
-    if (input_room != animation_items || !character_room || animation_repeat == 59)
+    if (LevelIdx != animation_items || !character_room || animation_repeat == 59)
         state_byte_5e31 = state_byte_5e30 = 0;
     ClrJoystick();
     UserCtrl();
@@ -1172,14 +1172,14 @@ void far pascal UserCtrl(void)
     unsigned char direction = char_direction;
     if (!direction)
         FaceJoystick();
-    if (invert_input)
+    if (Invert)
         InvertJoystick();
     if (replay_input)
         handle_replay_input();
     apply_input();
     if (!direction)
         FaceJoystick();
-    if (invert_input)
+    if (Invert)
         InvertJoystick();
 }
 
@@ -1347,7 +1347,7 @@ void far pascal RemoveObj(int portion)
     mark_cell_redraw();
 }
 
-extern Rect default_clip_rect;
+extern Rect NullRect;
 extern signed char above_col, front_col, above_row, contact_row;
 extern unsigned int clip_tables[];
 extern int far pascal clip_floor(int near *bounds, unsigned int table, int column, int row);
@@ -1374,7 +1374,7 @@ void far pascal ClipChar(void)
     init_fchar_rect();
     MakeFCharClipRect();
     if (is_char_non_viewable()) {
-        fchar_rect = default_clip_rect;
+        fchar_rect = NullRect;
         return;
     }
     if (character_kind == 0 && frame_number >= 217 && frame_number <= 226) {
@@ -1452,7 +1452,7 @@ void far pascal MakeFCharClipRect(void)
         }
         return;
     }
-    fchar_rect = default_clip_rect;
+    fchar_rect = NullRect;
 }
 
 void far pascal uneven_floor(void)
@@ -1512,7 +1512,7 @@ void far pascal PotionEffect(void)
             ToggleInvertState();
             break;
         case 4:
-            if (invert_input) {
+            if (Invert) {
                 ToggleInvertState();
                 break;
             }
@@ -1672,7 +1672,7 @@ extern void far pascal abort_with_message(int code, int first, int second);
 void far pascal save_actor_slot(void)
 {
     if (Char.bytes[0] >= 0 && Char.bytes[0] < 5) {
-        actor_slots[Char.bytes[0]] = Char;
+        RoomOpp[Char.bytes[0]] = Char;
         return;
     }
     if (confirm_quit((char far *)slot_errors.save))
@@ -1682,7 +1682,7 @@ void far pascal save_actor_slot(void)
 void far pascal load_actor_slot(signed char slot)
 {
     if (slot >= 0 && slot < 5)
-        Char = actor_slots[slot];
+        Char = RoomOpp[slot];
     else if (confirm_quit((char far *)slot_errors.load))
         abort_with_message(1, 0, 0);
 }

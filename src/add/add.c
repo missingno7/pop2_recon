@@ -295,7 +295,7 @@ extern int mid_count;
 extern _segment mid_table_selector;
 extern MidItem _based(mid_table_selector) mid_rows[];
 extern Byte drawing_environment;
-extern Byte special_scene;
+extern Byte viewed_room;
 extern Offset *custom_shapes;
 extern signed char background_depth;
 extern void get_custom_shape_size(int index, ImageSize far *size);
@@ -314,7 +314,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         index = mid_count;
         row = &mid_rows[index];
         row->x = x;
-        if (drawing_environment == 5 && special_scene == 10 &&
+        if (drawing_environment == 5 && viewed_room == 10 &&
             set == 4 && *custom_shapes > image_index) {
             get_custom_shape_size(image_index, &size);
         } else {
@@ -568,7 +568,7 @@ extern int far _fastcall setup_opponent(Offset opponent);
 void add_kid(void)
 {
     copy_kid_to_char();
-    if (actor_room != 0 && actor_room == special_scene) {
+    if (actor_room != 0 && actor_room == viewed_room) {
         setup_kid();
         if (actor_state == 99 || actor_screen_offset == 8) {
             setup_comix();
@@ -602,11 +602,11 @@ void add_opponent(void)
 {
     Offset opponent = 0;
 
-    if ((Offset)Level.rooms[special_scene].count <= 0)
+    if ((Offset)Level.rooms[viewed_room].count <= 0)
         return;
     do {
         load_actor_slot(opponent);
-        if (actor_room == special_scene) {
+        if (actor_room == viewed_room) {
             if (!setup_opponent(opponent))
                 continue;
             if ((actor_state == 99 || actor_screen_offset == 8 ||
@@ -630,7 +630,7 @@ void add_opponent(void)
 temple_kid:
             setup_splash();
         }
-    } while ((Offset)Level.rooms[special_scene].count > ++opponent);
+    } while ((Offset)Level.rooms[viewed_room].count > ++opponent);
 }
 
 void setup_char(void)
@@ -671,14 +671,14 @@ void setup_char(void)
 }
 
 extern Byte previous_actor_character;
-extern Offset actor_object_type;
+extern Offset FChar;
 
 void setup_comix(void)
 {
     unsigned int frame = actor_id;
 
     SaveFChar();
-    actor_object_type = -1;
+    FChar = -1;
     actor_set = 2;
     actor_image = 218;
 

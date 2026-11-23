@@ -32,9 +32,9 @@ extern struct {
     unsigned int handle;
 } playback;
 
-extern int game_tick;
+extern int FrameNum;
 extern signed char current_character;
-extern signed char pending_direction;
+extern signed char LevelIdx;
 extern signed char move_x, move_y, move_horizontal, move_vertical, move_action;
 extern int recording_player_enabled, recording_player_started;
 extern signed char recording_start_level;
@@ -59,7 +59,7 @@ int far pascal CheckForEndOfRecording(void)
 
     if (playback.mode == 3 && playback.handle) {
         recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
-        tick = game_tick;
+        tick = FrameNum;
         if (tick > recording->end_tick) {
             playback.mode = 0;
             if (playback.handle) {
@@ -91,9 +91,9 @@ void far pascal CheckRecordedDirForChar(void)
         recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
         if (playback.offset < recording->data_size) {
             frame = (RecordedFrame far *)(recording->data + *(volatile int *)&playback.offset);
-            if (game_tick > frame->tick)
+            if (FrameNum > frame->tick)
                 frame = IncRecordedGameToNextFrame(recording);
-            if (game_tick == frame->tick && frame->count > playback.input_index) {
+            if (FrameNum == frame->tick && frame->count > playback.input_index) {
                 input = (RecordedInput far *)(frame + 1) + playback.input_index;
                 if (input->character == character.value) {
                     direction = &input->direction;
@@ -110,7 +110,7 @@ void far pascal CheckRecordedDirForChar(void)
 void far pascal CheckRecordedGamePlayer(void)
 {
     if (playback.mode == 4)
-        pending_direction = -1;
+        LevelIdx = -1;
 }
 
 void far pascal ConvertDirToRecDir(PackedDirection far *direction)
@@ -164,7 +164,7 @@ void far pascal reset_recorded_playback(void)
             dispose_handle(playback.handle);
         if (recording_player_enabled)
             playback.handle = ALLOCATE_DEFAULT_HANDLE();
-        game_tick = 0;
+        FrameNum = 0;
         SetRndSeed(1);
         Rnd(17);
         RemoveRebirthPt();

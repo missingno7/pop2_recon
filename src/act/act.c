@@ -1,4 +1,4 @@
-extern int actor_alert;
+extern int Pause;
 extern int sequence_id;
 extern int repeat_sequence_id;
 extern int sequence_position;
@@ -13,7 +13,7 @@ extern void far pascal reread_cells(void);
 
 void far pascal reset_actor_alert(void)
 {
-    actor_alert = 0;
+    Pause = 0;
 }
 
 void far pascal JumpSeq(int sequence)
@@ -40,7 +40,7 @@ extern signed char actor_row;
 extern int actor_y;
 extern int fall_floor_y[];
 extern int fall_transition;
-extern signed char actor_character;
+extern signed char Char;
 extern void far _fastcall AddKidScream(unsigned char room);
 extern void far pascal AddSound(int effect);
 extern void far pascal FallOn(void);
@@ -89,7 +89,7 @@ void far pascal Falling(void)
                 fall_spikes();
             else if (tile == 26)
                 shake_trapdoor();
-            if ((falling_speed >= 33 || actor_character != 10) && actor_kind != 1)
+            if ((falling_speed >= 33 || Char != 10) && actor_kind != 1)
                 decrement_life_points(100);
             falling_speed /= (signed char)2;
             actor_y = fall_floor_y[actor_row] - 7;
@@ -156,7 +156,7 @@ void far pascal HitFloor(void)
             sound = actor_kind == 4 ? 76 : 17;
         } else if (falling_speed >= 33 && actor_kind != 1) {
             fatal = 1;
-        } else if (actor_character != 10) {
+        } else if (Char != 10) {
             fatal = 1;
         } else if ((actor_kind != 1 && decrement_life_points(1)) ||
                    (actor_room == 11 && state_mode == 5 && actor_row >= 3)) {
@@ -298,7 +298,7 @@ void far pascal GenCtrl(void)
             return;
         }
     } else {
-        if (actor_kind != 0 && actor_character == previous_opponent)
+        if (actor_kind != 0 && Char == previous_opponent)
             previous_opponent = choose_opponent(1);
         if (actor_kind == 1) {
             if (fall_latch > 6) {
@@ -463,7 +463,7 @@ struct saved_actor {
     signed char bytes[64];
 };
 
-extern struct saved_actor kid_actor_record;
+extern struct saved_actor Kid;
 extern signed char actor_life, actor_max_life;
 extern int far pascal GetShadowToKidDist(void);
 extern void far pascal KidRiseFromShadowman(void);
@@ -489,20 +489,20 @@ void far pascal control_dead(void)
             play_throne_room_nis();
             return;
         }
-    } else if (actor_kind == 0 && actor_character != 10 && actor_frame != 179 && actor_frame != 183) {
-        slot = actor_character;
+    } else if (actor_kind == 0 && Char != 10 && actor_frame != 179 && actor_frame != 183) {
+        slot = Char;
         save_actor_slot();
         copy_kid_to_char();
         if (!decrement_life_points(1))
             actor_max_life--;
-        kid_actor_record = *(struct saved_actor *)&actor_character;
+        Kid = *(struct saved_actor *)&Char;
         load_actor_slot(slot);
         decrement_life_points(1);
     }
 }
 
 extern signed char selected_opponent, opponent_health;
-extern signed char area_number, current_area, exit_column;
+extern signed char area_number, viewed_room, exit_column;
 extern signed char ledge_input, actor_health_slot;
 extern int animation_contact, guard_turn_counter, gate_override;
 extern int far pascal get_opp_dist(void);
@@ -531,7 +531,7 @@ void far pascal control_standing(void)
     act_on_input = 1;
     if (direction_action == -1 && try_pick_up())
         goto acted;
-    if (actor_character == 10) {
+    if (Char == 10) {
         if ((floor_contact != -1 || (state_mode == 6 && actor_kind == 1)) &&
             direction_action == -2 && !direction_forward && !direction_back &&
             !direction_up && !direction_down) {
@@ -598,7 +598,7 @@ run:
 /* 25da:0c1e */
 void far pascal actor_up(void)
 {
-    if (current_area != area_number && actor_kind == 0 &&
+    if (viewed_room != area_number && actor_kind == 0 &&
         (get_under_foot() == 17 || get_behind() == 17 || get_cells_ahead(1) == 17) &&
         IsExitOpen()) {
         enter_stairs();
@@ -673,7 +673,7 @@ void far pascal StairClimbing(void)
 /* 25da:0dba */
 void far pascal control_turning(void)
 {
-    if (actor_character == 10 && repeat_sequence_id == 5)
+    if (Char == 10 && repeat_sequence_id == 5)
         CheckTurnSeqs();
     if (actor_frame == 48 && direction_action >= 0 &&
         direction_forward && !direction_up && !direction_down) {
@@ -708,7 +708,7 @@ void far pascal turn_actor(void)
     if (get_cells_ahead(1) == 4 && can_turn_on_gate()) {
         if (state_mode == 3)
             distance = 7;
-        else if (current_area == 9 && level_number == 8)
+        else if (viewed_room == 9 && level_number == 8)
             distance = -100;
         else
             distance = 4;
@@ -1339,8 +1339,8 @@ void far pascal control_fighting(void)
     signed char target;
     int gap, react, eligible, out_of_range, opponent_can_react;
 
-    if (actor_character == 10) {
-        kid_actor_record = *(struct saved_actor *)&actor_character;
+    if (Char == 10) {
+        Kid = *(struct saved_actor *)&Char;
         target = -1;
         if (selected_opponent != -1 && selected_opponent < fight_lists[(unsigned char)actor_room].count) {
             load_kid_with_opponent(selected_opponent);
@@ -1373,7 +1373,7 @@ reacted:
             }
         }
 after_reaction:
-        if (actor_character == 10 && direction_back < 0 &&
+        if (Char == 10 && direction_back < 0 &&
             (direction_action == -1 || direction_action == 1) &&
             (level_number != 5 || actor_room != 10 || room_event_pending <= 0)) {
             turn_engarde();
@@ -1399,7 +1399,7 @@ distant_opponent:
         }
         if (actor_kind == 11)
             goto reacted;
-        opponent_can_react = (actor_character == 10 && !next_opponent_toggle) || opponent_kind == 6;
+        opponent_can_react = (Char == 10 && !next_opponent_toggle) || opponent_kind == 6;
         if (opponent_can_react)
             goto alert;
         turn_engarde();
@@ -1407,7 +1407,7 @@ distant_opponent:
 
 check_reaction:
         if (react) {
-            if (actor_character == 10 && direction_down < 0) {
+            if (Char == 10 && direction_down < 0) {
                 sheathe_weapon();
                 return;
             }
@@ -1464,7 +1464,7 @@ int far pascal OppToFight(void)
     struct opponent near *opponent;
 
     ready = 0;
-    saved_actor = *(struct actor_state near *)&actor_character;
+    saved_actor = *(struct actor_state near *)&Char;
     copy_kid_to_char();
     if (animation_contact != 13 && actor_kind != 1 &&
         state_code != 3 && state_code != 4 && !is_dead_pos(actor_frame)) {
@@ -1475,7 +1475,7 @@ int far pascal OppToFight(void)
             load_actor_slot(index);
             if (fall_latch < 0 && actor_presence > 0 && actor_kind != 11) {
                 if (actor_kind == 7 || actor_kind == 8) {
-                    opponent = GetOppInfoIdx((unsigned char)actor_room, actor_character);
+                    opponent = GetOppInfoIdx((unsigned char)actor_room, Char);
                     if (opponent->attitude != 1 && opponent->attitude != 3) {
                         ready = 0;
                         goto next_opponent;
@@ -1487,7 +1487,7 @@ next_opponent:
             index++;
         } while (!ready);
     }
-    *(struct actor_state near *)&actor_character = saved_actor;
+    *(struct actor_state near *)&Char = saved_actor;
     return ready;
 }
 
@@ -1563,7 +1563,7 @@ void far pascal turn_engarde(void)
 {
     if (actor_kind == 7 || actor_kind == 8) {
         if (repeat_sequence_id != 156 && repeat_sequence_id != 166 &&
-            !is_head_locked_on(actor_room, actor_character))
+            !is_head_locked_on(actor_room, Char))
             JumpSeq(156);
     } else if (actor_kind == 0 || actor_kind == 1) {
         turn_kid_engarde();

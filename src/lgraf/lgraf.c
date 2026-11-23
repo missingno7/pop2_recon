@@ -18,7 +18,7 @@ typedef struct {
     int top, left, bottom, right;
 } Rect;
 
-extern unsigned graphics_port;
+extern unsigned Graf;
 static char allocation_message[] = "ERROR:  Couldn't allocate backport.";
 
 void near * far cdecl _nmalloc(unsigned);
@@ -92,7 +92,7 @@ int far pascal EqualRect(const Rect far *a, const Rect far *b)
 void far pascal draw_record_bounds(GraphicsRecord near *record)
 {
     void far *bounds = (char near *)record + 16;
-    MEASURE_TEXT(graphics_port, record, bounds, bounds, 0);
+    MEASURE_TEXT(Graf, record, bounds, bounds, 0);
 }
 
 void far pascal InvertBitMap(const BitmapRecord far *bitmap)

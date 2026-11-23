@@ -35,11 +35,11 @@ typedef struct {
 } RoomOpponents;
 #pragma pack()
 
-extern Actor Char, Kid, Opp, opponent_slots[];
+extern Actor Char, Kid, Opp, RoomOpp[];
 extern RoomOpponents room_opponents[];
 extern signed char shadow_direction_offsets[];
-extern signed char current_level, active_room, pending_room;
-extern int shadow_timer, shadow_overlay_state, flame_time, flame_y, flame_x;
+extern signed char current_level, viewed_room, CutRoom;
+extern int shadow_timer, Pause, FrameNum, flame_y, flame_x;
 
 int abs(int value);
 #pragma intrinsic(abs)
@@ -212,8 +212,8 @@ void far pascal CutToKidRoom(void)
     Char.max_health = Kid.max_health;
     Char.health_delta = Kid.health_delta;
     room = register_actor_room();
-    if (active_room != room) {
-        pending_room = room;
+    if (viewed_room != room) {
+        CutRoom = room;
         Char.room = room;
     }
     if ((room == 7 || room == 8) && current_level == 6)
@@ -228,7 +228,7 @@ signed char far pascal GetKidIdxAsOpp(void)
 
     if (count > 0) {
         do {
-            if (opponent_slots[index].kind == 0)
+            if (RoomOpp[index].kind == 0)
                 break;
             index++;
         } while (index < count);
@@ -311,7 +311,7 @@ void far pascal SetupShadowFlame(void)
 {
     if (IsShadowImbued()) {
         SaveFChar();
-        flame_x = flame_time % 9 + 290;
+        flame_x = FrameNum % 9 + 290;
         AddFCharX(13 - flame_y / 2);
         MakeFCharClipRect();
         add_char_object(14);
@@ -320,7 +320,7 @@ void far pascal SetupShadowFlame(void)
     }
 }
 
-void far pascal reset_overlay_state(void)
+void far pascal reset_shadow_overlay_state(void)
 {
-    shadow_overlay_state = 0;
+    Pause = 0;
 }

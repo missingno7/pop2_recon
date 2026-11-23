@@ -10,8 +10,8 @@
       "__NMALLOC",
       "MODE_SCANLINE_OFFSETS",
       "SCREEN_X_ORIGIN",
+      "GRAF",
       "SCREEN_BITS",
-      "SCREEN_PORT",
       "SCREEN_ROW_ORIGIN"
     ],
     "groups": [
@@ -637,10 +637,10 @@
       "segment_offset": 266,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1341,10 +1341,10 @@
       "segment_offset": 1513,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1363,7 +1363,7 @@
       "segment_offset": 1527,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_BITS",
@@ -1831,10 +1831,10 @@
       "segment_offset": 2136,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1897,7 +1897,7 @@
       "segment_offset": 2396,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_BITS",
@@ -2151,10 +2151,10 @@
       "segment_offset": 2779,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -2239,7 +2239,7 @@
       "segment_offset": 3002,
       "self_relative": false,
       "target": {
-        "index": 10,
+        "index": 11,
         "kind": "external",
         "method": 6,
         "name": "SCREEN_BITS",
@@ -2451,10 +2451,10 @@
       "segment_offset": 3247,
       "self_relative": false,
       "target": {
-        "index": 11,
+        "index": 10,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -3080,6 +3080,20 @@
       "space": "root",
       "witnesses": []
     },
+    "GRAF": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "MODE_BYTES_PER_ROW": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -3146,20 +3160,6 @@
           "entry": "root:1101:3fd5",
           "image_offset": 86011,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "SCREEN_PORT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9664,
-      "witnesses": [
-        {
-          "bytes_hex": "a3c025",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
-          "operand_offset": 1,
           "space": "root"
         }
       ]

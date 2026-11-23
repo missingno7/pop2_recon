@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 .CODE
 EXTRN DRAW_COUNTED_TEXT_IN_RECT:NEAR
 EXTRN MEASURE_CHARACTER:NEAR
@@ -14,7 +14,7 @@ SET_ORIGIN PROC FAR
     mov bp, sp
     les dx, DWORD PTR [bp+6]
     mov cx, es
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     sub cx, [bx+12h]
     sub dx, [bx+10h]
     add [bx+12h], cx
@@ -36,7 +36,7 @@ SET_RELATIVE_PEN_STATE PROC FAR
     push si
     push ds
     mov cx, 8
-    mov di, CURRENT_CONTEXT
+    mov di, Graf
     add di, 22h
     push ds
     pop es
@@ -163,7 +163,7 @@ MEASURE_COUNTED_TEXT PROC FAR
     push di
     push si
     push ds
-    mov di, CURRENT_CONTEXT
+    mov di, Graf
     push WORD PTR [di+2ah]
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD

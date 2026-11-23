@@ -10,8 +10,8 @@ GAMELIB_TEXT ENDS
 ; All entries have near assembler labels. Far-return entries are called
 ; within frame 1101 with PUSH CS before CALL.
 _DATA SEGMENT WORD PUBLIC 'DATA'
-EXTRN current_port:WORD
-EXTRN active_window:WORD
+EXTRN Graf:WORD
+EXTRN window_draw_port:WORD
 EXTRN menu_bounds_top:WORD
 EXTRN menu_list:WORD
 EXTRN item_state_2618:WORD
@@ -204,7 +204,7 @@ draw_grid_item LABEL NEAR
     push si
     mov di, word ptr [bp + 0ah]
     mov ax, word ptr [di]
-    xchg word ptr [current_port], ax
+    xchg word ptr [Graf], ax
     push ax
     mov bx, word ptr [bp + 8]
     lea si, [bp - 010h]
@@ -345,7 +345,7 @@ loc_99e6:
     jne loc_99f6
     xchg cx, ax
 loc_99f6:
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     pop si
     pop di
     mov sp, bp
@@ -406,7 +406,7 @@ loc_9a47:
     pop di
     dec cx
     mov word ptr [si + 018h], cx
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     mov word ptr [si], bx
     mov ax, word ptr [bx + 02ah]
     mov word ptr [si + 2], ax
@@ -504,7 +504,7 @@ loc_9b0f:
     or ax, dx
     je loc_9b62
     mov ax, word ptr [di]
-    xchg word ptr [current_port], ax
+    xchg word ptr [Graf], ax
     push ax
     lea ax, [di + 8]
     push ds
@@ -532,7 +532,7 @@ loc_9b0f:
     call paint_grid_items
     push cs
     call pop_port_clip
-    pop word ptr [current_port]
+    pop word ptr [Graf]
 loc_9b62:
     les ax, DWORD PTR [bp - 4]
     mov dx, es
@@ -551,7 +551,7 @@ select_grid_item LABEL NEAR
     mov ax, word ptr [di + 2]
     xchg word ptr [bx + 02ah], ax
     push ax
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     push bx
     lea ax, [di + 8]
     push ds
@@ -610,7 +610,7 @@ loc_9be9:
     push cs
     call pop_port_clip
     pop bx
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     pop word ptr [bx + 02ah]
     pop di
     pop bp
@@ -679,7 +679,7 @@ draw_grid_items LABEL NEAR
     xchg word ptr [si + 02ah], ax
     push ax
     mov ax, si
-    xchg word ptr [current_port], ax
+    xchg word ptr [Graf], ax
     push ax
     lea ax, [bp - 0ah]
     push ds
@@ -718,7 +718,7 @@ loc_9ca5:
     call pop_port_clip
     push cs
     call set_relative_pen_state
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     pop word ptr [si + 02ah]
     pop si
     pop di
@@ -860,12 +860,12 @@ redraw_dialog_scroll LABEL NEAR
     add sp, -8
     push di
     push si
-    mov bx, word ptr [active_window]
+    mov bx, word ptr [window_draw_port]
     sub ax, ax
     xchg word ptr [bx + 018h], ax
     push ax
     push word ptr [bx + 028h]
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     push bx
     mov si, OFFSET DGROUP:menu_bounds_top
     push ds
@@ -896,7 +896,7 @@ loc_9def:
     jne loc_9e02
     mov ax, 7
 loc_9e02:
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     mov word ptr [bx + 028h], ax
     push word ptr [bx + 02ah]
     push cs
@@ -929,7 +929,7 @@ loc_9e40:
     jmp SHORT loc_9def
 loc_9e44:
     pop bx
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     pop word ptr [bx + 028h]
     pop word ptr [bx + 018h]
     pop si
@@ -966,7 +966,7 @@ loc_9e74:
     call UPPERCASE_EVENT_CHARACTER
     cmp ax, word ptr [bp + 6]
     jne loc_9ec4
-    mov ax, word ptr [current_port]
+    mov ax, word ptr [Graf]
     xchg di, ax
     mov dx, word ptr [di + 028h]
     cmp dx, 7
@@ -1093,9 +1093,9 @@ redraw_menu_items LABEL NEAR
     push di
     push si
     sub ax, ax
-    mov bx, word ptr [active_window]
+    mov bx, word ptr [window_draw_port]
     xchg word ptr [bx + 018h], ax
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     push ax
     push bx
     sub di, di
@@ -1131,7 +1131,7 @@ loc_9fa6:
     call close_tracking_window
 loc_9fba:
     pop bx
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     pop word ptr [bx + 018h]
     pop si
     pop di
@@ -1144,7 +1144,7 @@ initialize_menu_bounds LABEL NEAR
     ; Copy the window bounds and extend the menu edge for the active port.
     push di
     push si
-    mov bx, word ptr [active_window]
+    mov bx, word ptr [window_draw_port]
     mov cx, 4
     lea si, [bx + 010h]
     mov di, OFFSET DGROUP:menu_bounds_top
@@ -1210,8 +1210,8 @@ update_menu_tracking LABEL NEAR
     push di
     push cs
     call update_message_display
-    mov ax, word ptr [active_window]
-    xchg word ptr [current_port], ax
+    mov ax, word ptr [window_draw_port]
+    xchg word ptr [Graf], ax
     push ax
     mov bx, word ptr [bp + 6]
     mov cx, word ptr [bx]
@@ -1230,7 +1230,7 @@ loc_a05e:
     call show_mouse_graphics
     pop dx
     pop ax
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     pop di
     mov sp, bp
     pop bp
@@ -1395,8 +1395,8 @@ draw_menu_item LABEL NEAR
     add sp, -0ch
     push di
     push si
-    mov ax, word ptr [active_window]
-    xchg word ptr [current_port], ax
+    mov ax, word ptr [window_draw_port]
+    xchg word ptr [Graf], ax
     push ax
     push ds
     pop es
@@ -1473,7 +1473,7 @@ loc_a22a:
     sub ax, ax
     sub dx, dx
 loc_a235:
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     pop si
     pop di
     mov sp, bp
@@ -1615,8 +1615,8 @@ PUBLIC redraw_indexed_item
 redraw_indexed_item LABEL NEAR
     push di
     push si
-    mov ax, word ptr [active_window]
-    xchg word ptr [current_port], ax
+    mov ax, word ptr [window_draw_port]
+    xchg word ptr [Graf], ax
     push ax
     mov di, word ptr [menu_list]
     mov si, word ptr [indexed_item_records]
@@ -1644,7 +1644,7 @@ loc_a336:
     mov di, word ptr [di]
     jmp SHORT loc_a336
 loc_a363:
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     pop si
     pop di
     ret
@@ -1868,8 +1868,8 @@ loc_a4e7:
 
 PUBLIC refresh_tracking_item
 refresh_tracking_item LABEL NEAR
-    mov ax, word ptr [active_window]
-    xchg word ptr [current_port], ax
+    mov ax, word ptr [window_draw_port]
+    xchg word ptr [Graf], ax
     push ax
     mov cx, word ptr [menu_selection_row]
     cmp cx, di
@@ -1888,7 +1888,7 @@ loc_a508:
     push ax
     call DWORD PTR [di + 2]
 loc_a520:
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     ret
 PUBLIC align_a525
 align_a525 db 0   ; Inter-entry fill in the original image
@@ -1908,7 +1908,7 @@ grid_item_callback LABEL NEAR
     mov bx, word ptr [di + 2]
     mov ax, word ptr [item_state_2618]
     xchg word ptr [bx + 02ah], ax
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     push ax
     push bx
     lea ax, [bp - 01eh]
@@ -1922,7 +1922,7 @@ grid_item_callback LABEL NEAR
     call apply_default_pen_state
     cmp word ptr [di + 01ah], 0
     jne loc_a566
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     mov word ptr [bx + 028h], 7
 loc_a566:
     mov cx, word ptr [bp + 6]
@@ -1945,7 +1945,7 @@ loc_a585:
     call set_relative_pen_state
     xchg si, ax
     pop bx
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     pop word ptr [bx + 02ah]
 loc_a593:
     pop si
@@ -2134,7 +2134,7 @@ release_grid_item_records LABEL NEAR
     call RELEASE_BACKGROUND_PORT
 loc_a6f1:
     mov ax, word ptr [di + 2]
-    mov word ptr [current_port], ax
+    mov word ptr [Graf], ax
     jmp SHORT draw_grid_cell_frame
 loc_a6f9:
     lea ax, [bp - 030h]
@@ -2222,7 +2222,7 @@ draw_grid_selection LABEL NEAR
     sub ax, word ptr [bp - 030h]
     mov word ptr [bp - 022h], ax
     mov bx, word ptr [di + 2]
-    mov si, word ptr [active_window]
+    mov si, word ptr [window_draw_port]
     mov word ptr [bp - 028h], 0
     mul word ptr [di + 01eh]
     mov cx, word ptr [bp - 02ch]
@@ -2289,7 +2289,7 @@ loc_a806:
     push ax
     push cs
     call subtract_port_origin
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     push word ptr [di + 022h]
     push cs
     call FETCH_LOCKED_SHAPE_LIST
@@ -2381,7 +2381,7 @@ slider_item_callback LABEL NEAR
     cmp si, 0
     je loc_a929
     mov ax, word ptr [di + 2]
-    xchg word ptr [current_port], ax
+    xchg word ptr [Graf], ax
     push ax
     lea ax, [bp - 02ah]
     push ds
@@ -2410,7 +2410,7 @@ loc_a909:
     push cs
     call set_relative_pen_state
     xchg si, ax
-    pop word ptr [current_port]
+    pop word ptr [Graf]
 loc_a913:
     pop si
     pop di
@@ -2986,7 +2986,7 @@ text_item_callback LABEL NEAR
     mov bx, word ptr [di + 2]
     mov ax, word ptr [item_state_2618]
     xchg word ptr [bx + 02ah], ax
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     push ax
     push bx
     lea ax, [bp - 8]
@@ -3013,7 +3013,7 @@ loc_ad7a:
     call set_relative_pen_state
     xchg si, ax
     pop bx
-    xchg word ptr [current_port], bx
+    xchg word ptr [Graf], bx
     pop word ptr [bx + 02ah]
 loc_ad8a:
     pop si
@@ -3129,9 +3129,9 @@ field_item_callback LABEL NEAR
     add sp, -010h
     push di
     push si
-    push word ptr [current_port]
-    mov ax, word ptr [active_window]
-    mov word ptr [current_port], ax
+    push word ptr [Graf]
+    mov ax, word ptr [window_draw_port]
+    mov word ptr [Graf], ax
     mov di, word ptr [bp + 0ah]
     mov ax, word ptr [bp + 8]
     cmp ax, 2
@@ -3143,7 +3143,7 @@ field_item_callback LABEL NEAR
     cmp ax, 1
     je loc_aea3
 loc_ae8e:
-    pop word ptr [current_port]
+    pop word ptr [Graf]
     pop si
     pop di
     mov sp, bp
@@ -3202,7 +3202,7 @@ loc_aef8:
     mov ax, word ptr [di + 0eh]
     add ax, 4
     add word ptr [di + 012h], ax
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     push word ptr [bx + 02ah]
     push cs
     call resolve_handle_to_far_payload
@@ -3288,7 +3288,7 @@ loc_af7e:
     push ax
     push cs
     call stroke_offset_edges
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     mov word ptr [bx + 028h], 0
     push ds
     push si
@@ -3348,7 +3348,7 @@ loc_b022:
     push dx
     inc ax
     push ax
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     push word ptr [bx + 02ah]
     push cs
     call resolve_handle_to_far_payload
@@ -3359,7 +3359,7 @@ loc_b022:
     push ax
     push cs
     call MoveTo
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     mov word ptr [bx + 028h], 7
     mov ax, 1
     test word ptr [di + 014h], ax
@@ -3387,7 +3387,7 @@ loc_b06b:
     mov al, byte ptr [si]
     test al, al
     je loc_b08c
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     mov cx, word ptr [bp - 6]
     inc cx
     mov word ptr [bx + 024h], cx
@@ -3410,7 +3410,7 @@ loc_b08c:
     mov dx, word ptr [bp - 2]
     sub dx, ax
     sub dx, 2
-    mov bx, word ptr [current_port]
+    mov bx, word ptr [Graf]
     xchg bx, si
     mov word ptr [si + 024h], dx
     mov ax, word ptr [si + 028h]

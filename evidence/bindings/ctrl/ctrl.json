@@ -19,7 +19,7 @@
       "FRAME_NUMBER",
       "PLAYERCTRL",
       "GRAB_ENABLED",
-      "ACTOR_SLOTS",
+      "ROOMOPP",
       "FRAME_RESOURCE",
       "LOADSELECT",
       "COPY_KID_TO_CHAR",
@@ -77,7 +77,7 @@
       "LOAD_SHADOW_WITH_OPPONENT",
       "RESTORE_HANDLE_FLAGS",
       "REREAD_CELLS",
-      "STATE_KIND",
+      "VIEWED_ROOM",
       "IS_SIX_KIND",
       "STATE_FLAG",
       "REMOVEOBJ",
@@ -108,7 +108,7 @@
       "TURN_HIDDEN_ACTOR",
       "JUMPSEQ",
       "SPRITE_TABLE_INDEX",
-      "DEFAULT_CLIP_RECT",
+      "NULLRECT",
       "DEATH_SEQUENCE_ALTERNATE",
       "TRIGGERJINNEE",
       "SPRITE_TABLES",
@@ -133,10 +133,10 @@
       "REPLAY_INPUT",
       "GET_EDGE_DISTANCE",
       "GRAVITY",
-      "INVERT_INPUT",
+      "INVERT",
       "ISEXITCHASINGSKEL",
       "CELL_ROOM",
-      "INPUT_ROOM",
+      "LEVELIDX",
       "GET_EDGE_DISTANCE_AT",
       "ANIMCHAR",
       "ACTOR_PAIR",
@@ -162,7 +162,7 @@
       "CLIP_RUINS",
       "CTRL_PLAYER",
       "GET_ABOVE_FRONT",
-      "ROOM_MODIFIERS",
+      "BLUES",
       "CLIP_TEMPLE",
       "GET_ABOVE_BEHIND",
       "ADD_CHAR_VELOCITY",
@@ -226,7 +226,7 @@
       "GUARD_CTRL",
       "SOUND_STEPS",
       "GET_UNDER_FOOT",
-      "ANIMATION_TICK"
+      "ACTIVE_SOUND_CHANNELS"
     ],
     "groups": [
       {
@@ -1016,7 +1016,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 5814,
+        "length": 5792,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -1946,7 +1946,7 @@
           "index": 162,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_MODIFIERS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -1960,7 +1960,7 @@
         "index": 162,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_MODIFIERS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -2378,7 +2378,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2392,7 +2392,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2459,7 +2459,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2473,7 +2473,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2540,7 +2540,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2554,7 +2554,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2594,7 +2594,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2608,7 +2608,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2621,7 +2621,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2635,7 +2635,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2675,7 +2675,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2689,7 +2689,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -6972,7 +6972,7 @@
           "index": 226,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATION_TICK",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -6986,7 +6986,7 @@
         "index": 226,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATION_TICK",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -7296,7 +7296,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SLOTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -7310,7 +7310,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SLOTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -7404,7 +7404,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SLOTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -7418,7 +7418,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SLOTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -12453,7 +12453,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -12467,7 +12467,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -12480,7 +12480,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -12494,7 +12494,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -14640,7 +14640,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "STATE_KIND",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -14654,7 +14654,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "STATE_KIND",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -16233,7 +16233,7 @@
           "index": 136,
           "kind": "external",
           "method": 6,
-          "name": "INPUT_ROOM",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -16247,7 +16247,7 @@
         "index": 136,
         "kind": "external",
         "method": 6,
-        "name": "INPUT_ROOM",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -16719,7 +16719,7 @@
           "index": 133,
           "kind": "external",
           "method": 6,
-          "name": "INVERT_INPUT",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -16733,7 +16733,7 @@
         "index": 133,
         "kind": "external",
         "method": 6,
-        "name": "INVERT_INPUT",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -16881,7 +16881,7 @@
           "index": 133,
           "kind": "external",
           "method": 6,
-          "name": "INVERT_INPUT",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -16895,7 +16895,7 @@
         "index": 133,
         "kind": "external",
         "method": 6,
-        "name": "INVERT_INPUT",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -20283,7 +20283,7 @@
           "index": 108,
           "kind": "external",
           "method": 6,
-          "name": "DEFAULT_CLIP_RECT",
+          "name": "NULLRECT",
           "zero_displacement": true
         }
       },
@@ -20297,7 +20297,7 @@
         "index": 108,
         "kind": "external",
         "method": 6,
-        "name": "DEFAULT_CLIP_RECT",
+        "name": "NULLRECT",
         "zero_displacement": true
       }
     },
@@ -21012,7 +21012,7 @@
           "index": 108,
           "kind": "external",
           "method": 6,
-          "name": "DEFAULT_CLIP_RECT",
+          "name": "NULLRECT",
           "zero_displacement": true
         }
       },
@@ -21026,7 +21026,7 @@
         "index": 108,
         "kind": "external",
         "method": 6,
-        "name": "DEFAULT_CLIP_RECT",
+        "name": "NULLRECT",
         "zero_displacement": true
       }
     },
@@ -22254,7 +22254,7 @@
           "index": 133,
           "kind": "external",
           "method": 6,
-          "name": "INVERT_INPUT",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -22268,7 +22268,7 @@
         "index": 133,
         "kind": "external",
         "method": 6,
-        "name": "INVERT_INPUT",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -24811,7 +24811,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SLOTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -24825,7 +24825,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SLOTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -24995,7 +24995,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SLOTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -25009,7 +25009,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SLOTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -25156,6 +25156,20 @@
           "image_offset": 22028,
           "operand_offset": 1,
           "space": "overlay-3"
+        }
+      ]
+    },
+    "ACTIVE_SOUND_CHANNELS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8693,
+      "witnesses": [
+        {
+          "bytes_hex": "f606f52101",
+          "entry": "root:0000:0a84",
+          "image_offset": 2693,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     },
@@ -25331,12 +25345,6 @@
         }
       ]
     },
-    "ACTOR_SLOTS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23744,
-      "witnesses": []
-    },
     "ACTOR_VARIANT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25484,20 +25492,6 @@
         }
       ]
     },
-    "ANIMATION_TICK": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8693,
-      "witnesses": [
-        {
-          "bytes_hex": "f606f52101",
-          "entry": "root:0000:0a84",
-          "image_offset": 2693,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "ANIMATION_VARIANT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25554,6 +25548,20 @@
           "image_offset": 10269,
           "operand_offset": 2,
           "space": "overlay-3"
+        }
+      ]
+    },
+    "BLUES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25234,
+      "witnesses": [
+        {
+          "bytes_hex": "8b3e9262",
+          "entry": "overlay-14:2dc2:0708",
+          "image_offset": 1815,
+          "operand_offset": 2,
+          "space": "overlay-14"
         }
       ]
     },
@@ -25842,20 +25850,6 @@
           "image_offset": 3365,
           "operand_offset": 1,
           "space": "root"
-        }
-      ]
-    },
-    "DEFAULT_CLIP_RECT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8384,
-      "witnesses": [
-        {
-          "bytes_hex": "bec020",
-          "entry": "overlay-3:2802:09ca",
-          "image_offset": 21957,
-          "operand_offset": 1,
-          "space": "overlay-3"
         }
       ]
     },
@@ -26280,21 +26274,7 @@
         }
       ]
     },
-    "INPUT_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a2180a",
-          "entry": "root:0284:0326",
-          "image_offset": 11131,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "INVERT_INPUT": {
+    "INVERT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24206,
@@ -26473,6 +26453,20 @@
         }
       ]
     },
+    "LEVELIDX": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2584,
+      "witnesses": [
+        {
+          "bytes_hex": "a2180a",
+          "entry": "root:0284:0326",
+          "image_offset": 11131,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "LOSE_GAME": {
       "entry_sha256": "f675b684256f2bd4a3010dcc50268572b91a90cb67d4d544cb87d4e9b3700525",
       "entry_target_id": "root:0e56:11e8",
@@ -26496,6 +26490,20 @@
           "image_offset": 4976,
           "relocation_index": 57,
           "space": "overlay-8"
+        }
+      ]
+    },
+    "NULLRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8384,
+      "witnesses": [
+        {
+          "bytes_hex": "bec020",
+          "entry": "overlay-3:2802:09ca",
+          "image_offset": 21957,
+          "operand_offset": 1,
+          "space": "overlay-3"
         }
       ]
     },
@@ -26727,6 +26735,12 @@
       "space": "overlay-4",
       "witnesses": []
     },
+    "ROOMOPP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23744,
+      "witnesses": []
+    },
     "ROOM_KINDS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26738,20 +26752,6 @@
           "image_offset": 52802,
           "operand_offset": 2,
           "space": "root"
-        }
-      ]
-    },
-    "ROOM_MODIFIERS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25234,
-      "witnesses": [
-        {
-          "bytes_hex": "8b3e9262",
-          "entry": "overlay-14:2dc2:0708",
-          "image_offset": 1815,
-          "operand_offset": 2,
-          "space": "overlay-14"
         }
       ]
     },
@@ -27019,20 +27019,6 @@
         }
       ]
     },
-    "STATE_KIND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "f626345e",
-          "entry": "overlay-14:2dc2:0000",
-          "image_offset": 521,
-          "operand_offset": 2,
-          "space": "overlay-14"
-        }
-      ]
-    },
     "STATE_LEFT_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -27166,6 +27152,20 @@
           "image_offset": 47966,
           "operand_offset": 2,
           "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "f626345e",
+          "entry": "overlay-14:2dc2:0000",
+          "image_offset": 521,
+          "operand_offset": 2,
+          "space": "overlay-14"
         }
       ]
     }

@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 EXTRN AXIS_SEGMENT_CALLBACK:WORD
 .CODE
 EXTRN STROKE_RECTANGLE:NEAR
@@ -10,7 +10,7 @@ PUBLIC DRAW_AXIS_SEGMENT
 DRAW_AXIS_SEGMENT PROC FAR
     push bp
     mov bp, sp
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     mov ax, [bx+22h]
     cmp ax, [bp+6]
     je shared_origin_5070
@@ -51,7 +51,7 @@ SUBTRACT_PORT_ORIGIN PROC FAR
     push bp
     mov bp, sp
     push di
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     les di, DWORD PTR [bp+6]
     les ax, DWORD PTR es:[di]
     sub ax, [bx+4]

@@ -36,16 +36,16 @@ typedef struct {
     uword extra;
 } RoomCell;
 
-extern uword animation_word;
+extern uword BlueSpec;
 extern sbyte trob_index;
 extern ubyte trob_room;
 extern sbyte trob_mode;
 extern Character actor;
-extern Cell tile_state;
+extern Cell current_tile;
 extern RoomCell room_cells[24][30];
-extern RoomCell near *room_modifiers;
+extern RoomCell near *BlueS;
 extern int cell_x[];
-extern int collision_x;
+extern int LeftEdge;
 
 static Rect redraw_bounds = {26, -24, 43, 52};
 static Rect first_blade = {26, 20, 33, 57};
@@ -79,27 +79,27 @@ void far pascal TriggerScythe(ubyte room, sbyte index);
 
 void far pascal AnimScythe(void)
 {
-    int frame = animation_word & 31;
+    int frame = BlueSpec & 31;
     if (frame < 19) {
-        ++animation_word;
+        ++BlueSpec;
         if (ScytheImg[frame] != ScytheImg[frame + 1])
             RedrawScythe(0);
         if (frame == 0)
             AddSound(84);
         else if (frame == 15)
             AddSound(83);
-        else if (frame >= 16 && (animation_word & 0x40) && !(animation_word & 0x80)) {
-            animation_word |= 0x80;
+        else if (frame >= 16 && (BlueSpec & 0x40) && !(BlueSpec & 0x80)) {
+            BlueSpec |= 0x80;
             RedrawScythe(1);
         }
     } else {
-        animation_word &= ~31;
+        BlueSpec &= ~31;
         trob_mode = -1;
     }
     ReadCell(trob_room, trob_index % 10 - 1, trob_index / 10);
-    *(ubyte near *)&tile_state.modifier = 0;
-    room_cells[tile_state.room][tile_state.index].modifier =
-        (tile_state.modifier |= (ubyte)animation_word);
+    *(ubyte near *)&current_tile.modifier = 0;
+    room_cells[current_tile.room][current_tile.index].modifier =
+        (current_tile.modifier |= (ubyte)BlueSpec);
 }
 
 void far pascal CheckScythe(void)
@@ -108,7 +108,7 @@ void far pascal CheckScythe(void)
         actor.life < 0 && actor.row * 63 + 40 <= actor.x) {
         char kind = ReadCell(actor.room, actor.column, actor.row);
         if ((kind == 12 || kind == 13) && cell_x[actor.column] + 18 < actor.y)
-            TriggerScythe(tile_state.room, tile_state.index);
+            TriggerScythe(current_tile.room, current_tile.index);
     }
 }
 
@@ -125,7 +125,7 @@ void far pascal CheckScytheHit(void)
     while (column <= actor.column + 1) {
         kind = ReadCell(actor.room, column, actor.row);
         if (kind == 12 || kind == 13) {
-            if (GetScytheHitType(tile_state.modifier) &&
+            if (GetScytheHitType(current_tile.modifier) &&
                 ComputeBladeHitRect(&bounds) &&
                 SectRect(&bounds, &bounds, &actor.bounds) &&
                 (actor.frame < 267 || actor.frame > 271)) {
@@ -139,12 +139,12 @@ void far pascal CheckScytheHit(void)
                 AnimChar();
                 decrement_life_points(100);
                 AddSound(85);
-                room_modifiers[tile_state.index].modifier = (tile_state.modifier |= 0x40);
+                BlueS[current_tile.index].modifier = (current_tile.modifier |= 0x40);
                 if (kind == 12)
                     ReadCell(actor.room, column + 1, actor.row);
                 else
                     ReadCell(actor.room, column - 1, actor.row);
-                room_modifiers[tile_state.index].modifier = (tile_state.modifier |= 0x40);
+                BlueS[current_tile.index].modifier = (current_tile.modifier |= 0x40);
             }
             done = 1;
         }
@@ -157,7 +157,7 @@ void far pascal CheckScytheHit(void)
 int far pascal ComputeBladeHitRect(Rect near *bounds)
 {
     int valid = 1;
-    int phase = tile_state.modifier & 31;
+    int phase = current_tile.modifier & 31;
     if (phase == 2)
         UnionRect(bounds, &first_blade, &second_blade);
     else if (phase == 16)
@@ -167,8 +167,8 @@ int far pascal ComputeBladeHitRect(Rect near *bounds)
     else
         valid = 0;
     if (valid)
-        OffsetRect(bounds, bounds, (tile_state.column + (tile_state.kind == 13 ? 1 : 0)) << 5,
-                   63 * tile_state.row);
+        OffsetRect(bounds, bounds, (current_tile.column + (current_tile.kind == 13 ? 1 : 0)) << 5,
+                   63 * current_tile.row);
     return valid;
 }
 
@@ -205,12 +205,12 @@ int far pascal ScytheBarrToStandUp(void)
 {
     int blocked = 0;
     char kind = ReadCell(actor.room, actor.column, actor.row);
-    if (kind == 12 && ScytheBladeExtended(tile_state.modifier)) {
+    if (kind == 12 && ScytheBladeExtended(current_tile.modifier)) {
         blocked = 1;
     } else if (kind == 13) {
         ReadCell(actor.room, actor.column - 1, actor.row);
-        if (ScytheBladeExtended(tile_state.modifier) &&
-            cell_x[actor.column] + 9 >= collision_x)
+        if (ScytheBladeExtended(current_tile.modifier) &&
+            cell_x[actor.column] + 9 >= LeftEdge)
             blocked = 1;
     }
     return blocked;
@@ -223,10 +223,10 @@ int far pascal ScytheBladeExtended(unsigned char value)
 }
 void far pascal TriggerScythe(ubyte room, sbyte index)
 {
-    if (tile_state.kind == 12) {
-        ReadCell(room, tile_state.column + 1, tile_state.row);
-        room = tile_state.room;
-        index = tile_state.index;
+    if (current_tile.kind == 12) {
+        ReadCell(room, current_tile.column + 1, current_tile.row);
+        room = current_tile.room;
+        index = current_tile.index;
     }
     if (!(room_cells[room][index].modifier & 31))
         add_trob(room, index, 1, 13);

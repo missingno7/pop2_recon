@@ -37,7 +37,7 @@ extern void far *far cdecl _fmemcpy(void far *, const void far *, unsigned);
 extern int far cdecl _fmemcmp(const void far *, const void far *, unsigned);
 
 extern int fade_delay;
-extern int fade_queue_slot;
+extern int Graf;
 extern Rect screen_bounds;
 
 fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsigned blocks);
@@ -78,7 +78,7 @@ fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsig
     read_dac_blocks(blocks, state->first);
     set_dac_blocks(blocks, 0);
     _fmemset(state->work, 0, sizeof(palette));
-    MEASURE_TEXT(fade_queue_slot, port, state, state, 0);
+    MEASURE_TEXT(Graf, port, state, state, 0);
     fade_delay = 0;
     return state;
 }

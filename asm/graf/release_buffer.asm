@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 EXTRN RELEASE_BUFFER_CALLBACK:WORD
 EXTRN ALLOCATE_BUFFER_CALLBACK:WORD
 .CODE
@@ -159,7 +159,7 @@ measure_next_span_651c:
     sub di, ax
     ja measure_next_span_651c
 compute_vertical_position_651c:
-    mov si, CURRENT_CONTEXT
+    mov si, Graf
     push WORD PTR [si+2ah]
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD

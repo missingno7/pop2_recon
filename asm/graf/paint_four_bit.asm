@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 EXTRN HORIZONTAL_PIXELS_PER_BYTE:BYTE
 EXTRN PAINT_FOUR_BIT_CALLBACK:WORD
 EXTRN PAINT_PLAIN_CALLBACK:WORD
@@ -16,7 +16,7 @@ PUBLIC MOVETO
 MOVETO PROC FAR
     push bp
     mov bp, sp
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     ; LES loads both coordinate words. No memory is accessed through ES.
     les ax, DWORD PTR [bp+6]
     mov [bx+22h], ax
@@ -127,7 +127,7 @@ DISPOSE_BITMAP_PORT PROC FAR
     les ax, DWORD PTR [bx]
     push es
     push ax
-    push CURRENT_CONTEXT
+    push Graf
     push bx
     add bx, 10h
     push ds
@@ -156,7 +156,7 @@ ALLOCATE_CLIPPED_PORT PROC FAR
     add sp, -1ah
     push di
     push si
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     mov cx, 10h
     mov si, bx
     lea di, [bp-18h]
@@ -243,7 +243,7 @@ port_ready_51b2:
     retf 4
 finish_bitmap_51b2:
     push si
-    push CURRENT_CONTEXT
+    push Graf
     lea ax, [si+10h]
     push ds
     push ax

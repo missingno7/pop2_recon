@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 EXTRN MODE_TABLE:WORD
 EXTRN SAVED_BIOS_EQUIPMENT:WORD
 EXTRN SAVED_BIOS_MODE:BYTE
@@ -65,7 +65,7 @@ COPY_CURRENT_PORT_ORIGIN PROC FAR
     push di
     push si
     mov cx, 8
-    mov si, CURRENT_CONTEXT
+    mov si, Graf
     add si, 22h
     les di, DWORD PTR [bp+6]
     rep movsb
@@ -119,7 +119,7 @@ INITIALIZE_GRAPHICS_MODE PROC FAR
     push ax
     push cs
     call INIT_PORT
-    mov CURRENT_CONTEXT, ax
+    mov Graf, ax
     add ax, 4
     push ds
     push ax
@@ -140,7 +140,7 @@ SHUTDOWN_GRAPHICS_MODE PROC FAR
     xchg cx, mode_snapshot
     jcxz shutdown_done_4f10
     mov ax, OFFSET DEFAULT_PORT
-    mov CURRENT_CONTEXT, ax
+    mov Graf, ax
     add ax, 4
     push ds
     push ax

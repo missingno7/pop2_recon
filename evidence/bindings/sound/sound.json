@@ -11,7 +11,7 @@
       "ADDSOUND",
       "LOCATION_KIND",
       "GETLEAVELEVELSONGID",
-      "SOUND_FLAGS",
+      "ACTIVE_SOUND_CHANNELS",
       "LOAD_SONG",
       "OPPONENT_KIND",
       "OPPONENT_PENDING",
@@ -30,7 +30,7 @@
       "AMBIENT_STATE",
       "SELECT_SPECIAL_AMBIENT",
       "PREVIOUS_TRACK_RANGE",
-      "AMBIENT_ROOM",
+      "VIEWED_ROOM",
       "PLAY_SONG",
       "AMBIENT_TABLE",
       "KID_ACTION",
@@ -386,7 +386,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2744,
+        "length": 2753,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2044,7 +2044,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_FLAGS",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -2058,7 +2058,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_FLAGS",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -3972,7 +3972,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_FLAGS",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -3986,7 +3986,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_FLAGS",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -3999,7 +3999,7 @@
           "index": 30,
           "kind": "external",
           "method": 6,
-          "name": "AMBIENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4013,7 +4013,7 @@
         "index": 30,
         "kind": "external",
         "method": 6,
-        "name": "AMBIENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4026,7 +4026,7 @@
           "index": 30,
           "kind": "external",
           "method": 6,
-          "name": "AMBIENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4040,7 +4040,7 @@
         "index": 30,
         "kind": "external",
         "method": 6,
-        "name": "AMBIENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4053,7 +4053,7 @@
           "index": 30,
           "kind": "external",
           "method": 6,
-          "name": "AMBIENT_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4067,7 +4067,7 @@
         "index": 30,
         "kind": "external",
         "method": 6,
-        "name": "AMBIENT_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4983,7 +4983,7 @@
           "index": 11,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_FLAGS",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -4997,7 +4997,7 @@
         "index": 11,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_FLAGS",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -5305,6 +5305,21 @@
   },
   "schema": 1,
   "symbols": {
+    "ACTIVE_SOUND_CHANNELS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8693,
+      "witnesses": [
+        {
+          "bytes_hex": "f606f52101",
+          "context": "test byte ptr [0x21f5], 1 reached from root:0000:0a84",
+          "entry": "root:0000:0a84",
+          "image_offset": 2693,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "AMBIENT_ACTOR_ACTION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5358,21 +5373,6 @@
       "kind": "dgroup-public",
       "offset": 2720,
       "provider": "group:english/english"
-    },
-    "AMBIENT_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "context": "mov al, byte ptr [0x5e34] reached from root:0000:0dd4",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
     },
     "AMBIENT_STATE": {
       "group": "DGROUP",
@@ -5811,21 +5811,6 @@
         }
       ]
     },
-    "SOUND_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8693,
-      "witnesses": [
-        {
-          "bytes_hex": "f606f52101",
-          "context": "test byte ptr [0x21f5], 1 reached from root:0000:0a84",
-          "entry": "root:0000:0a84",
-          "image_offset": 2693,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "SOUND_HANDLES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5902,6 +5887,21 @@
           "file_offset": 111688,
           "image_offset": 103496,
           "relocation_index": 1611,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "context": "mov al, byte ptr [0x5e34] reached from root:0000:0dd4",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

@@ -2,7 +2,7 @@
 ; The unreferenced alignment bytes have draft publics so they own no code.
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 EXTRN DITHER_SEED:WORD
 EXTRN MOUSE_PRESENT:WORD
 EXTRN SCREEN_WIDTH:WORD
@@ -140,7 +140,7 @@ destination_right:
     sub ax, [bx+6]
     xchg cx, ax
 
-    cmp bx, CURRENT_CONTEXT
+    cmp bx, Graf
     jne measure_region
     mov ax, [bx+18h]
     sub ax, [bp-0ch]
@@ -406,7 +406,7 @@ swap_context:
     dec ax
     mov CURSOR_SHOW_COUNT, ax
     sub ax, ax
-    xchg ax, CURRENT_CONTEXT
+    xchg ax, Graf
     push ax
     mov ax, OFFSET DEFAULT_PORT
     push ax
@@ -421,7 +421,7 @@ swap_context:
     push ax
     push cs
     call MEASURE_TEXT
-    pop CURRENT_CONTEXT
+    pop Graf
     retf
 decrease_only:
     dec ax
@@ -789,7 +789,7 @@ mouse_show_done:
 repaint_cursor:
     mov bx, OFFSET DEFAULT_PORT
     mov ax, bx
-    xchg CURRENT_CONTEXT, ax
+    xchg Graf, ax
     push ax
     mov ax, CURSOR_X
     sub ax, cursor_hot_x
@@ -842,7 +842,7 @@ repaint_cursor:
     push cursor_plane_mask
     push cs
     call PAINT_FOUR_BIT
-    pop CURRENT_CONTEXT
+    pop Graf
     jmp increment_show_count
 SHOW_MOUSE_GRAPHICS ENDP
 
@@ -992,7 +992,7 @@ PAINT_INDEXED_SHAPE PROC FAR
     add sp, -18h
     push di
     push si
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     les si, DWORD PTR [bp+0eh]
     mov ax, [bp+0ch]
     sub ax, [bx+6]

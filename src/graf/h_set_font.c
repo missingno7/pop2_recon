@@ -3,11 +3,11 @@ struct Context {
     int attribute;
 };
 
-extern struct Context *CURRENT_CONTEXT;
+extern struct Context *Graf;
 
 int far pascal hSetFont(int value)
 {
-    int old = CURRENT_CONTEXT->attribute;
-    CURRENT_CONTEXT->attribute = value;
+    int old = Graf->attribute;
+    Graf->attribute = value;
     return old;
 }

@@ -21,7 +21,7 @@
       "DIALOGFADEOUT",
       "FIND_DIALOG_STRING",
       "MIRRORMCGABLOCK",
-      "ROOM_TO_DRAW",
+      "CUTROOM",
       "INITDIALOG",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
       "PAINT_PLAIN",
@@ -37,7 +37,7 @@
       "CUTSCENE_FLAGS",
       "GAME_IS_SUSPENDED",
       "WRITE_DAC_BLOCK",
-      "CURRENT_ROOM_STATE",
+      "TIMER_DISABLED",
       "ROOM_EFFECT",
       "MEASURE_TEXT",
       "LIVE_DIRECTION",
@@ -47,7 +47,7 @@
       "SAVED_GAME_ACTIVE",
       "MENU_DISABLED",
       "DRAW_HALL_RECORDS",
-      "LEVEL_FLAGS",
+      "INVERT",
       "DIALOG_BLOCKED",
       "FADE_TO",
       "EDIT_HALL_NAME",
@@ -56,7 +56,7 @@
       "STROKE_PORT_RECT",
       "WRITE_HALL_FILE",
       "ROOM_OBJECTS",
-      "SAVED_LEVEL",
+      "LEVELIDX",
       "CONTROL_MODE",
       "DIALOGDRAWSTR",
       "COMPUTEHALLPLAYERRECT",
@@ -183,18 +183,18 @@
       "ADD_TEXT_OFFSET",
       "DRAW_MENU_ICON",
       "ROOMS_IN_LEVEL",
-      "CURRENT_PORT",
+      "GRAF",
       "INTERSECT_CREDITS_RECT",
       "CHANGE_MENU_OPTION",
       "FIND_ROOM_CONTROL",
-      "DIALOG_PORT",
+      "SCREENPORT",
       "HGETFONT",
       "GET_CREDIT_STRINGS",
       "DRAWDIALOGFRAME",
       "SAVED_PORT",
       "DISPOSE_HANDLE",
       "LOCK_CREDIT_STRINGS",
-      "REBIRTH_DATA",
+      "HREBIRTHSAVED",
       "DIALOG_PORT_HANDLE",
       "__itoa",
       "NTH_CREDIT_STRING",
@@ -755,7 +755,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 6379,
+        "length": 6354,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -767,7 +767,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 4606,
+        "length": 4600,
         "name": "$$TYPES",
         "overlay": "",
         "use32": false
@@ -875,7 +875,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -889,7 +889,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1091,7 +1091,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -1105,7 +1105,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1226,7 +1226,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -1240,7 +1240,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1361,7 +1361,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -1375,7 +1375,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -1712,7 +1712,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -1726,7 +1726,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -2468,7 +2468,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -2482,7 +2482,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -2495,7 +2495,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -2509,7 +2509,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -2549,7 +2549,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -2563,7 +2563,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -2576,7 +2576,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -2590,7 +2590,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -3332,7 +3332,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -3346,7 +3346,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -3494,7 +3494,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -3508,7 +3508,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -3575,7 +3575,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -3589,7 +3589,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -3602,7 +3602,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -3616,7 +3616,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -4115,7 +4115,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -4129,7 +4129,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -4304,7 +4304,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -4318,7 +4318,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -4331,7 +4331,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -4345,7 +4345,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -4817,7 +4817,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -4831,7 +4831,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -4844,7 +4844,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -4858,7 +4858,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -5384,7 +5384,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -5398,7 +5398,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -5411,7 +5411,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -5425,7 +5425,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -5843,7 +5843,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -5857,7 +5857,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -7675,7 +7675,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -7689,7 +7689,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -7837,7 +7837,7 @@
           "index": 37,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM_STATE",
+          "name": "TIMER_DISABLED",
           "zero_displacement": true
         }
       },
@@ -7851,7 +7851,7 @@
         "index": 37,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM_STATE",
+        "name": "TIMER_DISABLED",
         "zero_displacement": true
       }
     },
@@ -7864,7 +7864,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_FLAGS",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -7878,7 +7878,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_FLAGS",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -8026,7 +8026,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -8040,7 +8040,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -8161,7 +8161,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8175,7 +8175,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8188,7 +8188,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8202,7 +8202,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8215,7 +8215,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8229,7 +8229,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8242,7 +8242,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8256,7 +8256,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8296,7 +8296,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8310,7 +8310,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8323,7 +8323,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8337,7 +8337,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8507,7 +8507,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8521,7 +8521,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8534,7 +8534,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8548,7 +8548,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8561,7 +8561,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8575,7 +8575,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8588,7 +8588,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -8602,7 +8602,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -8875,7 +8875,7 @@
           "index": 37,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM_STATE",
+          "name": "TIMER_DISABLED",
           "zero_displacement": true
         }
       },
@@ -8889,7 +8889,7 @@
         "index": 37,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM_STATE",
+        "name": "TIMER_DISABLED",
         "zero_displacement": true
       }
     },
@@ -8902,7 +8902,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_FLAGS",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -8916,7 +8916,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_FLAGS",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -9091,7 +9091,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -9105,7 +9105,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -9172,7 +9172,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9186,7 +9186,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9226,7 +9226,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9240,7 +9240,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9253,7 +9253,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_FLAGS",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -9267,7 +9267,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_FLAGS",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -9280,7 +9280,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9294,7 +9294,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9334,7 +9334,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9348,7 +9348,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9388,7 +9388,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9402,7 +9402,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9469,7 +9469,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9483,7 +9483,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9496,7 +9496,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9510,7 +9510,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9577,7 +9577,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9591,7 +9591,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9604,7 +9604,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9618,7 +9618,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9685,7 +9685,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9699,7 +9699,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9712,7 +9712,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9726,7 +9726,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9793,7 +9793,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9807,7 +9807,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9820,7 +9820,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9834,7 +9834,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9874,7 +9874,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9888,7 +9888,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9901,7 +9901,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9915,7 +9915,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9928,7 +9928,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9942,7 +9942,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -9982,7 +9982,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -9996,7 +9996,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10009,7 +10009,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10023,7 +10023,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10036,7 +10036,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10050,7 +10050,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10063,7 +10063,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10077,7 +10077,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10117,7 +10117,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10131,7 +10131,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10144,7 +10144,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10158,7 +10158,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10171,7 +10171,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10185,7 +10185,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10198,7 +10198,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10212,7 +10212,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10252,7 +10252,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10266,7 +10266,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10279,7 +10279,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10293,7 +10293,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10306,7 +10306,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10320,7 +10320,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10360,7 +10360,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10374,7 +10374,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10414,7 +10414,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10428,7 +10428,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10441,7 +10441,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_FLAGS",
+          "name": "INVERT",
           "zero_displacement": true
         }
       },
@@ -10455,7 +10455,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_FLAGS",
+        "name": "INVERT",
         "zero_displacement": true
       }
     },
@@ -10468,7 +10468,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10482,7 +10482,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10549,7 +10549,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10563,7 +10563,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10576,7 +10576,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10590,7 +10590,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10657,7 +10657,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10671,7 +10671,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10684,7 +10684,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10698,7 +10698,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10765,7 +10765,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10779,7 +10779,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10792,7 +10792,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10806,7 +10806,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10873,7 +10873,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10887,7 +10887,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10900,7 +10900,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10914,7 +10914,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10927,7 +10927,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10941,7 +10941,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -10954,7 +10954,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -10968,7 +10968,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -11116,7 +11116,7 @@
           "index": 21,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_TO_DRAW",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -11130,7 +11130,7 @@
         "index": 21,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_TO_DRAW",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -11197,7 +11197,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -11211,7 +11211,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -11224,7 +11224,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -11238,7 +11238,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -11251,7 +11251,7 @@
           "index": 194,
           "kind": "external",
           "method": 6,
-          "name": "REBIRTH_DATA",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -11265,7 +11265,7 @@
         "index": 194,
         "kind": "external",
         "method": 6,
-        "name": "REBIRTH_DATA",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -11305,7 +11305,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -11319,7 +11319,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -11332,7 +11332,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -11346,7 +11346,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -11386,7 +11386,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -11400,7 +11400,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -12068,7 +12068,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -12082,7 +12082,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -12610,7 +12610,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -12624,7 +12624,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -12691,7 +12691,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -12705,7 +12705,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -13339,7 +13339,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -13353,7 +13353,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -13366,7 +13366,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -13380,7 +13380,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -13555,7 +13555,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -13569,7 +13569,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -13663,7 +13663,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -13677,7 +13677,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -13690,7 +13690,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -13704,7 +13704,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -15253,7 +15253,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -15267,7 +15267,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -15280,7 +15280,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -15294,7 +15294,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -16055,7 +16055,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -16069,7 +16069,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -17642,7 +17642,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -17656,7 +17656,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -17669,7 +17669,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -17683,7 +17683,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -18140,7 +18140,7 @@
           "index": 187,
           "kind": "external",
           "method": 6,
-          "name": "DIALOG_PORT",
+          "name": "SCREENPORT",
           "zero_displacement": true
         }
       },
@@ -18154,7 +18154,7 @@
         "index": 187,
         "kind": "external",
         "method": 6,
-        "name": "DIALOG_PORT",
+        "name": "SCREENPORT",
         "zero_displacement": true
       }
     },
@@ -18167,7 +18167,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -18181,7 +18181,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -18292,7 +18292,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -18306,7 +18306,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -18427,7 +18427,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -18441,7 +18441,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -18996,7 +18996,7 @@
           "index": 183,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_PORT",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -19010,7 +19010,7 @@
         "index": 183,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_PORT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -19372,30 +19372,16 @@
         }
       ]
     },
-    "CURRENT_PORT": {
+    "CUTROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 9664,
+      "offset": 27853,
       "witnesses": [
         {
-          "bytes_hex": "a3c025",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
+          "bytes_hex": "a2cd6c",
+          "entry": "root:0000:0242",
+          "image_offset": 2211,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "CURRENT_ROOM_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 470,
-      "witnesses": [
-        {
-          "bytes_hex": "803ed60100",
-          "entry": "root:0000:0cbc",
-          "image_offset": 3268,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -19441,20 +19427,6 @@
           "entry": "root:0b41:1992",
           "image_offset": 52650,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "DIALOG_PORT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24162,
-      "witnesses": [
-        {
-          "bytes_hex": "b8625e",
-          "entry": "root:0000:0000",
-          "image_offset": 4894,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -19764,6 +19736,20 @@
         }
       ]
     },
+    "GRAF": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "HGETFONT": {
       "entry_sha256": "c6f7d1676eac2ecfa81767740f5393c4e0f8ed61b404abdb74032c621a795ffd",
       "entry_target_id": "root:1101:4faa",
@@ -19798,6 +19784,34 @@
         }
       ]
     },
+    "HREBIRTHSAVED": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "a1fe5b",
+              "entry": "root:0284:0096",
+              "image_offset": 10456,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 23548,
+      "witnesses": [
+        {
+          "bytes_hex": "0b06fc5b",
+          "entry": "root:0284:0096",
+          "image_offset": 10459,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "INSET_RECT": {
       "entry_sha256": "182d4e7c3e5a692de062d2c420c518cdee9e337466fdf52c60a462758c2f683b",
       "entry_target_id": "root:1101:502a",
@@ -19811,6 +19825,20 @@
           "file_offset": 32001,
           "image_offset": 23809,
           "relocation_index": 621,
+          "space": "root"
+        }
+      ]
+    },
+    "INVERT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24206,
+      "witnesses": [
+        {
+          "bytes_hex": "833e8e5e00",
+          "entry": "root:0000:1000",
+          "image_offset": 4830,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -19939,16 +19967,16 @@
         }
       ]
     },
-    "LEVEL_FLAGS": {
+    "LEVELIDX": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 24206,
+      "offset": 2584,
       "witnesses": [
         {
-          "bytes_hex": "833e8e5e00",
-          "entry": "root:0000:1000",
-          "image_offset": 4830,
-          "operand_offset": 2,
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -20205,34 +20233,6 @@
         }
       ]
     },
-    "REBIRTH_DATA": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "a1fe5b",
-              "entry": "root:0284:0096",
-              "image_offset": 10456,
-              "operand_offset": 1,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 23548,
-      "witnesses": [
-        {
-          "bytes_hex": "0b06fc5b",
-          "entry": "root:0284:0096",
-          "image_offset": 10459,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "RELEASE_SHAPE_LIST": {
       "entry_sha256": "963c1e94d544dac2abe97f99409dd5b81268b5280de7ba3b28a66e8db7f2c7f3",
       "entry_target_id": "root:1101:7f46",
@@ -20321,20 +20321,6 @@
       "offset": 17769,
       "witnesses": []
     },
-    "ROOM_TO_DRAW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27853,
-      "witnesses": [
-        {
-          "bytes_hex": "a2cd6c",
-          "entry": "root:0000:0242",
-          "image_offset": 2211,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "SAVED_GAME_ACTIVE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -20345,20 +20331,6 @@
           "entry": "root:0000:0cbc",
           "image_offset": 3381,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "SAVED_LEVEL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a0180a",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -20396,6 +20368,20 @@
           "file_offset": 11784,
           "image_offset": 3592,
           "relocation_index": 108,
+          "space": "root"
+        }
+      ]
+    },
+    "SCREENPORT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24162,
+      "witnesses": [
+        {
+          "bytes_hex": "b8625e",
+          "entry": "root:0000:0000",
+          "image_offset": 4894,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -20583,6 +20569,20 @@
           "file_offset": 9621,
           "image_offset": 1429,
           "relocation_index": 30,
+          "space": "root"
+        }
+      ]
+    },
+    "TIMER_DISABLED": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 470,
+      "witnesses": [
+        {
+          "bytes_hex": "803ed60100",
+          "entry": "root:0000:0cbc",
+          "image_offset": 3268,
+          "operand_offset": 2,
           "space": "root"
         }
       ]

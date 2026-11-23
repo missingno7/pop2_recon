@@ -6,7 +6,7 @@
       "_release_driver_payload",
       "GET_SOUND_STARTUP_FLAG",
       "GET_MIDI_DRIVER_FLAG",
-      "SOUND_SETTINGS",
+      "CONFIGURATION",
       "DIGITAL_MODE",
       "MIDI_MODE",
       "MIDI_DRIVER_FLAG",
@@ -945,7 +945,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_SETTINGS",
+          "name": "CONFIGURATION",
           "zero_displacement": true
         }
       },
@@ -959,7 +959,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_SETTINGS",
+        "name": "CONFIGURATION",
         "zero_displacement": true
       }
     },
@@ -972,7 +972,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_SETTINGS",
+          "name": "CONFIGURATION",
           "zero_displacement": true
         }
       },
@@ -986,7 +986,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_SETTINGS",
+        "name": "CONFIGURATION",
         "zero_displacement": true
       }
     },
@@ -1080,7 +1080,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_SETTINGS",
+          "name": "CONFIGURATION",
           "zero_displacement": true
         }
       },
@@ -1094,7 +1094,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_SETTINGS",
+        "name": "CONFIGURATION",
         "zero_displacement": true
       }
     },
@@ -1107,7 +1107,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_SETTINGS",
+          "name": "CONFIGURATION",
           "zero_displacement": true
         }
       },
@@ -1121,7 +1121,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_SETTINGS",
+        "name": "CONFIGURATION",
         "zero_displacement": true
       }
     },
@@ -1502,7 +1502,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "SOUND_SETTINGS",
+          "name": "CONFIGURATION",
           "zero_displacement": true
         }
       },
@@ -1516,7 +1516,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "SOUND_SETTINGS",
+        "name": "CONFIGURATION",
         "zero_displacement": true
       }
     }
@@ -1540,6 +1540,21 @@
   },
   "schema": 1,
   "symbols": {
+    "CONFIGURATION": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8418,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1ee220",
+          "context": "mov bx, word ptr [0x20e2] reached from root:0000:0a84",
+          "entry": "root:0000:0a84",
+          "image_offset": 2700,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "CONFIGURE_SOUND_DEVICES": {
       "entry_sha256": "5bb99298ea4884707858c14be071fd9409233fe3e0c6c502ba8c8b112688613a",
       "entry_target_id": "root:1101:3204",
@@ -1649,21 +1664,6 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
-    },
-    "SOUND_SETTINGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8418,
-      "witnesses": [
-        {
-          "bytes_hex": "8b1ee220",
-          "context": "mov bx, word ptr [0x20e2] reached from root:0000:0a84",
-          "entry": "root:0000:0a84",
-          "image_offset": 2700,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
     },
     "SOUND_STARTUP_FINISHED": {
       "group": "DGROUP",

@@ -40,7 +40,7 @@ struct EditField {
     void (far pascal *paint)(EditField far *);
 };
 
-extern Port *current_port;
+extern Port *Graf;
 extern unsigned long clock_ticks;
 extern Word blink_interval;
 extern unsigned char near cdecl _ctype[];
@@ -82,7 +82,7 @@ void far pascal update_edit_caret(EditField far *field)
     Word saved_font;
 
     paint_edit_caret(field, 0);
-    saved_font = current_port->font;
+    saved_font = Graf->font;
     hSetFont(field->font);
     field->x = measure_counted_text(field->text, field->caret) + field->clip.left;
     hSetFont(saved_font);
@@ -103,14 +103,14 @@ void far pascal paint_edit_caret(EditField far *field, int visible)
     MoveTo(field->x, field->y);
     if (!visible) {
         field->visible = visible;
-        saved_mode = current_port->pen_mode;
-        current_port->pen_mode = field->port->erase_mode;
+        saved_mode = Graf->pen_mode;
+        Graf->pen_mode = field->port->erase_mode;
     } else {
         field->visible = 1;
     }
     DRAW_RELATIVE_AXIS_SEGMENT(0, field->clip.bottom - field->clip.top + 1);
     if (!visible) {
-        current_port->pen_mode = saved_mode;
+        Graf->pen_mode = saved_mode;
         if (field->paint)
             field->paint(field);
         else
@@ -123,12 +123,12 @@ void far pascal paint_edit_caret(EditField far *field, int visible)
 void far pascal frame_edit_field(EditField far *field, Word mode)
 {
     Rect rect;
-    Word saved_mode = current_port->pen_mode;
+    Word saved_mode = Graf->pen_mode;
 
-    current_port->pen_mode = mode;
+    Graf->pen_mode = mode;
     InsetRect(&rect, &field->clip, -1, -1);
     frame_rect(&rect);
-    current_port->pen_mode = saved_mode;
+    Graf->pen_mode = saved_mode;
 }
 
 /* Forward the far pointer to the separately reviewed block-flag helper. */
@@ -285,7 +285,7 @@ EditField far * far pascal create_edit_field(Rect far *bounds, Rect far *clip,
 
     int zero;
 
-    field->font = (field->port = current_port)->font;
+    field->font = (field->port = Graf)->font;
     MOVE_HUGE_BYTES(&field->bounds, bounds, (long)sizeof(Rect));
     MOVE_HUGE_BYTES(&field->clip, clip, (long)sizeof(Rect));
     field->capacity = capacity;

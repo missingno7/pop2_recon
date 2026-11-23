@@ -12,7 +12,7 @@ typedef struct
 typedef int (far pascal *InputPoll)(void);
 
 extern Configuration *configuration;
-extern unsigned char configuration_flags;
+extern unsigned char active_sound_channels;
 extern int initial_setting;
 extern int alternate_pool_available;
 extern InputPoll poll_input;
@@ -99,9 +99,9 @@ extern const char digital_sound_error[], midi_sound_error[];
 void init_sound(void)
 {
     initialize_sound_drivers(0);
-    if (configuration_flags & 4)
+    if (active_sound_channels & 4)
         show_init_message(digital_sound_error);
-    if (configuration_flags & 8)
+    if (active_sound_channels & 8)
         show_init_message(midi_sound_error);
 }
 

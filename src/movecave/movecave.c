@@ -65,22 +65,22 @@ struct input {
 };
 #pragma pack()
 
-extern CellState *cell_states;
+extern CellState *BlueS;
 extern int current_tile_number;
-extern TileState tile_state;
+extern TileState current_tile;
 #pragma pack(1)
 extern struct {
     ubyte before_bounds[0x1b];
     Rect bounds;
     ubyte tail[0x1d];
-} actor_state;
+} Char;
 #pragma pack()
 extern sbyte actor_id, actor_room, actor_column, actor_row, actor_grab;
 extern ubyte actor_cell, level_number;
 extern uword actor_frame, actor_sequence;
 extern sbyte actor_life, actor_action, actor_fall, actor_hit;
 extern int actor_x, actor_y, actor_sequence_group;
-extern ubyte room_number;
+extern ubyte viewed_room;
 extern ubyte down_room;
 extern sbyte right_room, upper_room;
 extern struct { ubyte link[4]; } room_links[];
@@ -88,12 +88,12 @@ extern sbyte guard_cell, guard_row, guard_room;
 extern uword guard_frame;
 extern int guard_sequence_group;
 
-extern uword animation_word;
+extern uword BlueSpec;
 extern DartState dart;
 extern LavaTrob current_lava;
 #define animation_code current_lava.slot
 extern sbyte current_row_flags;
-extern sbyte current_floor_kind;
+extern sbyte FChar;
 extern int cell_x[], cell_x_clipped[], floor_y[];
 extern struct list *lava_slots[4];
 extern sbyte *bubble_frames[];
@@ -215,7 +215,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
     saved.result = -1;
     cell_index = cell;
     saved.cell_offset = cell_index * 4;
-    state = ((CellState *)((char *)cell_states + saved.cell_offset))->state;
+    state = ((CellState *)((char *)BlueS + saved.cell_offset))->state;
     saved.low = state & 255;
     saved.high = state & 0xff00;
     pressed = reverse_plate_active();
@@ -223,22 +223,22 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
     if (saved.trob != 0) {
         if (saved.trob->action <= 1) {
             if (pressed)
-                saved.flags = tile_state.flags;
+                saved.flags = current_tile.flags;
             else {
-                saved.previous_tile = tile_state;
+                saved.previous_tile = current_tile;
                 saved.previous_number = current_tile_number;
-                saved.previous_cells = cell_states;
+                saved.previous_cells = BlueS;
                 saved.flags = ReadCell(actor_cell, actor_column, actor_row) == 34
-                    ? tile_state.flags : 0;
-                cell_states = saved.previous_cells;
+                    ? current_tile.flags : 0;
+                BlueS = saved.previous_cells;
                 current_tile_number = saved.previous_number;
-                tile_state = saved.previous_tile;
+                current_tile = saved.previous_tile;
             }
             if (saved.flags & 0x0800) {
-                ((CellState *)((char *)cell_states + saved.cell_offset))->state = saved.high + 250;
+                ((CellState *)((char *)BlueS + saved.cell_offset))->state = saved.high + 250;
             } else {
                 if (saved.low > 200)
-                    ((CellState *)((char *)cell_states + saved.cell_offset))->state = saved.high + 200;
+                    ((CellState *)((char *)BlueS + saved.cell_offset))->state = saved.high + 200;
                 saved.trob->action = 4;
             }
         } else if (saved.trob->action == 2 && pressed)
@@ -247,7 +247,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
         if (saved.low == 0 && !(actor_id == 4 && level_number == 5 && actor_row == 1 &&
                          (actor_cell == 10 || actor_cell == 7 || actor_cell == 12))) {
             if (!pressed) {
-                if (!(tile_state.flags & 0x0800))
+                if (!(current_tile.flags & 0x0800))
                     saved.result = 2;
             } else
                 saved.result = 3;
@@ -259,14 +259,14 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
 
 void animate_dart(void)
 {
-    uword frame = (ubyte)animation_word & 15;
+    uword frame = (ubyte)BlueSpec & 15;
 
     if (frame < 6) {
-        ++animation_word;
+        ++BlueSpec;
         if (frame < 3)
             redraw_dart();
     } else {
-        animation_word &= 255 << 8 | 0xf0;
+        BlueSpec &= 255 << 8 | 0xf0;
         animation_code = -1;
     }
 }
@@ -274,8 +274,8 @@ void animate_dart(void)
 void move_dart_to_tile(void)
 {
     if (dart.velocity_y != -1 && dart.velocity_y != -2) {
-        current_floor_kind = IndexCell1(GetRow(dart.x / 32, dart.y));
-        if (room_number == dart.room) {
+        FChar = IndexCell1(GetRow(dart.x / 32, dart.y));
+        if (viewed_room == dart.room) {
             mark_mob_redraw(1);
             play_exit_sound(dart.y);
             dart.mode = 2;
@@ -298,13 +298,13 @@ void check_dart_hit(void)
                 bounds.left = bounds.right - 4;
                 bounds.bottom = dart_mob->x;
                 bounds.top = dart_mob->x - 2;
-                if (SECTRECT(&hit, &bounds, &actor_state.bounds))
+                if (SECTRECT(&hit, &bounds, &Char.bounds))
                     goto hit_dart;
-                if (actor_state.bounds.left > bounds.left ||
-                    actor_state.bounds.top - 2 > bounds.bottom ||
-                    actor_state.bounds.bottom - 2 < bounds.top ||
-                    bounds.left - dart_mob->left >= actor_state.bounds.right ||
-                    bounds.bottom - dart_mob->top >= actor_state.bounds.bottom)
+                if (Char.bounds.left > bounds.left ||
+                    Char.bounds.top - 2 > bounds.bottom ||
+                    Char.bounds.bottom - 2 < bounds.top ||
+                    bounds.left - dart_mob->left >= Char.bounds.right ||
+                    bounds.bottom - dart_mob->top >= Char.bounds.bottom)
                     continue;
             hit_dart:
                 hit_actor_with_dart();
@@ -333,7 +333,7 @@ void move_dart_mob(void)
         motion.x = dart.velocity_x + dart.x;
         if (motion.x > 320) {
             if ((ubyte)right_room == dart.room) {
-                dart.room = room_number;
+                dart.room = viewed_room;
                 motion.x -= 320;
             } else {
                 if (!room_links[dart.room].link[0])
@@ -343,7 +343,7 @@ void move_dart_mob(void)
         }
         if (dart.velocity_y != -1 && y < 3) {
             if (down_room == dart.room) {
-                dart.room = room_number;
+                dart.room = viewed_room;
                 y += 192;
             } else {
                 if (!room_links[dart.room].link[1])
@@ -416,7 +416,7 @@ void trigger_dart(sbyte room, sbyte cell)
     uword frame;
     int x;
 
-    frame = (ubyte)cell_states[cell].state & 15;
+    frame = (ubyte)BlueS[cell].state & 15;
     saved = dart;
     if (!frame) {
         add_trob(room, cell, 1, 36);
@@ -426,7 +426,7 @@ void trigger_dart(sbyte room, sbyte cell)
         x = cell_x_clipped[current_lava.cell % (sbyte)10] + 30;
         if (x > 320) {
             if (right_room == room) {
-                room = room_number;
+                room = viewed_room;
                 x -= 320;
             } else
                 dart.velocity_y = -1;
@@ -585,11 +585,11 @@ LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
     LavaTrob *trob;
 
     kind = ReadCell(room, col, row);
-    cell = tile_state.cell;
+    cell = current_tile.cell;
     if (kind == 24)
         --cell;
     trob = (LavaTrob *)get_trob_room_cell(room, cell);
-    load_room(room_number);
+    load_room(viewed_room);
     return trob;
 }
 
@@ -745,9 +745,9 @@ void cave_overlay_entry(void)
 
 void cave_frame(void)
 {
-    if ((level_number == 5 && room_number == 10) ||
-        (level_number == 5 && room_number == 7) ||
-        (level_number == 5 && room_number == 12))
+    if ((level_number == 5 && viewed_room == 10) ||
+        (level_number == 5 && viewed_room == 7) ||
+        (level_number == 5 && viewed_room == 12))
         frame_water_effect();
 }
 

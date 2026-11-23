@@ -12,13 +12,13 @@ extern Byte *throne_tiles;                   /* DS:0228 */
 extern signed char opponent_sequence;        /* DS:5c89 */
 extern int throne_running;                   /* DS:2cf8 */
 extern RoomState room_state;                 /* DS:2d02 */
-extern Byte room_lighting;                   /* DS:5e34 */
+extern Byte viewed_room;                   /* DS:5e34 */
 extern Byte char_direction, char_room;        /* DS:5c01,5c0e */
-extern Byte room_number;                     /* DS:6ccd */
+extern Byte CutRoom;                     /* DS:6ccd */
 extern Byte char_image_x, char_old_image_x;   /* DS:5c12,5c14 */
-extern Byte throne_sound;                    /* DS:0a18 */
+extern Byte LevelIdx;                    /* DS:0a18 */
 extern Rect throne_rect;                     /* DS:5c9b */
-extern CharState current_char, opponent;      /* DS:5c00,5c80 */
+extern CharState Char, Kid;      /* DS:5c00,5c80 */
 extern Byte scene_flag;                      /* DS:6290 */
 
 extern void far _fastcall draw_tile_image(Byte, Byte);
@@ -69,22 +69,22 @@ void play_throne_room_nis(void)
     saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
     *saved = room_state;
     if (play_nis(6) == 2)
-        room_lighting = 0;
+        viewed_room = 0;
     reset_level_overlays();
     copy_kid_to_char();
     char_direction = 0;
     JumpSeq(231);
-    room_number = char_room = 9;
+    CutRoom = char_room = 9;
     reset_char_y();
     char_old_image_x = char_image_x;
-    load_level(throne_sound);
+    load_level(LevelIdx);
     saved = RESOLVE_HANDLE_TO_FAR_PAYLOAD(saved_handle);
     room_state = *saved;
     DISPOSE_HANDLE(saved_handle);
     LoadCustomRoomData(9);
     mark_bufs_for_rect(draw_under_actor, &throne_rect, 10);
     AnimChar();
-    opponent = current_char;
+    Kid = Char;
     ClrAll();
     scene_flag = 0;
 }

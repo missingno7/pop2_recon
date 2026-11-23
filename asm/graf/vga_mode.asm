@@ -1,7 +1,7 @@
 ; DOS VGA adapter hooks and scanline raster operations.
 .MODEL MEDIUM
 .DATA
-EXTRN current_port:WORD
+EXTRN Graf:WORD
 EXTRN default_port:BYTE
 EXTRN surface_scanline_count:WORD
 EXTRN surface_row_stride:WORD
@@ -124,7 +124,7 @@ vga_6739:
 vga_674a:
     sub ax, WORD PTR [bx + 6]
     xchg cx, ax
-    cmp bx, WORD PTR [current_port]
+    cmp bx, WORD PTR [Graf]
     jne vga_6780
     mov ax, WORD PTR [bx + 18h]
     sub ax, WORD PTR [bp - 0Ch]
@@ -405,7 +405,7 @@ draw_vga_line PROC FAR
     add sp, -14h
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     mov ax, WORD PTR [bx + 6]
     mov cx, WORD PTR [bp + 8]
     sub WORD PTR [bp + 8], ax
@@ -665,7 +665,7 @@ draw_vga_bitmap PROC FAR
     add sp, -18h
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp + 0Eh]
     mov ax, WORD PTR [bp + 0Ch]
     sub ax, WORD PTR [bx + 6]
@@ -848,7 +848,7 @@ fill_vga_rectangle PROC FAR
     add sp, -0Ch
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp + 0Ah]
     mov dx, WORD PTR es:[si + 2]
     sub dx, WORD PTR [bx + 6]
@@ -965,7 +965,7 @@ composite_vga_bitmap PROC FAR
     add sp, -14h
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp + 0Ch]
     mov ax, WORD PTR [bp + 0Ah]
     sub ax, WORD PTR [bx + 6]

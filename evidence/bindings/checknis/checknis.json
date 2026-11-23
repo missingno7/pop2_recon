@@ -6,15 +6,15 @@
       "PENDING_SOUND",
       "PLACE_ROOM_OBJECTS",
       "SCREEN_RECT",
-      "GUARD_PAIR",
+      "HREBIRTHSAVED",
       "GUARD_OTHER",
-      "REFRESH_CHARACTER",
+      "PREPCUT",
       "UNLOAD_LEVEL",
       "MODE_CODE",
       "CLEAN_CUT",
       "REMOVEREBIRTHPT",
       "STATE_CODE",
-      "LEVEL_CODE",
+      "CUTROOM",
       "UNLOAD_SET",
       "DEALLOCBACKPORT",
       "ISLEVELSTARTWITHNISSCREEN",
@@ -53,12 +53,12 @@
       "DISPOSE_HANDLE",
       "CHECKPLAYNIS",
       "DRAW_DEAD_KID",
-      "ROOM_TO_DRAW",
+      "LEVELIDX",
       "ROOM_TILE",
       "ERASESCREENAFTERNIS",
-      "LEVEL_REDRAW_FLAG",
+      "VIEWED_ROOM",
       "ROOM_TO_DRAW_WORD",
-      "NIS_SOUND",
+      "GRAF",
       "RESET_LEVEL_OVERLAYS",
       "LOAD_LEVEL_MAP",
       "ERASESCREENBEFORENIS",
@@ -214,7 +214,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1128,
+        "length": 1113,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -334,7 +334,7 @@
           "index": 14,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_CODE",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -348,7 +348,7 @@
         "index": 14,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_CODE",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -550,7 +550,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "GUARD_PAIR",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -564,7 +564,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "GUARD_PAIR",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -577,7 +577,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "GUARD_PAIR",
+          "name": "HREBIRTHSAVED",
           "zero_displacement": true
         }
       },
@@ -591,7 +591,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "GUARD_PAIR",
+        "name": "HREBIRTHSAVED",
         "zero_displacement": true
       }
     },
@@ -2124,7 +2124,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "NIS_SOUND",
+          "name": "GRAF",
           "zero_displacement": true
         }
       },
@@ -2138,7 +2138,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "NIS_SOUND",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -2205,7 +2205,7 @@
           "index": 53,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_TO_DRAW",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -2219,7 +2219,7 @@
         "index": 53,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_TO_DRAW",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -2556,7 +2556,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "REFRESH_CHARACTER",
+          "name": "PREPCUT",
           "zero_displacement": true
         }
       },
@@ -2570,7 +2570,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "REFRESH_CHARACTER",
+        "name": "PREPCUT",
         "zero_displacement": true
       }
     },
@@ -2583,7 +2583,7 @@
           "index": 14,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_CODE",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -2597,7 +2597,7 @@
         "index": 14,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_CODE",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -2610,7 +2610,7 @@
           "index": 56,
           "kind": "external",
           "method": 6,
-          "name": "LEVEL_REDRAW_FLAG",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2624,7 +2624,7 @@
         "index": 56,
         "kind": "external",
         "method": 6,
-        "name": "LEVEL_REDRAW_FLAG",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3318,6 +3318,21 @@
         }
       ]
     },
+    "CUTROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27853,
+      "witnesses": [
+        {
+          "bytes_hex": "803ecd6c00",
+          "context": "cmp byte ptr [0x6ccd], 0 reached from root:0000:0dd4",
+          "entry": "root:0000:0dd4",
+          "image_offset": 3547,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "DEAD_KID_ASSET": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -3384,6 +3399,21 @@
         }
       ]
     },
+    "GRAF": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "GUARD_OTHER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -3399,7 +3429,16 @@
         }
       ]
     },
-    "GUARD_PAIR": {
+    "HGETSL": {
+      "entry_sha256": "255eca02a7219606dc6bc4da0dbbdccc745662296216f22021145767fe46f8bc",
+      "entry_target_id": "overlay-2:238a:000c",
+      "kind": "overlay-code-entry",
+      "offset": 12,
+      "segment": 9098,
+      "space": "overlay-2",
+      "witnesses": []
+    },
+    "HREBIRTHSAVED": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [
@@ -3434,15 +3473,6 @@
           "space": "root"
         }
       ]
-    },
-    "HGETSL": {
-      "entry_sha256": "255eca02a7219606dc6bc4da0dbbdccc745662296216f22021145767fe46f8bc",
-      "entry_target_id": "overlay-2:238a:000c",
-      "kind": "overlay-code-entry",
-      "offset": 12,
-      "segment": 9098,
-      "space": "overlay-2",
-      "witnesses": []
     },
     "KID_FACING": {
       "group": "DGROUP",
@@ -3513,32 +3543,17 @@
         }
       ]
     },
-    "LEVEL_CODE": {
+    "LEVELIDX": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 27853,
+      "offset": 2584,
       "witnesses": [
         {
-          "bytes_hex": "803ecd6c00",
-          "context": "cmp byte ptr [0x6ccd], 0 reached from root:0000:0dd4",
-          "entry": "root:0000:0dd4",
-          "image_offset": 3547,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "LEVEL_REDRAW_FLAG": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "803e345e04",
-          "context": "cmp byte ptr [0x5e34], 4 reached from root:0000:0242",
-          "entry": "root:0000:0242",
-          "image_offset": 1126,
-          "operand_offset": 2,
+          "bytes_hex": "a0180a",
+          "context": "mov al, byte ptr [0xa18] reached from root:0000:0000",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -3621,21 +3636,6 @@
           "context": "mov al, byte ptr [0x4562] reached from root:0b41:075e",
           "entry": "root:0b41:075e",
           "image_offset": 50948,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "NIS_SOUND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9664,
-      "witnesses": [
-        {
-          "bytes_hex": "a3c025",
-          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
           "operand_offset": 1,
           "space": "root"
         }
@@ -3744,7 +3744,7 @@
       "space": "root",
       "witnesses": []
     },
-    "REFRESH_CHARACTER": {
+    "PREPCUT": {
       "entry_sha256": "69c7e60e9af078a65c4496debf9af842f7f312728d988dff60711b6461697005",
       "entry_target_id": "root:0000:0dd4",
       "kind": "far-code-entry",
@@ -3822,21 +3822,6 @@
           "entry": "root:0000:0242",
           "image_offset": 1873,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOM_TO_DRAW": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a0180a",
-          "context": "mov al, byte ptr [0xa18] reached from root:0000:0000",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -3955,6 +3940,21 @@
       "segment": 2652,
       "space": "root",
       "witnesses": []
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "803e345e04",
+          "context": "cmp byte ptr [0x5e34], 4 reached from root:0000:0242",
+          "entry": "root:0000:0242",
+          "image_offset": 1126,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "WRITE_DAC_BLOCK": {
       "entry_sha256": "6f7b1be5bc3a958aa33092f61ac66c04fa845062eaf31ccbf0f7ba1af59663bd",

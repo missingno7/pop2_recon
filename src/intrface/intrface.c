@@ -30,8 +30,8 @@ extern WaitFunction wait_function;
 extern ResourceError resource_error;
 extern volatile int timers[];
 extern ResourceMap resource_map_list;
-extern volatile unsigned char resource_flags;
-extern struct LevelState *level_state;
+extern volatile unsigned char active_sound_channels;
+extern struct LevelState *configuration;
 extern const char system_error_message[];
 
 static const char message_format[] = "%s\n";
@@ -209,21 +209,21 @@ ResourceMap find_resource_map(const char *name)
 void open_level_resources(const char **names)
 {
 
-    if (!(resource_flags & 2) || !(resource_flags & 1)) {
+    if (!(active_sound_channels & 2) || !(active_sound_channels & 1)) {
         if (names[0])
             open_verified_resource(names[0]);
     }
-    if ((resource_flags & 1) && names[1])
+    if ((active_sound_channels & 1) && names[1])
         open_verified_resource(names[1]);
-    if (resource_flags & 2) {
-        if (level_state->level != 0x20 && level_state->level != 0x29) {
+    if (active_sound_channels & 2) {
+        if (configuration->level != 0x20 && configuration->level != 0x29) {
             if (names[2])
                 open_verified_resource(names[2]);
         } else {
             if (names[5])
                 open_verified_resource(names[5]);
         }
-        if (!(resource_flags & 1) && get_midi_driver_flag()) {
+        if (!(active_sound_channels & 1) && get_midi_driver_flag()) {
             if (names[0])
                 close_resource_file(names[0]);
             if (names[3])

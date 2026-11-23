@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_PORT:WORD
+EXTRN Graf:WORD
 .CODE
 PUBLIC FINISH_PORT
 EXTRN SECTRECT:NEAR
@@ -11,7 +11,7 @@ FINISH_PORT PROC FAR
     mov bp, sp
     mov ax, WORD PTR [bp+6]
     mov bx, ax
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
 
     ; Intersect the selected port rectangles, then translate to its origin.
@@ -39,7 +39,7 @@ FINISH_PORT PROC FAR
     push cs
     call OFFSETRECT
 
-    pop CURRENT_PORT
+    pop Graf
     pop bp
     retf 2
 FINISH_PORT ENDP

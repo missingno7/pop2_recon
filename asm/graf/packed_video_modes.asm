@@ -4,7 +4,7 @@
 .DATA
 EXTRN screen_bits:DWORD
 EXTRN screen_segment:WORD
-EXTRN screen_port:WORD
+EXTRN Graf:WORD
 EXTRN screen_row_origin:WORD
 EXTRN screen_x_origin:WORD
 EXTRN mode_surface:BYTE
@@ -147,7 +147,7 @@ loc_3ae5:
 loc_3af8:
     sub ax, WORD PTR [bx+6]
     mov WORD PTR [bp-10h], ax
-    cmp bx, WORD PTR [screen_port]
+    cmp bx, WORD PTR [Graf]
     jne loc_3b32
     mov ax, WORD PTR [bx+18h]
     sub ax, dx
@@ -863,7 +863,7 @@ draw_packed_line PROC FAR
     add sp,-20h
     push di
     push si
-    mov bx, WORD PTR [screen_port]
+    mov bx, WORD PTR [Graf]
     mov ax, WORD PTR [bx+28h]
     and ax, 0Fh
     mov cl, 2
@@ -1182,7 +1182,7 @@ draw_packed_bitmap PROC FAR
     add sp,-2Ah
     push di
     push si
-    mov bx, WORD PTR [screen_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp+0Eh]
     mov ax, WORD PTR [bp+0Ch]
     mov di, WORD PTR [bx+6]
@@ -1508,7 +1508,7 @@ fill_packed_rectangle PROC FAR
     add sp,-1Ah
     push di
     push si
-    mov di, WORD PTR [screen_port]
+    mov di, WORD PTR [Graf]
     les si, DWORD PTR [bp+0Ah]
     mov ax, WORD PTR es:[si+2]
     mov bx, WORD PTR [di+6]
@@ -1750,7 +1750,7 @@ composite_packed_bitmap PROC FAR
     add sp,-1Ch
     push di
     push si
-    mov bx, WORD PTR [screen_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp+0Ch]
     mov ax, WORD PTR [bp+0Ah]
     sub ax, WORD PTR [bx+6]

@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 .CODE
 EXTRN STROKE_RECTANGLE:NEAR
 
@@ -14,7 +14,7 @@ STROKE_PORT_RECT PROC FAR
     push ax
     mov ax, 0
     push ax
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     push WORD PTR [bx+20h]
     push cs
     call STROKE_RECTANGLE
@@ -41,7 +41,7 @@ FRAME_RECT PROC FAR
     add sp, -12
     push di
     push si
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     mov ax, [bx+26h]
     mov [bp-4], ax
     mov ax, [bx+28h]

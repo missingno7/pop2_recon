@@ -63,8 +63,15 @@ def extern_map(old_module, new_module, renames):
                 return new.upper()
         return name
     key_map = {e: emitted(e) for e in old_module.externals}
-    require(sorted(key_map.values()) == sorted(new_module.externals), "Renamed externals do not pair by name")
+    # A recorded case alias (evidence/case-alias-debt.json) emits one name twice, so compare name sets.
+    require(set(key_map.values()) == set(new_module.externals), "Renamed externals do not pair by name")
     return key_map
+
+
+def _renamed_key(key_map, key):
+    """An unproven entry is a symbol name or a member key `NAME+0xK`."""
+    name, plus, member = key.partition("+")
+    return key_map.get(name, name) + plus + member
 
 
 def renamed_binding(binding, old_module, new_module, group_id, renames):
@@ -129,7 +136,7 @@ def main():
         require(all(fresh[c["target_id"]]["exact"] for c in recipe["claims"]), "Relocated group is not exact")
         renamed = extern_map(old_module, new_module, args.rename)
         require(all(fresh[c["target_id"]]["state"] == "CODE_MATCH" and
-                    sorted(fresh[c["target_id"]]["unproven"]) == sorted(renamed.get(u, u) for u in c["unproven"])
+                    sorted(fresh[c["target_id"]]["unproven"]) == sorted(_renamed_key(renamed, u) for u in c["unproven"])
                     for c in matches), "Relocated code match changed")
         new_recipe = dict(recipe, name=args.name, group_id="group:" + args.name, object_sha256=report["object_sha256"],
                           claims=[dict(c, public=public_map[c["public"]]) for c in recipe["claims"]],

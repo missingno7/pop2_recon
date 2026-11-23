@@ -3,14 +3,14 @@
 .MODEL MEDIUM
 
 .DATA
-EXTRN CURRENT_PORT:WORD
+EXTRN Graf:WORD
 EXTRN PEN_COORDINATE_X:WORD
 EXTRN PEN_COORDINATE_Y:WORD
 EXTRN CURRENT_GRAPHICS_FONT:WORD
 EXTRN TIMER_RELOAD:WORD
 EXTRN TIMER_TICKS:WORD
 EXTRN WINDOW_HEAD:WORD
-EXTRN SCREEN_CONTEXT:WORD
+EXTRN window_draw_port:WORD
 
 .CODE
 EXTRN UPDATE_MESSAGE_DISPLAY:NEAR
@@ -122,7 +122,7 @@ DEFAULT_ITEM_HANDLER PROC FAR
     mov bx, word ptr [di+2]
     mov ax, CURRENT_GRAPHICS_FONT
     xchg word ptr [bx+2ah], ax
-    xchg CURRENT_PORT, bx
+    xchg Graf, bx
     push ax
     push bx
     lea ax, [bp-0eh]
@@ -154,7 +154,7 @@ restore_item_port:
     call SET_RELATIVE_PEN_STATE
     xchg si, ax
     pop bx
-    xchg CURRENT_PORT, bx
+    xchg Graf, bx
     pop word ptr [bx+2ah]
 return_item_result:
     pop si
@@ -226,7 +226,7 @@ set_item_pen:
     push cs
     call measure_text_handle
     push ax
-    mov bx, CURRENT_PORT
+    mov bx, Graf
     push word ptr [bx+2ah]
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD
@@ -287,7 +287,7 @@ finish_item_paint:
     call POP_PORT_CLIP
     jmp NEAR PTR ignore_item_command
 draw_mnemonic:
-    mov di, CURRENT_PORT
+    mov di, Graf
     mov ax, 4
     xchg word ptr [di+28h], ax
     push ax
@@ -670,14 +670,14 @@ next_item_link:
     mov [bx], ax
 redraw_bounds:
     mov ax, [di+2]
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     lea ax, [di+0ch]
     push ds
     push ax
     push cs
     call STROKE_PORT_RECT
-    pop CURRENT_PORT
+    pop Graf
     push di
     mov ax, 8
     push ax
@@ -701,14 +701,14 @@ RELEASE_WINDOW_ITEM_EFFECT PROC FAR
     xchg word ptr [di+1ch], cx
     jcxz return_released_item
     mov ax, word ptr [di+2]
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     lea ax, [di+0ch]
     push ds
     push ax
     push cs
     call STROKE_PORT_RECT
-    pop CURRENT_PORT
+    pop Graf
     mov bx, word ptr [di+2]
     sub di, word ptr [bx+52h]
     jne return_released_item
@@ -977,7 +977,7 @@ DISPATCH_ITEM_CHARACTER ENDP
 
 STROKE_ITEM_EDGES PROC NEAR
     mov ax, [bx+2]
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     add bx, 0ch
     push bx
@@ -991,7 +991,7 @@ STROKE_ITEM_EDGES PROC NEAR
     push ax
     push cs
     call STROKE_OFFSET_EDGES
-    pop CURRENT_PORT
+    pop Graf
     ret
 STROKE_ITEM_EDGES ENDP
 
@@ -1005,8 +1005,8 @@ RUN_MODAL_RESOURCE_WINDOW PROC FAR
     push di
     push si
     mov word ptr [bp-2], 0
-    mov ax, SCREEN_CONTEXT
-    xchg CURRENT_PORT, ax
+    mov ax, window_draw_port
+    xchg Graf, ax
     push ax
     push word ptr [bp+6]
     push cs
@@ -1052,7 +1052,7 @@ loc_8db6:
     push cs
     call DISPOSE_WINDOW
 loc_8dbb:
-    pop CURRENT_PORT
+    pop Graf
     mov ax, word ptr [bp-2]
     pop si
     pop di
@@ -1069,7 +1069,7 @@ DISPATCH_WINDOW_EVENT PROC FAR
     push si
     mov ax, [bp+0ah]
     mov di, ax
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     mov si, [bp+8]
     mov ax, [si]
@@ -1089,7 +1089,7 @@ DISPATCH_WINDOW_EVENT PROC FAR
 ignored:
     sub ax, ax
 finish:
-    pop CURRENT_PORT
+    pop Graf
     pop si
     pop di
     mov sp, bp
@@ -1231,7 +1231,7 @@ REPAINT_WINDOW_ITEM PROC FAR
     push di
     mov di, word ptr [bp+6]
     mov ax, di
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     push di
     mov ax, 2
@@ -1247,7 +1247,7 @@ REPAINT_WINDOW_ITEM PROC FAR
     push di
     push cs
     call NEAR PTR PAINT_WINDOW_ITEMS
-    pop CURRENT_PORT
+    pop Graf
     pop di
     pop bp
     retf 2
@@ -1295,10 +1295,10 @@ WAIT_FOR_WINDOW_RESULT PROC FAR
     add sp, -16h
     push di
     push si
-    push CURRENT_PORT
+    push Graf
     mov di, WINDOW_HEAD
 read_event:
-    mov CURRENT_PORT, di
+    mov Graf, di
     sub ax, ax
     mov [bp-12h], ax
     mov [bp-14h], ax
@@ -1358,7 +1358,7 @@ check_result:
     mov cx, [bp-12h]
     jcxz read_event
     mov ax, [bp-10h]
-    pop CURRENT_PORT
+    pop Graf
     pop si
     pop di
     mov sp, bp
@@ -1371,7 +1371,7 @@ CREATE_WINDOW_FROM_DEFINITION PROC FAR
     mov bp, sp
     add sp, -0eh
     push di
-    push CURRENT_PORT
+    push Graf
     mov ax, -1
     push ax
     les bx, DWORD PTR [bp+6]
@@ -1387,7 +1387,7 @@ CREATE_WINDOW_FROM_DEFINITION PROC FAR
     xchg di, ax
     test di, di
     jz restore_window_port
-    mov CURRENT_PORT, di
+    mov Graf, di
     mov ax, [di+1ah]
     xchg [di+1eh], ax
     push ax
@@ -1404,7 +1404,7 @@ CREATE_WINDOW_FROM_DEFINITION PROC FAR
     call NEAR PTR SELECT_ITEM_BY_INDEX
     pop WORD PTR [di+1eh]
 restore_window_port:
-    pop CURRENT_PORT
+    pop Graf
     xchg di, ax
     pop di
     mov sp, bp
@@ -1457,8 +1457,8 @@ WINDOW_FRAME_ITEM_HANDLER PROC FAR
     mov bp, sp
     push di
     push si
-    mov ax, SCREEN_CONTEXT
-    xchg CURRENT_PORT, ax
+    mov ax, window_draw_port
+    xchg Graf, ax
     push ax
     mov di, word ptr [bp+0ah]
     mov ax, word ptr [bp+8]
@@ -1470,7 +1470,7 @@ WINDOW_FRAME_ITEM_HANDLER PROC FAR
     je paint_frame_item
     sub ax, ax
 restore_frame_item_port:
-    pop CURRENT_PORT
+    pop Graf
     pop si
     pop di
     pop bp
@@ -1506,7 +1506,7 @@ initialize_frame_item:
     push ax
     push ds
     push ax
-    mov ax, SCREEN_CONTEXT
+    mov ax, window_draw_port
     add ax, 18h
     push ds
     push ax
@@ -1530,7 +1530,7 @@ return_frame_hit:
 paint_frame_item:
     cmp word ptr [bp+6], 0
     jne restore_frame_item_port
-    mov bx, CURRENT_PORT
+    mov bx, Graf
     mov ax, 0
     xchg word ptr [bx+28h], ax
     push ax
@@ -1571,7 +1571,7 @@ LIST_ITEM_HANDLER PROC FAR
     cmp si, 0
     je dispatch_list_create
     mov ax, word ptr [di+2]
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     lea ax, [bp-0ch]
     push ds
@@ -1584,7 +1584,7 @@ LIST_ITEM_HANDLER PROC FAR
     call APPLY_DEFAULT_PEN_STATE
     cmp word ptr [di+1ah], 0
     jne loc_918f
-    mov bx, CURRENT_PORT
+    mov bx, Graf
     mov word ptr [bx+28h], 7
 loc_918f:
     mov cx, word ptr [bp+6]
@@ -1616,7 +1616,7 @@ restore_list_port:
     push cs
     call SET_RELATIVE_PEN_STATE
     xchg si, ax
-    pop CURRENT_PORT
+    pop Graf
 return_list_result:
     pop si
     pop di
@@ -2106,8 +2106,8 @@ GRID_ITEM_HANDLER PROC FAR
     add sp, -18h
     push di
     push si
-    mov ax, SCREEN_CONTEXT
-    xchg CURRENT_PORT, ax
+    mov ax, window_draw_port
+    xchg Graf, ax
     push ax
     mov di, word ptr [bp+0ah]
     mov ax, word ptr [bp+8]
@@ -2119,7 +2119,7 @@ GRID_ITEM_HANDLER PROC FAR
     je hit_test_grid_item
     sub ax, ax
 restore_grid_item_port:
-    pop CURRENT_PORT
+    pop Graf
     pop si
     pop di
     mov sp, bp
@@ -2147,7 +2147,7 @@ initialize_grid_item:
     rep movsb
     mov di, bx
     dec word ptr [di+40h]
-    mov si, CURRENT_PORT
+    mov si, Graf
     push word ptr [si+2ah]
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD
@@ -2246,7 +2246,7 @@ loc_9642:
     push ax
     push ds
     push si
-    mov bx, CURRENT_PORT
+    mov bx, Graf
     mov ax, 0
     mov word ptr [bx+28h], ax
     push ax
@@ -2346,7 +2346,7 @@ loc_971a:
     push cs
     call PUSH_PORT_CLIP
     push word ptr [si+2]
-    mov bx, CURRENT_PORT
+    mov bx, Graf
     push word ptr [bx+2ah]
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD
@@ -2370,7 +2370,7 @@ GRID_ITEM_HANDLER ENDP
 
 ; Near helper. The BP-relative outputs belong to the grid callback frame.
 UPDATE_GRID_ITEM_BOUNDS PROC NEAR
-    mov bx, SCREEN_CONTEXT
+    mov bx, window_draw_port
     push word ptr [bx+2ah]
     push cs
     call RESOLVE_HANDLE_TO_FAR_PAYLOAD

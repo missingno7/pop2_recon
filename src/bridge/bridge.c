@@ -48,9 +48,9 @@ typedef struct Rect {
     int top, left, bottom, right;
 } Rect;
 
-extern Character current_char, kid, opponent, skeleton;
+extern Character Char, Kid, RoomOpp, Opp;
 extern volatile unsigned char STATE_LEVEL;
-extern signed char current_room, room_below, room_above, room_left, room_right;
+extern signed char viewed_room, room_below, room_above, room_left, room_right;
 extern unsigned char room_flags[], bridge_room_flags;
 extern unsigned char floor_mask;
 extern int bridge_wait, bridge_break;
@@ -61,7 +61,7 @@ extern int floor_x[], row_y[];
 static int floor_y_adjustment[] = {6, 20, 20, 20, 20, 20, 26, 36, 51, 87};
 static int floor_x_adjustment[] = {8, 18, 24, 18, 24, 10, 20, 23, 19, 23};
 extern Tile tile_state[];
-extern Tile near *room_tiles;
+extern Tile near *BlueS;
 extern ImageTable near *image_table;
 extern int Rnd(int);
 int abs(int);
@@ -70,7 +70,7 @@ extern void AddSound(int), AddSong(int);
 extern void copy_kid_to_char(void), load_actor_slot(char), save_actor_slot(void), get_frame_info(void);
 extern int AddCharX(int); /* Column-to-X helper at 02cc:0360. */
 extern void remove_char(void); /* Removes the current character at 02cc:1bd6. */
-extern void start_opponent_running(void); /* Starts the opponent running at overlay-12:2c3e:00d6. */
+extern void start_opponent_running(void); /* Starts the RoomOpp running at overlay-12:2c3e:00d6. */
 extern void turn_engarde(void), JumpSeq(int);
 extern void trigger_gate_with_reverse_plate(char, char);
 extern Gate near *get_trob_room_cell(char, int);
@@ -96,7 +96,7 @@ extern void far _fastcall draw_shape(char, int, void near *, int, char);
 extern void near *foreground_tiles;
 extern int foreground_index;
 extern unsigned char foreground_modifier;
-extern unsigned int animation_modifier;
+extern unsigned int BlueSpec;
 extern signed char animation_cell, animation_active;
 extern int mob_x, mob_y, mob_index, mob_slot;
 extern signed char mob_room, mob_type, mob_row;
@@ -132,10 +132,10 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
 
     if (bridge_break == 0) {
         if (kid_on_bridge && opponent_on_bridge) {
-            if (abs(kid.col - opponent.col) <= 3) {
+            if (abs(Kid.col - RoomOpp.col) <= 3) {
                 ++bridge_wait;
-                if (bridge_wait >= 60 && kid.col >= 4 && kid.col <= 6 &&
-                    opponent.col >= 5 && opponent.col <= 6 && kid.sequence_id != 85)
+                if (bridge_wait >= 60 && Kid.col >= 4 && Kid.col <= 6 &&
+                    RoomOpp.col >= 5 && RoomOpp.col <= 6 && Kid.sequence_id != 85)
                     bridge_break = 1;
             } else if (bridge_wait != 0) {
                 --bridge_wait;
@@ -156,12 +156,12 @@ void bridge_check_break(int kid_on_bridge, int opponent_on_bridge)
                 AddSound(68);
                 AddSong(66);
             }
-            if (col < 3 || kid.sequence_id == 85) {
+            if (col < 3 || Kid.sequence_id == 85) {
                 bridge_break = -1;
                 copy_kid_to_char();
-                if (current_char.col <= 4 && current_char.direction == 0)
-                    current_char.x = AddCharX(10);
-                kid = current_char;
+                if (Char.col <= 4 && Char.direction == 0)
+                    Char.x = AddCharX(10);
+                Kid = Char;
             }
         } else {
             ++bridge_break;
@@ -188,13 +188,13 @@ int bridge_watch_kid(void)
     on_bridge = bridge_char_on_floor();
     if (on_bridge) {
         tweak_char_y_on_bridge();
-        if (current_char.frame == 15 || current_char.frame == 185)
+        if (Char.frame == 15 || Char.frame == 185)
             on_bridge = 0;
-    } else if (current_char.room == 7 && current_char.alive != -1 &&
-               bridge_gate_open() && current_char.col <= 5) {
+    } else if (Char.room == 7 && Char.alive != -1 &&
+               bridge_gate_open() && Char.col <= 5) {
         trigger_gate_with_reverse_plate(7, 13);
     }
-    kid = current_char;
+    Kid = Char;
     return on_bridge;
 }
 
@@ -202,7 +202,7 @@ int bridge_watch_opponent(void)
 {
     int on_bridge;
 
-    if (room_flags[(unsigned char)current_room * 116]) {
+    if (room_flags[(unsigned char)viewed_room * 116]) {
         load_actor_slot(0);
         on_bridge = bridge_char_on_floor();
         if (on_bridge)
@@ -216,10 +216,10 @@ int bridge_watch_opponent(void)
 
 int bridge_skeleton_must_advance(void)
 {
-    signed char col = BridgeGetCharCol(current_char.room, current_char.col);
+    signed char col = BridgeGetCharCol(Char.room, Char.col);
     int advance;
 
-    if (current_char.direction == 0) {
+    if (Char.direction == 0) {
         if (col < 2)
             advance = 1;
         else
@@ -237,22 +237,22 @@ int bridge_skeleton_must_advance(void)
 
 int bridge_skeleton_progress(void)
 {
-    signed char col = BridgeGetCharCol(current_char.room, current_char.col);
+    signed char col = BridgeGetCharCol(Char.room, Char.col);
     int keep_going = 1;
 
-    if (current_char.sequence != 5) {
-        if (current_char.row >= 3 && current_char.sequence == 4) {
+    if (Char.sequence != 5) {
+        if (Char.row >= 3 && Char.sequence == 4) {
             remove_char();
             keep_going = 0;
-        } else if (current_char.direction == 0) {
-            if (current_char.sequence_id == 102 || current_char.sequence_id == 216) {
+        } else if (Char.direction == 0) {
+            if (Char.sequence_id == 102 || Char.sequence_id == 216) {
                 if (col >= 9) {
-                    current_char.control = 2;
-                    current_char.alive = 1;
+                    Char.control = 2;
+                    Char.alive = 1;
                     JumpSeq(101);
                 }
                 keep_going = 0;
-            } else if (kid.x < current_char.x) {
+            } else if (Kid.x < Char.x) {
                 if (bridge_skeleton_at_plate()) {
                     start_opponent_running();
                     keep_going = 0;
@@ -271,12 +271,12 @@ int bridge_skeleton_progress(void)
 
 int bridge_skeleton_at_plate(void)
 {
-    signed char col = BridgeGetCharCol(skeleton.room, skeleton.col);
+    signed char col = BridgeGetCharCol(Opp.room, Opp.col);
     int open = bridge_gate_open();
     if (open) {
-        if (skeleton.direction == 0 && col < 2)
+        if (Opp.direction == 0 && col < 2)
             open = 1;
-        else if (skeleton.direction == -1 && col < 2)
+        else if (Opp.direction == -1 && col < 2)
             open = 1;
         else
             open = 0;
@@ -298,9 +298,9 @@ int bridge_gate_open(void)
 
 int bridge_skeleton_can_advance(void)
 {
-    signed char col = BridgeGetCharCol(current_char.room, current_char.col);
+    signed char col = BridgeGetCharCol(Char.room, Char.col);
     int advance;
-    if (current_char.direction == 0) {
+    if (Char.direction == 0) {
         if (col < 3)
             advance = 1;
         else
@@ -316,14 +316,14 @@ int bridge_skeleton_can_advance(void)
 
 int bridge_char_on_floor(void)
 {
-    if (ReadCell(current_char.room, current_char.col, current_char.row) == 44)
+    if (ReadCell(Char.room, Char.col, Char.row) == 44)
         return 1;
     return 0;
 }
 
 void load_bridge_code(void)
 {
-    if (STATE_LEVEL == 5 && current_room == 10)
+    if (STATE_LEVEL == 5 && viewed_room == 10)
         set_resource(3500, 64, 160, 1);
     floor_mask = 0;
     bridge_wait = 0;
@@ -338,9 +338,9 @@ void mark_bridge_floors_for_chars(int kid_on_bridge, int opponent_on_bridge)
         floor_mask = 255;
         delay = 1;
     } else if (kid_on_bridge) {
-        mark_bridge_for_col(kid.col);
+        mark_bridge_for_col(Kid.col);
     } else if (opponent_on_bridge) {
-        mark_bridge_for_col(opponent.col);
+        mark_bridge_for_col(RoomOpp.col);
     } else {
         delay = 0;
     }
@@ -368,16 +368,16 @@ void tweak_char_y_on_bridge(void)
 {
     int modifier;
 
-    if (bridge_char_on_floor() && (current_char.frame < 34 || current_char.frame > 44)) {
-        current_char.y = 63 * current_char.row + 56;
-        current_char.y += bridge_y[current_char.col];
+    if (bridge_char_on_floor() && (Char.frame < 34 || Char.frame > 44)) {
+        Char.y = 63 * Char.row + 56;
+        Char.y += bridge_y[Char.col];
         get_frame_info();
         if (bridge_room_flags & 64) {
-            modifier = tile_state[(signed char)(current_char.col + 10)].modifier & 15;
+            modifier = tile_state[(signed char)(Char.col + 10)].modifier & 15;
             if (modifier == 1)
-                --current_char.y;
+                --Char.y;
             else if (modifier == 2)
-                ++current_char.y;
+                ++Char.y;
         }
     }
 }
@@ -391,9 +391,9 @@ void animate_bridge_floor(void)
 {
     unsigned char phase, old_phase;
 
-    if (STATE_LEVEL == 5 && current_room == 10) {
-        old_phase = animation_modifier & 15;
-        animation_modifier &= 0xfff0;
+    if (STATE_LEVEL == 5 && viewed_room == 10) {
+        old_phase = BlueSpec & 15;
+        BlueSpec &= 0xfff0;
         if (!(floor_mask & (1 << (animation_cell % (signed char)10 - 1)))) {
             phase = 0;
         } else {
@@ -403,7 +403,7 @@ void animate_bridge_floor(void)
                     phase = 0;
                 else {
                     --phase;
-                    animation_modifier |= phase;
+                    BlueSpec |= phase;
                 }
             } else {
                 phase = old_phase;
@@ -463,7 +463,7 @@ void redraw_bridge_floor(int phase, char cell)
 
 void trigger_bridge_floor(char room, char cell)
 {
-    Tile near *tiles = room_tiles;
+    Tile near *tiles = BlueS;
     int phase = tiles[cell].modifier & 0xfff0;
     tiles[cell].modifier = phase;
 
@@ -482,7 +482,7 @@ void animate_bridge_mob(void)
     ShapeSize bounds;
     Rect redraw;
 
-    if (room != current_room) {
+    if (room != viewed_room) {
         if (room_below == mob_room)
             y += 191;
         else if (mob_room == room_above)
@@ -493,7 +493,7 @@ void animate_bridge_mob(void)
             x += 320;
         else
             goto get_position;
-        room = current_room;
+        room = viewed_room;
     }
 get_position:
     col = x / 32;
@@ -539,7 +539,7 @@ void step_bridge_mob(void)
 {
     int phase, speed;
 
-    if (STATE_LEVEL == 5 && current_room == 10) {
+    if (STATE_LEVEL == 5 && viewed_room == 10) {
         phase = mob_modifier & 15;
         speed = (mob_modifier & 0x30) >> 4;
         if ((speed == 1 && phase != 4) || (speed == 2 && phase != 9)) {

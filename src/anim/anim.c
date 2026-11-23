@@ -59,7 +59,7 @@ typedef struct
     unsigned char depth;
 } ShapeHeader;
 
-extern int current_port;
+extern int Graf;
 extern unsigned int active_animation_flags;
 extern unsigned long clock_ticks;
 extern void MEASURE_TEXT(int, int, const Rect far *, const Rect far *, int);
@@ -72,11 +72,11 @@ extern void cdecl release_animation_heap(void *);
 
 Animation *anim_draw(Animation *animation)
 {
-    int saved_port = current_port;
+    int saved_port = Graf;
 
-    current_port = animation->destination;
-    MEASURE_TEXT(current_port, (int)animation, &animation->bounds, &animation->source, 0);
-    current_port = saved_port;
+    Graf = animation->destination;
+    MEASURE_TEXT(Graf, (int)animation, &animation->bounds, &animation->source, 0);
+    Graf = saved_port;
     return animation;
 }
 
@@ -100,7 +100,7 @@ void anim_free(Animation *animation)
 
 #pragma optimize("l", off)
 Animation *draw_frame(Animation *animation);
-Animation *near advance_frame(Animation *animation);
+Animation *near advance_animation_frame(Animation *animation);
 void near paint_element(Animation *animation, Element *element);
 void near accumulate_element_bounds(Animation *animation, Element *element);
 void near reset_element(Element *element);
@@ -125,8 +125,8 @@ int anim_idle(Animation *animation)
     void far *saved_pixels;
     Element *current_element;
 
-    previous_port = current_port;
-    current_port = (int)animation;
+    previous_port = Graf;
+    Graf = (int)animation;
 
 next_command:
     event = animation->commands;
@@ -137,7 +137,7 @@ next_command:
         break;
     case 1:
         if (animation->deadline_base + animation->delay <= *(const volatile unsigned long *)&clock_ticks) {
-            advance_frame(animation);
+            advance_animation_frame(animation);
             if (!animation->timing.repeats) {
                 animation->timing.repeats = WORD_AT(event, 1);
                 animation->delay = WORD_AT(event, 3);
@@ -249,13 +249,13 @@ next_command:
             goto next_command;
         case 0xe0:
             if ((signed char)event[1] > 0) {
-                current_port = animation->destination;
+                Graf = animation->destination;
                 ((int *)&current_element->x)[1] += animation->bounds.left;
                 ((int *)&current_element->y)[1] += animation->bounds.top;
                 paint_element(animation, current_element);
                 ((int *)&current_element->x)[1] -= animation->bounds.left;
                 ((int *)&current_element->y)[1] -= animation->bounds.top;
-                current_port = (int)animation;
+                Graf = (int)animation;
             }
             if (!event[1]) {
                 paint_element(animation, current_element);
@@ -275,7 +275,7 @@ next_command:
     }
 
 finish:
-    current_port = previous_port;
+    Graf = previous_port;
     return status;
 }
 
@@ -324,7 +324,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
     anim_record = malloc((0x260 + count) * 2);
     if (anim_record) {
         memset(anim_record, 0, allocation_size(anim_record));
-        previous_port = anim_record->destination = current_port;
+        previous_port = anim_record->destination = Graf;
         ei = 0;
         do {
             reset_element(&anim_record->elements[ei]);
@@ -388,7 +388,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
             register Rect *bounds = &anim_record->bounds;
 
             if (!create_port(anim_record, _fmemcpy(bounds, commands, sizeof(Rect)))) goto fail;
-            current_port = (int)anim_record;
+            Graf = (int)anim_record;
             set_port_origin(0, 0);
             anim_record->dirty = anim_record->source;
             anim_record->commands = commands + 8;
@@ -408,7 +408,7 @@ fail:
         anim_free(anim_record);
         anim_record = 0;
 restore:
-        current_port = previous_port;
+        Graf = previous_port;
     }
     restore_sheet(sheet, old_entry);
     return anim_record;
@@ -421,7 +421,7 @@ extern void SET_RECORD_RANGE(Rect far *, int);
 extern void POP_PORT_CLIP(void);
 extern int animation_callback_argument;
 
-Animation *near advance_frame(Animation *animation)
+Animation *near advance_animation_frame(Animation *animation)
 {
     struct { Rect box; int reserved; } region; /* Extra stack word of unknown purpose. */
     Element *cursor;
@@ -579,7 +579,7 @@ extern int HGETRSRC(unsigned long, int);
 extern int hGetSnd(int);
 extern void CLEAR_PAYLOAD_HEADER(const unsigned char far *);
 extern int query_sound_payload(const void far *);
-extern char screen_port[];
+extern char ScreenPort[];
 
 #pragma optimize("l", on)
 #pragma optimize("g", on)
@@ -628,7 +628,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
     if (restore) {
         if (save_background) {
             Rect rect;
-            MEASURE_TEXT((int)screen_port, (int)&animation->background, &animation->bounds,
+            MEASURE_TEXT((int)ScreenPort, (int)&animation->background, &animation->bounds,
                       OFFSETRECT(&rect, &animation->bounds, -animation->bounds.left,
                                   -animation->bounds.top), 0);
         } else {

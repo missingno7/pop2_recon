@@ -50,7 +50,7 @@ typedef struct { Byte type; char skip[3]; unsigned int modifier; } TileAnim;
 typedef struct { Byte frame, unknown; signed char col, dy; } FlameStep;
 #pragma pack()
 
-extern Character current_char, opponent, room_chars[];
+extern Character Char, Kid, RoomOpp[];
 extern signed char char_action;
 extern signed char char_image;
 extern Byte scene_flag;                       /* DS:6290 */
@@ -63,10 +63,10 @@ extern struct {
     struct { char before_count[0x34]; signed char count; char after_count[0x3f]; } rooms[32];
 } Level;
 extern signed char room_guard_counts[];       /* DS:44f5, stride 116 */
-extern unsigned int tile_modifier;            /* DS:5e48 */
+extern unsigned int BlueSpec;            /* DS:5e48 */
 extern signed char tile_animation;            /* DS:67d0 */
 extern Byte flame_image_map[];                 /* DS:1e2e */
-extern Rect current_clip, flame_clip;         /* DS:6236,09fe */
+extern Rect current_clip, GamePlayRect;         /* DS:6236,09fe */
 extern Handle *shape_source;                  /* DS:6242 */
 extern Handle flame_steps_handle;             /* DS:6268 */
 extern int flame_step, actor_y;                /* DS:5e12,6256 */
@@ -99,17 +99,17 @@ void create_shadowman(void);
 
 void altar_kid_rises_from_death(void)
 {
-    signed char id = current_char.id;
+    signed char id = Char.id;
     save_actor_slot();
     copy_kid_to_char();
     JumpSeq(231);
-    current_char.control = -1;
-    char_image = current_char.previous_image;
+    Char.control = -1;
+    char_image = Char.previous_image;
     clear_life_bar();
-    position_char(char_image, current_char.previous_image);
-    current_char.program = 13;
-    current_char.alive = 0;
-    opponent = current_char;
+    position_char(char_image, Char.previous_image);
+    Char.program = 13;
+    Char.alive = 0;
+    Kid = Char;
     load_actor_slot(id);
     remove_char();
     AddSong(60);
@@ -119,63 +119,63 @@ void altar_shadow_progress(void)
 {
     int sequence = -1;
     int distance;
-    if (current_char.frame == 15) {
-        if (current_char.direction == -1) {
-            if (current_char.col >= 6) {
-                if (current_char.program == 13)
+    if (Char.frame == 15) {
+        if (Char.direction == -1) {
+            if (Char.col >= 6) {
+                if (Char.program == 13)
                     goto turn;
-                else if (current_char.col >= 8)
+                else if (Char.col >= 8)
                     sequence = 1;
                 else {
                     step_forward(0);
-                    if (current_char.sequence == 44)
+                    if (Char.sequence == 44)
                         sequence = 3;
                 }
-            } else if (current_char.program == 13 || current_char.sequence == 232) {
+            } else if (Char.program == 13 || Char.sequence == 232) {
                 sequence = 5;
                 AddSong(59);
             } else {
                 sequence = 232;
             }
-        } else if (current_char.program != 13) {
+        } else if (Char.program != 13) {
             sequence = 5;
-        } else if (current_char.col < 6) {
+        } else if (Char.col < 6) {
             step_forward(0);
-            if (current_char.sequence == 44)
+            if (Char.sequence == 44)
                 sequence = 3;
         } else {
-            distance = opponent.x - current_char.x;
-            if (opponent.direction == current_char.direction)
+            distance = Kid.x - Char.x;
+            if (Kid.direction == Char.direction)
                 distance += 6;
             if (distance)
                 step_forward(distance);
-            else if (opponent.direction != current_char.direction)
+            else if (Kid.direction != Char.direction)
                 sequence = 5;
             else {
 turn:
                 sequence = 71;
             }
         }
-    } else if (((current_char.frame >= 1 && current_char.frame <= 14) ||
-                (current_char.frame >= 49 && current_char.frame <= 56)) &&
-               current_char.col >= 6) {
+    } else if (((Char.frame >= 1 && Char.frame <= 14) ||
+                (Char.frame >= 49 && Char.frame <= 56)) &&
+               Char.col >= 6) {
         run_jump(4);
-    } else if (current_char.frame >= 103 && current_char.frame <= 106) {
+    } else if (Char.frame >= 103 && Char.frame <= 106) {
         scene_flag = 255;
         FallOn();
-    } else if (current_char.frame == 91 && !IsCharSwingingFwd()) {
+    } else if (Char.frame == 91 && !IsCharSwingingFwd()) {
         climb_up();
-        if (current_char.program == 13)
-            current_char.y -= 2;
-    } else if (current_char.frame == 154) {
+        if (Char.program == 13)
+            Char.y -= 2;
+    } else if (Char.frame == 154) {
         candle_sound = 133;
-    } else if (current_char.frame == 153 && current_char.program == 13) {
+    } else if (Char.frame == 153 && Char.program == 13) {
         set_resource(room_data->palette, 48, 16, 0);
-    } else if (current_char.program == 13 && current_char.frame == 185) {
+    } else if (Char.program == 13 && Char.frame == 185) {
         altar_kid_rises_from_death();
-    } else if (current_char.frame == 44) {
+    } else if (Char.frame == 44) {
         sequence = 13;
-        current_char.x = AddCharX(-8);
+        Char.x = AddCharX(-8);
     }
     if (sequence != -1)
         JumpSeq(sequence);
@@ -184,23 +184,23 @@ turn:
 void altar_watch_kid(void)
 {
     copy_kid_to_char();
-    if (current_char.row == 1 && current_char.sequence != 230) {
-        if (current_char.x <= 218) {
+    if (Char.row == 1 && Char.sequence != 230) {
+        if (Char.x <= 218) {
             JumpSeq(230);
-            current_char.x = 210;
+            Char.x = 210;
             decrement_life_points(100);
             AddSound(57);
             set_char_state(16);
             candle_sound = 133;
-        } else if (current_char.x <= 236 && !query_sound(10061)) {
+        } else if (Char.x <= 236 && !query_sound(10061)) {
             AddSong(61);
-        } else if (current_char.frame == 185 && current_char.row == 1 &&
-                   current_char.program != 12 && spawn_flag == 1) {
+        } else if (Char.frame == 185 && Char.row == 1 &&
+                   Char.program != 12 && spawn_flag == 1) {
             create_shadowman();
             spawn_flag = -1;
         }
     }
-    opponent = current_char;
+    Kid = Char;
 }
 
 void create_shadowman(void)
@@ -208,14 +208,14 @@ void create_shadowman(void)
     Spawn *entry;
     signed char id, zero, clear;
     int room;
-    if (current_char.room == 4 && altar_tile == 13) {
-        opponent = current_char;
-        room = current_char.room;
+    if (Char.room == 4 && altar_tile == 13) {
+        Kid = Char;
+        room = Char.room;
         id = room_guard_counts[room * (int)sizeof(Room)]++;
         entry = get_spawn(room, id);
-        entry->position = FirstInRow(current_char.row) + current_char.col;
-        entry->x = current_char.x;
-        entry->direction = current_char.direction;
+        entry->position = FirstInRow(Char.row) + Char.col;
+        entry->x = Char.x;
+        entry->direction = Char.direction;
         clear = 0;
         entry->flag = clear;
         entry->mode = clear;
@@ -224,16 +224,16 @@ void create_shadowman(void)
         entry->slot = zero;
         entry->flag2 = zero;
         entry->enabled = 1;
-        current_char.id = id;
-        current_char.x = entry->x;
+        Char.id = id;
+        Char.x = entry->x;
         char_image = char_action = 1;
-        current_char.control = -1;
-        current_char.state = 8;
+        Char.control = -1;
+        Char.state = 8;
         reset_char_y();
-        --current_char.y;
+        --Char.y;
         ClearCharVel();
-        current_char.program = 0;
-        current_char.unk_23 = current_char.alive = 0;
+        Char.program = 0;
+        Char.unk_23 = Char.alive = 0;
         JumpSeq(231);
         AnimChar();
         AddSong(63);
@@ -252,7 +252,7 @@ int altar_shadow_active(void)
         do {
             if (result)
                 break;
-            if (room_chars[i].action == 1)
+            if (RoomOpp[i].action == 1)
                 result = 1;
         } while (++i < count);
     }
@@ -264,7 +264,7 @@ void animate_sacred_flame(void)
     unsigned int phase;
     Byte image;
     if (room_data && room_data->type == 32) {
-        phase = tile_modifier;
+        phase = BlueSpec;
         if (phase & 0x80) {
             if (!(phase & 15)) {
                 phase = 0;
@@ -281,7 +281,7 @@ void animate_sacred_flame(void)
             image = phase + 11;
         }
         mark_bufs_for_rect(draw_under_actor, &room_data->pieces[image].rect, -1);
-        tile_modifier = phase;
+        BlueSpec = phase;
     } else {
         tile_animation = -1;
     }
@@ -293,7 +293,7 @@ void draw_temp_sacred_flame(TileAnim *tile)
     RoomPiece *piece;
     if (tile->type == 11) {
         draw.saved = current_clip;
-        current_clip = flame_clip;
+        current_clip = GamePlayRect;
         draw.modifier = tile->modifier;
         if (draw.modifier & 0x80) {
             draw.image = flame_image_map[draw.modifier & 0xff7f];
@@ -341,7 +341,7 @@ void setup_flame(void)
     FlameStep far *steps;
     Byte image;
     RoomPiece *piece;
-    if (current_char.room == 4 && altar_tile == 13) {
+    if (Char.room == 4 && altar_tile == 13) {
         SaveFChar();
         saved = current_clip;
         steps = RESOLVE_HANDLE_TO_FAR_PAYLOAD(flame_steps_handle);

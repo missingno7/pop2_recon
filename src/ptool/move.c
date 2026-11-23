@@ -4,11 +4,11 @@ struct Context {
     int y;
 };
 
-extern struct Context *CURRENT_CONTEXT;
+extern struct Context *Graf;
 
 void far pascal Move(int y_delta, int x_delta)
 {
-    struct Context *context = CURRENT_CONTEXT;
+    struct Context *context = Graf;
     context->y += y_delta;
     context->x += x_delta;
 }

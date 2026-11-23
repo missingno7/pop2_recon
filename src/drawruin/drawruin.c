@@ -273,8 +273,8 @@ typedef struct MovingExit {
 } MovingExit;
 
 extern RuinPositions *shape_offsets;
-extern DrawRect door_clip_rect;
-extern Byte drawn_room;
+extern DrawRect GamePlayRect;
+extern Byte viewed_room;
 extern unsigned int kid_frame;
 extern signed char FirstInRow(Byte, CellCoord);
 extern MovingExit *get_trob_room_cell(int);
@@ -327,10 +327,10 @@ void draw_ruin_exit_movable(RuinCell *cell)
 
     if (cell->pass == 0) {
         saved_clip = clip_rect;
-        door_clip = door_clip_rect;
+        door_clip = GamePlayRect;
         door_clip.top = cell->row * 63 - 5;
         if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
-            moving = get_trob_room_cell(cell->column + FirstInRow(drawn_room, cell->row));
+            moving = get_trob_room_cell(cell->column + FirstInRow(viewed_room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
             shape_offsets->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
@@ -393,7 +393,7 @@ void draw_ruin_flaw(RuinCell *cell)
                 if (emitted && flaw == 4)
                     ((FrontImageBank far *)(front_table_segment :>
                         (void _based(void) *)(last_front_table_slot * sizeof(FrontImage))))->images[0].clip =
-                        door_clip_rect;
+                        GamePlayRect;
             }
         }
     }
@@ -457,7 +457,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
     DrawRect gate_clip, saved_clip;
 
     saved_clip = clip_rect;
-    gate_clip = door_clip_rect;
+    gate_clip = GamePlayRect;
     gate_clip.top = cell->row * 63 - 10;
     if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
         unsigned int height = (cell->modifier & 0xfc) >> 2;
@@ -474,7 +474,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
             break;
         }
         if (add_image) {
-            if (drawn_room == 9 && level_number == 8) {
+            if (viewed_room == 9 && level_number == 8) {
                 if (cell->pass == 2)
                     draw_throne_room_gate_in_fore();
             } else {
@@ -722,10 +722,10 @@ void draw_ruin_rubble_pieces(RuinCell *cell)
 }
 #pragma optimize("g", on)
 
-extern Byte below_tile_kind;
+extern Byte drawn_tile_kind;
 extern int visible_above_piece(CellCoord, CellCoord);
 extern int is_six_kind(Byte);
-extern int ruins_draw_state;
+extern int Pause;
 
 void draw_ruin_space(RuinCell *cell)
 {
@@ -737,7 +737,7 @@ void draw_ruin_space(RuinCell *cell)
             back_wall = 1;
         else if (cell->row - hidden_flaw_row == 1)
             back_wall = visible_above_piece(cell->column, cell->row);
-        if (!back_wall && hidden_flaw_row == -1 && is_six_kind(below_tile_kind))
+        if (!back_wall && hidden_flaw_row == -1 && is_six_kind(drawn_tile_kind))
             back_wall = 1;
         if (back_wall)
             draw_ruin_back_wall(cell);
@@ -747,7 +747,7 @@ void draw_ruin_space(RuinCell *cell)
 
 void LoadRuinsDrawCode(void)
 {
-    ruins_draw_state = 0;
+    Pause = 0;
 }
 
 extern CellCoord tile_room, tile_column, tile_row, tile_index;

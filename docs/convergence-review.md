@@ -129,3 +129,38 @@ The smallest coherent separation that removed the coupling, without a new framew
   are members of larger variables).
 - Not done here: the RTLink relocation-order model, the trial link and Rule G (linker anchors), which remain the
   highest-leverage structural steps (section 6).
+
+## 9. Whole-image path (2026-11-23)
+
+- **Trial link.** build/workers/o10_trial is the first RTLink 6.10 link of the accepted objects plus stand-ins
+  built from original bytes. In the diag variant it reproduced 95.1% of the image bytes and placed every MAP
+  segment at its original address. Every difference it found was classified (report.md there).
+- **Whole-link refutation.** evidence/link-consistency-debt.json, shrink-only and checked by validation, holds:
+  - duplicate publics;
+  - one DGROUP name bound at two addresses;
+  - far-call externs named differently from their definer (case-insensitive, since RTLink ids are);
+  - one entry declared under two names in one file;
+  - contributions that break their SEGDEF alignment.
+- **Fixes since.**
+  - 777 extern spellings were unified with their definers, plus 250 anchored DGROUP and public renames
+    (w54_names: each FM Towns name carries a behavioural anchor in an anchored function pair).
+  - Two overlapping group pairs were merged into one source each: PRINCE.C (toggle_sound) and FADE.C
+    (palette_tail).
+  - Eight alignment contradictions were resolved:
+    - five genuine-assembly pieces now declare BYTE CODE segments, each starting right after the previous
+      routine's RET or IRET;
+    - three C data pieces now start at their real even address.
+  - The ledger went from 1,214 entries to about 100. Every file was re-proved by the unchanged gate.
+- **Regression.** The strict trial link links every accepted object where recorded, with no stand-ins for
+  misplaced pieces. It went from 67.1% to 89.9% equal bytes, and relocations equal in site and frame went from
+  1,332 to 4,367. The alignment cascade that shifted every overlay by one paragraph is gone.
+- **RTLink relocation order.** Per evidence/rtlink-probe/prince-scale, the model reproduces 50 of 51 trial-link
+  tables. In the original, the vector ids (1..36) are solved. The other original symbol ids are still open,
+  and the evidence suggests that unreconstructed modules, or a different FILE order, registered most names first.
+- **Open.**
+  - DGROUP aggregates: 53 multi-address names are interior addresses of character, room and level records,
+    and need real struct declarations.
+  - The 7 same-entry files.
+  - Misplaced CONST and _BSS pieces (const-layout and BSS ledgers).
+  - Drafts.
+  - The original symbol registration order.

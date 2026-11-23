@@ -47,7 +47,7 @@
       "DISPOSE_HANDLE",
       "INIT_SYSTEM",
       "CONFIGURATION",
-      "CONFIGURATION_FLAGS",
+      "ACTIVE_SOUND_CHANNELS",
       "INITIAL_SETTING",
       "DIGITAL_SOUND_ERROR",
       "ALTERNATE_POOL_AVAILABLE",
@@ -222,7 +222,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1152,
+        "length": 1154,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -1031,7 +1031,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CONFIGURATION_FLAGS",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -1045,7 +1045,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CONFIGURATION_FLAGS",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -1112,7 +1112,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CONFIGURATION_FLAGS",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -1126,7 +1126,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CONFIGURATION_FLAGS",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -4271,6 +4271,20 @@
   },
   "schema": 1,
   "symbols": {
+    "ACTIVE_SOUND_CHANNELS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8693,
+      "witnesses": [
+        {
+          "bytes_hex": "f606f52101",
+          "entry": "root:0000:0a84",
+          "image_offset": 2693,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "CONFIGURATION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4280,20 +4294,6 @@
           "bytes_hex": "8b1ee220",
           "entry": "root:0000:0a84",
           "image_offset": 2700,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "CONFIGURATION_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8693,
-      "witnesses": [
-        {
-          "bytes_hex": "f606f52101",
-          "entry": "root:0000:0a84",
-          "image_offset": 2693,
           "operand_offset": 2,
           "space": "root"
         }

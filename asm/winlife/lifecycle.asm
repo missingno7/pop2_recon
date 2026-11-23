@@ -4,10 +4,10 @@ EXTRN SYSTEM_HIT_RECTANGLE:WORD
 EXTRN BACKGROUND_ORIGIN_X:WORD
 EXTRN BACKGROUND_ORIGIN_Y:WORD
 EXTRN BACKING_PORT_DESCRIPTOR:DWORD
-EXTRN CURRENT_PORT:WORD
+EXTRN Graf:WORD
 EXTRN DRAW_RECORD_RANGE:WORD
 EXTRN PORT_ORIGIN:BYTE
-EXTRN WINDOW_DRAW_PORT:WORD
+EXTRN window_draw_port:WORD
 EXTRN WINDOW_HEAD:WORD
 EXTRN WINDOW_LIST:BYTE
 .CONST
@@ -96,8 +96,8 @@ save_window_clip:
     push di
     push cs
     call UPDATE_MESSAGE_DISPLAY
-    mov ax, WINDOW_DRAW_PORT
-    xchg CURRENT_PORT, ax
+    mov ax, window_draw_port
+    xchg Graf, ax
     push ax
     mov di, [bp+6]
     mov cx, [di+46h]
@@ -116,7 +116,7 @@ save_window_clip:
     call DWORD PTR [di+2eh]
     push cs
     call POP_PORT_CLIP
-    mov CURRENT_PORT, di
+    mov Graf, di
     lea ax, [di+18h]
     push ds
     push ax
@@ -133,7 +133,7 @@ save_window_clip:
     push cs
     call STROKE_PORT_RECT
 window_paint_done:
-    pop CURRENT_PORT
+    pop Graf
     pop di
     pop bp
     retf 2
@@ -216,7 +216,7 @@ CLOSE_WINDOW PROC FAR
     mov bp, sp
     push di
     mov ax, OFFSET WINDOW_LIST
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     mov di, [bp+6]
     mov ax, [di+1ah]
@@ -264,7 +264,7 @@ notify_window:
     push ax
     push ax
     call DWORD PTR [di+2eh]
-    pop CURRENT_PORT
+    pop Graf
     pop di
     pop bp
     retf 2
@@ -306,7 +306,7 @@ move_command_handled:
 begin_key_move:
     mov ax, OFFSET WINDOW_LIST
     mov bx, ax
-    xchg word ptr CURRENT_PORT, ax
+    xchg word ptr Graf, ax
     push ax
     mov ax, 7
     xchg word ptr [bx + 28h], ax
@@ -346,7 +346,7 @@ begin_key_move:
 restore_move_port:
     pop bx
     pop word ptr [bx + 28h]
-    pop word ptr CURRENT_PORT
+    pop word ptr Graf
     jmp SHORT move_command_handled
 HANDLE_WINDOW_MOVE_COMMAND ENDP
 
@@ -357,9 +357,9 @@ DRAG_WINDOW_FROM_POINT PROC FAR
     add sp, -10h
     push di
     push si
-    mov ax, word ptr WINDOW_DRAW_PORT
+    mov ax, word ptr window_draw_port
     mov bx, ax
-    xchg word ptr CURRENT_PORT, ax
+    xchg word ptr Graf, ax
     push ax
     lea di, [bp - 8]
     push ds
@@ -392,7 +392,7 @@ test_drag_bottom:
     jle begin_mouse_drag
     mov word ptr [di + 4], ax
 begin_mouse_drag:
-    mov bx, word ptr CURRENT_PORT
+    mov bx, word ptr Graf
     mov ax, 7
     xchg word ptr [bx + 28h], ax
     push ax
@@ -420,7 +420,7 @@ begin_mouse_drag:
     push cs
     call NEAR PTR OFFSET_WINDOW_AND_REDRAW
 restore_mouse_drag_port:
-    pop word ptr CURRENT_PORT
+    pop word ptr Graf
     pop si
     pop di
     mov sp, bp
@@ -537,8 +537,8 @@ state_done:
 SET_WINDOW_EVENT_STATE ENDP
 
 INITIALIZE_WINDOW_DRAW_PORT PROC FAR
-    mov ax, WINDOW_DRAW_PORT
-    mov CURRENT_PORT, ax
+    mov ax, window_draw_port
+    mov Graf, ax
     push ax
     push ds
     mov ax, OFFSET PORT_ORIGIN
@@ -580,7 +580,7 @@ INVALIDATE_WINDOW_BEHIND_PORT PROC FAR
     mov di, OFFSET WINDOW_LIST
 scan_windows_behind:
     mov di, word ptr [di + 2ch]
-    cmp di, word ptr CURRENT_PORT
+    cmp di, word ptr Graf
     je invalidate_port_region
     push ds
     push si
@@ -621,7 +621,7 @@ INVALIDATE_WINDOW_RECTANGLE PROC FAR
     lea si, [bp-8]
     push ds
     push si
-    mov ax, WINDOW_DRAW_PORT
+    mov ax, window_draw_port
     add ax, 10h
     push ds
     push ax
@@ -631,15 +631,15 @@ INVALIDATE_WINDOW_RECTANGLE PROC FAR
     call SECTRECT
     cmp WORD PTR [bp+6], 0
     jne start_windows
-    mov ax, WINDOW_DRAW_PORT
-    xchg CURRENT_PORT, ax
+    mov ax, window_draw_port
+    xchg Graf, ax
     push ax
     push ds
     push si
     push DRAW_RECORD_RANGE
     push cs
     call SET_RECORD_RANGE
-    pop CURRENT_PORT
+    pop Graf
 start_windows:
     mov cx, WINDOW_HEAD
 inspect_window:
@@ -708,7 +708,7 @@ MOVE_OUTLINE_BY_KEYBOARD PROC FAR
     push di
     push si
     mov ax, 3
-    mov bx, word ptr CURRENT_PORT
+    mov bx, word ptr Graf
     xchg word ptr [bx + 26h], ax
     push ax
     push bx
@@ -868,7 +868,7 @@ DRAG_OUTLINE_WITH_MOUSE PROC FAR
     push di
     push si
     mov ax, 3
-    mov bx, word ptr CURRENT_PORT
+    mov bx, word ptr Graf
     xchg word ptr [bx + 26h], ax
     push ax
     push bx
@@ -988,8 +988,8 @@ OFFSET_WINDOW_AND_REDRAW PROC FAR
     add sp, -8
     push di
     push si
-    mov ax, word ptr WINDOW_DRAW_PORT
-    xchg word ptr CURRENT_PORT, ax
+    mov ax, word ptr window_draw_port
+    xchg word ptr Graf, ax
     push ax
     lea di, [bp - 8]
     push di
@@ -1019,7 +1019,7 @@ OFFSET_WINDOW_AND_REDRAW PROC FAR
     call NEAR PTR INVALIDATE_WINDOW_RECTANGLE
     push cs
     call NEAR PTR INVALIDATE_WINDOW_RECTANGLE
-    pop word ptr CURRENT_PORT
+    pop word ptr Graf
     pop si
     pop di
     mov sp, bp
@@ -1057,7 +1057,7 @@ INITIALIZE_WINDOW PROC FAR
     mov bp, sp
     push di
     mov ax, OFFSET WINDOW_LIST
-    xchg CURRENT_PORT, ax
+    xchg Graf, ax
     push ax
     mov di, [bp+12h]
     push di
@@ -1129,7 +1129,7 @@ find_window_tail:
     push cs
     call NEAR PTR INVALIDATE_WINDOW_RECTANGLE
     xchg di, ax
-    pop CURRENT_PORT
+    pop Graf
     pop di
     pop bp
     retf 14
@@ -1361,7 +1361,7 @@ TRANSLATE_WINDOW_CLIP PROC FAR
     add sp, -8
     lea ax, [bp - 8]
     push ax
-    push word ptr CURRENT_PORT
+    push word ptr Graf
     mov bx, word ptr [bp + 6]
     push ds
     push ax
@@ -1423,13 +1423,13 @@ TRIM_PENDING_WINDOW_UPDATES ENDP
 RELEASE_BACKGROUND_PORT PROC NEAR
     xchg cx, ax
     jcxz release_background_done
-    mov ax, word ptr WINDOW_DRAW_PORT
-    xchg word ptr CURRENT_PORT, ax
+    mov ax, word ptr window_draw_port
+    xchg word ptr Graf, ax
     push ax
     push cx
     push cs
     call DISPOSE_BITMAP_PORT
-    pop word ptr CURRENT_PORT
+    pop word ptr Graf
 release_background_done:
     ret
 RELEASE_BACKGROUND_PORT ENDP
@@ -1437,8 +1437,8 @@ RELEASE_BACKGROUND_PORT ENDP
 ; AX points to the rectangle. Temporarily clear the backing origin for the capture.
 ALLOCATE_BACKGROUND_PORT PROC NEAR
     xchg cx, ax
-    mov ax, word ptr WINDOW_DRAW_PORT
-    xchg word ptr CURRENT_PORT, ax
+    mov ax, word ptr window_draw_port
+    xchg word ptr Graf, ax
     push ax
     sub ax, ax
     cwd
@@ -1462,7 +1462,7 @@ ALLOCATE_BACKGROUND_PORT PROC NEAR
     pop word ptr es:[bx + 14h]
     pop word ptr BACKGROUND_ORIGIN_X
     pop word ptr BACKGROUND_ORIGIN_Y
-    pop word ptr CURRENT_PORT
+    pop word ptr Graf
     ret
 ALLOCATE_BACKGROUND_PORT ENDP
 END

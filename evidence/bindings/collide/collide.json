@@ -4,7 +4,7 @@
       "GET_FORWARD_DISTANCE",
       "CHAR_BOX",
       "SLIDE_ROCKS_ACTIVE",
-      "EMPTY_BOX",
+      "NULLRECT",
       "ISWALL",
       "LEDGE_CHECK",
       "SPRITE_BANK",
@@ -15,7 +15,7 @@
       "LEFT_EDGE",
       "BOTTOM_COLLISION_ROW",
       "UPDATE_FLOOR_Y",
-      "FLOOR_Y",
+      "IMHEIGHT",
       "COLLISION_FIRST_COL",
       "BUMP_PENDING",
       "CUE_SOUND",
@@ -25,7 +25,7 @@
       "@sword_room_boundary",
       "@slide_rock_on_row",
       "SPRITE_WIDTH",
-      "SPRITE_LEFT",
+      "LEFTEDGE",
       "SPRITE_RIGHT",
       "IS_SWORD_MOTION",
       "SPRITE_TOP",
@@ -74,7 +74,7 @@
       "RESOLVED_ROOM",
       "GETLEFTBARR",
       "SWORD_TABLE_ID",
-      "COLLISION_ROOM_LINKS",
+      "VIEWED_ROOM",
       "CHECKBARR",
       "CHECK_GATE_FOR_PLAYER",
       "GETRIGHTBARR",
@@ -96,7 +96,7 @@
       "BELOW_EDGES",
       "LEVEL",
       "ABOVE_EDGES",
-      "BARRIER_STATE",
+      "PAUSE",
       "STAGE",
       "CURRENT_ROW",
       "RESET_BARRIER_STATE",
@@ -111,7 +111,7 @@
       "PREVIOUS_ROW",
       "RESOLVED_ROW",
       "LEFT_BARRIER_COL",
-      "CELL_TYPE",
+      "CURRENT_TILE",
       "RIGHT_BARRIER_COL",
       "BARRIER_DISTANCE_FROM_BACK",
       "CHAR_FRAME",
@@ -497,7 +497,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 3695,
+        "length": 3678,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2443,7 +2443,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_Y",
+          "name": "IMHEIGHT",
           "zero_displacement": true
         }
       },
@@ -2457,7 +2457,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_Y",
+        "name": "IMHEIGHT",
         "zero_displacement": true
       }
     },
@@ -2902,7 +2902,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_Y",
+          "name": "IMHEIGHT",
           "zero_displacement": true
         }
       },
@@ -2916,7 +2916,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_Y",
+        "name": "IMHEIGHT",
         "zero_displacement": true
       }
     },
@@ -2956,7 +2956,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2970,7 +2970,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5116,7 +5116,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5130,7 +5130,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5170,7 +5170,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5184,7 +5184,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5197,7 +5197,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5211,7 +5211,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5494,7 +5494,7 @@
           "index": 111,
           "kind": "external",
           "method": 6,
-          "name": "CELL_TYPE",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -5508,7 +5508,7 @@
         "index": 111,
         "kind": "external",
         "method": 6,
-        "name": "CELL_TYPE",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -6412,7 +6412,7 @@
           "index": 111,
           "kind": "external",
           "method": 6,
-          "name": "CELL_TYPE",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -6426,7 +6426,7 @@
         "index": 111,
         "kind": "external",
         "method": 6,
-        "name": "CELL_TYPE",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -7357,7 +7357,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_Y",
+          "name": "IMHEIGHT",
           "zero_displacement": true
         }
       },
@@ -7371,7 +7371,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_Y",
+        "name": "IMHEIGHT",
         "zero_displacement": true
       }
     },
@@ -8059,7 +8059,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_Y",
+          "name": "IMHEIGHT",
           "zero_displacement": true
         }
       },
@@ -8073,7 +8073,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_Y",
+        "name": "IMHEIGHT",
         "zero_displacement": true
       }
     },
@@ -8329,7 +8329,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "EMPTY_BOX",
+          "name": "NULLRECT",
           "zero_displacement": true
         }
       },
@@ -8343,7 +8343,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "EMPTY_BOX",
+        "name": "NULLRECT",
         "zero_displacement": true
       }
     },
@@ -8680,7 +8680,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "SPRITE_LEFT",
+          "name": "LEFTEDGE",
           "zero_displacement": true
         }
       },
@@ -8694,7 +8694,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "SPRITE_LEFT",
+        "name": "LEFTEDGE",
         "zero_displacement": true
       }
     },
@@ -8734,7 +8734,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "SPRITE_LEFT",
+          "name": "LEFTEDGE",
           "zero_displacement": true
         }
       },
@@ -8748,7 +8748,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "SPRITE_LEFT",
+        "name": "LEFTEDGE",
         "zero_displacement": true
       }
     },
@@ -9193,7 +9193,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_Y",
+          "name": "IMHEIGHT",
           "zero_displacement": true
         }
       },
@@ -9207,7 +9207,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_Y",
+        "name": "IMHEIGHT",
         "zero_displacement": true
       }
     },
@@ -9382,7 +9382,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "SPRITE_LEFT",
+          "name": "LEFTEDGE",
           "zero_displacement": true
         }
       },
@@ -9396,7 +9396,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "SPRITE_LEFT",
+        "name": "LEFTEDGE",
         "zero_displacement": true
       }
     },
@@ -9409,7 +9409,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "SPRITE_LEFT",
+          "name": "LEFTEDGE",
           "zero_displacement": true
         }
       },
@@ -9423,7 +9423,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "SPRITE_LEFT",
+        "name": "LEFTEDGE",
         "zero_displacement": true
       }
     },
@@ -9490,7 +9490,7 @@
           "index": 25,
           "kind": "external",
           "method": 6,
-          "name": "SPRITE_LEFT",
+          "name": "LEFTEDGE",
           "zero_displacement": true
         }
       },
@@ -9504,7 +9504,7 @@
         "index": 25,
         "kind": "external",
         "method": 6,
-        "name": "SPRITE_LEFT",
+        "name": "LEFTEDGE",
         "zero_displacement": true
       }
     },
@@ -9571,7 +9571,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "FLOOR_Y",
+          "name": "IMHEIGHT",
           "zero_displacement": true
         }
       },
@@ -9585,7 +9585,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "FLOOR_Y",
+        "name": "IMHEIGHT",
         "zero_displacement": true
       }
     },
@@ -10651,7 +10651,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -10665,7 +10665,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -10705,7 +10705,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -10719,7 +10719,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -10732,7 +10732,7 @@
           "index": 74,
           "kind": "external",
           "method": 6,
-          "name": "COLLISION_ROOM_LINKS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -10746,7 +10746,7 @@
         "index": 74,
         "kind": "external",
         "method": 6,
-        "name": "COLLISION_ROOM_LINKS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -12784,7 +12784,7 @@
           "index": 111,
           "kind": "external",
           "method": 6,
-          "name": "CELL_TYPE",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -12798,7 +12798,7 @@
         "index": 111,
         "kind": "external",
         "method": 6,
-        "name": "CELL_TYPE",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -12892,7 +12892,7 @@
           "index": 111,
           "kind": "external",
           "method": 6,
-          "name": "CELL_TYPE",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -12906,7 +12906,7 @@
         "index": 111,
         "kind": "external",
         "method": 6,
-        "name": "CELL_TYPE",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -14053,7 +14053,7 @@
           "index": 96,
           "kind": "external",
           "method": 6,
-          "name": "BARRIER_STATE",
+          "name": "PAUSE",
           "zero_displacement": true
         }
       },
@@ -14067,7 +14067,7 @@
         "index": 96,
         "kind": "external",
         "method": 6,
-        "name": "BARRIER_STATE",
+        "name": "PAUSE",
         "zero_displacement": true
       }
     }
@@ -14159,19 +14159,6 @@
         }
       ]
     },
-    "BARRIER_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24096,
-      "witnesses": [
-        {
-          "bytes_hex": "c706205e0100",
-          "image_offset": 782,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "BELOW_EDGES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14223,20 +14210,6 @@
           "bytes_hex": "c70698620100",
           "image_offset": 48210,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "CELL_TYPE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25200,
-      "witnesses": [
-        {
-          "bytes_hex": "a27062",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11768,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -14488,46 +14461,6 @@
         }
       ]
     },
-    "COLLISION_ROOM_LINKS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "3806355e",
-              "context": "Independent original direct DS cmp byte ptr [0x5e35], al outside the owner (entry relocated far CALL root+0xb87d index 983); grounds relative offset and width only.",
-              "image_offset": 63442,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "3806365e",
-              "context": "Independent original direct DS cmp byte ptr [0x5e36], al outside the owner (entry relocated far CALL root+0xb87d index 983); grounds relative offset and width only.",
-              "image_offset": 63475,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "3806345e",
-          "context": "Independent original direct DS cmp byte ptr [0x5e34], al outside the owner (entry relocated far CALL root+0xb87d index 983); grounds relative offset and width only.",
-          "image_offset": 63419,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "COLLISION_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14604,15 +14537,15 @@
         }
       ]
     },
-    "EMPTY_BOX": {
+    "CURRENT_TILE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 8384,
+      "offset": 25200,
       "witnesses": [
         {
-          "bytes_hex": "bec020",
-          "entry": "root:02cc:160a",
-          "image_offset": 17147,
+          "bytes_hex": "a27062",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11768,
           "operand_offset": 1,
           "space": "root"
         }
@@ -14643,12 +14576,6 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 11424,
-      "witnesses": []
-    },
-    "FLOOR_Y": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25212,
       "witnesses": []
     },
     "FORWARD_BARRIER_KIND": {
@@ -14798,6 +14725,12 @@
       "space": "overlay-11",
       "witnesses": []
     },
+    "IMHEIGHT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25212,
+      "witnesses": []
+    },
     "ISIMPASSABLE": {
       "entry_sha256": "1fcb5212c76b72cb8b9b00da08e48c04a7f593cdceb3adc318e41e9175fc07c1",
       "entry_target_id": "root:078a:2830",
@@ -14899,6 +14832,12 @@
         }
       ]
     },
+    "LEFTEDGE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25220,
+      "witnesses": []
+    },
     "LEFT_BARRIER_COL": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -14933,6 +14872,33 @@
         {
           "bytes_hex": "c606474500",
           "image_offset": 42,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "NULLRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8384,
+      "witnesses": [
+        {
+          "bytes_hex": "bec020",
+          "entry": "root:02cc:160a",
+          "image_offset": 17147,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "PAUSE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24096,
+      "witnesses": [
+        {
+          "bytes_hex": "c706205e0100",
+          "image_offset": 782,
           "operand_offset": 2,
           "space": "root"
         }
@@ -15178,12 +15144,6 @@
         }
       ]
     },
-    "SPRITE_LEFT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25220,
-      "witnesses": []
-    },
     "SPRITE_RIGHT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -15320,6 +15280,46 @@
           "entry": "root:02cc:160a",
           "image_offset": 17341,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "3806355e",
+              "context": "Independent original direct DS cmp byte ptr [0x5e35], al outside the owner (entry relocated far CALL root+0xb87d index 983); grounds relative offset and width only.",
+              "image_offset": 63442,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "3806365e",
+              "context": "Independent original direct DS cmp byte ptr [0x5e36], al outside the owner (entry relocated far CALL root+0xb87d index 983); grounds relative offset and width only.",
+              "image_offset": 63475,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "3806345e",
+          "context": "Independent original direct DS cmp byte ptr [0x5e34], al outside the owner (entry relocated far CALL root+0xb87d index 983); grounds relative offset and width only.",
+          "image_offset": 63419,
+          "operand_offset": 2,
           "space": "root"
         }
       ]

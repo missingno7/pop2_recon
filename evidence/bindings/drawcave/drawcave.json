@@ -3,10 +3,10 @@
     "externals": [
       "DRAW_PASS_MODE",
       "BUBBLE_FRAMES",
-      "RIGHT_TILE",
+      "CELLLEFT",
       "DRAWCAVEPILLARTOP",
       "DRAWCAVEEXIT1",
-      "BACKGROUND_IMAGES",
+      "BACKGROUND_SHAPES",
       "LOAD_CAVE_DRAWING",
       "GET_LAVA_INFO",
       "CHECKBGSETIMG",
@@ -52,14 +52,14 @@
       "DRAWCAVELAVA2",
       "REDRAW_ROW",
       "CLIP_RECT",
-      "EXIT_CLIP",
+      "GAMEPLAYRECT",
       "ACTOR_BOUNDS",
-      "TORCH_BOUNDS",
+      "CAVETORCHRECT",
       "DRAWCAVEDART",
       "@IsRoundCaveBlock",
       "DRAWCAVEPILLARBOT",
-      "DRAWN_ROOM",
-      "CAVE_EDGE_TILE",
+      "VIEWED_ROOM",
+      "DRAWN_TILE_KIND",
       "DRAWCAVEGATE"
     ],
     "groups": [
@@ -391,7 +391,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2270,
+        "length": 2274,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -1856,7 +1856,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "EXIT_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -1870,7 +1870,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "EXIT_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -2855,7 +2855,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "EXIT_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -2869,7 +2869,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "EXIT_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -2909,7 +2909,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "EXIT_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -2923,7 +2923,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "EXIT_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -3422,7 +3422,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "DRAWN_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3436,7 +3436,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "DRAWN_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3692,7 +3692,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "DRAWN_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3706,7 +3706,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "DRAWN_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4119,7 +4119,7 @@
           "index": 58,
           "kind": "external",
           "method": 6,
-          "name": "DRAWN_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4133,7 +4133,7 @@
         "index": 58,
         "kind": "external",
         "method": 6,
-        "name": "DRAWN_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5675,7 +5675,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "RIGHT_TILE",
+          "name": "CELLLEFT",
           "zero_displacement": true
         }
       },
@@ -5689,7 +5689,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "RIGHT_TILE",
+        "name": "CELLLEFT",
         "zero_displacement": true
       }
     },
@@ -5729,7 +5729,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "RIGHT_TILE",
+          "name": "CELLLEFT",
           "zero_displacement": true
         }
       },
@@ -5743,7 +5743,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "RIGHT_TILE",
+        "name": "CELLLEFT",
         "zero_displacement": true
       }
     },
@@ -5810,7 +5810,7 @@
           "index": 59,
           "kind": "external",
           "method": 6,
-          "name": "CAVE_EDGE_TILE",
+          "name": "DRAWN_TILE_KIND",
           "zero_displacement": true
         }
       },
@@ -5824,7 +5824,7 @@
         "index": 59,
         "kind": "external",
         "method": 6,
-        "name": "CAVE_EDGE_TILE",
+        "name": "DRAWN_TILE_KIND",
         "zero_displacement": true
       }
     },
@@ -6296,7 +6296,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "BACKGROUND_IMAGES",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -6310,7 +6310,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "BACKGROUND_IMAGES",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -6642,7 +6642,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "TORCH_BOUNDS",
+          "name": "CAVETORCHRECT",
           "zero_displacement": true
         }
       },
@@ -6656,7 +6656,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "TORCH_BOUNDS",
+        "name": "CAVETORCHRECT",
         "zero_displacement": true
       }
     }
@@ -6774,7 +6774,7 @@
         }
       ]
     },
-    "BACKGROUND_IMAGES": {
+    "BACKGROUND_SHAPES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 25158,
@@ -6802,15 +6802,43 @@
         }
       ]
     },
-    "CAVE_EDGE_TILE": {
+    "CAVETORCHRECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 27858,
+      "offset": 2114,
       "witnesses": [
         {
-          "bytes_hex": "a0d26c",
+          "bytes_hex": "b84208",
+          "entry": "root:0b41:01fa",
+          "image_offset": 46636,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "CELLLEFT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a1e962",
+              "entry": "root:078a:0000",
+              "image_offset": 32196,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 25320,
+      "witnesses": [
+        {
+          "bytes_hex": "a0e862",
           "entry": "root:078a:0000",
-          "image_offset": 32160,
+          "image_offset": 32190,
           "operand_offset": 1,
           "space": "root"
         }
@@ -6854,15 +6882,15 @@
       "space": "root",
       "witnesses": []
     },
-    "DRAWN_ROOM": {
+    "DRAWN_TILE_KIND": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 24116,
+      "offset": 27858,
       "witnesses": [
         {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
+          "bytes_hex": "a0d26c",
+          "entry": "root:078a:0000",
+          "image_offset": 32160,
           "operand_offset": 1,
           "space": "root"
         }
@@ -6908,7 +6936,7 @@
       "space": "root",
       "witnesses": []
     },
-    "EXIT_CLIP": {
+    "GAMEPLAYRECT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 2558,
@@ -7068,34 +7096,6 @@
         }
       ]
     },
-    "RIGHT_TILE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "a1e962",
-              "entry": "root:078a:0000",
-              "image_offset": 32196,
-              "operand_offset": 1,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 25320,
-      "witnesses": [
-        {
-          "bytes_hex": "a0e862",
-          "entry": "root:078a:0000",
-          "image_offset": 32190,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "SECTRECT": {
       "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
       "entry_target_id": "root:1101:5284",
@@ -7119,15 +7119,15 @@
         }
       ]
     },
-    "TORCH_BOUNDS": {
+    "VIEWED_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 2114,
+      "offset": 24116,
       "witnesses": [
         {
-          "bytes_hex": "b84208",
-          "entry": "root:0b41:01fa",
-          "image_offset": 46636,
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
           "operand_offset": 1,
           "space": "root"
         }

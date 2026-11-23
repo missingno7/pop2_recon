@@ -4,7 +4,7 @@
       "COPY_CURRENT_PORT_ORIGIN",
       "CLEAR_PAYLOAD_HEADER",
       "MEASURE_COUNTED_TEXT",
-      "CURRENT_CONTEXT",
+      "GRAF",
       "FIT_TEXT_PREFIX",
       "STROKE_RECTANGLE",
       "RELEASE_BUFFER_CALLBACK",
@@ -265,7 +265,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CONTEXT",
+        "name": "GRAF",
         "zero_displacement": true
       }
     },
@@ -436,21 +436,6 @@
       "space": "root",
       "witnesses": []
     },
-    "CURRENT_CONTEXT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9664,
-      "witnesses": [
-        {
-          "bytes_hex": "a3c025",
-          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
-          "entry": "root:0000:0000",
-          "image_offset": 4908,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "DRAW_COUNTED_TEXT": {
       "entry_sha256": "b0760a8909004cd7b08b150a7f94e1e72c719c9697c4e178d608177dc217f2d6",
       "entry_target_id": "root:1101:4cf0",
@@ -468,6 +453,21 @@
       "segment": 4353,
       "space": "root",
       "witnesses": []
+    },
+    "GRAF": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 9664,
+      "witnesses": [
+        {
+          "bytes_hex": "a3c025",
+          "context": "mov word ptr [0x25c0], ax reached from root:0000:0000",
+          "entry": "root:0000:0000",
+          "image_offset": 4908,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
     },
     "MEASURE_COUNTED_TEXT": {
       "entry_sha256": "1683408a4e5781e517e5e085a7cb72d597ad05b223662d46e84f87df55bb1123",

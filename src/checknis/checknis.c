@@ -45,18 +45,18 @@ int EraseScreenBeforeNIS(int sequence)
 }
 
 /* Field aliases, original long type, signedness, and purpose are hypotheses. */
-extern unsigned long guard_pair;
+extern unsigned long hRebirthSaved;
 extern unsigned int guard_other;
-extern signed char mode_code, state_code, level_code;
+extern signed char mode_code, state_code, CutRoom;
 
 int far pascal IsLevelStartWithNISScreen(void)
 {
     int result = 0;
-    if (guard_pair == 0L && guard_other == 0) {
+    if (hRebirthSaved == 0L && guard_other == 0) {
         if ((mode_code == 27 && state_code == 6) ||
             (mode_code == 22 && state_code == 10) ||
             (mode_code == 1 && state_code == 14) ||
-            (level_code == 9 && state_code == 8))
+            (CutRoom == 9 && state_code == 8))
             result = 1;
     }
     return result;
@@ -184,16 +184,16 @@ int play_nis(int sequence)
     return result;
 }
 
-extern signed char room_to_draw;
-extern unsigned char room_tile, level_redraw_flag;
-extern int room_to_draw_word, nis_sound;
+extern signed char LevelIdx;
+extern unsigned char room_tile, viewed_room;
+extern int room_to_draw_word, Graf;
 extern void reset_level_overlays(void);
 extern void load_level_map(signed char room);
 extern void load_background_set(int visible);
 extern void load_pieces_data(void);
 extern void load_code_overlays(unsigned char room, unsigned char tile);
 extern void place_room_objects(unsigned char room);
-extern void refresh_character(int mode);
+extern void PrepCut(int mode);
 extern void clean_cut(void);
 extern void unload_set(int pass);
 extern void unload_pieces_data(void);
@@ -206,10 +206,10 @@ void draw_room_from_nis(signed char room, signed char level)
 
     reset_level_overlays();
     old_room = current_room;
-    room_to_draw = room;
+    LevelIdx = room;
     room_to_draw_word = room;
     saved_sound = pending_sound;
-    pending_sound = nis_sound;
+    pending_sound = Graf;
     load_level_map(room);
     open_verified_resource(level_resource_files[current_room]);
     load_background_set(!IsLevelStartWithNISScreen());
@@ -217,9 +217,9 @@ void draw_room_from_nis(signed char room, signed char level)
         load_pieces_data();
     load_code_overlays(current_room, room_tile);
     place_room_objects(current_room);
-    level_redraw_flag = 0;
-    level_code = level;
-    refresh_character(1);
+    viewed_room = 0;
+    CutRoom = level;
+    PrepCut(1);
     clean_cut();
     unload_set(4);
     unload_set(1);

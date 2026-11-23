@@ -12,9 +12,9 @@
       "CONVERTDIRTORECDIR",
       "PLAYBACK",
       "DEFAULT_HANDLE_TAG",
-      "GAME_TICK",
+      "FRAMENUM",
       "CURRENT_CHARACTER",
-      "PENDING_DIRECTION",
+      "LEVELIDX",
       "HGETRSRC",
       "MOVE_X",
       "ALLOCATE_DEFAULT_HANDLE",
@@ -200,7 +200,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 964,
+        "length": 954,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -374,7 +374,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "GAME_TICK",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -388,7 +388,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "GAME_TICK",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -698,7 +698,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "GAME_TICK",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -712,7 +712,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "GAME_TICK",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -752,7 +752,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "GAME_TICK",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -766,7 +766,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "GAME_TICK",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -968,7 +968,7 @@
           "index": 14,
           "kind": "external",
           "method": 6,
-          "name": "PENDING_DIRECTION",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -982,7 +982,7 @@
         "index": 14,
         "kind": "external",
         "method": 6,
-        "name": "PENDING_DIRECTION",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -1660,7 +1660,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "GAME_TICK",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -1674,7 +1674,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "GAME_TICK",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -2575,7 +2575,7 @@
         }
       ]
     },
-    "GAME_TICK": {
+    "FRAMENUM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24160,
@@ -2602,6 +2602,20 @@
           "file_offset": 17855,
           "image_offset": 9663,
           "relocation_index": 223,
+          "space": "root"
+        }
+      ]
+    },
+    "LEVELIDX": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2584,
+      "witnesses": [
+        {
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -2671,20 +2685,6 @@
           "bytes_hex": "a08d62",
           "entry": "root:0000:4052",
           "image_offset": 16482,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "PENDING_DIRECTION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a0180a",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
           "operand_offset": 1,
           "space": "root"
         }

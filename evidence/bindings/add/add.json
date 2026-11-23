@@ -52,7 +52,7 @@
       "SETUP_SPLASH",
       "DRAWING_ENVIRONMENT",
       "ADJUST_RUINS_SWORD",
-      "SPECIAL_SCENE",
+      "VIEWED_ROOM",
       "CHECK_BACKGROUND_SHAPE",
       "ROWS",
       "HGETRSRC",
@@ -77,7 +77,7 @@
       "ADD_KID",
       "SHAPE_RECT",
       "GET_LIST_ITEM",
-      "ACTOR_OBJECT_TYPE",
+      "FCHAR",
       "SETUP_FLAME_SWORD",
       "ADD_OPPONENT",
       "FLOAT_FLAME_SWORD",
@@ -490,7 +490,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 4152,
+        "length": 4138,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2912,7 +2912,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "SPECIAL_SCENE",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2926,7 +2926,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "SPECIAL_SCENE",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5067,7 +5067,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "SPECIAL_SCENE",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5081,7 +5081,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "SPECIAL_SCENE",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5742,7 +5742,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "SPECIAL_SCENE",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5756,7 +5756,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "SPECIAL_SCENE",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5850,7 +5850,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "SPECIAL_SCENE",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5864,7 +5864,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "SPECIAL_SCENE",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5904,7 +5904,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "SPECIAL_SCENE",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5918,7 +5918,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "SPECIAL_SCENE",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -6984,7 +6984,7 @@
           "index": 77,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_OBJECT_TYPE",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -6998,7 +6998,7 @@
         "index": 77,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_OBJECT_TYPE",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -12510,20 +12510,6 @@
         }
       ]
     },
-    "ACTOR_OBJECT_TYPE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25170,
-      "witnesses": [
-        {
-          "bytes_hex": "a25262",
-          "entry": "root:02cc:1936",
-          "image_offset": 18004,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ACTOR_POSITION_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -12976,6 +12962,20 @@
           "file_offset": 28627,
           "image_offset": 20435,
           "relocation_index": 392,
+          "space": "root"
+        }
+      ]
+    },
+    "FCHAR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25170,
+      "witnesses": [
+        {
+          "bytes_hex": "a25262",
+          "entry": "root:02cc:1936",
+          "image_offset": 18004,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -13676,7 +13676,16 @@
         }
       ]
     },
-    "SPECIAL_SCENE": {
+    "UNEVEN_FLOOR": {
+      "entry_sha256": "ea525d46d1793e5af31e9fc021ff999055534805c8d00174d965c410b7a3c1b6",
+      "entry_target_id": "root:02cc:190c",
+      "kind": "far-code-entry",
+      "offset": 6412,
+      "segment": 716,
+      "space": "root",
+      "witnesses": []
+    },
+    "VIEWED_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24116,
@@ -13689,15 +13698,6 @@
           "space": "root"
         }
       ]
-    },
-    "UNEVEN_FLOOR": {
-      "entry_sha256": "ea525d46d1793e5af31e9fc021ff999055534805c8d00174d965c410b7a3c1b6",
-      "entry_target_id": "root:02cc:190c",
-      "kind": "far-code-entry",
-      "offset": 6412,
-      "segment": 716,
-      "space": "root",
-      "witnesses": []
     }
   },
   "target_id": "group:add/add",

@@ -1,6 +1,6 @@
 /* TOP.C candidate, DOS frame 0e56. Definitions follow original order.
  * Address comments identify the observed operands behind external declarations. */
-extern signed char current_level;                          /* ds:0a18 */
+extern signed char LevelIdx;                          /* ds:0a18 */
 #pragma pack(1)
 struct box { int left, top, right, bottom; };
 struct character {
@@ -28,9 +28,9 @@ struct guard_record { char prefix[7]; int active; };
 typedef void (far pascal *frame_proc)(void);
 
 extern struct character Char;                     /* ds:5c00 */
-extern struct character FChar;                    /* ds:5c40 */
+extern struct character Opp;                    /* ds:5c40 */
 extern struct character Kid;                      /* ds:5c80 */
-extern struct character shadows[];                /* ds:5cc0 */
+extern struct character RoomOpp[];                /* ds:5cc0 */
 extern struct room_state room_states[];            /* ds:44c1 */
 
 extern const struct rebirth_point rebirth_points[2]; /* ds:53e9 */
@@ -46,7 +46,7 @@ extern struct {
 extern signed char guard_start_delay;             /* ds:5c63 */
 extern signed char end_room;                       /* ds:4568 */
 extern signed char game_request;                   /* ds:6ccc */
-extern signed char room_to_draw;                   /* ds:6ccd */
+extern signed char CutRoom;                   /* ds:6ccd */
 extern signed char starting_health;                /* ds:6cd1 */
 extern int resume_mode;                            /* ds:5e00 */
 extern struct { signed char argument, entrance_mode; } entrance_state;
@@ -62,7 +62,7 @@ extern int queued_sound;                           /* ds:5e22 */
 extern unsigned remaining_minutes;                 /* ds:5e2a */
 extern int restart_request;                        /* ds:5e2c */
 extern int skip_frame;                             /* ds:5e2e */
-extern unsigned char current_room;                 /* ds:5e34 */
+extern unsigned char viewed_room;                 /* ds:5e34 */
 extern int freeze_ticks;                           /* ds:5e3e */
 extern int sequence_delay;                    /* ds:5e40 */
 extern int pending_sequence;                       /* ds:5e42 */
@@ -70,7 +70,7 @@ extern int remaining_ticks;                        /* ds:5e44 */
 extern int next_level;                             /* ds:5e46 */
 extern int cut_required;                           /* ds:5e5e */
 extern int frame_count;                             /* ds:5e60 */
-extern int message_frames;                         /* ds:5e8e */
+extern int Invert;                         /* ds:5e8e */
 extern int block_ticks;                       /* ds:5e90 */
 extern volatile int tick_delay;                             /* ds:264e */
 extern int script_status;                          /* ds:2cf6 */
@@ -78,7 +78,7 @@ extern int recording_mode;                         /* ds:2cfa */
 extern int stage_state;                            /* ds:2d00 */
 extern int draw_pass;                              /* ds:6a4a */
 extern int input_enabled;                          /* ds:6266 */
-extern int queued_track;                           /* ds:25c0 */
+extern int Graf;                           /* ds:25c0 */
 extern int sound_enabled;                          /* ds:0228 */
 extern int special_sequence;                       /* ds:0a16 */
 extern int resource_index;                         /* ds:0902 */
@@ -94,7 +94,7 @@ extern int control_lock;                           /* ds:629e */
 extern int collision_pending;                      /* ds:62de */
 extern int transition_pending;                     /* ds:67cc */
 extern int fade_ticks;                              /* ds:67bc */
-extern char key_result;                            /* ds:01d6 */
+extern char timer_disabled;                            /* ds:01d6 */
 extern unsigned char cell_flags;                   /* ds:6271 */
 extern signed char sweep_column;                   /* ds:6275 */
 extern signed char sweep_left;                     /* ds:6277 */
@@ -134,7 +134,7 @@ extern void ClearCharVel(void);                    /* far:02cc:0944 */
 extern void select_room(char);                       /* far:0f77:0002 */
 extern void close_exit(char, char);               /* far:0b41:16fa */
 extern void hGetSnd(int);                        /* far:1101:807a */
-extern int check_frame_input(int);                  /* far:0000:0dd4 */
+extern int PrepCut(int);                  /* far:0000:0dd4 */
 extern int IsLevelStartWithNISScreen(void);                         /* far:0284:0096 */
 extern void STROKE_PORT_RECT(char far *);          /* far:1101:4d90 */
 extern void clear_message(int);                    /* far:078a:213a */
@@ -289,7 +289,7 @@ int restart_level(signed char requested)
         if (requested == -1 || requested > 14)
             break;
         if (!resume_mode) {
-            reload = CheckPlayNIS(current_level, requested);
+            reload = CheckPlayNIS(LevelIdx, requested);
             if (preview_mode) {
                 previous_request = game_request;
                 game_request = requested;
@@ -297,7 +297,7 @@ int restart_level(signed char requested)
                 game_request = previous_request;
                 reload = 1;
             }
-            if (requested != current_level)
+            if (requested != LevelIdx)
                 reload = 1;
         } else {
             reload = 1;
@@ -307,17 +307,17 @@ int restart_level(signed char requested)
             reset_level_overlays();
             load_level(requested);
         } else {
-            load_minimum_level(current_level);
+            load_minimum_level(LevelIdx);
         }
         reset_guard_records();
         InitCollisionDetection();
         InitInput();
         init_level_specific();
-        current_room = 0;
+        viewed_room = 0;
         special_sequence = fade_ticks = control_lock = transition_pending = collision_pending = 0;
         last_track = last_sound = -1;
         Kid.pushed = 0;
-        shadows[0].direction = 0x56;
+        RoomOpp[0].direction = 0x56;
         start_kid();
         open_start_gate();
         requested = first_frame(requested);
@@ -329,7 +329,7 @@ int restart_level(signed char requested)
                 clear_peels();
             if (recording_mode) {
                 CheckRecordedGamePlayer();
-                requested = current_level = 0;
+                requested = LevelIdx = 0;
                 next_level = 0;
             }
         }
@@ -353,13 +353,13 @@ void start_kid(void)
     Char.action = 0;
     if (stage_number == 7)
         special_entrance();
-    room_to_draw = Char.room = Level.entry_room;
+    CutRoom = Char.room = Level.entry_room;
     Char.column = Level.entry_cell % 10;
     Char.row = Level.entry_cell / 10;
     Char.direction = ~Level.entry_facing;
     seq = starting_sequence();
     Char.x = column_x[Char.column] + 14;
-    Char.hp_delta = Char.max_hp = current_level ? starting_health : 4;
+    Char.hp_delta = Char.max_hp = LevelIdx ? starting_health : 4;
     repeat = 0;
     if (seq == -1) {
         if (stage_set == 5 && Level.entry_room == 4) {
@@ -442,8 +442,8 @@ found_gate:
 int first_frame(signed char requested)
 {
     int result;
-    room_to_draw = Kid.room;
-    result = check_frame_input(requested != -2 ? 1 : 0);
+    CutRoom = Kid.room;
+    result = PrepCut(requested != -2 ? 1 : 0);
     if (result == -2) {
         if (!IsLevelStartWithNISScreen())
             STROKE_PORT_RECT(loading_name);
@@ -472,7 +472,7 @@ void clean_cut(void)
         clear_keyboard();
         full_redraw();
         clear_keyboard();
-        queued_track = room_sound_offset;
+        Graf = room_sound_offset;
         CheckRoomSpecific(); draw_all();
         clear_keyboard();
         if (sound_enabled)
@@ -484,14 +484,14 @@ void clean_cut(void)
         clear_keyboard();
         draw_all();
         clear_keyboard();
-        if (message_frames)
+        if (Invert)
             InvertBitMap((char *)room_sound_offset);
         clear_keyboard();
         load_opponent_banks();
         PrinceCopy((char *)&GamePlayRect);
         restore_game_play_palette();
         clear_keyboard();
-        if (message_frames)
+        if (Invert)
             InvertBitMap((char *)room_sound_offset);
         clear_keyboard();
     }
@@ -508,7 +508,7 @@ int run_frames(void)
         if (request == -2) {
             if (restart_request) {
                 request = reset_level();
-            } else if (current_level != next_level && !is_leave_level_music_on() &&
+            } else if (LevelIdx != next_level && !is_leave_level_music_on() &&
                        (!query_sound(resource_index + 10000) ||
                         resource_index == 4 || resource_index == 7 || resource_index == 54)) {
                 if (next_level == -1 || (stage_number != 9 && stage_number != 5))
@@ -539,9 +539,9 @@ int next_frame(void)
 
     start_floor_frame();
     update_floors();
-    if (end_room == 2 || shadows[0].action == 10)
+    if (end_room == 2 || RoomOpp[0].action == 10)
         level_special_floor();
-    select_guards_in_room(current_room);
+    select_guards_in_room(viewed_room);
     check_alert();
     result = run_kid();
     if (!result) {
@@ -555,7 +555,7 @@ int next_frame(void)
         call_level_frame_proc();
         advance_screen_logic();
         update_guard_frame();
-        result = check_frame_input(0);
+        result = PrepCut(0);
         if (result == -2) {
             wait_overlay_frame();
             check_clock();
@@ -660,7 +660,7 @@ save_result:
 void run_shadows(void)
 {
     signed char index = 0;
-    signed char count = room_states[current_room].guard_count;
+    signed char count = room_states[viewed_room].guard_count;
     unsigned char old_room;
 
     if (count > 0) do {
@@ -672,9 +672,9 @@ void run_shadows(void)
             set_shadow_opponent(index);
             reread_cells();
             control_shadow();
-            old_room = current_room;
+            old_room = viewed_room;
             if (old_room != (unsigned char)Char.room) {
-                current_room = Char.room;
+                viewed_room = Char.room;
                 change_view_room();
             }
             AnimChar();
@@ -723,7 +723,7 @@ void run_shadows(void)
             {
                 unsigned char new_room = Char.room;
                 if (old_room != new_room) {
-                    current_room = old_room;
+                    viewed_room = old_room;
                     change_view_room();
                 }
             }
@@ -733,9 +733,9 @@ void run_shadows(void)
 
     index = 0;
     if (count > 0) do {
-        if (shadows[index].direction == 0x56) {
+        if (RoomOpp[index].direction == 0x56) {
             load_actor_slot(index);
-            remove_shadow(current_room, index);
+            remove_shadow(viewed_room, index);
             if (Kid.opponent > Char.frame)
                 --Kid.opponent;
             else if (Kid.opponent == Char.frame)
@@ -757,11 +757,11 @@ int advance_frame(void)
         clean_cut();
         redraw_frame = 0;
     } else if (cut_required) {
-        current_room = room_to_draw;
+        viewed_room = CutRoom;
         clean_cut();
     } else if (reload_room) {
         reload_room = 0;
-        select_room_view(current_room);
+        select_room_view(viewed_room);
         clean_cut();
         update_room_screen();
     } else {
@@ -770,15 +770,15 @@ int advance_frame(void)
         draw_all();
         if (draw_interlude)
             STROKE_PORT_RECT((char *)&GamePlayRect);
-        if (message_frames)
+        if (Invert)
             InvertBitMap((char *)room_sound_offset);
         render_screen();
-        if (message_frames) {
+        if (Invert) {
             InvertBitMap((char *)room_sound_offset);
-            if (message_frames == 1)
+            if (Invert == 1)
                 check_message_end();
             else if (Kid.alive < 0)
-                --message_frames;
+                --Invert;
         }
     }
     step_sound();
@@ -796,7 +796,7 @@ int advance_frame(void)
         if (special_sequence != -1)
             --sequence_delay;
         if (pending_sequence == 600) {
-            if (current_room == 4 && stage_number == 13 && !special_sequence)
+            if (viewed_room == 4 && stage_number == 13 && !special_sequence)
                 special_sequence = 1;
             if ((unsigned)sequence_delay < 120) {
                 phase = (unsigned)sequence_delay % 12;
@@ -826,7 +826,7 @@ void reset_frame_vars(void)
     if (Kid.collision == 8 && (Kid.previous_x != 52 || Kid.hurt))
         Kid.collision = 0;
     index = 0;
-    count = room_states[current_room].guard_count;
+    count = room_states[viewed_room].guard_count;
     if (count > 0) do {
         load_actor_slot(index);
         Char.pushed = 0;
@@ -917,12 +917,12 @@ void tick_misc_timers(void)
 
 void face_first_guard(void)
 {
-    if (FChar.direction != 0x56 && guard_start_delay >= 2 && Char.skill != 1 &&
-        FChar.skill && FChar.floor < 2 && FChar.direction != Char.direction &&
-        FChar.action != 11 && FChar.action != 7 && FChar.action != 8 &&
-        !(FChar.action == 12 && FChar.sequence >= 179 && FChar.sequence <= 235) &&
-        !(FChar.action == 4 && FChar.sequence == 206) &&
-        !(FChar.action == 2 && FChar.alternate_x == 110) &&
+    if (Opp.direction != 0x56 && guard_start_delay >= 2 && Char.skill != 1 &&
+        Opp.skill && Opp.floor < 2 && Opp.direction != Char.direction &&
+        Opp.action != 11 && Opp.action != 7 && Opp.action != 8 &&
+        !(Opp.action == 12 && Opp.sequence >= 179 && Opp.sequence <= 235) &&
+        !(Opp.action == 4 && Opp.sequence == 206) &&
+        !(Opp.action == 2 && Opp.alternate_x == 110) &&
         Char.alive < 0 && abs(get_opp_dist()) <= 15) {
         reset_char_y();
         Char.fall = 0;
@@ -1033,11 +1033,11 @@ void call_level_frame_proc(void)
 signed char reset_level(void)
 {
     restart_request = 0;
-    if (current_level == next_level) {
+    if (LevelIdx == next_level) {
         save_game_play_palette();
         STROKE_PORT_RECT((char *)&GamePlayRect);
         if (game_request)
-            return current_level;
+            return LevelIdx;
         return 0;
     }
     return next_level;
@@ -1050,7 +1050,7 @@ void lose_game(void)
     dispatch_sound(0);
     result = play_nis(28);
     remaining_minutes = 0;
-    key_result = 8;
+    timer_disabled = 8;
     if (result == 2)
         reset_level_overlays();
 }

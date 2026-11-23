@@ -112,10 +112,10 @@ typedef struct {
     unsigned char records[5][23];
 } GuardRoom;
 
-extern GuardActor actor_slots[];
+extern GuardActor RoomOpp[];
 #define guard_id (Char.bytes[0])
 extern GuardRoom guard_rooms[];
-extern unsigned char actor_room, room_to_check;
+extern unsigned char actor_room, viewed_room;
 extern signed char actor_facing, target_facing, actor_row, target_row;
 extern unsigned char target_action;
 extern unsigned char traced_room;
@@ -152,7 +152,7 @@ int far pascal check_opponent_tumble(void)
         result = (signed char)Rnd(3) <= live;
         if (!result && live != 0) {
             saved = Char;
-            count = guard_rooms[room_to_check].count;
+            count = guard_rooms[viewed_room].count;
             index = 0;
             if (index < count) {
                 do {
@@ -228,11 +228,11 @@ signed char far pascal count_live_opponents(void)
     signed char index, limit, live;
 
     live = 0;
-    limit = guard_rooms[room_to_check].count;
+    limit = guard_rooms[viewed_room].count;
     index = 0;
     if (index < limit) {
         do {
-            if (actor_slots[index].bytes[17] >= 0)
+            if (RoomOpp[index].bytes[17] >= 0)
                 ++live;
         } while (++index < limit);
     }
@@ -342,7 +342,7 @@ void far pascal chase_opponent(void)
 
     tile = actor_in_direction(~actor_facing);
     if (tile != guard_id)
-        nearest = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(actor_slots[tile], 2));
+        nearest = abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(RoomOpp[tile], 2));
     else
         nearest = 121;
 
@@ -544,7 +544,7 @@ extern void far pascal maybe_advance(void);
      ((frame) >= 49 && (frame) <= 56) || \
      ((frame) >= 34 && (frame) <= 44))
 
-#define SLOT_ACTOR(offset) (*(GuardActor near *)((char near *)actor_slots + (offset)))
+#define SLOT_ACTOR(offset) (*(GuardActor near *)((char near *)RoomOpp + (offset)))
 
 void far pascal wait_en_garde(void)
 {
@@ -614,11 +614,11 @@ int far pascal opponent_spacing(void)
     int spacing = 96;
     signed char index, count;
 
-    count = guard_rooms[room_to_check].count;
+    count = guard_rooms[viewed_room].count;
     index = guard_id + 1;
     if (count > index) {
         do {
-            if (abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(actor_slots[index], 2)) < 24)
+            if (abs(ACTOR_WORD(Char, 2) - ACTOR_WORD(RoomOpp[index], 2)) < 24)
                 spacing += 24;
         } while (++index < count);
     }
@@ -753,7 +753,7 @@ int far pascal opponent_close(signed char slot, signed char column, signed char 
 {
     signed char tile, limit, step;
     int clear = 0;
-    Opponent near *opponent = GetOppInfoIdx(room_to_check, slot);
+    Opponent near *opponent = GetOppInfoIdx(viewed_room, slot);
 
     if (!opponent || (signed char)death_count < 0 || ACTOR_WORD(Char, 36) == 5) goto done;
     if (opponent->timer && !IsExitChasingSkel(actor_room)) goto done;
@@ -786,7 +786,7 @@ void far pascal raise_nearby_opponents(void)
     else
         radius = 5;
 
-    count = guard_rooms[room_to_check].count; index = 0;
+    count = guard_rooms[viewed_room].count; index = 0;
     if (count > 0) {
         do {
             load_actor_slot(index);
@@ -873,7 +873,7 @@ void far pascal update_skeleton(void)
 typedef GuardActor Actor;
 #define room_info guard_rooms
 extern unsigned char guard_kind, skeleton_kind;
-#define guard_room room_to_check
+#define guard_room viewed_room
 extern Opponent near *far pascal GetOppInfoIdx(int room, int id);
 extern void far pascal load_actor_slot(signed char id);
 extern void far pascal JumpSeq(int sequence);

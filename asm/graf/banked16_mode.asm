@@ -2,7 +2,7 @@
 .MODEL MEDIUM
 .DATA
 EXTRN near_heap_segment:WORD
-EXTRN current_port:WORD
+EXTRN Graf:WORD
 EXTRN default_port:BYTE
 EXTRN surface_scanline_count:WORD
 EXTRN surface_row_stride:WORD
@@ -121,7 +121,7 @@ banked16_54e6:
 banked16_54f9:
     sub ax, WORD PTR [bx + 6]
     mov WORD PTR [bp - 8], ax
-    cmp bx, WORD PTR [current_port]
+    cmp bx, WORD PTR [Graf]
     jne banked16_5533
     mov ax, WORD PTR [bx + 18h]
     sub ax, dx
@@ -865,7 +865,7 @@ draw_banked16_line PROC FAR
     add sp, -1Ah
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     mov ax, WORD PTR [bx + 28h]
     and al, 0Fh
     mov ah, al
@@ -1166,7 +1166,7 @@ draw_banked16_bitmap PROC FAR
     add sp, -20h
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp + 0Eh]
     mov ax, WORD PTR [bp + 0Ch]
     sub ax, WORD PTR [bx + 6]
@@ -1465,7 +1465,7 @@ fill_banked16_rectangle PROC FAR
     add sp, -0Eh
     push di
     push si
-    mov di, WORD PTR [current_port]
+    mov di, WORD PTR [Graf]
     les si, DWORD PTR [bp + 0Ah]
     mov ax, WORD PTR es:[si + 2]
     mov bx, WORD PTR [di + 6]
@@ -1681,7 +1681,7 @@ composite_banked16_bitmap PROC FAR
     add sp, -1Ch
     push di
     push si
-    mov bx, WORD PTR [current_port]
+    mov bx, WORD PTR [Graf]
     les si, DWORD PTR [bp + 0Ch]
     mov ax, WORD PTR [bp + 0Ah]
     sub ax, WORD PTR [bx + 6]

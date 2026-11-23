@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD, DEFAULT_PEN_PATTERN:WORD, DEFAULT_PEN_MODE:WORD
+EXTRN Graf:WORD, DEFAULT_PEN_PATTERN:WORD, DEFAULT_PEN_MODE:WORD
 .CODE
 EXTRN GET_BLOCK_PAYLOAD_SIZE:NEAR, SECTRECT:NEAR, DRAW_COUNTED_TEXT:NEAR
 EXTRN STROKE_RECTANGLE:NEAR, OFFSET_RECTANGLE:NEAR, COPY_GRAPHICS_REGION:NEAR
@@ -145,7 +145,7 @@ ADD_PORT_ORIGIN PROC FAR
     push bp
     mov bp, sp
     push di
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     les di, DWORD PTR [bp+6]
     les ax, DWORD PTR es:[di]
     add ax, [bx+4]
@@ -171,7 +171,7 @@ toggle_rect_effect proc far
     push ax
     mov ax, 3
     push ax
-    mov bx, current_context
+    mov bx, Graf
     mov ax, 0fh
     push ax
     push cs
@@ -211,7 +211,7 @@ origin_alignment label byte
 public apply_default_pen_state
 ; Draft: the only original load of DEFAULT_PEN_PATTERN is in this routine.
 apply_default_pen_state proc far
-    mov bx, current_context
+    mov bx, Graf
     mov ax, default_pen_pattern
     mov [bx+26h], ax
     mov ax, default_pen_mode
@@ -267,7 +267,7 @@ scroll_context_rectangle proc far
     push ax
     push ds
     push si
-    mov di, current_context
+    mov di, Graf
     lea ax, [di+18h]
     push ds
     push ax
@@ -380,7 +380,7 @@ check_context_cursor_overlap proc far
     les ax, dword ptr [bp+6]
     push es
     push ax
-    mov bx, current_context
+    mov bx, Graf
     sub ax, ax
     cwd
     sub ax, [bx+6]
@@ -389,7 +389,7 @@ check_context_cursor_overlap proc far
     push dx
     push cs
     call offset_rectangle
-    mov bx, current_context
+    mov bx, Graf
     les ax, dword ptr [bx]
     call check_cursor_overlap
     mov sp, bp

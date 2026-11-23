@@ -31,7 +31,7 @@ typedef struct {
 extern int position_value, reference_x, left_edge, right_edge;
 extern signed char facing, page_number;
 extern long tick_count;
-extern drawing_context screen_context, *drawing_port;
+extern drawing_context ScreenPort, *Graf;
 extern int ruler_bottoms[];
 extern heap_block far *far *heap_start;
 extern char screen_name[];
@@ -162,27 +162,27 @@ void plot_actor_offset(int distance)
 void plot_position(int x, int color)
 {
     register int y;
-    register drawing_context *saved_port = drawing_port;
+    register drawing_context *saved_port = Graf;
     volatile int saved_color;
-    drawing_port = &screen_context;
-    saved_color = screen_context.pen_color;
+    Graf = &ScreenPort;
+    saved_color = ScreenPort.pen_color;
     y = ((volatile int *)ruler_bottoms)[page_number] - 5;
-    screen_context.pen_color = color;
+    ScreenPort.pen_color = color;
     MOVETO(x, y);
     draw_axis_segment(x, y + 2);
-    drawing_port->pen_color = saved_color;
-    drawing_port = saved_port;
+    Graf->pen_color = saved_color;
+    Graf = saved_port;
 }
 
 void draw_ruler_marks(void)
 {
-    drawing_context *saved_port = drawing_port;
+    drawing_context *saved_port = Graf;
     int saved_color, saved_attribute, y, x;
     char label[10];
 
-    drawing_port = &screen_context;
-    saved_color = screen_context.pen_color;
-    saved_attribute = screen_context.pen_attribute;
+    Graf = &ScreenPort;
+    saved_color = ScreenPort.pen_color;
+    saved_attribute = ScreenPort.pen_attribute;
     set_pen_color(100);
     {
         int bottom = ruler_bottoms[page_number];
@@ -190,7 +190,7 @@ void draw_ruler_marks(void)
     }
     x = 0;
     do {
-        drawing_port->pen_color = (x % 2) ? 12 : 9;
+        Graf->pen_color = (x % 2) ? 12 : 9;
         MOVETO(x, y);
         if (x % 10)
             draw_axis_segment(x, y);
@@ -204,9 +204,9 @@ void draw_ruler_marks(void)
         }
         ++x;
     } while (x < 320);
-    drawing_port->pen_color = saved_color;
+    Graf->pen_color = saved_color;
     hSetFont(saved_attribute);
-    drawing_port = saved_port;
+    Graf = saved_port;
 }
 
 static int preview_x = 0;
@@ -218,7 +218,7 @@ void preview_resource(int handle)
     if (preview_x == 0)
         STROKE_PORT_RECT(screen_name);
     if (image->width < 200 && image->height < 320 && image->width && image->height) {
-        drawing_port = &screen_context;
+        Graf = &ScreenPort;
         paint_plain(image, 0, preview_x, 0);
         PAINT_INDEXED_SHAPE(image, 100, preview_x, 0, 0x8000);
         paint_rle(image, 200, preview_x, 0);

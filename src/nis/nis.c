@@ -33,7 +33,7 @@ unsigned int GetStrLCt(int resource_id)
     return *(unsigned char far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(HGETRSRC(0x5354524cUL, resource_id));
 }
 
-extern unsigned char music_options;
+extern unsigned char active_sound_channels;
 extern unsigned long clock_ticks, music_deadline;
 extern void play_sound(int sound);
 extern int wait_sound(int sound);
@@ -41,7 +41,7 @@ extern int (far *poll_input)(void);
 
 void start_timed_music(int sound, unsigned int duration)
 {
-    if (music_options & 1) play_sound(sound);
+    if (active_sound_channels & 1) play_sound(sound);
     else
         music_deadline = clock_ticks + duration;
 }
@@ -58,7 +58,7 @@ int await_timed_music(int sound)
 {
     int interrupted = 0;
 
-    if (music_options & 1) {
+    if (active_sound_channels & 1) {
         interrupted = wait_sound(sound);
     } else {
         do {
@@ -119,7 +119,7 @@ typedef struct {
 extern unsigned int extended_dialog;
 extern unsigned int alternate_dialog;
 extern Rect dialog_rect, extended_dialog_rect;
-extern DrawPort *draw_port;
+extern DrawPort *Graf;
 extern ImagePort *alternate_port, *extended_port;
 extern int pending_decoration, decoration_shape, decoration_x, decoration_y;
 
@@ -152,17 +152,17 @@ void draw_nis_text(int resource_id, int line)
     else
         bounds = dialog_rect;
 
-    old_port = draw_port;
-    draw_port = create_port(saved_state, &bounds);
+    old_port = Graf;
+    Graf = create_port(saved_state, &bounds);
     if (alternate_dialog) {
         body_color = 49;
         title_color = 34;
-        MEASURE_TEXT(draw_port, alternate_port, &alternate_port->clip, &alternate_port->clip, 0);
+        MEASURE_TEXT(Graf, alternate_port, &alternate_port->clip, &alternate_port->clip, 0);
     } else {
         body_color = 14;
         title_color = 15;
         if (extended_dialog)
-            MEASURE_TEXT(draw_port, extended_port, &extended_port->clip, &extended_port->clip, 0);
+            MEASURE_TEXT(Graf, extended_port, &extended_port->clip, &extended_port->clip, 0);
         else
             PaintRLEShapeItem(dialog_shape, 2, 0, 157, 0);
     }
@@ -173,17 +173,17 @@ void draw_nis_text(int resource_id, int line)
     }
 
     hSetFont(dialog_font);
-    draw_port->color = 0;
+    Graf->color = 0;
     AlterRect(&text_rect, &bounds, 0, 3, 0, 0);
     DRAW_NUL_TEXT_IN_RECT(OFFSETRECT(&first_line, &text_rect, 1, 0), 0, 0, text);
-    draw_port->color = body_color;
+    Graf->color = body_color;
     DRAW_NUL_TEXT_IN_RECT(&text_rect, 0, 0, text);
     hSetFont(title_font);
-    draw_port->color = title_color;
+    Graf->color = title_color;
     DRAW_NUL_TEXT_IN_RECT(&text_rect, 0, 0, text);
 
     MEASURE_TEXT(old_port, saved_state, &bounds, &bounds, 0);
-    draw_port = old_port;
+    Graf = old_port;
     release_port(saved_state);
 }
 
@@ -255,7 +255,7 @@ void flip_kid(const Handle *shapes)
     MIRRORMCGABLOCK(image->pixels, image->width, image->height);
 }
 
-extern DrawPort nis_draw_port;
+extern DrawPort ScreenPort;
 extern Handle tree_palette;
 extern int tree_scene;
 enum {
@@ -279,11 +279,11 @@ int tree_callback(void *playback, int frame)
     interrupted = fade_to(tree_palette, -1, 0);
     if (!interrupted) {
         if (tree_scene == 1) {
-            old_port = draw_port;
-            draw_port = &nis_draw_port;
+            old_port = Graf;
+            Graf = &ScreenPort;
             interrupted = run_nis_dialog(TREE_RESOURCE, 1, 1, 69);
             if (!interrupted) start_timed_music(TREE_MUSIC, 120);
-            draw_port = old_port;
+            Graf = old_port;
         } else if (tree_scene == 9) {
             interrupted = WaitMidiPlayTime(97);
         }
@@ -358,12 +358,12 @@ void tree_check(int scene)
 }
 
 extern const char transition_file[], caverns_file[], ruins_file[];
-extern Rect screen_bounds, viewport_bounds;
+extern Rect screen_bounds, GamePlayRect;
 extern int transition_animation_state;
 extern ImagePort *title_patch;
 extern int suppress_title_frame;
 enum { TRANSITION_RESOURCE = 25000, PRINCESS_MUSIC = 31030, PRINCESS_CUE = 31031 };
-extern Handle transition_shapes, background_shapes, transition_palette;
+extern Handle transition_shapes, transition_background_shapes, transition_palette;
 extern Handle title_left, title_right, second_palette;
 extern void SET_RECORD_RANGE(const Rect far *bounds, int color);
 extern int query_sound(int sound);
@@ -395,7 +395,7 @@ void draw_princess_room(Handle shapes);
 #define NIS_ITEM(item, x, y, mode) \
     PaintRLEShapeItem(transition_shapes, item, x, y, mode)
 #define BACKDROP_ITEM(item, x, y, mode) \
-    PaintRLEShapeItem(background_shapes, item, x, y, mode)
+    PaintRLEShapeItem(transition_background_shapes, item, x, y, mode)
 
 int Transition(int scene)
 {
@@ -435,7 +435,7 @@ int Transition(int scene)
     } else if (scene == 1) {
         open_verified_resource(caverns_file);
         open_verified_resource(ruins_file);
-        SET_RECORD_RANGE(&viewport_bounds, 48);
+        SET_RECORD_RANGE(&GamePlayRect, 48);
         NIS_ITEM(358, -127, -34, 0);
         NIS_ITEM(354, 0, 105, 0);
         NIS_ITEM(369, 185, 46, 10);
@@ -445,7 +445,7 @@ int Transition(int scene)
         if (!interrupted) {
             WRITE_DAC_BLOCK(0, 256, 0L, 1);
             SET_RECORD_RANGE(&screen_bounds, 0);
-            SET_RECORD_RANGE(&viewport_bounds, 16);
+            SET_RECORD_RANGE(&GamePlayRect, 16);
             NIS_ITEM(320, 117, 0, 10);
             NIS_ITEM(321, 73, 60, 10);
             NIS_ITEM(322, -41, 34, 10);
@@ -458,11 +458,11 @@ int Transition(int scene)
             SET_RECORD_RANGE(&screen_bounds, 0);
             dispose_handle(transition_shapes);
             transition_shapes = hGetSL(TRANSITION_RESOURCE, -2);
-            background_shapes = hGetSL(3500, -16);
+            transition_background_shapes = hGetSL(3500, -16);
             BACKDROP_ITEM(1100, 0, 0, 0);
             BACKDROP_ITEM(1101, 10, 100, 0);
             BACKDROP_ITEM(1102, 0, 100, 0);
-            dispose_handle(background_shapes);
+            dispose_handle(transition_background_shapes);
             transition_palette = TRANSITION_COLORS(11);
             interrupted = fade_to(transition_palette, -1, 0);
             dispose_handle(transition_palette);
@@ -473,8 +473,8 @@ int Transition(int scene)
         close_data_file(caverns_file);
     } else if (scene == 2) {
         open_verified_resource(ruins_file);
-        background_shapes = hGetSL(3500, -8);
-        paint_ruins_sky(background_shapes);
+        transition_background_shapes = hGetSL(3500, -8);
+        paint_ruins_sky(transition_background_shapes);
         BACKDROP_ITEM(763, 0, 39, 10);
         BACKDROP_ITEM(764, 0, 99, 0);
         NIS_ITEM(317, 75, 166, 10);
@@ -491,7 +491,7 @@ int Transition(int scene)
         if (!interrupted) {
             WRITE_DAC_BLOCK(0, 256, 0L, 1);
             transition_palette = TRANSITION_COLORS(4);
-            paint_ruins_sky(background_shapes);
+            paint_ruins_sky(transition_background_shapes);
             BACKDROP_ITEM(766, 0, 11, 10);
             BACKDROP_ITEM(767, 0, 101, 0);
             WRITE_DAC_BLOCK(0, 256, RESOLVE_HANDLE_TO_FAR_PAYLOAD(transition_palette), 1);
@@ -515,7 +515,7 @@ int Transition(int scene)
             SET_RECORD_RANGE(&screen_bounds, 0);
         }
         if (!interrupted) {
-            SET_RECORD_RANGE(&viewport_bounds, 0);
+            SET_RECORD_RANGE(&GamePlayRect, 0);
             dispose_handle(transition_shapes);
             transition_shapes = hGetSL(TRANSITION_RESOURCE, -2);
             transition_palette = TRANSITION_COLORS(6);
@@ -525,9 +525,9 @@ int Transition(int scene)
             dispose_handle(second_palette);
             dispose_handle(transition_palette);
         }
-        dispose_handle(background_shapes);
+        dispose_handle(transition_background_shapes);
     } else if (scene == 3) {
-        SET_RECORD_RANGE(&viewport_bounds, 48);
+        SET_RECORD_RANGE(&GamePlayRect, 48);
         NIS_ITEM(362, 0, 126, 0);
         NIS_ITEM(363, 0, 160, 10);
         NIS_ITEM(364, 0, 168, 10);
@@ -542,7 +542,7 @@ int Transition(int scene)
         if (!interrupted) {
             fade_to(0, -1, 0);
             SET_RECORD_RANGE(&screen_bounds, 0);
-            SET_RECORD_RANGE(&viewport_bounds, 48);
+            SET_RECORD_RANGE(&GamePlayRect, 48);
             NIS_ITEM(373, 153, 33, 0); NIS_ITEM(374, 129, 51, 0); NIS_ITEM(375, -8, 39, 0); NIS_ITEM(373, 2, 10, 0);
             NIS_ITEM(362, 0, 135, 0);
             NIS_ITEM(363, 0, 168, 0);
@@ -662,8 +662,8 @@ int trans_throne_room(Handle shapes)
     extended_port = 0;
     dialog_font = hGetFont(10);
     title_font = hGetFont(11);
-    port = AllocBackPort(&viewport_bounds);
-    draw_port = port;
+    port = AllocBackPort(&GamePlayRect);
+    Graf = port;
     background = hGetSL(3500, -16);
     PaintRLEShapeItem(background, 708, 0, 0, 0);
     PaintRLEShapeItem(background, 709, 0, 100, 0);
@@ -674,8 +674,8 @@ int trans_throne_room(Handle shapes)
     interrupted = wait_sound(10254);
     if (!interrupted) {
         play_sound(THRONE_MUSIC);
-        draw_port = &nis_draw_port;
-        interrupted = animate_port(1, port, &viewport_bounds, 300L);
+        Graf = &ScreenPort;
+        interrupted = animate_port(1, port, &GamePlayRect, 300L);
     }
     if (!interrupted) {
         palette = HGETRSRC(0x50414c54UL, 4210);
@@ -696,7 +696,7 @@ int trans_throne_room(Handle shapes)
         port = 0;
     }
     if (!interrupted) {
-        draw_port = &nis_draw_port;
+        Graf = &ScreenPort;
         extended_port = make_dialog_port(&extended_dialog_rect);
     }
     if (!interrupted) interrupted = run_nis_dialog(THRONE_DIALOG_RESOURCE, 1, 1, 311);
@@ -720,17 +720,17 @@ int trans_throne_room(Handle shapes)
         free_record_pair(extended_port);
     if (!interrupted) {
         port = AllocBackPort(&small_throne_bounds);
-        draw_port = port;
+        Graf = port;
         background = hGetSL(3500, -16);
         PaintRLEShapeItem(background, 709, 0, 100, 0);
-        draw_port = &nis_draw_port;
+        Graf = &ScreenPort;
         interrupted = animate_port(1, port, &small_throne_bounds, 180L);
         DeallocBackPort(port);
         port = 0;
     }
     if (!interrupted) {
-        port = AllocBackPort(&viewport_bounds);
-        draw_port = port;
+        port = AllocBackPort(&GamePlayRect);
+        Graf = port;
         background = hGetSL(3500, -16);
         draw_ruined_throne_room(background);
         interrupted = wait_sound(0);
@@ -741,7 +741,7 @@ int trans_throne_room(Handle shapes)
         dispose_handle(palette);
     }
     if (!interrupted) {
-        MEASURE_TEXT(&nis_draw_port, port, &viewport_bounds, &viewport_bounds, 0);
+        MEASURE_TEXT(&ScreenPort, port, &GamePlayRect, &GamePlayRect, 0);
         later_palette = HGETRSRC(0x50414c54UL, 4211);
         interrupted = fade_to(later_palette, -1, 1);
         dispose_handle(later_palette);
@@ -749,7 +749,7 @@ int trans_throne_room(Handle shapes)
     }
     if (port)
         DeallocBackPort(port);
-    draw_port = &nis_draw_port;
+    Graf = &ScreenPort;
     dispose_handle(hGetSL(3500, -16));
     dispose_handle(HGETRSRC(0x5354524cUL, 4210));
     dispose_handle(title_font);
@@ -777,7 +777,7 @@ int ruined_throne_callback(void *playback, int frame)
 
     port = AllocBackPort(&small_throne_bounds);
     MEASURE_TEXT(port, source, &small_throne_bounds, &source->clip, 0);
-    draw_port = &nis_draw_port;
+    Graf = &ScreenPort;
     interrupted = animate_port(1, port, &small_throne_bounds, 180L);
     DeallocBackPort(port);
     if (!interrupted)
@@ -834,15 +834,15 @@ int transition_scene_five(void *playback, int frame)
     if (frame == 0) {
         FlipHorses(playback);
         WRITE_DAC_BLOCK(0, 256, 0L, 1);
-        saved = draw_port; draw_port = &nis_draw_port;
-        SET_RECORD_RANGE(&viewport_bounds, 0);
-        paint_ruins_sky(background_shapes);
-        lowered_bounds = viewport_bounds;
+        saved = Graf; Graf = &ScreenPort;
+        SET_RECORD_RANGE(&GamePlayRect, 0);
+        paint_ruins_sky(transition_background_shapes);
+        lowered_bounds = GamePlayRect;
         lowered_bounds.top = 80;
         SET_RECORD_RANGE(&lowered_bounds, 162);
         PaintRLEShapeItem(transition_shapes, 332, 0, 35, 10);
-        draw_port = saved;
-        MEASURE_TEXT((DrawPort *)&((AnimationState *)playback)->port, &nis_draw_port,
+        Graf = saved;
+        MEASURE_TEXT((DrawPort *)&((AnimationState *)playback)->port, &ScreenPort,
                   OFFSETRECT(&lowered_bounds, &screen_bounds,
                                   -((AnimationState *)playback)->port.clip.left,
                                   -((AnimationState *)playback)->port.clip.top),
@@ -935,13 +935,13 @@ int princess_room_callback(void *playback, int frame)
 
 void erase_static_jaffar(DrawPort *port)
 {
-    DrawPort *saved = draw_port;
+    DrawPort *saved = Graf;
     ImagePort *image = (ImagePort *)port;
 
-    draw_port = port;
+    Graf = port;
     PaintRLEShapeItem(hGetSL(TRANSITION_RESOURCE, -1), 363, -6, -3, 0);
     MEASURE_TEXT((DrawPort *)((char *)port + 0x2e), port, &image->clip, &image->clip, 0);
-    draw_port = saved;
+    Graf = saved;
 }
 
 extern void *cdecl memset(void *destination, int value, unsigned int length);
@@ -1090,7 +1090,7 @@ int aboard_ship(void)
             interrupted = wait_ticks(0, 6);
     }
     if (!interrupted) {
-        if (music_options & 3)
+        if (active_sound_channels & 3)
             play_sound(30500);
         clear_nis(&port.draw, 0);
         add_nis(&port.draw, shapes, 9, 38, 27, 0);
@@ -1205,7 +1205,7 @@ int opening_one(void)
     PaintRLEShapeItem(dialog_shape, 1, 0, 0, 0);
     SET_RECORD_RANGE(&nis_clip, 212);
     draw_nis_text(0, 0);
-    MEASURE_TEXT(&port.draw, draw_port, &nis_clip, &nis_clip, 0); nis_palette = HGETRSRC(0x50414c54UL, OPENING_SCENE + 1);
+    MEASURE_TEXT(&port.draw, Graf, &nis_clip, &nis_clip, 0); nis_palette = HGETRSRC(0x50414c54UL, OPENING_SCENE + 1);
     interrupted = fade_to(nis_palette, -1, 0);
     if (!interrupted) {
         clear_nis(&port.draw, 212); add_nis(&port.draw, shapes, 4, 98, 62, 10);
@@ -1231,7 +1231,7 @@ paint_next_scene:
         add_nis(&port.draw, shapes, 6, 40, 32, 0);
         interrupted = fade_to(0, -2, 0);
         if (!interrupted) {
-            MEASURE_TEXT(draw_port, &port.draw, &nis_clip, &nis_clip, 0);
+            MEASURE_TEXT(Graf, &port.draw, &nis_clip, &nis_clip, 0);
             interrupted = WaitMidiPlayTime(99);
             if (!interrupted) interrupted = fade_to(nis_palette, -1, 0);
         }
@@ -1270,7 +1270,7 @@ paint_next_scene:
             draw_nis_text(OPENING_SCENE, 5);
             interrupted = fade_to(0, -2, 0);
             if (!interrupted) {
-                MEASURE_TEXT(draw_port, &port.draw, &nis_clip, &nis_clip, 0);
+                MEASURE_TEXT(Graf, &port.draw, &nis_clip, &nis_clip, 0);
                 interrupted = WaitMidiPlayTime(100);
                 draw_nis_text(0, 0);
                 if (!interrupted) interrupted = fade_to(nis_palette, -1, 0);
@@ -1396,7 +1396,7 @@ int opening_two(void)
             add_nis(&temporary_port.draw, anim_table, 14, 160, 32, 10);
             add_nis(&temporary_port.draw, anim_table, 15, 193, 55, 10);
             get_shape_rect(&curr_bounds, anim_table, 15, 193, 55);
-            MEASURE_TEXT(draw_port, &temporary_port.draw, &nis_clip, &nis_clip, 0);
+            MEASURE_TEXT(Graf, &temporary_port.draw, &nis_clip, &nis_clip, 0);
             hGetSnd(25012);
             was_interrupted = wait_sound(25011);
         }
@@ -1448,12 +1448,12 @@ int opening_two(void)
         for (slide_step = 1; slide_step < 17; ++slide_step) {
             if (!was_interrupted) {
                 delay_count = 14 - slide_step < 0 ? 0 : 14 - slide_step;
-                draw_port = &temporary_port.draw;
+                Graf = &temporary_port.draw;
                 paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(background), 39, 32, 0);
                 paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(left_actor), 9 - (slide_step << 3), 31, 0);
                 paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(right_sprite), (slide_step + 20) << 3, 32, 0);
                 paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(foreground), 192, 55, 10);
-                draw_port = &nis_draw_port;
+                Graf = &ScreenPort;
                 cut_nis(&temporary_port.draw);
                 was_interrupted = wait_timer(0);
             }
@@ -1720,42 +1720,42 @@ extern void paint_rle(const void far *shape, int x, int y, int mode);
 
 void clear_nis(DrawPort *port, int color)
 {
-    DrawPort *saved = draw_port;
+    DrawPort *saved = Graf;
 
-    draw_port = port;
+    Graf = port;
     SET_RECORD_RANGE(&nis_clip, color);
-    draw_port = saved;
+    Graf = saved;
 }
 
 void add_nis(DrawPort *port, Handle shapes, int item, int x, int y, int mode)
 {
-    DrawPort *saved = draw_port;
+    DrawPort *saved = Graf;
 
-    draw_port = port;
+    Graf = port;
     PaintRLEShapeItem(shapes, item, x, y, mode);
-    draw_port = saved;
+    Graf = saved;
 }
 
 void add_shape_nis(DrawPort *port, Handle shape, int x, int y, int mode)
 {
-    DrawPort *saved = draw_port;
+    DrawPort *saved = Graf;
 
-    draw_port = port;
+    Graf = port;
     paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(shape), x, y, mode);
-    draw_port = saved;
+    Graf = saved;
 }
 
 void copy_nis(const void *source)
 {
     set_dac_blocks(-2, 0L);
-    MEASURE_TEXT(draw_port, source, &nis_clip, &nis_clip, 0);
+    MEASURE_TEXT(Graf, source, &nis_clip, &nis_clip, 0);
     wait_ticks(0, 2);
     set_dac_blocks(-1, RESOLVE_HANDLE_TO_FAR_PAYLOAD(nis_palette));
 }
 
 void cut_nis(const void *source)
 {
-    MEASURE_TEXT(draw_port, source, &nis_clip, &nis_clip, 0);
+    MEASURE_TEXT(Graf, source, &nis_clip, &nis_clip, 0);
 }
 
 int fade_nis(const void *source, int duration)
@@ -1763,7 +1763,7 @@ int fade_nis(const void *source, int duration)
     int interrupted = fade_to(0, -2, duration);
 
     if (!interrupted)
-        MEASURE_TEXT(draw_port, source, &nis_clip, &nis_clip, 0);
+        MEASURE_TEXT(Graf, source, &nis_clip, &nis_clip, 0);
     if (!interrupted)
         interrupted = fade_to(nis_palette, -1, duration);
     return interrupted;
@@ -1773,12 +1773,12 @@ int dissolve_nis(DrawPort *port, unsigned int duration, const Rect far *bounds)
 {
     char saved_state[44];
     int interrupted;
-    DrawPort *saved = draw_port;
+    DrawPort *saved = Graf;
 
-    draw_port = create_port(saved_state, bounds);
-    MEASURE_TEXT((DrawPort *)saved_state, &nis_draw_port, bounds, bounds, 0);
+    Graf = create_port(saved_state, bounds);
+    MEASURE_TEXT((DrawPort *)saved_state, &ScreenPort, bounds, bounds, 0);
     interrupted = animate_port(1, port, bounds, duration);
-    draw_port = saved;
+    Graf = saved;
     release_port(saved_state);
     return interrupted;
 }
@@ -1881,7 +1881,7 @@ int ending(void)
     PaintRLEShapeItem(ending_shapes, 5, 52, 90, 10);
     POP_PORT_CLIP();
     draw_nis_text(0, 0);
-    MEASURE_TEXT(&port.draw, draw_port, &nis_clip, &nis_clip, 0);
+    MEASURE_TEXT(&port.draw, Graf, &nis_clip, &nis_clip, 0);
     nis_palette = HGETRSRC(0x50414c54UL, ENDING_SCENE + 1);
     play_sound(ENDING_SCENE + 10);
     interrupted = ((int (far pascal *)(Handle, int, unsigned int))fade_to)(nis_palette, -1, 2U);
@@ -2000,10 +2000,10 @@ int ending_callback(void *state, int frame)
     } else if (frame == 1) {
         ((AnimationState *)state)->fade = init_fade_to(ending_palette_two, 7, 1);
     } else if (frame == 2) {
-        saved = draw_port;
-        MEASURE_TEXT(draw_port = &nis_draw_port, alternate_port,
+        saved = Graf;
+        MEASURE_TEXT(Graf = &ScreenPort, alternate_port,
                   &alternate_port->clip, &alternate_port->clip, 0);
-        draw_port = saved;
+        Graf = saved;
         ((AnimationState *)state)->fade = init_fade_to(ending_palette_three, -8, 2);
     } else if (frame == 3) {
         AnimationState *playback;
@@ -2018,11 +2018,11 @@ int ending_callback(void *state, int frame)
                   8 - playback->port.clip.top, 0);
         swap_record_pairs(playback);
 
-        saved = draw_port;
-        draw_port = &nis_draw_port;
+        saved = Graf;
+        Graf = &ScreenPort;
         SET_RECORD_RANGE(&ending_fill_bounds, 0);
         paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(ending_sprite), 0, 8, 10);
-        draw_port = saved;
+        Graf = saved;
         play_sound(ENDING_SCENE + 20);
         playback->fade = init_fade_to(ending_palette_four, -1, 1);
     } else if (frame == 4) {
@@ -2043,8 +2043,8 @@ int ending_callback(void *state, int frame)
                           32 - playback->port.clip.top, 0);
         swap_record_pairs(playback);
     } else if (frame == 99) {
-        saved = draw_port;
-        draw_port = &nis_draw_port;
+        saved = Graf;
+        Graf = &ScreenPort;
         get_shape_rect(&bounds, ending_shapes, 44, 161, 64);
         patch = save_screen_patch(&bounds);
         PaintRLEShapeItem(ending_shapes, 44, 161, 64, 10);
@@ -2052,21 +2052,21 @@ int ending_callback(void *state, int frame)
         while (delay_count)
             ;
         DISPOSE_BITMAP_PORT(patch);
-        draw_port = saved;
+        Graf = saved;
     }
     return interrupted;
 }
 
 void draw_happy_dialog(int resource, int line, int voice)
 {
-    DrawPort *saved = draw_port;
+    DrawPort *saved = Graf;
 
-    draw_port = &nis_draw_port;
+    Graf = &ScreenPort;
     play_sound(resource + voice);
     alternate_dialog = 1;
     draw_nis_text(resource, line);
     alternate_dialog = 0;
-    draw_port = saved;
+    Graf = saved;
 }
 
 extern int read_nis_key(void);
@@ -2322,24 +2322,24 @@ int title_callback(void *state, int frame)
     DrawPort *saved_port;
 
     interrupted = 0;
-    saved_port = draw_port;
+    saved_port = Graf;
 
     if (frame == 0) {
         TitleAnimationState *playback = state;
 
         get_shape_rect(&title_bounds, transition_shapes, 312, 43, 53);
         title_bounds.bottom = playback->port.clip.top;
-        draw_port = &nis_draw_port;
+        Graf = &ScreenPort;
         title_patch = save_screen_patch(&title_bounds);
-        draw_port = saved_port;
+        Graf = saved_port;
         init_fade_to_primary((AnimationState *)playback, 1);
         interrupted = WaitMidiPlayTime(100);
     } else if (frame == 2) {
         switch (midi.play_time) {
         case 101:
-            draw_port = &nis_draw_port;
+            Graf = &ScreenPort;
             paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_left), 43, 68, 10);
-            draw_port = saved_port;
+            Graf = saved_port;
             midi.play_time = 114;
         case 114: {
             TitleAnimationState *playback = state;
@@ -2348,9 +2348,9 @@ int title_callback(void *state, int frame)
             break;
         }
         case 103:
-            draw_port = &nis_draw_port;
+            Graf = &ScreenPort;
             paint_rle(RESOLVE_HANDLE_TO_FAR_PAYLOAD(title_right), 58, 53, 10);
-            draw_port = saved_port;
+            Graf = saved_port;
             midi.play_time = 115;
         case 115: {
             TitleAnimationState *playback = state;
@@ -2371,9 +2371,9 @@ int title_callback(void *state, int frame)
 
             while (clock_ticks < frame_end_time)
                 ;
-            MEASURE_TEXT(draw_port = &nis_draw_port, title_patch,
+            MEASURE_TEXT(Graf = &ScreenPort, title_patch,
                       &title_patch->clip, &title_patch->clip, 0);
-            draw_port = saved_port;
+            Graf = saved_port;
             playback->active_clip = playback->saved_clip;
             old_frame_suppression = suppress_title_frame;
             suppress_title_frame = 0;

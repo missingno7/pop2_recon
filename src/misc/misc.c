@@ -28,20 +28,20 @@ extern byte clip_left_edge;
 extern sbyte view_row, view_col;
 extern struct { byte before_style[0x1845]; byte style; } Level;
 extern int row_y[], col_x[];
-extern Rect screen_clip, cell_clip;
+extern Rect GamePlayRect, cell_clip;
 extern RoomLinks room_links[];
 extern Tile above_tiles[], below_tiles[], left_tiles[], right_tiles[];
-extern Tile left_tile, right_tile;
-extern TileInfo current_tile_info;
-extern byte current_tile;
+extern Tile CellLeft, CellRight;
+extern TileInfo BlueSpec;
+extern byte drawn_tile_kind;
 extern byte *tile_override;
 extern int force_full_clip;
 extern byte room_tiles[][30];
 extern TileInfo room_info[][30];
 extern unsigned int selected_room;
 extern byte *selected_tiles;
-extern TileInfo *selected_info;
-extern byte view_room, left_room, right_room, above_room, below_room;
+extern TileInfo *BlueS;
+extern byte viewed_room, left_room, right_room, above_room, below_room;
 
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
@@ -58,7 +58,7 @@ void select_room_arrays(byte room)
     selected_room = room;
     if (room != 0) {
         selected_tiles = (byte *)room_tiles + 30 * index;
-        selected_info = (TileInfo *)((byte *)room_info + 120 * index);
+        BlueS = (TileInfo *)((byte *)room_info + 120 * index);
     }
 }
 
@@ -66,7 +66,7 @@ sbyte CellToCol(byte room, int cell)
 {
     sbyte col = cell % 10;
 
-    if (room == view_room || room == above_room || room == below_room) {
+    if (room == viewed_room || room == above_room || room == below_room) {
         /* Keep the local column. */
     } else if (col == 9 &&
                (room == left_room || room == above_left_room || room == below_left_room)) {
@@ -84,7 +84,7 @@ sbyte CellToRow(byte room, int cell)
 {
     sbyte row = cell / 10;
 
-    if (room == view_room || room == left_room || room == right_room) {
+    if (room == viewed_room || room == left_room || room == right_room) {
         /* Keep the local row. */
     } else if (room == above_room && row == 2) {
         row = -1;
@@ -102,7 +102,7 @@ void ComputeClipRect(Rect far *rect, int col, int row)
     rect->bottom = rect->top + 32;
     rect->right = col_x[row];
     rect->left = rect->right - 63;
-    SECTRECT(rect, rect, &screen_clip);
+    SECTRECT(rect, rect, &GamePlayRect);
     if (clip_left_edge && !row)
         rect->left -= 3;
 }
@@ -113,7 +113,7 @@ Rect *ComputeOffsetCellRect(Rect *rect, Rect *base, int col, int row)
         rect = 0;
     } else {
         OFFSETRECT(rect, base, col * 32, row * 63);
-        if (!SECTRECT(rect, rect, &screen_clip))
+        if (!SECTRECT(rect, rect, &GamePlayRect))
             rect = 0;
     }
     return rect;
@@ -136,9 +136,9 @@ void GetAboveAry(void)
         if (view_row == 0) {
             room = above_room;
             query.side_room = below_left_room;
-            below_room = view_room;
+            below_room = viewed_room;
         } else {
-            room = view_room;
+            room = viewed_room;
             query.side_room = left_room;
         }
         row = view_row - 1;
@@ -148,7 +148,7 @@ void GetAboveAry(void)
             GetObject(room, col - 1, row, &above_tiles[col].tile,
                       info = &above_tiles[col].info, missing);
             if (clip_left_edge && view_row == 0 && Level.style == 3 &&
-                is_open_tile(room_tiles[view_room][col - 1])) {
+                is_open_tile(room_tiles[viewed_room][col - 1])) {
                 TileInfo *field = *(TileInfo * volatile *)&info;
                 field->words.low = (field->words.low & 0x3fff) | 0x4000;
             }
@@ -157,7 +157,7 @@ void GetAboveAry(void)
         GetObject(query.side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
         if (tile_override && view_row == 0)
             above_tiles[0].info.words.low = above_tiles[col].info.words.low | 0xc000;
-        select_room_arrays(view_room);
+        select_room_arrays(viewed_room);
         below_room = query.saved_below;
     }
 }
@@ -172,7 +172,7 @@ void GetBelowAry(void)
         side_room = above_left_room;
         row = 0;
     } else {
-        room = view_room;
+        room = viewed_room;
         side_room = left_room;
         row = view_row + 1;
     }
@@ -182,7 +182,7 @@ void GetBelowAry(void)
     select_room_arrays(side_room);
     GetObject(side_room, 9, row, &below_tiles[0].tile, &below_tiles[0].info,
               room ? 20 : 0);
-    select_room_arrays(view_room);
+    select_room_arrays(viewed_room);
 }
 
 byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte missing)
@@ -200,7 +200,7 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
     } else if (room) {
         cell = FirstInRow(row) + col;
         *tile = selected_tiles[cell];
-        info->value = selected_info[cell].value;
+        info->value = BlueS[cell].value;
     } else {
         *tile = missing;
         if (Level.style == 3 && (missing == 1 || missing == 20) && below_room) {
@@ -229,7 +229,7 @@ byte PieceAboveId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row > 0) {
-        room = view_room;
+        room = viewed_room;
         --row;
     } else {
         room = above_room;
@@ -254,7 +254,7 @@ byte PieceAboveRightId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row > 0) {
-        room = view_room;
+        room = viewed_room;
         --row;
     } else {
         room = above_room;
@@ -281,7 +281,7 @@ byte PieceBelowId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row < 2) {
-        room = (row == 0 && view_row == -1) ? below_room : view_room;
+        room = (row == 0 && view_row == -1) ? below_room : viewed_room;
         ++row;
     } else {
         row = 0;
@@ -306,7 +306,7 @@ byte PieceLeftId(sbyte col, sbyte row)
     byte tile, room;
 
     if (col != 0) {
-        room = (row == 0 && view_row == -1) ? below_room : view_room;
+        room = (row == 0 && view_row == -1) ? below_room : viewed_room;
         --col;
     } else {
         room = (row == -1 && view_row == -1) ? below_left_room : left_room;
@@ -324,7 +324,7 @@ byte PieceRightId(sbyte col, sbyte row)
     byte room, tile;
 
     if (col != 9) {
-        room = (row == 0 && view_row == -1) ? below_room : view_room;
+        room = (row == 0 && view_row == -1) ? below_room : viewed_room;
         ++col;
     } else {
         room = (row == -1 && view_row == -1) ? below_right_room : right_room;
@@ -354,14 +354,14 @@ void SetLocVars(void)
     if (force_full_clip == 0)
         ComputeClipRect(&cell_clip, view_col, view_row);
     else
-        cell_clip = screen_clip;
-    GetObject(view_room, view_col, view_row, &current_tile, &current_tile_info, missing);
-    GetObject(view_room, view_col - 1, view_row, &left_tile.tile, &left_tile.info, missing);
-    GetObject(view_room, view_col + 1, view_row, &right_tile.tile, &right_tile.info, missing);
+        cell_clip = GamePlayRect;
+    GetObject(viewed_room, view_col, view_row, &drawn_tile_kind, &BlueSpec, missing);
+    GetObject(viewed_room, view_col - 1, view_row, &CellLeft.tile, &CellLeft.info, missing);
+    GetObject(viewed_room, view_col + 1, view_row, &CellRight.tile, &CellRight.info, missing);
     if (view_row == -1 && tile_override) {
-        current_tile_info.bytes[1] |= 0xc0;
-        left_tile.info.bytes[1] |= 0xc0;
-        right_tile.info.bytes[1] |= 0xc0;
+        BlueSpec.bytes[1] |= 0xc0;
+        CellLeft.info.bytes[1] |= 0xc0;
+        CellRight.info.bytes[1] |= 0xc0;
     }
 }
 
@@ -372,7 +372,7 @@ void SetSideRoomInfo(void)
         TileInfo *info;
         byte missing;
     } state;
-    state.missing = view_room ? 20 : 0;
+    state.missing = viewed_room ? 20 : 0;
 
     select_room_arrays(left_room);
     for (row = 0; row < 3; ++row) {
@@ -386,7 +386,7 @@ void SetSideRoomInfo(void)
     select_room_arrays(right_room);
     for (row = 0; row < 3; ++row)
         GetObject(right_room, 0, row, &right_tiles[row].tile, &right_tiles[row].info, state.missing);
-    select_room_arrays(view_room);
+    select_room_arrays(viewed_room);
 }
 
 /* The resident relocation sites of both memory handlers name the MISC frame. */
@@ -405,7 +405,7 @@ typedef struct {
 
 extern ImageTable * volatile first_image_table;
 extern ImageTable *second_image_table;
-extern ImageTable * volatile fallback_image_table;
+extern ImageTable * volatile background_shapes;
 extern int fallback_images_released;
 extern const char low_memory_message[];
 static const char fatal_memory_message[] = "Insufficient near Memory.";
@@ -442,8 +442,8 @@ int release_discardable_images(void)
     goto done;
 
 check_fallback:
-    if (fallback_image_table && !fallback_images_released) {
-        PrinceMarkImgsPurgeable(fallback_image_table, 0, fallback_image_table->count - 1);
+    if (background_shapes && !fallback_images_released) {
+        PrinceMarkImgsPurgeable(background_shapes, 0, background_shapes->count - 1);
         fallback_images_released = 1;
         goto done;
     }

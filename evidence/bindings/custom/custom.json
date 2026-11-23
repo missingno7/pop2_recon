@@ -6,7 +6,7 @@
       "DEFAULT_TEMPLATE",
       "ROOM_TEMPLATE",
       "SHAPE_RECT",
-      "CUSTOM_SHAPE_ARCHIVE",
+      "BACKGROUND_SHAPES",
       "RECT_IS_EMPTY",
       "EMPTY_PIECE_RECT",
       "UNITE_RECT",
@@ -52,7 +52,7 @@
       "PRINCEUNPACKSHAPE",
       "LEVEL_STYLE",
       "ROOM_STYLE",
-      "ROOM_NUMBER",
+      "VIEWED_ROOM",
       "LOAD_SONG_RANGE",
       "ROOM_SPECIFIC_READY",
       "CUSTOM_ROOM_ENABLED",
@@ -274,7 +274,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1732,
+        "length": 1729,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -821,7 +821,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -835,7 +835,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -902,7 +902,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -916,7 +916,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -1226,7 +1226,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1240,7 +1240,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1280,7 +1280,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1294,7 +1294,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2036,7 +2036,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -2050,7 +2050,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -2333,7 +2333,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -2347,7 +2347,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -2387,7 +2387,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -2401,7 +2401,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -2441,7 +2441,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CUSTOM_SHAPE_ARCHIVE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -2455,7 +2455,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CUSTOM_SHAPE_ARCHIVE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -3629,6 +3629,21 @@
       "space": "overlay-5",
       "witnesses": []
     },
+    "BACKGROUND_SHAPES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25158,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1e4662",
+          "context": "mov bx, word ptr [0x6246] reached from root:0169:0006",
+          "entry": "root:0169:0006",
+          "image_offset": 9403,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "CHECK_ROOF_ROOM": {
       "entry_sha256": "ff0b5e0200b66d42de827105a7e4f43b3b8de21b32e88c47454c00367b2e5834",
       "entry_target_id": "overlay-4:29cf:0186",
@@ -3737,21 +3752,6 @@
           "entry": "root:078a:0000",
           "image_offset": 31147,
           "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "CUSTOM_SHAPE_ARCHIVE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25158,
-      "witnesses": [
-        {
-          "bytes_hex": "8b1e4662",
-          "context": "mov bx, word ptr [0x6246] reached from root:0169:0006",
-          "entry": "root:0169:0006",
-          "image_offset": 9403,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -4077,20 +4077,6 @@
         }
       ]
     },
-    "ROOM_NUMBER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "803e345e04",
-          "entry": "root:0000:0242",
-          "image_offset": 1126,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "ROOM_SPECIFIC_HANDLE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4172,6 +4158,20 @@
       "offset": 890,
       "unproven": "No independent original operand witness for DGROUP offset 0x037a; used at root+0x5178.",
       "witnesses": []
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "803e345e04",
+          "entry": "root:0000:0242",
+          "image_offset": 1126,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
     },
     "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",

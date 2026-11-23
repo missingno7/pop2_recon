@@ -6,13 +6,13 @@
       "TILE_ROW",
       "TILE_ROOM",
       "TILE_STATE",
-      "RENDER_CELL",
+      "FCHAR",
       "RENDER_CONTEXT",
       "SCREEN_EDGE",
       "SIDE_OFFSET",
       "COLUMN_X",
       "ROOM_STATE",
-      "CURRENT_ROOM_STATE",
+      "BLUES",
       "FIRSTINROW",
       "ADD_MOBILE_SPRITE",
       "CHECKSPIKES",
@@ -35,7 +35,7 @@
       "@draw_spike_sprite",
       "GETSPIKES",
       "MOBILE_STATE",
-      "ROOMS",
+      "VIEWED_ROOM",
       "DRAWOBJSPIKES",
       "ACTOR_DIRECTION",
       "GETSPIKEMOBROOMROW",
@@ -223,7 +223,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1296,
+        "length": 1283,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -532,7 +532,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -546,7 +546,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -721,7 +721,7 @@
           "index": 35,
           "kind": "external",
           "method": 6,
-          "name": "ROOMS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -735,7 +735,7 @@
         "index": 35,
         "kind": "external",
         "method": 6,
-        "name": "ROOMS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -748,7 +748,7 @@
           "index": 35,
           "kind": "external",
           "method": 6,
-          "name": "ROOMS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -762,7 +762,7 @@
         "index": 35,
         "kind": "external",
         "method": 6,
-        "name": "ROOMS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -775,7 +775,7 @@
           "index": 35,
           "kind": "external",
           "method": 6,
-          "name": "ROOMS",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -789,7 +789,7 @@
         "index": 35,
         "kind": "external",
         "method": 6,
-        "name": "ROOMS",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3178,7 +3178,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3192,7 +3192,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3227,7 +3227,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3241,7 +3241,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3276,7 +3276,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3290,7 +3290,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3303,7 +3303,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3317,7 +3317,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3330,7 +3330,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3344,7 +3344,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3357,7 +3357,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3371,7 +3371,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3384,7 +3384,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3398,7 +3398,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3411,7 +3411,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RENDER_CELL",
+          "name": "FCHAR",
           "zero_displacement": true
         }
       },
@@ -3425,7 +3425,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RENDER_CELL",
+        "name": "FCHAR",
         "zero_displacement": true
       }
     },
@@ -3546,7 +3546,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM_STATE",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -3560,7 +3560,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM_STATE",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -4221,7 +4221,7 @@
           "index": 12,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_ROOM_STATE",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -4235,7 +4235,7 @@
         "index": 12,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_ROOM_STATE",
+        "name": "BLUES",
         "zero_displacement": true
       }
     }
@@ -4512,6 +4512,20 @@
         }
       ]
     },
+    "BLUES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25234,
+      "witnesses": [
+        {
+          "bytes_hex": "8b369262",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11775,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "COLUMN_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4523,20 +4537,6 @@
           "image_offset": 21842,
           "operand_offset": 2,
           "space": "overlay-3"
-        }
-      ]
-    },
-    "CURRENT_ROOM_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25234,
-      "witnesses": [
-        {
-          "bytes_hex": "8b369262",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11775,
-          "operand_offset": 2,
-          "space": "root"
         }
       ]
     },
@@ -4554,6 +4554,43 @@
           "image_offset": 4372,
           "relocation_index": 71,
           "space": "overlay-3"
+        }
+      ]
+    },
+    "FCHAR": {
+      "extent": {
+        "length": 20,
+        "witness": {
+          "bytes_hex": "be52621e07b90a00f3a5",
+          "entry": "root:02cc:1c3e",
+          "image_offset": 18691,
+          "space": "root"
+        }
+      },
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": []
+        },
+        {
+          "offset": 6,
+          "witnesses": []
+        },
+        {
+          "offset": 7,
+          "witnesses": []
+        }
+      ],
+      "offset": 25170,
+      "witnesses": [
+        {
+          "bytes_hex": "c6065262ff",
+          "entry": "root:0169:02c2",
+          "image_offset": 8544,
+          "operand_offset": 2,
+          "space": "root"
         }
       ]
     },
@@ -4783,43 +4820,6 @@
         }
       ]
     },
-    "RENDER_CELL": {
-      "extent": {
-        "length": 20,
-        "witness": {
-          "bytes_hex": "be52621e07b90a00f3a5",
-          "entry": "root:02cc:1c3e",
-          "image_offset": 18691,
-          "space": "root"
-        }
-      },
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 4,
-          "witnesses": []
-        },
-        {
-          "offset": 6,
-          "witnesses": []
-        },
-        {
-          "offset": 7,
-          "witnesses": []
-        }
-      ],
-      "offset": 25170,
-      "witnesses": [
-        {
-          "bytes_hex": "c6065262ff",
-          "entry": "root:0169:02c2",
-          "image_offset": 8544,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "RENDER_CONTEXT": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4847,34 +4847,6 @@
           "file_offset": 67661,
           "image_offset": 59469,
           "relocation_index": 1213,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOMS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "a0355e",
-              "entry": "root:0000:0242",
-              "image_offset": 2196,
-              "operand_offset": 1,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "803e345e04",
-          "entry": "root:0000:0242",
-          "image_offset": 1126,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -5013,6 +4985,34 @@
           "entry": "root:02cc:00f0",
           "image_offset": 11781,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a0355e",
+              "entry": "root:0000:0242",
+              "image_offset": 2196,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "803e345e04",
+          "entry": "root:0000:0242",
+          "image_offset": 1126,
+          "operand_offset": 2,
           "space": "root"
         }
       ]

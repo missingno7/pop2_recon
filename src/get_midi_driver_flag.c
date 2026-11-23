@@ -10,7 +10,7 @@ typedef struct SoundSettings {
     unsigned char midi_parameters[6];
 } SoundSettings;
 
-extern SoundSettings *sound_settings;
+extern SoundSettings *configuration;
 extern int digital_mode, midi_mode;
 extern int midi_driver_flag;
 extern SoundDriver digital_driver, midi_driver;
@@ -37,23 +37,23 @@ void far cdecl initialize_sound_drivers(int wait_for_sound)
     const void far *midi_parameters;
     int first_driver_ready;
 
-    digital_mode = sound_settings->digital_mode;
-    midi_mode = sound_settings->midi_mode;
-    digital_parameters = sound_settings->digital_parameters;
-    midi_parameters = sound_settings->midi_parameters;
+    digital_mode = configuration->digital_mode;
+    midi_mode = configuration->midi_mode;
+    digital_parameters = configuration->digital_parameters;
+    midi_parameters = configuration->midi_parameters;
 
     digital_driver = load_sound_driver(digital_mode ? sound_files.digital : (char *)0);
     midi_driver = load_sound_driver(midi_mode ? sound_files.midi : (char *)0);
 
     if (!probe_second_sound_driver(digital_parameters) && digital_mode != -1) {
-        sound_settings->digital_mode = 0;
-        digital_mode = sound_settings->digital_mode;
+        configuration->digital_mode = 0;
+        digital_mode = configuration->digital_mode;
     }
 
     first_driver_ready = probe_first_sound_driver(midi_parameters);
     if (!first_driver_ready && midi_mode != -1) {
-        sound_settings->midi_mode = first_driver_ready;
-        midi_mode = sound_settings->midi_mode;
+        configuration->midi_mode = first_driver_ready;
+        midi_mode = configuration->midi_mode;
     }
 
     if (digital_mode == 0 && midi_mode > 32)

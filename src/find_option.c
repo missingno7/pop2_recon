@@ -18,7 +18,7 @@ char *far pascal find_option(const char far *name)
 }
 
 typedef struct SoundSettings SoundSettings;
-extern SoundSettings *sound_settings;
+extern SoundSettings *configuration;
 extern unsigned far cdecl dos_open(const char *path, unsigned mode, int *handle);
 extern long far cdecl filelength(int handle);
 extern void *far cdecl near_calloc(unsigned count, unsigned size);
@@ -59,5 +59,5 @@ SoundSettings *far pascal load_sound_settings(const char *path)
             _nfree(result);
         return 0;
     }
-    return sound_settings = result;
+    return configuration = result;
 }

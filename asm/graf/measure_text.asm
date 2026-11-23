@@ -1,6 +1,6 @@
 .MODEL MEDIUM
 .DATA
-EXTRN CURRENT_CONTEXT:WORD
+EXTRN Graf:WORD
 EXTRN MEASURE_TEXT_CALLBACK:WORD
 .CODE
 EXTRN MEASURE_COUNTED_TEXT:NEAR
@@ -27,7 +27,7 @@ MEASURE_CHARACTER ENDP
 
 ; Save the old clip rectangle on the caller's stack and install its intersection.
 PUSH_PORT_CLIP PROC FAR
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     add bx, 20h
     mov cx, 4
     pop ax
@@ -96,7 +96,7 @@ PUSH_PORT_CLIP ENDP
 POP_PORT_CLIP PROC FAR
     pop ax
     pop es
-    mov bx, CURRENT_CONTEXT
+    mov bx, Graf
     add bx, 18h
     mov cx, 4
 restore_clip_4c3e:
@@ -144,7 +144,7 @@ DRAW_COUNTED_TEXT PROC FAR
     add sp, -8
     push di
     push si
-    mov di, CURRENT_CONTEXT
+    mov di, Graf
     les si, DWORD PTR [di+22h]
     mov [bp-6], es
     push WORD PTR [di+2ah]

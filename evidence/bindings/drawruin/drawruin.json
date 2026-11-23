@@ -5,11 +5,11 @@
       "HIDDEN_FLAW_ROW",
       "LAST_FRONT_TABLE_SLOT",
       "FRONT_TABLE_SEGMENT",
-      "BELOW_TILE_KIND",
+      "DRAWN_TILE_KIND",
       "DRAW_RUIN_EXIT_LEFT",
       "VISIBLE_ABOVE_PIECE",
       "IS_SIX_KIND",
-      "RUINS_DRAW_STATE",
+      "PAUSE",
       "DRAW_RUIN_LOOSE",
       "DRAW_RUIN_SPACE",
       "DRAW_RUIN_UP_PLATE",
@@ -24,9 +24,9 @@
       "DRAW_RUIN_FLOOR",
       "SHAPE_OFFSETS",
       "ACTOR_ROW",
-      "DOOR_CLIP_RECT",
+      "GAMEPLAYRECT",
       "ACTOR_FRAME",
-      "DRAWN_ROOM",
+      "VIEWED_ROOM",
       "TILE_MODIFIER",
       "DRAW_RUIN_POSTS",
       "KID_FRAME",
@@ -350,7 +350,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2461,
+        "length": 2449,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2453,7 +2453,7 @@
           "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "DRAWN_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2467,7 +2467,7 @@
         "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "DRAWN_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2534,7 +2534,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "DOOR_CLIP_RECT",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -2548,7 +2548,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "DOOR_CLIP_RECT",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -2767,7 +2767,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "DOOR_CLIP_RECT",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -2781,7 +2781,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "DOOR_CLIP_RECT",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -3464,7 +3464,7 @@
           "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "DRAWN_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3478,7 +3478,7 @@
         "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "DRAWN_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3680,7 +3680,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "DOOR_CLIP_RECT",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -3694,7 +3694,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "DOOR_CLIP_RECT",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -5317,7 +5317,7 @@
           "index": 5,
           "kind": "external",
           "method": 6,
-          "name": "BELOW_TILE_KIND",
+          "name": "DRAWN_TILE_KIND",
           "zero_displacement": true
         }
       },
@@ -5331,7 +5331,7 @@
         "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "BELOW_TILE_KIND",
+        "name": "DRAWN_TILE_KIND",
         "zero_displacement": true
       }
     },
@@ -5452,7 +5452,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "RUINS_DRAW_STATE",
+          "name": "PAUSE",
           "zero_displacement": true
         }
       },
@@ -5466,7 +5466,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "RUINS_DRAW_STATE",
+        "name": "PAUSE",
         "zero_displacement": true
       }
     },
@@ -6750,20 +6750,6 @@
         }
       ]
     },
-    "BELOW_TILE_KIND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27858,
-      "witnesses": [
-        {
-          "bytes_hex": "a0d26c",
-          "entry": "root:078a:0000",
-          "image_offset": 32160,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "CELL_STATES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6792,29 +6778,15 @@
         }
       ]
     },
-    "DOOR_CLIP_RECT": {
+    "DRAWN_TILE_KIND": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 2558,
+      "offset": 27858,
       "witnesses": [
         {
-          "bytes_hex": "b8fe09",
-          "entry": "root:0000:1000",
-          "image_offset": 1424,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "DRAWN_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
+          "bytes_hex": "a0d26c",
+          "entry": "root:078a:0000",
+          "image_offset": 32160,
           "operand_offset": 1,
           "space": "root"
         }
@@ -6866,6 +6838,20 @@
       "offset": 10308,
       "unproven": "No independent original operand witness for DGROUP offset 0x2844; used at overlay-8+0xac2.",
       "witnesses": []
+    },
+    "GAMEPLAYRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2558,
+      "witnesses": [
+        {
+          "bytes_hex": "b8fe09",
+          "entry": "root:0000:1000",
+          "image_offset": 1424,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
     },
     "GET_CELLS_AHEAD": {
       "entry_sha256": "f072292ecb96bffefbec98c6e45d232d466ce5e1061ccd0291f3f807c19bcd5f",
@@ -7022,6 +7008,20 @@
         }
       ]
     },
+    "PAUSE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24096,
+      "witnesses": [
+        {
+          "bytes_hex": "c706205e0100",
+          "entry": "root:0000:1000",
+          "image_offset": 782,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "PIECERIGHTID": {
       "entry_sha256": "645828ae661d982ace94d3c7d4aeeaf12584ac646fe27e63b887cdb934311a9f",
       "entry_target_id": "root:0f77:072e",
@@ -7052,20 +7052,6 @@
           "file_offset": 59591,
           "image_offset": 51399,
           "relocation_index": 1006,
-          "space": "root"
-        }
-      ]
-    },
-    "RUINS_DRAW_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24096,
-      "witnesses": [
-        {
-          "bytes_hex": "c706205e0100",
-          "entry": "root:0000:1000",
-          "image_offset": 782,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -7184,6 +7170,20 @@
           "file_offset": 39766,
           "image_offset": 31574,
           "relocation_index": 747,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

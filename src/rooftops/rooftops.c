@@ -67,13 +67,13 @@ extern ubyte splash_low;
 extern sbyte palette_bank;
 extern ubyte palette_theme;
 extern ubyte animation_room;
-extern ubyte room_number;
-extern int fade_active, frame_number;
-extern uword roof_animation;
+extern ubyte viewed_room;
+extern int fade_active, FrameNum;
+extern uword BlueSpec;
 extern sbyte animation_tile, animation_remove;
 extern int water_clip_bottom, character_clip_bottom, pillar_foreground;
 extern int character_width;
-extern int delay_count, scene_flags, ship_grab_height;
+extern int delay_count, active_sound_channels, ship_grab_height;
 extern sbyte char_direction, char_life, char_hp;
 extern int char_y;
 extern signed char state_byte;
@@ -84,8 +84,8 @@ extern int STATE_CODE;
 extern ubyte kid_room;
 extern int draw_char_frame;
 extern sbyte draw_char_action;
-extern Rect draw_clip, character_clip, empty_rect, ship_clip;
-extern CharacterImage current_character, saved_kid;
+extern Rect draw_clip, character_clip, NullRect, GamePlayRect;
+extern CharacterImage Char, Kid;
 extern DrawList near *draw_list;
 extern SplashImage splash_images[];
 extern Room rooms[];
@@ -154,7 +154,7 @@ void far pascal check_character_water(void)
         if (char_y >= 172 && state_word != 68 && state_word != 15 &&
             state_word != 59 && STATE_KIND != 2)
             trigger_character_water();
-    } else if (current_character.id == water_character) {
+    } else if (Char.id == water_character) {
         if (splash_frame < 7) {
             if (draw_list->bank != 18 && draw_list->bank != 19)
                 return;
@@ -189,14 +189,14 @@ void far pascal check_roof_palette(sbyte room)
 
 void far pascal check_roof_room(void)
 {
-    check_roof_palette(room_number);
+    check_roof_palette(viewed_room);
 }
 
 void far pascal clip_character_at_water(void)
 {
     int limit;
 
-    if ((state_byte == 19 || state_byte == 16) && current_character.id == water_character) {
+    if ((state_byte == 19 || state_byte == 16) && Char.id == water_character) {
         limit = 172;
         if (STATE_KIND == 9) limit = 186;
         if (limit > water_clip_bottom) limit = water_clip_bottom;
@@ -208,8 +208,8 @@ void far pascal clip_character_at_water(void)
 
 void far pascal cycle_roof_colors(void)
 {
-    if (!fade_active && (room_number == 19 || room_number == 16 || room_number == 15) &&
-        frame_number % 3 == 0) {
+    if (!fade_active && (viewed_room == 19 || viewed_room == 16 || viewed_room == 15) &&
+        FrameNum % 3 == 0) {
         CycleColors(230, 3, 0);
         CycleColors(233, 3, 0);
         CycleColors(236, 2, 0);
@@ -228,7 +228,7 @@ void far pascal kill_kid_on_wharf(void)
     int hp;
 
     if (POSITION_WORD > 513) {
-        if ((scene_flags & 1) && !query_sound(quit_prompt) && !query_sound(restart_prompt)) {
+        if ((active_sound_channels & 1) && !query_sound(quit_prompt) && !query_sound(restart_prompt)) {
             AddSound(32);
             return;
         }
@@ -241,7 +241,7 @@ void far pascal kill_kid_on_wharf(void)
             do {
                 delay_count = 48;
                 decrement_life_points(1);
-                saved_kid = current_character;
+                Kid = Char;
                 step_scene();
                 CheckMeters();
                 copy_kid_to_char();
@@ -265,7 +265,7 @@ Rect near *far pascal make_water_test_rect(Rect near *rect)
         rect->bottom = rect->top + 1;
         rect->right = splash_x + 16;
     } else {
-        *rect = empty_rect;
+        *rect = NullRect;
     }
     return rect;
 }
@@ -273,7 +273,7 @@ Rect near *far pascal make_water_test_rect(Rect near *rect)
 void far pascal trigger_character_water(void)
 {
     if (!splash_frame) {
-        water_character = current_character.id;
+        water_character = Char.id;
         splash_frame = 1;
         splash_low = (STATE_KIND == 9) ? 1 : 0;
         splash_x = POSITION_WORD - 130;
@@ -295,14 +295,14 @@ void far pascal watch_kid(void)
             if (RoofClimbingIntoShip() && STATE_CODE == 149)
                 AddLeaveLevelSong();
         }
-        saved_kid = current_character;
+        Kid = Char;
     }
 }
 
 void far pascal watch_opponents(void)
 {
     sbyte index;
-    sbyte count = rooms[room_number].opponent_count;
+    sbyte count = rooms[viewed_room].opponent_count;
 
     if (count) {
         index = 0;
@@ -324,7 +324,7 @@ void far pascal setup_splash(void)
     DrawPiece near *piece;
     ubyte image;
 
-    if (current_character.id == water_character && splash_frame != 0 && splash_frame < 7 &&
+    if (Char.id == water_character && splash_frame != 0 && splash_frame < 7 &&
         (draw_list->bank == 18 || draw_list->bank == 19)) {
         clip = draw_clip;
         image = splash_images[splash_frame].index;
@@ -346,14 +346,14 @@ void far pascal setup_splash(void)
 
 void far pascal animate_roof_glass(void)
 {
-    if (roof_animation >= 11) {
+    if (BlueSpec >= 11) {
         animation_remove = -1;
         return;
     }
-    ++roof_animation;
-    if (roof_animation == 1)
+    ++BlueSpec;
+    if (BlueSpec == 1)
         AddSound(49);
-    mark_bufs_for_rect(redraw_object, &draw_list->pieces[(ubyte)(roof_animation + 30)].bounds, -1);
+    mark_bufs_for_rect(redraw_object, &draw_list->pieces[(ubyte)(BlueSpec + 30)].bounds, -1);
 }
 
 void far pascal draw_roof_glass(RoofAnimation near *animation)
@@ -363,7 +363,7 @@ void far pascal draw_roof_glass(RoofAnimation near *animation)
 
     if (animation->kind == 11 && animation->frame < 11) {
         clip = draw_clip;
-        draw_clip = ship_clip;
+        draw_clip = GamePlayRect;
         image = (ubyte)(animation->frame + 31);
         draw_image(image, 11);
         if (image + 1 < draw_list->piece_count)
@@ -379,13 +379,13 @@ void far pascal AnimRoofPillar(void)
     int step;
 
     if (check_trob_visibility()) {
-        step = roof_animation & 15;
+        step = BlueSpec & 15;
         if (step == 7)
             step = 0;
         else
             ++step;
-        roof_animation &= 0xfff0;
-        roof_animation |= step;
+        BlueSpec &= 0xfff0;
+        BlueSpec |= step;
         make_water_test_rect(&water);
         image = SELECT_PAIR_CODE(animation_room, animation_tile % 10);
         if (image && (!splash_frame ||
@@ -403,7 +403,7 @@ void far pascal draw_roof_pillar(RoofAnimation near *animation)
     ubyte pass;
 
     if (animation->kind == 11 || (animation->kind == 0 && pillar_foreground)) {
-        image = SELECT_PAIR_CODE(room_number, animation->variant);
+        image = SELECT_PAIR_CODE(viewed_room, animation->variant);
         if (image) {
             image += (animation->frame >> 1) & 7;
             draw_image(image, 11);
@@ -446,22 +446,22 @@ void far pascal animate_roof_ship(void)
     sbyte slot;
     DrawPiece near *piece;
 
-    ++roof_animation;
-    if (roof_animation > 176) {
+    ++BlueSpec;
+    if (BlueSpec > 176) {
         animation_remove = -1;
         return;
     }
-    if (room_number == animation_room) {
+    if (viewed_room == animation_room) {
         piece = &draw_list->pieces[55];
-        piece->x = -roof_animation;
+        piece->x = -BlueSpec;
         MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         ++bounds.right;
         mark_bufs_for_rect(redraw_object, &bounds, -1);
         slot = RestoreKeepCustomPeel(piece->kind);
         update_ship_peel(slot, bounds.right);
 
-        piece = &draw_list->pieces[(sbyte)(((roof_animation - 1) & 3) + 62)];
-        piece->x = 1 - roof_animation;
+        piece = &draw_list->pieces[(sbyte)(((BlueSpec - 1) & 3) + 62)];
+        piece->x = 1 - BlueSpec;
         MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
         ++bounds.right;
         mark_bufs_for_rect(redraw_object, &bounds, -1);
@@ -478,7 +478,7 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
 
     if (animation->kind == 11 && animation->frame <= 176) {
         clip = draw_clip;
-        draw_clip = ship_clip;
+        draw_clip = GamePlayRect;
         position = animation->frame;
         piece = &draw_list->pieces[55];
         piece->x = -position;

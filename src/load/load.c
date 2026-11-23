@@ -45,7 +45,7 @@ static const int *background_image_last[7] = {
 
 
 extern void near *back_port;
-extern Rect back_port_bounds;
+extern Rect GamePlayRect;
 extern Byte background;
 extern int background_overlay_flags[8];
 extern int background_intro_group[], background_intro_number[];
@@ -110,22 +110,22 @@ static const char map_option[] = "GAMEPLAY\0%s%s";
 
 extern SByte sword_kind;
 extern Handle level_pieces, sword_frames, opponent_frames, opponent_effect_frames;
-extern Byte play_state, room_feature, music_number;
-extern KidRecord far * volatile saved_kid;
+extern Byte viewed_room, room_feature, music_number;
+extern KidRecord far * volatile hRebirthSaved;
 extern int *level_start_table[];
 extern void far *level_sequence_table[];
 extern int *level_starts;
 extern void far *level_sequences;
-extern int *sequence_flags;
+extern int *BlueS;
 extern Byte *sequence_opcodes;
 extern LevelStart room_starts[];
 extern Byte start_x, start_y;
 extern unsigned long room_object_info[];
 extern Byte room_trigger_data[];
-extern int *room_init_ptr;
-extern int room_init_data[];
+extern int *Graf;
+extern int ScreenPort[];
 extern Byte opponent_overlay_one, opponent_overlay_two;
-extern SByte requested_map;
+extern SByte LevelIdx;
 extern int saved_background_set;
 extern char resource_path_format[];
 
@@ -223,7 +223,7 @@ void far pascal report_resource_path(const char far *path);
 void far pascal CheckBPort(void)
 {
     if (back_port == 0)
-        back_port = AllocBackPort(&back_port_bounds);
+        back_port = AllocBackPort(&GamePlayRect);
 }
 
 void far pascal load_background_set(int palette)
@@ -284,15 +284,15 @@ void far pascal load_level(SByte number)
     unload_level(3);
     previous = background;
     if (number != -2 && number != -1) {
-        if (number != requested_map) {
+        if (number != LevelIdx) {
             if (resume_mode == 0)
                 RemoveRebirthPt();
-            requested_map = number;
+            LevelIdx = number;
         }
     }
-    active_map = requested_map;
+    active_map = LevelIdx;
     CheckBPort();
-    load_level_map(requested_map);
+    load_level_map(LevelIdx);
     if (!IsLevelStartWithNISScreen())
         STROKE_PORT_RECT(level_effect);
     load_flask_set();
@@ -331,7 +331,7 @@ void far pascal load_minimum_level(SByte number)
     set_kid_sword_kind();
     load_sword_set(sword_kind);
     save_game_play_palette();
-    room_init_ptr = room_init_data;
+    Graf = ScreenPort;
     STROKE_PORT_RECT(level_effect);
 }
 
@@ -401,7 +401,7 @@ void far pascal load_sword_set(SByte kind)
     id = 1000;
     if (kind == 2)
         id = 1200;
-    mode = play_state == 1 && level_number == 14 ? 0 : 1;
+    mode = viewed_room == 1 && level_number == 14 ? 0 : 1;
     load_set(0, id, 0x8000, 2, mode);
     if (kind == 1) {
         for (i = 0; i < 1; ++i) {
@@ -444,7 +444,7 @@ void far pascal set_level_spec_ptrs(Byte kind)
 
 void far _fastcall clear_special_sequence_flag(int i)
 {
-    int *flags = &sequence_flags[2 * i];
+    int *flags = &BlueS[2 * i];
     switch ((unsigned)sequence_opcodes[i]) {
     case 7:
         *flags &= ~0x80;
@@ -714,12 +714,12 @@ void far pascal report_resource_path(const char far *path)
 
 void far pascal set_kid_sword_kind(void)
 {
-    if (saved_kid)
-        sword_kind = saved_kid->sword_kind;
+    if (hRebirthSaved)
+        sword_kind = hRebirthSaved->sword_kind;
     else if (level_number == 6)
         sword_kind = -1;
     else if (level_number == 7 ||
-             (level_number == 8 && room_feature != 9 && saved_kid == 0))
+             (level_number == 8 && room_feature != 9 && hRebirthSaved == 0))
         sword_kind = 2;
     else
         sword_kind = 1;

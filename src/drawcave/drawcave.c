@@ -45,12 +45,12 @@ typedef struct ShapeOffsets {
 #pragma pack()
 
 extern CellCoord redraw_column, redraw_row;
-extern DrawRect clip_rect, exit_clip, actor_bounds, torch_bounds;
-extern Byte drawn_room, cave_edge_tile;
+extern DrawRect clip_rect, GamePlayRect, actor_bounds, CaveTorchRect;
+extern Byte viewed_room, drawn_tile_kind;
 extern int draw_pass_mode;
 extern signed char *bubble_frames[];
-extern TileNeighbor right_tile;
-extern BackgroundImage *background_images;
+extern TileNeighbor CellLeft;
+extern BackgroundImage *background_shapes;
 extern LavaInfo *get_lava_info(Byte, CellCoord, CellCoord);
 extern void CheckBGSetImg(int);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
@@ -224,7 +224,7 @@ void DrawCaveExitMovable(DrawCell *cell)
 
     if (cell->pass == 0) {
         saved = clip_rect;
-        doorway = exit_clip;
+        doorway = GamePlayRect;
         doorway.top = cell->row * 63 + 1;
         if (SectRect(&clip_rect, &clip_rect, &doorway)) {
             lift = cell->modifier & 255;
@@ -310,7 +310,7 @@ void DrawCaveGateMovable(DrawCell *cell)
     int y;
 
     saved = clip_rect;
-    gate = exit_clip;
+    gate = GamePlayRect;
     gate.top = cell->row * 63;
     if (cell->pass != 1)
         gate.top -= 16;
@@ -346,7 +346,7 @@ void DrawCaveGateSquishing(DrawCell *cell)
     unsigned int lift;
 
     saved = clip_rect;
-    gate = exit_clip;
+    gate = GamePlayRect;
     gate.top = cell->row * 63 - 16;
     if (SectRect(&clip_rect, &actor_bounds, &gate)) {
         lift = (cell->modifier & 0xfc) >> 2;
@@ -364,7 +364,7 @@ void DrawCaveLava1(DrawCell *cell)
 
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
-    lava = get_lava_info(drawn_room, cell->column, cell->row);
+    lava = get_lava_info(viewed_room, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -403,7 +403,7 @@ void DrawCaveLava2(DrawCell *cell)
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
     ++floor.modifier;
-    lava = get_lava_info(drawn_room, cell->column, cell->row);
+    lava = get_lava_info(viewed_room, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -443,7 +443,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
     if (draw_pass_mode && !right)
         return;
     draw = cell->pass == 2 ? AddBFImgToFTable : AddBFImgToBTable;
-    lava = get_lava_info(drawn_room, cell->column, cell->row);
+    lava = get_lava_info(viewed_room, cell->column, cell->row);
     if (!lava)
         return;
     frame = lava->flags & 0x3f;
@@ -656,7 +656,7 @@ void DrawCaveSpace(DrawCell *cell)
         else if (cell->row == redraw_row + 1 &&
                    (IS_SIX_KIND(PieceAboveId(cell->column, cell->row)) ||
                     IS_SIX_KIND(PieceAboveRightId(cell->column, cell->row)))) { draw_floor = 1; }
-        else if (redraw_row == -1 && IS_SIX_KIND(cave_edge_tile)) { draw_floor = 1; }
+        else if (redraw_row == -1 && IS_SIX_KIND(drawn_tile_kind)) { draw_floor = 1; }
         else {
             draw_floor = 0;
         }
@@ -667,9 +667,9 @@ void DrawCaveSpace(DrawCell *cell)
             break;
         if (modifier < 3) {
             AddBImgToBTable(0, modifier + 1, cell->column, cell->row, 0, 0);
-            if (!IS_SIX_KIND(right_tile.kind))
+            if (!IS_SIX_KIND(CellLeft.kind))
                 goto check_column;
-            if (right_tile.modifier >= 3) {
+            if (CellLeft.modifier >= 3) {
             check_column:
                 if (cell->column == redraw_column)
                     AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
@@ -685,7 +685,7 @@ void DrawCaveSpace(DrawCell *cell)
         if (!draw_floor)
             break;
         if (modifier < 3) {
-            if ((!IS_SIX_KIND(right_tile.kind) || right_tile.modifier >= 3) &&
+            if ((!IS_SIX_KIND(CellLeft.kind) || CellLeft.modifier >= 3) &&
                 cell->column == redraw_column)
                 AddBImgToBTable(53, modifier + 4, cell->column, cell->row, 10, 0);
         } else {
@@ -735,7 +735,7 @@ void DrawCaveTopEdge(DrawCell *cell)
             shape_offsets->top_edge_x = cave_images.top_edge_x[image - 1];
             image += 91;
             CheckBGSetImg(image);
-            height = RESOLVE_HANDLE_TO_FAR_PAYLOAD(background_images[image].handle);
+            height = RESOLVE_HANDLE_TO_FAR_PAYLOAD(background_shapes[image].handle);
             shape_offsets->top_edge_y = *height - 63;
             AddFImgToFTable(61, image, cell->column, cell->row, 10, 0);
         }
@@ -750,7 +750,7 @@ void DrawCaveTorch(DrawCell *cell)
 
     floor = *cell;
     ((Byte *)&floor.modifier)[0] &= 0xfc;
-    ComputeOffsetCellRect(&bounds, &torch_bounds, cell->column, cell->row);
+    ComputeOffsetCellRect(&bounds, &CaveTorchRect, cell->column, cell->row);
     enclosed = EncloseRect(&bounds, &clip_rect);
     switch (cell->pass) {
     case 0:

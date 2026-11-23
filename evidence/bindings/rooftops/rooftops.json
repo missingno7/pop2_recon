@@ -2,12 +2,12 @@
   "declarations": {
     "externals": [
       "@draw_image",
-      "ROOM_NUMBER",
+      "VIEWED_ROOM",
       "RESTOREKEEPCUSTOMPEEL",
       "FADE_ACTIVE",
-      "FRAME_NUMBER",
+      "FRAMENUM",
       "CHECK_CHARACTER_WATER",
-      "ROOF_ANIMATION",
+      "BLUESPEC",
       "CYCLE_ROOF_COLORS",
       "ANIMATION_TILE",
       "WATCH_KID",
@@ -24,7 +24,7 @@
       "ROOFCLIMBINGINTOSHIP",
       "DELAY_COUNT",
       "ROOFHANGINGFROMSHIP",
-      "SCENE_FLAGS",
+      "ACTIVE_SOUND_CHANNELS",
       "SHIP_GRAB_HEIGHT",
       "UPDATE_SHIP_PEEL",
       "CHAR_DIRECTION",
@@ -45,11 +45,11 @@
       "DRAW_CLIP",
       "DRAW_ROOF_SHIP",
       "CHARACTER_CLIP",
-      "EMPTY_RECT",
-      "SHIP_CLIP",
-      "CURRENT_CHARACTER",
+      "NULLRECT",
+      "GAMEPLAYRECT",
+      "CHAR",
       "SETUP_SPLASH",
-      "SAVED_KID",
+      "KID",
       "DRAW_LIST",
       "SPLASH_IMAGES",
       "ROOMS",
@@ -403,7 +403,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2450,
+        "length": 2432,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -1080,7 +1080,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1094,7 +1094,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1512,7 +1512,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1526,7 +1526,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1701,7 +1701,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1715,7 +1715,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -1890,7 +1890,7 @@
           "index": 5,
           "kind": "external",
           "method": 6,
-          "name": "FRAME_NUMBER",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -1904,7 +1904,7 @@
         "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "FRAME_NUMBER",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -1917,7 +1917,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1931,7 +1931,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1944,7 +1944,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1958,7 +1958,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1971,7 +1971,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1985,7 +1985,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2322,7 +2322,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -2336,7 +2336,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -2349,7 +2349,7 @@
           "index": 49,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_KID",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -2363,7 +2363,7 @@
         "index": 49,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_KID",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -2727,7 +2727,7 @@
           "index": 24,
           "kind": "external",
           "method": 6,
-          "name": "SCENE_FLAGS",
+          "name": "ACTIVE_SOUND_CHANNELS",
           "zero_displacement": true
         }
       },
@@ -2741,7 +2741,7 @@
         "index": 24,
         "kind": "external",
         "method": 6,
-        "name": "SCENE_FLAGS",
+        "name": "ACTIVE_SOUND_CHANNELS",
         "zero_displacement": true
       }
     },
@@ -2781,7 +2781,7 @@
           "index": 45,
           "kind": "external",
           "method": 6,
-          "name": "EMPTY_RECT",
+          "name": "NULLRECT",
           "zero_displacement": true
         }
       },
@@ -2795,7 +2795,7 @@
         "index": 45,
         "kind": "external",
         "method": 6,
-        "name": "EMPTY_RECT",
+        "name": "NULLRECT",
         "zero_displacement": true
       }
     },
@@ -3267,7 +3267,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -3281,7 +3281,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -3456,7 +3456,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -3470,7 +3470,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -3483,7 +3483,7 @@
           "index": 49,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_KID",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -3497,7 +3497,7 @@
         "index": 49,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_KID",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -3888,7 +3888,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3902,7 +3902,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4401,7 +4401,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHARACTER",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -4415,7 +4415,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHARACTER",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -4509,7 +4509,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4523,7 +4523,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -4617,7 +4617,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4631,7 +4631,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -4644,7 +4644,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4658,7 +4658,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -4698,7 +4698,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4712,7 +4712,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -4887,7 +4887,7 @@
           "index": 46,
           "kind": "external",
           "method": 6,
-          "name": "SHIP_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -4901,7 +4901,7 @@
         "index": 46,
         "kind": "external",
         "method": 6,
-        "name": "SHIP_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -4968,7 +4968,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4982,7 +4982,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -5427,7 +5427,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -5441,7 +5441,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -5454,7 +5454,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -5468,7 +5468,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -5670,7 +5670,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5684,7 +5684,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5967,7 +5967,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -5981,7 +5981,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -6021,7 +6021,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -6035,7 +6035,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -6264,7 +6264,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -6278,7 +6278,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -6291,7 +6291,7 @@
           "index": 2,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -6305,7 +6305,7 @@
         "index": 2,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -6372,7 +6372,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -6386,7 +6386,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -6399,7 +6399,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "ROOF_ANIMATION",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -6413,7 +6413,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "ROOF_ANIMATION",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -6777,7 +6777,7 @@
           "index": 46,
           "kind": "external",
           "method": 6,
-          "name": "SHIP_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -6791,7 +6791,7 @@
         "index": 46,
         "kind": "external",
         "method": 6,
-        "name": "SHIP_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -7207,6 +7207,20 @@
         }
       ]
     },
+    "ACTIVE_SOUND_CHANNELS": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8693,
+      "witnesses": [
+        {
+          "bytes_hex": "f606f52101",
+          "entry": "root:0000:0a84",
+          "image_offset": 2693,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "ADDLEAVELEVELSONG": {
       "entry_sha256": "2dd339daea66731754ab93651dfcf22740f5c71a9621705acd7758f83d79e64d",
       "entry_target_id": "root:0dd7:0024",
@@ -7278,6 +7292,34 @@
           "bytes_hex": "a3ce67",
           "entry": "root:0b41:000c",
           "image_offset": 46142,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "BLUESPEC": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24136,
+      "witnesses": [
+        {
+          "bytes_hex": "a1485e",
+          "entry": "root:078a:0000",
+          "image_offset": 32166,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "CHAR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23552,
+      "witnesses": [
+        {
+          "bytes_hex": "be005c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3813,
           "operand_offset": 1,
           "space": "root"
         }
@@ -7418,20 +7460,6 @@
         }
       ]
     },
-    "CURRENT_CHARACTER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23552,
-      "witnesses": [
-        {
-          "bytes_hex": "be005c",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3813,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "CUSTOM_PEELS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7550,20 +7578,6 @@
         }
       ]
     },
-    "EMPTY_RECT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8384,
-      "witnesses": [
-        {
-          "bytes_hex": "bec020",
-          "entry": "root:02cc:160a",
-          "image_offset": 17147,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "FADE_ACTIVE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7587,7 +7601,7 @@
       "space": "root",
       "witnesses": []
     },
-    "FRAME_NUMBER": {
+    "FRAMENUM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24160,
@@ -7596,6 +7610,20 @@
           "bytes_hex": "a1605e",
           "entry": "root:0000:0e9a",
           "image_offset": 3774,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "GAMEPLAYRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2558,
+      "witnesses": [
+        {
+          "bytes_hex": "b8fe09",
+          "entry": "root:0000:1000",
+          "image_offset": 1424,
           "operand_offset": 1,
           "space": "root"
         }
@@ -7614,6 +7642,20 @@
           "file_offset": 9761,
           "image_offset": 1569,
           "relocation_index": 37,
+          "space": "root"
+        }
+      ]
+    },
+    "KID": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23680,
+      "witnesses": [
+        {
+          "bytes_hex": "b8805c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3808,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -7688,6 +7730,20 @@
           "file_offset": 15606,
           "image_offset": 7414,
           "relocation_index": 143,
+          "space": "root"
+        }
+      ]
+    },
+    "NULLRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8384,
+      "witnesses": [
+        {
+          "bytes_hex": "bec020",
+          "entry": "root:02cc:160a",
+          "image_offset": 17147,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -7896,20 +7952,6 @@
         }
       ]
     },
-    "ROOF_ANIMATION": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24136,
-      "witnesses": [
-        {
-          "bytes_hex": "a1485e",
-          "entry": "root:078a:0000",
-          "image_offset": 32166,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ROOMS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -7924,34 +7966,6 @@
         }
       ]
     },
-    "ROOM_NUMBER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "SAVED_KID": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23680,
-      "witnesses": [
-        {
-          "bytes_hex": "b8805c",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3808,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "SAVE_ACTOR_SLOT": {
       "entry_sha256": "62784221e9aab866888663625cd2c3a05c71ed80964f3475f96d942b9cac4ec3",
       "entry_target_id": "root:02cc:1cf6",
@@ -7960,20 +7974,6 @@
       "segment": 716,
       "space": "root",
       "witnesses": []
-    },
-    "SCENE_FLAGS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8693,
-      "witnesses": [
-        {
-          "bytes_hex": "f606f52101",
-          "entry": "root:0000:0a84",
-          "image_offset": 2693,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
     },
     "SECTRECT": {
       "entry_sha256": "157198b1fb2f9eb41cc1018c7ce1a2c462d9001d57f398d30b15b3f21101d881",
@@ -7988,20 +7988,6 @@
           "file_offset": 14174,
           "image_offset": 5982,
           "relocation_index": 167,
-          "space": "root"
-        }
-      ]
-    },
-    "SHIP_CLIP": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2558,
-      "witnesses": [
-        {
-          "bytes_hex": "b8fe09",
-          "entry": "root:0000:1000",
-          "image_offset": 1424,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -8099,6 +8085,20 @@
           "file_offset": 68568,
           "image_offset": 60376,
           "relocation_index": 1275,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

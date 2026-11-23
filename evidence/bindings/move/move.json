@@ -7,7 +7,7 @@
       "MOB_DRAW_LIST",
       "PASSTHRU",
       "SHAKE_BONES",
-      "PRESSED_KIND",
+      "CURRENT_TILE",
       "TRIGGER_TORCH",
       "JAM_PLATE",
       "SHAKE_LOOSE_FLOOR",
@@ -23,12 +23,12 @@
       "ISEXITOPEN",
       "CURRENT_LEVEL",
       "LOAD_PLAYER_ACTOR",
-      "ACTOR_SNAPSHOT",
+      "CHAR",
       "COLLISION_STATE",
       "SELECT_ROOM",
       "CRUSH_ACTOR",
       "EXIT_FLAGS",
-      "PLAYER_SNAPSHOT",
+      "KID",
       "REDRAW_FLASK",
       "EXIT_SOUND_SUPPRESSED",
       "ACTOR_COLUMN",
@@ -146,7 +146,7 @@
       "ADDSONG",
       "INDEX_CELL",
       "ANIMATE_KIND_42",
-      "EMPTY_MOB_RECT",
+      "NULLRECT",
       "ANIMATE_KIND_43",
       "TRIGGER_OBJECT",
       "CELLTOROW",
@@ -193,16 +193,16 @@
       "IS_LOOSE_PUSHING_PLATE",
       "CHECK_LOOSE_CRUSH",
       "CHECK_TROB_RIGHT",
-      "ROOM_OBJECTS",
+      "BLUES",
       "MAKE_RUBBLE",
       "CHECK_TROB_ABOVE",
-      "ROOM_OBJECT",
+      "BLUESPEC",
       "KNOCK_LOOSE",
       "GETLINKTIMER",
       "ROOM_KINDS",
       "CHECK_TROB_ABOVE_RIGHT",
       "MARK_RECT_BUF",
-      "TILE_KIND",
+      "DRAWN_TILE_KIND",
       "ACTOR_ID",
       "CHECK_TROB_BELOW",
       "ACTOR_FRAME",
@@ -220,7 +220,7 @@
       "SKIP_ALTERNATE_TORCHES",
       "FLOOR_OVERRIDE",
       "MARK_TOP",
-      "ANIMATION_TICK",
+      "FRAMENUM",
       "ACTOR_STEP",
       "GATE_LOCK_ROOM",
       "DREW_PRESSED_TILE",
@@ -244,9 +244,9 @@
       "REDRAW_TORCH",
       "QUERY_SOUND",
       "STAGE_MODE",
-      "GUARD_MARKS",
+      "ROOMOPP",
       "GET_UNDER_FOOT",
-      "MOB_INDEX",
+      "MOBI",
       "SHAKE_TRAPDOOR",
       "FALL_SPIKES"
     ],
@@ -1110,7 +1110,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 7164,
+        "length": 7117,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2915,7 +2915,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -2929,7 +2929,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -2942,7 +2942,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -2956,7 +2956,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -7136,7 +7136,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -7150,7 +7150,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -7217,7 +7217,7 @@
           "index": 202,
           "kind": "external",
           "method": 6,
-          "name": "TILE_KIND",
+          "name": "DRAWN_TILE_KIND",
           "zero_displacement": true
         }
       },
@@ -7231,7 +7231,7 @@
         "index": 202,
         "kind": "external",
         "method": 6,
-        "name": "TILE_KIND",
+        "name": "DRAWN_TILE_KIND",
         "zero_displacement": true
       }
     },
@@ -7298,7 +7298,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -7312,7 +7312,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -7325,7 +7325,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -7339,7 +7339,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -7379,7 +7379,7 @@
           "index": 220,
           "kind": "external",
           "method": 6,
-          "name": "ANIMATION_TICK",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -7393,7 +7393,7 @@
         "index": 220,
         "kind": "external",
         "method": 6,
-        "name": "ANIMATION_TICK",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -7433,7 +7433,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -7447,7 +7447,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -7460,7 +7460,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -7474,7 +7474,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -7514,7 +7514,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -7528,7 +7528,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -8270,7 +8270,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -8284,7 +8284,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -8324,7 +8324,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -8338,7 +8338,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -8351,7 +8351,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -8365,7 +8365,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -8729,7 +8729,7 @@
           "index": 23,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SNAPSHOT",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -8743,7 +8743,7 @@
         "index": 23,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SNAPSHOT",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -8756,7 +8756,7 @@
           "index": 28,
           "kind": "external",
           "method": 6,
-          "name": "PLAYER_SNAPSHOT",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -8770,7 +8770,7 @@
         "index": 28,
         "kind": "external",
         "method": 6,
-        "name": "PLAYER_SNAPSHOT",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -9674,7 +9674,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -9688,7 +9688,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -9701,7 +9701,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -9715,7 +9715,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -10160,7 +10160,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -10174,7 +10174,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -11267,7 +11267,7 @@
           "index": 244,
           "kind": "external",
           "method": 6,
-          "name": "GUARD_MARKS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -11281,7 +11281,7 @@
         "index": 244,
         "kind": "external",
         "method": 6,
-        "name": "GUARD_MARKS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -11672,7 +11672,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -11686,7 +11686,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -11699,7 +11699,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -11713,7 +11713,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -11915,7 +11915,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -11929,7 +11929,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -12050,7 +12050,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -12064,7 +12064,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -12293,7 +12293,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -12307,7 +12307,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -12455,7 +12455,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -12469,7 +12469,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -12482,7 +12482,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -12496,7 +12496,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -13851,7 +13851,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "PRESSED_KIND",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -13865,7 +13865,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "PRESSED_KIND",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -13905,7 +13905,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "PRESSED_KIND",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -13919,7 +13919,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "PRESSED_KIND",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -14013,7 +14013,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14027,7 +14027,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14148,7 +14148,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14162,7 +14162,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14229,7 +14229,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -14243,7 +14243,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -14688,7 +14688,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14702,7 +14702,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14796,7 +14796,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14810,7 +14810,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14850,7 +14850,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14864,7 +14864,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14904,7 +14904,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14918,7 +14918,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14958,7 +14958,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14972,7 +14972,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -14985,7 +14985,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -14999,7 +14999,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -15012,7 +15012,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -15026,7 +15026,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -15039,7 +15039,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -15053,7 +15053,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -15309,7 +15309,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -15323,7 +15323,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -15525,7 +15525,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -15539,7 +15539,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -16173,7 +16173,7 @@
           "index": 202,
           "kind": "external",
           "method": 6,
-          "name": "TILE_KIND",
+          "name": "DRAWN_TILE_KIND",
           "zero_displacement": true
         }
       },
@@ -16187,7 +16187,7 @@
         "index": 202,
         "kind": "external",
         "method": 6,
-        "name": "TILE_KIND",
+        "name": "DRAWN_TILE_KIND",
         "zero_displacement": true
       }
     },
@@ -16227,7 +16227,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -16241,7 +16241,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -16254,7 +16254,7 @@
           "index": 196,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECT",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -16268,7 +16268,7 @@
         "index": 196,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECT",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -16281,7 +16281,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_OBJECTS",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -16295,7 +16295,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_OBJECTS",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -16362,7 +16362,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -16376,7 +16376,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -16443,7 +16443,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -16457,7 +16457,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -16605,7 +16605,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -16619,7 +16619,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -16632,7 +16632,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -16646,7 +16646,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -16713,7 +16713,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -16727,7 +16727,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -18155,7 +18155,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -18169,7 +18169,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -18641,7 +18641,7 @@
           "index": 7,
           "kind": "external",
           "method": 6,
-          "name": "PRESSED_KIND",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -18655,7 +18655,7 @@
         "index": 7,
         "kind": "external",
         "method": 6,
-        "name": "PRESSED_KIND",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -20162,7 +20162,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -20176,7 +20176,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -20324,7 +20324,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -20338,7 +20338,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -20513,7 +20513,7 @@
           "index": 246,
           "kind": "external",
           "method": 6,
-          "name": "MOB_INDEX",
+          "name": "MOBI",
           "zero_displacement": true
         }
       },
@@ -20527,7 +20527,7 @@
         "index": 246,
         "kind": "external",
         "method": 6,
-        "name": "MOB_INDEX",
+        "name": "MOBI",
         "zero_displacement": true
       }
     },
@@ -22544,7 +22544,7 @@
           "index": 146,
           "kind": "external",
           "method": 6,
-          "name": "EMPTY_MOB_RECT",
+          "name": "NULLRECT",
           "zero_displacement": true
         }
       },
@@ -22558,7 +22558,7 @@
         "index": 146,
         "kind": "external",
         "method": 6,
-        "name": "EMPTY_MOB_RECT",
+        "name": "NULLRECT",
         "zero_displacement": true
       }
     },
@@ -24154,7 +24154,7 @@
           "index": 23,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_SNAPSHOT",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -24168,7 +24168,7 @@
         "index": 23,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_SNAPSHOT",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -24181,7 +24181,7 @@
           "index": 28,
           "kind": "external",
           "method": 6,
-          "name": "PLAYER_SNAPSHOT",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -24195,7 +24195,7 @@
         "index": 28,
         "kind": "external",
         "method": 6,
-        "name": "PLAYER_SNAPSHOT",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -25849,27 +25849,6 @@
         }
       ]
     },
-    "ACTOR_SNAPSHOT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23552,
-      "witnesses": [
-        {
-          "bytes_hex": "be005c",
-          "entry": "root:0000:0242",
-          "image_offset": 1535,
-          "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "be005c",
-          "entry": "root:0000:0242",
-          "image_offset": 1724,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ACTOR_STEP": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25973,27 +25952,6 @@
       "unproven": "overlay-9:2a4e:07d4: Far callee has no independent original CALL witness or accepted exact entry; no admissible relocated caller remains outside the claimed extents.",
       "witnesses": []
     },
-    "ANIMATION_TICK": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24160,
-      "witnesses": [
-        {
-          "bytes_hex": "a1605e",
-          "entry": "root:0000:0242",
-          "image_offset": 3774,
-          "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "a1605e",
-          "entry": "root:0da4:0002",
-          "image_offset": 55904,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ATMSPIKES": {
       "entry_sha256": "420dc4cd9db15709f3393b32b306fdbe683232b4725c9d62e1c20cba2c1cb130",
       "entry_target_id": "root:101f:000e",
@@ -26002,6 +25960,60 @@
       "segment": 4127,
       "space": "root",
       "witnesses": []
+    },
+    "BLUES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25234,
+      "witnesses": [
+        {
+          "bytes_hex": "8b369262",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11775,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "BLUESPEC": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "8b164a5e",
+              "entry": "root:078a:0000",
+              "image_offset": 32169,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "f606495e10",
+              "entry": "root:0000:0ada",
+              "image_offset": 3033,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 24136,
+      "witnesses": [
+        {
+          "bytes_hex": "a1485e",
+          "entry": "root:078a:0000",
+          "image_offset": 32166,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
     },
     "CELLTOCOL": {
       "entry_sha256": "f3b13c654924c8afe07097a3b822448439448d03186e6cf2e21fc78d09287e3d",
@@ -26020,6 +26032,27 @@
       "segment": 3959,
       "space": "root",
       "witnesses": []
+    },
+    "CHAR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23552,
+      "witnesses": [
+        {
+          "bytes_hex": "be005c",
+          "entry": "root:0000:0242",
+          "image_offset": 1535,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "be005c",
+          "entry": "root:0000:0242",
+          "image_offset": 1724,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
     },
     "CHECK_SLIDE_ROCK_CRUSH": {
       "entry_sha256": "3d23580d75697d7abbf58f0a58060b079fc8892afeb08cd3279dde757a29bd30",
@@ -26228,6 +26261,27 @@
         }
       ]
     },
+    "CURRENT_TILE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25200,
+      "witnesses": [
+        {
+          "bytes_hex": "a27062",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11768,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "a27062",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11804,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "CURRENT_TILE_FLAGS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26301,6 +26355,20 @@
         }
       ]
     },
+    "DRAWN_TILE_KIND": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27858,
+      "witnesses": [
+        {
+          "bytes_hex": "a0d26c",
+          "entry": "root:078a:0000",
+          "image_offset": 32160,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "DREW_PRESSED_TILE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26328,27 +26396,6 @@
           "file_offset": 15329,
           "image_offset": 7137,
           "relocation_index": 162,
-          "space": "root"
-        }
-      ]
-    },
-    "EMPTY_MOB_RECT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 8384,
-      "witnesses": [
-        {
-          "bytes_hex": "bec020",
-          "entry": "root:02cc:160a",
-          "image_offset": 17147,
-          "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "bec020",
-          "entry": "root:02cc:160a",
-          "image_offset": 17853,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -26474,6 +26521,27 @@
         }
       ]
     },
+    "FRAMENUM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24160,
+      "witnesses": [
+        {
+          "bytes_hex": "a1605e",
+          "entry": "root:0000:0242",
+          "image_offset": 3774,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "a1605e",
+          "entry": "root:0da4:0002",
+          "image_offset": 55904,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "GET_ABOVE": {
       "entry_sha256": "c0f755e1b221a258bfa7c332ff4507cff99ea10ee7f34081fef5fe7af89acdbd",
       "entry_target_id": "root:02cc:153e",
@@ -26548,35 +26616,6 @@
           "image_offset": 9891,
           "relocation_index": 134,
           "space": "overlay-3"
-        }
-      ]
-    },
-    "GUARD_MARKS": {
-      "extent": {
-        "length": 64,
-        "witness": {
-          "bytes_hex": "8db7c05c1e07b92000f3a5",
-          "entry": "root:02cc:07fc",
-          "image_offset": 13534,
-          "space": "root"
-        }
-      },
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 54,
-          "witnesses": []
-        }
-      ],
-      "offset": 23744,
-      "witnesses": [
-        {
-          "bytes_hex": "8db7c05c",
-          "entry": "root:02cc:086a",
-          "image_offset": 18978,
-          "operand_offset": 2,
-          "space": "root"
         }
       ]
     },
@@ -26658,6 +26697,27 @@
           "file_offset": 9761,
           "image_offset": 1569,
           "relocation_index": 37,
+          "space": "root"
+        }
+      ]
+    },
+    "KID": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23680,
+      "witnesses": [
+        {
+          "bytes_hex": "b8805c",
+          "entry": "root:0000:0242",
+          "image_offset": 1530,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "b8805c",
+          "entry": "root:0000:0242",
+          "image_offset": 1719,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -26831,6 +26891,20 @@
           "bytes_hex": "803e746200",
           "entry": "root:02cc:0002",
           "image_offset": 11527,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "MOBI": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 26658,
+      "witnesses": [
+        {
+          "bytes_hex": "c70622680000",
+          "entry": "root:0b41:1a42",
+          "image_offset": 52826,
           "operand_offset": 2,
           "space": "root"
         }
@@ -27019,20 +27093,6 @@
         }
       ]
     },
-    "MOB_INDEX": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 26658,
-      "witnesses": [
-        {
-          "bytes_hex": "c70622680000",
-          "entry": "root:0b41:1a42",
-          "image_offset": 52826,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "MOVE_DART_MOB": {
       "entry_sha256": "51916be5c7361f71959d3f697d7b2ddbfe3348094d64f6c4c423aac108704232",
       "entry_target_id": "overlay-6:29cf:02ac",
@@ -27118,6 +27178,27 @@
           "entry": "root:02cc:09ea",
           "image_offset": 16954,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "NULLRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 8384,
+      "witnesses": [
+        {
+          "bytes_hex": "bec020",
+          "entry": "root:02cc:160a",
+          "image_offset": 17147,
+          "operand_offset": 1,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "bec020",
+          "entry": "root:02cc:160a",
+          "image_offset": 17853,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -27215,48 +27296,6 @@
           "entry": "root:0dd7:03cc",
           "image_offset": 58333,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "PLAYER_SNAPSHOT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23680,
-      "witnesses": [
-        {
-          "bytes_hex": "b8805c",
-          "entry": "root:0000:0242",
-          "image_offset": 1530,
-          "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "b8805c",
-          "entry": "root:0000:0242",
-          "image_offset": 1719,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "PRESSED_KIND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25200,
-      "witnesses": [
-        {
-          "bytes_hex": "a27062",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11768,
-          "operand_offset": 1,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "a27062",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11804,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -27444,6 +27483,35 @@
         }
       ]
     },
+    "ROOMOPP": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "bytes_hex": "8db7c05c1e07b92000f3a5",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13534,
+          "space": "root"
+        }
+      },
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 54,
+          "witnesses": []
+        }
+      ],
+      "offset": 23744,
+      "witnesses": [
+        {
+          "bytes_hex": "8db7c05c",
+          "entry": "root:02cc:086a",
+          "image_offset": 18978,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "ROOM_GUARD_COUNTS": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -27502,60 +27570,6 @@
           "bytes_hex": "8a87be44",
           "entry": "root:02cc:0002",
           "image_offset": 11497,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOM_OBJECT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "8b164a5e",
-              "entry": "root:078a:0000",
-              "image_offset": 32169,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "f606495e10",
-              "entry": "root:0000:0ada",
-              "image_offset": 3033,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 24136,
-      "witnesses": [
-        {
-          "bytes_hex": "a1485e",
-          "entry": "root:078a:0000",
-          "image_offset": 32166,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOM_OBJECTS": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25234,
-      "witnesses": [
-        {
-          "bytes_hex": "8b369262",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11775,
           "operand_offset": 2,
           "space": "root"
         }
@@ -27732,20 +27746,6 @@
       "segment": 10830,
       "space": "overlay-9",
       "witnesses": []
-    },
-    "TILE_KIND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27858,
-      "witnesses": [
-        {
-          "bytes_hex": "a0d26c",
-          "entry": "root:078a:0000",
-          "image_offset": 32160,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
     },
     "TOP_MARKS": {
       "group": "DGROUP",

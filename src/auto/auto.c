@@ -16,7 +16,7 @@ typedef struct {
 
 /* AUTO.C ordered reconstruction through 2344:0fae. */
 
-extern int opponent_update_state;
+extern int Pause;
 extern unsigned char STATE_BYTE;
 extern volatile unsigned char actor_kind;
 extern volatile int state_word;
@@ -27,7 +27,7 @@ void far pascal SetOppMaxLifePts(register unsigned char *p);
 
 void far pascal reset_overlay_state(void)
 {
-    opponent_update_state = 0;
+    Pause = 0;
 }
 
 void far pascal set_opponent_life(unsigned char *record)
@@ -99,13 +99,13 @@ typedef struct {
     generator_point points[3];
 } room_generators;
 extern room_generators generators[];
-extern unsigned char room_number, left_room, right_room;
+extern unsigned char viewed_room, left_room, right_room;
 extern unsigned char preferred_opponent, loaded_appearance, encounter_type;
 extern unsigned char room_style;
 extern unsigned char appearance_kind[];
 extern signed char cut_blocked_index;
-extern live_opponent actor_state;
-#define actor_index actor_state.index
+extern live_opponent Char;
+#define actor_index Char.index
 extern signed char tracked_actor_index;
 extern signed char actor_column, actor_row, actor_horizontal_speed, actor_vertical_speed;
 extern volatile unsigned char bank_opponents[2];
@@ -161,10 +161,10 @@ void far pascal initialize_room_actors(void)
 
     check_side_rooms();
     index = 0;
-    count = opponent_rooms[room_number].count;
+    count = opponent_rooms[viewed_room].count;
     if (count > 0) {
         do {
-            record = GetOppInfoIdx(room_number, index);
+            record = GetOppInfoIdx(viewed_room, index);
             if (preferred_opponent != 5 && preferred_opponent != 6 &&
                 record->appearance != 1 && record->appearance != 9 &&
                 record->appearance != 10 && record->appearance != 3)
@@ -177,7 +177,7 @@ void far pascal initialize_room_actors(void)
                 load_opponent_set(record->appearance);
 
             actor_index = index;
-            actor_room = room_number;
+            actor_room = viewed_room;
             actor_column = record->tile / 10;
             if (record->tile < 0)
                 --actor_column;
@@ -276,10 +276,10 @@ void far pascal initialize_room_actors(void)
     }
 
     if (count == 0) {
-        if (encounter_type == 12 && (room_number == 11 || room_number == 19) &&
+        if (encounter_type == 12 && (viewed_room == 11 || viewed_room == 19) &&
             loaded_appearance != 1)
             load_opponent_set(1);
-        else if (generators[room_number].count != 0 &&
+        else if (generators[viewed_room].count != 0 &&
                  loaded_appearance != preferred_opponent &&
                  preferred_opponent != 5 && preferred_opponent != 6)
             load_opponent_set(preferred_opponent);
@@ -312,8 +312,8 @@ void far pascal check_side_rooms(void)
                 ((room == 7 || room == 8) && room_style == 6 && record->appearance == 3)) {
                 copy = *record;
                 copy.x += shift;
-                copy.index = opponent_rooms[room_number].count;
-                add_opponent_to_room(room_number, &copy);
+                copy.index = opponent_rooms[viewed_room].count;
+                add_opponent_to_room(viewed_room, &copy);
                 RemoveOppFromRoom(room, index);
                 --index;
                 --count;
@@ -330,7 +330,7 @@ extern int generator_x_left[], generator_x_right[];
 extern signed char direction_row_adjustment[];
 
 
-extern live_opponent live_opponents[];
+extern live_opponent RoomOpp[];
 
 int abs(int value);
 #pragma intrinsic(abs)
@@ -348,7 +348,7 @@ void far pascal set_special_opponent(opponent_record *record);
 signed char far pascal pick_hidden_actor(signed char direction);
 generator_point *far pascal find_active_generator(unsigned char room, signed char column);
 int far pascal should_generate(generator_point *point, unsigned char room);
-void far pascal generate_opponent(generator_point *point, unsigned char room);
+void far pascal GenerateOpponent(generator_point *point, unsigned char room);
 
 extern volatile signed char kid_row;
 int far pascal update_opponent_record(void)
@@ -404,13 +404,13 @@ int far pascal update_opponent_record(void)
                     add_opponent_to_room(room, &copy);
                 } else if (actor_sequence_mode == 9 && room_style == 5) {
                     dispatch_sound(10025);
-                    if (room_number != 19 && room_number != 16)
+                    if (viewed_room != 19 && viewed_room != 16)
                         AddSound(0);
                 }
                 RemoveOppFromRoom(actor_room, actor_index);
                 removed = 1;
-                if (opponent_rooms[room_number].count == 0)
-                    live_opponents[actor_index].direction = 86;
+                if (opponent_rooms[viewed_room].count == 0)
+                    RoomOpp[actor_index].direction = 86;
             }
         }
         opponent_life = 0;
@@ -467,12 +467,12 @@ void far pascal RemoveOppFromRoom(unsigned char room, int index)
 
     if (count > index) {
         if (count > index + 1) {
-            live = &live_opponents[index];
+            live = &RoomOpp[index];
             do {
                 record = GetOppInfoIdx(room_index, index);
                 *record = *GetOppInfoIdx(room_index, index + 1);
                 record->index = index;
-                if (room_number == room) {
+                if (viewed_room == room) {
                     next = &live[1];
                     *live = *next;
                     live->index = index;
@@ -519,8 +519,8 @@ signed char far pascal pick_hidden_actor(signed char direction)
         index = 0;
         count = opponent_rooms[adjacent_actor_room].count;
         for (; index < count; ++index) {
-            record = GetOppInfoIdx(room_number, index);
-            actor = &live_opponents[index];
+            record = GetOppInfoIdx(viewed_room, index);
+            actor = &RoomOpp[index];
             dy = abs(actor->y - kid_y);
             if (actor->active < 0 && actor->kind != 11 &&
                 !((actor->kind == 7 || actor->kind == 8) && (unsigned char)record->saved_y == 2)) {
@@ -544,8 +544,8 @@ clamp_distance:
                 if (best == -1) {
                     best = index;
                 } else {
-                    best_dx = abs(live_opponents[best].x - kid_x);
-                    best_dy = abs(live_opponents[best].y - kid_y);
+                    best_dx = abs(RoomOpp[best].x - kid_x);
+                    best_dy = abs(RoomOpp[best].y - kid_y);
                     dy_difference = abs(dy - best_dy);
                     if ((dy_difference > 43 && dy < best_dy) ||
                         (dy_difference < 43 && best_dx > dx))
@@ -573,7 +573,7 @@ void far pascal check_generator_points(unsigned char room)
         point = find_active_generator(adjacent_actor_room, kid_column);
         if (point && should_generate(point, room)) {
             if (point->delay == 0) {
-                generate_opponent(point, room);
+                GenerateOpponent(point, room);
                 point->delay = point->reset_delay;
                 --point->enabled;
             } else
@@ -582,7 +582,7 @@ void far pascal check_generator_points(unsigned char room)
     }
 }
 
-void far pascal generate_opponent(generator_point *point, unsigned char room)
+void far pascal GenerateOpponent(generator_point *point, unsigned char room)
 {
     int room_index = room;
     room_opponents *list = &opponent_rooms[room_index];
@@ -676,9 +676,9 @@ int far pascal is_active_generator(generator_point *point, signed char column)
     return result;
 }
 
-extern volatile signed char current_level;
+extern volatile signed char LevelIdx;
 extern int generator_level;
-extern int game_tick;
+extern int FrameNum;
 extern int kid_x;
 
 signed char far pascal find_wall_column(unsigned char room, signed char row,
@@ -691,7 +691,7 @@ int far pascal should_generate(generator_point *point, unsigned char room)
     unsigned char between;
     int allowed;
 
-    if (count < 5 && current_level == generator_level && game_tick % 3 != 0) {
+    if (count < 5 && LevelIdx == generator_level && FrameNum % 3 != 0) {
         allowed = 1;
         index = 0;
         between = 0;
@@ -701,15 +701,15 @@ int far pascal should_generate(generator_point *point, unsigned char room)
             do {
                 if (!allowed)
                     break;
-                if (live_opponents[index].active < 0 &&
-                    ((point->row < kid_row && live_opponents[index].x < kid_x) ||
-                     (point->row > kid_row && live_opponents[index].x > kid_x)) &&
+                if (RoomOpp[index].active < 0 &&
+                    ((point->row < kid_row && RoomOpp[index].x < kid_x) ||
+                     (point->row > kid_row && RoomOpp[index].x > kid_x)) &&
                     ((point->row < room_row && kid_row < room_row) ||
                      (point->row > room_row && kid_row > room_row))) {
                     ++between;
                     if (point->limit <= between ||
-                        (point->row < kid_row && live_opponents[index].row <= point->row) ||
-                        (point->row > kid_row && live_opponents[index].row >= point->row))
+                        (point->row < kid_row && RoomOpp[index].row <= point->row) ||
+                        (point->row > kid_row && RoomOpp[index].row >= point->row))
                         allowed = 0;
                 }
                 ++index;
@@ -799,9 +799,9 @@ void far pascal load_opponent_banks(void)
 
 
 extern unsigned char opponent_transfer_disabled;
-extern unsigned char previous_actor_room;
+extern unsigned char CutRoom;
 extern int opponent_review_delay;
-extern live_opponent saved_kid_state;
+extern live_opponent Kid;
 
 typedef struct {
     unsigned char left, right, above, below;
@@ -830,7 +830,7 @@ signed char far pascal GetRow(int y);
 void far pascal cut_room_opponents(void)
 {
     signed char index = 0;
-    signed char count = opponent_rooms[room_number].count;
+    signed char count = opponent_rooms[viewed_room].count;
 
     for (; index < count; ++index) {
         load_actor_slot(index);
@@ -869,8 +869,8 @@ void far pascal check_cut(void)
     previous_actor = choose_cut_side();
 
     if (previous_actor != -1 && actor_room != 0) {
-        saved_kid_state = actor_state;
-        previous_actor_room = actor_room;
+        Kid = Char;
+        CutRoom = actor_room;
         transfer_room_actors();
         return;
     }
@@ -880,24 +880,24 @@ void far pascal check_cut(void)
             actor_x = AddCharX(320);
             trigger_character_water();
         } else {
-            queue_room_audio(room_number);
+            queue_room_audio(viewed_room);
             if (room_style != 5) {
                 decrement_life_points(100);
                 actor_action = 185;
                 set_actor_fall(3);
-                saved_kid_state = actor_state;
+                Kid = Char;
                 stage_new_room_actor();
                 copy_kid_to_char();
             }
         }
     }
-    saved_kid_state = actor_state;
+    Kid = Char;
 }
 
 void far pascal transfer_room_actors(void)
 {
     signed char index = 0;
-    signed char count = opponent_rooms[room_number].count;
+    signed char count = opponent_rooms[viewed_room].count;
     int stay, removed;
 
     for (; index < count; ++index) {
@@ -918,7 +918,7 @@ void far pascal transfer_room_actors(void)
         if (actor_kind == 0)
             goto follow;
         if (actor_kind == 6 && (actor_room == 7 || actor_room == 8) &&
-            room_style == 6 && ((unsigned)previous_actor_room - 7u <= 1u) &&
+            room_style == 6 && ((unsigned)CutRoom - 7u <= 1u) &&
             room_style == 6) {
 follow:
             stay = 0;
@@ -978,9 +978,9 @@ int far pascal actor_follows_to_adjacent_room(void)
     live_opponent saved;
     unsigned char destination;
 
-    saved = actor_state;
+    saved = Char;
     destination = register_actor_room();
-    actor_state = saved;
+    Char = saved;
 
     if (adjacent_actor_room == destination)
         return 1;
@@ -1089,7 +1089,7 @@ int far pascal choose_cut_side(void)
     int none = -1;
     int side;
 
-    if (current_level != generator_level || state_word == 70 ||
+    if (LevelIdx != generator_level || state_word == 70 ||
         (actor_kind == 1 && action == 185))
         goto leave_unchanged;
     if (mode == 5 || mode == 4 || mode == 3)
@@ -1193,7 +1193,7 @@ check_side:
 
     if (side != -1)
         cut_actor(side);
-    if (side == 0 && room_number == 27 && encounter_type == 6)
+    if (side == 0 && viewed_room == 27 && encounter_type == 6)
         on_left_exit();
     return side;
 }
@@ -1296,7 +1296,7 @@ extern struct {
     unsigned char pair_state;
     int spacing;
     unsigned char tail[0x1a];
-} hit_actor;
+} Opp;
 
 extern signed char hit_actor_motion, hit_actor_active;
 extern int hit_actor_state;
@@ -1307,7 +1307,7 @@ extern unsigned char actor_counterface;
 static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
 };
-extern unsigned char cliff_style_for_impact;
+extern unsigned char current_tile;
 
 extern int landing_x[];
 extern unsigned int hit_actor_phase;
@@ -1348,7 +1348,7 @@ extern unsigned char kid_strike_mode;
 void far pascal check_stab(void)
 {
     signed char index = 0;
-    signed char count = opponent_rooms[room_number].count;
+    signed char count = opponent_rooms[viewed_room].count;
 
     for (; index < count; ++index) {
         load_actor_slot(index); if (actor_sequence_mode == 99) { load_shadow_with_opponent(index);
@@ -1493,7 +1493,7 @@ void far pascal begin_actor_death(void)
         if (actor_kind != 0 && actor_direction == -1 &&
             (index == 4 || (signed char)get_under_foot() == 4)) {
             index = GetCellCol();
-            actor_x = landing_x[index - (cliff_style_for_impact != 4)] + 14;
+            actor_x = landing_x[index - (current_tile != 4)] + 14;
             actor_x = AddCharX(20);
         }
 
@@ -1553,7 +1553,7 @@ void far pascal dispatch_guard_reaction(void)
 
     if (kid_action != 0 && (kid_action < 219 || kid_action >= 229)) {
         index = 0;
-        count = opponent_rooms[room_number].count;
+        count = opponent_rooms[viewed_room].count;
         for (; index < count; ++index) {
             load_shadow_with_opponent(index);
             test_actor_strike();
@@ -1570,7 +1570,7 @@ void far pascal test_actor_strike(void)
     int distance, minimum, maximum;
 
     if (actor_combat_mode != 1 || actor_column != hit_actor_column ||
-        (abs(actor_y - hit_actor.y) >= 7 &&
+        (abs(actor_y - Opp.y) >= 7 &&
          actor_kind != 7 && actor_kind != 8 && hit_actor_kind != 7 && hit_actor_kind != 8) ||
         !is_striking_position(actor_kind, actor_action) || hit_actor_active >= 0 ||
         hit_actor_kind == 10 || hit_actor_kind == 1 || hit_actor_flags == 8 ||
@@ -1591,7 +1591,7 @@ void far pascal test_actor_strike(void)
         actor_kind != 11 && (hit_actor_reaction == 161 || hit_actor_reaction == 150)) {
         hit_actor_reaction = 161;
         if (actor_kind == 0)
-            actor_behavior_type = hit_actor.number;
+            actor_behavior_type = Opp.number;
         else {
             hit_actor_target = actor_index;
             opponent_lock = 4;
@@ -1611,7 +1611,7 @@ void far pascal test_actor_strike(void)
         if (distance >= minimum && distance <= maximum) {
             hit_actor_flags = 99;
             if (actor_kind == 0)
-                actor_behavior_type = hit_actor.number;
+                actor_behavior_type = Opp.number;
         }
     } else if ((actor_kind == 7 || actor_kind == 8) && actor_flags == 1 && opponent_lock == 0)
         hit_actor_flags = 99;
@@ -1637,7 +1637,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
             *minimum = -10;
             *maximum = 38;
         } else if (actor_kind == 11) {
-            if (63 * hit_actor_column + 51 <= hit_actor.y) {
+            if (63 * hit_actor_column + 51 <= Opp.y) {
                 if (hit_actor_direction == actor_direction) {
                     *minimum = -2;
                     *maximum = 27;
@@ -1658,7 +1658,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
                 *maximum = 48;
                 return;
             }
-        } else if (hit_actor.draw_mode == 1) {
+        } else if (Opp.draw_mode == 1) {
             *minimum = 34;
             *maximum = 57;
             return;
@@ -1669,7 +1669,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
         }
     } else {
         if (hit_actor_kind == 11) {
-            if (hit_actor.spacing != 6 && hit_actor_state != 171 && state_word == 96) {
+            if (Opp.spacing != 6 && hit_actor_state != 171 && state_word == 96) {
                 if (hit_actor_direction == actor_direction) {
                     *minimum = 31;
                     *maximum = 75;
@@ -1692,7 +1692,7 @@ void far _fastcall get_char_strike_ranges(int *minimum, int *maximum)
         } else {
             *minimum = 19;
             *maximum = 46;
-            if (!hit_actor.pair_state) {
+            if (!Opp.pair_state) {
                 *minimum += 14;
                 *maximum += 14;
             }

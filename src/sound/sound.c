@@ -52,12 +52,12 @@ static char no_load_sound[] = "NOLOADSOUND";
 static char no_sounds[] = "NOSOUNDS";
 
 extern int pending_song, current_effect, current_song;
-extern unsigned char level, scene, location_kind, sound_flags;
+extern unsigned char level, scene, location_kind, active_sound_channels;
 extern signed char opponent_kind, opponent_pending, stage, opponent_state;
 extern signed char kid_room, kid_room_offset, kid_section, kid_sound, ambient_enabled;
 extern signed char ambient_actor_room;
 extern AmbientState ambient_state;
-extern signed char previous_track_range, ambient_room, ambient_table[];
+extern signed char previous_track_range, viewed_room, ambient_table[];
 extern int kid_action, opponent_action, opponent_sequence, ambient_actor_action;
 extern int sound_inhibit, ambient_last_song;
 extern SoundRule sound_rules[];
@@ -226,7 +226,7 @@ int GetLeaveLevelSongId(void)
 void init_ambient(AmbientState *state)
 {
     memset(state, 0, sizeof(*state));
-    state->enabled = sound_flags & 2;
+    state->enabled = active_sound_channels & 2;
 }
 
 int is_leave_level_music_on(void)
@@ -352,7 +352,7 @@ int should_replace_effect(int effect, int playing)
     int replace = 0;
 
     if (effect != -1 &&
-        ((sound_flags & 3) || current_song == -1 || !query_sound(current_song + 10000))) {
+        ((active_sound_channels & 3) || current_song == -1 || !query_sound(current_song + 10000))) {
         if (!query_sound(playing + 10000)) {
             replace = 1;
         } else {
@@ -369,7 +369,7 @@ int should_replace_effect(int effect, int playing)
 int select_special_ambient(int special)
 {
     int song = -1;
-    if (special && scene == 5 && (ambient_room == 10 || ambient_room == 7 || ambient_room == 12))
+    if (special && scene == 5 && (viewed_room == 10 || viewed_room == 7 || viewed_room == 12))
         song = 64;
     return song;
 }
@@ -416,7 +416,7 @@ int _fastcall should_change_ambient(AmbientState *state)
 char *toggle_ambient(void)
 {
     char *message;
-    if (sound_flags & 2) {
+    if (active_sound_channels & 2) {
         ambient_state.enabled = !ambient_state.enabled;
         message = ambient_state.enabled ? ambient_on_message : ambient_off_message;
         if (!ambient_state.enabled && ambient_last_song && pending_song != ambient_last_song)

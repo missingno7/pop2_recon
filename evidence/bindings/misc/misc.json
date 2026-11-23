@@ -3,10 +3,10 @@
     "externals": [
       "RIGHT_TILES",
       "COMPUTEOFFSETCELLRECT",
-      "LEFT_TILE",
-      "RIGHT_TILE",
-      "CURRENT_TILE_INFO",
-      "CURRENT_TILE",
+      "CELLLEFT",
+      "CELLRIGHT",
+      "BLUESPEC",
+      "DRAWN_TILE_KIND",
       "PIECEABOVEID",
       "TILE_OVERRIDE",
       "FORCE_FULL_CLIP",
@@ -15,9 +15,9 @@
       "SELECTED_ROOM",
       "SETSIDEROOMINFO",
       "SELECTED_TILES",
-      "SELECTED_INFO",
+      "BLUES",
       "GETOBJECT",
-      "VIEW_ROOM",
+      "VIEWED_ROOM",
       "GETABOVEARY",
       "LEFT_ROOM",
       "RIGHT_ROOM",
@@ -32,7 +32,7 @@
       "SELECT_ROOM_ARRAYS",
       "FIRST_IMAGE_TABLE",
       "SECOND_IMAGE_TABLE",
-      "FALLBACK_IMAGE_TABLE",
+      "BACKGROUND_SHAPES",
       "CELLTOCOL",
       "FALLBACK_IMAGES_RELEASED",
       "PIECEBELOWID",
@@ -60,7 +60,7 @@
       "COMPUTECLIPRECT",
       "COL_X",
       "REPORT_FATAL_MEMORY",
-      "SCREEN_CLIP",
+      "GAMEPLAYRECT",
       "CELL_CLIP",
       "ROOM_LINKS",
       "ABOVE_TILES",
@@ -289,7 +289,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 2033,
+        "length": 2017,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -328,7 +328,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "SELECTED_INFO",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -342,7 +342,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "SELECTED_INFO",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -679,7 +679,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -693,7 +693,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -814,7 +814,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -828,7 +828,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -895,7 +895,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "SCREEN_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -909,7 +909,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -1003,7 +1003,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "SCREEN_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -1017,7 +1017,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -1084,7 +1084,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1098,7 +1098,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1300,7 +1300,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1314,7 +1314,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1597,7 +1597,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1611,7 +1611,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1948,7 +1948,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1962,7 +1962,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2002,7 +2002,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2016,7 +2016,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2299,7 +2299,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2313,7 +2313,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2542,7 +2542,7 @@
           "index": 15,
           "kind": "external",
           "method": 6,
-          "name": "SELECTED_INFO",
+          "name": "BLUES",
           "zero_displacement": true
         }
       },
@@ -2556,7 +2556,7 @@
         "index": 15,
         "kind": "external",
         "method": 6,
-        "name": "SELECTED_INFO",
+        "name": "BLUES",
         "zero_displacement": true
       }
     },
@@ -2974,7 +2974,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2988,7 +2988,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3136,7 +3136,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3150,7 +3150,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3298,7 +3298,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3312,7 +3312,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3514,7 +3514,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3528,7 +3528,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3811,7 +3811,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -3825,7 +3825,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4027,7 +4027,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "RIGHT_TILE",
+          "name": "CELLRIGHT",
           "zero_displacement": true
         }
       },
@@ -4041,7 +4041,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "RIGHT_TILE",
+        "name": "CELLRIGHT",
         "zero_displacement": true
       }
     },
@@ -4054,7 +4054,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "LEFT_TILE",
+          "name": "CELLLEFT",
           "zero_displacement": true
         }
       },
@@ -4068,7 +4068,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "LEFT_TILE",
+        "name": "CELLLEFT",
         "zero_displacement": true
       }
     },
@@ -4081,7 +4081,7 @@
           "index": 5,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_TILE_INFO",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4095,7 +4095,7 @@
         "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_TILE_INFO",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -4189,7 +4189,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "RIGHT_TILE",
+          "name": "CELLRIGHT",
           "zero_displacement": true
         }
       },
@@ -4203,7 +4203,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "RIGHT_TILE",
+        "name": "CELLRIGHT",
         "zero_displacement": true
       }
     },
@@ -4216,7 +4216,7 @@
           "index": 4,
           "kind": "external",
           "method": 6,
-          "name": "RIGHT_TILE",
+          "name": "CELLRIGHT",
           "zero_displacement": true
         }
       },
@@ -4230,7 +4230,7 @@
         "index": 4,
         "kind": "external",
         "method": 6,
-        "name": "RIGHT_TILE",
+        "name": "CELLRIGHT",
         "zero_displacement": true
       }
     },
@@ -4297,7 +4297,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4311,7 +4311,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4351,7 +4351,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "LEFT_TILE",
+          "name": "CELLLEFT",
           "zero_displacement": true
         }
       },
@@ -4365,7 +4365,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "LEFT_TILE",
+        "name": "CELLLEFT",
         "zero_displacement": true
       }
     },
@@ -4378,7 +4378,7 @@
           "index": 3,
           "kind": "external",
           "method": 6,
-          "name": "LEFT_TILE",
+          "name": "CELLLEFT",
           "zero_displacement": true
         }
       },
@@ -4392,7 +4392,7 @@
         "index": 3,
         "kind": "external",
         "method": 6,
-        "name": "LEFT_TILE",
+        "name": "CELLLEFT",
         "zero_displacement": true
       }
     },
@@ -4459,7 +4459,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4473,7 +4473,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4513,7 +4513,7 @@
           "index": 5,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_TILE_INFO",
+          "name": "BLUESPEC",
           "zero_displacement": true
         }
       },
@@ -4527,7 +4527,7 @@
         "index": 5,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_TILE_INFO",
+        "name": "BLUESPEC",
         "zero_displacement": true
       }
     },
@@ -4540,7 +4540,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_TILE",
+          "name": "DRAWN_TILE_KIND",
           "zero_displacement": true
         }
       },
@@ -4554,7 +4554,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_TILE",
+        "name": "DRAWN_TILE_KIND",
         "zero_displacement": true
       }
     },
@@ -4621,7 +4621,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4635,7 +4635,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4648,7 +4648,7 @@
           "index": 60,
           "kind": "external",
           "method": 6,
-          "name": "SCREEN_CLIP",
+          "name": "GAMEPLAYRECT",
           "zero_displacement": true
         }
       },
@@ -4662,7 +4662,7 @@
         "index": 60,
         "kind": "external",
         "method": 6,
-        "name": "SCREEN_CLIP",
+        "name": "GAMEPLAYRECT",
         "zero_displacement": true
       }
     },
@@ -4864,7 +4864,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4878,7 +4878,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5269,7 +5269,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "VIEW_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5283,7 +5283,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "VIEW_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5836,7 +5836,7 @@
           "index": 32,
           "kind": "external",
           "method": 6,
-          "name": "FALLBACK_IMAGE_TABLE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -5850,7 +5850,7 @@
         "index": 32,
         "kind": "external",
         "method": 6,
-        "name": "FALLBACK_IMAGE_TABLE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -5863,7 +5863,7 @@
           "index": 32,
           "kind": "external",
           "method": 6,
-          "name": "FALLBACK_IMAGE_TABLE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -5877,7 +5877,7 @@
         "index": 32,
         "kind": "external",
         "method": 6,
-        "name": "FALLBACK_IMAGE_TABLE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -5917,7 +5917,7 @@
           "index": 32,
           "kind": "external",
           "method": 6,
-          "name": "FALLBACK_IMAGE_TABLE",
+          "name": "BACKGROUND_SHAPES",
           "zero_displacement": true
         }
       },
@@ -5931,7 +5931,7 @@
         "index": 32,
         "kind": "external",
         "method": 6,
-        "name": "FALLBACK_IMAGE_TABLE",
+        "name": "BACKGROUND_SHAPES",
         "zero_displacement": true
       }
     },
@@ -6148,6 +6148,20 @@
         }
       ]
     },
+    "BACKGROUND_SHAPES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25158,
+      "witnesses": [
+        {
+          "bytes_hex": "8b1e4662",
+          "entry": "root:0169:0006",
+          "image_offset": 9403,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "BELOW_LEFT_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6221,6 +6235,107 @@
         }
       ]
     },
+    "BLUES": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25234,
+      "witnesses": [
+        {
+          "bytes_hex": "8b369262",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11775,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "BLUESPEC": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "f606495e10",
+              "entry": "root:0000:0ada",
+              "image_offset": 3033,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 24136,
+      "witnesses": [
+        {
+          "bytes_hex": "a1485e",
+          "entry": "root:078a:0000",
+          "image_offset": 32166,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "CELLLEFT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "a1e962",
+              "entry": "root:078a:0000",
+              "image_offset": 32196,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "a0ea62",
+              "entry": "root:078a:01e2",
+              "image_offset": 36830,
+              "operand_offset": 1,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 25320,
+      "witnesses": [
+        {
+          "bytes_hex": "a0e862",
+          "entry": "root:078a:0000",
+          "image_offset": 32190,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "CELLRIGHT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 1,
+          "unproven": "No independent original operand witness for DGROUP offset 0x62ef; used at root+0xffed.",
+          "witnesses": []
+        },
+        {
+          "offset": 2,
+          "unproven": "No independent original operand witness for DGROUP offset 0x62f0; used at root+0x10012.",
+          "witnesses": []
+        }
+      ],
+      "offset": 25326,
+      "unproven": "No independent original operand witness for DGROUP offset 0x62ee; used at root+0xffe9.",
+      "witnesses": []
+    },
     "CELL_CLIP": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6263,48 +6378,6 @@
         }
       ]
     },
-    "CURRENT_TILE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27858,
-      "witnesses": [
-        {
-          "bytes_hex": "a0d26c",
-          "entry": "root:078a:0000",
-          "image_offset": 32160,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "CURRENT_TILE_INFO": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "f606495e10",
-              "entry": "root:0000:0ada",
-              "image_offset": 3033,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 24136,
-      "witnesses": [
-        {
-          "bytes_hex": "a1485e",
-          "entry": "root:078a:0000",
-          "image_offset": 32166,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "DISPATCH_SOUND": {
       "entry_sha256": "db5fa0e9e35d5d4d3637e935dd5695cfbcee771a3ac9f4563cae3cd64928e4b6",
       "entry_target_id": "root:1101:83f0",
@@ -6322,6 +6395,20 @@
         }
       ]
     },
+    "DRAWN_TILE_KIND": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27858,
+      "witnesses": [
+        {
+          "bytes_hex": "a0d26c",
+          "entry": "root:078a:0000",
+          "image_offset": 32160,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "FALLBACK_IMAGES_RELEASED": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6331,20 +6418,6 @@
           "bytes_hex": "c7062a060000",
           "entry": "root:0a5c:0064",
           "image_offset": 42617,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "FALLBACK_IMAGE_TABLE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25158,
-      "witnesses": [
-        {
-          "bytes_hex": "8b1e4662",
-          "entry": "root:0169:0006",
-          "image_offset": 9403,
           "operand_offset": 2,
           "space": "root"
         }
@@ -6395,6 +6468,21 @@
         }
       ]
     },
+    "GAMEPLAYRECT": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2558,
+      "witnesses": [
+        {
+          "bytes_hex": "befe09",
+          "context": "mov si, 0x9fe reached from root:02cc:08b0",
+          "entry": "root:02cc:08b0",
+          "image_offset": 13685,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "IS_OPEN_TILE": {
       "entry_sha256": "8561a2d56f74fd02d3f48a10486f328c0f4a9262d6831c2835e591c6bc560aa1",
       "entry_target_id": "root:078a:2804",
@@ -6423,46 +6511,6 @@
           "entry": "root:02cc:112a",
           "image_offset": 15883,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "LEFT_TILE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "a1e962",
-              "entry": "root:078a:0000",
-              "image_offset": 32196,
-              "operand_offset": 1,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "a0ea62",
-              "entry": "root:078a:01e2",
-              "image_offset": 36830,
-              "operand_offset": 1,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 25320,
-      "witnesses": [
-        {
-          "bytes_hex": "a0e862",
-          "entry": "root:078a:0000",
-          "image_offset": 32190,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -6604,25 +6652,6 @@
         }
       ]
     },
-    "RIGHT_TILE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 1,
-          "unproven": "No independent original operand witness for DGROUP offset 0x62ef; used at root+0xffed.",
-          "witnesses": []
-        },
-        {
-          "offset": 2,
-          "unproven": "No independent original operand witness for DGROUP offset 0x62f0; used at root+0x10012.",
-          "witnesses": []
-        }
-      ],
-      "offset": 25326,
-      "unproven": "No independent original operand witness for DGROUP offset 0x62ee; used at root+0xffe9.",
-      "witnesses": []
-    },
     "RIGHT_TILES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6747,21 +6776,6 @@
         }
       ]
     },
-    "SCREEN_CLIP": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2558,
-      "witnesses": [
-        {
-          "bytes_hex": "befe09",
-          "context": "mov si, 0x9fe reached from root:02cc:08b0",
-          "entry": "root:02cc:08b0",
-          "image_offset": 13685,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "SECOND_IMAGE_TABLE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -6789,20 +6803,6 @@
           "file_offset": 28691,
           "image_offset": 20499,
           "relocation_index": 402,
-          "space": "root"
-        }
-      ]
-    },
-    "SELECTED_INFO": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25234,
-      "witnesses": [
-        {
-          "bytes_hex": "8b369262",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11775,
-          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -6842,21 +6842,7 @@
         }
       ]
     },
-    "VIEW_COL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27855,
-      "witnesses": [
-        {
-          "bytes_hex": "a0cf6c",
-          "entry": "root:0169:0006",
-          "image_offset": 6000,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "VIEW_ROOM": {
+    "VIEWED_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24116,
@@ -6866,6 +6852,20 @@
           "context": "mov al, byte ptr [0x5e34] reached from root:0000:0dd4",
           "entry": "root:0000:0dd4",
           "image_offset": 3557,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEW_COL": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27855,
+      "witnesses": [
+        {
+          "bytes_hex": "a0cf6c",
+          "entry": "root:0169:0006",
+          "image_offset": 6000,
           "operand_offset": 1,
           "space": "root"
         }

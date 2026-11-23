@@ -13,7 +13,7 @@ typedef struct {
 
 extern byte viewed_room;
 extern byte environment_kind;
-extern int final_counter;
+extern int Pause;
 extern int shadow_x;
 extern sbyte opponent_ticks;
 extern sbyte opponent_room;
@@ -40,7 +40,7 @@ extern int far pascal is_dead_pos(int sequence);
 
 void far pascal draw_crystal(FinalObject near *object);
 void far pascal draw_gargoyle(FinalObject near *object);
-void far pascal generate_opponent(sbyte variant, sbyte room);
+void far pascal FinlGenerateOpp(sbyte variant, sbyte room);
 
 void far pascal draw_final_object(register FinalObject near *object)
 {
@@ -55,7 +55,7 @@ void far pascal draw_final_object(register FinalObject near *object)
 
 void far pascal load_final_code(void)
 {
-    final_counter = 0;
+    Pause = 0;
 }
 
 void far pascal check_dead_opponent(void)
@@ -106,7 +106,7 @@ void far pascal check_new_opponent(sbyte count)
         variant = (room == 1) ? 4 : 2;
         if (Rnd(1))
             variant += 4;
-        generate_opponent(variant, room);
+        FinlGenerateOpp(variant, room);
     }
 }
 
@@ -137,8 +137,8 @@ typedef struct {
     byte other_fields[63];
 } CharacterState;
 
-extern CharacterState active_character;
-#define char_slot active_character.slot
+extern CharacterState Char;
+#define char_slot Char.slot
 extern sbyte char_direction;
 extern int char_x;
 extern byte char_style;
@@ -160,7 +160,7 @@ extern void far pascal ClearCharVel(void);
 extern void far pascal AnimChar(void);
 extern void far pascal save_actor_slot(void);
 
-void far pascal generate_opponent(sbyte variant, sbyte room)
+void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
 {
     sbyte index;
     OpponentSlot near *opponent;
@@ -226,12 +226,12 @@ typedef struct {
     byte data[115];
 } FinalRoom;
 
-extern CharacterState other_character;
-extern sbyte entry_room_copy;
+extern CharacterState Kid;
+extern sbyte CutRoom;
 extern byte scroll_pending;
 extern FinalRoom room_state[];
 extern int sound_period;
-extern byte saved_kid_room;
+extern byte LevelIdx;
 extern void far pascal ClrAll(void);
 extern int far pascal query_sound(int tune);
 extern void far pascal AddSong(int tune);
@@ -241,8 +241,8 @@ extern void far pascal load_level(sbyte room);
 extern void far pascal fade_scene(int ticks, int speed, byte color, byte direction);
 extern void far pascal set_kid_palette(sbyte room);
 
-void far pascal watch_kid(void);
-void far pascal watch_opponents(void);
+void far pascal FinlWatchKid(void);
+void far pascal FinlWatchOpps(void);
 
 void far pascal cut_kid_to_chess_room(void)
 {
@@ -251,22 +251,22 @@ void far pascal cut_kid_to_chess_room(void)
     JumpSeq(55);
     char_weapon = 1;
     AddSound(19);
-    entry_room_copy = opponent_kind = 4;
+    CutRoom = opponent_kind = 4;
     opponent_room = 5;
     char_x = ColEdgeX[10] + 14;
     opponent_column = 1;
     reset_char_y();
     char_max_strength = char_strength;
     AnimChar();
-    other_character = active_character;
+    Kid = Char;
     ClrAll();
     scroll_pending = 0;
 }
 
 void far pascal run_final_frame(void)
 {
-    watch_kid();
-    watch_opponents();
+    FinlWatchKid();
+    FinlWatchOpps();
 
     if (!query_sound(sound_period + 10000)) {
         int tune = -1;
@@ -294,7 +294,7 @@ void far pascal enter_princess_room(void)
 {
     play_nis(5);
     reset_level_overlays();
-    load_level(saved_kid_room);
+    load_level(LevelIdx);
     fade_scene(1000, 240, 16, 0);
     set_kid_palette(6);
     cut_kid_to_chess_room();
@@ -386,7 +386,7 @@ typedef struct {
 extern _segment animation_frame_segment;
 extern AnimationFrame _based(animation_frame_segment) animation_frames[];
 
-void far pascal watch_kid(void)
+void far pascal FinlWatchKid(void)
 {
     copy_kid_to_char();
     if (opponent_kind == 2) {
@@ -403,15 +403,15 @@ void far pascal watch_kid(void)
             copy_kid_to_char();
             decrement_life_points(100);
             JumpSeq(71);
-            other_character = active_character;
+            Kid = Char;
             before_princess_room(); CheckMeters();
         }
         copy_kid_to_char();
     }
-    other_character = active_character;
+    Kid = Char;
 }
 
-void far pascal watch_opponents(void)
+void far pascal FinlWatchOpps(void)
 {
     sbyte i;
     sbyte count = room_state[viewed_room].opponent_count;
@@ -440,24 +440,24 @@ void far pascal run_jaffar(void)
     run_jaffar_in_escher();
 }
 
-extern sbyte shadow_slot;
+extern sbyte Opp;
 extern byte shadow_room;
 
 void far pascal dismiss_other_jaffars(void)
 {
-    CharacterState saved = active_character;
+    CharacterState saved = Char;
     sbyte i = 0;
     sbyte count = room_state[shadow_room].opponent_count;
 
     if (count > 0)
         do {
             load_actor_slot(i);
-            if (char_style == 6 && shadow_slot != char_slot && char_frame == 15) {
+            if (char_style == 6 && Opp != char_slot && char_frame == 15) {
                 JumpSeq(240);
                 save_actor_slot();
             }
         } while (count > ++i);
-    active_character = saved;
+    Char = saved;
 }
 
 
@@ -883,7 +883,7 @@ void far pascal finish_casting_at_kid(void)
     AddSound(14);
     decrement_life_points(100);
     run_player_script(17);
-    other_character = active_character;
+    Kid = Char;
     load_shadow_with_opponent(slot);
 }
 
@@ -964,7 +964,7 @@ void far pascal run_jaffar_in_escher(void)
                 JumpSeq(241);
                 AddSong(265);
                 char_weapon = (byte)-1;
-                other_character = active_character;
+                Kid = Char;
                 load_actor_slot(slot);
             }
         } else if (shadow_column == opponent_column && battle_progress >= 4) {
@@ -1002,7 +1002,7 @@ void far pascal update_jaffar_slot(OpponentSlot near *opponent)
 {
     sbyte near *stance = opponent->stance;
 
-    if (!((entry_room_copy == 7 || entry_room_copy == 8) && environment_kind == 6) &&
+    if (!((CutRoom == 7 || CutRoom == 8) && environment_kind == 6) &&
         stance[2] != stance[1]) {
         const PositionRule near *rule;
 
@@ -1050,8 +1050,8 @@ int far pascal shadow_in_range(sbyte position, sbyte direction)
 
 extern int playing_scene;
 extern unsigned int current_sound_bank;
-extern unsigned int active_sound_bank;
-extern byte scene_background;
+extern unsigned int Graf;
+extern byte GamePlayRect;
 extern void far pascal update_opponent_record(void);
 extern void far pascal SET_RECORD_RANGE(void far *work, int resource);
 extern void far pascal STROKE_PORT_RECT(void far *work);
@@ -1073,8 +1073,8 @@ void far pascal load_tower_top(void)
     if (!playing_scene)
         fade_scene(3500, 64, 192, 0);
     if (current_sound_bank)
-        active_sound_bank = current_sound_bank;
-    SET_RECORD_RANGE(&scene_background, 139);
+        Graf = current_sound_bank;
+    SET_RECORD_RANGE(&GamePlayRect, 139);
 }
 
 void far pascal load_chess(void)
@@ -1082,11 +1082,11 @@ void far pascal load_chess(void)
     fade_scene(3500, 64, 192, 1);
     fade_scene(1000, 240, 16, 0);
     if (viewed_room == 4 && environment_kind == 6) {
-        unsigned int previous = active_sound_bank;
+        unsigned int previous = Graf;
 
-        active_sound_bank = current_sound_bank;
-        STROKE_PORT_RECT(&scene_background);
-        active_sound_bank = previous;
+        Graf = current_sound_bank;
+        STROKE_PORT_RECT(&GamePlayRect);
+        Graf = previous;
         AddSong(268);
     } else if (viewed_room == 3 && environment_kind == 6) {
         fade_scene(3000, 224, 16, 0);
@@ -1177,13 +1177,13 @@ static byte gargoyle_layer[] = {
 extern void far pascal OFFSETRECT(Rect far *output, Rect far *input, unsigned long shapes);
 extern void far _fastcall update_final_image(byte index, byte layer);
 
-extern unsigned int final_animation;
+extern unsigned int BlueSpec;
 extern int blink_always;
 extern byte final_object_visibility;
 extern int fade_active;
 static byte crystal_serial;
 static byte gargoyle_serial;
-extern unsigned int (*near tile_effects)[2];
+extern unsigned int (*near BlueS)[2];
 
 extern void far pascal add_trob(sbyte row, sbyte col, byte value, byte effect);
 extern void far pascal finish_blink_frame(void);
@@ -1194,8 +1194,8 @@ void far pascal animate_jaffar_blink(void)
 {
     unsigned int frame;
 
-    ++final_animation;
-    frame = final_animation & 15;
+    ++BlueSpec;
+    frame = BlueSpec & 15;
     if (frame >= 5 && room_image_table->attributes[1] == 26) {
         frame -= 5;
         if (frame < 6) {
@@ -1203,7 +1203,7 @@ void far pascal animate_jaffar_blink(void)
             return;
         }
         final_object_visibility = (byte)-1;
-        final_animation = 0;
+        BlueSpec = 0;
     }
 }
 
@@ -1222,7 +1222,7 @@ void far pascal draw_jaffar_blink(FinalObject near *object)
 void far pascal animate_spider(void)
 {
     if (room_image_table->attributes[1] == 25) {
-        unsigned int state = final_animation;
+        unsigned int state = BlueSpec;
         int ticks = (state & 0x7f8) >> 3;
 
         if (state & 0x800) {
@@ -1242,7 +1242,7 @@ void far pascal animate_spider(void)
             }
         }
         state &= 0xf807;
-        final_animation = (ticks << 3) | state;
+        BlueSpec = (ticks << 3) | state;
         return;
     }
     final_object_visibility = (byte)-1;
@@ -1281,7 +1281,7 @@ void far pascal setup_crystal_room(void)
 void far pascal animate_crystal(void)
 {
     if (room_image_table->attributes[1] == 28) {
-        unsigned int state = final_animation;
+        unsigned int state = BlueSpec;
 
         if (state & 0x800) {
             unsigned int frame = ((state & 0x7f0) >> 4) + 1;
@@ -1311,7 +1311,7 @@ void far pascal animate_crystal(void)
                 state |= ticks << 4;
             }
         }
-        final_animation = state | 0x1000;
+        BlueSpec = state | 0x1000;
         return;
     }
     final_object_visibility = (byte)-1;
@@ -1348,14 +1348,14 @@ void far pascal trigger_crystal(sbyte row, sbyte col)
     unsigned int serial = crystal_serial++;
     unsigned int ticks = Rnd(40);
 
-    tile_effects[col][0] = ((ticks | 0x100) << 4) | serial;
+    BlueS[col][0] = ((ticks | 0x100) << 4) | serial;
     add_trob(row, col, 1, 41);
 }
 
 void far pascal animate_gargoyle(void)
 {
     if (room_image_table->attributes[1] == 29 || room_image_table->attributes[1] == 30) {
-        unsigned int state = final_animation;
+        unsigned int state = BlueSpec;
         byte serial = (byte)(state & 15);
 
         if ((serial < 6 && viewed_room == 7) || (serial >= 6 && viewed_room == 8)) {
@@ -1384,7 +1384,7 @@ void far pascal animate_gargoyle(void)
                 else
                     state |= 0x800;
             }
-            final_animation = state | 0x1000;
+            BlueSpec = state | 0x1000;
             return;
         }
     }
@@ -1423,7 +1423,7 @@ void far pascal trigger_gargoyle(sbyte row, sbyte col)
     unsigned int serial = gargoyle_serial++;
     unsigned int ticks = Rnd(40);
 
-    tile_effects[col][0] = ((ticks | 0x100) << 4) | serial;
+    BlueS[col][0] = ((ticks | 0x100) << 4) | serial;
     add_trob(row, col, 1, 42);
 }
 

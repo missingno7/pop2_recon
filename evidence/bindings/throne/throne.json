@@ -23,16 +23,16 @@
       "OPPONENT_SEQUENCE",
       "THRONE_RUNNING",
       "ROOM_STATE",
-      "ROOM_LIGHTING",
+      "VIEWED_ROOM",
       "CHAR_DIRECTION",
       "CHAR_ROOM",
-      "ROOM_NUMBER",
+      "CUTROOM",
       "CHAR_IMAGE_X",
       "CHAR_OLD_IMAGE_X",
-      "THRONE_SOUND",
+      "LEVELIDX",
       "THRONE_RECT",
-      "CURRENT_CHAR",
-      "OPPONENT",
+      "CHAR",
+      "KID",
       "SCENE_FLAG",
       "@draw_tile_image",
       "SET_RESOURCE",
@@ -201,7 +201,7 @@
           "index": 31,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_CHAR",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -215,7 +215,7 @@
         "index": 31,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_CHAR",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -228,7 +228,7 @@
           "index": 32,
           "kind": "external",
           "method": 6,
-          "name": "OPPONENT",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -242,7 +242,7 @@
         "index": 32,
         "kind": "external",
         "method": 6,
-        "name": "OPPONENT",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -525,7 +525,7 @@
           "index": 29,
           "kind": "external",
           "method": 6,
-          "name": "THRONE_SOUND",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -539,7 +539,7 @@
         "index": 29,
         "kind": "external",
         "method": 6,
-        "name": "THRONE_SOUND",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -633,7 +633,7 @@
           "index": 26,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -647,7 +647,7 @@
         "index": 26,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -795,7 +795,7 @@
           "index": 23,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_LIGHTING",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -809,7 +809,7 @@
         "index": 23,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_LIGHTING",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1187,6 +1187,20 @@
         }
       ]
     },
+    "CHAR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23552,
+      "witnesses": [
+        {
+          "bytes_hex": "be005c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3813,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "CHAR_DIRECTION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -1277,16 +1291,16 @@
         }
       ]
     },
-    "CURRENT_CHAR": {
+    "CUTROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "offset": 23552,
+      "offset": 27853,
       "witnesses": [
         {
-          "bytes_hex": "be005c",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3813,
-          "operand_offset": 1,
+          "bytes_hex": "803ecd6c00",
+          "entry": "root:0000:0dd4",
+          "image_offset": 3547,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -1346,6 +1360,34 @@
         }
       ]
     },
+    "KID": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23680,
+      "witnesses": [
+        {
+          "bytes_hex": "b8805c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3808,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "LEVELIDX": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 2584,
+      "witnesses": [
+        {
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "LOADCUSTOMROOMDATA": {
       "entry_sha256": "d3ac32dde1044b19c77191d14c77c366791809ab80e5291a73818abb0ed47e72",
       "entry_target_id": "root:04a6:02b0",
@@ -1393,20 +1435,6 @@
           "file_offset": 15606,
           "image_offset": 7414,
           "relocation_index": 143,
-          "space": "root"
-        }
-      ]
-    },
-    "OPPONENT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23680,
-      "witnesses": [
-        {
-          "bytes_hex": "b8805c",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3808,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -1493,34 +1521,6 @@
         }
       ]
     },
-    "ROOM_LIGHTING": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
-    "ROOM_NUMBER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27853,
-      "witnesses": [
-        {
-          "bytes_hex": "803ecd6c00",
-          "entry": "root:0000:0dd4",
-          "image_offset": 3547,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "ROOM_STATE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -1594,20 +1594,6 @@
         }
       ]
     },
-    "THRONE_SOUND": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a0180a",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "THRONE_TILES": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -1618,6 +1604,20 @@
           "entry": "root:0169:0402",
           "image_offset": 6880,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

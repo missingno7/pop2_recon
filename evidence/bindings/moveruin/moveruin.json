@@ -6,9 +6,9 @@
       "SPIKE_ROW",
       "SPIKE_ACTION",
       "ROOM_NUMBER",
-      "RUINS_START_COLUMN",
+      "VIEWED_ROOM",
       "PLATEAU_INTRO",
-      "PASSED_PLATEAU_ROOM",
+      "CUTROOM",
       "COLEDGEX",
       "PLATEAU_ROOM_LOADED",
       "RUINS_START_LOADED",
@@ -191,7 +191,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1154,
+        "length": 1135,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2039,7 +2039,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "PASSED_PLATEAU_ROOM",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -2053,7 +2053,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "PASSED_PLATEAU_ROOM",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -2363,7 +2363,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RUINS_START_COLUMN",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2377,7 +2377,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RUINS_START_COLUMN",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2444,7 +2444,7 @@
           "index": 6,
           "kind": "external",
           "method": 6,
-          "name": "RUINS_START_COLUMN",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2458,7 +2458,7 @@
         "index": 6,
         "kind": "external",
         "method": 6,
-        "name": "RUINS_START_COLUMN",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2734,6 +2734,20 @@
         }
       ]
     },
+    "CUTROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27853,
+      "witnesses": [
+        {
+          "bytes_hex": "803ecd6c00",
+          "entry": "root:0000:0dd4",
+          "image_offset": 3547,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "GET_COL": {
       "entry_sha256": "61a394972ed052ae62c001263494006962993aa1727147ce532af7343e51bd3b",
       "entry_target_id": "root:02cc:10d4",
@@ -2946,20 +2960,6 @@
       "space": "root",
       "witnesses": []
     },
-    "PASSED_PLATEAU_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27853,
-      "witnesses": [
-        {
-          "bytes_hex": "803ecd6c00",
-          "entry": "root:0000:0dd4",
-          "image_offset": 3547,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "PLATEAU_INTRO": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -3046,20 +3046,6 @@
           "entry": "root:0000:0dd4",
           "image_offset": 2815,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "RUINS_START_COLUMN": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -3242,6 +3228,20 @@
           "entry": "root:02cc:0002",
           "image_offset": 11581,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

@@ -47,10 +47,10 @@ typedef struct MovingExit {
 } MovingExit;
 
 extern int draw_pass_mode;
-extern DrawRect clip_rect, exit_clip;
+extern DrawRect clip_rect, GamePlayRect;
 extern int Row2PixelY[];
 extern ShapeOffsets *shape_offsets;
-extern Byte drawn_room;
+extern Byte viewed_room;
 extern unsigned int kid_frame;
 extern BackImage far *far _fastcall get_back_table_image_row(int image, Byte column, Byte row);
 extern int SECTRECT(DrawRect far *out, const DrawRect far *a, const DrawRect far *b);
@@ -71,12 +71,12 @@ extern MovingExit *get_trob_room_cell(int tile);
 static int loose_odd[12] = { 0, 1, 0, 2, 2, 0, 0, 0, 1, 1, 1, 0 };
 static int loose_even[12] = { 0, 2, 2, 0, 1, 1, 0, 2, 2, 2, 0, 1 };
 extern signed char redraw_row;
-extern Byte redraw_below_tile;
+extern Byte drawn_tile_kind;
 extern int is_six_kind(Byte);
-extern DrawRect torch_bounds;
+extern DrawRect TempTorchRect;
 extern DrawRect *ComputeOffsetCellRect(DrawRect *, const DrawRect *, int, int);
 extern int EncloseRect(const DrawRect far *, const DrawRect far *);
-extern int temple_draw_state;
+extern int Pause;
 
 void draw_temple_exit_movable(TempleCell *cell);
 void draw_temple_gate_movable(TempleCell *cell);
@@ -258,10 +258,10 @@ void draw_temple_exit_movable(TempleCell *cell)
     MovingExit *moving;
     if (cell->pass == 5) {
         saved_clip = clip_rect;
-        door_clip = exit_clip;
+        door_clip = GamePlayRect;
         door_clip.top = cell->row * 63 - 5;
         if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
-            moving = get_trob_room_cell(cell->column + FirstInRow(drawn_room, cell->row));
+            moving = get_trob_room_cell(cell->column + FirstInRow(viewed_room, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 0, 0);
             shape_offsets->exit_y = -(19 + ((CELL_INFO_WORD(cell, 0) & 255) < 42 ? (CELL_INFO_WORD(cell, 0) & 255) : 42));
@@ -348,7 +348,7 @@ void draw_temple_gate_movable(TempleCell *cell)
     unsigned int height;
 
     saved_clip = clip_rect;
-    gate_clip = exit_clip;
+    gate_clip = GamePlayRect;
     gate_clip.top = cell->row * 63 - 10;
     if (SECTRECT(&clip_rect, &clip_rect, &gate_clip)) {
         height = (CELL_INFO_WORD(cell, 0) & 252) >> 2;
@@ -590,7 +590,7 @@ void draw_temple_space(TempleCell *cell)
             draw = 1;
         else if (cell->row - redraw_row == 1)
             draw = visible_above_piece(cell->column, cell->row);
-        if (!draw && redraw_row == -1 && is_six_kind(redraw_below_tile))
+        if (!draw && redraw_row == -1 && is_six_kind(drawn_tile_kind))
             draw = 1;
         if (draw)
             draw_temple_back_wall(cell);
@@ -631,7 +631,7 @@ void draw_temple_torch(TempleCell *cell)
     CELL_INFO_WORD(&floor_cell, 1) = CELL_INFO_WORD(&floor_cell, 0) = 0;
     switch (cell->pass) {
     case 0:
-        ComputeOffsetCellRect(&torch_clip, &torch_bounds, cell->column, cell->row);
+        ComputeOffsetCellRect(&torch_clip, &TempTorchRect, cell->column, cell->row);
         if (!EncloseRect(&torch_clip, &clip_rect)) {
             draw_temple_floor(&floor_cell);
             AddBImgToBTable(19, -2, cell->column, cell->row, 0, 0);
@@ -671,6 +671,6 @@ void draw_temple_trapdoor(TempleCell *cell)
 
 void LoadTempleDrawCode(void)
 {
-    temple_draw_state = 0;
+    Pause = 0;
 }
 

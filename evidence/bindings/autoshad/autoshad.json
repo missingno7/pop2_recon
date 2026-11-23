@@ -15,7 +15,7 @@
       "SETUPSHADOWFLAME",
       "SET_KID_PALETTE",
       "IS_SIX_KIND",
-      "RESET_OVERLAY_STATE",
+      "RESET_SHADOW_OVERLAY_STATE",
       "GET_BEHIND",
       "GET_CELLS_AHEAD",
       "GETOPPINFOIDX",
@@ -39,18 +39,18 @@
       "KID",
       "CREATEKIDASOPP",
       "OPP",
-      "OPPONENT_SLOTS",
+      "ROOMOPP",
       "GETKIDIDXASOPP",
       "ROOM_OPPONENTS",
       "SHADOW_DIRECTION_OFFSETS",
       "ISSHADOWBLINKON",
       "CURRENT_LEVEL",
-      "ACTIVE_ROOM",
+      "VIEWED_ROOM",
       "CHECKSHADOWMANBACKINTOKID",
-      "PENDING_ROOM",
+      "CUTROOM",
       "SHADOW_TIMER",
-      "SHADOW_OVERLAY_STATE",
-      "FLAME_TIME",
+      "PAUSE",
+      "FRAMENUM",
       "FLAME_Y",
       "FLAME_X",
       "CHECKSHADOWMANCREATE",
@@ -99,7 +99,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "RESET_OVERLAY_STATE",
+        "name": "RESET_SHADOW_OVERLAY_STATE",
         "offset": 1330,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -243,7 +243,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 991,
+        "length": 969,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -2729,7 +2729,7 @@
           "index": 47,
           "kind": "external",
           "method": 6,
-          "name": "PENDING_ROOM",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -2743,7 +2743,7 @@
         "index": 47,
         "kind": "external",
         "method": 6,
-        "name": "PENDING_ROOM",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -2756,7 +2756,7 @@
           "index": 45,
           "kind": "external",
           "method": 6,
-          "name": "ACTIVE_ROOM",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2770,7 +2770,7 @@
         "index": 45,
         "kind": "external",
         "method": 6,
-        "name": "ACTIVE_ROOM",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -3215,7 +3215,7 @@
           "index": 39,
           "kind": "external",
           "method": 6,
-          "name": "OPPONENT_SLOTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -3229,7 +3229,7 @@
         "index": 39,
         "kind": "external",
         "method": 6,
-        "name": "OPPONENT_SLOTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -4349,7 +4349,7 @@
           "index": 50,
           "kind": "external",
           "method": 6,
-          "name": "FLAME_TIME",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -4363,7 +4363,7 @@
         "index": 50,
         "kind": "external",
         "method": 6,
-        "name": "FLAME_TIME",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -4430,7 +4430,7 @@
           "index": 49,
           "kind": "external",
           "method": 6,
-          "name": "SHADOW_OVERLAY_STATE",
+          "name": "PAUSE",
           "zero_displacement": true
         }
       },
@@ -4444,7 +4444,7 @@
         "index": 49,
         "kind": "external",
         "method": 6,
-        "name": "SHADOW_OVERLAY_STATE",
+        "name": "PAUSE",
         "zero_displacement": true
       }
     }
@@ -4479,20 +4479,6 @@
           "image_offset": 5153,
           "relocation_index": 57,
           "space": "overlay-10"
-        }
-      ]
-    },
-    "ACTIVE_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
-          "space": "root"
         }
       ]
     },
@@ -4808,6 +4794,20 @@
         }
       ]
     },
+    "CUTROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27853,
+      "witnesses": [
+        {
+          "bytes_hex": "803ecd6c00",
+          "entry": "root:0000:0dd4",
+          "image_offset": 3547,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
     "DECREMENT_LIFE_POINTS": {
       "entry_sha256": "9bdfa1c302b1c3f0b0ec29549795bd2da5d6f481ee8b3730a44ad37718496498",
       "entry_target_id": "root:02cc:094e",
@@ -4873,20 +4873,6 @@
         }
       ]
     },
-    "FLAME_TIME": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24160,
-      "witnesses": [
-        {
-          "bytes_hex": "a1605e",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3774,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "FLAME_X": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -4911,6 +4897,20 @@
           "entry": "root:101f:01ae",
           "image_offset": 66553,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "FRAMENUM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24160,
+      "witnesses": [
+        {
+          "bytes_hex": "a1605e",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3774,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -5251,57 +5251,15 @@
         }
       ]
     },
-    "OPPONENT_SLOTS": {
+    "PAUSE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 6,
-          "witnesses": [
-            {
-              "bytes_hex": "80bfc65c01",
-              "entry": "root:078a:01e2",
-              "image_offset": 36530,
-              "operand_offset": 2,
-              "space": "root"
-            },
-            {
-              "bytes_hex": "803ec65c0a",
-              "entry": "root:0e56:0006",
-              "image_offset": 60234,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 23744,
+      "offset": 24096,
       "witnesses": [
         {
-          "bytes_hex": "8db7c05c",
-          "entry": "root:02cc:07fc",
-          "image_offset": 13534,
-          "operand_offset": 2,
-          "space": "root"
-        },
-        {
-          "bytes_hex": "8dbfc05c",
-          "entry": "root:02cc:0832",
-          "image_offset": 13595,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "PENDING_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27853,
-      "witnesses": [
-        {
-          "bytes_hex": "803ecd6c00",
-          "entry": "root:0000:0dd4",
-          "image_offset": 3547,
+          "bytes_hex": "c706205e0100",
+          "entry": "root:0000:1000",
+          "image_offset": 782,
           "operand_offset": 2,
           "space": "root"
         }
@@ -5354,6 +5312,48 @@
           "file_offset": 16983,
           "image_offset": 8791,
           "relocation_index": 218,
+          "space": "root"
+        }
+      ]
+    },
+    "ROOMOPP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 6,
+          "witnesses": [
+            {
+              "bytes_hex": "80bfc65c01",
+              "entry": "root:078a:01e2",
+              "image_offset": 36530,
+              "operand_offset": 2,
+              "space": "root"
+            },
+            {
+              "bytes_hex": "803ec65c0a",
+              "entry": "root:0e56:0006",
+              "image_offset": 60234,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 23744,
+      "witnesses": [
+        {
+          "bytes_hex": "8db7c05c",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13534,
+          "operand_offset": 2,
+          "space": "root"
+        },
+        {
+          "bytes_hex": "8dbfc05c",
+          "entry": "root:02cc:0832",
+          "image_offset": 13595,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -5437,20 +5437,6 @@
         }
       ]
     },
-    "SHADOW_OVERLAY_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24096,
-      "witnesses": [
-        {
-          "bytes_hex": "c706205e0100",
-          "entry": "root:0000:1000",
-          "image_offset": 782,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
     "SHADOW_TIMER": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -5461,6 +5447,20 @@
           "entry": "root:0000:1000",
           "image_offset": 1643,
           "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

@@ -17,7 +17,7 @@
       "GENERATORS",
       "BLOCK_FLAME_SWORD",
       "LOWER_EXIT_MARGIN",
-      "ROOM_NUMBER",
+      "VIEWED_ROOM",
       "HEAD_BLOCKED",
       "HORIZONTAL_EXIT_MARGIN",
       "SET_SPECIAL_OPPONENT",
@@ -54,7 +54,7 @@
       "HIT_ACTIONS",
       "ACTOR_FOLLOWS_TO_ADJACENT_ROOM",
       "SHOULD_GENERATE",
-      "ACTOR_STATE",
+      "CHAR",
       "INITIALIZE_SKELETON",
       "HIT_ACTOR_FLAGS",
       "GENERATOR_HAS_TUMBLE",
@@ -66,10 +66,10 @@
       "ACTOR_COLUMN",
       "LEAVE_SPECIAL_ROOM",
       "TRIGGER_CHARACTER_WATER",
-      "GENERATE_OPPONENT",
+      "GENERATEOPPONENT",
       "GET_UNDER_FOOT",
       "ACTOR_ROW",
-      "HIT_ACTOR",
+      "OPP",
       "ON_LEFT_EXIT",
       "KID_ROW",
       "ACTOR_HORIZONTAL_SPEED",
@@ -108,7 +108,7 @@
       "GUARD_EN_GARDE",
       "GETROW",
       "ACTOR_BEHAVIOR",
-      "CLIFF_STYLE_FOR_IMPACT",
+      "CURRENT_TILE",
       "RESET_ACTOR_INPUTS",
       "CUT_ROOM_OPPONENTS",
       "ACTOR_BEHAVIOR_TYPE",
@@ -136,13 +136,13 @@
       "ISTHESTRIKEPOS",
       "UPDATE_AUTOMATIC_ACTOR",
       "ACTOR_SAVED_ACTION",
-      "OPPONENT_UPDATE_STATE",
+      "PAUSE",
       "ACTOR_TIMER",
       "STATE_BYTE",
       "ACTOR_DELAY",
       "ACTOR_KIND",
       "@get_char_strike_ranges",
-      "CURRENT_LEVEL",
+      "LEVELIDX",
       "ACTOR_WAIT",
       "STATE_WORD",
       "GENERATOR_LEVEL",
@@ -150,7 +150,7 @@
       "ACTOR_FLAGS",
       "OPPONENT_LIFE",
       "LOAD_SHADOW_WITH_OPPONENT",
-      "GAME_TICK",
+      "FRAMENUM",
       "OPPONENT_GUARD_TIMEOUT",
       "OPPONENT_LIFE_DISPLAY",
       "SAVE_SHADOW_WITH_OPPONENT",
@@ -172,7 +172,7 @@
       "KID_Y",
       "PLAY_FALL_SCRIPT",
       "KID_ACTIVE",
-      "LIVE_OPPONENTS",
+      "ROOMOPP",
       "SET_OPPONENT_LIFE",
       "DISPATCH_GUARD_REACTION",
       "GET_BEHIND",
@@ -193,14 +193,14 @@
       "INDEX_CELL",
       "CALCULATE_HORIZONTAL_CLEARANCE",
       "AUTOMATIC_ADJUSTMENT",
-      "PREVIOUS_ACTOR_ROOM",
+      "CUTROOM",
       "CHECK_GENERATOR_POINTS",
       "GETOPPINFOIDX",
       "OPPONENT_REVIEW_DELAY",
       "FIRSTINROW",
       "CHECK_SIDE_ROOMS",
       "IS_SIX_KIND",
-      "SAVED_KID_STATE",
+      "KID",
       "DISPATCH_SOUND",
       "STAGE_INTERRUPTS_FALL",
       "ADD_OPPONENT_TO_ROOM",
@@ -341,7 +341,7 @@
       {
         "frame": null,
         "group_index": 0,
-        "name": "GENERATE_OPPONENT",
+        "name": "GENERATEOPPONENT",
         "offset": 2728,
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -665,7 +665,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 5554,
+        "length": 5477,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -704,7 +704,7 @@
           "index": 136,
           "kind": "external",
           "method": 6,
-          "name": "OPPONENT_UPDATE_STATE",
+          "name": "PAUSE",
           "zero_displacement": true
         }
       },
@@ -718,7 +718,7 @@
         "index": 136,
         "kind": "external",
         "method": 6,
-        "name": "OPPONENT_UPDATE_STATE",
+        "name": "PAUSE",
         "zero_displacement": true
       }
     },
@@ -1811,7 +1811,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -1825,7 +1825,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -1838,7 +1838,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -1852,7 +1852,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -2216,7 +2216,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2230,7 +2230,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2270,7 +2270,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -2284,7 +2284,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -2756,7 +2756,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -2770,7 +2770,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -4025,7 +4025,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4039,7 +4039,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4079,7 +4079,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4093,7 +4093,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4106,7 +4106,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4120,7 +4120,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4268,7 +4268,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -4282,7 +4282,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -4916,7 +4916,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -4930,7 +4930,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -5105,7 +5105,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -5119,7 +5119,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -5186,7 +5186,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -5200,7 +5200,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -5213,7 +5213,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -5227,7 +5227,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -5267,7 +5267,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5281,7 +5281,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5321,7 +5321,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -5335,7 +5335,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -5402,7 +5402,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5416,7 +5416,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5429,7 +5429,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -5443,7 +5443,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -5861,7 +5861,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -5875,7 +5875,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -6374,7 +6374,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -6388,7 +6388,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -6455,7 +6455,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -6469,7 +6469,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -6752,7 +6752,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -6766,7 +6766,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -6833,7 +6833,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -6847,7 +6847,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -7103,7 +7103,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -7117,7 +7117,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -7157,7 +7157,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -7171,7 +7171,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -7292,7 +7292,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -7306,7 +7306,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -7346,7 +7346,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -7360,7 +7360,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -7373,7 +7373,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -7387,7 +7387,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -7481,7 +7481,7 @@
           "index": 66,
           "kind": "external",
           "method": 6,
-          "name": "GENERATE_OPPONENT",
+          "name": "GENERATEOPPONENT",
           "zero_displacement": true
         }
       },
@@ -7495,7 +7495,7 @@
         "index": 66,
         "kind": "external",
         "method": 6,
-        "name": "GENERATE_OPPONENT",
+        "name": "GENERATEOPPONENT",
         "zero_displacement": true
       }
     },
@@ -7697,7 +7697,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -7711,7 +7711,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -7967,7 +7967,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -7981,7 +7981,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -9101,7 +9101,7 @@
           "index": 150,
           "kind": "external",
           "method": 6,
-          "name": "GAME_TICK",
+          "name": "FRAMENUM",
           "zero_displacement": true
         }
       },
@@ -9115,7 +9115,7 @@
         "index": 150,
         "kind": "external",
         "method": 6,
-        "name": "GAME_TICK",
+        "name": "FRAMENUM",
         "zero_displacement": true
       }
     },
@@ -9155,7 +9155,7 @@
           "index": 142,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -9169,7 +9169,7 @@
         "index": 142,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -9209,7 +9209,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -9223,7 +9223,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -9263,7 +9263,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -9277,7 +9277,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -9371,7 +9371,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -9385,7 +9385,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -9452,7 +9452,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -9466,7 +9466,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -9533,7 +9533,7 @@
           "index": 172,
           "kind": "external",
           "method": 6,
-          "name": "LIVE_OPPONENTS",
+          "name": "ROOMOPP",
           "zero_displacement": true
         }
       },
@@ -9547,7 +9547,7 @@
         "index": 172,
         "kind": "external",
         "method": 6,
-        "name": "LIVE_OPPONENTS",
+        "name": "ROOMOPP",
         "zero_displacement": true
       }
     },
@@ -10397,7 +10397,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -10411,7 +10411,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -10478,7 +10478,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -10492,7 +10492,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -10829,7 +10829,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -10843,7 +10843,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -11018,7 +11018,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -11032,7 +11032,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -11045,7 +11045,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -11059,7 +11059,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -11072,7 +11072,7 @@
           "index": 200,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_KID_STATE",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -11086,7 +11086,7 @@
         "index": 200,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_KID_STATE",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -11153,7 +11153,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -11167,7 +11167,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -11180,7 +11180,7 @@
           "index": 200,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_KID_STATE",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -11194,7 +11194,7 @@
         "index": 200,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_KID_STATE",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -11342,7 +11342,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -11356,7 +11356,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -11558,7 +11558,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "PREVIOUS_ACTOR_ROOM",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -11572,7 +11572,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "PREVIOUS_ACTOR_ROOM",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -11612,7 +11612,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -11626,7 +11626,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -11639,7 +11639,7 @@
           "index": 200,
           "kind": "external",
           "method": 6,
-          "name": "SAVED_KID_STATE",
+          "name": "KID",
           "zero_displacement": true
         }
       },
@@ -11653,7 +11653,7 @@
         "index": 200,
         "kind": "external",
         "method": 6,
-        "name": "SAVED_KID_STATE",
+        "name": "KID",
         "zero_displacement": true
       }
     },
@@ -12017,7 +12017,7 @@
           "index": 193,
           "kind": "external",
           "method": 6,
-          "name": "PREVIOUS_ACTOR_ROOM",
+          "name": "CUTROOM",
           "zero_displacement": true
         }
       },
@@ -12031,7 +12031,7 @@
         "index": 193,
         "kind": "external",
         "method": 6,
-        "name": "PREVIOUS_ACTOR_ROOM",
+        "name": "CUTROOM",
         "zero_displacement": true
       }
     },
@@ -12611,7 +12611,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -12625,7 +12625,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -13016,7 +13016,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -13030,7 +13030,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -13070,7 +13070,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -13084,7 +13084,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -14420,7 +14420,7 @@
           "index": 142,
           "kind": "external",
           "method": 6,
-          "name": "CURRENT_LEVEL",
+          "name": "LEVELIDX",
           "zero_displacement": true
         }
       },
@@ -14434,7 +14434,7 @@
         "index": 142,
         "kind": "external",
         "method": 6,
-        "name": "CURRENT_LEVEL",
+        "name": "LEVELIDX",
         "zero_displacement": true
       }
     },
@@ -14798,7 +14798,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -14812,7 +14812,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -15608,7 +15608,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -15622,7 +15622,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -17632,7 +17632,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -17646,7 +17646,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -18086,7 +18086,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -18100,7 +18100,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -18329,7 +18329,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -18343,7 +18343,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -21402,7 +21402,7 @@
           "index": 108,
           "kind": "external",
           "method": 6,
-          "name": "CLIFF_STYLE_FOR_IMPACT",
+          "name": "CURRENT_TILE",
           "zero_displacement": true
         }
       },
@@ -21416,7 +21416,7 @@
         "index": 108,
         "kind": "external",
         "method": 6,
-        "name": "CLIFF_STYLE_FOR_IMPACT",
+        "name": "CURRENT_TILE",
         "zero_displacement": true
       }
     },
@@ -22594,7 +22594,7 @@
           "index": 17,
           "kind": "external",
           "method": 6,
-          "name": "ROOM_NUMBER",
+          "name": "VIEWED_ROOM",
           "zero_displacement": true
         }
       },
@@ -22608,7 +22608,7 @@
         "index": 17,
         "kind": "external",
         "method": 6,
-        "name": "ROOM_NUMBER",
+        "name": "VIEWED_ROOM",
         "zero_displacement": true
       }
     },
@@ -22864,7 +22864,7 @@
           "index": 54,
           "kind": "external",
           "method": 6,
-          "name": "ACTOR_STATE",
+          "name": "CHAR",
           "zero_displacement": true
         }
       },
@@ -22878,7 +22878,7 @@
         "index": 54,
         "kind": "external",
         "method": 6,
-        "name": "ACTOR_STATE",
+        "name": "CHAR",
         "zero_displacement": true
       }
     },
@@ -22918,7 +22918,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -22932,7 +22932,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -23620,7 +23620,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -23634,7 +23634,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -24160,7 +24160,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -24174,7 +24174,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -24538,7 +24538,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -24552,7 +24552,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -24592,7 +24592,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -24606,7 +24606,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -24781,7 +24781,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -24795,7 +24795,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -24997,7 +24997,7 @@
           "index": 69,
           "kind": "external",
           "method": 6,
-          "name": "HIT_ACTOR",
+          "name": "OPP",
           "zero_displacement": true
         }
       },
@@ -25011,7 +25011,7 @@
         "index": 69,
         "kind": "external",
         "method": 6,
-        "name": "HIT_ACTOR",
+        "name": "OPP",
         "zero_displacement": true
       }
     },
@@ -25630,20 +25630,6 @@
         }
       ]
     },
-    "ACTOR_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23552,
-      "witnesses": [
-        {
-          "bytes_hex": "be005c",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3813,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ACTOR_STATE_3A": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -25956,6 +25942,20 @@
         }
       ]
     },
+    "CHAR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23552,
+      "witnesses": [
+        {
+          "bytes_hex": "be005c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3813,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "CHASE_OPPONENT": {
       "entry_sha256": "29f284ace1ff9d24f4a1f163fc534a690da9f1486ae831c2c333f693b75459e3",
       "entry_target_id": "overlay-12:2c3e:0434",
@@ -26008,20 +26008,6 @@
         }
       ]
     },
-    "CLIFF_STYLE_FOR_IMPACT": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 25200,
-      "witnesses": [
-        {
-          "bytes_hex": "a27062",
-          "entry": "root:02cc:00f0",
-          "image_offset": 11768,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "COPY_KID_TO_CHAR": {
       "entry_sha256": "a2a62980f8508b634bf68774db21a40cacb768b10100046f1a5fcd12530f09c2",
       "entry_target_id": "root:02cc:1d94",
@@ -26039,20 +26025,6 @@
         }
       ]
     },
-    "CURRENT_LEVEL": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 2584,
-      "witnesses": [
-        {
-          "bytes_hex": "a0180a",
-          "entry": "root:0000:0000",
-          "image_offset": 549,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "CURRENT_ROOM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26062,6 +26034,34 @@
           "bytes_hex": "803e0e5c00",
           "entry": "root:0169:02c2",
           "image_offset": 7875,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    },
+    "CURRENT_TILE": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 25200,
+      "witnesses": [
+        {
+          "bytes_hex": "a27062",
+          "entry": "root:02cc:00f0",
+          "image_offset": 11768,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "CUTROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 27853,
+      "witnesses": [
+        {
+          "bytes_hex": "803ecd6c00",
+          "entry": "root:0000:0dd4",
+          "image_offset": 3547,
           "operand_offset": 2,
           "space": "root"
         }
@@ -26173,7 +26173,7 @@
         }
       ]
     },
-    "GAME_TICK": {
+    "FRAMENUM": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24160,
@@ -26367,63 +26367,6 @@
         {
           "image_offset": 12210,
           "relocation_index": 330,
-          "space": "root"
-        }
-      ]
-    },
-    "HIT_ACTOR": {
-      "extent": {
-        "length": 64,
-        "witness": {
-          "bytes_hex": "be405cb92000f3a5",
-          "entry": "root:02cc:0832",
-          "image_offset": 13599,
-          "space": "root"
-        }
-      },
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 4,
-          "witnesses": []
-        },
-        {
-          "offset": 16,
-          "witnesses": [
-            {
-              "bytes_hex": "803e505c00",
-              "entry": "root:0e56:0006",
-              "image_offset": 62416,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 35,
-          "witnesses": [
-            {
-              "bytes_hex": "803e635c02",
-              "entry": "root:0e56:0006",
-              "image_offset": 62396,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 36,
-          "witnesses": []
-        }
-      ],
-      "offset": 23616,
-      "witnesses": [
-        {
-          "bytes_hex": "bf405c",
-          "entry": "root:02cc:07fc",
-          "image_offset": 13531,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -26652,6 +26595,20 @@
         }
       ]
     },
+    "KID": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 23680,
+      "witnesses": [
+        {
+          "bytes_hex": "b8805c",
+          "entry": "root:0000:0e9a",
+          "image_offset": 3808,
+          "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
     "KID_ACTION": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -26778,67 +26735,16 @@
         }
       ]
     },
-    "LIVE_OPPONENTS": {
+    "LEVELIDX": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
-      "members": [
-        {
-          "offset": 2,
-          "witnesses": [
-            {
-              "bytes_hex": "8b87c25c",
-              "entry": "overlay-3:2344:08f0",
-              "image_offset": 2513,
-              "operand_offset": 2,
-              "space": "overlay-3"
-            }
-          ]
-        },
-        {
-          "offset": 9,
-          "witnesses": [
-            {
-              "bytes_hex": "3887c95c",
-              "entry": "root:0b41:091a",
-              "image_offset": 49222,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 17,
-          "witnesses": [
-            {
-              "bytes_hex": "80bfd15c00",
-              "entry": "root:0b41:0ba4",
-              "image_offset": 49197,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        },
-        {
-          "offset": 1,
-          "witnesses": [
-            {
-              "bytes_hex": "c606c15c56",
-              "context": "mov byte ptr [0x5cc1], 0x56 reached from root:0e56:0006",
-              "entry": "root:0e56:0006",
-              "image_offset": 59019,
-              "operand_offset": 2,
-              "space": "root"
-            }
-          ]
-        }
-      ],
-      "offset": 23744,
+      "offset": 2584,
       "witnesses": [
         {
-          "bytes_hex": "8db7c05c",
-          "entry": "root:02cc:07fc",
-          "image_offset": 13534,
-          "operand_offset": 2,
+          "bytes_hex": "a0180a",
+          "entry": "root:0000:0000",
+          "image_offset": 549,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -26930,6 +26836,63 @@
           "file_offset": 68997,
           "image_offset": 60805,
           "relocation_index": 1197,
+          "space": "root"
+        }
+      ]
+    },
+    "OPP": {
+      "extent": {
+        "length": 64,
+        "witness": {
+          "bytes_hex": "be405cb92000f3a5",
+          "entry": "root:02cc:0832",
+          "image_offset": 13599,
+          "space": "root"
+        }
+      },
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 4,
+          "witnesses": []
+        },
+        {
+          "offset": 16,
+          "witnesses": [
+            {
+              "bytes_hex": "803e505c00",
+              "entry": "root:0e56:0006",
+              "image_offset": 62416,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 35,
+          "witnesses": [
+            {
+              "bytes_hex": "803e635c02",
+              "entry": "root:0e56:0006",
+              "image_offset": 62396,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 36,
+          "witnesses": []
+        }
+      ],
+      "offset": 23616,
+      "witnesses": [
+        {
+          "bytes_hex": "bf405c",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13531,
+          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -27035,7 +26998,7 @@
         }
       ]
     },
-    "OPPONENT_UPDATE_STATE": {
+    "PAUSE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24096,
@@ -27074,20 +27037,6 @@
           "image_offset": 4673,
           "operand_offset": 2,
           "space": "overlay-3"
-        }
-      ]
-    },
-    "PREVIOUS_ACTOR_ROOM": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 27853,
-      "witnesses": [
-        {
-          "bytes_hex": "803ecd6c00",
-          "entry": "root:0000:0dd4",
-          "image_offset": 3547,
-          "operand_offset": 2,
-          "space": "root"
         }
       ]
     },
@@ -27138,6 +27087,71 @@
           "file_offset": 67661,
           "image_offset": 59469,
           "relocation_index": 1213,
+          "space": "root"
+        }
+      ]
+    },
+    "ROOMOPP": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": [
+            {
+              "bytes_hex": "8b87c25c",
+              "entry": "overlay-3:2344:08f0",
+              "image_offset": 2513,
+              "operand_offset": 2,
+              "space": "overlay-3"
+            }
+          ]
+        },
+        {
+          "offset": 9,
+          "witnesses": [
+            {
+              "bytes_hex": "3887c95c",
+              "entry": "root:0b41:091a",
+              "image_offset": 49222,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 17,
+          "witnesses": [
+            {
+              "bytes_hex": "80bfd15c00",
+              "entry": "root:0b41:0ba4",
+              "image_offset": 49197,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "witnesses": [
+            {
+              "bytes_hex": "c606c15c56",
+              "context": "mov byte ptr [0x5cc1], 0x56 reached from root:0e56:0006",
+              "entry": "root:0e56:0006",
+              "image_offset": 59019,
+              "operand_offset": 2,
+              "space": "root"
+            }
+          ]
+        }
+      ],
+      "offset": 23744,
+      "witnesses": [
+        {
+          "bytes_hex": "8db7c05c",
+          "entry": "root:02cc:07fc",
+          "image_offset": 13534,
+          "operand_offset": 2,
           "space": "root"
         }
       ]
@@ -27194,20 +27208,6 @@
         }
       ]
     },
-    "ROOM_NUMBER": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 24116,
-      "witnesses": [
-        {
-          "bytes_hex": "a0345e",
-          "entry": "root:0000:0dd4",
-          "image_offset": 2790,
-          "operand_offset": 1,
-          "space": "root"
-        }
-      ]
-    },
     "ROOM_STYLE": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -27232,20 +27232,6 @@
           "entry": "root:02cc:0700",
           "image_offset": 13368,
           "operand_offset": 2,
-          "space": "root"
-        }
-      ]
-    },
-    "SAVED_KID_STATE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 23680,
-      "witnesses": [
-        {
-          "bytes_hex": "b8805c",
-          "entry": "root:0000:0e9a",
-          "image_offset": 3808,
-          "operand_offset": 1,
           "space": "root"
         }
       ]
@@ -27440,6 +27426,20 @@
           "file_offset": 68693,
           "image_offset": 60501,
           "relocation_index": 1195,
+          "space": "root"
+        }
+      ]
+    },
+    "VIEWED_ROOM": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 24116,
+      "witnesses": [
+        {
+          "bytes_hex": "a0345e",
+          "entry": "root:0000:0dd4",
+          "image_offset": 2790,
+          "operand_offset": 1,
           "space": "root"
         }
       ]

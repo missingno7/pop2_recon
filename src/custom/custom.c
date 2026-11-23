@@ -58,7 +58,7 @@ typedef struct {
 #pragma pack()
 
 extern CustomRoom *custom_room;
-extern unsigned char level_style, room_style, room_number;
+extern unsigned char level_style, room_style, viewed_room;
 extern unsigned char room_specific_ready, custom_room_enabled;
 extern ShapeHandle room_specific_handle;
 /* Rectangle passed to StrokePortRect for the style-4 border. */
@@ -67,7 +67,7 @@ extern AboveCell custom_above[];
 extern PeelRecord peel_records[];
 extern RoomTemplate *template_table[];
 extern RoomTemplate default_template, *room_template;
-extern unsigned int *custom_shape_archive;
+extern unsigned int *background_shapes;
 extern CustomRect empty_piece_rect;
 static CustomRect custom_floor_rect = {106, 35, 126, 314};
 extern void far custom_floor_image(void);
@@ -184,8 +184,8 @@ void far *GetCustomPieceShape(CustomPiece *piece)
         piece->handle = PrinceUnpackShape(
             lookup.resource = HGETRSRC(0x53484150UL,
                                             piece->shape + custom_room->shape_base),
-            2, FETCH_LOCKED_SHAPE_LIST(*custom_shape_archive));
-        CLEAR_HANDLE_OWNED(*custom_shape_archive);
+            2, FETCH_LOCKED_SHAPE_LIST(*background_shapes));
+        CLEAR_HANDLE_OWNED(*background_shapes);
     }
     return RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle);
 }
@@ -271,8 +271,8 @@ void LoadCustomRoomData(unsigned char room_number_arg)
         }
     } else if (custom_room) {
         UnloadCustomRoomData();
-        if ((room_style == 5 && room_number == 7) ||
-            (room_style == 5 && room_number == 12))
+        if ((room_style == 5 && viewed_room == 7) ||
+            (room_style == 5 && viewed_room == 12))
             reset_custom_room_sound();
     }
 }
@@ -316,9 +316,9 @@ void LoadCustomRoomShapes(CustomRoom *room)
     }
 
     shape_base = room->shape_base;
-    position = archive_position(*custom_shape_archive);
-    prepare_archive(*custom_shape_archive);
-    archive = FETCH_LOCKED_SHAPE_LIST(*custom_shape_archive);
+    position = archive_position(*background_shapes);
+    prepare_archive(*background_shapes);
+    archive = FETCH_LOCKED_SHAPE_LIST(*background_shapes);
     bytes = (room->last_shape + 1) * sizeof(ShapeHandle);
     new_shapes = _nmalloc(bytes);
     memset(new_shapes, 0, bytes);
@@ -355,7 +355,7 @@ void LoadCustomRoomShapes(CustomRoom *room)
             ++next;
         } while (++i < room->count);
     }
-    set_archive_position(*custom_shape_archive, position);
+    set_archive_position(*background_shapes, position);
     if (old_shapes) {
         i = 0;
         if (old_count > 0) {

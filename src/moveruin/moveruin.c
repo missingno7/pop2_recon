@@ -21,8 +21,8 @@ extern volatile int spike_sequence;
 extern Byte spike_room;
 extern volatile CellCoord spike_row;
 extern volatile Byte spike_action;
-extern Byte room_number, ruins_start_column, plateau_intro;
-extern volatile Byte passed_plateau_room;
+extern Byte room_number, viewed_room, plateau_intro;
+extern volatile Byte CutRoom;
 extern Byte *ruins_start_actor;
 extern int ColEdgeX[20];
 extern int plateau_room_loaded;
@@ -101,7 +101,7 @@ void cut_kid_inside_level6(void)
     JumpSeq(5);
     start_room = 3;
     actor_room = start_room;
-    passed_plateau_room = start_room;
+    CutRoom = start_room;
     actor_column = 4;
     actor_x = ColEdgeX[9] + 14;
     actor_row = 2;
@@ -133,11 +133,11 @@ void LoadRuinsMoveCode(void)
 void load_plateau_room(void)
 {
     if (kid_column >= 9) {
-        if (ruins_start_column == 16 && level_number == 9) {
+        if (viewed_room == 16 && level_number == 9) {
             AddSong(92);
             return;
         }
-        if (ruins_start_column == 2 && level_number == 9 && !plateau_room_loaded) {
+        if (viewed_room == 2 && level_number == 9 && !plateau_room_loaded) {
             AddSong(91);
             plateau_room_loaded = 1;
         }

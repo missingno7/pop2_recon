@@ -48,14 +48,14 @@ extern signed char target_column, target_row, target_life, target_facing;
 extern signed char actor_row, actor_life;
 extern signed char actor_velocity_x, actor_velocity_y, actor_alert, head_active;
 extern unsigned char actor_room, level_head_kind, target_visible, tile_flags, target_room;
-extern signed char actor_slot;
+extern signed char Char;
 extern signed char camera_actor;
 extern unsigned char tile_modifier;
 extern unsigned int actor_frame, target_frame, target_progress;
 extern int actor_y, target_x, actor_sequence, actor_timer;
 extern signed char tile_test_x;
 extern int current_sprite_frame, snake_distance;
-extern unsigned char collision_room, collision_column, collision_row;
+extern unsigned char current_tile, collision_column, collision_row;
 extern unsigned char room_opponents[][116];
 static const signed char first_chomp[12] = {
     1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 99
@@ -259,7 +259,7 @@ done:
 
 int far pascal chomp_again(HeadPlan near *plan)
 {
-    unsigned char room_skill = room_opponents[actor_room][actor_slot * 23 + 5];
+    unsigned char room_skill = room_opponents[actor_room][Char * 23 + 5];
     int result;
     signed char column;
 
@@ -441,7 +441,7 @@ int far pascal head_enemy_collide(int minimum_gap)
     int gap;
 
     if (actor_timer != 1) {
-        gap = barrier_distance_from_face(collision_room, collision_column, collision_row);
+        gap = barrier_distance_from_face(current_tile, collision_column, collision_row);
         if (gap < 5 && minimum_gap <= gap && gap < 5 && -snake_distance <= gap) {
             actor_x = AddCharX(-(gap + 14));
             if (actor_life < 0 && actor_sequence != 153)
@@ -484,7 +484,7 @@ void far pascal head_flee_prog(HeadPlan near *plan)
                     head_get_angry(plan);
                 else {
                     JumpSeq(160);
-                    *(int near *)&plan->direction = flee_length[room_opponents[actor_room][actor_slot * 23 + 5]];
+                    *(int near *)&plan->direction = flee_length[room_opponents[actor_room][Char * 23 + 5]];
                 }
             }
         } else if (actor_row == target_row && abs(actor_column - target_column) < 3 &&
@@ -551,9 +551,9 @@ void far pascal head_get_angry(HeadPlan near *plan)
     head_active = 1;
     if (camera_actor == -1) {
         save_actor_slot();
-        set_actor_speed(actor_slot, actor_velocity_x, actor_velocity_y);
-        load_actor_slot(actor_slot);
-        camera_actor = actor_slot;
+        set_actor_speed(Char, actor_velocity_x, actor_velocity_y);
+        load_actor_slot(Char);
+        camera_actor = Char;
     }
     AddSound(87);
 }
@@ -615,7 +615,7 @@ void far pascal head_locked_prog(HeadPlan near *plan)
                 ++plan->column;
                 JumpSeq(150 + (actor_sequence == 150));
             } else {
-                record = get_opponent_info(actor_room, actor_slot);
+                record = get_opponent_info(actor_room, Char);
                 if (record && record->prefix[4] >= 11)
                     JumpSeq(165);
             }
@@ -670,11 +670,11 @@ void far pascal head_prog(void)
     HeadPlan near *plan;
     if (actor_life >= 0)
         return;
-    record = get_opponent_info(actor_room, actor_slot);
+    record = get_opponent_info(actor_room, Char);
     if (!record)
         return;
     plan = (HeadPlan near *)&record->mode;
-    load_shadow_with_opponent(actor_slot);
+    load_shadow_with_opponent(Char);
     get_frame_info();
     if (current_sprite_frame != -1) {
         kid_frame = current_sprite_frame;
@@ -715,7 +715,7 @@ int far pascal head_set_to_flee_mode(void)
     int clear, edge, initial_column;
     OpponentRecord near *record;
 
-    skill = room_opponents[actor_room][actor_slot * 23 + 5];
+    skill = room_opponents[actor_room][Char * 23 + 5];
     if (!is_able_to_flee_in_room(actor_room) || Rnd(skill / 3 + 1) != 0 ||
         !((actor_facing == 0 && actor_column >= 3) ||
           (actor_facing == -1 && actor_column + 3 <= 10)))
@@ -741,16 +741,16 @@ int far pascal head_set_to_flee_mode(void)
     if (clear) {
         head_active = 0;
         actor_alert = 1;
-        record = get_opponent_info(actor_room, actor_slot);
+        record = get_opponent_info(actor_room, Char);
         record->mode = 2;
         record->column = column;
         record->row = actor_row;
         record->timer = -1;
         record->sound_played = 0;
         save_actor_slot();
-        set_actor_speed(actor_slot, 0, actor_velocity_y);
-        load_actor_slot(actor_slot);
-        if (actor_slot == camera_actor)
+        set_actor_speed(Char, 0, actor_velocity_y);
+        load_actor_slot(Char);
+        if (Char == camera_actor)
             camera_actor = -1;
     }
     goto done;
@@ -825,9 +825,9 @@ void far pascal snake_prog(void)
 {
     OpponentRecord near *record;
     if (actor_life < 0) {
-        record = get_opponent_info(actor_room, actor_slot);
+        record = get_opponent_info(actor_room, Char);
         if (record) {
-            load_shadow_with_opponent(actor_slot);
+            load_shadow_with_opponent(Char);
             if (record->mode < 0) {
                 if (snake_slithering_toward_opp())
                     snake_attack(record);
