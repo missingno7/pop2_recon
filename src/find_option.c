@@ -1,15 +1,15 @@
 extern volatile int argument_count;
 extern char **arguments;
 
-extern unsigned far cdecl strlen(const char far *text);
-extern int far cdecl strnicmp(const char far *left, const char far *right, unsigned count);
+extern unsigned far cdecl _fstrlen(const char far *text);
+extern int far cdecl _fstrnicmp(const char far *left, const char far *right, unsigned count);
 
 char *far pascal find_option(const char far *name)
 {
     int index = 1;
     if (index < argument_count) {
         do {
-            if (strnicmp(arguments[index], name, strlen(name)) == 0)
+            if (_fstrnicmp(arguments[index], name, _fstrlen(name)) == 0)
                 return arguments[index];
             ++index;
         } while (index < argument_count);

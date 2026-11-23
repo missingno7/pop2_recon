@@ -29,39 +29,6 @@
     },
     {
       "kind": "PINNED_RUNTIME",
-      "offset": 7500,
-      "recipe": "recipes/runtime/crt_strcpy.json",
-      "relocation_count": 0,
-      "segment": 8192,
-      "size": 54,
-      "space": "root",
-      "state": "PINNED_RUNTIME",
-      "target_id": "root:2000:1d4c"
-    },
-    {
-      "kind": "PINNED_RUNTIME",
-      "offset": 8130,
-      "recipe": "recipes/runtime/crt_strcmp.json",
-      "relocation_count": 0,
-      "segment": 8192,
-      "size": 41,
-      "space": "root",
-      "state": "PINNED_RUNTIME",
-      "target_id": "root:2000:1fc2"
-    },
-    {
-      "kind": "PINNED_RUNTIME",
-      "offset": 7476,
-      "recipe": "recipes/runtime/crt_strlen.json",
-      "relocation_count": 0,
-      "segment": 8192,
-      "size": 23,
-      "space": "root",
-      "state": "PINNED_RUNTIME",
-      "target_id": "root:2000:1d34"
-    },
-    {
-      "kind": "PINNED_RUNTIME",
       "offset": 5784,
       "recipe": "recipes/runtime/crt_headchk.json",
       "relocation_count": 0,
@@ -81,39 +48,6 @@
       "space": "root",
       "state": "PINNED_RUNTIME",
       "target_id": "root:2000:17d0"
-    },
-    {
-      "kind": "PINNED_RUNTIME",
-      "offset": 7406,
-      "recipe": "recipes/runtime/crt_stricmp.json",
-      "relocation_count": 0,
-      "segment": 8192,
-      "size": 69,
-      "space": "root",
-      "state": "PINNED_RUNTIME",
-      "target_id": "root:2000:1cee"
-    },
-    {
-      "kind": "PINNED_RUNTIME",
-      "offset": 7932,
-      "recipe": "recipes/runtime/crt_strnicmp.json",
-      "relocation_count": 0,
-      "segment": 8192,
-      "size": 88,
-      "space": "root",
-      "state": "PINNED_RUNTIME",
-      "target_id": "root:2000:1efc"
-    },
-    {
-      "kind": "PINNED_RUNTIME",
-      "offset": 7626,
-      "recipe": "recipes/runtime/crt_strstr.json",
-      "relocation_count": 0,
-      "segment": 8192,
-      "size": 103,
-      "space": "root",
-      "state": "PINNED_RUNTIME",
-      "target_id": "root:2000:1dca"
     },
     {
       "kind": "MATCHING_ASM",
@@ -24331,6 +24265,78 @@
       "space": "overlay-10",
       "state": "CODE_EXACT",
       "target_id": "overlay-10:29cf:1e18"
+    },
+    {
+      "fixup_count": 0,
+      "kind": "PINNED_RUNTIME",
+      "offset": 8130,
+      "recipe": "recipes/runtime/crt_fstrcmp.json",
+      "relocation_count": 0,
+      "segment": 8192,
+      "size": 41,
+      "space": "root",
+      "state": "PINNED_RUNTIME",
+      "target_id": "root:2000:1fc2"
+    },
+    {
+      "fixup_count": 0,
+      "kind": "PINNED_RUNTIME",
+      "offset": 7406,
+      "recipe": "recipes/runtime/crt_fstricmp.json",
+      "relocation_count": 0,
+      "segment": 8192,
+      "size": 69,
+      "space": "root",
+      "state": "PINNED_RUNTIME",
+      "target_id": "root:2000:1cee"
+    },
+    {
+      "fixup_count": 0,
+      "kind": "PINNED_RUNTIME",
+      "offset": 7932,
+      "recipe": "recipes/runtime/crt_fstrnicmp.json",
+      "relocation_count": 0,
+      "segment": 8192,
+      "size": 88,
+      "space": "root",
+      "state": "PINNED_RUNTIME",
+      "target_id": "root:2000:1efc"
+    },
+    {
+      "fixup_count": 0,
+      "kind": "PINNED_RUNTIME",
+      "offset": 7626,
+      "recipe": "recipes/runtime/crt_fstrstr.json",
+      "relocation_count": 0,
+      "segment": 8192,
+      "size": 103,
+      "space": "root",
+      "state": "PINNED_RUNTIME",
+      "target_id": "root:2000:1dca"
+    },
+    {
+      "fixup_count": 0,
+      "kind": "PINNED_RUNTIME",
+      "offset": 7500,
+      "recipe": "recipes/runtime/crt_fstrcpy.json",
+      "relocation_count": 0,
+      "segment": 8192,
+      "size": 54,
+      "space": "root",
+      "state": "PINNED_RUNTIME",
+      "target_id": "root:2000:1d4c"
+    },
+    {
+      "fixup_count": 0,
+      "kind": "PINNED_RUNTIME",
+      "offset": 7476,
+      "recipe": "recipes/runtime/crt_fstrlen.json",
+      "relocation_count": 0,
+      "segment": 8192,
+      "size": 23,
+      "space": "root",
+      "state": "PINNED_RUNTIME",
+      "target_id": "root:2000:1d34"
     }
   ],
   "schema": 1,

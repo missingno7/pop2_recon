@@ -8,8 +8,8 @@
       "LOAD_SOUND_SETTINGS",
       "ARGUMENT_COUNT",
       "ARGUMENTS",
-      "_strlen",
-      "_strnicmp",
+      "__fstrlen",
+      "__fstrnicmp",
       "FIND_OPTION",
       "CONFIGURATION",
       "_dos_open",
@@ -349,7 +349,7 @@
           "index": 9,
           "kind": "external",
           "method": 6,
-          "name": "_strnicmp",
+          "name": "__fstrnicmp",
           "zero_displacement": true
         }
       },
@@ -363,7 +363,7 @@
         "index": 9,
         "kind": "external",
         "method": 6,
-        "name": "_strnicmp",
+        "name": "__fstrnicmp",
         "zero_displacement": true
       }
     },
@@ -403,7 +403,7 @@
           "index": 8,
           "kind": "external",
           "method": 6,
-          "name": "_strlen",
+          "name": "__fstrlen",
           "zero_displacement": true
         }
       },
@@ -417,7 +417,7 @@
         "index": 8,
         "kind": "external",
         "method": 6,
-        "name": "_strlen",
+        "name": "__fstrlen",
         "zero_displacement": true
       }
     },
@@ -510,6 +510,24 @@
         }
       ]
     },
+    "__fstrlen": {
+      "entry_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331",
+      "entry_target_id": "root:1fe6:1ed4",
+      "kind": "far-code-entry",
+      "offset": 7892,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": []
+    },
+    "__fstrnicmp": {
+      "entry_sha256": "03d548a41c4cec445d438fd0af0928fde5e0dc96785c4449b53bbf7c4dc8cab9",
+      "entry_target_id": "root:1fe6:209c",
+      "kind": "far-code-entry",
+      "offset": 8348,
+      "segment": 8166,
+      "space": "root",
+      "witnesses": []
+    },
     "__nfree": {
       "entry_sha256": "7321c7da7b36d0d5c9ef453d7fbb06b29ab29023cb3952ea3134634554e92bab",
       "entry_target_id": "root:1fe6:001a",
@@ -600,24 +618,6 @@
       "entry_target_id": "root:1fe6:17ee",
       "kind": "far-code-entry",
       "offset": 6126,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": []
-    },
-    "_strlen": {
-      "entry_sha256": "e5ff878eb7744dbfdb40f7b4993400d6bf9bbd6c7770524c57ddd5a38b537331",
-      "entry_target_id": "root:1fe6:1ed4",
-      "kind": "far-code-entry",
-      "offset": 7892,
-      "segment": 8166,
-      "space": "root",
-      "witnesses": []
-    },
-    "_strnicmp": {
-      "entry_sha256": "03d548a41c4cec445d438fd0af0928fde5e0dc96785c4449b53bbf7c4dc8cab9",
-      "entry_target_id": "root:1fe6:209c",
-      "kind": "far-code-entry",
-      "offset": 8348,
       "segment": 8166,
       "space": "root",
       "witnesses": []

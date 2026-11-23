@@ -264,6 +264,10 @@ Partial startup/provider
 signatures remain evidence only and contribute no accepted bytes. Runtime
 publication uses `tools/pin_runtime.py` with a reviewed worker submission and
 fresh strict verification; whole members cannot be trimmed to a matching prefix.
+`--replaces recipes/runtime/OLD.json` re-pins an owned extent to another member of the same size (fresh proof,
+old recipe retired in the same publication). Its first use (2026-11-23) moved six LLIBCR string pins to the LIBH
+far-string members they really are (`__fstrcpy`, `__fstrlen`, ...): the medium-model game also links its own
+`_strcpy`/`_strlen`, and a real link holds one definition per name (o10_trial).
 The literal, relocation-free runtime gate retains every public in a whole
 multi-public member; it does not select a public's matching suffix or prefix.
 The near-bound runtime gate still requires one owning public at zero.

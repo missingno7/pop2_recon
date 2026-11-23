@@ -133,34 +133,25 @@ class RuntimeProviderTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "another frame"):
             ctx.code_target("_main", {}, 0)
 
-    # E6 same-library selection
-    def test_same_library_selection_proves_strdup(self):
+    # E6 same-library selection: after the LIBH re-pin (2026-11-23) _strcpy/_strlen have one declaration each,
+    # so strdup binds them directly and a selection over a single declaration is refused.
+    def test_strdup_binds_unique_providers(self):
         manifest, fake = self.with_malloc()
         report = self.prove("crt_strdup_medium", manifest=manifest, fake=fake)
         self.assertTrue(report["exact"])
         self.assertEqual(report["relocation_indices"], [1903, 1919, 1929])
-        self.assertEqual({s["symbol"]: s["recipe"] for s in report["same_library_selection"]},
-                         {"_strcpy": "crt_strcpy_medium", "_strlen": "crt_strlen_medium"})
 
     def test_same_library_selection_refusals(self):
         manifest, fake = self.with_malloc()
+        for symbol in ("_strcpy", "_malloc"):                         # single declaration: nothing to select
+            binding = self.binding("crt_strdup_medium")
+            binding["same_library_selection"] = [symbol]
+            with self.assertRaisesRegex(ValueError, f"Same-library selection of {symbol} is not unambiguous"):
+                self.prove("crt_strdup_medium", binding=binding, manifest=manifest, fake=fake)
         binding = self.binding("crt_strdup_medium")
-        del binding["same_library_selection"]
-        with self.assertRaisesRegex(ValueError, "Code provider _str(len|cpy) is missing, ambiguous"):
-            self.prove("crt_strdup_medium", binding=binding, manifest=manifest, fake=fake)
-        binding = self.binding("crt_strdup_medium")
-        binding["code_providers"]["_strcpy"] = "crt_strcpy"           # the llibcr declaration
-        with self.assertRaisesRegex(ValueError, "Same-library selection of _strcpy is not unambiguous"):
-            self.prove("crt_strdup_medium", binding=binding, manifest=manifest, fake=fake)
-        binding = self.binding("crt_strdup_medium")
-        binding["same_library_selection"].append("_malloc")          # single declaration: nothing to select
-        with self.assertRaisesRegex(ValueError, "Same-library selection of _malloc is not unambiguous"):
-            self.prove("crt_strdup_medium", binding=binding, manifest=manifest, fake=fake)
-        binding = self.binding("crt_strdup_medium")
-        binding["same_library_selection"].append("_strcat")
+        binding["same_library_selection"] = ["_strcat"]
         with self.assertRaisesRegex(ValueError, "Invalid same-library selection"):
             self.prove("crt_strdup_medium", binding=binding, manifest=manifest, fake=fake)
-
 
 if __name__ == "__main__":
     unittest.main()
