@@ -200,9 +200,9 @@ int far pascal DialogFadeOut(void)
     STROKE_PORT_RECT(saved_port);
     return result;
 }
-extern struct ScreenPort game_port;
+extern struct dialog_rect GamePlayRect;
 extern int gameplay_dialog_active;
-extern int game_is_suspended;
+extern int demo_pending;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -260,12 +260,12 @@ extern int (far pascal *dialog_wait)(void);
 
 extern void far pascal DeallocBackPort(int);
 extern int far pascal AllocBackPort(struct ScreenPort far *);
-extern void far pascal restore_game_picture(void);
-extern void far pascal restore_game_palette(void);
-extern void far pascal suspend_input(void);
-extern void far pascal draw_room(int);
+extern void far pascal set_default_palette(void);
+extern void far pascal restore_game_play_palette(void);
+extern void far pascal clear_row_handles(void);
+extern int far pascal PrepCut(int);
 extern void far pascal set_kid_palette(signed char);
-extern int far pascal game_wait(void);
+extern int far pascal Input(void);
 extern int far pascal read_key(void);
 extern void far pascal wait_for_key(void);
 extern void far pascal abort_with_message(int, int, int);
@@ -285,22 +285,22 @@ extern DialogAsset far pascal hGetNMapShpList(int, int, int);
 void far pascal DialogResetToGamePlay(int restart_input)
 {
     if (dialog_port_handle) DeallocBackPort(dialog_port_handle);
-    dialog_port_handle = AllocBackPort(&game_port);
+    dialog_port_handle = AllocBackPort((struct ScreenPort far *)&GamePlayRect);
     Graf = &ScreenPort; SetFont(0);
     Graf->mode = 0; Graf->foreground = 15;
     STROKE_PORT_RECT(saved_port);
-    restore_game_picture();
+    set_default_palette();
     DISPOSE_HANDLE(hGetFont(11));
     DISPOSE_HANDLE(hGetFont(12));
     DISPOSE_HANDLE(hGetFont(13));
-    if (restart_input && !game_is_suspended) {
-        suspend_input();
-        draw_room(0);
+    if (restart_input && !demo_pending) {
+        clear_row_handles();
+        PrepCut(0);
         gameplay_dialog_active = 1;
     }
-    restore_game_palette();
+    restore_game_play_palette();
     set_kid_palette((signed char)Level.environment_kind);
-    dialog_wait = game_wait;
+    dialog_wait = Input;
 }
 
 int far pascal DialogWaitFunc(void)
@@ -1226,7 +1226,7 @@ int far pascal read_notice_selection(void)
             if (!_fstrcmp(confirmation, typed + typed_count - confirmation_length))
                 index = -2;
         }
-        DISPOSE_HANDLE(find_dialog_string(10));
+        DISPOSE_HANDLE(hGetFont(10));
     }
     return index;
 }
@@ -1294,7 +1294,6 @@ int far * far pascal ComputeHallPlayerRect(int far *p, int index)
     p[2] = p[0] + 20;
     return p;
 }
-extern struct dialog_rect hall_abort_rect;
 extern int far pascal wait_for_hall_input(void);
 extern int far pascal buffer_size(void far *);
 extern void far * far cdecl _fmemmove(void far *, const void far *, unsigned);
@@ -1453,7 +1452,7 @@ int far pascal show_hall_records(int hold)
         if (!key)
             key = hold ? wait_for_hall_input() : wait_ticks(0, 900);
         if (key && !hold)
-            SET_RECORD_RANGE(&hall_abort_rect, 0);
+            SET_RECORD_RANGE((struct dialog_rect *)saved_port, 0);
         else
             key = DialogFadeOut();
         DialogResetToGamePlay(hold);
@@ -1744,18 +1743,14 @@ int far pascal change_menu_option(int option)
     return changed;
 }
 
-extern int far pascal draw_credits_transition(int, int, const struct dialog_rect far *, long);
+extern int far pascal animate_port(int, int, const struct dialog_rect far *, long);
 extern int credits_timer;
-extern int far pascal find_key_binding(const char far *);
-extern int far pascal hold_blink_box(const struct dialog_rect far *);
-extern void far pascal show_blink_box(int);
-extern void far pascal release_blink_box(int);
-extern void far pascal set_credits_port(int);
-extern void far pascal add_text_offset(int, int);
-extern void far pascal intersect_credits_rect(struct dialog_rect far *, const struct dialog_rect far *, int, int);
-extern int far pascal get_credit_strings(int);
-extern char far * far pascal lock_credit_strings(int);
-extern char far * far pascal nth_credit_string(char far *, unsigned char);
+extern int far pascal find_option(const char far *);
+extern int far pascal allocate_clipped_port(const struct dialog_rect far *);
+extern void far pascal draw_record_bounds(int);
+extern void far pascal free_record_pair(int);
+extern void far pascal Move(int, int);
+extern char far * far pascal lookup_prefixed_string(char far *, unsigned char);
 
 void far pascal draw_credits_page(int, int);
 void far pascal draw_credit_category(int);
@@ -1765,12 +1760,11 @@ int far pascal show_credits(void)
 {
     struct dialog_rect clip;
     int key, page;
-    int old_page;
 
     InitDialog();
     Graf = (struct ScreenPort *)dialog_port_handle;
     DrawDialogFrame(0);
-    intersect_credits_rect(&clip, &hall_abort_rect, 9, 9);
+    InsetRect(&clip, (struct dialog_rect *)saved_port, 9, 9);
     page = key = 0;
     do {
         if (key)
@@ -1780,26 +1774,25 @@ int far pascal show_credits(void)
         draw_credits_page(*(const int *)((const char *)credits_first + page), *(const int *)((const char *)credits_last + page));
         Graf = &ScreenPort;
         if (page)
-            key = draw_credits_transition(1, dialog_port_handle, &hall_abort_rect, 90);
+            key = animate_port(1, dialog_port_handle, (struct dialog_rect *)saved_port, 90);
         else
             key = DialogFadeIn();
         if (!key) {
-            if (!page && find_key_binding(credits_blink_key)) {
-                old_page = page;
+            if (!page && find_option(credits_blink_key)) {
                 credits_timer = 480;
-                page = hold_blink_box(&credits_blink_box);
-                while (credits_timer) {
-                    show_blink_box(page);
-                    key = wait_ticks(1, 15);
-                    if (!key) {
-                        SET_RECORD_RANGE(&credits_blink_box, 12);
+                page = allocate_clipped_port(&credits_blink_box);
+                if (credits_timer) {
+                    do {
+                        draw_record_bounds(page);
                         key = wait_ticks(1, 15);
-                    }
-                    if (key)
-                        break;
+                        if (!key) {
+                            SET_RECORD_RANGE(&credits_blink_box, 12);
+                            key = wait_ticks(1, 15);
+                        }
+                    } while (!key && credits_timer);
                 }
-                release_blink_box(page);
-                page = old_page;
+                free_record_pair(page);
+                page = 0;
             } else {
                 key = wait_ticks(0, 480);
             }
@@ -1807,7 +1800,7 @@ int far pascal show_credits(void)
     } while ((page += sizeof(*credits_first)) < (int)sizeof(credits_first));
     Graf = &ScreenPort;
     DialogFadeOut();
-    DISPOSE_HANDLE(find_dialog_string(10));
+    DISPOSE_HANDLE(hGetFont(10));
     DialogResetToGamePlay(0);
     if (dialog_port_handle) {
         DeallocBackPort(dialog_port_handle);
@@ -1825,7 +1818,7 @@ void far pascal draw_credits_page(int first, int last)
     if (id <= last) {
         do {
             draw_credit_category(id);
-            add_text_offset(0, 4);
+            Move(0, 4);
         } while (++id <= last);
     }
 }
@@ -1834,23 +1827,24 @@ void far pascal draw_credit_category(int id)
 {
     struct dialog_rect rect;
     struct dialog_range range;
-    char far *strings;
+    char far *strings, far *payload;
     char far *title;
     unsigned char line;
-    int handle = get_credit_strings(id);
+    int handle = find_dialog_string(id);
 
     if (!handle)
         return;
-    strings = lock_credit_strings(handle);
+    payload = FETCH_LOCKED_SHAPE_LIST(handle);
     rect.right = *(int *)((char *)Graf + 0x22);
     rect.top = save_description.top;
     rect.left = rect.right - 19;
     rect.bottom = save_description.bottom;
-    title = nth_credit_string(strings, 1);
+    strings = payload;
+    title = lookup_prefixed_string(strings, 1);
     if ((unsigned char)strings[0] == 1) {
         range.last = 0;
         if (id == credits_first[3] || (id >= 1020 && id <= 1026))
-            intersect_credits_rect(&rect, &hall_abort_rect, 9, 9);
+            InsetRect(&rect, (struct dialog_rect *)saved_port, 9, 9);
     } else {
         range.last = -1;
     }
@@ -1858,13 +1852,16 @@ void far pascal draw_credit_category(int id)
     DialogDrawStr(title, 10, 0, 0, &rect, &range);
     if ((unsigned char)strings[0] > 1) {
         range.last = 1;
-        for (line = 2; line <= (unsigned char)strings[0]; ++line) {
-            DialogDrawStr(nth_credit_string(strings, line), 10, 0, 0, &rect, &range);
-            OffsetRect(&rect, &rect, 0, 21);
-            add_text_offset(0, 21);
+        line = 2;
+        if ((unsigned char)strings[0] >= 2) {
+            do {
+                DialogDrawStr(lookup_prefixed_string(strings, line), 10, 0, 0, &rect, &range);
+                OffsetRect(&rect, &rect, 0, 21);
+                Move(0, 21);
+            } while (++line <= (unsigned char)strings[0]);
         }
     } else {
-        add_text_offset(0, 21);
+        Move(0, 21);
     }
     DISPOSE_HANDLE(handle);
 }

@@ -60,41 +60,34 @@ int far pascal CalcRowBytes(const ShapeHeader far *shape)
     return row_bytes;
 }
 
-/* Unverified draft: MCGA bank remapping. */
+#pragma optimize("gl", on)
 void far pascal MCGAToMCGA(const ShapeHeader far *shape,
                            unsigned char far *pixels, unsigned banks)
 {
     unsigned char map[16];
     int mapped = 0;
     unsigned bit = 1;
-    unsigned char bank_offset = 0;
-    int bank_count = 16;
+    unsigned bank;
     unsigned char far *cursor;
     unsigned row;
 
-    do {
-        unsigned char color = bank_offset;
+    for (bank = 0; bank < 16; ++bank, bit <<= 1) {
         if (banks & bit)
-            map[mapped++] = color;
-        bank_offset = color + 16;
-        bit <<= 1;
-    } while (--bank_count);
+            map[mapped++] = (unsigned char)(bank * 16);
+    }
 
     cursor = pixels;
-    row = 0;
-    if (shape->height != 0) {
-        do {
-            unsigned column = 0;
-            if (shape->width != 0) {
-                do {
-                    if (*cursor)
-                        *cursor = (*cursor & 15) | map[*cursor >> 4];
-                    ++cursor;
-                } while (++column < (unsigned)shape->width);
-            }
-        } while (++row < (unsigned)shape->height);
+    for (row = 0; row < shape->height; ++row) {
+        unsigned column;
+        for (column = 0; column < shape->width; ++column) {
+            if (*cursor)
+                *cursor = (*cursor & 15) | map[*cursor >> 4];
+            ++cursor;
+        }
     }
 }
+
+#pragma optimize("gl", off)
 
 int far pascal Get1stBank(unsigned banks)
 {
@@ -242,7 +235,6 @@ Handle far pascal XlatFont(FontHeader far *font)
 {
     unsigned count;
     unsigned size;
-    unsigned glyph_position;
     unsigned far *source_offsets;
     unsigned far *output_offsets;
     Glyph far *glyph;
@@ -269,22 +261,22 @@ Handle far pascal XlatFont(FontHeader far *font)
     if (handle) {
         translated = FETCH_LOCKED_SHAPE_LIST(handle);
         far_copy(translated, font, 10);
-        glyph_position = (count + 5) * 2;
+        size = (count + 5) * 2;
         if (count) {
             source_offsets = font->glyph_offset;
             output_offsets = translated->glyph_offset;
             remaining = count;
             do {
-                *output_offsets = glyph_position;
+                *output_offsets = size;
                 glyph = (Glyph far *)((unsigned long)font + *source_offsets);
                 converted_width = halve_for_mode_two(glyph->width, 1);
                 glyph->row_bytes = (glyph->width + 7) / 8;
                 bytes = glyph->row_bytes * glyph->height + 6;
-                output = (Glyph far *)((unsigned long)translated + glyph_position);
+                output = (Glyph far *)((unsigned long)translated + size);
                 far_copy(output, glyph, bytes);
                 MaskToMCGA(output, output->bits);
                 output->row_bytes = converted_width;
-                glyph_position += converted_width * glyph->height + 6;
+                size += converted_width * glyph->height + 6;
                 ++source_offsets;
                 ++output_offsets;
             } while (--remaining);
@@ -493,56 +485,44 @@ restore_format:
     return handle;
 }
 
-/* Unverified draft: banded pixel remapping. */
+#pragma optimize("gl", on)
 void far pascal remap_banded_pixels(ShapeHeader far *shape, unsigned char far *pixels, unsigned banks)
 {
     unsigned char map[16];
     int mapped = 0;
     unsigned bit = 1;
-    unsigned char color = 0;
-    int bank_count = 16;
+    unsigned bank;
     unsigned row;
     unsigned char far *cursor;
 
-    do {
+    for (bank = 0; bank < 16; ++bank, bit <<= 1) {
         if (banks & bit)
-            map[mapped++] = color;
-        color += 16;
-        bit <<= 1;
-    } while (--bank_count);
+            map[mapped++] = (unsigned char)(bank * 16);
+    }
 
     cursor = pixels;
-    row = 0;
-    if (shape->height != 0) {
-        const unsigned far *width = &shape->width;
-        do {
-            unsigned column;
-            cursor += 2;
-            column = 0;
-            if (*width != 0) {
-                do {
-                    unsigned char run = *cursor++;
-                    color = (run & 0x7f) + 1;
-                    if ((signed char)run < 0) {
-                        if (*cursor)
-                            *cursor = (*cursor & 15) | map[*cursor >> 4];
-                        ++cursor;
-                    } else {
-                        unsigned count;
-                        if ((count = color) != 0) {
-                            do {
-                                if (*cursor)
-                                    *cursor = (*cursor & 15) | map[*cursor >> 4];
-                                ++cursor;
-                            } while (--count);
-                        }
-                    }
-                    column += color;
-                } while (column < (unsigned)shape->width);
+    for (row = 0; row < shape->height; ++row) {
+        unsigned column;
+        unsigned char count;
+        cursor += 2;
+        for (column = 0; column < shape->width; column += count) {
+            unsigned char run = *cursor++;
+            count = (run & 0x7f) + 1;
+            if ((signed char)run < 0) {
+                if (*cursor)
+                    *cursor = (*cursor & 15) | map[*cursor >> 4];
+                ++cursor;
+            } else {
+                for (mapped = 0; mapped < count; ++mapped) {
+                    if (*cursor)
+                        *cursor = (*cursor & 15) | map[*cursor >> 4];
+                    ++cursor;
+                }
             }
-        } while (++row < (unsigned)shape->height);
+        }
     }
 }
+#pragma optimize("gl", off)
 
 unsigned *far pascal copy_far_word(unsigned *out, const unsigned far *in)
 {

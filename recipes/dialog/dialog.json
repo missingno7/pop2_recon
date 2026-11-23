@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/dialog/dialog.json",
-  "binding_sha256": "52ca0ee8deafa1260f91aa054985ae6600bc95604f6d6bb47f30ce2897e389a4",
+  "binding_sha256": "2a820e16ba1d839ed54b1768406114112747851f2e6517f15a51d83966f85a0f",
   "claims": [
     {
       "fixup_count": 4,
@@ -98,6 +98,33 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:052d:02b6"
+    },
+    {
+      "fixup_count": 31,
+      "public": "DIALOGRESETTOGAMEPLAY",
+      "relocation_indices": [
+        468,
+        469,
+        470,
+        481,
+        500,
+        501,
+        502,
+        520,
+        528,
+        575,
+        614,
+        617,
+        632,
+        653,
+        678,
+        701
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:02d6"
     },
     {
       "fixup_count": 5,
@@ -522,6 +549,39 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:052d:2268"
+    },
+    {
+      "fixup_count": 5,
+      "public": "DRAW_CREDITS_PAGE",
+      "relocation_indices": [
+        489,
+        577
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:244e"
+    },
+    {
+      "fixup_count": 16,
+      "public": "DRAW_CREDIT_CATEGORY",
+      "relocation_indices": [
+        477,
+        478,
+        512,
+        533,
+        569,
+        578,
+        579,
+        628,
+        670
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:052d:2488"
     }
   ],
   "code_matches": [
@@ -541,10 +601,6 @@
     }
   ],
   "drafts": [
-    {
-      "object_offset": 712,
-      "public": "DIALOGRESETTOGAMEPLAY"
-    },
     {
       "object_offset": 2474,
       "public": "SELECT_SAVE_SLOT"
@@ -588,17 +644,9 @@
     {
       "object_offset": 8936,
       "public": "SHOW_CREDITS"
-    },
-    {
-      "object_offset": 9284,
-      "public": "DRAW_CREDITS_PAGE"
-    },
-    {
-      "object_offset": 9342,
-      "public": "DRAW_CREDIT_CATEGORY"
     }
   ],
-  "emitted_size": 9648,
+  "emitted_size": 9666,
   "flags": [
     "/c",
     "/AM",
@@ -613,12 +661,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "dialog/dialog",
-  "object_sha256": "7b9f4a1e03946ae0f231dc1ae99a052c0f08df5628a4ae70eda20c0ad0ec1af9",
+  "object_sha256": "ab382354eed92ded2acda6bbd84b247c729991b45804cb1bf3ab92698860ebd9",
   "origin": 21214,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/dialog/dialog.c",
-  "source_sha256": "729b93a8b8f5e16dfb4885a647a8594c9ed9bdc7affc515d175d4ddcda427f1f",
+  "source_sha256": "a863f6b64954ae86780f4afdd1c67703a50c36cb9f4e9a5a505683beb6f2ceac",
   "space": "root"
 }
