@@ -1119,4 +1119,4 @@ void lose_game(void)
         reset_level_overlays();
 }
 
-
+const int TopRowRect[4] = { 0, 0, 3, 320 };

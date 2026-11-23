@@ -138,9 +138,10 @@ extern FRAMEREC Frame;
 extern unsigned char floor_mask;
 extern int bridge_wait, bridge_break;
 extern unsigned char falling_floors[];
-extern signed char bridge_y[];
-extern signed char bridge_images[];
 extern int Col2PixelX[13], Row2PixelY[5];
+Rect BridgeRect = {106, 35, 126, 314};
+static signed char bridge_y[] = {0, 1, 2, 3, 3, 2, 1, 0};
+static signed char bridge_images[] = {7, 9, 6, 9, 10, 7, 9, 6, 3, 9};
 static int floor_y_adjustment[] = {6, 20, 20, 20, 20, 20, 26, 36, 51, 87};
 static int floor_x_adjustment[] = {8, 18, 24, 18, 24, 10, 20, 23, 19, 23};
 extern Tile near *BlueS;
@@ -463,7 +464,7 @@ void tweak_char_y_on_bridge(void)
 
     if (bridge_char_on_floor() && (Char.frame < 34 || Char.frame > 44)) {
         Char.y = 63 * Char.row + 56;
-        Char.y += bridge_y[Char.column];
+        Char.y += bridge_y[Char.column - 1];
         get_frame_info();
         if (Frame.flags & 64) {
             modifier = Level.cell_info[9][(signed char)(Char.column + 10)].modifier & 15;
@@ -525,7 +526,7 @@ int far _fastcall offset_bridge_floor_y(unsigned char image, char col)
 {
     Image near *entry = &image_table->images[image];
     int old_y = entry->y;
-    int delta = bridge_y[col];
+    int delta = bridge_y[col - 1];
 
     entry->y += delta;
     OFFSETRECT(entry->rect, entry->rect, 0, delta);
@@ -669,7 +670,7 @@ void trigger_bridge_floor_mob(unsigned char room, signed char cell)
     Mob.room = room;
     Mob.row = row;
     Mob.y = Row2PixelY[row + 1];
-    Mob.y += bridge_y[col];
+    Mob.y += bridge_y[col - 1];
     Mob.kind = 11;
     add_mob();
     draw_mob(0);

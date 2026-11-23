@@ -120,14 +120,16 @@ typedef struct {
 extern ROOMREC Room;
 extern ShapeHandle room_specific_handle;
 /* Rectangle passed to StrokePortRect for the style-4 border. */
-static const int _based(_segname("_CONST")) room_specific_border[4] = {0, 0, 3, 320};
+extern const int TopRowRect[4];
 extern AboveCell custom_above[];
 extern PeelRecord peel_records[];
 extern RoomTemplate *template_table[];
 extern RoomTemplate default_template, *room_template;
 extern unsigned int *background_shapes;
 extern CustomRect empty_piece_rect;
-static CustomRect custom_floor_rect = {106, 35, 126, 314};
+extern struct Rect {
+    int top, left, bottom, right;
+} BridgeRect;
 extern void far custom_floor_image(void);
 
 extern void far _fastcall add_peel(int top, int bottom, int left, int width,
@@ -178,7 +180,7 @@ void CheckRoomSpecific(void)
     switch (Level.environment_kind) {
     case 4:
         if (!Room.above)
-            stroke_port_rect(room_specific_border);
+            stroke_port_rect(TopRowRect);
         break;
     case 5:
         check_roof_room();
@@ -523,7 +525,7 @@ void UnloadCustomRoomShapes(int all)
             if (!all && piece->pass == 11) {
                 if (custom_room->template_id == 33) {
                     if (custom_room->count - i - 1 == 0)
-                        mark_bufs_for_rect(custom_floor_image, &custom_floor_rect, -1);
+                        mark_bufs_for_rect(custom_floor_image, (CustomRect *)&BridgeRect, -1);
                 } else {
                     mark_bufs_for_rect(custom_floor_image, &piece->rect, -1);
                 }
