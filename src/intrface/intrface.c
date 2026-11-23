@@ -1,6 +1,6 @@
 typedef unsigned int ResourceMap;
 typedef const char far *FarName;
-typedef int (far pascal *WaitFunction)(void);
+typedef unsigned int (far pascal *WaitFunction)(void);
 typedef void (far pascal *ResourceError)(FarName);
 
 struct ResourceMapData {
@@ -26,8 +26,6 @@ extern unsigned long clock_ticks;
 extern int interrupt_vectors_installed;
 extern int graphics_mode;
 extern int backing_driver_active;
-extern WaitFunction wait_function;
-extern ResourceError resource_error;
 extern volatile int timers[];
 extern ResourceMap resource_map_list;
 extern volatile unsigned char active_sound_channels;
@@ -37,8 +35,13 @@ extern const char system_error[];
 static const char message_format[] = "%s\n";
 struct screen_port_rect { int top, left, bottom, right; };
 struct screen_port_rect ScreenPortRect = { 0, 0, 200, 320 };
-extern const char resource_error_message[];
-extern const char resource_verify_message[];
+unsigned int poll_user(void);
+void StdRsrcVerify(FarName);
+
+WaitFunction wait_function = poll_user;
+ResourceError resource_error = StdRsrcVerify;
+static const char resource_error_message[] = "StdRsrcError().";
+static const char resource_verify_message[] = "StdRsrcVerify().";
 
 extern void dispatch_resource_pointer(const void far *);
 extern void reset_sound_drivers(void);

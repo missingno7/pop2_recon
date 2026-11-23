@@ -3106,6 +3106,16 @@
         "The original uses two JCXZ branches (E3 rel8) and calls register-ABI window helpers with plain E8, including the call to 1101:ba7b with AX holding DI+3e.",
         "The reviewed 122-byte extent starts at 1101:8d50 immediately after a one-byte alignment gap and ends in RETF 2 before 1101:8dca."
       ]
+    },
+    "root:0000:1529": {
+      "verdict": "asm",
+      "group": "prince/restore_interrupt_vectors",
+      "evidence": [
+        "Original entry is at odd offset 1529, immediately after the vector installation routine's RETF at 1528.",
+        "Repeated DOS INT 21h and LDS DX with SS override (1532, 153d, 1548, 1553). MSC's observed C codegen does not emit LDS into DX.",
+        "PUSH DS and POP DS enclose the vector restores before RETF at 155b. The 155c IRET is a distinct handler.",
+        "The accepted target row records the original relocated CALL FAR at root+0x1def6 (MZ 1722)."
+      ]
     }
   },
   "summary": {

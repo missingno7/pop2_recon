@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/intrface/intrface.json",
-  "binding_sha256": "08e9490272d45b06f9a43a80235a661086b78e7a3d578a5df9e755034e258d41",
+  "binding_sha256": "da5e7d27d4b74197101e8fbb68d790a72710a2a5cf6f6bf1ebbbee108e91395f",
   "claims": [
     {
       "fixup_count": 6,
@@ -137,6 +137,16 @@
     },
     {
       "fixup_count": 2,
+      "public": "STDRSRCERROR",
+      "target_id": "root:1de8:0362"
+    },
+    {
+      "fixup_count": 2,
+      "public": "STDRSRCVERIFY",
+      "target_id": "root:1de8:0376"
+    },
+    {
+      "fixup_count": 2,
       "public": "FILE_EXISTS",
       "relocation_indices": [
         1721,
@@ -147,15 +157,25 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:1de8:0386"
-    }
-  ],
-  "code_matches": [
+    },
     {
+      "fixup_count": 13,
       "public": "RESET_INTERFACE",
-      "target_id": "root:1de8:004e",
-      "unproven": [
-        "RESTORE_INTERRUPT_VECTORS"
-      ]
+      "relocation_indices": [
+        1722,
+        1724,
+        1729,
+        1731,
+        1736,
+        1741,
+        1743,
+        1745
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1de8:004e"
     }
   ],
   "data_publics": [
@@ -166,18 +186,25 @@
       "segment": "_DATA",
       "span": 8,
       "unique": true
-    }
-  ],
-  "drafts": [
-    {
-      "object_offset": 854,
-      "public": "STDRSRCERROR"
     },
     {
-      "object_offset": 874,
-      "public": "STDRSRCVERIFY"
+      "address": 8168,
+      "name": "WAIT_FUNCTION",
+      "offset": 12,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
+    },
+    {
+      "address": 8172,
+      "name": "RESOURCE_ERROR",
+      "offset": 16,
+      "segment": "_DATA",
+      "span": 37,
+      "unique": true
     }
   ],
+  "drafts": [],
   "emitted_size": 940,
   "flags": [
     "/c",
@@ -193,12 +220,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "intrface/intrface",
-  "object_sha256": "12eda04b2ee98679b1f7f34dce6423064b80ce63fbda53357b24c55e00a5ca93",
+  "object_sha256": "fceb8e189e222103aa093f5514e73c34cd97ee67f3af711166e3affaa0bf12c7",
   "origin": 122508,
   "profile": "msc600",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/intrface/intrface.c",
-  "source_sha256": "6c05f2eddc6fda6808af2d2d09b5ca3de141239c9f018f45c7ec3aa38899c23b",
+  "source_sha256": "10b5ea5cd9be5e702be312b519c0d82e872293f9ad5d80f97ccdd0f537d1c345",
   "space": "root"
 }
