@@ -436,3 +436,16 @@ accepts near COMDEFs in compiler output. They share the external index space, so
 an external fixup that the group binding must ground like any extern: a witnessed v4 symbol, members or provider.
 The communal names and lengths are pinned in the binding's `declarations` (`communals`). Far COMDEFs stay
 library-only. The BSS layout rule applies to their grounded addresses as to externs.
+
+## Immediate witnesses (2026-11-23; refutation only)
+
+A MOV/PUSH imm16 witness proves an address only when the original code uses that value as one. Within straight-line
+code and direct jumps, `binding.immediate_is_address` requires one of these:
+- a register holding the value is dereferenced, also after register moves or index arithmetic;
+- it drives a string operation;
+- it is pushed directly after `push ds`.
+
+Otherwise the immediate may be a plain number that equals the address by chance. Such witnesses had been accepted
+(DS:0000 from `mov word [00b0],0`, DS:005a from `mov ax,90`). A symbol or member whose every witness is ambiguous is
+listed in evidence/immediate-witness-debt.json (shrink-only, equal to `module_gate.immediate_witness_violations`).
+Retire an entry with a memory-operand witness, a provider data public, internal consensus or an aggregate extent.

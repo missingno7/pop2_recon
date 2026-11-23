@@ -911,6 +911,35 @@ def alignment_violations(rows):
     return {f"alignment:{c}:{s}@{a:x}" for c, s, code, a in rows if a % OMF_ALIGNMENT.get(code, 1)}
 
 
+def immediate_witness_violations(recipes, oracle):
+    """Refutation only (2026-11-23): a v4 symbol or member whose every witness is a MOV/PUSH immediate that the
+    original code does not use as an address (`binding.immediate_is_address`). Such an immediate may be a plain number
+    that happens to equal the address, so it proves nothing. Returns stable keys `imm:GROUP:NAME[+k]@address`."""
+    from binding import immediate_is_address, instructions, operand_field
+    from common import project_path
+
+    def ambiguous(spec):
+        insn = instructions(bytes.fromhex(spec["bytes_hex"]))[0]
+        return (operand_field(insn, spec["operand_offset"]) == "immediate" and
+                not immediate_is_address(oracle, spec["space"], spec["image_offset"]))
+
+    found = set()
+    for owner, recipe in recipes:
+        if owner.get("kind") == "PINNED_RUNTIME" or "binding" not in recipe:
+            continue
+        gid = recipe.get("group_id") or recipe["name"]
+        for name, symbol in read_json(project_path(recipe["binding"])).get("symbols", {}).items():
+            if symbol.get("kind") != "dgroup-offset" or type(symbol.get("offset")) is not int:
+                continue
+            rows = [(name, symbol["offset"], symbol.get("witnesses") or [])]
+            rows += [(f"{name}+{m['offset']:#x}", symbol["offset"] + m["offset"], m.get("witnesses") or [])
+                     for m in symbol.get("members", [])]
+            for key, address, witnesses in rows:
+                if witnesses and all("operand_offset" in w and ambiguous(w) for w in witnesses):
+                    found.add(f"imm:{gid}:{key}@{address & 0xFFFF:04x}")
+    return found
+
+
 def name_consistency_violations(recipes):
     """Refutation only (whole-link names, 2026-11-22; o10_trial): a real link has one definition per public
     name and resolves one external name to one address. Returns stable keys:

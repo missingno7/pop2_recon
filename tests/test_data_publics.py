@@ -292,6 +292,36 @@ class AggregateExtentTests(unittest.TestCase):
         self.assertIsNone(block_copy_extent(bytes.fromhex("8db7a42ab9060041f3a5"), 0, 0x2AA4))
 
 
+class ImmediateWitnessTests(unittest.TestCase):
+    """An immediate is an address witness only when original code uses it as an address."""
+
+    def use(self, code):
+        from binding import immediate_is_address
+        space = Space("root", 0, 0, bytes.fromhex(code) + bytes([0xCB]) * 32, ())
+        return immediate_is_address(SimpleNamespace(spaces={"root": space}), "root", 0)
+
+    def test_dereference_string_and_ds_argument_count(self):
+        self.assertTrue(self.use("b8005c8bd88a07"))            # mov ax,S; mov bx,ax; mov al,[bx]
+        self.assertTrue(self.use("bb005c03d88b4702"))          # mov bx,S; add bx,ax; mov ax,[bx+2]
+        self.assertTrue(self.use("be025cb91000f3a5"))          # mov si,S; mov cx,n; rep movsw
+        self.assertTrue(self.use("b8005c1e50"))                # mov ax,S; push ds; push ax
+        self.assertTrue(self.use("ba8a2ceb018b8bda8a07"))      # through a direct jump
+
+    def test_numbers_do_not(self):
+        self.assertFalse(self.use("b85a0050"))                 # mov ax,90; push ax
+        self.assertFalse(self.use("c706b0000000"))             # mov word [00b0],0
+        self.assertFalse(self.use("b906008bc1f7e1"))           # mov cx,6; mov ax,cx; mul cx
+        self.assertFalse(self.use("b8005c33c08bd88a07"))       # overwritten before use
+        self.assertFalse(self.use("bb005c268a07"))             # ES: access is not a near DGROUP access
+
+    def test_original_number_and_address(self):
+        from oracle import Oracle
+        from binding import immediate_is_address
+        oracle = Oracle.load()
+        self.assertFalse(immediate_is_address(oracle, "root", 30261))   # mov ax,5a (a number, DIALOG)
+        self.assertTrue(immediate_is_address(oracle, "root", 0x2FF3))   # mov ax,5e10 -> di (GetFrameInfo copy)
+
+
 class SwitchReachTests(unittest.TestCase):
     """Recursive descent follows a bounded MSC switch table and no other indirect jump."""
 

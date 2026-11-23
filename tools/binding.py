@@ -158,6 +158,77 @@ def reachable_from_entry(oracle, entry):
 _ADDRESS_IMMEDIATE = ("mov", "push")
 
 
+_STRING_USES = {"movs": {"si", "di"}, "cmps": {"si", "di"}, "lods": {"si"}, "stos": {"di"}, "scas": {"di"}}
+
+
+def immediate_is_address(oracle, space_name, at):
+    """True when the original instruction at `at` loads or pushes an imm16 that the following code uses as a near
+    address: a register holding it (also through register moves and index arithmetic) is dereferenced or drives a
+    string operation, or it is pushed directly after `push ds` (a DS:offset argument). Straight-line code and direct
+    unconditional jumps only. Anything else (a stored, compared, multiplied or plainly pushed number) is ambiguous."""
+    cs, xc = _capstone()
+    engine = cs.Cs(cs.CS_ARCH_X86, cs.CS_MODE_16)
+    engine.detail = True
+    data = oracle.spaces[space_name].data
+
+    def decode(pos):
+        return next(engine.disasm(bytes(data[pos:pos + 16]), pos), None)
+
+    def reg(insn, op):
+        return insn.reg_name(op.reg) if op.type == xc.X86_OP_REG else ""
+
+    insn = decode(at)
+    if insn is None or not insn.operands:
+        return False
+    after_ds = at > 0 and data[at - 1] == 0x1e
+    if insn.mnemonic == "push":
+        return after_ds
+    if insn.mnemonic != "mov" or not reg(insn, insn.operands[0]) or insn.operands[0].size != 2:
+        return False
+    held, pos = {reg(insn, insn.operands[0])}, at + insn.size
+    for _ in range(24):
+        insn = decode(pos)
+        if insn is None or not held:
+            return False
+        ops, name = insn.operands, insn.mnemonic.split()[-1]
+        for op in ops:
+            if op.type == xc.X86_OP_MEM and name != "lea" and op.mem.segment in (0, xc.X86_REG_DS) and \
+                    {insn.reg_name(r) for r in (op.mem.base, op.mem.index) if r} & held and \
+                    name[:4] not in _STRING_USES:
+                return True
+        if name[:4] in _STRING_USES:
+            return bool(held & _STRING_USES[name[:4]])
+        if name == "push":
+            if reg(insn, ops[0]) in held:
+                return after_ds
+            after_ds = reg(insn, ops[0]) == "ds"
+        elif insn.bytes[0] in (0xe9, 0xeb):
+            delta = int.from_bytes(insn.bytes[1:], "little", signed=True)
+            pos += insn.size + delta
+            continue
+        elif set(insn.groups).intersection((1, 2, 3, 4, 5, 7)):
+            return False
+        elif name == "xchg" and all(reg(insn, o) for o in ops):
+            a, b = reg(insn, ops[0]), reg(insn, ops[1])
+            held = {b if r == a else a if r == b else r for r in held}
+        else:
+            sources = set()
+            if ops and reg(insn, ops[0]) and ops[0].size == 2:
+                if name == "mov" and len(ops) == 2:
+                    sources = {reg(insn, ops[1])}
+                elif name == "lea":
+                    sources = {insn.reg_name(r) for r in (ops[1].mem.base, ops[1].mem.index) if r}
+                elif name in ("add", "sub", "inc", "dec"):
+                    sources = {reg(insn, o) for o in ops}
+            keeps = bool(sources & held)
+            for r in insn.regs_access()[1]:
+                held.discard(insn.reg_name(r))
+            if keeps:
+                held.add(reg(insn, ops[0]))
+        pos += insn.size
+    return False
+
+
 def operand_field(insn, at, *, candidate=False):
     """The 16-bit address field (memory disp16 or address-carrying imm16) starting at `at`.
 

@@ -257,6 +257,12 @@ def _validate(run_tests=True):
     bss_debt = set(read_json(ROOT / "evidence/bss-layout-debt.json")["violations"])
     require(bss == bss_debt, "evidence/bss-layout-debt.json differs from the BSS layout violations: "
             f"unlisted {sorted(bss - bss_debt)}, stale {sorted(bss_debt - bss)}")
+    # Ambiguous immediate witnesses (docs/dgroup-binding.md "Immediate witnesses"): violations may only shrink.
+    from module_gate import immediate_witness_violations
+    immediate = immediate_witness_violations(recipes, oracle)
+    immediate_debt = set(read_json(ROOT / "evidence/immediate-witness-debt.json")["violations"])
+    require(immediate == immediate_debt, "evidence/immediate-witness-debt.json differs from the ambiguous immediate "
+            f"witnesses: unlisted {sorted(immediate - immediate_debt)}, stale {sorted(immediate_debt - immediate)}")
     # Placement debt may only shrink: every listed claim must still be owned and still need it.
     debt = {c["target_id"] for g in groups.values() for c in g.get("claims", []) if c.get("placement_debt")}
     listed = set(read_json(ROOT / "evidence/placement-debt.json")["targets"])
