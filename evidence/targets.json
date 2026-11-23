@@ -72178,6 +72178,68 @@
       "size": 1,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far callee pops four argument bytes and returns without side effects.",
+      "boundary_evidence": [
+        "Reviewed root:0000:1316 ends in RETF at 133f; RETF 4 at 1340 and the NOP at 1343 precede the independently reviewed MCGA1 entry at 1344.",
+        "Overlay-2 INIT_SYSTEM stores offset 1340 and relocated segment 0000 into the new window callback at +56/+58 (instructions 02b7 and 02bc)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_status": "Reviewed original code",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1340",
+      "offset": 4928,
+      "segment": 0,
+      "semantic_name_hypothesis": "ignore_window_action",
+      "sha256": "afa1073ba43768141db2c0e5d607527a264d08dee5bcd201d5ccdcb556de71d5",
+      "size": 4,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register ABI. AL selects one of six cases, sharing the far return at root+1fa98.",
+      "boundary_evidence": [
+        "GFXERR ends with RETF 4 at root+1fa09. The BP prologue at root+1fa0c dispatches through the CS table at 1fa20 to 1fa2c/1fa31/1fa5f/1fa6e/1faa8/1fb41.",
+        "Dispatch paths rejoin the same far epilogue. The EMMXXXX0 signature occupies 1fbae..1fbb5 and the first separately called near helper starts at 1fbb6.",
+        "INIT_SYSTEM reaches CHOOSE_MEMORY_POOL, which materializes 1fa0:000c twice at overlay-2+03b7/+03ba and +0413/+0416, then calls the backing-driver API."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_status": "Reviewed original code",
+      "entry_kind": "direct-code",
+      "id": "root:1fa0:000c",
+      "offset": 12,
+      "segment": 8096,
+      "semantic_name_hypothesis": "ems_driver",
+      "sha256": "9d9f2dd0d5a31df234a2863670675e9ccc70c250460b9af1c1eaee398ad120bb",
+      "size": 426,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far register ABI. AL selects one of six cases, sharing the far return at root+1fc89.",
+      "boundary_evidence": [
+        "The preceding EMS helper ends with a loop-back JMP at root+1fbf5 and a zero pad. The BP prologue at 1fbf8 dispatches through the CS table at 1fc0c to 1fc18/1fc1d/1fc4b/1fc5c/1fc96/1fd32.",
+        "Dispatch paths rejoin the far epilogue. The last dispatch block jumps at 1fe22, followed by the independently called near helper at 1fe25.",
+        "CHOOSE_MEMORY_POOL materializes 1fbf:0008 twice at overlay-2+03ca/+03cd and +0432/+0435, then calls the backing-driver API."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "PLATFORM_CODE",
+      "classification_status": "Reviewed original code",
+      "entry_kind": "direct-code",
+      "id": "root:1fbf:0008",
+      "offset": 8,
+      "segment": 8127,
+      "semantic_name_hypothesis": "xms_driver",
+      "sha256": "130f24d557fc3673bc28c54c91ced4043f444bcf89513c67b519a2660b3906ef",
+      "size": 557,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

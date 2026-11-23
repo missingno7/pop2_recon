@@ -14,7 +14,7 @@ typedef int (far pascal *InputPoll)(void);
 extern Configuration *configuration;
 extern unsigned char active_sound_channels;
 extern int initial_setting;
-extern int alternate_pool_available;
+extern int backing_driver_active;
 extern InputPoll poll_input;
 extern int message_input(void);
 
@@ -34,10 +34,10 @@ extern int SELECT_GRAPHICS_MODE(int mode);
 extern void INITIALIZE_GRAPHICS_MODE(int mode);
 extern int find_option(const char far *);
 typedef unsigned long (far pascal *MemoryDriver)(void);
-extern unsigned long extended_pool(void);
-extern unsigned long expanded_pool(void);
-extern unsigned long query_pool(MemoryDriver driver);
-extern void select_pool(MemoryDriver driver);
+extern unsigned long ems_driver(void);
+extern unsigned long xms_driver(void);
+extern unsigned long query_callback_u32(MemoryDriver driver);
+extern void initialize_backing_driver(MemoryDriver driver);
 extern int cdecl sprintf(char *, const char *, ...);
 extern char near *cdecl strcat(char near *, const char near *);
 extern int cdecl printf(const char *, ...);
@@ -112,36 +112,50 @@ void save_initial_setting(void)
 
 extern char config_filename[];
 extern char joystick_missing_message[], video_error[], file_error[];
-extern InputPoll timer_callback, video_callback, keyboard_callback;
-extern int timer_handler(void), video_handler(void), keyboard_handler(void), base_input(void);
-extern int draw_handler(void), window_handler(void);
-extern char *work_buffer;
-extern void far *video_descriptor;
-extern int graphics_state, current_port, main_port, midi_ready;
-extern char screen_port[], screen_geometry[], joystick_state[], startup_state[];
-extern void setup_clock(unsigned long);
-extern int open_config(const char *);
-extern void close_config(void);
-extern void near *cdecl malloc(unsigned int);
-extern void start_platform(void);
-extern void open_game_data(const char *);
+typedef int (far pascal *CatalogError)(unsigned int *);
+typedef void (far pascal *ResourceError)(const char far *);
+typedef void (far pascal *WindowAction)(void *, int);
+extern CatalogError catalog_callback;
+extern InputPoll allocation_handler;
+extern ResourceError resource_error_callback;
+extern int load_resource_error(unsigned int *);
+extern int report_fatal_memory(void), release_discardable_images(void), Input(void);
+extern void report_resource_path(const char far *);
+extern void ignore_window_action(void *, int);
+extern char *interface_buffer;
+extern void far *heap_state;
+extern int source_port, Graf, main_port, option_flags;
+extern char ScreenPort[], screen_bounds[], joystick_state[];
+
+typedef struct {
+    unsigned char enabled;
+    signed char cue;
+    int song, delay, reserved;
+} AmbientState;
+extern AmbientState ambient_state;
+extern void initialize_dos_heap(unsigned long);
+extern int load_sound_settings(const char *);
+extern void release_heap_segment(void);
+extern void near *cdecl _nmalloc(unsigned int);
+extern void snapshot_null_area(void);
+extern void open_verified_resource(const char *);
 extern void install_interrupt_handlers(void);
-extern void wait_for_ticks(int);
-extern void enable_graphics(unsigned char);
-extern int open_screen_port(int, const char far *);
-extern void init_video_driver(void);
-extern int make_window(int, const char far *, int, const char far *);
-extern void activate_window(int, int);
-extern void setup_palette(void);
-extern void setup_regions(void);
-extern void finish_window(void);
-extern void read_configuration(const char **);
-extern void initialize_joystick(void);
-extern void configure_startup(char *);
-extern void prepare_sound(void);
-extern int get_sound_resource(int);
-extern unsigned long lock_handle(int);
-extern int release_resource(unsigned long);
+extern void install_default_timer(int);
+extern void set_sound_level(unsigned char);
+extern int init_port(int, const char far *);
+extern void set_mode_flag_value(void);
+extern int create_window(int, const char far *, int, const char far *);
+extern void set_window_event_state(int, int);
+extern void update_message_display(void);
+extern void install_dos_vectors(void);
+extern void initialize_window_draw_port(void);
+extern void open_level_resources(const char **);
+extern void detect_gameport(void);
+extern void init_ambient(AmbientState *);
+extern void set_default_palette(void);
+extern int find_dialog_string(int);
+extern unsigned long resolve_handle_to_far_payload(int);
+extern int owner_of_payload(unsigned long);
 extern void dispose_handle(int);
 extern void near *cdecl memset(void near *, int, unsigned int);
 #pragma intrinsic(memset)
@@ -152,9 +166,9 @@ void init_system(void)
     unsigned long sound;
     int memory_class;
 
-    setup_clock(0xffffffUL);
-    if (!open_config(config_filename)) {
-        close_config();
+    initialize_dos_heap(0xffffffUL);
+    if (!load_sound_settings(config_filename)) {
+        release_heap_segment();
         printf(file_error, config_filename);
         exit(0);
     }
@@ -164,44 +178,44 @@ void init_system(void)
     else
         available = choose_memory_pool(&memory_class);
 
-    timer_callback = timer_handler;
-    video_callback = video_handler;
-    work_buffer = malloc(500);
-    *(InputPoll far *)((char far *)video_descriptor + 0x12) = draw_handler;
-    keyboard_callback = keyboard_handler;
-    poll_input = base_input;
-    graphics_state = 0;
-    start_platform();
-    open_game_data("PRINCE.DAT");
+    catalog_callback = load_resource_error;
+    allocation_handler = report_fatal_memory;
+    interface_buffer = _nmalloc(500);
+    *(InputPoll far *)((char far *)heap_state + 0x12) = release_discardable_images;
+    resource_error_callback = report_resource_path;
+    poll_input = Input;
+    source_port = 0;
+    snapshot_null_area();
+    open_verified_resource("PRINCE.DAT");
     init_graphics();
     install_interrupt_handlers();
-    wait_for_ticks(60);
+    install_default_timer(60);
     report_memory(memory_class, available);
     init_sound();
     if (configuration->sound_report == -1)
-        enable_graphics(0);
-    current_port = open_screen_port((int)screen_port, screen_geometry);
-    init_video_driver();
-    current_port = main_port = make_window(-2, screen_geometry, 0, "Prince of Persia II");
-    activate_window(main_port, 0);
-    *(InputPoll *)((char *)main_port + 0x56) = window_handler;
-    setup_palette();
-    setup_regions();
-    finish_window();
-    read_configuration(device_filenames);
-    initialize_joystick();
+        set_sound_level(0);
+    Graf = init_port((int)ScreenPort, screen_bounds);
+    set_mode_flag_value();
+    Graf = main_port = create_window(-2, screen_bounds, 0, "Prince of Persia II");
+    set_window_event_state(main_port, 0);
+    *(WindowAction *)((char *)main_port + 0x56) = ignore_window_action;
+    update_message_display();
+    install_dos_vectors();
+    initialize_window_draw_port();
+    open_level_resources(device_filenames);
+    detect_gameport();
     if (initial_setting != configuration->video) {
         show_init_message(joystick_missing_message);
         initial_setting = 0;
     }
     if (initial_setting != 2)
         memset(joystick_state, 0, 9);
-    configure_startup(startup_state);
-    prepare_sound();
+    init_ambient(&ambient_state);
+    set_default_palette();
     wait_for_ready();
-    sound = lock_handle(get_sound_resource(10));
-    midi_ready = find_option((const char far *)sound) != 0;
-    dispose_handle(release_resource(sound));
+    sound = resolve_handle_to_far_payload(find_dialog_string(10));
+    option_flags = find_option((const char far *)sound) != 0;
+    dispose_handle(owner_of_payload(sound));
 }
 
 void init_graphics(void)
@@ -219,22 +233,22 @@ unsigned long choose_memory_pool(int *memory_class)
 
     *memory_class = 0;
     if (!find_option("NOHIMEM")) {
-        extended = query_pool(extended_pool);
-        expanded = query_pool(expanded_pool);
-        alternate_pool_available = extended || expanded;
-        if (alternate_pool_available) {
+        extended = query_callback_u32(ems_driver);
+        expanded = query_callback_u32(xms_driver);
+        backing_driver_active = extended || expanded;
+        if (backing_driver_active) {
             if (expanded < extended) {
-                select_pool(extended_pool);
+                initialize_backing_driver(ems_driver);
                 available = extended;
                 *memory_class = 1;
             } else {
-                select_pool(expanded_pool);
+                initialize_backing_driver(xms_driver);
                 available = expanded;
                 *memory_class = 1;
             }
         }
     } else {
-        alternate_pool_available = 0;
+        backing_driver_active = 0;
     }
     return available;
 }

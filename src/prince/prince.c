@@ -1171,3 +1171,8 @@ void far pascal GoWeightless(void)
     LevelIdx = -1;
     LastResume = 0;
 }
+
+/* Window callback that ignores its arguments. */
+void far pascal ignore_window_action(void *window, int action)
+{
+}
