@@ -1,24 +1,72 @@
 /* CTRL.C reconstruction. See notes.md for claims and unresolved bodies.
  * Functions follow original order. */
 
-extern unsigned char cell_room;
-extern signed char cell_column;
-extern signed char cell_row;
-extern signed char cell_index;
-extern unsigned int cell_modifier;
-/* The kind byte immediately precedes the modifier word in the DOS cell result. */
-#define cell_kind (((char near *)&cell_modifier)[-1])
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+#pragma pack()
+extern CELLREC Cell;
 extern unsigned char *room_kinds;
 /* Each modifier entry occupies two words. ReadCell uses its first word. */
 extern unsigned int (*BlueS)[2];
 
-struct room_links {
-    unsigned char left;
-    unsigned char right;
-    unsigned char above;
-    unsigned char below;
-};
-extern struct room_links room_neighbors[];
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 
 extern void far pascal select_cell_tables(unsigned char room);
 char far pascal FirstInRow(signed char value);
@@ -32,95 +80,101 @@ unsigned int far pascal Handler(void)
     } local;
 
     local.fix_x = 0;
-    local.room = cell_room;
+    local.room = Cell.room;
 
-    if (cell_column < 0) {
+    if (Cell.column < 0) {
         local.fix_x = 10;
         if (!local.room)
             goto check_row;
-        local.room = room_neighbors[local.room].left;
+        local.room = Level.room_links[local.room - 1].left;
         if (!local.room)
             goto check_row;
-        cell_column += 10;
-    } else if (cell_column >= 10) {
+        Cell.column += 10;
+    } else if (Cell.column >= 10) {
         local.fix_x = -10;
-        if (!cell_room)
+        if (!Cell.room)
             goto check_row;
-        local.room = room_neighbors[cell_room].right;
+        local.room = Level.room_links[Cell.room - 1].right;
         if (!local.room)
             goto check_row;
-        cell_column -= 10;
+        Cell.column -= 10;
     } else {
         goto check_row;
     }
 
     local.fix_x = 0;
-    cell_room = local.room;
+    Cell.room = local.room;
     Handler();
 
 check_row:
-    if (cell_room) {
-        if (cell_row < 0) {
-            cell_row += 3;
-            local.room = room_neighbors[cell_room].above;
-        } else if (cell_row >= 3) {
-            cell_row -= 3;
-            local.room = room_neighbors[cell_room].below;
+    if (Cell.room) {
+        if (Cell.row < 0) {
+            Cell.row += 3;
+            local.room = Level.room_links[Cell.room - 1].above;
+        } else if (Cell.row >= 3) {
+            Cell.row -= 3;
+            local.room = Level.room_links[Cell.room - 1].below;
         } else {
             goto finish;
         }
-        cell_room = local.room;
+        Cell.room = local.room;
         Handler();
     }
 
 finish:
-    if (!local.room && cell_room)
-        cell_room = local.room;
-    if (cell_column < 0 || cell_column >= 10)
-        cell_column += local.fix_x;
-    return cell_room;
+    if (!local.room && Cell.room)
+        Cell.room = local.room;
+    if (Cell.column < 0 || Cell.column >= 10)
+        Cell.column += local.fix_x;
+    return Cell.room;
 }
 
 char far pascal ReadCell(unsigned char room, signed char column, signed char row)
 {
-    cell_room = room;
-    cell_column = column;
-    cell_row = row;
-    cell_room = Handler();
-    cell_index = FirstInRow(cell_row) + cell_column;
-    if (cell_room) {
-        select_cell_tables(cell_room);
-        cell_kind = room_kinds[cell_index];
-        cell_modifier = BlueS[cell_index][0];
+    Cell.room = room;
+    Cell.column = column;
+    Cell.row = row;
+    Cell.room = Handler();
+    Cell.index = FirstInRow(Cell.row) + Cell.column;
+    if (Cell.room) {
+        select_cell_tables(Cell.room);
+        Cell.kind = room_kinds[Cell.index];
+        Cell.modifier = BlueS[Cell.index][0];
     } else {
-        cell_modifier = 0;
-        cell_kind = GetUndefineCellId(column, row);
+        Cell.modifier = 0;
+        Cell.kind = GetUndefineCellId(column, row);
     }
-    return cell_kind;
+    return Cell.kind;
 }
 
-extern unsigned char STATE_MODE;
-extern unsigned char STATE_LEVEL;
-extern unsigned char viewed_room;
-extern unsigned char STATE_FLAG;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 
 char far pascal GetUndefineCellId(signed char x, signed char y)
 {
     char result;
-    switch (STATE_MODE) {
+    switch (Level.environment_kind) {
     case 2:
-        if ((viewed_room == 4 && STATE_LEVEL == 13) ||
-            (STATE_LEVEL == 13 && viewed_room == 13))
+        if ((Room.number == 4 && ((unsigned char)Level.level_number) == 13) ||
+            (((unsigned char)Level.level_number) == 13 && Room.number == 13))
             result = 0;
         else
             result = 20;
         break;
     case 4:
-        if (!STATE_FLAG && y == -1) {
+        if (!Room.above && y == -1) {
             result = 0;
             break;
         }
-        if (viewed_room == 27 && STATE_LEVEL == 6) {
+        if (Room.number == 27 && ((unsigned char)Level.level_number) == 6) {
             result = 0;
             break;
         }
@@ -130,8 +184,8 @@ char far pascal GetUndefineCellId(signed char x, signed char y)
         result = 0;
         break;
     case 6:
-        if (((viewed_room == 7 || viewed_room == 8) && STATE_MODE == 6) ||
-            (viewed_room == 3 && STATE_MODE == 6 && (x < 0 || x == 9) && y == 2))
+        if (((Room.number == 7 || Room.number == 8) && Level.environment_kind == 6) ||
+            (Room.number == 3 && Level.environment_kind == 6 && (x < 0 || x == 9) && y == 2))
             result = 20;
         else
             result = 0;
@@ -179,12 +233,15 @@ signed char far pascal IndexCell1(signed char column, signed char row)
 }
 
 
-struct frame_info {
-    unsigned char fields[7];
-};
-
-extern struct frame_info current_frame;
-extern struct frame_info far default_frames[];
+#pragma pack(1)
+typedef struct {
+    int image, equipment_image;                       /* 00,02 */
+    signed char x, y;                                 /* 04-05 */
+    unsigned char flags;                              /* 06 */
+} FRAMEREC;
+#pragma pack()
+extern FRAMEREC Frame;
+extern FRAMEREC far default_frames[];
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -222,6 +279,7 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 extern CHARREC Char;
+extern CHARREC RoomOpp[5];
 extern CHARREC Opp;
 extern CHARREC Kid;
 
@@ -250,13 +308,13 @@ void far pascal reread_base_cell(void)
 void far pascal get_frame_info(void)
 {
     unsigned int adjust = 0;
-    struct frame_info far *frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame_resource);
+    FRAMEREC far *frames = RESOLVE_HANDLE_TO_FAR_PAYLOAD(frame_resource);
 
     switch ((signed char)(*(volatile unsigned char near *)&Char.character_kind)) {
     case 0:
     case 1:
     case 6:
-        current_frame = default_frames[Char.frame];
+        Frame = default_frames[Char.frame];
         break;
     case 2:
     case 4:
@@ -264,7 +322,7 @@ void far pascal get_frame_info(void)
     case 12:
         if (Char.frame >= 102 && Char.frame < 107)
             adjust = 70;
-        current_frame = frames[Char.frame + adjust - 149];
+        Frame = frames[Char.frame + adjust - 149];
         break;
     case 8:
         if (Char.frame < 183)
@@ -272,7 +330,7 @@ void far pascal get_frame_info(void)
         /* Fall through. */
     case 7:
     case 11:
-        current_frame = frames[Char.frame + adjust - 149];
+        Frame = frames[Char.frame + adjust - 149];
         break;
     }
 }
@@ -291,22 +349,29 @@ int far pascal AddCharX(int value)
 }
 
 /* Semantic names are hypotheses only; direct addresses are established separately. */
-extern volatile unsigned char signflag;
-extern volatile int accumulator;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern FCHARREC FChar;
 
 int far pascal AddFCharX(int value)
 {
-    if (signflag)
+    if ((*(volatile unsigned char near *)&FChar.flipped))
         value = -value;
-    accumulator = accumulator + value;
-    return accumulator;
+    (*(volatile int near *)&FChar.x) = (*(volatile int near *)&FChar.x) + value;
+    return (*(volatile int near *)&FChar.x);
 }
 
 
 extern int animation_advance;
 extern int restricted_step;
-extern unsigned char STATE_MODE;
-extern unsigned char STATE_LEVEL;
 
 extern unsigned char animation_variant;
 extern int animation_items;
@@ -326,9 +391,9 @@ void far pascal SetKidDeathMethod(unsigned char method);
 void far pascal PotionEffect(void);
 void far pascal remove_char(void);
 
-extern unsigned int far pascal SAVE_HANDLE_FLAGS(SequenceHandle handle);
-extern void far pascal FETCH_LOCKED_SHAPE_LIST(SequenceHandle handle);
-extern void far pascal RESTORE_HANDLE_FLAGS(SequenceHandle handle, unsigned int status);
+extern unsigned int far pascal SAVE_HANDLE_FLAGS(SequenceHandle);
+extern void far pascal FETCH_LOCKED_SHAPE_LIST(SequenceHandle);
+extern void far pascal RESTORE_HANDLE_FLAGS(SequenceHandle, unsigned int);
 extern unsigned int far pascal HGETRSRC(unsigned long type, unsigned int id);
 extern void far pascal fill_palette_with_color(int cue);
 extern void far pascal restore_game_play_palette(void);
@@ -391,7 +456,7 @@ void far pascal AnimChar(void)
             break;
         case -16:
             ++animation_items;
-            if (STATE_LEVEL == 6)
+            if (((unsigned char)Level.level_number) == 6)
                 animation_variant = (signed char)(*(unsigned char near *)&Char.column) >= 6 ? 2 : 1;
             break;
         case -15:
@@ -460,7 +525,7 @@ void far pascal AnimChar(void)
         case -1:
         change_sequence:
             opcode = GetSeqOp(sequence);
-            if (STATE_LEVEL == 5 && character_row == 1 &&
+            if (((unsigned char)Level.level_number) == 5 && character_row == 1 &&
                 (character_room == 10 || character_room == 7 || character_room == 12) &&
                 opcode == 57 && (*(int near *)&Char.sequence) != 60 && (*(unsigned char near *)&Char.column) == 9)
                 opcode = 86;
@@ -505,7 +570,7 @@ void far pascal anim_char_tap(int sound)
     switch (sound) {
     case 1:
         ++sound_steps;
-        if (STATE_MODE != 1 && !(active_sound_channels & 3)) {
+        if (Level.environment_kind != 1 && !(active_sound_channels & 3)) {
             AddSound(sound_steps % 2 + 23);
             if ((*(volatile unsigned char near *)&Char.character_kind) == 4 && IsExitChasingSkel(character_room))
                 char_x = AddCharX(Char.slot - 1);
@@ -555,7 +620,6 @@ char far FirstInRow(signed char value)
     return result;
 }
 
-extern CHARREC RoomOpp[5];
 
 void copy_kid_to_char(void);
 void far pascal save_actor_slot(void);
@@ -592,18 +656,16 @@ void far pascal save_shadow_with_opponent(void)
 
 /* init_fchar_rect (descriptive name; FM Towns inlines it in SetupCarpet, the Mac body is unlabelled):
    copy the play-area rectangle into the 8-byte rectangle stored at byte 9 of the FChar record.
-   fchar_rect (DS:625b = FChar + 9) is a descriptive alias: the layout of FChar is not proven here.
    GamePlayRect (DS:09fe) is the FM Towns global name anchored by matching copies. */
 typedef struct {
     int top, left, bottom, right;
 } Rect;
 
-extern Rect fchar_rect;
 extern Rect GamePlayRect;
 
 void init_fchar_rect(void)
 {
-    fchar_rect = GamePlayRect;
+    (*(Rect near *)&FChar.clip_top) = GamePlayRect;
 }
 
 /* Semantic name hypothesis only; original symbol remains unrecovered. */
@@ -660,7 +722,7 @@ int far pascal decrement_life_points(signed char amount)
 {
     int lethal = 0;
 
-    if ((*(volatile unsigned char near *)&Char.character_kind) == 4 && STATE_LEVEL == 5 && character_row == 1 &&
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 4 && ((unsigned char)Level.level_number) == 5 && character_row == 1 &&
           (character_room == 10 || character_room == 7 || character_room == 12))
         goto done;
     if (amount >= Char.life_points) {
@@ -681,7 +743,6 @@ char far pascal get_under_foot(void)
     return ReadCell(character_room, (*(unsigned char near *)&Char.column), character_row);
 }
 
-extern unsigned char frame_flags;
 extern int restricted_step;
 
 extern signed char front_offsets[];
@@ -727,7 +788,7 @@ void far pascal on_ground(void)
 {
     char kind;
 
-    if ((frame_flags & 0x40) && (*(volatile unsigned char near *)&Char.character_kind) != 10) {
+    if ((Frame.flags & 0x40) && (*(volatile unsigned char near *)&Char.character_kind) != 10) {
         kind = get_under_foot();
         if (IsWall(kind)) {
             if (kind != 7 || ((Char.frame < 246 || Char.frame > 261) &&
@@ -735,10 +796,10 @@ void far pascal on_ground(void)
                 kind = inside_cell();
         }
         if (IS_SIX_KIND(kind) ||
-            (kind == 30 && ((unsigned char)cell_modifier & 15) < 2)) {
-            if (STATE_MODE == 5 && RoofClimbingIntoShip())
+            (kind == 30 && ((unsigned char)Cell.modifier & 15) < 2)) {
+            if (Level.environment_kind == 5 && RoofClimbingIntoShip())
                 return;
-            if (STATE_MODE == 2 && probe_chain_floor(16))
+            if (Level.environment_kind == 2 && probe_chain_floor(16))
                 return;
             if ((*(volatile unsigned char near *)&Char.character_kind) == 11)
                 char_x = AddCharX(get_edge_distance() - 42);
@@ -759,7 +820,7 @@ void far pascal start_fall(void)
     ++character_row;
     if (Char.stance == 1)
         Char.stance = 0;
-    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && STATE_LEVEL == 5 && character_room == 10 &&
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && ((unsigned char)Level.level_number) == 5 && character_room == 10 &&
         ((char_direction == 0 && Dir.bytes[0]) ||
          (char_direction == 0xff && Dir.bytes[1]))) {
         sequence = 198;
@@ -832,7 +893,7 @@ void far pascal start_fall(void)
         }
     }
 
-    if (STATE_MODE == 1) {
+    if (Level.environment_kind == 1) {
         sequence = 27;
         prepare_palace_fall();
         SetKidDeathMethod(8);
@@ -878,9 +939,9 @@ void far pascal FallingInUndefinedRoom(void)
 {
     Gravity();
     add_char_velocity();
-    if (STATE_MODE == 5) {
+    if (Level.environment_kind == 5) {
         if (Char.y > 384) {
-            if (viewed_room != 19 && viewed_room != 16) {
+            if (Room.number != 19 && Room.number != 16) {
                 AddSound(0);
                 decrement_life_points(100);
                 Char.frame = 185;
@@ -911,8 +972,8 @@ void far pascal FallingInUndefinedRoom(void)
 int far pascal is_undefined_room(void)
 {
     if (character_room == 0 ||
-        (((character_room == 3 && STATE_MODE == 6) ||
-          (character_room == 5 && STATE_MODE == 6)) &&
+        (((character_room == 3 && Level.environment_kind == 6) ||
+          (character_room == 5 && Level.environment_kind == 6)) &&
          character_row >= 11))
         return 1;
     return 0;
@@ -950,11 +1011,11 @@ void far pascal FallOn(void)
 int far pascal GrabTest(void)
 {
     char above = get_above();
-    unsigned int modifier = cell_modifier;
+    unsigned int modifier = Cell.modifier;
     char ahead = get_above_front();
-    int result = check_ledge(above, ahead, modifier, cell_modifier);
+    int result = check_ledge(above, ahead, modifier, Cell.modifier);
 
-    if (STATE_MODE == 5 && !result)
+    if (Level.environment_kind == 5 && !result)
         return palace_grab_test();
     return result;
 }
@@ -965,7 +1026,7 @@ char far pascal inside_cell(void)
     char ahead;
 
     if (Char.sequence_group != 4 && (*(volatile unsigned char near *)&Char.character_kind) != 11 &&
-        !(character_room == 3 && STATE_MODE == 6 && (signed char)(*(unsigned char near *)&Char.column) < 0)) {
+        !(character_room == 3 && Level.environment_kind == 6 && (signed char)(*(unsigned char near *)&Char.column) < 0)) {
         distance = get_edge_distance();
         ahead = get_cells_ahead(1);
         if (distance < 11 && !IsWall(ahead))
@@ -991,13 +1052,11 @@ char far pascal get_behind(void)
                     character_row);
 }
 
-extern unsigned char frame_x;
-extern unsigned char frame_flags;
 extern signed char column_remainder;
 
 int far pascal get_base_x(void)
 {
-    return AddCharX((signed char)(frame_x - (frame_flags & 31)));
+    return AddCharX((signed char)(((unsigned char)Frame.x) - (Frame.flags & 31)));
 }
 
 int far pascal get_edge_distance(void)
@@ -1039,18 +1098,15 @@ char far pascal GetRow(int value)
     return result;
 }
 
-extern unsigned char state_left_room;
-extern unsigned char state_right_room;
-extern unsigned char state_other_room;
 
 char far pascal GetCellCol(void)
 {
-    signed char col = cell_column;
+    signed char col = Cell.column;
 
-    if (cell_room != viewed_room && cell_room != state_other_room && cell_room != STATE_FLAG) {
-        if (cell_room == state_left_room)
+    if (Cell.room != Room.number && Cell.room != Room.below && Cell.room != Room.above) {
+        if (Cell.room == Room.left)
             col -= 10;
-        else if (cell_room == state_right_room)
+        else if (Cell.room == Room.right)
             col += 10;
     }
 
@@ -1296,11 +1352,11 @@ int far pascal check_ledge(char above, char ahead, unsigned int above_modifier,
                            unsigned int ahead_modifier)
 {
     int result;
-    if (!IS_SIX_KIND(above) || (STATE_MODE == 2 && (above_modifier & 0x80)) ||
+    if (!IS_SIX_KIND(above) || (Level.environment_kind == 2 && (above_modifier & 0x80)) ||
         ((ahead == 11 || ahead == 15) && (ahead_modifier & 15)) ||
         !is_open_tile(ahead) ||
         (ahead == 4 && !(ahead_modifier & 255) && char_direction == 255) ||
-        (STATE_MODE == 5 && character_room == 15 && character_row != 0))
+        (Level.environment_kind == 5 && character_room == 15 && character_row != 0))
         result = 0;
     else
         result = 1;
@@ -1336,8 +1392,6 @@ int far pascal FaceDx(int value)
 }
 
 extern int special_object_flag;
-extern unsigned char object_removed[];
-extern struct object_modifier { unsigned int flags, reserved; } object_modifiers[];
 extern void far pascal mark_cell_redraw(void);
 void far pascal RemoveObj(int portion)
 {
@@ -1345,22 +1399,21 @@ void far pascal RemoveObj(int portion)
     int index;
     animation_portion = portion;
     grab_enabled = 1;
-    if (STATE_MODE == 3)
-        modifier = cell_modifier & 0x3f00;
-    else if (STATE_MODE == 4)
-        modifier = cell_modifier & 0x0f00;
+    if (Level.environment_kind == 3)
+        modifier = Cell.modifier & 0x3f00;
+    else if (Level.environment_kind == 4)
+        modifier = Cell.modifier & 0x0f00;
     else
         modifier = 0;
     if (special_object_flag)
         modifier |= 0xc000;
-    index = (unsigned char)30 * cell_room + cell_index;
-    object_removed[index] = 1;
-    object_modifiers[index].flags = modifier;
+    index = (unsigned char)30 * Cell.room + Cell.index;
+    (&Level.cell_kinds[0][0])[index - 30] = 1;
+    (&Level.cell_info[0][0])[index - 30].modifier = modifier;
     mark_cell_redraw();
 }
 
 extern Rect NullRect;
-extern signed char above_col, front_col, above_row, contact_row;
 extern unsigned int clip_tables[];
 extern int far pascal clip_floor(int near *bounds, unsigned int table, int column, int row);
 extern void far pascal clip_cave(void);
@@ -1369,7 +1422,6 @@ extern void far pascal clip_temple(void);
 extern void far pascal clip_rooftops(void);
 extern int far _fastcall clip_desert_floor(unsigned int modifier);
 extern int clip_top_cache;
-extern int sprite_y;
 void far pascal MakeFCharClipRect(void);
 int far pascal is_char_non_viewable(void);
 
@@ -1386,57 +1438,57 @@ void far pascal ClipChar(void)
     init_fchar_rect();
     MakeFCharClipRect();
     if (is_char_non_viewable()) {
-        fchar_rect = NullRect;
+        (*(Rect near *)&FChar.clip_top) = NullRect;
         return;
     }
     if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && Char.frame >= 217 && Char.frame <= 226) {
         tile = ReadCell(character_room, (*(unsigned char near *)&Char.column), character_row);
-        if (clip_floor(workspace.bounds, clip_tables[STATE_MODE], (tile == 16) + (signed char)(*(unsigned char near *)&Char.column), character_row)) {
-            fchar_rect.top = workspace.bounds[0];
-            fchar_rect.right = workspace.bounds[3];
+        if (clip_floor(workspace.bounds, clip_tables[Level.environment_kind], (tile == 16) + (signed char)(*(unsigned char near *)&Char.column), character_row)) {
+            FChar.clip_top = workspace.bounds[0];
+            FChar.clip_right = workspace.bounds[3];
         }
         return;
     }
     if (Char.action == 9) {
-        if (STATE_MODE == 5)
+        if (Level.environment_kind == 5)
             clip_cave();
         return;
     }
 
     flying = (*(volatile unsigned char near *)&Char.character_kind) == 7 || (*(volatile unsigned char near *)&Char.character_kind) == 8;
-    tile = ReadCell(character_room, above_col, above_row);
+    tile = ReadCell(character_room, Cell.first_col, ((signed char)Cell.top_row));
     if (IS_SIX_KIND(tile))
         goto solid;
-    if (STATE_MODE == 3 && tile == 20 && clip_desert_floor(cell_modifier))
+    if (Level.environment_kind == 3 && tile == 20 && clip_desert_floor(Cell.modifier))
         goto solid;
-    if (cell_room == 1 && STATE_LEVEL == 14)
+    if (Cell.room == 1 && ((unsigned char)Level.level_number) == 14)
         goto solid;
-    if ((cell_room == 7 || cell_room == 8) && STATE_MODE == 6 && (*(int near *)&Char.sequence) != 14)
+    if ((Cell.room == 7 || Cell.room == 8) && Level.environment_kind == 6 && (*(int near *)&Char.sequence) != 14)
         goto solid;
     if (action == 0 && (frame == 79 || frame == 81))
         goto adjust;
-    tile = ReadCell(character_room, front_col, above_row);
-    if (IS_SIX_KIND(tile) || (tile == 20 && STATE_MODE == 3 && clip_desert_floor(cell_modifier))) {
+    tile = ReadCell(character_room, Cell.last_col, ((signed char)Cell.top_row));
+    if (IS_SIX_KIND(tile) || (tile == 20 && Level.environment_kind == 3 && clip_desert_floor(Cell.modifier))) {
     solid:
         clearance = 0;
     }
 
 adjust:
-    if (clearance && STATE_MODE != 5 && STATE_MODE != 1 &&
-        !(character_room == 16 && STATE_LEVEL == 9) &&
-        !(character_room == 27 && STATE_LEVEL == 6) &&
-        !(character_room == 3 && STATE_MODE == 6) &&
-        !(character_room == 6 && STATE_MODE == 6)) {
+    if (clearance && Level.environment_kind != 5 && Level.environment_kind != 1 &&
+        !(character_room == 16 && ((unsigned char)Level.level_number) == 9) &&
+        !(character_room == 27 && ((unsigned char)Level.level_number) == 6) &&
+        !(character_room == 3 && Level.environment_kind == 6) &&
+        !(character_room == 6 && Level.environment_kind == 6)) {
         if ((signed char)((tile = row + 1) - 1)) {
             workspace.top = (signed char)63 * tile - 60;
-            clearance = workspace.top >= sprite_y ? 0 : workspace.top - 15 >= clip_top_cache ? 0 : clearance;
+            clearance = workspace.top >= FChar.y ? 0 : workspace.top - 15 >= clip_top_cache ? 0 : clearance;
         }
         if (clearance && !flying) {
-            if ((workspace.top = (signed char)63 * tile - 60) > fchar_rect.top)
-                fchar_rect.top = clip_top_cache = workspace.top;
+            if ((workspace.top = (signed char)63 * tile - 60) > FChar.clip_top)
+                FChar.clip_top = clip_top_cache = workspace.top;
         }
     }
-    switch (STATE_MODE) {
+    switch (Level.environment_kind) {
     case 1: clip_ruins(); break;
     case 4: clip_temple(); break;
     case 5: clip_cave(); break;
@@ -1444,27 +1496,25 @@ adjust:
     }
 }
 
-extern int sprite_id;
-extern unsigned char sprite_table_index;
 extern unsigned int sprite_tables[];
-extern void far *far pascal get_set_image_size(unsigned int table, int id, int far *size);
+extern void far *far pascal get_set_image_size(unsigned int, int, int far *);
 
 void far pascal MakeFCharClipRect(void)
 {
     int size[2];
-    if (sprite_id != -1 && get_set_image_size(sprite_tables[sprite_table_index], sprite_id, size)) {
-        fchar_rect.top = sprite_y - size[0];
-        fchar_rect.bottom = sprite_y + 1;
-        if (!signflag) {
-            fchar_rect.right = (*(int *)&accumulator);
-            fchar_rect.left = (*(int *)&accumulator) - size[1];
+    if (FChar.image != -1 && get_set_image_size(sprite_tables[FChar.image_set], FChar.image, size)) {
+        FChar.clip_top = FChar.y - size[0];
+        FChar.clip_bottom = FChar.y + 1;
+        if (!(*(volatile unsigned char near *)&FChar.flipped)) {
+            FChar.clip_right = FChar.x;
+            FChar.clip_left = FChar.x - size[1];
         } else {
-            fchar_rect.left = (*(int *)&accumulator);
-            fchar_rect.right = (*(int *)&accumulator) + size[1];
+            FChar.clip_left = FChar.x;
+            FChar.clip_right = FChar.x + size[1];
         }
         return;
     }
-    fchar_rect = NullRect;
+    (*(Rect near *)&FChar.clip_top) = NullRect;
 }
 
 void far pascal uneven_floor(void)
@@ -1473,23 +1523,22 @@ void far pascal uneven_floor(void)
         Char.y = (signed char)63 * character_row + 57;
 }
 
-struct FCharRecord { char bytes[20]; };
-extern struct FCharRecord FChar, saved_fchar;
+extern FCHARREC saved_fchar;
 
 void far pascal IndexChar(void)
 {
     unsigned int frame = Char.frame;
     int action = Char.action;
     if (action == 1) {
-        cell_row = contact_row;
-        cell_column = above_col;
+        Cell.row = ((signed char)Cell.bottom_row);
+        Cell.column = Cell.first_col;
     } else {
-        cell_row = character_row;
-        cell_column = (*(unsigned char near *)&Char.column);
+        Cell.row = character_row;
+        Cell.column = (*(unsigned char near *)&Char.column);
     }
     if ((frame >= 135 && frame < 149) || action == 2 || action == 3 || action == 4 || action == 6)
-        cell_column += behind_offsets[(signed char)char_direction];
-    FChar.bytes[0] = IndexCell1(cell_column, cell_row);
+        Cell.column += behind_offsets[(signed char)char_direction];
+    FChar.index = IndexCell1(Cell.column, Cell.row);
 }
 
 
@@ -1556,7 +1605,7 @@ int far pascal is_char_non_viewable(void)
     int result;
     if (Char.sequence_group == 4 || Char.sequence_group == 5 || Char.sequence_group == 6 ||
         Char.sequence_group == 7 || Char.sequence_group == 10 || Char.sequence_group == 12 ||
-        (STATE_MODE == 5 && character_room != 19 && character_room != 16 &&
+        (Level.environment_kind == 5 && character_room != 19 && character_room != 16 &&
          character_room != 15 && is_dead_pos(Char.frame)))
         result = 1;
     else
@@ -1565,7 +1614,6 @@ int far pascal is_char_non_viewable(void)
 }
 
 
-extern unsigned char actor_variant;
 
 int far pascal is_dead_pos(unsigned int frame)
 {
@@ -1577,11 +1625,11 @@ int far pascal is_dead_pos(unsigned int frame)
     switch ((signed char)(*(volatile unsigned char near *)&Char.character_kind)) {
     case 0:
         dead = frame == 242 || frame == 243 || frame == 185 || frame == 271 || frame == 266;
-        if (!dead && STATE_LEVEL == 5 && character_room == 3)
+        if (!dead && ((unsigned char)Level.level_number) == 5 && character_room == 3)
             dead = Char.alive >= 0 && Char.sequence_group == 10;
         break;
     case 2:
-        if (!actor_variant) {
+        if (!Level.preferred_opponent) {
             dead = frame == 228;
             break;
         }
@@ -1608,7 +1656,7 @@ done:
 
 void far pascal remove_char(void)
 {
-    if (character_room == 6 && STATE_MODE == 6 &&
+    if (character_room == 6 && Level.environment_kind == 6 &&
         (*(int near *)&Char.sequence) == 240 && Kid.alive < 0)
         transfer_jaffar_to_escher2();
     VanishChar();
@@ -1637,7 +1685,7 @@ void far pascal guard_ctrl(void)
 {
     if (Char.frame == 166 && (signed char)Dir.bytes[3] < 0) {
         if ((signed char)Dir.bytes[0] < 0) {
-            if (!can_continue_run_jump(get_behind(), cell_modifier))
+            if (!can_continue_run_jump(get_behind(), Cell.modifier))
                 char_x = AddCharX(5);
             engage_weapon();
         } else {
