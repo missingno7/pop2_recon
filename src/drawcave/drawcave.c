@@ -168,7 +168,12 @@ void DrawCaveBlock(DrawCell *cell)
             if (!IsWall(PieceRightId(cell->column, cell->row)))
                 AddBImgToBTable(20, group + 85, cell->column, cell->row, 10, 0);
         } else {
-            image = image == 78 ? 32 : image == 83 ? 33 : -1;
+            if (image == 78)
+                image = 32;
+            else if (image == 83)
+                image = 33;
+            else
+                image = -1;
             if (image != (Word)-1)
                 AddBFImgToBTable(20, image, cell->column, cell->row, 10, 0);
         }

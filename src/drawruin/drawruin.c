@@ -730,7 +730,6 @@ void draw_ruin_up_plate(RuinCell *cell)
     }
 }
 
-#pragma optimize("g", off)
 void draw_ruin_posts(RuinCell *cell)
 {
     AddImage add_image = 0;
@@ -758,7 +757,6 @@ void draw_ruin_posts(RuinCell *cell)
         draw_ruin_flaw(cell);
     }
 }
-#pragma optimize("g", on)
 
 void draw_ruin_rubble_pieces(RuinCell *cell);
 
@@ -786,7 +784,6 @@ void draw_ruin_rubble(RuinCell *cell)
     draw_ruin_flaw(cell);
 }
 
-#pragma optimize("g", off)
 void draw_ruin_rubble_pieces(RuinCell *cell)
 {
     AddImage add_image = 0;
@@ -811,7 +808,6 @@ void draw_ruin_rubble_pieces(RuinCell *cell)
         draw_ruin_flaw(cell);
     }
 }
-#pragma optimize("g", on)
 
 extern Byte drawn_tile_kind;
 extern int visible_above_piece(CellCoord, CellCoord);

@@ -287,7 +287,6 @@ void check_slide_rock_crush(void)
     }
 }
 
-#pragma optimize("g", on)
 void draw_object_slide_rock(unsigned char kind)
 {
     struct moving_rock *rock;
@@ -307,7 +306,6 @@ void draw_object_slide_rock(unsigned char kind)
         add_middle_image(4, frame, FChar.x, FChar.y, 10);
 }
 
-#pragma optimize("g", off)
 
 int slide_rock_barrier(signed char direction, unsigned char room, signed char row)
 {

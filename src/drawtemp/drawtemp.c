@@ -340,21 +340,25 @@ void draw_temple_floor(TempleCell *cell)
     }
 }
 
-#pragma optimize("g", off)
 void draw_temple_floor_detail(TempleCell *cell)
 {
     struct ShapePosition saved;
-    AddImage add_image = cell->pass == 5 ? AddBFImgToBTable :
-                         cell->pass == 2 ? AddBFImgToFTable : 0;
+    AddImage add_image;
+
+    if (cell->pass == 5)
+        add_image = AddBFImgToBTable;
+    else if (cell->pass == 2)
+        add_image = AddBFImgToFTable;
+    else
+        add_image = 0;
     if (add_image) {
         saved = shape_offsets->floor_detail;
         shape_offsets->floor_detail = shape_offsets->floor;
-        ((AddImage)add_image)(1, -2, cell->column, cell->row, 0, 0);
+        add_image(1, -2, cell->column, cell->row, 0, 0);
         shape_offsets->floor_detail = saved;
     }
 }
 
-#pragma optimize("g", on)
 void draw_temple_gate(TempleCell *cell)
 {
     AddImage draw = 0;

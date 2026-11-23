@@ -201,7 +201,6 @@ extern void draw_cell_objects(char column);
 #define WORD_FLAG(table, byte_offset) \
     (*(int *)((char *)(table) + (byte_offset)))
 
-#pragma optimize("gl", on)
 void redraw_cell_fast(char column)
 {
     DrawRect old_clip;
@@ -242,9 +241,7 @@ void redraw_cell_fast(char column)
             draw_fore_image();
     }
 }
-#pragma optimize("gl", off)
 
-#pragma optimize("gl", on)
 void redraw_top_fast(char column)
 {
     char old_row;
@@ -264,7 +261,6 @@ void redraw_top_fast(char column)
         clip_rect = old_clip;
     }
 }
-#pragma optimize("gl", off)
 
 /* Packed tile and image records used by the drawing passes. */
 #pragma pack(1)
@@ -343,7 +339,6 @@ extern int draw_pillar_in_back(RoomImage *image);
 extern void draw_horse(unsigned int sheet, unsigned int shape, char pass);
 extern unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *sheet);
 
-#pragma optimize("gl", on)
 void draw_back_image(unsigned char pass)
 {
     unsigned char layer;
@@ -400,7 +395,6 @@ void draw_back_image(unsigned char pass)
         }
     } while (++layer < 4);
 }
-#pragma optimize("gl", off)
 
 unsigned char back_image_start_pass(void)
 {
@@ -494,7 +488,6 @@ queued:
     entry->sheet = image->sheet;
 }
 
-#pragma optimize("gl", on)
 void draw_fore_image(void)
 {
     unsigned char layer, priority;
@@ -540,7 +533,6 @@ void draw_fore_image(void)
     } while (++layer < 3 && (layer < 2 || draw_row != -1));
     draw_custom_room_images(1);
 }
-#pragma optimize("gl", off)
 
 #pragma pack(1)
 typedef struct GateImage {
@@ -596,7 +588,6 @@ extern void load_actor_slot(char index);
 extern GateImage *get_gate_image(char type, unsigned char index);
 extern int EMPTYRECT(DrawRect far *rect);
 
-#pragma optimize("gl", on)
 void check_foreground_gate(void)
 {
     signed char count, index;
@@ -656,13 +647,11 @@ void check_foreground_gate(void)
     }
     clip_rect = saved_clip;
 }
-#pragma optimize("gl", off)
 
 extern void SaveCustomRoomPeels(void);
 extern void draw_back_fore_item(unsigned char pass, unsigned char entry);
 extern void draw_middle_item(int entry);
 
-#pragma optimize("gl", on)
 void dump_draw_table(unsigned char pass)
 {
     unsigned char index, count;
@@ -688,7 +677,6 @@ void dump_draw_table(unsigned char pass)
         } while (++index < count);
     }
 }
-#pragma optimize("gl", off)
 
 #pragma pack(1)
 typedef struct ShapeBitmap {
@@ -742,7 +730,6 @@ extern void far _fastcall add_peel(int x, int height, int y, int width, char mod
 extern void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
                         int flip, int mode, unsigned int flags);
 
-#pragma optimize("gl", on)
 void draw_back_fore_item(unsigned char pass, unsigned char index)
 {
     DrawEntry far *entry;
@@ -817,9 +804,7 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
     else if (custom && custom->pass == 0 && custom->attributes == 0)
         mark_purgeable(custom->upper);
 }
-#pragma optimize("gl", off)
 
-#pragma optimize("gl", on)
 void draw_middle_item(int index)
 {
     ShapeRef ref;
@@ -886,7 +871,6 @@ void draw_middle_item(int index)
     restore_handle_flags(ref.handle, mark);
     FreeShpInfo(&ref);
 }
-#pragma optimize("gl", off)
 
 typedef struct DrawDestination {
     unsigned char header[24];
@@ -1079,7 +1063,6 @@ void draw_all(void)
     Graf = &ScreenPort;
 }
 
-#pragma optimize("gl", on)
 void add_dirty_rectangle(DrawRect *rect)
 {
     DrawRect expanded;
@@ -1097,7 +1080,6 @@ void add_dirty_rectangle(DrawRect *rect)
     else
         dirty_rectangles[dirty_rectangle_count++] = *rect;
 }
-#pragma optimize("gl", off)
 
 extern int compute_slide_rock_rect(DrawRect *area, RoomNumber room, signed char row);
 extern void mark_foreground(signed char cell, DrawRect *area);
@@ -1144,41 +1126,32 @@ int compute_half_rect(DrawRect *area)
 {
     unsigned int image;
     signed char index;
-    struct { int byte_offset; signed char count; DrawRect source; } state;
+    DrawRect source;
 
     if (Kid.frame >= 135 && Kid.frame < 145) {
         image = Kid.frame;
     } else {
         image = 0;
-        index = 0;
-        state.count = (unsigned char)Level.room_objects[(RoomNumber)Char.room - 1].opponent_count;
-        if (state.count > 0) {
-            do {
-                if (image)
-                    break;
-                state.byte_offset = index * sizeof(CHARREC);
-                if (((CHARREC *)((char *)RoomOpp + state.byte_offset))->character_kind == 1 &&
-                    ((CHARREC *)((char *)RoomOpp + state.byte_offset))->frame >= 135 &&
-                    ((CHARREC *)((char *)RoomOpp + state.byte_offset))->frame < 145)
-                    image = ((CHARREC *)((char *)RoomOpp + state.byte_offset))->frame;
-                ++index;
-            } while (index < *(volatile signed char *)&state.count);
+        for (index = 0; index < Level.room_objects[(RoomNumber)Char.room - 1].opponent_count && !image; ++index) {
+            if (RoomOpp[index].character_kind == 1 &&
+                RoomOpp[index].frame >= 135 &&
+                RoomOpp[index].frame < 145)
+                image = RoomOpp[index].frame;
         }
     }
     if (image) {
-        state.source = half_tile_rectangles[image - 135];
+        source = half_tile_rectangles[image - 135];
         if (drawn_tile_kind == 6)
-            ++state.source.bottom;
+            ++source.bottom;
         if ((Char.room == 7 || Char.room == 8) && Level.environment_kind == 6)
-            state.source.top += 3;
-        area = ComputeOffsetCellRect(area, &state.source, draw_column, draw_row);
+            source.top += 3;
+        area = ComputeOffsetCellRect(area, &source, draw_column, draw_row);
     }
     return (int)area;
 }
 
 extern int far pascal IS_SIX_KIND(char kind);
 
-#pragma optimize("gl", on)
 void draw_floor_buffer(void)
 {
     DrawRect old_clip, row_clip;
@@ -1242,7 +1215,6 @@ void draw_floor_buffer(void)
     }
     clip_rect = old_clip;
 }
-#pragma optimize("gl", off)
 
 #pragma pack(1)
 typedef struct CellObject {
@@ -1267,7 +1239,6 @@ extern int equal_rect(DrawRect far *first, DrawRect far *second);
 extern void sort_cell_objects(void);
 extern void draw_cell_object(signed char index);
 
-#pragma optimize("gl", on)
 void draw_cell_objects(char column)
 {
     signed char index, count;
@@ -1303,7 +1274,6 @@ void draw_cell_objects(char column)
     }
     clip_rect = original_clip;
 }
-#pragma optimize("gl", off)
 
 extern int compare_objects(int first, int second);
 extern unsigned char far _fastcall object_priority(unsigned char type);
@@ -1312,7 +1282,6 @@ extern unsigned char NonCharObjForePriority[13];
 extern unsigned char load_draw_object(signed char index);
 extern void draw_loose_object(unsigned char type);
 
-#pragma optimize("gl", on)
 void sort_cell_objects(void)
 {
     int swapped, index, last, value;
@@ -1333,9 +1302,7 @@ void sort_cell_objects(void)
         }
     } while (swapped);
 }
-#pragma optimize("gl", off)
 
-#pragma optimize("gl", on)
 int compare_objects(int first, int second)
 {
     int left_id, right_id;
@@ -1375,7 +1342,6 @@ int compare_objects(int first, int second)
     }
     return swap;
 }
-#pragma optimize("gl", off)
 
 unsigned char far _fastcall object_priority(unsigned char type)
 {
@@ -1541,7 +1507,6 @@ void set_object_cell(signed char index)
 extern void far *far cdecl _fmemmove(void far *out, const void far *src, unsigned count);
 extern void sort_fore_overlay(void);
 
-#pragma optimize("gl", on)
 void sort_back_table(void)
 {
     int dest, source;
@@ -1562,9 +1527,7 @@ void sort_back_table(void)
         } while (++source < *(int *)redraw_flags);
     }
 }
-#pragma optimize("gl", off)
 
-#pragma optimize("gl", on)
 void sort_fore_table(void)
 {
     int dest, source, shape;
@@ -1599,7 +1562,6 @@ void sort_fore_table(void)
         }
     }
 }
-#pragma optimize("gl", off)
 
 extern DrawRect message_rect;
 extern int suppress_restart, restart_style, message_timeout, message_counter;
@@ -1677,7 +1639,6 @@ extern unsigned int find_shape_list(int shape);
 extern unsigned int convert_shape(HorseShapeHeader far *out, HorseShapeHeader far *header, int count);
 extern ShapeBitmap far *materialize_handle(unsigned int handle);
 extern void dispose_handle(unsigned int handle);
-#pragma optimize("gl", on)
 ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
 {
     HorseShapeHeader header;
@@ -1704,7 +1665,6 @@ ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
     else result = 0;
     return result;
 }
-#pragma optimize("gl", off)
 
 unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *shape)
 {
@@ -1764,7 +1724,6 @@ extern void add_middle_item(unsigned char sheet, int image, char column, char ro
                             unsigned char color, unsigned char flags);
 extern unsigned char flask_bubble_color(unsigned int attributes);
 
-#pragma optimize("gl", on)
 void draw_flask(TileDrawArgs *args)
 {
     int color, tall;
@@ -1796,7 +1755,6 @@ void draw_flask(TileDrawArgs *args)
     add_middle_item(60, color + 3, args->column, args->row, bubble, flags);
     add_middle_item(60, color + 13, args->column, args->row, bubble + 1, flags);
 }
-#pragma optimize("gl", off)
 
 unsigned char flask_bubble_color(unsigned int attributes)
 {
@@ -1823,7 +1781,6 @@ extern void load_kid_with_opponent(signed char guard);
 extern CHARREC Opp;
 extern void draw_opponent_meter(signed char guard, int life, int max_life);
 
-#pragma optimize("gl", on)
 void DrawKidMeter(int life, int max_life)
 {
     int x, index;
@@ -1846,7 +1803,6 @@ void DrawKidMeter(int life, int max_life)
         STROKE_PORT_RECT(&rect);
     }
 }
-#pragma optimize("gl", off)
 
 void draw_meters(void)
 {
@@ -2053,33 +2009,34 @@ void fill_palette_with_color(unsigned char color)
 int set_palette(int resource, int first, unsigned char count, unsigned char palette)
 {
     unsigned char total;
+    int success;
     register unsigned int handle;
     unsigned char far *volatile colors;
 
     total = get_total_pals(resource);
     handle = HGETRSRC(0x50414c53UL, resource);
-    if (!handle || total <= palette)
-        return 0;
-    {
+    if (handle && total > palette) {
         colors = (unsigned char far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(handle);
         if (first < 16) {
             if (saved_palette) {
-                total = count < 16 - first ? count : 16 - first;
-                if (count > total)
-                    copy_palette_bytes(saved_palette, colors + (count * palette + total) * 3,
+                if (count - (total = count < 16 - first ? count : 16 - first) > 0)
+                    copy_palette_bytes(saved_palette, &colors[(count * palette + total) * 3],
                                        (count - total) * 3);
             } else {
                 total = count;
             }
-            WRITE_DAC_BLOCK(first, total, colors + count * palette * 3, 1);
+            WRITE_DAC_BLOCK(first, total, &colors[count * palette * 3], 1);
         } else if (saved_palette) {
-            copy_palette_bytes(saved_palette + first * 3 - 48, colors + count * palette * 3, count * 3);
+            copy_palette_bytes(saved_palette + first * 3 - 48, &colors[count * palette * 3], count * 3);
         } else {
-            WRITE_DAC_BLOCK(first, count, colors + count * palette * 3, 1);
+            WRITE_DAC_BLOCK(first, count, &colors[count * palette * 3], 1);
         }
         DISPOSE_HANDLE(handle);
-        return 1;
+        success = 1;
+    } else {
+        success = 0;
     }
+    return success;
 }
 
 unsigned char get_total_pals(int resource)

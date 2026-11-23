@@ -93,7 +93,7 @@ extern void far pascal enter_hall_record(int level);
 extern void far pascal CheckPlayNIS(int status, int flags);
 extern void far pascal RECLAIM_HEAP_BLOCKS(long color);
 extern void far pascal COMPACT_HEAP_BLOCKS(long color);
-extern int far pascal opening_disabled(void);
+extern int far pascal show_credits(void);
 extern int far pascal opening_input(int mode);
 extern void far pascal TurnRecordedGamePlayerOff(void);
 extern void far pascal TurnRecordedGamePlayerOn(void);
@@ -197,7 +197,7 @@ static int skip_intro = 1;
     if (!skip_intro) {
         if (skip_opening)
             result = 2;
-        else if (opening_disabled() || opening_input(0))
+        else if (show_credits() || opening_input(0))
             result = 2;
     } else {
         skip_intro = 0;

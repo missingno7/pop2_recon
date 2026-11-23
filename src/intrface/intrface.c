@@ -127,7 +127,6 @@ unsigned int poll_user(void)
     return key;
 }
 
-#pragma optimize("l", on)
 int wait_timer(int timer)
 {
     int key;
@@ -142,7 +141,6 @@ void wait_timer_no_poll(int timer)
     while (timers[timer])
         ;
 }
-#pragma optimize("l", off)
 
 void wait_ticks(int timer, int ticks)
 {
@@ -237,7 +235,6 @@ void open_level_resources(const char **names)
     }
 }
 
-#pragma optimize("l", on)
 void close_level_resources(const char **names)
 {
     int index;
@@ -248,7 +245,6 @@ void close_level_resources(const char **names)
         }
     }
 }
-#pragma optimize("l", off)
 
 int StdRsrcError(FarName name)
 {

@@ -344,7 +344,6 @@ void reset_desert_variant(void)
     desert_variant = -1;
 }
 
-#pragma optimize("rl", on)
 
 int is_selected_code(int code)
 {
@@ -360,7 +359,6 @@ int is_selected_code(int code)
         selected = 0;
     return selected;
 }
-#pragma optimize("rl", off)
 
 void LoadDsrtCode(void)
 {
@@ -533,7 +531,6 @@ void draw_desert_rocks(Piece *piece)
     }
 }
 
-#pragma optimize("lg", on)
 
 void AddDsrtStoneUpPeels(Piece *piece)
 {
@@ -552,7 +549,6 @@ void AddDsrtStoneUpPeels(Piece *piece)
         x += 32;
     } while (--count);
 }
-#pragma optimize("lg", off)
 
 void animate_desert_stone(void)
 {
@@ -607,7 +603,6 @@ void redraw_stone(void)
     }
 }
 
-#pragma optimize("lg", on)
 
 void remove_last_stone_peel(sbyte column)
 {
@@ -634,7 +629,6 @@ void remove_last_stone_peel(sbyte column)
         ++occurrence;
     } while (slot + 1);
 }
-#pragma optimize("lg", off)
 
 int sink_desert_stone(sbyte cell)
 {
@@ -659,7 +653,6 @@ void trigger_all_stones_down(void)
     sink_desert_stone(Char.column + 10);
 }
 
-#pragma optimize("s", on)
 
 int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
 {
@@ -695,7 +688,6 @@ int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
     }
     return started;
 }
-#pragma optimize("s", off)
 
 typedef void (far pascal *LevelTileProc)(Piece near *);
 LevelTileProc desert_level_spec[] = {

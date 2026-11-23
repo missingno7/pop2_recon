@@ -466,7 +466,6 @@ extern void MARK_FIXED(unsigned int *);
 extern void save_cleanup_state(int, const char far *, void *);
 extern void abort_with_message(int, const char far *);
 
-#pragma optimize("l", on)
 int release_discardable_images(void)
 {
     int i;
@@ -502,7 +501,6 @@ done:
     return 1;
 }
 
-#pragma optimize("l", off)
 int report_fatal_memory(void)
 {
     abort_with_message(1, fatal_memory_message);

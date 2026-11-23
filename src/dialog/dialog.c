@@ -1032,8 +1032,8 @@ void far pascal show_dialog_notice(int reason)
     unsigned far *table;
     struct notice_record prompt;
 
-    if (!dialog_notice_done) {
-        dialog_notice_done = passed;
+    if (!notice_state.word) {
+        notice_state.word = passed;
         InitDialog();
         asset = load_frame_asset();
         DrawDialogFrame(asset);
@@ -1047,7 +1047,8 @@ void far pascal show_dialog_notice(int reason)
             if (index == previous)
                 index = (random_below(count - 2) + index + 1) % count;
             previous = index;
-            _fmemcpy(&prompt, &table[index * 2 + 1], sizeof(prompt));
+            index = index * 2 + 1;
+            _fmemcpy(&prompt, &table[index], sizeof(prompt));
             Graf = (struct ScreenPort *)dialog_port_handle;
             draw_notice_symbols(prompt.symbol, asset, attempt);
             Graf = &ScreenPort;
@@ -1295,7 +1296,7 @@ int far * far pascal ComputeHallPlayerRect(int far *p, int index)
     return p;
 }
 extern int far pascal wait_for_hall_input(void);
-extern int far pascal buffer_size(void far *);
+extern int far pascal GET_PAYLOAD_SIZE(void far *);
 extern void far * far cdecl _fmemmove(void far *, const void far *, unsigned);
 
 struct hall_editor {
@@ -1305,12 +1306,10 @@ struct hall_editor {
     void (far pascal *draw)(struct dialog_text far *);
 };
 
-#pragma optimize("g", off)
 void far pascal draw_hall_records(struct hall_table far *table)
 {
     struct dialog_rect rect;
     struct dialog_range range;
-    struct hall_record far *entry;
     int row;
 
     DrawDialogFrame(0);
@@ -1321,23 +1320,15 @@ void far pascal draw_hall_records(struct hall_table far *table)
     DialogDrawStrId(8010, 10, 0, &hall_name_caption, 0, &range);
     DialogDrawStrId(8012, 10, 0, &hall_score_caption, 0, &range);
 
-    row = 0;
-    if (row < table->count) {
-        entry = table->records;
-        do {
-            ComputeHallPlayerRect((int far *)&rect, row);
-            range.last = -1;
-            DialogDrawStr(entry->name, 10, 0, 0, &rect, &range);
-            rect.top = 185;
-            rect.bottom = 220;
-            range.last = 0;
-            OffsetRect(&rect, &rect, 75, 0);
-            DialogDrawNumber(entry->score, 0, &rect, &range);
-            ++entry;
-        } while (++row < table->count);
+    for (row = 0; row < table->count; ++row) {
+        ComputeHallPlayerRect((int far *)&rect, row);
+        range.last = -1; DialogDrawStr(table->records[row].name, 10, 0, 0, &rect, &range);
+        rect.top = 185; rect.bottom = 220;
+        range.last = 0;
+        OffsetRect(&rect, &rect, 75, 0);
+        DialogDrawNumber(table->records[row].score, 0, &rect, &range);
     }
 }
-#pragma optimize("g", on)
 
 void far pascal edit_hall_name(struct hall_table far *table, int row)
 {
@@ -1373,32 +1364,24 @@ struct hall_table far * far pascal insert_hall_record(
 {
     struct hall_table far *old;
     int size, row;
-    int far *current;
-    struct hall_record far *record;
 
     if (table) {
         old = table;
-        size = buffer_size(old);
-        table = ALLOCATE_PINNED_PAYLOAD(size + sizeof(struct hall_record));
-        _fmemcpy(table, old, size);
+        size = GET_PAYLOAD_SIZE(old) + sizeof(struct hall_record);
+        table = ALLOCATE_PINNED_PAYLOAD(size);
+        _fmemcpy(table, old, size - sizeof(struct hall_record));
         CLEAR_PAYLOAD_HEADER(old);
     } else {
         table = ALLOCATE_PINNED_PAYLOAD(sizeof(table->count) + sizeof(struct hall_record));
         table->count = 0;
     }
 
-    row = 0;
-    if (row < table->count) {
-        current = &table->records[0].score;
-        do {
-            if (*current >= score)
-                break;
-            current = (int far *)((char far *)current + sizeof(struct hall_record));
-        } while (++row < table->count);
-    }
+    for (row = 0; row < table->count; ++row)
+        if (table->records[row].score >= score)
+            break;
     if (row < table->count && row != 4) {
-        record = &table->records[row];
-        _fmemmove(record + 1, record, (table->count - row) * sizeof(struct hall_record));
+        _fmemmove(&table->records[row + 1], &table->records[row],
+                  (table->count - row) * sizeof(struct hall_record));
     }
     if (table->count < 5)
         ++table->count;
@@ -1502,8 +1485,8 @@ int far pascal change_menu_option(int);
 
 int far pascal main_menu_choice(void)
 {
-    int previous = -1;
     int option = 0;
+    int previous = -1;
     int done = 0;
 
     do {
@@ -1771,7 +1754,7 @@ int far pascal show_credits(void)
             break;
         Graf = (struct ScreenPort *)dialog_port_handle;
         SET_RECORD_RANGE(&clip, 12);
-        draw_credits_page(*(const int *)((const char *)credits_first + page), *(const int *)((const char *)credits_last + page));
+        draw_credits_page(credits_first[page], credits_last[page]);
         Graf = &ScreenPort;
         if (page)
             key = animate_port(1, dialog_port_handle, (struct dialog_rect *)saved_port, 90);
@@ -1779,25 +1762,23 @@ int far pascal show_credits(void)
             key = DialogFadeIn();
         if (!key) {
             if (!page && find_option(credits_blink_key)) {
+                int port;
                 credits_timer = 480;
-                page = allocate_clipped_port(&credits_blink_box);
-                if (credits_timer) {
-                    do {
-                        draw_record_bounds(page);
+                port = allocate_clipped_port(&credits_blink_box);
+                while (!key && credits_timer) {
+                    draw_record_bounds(port);
+                    key = wait_ticks(1, 15);
+                    if (!key) {
+                        SET_RECORD_RANGE(&credits_blink_box, 12);
                         key = wait_ticks(1, 15);
-                        if (!key) {
-                            SET_RECORD_RANGE(&credits_blink_box, 12);
-                            key = wait_ticks(1, 15);
-                        }
-                    } while (!key && credits_timer);
+                    }
                 }
-                free_record_pair(page);
-                page = 0;
+                free_record_pair(port);
             } else {
                 key = wait_ticks(0, 480);
             }
         }
-    } while ((page += sizeof(*credits_first)) < (int)sizeof(credits_first));
+    } while (++page < sizeof(credits_first) / sizeof(*credits_first));
     Graf = &ScreenPort;
     DialogFadeOut();
     DISPOSE_HANDLE(hGetFont(10));

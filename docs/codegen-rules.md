@@ -23,6 +23,9 @@ update the closed-family list instead of repeating its experiments.
 | FLAG-7 | MSC 5.10 rejects `/Oe` (`/Ox` gives floor_adjust 22 B). 6.00A C2L matches floor_adjust; 6.00AX objects equal 6.00 for is_four_kind and membership. | `docs/game-leaf-matches.md`, `docs/convergence-audit.md` | CONFIRMED / OBSERVED |
 | FLAG-8 | Working-directory path length (62 vs 123 chars) leaves the whole object unchanged (pass directory fixed). | `build/workers/wave9_parked_sol/d9.json` | OBSERVED |
 | FLAG-9 | `#include` is refused (no pinned headers): declare externs and types inline. | `docs/compiler-codegen.md` | tool rule |
+| FLAG-11 | The whole game is one build: MSC 6.00A (`msc600a_bound`) `/c /AM /Oegl /Gs /Zl /Gc` (`/Zi` on most modules) and no `#pragma optimize`. Measured 2026-11-23 over every same-source group with all pragmas stripped, each function judged at its own original address: 14 of about 1,000 claims fail under `/Oegl`, 60 under `/Oeg`, 134 under `/Oe`; MSC 6.00 `/Oegl` fails 86; adding `/Oa`, `/Ow`, `/Oz` fails 29-95, `/Or` or `/Os` 520-750. Earlier per-file flags (FLAG-1, FLAG-10) and pragma regions fitted single drafts. Library pieces (PTOOL) are not covered. | `build/workers/cg/nopragma.py`, `sweep4.py` (2026-11-23) | CONFIRMED |
+| FLAG-12 | A trailing `#pragma optimize("x", off)` disables x for the rest of the file even when the command line enables it: strip pragmas before comparing flags. | DRAW (36 pragma lines) | CONFIRMED |
+| DRAFT-1 | Explicit byte offsets, scaled temporaries, `volatile` casts, `goto` and `register` in a draft often imitate `/Og` common subexpressions or `/Ol` induction variables. Start from plain C (`array[i].field` in a `for`, `x \|= y`, a `min`-style ternary): ANIMATE_SPIDER, CLIP_CHARACTER_AT_WATER, MOVE_ROCK_RECORD, CHOOSE_CUT_SIDE matched that way. | accepted sources | CONFIRMED |
 
 ## ABI, frames and alignment
 | ID | Rule | Evidence | Status |
