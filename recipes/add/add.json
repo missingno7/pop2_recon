@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/add/add.json",
-  "binding_sha256": "504ac9249a3866e7b1a9ec386dc7739b6aaed3e563fd227943fa30ec9fc1b771",
+  "binding_sha256": "053c879276daa1a1d0d678b6676546997abfee7a6f7304847a2ca41f4b809904",
   "claims": [
     {
       "fixup_count": 4,
@@ -249,6 +249,22 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0169:10aa"
+    },
+    {
+      "fixup_count": 29,
+      "public": "ADD_OPPONENT",
+      "relocation_indices": [
+        156,
+        161,
+        166,
+        199,
+        233
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0169:0906"
     }
   ],
   "code_matches": [
@@ -257,13 +273,6 @@
       "target_id": "root:0169:0526",
       "unproven": [
         "PEEL_ENTRIES+0x3"
-      ]
-    },
-    {
-      "public": "ADD_OPPONENT",
-      "target_id": "root:0169:0906",
-      "unproven": [
-        "DRAW_TEMPLE_GUARD"
       ]
     },
     {
@@ -332,12 +341,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "add/add",
-  "object_sha256": "b6720b473ee477688b044a59fd230c8d90a6fa761b28dbe916fc706c60e00376",
+  "object_sha256": "1229a4bc0975d3ff8ec1e537abd63b65120dd964e57fd9abe90dcb7af82ef8e8",
   "origin": 5782,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/add/add.c",
-  "source_sha256": "e2964bf41d9d79cc0a1a822fbbadb680603534933c04e5fdb807cca0ec64647c",
+  "source_sha256": "a66abb863ad9c551051e6b059a92796675045168310f3ff5ab138d47f973451a",
   "space": "root"
 }

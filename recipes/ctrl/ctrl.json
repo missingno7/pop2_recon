@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "f8d03c29f0c9c47343c9be5abe53be5e2b07a568c20fb14608c0478c96d33279",
+  "binding_sha256": "5b7fdc29ad69e6d078b5c31acac8fa8cb212b1c0ab57a48a095140938e39575c",
   "claims": [
     {
       "fixup_count": 28,
@@ -207,6 +207,38 @@
       "target_id": "root:02cc:09ea"
     },
     {
+      "fixup_count": 85,
+      "public": "START_FALL",
+      "relocation_indices": [
+        280,
+        298,
+        299,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        320,
+        321,
+        346,
+        347,
+        348,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:0a9c"
+    },
+    {
       "fixup_count": 33,
       "public": "FALLINGINUNDEFINEDROOM",
       "relocation_indices": [
@@ -325,10 +357,8 @@
         305,
         379
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "root:02cc:1282"
     },
     {
@@ -562,19 +592,18 @@
       "public": "GRABTEST",
       "target_id": "root:02cc:0f8c",
       "unproven": [
-        "PALACE_GRAB_TEST"
+        "GRAB_ROOF_SHIP"
+      ]
+    },
+    {
+      "public": "SHAD_CTRL",
+      "target_id": "root:02cc:12e4",
+      "unproven": [
+        "UPDATE_AUTOMATIC_ACTOR"
       ]
     }
   ],
   "drafts": [
-    {
-      "object_offset": 2714,
-      "public": "START_FALL"
-    },
-    {
-      "object_offset": 4834,
-      "public": "SHAD_CTRL"
-    },
     {
       "object_offset": 5640,
       "public": "CLIPCHAR"
@@ -595,12 +624,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "518fe15c0ffc067e7b4ed16daf55ce9527a636b295a86352199dddc5942760cc",
+  "object_sha256": "b225a728da12b920075862a650c9c820ad32a6b07bc3189ec9b2b50722520517",
   "origin": 11458,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "e6283ea5e6b0cb606161d5d5c68de61ea989957b56fa4711c860dc1adf028077",
+  "source_sha256": "bade3c6eaf6e620537a74a6010e9c88bd6aa7f950fb1f1d659b5f4e2b4f9fb4f",
   "space": "root"
 }

@@ -755,17 +755,18 @@ struct CopyRecord {
 
 extern struct CopyRecord SelDir;
 extern struct CopyRecord Dir;
-extern unsigned int crouch_fall;
+extern int action_timer;
 extern unsigned int grab_delay;
 extern unsigned int ledge_hold;
-extern char fall_check_before[], fall_check_after[];
-extern int far pascal check_fall_state(char far *name);
+static char fall_check_before[] = "NEWBUMP";
+static char fall_check_after[] = "NEWBUMP";
+extern char *far pascal find_option(const char far *name);
 extern int far pascal IsWall(char kind);
 extern int far pascal IS_SIX_KIND(char kind);
 extern int far pascal tile_is_ledge(char kind);
 extern int far pascal RoofClimbingIntoShip(void);
-extern void far pascal prepare_palace_fall(void);
-extern int far pascal palace_grab_test(void);
+extern void far pascal trigger_all_stones_down(void);
+extern int far pascal grab_roof_ship(void);
 extern int far pascal probe_chain_floor(int index);
 extern unsigned char far pascal turn_hidden_actor(unsigned char direction);
 extern int far pascal query_sound(int mask);
@@ -815,7 +816,7 @@ void far pascal start_fall(void)
     int adjust_clearance = 0;
     int sequence = -1;
     int distance;
-    int min_y;
+    struct { int y; } minimum;
 
     ++character_row;
     if (Char.stance == 1)
@@ -851,15 +852,15 @@ void far pascal start_fall(void)
             adjust_clearance = 1;
             if (old_frame >= 81 && old_frame < 86) {
                 sequence = 19;
-            } else if (old_frame - 150U < 30U) {
+            } else if (old_frame >= 150U && old_frame < 180U) {
                 if (!(*(volatile unsigned char near *)&Char.character_kind)) {
-                    crouch_fall = adjust_clearance;
+                    action_timer = adjust_clearance;
                     if (old_frame == 153 || (*(int near *)&Char.sequence) == 56)
                         sequence = 95;
                     else
                         sequence = 81;
                 } else {
-                    crouch_fall = 0;
+                    action_timer = 0;
                     if ((*(int near *)&Char.sequence) == 86 || (*(int near *)&Char.sequence) == 67 ||
                         (*(int near *)&Char.sequence) == 108)
                         sequence = 83;
@@ -875,7 +876,7 @@ void far pascal start_fall(void)
         }
     }
 
-    if (!check_fall_state((char far *)fall_check_before) && adjust_clearance) {
+    if (!find_option((char far *)fall_check_before) && adjust_clearance) {
         if (IsWall(get_cells_ahead(1)) ||
             IsWall(get_behind()) ||
             !IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front()) ||
@@ -886,25 +887,28 @@ void far pascal start_fall(void)
             else if (distance >= 25)
                 char_x = AddCharX(distance - 21);
             if (!IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front())) {
-                min_y = (signed char)63 * character_row + 1;
-                if (min_y > Char.y)
-                    Char.y = min_y;
+                minimum.y = (signed char)63 * character_row + 1;
+                if (minimum.y > Char.y)
+                    Char.y = minimum.y;
             }
         }
     }
 
     if (Level.environment_kind == 1) {
         sequence = 27;
-        prepare_palace_fall();
+        trigger_all_stones_down();
         SetKidDeathMethod(8);
-    } else if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && restricted_step && (*(int near *)&Char.sequence) != 228) {
+    }
+    else if ((*(volatile unsigned char near *)&Char.character_kind) == 0 &&
+             restricted_step && (*(int near *)&Char.sequence) != 228)
+    {
         sequence = 228;
     }
     JumpSeq(sequence);
     AnimChar();
     reread_cells();
 
-    if (check_fall_state((char far *)fall_check_after) && adjust_clearance) {
+    if (find_option((char far *)fall_check_after) && adjust_clearance) {
         if (IsWall(get_cells_ahead(1)) ||
             IsWall(get_behind()) ||
             !IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front()) ||
@@ -915,9 +919,9 @@ void far pascal start_fall(void)
             else if (distance >= 25)
                 char_x = AddCharX(distance - 21);
             if (!IS_SIX_KIND(get_above()) || !IS_SIX_KIND(get_above_front())) {
-                min_y = (signed char)63 * character_row + 1;
-                if (min_y > Char.y)
-                    Char.y = min_y;
+                minimum.y = (signed char)63 * character_row + 1;
+                if (minimum.y > Char.y)
+                    Char.y = minimum.y;
             }
         }
     }
@@ -1016,7 +1020,7 @@ int far pascal GrabTest(void)
     int result = check_ledge(above, ahead, modifier, Cell.modifier);
 
     if (Level.environment_kind == 5 && !result)
-        return palace_grab_test();
+        return grab_roof_ship();
     return result;
 }
 
@@ -1132,9 +1136,9 @@ extern void far pascal draw_restart_message(void);
 extern int far pascal is_dead_pos(unsigned int frame);
 extern int far pascal Input(void);
 extern int far pascal CheckForEndOfRecording(void);
-extern void far pascal play_shadow_death(void);
-extern void far pascal update_shadow_control(void);
-extern void far pascal handle_replay_input(void);
+extern void far pascal add_opponent_death_song(void);
+extern void far pascal update_automatic_actor(void);
+extern void far pascal CheckRecordedDirForChar(void);
 extern void far pascal apply_input(void);
 extern unsigned int prefer_kid_state;
 extern unsigned int death_sequence_primary, death_sequence_alternate;
@@ -1219,7 +1223,7 @@ void far pascal shad_ctrl(void)
 {
     if (Char.alive >= 0) {
         if (Char.alive >= 6) {
-            play_shadow_death();
+            add_opponent_death_song();
             if ((*(unsigned char near *)&Kid.opponent_index) == (unsigned char)Char.slot)
                 (*(unsigned char near *)&Kid.opponent_index) = -1;
         } else if (Char.field_0f) {
@@ -1228,9 +1232,9 @@ void far pascal shad_ctrl(void)
     } else if (!Char.life_points) {
         Char.alive = 0;
     }
-    update_shadow_control();
+    update_automatic_actor();
     if (replay_input)
-        handle_replay_input();
+        CheckRecordedDirForChar();
     if ((*(volatile unsigned char near *)&Char.character_kind) != 1 && (*(volatile unsigned char near *)&Char.character_kind) != 12)
         apply_input();
 }
@@ -1243,7 +1247,7 @@ void far pascal UserCtrl(void)
     if (Invert)
         InvertJoystick();
     if (replay_input)
-        handle_replay_input();
+        CheckRecordedDirForChar();
     apply_input();
     if (!direction)
         FaceJoystick();

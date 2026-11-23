@@ -1084,10 +1084,10 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
                            group_id=self.recipe["group_id"])
 
     def test_call_in_an_unclaimed_draft_region_witnesses_the_callee(self):
-        self.assertTrue(exact_except_matches(self.check(0x39e6), self.recipe))  # a draft of CTRL.C, relocation 346
+        self.assertTrue(exact_except_matches(self.check(0x443b), self.recipe))  # a draft of CTRL.C (CLIPCHAR), relocation 357
 
     def test_call_inside_a_claim_is_refused(self):
-        report = self.check(0x39e6)
+        report = self.check(0x443b)
         claimed = next(c for c in report["claims"] for e in c["equations"]
                        if e.get("kind") == "far-call" and e.get("symbol") == "IS_SIX_KIND")
         at = report["origin"] + claimed["object_offset"] + next(

@@ -631,7 +631,7 @@ extern void save_actor_slot(void);
 extern void SaveFChar(void);
 extern void RestoreFChar(void);
 
-extern void draw_temple_guard(void);
+extern void setup_guard_smoke(void);
 extern void setup_splash(void);
 extern void adjust_ruins_sword(void);
 extern void draw_rooftop_opponent(void);
@@ -712,7 +712,7 @@ void add_opponent(void)
             else if (Level.environment_kind == 5)
                 goto temple_kid;
             else if (Level.environment_kind == 6)
-                draw_temple_guard();
+                setup_guard_smoke();
         } else if (Level.environment_kind == 5) {
 temple_kid:
             setup_splash();

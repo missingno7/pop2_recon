@@ -1152,34 +1152,38 @@ typedef struct {
     sbyte x_offset, y_offset;
 } SmokeFrame;
 
-extern unsigned int smoke_frame_index;
-extern unsigned int smoke_resource;
-extern int smoke_y;
-extern byte smoke_mode;
-extern byte smoke_shape_state;
-extern SmokeFrame far *far pascal find_smoke_frames(unsigned int resource);
-extern void far pascal change_smoke_x(int offset);
-extern void far pascal finish_smoke_setup(void);
-extern void far _fastcall select_smoke_layer(byte layer);
-typedef void (far pascal *AnimationCallback)(void);
-extern void far pascal update_frame_callback(void);
+typedef struct {
+    int image, equipment_image;
+    sbyte x, y;
+    byte flags;
+} FRAMEREC;
+
+extern FRAMEREC Frame;
+extern unsigned int sprite_table_handle;
+extern SmokeFrame far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int handle);
+extern int far pascal offset_sprite_x(int x);
+extern void far pascal MakeFCharClipRect(void);
+extern void far _fastcall add_char_object(byte style);
+typedef void (far pascal *AnimationCallback)(sbyte cell, void near *clip);
+extern void far pascal mark_foreground(sbyte cell, void near *clip);
 extern void far pascal mark_bufs_for_rect(AnimationCallback callback, void near *state, sbyte slot);
 
 void far pascal setup_guard_smoke(void)
 {
-    if (Char.character_kind == 2 && Char.frame >= 229 && Char.frame <= 254) {
-        unsigned int index = smoke_frame_index;
-        SmokeFrame far *frames = find_smoke_frames(smoke_resource);
-        SmokeFrame far *frame = &frames[index];
+    SmokeFrame far *table;
+    unsigned int index;
 
-        if (frame->shape != -1) {
-            FChar.image = frame->shape;
-            change_smoke_x(frame->x_offset);
-            smoke_y += frame->y_offset;
-            smoke_mode = 3;
-            finish_smoke_setup();
-            select_smoke_layer(9);
-            mark_bufs_for_rect(update_frame_callback, &smoke_shape_state, Char.slot);
+    if (Char.character_kind == 2 && Char.frame >= 229 && Char.frame <= 254) {
+        index = (unsigned int)Frame.equipment_image;
+        table = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sprite_table_handle);
+        if (table[index].shape != -1) {
+            FChar.image = table[index].shape;
+            offset_sprite_x(table[index].x_offset);
+            FChar.y += table[index].y_offset;
+            FChar.image_set = 3;
+            MakeFCharClipRect();
+            add_char_object(9);
+            mark_bufs_for_rect(mark_foreground, &FChar.clip_top, Char.slot);
         }
     }
 }
@@ -1226,7 +1230,7 @@ static unsigned long gargoyle_shapes[] = {
 static byte gargoyle_layer[] = {
     0, 0, 0, 0, 0, 1, 0, 1, 1, 0
 };
-extern void far pascal OFFSETRECT(Rect far *output, Rect far *input, unsigned long shapes);
+extern void far pascal OFFSETRECT(Rect far *output, Rect far *input, int dx, int dy);
 extern void far _fastcall draw_custom_room_image(byte index, byte layer);
 
 extern unsigned int BlueSpec;
@@ -1238,7 +1242,7 @@ static byte gargoyle_serial;
 extern unsigned int (*near BlueS)[2];
 
 extern void far pascal add_trob(sbyte row, sbyte col, byte value, byte effect);
-extern void far pascal finish_blink_frame(void);
+extern void far pascal mark_move(sbyte cell, void near *clip);
 
 #define ROOM_RECT(offset) ((Rect near *)((byte near *)room_image_table + (offset)))
 
@@ -1251,7 +1255,7 @@ void far pascal animate_jaffar_blink(void)
     if (frame >= 5 && room_image_table->attributes[1] == 26) {
         frame -= 5;
         if (frame < 6) {
-            mark_bufs_for_rect(finish_blink_frame, ROOM_RECT(89), -1);
+            mark_bufs_for_rect(mark_move, ROOM_RECT(89), -1);
             return;
         }
         final_object_visibility = (byte)-1;
@@ -1284,7 +1288,7 @@ void far pascal animate_spider(void)
             } else {
                 ticks = Rnd(60) + 30;
             }
-            mark_bufs_for_rect(finish_blink_frame, ROOM_RECT(189), -1);
+            mark_bufs_for_rect(mark_move, ROOM_RECT(189), -1);
         } else if (--ticks <= 0) {
             if (!fade_active) {
                 ticks = Rnd(2) + 1;
@@ -1333,28 +1337,21 @@ void far pascal setup_crystal_room(void)
 void far pascal animate_crystal(void)
 {
     if (room_image_table->attributes[1] == 28) {
-        unsigned int state = BlueSpec;
-
-        if (state & 0x800) {
+        unsigned int state = BlueSpec; if (state & 0x800) {
             unsigned int frame = ((state & 0x7f0) >> 4) + 1;
 
-            state &= 0xf80f;
             if (frame < 7) {
                 Rect bounds;
-                const unsigned long near *shape = &crystal_shapes[state & 15];
+                const int near *shape;
 
-                state |= frame << 4;
-                OFFSETRECT(&bounds, ROOM_RECT(139), *shape);
-                mark_bufs_for_rect(finish_blink_frame, &bounds, -1);
+                state &= 0xf80f; state |= frame << 4;
+                shape = (const int near *)&crystal_shapes[state & 15]; OFFSETRECT(&bounds, &room_image_table->images[4].bounds, shape[1], shape[0]);
+                mark_bufs_for_rect(mark_move, &bounds, -1);
             } else {
-                state |= (Rnd(40) + 40) << 4;
-                state &= ~0x800;
+                state &= 0xf80f; state |= (Rnd(40) + 40) << 4; state &= ~0x800;
             }
         } else {
-            int ticks = (state & 0x7f0) >> 4;
-
-            state &= 0xf80f;
-            if (--ticks <= 0) {
+            int ticks = (state & 0x7f0) >> 4; state &= 0xf80f; if (--ticks <= 0) {
                 if (fade_active && trob_count)
                     state |= (Rnd(40) + 40) << 4;
                 else
@@ -1386,7 +1383,7 @@ void far pascal draw_crystal(FinalObject near *object)
     bounds = image->bounds;
     shape = object->animation & 15;
     image->shape_list = crystal_shapes[shape];
-    OFFSETRECT(&image->bounds, &image->bounds, *(volatile unsigned long near *)&image->shape_list);
+    OFFSETRECT(&image->bounds, &image->bounds, ((volatile int near *)&image->shape_list)[1], ((volatile int near *)&image->shape_list)[0]);
     image->layer = crystal_layer[shape];
     draw_custom_room_image(index, crystal_layer[shape]);
     image->layer = 11;
@@ -1414,12 +1411,15 @@ void far pascal animate_gargoyle(void)
             if (state & 0x800) {
                 unsigned int frame = ((state & 0x7f0) >> 4) + 1;
 
-                                if (frame < 9) {
+                if (frame < 9) {
                     Rect bounds;
+                    const int near *shape;
 
-                    state = (state & 0xf80f) | (frame << 4);
-                    OFFSETRECT(&bounds, ROOM_RECT(89), gargoyle_shapes[serial]);
-                    mark_bufs_for_rect(update_frame_callback, &bounds, -1);
+                    state &= 0xf80f;
+                    state |= frame << 4;
+                    shape = (const int near *)&gargoyle_shapes[serial];
+                    OFFSETRECT(&bounds, &room_image_table->images[2].bounds, shape[1], shape[0]);
+                    mark_bufs_for_rect(mark_foreground, &bounds, -1);
                 } else {
                     state &= 0xf80f;
                     state |= (Rnd(40) + 30) << 4;
@@ -1429,12 +1429,14 @@ void far pascal animate_gargoyle(void)
                 int ticks = (state & 0x7f0) >> 4;
 
                 state &= 0xf80f;
-                if (--ticks > 0)
+                if (--ticks <= 0) {
+                    if (fade_active && trob_count)
+                        state |= (Rnd(40) + 30) << 4;
+                    else
+                        state |= 0x800;
+                } else {
                     state |= ticks << 4;
-                else if (fade_active && trob_count)
-                    state |= (Rnd(40) + 30) << 4;
-                else
-                    state |= 0x800;
+                }
             }
             BlueSpec = state | 0x1000;
             return;
@@ -1460,7 +1462,7 @@ void far pascal draw_gargoyle(FinalObject near *object)
     bounds = image->bounds;
     shape = object->animation & 15;
     image->shape_list = gargoyle_shapes[shape];
-    OFFSETRECT(&image->bounds, &image->bounds, *(volatile unsigned long near *)&image->shape_list);
+    OFFSETRECT(&image->bounds, &image->bounds, ((volatile int near *)&image->shape_list)[1], ((volatile int near *)&image->shape_list)[0]);
     image->layer = gargoyle_layer[shape];
     draw_custom_room_image(index, gargoyle_layer[shape]);
     image->layer = 11;
@@ -1479,18 +1481,21 @@ void far pascal trigger_gargoyle(sbyte row, sbyte col)
 }
 
 extern MOBREC Mob;
-extern int fireball_half_width, fireball_height;
+extern struct {
+    int heights[13], widths[13];
+} mob_dimensions;
+#define fireball_half_width mob_dimensions.widths[12]
+#define fireball_height mob_dimensions.heights[12]
 extern int player_left;
-extern byte object_bucket;
-extern unsigned int fireball_sheet;
+extern unsigned int kid_shapes;
 extern int object_counter;
 
 extern byte far pascal GetRow(int y);
-extern byte far pascal shape_position(sbyte col, byte row);
-extern void far *far pascal check_shape_dimensions(unsigned int sheet, unsigned int image, int far *size);
-extern void far pascal submit_fireball_y(int y);
-extern void far pascal update_fireball_shape(byte changed);
-extern int far pascal tile_blocks_fireball(sbyte tile);
+extern byte far pascal IndexCell1(sbyte col, byte row);
+extern void far *far pascal get_set_image_size(unsigned int sheet, unsigned int image, int far *size);
+extern void far pascal add_mobile_sprite(int y);
+extern void far pascal mark_mob_redraw(byte changed);
+extern int far pascal IsWall(sbyte tile);
 extern void far pascal dispatch_sound(unsigned int image);
 extern void far pascal add_mob(void);
 extern void far _fastcall queue_fireball(byte layer, int frame, int x, int y, byte flags);
@@ -1524,17 +1529,17 @@ void far pascal update_fireball_view(void)
     int visible = 1;
     volatile int y = Mob.y;
 
-    if (Mob.room == Room.number) {
+    if ((*(volatile byte near *)&Mob.room) == Room.number) {
         if (Mob.x > 449 || Mob.x < 0)
             visible = 0;
-    } else if (Room.left == Mob.room) {
+    } else if (Room.left == (*(volatile byte near *)&Mob.room)) {
         if (Mob.x + fireball_half_width > 320) {
             Mob.x -= 320;
             Mob.room = Room.number;
         } else {
             visible = 0;
         }
-    } else if (Room.right == Mob.room) {
+    } else if (Room.right == (*(volatile byte near *)&Mob.room)) {
         if (Mob.x - fireball_half_width < 320) {
             Mob.x += 320;
             Mob.room = Room.number;
@@ -1550,18 +1555,18 @@ void far pascal update_fireball_view(void)
         unsigned int image;
         int size[2];
 
-        object_bucket = shape_position((col = Mob.x / 32), GetRow(y));
+        FChar.index = IndexCell1((col = Mob.x / 32), GetRow(y));
         image = get_fireball_image(Mob.flags);
-        if (check_shape_dimensions(fireball_sheet, image, size)) {
-            register int saved_y;
+        if (get_set_image_size(kid_shapes, image, size)) {
             int x = Mob.x;
-            saved_y = y;
+            int saved_y;
             Mob.x -= size[1] / 2;
+            saved_y = y;
             Mob.y = saved_y + size[0] / 2;
-            fireball_height = size[0];
+            fireball_height = *(volatile int near *)&size[0];
             fireball_half_width = size[1];
-            submit_fireball_y(Mob.y);
-            update_fireball_shape(1);
+            add_mobile_sprite(Mob.y);
+            mark_mob_redraw(1);
             Mob.y = saved_y;
             Mob.x = x;
         }
@@ -1611,7 +1616,7 @@ void far pascal check_fireball_hit_wall(void)
     col = x / 32;
     if (x < 0)
         --col;
-    if (tile_blocks_fireball(ReadCell(Mob.room, col, Mob.row))) {
+    if (IsWall(ReadCell(Mob.room, col, Mob.row))) {
         Mob.x = col * 32 + 14;
         if ((*(volatile int near *)&Mob.auxiliary) < 0)
             Mob.x += 32;

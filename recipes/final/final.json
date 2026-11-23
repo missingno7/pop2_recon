@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "3d94fca101f02b7255a97f5dbb5410179c553245755f0fe16ebb80c8d641be0e",
+  "binding_sha256": "0b83c6317af78bb9b9d7826258de3b11a0e2a8986743947cf69c3b254728a25c",
   "claims": [
     {
       "fixup_count": 7,
@@ -383,6 +383,23 @@
       "target_id": "overlay-10:29cf:1334"
     },
     {
+      "fixup_count": 17,
+      "public": "SETUP_GUARD_SMOKE",
+      "relocation_indices": [
+        3,
+        57,
+        83,
+        105,
+        139,
+        171
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:13b2"
+    },
+    {
       "fixup_count": 8,
       "public": "ANIMATE_JAFFAR_BLINK",
       "relocation_indices": [
@@ -430,6 +447,22 @@
       "target_id": "overlay-10:29cf:15a8"
     },
     {
+      "fixup_count": 14,
+      "public": "ANIMATE_CRYSTAL",
+      "relocation_indices": [
+        6,
+        33,
+        34,
+        75,
+        100
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:1622"
+    },
+    {
       "fixup_count": 8,
       "public": "DRAW_CRYSTAL",
       "relocation_indices": [
@@ -454,6 +487,22 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-10:29cf:17d8"
+    },
+    {
+      "fixup_count": 16,
+      "public": "ANIMATE_GARGOYLE",
+      "relocation_indices": [
+        7,
+        36,
+        37,
+        102,
+        140
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:182a"
     },
     {
       "fixup_count": 8,
@@ -497,6 +546,21 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-10:29cf:1b60"
+    },
+    {
+      "fixup_count": 14,
+      "public": "CHECK_FIREBALL_HIT_WALL",
+      "relocation_indices": [
+        17,
+        56,
+        71,
+        154
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-10:29cf:1c38"
     },
     {
       "fixup_count": 3,
@@ -558,6 +622,14 @@
   ],
   "code_matches": [
     {
+      "public": "CHECK_DEAD_OPPONENT",
+      "target_id": "overlay-10:29cf:0054",
+      "unproven": [
+        "LEVEL+0x3c",
+        "LEVEL+0x4b0"
+      ]
+    },
+    {
       "public": "RUN_FINAL_FRAME",
       "target_id": "overlay-10:29cf:037c",
       "unproven": [
@@ -571,14 +643,6 @@
         "FIREBALL_QUEUE+0xc",
         "FIREBALL_QUEUE_SEGMENT"
       ]
-    },
-    {
-      "public": "CHECK_DEAD_OPPONENT",
-      "target_id": "overlay-10:29cf:0054",
-      "unproven": [
-        "LEVEL+0x3c",
-        "LEVEL+0x4b0"
-      ]
     }
   ],
   "drafts": [
@@ -591,28 +655,12 @@
       "public": "SHADOW_IN_RANGE"
     },
     {
-      "object_offset": 5042,
-      "public": "SETUP_GUARD_SMOKE"
-    },
-    {
       "object_offset": 5322,
       "public": "ANIMATE_SPIDER"
     },
     {
-      "object_offset": 5666,
-      "public": "ANIMATE_CRYSTAL"
-    },
-    {
-      "object_offset": 6186,
-      "public": "ANIMATE_GARGOYLE"
-    },
-    {
       "object_offset": 6748,
       "public": "UPDATE_FIREBALL_VIEW"
-    },
-    {
-      "object_offset": 7224,
-      "public": "CHECK_FIREBALL_HIT_WALL"
     }
   ],
   "emitted_size": 7804,
@@ -623,19 +671,20 @@
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Zi"
+    "/Zi",
+    "/Og"
   ],
   "frame": 10703,
   "group_id": "group:final/final",
   "kind": "same_source_group",
   "language": "c",
   "name": "final/final",
-  "object_sha256": "94a3389c55450643471c77989d40b866831ba1c28dbaf3ebff4fe80645706061",
+  "object_sha256": "ce2b506ed5750f306d8dd92c96153a8bac3520e01ee7d187c20abb35b8d4c173",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/final/final.c",
-  "source_sha256": "174b1311d3ab91ccf34e93d89dd5786a0eec6635937face251337900079c6eef",
+  "source_sha256": "648364e68bd2199b5b4aa050dedbabe324c7dd1d1ef49e75ad2c39ce646ea243",
   "space": "overlay-10"
 }
