@@ -71469,6 +71469,37 @@
       "size": 82,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments and no result used. The function saves BP and SI and returns with RETF.",
+      "boundary_evidence": [
+        "Reviewed MobLoose ends at 0b41:1c6e and contains PUSH CS at root+0xd06e and E8 0c 00 at root+0xd06f, landing at the BP frame at root+0xd07e.",
+        "The 520-byte interval decodes fully and all direct branches stay inside it. RETF at root+0xd285 ends it immediately before the reviewed KnockLoose at 0b41:1e76 (root+0xd286)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 61551,
+          "image_offset": 53359,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 53358,
+          "relocated_segment_site": null,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The MSC-shaped routine is reached from MobLoose during a falling floor collision. It changes the struck tile, sets modifier bits and marks the redraw. The ordered FM Towns MOVE.C pairing is MakeRubble."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:1c6e",
+      "offset": 7278,
+      "segment": 2881,
+      "sha256": "530e65015b814fd859e963e27c3361258ee4c86e336ae7578f62ee7532062ff9",
+      "size": 520,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,
