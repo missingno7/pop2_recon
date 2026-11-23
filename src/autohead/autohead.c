@@ -105,7 +105,7 @@ typedef struct {
 } CELLREC;
 #pragma pack()
 extern CELLREC Cell;
-extern unsigned char level_head_kind;
+extern unsigned char OppCharId[];
 
 
 extern signed char tile_test_x;
@@ -388,7 +388,7 @@ HeadSprite near *far pascal head_add_opponent(HeadSprite near *sprite)
 {
     if (sprite->opponent_kind == 0) {
         sprite->opponent_kind = 5;
-        Char.character_kind = level_head_kind;
+        Char.character_kind = OppCharId[5];
         reset_char_y();
     }
     if (Char.character_kind == 11) {

@@ -12,6 +12,10 @@ extern int trob_count;
 extern Trob current_trob;
 extern Trob trobs[20];
 
+static sbyte exit_close_speed[] = {5, 17, 99, 0};
+static sbyte gate_close_speed[] = {0, 0, 0, 20, 40, 60, 80, 100, 120, 0};
+static sbyte gate_open_speed[] = {-1, -4, 4, 4};
+
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -276,8 +280,8 @@ typedef struct {
 #pragma pack()
 extern int IS_SIX_KIND(byte);
 extern sbyte CellToCol(byte room, int cell);
-extern sbyte CellToRow(byte room, int cell);
 extern ROOMREC Room;
+extern sbyte CellToRow(byte room, int cell);
 extern MoveRect *ComputeOffsetCellRect(MoveRect *out, MoveRect *base, int col, int row);
 MoveRect *compute_trob_move_rect(MoveRect *out, MoveRect *base);
 sbyte check_trob(void);
@@ -559,10 +563,10 @@ extern void on_ground(void);
 extern void FallOn(void);
 extern void Falling(void);
 extern sbyte get_above(void);
+extern CHARREC Char;
 extern sbyte get_under_foot(void);
 extern void fall_spikes(void);
 void break_loose_floor(sbyte);
-extern CHARREC Char;
 extern byte CutRoom;
 void jam_plate(void);
 void push_plate(sbyte sound, int link);
@@ -686,7 +690,7 @@ void animate_torch(int index)
 
 extern byte collision_state, active_sound_channels;
 extern int exit_sound_suppressed;
-extern sbyte gate_close_speed[], gate_open_speed[], exit_close_speed[];
+
 extern int limit_gate_opening(int height);
 extern void AddSound(int sound), dispatch_sound(int value);
 void stop_gate(int);
@@ -841,7 +845,7 @@ void animate_exit(void)
     if (current_trob.state >= 0) {
         if (current_trob.state >= 4) {
             ++current_trob.state;
-            height -= exit_close_speed[current_trob.state];
+            height -= exit_close_speed[current_trob.state - 4];
             if (height < 0) {
                 height = 0;
                 current_trob.state = -1;

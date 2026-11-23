@@ -71896,6 +71896,166 @@
       "size": 202,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments. Signed byte result in AL, RETF.",
+      "boundary_evidence": [
+        "The preceding routine ends in an AL result, RETF and alignment NOP at 060f. This entry starts with a BP frame and a two-byte local.",
+        "The reviewed callers at 01fa, 027a and 038e reach four PUSH CS/CALL near pairs naming 0610.",
+        "The common AL load at 06a7 is followed by the framed epilogue and RETF at 06ad."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54890,
+          "image_offset": 46698,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46697,
+          "space": "root"
+        },
+        {
+          "file_offset": 54997,
+          "image_offset": 46805,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46804,
+          "space": "root"
+        },
+        {
+          "file_offset": 55237,
+          "image_offset": 47045,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 47044,
+          "space": "root"
+        },
+        {
+          "file_offset": 55321,
+          "image_offset": 47129,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 47128,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call and return shape is MSC medium-model Pascal in the DOS frame mapped to FM Towns MOVE.C.",
+        "Computes the above-right cell with row and column arithmetic on the current trob."
+      ],
+      "classification_status": "strong MSC game C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0610",
+      "offset": 1552,
+      "segment": 2881,
+      "semantic_name_hypothesis": "check_trob_above_right",
+      "sha256": "6d85feb6f9d872577309fd16e48fd9d49ccce4642369516e0847ac65e084949c",
+      "size": 158,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or result. Bare RETF.",
+      "boundary_evidence": [
+        "The previous routine ends in RETF 2 and its NOP at 0b61. This frameless entry starts with the trob-room load.",
+        "The reviewed animate-gate extent contains two PUSH CS/CALL near pairs naming 0b62.",
+        "The branches share the RETF at 0ba2, followed by an alignment NOP and the reviewed guard predicate at 0ba4."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 56820,
+          "image_offset": 48628,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48627,
+          "space": "root"
+        },
+        {
+          "file_offset": 56990,
+          "image_offset": 48798,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 48797,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call and return shape is MSC medium-model Pascal in the DOS frame mapped to FM Towns MOVE.C.",
+        "Tests the kid room and sequence and conditionally calls the sound queue entry with 31."
+      ],
+      "classification_status": "strong MSC game C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0b62",
+      "offset": 2914,
+      "segment": 2881,
+      "semantic_name_hypothesis": "check_gate_fingers",
+      "sha256": "990b7557fd03f9cd74e2b9e8900a317a6810355588be37975f5d84faac635063",
+      "size": 66,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, three word slots at BP+6/+8/+10, byte result in AL, RETF 6.",
+      "boundary_evidence": [
+        "The preceding 1168 extent ends with RETF 4 at 11ab. This entry begins with a BP frame and eight bytes of locals.",
+        "The reviewed TriggerObject extent has a PUSH CS/CALL near pair at 12e9/12ea targeting 11ae.",
+        "The common exit loads AL from BP-1 and ends in RETF 6 at 12ab, followed by the reviewed 12ae entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59130,
+          "image_offset": 50938,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 50937,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call and return shape is MSC medium-model Pascal in the DOS frame mapped to FM Towns MOVE.C.",
+        "Dispatches gate triggers by cell state and environment, with a relocated far call to the level-specific path."
+      ],
+      "classification_status": "strong MSC game C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:11ae",
+      "offset": 4526,
+      "segment": 2881,
+      "semantic_name_hypothesis": "trigger_gate",
+      "sha256": "780f012d37b4788ae91310c0e5de1f81a7fed78b01c0f1ad0ed7aaa94eb4272c",
+      "size": 256,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, no stack arguments or result. Saves DI and SI and returns with bare RETF.",
+      "boundary_evidence": [
+        "The preceding target ends in RETF at 2051. The new BP frame saves DI and SI after reserving 16 bytes of locals.",
+        "The reviewed AddMobToFrame extent has a PUSH CS/CALL near pair at 2028/2029 targeting 2052.",
+        "The last same-CS mark-floor call leads to the common epilogue and RETF at 218c. The one NOP precedes the reviewed 218e entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 62521,
+          "image_offset": 54329,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 54328,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "The call and return shape is MSC medium-model Pascal in the DOS frame mapped to FM Towns MOVE.C.",
+        "Computes the falling loose floor frame bounds and marks the affected floor cells."
+      ],
+      "classification_status": "strong MSC game C hypothesis",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:2052",
+      "offset": 8274,
+      "segment": 2881,
+      "semantic_name_hypothesis": "add_loose_to_frame",
+      "sha256": "7f2cb38836e84157aa755fa197d264e3e1d21dd06fd467eadef603a82c14eecb",
+      "size": 316,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

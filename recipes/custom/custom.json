@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custom/custom.json",
-  "binding_sha256": "837d08baabdbcb533a187cbf2690a8d079b17e9bbd325cdb64b8f72bf5eb12d4",
+  "binding_sha256": "3fc8084a0d77786f89c867549d3d054d57cf891d1aa14cc005350b8b22ca8efd",
   "claims": [
     {
       "fixup_count": 1,
@@ -114,6 +114,11 @@
       "target_id": "root:04a6:06a6"
     },
     {
+      "fixup_count": 4,
+      "public": "SETCUSTOMROOMTEMPLATE",
+      "target_id": "root:04a6:0706"
+    },
+    {
       "fixup_count": 9,
       "public": "UNLOADCUSTOMROOMDATA",
       "relocation_indices": [
@@ -140,11 +145,6 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:04a6:0784"
-    },
-    {
-      "fixup_count": 4,
-      "public": "SETCUSTOMROOMTEMPLATE",
-      "target_id": "root:04a6:0706"
     }
   ],
   "code_matches": [
@@ -152,6 +152,7 @@
       "public": "GETCUSTOMABOVEARY",
       "target_id": "root:04a6:0134",
       "unproven": [
+        "CUSTOM_ABOVE",
         "CUSTOM_ABOVE+0x3"
       ]
     }

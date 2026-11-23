@@ -231,7 +231,7 @@ typedef struct {
 
 extern int ColEdgeX[20];
 extern byte opponent_bank;
-extern const byte opponent_style_for_level[];
+extern byte OppCharId[];
 
 extern OpponentSlot near *far pascal GetOppInfoIdx(int bank, int serial);
 extern void far _fastcall reserve_opponent_bank(byte kind);
@@ -266,7 +266,7 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     Char.slot = index;
     Char.direction = opponent->direction;
     Char.x = opponent->x;
-    Char.character_kind = opponent_style_for_level[((sbyte)Level.preferred_opponent)];
+    Char.character_kind = OppCharId[((sbyte)Level.preferred_opponent)];
     Char.column = variant;
     Char.row = room;
     (*(volatile unsigned char *)&Char.behavior) = 0;

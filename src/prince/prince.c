@@ -70,7 +70,8 @@ extern int demo_level;
 extern int demo_changed;
 extern int demo_pending;
 extern int minutes_remaining;
-static char title[24] = "PRINCE OF PERSIA 2";
+static char title[22] = "PRINCE OF PERSIA 2";
+int exit_sound_suppressed = 0;
 /* FM Towns names these adjacent lookup tables OppCharId and CharOppId. */
 unsigned char OppCharId[11] = { 2, 10, 4, 6, 1, 7, 8, 2, 11, 12, 0 };
 unsigned char opponent_outfit_by_character[15] = {

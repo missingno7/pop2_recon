@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/auto/auto.json",
-  "binding_sha256": "121db954e6db0d3ee654618268200f8202cd60a4efa850d4cb23d3c1f1076990",
+  "binding_sha256": "95b7ebc7fb37a5f1f473a4d33058199c75ec11c7662c09820cfeb9b50b214337",
   "claims": [
     {
       "fixup_count": 1,
@@ -261,6 +261,46 @@
       "target_id": "overlay-3:2344:198e"
     },
     {
+      "fixup_count": 84,
+      "public": "STAB_ACTOR",
+      "relocation_indices": [
+        5,
+        6,
+        10,
+        14,
+        18,
+        19,
+        20,
+        22,
+        39,
+        40,
+        43,
+        46,
+        51,
+        52,
+        66,
+        67,
+        68,
+        73,
+        74,
+        82,
+        83,
+        84,
+        87,
+        103,
+        116,
+        118,
+        123,
+        124,
+        126
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-3:2344:1a76"
+    },
+    {
       "fixup_count": 57,
       "public": "BEGIN_ACTOR_DEATH",
       "relocation_indices": [
@@ -376,10 +416,6 @@
     {
       "object_offset": 6190,
       "public": "UPDATE_AUTOMATIC_ACTOR"
-    },
-    {
-      "object_offset": 6774,
-      "public": "STAB_ACTOR"
     }
   ],
   "emitted_size": 9268,
@@ -399,12 +435,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "auto/auto",
-  "object_sha256": "326d26077e4101662753fc7e871ce390dc396956efa6641d5b29c34e3e25b4c9",
+  "object_sha256": "78d09bf82ef2f1e1a7d322e8fb3c908aaed3ee6a15eb9872805179bff6b2851e",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/auto/auto.c",
-  "source_sha256": "dd2426b78ec54f371723d9bfde3d52c0731bda8d309b286b9885de151172397d",
+  "source_sha256": "7a4a8bf4dd46a1d278c601f181318c4c423fc148e7d53aa0496b638467dd37f7",
   "space": "overlay-3"
 }

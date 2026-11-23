@@ -176,7 +176,7 @@ typedef struct {
 } generator_point;
 extern ROOMREC Room;
 extern unsigned char loaded_appearance;
-extern unsigned char appearance_kind[];
+extern unsigned char OppCharId[];
 
 #define actor_index Char.slot
 
@@ -235,7 +235,7 @@ void far pascal initialize_room_actors(void)
                 record->appearance != 10 && record->appearance != 3)
                 record->appearance = Level.preferred_opponent;
 
-            (*(volatile unsigned char near *)&Char.character_kind) = appearance_kind[record->appearance];
+            (*(volatile unsigned char near *)&Char.character_kind) = OppCharId[record->appearance];
             if ((unsigned char)record->appearance != loaded_appearance &&
                 Level.preferred_opponent != 5 && Level.preferred_opponent != 6 &&
                 (*(volatile unsigned char near *)&Char.character_kind) != 11 && (*(volatile unsigned char near *)&Char.character_kind) != 0 && (*(volatile unsigned char near *)&Char.character_kind) != 6)
@@ -679,7 +679,7 @@ void far pascal GenerateOpponent(generator_point *point, unsigned char room)
         actor_index = index;
         (*(volatile signed char near *)&Char.direction) = record->direction;
         Char.x = record->x;
-        (*(volatile unsigned char near *)&Char.character_kind) = appearance_kind[(signed char)Level.preferred_opponent];
+        (*(volatile unsigned char near *)&Char.character_kind) = OppCharId[(signed char)Level.preferred_opponent];
         Char.column = point->row;
         Char.row = point->column;
         Char.behavior = point->behavior;
@@ -1343,6 +1343,7 @@ typedef struct {
     unsigned char head[6];
     unsigned char flags;
 } hit_action_record;
+extern CELLREC Cell;
 extern hit_action_record far hit_actions[];
 
 
@@ -1350,12 +1351,10 @@ extern signed char hit_actor_motion;
 
 
 extern unsigned char actor_stage;
-extern signed char actor_bump_column;
 extern unsigned char actor_counterface;
 static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
 };
-extern CELLREC Cell;
 
 extern int ColEdgeX[20];
 extern unsigned int hit_actor_phase;
@@ -1371,17 +1370,17 @@ void far pascal load_shadow_with_opponent(signed char index);
 void far pascal save_shadow_with_opponent(void);
 void far pascal load_kid_with_opponent(signed char index);
 void far pascal save_kid_with_opponent(void);
-void far pascal play_fall_script(unsigned char style);
+void far pascal set_kid_palette(unsigned char style);
 signed char far pascal get_behind(void);
-signed char far pascal adjacent_stage_kind(unsigned char direction);
-int far pascal stage_blocks_impact(signed char kind);
-void far pascal flash_death_effect(void);
-void far pascal actor_end_fall(void);
-int far pascal calculate_horizontal_clearance(void);
+signed char far pascal get_cells_ahead(unsigned char direction);
+int far pascal IsWall(signed char kind);
+void far pascal head_set_to_flee_mode(void);
+void far pascal get_frame_info(void);
+int far pascal get_edge_distance(void);
 int far pascal IS_SIX_KIND(signed char kind);
-int far pascal stage_interrupts_fall(signed char kind);
-void far pascal update_actor_tile_column(void);
-void far pascal finish_fall_animation(void);
+int far pascal IsMobFloor(signed char kind);
+void far pascal reread_cells(void);
+void far pascal PutDeadBodyOnSolidGround(void);
 void far pascal bones_fall(void);
 unsigned char far pascal GetCellCol(void);
 void far pascal dismiss_other_jaffars(void);
@@ -1434,7 +1433,7 @@ void far pascal stab_actor(void)
     if ((signed char)(*(unsigned char near *)&Char.alive) >= 0)
         return;
     if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && (*(volatile int near *)&Char.sequence) == 5 && (Level.environment_kind == 2 || Level.environment_kind == 6))
-        play_fall_script(Level.environment_kind);
+        set_kid_palette(Level.environment_kind);
 
     if ((*(unsigned char near *)&Char.stance) == 255 || (*(volatile int near *)&Char.sequence) == 10 || (*(volatile int near *)&Char.sequence) == 16 ||
         (*(volatile int near *)&Char.sequence) == 28 || (*(volatile int near *)&Char.sequence) == 14) {
@@ -1445,7 +1444,7 @@ void far pascal stab_actor(void)
             next_action = 153;
             damage = actor_stage == 2 ? 1 : 2;
             if (damage < (signed char)(*(unsigned char near *)&Char.life_points))
-                flash_death_effect();
+                head_set_to_flee_mode();
         } else if ((*(volatile unsigned char near *)&Char.character_kind) == 11 || (*(unsigned char near *)&Opp.character_kind) == 11) {
             damage = 100;
             next_action = default_action;
@@ -1457,9 +1456,9 @@ void far pascal stab_actor(void)
                     !(hit_actions[Kid.frame].flags & 64))
                     next_action = 45;
                 else if ((unsigned)(*(volatile int near *)&Char.frame) >= 246u && (unsigned)(*(volatile int near *)&Char.frame) <= 261u) {
-                    if (stage_blocks_impact(get_behind()))
+                    if (IsWall(get_behind()))
                         Char.x = AddCharX(16);
-                    else if (stage_blocks_impact(adjacent_stage_kind(1)))
+                    else if (IsWall(get_cells_ahead(1)))
                         Char.x = AddCharX(-16);
                 }
             }
@@ -1473,16 +1472,16 @@ void far pascal stab_actor(void)
         }
     }
 
-    actor_end_fall();
-    next_action = calculate_horizontal_clearance();
+    get_frame_info();
+    next_action = get_edge_distance();
     if ((IS_SIX_KIND(get_under_foot()) ||
          (IS_SIX_KIND(get_behind()) && next_action >= 4)) &&
         (*(volatile unsigned char near *)&Char.character_kind) != 7 && (*(volatile unsigned char near *)&Char.character_kind) != 8 && (*(volatile unsigned char near *)&Char.character_kind) != 11 && (*(volatile unsigned char near *)&Char.character_kind) != 6) {
         next_action -= 8;
-        if (actor_bump_column != Char.column)
+        if (Cell.column != Char.column)
             next_action -= 32;
         Char.x = AddCharX(next_action);
-        update_actor_tile_column();
+        reread_cells();
         ++Char.row;
         JumpSeq(81);
     } else {
@@ -1507,13 +1506,13 @@ stop_falling:
     }
     AnimChar();
     if ((*(volatile int near *)&Char.sequence) == 85) {
-        update_actor_tile_column();
+        reread_cells();
         damage = get_under_foot();
-        if (IS_SIX_KIND(damage) || stage_interrupts_fall(damage)) {
+        if (IS_SIX_KIND(damage) || IsMobFloor(damage)) {
             Char.x = AddCharX(-24);
-            update_actor_tile_column();
+            reread_cells();
         }
-        finish_fall_animation();
+        PutDeadBodyOnSolidGround();
     }
 }
 
