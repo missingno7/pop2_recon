@@ -39,8 +39,12 @@ class OmfReader:
 
     `library_records=True` (pinned runtime members only) also decodes the library
     records compiler output never contains here: LEXTDEF/LPUBDEF (module-local
-    names, marked `local`), COMDEF communals (which share the external index
-    space) and a MODEND start address (recorded, never resolved)."""
+    names, marked `local`), far COMDEF communals and a MODEND start address
+    (recorded, never resolved). Near COMDEF communals (MSC's uninitialized
+    globals defined without `extern`, data type 0x62) are decoded always
+    (2026-11-23): they share the external index space, so a reference to one is
+    an external fixup that a binding must ground like any extern; `communals`
+    lists name and length."""
 
     def __init__(self, *, overwrite_ledata=False, library_records=False):
         self.overwrite_ledata = overwrite_ledata
@@ -175,7 +179,7 @@ class OmfReader:
                     _, at = self._index(body, at)
                     if kind == 0xB4:
                         local_externals.add(externals[-1])
-            elif kind == 0xB0 and self.library_records:
+            elif kind == 0xB0:
                 at = 0
                 while at < len(body):
                     n = body[at]; at += 1
@@ -193,7 +197,8 @@ class OmfReader:
                         if at + width > len(body): raise OmfError("truncated COMDEF length")
                         lengths_.append(int.from_bytes(body[at:at+width], "little") if width else lead)
                         at += width
-                    if data_type not in (0x61, 0x62): raise OmfError("unsupported COMDEF data type")
+                    if data_type not in (0x61, 0x62) or (data_type == 0x61 and not self.library_records):
+                        raise OmfError("unsupported COMDEF data type")
                     externals.append(name)
                     communals.append({"name": name, "kind": "far" if data_type == 0x61 else "near",
                                       "length": lengths_[0] * lengths_[1] if data_type == 0x61 else lengths_[0]})
@@ -298,9 +303,9 @@ class OmfReader:
             fixups = [f for f in fixups if f["segment_index"] not in debug]
         module = ObjectModule(module_name, segments, lengths, seg_defs, publics,
                               externals, group_defs, fixups, recs, initialized)
+        module.communals = communals
         if self.library_records:
             module.local_externals = local_externals
-            module.communals = communals
             module.start_address = start_address
         return module
 

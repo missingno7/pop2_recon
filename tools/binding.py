@@ -239,8 +239,11 @@ def string_context(rows, address_fields):
 
 
 def declarations(module):
-    return {"segments": module.segment_defs, "groups": module.groups,
-            "publics": module.publics, "externals": module.externals}
+    found = {"segments": module.segment_defs, "groups": module.groups,
+             "publics": module.publics, "externals": module.externals}
+    if getattr(module, "communals", None):  # near COMDEFs are pinned with the other declarations
+        found["communals"] = module.communals
+    return found
 
 
 def fixes(module):

@@ -97,7 +97,7 @@ def code_segment(module, placed=()):
     initialized = set()
     # 0x94 LINNUM (/Zd line numbers) carries no code or fixups; RTLink order evidence
     # (build/workers/reloc_order, docs/far-call-binding.md) needs /Zd LEDATA chunking.
-    supported = {0x80, 0x82, 0x88, 0x8a, 0x8c, 0x90, 0x94, 0x96, 0x98, 0x9a, 0x9c, 0xa0}
+    supported = {0x80, 0x82, 0x88, 0x8a, 0x8c, 0x90, 0x94, 0x96, 0x98, 0x9a, 0x9c, 0xa0, 0xb0}
     for record in module.records:
         require(record["type"] in supported, "Unsupported OMF record at strict acceptance")
         if record["type"] != 0xa0:

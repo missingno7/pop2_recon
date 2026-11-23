@@ -414,3 +414,12 @@ there is some file's own static, never another C file's extern); a v4 symbol sta
 evidence/bss-layout-debt.json, which validation keeps equal to the violations, so the list only shrinks: republish
 the group with the real static, communal or member-of-base model. The rule proves nothing; single-use BSS fields
 stay unproven (o7_bss: genuinely underdetermined without an original map), see CODE_MATCH in docs/acceptance.md.
+
+## Communal definitions (near COMDEF, 2026-11-23)
+
+MSC 6 emits a near COMDEF record (data type 0x62) for an uninitialized global that a file defines without
+`extern`. The linker allocates communals in `c_common`, so the object contributes no bytes. The strict parser
+accepts near COMDEFs in compiler output. They share the external index space, so every reference to a communal is
+an external fixup that the group binding must ground like any extern: a witnessed v4 symbol, members or provider.
+The communal names and lengths are pinned in the binding's `declarations` (`communals`). Far COMDEFs stay
+library-only. The BSS layout rule applies to their grounded addresses as to externs.
