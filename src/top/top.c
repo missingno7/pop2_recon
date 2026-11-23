@@ -2,35 +2,50 @@
  * Address comments identify the observed operands behind external declarations. */
 extern signed char LevelIdx;                          /* ds:0a18 */
 #pragma pack(1)
-struct box { int left, top, right, bottom; };
-struct character {
-    char frame, direction;
-    int x, y;
-    char action;
-    unsigned sequence;
-    signed char column, row, floor, strength, fall, room, type;
-    signed char skill, alive, max_hp, hp_delta, pushed;
-    int hurt, previous_x, alternate_x;
-    struct box bounds;
-    char alert;
-    int collision;
-    char unused26[6];
-    struct box previous_bounds;
-    int previous_sequence_x;
-    char unused36[3];
-    signed char opponent;
-    char unused3a[6];
-};
+struct char_bounds { int top, left, bottom, right; };
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
 struct room_state { char prefix[0x34]; signed char guard_count; char suffix[0x3f]; };
 struct room_links { unsigned char left, right, above, below; };
 struct rebirth_point { signed char room, cell; };
 struct guard_record { char prefix[7]; int active; };
 typedef void (far pascal *frame_proc)(void);
 
-extern struct character Char;                     /* ds:5c00 */
-extern struct character Opp;                    /* ds:5c40 */
-extern struct character Kid;                      /* ds:5c80 */
-extern struct character RoomOpp[];                /* ds:5cc0 */
+extern CHARREC Char;                     /* ds:5c00 */
+extern CHARREC Opp;                    /* ds:5c40 */
+extern CHARREC Kid;                      /* ds:5c80 */
+extern CHARREC RoomOpp[5];                /* ds:5cc0 */
 extern struct room_state room_states[];            /* ds:44c1 */
 
 extern const struct rebirth_point rebirth_points[2]; /* ds:53e9 */
@@ -43,7 +58,6 @@ extern struct {
     char before_entry[0x1860];
     signed char entry_room, entry_cell, entry_facing;
 } Level;
-extern signed char guard_start_delay;             /* ds:5c63 */
 extern signed char end_room;                       /* ds:4568 */
 extern signed char game_request;                   /* ds:6ccc */
 extern signed char CutRoom;                   /* ds:6ccd */
@@ -211,11 +225,11 @@ extern void step_sound(void);                       /* far:0dd7:04d0 */
 extern void finish_queued_sound(int *);              /* far:0dd7:03cc */
 extern void update_flash(void);                     /* far:078a:20a8 */
 extern void set_sound_flags(int);                    /* far:1101:842c */
-extern void mark_bufs_for_rect(void far *, struct box *, char); /* far:0b41:0f62 */
+extern void mark_bufs_for_rect(void far *, struct char_bounds *, char); /* far:0b41:0f62 */
 extern void floor_foreground_resource(void);        /* far:0b41:0f1e */
 extern int index_cell(char, char);               /* far:02cc:020a */
 extern void mark_half(int);                 /* far:0b41:0e60 */
-extern void mark_floor(int, struct box *);           /* far:0b41:0e1c */
+extern void mark_floor(int, struct char_bounds *);           /* far:0b41:0e1c */
 extern char first_in_row(char);                     /* far:02cc:07c6 */
 extern void reach_rebirth_point(int);               /* far:052d:0fc4 */
 extern void shake_row(char, char);            /* far:0b41:190c */
@@ -316,7 +330,7 @@ int restart_level(signed char requested)
         viewed_room = 0;
         special_sequence = fade_ticks = control_lock = transition_pending = collision_pending = 0;
         last_track = last_sound = -1;
-        Kid.pushed = 0;
+        Kid.life_delta = 0;
         RoomOpp[0].direction = 0x56;
         start_kid();
         open_start_gate();
@@ -350,7 +364,7 @@ void start_kid(void)
     int seq;
     signed char repeat;
 
-    Char.action = 0;
+    Char.character_kind = 0;
     if (stage_number == 7)
         special_entrance();
     CutRoom = Char.room = Level.entry_room;
@@ -359,7 +373,7 @@ void start_kid(void)
     Char.direction = ~Level.entry_facing;
     seq = starting_sequence();
     Char.x = column_x[Char.column] + 14;
-    Char.hp_delta = Char.max_hp = LevelIdx ? starting_health : 4;
+    Char.life_initial = Char.life_points = LevelIdx ? starting_health : 4;
     repeat = 0;
     if (seq == -1) {
         if (stage_set == 5 && Level.entry_room == 4) {
@@ -394,16 +408,16 @@ void start_kid(void)
 
 void finish_start_kid(void)
 {
-    Char.frame = 10;
-    Char.action = 0;
-    Char.alert = 3;
-    *(volatile int *)&Char.collision = 0;
-    *(volatile int *)&Char.previous_sequence_x = 0;
-    Char.opponent = Char.alive = -1;
+    Char.slot = 10;
+    Char.character_kind = 0;
+    Char.alert_delay = 3;
+    *(volatile int *)&Char.sequence_group = 0;
+    *(volatile int *)&Char.field_34 = 0;
+    Char.opponent_index = Char.alive = -1;
     reset_char_y();
     ClearCharVel();
     action_timer = guard_timer = block_ticks = view_retry = 0;
-    Char.skill = start_facing == -1 ? -1 : 0;
+    Char.stance = start_facing == -1 ? -1 : 0;
     AnimChar();
     Kid = Char;
 }
@@ -451,7 +465,7 @@ int first_frame(signed char requested)
             clear_message(1);
         sequence_delay = pending_sequence = 0;
         clean_cut();
-        update_health(Kid.max_hp, Kid.hp_delta);
+        update_health(Kid.life_points, Kid.life_initial);
         tick_delay = 5;
         if (tick_delay) {
             do {
@@ -513,7 +527,7 @@ int run_frames(void)
                         resource_index == 4 || resource_index == 7 || resource_index == 54)) {
                 if (next_level == -1 || (stage_number != 9 && stage_number != 5))
                     dispatch_sound(0);
-                starting_health = Kid.hp_delta;
+                starting_health = Kid.life_initial;
                 request = next_level;
                 RemoveRebirthPt();
             } else {
@@ -539,7 +553,7 @@ int next_frame(void)
 
     start_floor_frame();
     update_floors();
-    if (end_room == 2 || RoomOpp[0].action == 10)
+    if (end_room == 2 || RoomOpp[0].character_kind == 10)
         level_special_floor();
     select_guards_in_room(viewed_room);
     check_alert();
@@ -584,7 +598,7 @@ int run_kid(void)
 
     copy_kid_to_char();
     if (!is_undefined_room()) {
-        if ((opponent = Char.opponent) == -1) {
+        if ((opponent = Char.opponent_index) == -1) {
             if ((opponent = find_opponent(1)) == -1)
                 opponent = 0;
         }
@@ -594,7 +608,7 @@ int run_kid(void)
         if (result != -1) {
             if (!restart_request) {
                 AnimChar();
-                if (!Char.sequence)
+                if (!Char.frame)
                     goto normal_result;
                 Gravity();
                 add_char_velocity();
@@ -678,7 +692,7 @@ void run_shadows(void)
                 change_view_room();
             }
             AnimChar();
-            if (Char.action == 2)
+            if (Char.character_kind == 2)
                 shadow_bump();
             if ((Char.x >= 34 && Char.x <= 545) ||
                 (stage_number == 5 && Char.row == 1 &&
@@ -689,7 +703,7 @@ void run_shadows(void)
                 check_controls();
                 reread_cells();
                 get_char_edges();
-                if (Char.floor != 9) {
+                if (Char.action != 9) {
                     collide_shadow_floor();
                     collide_shadow_walls();
                     check_floor();
@@ -718,7 +732,7 @@ void run_shadows(void)
                     Char.row = sequence_row(Char.y);
                 }
             }
-            if (Char.action == 12)
+            if (Char.character_kind == 12)
                 check_shadow_exit();
             {
                 unsigned char new_room = Char.room;
@@ -736,10 +750,10 @@ void run_shadows(void)
         if (RoomOpp[index].direction == 0x56) {
             load_actor_slot(index);
             remove_shadow(viewed_room, index);
-            if (Kid.opponent > Char.frame)
-                --Kid.opponent;
-            else if (Kid.opponent == Char.frame)
-                Kid.opponent = find_opponent(Char.direction);
+            if (Kid.opponent_index > Char.slot)
+                --Kid.opponent_index;
+            else if (Kid.opponent_index == Char.slot)
+                Kid.opponent_index = find_opponent(Char.direction);
             --index;
             --count;
         }
@@ -820,19 +834,19 @@ void reset_frame_vars(void)
 {
     signed char index, count;
 
-    tick_delay = Kid.skill == 1 ? 6 : 5;
-    Kid.pushed = 0;
+    tick_delay = Kid.stance == 1 ? 6 : 5;
+    Kid.life_delta = 0;
     Kid.previous_bounds = Kid.bounds;
-    if (Kid.collision == 8 && (Kid.previous_x != 52 || Kid.hurt))
-        Kid.collision = 0;
+    if (Kid.sequence_group == 8 && (Kid.sequence_id != 52 || Kid.sequence_position))
+        Kid.sequence_group = 0;
     index = 0;
     count = room_states[viewed_room].guard_count;
     if (count > 0) do {
         load_actor_slot(index);
-        Char.pushed = 0;
+        Char.life_delta = 0;
         Char.previous_bounds = Char.bounds;
-        if (Char.collision == 8)
-            Char.collision = 0;
+        if (Char.sequence_group == 8)
+            Char.sequence_group = 0;
         save_actor_slot();
     } while (++index < count);
     tick_misc_timers();
@@ -840,24 +854,24 @@ void reset_frame_vars(void)
 
 void quick_foreground(void)
 {
-    if (Char.frame == 10)
+    if (Char.slot == 10)
         mark_bufs_for_rect((void far *)floor_foreground_resource, &Char.bounds, -1);
 }
 
 void quick_floor(void)
 {
     signed char left_edge;
-    int floor = Char.floor;
-    unsigned seq = Char.sequence;
+    int floor = Char.action;
+    unsigned seq = Char.frame;
 
     if (seq >= 135 && seq < 145 && !Char.direction) {
         mark_half(index_cell(sweep_right, sweep_row));
         return;
     }
     if (floor != 2 && floor != 3 && floor != 4 && floor != 6 && seq != 79 && seq != 81) {
-        if ((Char.action == 7 || Char.action == 8) &&
-            (Char.alternate_x == 137 || Char.alternate_x == 138 || Char.alternate_x == 143 ||
-             Char.alternate_x <= 144 || Char.alternate_x == 143 || Char.alternate_x == 144)) {
+        if ((Char.character_kind == 7 || Char.character_kind == 8) &&
+            (Char.sequence == 137 || Char.sequence == 138 || Char.sequence == 143 ||
+             (int)Char.sequence <= 144 || Char.sequence == 143 || Char.sequence == 144)) {
             if ((sweep_column = sweep_right) >= sweep_left) do {
                 mark_floor(index_cell(sweep_column, sweep_row), &Char.bounds);
                 left_edge = sweep_left;
@@ -871,7 +885,7 @@ void quick_floor(void)
         if (floor != 2)
             mark_floor(index_cell(sweep_column, previous_sweep_row), &Char.bounds);
         if (previous_sweep_row != sweep_row &&
-            !(Char.alternate_x == 28 && (Char.room == 7 || Char.room == 8) && stage_set == 6))
+            !(Char.sequence == 28 && (Char.room == 7 || Char.room == 8) && stage_set == 6))
             mark_floor(index_cell(sweep_column, sweep_row), &Char.bounds);
         left_edge = sweep_left;
         --sweep_column;
@@ -884,8 +898,8 @@ void check_rebirth_points(void)
     int index;
     const struct rebirth_point *point;
 
-    if (Kid.room && Kid.floor != 4 && Kid.alive < 0 && abs(Kid.pushed) < Kid.max_hp &&
-        Kid.action != 1 && (Kid.room != 9 || stage_number != 8 || start_facing == 1)) {
+    if (Kid.room && Kid.action != 4 && Kid.alive < 0 && abs(Kid.life_delta) < Kid.life_points &&
+        Kid.character_kind != 1 && (Kid.room != 9 || stage_number != 8 || start_facing == 1)) {
         point = rebirth_points;
         index = 0;
         do {
@@ -917,16 +931,16 @@ void tick_misc_timers(void)
 
 void face_first_guard(void)
 {
-    if (Opp.direction != 0x56 && guard_start_delay >= 2 && Char.skill != 1 &&
-        Opp.skill && Opp.floor < 2 && Opp.direction != Char.direction &&
-        Opp.action != 11 && Opp.action != 7 && Opp.action != 8 &&
-        !(Opp.action == 12 && Opp.sequence >= 179 && Opp.sequence <= 235) &&
-        !(Opp.action == 4 && Opp.sequence == 206) &&
-        !(Opp.action == 2 && Opp.alternate_x == 110) &&
+    if (Opp.direction != 0x56 && Opp.alert_delay >= 2 && Char.stance != 1 &&
+        Opp.stance && Opp.action < 2 && Opp.direction != Char.direction &&
+        Opp.character_kind != 11 && Opp.character_kind != 7 && Opp.character_kind != 8 &&
+        !(Opp.character_kind == 12 && Opp.frame >= 179 && Opp.frame <= 235) &&
+        !(Opp.character_kind == 4 && Opp.frame == 206) &&
+        !(Opp.character_kind == 2 && Opp.sequence == 110) &&
         Char.alive < 0 && abs(get_opp_dist()) <= 15) {
         reset_char_y();
-        Char.fall = 0;
-        if (Char.sequence >= 246 && Char.sequence <= 261) {
+        Char.vertical_step = 0;
+        if (Char.frame >= 246 && Char.frame <= 261) {
             Char.x = AddCharX(-6);
             return;
         }
@@ -973,7 +987,7 @@ void check_alert(void)
     unsigned int sequence;
 
     if (Kid.room) {
-        sequence = Kid.sequence;
+        sequence = Kid.frame;
         first = find_opponent(0);
         second = find_opponent(-1);
         count = room_states[(unsigned char)Kid.room].guard_count;
@@ -981,11 +995,11 @@ void check_alert(void)
         if (count > 0) do {
             load_actor_slot(index);
             if (!sequence || (sequence >= 217 && sequence < 226) || Kid.alive >= 0 || Char.alive >= 0 ||
-                Char.direction == 0x56 || (Kid.row != Char.row && Char.action != 7 && Char.action != 8) ||
-                (Char.action == 11 && Char.collision == 6) || (Kid.action == 1 && stage_set == 2)) {
-                Char.alert = 0;
+                Char.direction == 0x56 || (Kid.row != Char.row && Char.character_kind != 7 && Char.character_kind != 8) ||
+                (Char.character_kind == 11 && Char.sequence_group == 6) || (Kid.character_kind == 1 && stage_set == 2)) {
+                Char.alert_delay = 0;
             } else {
-                Char.alert = 3;
+                Char.alert_delay = 3;
                 left = Kid.column;
                 right = Char.column;
                 if (left > right) {
@@ -997,25 +1011,25 @@ void check_alert(void)
                     --right;
                 if (left < right) {
                     if (left <= right) do {
-                        if (Char.alert != 3)
+                        if (Char.alert_delay != 3)
                             break;
                         kind = ReadCell(Kid.room, left, Kid.row);
                         if (IsWall(kind) &&
-                            !(Char.action == 11 && kind == 7 && (cell_flags & 0x80))) {
-                            Char.alert = 0;
+                            !(Char.character_kind == 11 && kind == 7 && (cell_flags & 0x80))) {
+                            Char.alert_delay = 0;
                         } else if ((kind == 4 && cell_flags < 0x70) ||
-                                   (IsImpassable(kind) && Char.action != 10) ||
-                                   (IS_SIX_KIND(kind) && Char.action != 10 &&
-                                    Char.action != 7 && Char.action != 8)) {
-                            Char.alert = 1;
+                                   (IsImpassable(kind) && Char.character_kind != 10) ||
+                                   (IS_SIX_KIND(kind) && Char.character_kind != 10 &&
+                                    Char.character_kind != 7 && Char.character_kind != 8)) {
+                            Char.alert_delay = 1;
                         }
                     } while (right >= ++left);
                 }
-                if (Char.alert == 3 && Char.action != 11) {
+                if (Char.alert_delay == 3 && Char.character_kind != 11) {
                     if (index != second && index != first)
-                        Char.alert = 2;
-                    else if (Char.action == 10)
-                        Char.skill = 1;
+                        Char.alert_delay = 2;
+                    else if (Char.character_kind == 10)
+                        Char.stance = 1;
                 }
             }
             save_actor_slot();

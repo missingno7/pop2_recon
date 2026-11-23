@@ -42,9 +42,7 @@ typedef struct {
     sbyte other;
 } LavaTrob;
 
-typedef struct {
-    int top, left, bottom, right;
-} Rect;
+struct char_bounds { int top, left, bottom, right; };
 
 struct item {
     int active;
@@ -69,24 +67,47 @@ extern CellState *BlueS;
 extern int current_tile_number;
 extern TileState current_tile;
 #pragma pack(1)
-extern struct {
-    ubyte before_bounds[0x1b];
-    Rect bounds;
-    ubyte tail[0x1d];
-} Char;
+typedef struct {
+    signed char slot;                  /* 00 */
+    signed char direction;             /* 01 */
+    int x, y;                          /* 02, 04 */
+    signed char character_kind;        /* 06 */
+    unsigned int frame;                /* 07 */
+    signed char column, row;           /* 09, 0a */
+    signed char action;                /* 0b */
+    signed char horizontal_step;       /* 0c */
+    signed char vertical_step;         /* 0d */
+    signed char room;                  /* 0e */
+    signed char field_0f;              /* 0f */
+    signed char stance;                /* 10 */
+    signed char alive;                 /* 11 */
+    signed char life_points;           /* 12 */
+    signed char life_initial;          /* 13 */
+    signed char life_delta;            /* 14 */
+    int sequence_position;             /* 15 */
+    int sequence_id;                   /* 17 */
+    unsigned int sequence;             /* 19 */
+    struct char_bounds bounds;                    /* 1b: top, left, bottom, right */
+    signed char alert_delay;           /* 23 */
+    int sequence_group;                /* 24 */
+    int previous_x, previous_y;        /* 26, 28 */
+    unsigned int previous_frame;       /* 2a */
+    struct char_bounds previous_bounds;           /* 2c: top, left, bottom, right */
+    int field_34;                      /* 34 */
+    int previous_mode;                 /* 36 */
+    unsigned char behavior;            /* 38 */
+    signed char opponent_index;        /* 39 */
+    unsigned char field_3a;            /* 3a */
+    unsigned char unknown_3b[5];        /* 3b..3f */
+} CHARREC;
 #pragma pack()
-extern sbyte actor_id, actor_room, actor_column, actor_row, actor_grab;
-extern ubyte actor_cell, level_number;
-extern uword actor_frame, actor_sequence;
-extern sbyte actor_life, actor_action, actor_fall, actor_hit;
-extern int actor_x, actor_y, actor_sequence_group;
+extern CHARREC Char;
+extern ubyte level_number;
 extern ubyte viewed_room;
 extern ubyte down_room;
 extern sbyte right_room, upper_room;
 extern struct { ubyte link[4]; } room_links[];
-extern sbyte guard_cell, guard_row, guard_room;
-extern uword guard_frame;
-extern int guard_sequence_group;
+extern CHARREC Kid;
 
 extern uword BlueSpec;
 extern DartState dart;
@@ -152,7 +173,7 @@ extern int GetRow(int, int);
 extern void mark_mob_redraw(sbyte);
 extern void play_exit_sound(int);
 extern Projectile *get_mob_type_item(sbyte, int);
-extern int SECTRECT(Rect far *, Rect far *, Rect far *);
+extern int SECTRECT(struct char_bounds far *, struct char_bounds far *, struct char_bounds far *);
 extern void AddSound(int);
 extern int IS_SIX_KIND(ubyte);
 extern int IsWall(ubyte);
@@ -172,8 +193,8 @@ extern unsigned int Rnd(unsigned int);
 extern void ClearCharVel(void);
 extern void AnimChar(void);
 extern void load_room(sbyte);
-extern void mark_move(sbyte, Rect *);
-extern int compute_trob_move_rect(Rect *, int *);
+extern void mark_move(sbyte, struct char_bounds *);
+extern int compute_trob_move_rect(struct char_bounds *, int *);
 extern sbyte get_adjacent_animation(void);
 extern void add_gate_sound(int);
 extern sbyte FirstInRow(sbyte);
@@ -228,7 +249,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
                 saved.previous_tile = current_tile;
                 saved.previous_number = current_tile_number;
                 saved.previous_cells = BlueS;
-                saved.flags = ReadCell(actor_cell, actor_column, actor_row) == 34
+                saved.flags = ReadCell((ubyte)Char.room, Char.column, Char.row) == 34
                     ? current_tile.flags : 0;
                 BlueS = saved.previous_cells;
                 current_tile_number = saved.previous_number;
@@ -244,14 +265,14 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
         } else if (saved.trob->action == 2 && pressed)
             saved.trob->action = 3;
     } else if (saved.low != 255) {
-        if (saved.low == 0 && !(actor_id == 4 && level_number == 5 && actor_row == 1 &&
-                         (actor_cell == 10 || actor_cell == 7 || actor_cell == 12))) {
+        if (saved.low == 0 && !(Char.character_kind == 4 && level_number == 5 && Char.row == 1 &&
+                         ((ubyte)Char.room == 10 || (ubyte)Char.room == 7 || (ubyte)Char.room == 12))) {
             if (!pressed) {
                 if (!(current_tile.flags & 0x0800))
                     saved.result = 2;
             } else
                 saved.result = 3;
-        } else if (saved.low != 0 && saved.low != 36 && actor_grab < 0)
+        } else if (saved.low != 0 && saved.low != 36 && Kid.alive < 0)
             saved.result = 4;
     }
     return saved.result;
@@ -285,11 +306,11 @@ void move_dart_to_tile(void)
 
 void check_dart_hit(void)
 {
-    Rect hit, bounds;
+    struct char_bounds hit, bounds;
     int index;
     Projectile *dart_mob;
 
-    if (!(actor_frame >= 108 && actor_frame <= 112 && actor_sequence == 79)) {
+    if (!(Char.frame >= 108 && Char.frame <= 112 && Char.sequence == 79)) {
         index = 1;
         do {
             dart_mob = get_mob_type_item(2, index++);
@@ -377,24 +398,24 @@ void hit_actor_with_dart(void)
 {
     int edge;
 
-    if (actor_life < 0) {
+    if (Char.alive < 0) {
         if (!decrement_life_points(1)) {
-            actor_sequence_group = 8;
-            if (actor_id == 0)
+            Char.sequence_group = 8;
+            if (Char.character_kind == 0)
                 AddSound(31);
             else
                 AddSound(72);
         } else {
             edge = get_edge_distance();
             if (IS_SIX_KIND(get_behind()) && edge >= 4) {
-                actor_x = AddCharX(edge - 40);
+                Char.x = AddCharX(edge - 40);
                 reread_cells();
-                ++actor_row;
+                ++Char.row;
                 JumpSeq(18);
             } else {
                 begin_actor_death();
                 reset_char_y();
-                actor_fall = 0;
+                Char.vertical_step = 0;
             }
         }
         AddSound(81);
@@ -509,12 +530,12 @@ void check_lava_boil(void)
 {
     uword kind;
     int y, center, reach;
-    kind = ReadCell(actor_cell, actor_column, actor_row);
-    y = (sbyte)63 * actor_row + 41;
+    kind = ReadCell((ubyte)Char.room, Char.column, Char.row);
+    y = (sbyte)63 * Char.row + 41;
     center = get_base_x();
-    reach = cell_x[actor_column] - center + 26;
+    reach = cell_x[Char.column] - center + 26;
     if ((kind == 23 || (kind == 24 && reach >= 0)) &&
-        (current_row_flags & 64) && y < actor_y && actor_sequence_group != 5)
+        (current_row_flags & 64) && y < Char.y && Char.sequence_group != 5)
         do_lava_boil();
 }
 
@@ -523,24 +544,24 @@ void do_lava_boil(void)
     struct list *pool;
     LavaTrob *trob;
 
-    pool = get_lava_info(actor_cell, actor_column, actor_row);
+    pool = get_lava_info((ubyte)Char.room, Char.column, Char.row);
     if (pool) {
         pool->prefix = 0x80;
-        if (actor_id == 0 && Rnd(3) == 0) {
+        if (Char.character_kind == 0 && Rnd(3) == 0) {
             JumpSeq(116);
             pool->prefix |= 64; AddSound(99);
         } else {
-            if (actor_id == 0) AddSound(99);
+            if (Char.character_kind == 0) AddSound(99);
             else AddSound(98);
             JumpSeq(115);
         }
-        actor_action = 0;
-        actor_hit = 1;
-        actor_sequence_group = 5;
+        Char.alert_delay = 0;
+        Char.field_0f = 1;
+        Char.sequence_group = 5;
         ClearCharVel();
         decrement_life_points(100);
         AnimChar();
-        trob = get_lava_trob(actor_cell, actor_column, actor_row);
+        trob = get_lava_trob((ubyte)Char.room, Char.column, Char.row);
         if (trob) {
             current_lava = *trob;
             redraw_lava();
@@ -613,12 +634,12 @@ void redraw_lava(void)
 
     redraw.flags = lava_slots[animation_code]->prefix;
     lava_redraw_type = redraw.flags & 128 ? 16 : (redraw.flags & 64 ? 39 : 48);
-    if (compute_trob_move_rect((Rect *)redraw.bounds, &lava_redraw_type)) {
-        mark_move(current_lava.cell, (Rect *)redraw.bounds);
-        mark_move(get_adjacent_animation(), (Rect *)redraw.bounds);
+    if (compute_trob_move_rect((struct char_bounds *)redraw.bounds, &lava_redraw_type)) {
+        mark_move(current_lava.cell, (struct char_bounds *)redraw.bounds);
+        mark_move(get_adjacent_animation(), (struct char_bounds *)redraw.bounds);
         if (current_lava.cell % (sbyte)10 < 8) {
             ++current_lava.cell;
-            mark_move(get_adjacent_animation(), (Rect *)redraw.bounds);
+            mark_move(get_adjacent_animation(), (struct char_bounds *)redraw.bounds);
             --current_lava.cell;
         }
     }
@@ -703,8 +724,8 @@ int move_cave_gate(int sequence)
 {
     sbyte cell;
 
-    cell = FirstInRow(guard_row) + guard_cell;
-    if (guard_room != current_lava.room) {
+    cell = FirstInRow(Kid.row) + Kid.column;
+    if (Kid.room != current_lava.room) {
         if (right_room == current_lava.room)
             cell += 10;
         else if (upper_room == current_lava.room)
@@ -713,14 +734,14 @@ int move_cave_gate(int sequence)
             cell = 30;
     }
     if (cell == current_lava.cell || current_lava.cell - cell + 1 == 0) {
-        if (guard_sequence_group == 3) {
+        if (Kid.sequence_group == 3) {
             sequence = 12;
             add_gate_sound(9);
-        } else if (guard_frame == 264) {
+        } else if (Kid.frame == 264) {
             sequence -= gate_offsets[animation_code] + 2;
-        } else if (guard_frame == 265) {
+        } else if (Kid.frame == 265) {
             sequence = 36;
-        } else if (guard_frame == 266) {
+        } else if (Kid.frame == 266) {
             animation_code = -1;
             redraw_gate();
         }
