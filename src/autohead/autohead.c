@@ -12,7 +12,7 @@ typedef struct {
 } HeadSprite;
 
 typedef struct {
-    signed char width, height, top, left;
+    int height, width;
 } SpriteBounds;
 
 typedef struct {
@@ -70,13 +70,14 @@ typedef struct {
 #pragma pack()
 extern CHARREC Char, Opp, Kid;
 extern FCHARREC FChar;
-extern int sprite_x, sprite_y, kid_sheet;
-extern void near *kid_shapes;
+extern int sprite_x, sprite_y;
+extern void near *opponent_shapes;
+extern unsigned int opponent_effect_frames;
 
-extern HeadSprite near *far pascal find_sprite(unsigned char kind, unsigned char index);
-extern NeckPoint far *far pascal lock_shape_data(void near *handle);
-extern void far pascal sprite_dimensions(int sheet, int frame, SpriteBounds far *bounds);
-extern void far pascal unlock_shape_data(void near *handle);
+extern HeadSprite near *far pascal get_gate_image(char kind, unsigned char index);
+extern NeckPoint far *far pascal fetch_locked_shape_list(unsigned int handle);
+extern int far *far pascal get_set_image_size(void near *sheet, int frame, SpriteBounds far *bounds);
+extern void far pascal clear_handle_owned(unsigned int handle);
 
 typedef struct {
     signed char mode, column, row, direction;
@@ -241,20 +242,20 @@ void far pascal unused_head_entry(void)
 void far pascal align_head_on_kid_neck(void)
 {
     signed char neck_x;
-    volatile SpriteBounds bounds;
+    SpriteBounds bounds;
     register HeadSprite near *body;
     register NeckPoint far *neck;
 
-    body = find_sprite(2, 0);
+    body = get_gate_image(2, 0);
     if (body == 0)
         return;
 
-    neck = lock_shape_data(kid_shapes);
+    neck = fetch_locked_shape_list(opponent_effect_frames);
     if (Kid.direction != Char.direction)
         neck_x = neck[body->frame].y;
     else {
-        sprite_dimensions(kid_sheet, FChar.image, (SpriteBounds far *)&bounds);
-        neck_x = -((Char.character_kind == 7 ? 10 : 16) + neck[body->frame].y + bounds.top);
+        get_set_image_size(opponent_shapes, FChar.image, &bounds);
+        neck_x = -((Char.character_kind == 7 ? 10 : 16) + neck[body->frame].y + (signed char)bounds.width);
     }
     if (Char.character_kind == 8)
         neck_x += 6;
@@ -262,14 +263,14 @@ void far pascal align_head_on_kid_neck(void)
         neck_x = -neck_x;
     sprite_x = body->x + neck_x;
     sprite_y = body->y + ((signed char far *)neck)[body->frame * 2];
-    unlock_shape_data(kid_shapes);
+    clear_handle_owned(opponent_effect_frames);
     Char.x = sprite_x + 130;
 }
 
 int far pascal head_visibility(void)
 {
     signed char column, row, error, columns, end_column, diagonal, rows;
-    signed char step_row, step_column, end_row;
+    signed char step_row, step_column, end_row, straight_error;
     int clear = 1;
     int result;
 
@@ -306,7 +307,7 @@ int far pascal head_visibility(void)
 
     if (rows < columns) {
         error = rows * 2 - columns;
-        end_column = rows * 2;
+        straight_error = rows * 2;
         diagonal = (rows - columns) * 2;
         do {
             column += step_column;
@@ -315,7 +316,7 @@ int far pascal head_visibility(void)
                 clear = !IsWall(ReadCell(Char.room, column / 2, row / 2));
             if (clear) {
                 if (error < 0)
-                    error += end_column;
+                    error += straight_error;
                 else {
                     if ((step_row > 0 && row % 2 != 0) ||
                         (step_row < 0 && row % 2 == 0)) {
@@ -331,7 +332,7 @@ int far pascal head_visibility(void)
         } while (--columns && clear);
     } else {
         error = columns * 2 - rows;
-        end_column = columns * 2;
+        straight_error = columns * 2;
         diagonal = (columns - rows) * 2;
         do {
             if ((step_row > 0 && row % 2 != 0) ||
@@ -344,7 +345,7 @@ int far pascal head_visibility(void)
             if (clear) {
                 row += step_row;
                 if (error < 0)
-                    error += end_column;
+                    error += straight_error;
                 else {
                     column += step_column;
                     if ((step_column > 0 && column % 2 == 0) ||
@@ -422,7 +423,7 @@ void far pascal head_attack_prog(HeadPlan near *plan)
     if (Char.sequence == 140 || Char.sequence == 152 ||
         Char.sequence == 156 || Char.sequence == 162)
         return;
-    if (Char.sequence >= 147 && Char.sequence <= 151) {
+    if ((int)Char.sequence >= 147 && (int)Char.sequence <= 151) {
         head_focus_on_neck(plan);
         return;
     }
@@ -881,10 +882,12 @@ int far pascal is_able_to_flee_in_room(unsigned char room)
     if (count > 1) {
         available = 1;
         slot = 0;
-        while (count > slot &&
-               (available = GetOppInfoIdx(*(volatile int *)&room_number, slot)->mode != 2,
-                ++slot, available))
-            ;
+        do {
+            if (!(slot < count))
+                break;
+            available = GetOppInfoIdx(*(volatile int *)&room_number, slot)->mode != 2;
+            ++slot;
+        } while (available);
     } else
         available = 0;
     return available;
