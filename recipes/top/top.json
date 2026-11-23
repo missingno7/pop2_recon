@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "6fb7440310633cb646bcd7f781e094c46da82b46137eb22ddff606f386e0eabf",
+  "binding_sha256": "4b31d07b95f11168e6f3a804c627cb24747b6bc0d657488b52eeea98d4639fca",
   "claims": [
     {
       "fixup_count": 16,
@@ -49,6 +49,20 @@
       "target_id": "root:0e56:0192"
     },
     {
+      "fixup_count": 39,
+      "public": "START_KID",
+      "relocation_indices": [
+        1224,
+        1310,
+        1324
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:01a8"
+    },
+    {
       "fixup_count": 18,
       "public": "FINISH_START_KID",
       "relocation_indices": [
@@ -61,6 +75,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0e56:02c8"
+    },
+    {
+      "fixup_count": 9,
+      "public": "SPECIAL_ENTRANCE",
+      "target_id": "root:0e56:032a"
     },
     {
       "fixup_count": 8,
@@ -143,6 +162,30 @@
       "target_id": "root:0e56:0506"
     },
     {
+      "fixup_count": 27,
+      "public": "NEXT_FRAME",
+      "relocation_indices": [
+        1143,
+        1189,
+        1191,
+        1201,
+        1208,
+        1226,
+        1255,
+        1272,
+        1275,
+        1276,
+        1291,
+        1322,
+        1323
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:05d8"
+    },
+    {
       "fixup_count": 42,
       "public": "RUN_KID",
       "relocation_indices": [
@@ -181,6 +224,44 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:0e56:0682"
+    },
+    {
+      "fixup_count": 52,
+      "public": "ADVANCE_FRAME",
+      "relocation_indices": [
+        1158,
+        1172,
+        1205,
+        1210,
+        1247,
+        1253,
+        1256,
+        1260,
+        1261,
+        1284,
+        1285,
+        1301,
+        1307,
+        1320
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:09e0"
+    },
+    {
+      "fixup_count": 19,
+      "public": "RESET_FRAME_VARS",
+      "relocation_indices": [
+        1181,
+        1317
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:0e56:0b50"
     },
     {
       "fixup_count": 5,
@@ -307,44 +388,14 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:0e56:11e8"
-    },
-    {
-      "fixup_count": 19,
-      "public": "RESET_FRAME_VARS",
-      "relocation_indices": [
-        1181,
-        1317
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:0e56:0b50"
-    },
-    {
-      "fixup_count": 39,
-      "public": "START_KID",
-      "relocation_indices": [
-        1224,
-        1310,
-        1324
-      ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
-      "target_id": "root:0e56:01a8"
     }
   ],
   "code_matches": [
     {
-      "public": "SPECIAL_ENTRANCE",
-      "target_id": "root:0e56:032a",
+      "public": "RUN_SHADOWS",
+      "target_id": "root:0e56:07c6",
       "unproven": [
-        "LEVEL+0x12a8",
-        "LEVEL+0x12a9",
-        "LEVEL+0x58c",
-        "LEVEL+0x58d"
+        "SHAD_CTRL"
       ]
     },
     {
@@ -376,18 +427,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 1490,
-      "public": "NEXT_FRAME"
-    },
-    {
-      "object_offset": 1984,
-      "public": "RUN_SHADOWS"
-    },
-    {
-      "object_offset": 2522,
-      "public": "ADVANCE_FRAME"
-    },
-    {
       "object_offset": 3416,
       "public": "CHECK_REBIRTH_POINTS"
     }
@@ -407,12 +446,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "a75a155fdc8185d76b7c984194d5ebafd7f78782de9bb751fdf74d317e52a89a",
+  "object_sha256": "fe5ec15db7356f3018656742b8c848d6e7308e73c08f82a5deddb3cb57f277ea",
   "origin": 58726,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "031528352cdf50c66cd4164af95cc65113921fccd041ad7c69cb1bb61e352f17",
+  "source_sha256": "482bb12cc63599de7e60f94717ddaa5238e15017b8cf637d7658b681221aa05a",
   "space": "root"
 }
