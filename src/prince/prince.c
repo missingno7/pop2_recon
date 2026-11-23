@@ -1,10 +1,67 @@
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+
 /* Resident PRINCE.C, DOS root [0000,1340). */
 
 extern const char *resource_files[2];
-extern unsigned char current_level_number;
+extern LEVELREC Level;
 extern char selected_level;
 extern char LevelIdx;
-extern char restart_level;
 extern int command_line_enabled;
 extern int skip_opening;
 extern int restart_from_demo;
@@ -69,7 +126,7 @@ void far pascal ResetData(void);
         ++file;
     } while (file < resource_files + 2);
     Rnd(1);
-    current_level_number = 0;
+    Level.environment_kind = 0;
     ResetGame();
 }
 
@@ -94,7 +151,7 @@ void far pascal ResetData(void);
         } else {
             level = start_game(level);
             if (restart_from_demo)
-                restart_level = level = 0;
+                Level.level_number = level = 0;
             if (minutes_remaining == 0) {
                 selected_level = level = 0;
             } else if (level > 14) {
@@ -102,7 +159,7 @@ void far pascal ResetData(void);
                 enter_hall_record(minutes_remaining);
                 selected_level = level = 0;
             } else if (selected_level != 0 && level == 0) {
-                selected_level = level = restart_level;
+                selected_level = level = Level.level_number;
             }
         }
     }
@@ -216,7 +273,7 @@ typedef struct {
 extern CHARREC Char;
 extern CHARREC Kid;
 
-extern unsigned char viewed_room;
+extern ROOMREC Room;
 extern signed char joystick[3];
 #define joystick_y (joystick[0])
 #define joystick_x (joystick[1])
@@ -302,23 +359,17 @@ unsigned int far pascal prince_poll(void)
         }
     }
     if (restart && restart_blocked == 0 &&
-        (viewed_room != 4 || restart_level != 13 || !in_special_room())) {
+        (Room.number != 4 || Level.level_number != 13 || !in_special_room())) {
         demo_changed = 1; dispatch_sound(0);
     }
     return key;
 }
 
 
-typedef struct {
-    signed char opponent_count;
-    unsigned char remainder[0x73];
-} RoomSettingsRow;
 
 extern CHARREC RoomOpp[5];
 
-extern RoomSettingsRow room_settings[];
-extern unsigned char viewed_room, left_room, above_room, right_room, below_room;
-extern unsigned char CutRoom, current_level_number, stage_type;
+extern unsigned char CutRoom;
 extern int minutes_remaining, message_ticks, message_duration, countdown_pending;
 extern int debug_alt_view, debug_reload_room;
 extern int debug_show_objects, debug_show_messages, debug_show_buildings;
@@ -394,9 +445,9 @@ void far pascal handle_debug_input(unsigned int key)
         debug_alt_view = !debug_alt_view;
         if (debug_alt_view) STROKE_PORT_RECT(GamePlayRect);
         else {
-            debug_reload_room = 1; LoadCustomRoomData(viewed_room);
+            debug_reload_room = 1; LoadCustomRoomData(Room.number);
         }
-        index = 0; count = room_settings[viewed_room].opponent_count;
+        index = 0; count = Level.room_objects[Room.number - 1].opponent_count;
         if (index < count) do {
             RoomOpp[index].previous_x = 0;
         } while (++index < count);
@@ -409,13 +460,13 @@ void far pascal handle_debug_input(unsigned int key)
         if (Char.life_points == 0) JumpSeq(71);
         Char.life_delta = 0; break;
     case 'R':
-        sprintf(text, debug_messages.room_number_format, (unsigned)viewed_room); draw_message(text);
+        sprintf(text, debug_messages.room_number_format, (unsigned)Room.number); draw_message(text);
         message_ticks = message_duration = 24; break;
     case 'S':
-        if (current_level_number == 2 || current_level_number == 6) {
+        if (Level.environment_kind == 2 || Level.environment_kind == 6) {
             player_input_disabled = 7; Char.sequence = 5;
             CheckShadowmanCreate();
-            if (current_level_number == 6) schedule_room_effect(2000, 48, 16, 1);
+            if (Level.environment_kind == 6) schedule_room_effect(2000, 48, 16, 1);
             else
                 schedule_room_effect(2000, 48, 16, 0);
         }
@@ -432,14 +483,14 @@ void far pascal handle_debug_input(unsigned int key)
         copy_kid_to_char(); break;
     case 'k':
         Char.opponent_index = -1; Kid = Char;
-        index = 0; count = room_settings[viewed_room].opponent_count;
+        index = 0; count = Level.room_objects[Room.number - 1].opponent_count;
         if (index < count) do {
             load_actor_slot(index); Char.alive = 0;
             Char.life_delta = -Char.life_points;
-            if (stage_type == 2) { bones_fall();
+            if (Level.preferred_opponent == 2) { bones_fall();
             } else if (Char.character_kind == 10) { set_skeleton_timer(index, 240); JumpSeq(107);
                 Char.field_0f = 1;
-            } else if (stage_type == 5 || stage_type == 6) {
+            } else if (Level.preferred_opponent == 5 || Level.preferred_opponent == 6) {
                 Char.direction = ~Kid.direction; Char.life_points = 0;
                 JumpSeq(154);
             } else {
@@ -486,10 +537,10 @@ void far pascal handle_debug_input(unsigned int key)
 
     if (find_option(debug_messages.say_cheese_option)) {
         switch (key) {
-        case 0x4800: CutRoom = above_room; break;
-        case 0x4b00: CutRoom = left_room; break;
-        case 0x4d00: CutRoom = right_room; break;
-        case 0x5000: CutRoom = below_room; break;
+        case 0x4800: CutRoom = Room.above; break;
+        case 0x4b00: CutRoom = Room.left; break;
+        case 0x4d00: CutRoom = Room.right; break;
+        case 0x5000: CutRoom = Room.below; break;
         }
         if (CutRoom)
             DrawOppMeter(-1, 0, 10);
@@ -657,8 +708,6 @@ extern void far pascal add_special_gate(unsigned char room, signed char tile, si
 extern void far pascal add_special_room_trob(unsigned char room, signed char tile);
 extern void far pascal trigger_crystal(unsigned char room, signed char tile);
 extern void far pascal trigger_gargoyle(unsigned char room, signed char tile);
-extern unsigned char viewed_room, left_room, right_room;
-extern unsigned char current_level_number;
 extern union {
     unsigned long value;
     unsigned char bytes[4];
@@ -679,7 +728,7 @@ void far pascal add_room_trobs(void)
     unsigned char kind;
 
     SetSideRoomInfo();
-    room = viewed_room;
+    room = Room.number;
     index = 0;
     tile = 0;
     do {
@@ -687,14 +736,14 @@ void far pascal add_room_trobs(void)
             kind = select_trob_cell(index);
         } else {
             if (index == 30) {
-                if (!left_room)
+                if (!Room.left)
                     break;
-                room = left_room;
+                room = Room.left;
                 load_room_tiles(room);
             }
             if (index == 33) {
-                if (below_room) {
-                    room = below_room;
+                if (Room.below) {
+                    room = Room.below;
                     load_room_tiles(room);
                 } else {
                     index += 3;
@@ -711,10 +760,10 @@ void far pascal add_room_trobs(void)
 
         switch (kind) {
         default:
-            if (room == 6 && current_level_number == 6 && (BlueSpec.bytes[1] & 16)) {
+            if (room == 6 && Level.environment_kind == 6 && (BlueSpec.bytes[1] & 16)) {
                 trigger_crystal(room, tile);
             } else if ((room == 7 || room == 8) &&
-                       current_level_number == 6 && (BlueSpec.bytes[1] & 16)) {
+                       Level.environment_kind == 6 && (BlueSpec.bytes[1] & 16)) {
                 trigger_gargoyle(room, tile);
             }
             break;
@@ -752,7 +801,7 @@ void far pascal add_room_trobs(void)
         }
         ++tile;
     } while (++index < 43);
-    load_room_tiles(viewed_room);
+    load_room_tiles(Room.number);
 }
 
 extern signed char timer_disabled;
@@ -824,24 +873,23 @@ extern void far pascal copy_kid_to_char(void);
 extern void *cdecl memset(void *destination, int value, unsigned int size);
 #pragma intrinsic(memset)
 
-extern RoomSettingsRow room_settings[];
 
 int far pascal PrepCut(int keep_screen)
 {
-    int room = viewed_room;
+    int room = Room.number;
     if (CutRoom && CutRoom != room) {
-        viewed_room = CutRoom;
+        Room.number = CutRoom;
         set_room_redraw();
         if (!keep_screen || !IsLevelStartWithNISScreen())
             refresh_room_screen();
-        LoadCustomRoomData(viewed_room);
+        LoadCustomRoomData(Room.number);
         room_transition_active = 1;
         copy_kid_to_char();
         add_room_trobs();
         memset(room_controls, 0, sizeof(room_controls));
-        load_room_effects(viewed_room);
+        load_room_effects(Room.number);
         reset_room_characters();
-        if (!room_settings[viewed_room].opponent_count)
+        if (!Level.room_objects[Room.number - 1].opponent_count)
             change_room_sound(-1, 0, 8);
         else
             Kid.opponent_index = set_room_opponents(1);
@@ -896,7 +944,6 @@ void far pascal CheckMeters(void)
     }
 }
 
-extern unsigned char viewed_room;
 extern void far pascal refresh_meter_animation(void);
 
 
@@ -914,7 +961,7 @@ void far pascal ChangeMeters(void)
         Kid.life_points = hp > Kid.life_initial ? Kid.life_initial : (signed char)hp;
     }
     opponent = 0;
-    count = room_settings[viewed_room].opponent_count;
+    count = Level.room_objects[Room.number - 1].opponent_count;
     for (; opponent < count; ++opponent) {
         meter = &RoomOpp[opponent];
         if (meter->life_delta) {

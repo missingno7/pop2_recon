@@ -203,7 +203,56 @@ int far pascal DialogFadeOut(void)
 extern struct ScreenPort game_port;
 extern int gameplay_dialog_active;
 extern int game_is_suspended;
-extern signed char room_effect;
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 extern int active_menu, menu_disabled, dialog_blocked;
 extern signed char pending_key;
 extern int control_mode;
@@ -250,7 +299,7 @@ void far pascal DialogResetToGamePlay(int restart_input)
         gameplay_dialog_active = 1;
     }
     restore_game_palette();
-    set_kid_palette(room_effect);
+    set_kid_palette((signed char)Level.environment_kind);
     dialog_wait = game_wait;
 }
 
@@ -504,7 +553,7 @@ void far pascal main_menu_dialog(void)
     else if (selection == 4)
         load_game_dialog();
     SaveOptionsToDisk();
-    set_kid_palette(room_effect);
+    set_kid_palette((signed char)Level.environment_kind);
     gameplay_dialog_active = 1;
 }
 
@@ -744,23 +793,11 @@ struct rebirth_record {
     char level_state[1088];
 };
 
-struct rebirth_point {
-    signed char room;
-    signed char cell;
-};
-
 extern struct rebirth_record far *hRebirthSaved;
-extern struct {
-    char rooms[960];
-    char before_rebirth_points[0x26e7 - 960];
-    struct rebirth_point rebirth_points[2];
-} Level;
-
 extern CHARREC Char;
 extern signed char CutRoom, starting_health, start_facing;
-extern signed char cutscene_flags, timer_disabled, live_direction;
+extern signed char cutscene_flags, timer_disabled;
 extern int saved_game_active, Invert;
-extern char room_links[3840], room_objects[3712], level_state[1088];
 extern unsigned far cdecl _dos_creat(const char *, unsigned, int *);
 extern unsigned far cdecl _dos_write(int, const void far *, unsigned, unsigned *);
 extern long far cdecl lseek(int, long, int);
@@ -825,7 +862,7 @@ int far pascal SaveGame(struct save_slot_table far *slots, int slot)
             _fmemset(saved, 0, sizeof(*saved));
             saved->level = LevelIdx;
             saved->health = starting_health;
-            saved->direction = live_direction;
+            saved->direction = Level.entry_facing;
         }
         saved->menu = active_menu;
         saved->disabled = menu_disabled;
@@ -846,7 +883,6 @@ int far pascal SaveGame(struct save_slot_table far *slots, int slot)
     return result;
 }
 
-extern signed char stage_number;
 void far pascal prepare_saved_room_objects(void);
 
 void far pascal SaveRebirthPtStatus(int point_id)
@@ -854,11 +890,11 @@ void far pascal SaveRebirthPtStatus(int point_id)
     if (!hRebirthSaved)
         hRebirthSaved = ALLOCATE_PINNED_PAYLOAD(sizeof(*hRebirthSaved));
     hRebirthSaved->point_id = point_id;
-    _fmemcpy(hRebirthSaved->rooms, Level.rooms, sizeof(Level.rooms));
-    _fmemcpy(hRebirthSaved->room_links, room_links, sizeof(room_links));
-    _fmemcpy(hRebirthSaved->room_objects, room_objects, sizeof(room_objects));
-    _fmemcpy(hRebirthSaved->level_state, level_state, sizeof(level_state));
-    hRebirthSaved->level = stage_number;
+    _fmemcpy(hRebirthSaved->rooms, Level.cell_kinds, sizeof(Level.cell_kinds));
+    _fmemcpy(hRebirthSaved->room_links, Level.cell_info, sizeof(Level.cell_info));
+    _fmemcpy(hRebirthSaved->room_objects, Level.room_objects, sizeof(Level.room_objects));
+    _fmemcpy(hRebirthSaved->level_state, Level.generators, sizeof(Level.generators));
+    hRebirthSaved->level = Level.level_number;
     hRebirthSaved->health = Kid.life_initial;
     hRebirthSaved->direction = Kid.direction;
     hRebirthSaved->Invert = Invert;
@@ -884,7 +920,6 @@ struct room_control {
     unsigned char state;
 };
 
-extern unsigned char rooms_in_level;
 extern struct room_control *far pascal find_room_control(unsigned char, int);
 
 void far pascal prepare_saved_room_objects(void)
@@ -900,7 +935,7 @@ void far pascal prepare_saved_room_objects(void)
     struct room_control *control;
     unsigned value, old_low;
 
-    if (rooms_in_level != 0) {
+    if (Level.room_count != 0) {
         do {
             tile = 0;
             room_start = room * 30;
@@ -936,24 +971,24 @@ void far pascal prepare_saved_room_objects(void)
                     break;
                 }
             } while (++tile < 30);
-        } while (++room < rooms_in_level);
+        } while (++room < Level.room_count);
     }
 }
 
 void far pascal SetRebirthPtLevelStatus(void)
 {
     if (hRebirthSaved) {
-        _fmemcpy(Level.rooms, hRebirthSaved->rooms, sizeof(Level.rooms));
-        _fmemcpy(room_links, hRebirthSaved->room_links, sizeof(room_links));
-        _fmemcpy(room_objects, hRebirthSaved->room_objects, sizeof(room_objects));
-        _fmemcpy(level_state, hRebirthSaved->level_state, sizeof(level_state));
+        _fmemcpy(Level.cell_kinds, hRebirthSaved->rooms, sizeof(Level.cell_kinds));
+        _fmemcpy(Level.cell_info, hRebirthSaved->room_links, sizeof(Level.cell_info));
+        _fmemcpy(Level.room_objects, hRebirthSaved->room_objects, sizeof(Level.room_objects));
+        _fmemcpy(Level.generators, hRebirthSaved->level_state, sizeof(Level.generators));
         Invert = hRebirthSaved->Invert;
     }
 }
 
 int far pascal SetRebirthPtKidStatus(void)
 {
-    const struct rebirth_point *point;
+    const REBIRTHPOINT *point;
     int result;
 
     if (hRebirthSaved) {

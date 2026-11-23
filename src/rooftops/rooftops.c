@@ -80,11 +80,6 @@ typedef struct {
 } PeelSlot;
 
 typedef struct {
-    sbyte opponent_count;
-    ubyte reserved[115];
-} Room;
-
-typedef struct {
     ubyte index;
     ubyte reserved;
 } SplashImage;
@@ -95,22 +90,92 @@ extern sbyte splash_frame;
 extern int splash_x;
 extern ubyte splash_low;
 extern sbyte palette_bank;
-extern ubyte palette_theme;
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+
+extern LEVELREC Level;
 extern ubyte animation_room;
-extern ubyte viewed_room;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+
+extern ROOMREC Room;
 extern int fade_active, FrameNum;
 extern uword BlueSpec;
 extern sbyte animation_tile, animation_remove;
-extern int water_clip_bottom, character_clip_bottom, pillar_foreground;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+
+extern FCHARREC FChar;
+extern int pillar_foreground;
 extern int character_width;
-extern int delay_count, active_sound_channels, ship_grab_height;
+extern int delay_count, active_sound_channels;
 extern CHARREC Char;
 extern CHARREC Kid;
 extern Rect draw_clip, NullRect, GamePlayRect;
 extern SplashImage splash_images[];
-extern Room rooms[];
 extern PeelSlot custom_peels[];
-extern ubyte palette_data[];
 extern char quit_prompt[], restart_prompt[];
 
 extern DrawList near *draw_list;
@@ -198,19 +263,19 @@ void far pascal check_roof_palette(sbyte room)
 {
     sbyte bank = -1;
 
-    if (palette_theme == 5 && room != 19 && room != 16 && room != 15) {
+    if (Level.environment_kind == 5 && room != 19 && room != 16 && room != 15) {
         if (palette_bank != 0)
             bank = palette_bank = 0;
     } else if (palette_bank != 1) {
         bank = palette_bank = 1;
     }
     if (bank != -1)
-        load_palette((uword)palette_data, 64, 176, bank);
+        load_palette(3500, 64, 176, bank);
 }
 
 void far pascal check_roof_room(void)
 {
-    check_roof_palette(viewed_room);
+    check_roof_palette(Room.number);
 }
 
 void far pascal clip_character_at_water(void)
@@ -220,16 +285,16 @@ void far pascal clip_character_at_water(void)
     if ((Char.room == 19 || Char.room == 16) && Char.slot == water_character) {
         limit = 172;
         if (Char.action == 9) limit = 186;
-        if (limit > water_clip_bottom) limit = water_clip_bottom;
-        water_clip_bottom = limit;
-        if (limit < character_clip_bottom)
-            character_clip_bottom = water_clip_bottom;
+        if (FChar.clip_bottom < limit) limit = FChar.clip_bottom;
+        FChar.clip_bottom = limit;
+        if (limit < FChar.clip_top)
+            FChar.clip_top = FChar.clip_bottom;
     }
 }
 
 void far pascal cycle_roof_colors(void)
 {
-    if (!fade_active && (viewed_room == 19 || viewed_room == 16 || viewed_room == 15) &&
+    if (!fade_active && (Room.number == 19 || Room.number == 16 || Room.number == 15) &&
         FrameNum % 3 == 0) {
         CycleColors(230, 3, 0);
         CycleColors(233, 3, 0);
@@ -323,7 +388,7 @@ void far pascal watch_kid(void)
 void far pascal watch_opponents(void)
 {
     sbyte index;
-    sbyte count = rooms[viewed_room].opponent_count;
+    sbyte count = Level.room_objects[Room.number - 1].opponent_count;
 
     if (count) {
         index = 0;
@@ -424,7 +489,7 @@ void far pascal draw_roof_pillar(RoofAnimation near *animation)
     ubyte pass;
 
     if (animation->kind == 11 || (animation->kind == 0 && pillar_foreground)) {
-        image = SELECT_PAIR_CODE(viewed_room, animation->variant);
+        image = SELECT_PAIR_CODE(Room.number, animation->variant);
         if (image) {
             image += (animation->frame >> 1) & 7;
             draw_custom_room_image(image, 11);
@@ -472,7 +537,7 @@ void far pascal animate_roof_ship(void)
         animation_remove = -1;
         return;
     }
-    if (viewed_room == animation_room) {
+    if (Room.number == animation_room) {
         piece = &draw_list->pieces[55];
         piece->x = -BlueSpec;
         MAKESHAPERECT(&bounds, piece->y, piece->x, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->image_set));
@@ -523,7 +588,6 @@ void far pascal draw_roof_ship(RoofAnimation near *animation)
     }
 }
 
-
 int far pascal RoofClimbingIntoShip(void)
 {
     int result;
@@ -540,13 +604,12 @@ int far pascal grab_roof_ship(void)
     int height;
 
     if (Char.room == 19 && Char.row < 3) {
-        height = ship_grab_height;
+        height = Level.cell_info[18][0].modifier;
         if (Char.x < 208 && height < 32)
             result = 1;
     }
     return result;
 }
-
 
 int far pascal RoofHangingFromShip(void)
 {

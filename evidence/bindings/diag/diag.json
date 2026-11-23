@@ -52,7 +52,7 @@
       "SCREENPORT",
       "GRAF",
       "DRAW_FRAME_DIAGNOSTICS",
-      "RULER_BOTTOMS",
+      "ROW2PIXELY",
       "DUMP_HEAP",
       "HEAP_START",
       "PLOT_POSITION",
@@ -345,7 +345,7 @@
         "combine": 0,
         "frame": null,
         "frame_offset": null,
-        "length": 1790,
+        "length": 1787,
         "name": "$$SYMBOLS",
         "overlay": "",
         "use32": false
@@ -1164,7 +1164,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "RULER_BOTTOMS",
+          "name": "ROW2PIXELY",
           "zero_displacement": true
         }
       },
@@ -1178,7 +1178,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "RULER_BOTTOMS",
+        "name": "ROW2PIXELY",
         "zero_displacement": true
       }
     },
@@ -1407,7 +1407,7 @@
           "index": 52,
           "kind": "external",
           "method": 6,
-          "name": "RULER_BOTTOMS",
+          "name": "ROW2PIXELY",
           "zero_displacement": true
         }
       },
@@ -1421,7 +1421,7 @@
         "index": 52,
         "kind": "external",
         "method": 6,
-        "name": "RULER_BOTTOMS",
+        "name": "ROW2PIXELY",
         "zero_displacement": true
       }
     },
@@ -4507,19 +4507,11 @@
         }
       ]
     },
-    "RULER_BOTTOMS": {
+    "ROW2PIXELY": {
       "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 3520,
-      "witnesses": [
-        {
-          "bytes_hex": "8b87c00d",
-          "entry": "root:0169:0006",
-          "image_offset": 5918,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
+      "kind": "dgroup-public",
+      "offset": 3518,
+      "provider": "group:tables/tables"
     },
     "SCREENPORT": {
       "group": "DGROUP",

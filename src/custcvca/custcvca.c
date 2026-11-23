@@ -49,10 +49,17 @@ static struct {
 };
 extern int carpet_view_enabled;                 /* DS:6266 */
 extern int custom_count, mid_count;              /* DS:6248,624e */
-extern int actor_x, actor_y;                     /* DS:6254,6256 */
-extern Byte actor_depth;                        /* DS:6253 */
-extern unsigned int actor_image;                  /* DS:6258 */
-extern Rect actor_clip;                         /* DS:625b */
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern FCHARREC FChar;
 extern Byte draw_col, draw_row, drawn_tile_kind;       /* DS:6ccf,6cce,6cd2 */
 extern CarpetDraw far carpet_draw_queue[];       /* 2fae:0000 */
 extern _segment mid_table_selector;             /* DS:284c */
@@ -97,12 +104,71 @@ typedef struct {
 #pragma pack()
 
 extern CHARREC Char;
-extern Byte tile_col, tile_row, tile_modifier, tile_flags; /* DS:6274,6273,6271,6272 */
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+#pragma pack()
+extern CELLREC Cell;
 extern unsigned int BlueSpec;               /* DS:5e48 */
 extern signed char bar_direction;                /* DS:67d0 */
 extern Rect current_clip, GamePlayRect;         /* DS:6236,09fe */
-typedef struct { int state, timer; } CaveTile;
-extern CaveTile cave_tiles[];                   /* DS:304a */
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 
 extern void AddSong(int), AddSound(int), release_song_range(int, int);
 extern void set_resource(unsigned int, unsigned int, Byte, Byte);
@@ -227,10 +293,10 @@ void draw_obj_carpet(Byte *unused)
     Byte palette;
 
     if (carpet && carpet->frame) {
-        slot = mid_count; mid_rows[slot].x = actor_x;
+        slot = mid_count; mid_rows[slot].x = FChar.x;
         frame[0] = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame[0]] + 1);
-        mid_rows[slot].y = actor_y - shape->height; mid_rows[slot].sheet = 4;
-        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame[0]] + 1; mid_rows[slot].clip = actor_clip;
+        mid_rows[slot].y = FChar.y - shape->height; mid_rows[slot].sheet = 4;
+        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame[0]] + 1; mid_rows[slot].clip = *(Rect *)&FChar.clip_top;
         mid_rows[slot].order = 10;
         mid_rows[slot].reserved = 0; mid_rows[slot].invisible = 0; mid_rows[slot].depth = 255;
         scroll = carpet_animation.scroll[frame[0]]; if (scroll) {
@@ -307,16 +373,16 @@ void setup_carpet(void)
     if (carpet && carpet->frame) {
         SaveFChar();
         frame = get_carpet_frame();
-        actor_image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
-        actor_y += carpet_animation.steps[frame].dy;
-        actor_x += carpet_animation.steps[frame].dx;
-        if (!actor_depth)
-            actor_x -= 20;
+        FChar.image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1;
+        FChar.y += carpet_animation.steps[frame].dy;
+        FChar.x += carpet_animation.steps[frame].dx;
+        if (!((Byte)FChar.flipped))
+            FChar.x -= 20;
         init_fchar_rect();
-        shape = get_carpet_shape_info(&ref, actor_image - CARPET_SHAPE_ID);
-        MAKESHAPERECT(&actor_clip, actor_y - shape->height, actor_x, shape);
+        shape = get_carpet_shape_info(&ref, FChar.image - CARPET_SHAPE_ID);
+        MAKESHAPERECT((Rect *)&FChar.clip_top, FChar.y - shape->height, FChar.x, shape);
         add_char_object(13);
-        mark_bufs_for_rect(draw_carpet_foreground, &actor_clip, -1);
+        mark_bufs_for_rect(draw_carpet_foreground, (Rect *)&FChar.clip_top, -1);
         RestoreFChar();
     }
 }
@@ -331,7 +397,7 @@ void sitting_on_carpet(void)
         if (!carpet->frame && Char.frame == 295) {
             carpet->frame = 1;
             ReadCell(3, 3, 2);
-            make_space(tile_col, tile_row);
+            make_space(Cell.room, ((Byte)Cell.index));
             shape = get_carpet_shape_info(&ref, 0);
             MAKESHAPERECT(&rect, carpet_x, carpet_y, shape);
             mark_bufs_for_rect(draw_under_actor, &rect, -1);
@@ -412,7 +478,7 @@ void animate_cave_bars(void)
 int cave_bars_open(void)
 {
     ReadCell(3, 6, 0);
-    if ((tile_modifier & 7) >= 3)
+    if (((*(Byte *)&Cell.modifier) & 7) >= 3)
         return 1;
     return 0;
 }
@@ -442,8 +508,8 @@ signed char trigger_cave_bars(Byte room, signed char cell)
 {
     signed char result = -1;
     int state;
-    if (!(tile_flags & 8)) {
-        state = cave_tiles[room * (Byte)30 + cell].state;
+    if (!(((Byte *)&Cell.modifier)[1] & 8)) {
+        state = (int)((LEVELCELL *)Level.cell_info)[room * (Byte)30 + cell - 30].modifier;
         if (!state)
             result = 0;
         else if (state == 3)

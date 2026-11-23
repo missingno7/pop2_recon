@@ -1,4 +1,62 @@
 #pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+
+#pragma pack(1)
 
 typedef unsigned int SoundHandle;
 typedef unsigned char far *SoundData;
@@ -52,7 +110,8 @@ static char no_load_sound[] = "NOLOADSOUND";
 static char no_sounds[] = "NOSOUNDS";
 
 extern int current_effect, current_song;
-extern unsigned char level, scene, location_kind, active_sound_channels;
+extern LEVELREC Level;
+extern unsigned char active_sound_channels;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -94,7 +153,9 @@ extern CHARREC Kid;
 extern CHARREC RoomOpp[5];
 extern SoundRule sound_rules[];
 extern AmbientState ambient_state;
-extern signed char previous_track_range, viewed_room, ambient_table[];
+extern signed char previous_track_range;
+extern ROOMREC Room;
+extern signed char ambient_table[];
 
 extern int sound_inhibit, ambient_last_song, pending_song;
 extern SoundHandle sound_handles[];
@@ -114,6 +175,7 @@ extern void advance_sound(void);
 extern int random_below(int limit);
 extern signed char map_room_row(signed char room);
 extern void dispatch_sound(int resource);
+extern int pending_effect;
 extern void start_sound(SoundHandle handle);
 extern int IsExitChasingSkel(signed char room);
 extern void SaveOptionsToDisk(void);
@@ -147,8 +209,8 @@ void AddLeaveLevelSong(void)
 
 void _fastcall AddKidScream(unsigned char room)
 {
-    if ((Char.character_kind == 0 && level != 5) ||
-        (level == 5 && room != 19 && room != 16 && room != 15))
+    if ((Char.character_kind == 0 && Level.environment_kind != 5) ||
+        (Level.environment_kind == 5 && room != 19 && room != 16 && room != 15))
         AddSound(1);
 }
 
@@ -183,7 +245,7 @@ void add_opponent_death_song(void)
             break;
         }
         if (allowed) {
-            if (!OppToFight() && !find_active_generator(Char.room, Char.row) && level != 5)
+            if (!OppToFight() && !find_active_generator(Char.room, Char.row) && Level.environment_kind != 5)
                 AddSong(song);
             Char.field_0f = 0;
         }
@@ -210,7 +272,6 @@ void AddSong(int song)
     }
 }
 
-extern int pending_effect;
 
 void AddSound(int effect)
 {
@@ -242,7 +303,7 @@ int GetLeaveLevelSongId(void)
 {
     int song;
 
-    switch (level) {
+    switch (Level.environment_kind) {
     case 1:
         song = -1;
         break;
@@ -327,19 +388,19 @@ void play_ambient(AmbientState *state)
 
     if (Kid.room) {
         advance_sound();
-        if (should_change_ambient(state) && ambient_first[level] != 0) {
+        if (should_change_ambient(state) && ambient_first[Level.environment_kind] != 0) {
             special = OppToFight();
-            if (special && ambient_special[level] == -1)
+            if (special && ambient_special[Level.environment_kind] == -1)
                 special = 0;
             song = select_special_ambient(special);
             if (song != -1)
                 goto fixed_song;
             cue = !special ? ambient_table[(signed char)(map_room_row(Char.row) + Char.column) +
-                                          30 * (unsigned char)Char.room] : ambient_special[level];
-            first = ambient_first[level][cue];
-            count = ambient_count[level][cue];
+                                          30 * (unsigned char)Char.room] : ambient_special[Level.environment_kind];
+            first = ambient_first[Level.environment_kind][cue];
+            count = ambient_count[Level.environment_kind][cue];
             song = random_below(count);
-            song += ambient_first[level][cue];
+            song += ambient_first[Level.environment_kind][cue];
             if (state->song == song) {
                 if (first + count != song)
                     ++song;
@@ -405,7 +466,7 @@ int should_replace_effect(int effect, int playing)
 int select_special_ambient(int special)
 {
     int song = -1;
-    if (special && scene == 5 && (viewed_room == 10 || viewed_room == 7 || viewed_room == 12))
+    if (special && Level.level_number == 5 && (Room.number == 10 || Room.number == 7 || Room.number == 12))
         song = 64;
     return song;
 }
@@ -414,9 +475,9 @@ int special_no_ambient_case(AmbientState *state)
 {
     int blocked = 0;
     if (is_leave_level_music_on() ||
-        (location_kind == 2 && IsExitChasingSkel(RoomOpp[0].room) &&
+        (Level.preferred_opponent == 2 && IsExitChasingSkel(RoomOpp[0].room) &&
          ((*(int near *)&RoomOpp[0].sequence) == 88 || (*(int near *)&RoomOpp[0].sequence) == 102 || (*(int near *)&RoomOpp[0].sequence) == 216)) ||
-        (Kid.room == 16 && scene == 9))
+        (Kid.room == 16 && Level.level_number == 9))
         blocked = 1;
     return blocked;
 }
@@ -435,12 +496,12 @@ int _fastcall should_change_ambient(AmbientState *state)
             change = 1;
         } else if (state->cue != -1) {
             special = OppToFight();
-            if (special && ambient_special[level] == -1)
+            if (special && ambient_special[Level.environment_kind] == -1)
                 special = 0;
-            if (special && ambient_special[level] > state->cue)
+            if (special && ambient_special[Level.environment_kind] > state->cue)
                 change = 1;
             else if (!special) {
-                cue.value = ambient_special[level];
+                cue.value = ambient_special[Level.environment_kind];
                 if (cue.value <= state->cue && cue.value != -1 && !find_active_generator(Char.room, Char.row))
                     change = 1;
             }

@@ -1,21 +1,74 @@
 /* DRAW.C in original routine order. The verification receipt identifies the exact entries. */
-typedef unsigned char Room;
-typedef struct RoomLinks {
-    Room left, right, above, below;
-} RoomLinks;
+typedef unsigned char RoomNumber;
 
 extern unsigned char redraw_flags[10];
-extern Room viewed_room, left_room, right_room, above_room, below_room;
-extern Room above_left_room, above_right_room, below_left_room, below_right_room;
-extern char room_is_custom;
-extern RoomLinks room_links[];
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 extern char draw_row, draw_column;
 
 extern void clear_peels(void);
 extern void init_fchar_rect(void);
 extern void ZeroBuffers(void);
-extern void select_room(Room room);
-extern int IsCustomizedRoom(Room room);
+extern void select_room(RoomNumber room);
+extern int IsCustomizedRoom(RoomNumber room);
 extern void SetSideRoomInfo(void);
 extern void prepare_row(void);
 extern void GetBelowAry(void);
@@ -38,35 +91,35 @@ void full_redraw(void)
 
 void get_rooms(void)
 {
-    above_left_room = above_right_room = below_left_room = below_right_room = 0;
-    if (viewed_room) {
-        select_room(viewed_room);
-        left_room = room_links[viewed_room].left;
-        right_room = room_links[viewed_room].right;
-        above_room = room_links[viewed_room].above;
-        below_room = room_links[viewed_room].below;
+    Room.above_left = Room.above_right = Room.below_left = Room.below_right = 0;
+    if (Room.number) {
+        select_room(Room.number);
+        Room.left = Level.room_links[Room.number - 1].left;
+        Room.right = Level.room_links[Room.number - 1].right;
+        Room.above = Level.room_links[Room.number - 1].above;
+        Room.below = Level.room_links[Room.number - 1].below;
 
-        if (above_room) {
-            above_left_room = room_links[above_room].left;
-            above_right_room = room_links[above_room].right;
+        if (Room.above) {
+            Room.above_left = Level.room_links[Room.above - 1].left;
+            Room.above_right = Level.room_links[Room.above - 1].right;
         } else {
-            if (left_room)
-                above_left_room = room_links[left_room].above;
-            if (right_room)
-                above_right_room = room_links[right_room].above;
+            if (Room.left)
+                Room.above_left = Level.room_links[Room.left - 1].above;
+            if (Room.right)
+                Room.above_right = Level.room_links[Room.right - 1].above;
         }
-        if (below_room) {
-            below_left_room = room_links[below_room].left;
-            below_right_room = room_links[below_room].right;
+        if (Room.below) {
+            Room.below_left = Level.room_links[Room.below - 1].left;
+            Room.below_right = Level.room_links[Room.below - 1].right;
         } else {
-            if (left_room)
-                below_left_room = room_links[left_room].below;
-            if (right_room)
-                below_right_room = room_links[right_room].below;
+            if (Room.left)
+                Room.below_left = Level.room_links[Room.left - 1].below;
+            if (Room.right)
+                Room.below_right = Level.room_links[Room.right - 1].below;
         }
-        room_is_custom = IsCustomizedRoom(viewed_room);
+        Room.custom = IsCustomizedRoom(Room.number);
     } else {
-        left_room = right_room = above_room = below_room = 0;
+        Room.left = Room.right = Room.above = Room.below = 0;
     }
 }
 
@@ -85,11 +138,11 @@ void redraw_room_sure(void)
             redraw_cell_sure();
         } while (++draw_column < 10);
     }
-    if (room_is_custom == 0) {
-        saved_room = viewed_room;
-        viewed_room = above_room;
+    if (Room.custom == 0) {
+        saved_room = Room.number;
+        Room.number = Room.above;
         get_rooms();
-        below_room = (Room)saved_room;
+        Room.below = (RoomNumber)saved_room;
         SetSideRoomInfo();
         draw_row = 2;
         prepare_row();
@@ -100,7 +153,7 @@ void redraw_room_sure(void)
             select_draw_cell();
             redraw_cell_sure();
         } while (++draw_column < 10);
-        viewed_room = (Room)saved_room;
+        Room.number = (RoomNumber)saved_room;
         get_rooms();
     } else {
         draw_custom_above_row();
@@ -277,7 +330,6 @@ extern TileInfo left_tile_info;
 extern Tile above_tiles[], below_tiles[];
 extern int force_full_clip;
 extern DrawRect GamePlayRect;
-extern unsigned char level_style, level_number;
 extern int back_count, fore_count;
 extern DrawEntry far back_queue[];
 extern DrawEntry far fore_queue[];
@@ -292,12 +344,12 @@ extern void load_tower_top(void);
 extern int far _fastcall keep_image_in_back(RoomImage *image);
 extern int draw_pillar_in_back(RoomImage *image);
 extern void draw_horse(unsigned int sheet, unsigned int shape, char pass);
-extern unsigned int far _fastcall horse_room_image(Room room, char pass, unsigned int *sheet);
+extern unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *sheet);
 
 void draw_back_image(unsigned char pass)
 {
-    unsigned char layer;
     unsigned char priority;
+    unsigned char layer;
     struct { unsigned long address; TileDrawArgs args; } draw;
 
     layer = back_image_start_pass();
@@ -312,9 +364,9 @@ void draw_back_image(unsigned char pass)
             draw.args.kind = below_tiles[draw_column].kind;
             draw.args.info = below_tiles[draw_column].info;
             if (!force_full_clip || draw_column == 0 || draw_column == 9 ||
-                level_style == 3 || draw.args.kind == 4 || level_number == 13)
+                Level.environment_kind == 3 || draw.args.kind == 4 || ((unsigned char)Level.level_number) == 13)
                 break;
-            if (level_style == 2 && (draw.args.kind == 19 || draw.args.kind == 9))
+            if (Level.environment_kind == 2 && (draw.args.kind == 19 || draw.args.kind == 9))
                 break;
             layer += 2;
             break;
@@ -379,7 +431,7 @@ void draw_custom_room_images(char pass)
     if ((pass == 0 || pass == 5) && force_full_clip &&
         draw_column == 0 && draw_row == 2) {
         draw_images = 1;
-        if (viewed_room == 1 && level_number == 14)
+        if (Room.number == 1 && ((unsigned char)Level.level_number) == 14)
             load_tower_top();
     } else if ((pass == 0 && !force_full_clip && room_images &&
                 room_images->background_shape) ||
@@ -398,7 +450,7 @@ void draw_custom_room_images(char pass)
             }
         }
         if ((force_full_clip && pass == 0) || pass == 1) {
-            draw_images = horse_room_image(viewed_room, pass, &sheet);
+            draw_images = horse_room_image(Room.number, pass, &sheet);
             if (draw_images)
                 draw_horse(sheet, draw_images, pass);
         }
@@ -424,11 +476,11 @@ void far _fastcall draw_custom_room_image(char index, char pass)
     if (pass != 0 && pass != 5 && pass != 11) {
         entry = ((_segment)fore_queue) :>
             (DrawEntry _based(void) *)&((DrawQueueStorage near *)0)->foreground[fore_count++];
-        if (level_style != 5)
+        if (Level.environment_kind != 5)
             goto queued;
-        if ((level_style == 5 && viewed_room != 19 && viewed_room != 16 &&
-             viewed_room != 15 && keep_image_in_back(image)) ||
-            ((viewed_room == 19 || viewed_room == 16) && draw_pillar_in_back(image))) {
+        if ((Level.environment_kind == 5 && Room.number != 19 && Room.number != 16 &&
+             Room.number != 15 && keep_image_in_back(image)) ||
+            ((Room.number == 19 || Room.number == 16) && draw_pillar_in_back(image))) {
             entry = &back_queue[(*(int *)redraw_flags)++];
             --fore_count;
         }
@@ -475,7 +527,7 @@ void draw_fore_image(void)
             draw.args.row = draw_row;
             draw.args.kind = drawn_tile_kind;
             draw.args.info = BlueSpec;
-            if (skip_left && level_style != 3)
+            if (skip_left && Level.environment_kind != 3)
                 ++layer;
             break;
         case 2:
@@ -496,12 +548,6 @@ void draw_fore_image(void)
 }
 
 #pragma pack(1)
-typedef struct GateRoom {
-    unsigned char header[37];
-    signed char count;
-    unsigned char contents[78];
-} GateRoom;
-
 typedef struct GateImage {
     unsigned char header[11];
     DrawRect clip;
@@ -546,7 +592,6 @@ typedef struct {
 #pragma pack()
 
 extern CHARREC Kid;
-extern GateRoom gate_rooms[];
 extern unsigned char gate_number, gate_kind;
 extern signed char gate_column, gate_row;
 extern TileDrawer draw_gate;
@@ -569,7 +614,7 @@ void check_foreground_gate(void)
     GateImage *image;
 
     if (Kid.frame >= 264 && Kid.frame <= 266) {
-        if (level_style == 3) {
+        if (Level.environment_kind == 3) {
             args.pass = 0;
             args.row = draw_row;
             if (drawn_tile_kind == 4) {
@@ -595,7 +640,7 @@ void check_foreground_gate(void)
         found = 1;
         image = get_gate_image(2, 0);
     } else {
-        count = gate_rooms[viewed_room].count;
+        count = Level.room_objects[Room.number - 1].opponent_count;
         for (index = 0; index < count && !matches; ++index) {
             examine_gate(index);
             matches = CellLeft == 4 && gate_row == draw_row &&
@@ -807,7 +852,7 @@ void draw_middle_item(int index)
     type = middle_queue[index].type;
     if (middle_queue[index].shape >= 0x62d7 && middle_queue[index].shape <= 0x62e2) {
         load_animated_shape(entry->shape - 0x62d7, &ref);
-    } else if (level_number == 5 && viewed_room == 10 && type == 4 &&
+    } else if (((unsigned char)Level.level_number) == 5 && Room.number == 10 && type == 4 &&
                entry->shape < room_images->count) {
         load_room_middle_shape(entry->shape, &ref);
     } else {
@@ -941,7 +986,7 @@ void full_redraw_fast(void)
 
 void redraw_room_fast(void)
 {
-    Room saved_room;
+    RoomNumber saved_room;
 
     SetSideRoomInfo();
     draw_cell_objects(30);
@@ -959,9 +1004,9 @@ next_cell:
 next_row:
     if (draw_row--)
         goto paint_row;
-    if (!room_is_custom) {
-        saved_room = viewed_room;
-        viewed_room = above_room;
+    if (!Room.custom) {
+        saved_room = Room.number;
+        Room.number = Room.above;
         get_rooms();
         SetSideRoomInfo();
         draw_row = 2;
@@ -972,7 +1017,7 @@ next_row:
             select_draw_cell();
             redraw_top_fast(draw_column);
         } while (++draw_column < 10);
-        viewed_room = saved_room;
+        Room.number = saved_room;
         get_rooms();
     } else {
         draw_custom_above_row();
@@ -999,10 +1044,10 @@ void draw_all(void)
     Graf = room_destination;
     if (draw_room_frame)
         SET_RECORD_RANGE(&GamePlayRect, 12);
-    if (level_style == 4 || level_style == 2 || level_style == 5)
+    if (Level.environment_kind == 4 || Level.environment_kind == 2 || Level.environment_kind == 5)
         sort_back_table();
-    if ((viewed_room == 1 && level_number == 14) ||
-        (viewed_room == 22 && level_number == 10))
+    if ((Room.number == 1 && ((unsigned char)Level.level_number) == 14) ||
+        (Room.number == 22 && ((unsigned char)Level.level_number) == 10))
         sort_fore_table();
     prepare_room_tables();
     dump_draw_table(0);
@@ -1042,7 +1087,7 @@ done:
     return;
 }
 
-extern int compute_slide_rock_rect(DrawRect *area, Room room, signed char row);
+extern int compute_slide_rock_rect(DrawRect *area, RoomNumber room, signed char row);
 extern void mark_foreground(signed char cell, DrawRect *area);
 
 extern struct LooseItemDrawer *loose_item_drawer;
@@ -1059,7 +1104,7 @@ void draw_half_cell(void)
 
     if (!compute_half_rect(&area))
         return;
-    if (level_style == 2 && compute_slide_rock_rect(&draw.row_clip, viewed_room, draw_row) &&
+    if (Level.environment_kind == 2 && compute_slide_rock_rect(&draw.row_clip, Room.number, draw_row) &&
         SECTRECT(&draw.row_clip, &draw.row_clip, &area))
         area.top = draw.row_clip.bottom - 1;
     draw.old_clip = clip_rect;
@@ -1069,7 +1114,7 @@ void draw_half_cell(void)
     draw.args.row = draw_row;
     draw.args.info = BlueSpec;
     priority = (draw.args.info.words[0] >> 14) & 3;
-    if (!room_is_custom || priority == 2) {
+    if (!Room.custom || priority == 2) {
         draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[(unsigned char)drawn_tile_kind];
         if (draw.address) {
             ((TileDrawer)draw.address)(&draw.args);
@@ -1083,12 +1128,6 @@ void draw_half_cell(void)
 
 extern CHARREC Char;
 extern CHARREC RoomOpp[5];
-typedef struct GuardMeterRoom {
-    unsigned char present;
-    unsigned char rest[115];
-} GuardMeterRoom;
-
-extern GuardMeterRoom guard_meter_rooms[];
 static const DrawRect _based(_segname("_CONST")) half_tile_rectangles[10] = {
     {57, 0, 63, 16},
     {57, 0, 63, 16},
@@ -1114,7 +1153,7 @@ int compute_half_rect(DrawRect *area)
     } else {
         image = 0;
         index = 0;
-        state.count = guard_meter_rooms[(Room)Char.room].present;
+        state.count = (unsigned char)Level.room_objects[(RoomNumber)Char.room - 1].opponent_count;
         if (state.count > 0) {
             do {
                 if (image)
@@ -1132,7 +1171,7 @@ int compute_half_rect(DrawRect *area)
         state.source = half_tile_rectangles[image - 135];
         if (drawn_tile_kind == 6)
             ++state.source.bottom;
-        if ((Char.room == 7 || Char.room == 8) && level_style == 6)
+        if ((Char.room == 7 || Char.room == 8) && Level.environment_kind == 6)
             state.source.top += 3;
         area = ComputeOffsetCellRect(area, &state.source, draw_column, draw_row);
     }
@@ -1154,19 +1193,19 @@ void draw_floor_buffer(void)
     if (floor_y > clip_rect.top)
         clip_rect.top = floor_y;
     floor_edge = 0;
-    if (level_style == 2) {
-        if (compute_slide_rock_rect(&row_clip, viewed_room, draw_row) &&
+    if (Level.environment_kind == 2) {
+        if (compute_slide_rock_rect(&row_clip, Room.number, draw_row) &&
             SECTRECT(&row_clip, &row_clip, &clip_rect)) {
             clip_rect.top = row_clip.bottom - 1;
             floor_edge = 1;
-        } else if (compute_slide_rock_rect(&row_clip, viewed_room, (signed char)(draw_row + 1)) &&
+        } else if (compute_slide_rock_rect(&row_clip, Room.number, (signed char)(draw_row + 1)) &&
                    SECTRECT(&row_clip, &row_clip, &clip_rect)) {
             floor_edge = 1;
         }
     }
     if (IS_SIX_KIND(CellLeft)) {
         priority = (left_tile_info.words[0] >> 14) & 3;
-        if (!room_is_custom || priority == 2 || !priority) {
+        if (!Room.custom || priority == 2 || !priority) {
             callbacks.left_draw = &tile_drawers[(unsigned char)CellLeft];
             if (*callbacks.left_draw) {
                 args.pass = 2;
@@ -1178,7 +1217,7 @@ void draw_floor_buffer(void)
             }
         }
         priority = (BlueSpec.words[0] >> 14) & 3;
-        if (!room_is_custom || priority == 2 || !priority) {
+        if (!Room.custom || priority == 2 || !priority) {
             callbacks.current_draw = &tile_drawers[(unsigned char)drawn_tile_kind];
             if (*callbacks.current_draw) {
                 args.pass = 2;
@@ -1194,7 +1233,7 @@ void draw_floor_buffer(void)
             draw_custom_room_images(2);
     } else if (floor_edge && IS_SIX_KIND(drawn_tile_kind) && IsWall(CellLeft)) {
         priority = (left_tile_info.words[0] >> 14) & 3;
-        if (!room_is_custom || priority == 2) {
+        if (!Room.custom || priority == 2) {
             callbacks.left_draw = &tile_drawers[(unsigned char)CellLeft];
             if (*callbacks.left_draw) {
                 args.pass = 2;
@@ -1413,11 +1452,19 @@ GateImage *get_gate_image(char set, unsigned char type)
     return (GateImage *)match;
 }
 
-extern signed char FChar, active_object_flags;
-extern int active_object_x, active_object_y, active_object_image, active_object_offset;
-extern unsigned char active_object_set, active_object_type;
-extern DrawRect active_object_clip;
-extern int active_object_depth, counter_tick, middle_count;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern FCHARREC FChar;
+extern int active_object_offset;
+extern int counter_tick, middle_count;
 extern int far _fastcall add_middle_image(unsigned char set, int image, int x, int y, unsigned char order);
 extern void draw_overlay_object_13(unsigned char type);
 extern void draw_overlay_object_84(unsigned char type);
@@ -1432,21 +1479,21 @@ void draw_cell_object(signed char index)
 
     switch (type) {
     case 0:
-        if (active_object_image != -1 &&
+        if (FChar.image != -1 &&
             (counter_tick == 0 || counter_tick % 2 != 0)) {
-            add_middle_image(active_object_set, active_object_image + 1,
-                             active_object_offset, active_object_y, 10);
-            if (active_object_depth) {
-                middle_entries[middle_count - 1].mode = active_object_depth;
+            add_middle_image(FChar.image_set, FChar.image + 1,
+                             active_object_offset, FChar.y, 10);
+            if (FChar.depth) {
+                middle_entries[middle_count - 1].mode = FChar.depth;
             }
         }
         break;
     case 1: case 2: case 3:
     case 5: case 6: case 7: case 8: case 9: case 10: case 14:
-        if (add_middle_image(active_object_set, active_object_image + 1,
-                             active_object_offset, active_object_y, 10)) {
-            middle_queue[middle_count - 1].mode = active_object_depth;
-            middle_queue[middle_count - 1].update_peel = active_object_type;
+        if (add_middle_image(FChar.image_set, FChar.image + 1,
+                             active_object_offset, FChar.y, 10)) {
+            middle_queue[middle_count - 1].mode = FChar.depth;
+            middle_queue[middle_count - 1].update_peel = FChar.object_type;
         }
         break;
     case 13:
@@ -1456,7 +1503,7 @@ void draw_cell_object(signed char index)
         draw_loose_object(type);
         break;
     case 0x82:
-        add_middle_image(active_object_set, 103, active_object_offset, active_object_y, 10);
+        add_middle_image(FChar.image_set, 103, active_object_offset, FChar.y, 10);
         return;
     case 0x84: case 0x85:
         draw_overlay_object_84(type);
@@ -1478,9 +1525,9 @@ void draw_cell_object(signed char index)
 
 void draw_loose_object(unsigned char type)
 {
-    int vertical_gap, horizontal_gap, left_shape, right_shape;
+    int horizontal_gap, left_shape, right_shape, vertical_gap;
 
-    switch (level_style) {
+    switch (Level.environment_kind) {
     case 2:
         left_shape = 21;
         right_shape = 22;
@@ -1491,7 +1538,7 @@ void draw_loose_object(unsigned char type)
         right_shape = (type & 127) + 70;
         horizontal_gap = 1;
         vertical_gap = 4;
-        active_object_clip.bottom += 5;
+        FChar.clip_bottom += 5;
         break;
     case 4:
         left_shape = 22;
@@ -1503,11 +1550,11 @@ void draw_loose_object(unsigned char type)
         break;
     }
     if (left_shape) {
-        active_object_flags = -1;
+        FChar.flipped = -1;
         add_middle_image(4, left_shape, active_object_offset + horizontal_gap,
-                         active_object_y, 10);
+                         FChar.y, 10);
         add_middle_image(4, right_shape, active_object_offset,
-                         active_object_y + vertical_gap, 10);
+                         FChar.y + vertical_gap, 10);
     }
 }
 
@@ -1515,23 +1562,23 @@ unsigned char load_draw_object(signed char index)
 {
     CellObject *item = &cell_objects[index];
 
-    FChar = item->status;
-    active_object_offset = active_object_x = item->x;
-    active_object_y = item->y;
-    active_object_image = item->image;
-    active_object_set = item->set;
-    active_object_flags = item->flags;
-    active_object_clip = item->clip;
-    active_object_depth = item->depth;
-    active_object_type = item->type;
+    FChar.index = item->status;
+    active_object_offset = FChar.x = item->x;
+    FChar.y = item->y;
+    FChar.image = item->image;
+    FChar.image_set = item->set;
+    FChar.flipped = item->flags;
+    *(DrawRect *)&FChar.clip_top = item->clip;
+    FChar.depth = item->depth;
+    FChar.object_type = item->type;
     return item->kind;
 }
 
 void set_object_cell(signed char index)
 {
-    cell_objects[index].status = FChar;
-    if (FChar < 30)
-        redraw_cell_objects[FChar] = 1;
+    cell_objects[index].status = FChar.index;
+    if (FChar.index < 30)
+        redraw_cell_objects[FChar.index] = 1;
 }
 
 extern _segment fore_queue_segment;
@@ -1570,9 +1617,9 @@ void sort_fore_table(void)
     DrawEntry item;
 
     shape = 0;
-    if (level_style == 6) {
-        if ((viewed_room == 1 && level_number == 14) ||
-            (viewed_room == 22 && level_number == 10))
+    if (Level.environment_kind == 6) {
+        if ((Room.number == 1 && ((unsigned char)Level.level_number) == 14) ||
+            (Room.number == 22 && ((unsigned char)Level.level_number) == 10))
             shape = 0x6372;
         else
             shape = -1;
@@ -1725,23 +1772,23 @@ ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
     return result;
 }
 
-unsigned int far _fastcall horse_room_image(Room room, char pass, unsigned int *shape)
+unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *shape)
 {
     unsigned int origin = 0;
 
     if (pass == 0) {
-        if (room == 2 && level_number == 9) {
+        if (room == 2 && ((unsigned char)Level.level_number) == 9) {
             origin = (unsigned int)horse_level9_origin;
             *shape = 0x6371;
             goto chosen;
         }
     } else if (pass == 1 && !suppress_horse) {
-        if (room == 1 && level_number == 14) {
+        if (room == 1 && ((unsigned char)Level.level_number) == 14) {
             origin = (unsigned int)horse_level14_origin;
             *shape = 0x6372;
             goto chosen;
         }
-        if (room == 22 && level_number == 10) {
+        if (room == 22 && ((unsigned char)Level.level_number) == 10) {
             origin = (unsigned int)horse_level10_origin;
             *shape = 0x6370;
         }
@@ -1901,14 +1948,14 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
 
     if (guard == -1) {
         guard = find_guard_for_meter(1);
-        if (guard == -1 && guard_meter_rooms[viewed_room].present)
+        if (guard == -1 && (unsigned char)Level.room_objects[Room.number - 1].opponent_count)
             guard = 0;
     }
     if (guard != -1)
         select_guard_for_meter(guard);
-    if (guard == -1 || !guard_meter_rooms[viewed_room].present ||
+    if (guard == -1 || !(unsigned char)Level.room_objects[Room.number - 1].opponent_count ||
         guard_kind == 10 || guard_kind == 11 || guard_kind == 0 ||
-        (guard_kind == 4 && level_number == 5 && guard_level_room == 1 &&
+        (guard_kind == 4 && ((unsigned char)Level.level_number) == 5 && guard_level_room == 1 &&
          (guard_action == 10 || guard_action == 7 || guard_action == 12))) {
         rect.top = 193; rect.left = 218;
         rect.bottom = meter_strip.bottom; rect.right = meter_strip.right;
@@ -1955,7 +2002,7 @@ void draw_sword(TileDrawArgs *args)
     TileDrawArgs base;
     unsigned char kind;
 
-    if (loose_item_drawer->item && (Kid.room != 9 || level_number != 8)) {
+    if (loose_item_drawer->item && (Kid.room != 9 || ((unsigned char)Level.level_number) != 8)) {
         base = *args;
         base.info.bytes[0] &= 0xfc;
         loose_item_drawer->item(&base);
@@ -2145,22 +2192,22 @@ void set_shape_variant(int variant)
     ((int far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(*kid_meter_shapes))[2] = variant;
 }
 
-extern char PieceAboveId(Room room, unsigned char piece);
-extern char PieceAboveRightId(Room room, unsigned char piece);
+extern char PieceAboveId(RoomNumber room, unsigned char piece);
+extern char PieceAboveRightId(RoomNumber room, unsigned char piece);
 
-int visible_above_piece(Room room, unsigned char piece)
+int visible_above_piece(RoomNumber room, unsigned char piece)
 {
     int visible = 0;
     char above, upper_left;
 
     above = PieceAboveId(room, piece);
     if (IS_SIX_KIND(above) || above == 5 || above == 6 ||
-        (above == 3 && level_number == 13)) {
+        (above == 3 && ((unsigned char)Level.level_number) == 13)) {
         visible = 1;
     } else {
         upper_left = PieceAboveRightId(room, piece);
         if (IS_SIX_KIND(upper_left) || upper_left == 5 || upper_left == 6 ||
-            (above == 3 && level_number == 13))
+            (above == 3 && ((unsigned char)Level.level_number) == 13))
             visible = 1;
     }
     return visible;

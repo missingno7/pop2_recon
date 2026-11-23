@@ -58,8 +58,66 @@ typedef struct {
 #pragma pack()
 
 extern CustomRoom *custom_room;
-extern unsigned char level_style, room_style, viewed_room;
-extern unsigned char room_specific_ready, custom_room_enabled;
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 extern ShapeHandle room_specific_handle;
 /* Rectangle passed to StrokePortRect for the style-4 border. */
 static const int _based(_segname("_CONST")) room_specific_border[4] = {0, 0, 3, 320};
@@ -117,9 +175,9 @@ void AddCustomPiecePeel(CustomPiece *piece, CustomRect far *rect)
 
 void CheckRoomSpecific(void)
 {
-    switch (level_style) {
+    switch (Level.environment_kind) {
     case 4:
-        if (!room_specific_ready)
+        if (!Room.above)
             stroke_port_rect(room_specific_border);
         break;
     case 5:
@@ -220,23 +278,16 @@ ShapeSize far *GetCustomPieceSize(unsigned char index, ShapeSize far *size)
     return size;
 }
 
-typedef struct {
-    unsigned int flags;
-    unsigned int data;
-} CustomTile;
-
-extern CustomTile custom_tiles[][30];
-
 int IsCustomizedRoom(unsigned char room)
 {
-    CustomTile *tiles = custom_tiles[room];
+    LEVELCELL *tiles = Level.cell_info[room - 1];
     unsigned int flags = 0;
     signed char tile = 0;
 
     do {
         if (flags)
             break;
-        flags = tiles[tile].flags & 0xC000;
+        flags = tiles[tile].modifier & 0xC000;
         ++tile;
     } while (tile < 30);
     return flags != 0;
@@ -248,7 +299,7 @@ void LoadCustomRoomData(unsigned char room_number_arg)
     CustomRoom *room;
     register unsigned long load;
 
-    if (custom_room_enabled) {
+    if (Room.custom) {
         room = LOAD_RESOURCE_COPY(0x43555354UL, (room_number_arg + 159) * 25);
         if (room) {
             if (custom_room && room->template_id == custom_room->template_id) {
@@ -271,8 +322,8 @@ void LoadCustomRoomData(unsigned char room_number_arg)
         }
     } else if (custom_room) {
         UnloadCustomRoomData();
-        if ((room_style == 5 && viewed_room == 7) ||
-            (room_style == 5 && viewed_room == 12))
+        if ((((unsigned char)Level.level_number) == 5 && Room.number == 7) ||
+            (((unsigned char)Level.level_number) == 5 && Room.number == 12))
             reset_custom_room_sound();
     }
 }

@@ -1,4 +1,72 @@
 #pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+
+#pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
     signed char slot;                  /* 00 */
@@ -37,6 +105,7 @@ typedef struct {
 /* AUTO.C ordered reconstruction through 2344:0fae. */
 
 extern int Pause;
+extern signed char cut_blocked_index;
 extern CHARREC Char;
 
 
@@ -90,12 +159,8 @@ typedef struct {
     int entry_y;
 } opponent_record;
 
-typedef struct {
-    signed char count;
-    opponent_record opponents[5];
-} room_opponents;
 
-extern room_opponents opponent_rooms[];
+extern LEVELREC Level;
 
 typedef struct {
     unsigned char kind;
@@ -109,18 +174,9 @@ typedef struct {
     unsigned char enabled;
     unsigned char flags;
 } generator_point;
-typedef struct {
-    signed char count;
-    unsigned char spawn_flags;
-    unsigned char header[2];
-    generator_point points[3];
-} room_generators;
-extern room_generators generators[];
-extern unsigned char viewed_room, left_room, right_room;
-extern unsigned char loaded_appearance, preferred_opponent, encounter_type;
-extern unsigned char room_style;
+extern ROOMREC Room;
+extern unsigned char loaded_appearance;
 extern unsigned char appearance_kind[];
-extern signed char cut_blocked_index;
 
 #define actor_index Char.slot
 
@@ -170,23 +226,23 @@ void far pascal initialize_room_actors(void)
 
     check_side_rooms();
     index = 0;
-    count = opponent_rooms[viewed_room].count;
+    count = Level.room_objects[Room.number - 1].opponent_count;
     if (count > 0) {
         do {
-            record = GetOppInfoIdx(viewed_room, index);
-            if (preferred_opponent != 5 && preferred_opponent != 6 &&
+            record = GetOppInfoIdx(Room.number, index);
+            if (Level.preferred_opponent != 5 && Level.preferred_opponent != 6 &&
                 record->appearance != 1 && record->appearance != 9 &&
                 record->appearance != 10 && record->appearance != 3)
-                record->appearance = preferred_opponent;
+                record->appearance = Level.preferred_opponent;
 
             (*(volatile unsigned char near *)&Char.character_kind) = appearance_kind[record->appearance];
             if ((unsigned char)record->appearance != loaded_appearance &&
-                preferred_opponent != 5 && preferred_opponent != 6 &&
+                Level.preferred_opponent != 5 && Level.preferred_opponent != 6 &&
                 (*(volatile unsigned char near *)&Char.character_kind) != 11 && (*(volatile unsigned char near *)&Char.character_kind) != 0 && (*(volatile unsigned char near *)&Char.character_kind) != 6)
                 load_opponent_set(record->appearance);
 
             actor_index = index;
-            actor_room = viewed_room;
+            actor_room = Room.number;
             Char.row = record->tile / 10;
             if (record->tile < 0)
                 --Char.row;
@@ -216,7 +272,7 @@ void far pascal initialize_room_actors(void)
             else if ((*(volatile unsigned char near *)&Char.character_kind) == 6) {
                 actor_bank_mask = 4;
                 load_opponent_bank(25001u, 32, 16, 7);
-            } else if (preferred_opponent != 0 && preferred_opponent != 5 && preferred_opponent != 6)
+            } else if (Level.preferred_opponent != 0 && Level.preferred_opponent != 5 && Level.preferred_opponent != 6)
                 actor_bank_mask = 4;
             else
                 reserve_opponent_bank(record->palette_kind);
@@ -285,13 +341,13 @@ void far pascal initialize_room_actors(void)
     }
 
     if (count == 0) {
-        if (encounter_type == 12 && (viewed_room == 11 || viewed_room == 19) &&
+        if (Level.level_number == 12 && (Room.number == 11 || Room.number == 19) &&
             loaded_appearance != 1)
             load_opponent_set(1);
-        else if (generators[viewed_room].count != 0 &&
-                 loaded_appearance != preferred_opponent &&
-                 preferred_opponent != 5 && preferred_opponent != 6)
-            load_opponent_set(preferred_opponent);
+        else if (Level.generators[Room.number - 1].count != 0 &&
+                 loaded_appearance != Level.preferred_opponent &&
+                 Level.preferred_opponent != 5 && Level.preferred_opponent != 6)
+            load_opponent_set(Level.preferred_opponent);
     }
 }
 
@@ -306,23 +362,23 @@ void far pascal check_side_rooms(void)
 
     for (side = 0; side < 2; ++side) {
         if (side == 0) {
-            room = left_room;
+            room = Room.left;
             delta = -320;
         } else {
-            room = right_room;
+            room = Room.right;
             delta = 320;
         }
         if (room == 0)
             continue;
         shift = delta;
-        for (index = 0, count = opponent_rooms[room].count; index < count; ++index) {
+        for (index = 0, count = Level.room_objects[room - 1].opponent_count; index < count; ++index) {
             record = GetOppInfoIdx(room, index);
             if ((side == 0 && record->x > 367) || (side == 1 && record->x < 208) ||
-                ((room == 7 || room == 8) && room_style == 6 && record->appearance == 3)) {
+                ((room == 7 || room == 8) && Level.environment_kind == 6 && record->appearance == 3)) {
                 copy = *record;
                 copy.x += shift;
-                copy.index = opponent_rooms[viewed_room].count;
-                add_opponent_to_room(viewed_room, &copy);
+                copy.index = Level.room_objects[Room.number - 1].opponent_count;
+                add_opponent_to_room(Room.number, &copy);
                 RemoveOppFromRoom(room, index);
                 --index;
                 --count;
@@ -411,14 +467,14 @@ int far pascal update_opponent_record(void)
                     *(struct vertical_positions *)&copy.saved_y =
                         *(struct vertical_positions *)&prior->saved_y;
                     add_opponent_to_room(room, &copy);
-                } else if ((*(unsigned char near *)&Char.action) == 9 && room_style == 5) {
+                } else if ((*(unsigned char near *)&Char.action) == 9 && Level.environment_kind == 5) {
                     dispatch_sound(10025);
-                    if (viewed_room != 19 && viewed_room != 16)
+                    if (Room.number != 19 && Room.number != 16)
                         AddSound(0);
                 }
                 RemoveOppFromRoom(actor_room, actor_index);
                 removed = 1;
-                if (opponent_rooms[viewed_room].count == 0)
+                if (Level.room_objects[Room.number - 1].opponent_count == 0)
                     RoomOpp[actor_index].direction = 86;
             }
         }
@@ -454,7 +510,7 @@ void far pascal set_special_opponent(opponent_record *record)
     if ((*(volatile unsigned char near *)&Char.character_kind) == 2) {
         if (((*(volatile int near *)&Char.sequence) == 186) | ((*(volatile int near *)&Char.sequence) == 100))
             record->saved_y = Char.y;
-        if (preferred_opponent == 7) {
+        if (Level.preferred_opponent == 7) {
             record->appearance = 7;
             return;
         }
@@ -469,8 +525,8 @@ void far pascal set_special_opponent(opponent_record *record)
 void far pascal RemoveOppFromRoom(unsigned char room, int index)
 {
     int room_index = room;
-    room_opponents *list = &opponent_rooms[room_index];
-    signed char count = list->count;
+    ROOMOBJECTS *list = &Level.room_objects[room_index - 1];
+    signed char count = list->opponent_count;
     opponent_record *record;
     CHARREC *live, *next;
 
@@ -481,7 +537,7 @@ void far pascal RemoveOppFromRoom(unsigned char room, int index)
                 record = GetOppInfoIdx(room_index, index);
                 *record = *GetOppInfoIdx(room_index, index + 1);
                 record->index = index;
-                if (viewed_room == room) {
+                if (Room.number == room) {
                     next = &live[1];
                     *live = *next;
                     live->slot = index;
@@ -489,18 +545,18 @@ void far pascal RemoveOppFromRoom(unsigned char room, int index)
                 ++live;
             } while (++index + 1 < count);
         }
-        --list->count;
+        --list->opponent_count;
     }
 }
 
 void far pascal add_opponent_to_room(int room, opponent_record *record)
 {
-    room_opponents *list = &opponent_rooms[room];
-    signed char index = list->count;
+    ROOMOBJECTS *list = &Level.room_objects[room - 1];
+    signed char index = list->opponent_count;
 
     if (index < 5) {
         record->index = index;
-        ++opponent_rooms[room].count;
+        ++Level.room_objects[room - 1].opponent_count;
         *GetOppInfoIdx(room, index) = *record;
     }
 }
@@ -509,8 +565,8 @@ opponent_record *far pascal GetOppInfoIdx(int room, int index)
 {
     opponent_record *result;
 
-    if (opponent_rooms[room].count > index)
-        result = &opponent_rooms[room].opponents[index];
+    if (Level.room_objects[room - 1].opponent_count > index)
+        result = (opponent_record near *)Level.room_objects[room - 1].opponent_data[index];
     else
         result = 0;
     return result;
@@ -526,9 +582,9 @@ signed char far pascal pick_hidden_actor(signed char direction)
 
     if ((*(volatile unsigned char near *)&Kid.room) != 0) {
         index = 0;
-        count = opponent_rooms[(*(volatile unsigned char near *)&Kid.room)].count;
+        count = Level.room_objects[(*(volatile unsigned char near *)&Kid.room) - 1].opponent_count;
         for (; index < count; ++index) {
-            record = GetOppInfoIdx(viewed_room, index);
+            record = GetOppInfoIdx(Room.number, index);
             actor = &RoomOpp[index];
             dy = abs(actor->y - Kid.y);
             if (actor->alive < 0 && actor->character_kind != 11 &&
@@ -594,13 +650,13 @@ void far pascal check_generator_points(unsigned char room)
 void far pascal GenerateOpponent(generator_point *point, unsigned char room)
 {
     int room_index = room;
-    room_opponents *list = &opponent_rooms[room_index];
-    signed char index = list->count;
+    ROOMOBJECTS *list = &Level.room_objects[room_index - 1];
+    signed char index = list->opponent_count;
     signed char row;
     opponent_record *record;
 
     if (index < 5) {
-        list->count = index + 1;
+        list->opponent_count = index + 1;
         record = GetOppInfoIdx(room_index, index);
         record->tile = FirstInRow(point->column) + point->row;
         if (point->row <= 5) {
@@ -610,7 +666,7 @@ void far pascal GenerateOpponent(generator_point *point, unsigned char room)
             record->x = generator_x_right[point->row];
             record->direction = -1;
         }
-        record->flags = generators[room_index].spawn_flags;
+        record->flags = Level.generators[room_index - 1].spawn_flags;
         record->palette_kind = bank_opponents[0];
         record->index = index;
         record->combat_mode = 0;
@@ -620,7 +676,7 @@ void far pascal GenerateOpponent(generator_point *point, unsigned char room)
         actor_index = index;
         (*(volatile signed char near *)&Char.direction) = record->direction;
         Char.x = record->x;
-        (*(volatile unsigned char near *)&Char.character_kind) = appearance_kind[(signed char)preferred_opponent];
+        (*(volatile unsigned char near *)&Char.character_kind) = appearance_kind[(signed char)Level.preferred_opponent];
         Char.column = point->row;
         Char.row = point->column;
         Char.behavior = point->behavior;
@@ -662,7 +718,7 @@ generator_point *far pascal find_active_generator(unsigned char room, signed cha
 {
     signed char index = 0;
     generator_point *point = 0;
-    signed char count = generators[room].count;
+    signed char count = Level.generators[room - 1].count;
 
     for (; index < count; ++index) {
         point = get_generator(room, index);
@@ -695,7 +751,7 @@ signed char far pascal find_wall_column(unsigned char room, signed char row,
 
 int far pascal should_generate(generator_point *point, unsigned char room)
 {
-    signed char count = opponent_rooms[room].count;
+    signed char count = Level.room_objects[room - 1].opponent_count;
     signed char index, room_row;
     unsigned char between;
     int allowed;
@@ -733,8 +789,8 @@ generator_point *far pascal get_generator(unsigned char room, signed char index)
 {
     generator_point *point;
 
-    if (room && generators[room].count > index)
-        point = &generators[room].points[index];
+    if (room && Level.generators[room - 1].count > index)
+        point = (generator_point near *)Level.generators[room - 1].points[index];
     else
         point = 0;
     return point;
@@ -744,7 +800,7 @@ generator_point *far pascal get_generator(unsigned char room, signed char index)
 int far pascal generator_has_tumble(unsigned char room)
 {
     int found = 0;
-    signed char count = generators[(*(unsigned char near *)&Char.room)].count;
+    signed char count = Level.generators[(*(unsigned char near *)&Char.room) - 1].count;
     signed char index = 0;
     generator_point *point;
 
@@ -756,7 +812,6 @@ int far pascal generator_has_tumble(unsigned char room)
     return found;
 }
 
-extern unsigned char preferred_opponent;
 
 extern volatile unsigned char bank_opponents[2];
 void far pascal load_opponent_bank(int resource, int start, unsigned char size,
@@ -766,8 +821,8 @@ void far _fastcall reserve_opponent_bank(unsigned char kind)
 {
     int slot;
 
-    if (preferred_opponent != 0 && preferred_opponent != 5 && preferred_opponent != 6) {
-        (*(volatile int near *)&Char.field_34) = preferred_opponent == 2 ? 8 : 4;
+    if (Level.preferred_opponent != 0 && Level.preferred_opponent != 5 && Level.preferred_opponent != 6) {
+        (*(volatile int near *)&Char.field_34) = Level.preferred_opponent == 2 ? 8 : 4;
         return;
     }
     (*(volatile int near *)&Char.field_34) = 0;
@@ -795,8 +850,8 @@ void far pascal load_opponent_banks(void)
     int slot;
     int start;
 
-    if (preferred_opponent != 0 && preferred_opponent != 5 && preferred_opponent != 6) {
-        if (preferred_opponent == 2) {
+    if (Level.preferred_opponent != 0 && Level.preferred_opponent != 5 && Level.preferred_opponent != 6) {
+        if (Level.preferred_opponent == 2) {
             load_opponent_bank(750, 48, 16, 0); return;
         }
     } else {
@@ -807,15 +862,10 @@ void far pascal load_opponent_banks(void)
 }
 
 
-extern unsigned char opponent_transfer_disabled;
 extern unsigned char CutRoom;
 extern int opponent_review_delay;
 
 
-typedef struct {
-    unsigned char left, right, above, below;
-} room_neighbors;
-extern room_neighbors room_links[];
 
 void far pascal load_actor_slot(signed char index);
 int far pascal query_sound(int object_id);
@@ -839,20 +889,20 @@ signed char far pascal GetRow(int y);
 void far pascal cut_room_opponents(void)
 {
     signed char index = 0;
-    signed char count = opponent_rooms[viewed_room].count;
+    signed char count = Level.room_objects[Room.number - 1].opponent_count;
 
     for (; index < count; ++index) {
         load_actor_slot(index);
         if ((*(volatile signed char near *)&Char.direction) == 86 || Char.y < 384)
             continue;
-        if (room_style == 5 && cut_blocked_index == actor_index)
+        if (Level.environment_kind == 5 && cut_blocked_index == actor_index)
             continue;
 
         if ((*(unsigned char near *)&Char.action) != 4 && (*(unsigned char near *)&Char.action) != 3 &&
             ((unsigned)(*(volatile int near *)&Char.frame) < 202u || (unsigned)(*(volatile int near *)&Char.frame) > 212u)) {
             if (!update_opponent_record())
                 save_actor_slot();
-        } else if (!opponent_transfer_disabled) {
+        } else if (!Room.below) {
             update_opponent_record();
             if ((*(volatile unsigned char near *)&Char.character_kind) == 2 && !query_sound(10025))
                 AddSound(25);
@@ -885,12 +935,12 @@ void far pascal check_cut(void)
     }
 
     if (actor_room == 0 && (signed char)(*(unsigned char near *)&Char.alive) < 0) {
-        if (room_style == 5 && previous_actor == 0) {
+        if (Level.environment_kind == 5 && previous_actor == 0) {
             Char.x = AddCharX(320);
             trigger_character_water();
         } else {
-            AddKidScream(viewed_room);
-            if (room_style != 5) {
+            AddKidScream(Room.number);
+            if (Level.environment_kind != 5) {
                 decrement_life_points(100);
                 (*(volatile int near *)&Char.frame) = 185;
                 set_actor_fall(3);
@@ -906,7 +956,7 @@ void far pascal check_cut(void)
 void far pascal transfer_room_actors(void)
 {
     signed char index = 0;
-    signed char count = opponent_rooms[viewed_room].count;
+    signed char count = Level.room_objects[Room.number - 1].opponent_count;
     int stay, removed;
 
     for (; index < count; ++index) {
@@ -921,14 +971,14 @@ void far pascal transfer_room_actors(void)
             goto follow;
         if (actor_follows_to_adjacent_room())
             goto follow;
-        if (encounter_type == 5 && Char.row == 1 &&
+        if (Level.level_number == 5 && Char.row == 1 &&
             (actor_room == 10 || actor_room == 7 || actor_room == 12))
             goto follow;
         if ((*(volatile unsigned char near *)&Char.character_kind) == 0)
             goto follow;
         if ((*(volatile unsigned char near *)&Char.character_kind) == 6 && (actor_room == 7 || actor_room == 8) &&
-            room_style == 6 && ((unsigned)CutRoom - 7u <= 1u) &&
-            room_style == 6) {
+            Level.environment_kind == 6 && ((unsigned)CutRoom - 7u <= 1u) &&
+            Level.environment_kind == 6) {
 follow:
             stay = 0;
 process:
@@ -965,7 +1015,7 @@ int far pascal can_actor_follow(void)
 {
     int allowed;
 
-    if (opponent_rooms[(*(volatile unsigned char near *)&Kid.room)].count < 5)
+    if (Level.room_objects[(*(volatile unsigned char near *)&Kid.room) - 1].opponent_count < 5)
         allowed = 1;
     else
         allowed = 0;
@@ -1005,7 +1055,7 @@ unsigned char far pascal register_actor_room(void)
         do {
         previous = room;
         if (Char.row < 0) {
-            room = room_links[room].above;
+            room = Level.room_links[room - 1].above;
             if (room) {
                 Char.y += 192;
                 Char.row += 3;
@@ -1014,7 +1064,7 @@ unsigned char far pascal register_actor_room(void)
                 previous = 0;
             }
         } else if (Char.row >= 3) {
-            room = room_links[room].below;
+            room = Level.room_links[room - 1].below;
             if (room) {
                 Char.y -= 192;
                 Char.row -= 3;
@@ -1025,13 +1075,13 @@ unsigned char far pascal register_actor_room(void)
         }
 
         if (Char.column < 0) {
-            room = room_links[room].left;
+            room = Level.room_links[room - 1].left;
             if (room) {
                 Char.x += 320;
                 Char.column += 10;
             }
         } else if (Char.column >= 10) {
-            room = room_links[room].right;
+            room = Level.room_links[room - 1].right;
             if (room) {
                 Char.x -= 320;
                 Char.column -= 10;
@@ -1046,7 +1096,7 @@ unsigned char far pascal register_actor_room(void)
 
 int far pascal cut_actor(int direction)
 {
-    actor_room = ((unsigned char *)&room_links[actor_room])[direction];
+    actor_room = ((unsigned char *)&Level.room_links[actor_room - 1])[direction];
     if (direction == 0) {
         Char.x += 320;
         Char.column = get_char_col(Char.x);
@@ -1070,7 +1120,6 @@ int far pascal cut_actor(int direction)
 
 extern int lower_exit_margin, horizontal_exit_margin;
 extern int left_edge_x, right_edge_x;
-extern int actor_phase;
 extern int opponent_cooldown;
 
 extern signed char script_motion;
@@ -1104,7 +1153,7 @@ int far pascal choose_cut_side(void)
     if (mode == 5 || mode == 4 || mode == 3)
         goto check_lower_exit;
     if (y < 10 && y >= -16) {
-        if (encounter_type == 5) {
+        if (Level.level_number == 5) {
             side = none;
             if (actor_room == 3)
                 goto check_side;
@@ -1114,8 +1163,8 @@ int far pascal choose_cut_side(void)
     }
 check_lower_exit:
     if (y >= 231 &&
-        (room_links[actor_room].below || y >= lower_exit_margin + 231) &&
-        (room_style != 5 || actor_index != cut_blocked_index)) {
+        (Level.room_links[actor_room - 1].below || y >= lower_exit_margin + 231) &&
+        (Level.environment_kind != 5 || actor_index != cut_blocked_index)) {
         side = 3;
         goto check_side;
     }
@@ -1127,9 +1176,9 @@ check_lower_exit:
 
     if ((*(volatile signed char near *)&Char.direction) == -1) {
         if (left_edge_x > 125 ||
-            (!room_links[actor_room].left && left_edge_x > 125 - horizontal_exit_margin))
+            (!Level.room_links[actor_room - 1].left && left_edge_x > 125 - horizontal_exit_margin))
             goto check_right_of_actor;
-        if (encounter_type != 9 || actor_room != 8 || Char.row != 0 || action != 40)
+        if (Level.level_number != 9 || actor_room != 8 || Char.row != 0 || action != 40)
             goto leave_left;
         ++generator_level;
 leave_unchanged:
@@ -1139,9 +1188,9 @@ check_right_of_actor:
         side = none;
         if (left_edge_x < 450)
             goto check_side;
-        if (!room_links[actor_room].right && left_edge_x < horizontal_exit_margin + 449)
+        if (!Level.room_links[actor_room - 1].right && left_edge_x < horizontal_exit_margin + 449)
             goto check_side;
-        if (room_style == 1 && actor_room == 3)
+        if (Level.environment_kind == 1 && actor_room == 3)
             goto check_side;
 leave_right:
         side = 1;
@@ -1151,12 +1200,12 @@ leave_right:
     side = none;
     probe_room_edge(actor_room, 9, Char.row);
     if (right_edge_x >= 454 &&
-        (room_links[actor_room].right || right_edge_x >= horizontal_exit_margin + 454) &&
-        (room_style != 1 || actor_room != 3))
+        (Level.room_links[actor_room - 1].right || right_edge_x >= horizontal_exit_margin + 454) &&
+        (Level.environment_kind != 1 || actor_room != 3))
         goto leave_right;
     if (right_edge_x > 129)
         goto check_side;
-    if (room_links[actor_room].left == 0) {
+    if (Level.room_links[actor_room - 1].left == 0) {
         if (right_edge_x > 130 - horizontal_exit_margin)
             goto check_side;
     }
@@ -1168,31 +1217,31 @@ keep_actor:
 check_side:
     switch (side) {
       case 0:
-        if (actor_room == 1 && encounter_type == 2)
+        if (actor_room == 1 && Level.level_number == 2)
             side = -1;
         break;
       case 1:
-        if (room_style == 5 && actor_room == 15) {
+        if (Level.environment_kind == 5 && actor_room == 15) {
             side = -1;
             if ((*(volatile int near *)&Char.sequence) != 71)
                 leave_special_room();
-        } else if (actor_room == 3 && room_style == 6)
+        } else if (actor_room == 3 && Level.environment_kind == 6)
             side = -1;
         break;
       case 3:
-        if ((actor_room == 11 && room_style == 5) ||
-            (actor_room == 3 && room_style == 6) ||
-            (actor_room == 5 && room_style == 6) ||
-            (encounter_type == 5 && actor_room == 10) ||
-            (actor_room == 4 && encounter_type == 13) ||
-            (encounter_type == 13 && actor_room == 13) ||
-            (((actor_room == 16 && encounter_type == 9) ||
-              (actor_room == 27 && encounter_type == 6)) &&
+        if ((actor_room == 11 && Level.environment_kind == 5) ||
+            (actor_room == 3 && Level.environment_kind == 6) ||
+            (actor_room == 5 && Level.environment_kind == 6) ||
+            (Level.level_number == 5 && actor_room == 10) ||
+            (actor_room == 4 && Level.level_number == 13) ||
+            (Level.level_number == 13 && actor_room == 13) ||
+            (((actor_room == 16 && Level.level_number == 9) ||
+              (actor_room == 27 && Level.level_number == 6)) &&
              ((*(volatile int near *)&Char.sequence) == 68 || (*(volatile int near *)&Char.sequence) == 25 || (*(volatile int near *)&Char.sequence) == 10))) {
             side = -1;
-            if ((encounter_type == 5 && actor_room == 10) ||
-                (actor_room == 4 && encounter_type == 13) ||
-                (encounter_type == 13 && actor_room == 13)) {
+            if ((Level.level_number == 5 && actor_room == 10) ||
+                (actor_room == 4 && Level.level_number == 13) ||
+                (Level.level_number == 13 && actor_room == 13)) {
                 decrement_life_points(100);
                 actor_room = 0;
             }
@@ -1202,7 +1251,7 @@ check_side:
 
     if (side != -1)
         cut_actor(side);
-    if (side == 0 && viewed_room == 27 && encounter_type == 6)
+    if (side == 0 && Room.number == 27 && Level.level_number == 6)
         on_left_exit();
     return side;
 }
@@ -1258,7 +1307,7 @@ void far pascal reset_actor_inputs(void)
 
 void far pascal run_shadow_script(void)
 {
-    if (actor_room == 4 && encounter_type == 13)
+    if (actor_room == 4 && Level.level_number == 13)
         altar_shadow_progress();
 }
 
@@ -1273,14 +1322,14 @@ void far pascal run_guard_script(void)
                 alert_opponent();
 
             if (running_guard_state != 0 &&
-                opponent_rooms[actor_room].count - actor_index == 1) {
+                Level.room_objects[actor_room - 1].opponent_count - actor_index == 1) {
                 running_guard_state = 0;
                 return;
             }
         } else if (Kid.sequence_group != 13) {
             guard_en_garde();
             return;
-        } else if (actor_phase != 0 && (*(volatile int near *)&Char.sequence) != 110) {
+        } else if (Level.actor_phase != 0 && (*(volatile int near *)&Char.sequence) != 110) {
             JumpSeq(110);
         }
     }
@@ -1303,9 +1352,9 @@ extern unsigned char actor_counterface;
 static int opponent_recovery_time[] = {
     20, 20, 20, 20, 10, 10, 10, 10, 0, 10, 0
 };
-extern unsigned char current_tile;
+extern CELLREC Cell;
 
-extern int landing_x[];
+extern int ColEdgeX[20];
 extern unsigned int hit_actor_phase;
 
 void far pascal begin_actor_death(void);
@@ -1343,7 +1392,7 @@ int far pascal IsImpassable(signed char tile);
 void far pascal check_stab(void)
 {
     signed char index = 0;
-    signed char count = opponent_rooms[viewed_room].count;
+    signed char count = Level.room_objects[Room.number - 1].opponent_count;
 
     for (; index < count; ++index) {
         load_actor_slot(index); if ((*(unsigned char near *)&Char.action) == 99) { load_shadow_with_opponent(index);
@@ -1351,7 +1400,7 @@ void far pascal check_stab(void)
                 (*(unsigned char near *)&Opp.action) = 1;
             stab_actor();
             opponent_guard_timeout = opponent_recovery_time[
-                opponent_rooms[actor_room].opponents[actor_index].flags];
+                ((opponent_record near *)Level.room_objects[actor_room - 1].opponent_data)[actor_index].flags];
             save_shadow_with_opponent();
         }
     }
@@ -1381,8 +1430,8 @@ void far pascal stab_actor(void)
 
     if ((signed char)(*(unsigned char near *)&Char.alive) >= 0)
         return;
-    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && (*(volatile int near *)&Char.sequence) == 5 && (room_style == 2 || room_style == 6))
-        play_fall_script(room_style);
+    if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && (*(volatile int near *)&Char.sequence) == 5 && (Level.environment_kind == 2 || Level.environment_kind == 6))
+        play_fall_script(Level.environment_kind);
 
     if ((*(unsigned char near *)&Char.stance) == 255 || (*(volatile int near *)&Char.sequence) == 10 || (*(volatile int near *)&Char.sequence) == 16 ||
         (*(volatile int near *)&Char.sequence) == 28 || (*(volatile int near *)&Char.sequence) == 14) {
@@ -1488,7 +1537,7 @@ void far pascal begin_actor_death(void)
         if ((*(volatile unsigned char near *)&Char.character_kind) != 0 && (*(volatile signed char near *)&Char.direction) == -1 &&
             (index == 4 || (signed char)get_under_foot() == 4)) {
             index = GetCellCol();
-            Char.x = landing_x[index - (current_tile != 4)] + 14;
+            Char.x = ColEdgeX[index - (Cell.kind != 4) + 5] + 14;
             Char.x = AddCharX(20);
         }
 
@@ -1515,7 +1564,7 @@ void far pascal begin_actor_death(void)
         if ((*(volatile unsigned char near *)&Char.character_kind) == 0) {
             switch ((signed char)(*(unsigned char near *)&Opp.character_kind)) {
               case 2:
-                index = 10 + ((*(unsigned char *)&preferred_opponent == 0) ? 4 : 0);
+                index = 10 + ((*(unsigned char *)&Level.preferred_opponent == 0) ? 4 : 0);
                 break;
               case 7:
               case 8:
@@ -1548,7 +1597,7 @@ void far pascal dispatch_guard_reaction(void)
 
     if (Kid.frame != 0 && (Kid.frame < 219 || Kid.frame >= 229)) {
         index = 0;
-        count = opponent_rooms[viewed_room].count;
+        count = Level.room_objects[Room.number - 1].opponent_count;
         for (; index < count; ++index) {
             load_shadow_with_opponent(index);
             test_actor_strike();

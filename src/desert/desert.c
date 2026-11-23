@@ -32,12 +32,7 @@ typedef struct {
     int shape_base;
     ubyte header[24];
     Piece pieces[1];
-} Room;
-
-typedef struct {
-    uword flags;
-    uword tile;
-} RoomCell;
+} DesertRoom;
 
 typedef struct {
     ubyte reserved[16];
@@ -52,7 +47,17 @@ typedef struct {
 #pragma pack()
 
 extern ubyte active_sound_channels;
-extern Rect actor_clip;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern FCHARREC FChar;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -92,21 +97,77 @@ typedef struct {
 
 extern CHARREC Char;
 extern sbyte desert_column, previous_column;
-extern uword exit_flags, BlueSpec;
-extern RoomCell room_cells[], stone_cells[], exit_cells[];
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
+extern uword BlueSpec;
 extern int fade_active, FrameNum;
-extern ubyte viewed_room;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 extern int sound_room;
 extern CHARREC Kid;
-extern sbyte level_number;
 extern int next_level, fall_transition;
 extern sbyte move_up, move_down, move_forward, move_action;
 extern sbyte desert_variant;
-extern Room *custom_room;
+extern DesertRoom *custom_room;
 extern uword *background_shapes;
 extern Rect draw_clip, GamePlayRect;
-extern int sprite_x, sprite_width;
-extern ubyte sprite_flipped;
+extern int sprite_width;
 extern sbyte animation_tile, animation_remove;
 static Rect stone_bounds = {49, 11, 70, 54};
 extern PeelRecord peel_records[];
@@ -161,14 +222,14 @@ void add_desert_ambient(void)
 
 void clip_desert_character(void)
 {
-    actor_clip.right = actor_clip.right > 126 ? 126 : actor_clip.right;
-    if (actor_clip.right < actor_clip.left)
-        actor_clip.left = actor_clip.right;
+    FChar.clip_bottom = FChar.clip_bottom > 126 ? 126 : FChar.clip_bottom;
+    if (FChar.clip_bottom < FChar.clip_top)
+        FChar.clip_top = FChar.clip_bottom;
 }
 
 void check_desert_exit(void)
 {
-    uword flags = exit_flags;
+    uword flags = Level.cell_info[0][10].modifier;
     uword frame;
     int keep_open;
     sbyte cell;
@@ -179,7 +240,7 @@ void check_desert_exit(void)
     keep_open = desert_column - previous_column != -2; cell = 0;
     if (keep_open) {
         while (cell < 6) {
-            int state = exit_cells[cell].flags & 15;
+            int state = Level.cell_info[0][cell + 12].modifier & 15;
             if ((state && desert_column != cell) ||
                 (!state && desert_column == cell && frame < 10))
                 keep_open = 0;
@@ -207,12 +268,12 @@ void check_desert_exit(void)
     } else {
         flags &= 0xe0ff;
     }
-    exit_flags = flags;
+    Level.cell_info[0][10].modifier = flags;
 }
 
 void cycle_desert_colors(void)
 {
-    if (!fade_active && viewed_room != 1 && FrameNum % 3 == 0) {
+    if (!fade_active && Room.number != 1 && FrameNum % 3 == 0) {
         CycleColors(176, 13, 0);
         CycleColors(196, 4, 0);
         CycleColors(191, 5, 0);
@@ -224,7 +285,7 @@ void desert_frame(void)
     cycle_desert_colors();
     watch_desert_kid();
     check_desert_exit();
-    if (viewed_room != 1) {
+    if (Room.number != 1) {
         if (!query_sound(10038))
             AddSound(38);
         if (query_sound(10251))
@@ -257,7 +318,7 @@ void watch_desert_kid(void)
         if (is_selected_code(Char.frame))
             previous_column = Char.column;
         if (Char.x < 130) {
-            if (level_number == next_level) {
+            if (Level.level_number == next_level) {
                 ++next_level;
                 JumpSeq(2);
             } else {
@@ -343,8 +404,8 @@ void setup_sand(void)
         index = (ubyte)(FrameNum % 2) + 3;
         piece = &custom_room->pieces[index];
         piece->x = 119;
-        piece->y = sprite_x;
-        if (!sprite_flipped)
+        piece->y = FChar.x;
+        if (!((ubyte)FChar.flipped))
             piece->y -= sprite_width;
         bounds = &piece->rect;
         MAKESHAPERECT(bounds, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle));
@@ -401,7 +462,7 @@ void draw_desert_exit(Piece *piece)
 
 uword is_desert_exit_open(void)
 {
-    return (ubyte)exit_flags & 31;
+    return (ubyte)Level.cell_info[0][10].modifier & 31;
 }
 
 void trigger_desert_exit(sbyte room, sbyte cell)
@@ -583,9 +644,9 @@ int sink_desert_stone(sbyte cell)
     started = trigger_stone_at(1, cell, 1);
     if (started) {
         flags = BlueSpec;
-        BlueSpec = stone_cells[cell].flags;
+        BlueSpec = Level.cell_info[0][cell].modifier;
         animate_desert_stone();
-        stone_cells[cell].flags = BlueSpec;
+        Level.cell_info[0][cell].modifier = BlueSpec;
         BlueSpec = flags;
     }
     return started;
@@ -603,7 +664,7 @@ void trigger_all_stones_down(void)
 int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
 {
     int index = cell;
-    uword *flags = &room_cells[index + 30 * room].flags;
+    uword *flags = &((LEVELCELL *)Level.cell_info)[index + 30 * room - 30].modifier;
     uword original = *flags;
     int frame = original & 15;
     int started = 1;

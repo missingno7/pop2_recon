@@ -24,7 +24,6 @@ typedef struct {
     signed char direction;
     Byte flag, unknown[4], mode, id, slot, enabled, flag2;
 } Spawn;
-typedef struct { char unknown[116]; } Room;
 typedef struct { int size; char unknown[2]; unsigned int flags; char bytes[97]; } Shape;
 typedef struct { char data[4]; Handle handle; } ShapeRef;
 typedef struct { Byte type; char skip[3]; unsigned int modifier; } TileAnim;
@@ -72,22 +71,83 @@ extern CHARREC Char;
 extern CHARREC Kid;
 extern CHARREC RoomOpp[5];
 extern Byte scene_flag;                       /* DS:6290 */
-extern unsigned int candle_sound;             /* DS:3256 */
 extern int spawn_flag;                        /* DS:0a16 */
 extern RoomData *room_data;                    /* DS:0228 */
-extern Byte altar_tile;                       /* DS:4549 */
-extern struct {
-    char before_guards[0x17bf];
-    struct { char before_count[0x34]; signed char count; char after_count[0x3f]; } rooms[32];
-} Level;
-extern signed char room_guard_counts[];       /* DS:44f5, stride 116 */
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 extern unsigned int BlueSpec;            /* DS:5e48 */
 extern signed char tile_animation;            /* DS:67d0 */
 extern Byte flame_image_map[];                 /* DS:1e2e */
 extern Rect current_clip, GamePlayRect;         /* DS:6236,09fe */
 extern Handle *shape_source;                  /* DS:6242 */
 extern Handle flame_steps_handle;             /* DS:6268 */
-extern int flame_step, actor_y;                /* DS:5e12,6256 */
+#pragma pack(1)
+typedef struct {
+    int image, equipment_image;                       /* 00,02 */
+    signed char x, y;                                 /* 04-05 */
+    unsigned char flags;                              /* 06 */
+} FRAMEREC;
+#pragma pack()
+extern FRAMEREC Frame;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern FCHARREC FChar;
 
 extern void save_actor_slot(void), copy_kid_to_char(void), load_actor_slot(signed char), remove_char(void);
 extern void clear_life_bar(void), position_char(int, int), AddSong(int), AddSound(int);
@@ -186,7 +246,7 @@ turn:
         if (Char.sequence_group == 13)
             Char.y -= 2;
     } else if (Char.frame == 154) {
-        candle_sound = 133;
+        Level.cell_info[3][11].modifier = 133;
     } else if (Char.frame == 153 && Char.sequence_group == 13) {
         set_resource(room_data->palette, 48, 16, 0);
     } else if (Char.sequence_group == 13 && Char.frame == 185) {
@@ -209,7 +269,7 @@ void altar_watch_kid(void)
             decrement_life_points(100);
             AddSound(57);
             set_char_state(16);
-            candle_sound = 133;
+            Level.cell_info[3][11].modifier = 133;
         } else if (Char.x <= 236 && !query_sound(10061)) {
             AddSong(61);
         } else if (Char.frame == 185 && Char.row == 1 &&
@@ -226,10 +286,10 @@ void create_shadowman(void)
     Spawn *entry;
     signed char id, zero, clear;
     int room;
-    if (Char.room == 4 && altar_tile == 13) {
+    if (Char.room == 4 && ((Byte)Level.level_number) == 13) {
         Kid = Char;
         room = (Byte)Char.room;
-        id = room_guard_counts[room * (int)sizeof(Room)]++;
+        id = Level.room_objects[room - 1].opponent_count++;
         entry = get_spawn(room, id);
         entry->position = FirstInRow(Char.row) + Char.column;
         entry->x = Char.x;
@@ -265,7 +325,7 @@ int altar_shadow_active(void)
     int result = 0;
     signed char i, count;
     i = 0;
-    count = Level.rooms[4].count;
+    count = Level.room_objects[3].opponent_count;
     if (count > 0) {
         do {
             if (result)
@@ -359,14 +419,14 @@ void setup_flame(void)
     FlameStep far *steps;
     Byte image;
     RoomPiece *piece;
-    if (Char.room == 4 && altar_tile == 13) {
+    if (Char.room == 4 && ((Byte)Level.level_number) == 13) {
         SaveFChar();
         saved = current_clip;
         steps = RESOLVE_HANDLE_TO_FAR_PAYLOAD(flame_steps_handle);
-        image = steps[flame_step].frame + 23;
+        image = steps[Frame.equipment_image].frame + 23;
         piece = &room_data->pieces[image];
-        piece->y = transform_column(steps[flame_step].col);
-        piece->x = steps[flame_step].dy + actor_y;
+        piece->y = transform_column(steps[Frame.equipment_image].col);
+        piece->x = steps[Frame.equipment_image].dy + FChar.y;
         MAKESHAPERECT(&piece->rect, piece->x, piece->y, RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->shape));
         current_clip = piece->rect;
         piece->pass = 0;

@@ -43,13 +43,6 @@ typedef struct {
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
 
-typedef struct {
-    ubyte kind;
-    uword modifier;
-    sbyte index;
-    ubyte room;
-    sbyte column, row;
-} Cell;
 #pragma pack()
 
 typedef struct {
@@ -62,10 +55,70 @@ extern sbyte trob_index;
 extern ubyte trob_room;
 extern sbyte trob_mode;
 extern CHARREC Char;
-extern Cell current_tile;
-extern RoomCell room_cells[24][30];
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+
+extern CELLREC Cell;
+extern LEVELREC Level;
 extern RoomCell near *BlueS;
-extern int cell_x[];
+extern int ColEdgeX[20];
 extern int LeftEdge;
 
 static Rect redraw_bounds = {26, -24, 43, 52};
@@ -118,9 +171,9 @@ void far pascal AnimScythe(void)
         trob_mode = -1;
     }
     ReadCell(trob_room, trob_index % 10 - 1, trob_index / 10);
-    *(ubyte near *)&current_tile.modifier = 0;
-    room_cells[current_tile.room][current_tile.index].modifier =
-        (current_tile.modifier |= (ubyte)BlueSpec);
+    *(ubyte near *)&Cell.modifier = 0;
+    Level.cell_info[Cell.room - 1][Cell.index].modifier =
+        (Cell.modifier |= (ubyte)BlueSpec);
 }
 
 void far pascal CheckScythe(void)
@@ -128,8 +181,8 @@ void far pascal CheckScythe(void)
     if (Char.character_kind != 7 && Char.character_kind != 8 && Char.character_kind != 11 &&
         Char.alive < 0 && Char.row * 63 + 40 <= Char.y) {
         char kind = ReadCell(Char.room, Char.column, Char.row);
-        if ((kind == 12 || kind == 13) && cell_x[Char.column] + 18 < Char.x)
-            TriggerScythe(current_tile.room, current_tile.index);
+        if ((kind == 12 || kind == 13) && ColEdgeX[Char.column + 5] + 18 < Char.x)
+            TriggerScythe(Cell.room, Cell.index);
     }
 }
 
@@ -146,7 +199,7 @@ void far pascal CheckScytheHit(void)
     while (column <= Char.column + 1) {
         kind = ReadCell(Char.room, column, Char.row);
         if (kind == 12 || kind == 13) {
-            if (GetScytheHitType(current_tile.modifier) &&
+            if (GetScytheHitType(Cell.modifier) &&
                 ComputeBladeHitRect(&bounds) &&
                 SectRect(&bounds, &bounds, (const Rect far *)&Char.bounds) &&
                 (Char.frame < 267 || Char.frame > 271)) {
@@ -160,12 +213,12 @@ void far pascal CheckScytheHit(void)
                 AnimChar();
                 decrement_life_points(100);
                 AddSound(85);
-                BlueS[current_tile.index].modifier = (current_tile.modifier |= 0x40);
+                BlueS[Cell.index].modifier = (Cell.modifier |= 0x40);
                 if (kind == 12)
                     ReadCell(Char.room, column + 1, Char.row);
                 else
                     ReadCell(Char.room, column - 1, Char.row);
-                BlueS[current_tile.index].modifier = (current_tile.modifier |= 0x40);
+                BlueS[Cell.index].modifier = (Cell.modifier |= 0x40);
             }
             done = 1;
         }
@@ -178,7 +231,7 @@ void far pascal CheckScytheHit(void)
 int far pascal ComputeBladeHitRect(Rect near *bounds)
 {
     int valid = 1;
-    int phase = current_tile.modifier & 31;
+    int phase = Cell.modifier & 31;
     if (phase == 2)
         UnionRect(bounds, &first_blade, &second_blade);
     else if (phase == 16)
@@ -188,8 +241,8 @@ int far pascal ComputeBladeHitRect(Rect near *bounds)
     else
         valid = 0;
     if (valid)
-        OffsetRect(bounds, bounds, (current_tile.column + (current_tile.kind == 13 ? 1 : 0)) << 5,
-                   63 * current_tile.row);
+        OffsetRect(bounds, bounds, (Cell.column + (Cell.kind == 13 ? 1 : 0)) << 5,
+                   63 * Cell.row);
     return valid;
 }
 
@@ -226,12 +279,12 @@ int far pascal ScytheBarrToStandUp(void)
 {
     int blocked = 0;
     char kind = ReadCell(Char.room, Char.column, Char.row);
-    if (kind == 12 && ScytheBladeExtended(current_tile.modifier)) {
+    if (kind == 12 && ScytheBladeExtended(Cell.modifier)) {
         blocked = 1;
     } else if (kind == 13) {
         ReadCell(Char.room, Char.column - 1, Char.row);
-        if (ScytheBladeExtended(current_tile.modifier) &&
-            cell_x[Char.column] + 9 >= LeftEdge)
+        if (ScytheBladeExtended(Cell.modifier) &&
+            ColEdgeX[Char.column + 5] + 9 >= LeftEdge)
             blocked = 1;
     }
     return blocked;
@@ -244,11 +297,11 @@ int far pascal ScytheBladeExtended(unsigned char value)
 }
 void far pascal TriggerScythe(ubyte room, sbyte index)
 {
-    if (current_tile.kind == 12) {
-        ReadCell(room, current_tile.column + 1, current_tile.row);
-        room = current_tile.room;
-        index = current_tile.index;
+    if (Cell.kind == 12) {
+        ReadCell(room, Cell.column + 1, Cell.row);
+        room = Cell.room;
+        index = Cell.index;
     }
-    if (!(room_cells[room][index].modifier & 31))
+    if (!(Level.cell_info[room - 1][index].modifier & 31))
         add_trob(room, index, 1, 13);
 }

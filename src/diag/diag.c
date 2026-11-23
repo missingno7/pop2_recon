@@ -70,7 +70,7 @@ extern int left_edge, right_edge;
 
 extern long tick_count;
 extern drawing_context ScreenPort, *Graf;
-extern int ruler_bottoms[];
+extern int Row2PixelY[5];
 extern heap_block far *far *heap_start;
 extern char screen_name[];
 static null_area null_snapshot;
@@ -204,7 +204,7 @@ void plot_position(int x, int color)
     volatile int saved_color;
     Graf = &ScreenPort;
     saved_color = ScreenPort.pen_color;
-    y = ((volatile int *)ruler_bottoms)[Char.row] - 5;
+    y = (*(volatile int near *)&Row2PixelY[Char.row + 1]) - 5;
     ScreenPort.pen_color = color;
     MOVETO(x, y);
     draw_axis_segment(x, y + 2);
@@ -223,7 +223,7 @@ void draw_ruler_marks(void)
     saved_attribute = ScreenPort.pen_attribute;
     set_pen_color(100);
     {
-        int bottom = ruler_bottoms[Char.row];
+        int bottom = Row2PixelY[Char.row + 1];
         y = bottom - 5;
     }
     x = 0;

@@ -58,7 +58,54 @@ extern Byte item_palette;
 extern int back_count;
 extern int front_count;
 extern ShapeSet *background_shapes;
-extern Byte current_level;
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+extern LEVELREC Level;
 extern int background_image_limits[];
 extern void release_shape(unsigned int handle);
 extern int far *MATERIALIZE_HANDLE(unsigned int handle);
@@ -213,13 +260,15 @@ typedef struct {
 
 extern CharacterObject character_objects[];
 extern int character_object_count;
-extern int actor_x;
-extern int actor_y;
-extern int actor_image;
-extern Byte actor_set;
-extern Byte actor_flags;
-extern Rect actor_clip;
-extern int actor_depth;
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+extern FCHARREC FChar;
 
 
 
@@ -273,13 +322,13 @@ void far _fastcall add_char_object(Byte kind)
         index = character_object_count++;
         object = &character_objects[index];
         object->kind = kind;
-        ConvertX(actor_x, &object->x);
-        object->y = actor_y;
-        object->set = actor_set;
-        object->image = actor_image;
-        object->flags = actor_flags;
-        object->clip = actor_clip;
-        object->depth = actor_depth;
+        ConvertX(FChar.x, &object->x);
+        object->y = FChar.y;
+        object->set = FChar.image_set;
+        object->image = FChar.image;
+        object->flags = FChar.flipped;
+        object->clip = (*(Rect near *)&FChar.clip_top);
+        object->depth = FChar.depth;
         set_object_cell((Byte)index);
         object->object_id = Char.frame;
         object->object_type = Char.slot;
@@ -327,8 +376,14 @@ typedef struct {
 extern int mid_count;
 extern _segment mid_table_selector;
 extern MidItem _based(mid_table_selector) mid_rows[];
-extern Byte drawing_environment;
-extern Byte viewed_room;
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+extern ROOMREC Room;
 extern Offset *custom_shapes;
 extern signed char background_depth;
 extern void get_custom_shape_size(int index, ImageSize far *size);
@@ -347,7 +402,7 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         index = mid_count;
         row = &mid_rows[index];
         row->x = x;
-        if (drawing_environment == 5 && viewed_room == 10 &&
+        if ((Byte)Level.level_number == 5 && Room.number == 10 &&
             set == 4 && *custom_shapes > image_index) {
             get_custom_shape_size(image_index, &size);
         } else {
@@ -357,10 +412,10 @@ int far _fastcall add_middle_image(Byte set, int image, int x, int y, Byte order
         row->y = y - size.height + 1;
         row->set = set;
         row->image = image_index;
-        row->clip = actor_clip;
+        row->clip = (*(Rect near *)&FChar.clip_top);
         row->order = order;
         row->reserved = 0;
-        if (actor_flags == 0 && (set != 4 || background_depth >= 0)) row->visible = 1;
+        if (FChar.flipped == 0 && (set != 4 || background_depth >= 0)) row->visible = 1;
         else row->visible = 0;
         row->depth = 255;
         ++mid_count;
@@ -377,7 +432,6 @@ typedef struct {
     int y;
 } PeelEntry;
 extern PeelEntry peel_entries[];
-extern int peel_count;
 extern void free_record_pair(unsigned int handle);
 
 /* Packed bytes within the first payload word of the peel record. */
@@ -390,6 +444,7 @@ typedef struct {
     int retain;
 } PeelDetails;
 
+extern int peel_count;
 extern int EMPTYRECT(Rect far *rect);
 extern unsigned int ALLOCATE_CLIPPED_PORT(Rect far *rect);
 extern int find_character_peel(Offset actor, int occurrence);
@@ -542,13 +597,12 @@ BFItem far *far _fastcall get_back_table_image_row(int image, Byte flags, Byte p
 
 
 extern Byte actor_force_redraw;
-extern struct {
-    Byte before_guards[0x17bf];
-    struct { Byte before_count[0x34], count, after_count[0x3f]; } rooms[32];
-} Level;
-extern unsigned int actor_equipment;
-extern int actor_shape_index;
-extern struct { Offset x, y; } actor_frame_delta;
+typedef struct {
+    int image, equipment_image;                       /* 00,02 */
+    signed char x, y;                                 /* 04-05 */
+    unsigned char flags;                              /* 06 */
+} FRAMEREC;
+extern FRAMEREC Frame;
 
 
 
@@ -601,7 +655,7 @@ extern int far _fastcall setup_opponent(Offset opponent);
 void add_kid(void)
 {
     copy_kid_to_char();
-    if (Char.room != 0 && (Byte)Char.room == viewed_room) {
+    if (Char.room != 0 && (Byte)Char.room == Room.number) {
         setup_kid();
         if (Char.action == 99 || Char.sequence_group == 8) {
             setup_comix();
@@ -611,22 +665,22 @@ void add_kid(void)
                 Char.action = 5;
         }
 
-        if (current_level == 5)
+        if (Level.environment_kind == 5)
             setup_splash();
-        else if (current_level == 1)
+        else if (Level.environment_kind == 1)
             setup_sand();
-        else if (drawing_environment == 5 && Char.room == 3 && Char.frame == 295)
+        else if ((Byte)Level.level_number == 5 && Char.room == 3 && Char.frame == 295)
             setup_carpet();
         else if ((unsigned int)Char.frame >= 306 && (unsigned int)Char.frame <= 318)
             setup_flame();
         else if ((unsigned int)Char.frame >= 272 && (unsigned int)Char.frame <= 281)
             setup_fireball();
 
-        if (Char.character_kind == 1 && current_level == 6)
+        if (Char.character_kind == 1 && Level.environment_kind == 6)
             SetupShadowFlame();
         setup_sword(3);
         setup_flask();
-    } else if (current_level == 5) {
+    } else if (Level.environment_kind == 5) {
         setup_splash();
     }
 }
@@ -635,11 +689,11 @@ void add_opponent(void)
 {
     Offset opponent = 0;
 
-    if ((Offset)Level.rooms[viewed_room].count <= 0)
+    if (Level.room_objects[Room.number - 1].opponent_count <= 0)
         return;
     do {
         load_actor_slot(opponent);
-        if ((Byte)Char.room == viewed_room) {
+        if ((Byte)Char.room == Room.number) {
             if (!setup_opponent(opponent))
                 continue;
             if ((Char.action == 99 || Char.sequence_group == 8 ||
@@ -655,15 +709,15 @@ void add_opponent(void)
                 setup_jinnee_smoke();
             else if (Char.character_kind == 1)
                 SetupShadowFlame();
-            else if (current_level == 5)
+            else if (Level.environment_kind == 5)
                 goto temple_kid;
-            else if (current_level == 6)
+            else if (Level.environment_kind == 6)
                 draw_temple_guard();
-        } else if (current_level == 5) {
+        } else if (Level.environment_kind == 5) {
 temple_kid:
             setup_splash();
         }
-    } while ((Offset)Level.rooms[viewed_room].count > ++opponent);
+    } while (Level.room_objects[Room.number - 1].opponent_count > ++opponent);
 }
 
 void setup_char(void)
@@ -673,59 +727,58 @@ void setup_char(void)
 
     init_fchar_rect();
     get_frame_info();
-    equipment = get_sword_frame_image(actor_equipment);
-    if (Char.frame == 0 || (actor_shape_index == -1 && equipment == -1))
+    equipment = get_sword_frame_image((unsigned int)Frame.equipment_image);
+    if (Char.frame == 0 || (Frame.image == -1 && equipment == -1))
         return;
 
-    actor_flags = Char.direction;
-    actor_depth = Char.field_34;
+    FChar.flipped = Char.direction;
+    FChar.depth = Char.field_34;
     if (Char.character_kind == 0 || Char.character_kind == 6 || Char.character_kind == 1) {
-        actor_set = 2;
-        actor_image = actor_shape_index;
+        FChar.image_set = 2;
+        FChar.image = Frame.image;
     } else {
-        actor_set = 3;
-        actor_image = Char.character_kind == 10 ? equipment : actor_shape_index;
+        FChar.image_set = 3;
+        FChar.image = Char.character_kind == 10 ? equipment : Frame.image;
     }
 
     if ((Char.character_kind == 7 || Char.character_kind == 8) && Char.sequence_group == 1) {
         auto_forward();
         return;
     }
-    actor_y = actor_frame_delta.y + Char.y;
-    actor_x = AddCharX(actor_frame_delta.x) - 130;
+    FChar.y = Frame.y + Char.y;
+    FChar.x = AddCharX(Frame.x) - 130;
     if (Char.character_kind == 10) {
         setup_flame_sword();
         return;
     }
     if (Char.character_kind == 4 && (unsigned int)Char.frame >= 206 && (unsigned int)Char.frame <= 209) {
-        actor_set = 4;
-        actor_image += 104;
+        FChar.image_set = 4;
+        FChar.image += 104;
     }
 }
 
 extern CHARREC Opp;
-extern Offset FChar;
 
 void setup_comix(void)
 {
     unsigned int frame = Char.frame;
 
     SaveFChar();
-    FChar = -1;
-    actor_set = 2;
-    actor_image = 218;
+    FChar.index = -1;
+    FChar.image_set = 2;
+    FChar.image = 218;
 
     if (frame == 185 || (frame >= 106 && frame < 111))
         goto raised;
     if (Char.character_kind == 11) {
-        actor_y += 5;
+        FChar.y += 5;
         adjust_actor_x(-8);
-        actor_set = 3;
-        actor_image = 119;
+        FChar.image_set = 3;
+        FChar.image = 119;
         goto render;
     }
     if (Char.character_kind == 12) {
-        actor_y -= 11;
+        FChar.y -= 11;
         adjust_actor_x(-8);
         goto render;
     }
@@ -735,33 +788,33 @@ void setup_comix(void)
         if (Char.frame == 138 || Char.frame == 139 || Char.frame == 140)
             goto lowered;
         if (Char.frame == 338) {
-            actor_y -= 30;
+            FChar.y -= 30;
             adjust_actor_x(29);
             goto render;
         }
         if (Char.frame == 340) {
-            actor_y -= 30;
+            FChar.y -= 30;
             adjust_actor_x(-17);
             goto render;
         }
-        actor_y -= 15;
+        FChar.y -= 15;
         goto default_x;
 lowered:
-        actor_y -= 10;
+        FChar.y -= 10;
         adjust_actor_x(-5);
         goto render;
     }
-    actor_y -= 11;
+    FChar.y -= 11;
     adjust_actor_x(7);
     goto render;
 raised:
-    actor_y += 4;
+    FChar.y += 4;
 default_x:
     adjust_actor_x(10);
 render:
     MakeFCharClipRect();
     add_char_object(5);
-    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, -1);
+    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), -1);
     RestoreFChar();
 }
 
@@ -774,15 +827,15 @@ typedef struct {
 void setup_fireball(void)
 {
     SaveFChar();
-    if (actor_equipment) {
-        unsigned int frame = actor_equipment;
+    if ((unsigned int)Frame.equipment_image) {
+        unsigned int frame = (unsigned int)Frame.equipment_image;
         EquipmentPlacement far *entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
-        actor_image = entries[frame].image;
+        FChar.image = entries[frame].image;
         adjust_actor_x(entries[frame].x);
-        actor_y += entries[frame].y;
+        FChar.y += entries[frame].y;
         MakeFCharClipRect();
         add_char_object(3);
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, -1);
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), -1);
     }
     RestoreFChar();
 }
@@ -807,32 +860,32 @@ void far _fastcall setup_sword(Byte kind)
     unsigned int frame;
     EquipmentPlacement far *entries;
 
-    if (is_char_non_viewable() || actor_equipment == 0)
+    if (is_char_non_viewable() || (unsigned int)Frame.equipment_image == 0)
         return;
-    if (actor_equipment > 144 &&
-        !(actor_equipment >= 200 && actor_equipment < 251) &&
-        !(actor_equipment >= 264 && actor_equipment <= 265) &&
-        !(actor_equipment >= 292 && actor_equipment <= 304))
+    if ((unsigned int)Frame.equipment_image > 144 &&
+        !((unsigned int)Frame.equipment_image >= 200 && (unsigned int)Frame.equipment_image < 251) &&
+        !((unsigned int)Frame.equipment_image >= 264 && (unsigned int)Frame.equipment_image <= 265) &&
+        !((unsigned int)Frame.equipment_image >= 292 && (unsigned int)Frame.equipment_image <= 304))
         return;
     if (Char.character_kind == 0 && Char.stance == 0 && Char.frame != 133 &&
         !((unsigned int)Char.frame >= 229 && (unsigned int)Char.frame <= 240) &&
         Char.frame != 323 && Char.frame != 324)
         return;
 
-    frame = actor_equipment;
+    frame = (unsigned int)Frame.equipment_image;
     entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
-    actor_image = entries[frame].image;
-    if (actor_image == -1)
+    FChar.image = entries[frame].image;
+    if (FChar.image == -1)
         return;
     adjust_actor_x(entries[frame].x);
-    actor_y += entries[frame].y;
-    actor_set = 0;
+    FChar.y += entries[frame].y;
+    FChar.image_set = 0;
     MakeFCharClipRect();
-    if (current_level == 5)
+    if (Level.environment_kind == 5)
         adjust_ruins_sword();
     add_char_object(kind);
     if (Char.action != 9)
-        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.slot);
+        mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), Char.slot);
 }
 
 void setup_flask(void)
@@ -840,19 +893,19 @@ void setup_flask(void)
     unsigned int frame;
     EquipmentPlacement far *entries;
 
-    if (actor_equipment < 145 || actor_equipment > 168)
+    if ((unsigned int)Frame.equipment_image < 145 || (unsigned int)Frame.equipment_image > 168)
         return;
-    frame = actor_equipment;
+    frame = (unsigned int)Frame.equipment_image;
     entries = (EquipmentPlacement far *)RESOLVE_HANDLE_TO_FAR_PAYLOAD(object_position_handle);
     if (entries[frame].image == -1)
         return;
-    actor_image = entries[frame].image;
+    FChar.image = entries[frame].image;
     adjust_actor_x(entries[frame].x);
-    actor_y += entries[frame].y;
-    actor_set = 1;
+    FChar.y += entries[frame].y;
+    FChar.image_set = 1;
     MakeFCharClipRect();
     add_char_object(3);
-    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&actor_clip, Char.slot);
+    mark_bufs_for_rect(actor_redraw_callback, (unsigned int)&(*(Rect near *)&FChar.clip_top), Char.slot);
 }
 
 void check_background_shape(int index)
@@ -870,7 +923,7 @@ void check_background_shape(int index)
         background_shapes->images[index].handle = 0;
     }
     image = index + 1;
-    if (index >= background_image_limits[current_level])
+    if (index >= background_image_limits[Level.environment_kind])
         image += 200;
     load_set_shape(background_shapes->resource, image,
                    &background_shapes->images[index], 1);
@@ -880,7 +933,6 @@ void check_background_shape(int index)
 
 extern unsigned int HGETRSRC(unsigned long resource, int image);
 extern Offset opponent_outfit_by_character[];
-extern Offset opponent_outfit;
 extern int *opponent_extra_image_limits[];
 extern ShapeItem far *get_list_item(ShapeSet *set, int image, ImageSize far *size);
 extern int far *PrinceGetnShapeItemSize(ShapeSet *set, int image, ImageSize far *size);
@@ -912,7 +964,7 @@ void check_opponent_shape(int index)
         return;
     image = index + 1;
     outfit = (Char.character_kind == 10 || Char.character_kind == 12)
-           ? opponent_outfit_by_character[(Offset)Char.character_kind] : opponent_outfit;
+           ? opponent_outfit_by_character[(Offset)Char.character_kind] : (Offset)Level.preferred_opponent;
     if (outfit != 5 && outfit != 6 && opponent_extra_image_limits[outfit] &&
         *opponent_extra_image_limits[outfit] <= index)
         image += 100;

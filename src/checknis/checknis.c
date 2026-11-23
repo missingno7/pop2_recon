@@ -45,18 +45,68 @@ int EraseScreenBeforeNIS(int sequence)
 }
 
 /* Field aliases, original long type, signedness, and purpose are hypotheses. */
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 extern unsigned long hRebirthSaved;
 extern unsigned int guard_other;
-extern signed char mode_code, state_code, CutRoom;
+extern signed char CutRoom;
 
 int far pascal IsLevelStartWithNISScreen(void)
 {
     int result = 0;
     if (hRebirthSaved == 0L && guard_other == 0) {
-        if ((mode_code == 27 && state_code == 6) ||
-            (mode_code == 22 && state_code == 10) ||
-            (mode_code == 1 && state_code == 14) ||
-            (CutRoom == 9 && state_code == 8))
+        if ((Level.entry_room == 27 && Level.level_number == 6) ||
+            (Level.entry_room == 22 && Level.level_number == 10) ||
+            (Level.entry_room == 1 && Level.level_number == 14) ||
+            (CutRoom == 9 && Level.level_number == 8))
             result = 1;
     }
     return result;
@@ -139,7 +189,6 @@ extern int play_other_vector(int sequence);
 extern void set_default_palette(void);
 extern void set_kid_palette(unsigned char room);
 
-extern unsigned char current_room;
 
 int play_nis(int sequence)
 {
@@ -147,7 +196,7 @@ int play_nis(int sequence)
     unsigned char room;
 
     playing_nis = result;
-    room = current_room;
+    room = Level.environment_kind;
     if (sequence != 100) {
         unload_level(0);
         if (sequence < 20)
@@ -186,7 +235,16 @@ int play_nis(int sequence)
 }
 
 extern signed char LevelIdx;
-extern unsigned char room_tile, viewed_room;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 extern int room_to_draw_word, Graf;
 extern void reset_level_overlays(void);
 extern void load_level_map(signed char room);
@@ -206,27 +264,27 @@ void draw_room_from_nis(signed char room, signed char level)
     int saved_sound;
 
     reset_level_overlays();
-    old_room = current_room;
+    old_room = Level.environment_kind;
     LevelIdx = room;
     room_to_draw_word = room;
     saved_sound = pending_sound;
     pending_sound = Graf;
     load_level_map(room);
-    open_verified_resource(level_resource_files[current_room]);
+    open_verified_resource(level_resource_files[Level.environment_kind]);
     load_background_set(!IsLevelStartWithNISScreen());
-    if (old_room != current_room)
+    if (old_room != Level.environment_kind)
         load_pieces_data();
-    load_code_overlays(current_room, room_tile);
-    place_room_objects(current_room);
-    viewed_room = 0;
+    load_code_overlays(Level.environment_kind, Level.preferred_opponent);
+    place_room_objects(Level.environment_kind);
+    Room.number = 0;
     CutRoom = level;
     PrepCut(1);
     clean_cut();
     unload_set(4);
     unload_set(1);
     unload_pieces_data();
-    close_resource_file(level_resource_files[current_room]);
-    current_room = 0;
+    close_resource_file(level_resource_files[Level.environment_kind]);
+    Level.environment_kind = 0;
     pending_sound = saved_sound;
     restore_room_vector();
 }

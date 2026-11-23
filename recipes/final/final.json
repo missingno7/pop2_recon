@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/final/final.json",
-  "binding_sha256": "12772f1207ed8699f6584942533d4f445eb33b0738c73367b34708fa44ec03f1",
+  "binding_sha256": "87e1bb16ee9709f11e5d51c7298501c00fc3fb48d092040467dbd5eb300888a7",
   "claims": [
     {
       "fixup_count": 7,
@@ -561,7 +561,7 @@
       "public": "RUN_FINAL_FRAME",
       "target_id": "overlay-10:29cf:037c",
       "unproven": [
-        "ROOM_STATE+0x2b8"
+        "LEVEL+0x1aab"
       ]
     },
     {
@@ -571,13 +571,17 @@
         "FIREBALL_QUEUE+0xc",
         "FIREBALL_QUEUE_SEGMENT"
       ]
+    },
+    {
+      "public": "CHECK_DEAD_OPPONENT",
+      "target_id": "overlay-10:29cf:0054",
+      "unproven": [
+        "LEVEL+0x3c",
+        "LEVEL+0x4b0"
+      ]
     }
   ],
   "drafts": [
-    {
-      "object_offset": 84,
-      "public": "CHECK_DEAD_OPPONENT"
-    },
     {
       "object_offset": 1050,
       "public": "SORT_FOREGROUND"
@@ -626,12 +630,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "final/final",
-  "object_sha256": "bfe07001e04ceeefa80214e03acc2758088d1cd5a547bbb7d143090e4e9b7be2",
+  "object_sha256": "d672b5e29e11bf28ccdd7698173a3255e9454e819dfdc0f905c5acab513dba30",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/final/final.c",
-  "source_sha256": "341f44fd49983b2216f1105e05a755270f6c4fc2620529964f267f3b9653662d",
+  "source_sha256": "4ed27ff0ca72ec36aea37b7432f49862801cead2f83f5ea3a39238adac27608b",
   "space": "overlay-10"
 }

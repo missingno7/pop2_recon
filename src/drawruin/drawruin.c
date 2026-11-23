@@ -274,7 +274,16 @@ typedef struct MovingExit {
 
 extern RuinPositions *shape_offsets;
 extern DrawRect GamePlayRect;
-extern Byte viewed_room;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -367,7 +376,7 @@ void draw_ruin_exit_movable(RuinCell *cell)
         door_clip = GamePlayRect;
         door_clip.top = cell->row * 63 - 5;
         if (SECTRECT(&clip_rect, &clip_rect, &door_clip)) {
-            moving = get_trob_room_cell(cell->column + FirstInRow(viewed_room, cell->row));
+            moving = get_trob_room_cell(cell->column + FirstInRow(Room.number, cell->row));
             if (moving && moving->height >= 4)
                 AddBImgToBTable(17, -2, cell->column, cell->row, 10, 0);
             shape_offsets->exit_y = -(int)(19U + ((cell->modifier & 0xff) < 42 ? cell->modifier & 0xff : 42));
@@ -485,7 +494,56 @@ void draw_ruin_gate(RuinCell *cell)
     }
 }
 
-extern Byte level_number;
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 extern void draw_throne_room_gate_in_fore(void);
 
 void draw_ruin_gate_movable(RuinCell *cell)
@@ -511,7 +569,7 @@ void draw_ruin_gate_movable(RuinCell *cell)
             break;
         }
         if (add_image) {
-            if (viewed_room == 9 && level_number == 8) {
+            if (Room.number == 9 && ((Byte)Level.level_number) == 8) {
                 if (cell->pass == 2)
                     draw_throne_room_gate_in_fore();
             } else {
@@ -787,17 +845,23 @@ void LoadRuinsDrawCode(void)
     Pause = 0;
 }
 
-extern CellCoord tile_room, tile_column, tile_row, tile_index;
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+#pragma pack()
+extern CELLREC Cell;
 extern CHARREC Char;
-extern Byte tile_modifier;
 extern Byte ReadCell(CellCoord, CellCoord, CellCoord);
 extern Byte get_cells_ahead(Byte);
 extern int is_visible_room_cell(CellCoord, CellCoord);
 extern void mark_cell_redraw(void);
-typedef struct CellState {
-    unsigned int flags, other;
-} CellState;
-extern CellState cell_states[];
 
 void ruin_set_crevice_revealed(int reveal);
 
@@ -812,18 +876,18 @@ void ruin_change_crevices(int reveal, CellCoord room, CellCoord column, CellCoor
         tile = ReadCell(room, column, row);
     } while (stop != ++column && tile != 7);
     if (tile == 7) {
-        while (ReadCell(tile_room, tile_column - 1, tile_row) == 7)
+        while (ReadCell(((CellCoord)Cell.room), Cell.column - 1, Cell.row) == 7)
             ;
-        ReadCell(tile_room, tile_column + 1, tile_row);
+        ReadCell(((CellCoord)Cell.room), Cell.column + 1, Cell.row);
         do
             ruin_set_crevice_revealed(reveal);
-        while (ReadCell(tile_room, tile_column + 1, tile_row) == 7);
+        while (ReadCell(((CellCoord)Cell.room), Cell.column + 1, Cell.row) == 7);
     }
 }
 
 void ruin_check_crevices(void)
 {
-    if (Char.sequence != 17 && get_cells_ahead(1) == 7 && (tile_modifier & 3) != 3)
+    if (Char.sequence != 17 && get_cells_ahead(1) == 7 && ((*(Byte *)&Cell.modifier) & 3) != 3)
         ruin_change_crevices(1, Char.room, Char.column, Char.row);
 }
 
@@ -832,7 +896,7 @@ void ruin_set_crevice_revealed(int reveal)
     int changed;
     unsigned int flags;
 
-    flags = cell_states[(Byte)tile_room * 30 + tile_index].flags;
+    flags = ((LEVELCELL *)Level.cell_info)[(Byte)Cell.room * 30 + Cell.index - 30].modifier;
     if (reveal) {
         changed = (flags & 0x80) == 0;
         if (changed)
@@ -843,13 +907,13 @@ void ruin_set_crevice_revealed(int reveal)
             flags &= ~0x80;
     }
     if (changed) {
-        if (is_visible_room_cell(tile_room, tile_index))
+        if (is_visible_room_cell(((CellCoord)Cell.room), Cell.index))
             mark_cell_redraw();
-        if (!(flags & 3) && tile_column != 9) {
-            ReadCell(tile_room, tile_column + 1, tile_row);
+        if (!(flags & 3) && Cell.column != 9) {
+            ReadCell(((CellCoord)Cell.room), Cell.column + 1, Cell.row);
             mark_cell_redraw();
-            ReadCell(tile_room, tile_column - 1, tile_row);
+            ReadCell(((CellCoord)Cell.room), Cell.column - 1, Cell.row);
         }
-        cell_states[(Byte)tile_room * 30 + tile_index].flags = flags;
+        ((LEVELCELL *)Level.cell_info)[(Byte)Cell.room * 30 + Cell.index - 30].modifier = flags;
     }
 }

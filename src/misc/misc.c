@@ -20,16 +20,67 @@ typedef struct {
 } Tile;
 
 typedef struct {
-    byte left, right, above, below;
-} RoomLinks;
-
-extern byte below_left_room, below_right_room, above_left_room, above_right_room;
-extern byte clip_left_edge;
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+extern ROOMREC Room;
 extern sbyte view_row, view_col;
-extern struct { byte before_style[0x1845]; byte style; } Level;
-extern int row_y[], col_x[];
 extern Rect GamePlayRect, cell_clip;
-extern RoomLinks room_links[];
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+extern LEVELREC Level;
+typedef int COL_TO_PIXEL_X[13];                       /* DS:0da4 */
+extern COL_TO_PIXEL_X Col2PixelX;
+typedef int ROW_TO_PIXEL_Y[5];                        /* DS:0dbe */
+extern ROW_TO_PIXEL_Y Row2PixelY;
 extern Tile above_tiles[], below_tiles[], left_tiles[], right_tiles[];
 extern Tile CellLeft, CellRight;
 extern TileInfo BlueSpec;
@@ -37,11 +88,9 @@ extern byte drawn_tile_kind;
 extern byte *tile_override;
 extern int force_full_clip;
 extern byte room_tiles[][30];
-extern TileInfo room_info[][30];
 extern unsigned int selected_room;
 extern byte *selected_tiles;
 extern TileInfo *BlueS;
-extern byte viewed_room, left_room, right_room, above_room, below_room;
 
 extern int SECTRECT(Rect far *, Rect far *, Rect far *);
 extern void OFFSETRECT(Rect far *, Rect far *, int, int);
@@ -58,7 +107,7 @@ void select_room_arrays(byte room)
     selected_room = room;
     if (room != 0) {
         selected_tiles = (byte *)room_tiles + 30 * index;
-        BlueS = (TileInfo *)((byte *)room_info + 120 * index);
+        BlueS = (TileInfo *) &Level.cell_info[index - 1][0];
     }
 }
 
@@ -66,13 +115,13 @@ sbyte CellToCol(byte room, int cell)
 {
     sbyte col = cell % 10;
 
-    if (room == viewed_room || room == above_room || room == below_room) {
+    if (room == Room.number || room == Room.above || room == Room.below) {
         /* Keep the local column. */
     } else if (col == 9 &&
-               (room == left_room || room == above_left_room || room == below_left_room)) {
+               (room == Room.left || room == Room.below_left || room == Room.above_left)) {
         col = -1;
     } else if (col == 0 &&
-               (room == right_room || room == above_right_room || room == below_right_room)) {
+               (room == Room.right || room == Room.below_right || room == Room.above_right)) {
         col = 11;
     } else {
         col = 30;
@@ -84,11 +133,11 @@ sbyte CellToRow(byte room, int cell)
 {
     sbyte row = cell / 10;
 
-    if (room == viewed_room || room == left_room || room == right_room) {
+    if (room == Room.number || room == Room.left || room == Room.right) {
         /* Keep the local row. */
-    } else if (room == above_room && row == 2) {
+    } else if (room == Room.above && row == 2) {
         row = -1;
-    } else if (room == below_room && row == 0) {
+    } else if (room == Room.below && row == 0) {
         row = 3;
     } else {
         row = 30;
@@ -98,12 +147,12 @@ sbyte CellToRow(byte room, int cell)
 
 void ComputeClipRect(Rect far *rect, int col, int row)
 {
-    rect->top = row_y[col];
+    rect->top = Col2PixelX[col + 1];
     rect->bottom = rect->top + 32;
-    rect->right = col_x[row];
+    rect->right = Row2PixelY[row + 1];
     rect->left = rect->right - 63;
     SECTRECT(rect, rect, &GamePlayRect);
-    if (clip_left_edge && !row)
+    if (Room.custom && !row)
         rect->left -= 3;
 }
 
@@ -132,23 +181,23 @@ void GetAboveAry(void)
     TileInfo *info;
 
     if (view_row != -1) {
-        query.saved_below = below_room;
+        query.saved_below = Room.below;
         if (view_row == 0) {
-            room = above_room;
-            query.side_room = below_left_room;
-            below_room = viewed_room;
+            room = Room.above;
+            query.side_room = Room.above_left;
+            Room.below = Room.number;
         } else {
-            room = viewed_room;
-            query.side_room = left_room;
+            room = Room.number;
+            query.side_room = Room.left;
         }
         row = view_row - 1;
-        missing = (!clip_left_edge && Level.style != 4 && Level.style != 5) ? 1 : 0;
+        missing = (!Room.custom && Level.environment_kind != 4 && Level.environment_kind != 5) ? 1 : 0;
         select_room_arrays(room);
         for (col = 1; col < 11; ++col) {
             GetObject(room, col - 1, row, &above_tiles[col].tile,
                       info = &above_tiles[col].info, missing);
-            if (clip_left_edge && view_row == 0 && Level.style == 3 &&
-                is_open_tile(room_tiles[viewed_room][col - 1])) {
+            if (Room.custom && view_row == 0 && Level.environment_kind == 3 &&
+                is_open_tile(room_tiles[Room.number][col - 1])) {
                 TileInfo *field = *(TileInfo * volatile *)&info;
                 field->words.low = (field->words.low & 0x3fff) | 0x4000;
             }
@@ -157,8 +206,8 @@ void GetAboveAry(void)
         GetObject(query.side_room, 9, row, &above_tiles[0].tile, &above_tiles[0].info, missing);
         if (tile_override && view_row == 0)
             above_tiles[0].info.words.low = above_tiles[col].info.words.low | 0xc000;
-        select_room_arrays(viewed_room);
-        below_room = query.saved_below;
+        select_room_arrays(Room.number);
+        Room.below = query.saved_below;
     }
 }
 
@@ -168,12 +217,12 @@ void GetBelowAry(void)
     byte room, side_room;
 
     if (view_row == 2) {
-        room = below_room;
-        side_room = above_left_room;
+        room = Room.below;
+        side_room = Room.below_left;
         row = 0;
     } else {
-        room = viewed_room;
-        side_room = left_room;
+        room = Room.number;
+        side_room = Room.left;
         row = view_row + 1;
     }
     select_room_arrays(room);
@@ -182,7 +231,7 @@ void GetBelowAry(void)
     select_room_arrays(side_room);
     GetObject(side_room, 9, row, &below_tiles[0].tile, &below_tiles[0].info,
               room ? 20 : 0);
-    select_room_arrays(viewed_room);
+    select_room_arrays(Room.number);
 }
 
 byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte missing)
@@ -203,17 +252,17 @@ byte GetObject(byte room, sbyte col, sbyte row, byte *tile, TileInfo *info, byte
         info->value = BlueS[cell].value;
     } else {
         *tile = missing;
-        if (Level.style == 3 && (missing == 1 || missing == 20) && below_room) {
-            if (!tile_has_side_edge(room_tiles[below_room][col])) {
+        if (Level.environment_kind == 3 && (missing == 1 || missing == 20) && Room.below) {
+            if (!tile_has_side_edge(room_tiles[Room.below][col])) {
                 info->words.low = ((col & 7) < 1 ? 1 : (col & 7)) << 8;
                 info->words.high = 0;
             } else {
                 memset(info, 0, sizeof(*info));
             }
-        } else if (Level.style == 2) {
+        } else if (Level.environment_kind == 2) {
             info->words.low = 0;
             info->words.high = 9;
-        } else if (Level.style == 4) {
+        } else if (Level.environment_kind == 4) {
             info->words.low = 0;
             info->words.high = 0;
         } else {
@@ -229,17 +278,17 @@ byte PieceAboveId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row > 0) {
-        room = viewed_room;
+        room = Room.number;
         --row;
     } else {
-        room = above_room;
+        room = Room.above;
         row = 2;
     }
     if (col < 0) {
-        room = room_links[room].left;
+        room = Level.room_links[room - 1].left;
         col += 10;
     } else if (col >= 10) {
-        room = room_links[room].right;
+        room = Level.room_links[room - 1].right;
         col -= 10;
     }
     if (room)
@@ -254,17 +303,17 @@ byte PieceAboveRightId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row > 0) {
-        room = viewed_room;
+        room = Room.number;
         --row;
     } else {
-        room = above_room;
+        room = Room.above;
         row = 2;
     }
     if (col < -1) {
-        room = room_links[room].left;
+        room = Level.room_links[room - 1].left;
         col += 9;
     } else if (col >= 9) {
-        room = room_links[room].right;
+        room = Level.room_links[room - 1].right;
         col -= 9;
     } else {
         ++col;
@@ -281,17 +330,17 @@ byte PieceBelowId(sbyte col, sbyte row)
     byte room, tile;
 
     if (row < 2) {
-        room = (row == 0 && view_row == -1) ? below_room : viewed_room;
+        room = (row == 0 && view_row == -1) ? Room.below : Room.number;
         ++row;
     } else {
         row = 0;
-        room = below_room;
+        room = Room.below;
     }
     if (col < 0) {
-        room = room_links[room].left;
+        room = Level.room_links[room - 1].left;
         col += 10;
     } else if (col >= 10) {
-        room = room_links[room].right;
+        room = Level.room_links[room - 1].right;
         col -= 10;
     }
     if (room)
@@ -306,10 +355,10 @@ byte PieceLeftId(sbyte col, sbyte row)
     byte tile, room;
 
     if (col != 0) {
-        room = (row == 0 && view_row == -1) ? below_room : viewed_room;
+        room = (row == 0 && view_row == -1) ? Room.below : Room.number;
         --col;
     } else {
-        room = (row == -1 && view_row == -1) ? below_left_room : left_room;
+        room = (row == -1 && view_row == -1) ? Room.above_left : Room.left;
         col = 9;
     }
     if (room)
@@ -324,14 +373,14 @@ byte PieceRightId(sbyte col, sbyte row)
     byte room, tile;
 
     if (col != 9) {
-        room = (row == 0 && view_row == -1) ? below_room : viewed_room;
+        room = (row == 0 && view_row == -1) ? Room.below : Room.number;
         ++col;
     } else {
-        room = (row == -1 && view_row == -1) ? below_right_room : right_room;
+        room = (row == -1 && view_row == -1) ? Room.above_right : Room.right;
         col = 0;
     }
     if (row == 3) {
-        room = room == right_room ? above_right_room : below_room;
+        room = room == Room.right ? Room.below_right : Room.below;
         row = 0;
     }
     if (room)
@@ -347,7 +396,7 @@ void SetLocVars(void)
 
     if ((view_row != 2 || force_full_clip) && view_row != -1)
         missing = 20;
-    else if (Level.style != 4 && Level.style != 5)
+    else if (Level.environment_kind != 4 && Level.environment_kind != 5)
         missing = 1;
     else
         missing = 0;
@@ -355,9 +404,9 @@ void SetLocVars(void)
         ComputeClipRect(&cell_clip, view_col, view_row);
     else
         cell_clip = GamePlayRect;
-    GetObject(viewed_room, view_col, view_row, &drawn_tile_kind, &BlueSpec, missing);
-    GetObject(viewed_room, view_col - 1, view_row, &CellLeft.tile, &CellLeft.info, missing);
-    GetObject(viewed_room, view_col + 1, view_row, &CellRight.tile, &CellRight.info, missing);
+    GetObject(Room.number, view_col, view_row, &drawn_tile_kind, &BlueSpec, missing);
+    GetObject(Room.number, view_col - 1, view_row, &CellLeft.tile, &CellLeft.info, missing);
+    GetObject(Room.number, view_col + 1, view_row, &CellRight.tile, &CellRight.info, missing);
     if (view_row == -1 && tile_override) {
         BlueSpec.bytes[1] |= 0xc0;
         CellLeft.info.bytes[1] |= 0xc0;
@@ -372,21 +421,21 @@ void SetSideRoomInfo(void)
         TileInfo *info;
         byte missing;
     } state;
-    state.missing = viewed_room ? 20 : 0;
+    state.missing = Room.number ? 20 : 0;
 
-    select_room_arrays(left_room);
+    select_room_arrays(Room.left);
     for (row = 0; row < 3; ++row) {
-        GetObject(left_room, 9, row, &left_tiles[row].tile,
+        GetObject(Room.left, 9, row, &left_tiles[row].tile,
                   state.info = &left_tiles[row].info, state.missing);
         if (tile_override && (tile_override[1] != 31 || row != 2))
             state.info->bytes[1] |= 0xc0;
         else
             state.info->bytes[1] &= 0x3f;
     }
-    select_room_arrays(right_room);
+    select_room_arrays(Room.right);
     for (row = 0; row < 3; ++row)
-        GetObject(right_room, 0, row, &right_tiles[row].tile, &right_tiles[row].info, state.missing);
-    select_room_arrays(viewed_room);
+        GetObject(Room.right, 0, row, &right_tiles[row].tile, &right_tiles[row].info, state.missing);
+    select_room_arrays(Room.number);
 }
 
 /* The resident relocation sites of both memory handlers name the MISC frame. */

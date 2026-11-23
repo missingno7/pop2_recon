@@ -58,7 +58,19 @@ typedef struct {
 #pragma pack()
 
 
-extern int sprite_x, sprite_y, kid_sheet, kid_frame;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern CHARREC Char, Opp, Kid;
+extern FCHARREC FChar;
+extern int sprite_x, sprite_y, kid_sheet;
 extern void near *kid_shapes;
 
 extern HeadSprite near *far pascal find_sprite(unsigned char kind, unsigned char index);
@@ -78,17 +90,83 @@ typedef struct {
     unsigned char sound_played;
 } OpponentRecord;
 
-extern CHARREC Char, Opp, Kid;
 
 
-extern unsigned char level_head_kind, tile_flags;
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+#pragma pack()
+extern CELLREC Cell;
+extern unsigned char level_head_kind;
 
-extern unsigned char tile_modifier;
 
 extern signed char tile_test_x;
-extern int current_sprite_frame, snake_distance;
-extern unsigned char current_tile, collision_column, collision_row;
-extern unsigned char room_opponents[][116];
+#pragma pack(1)
+typedef struct {
+    int image, equipment_image;                       /* 00,02 */
+    signed char x, y;                                 /* 04-05 */
+    unsigned char flags;                              /* 06 */
+} FRAMEREC;
+#pragma pack()
+extern FRAMEREC Frame;
+extern int snake_distance;
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 static const signed char first_chomp[12] = {
     1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 99
 };
@@ -98,7 +176,8 @@ static const signed char last_chomp[12] = {
 static const int flee_length[12] = {
     70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15
 };
-extern int cell_x[];
+typedef int COL_EDGE_X[20];                           /* DS:0d7c */
+extern COL_EDGE_X ColEdgeX;
 extern signed char move_with_facing[], move_against_facing[];
 
 extern signed char far pascal ReadCell(unsigned char room, signed char column, signed char row);
@@ -174,7 +253,7 @@ void far pascal align_head_on_kid_neck(void)
     if (Kid.direction != Char.direction)
         neck_x = neck[body->frame].y;
     else {
-        sprite_dimensions(kid_sheet, kid_frame, (SpriteBounds far *)&bounds);
+        sprite_dimensions(kid_sheet, FChar.image, (SpriteBounds far *)&bounds);
         neck_x = -((Char.character_kind == 7 ? 10 : 16) + neck[body->frame].y + bounds.top);
     }
     if (Char.character_kind == 8)
@@ -291,7 +370,7 @@ done:
 
 int far pascal chomp_again(HeadPlan near *plan)
 {
-    unsigned char room_skill = room_opponents[(unsigned char)Char.room][Char.slot * 23 + 5];
+    unsigned char room_skill = Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4];
     int result;
     signed char column;
 
@@ -327,7 +406,7 @@ HeadSprite near *far pascal head_add_opponent(HeadSprite near *sprite)
         } else
             Char.stance = 0;
     } else {
-        Char.x = cell_x[Char.column] + 30;
+        Char.x = ColEdgeX[Char.column + 5] + 30;
         Char.direction = -1;
         sprite->frame = 130;
         sprite->step = 0;
@@ -473,7 +552,7 @@ int far pascal head_enemy_collide(int minimum_gap)
     int gap;
 
     if (Char.sequence_group != 1) {
-        gap = barrier_distance_from_face(current_tile, collision_column, collision_row);
+        gap = barrier_distance_from_face((unsigned char)Cell.kind, Cell.room, (unsigned char)Cell.column);
         if (gap < 5 && minimum_gap <= gap && gap < 5 && -snake_distance <= gap) {
             Char.x = AddCharX(-(gap + 14));
             if (Char.alive < 0 && Char.sequence != 153)
@@ -481,7 +560,7 @@ int far pascal head_enemy_collide(int minimum_gap)
             else if (Char.sequence != 164) {
                 if (Char.frame <= 191) {
                     sequence = 164;
-                    Char.x = cell_x[GetCellCol()] + 14;
+                    Char.x = ColEdgeX[GetCellCol() + 5] + 14;
                     if (Char.direction == -1)
                         Char.x += 32;
                 } else
@@ -516,7 +595,7 @@ void far pascal head_flee_prog(HeadPlan near *plan)
                     head_get_angry(plan);
                 else {
                     JumpSeq(160);
-                    *(int near *)&plan->direction = flee_length[room_opponents[(unsigned char)Char.room][Char.slot * 23 + 5]];
+                    *(int near *)&plan->direction = flee_length[Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4]];
                 }
             }
         } else if (Char.row == Opp.row && abs(Char.column - Opp.column) < 3 &&
@@ -598,7 +677,7 @@ void far pascal head_get_peaceful(HeadPlan near *plan)
     ClearCharVel();
     JumpSeq(139);
     Char.column = get_char_col(get_base_x());
-    Char.x = cell_x[Char.column] + 30;
+    Char.x = ColEdgeX[Char.column + 5] + 30;
     reset_char_y();
     Char.alert_delay = 0;
 }
@@ -708,8 +787,8 @@ void far pascal head_prog(void)
     plan = (HeadPlan near *)&record->mode;
     load_shadow_with_opponent(Char.slot);
     get_frame_info();
-    if (current_sprite_frame != -1) {
-        kid_frame = current_sprite_frame;
+    if (Frame.image != -1) {
+        FChar.image = Frame.image;
         get_char_edges();
     }
     switch (plan->mode) {
@@ -747,7 +826,7 @@ int far pascal head_set_to_flee_mode(void)
     int clear, edge, initial_column;
     OpponentRecord near *record;
 
-    skill = room_opponents[(unsigned char)Char.room][Char.slot * 23 + 5];
+    skill = Level.room_objects[(unsigned char)Char.room - 1].opponent_data[Char.slot][4];
     if (!is_able_to_flee_in_room(Char.room) || Rnd(skill / 3 + 1) != 0 ||
         !((Char.direction == 0 && Char.column >= 3) ||
           (Char.direction == -1 && Char.column + 3 <= 10)))
@@ -798,7 +877,7 @@ int far pascal is_able_to_flee_in_room(unsigned char room)
     int room_number = room;
     int available;
 
-    count = room_opponents[room_number][0];
+    count = (unsigned char)Level.room_objects[room_number - 1].opponent_count;
     if (count > 1) {
         available = 1;
         slot = 0;
@@ -896,7 +975,7 @@ void far pascal snake_attack(OpponentRecord near *record)
     else if ((Char.frame == 278 || Char.frame == 279) &&
              (distance < 13 || distance > 49)) {
         tile = get_cells_ahead(1);
-        if (is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
+        if (is_open_tile(tile) || (tile == 7 && (((unsigned char *)&Cell.modifier)[0] & 128)))
             JumpSeq(177);
     }
     if (hit && Char.sequence != 173) {
@@ -918,13 +997,13 @@ void far pascal snake_come_out_of_hole(OpponentRecord near *record)
     if ((unsigned char)Opp.room == (unsigned char)Char.room && Char.row == Opp.row &&
         Char.column > left && Char.column < right) {
         if (Char.column <= Opp.column &&
-            (!IsWall(tile) || is_open_tile(tile) || (tile == 7 && (tile_flags & 128))))
+            (!IsWall(tile) || is_open_tile(tile) || (tile == 7 && (((unsigned char *)&Cell.modifier)[0] & 128))))
             Char.direction = 0;
         else
             Char.direction = -1;
     } else
         Char.direction = ~Char.direction;
-    if (!IsWall(tile) || is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
+    if (!IsWall(tile) || is_open_tile(tile) || (tile == 7 && (((unsigned char *)&Cell.modifier)[0] & 128)))
         goto emerge_in_place;
     JumpSeq(170);
     Char.x = AddCharX(38);
@@ -946,7 +1025,7 @@ void far pascal snake_go_into_hole(OpponentRecord near *record)
     }
     if (Char.sequence != 171 && Char.sequence != 172 && Char.sequence_group != 9) {
         get_under_foot();
-        if ((tile_modifier & 15) == 12) {
+        if ((((unsigned char *)&Cell.modifier)[1] & 15) == 12) {
             distance = (Char.x - 144) % 32;
             if (distance >= 14 && distance <= 18) {
                 distance = 16 - distance;
@@ -960,7 +1039,7 @@ void far pascal snake_go_into_hole(OpponentRecord near *record)
         } else if (Char.sequence != 176 && Char.sequence != 168 &&
                    Char.frame != 278 && Char.frame != 279) {
             tile = get_cells_ahead(1);
-            if (is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
+            if (is_open_tile(tile) || (tile == 7 && (((unsigned char *)&Cell.modifier)[0] & 128)))
                 return;
             if (!IsWall(tile))
                 JumpSeq(176);
@@ -977,7 +1056,7 @@ void far pascal snake_go_into_hole(OpponentRecord near *record)
             }
         } else {
             tile = get_cells_ahead(1);
-            if (is_open_tile(tile) || (tile == 7 && (tile_flags & 128)))
+            if (is_open_tile(tile) || (tile == 7 && (((unsigned char *)&Cell.modifier)[0] & 128)))
                 JumpSeq(177);
         }
     } else {
@@ -1023,7 +1102,7 @@ void far pascal snake_update_opp_info(OpponentRecord near *record)
         record->mode = Rnd(60) + 36;
     } else {
         tile = get_cells_ahead(1);
-        if (!is_open_tile(tile) && (tile != 7 || !(tile_flags & 128)) &&
+        if (!is_open_tile(tile) && (tile != 7 || !(((unsigned char *)&Cell.modifier)[0] & 128)) &&
             (Char.sequence == 176 || Char.sequence == 168 || Char.sequence == 170)) {
             record->prefix[3] = ~Char.direction;
             *(int near *)&record->prefix[1] = AddCharX(-32);

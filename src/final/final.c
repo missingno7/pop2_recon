@@ -1,3 +1,78 @@
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+
+typedef struct {
+    int x, y;                                         /* 00,02 */
+    unsigned char room;                               /* 04 */
+    int velocity, auxiliary;                          /* 05,07 */
+    signed char kind, row;                             /* 09-0a */
+    unsigned int flags;                               /* 0b */
+} MOBREC;
+
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+
 /* FINAL.C, MSC 6.00A medium model. Claims and drafts are listed in notes.md. */
 
 #pragma pack(1)
@@ -46,22 +121,21 @@ typedef struct {
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
 
-extern byte viewed_room;
-extern byte environment_kind;
+extern ROOMREC Room;
+extern LEVELREC Level;
 extern int Pause;
 extern CHARREC Char;
 extern CHARREC RoomOpp[5];
+extern CHARREC Opp;
 extern CHARREC Kid;
-extern int defeated_opponents;
-extern byte tile_kind[][30];
-extern unsigned int custom_tile_fields[][30][2];
+extern int trob_count;
 
-extern sbyte far pascal tile_at(sbyte kind, sbyte room, sbyte column);
+extern sbyte far pascal ReadCell(sbyte kind, sbyte room, sbyte column);
 extern unsigned int far pascal Rnd(unsigned int max);
 extern sbyte far pascal FirstInRow(sbyte row);
-extern void far pascal add_timer(sbyte kind);
-extern void far pascal mark_cell(sbyte kind, sbyte cell);
-extern void far pascal refresh_cell(int cell);
+extern void far pascal select_room_arrays(sbyte kind);
+extern void far pascal trigger_flask(sbyte kind, sbyte cell);
+extern void far pascal mark_redraw(int cell);
 extern void far pascal JumpSeq(int sequence);
 extern void far pascal AddSound(int sound);
 extern int far pascal is_dead_pos(int sequence);
@@ -72,12 +146,12 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room);
 
 void far pascal draw_final_object(register FinalObject near *object)
 {
-    if (viewed_room == 6 && environment_kind == 6 &&
+    if (Room.number == 6 && Level.environment_kind == 6 &&
         (object->animation & 0x1000))
         draw_crystal(object);
 
-    if ((viewed_room == 7 || viewed_room == 8) &&
-        environment_kind == 6 && (object->animation & 0x1000))
+    if ((Room.number == 7 || Room.number == 8) &&
+        Level.environment_kind == 6 && (object->animation & 0x1000))
         draw_gargoyle(object);
 }
 
@@ -92,16 +166,16 @@ void far pascal check_dead_opponent(void)
         sbyte cell;
         unsigned int frame;
 
-        cell = tile_at(Char.room, Char.column, Char.row);
+        cell = ReadCell(Char.room, Char.column, Char.row);
         frame = Rnd(2);
-        if (frame != 0 && cell == 1 && defeated_opponents < 4) {
+        if (frame != 0 && cell == 1 && trob_count < 4) {
             cell = FirstInRow(Char.row) + Char.column;
             if (cell < 22 || cell > 24) {
-                tile_kind[3][cell] = 10;
-                custom_tile_fields[3][cell][0] = (frame | 0x200) << 5;
-                add_timer(3);
-                mark_cell(3, cell);
-                refresh_cell(cell);
+                Level.cell_kinds[2][cell] = 10;
+                Level.cell_info[2][cell].modifier = (frame | 0x200) << 5;
+                select_room_arrays(3);
+                trigger_flask(3, cell);
+                mark_redraw(cell);
             }
         }
         ++Char.alive;
@@ -155,10 +229,8 @@ typedef struct {
     sbyte row;
 } OpponentSlot;
 
-extern sbyte opponent_serial;
 extern int ColEdgeX[20];
 extern byte opponent_bank;
-extern sbyte level_kind;
 extern const byte opponent_style_for_level[];
 
 extern OpponentSlot near *far pascal reserve_opponent(int bank, int serial);
@@ -174,7 +246,7 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     sbyte index;
     OpponentSlot near *opponent;
 
-    opponent = reserve_opponent(3, index = opponent_serial++);
+    opponent = reserve_opponent(3, index = Level.room_objects[2].opponent_count++);
     opponent->cell = FirstInRow(room) + variant;
     opponent->x = ColEdgeX[variant + 5];
     if (variant < 5)
@@ -194,7 +266,7 @@ void far pascal FinlGenerateOpp(sbyte variant, sbyte room)
     Char.slot = index;
     Char.direction = opponent->direction;
     Char.x = opponent->x;
-    Char.character_kind = opponent_style_for_level[level_kind];
+    Char.character_kind = opponent_style_for_level[((sbyte)Level.preferred_opponent)];
     Char.column = variant;
     Char.row = room;
     (*(volatile unsigned char *)&Char.behavior) = 0;
@@ -220,23 +292,17 @@ void far pascal final_noop(void)
 {
 }
 
-extern int clip_result;
+extern FCHARREC FChar;
 
 void far pascal clip_final_character(void)
 {
-    if (Char.room == 3 && environment_kind == 6 &&
+    if (Char.room == 3 && Level.environment_kind == 6 &&
         Char.row == 1 && is_dead_pos((int)Char.frame))
-        clip_result = 119;
+        FChar.clip_bottom = 119;
 }
-
-typedef struct {
-    byte opponent_count;
-    byte data[115];
-} FinalRoom;
 
 extern sbyte CutRoom;
 extern byte scroll_pending;
-extern FinalRoom room_state[];
 extern int sound_period;
 extern byte LevelIdx;
 extern void far pascal ClrAll(void);
@@ -278,17 +344,17 @@ void far pascal run_final_frame(void)
     if (!query_sound(sound_period + 10000)) {
         int tune = -1;
 
-        switch (viewed_room) {
+        switch (Room.number) {
         case 3:
             tune = 269;
             break;
         case 6:
-            if (room_state[6].opponent_count)
+            if (Level.room_objects[6 - 1].opponent_count)
                 tune = 270;
             break;
         case 7:
         case 8:
-            if (room_state[viewed_room].opponent_count)
+            if (Level.room_objects[Room.number - 1].opponent_count)
                 tune = 263;
             break;
         }
@@ -371,7 +437,6 @@ void far pascal sort_foreground(void)
 }
 
 extern int player_right;
-extern CHARREC Opp;
 extern byte screen_tile;
 extern void far pascal copy_kid_to_char(void);
 extern void far pascal load_actor_slot(sbyte slot);
@@ -400,8 +465,8 @@ void far pascal FinlWatchKid(void)
 
         load_actor_slot(GetKidIdxAsOpp());
         room = register_actor_room();
-        if ((room == 7 || room == 8) && environment_kind == 6 &&
-            Kid.room == 5 && environment_kind == 6 && Kid.column <= 4 &&
+        if ((room == 7 || room == 8) && Level.environment_kind == 6 &&
+            Kid.room == 5 && Level.environment_kind == 6 && Kid.column <= 4 &&
             (animation_frames[(int)Kid.frame].flags & 0x40)) {
             copy_kid_to_char();
             decrement_life_points(100);
@@ -417,7 +482,7 @@ void far pascal FinlWatchKid(void)
 void far pascal FinlWatchOpps(void)
 {
     sbyte i;
-    sbyte count = room_state[viewed_room].opponent_count;
+    sbyte count = Level.room_objects[Room.number - 1].opponent_count;
 
     if (count) {
         i = 0;
@@ -427,7 +492,7 @@ void far pascal FinlWatchOpps(void)
                 save_actor_slot();
             } while (count > ++i);
     }
-    if (viewed_room == 3 && environment_kind == 6)
+    if (Room.number == 3 && Level.environment_kind == 6)
         check_new_opponent(count);
 }
 
@@ -436,7 +501,7 @@ void far pascal run_jaffar_in_escher(void);
 
 void far pascal run_jaffar(void)
 {
-    if (Char.room == 6 && environment_kind == 6) {
+    if (Char.room == 6 && Level.environment_kind == 6) {
         run_jaffar_in_crystal();
         return;
     }
@@ -447,7 +512,7 @@ void far pascal dismiss_other_jaffars(void)
 {
     CHARREC saved = Char;
     sbyte i = 0;
-    sbyte count = room_state[(byte)Opp.room].opponent_count;
+    sbyte count = Level.room_objects[(byte)Opp.room - 1].opponent_count;
 
     if (count > 0)
         do {
@@ -545,7 +610,7 @@ int far pascal jaffar_has_clear_shot(void)
     int clear = 0;
 
     if (Opp.life_points > 0 && (Opp.room == 7 || Opp.room == 8) &&
-        environment_kind == 6 && Char.row == Opp.row &&
+        Level.environment_kind == 6 && Char.row == Opp.row &&
         (animation_frames[(int)Char.frame].flags & 0x40) && Char.frame != 109) {
         sbyte position = Char.column;
 
@@ -895,7 +960,7 @@ extern int abs(int x);
 void far pascal run_jaffar_in_crystal(void)
 {
     if (Char.alive < 0) {
-        sbyte count = room_state[(byte)Char.room].opponent_count;
+        sbyte count = Level.room_objects[(byte)Char.room - 1].opponent_count;
 
         if (Opp.character_kind == 1)
             --count;
@@ -990,7 +1055,7 @@ void far pascal update_jaffar_slot(OpponentSlot near *opponent)
 {
     sbyte near *stance = opponent->stance;
 
-    if (!((CutRoom == 7 || CutRoom == 8) && environment_kind == 6) &&
+    if (!((CutRoom == 7 || CutRoom == 8) && Level.environment_kind == 6) &&
         stance[2] != stance[1]) {
         const PositionRule near *rule;
 
@@ -1069,14 +1134,14 @@ void far pascal load_chess(void)
 {
     fade_scene(3500, 64, 192, 1);
     fade_scene(1000, 240, 16, 0);
-    if (viewed_room == 4 && environment_kind == 6) {
+    if (Room.number == 4 && Level.environment_kind == 6) {
         unsigned int previous = Graf;
 
         Graf = current_sound_bank;
         STROKE_PORT_RECT(&GamePlayRect);
         Graf = previous;
         AddSong(268);
-    } else if (viewed_room == 3 && environment_kind == 6) {
+    } else if (Room.number == 3 && Level.environment_kind == 6) {
         fade_scene(3000, 224, 16, 0);
         AddSong(269);
     }
@@ -1089,7 +1154,6 @@ typedef struct {
 
 extern unsigned int smoke_frame_index;
 extern unsigned int smoke_resource;
-extern int smoke_shape;
 extern int smoke_y;
 extern byte smoke_mode;
 extern byte smoke_shape_state;
@@ -1109,7 +1173,7 @@ void far pascal setup_guard_smoke(void)
         SmokeFrame far *frame = &frames[index];
 
         if (frame->shape != -1) {
-            smoke_shape = frame->shape;
+            FChar.image = frame->shape;
             change_smoke_x(frame->x_offset);
             smoke_y += frame->y_offset;
             smoke_mode = 3;
@@ -1255,10 +1319,10 @@ void far pascal setup_crystal_room(void)
     fade_scene(1000, 240, 16, 0);
     fade_scene(25001, 32, 16, 7);
     crystal_serial = 0;
-    if (viewed_room == 7) {
+    if (Room.number == 7) {
         fade_scene(3000, 224, 16, gargoyle_serial = 0);
         AddSong(263);
-    } else if (viewed_room == 8) {
+    } else if (Room.number == 8) {
         gargoyle_serial = 6;
         AddSong(263);
     } else {
@@ -1291,7 +1355,7 @@ void far pascal animate_crystal(void)
 
             state &= 0xf80f;
             if (--ticks <= 0) {
-                if (fade_active && defeated_opponents)
+                if (fade_active && trob_count)
                     state |= (Rnd(40) + 40) << 4;
                 else
                     state |= 0x800;
@@ -1346,7 +1410,7 @@ void far pascal animate_gargoyle(void)
         unsigned int state = BlueSpec;
         byte serial = (byte)(state & 15);
 
-        if ((serial < 6 && viewed_room == 7) || (serial >= 6 && viewed_room == 8)) {
+        if ((serial < 6 && Room.number == 7) || (serial >= 6 && Room.number == 8)) {
             if (state & 0x800) {
                 unsigned int frame = ((state & 0x7f0) >> 4) + 1;
 
@@ -1367,7 +1431,7 @@ void far pascal animate_gargoyle(void)
                 state &= 0xf80f;
                 if (--ticks > 0)
                     state |= ticks << 4;
-                else if (fade_active && defeated_opponents)
+                else if (fade_active && trob_count)
                     state |= (Rnd(40) + 30) << 4;
                 else
                     state |= 0x800;
@@ -1414,18 +1478,11 @@ void far pascal trigger_gargoyle(sbyte row, sbyte col)
     add_trob(row, col, 1, 42);
 }
 
-extern int fireball_x, fireball_y;
-extern byte fireball_room;
-extern int fireball_active;
-extern volatile int fireball_velocity;
-extern unsigned int fireball_phase;
-extern byte fireball_kind, fireball_row;
-extern byte left_room, right_room;
+extern MOBREC Mob;
 extern int fireball_half_width, fireball_height;
 extern int player_left;
 extern byte object_bucket;
 extern unsigned int fireball_sheet;
-extern int fireball_draw_x, fireball_draw_y;
 extern int object_counter;
 
 extern byte far pascal GetRow(int y);
@@ -1465,22 +1522,22 @@ void far pascal trigger_fireball(void);
 void far pascal update_fireball_view(void)
 {
     int visible = 1;
-    volatile int y = fireball_y;
+    volatile int y = Mob.y;
 
-    if (fireball_room == viewed_room) {
-        if (fireball_x > 449 || fireball_x < 0)
+    if (Mob.room == Room.number) {
+        if (Mob.x > 449 || Mob.x < 0)
             visible = 0;
-    } else if (left_room == fireball_room) {
-        if (fireball_x + fireball_half_width > 320) {
-            fireball_x -= 320;
-            fireball_room = viewed_room;
+    } else if (Room.left == Mob.room) {
+        if (Mob.x + fireball_half_width > 320) {
+            Mob.x -= 320;
+            Mob.room = Room.number;
         } else {
             visible = 0;
         }
-    } else if (right_room == fireball_room) {
-        if (fireball_x - fireball_half_width < 320) {
-            fireball_x += 320;
-            fireball_room = viewed_room;
+    } else if (Room.right == Mob.room) {
+        if (Mob.x - fireball_half_width < 320) {
+            Mob.x += 320;
+            Mob.room = Room.number;
         } else {
             visible = 0;
         }
@@ -1493,20 +1550,20 @@ void far pascal update_fireball_view(void)
         unsigned int image;
         int size[2];
 
-        object_bucket = shape_position((col = fireball_x / 32), GetRow(y));
-        image = get_fireball_image(fireball_phase);
+        object_bucket = shape_position((col = Mob.x / 32), GetRow(y));
+        image = get_fireball_image(Mob.flags);
         if (check_shape_dimensions(fireball_sheet, image, size)) {
             register int saved_y;
-            int x = fireball_x;
+            int x = Mob.x;
             saved_y = y;
-            fireball_x -= size[1] / 2;
-            fireball_y = saved_y + size[0] / 2;
+            Mob.x -= size[1] / 2;
+            Mob.y = saved_y + size[0] / 2;
             fireball_height = size[0];
             fireball_half_width = size[1];
-            submit_fireball_y(fireball_y);
+            submit_fireball_y(Mob.y);
             update_fireball_shape(1);
-            fireball_y = saved_y;
-            fireball_x = x;
+            Mob.y = saved_y;
+            Mob.x = x;
         }
     }
 }
@@ -1524,7 +1581,7 @@ void far pascal check_fireball_hit_character(void)
             if (ball && ball->row == Char.row && !(ball->flags & 8)) {
                 if (ball->room == (byte)Char.room)
                     offset = 0;
-                else if (Char.room == 8 && environment_kind == 6)
+                else if (Char.room == 8 && Level.environment_kind == 6)
                     offset = -320;
                 else
                     offset = 320;
@@ -1546,19 +1603,19 @@ void far pascal check_fireball_hit_character(void)
 
 void far pascal check_fireball_hit_wall(void)
 {
-    int x = fireball_x + fireball_half_width - 14;
+    int x = Mob.x + fireball_half_width - 14;
     sbyte col;
 
-    if (fireball_velocity < 0)
+    if ((*(volatile int near *)&Mob.auxiliary) < 0)
         x -= 2 * fireball_half_width;
     col = x / 32;
     if (x < 0)
         --col;
-    if (tile_blocks_fireball(tile_at(fireball_room, col, fireball_row))) {
-        fireball_x = col * 32 + 14;
-        if (fireball_velocity < 0)
-            fireball_x += 32;
-        fireball_phase = 8;
+    if (tile_blocks_fireball(ReadCell(Mob.room, col, Mob.row))) {
+        Mob.x = col * 32 + 14;
+        if ((*(volatile int near *)&Mob.auxiliary) < 0)
+            Mob.x += 32;
+        Mob.flags = 8;
         AddSound(259);
         dispatch_sound(0x281a);
     }
@@ -1580,9 +1637,9 @@ int far pascal do_throw_fireball(void)
 
 void far pascal draw_fireball_object(FinalObject near *object)
 {
-    int image = get_fireball_image(smoke_shape);
+    int image = get_fireball_image(FChar.image);
 
-    queue_fireball(2, image + 1, fireball_draw_x, fireball_draw_y, 10);
+    queue_fireball(2, image + 1, FChar.x, FChar.y, 10);
     fireball_queue[object_counter].flags = 8;
     fireball_queue[object_counter].mode = 0;
 }
@@ -1604,28 +1661,28 @@ int far _fastcall get_fireball_image(unsigned int state)
 
 void far pascal move_fireball(void)
 {
-    if (fireball_active >= 0) {
-        unsigned int frame = fireball_phase & 7;
+    if (Mob.velocity >= 0) {
+        unsigned int frame = Mob.flags & 7;
 
-        if (fireball_phase & 8) {
+        if (Mob.flags & 8) {
             if (frame >= 5)
-                fireball_active = -1;
+                Mob.velocity = -1;
             else
                 ++frame;
         } else {
-            if (fireball_velocity > 0) {
-                if (fireball_velocity < 16)
-                    fireball_velocity += 2;
-            } else if (fireball_velocity > -16) {
-                fireball_velocity -= 2;
+            if ((*(volatile int near *)&Mob.auxiliary) > 0) {
+                if ((*(volatile int near *)&Mob.auxiliary) < 16)
+                    (*(volatile int near *)&Mob.auxiliary) += 2;
+            } else if ((*(volatile int near *)&Mob.auxiliary) > -16) {
+                (*(volatile int near *)&Mob.auxiliary) -= 2;
             }
-            fireball_x += fireball_velocity;
-            if (fireball_room == 0) {
-                fireball_active = -1;
+            Mob.x += (*(volatile int near *)&Mob.auxiliary);
+            if (Mob.room == 0) {
+                Mob.velocity = -1;
                 dispatch_sound(0x2812);
             } else {
                 check_fireball_hit_wall();
-                if (!(fireball_phase & 8)) {
+                if (!(Mob.flags & 8)) {
                     if (frame >= 3)
                         frame = 0;
                     else
@@ -1634,14 +1691,14 @@ void far pascal move_fireball(void)
                 }
             }
         }
-        if (fireball_active == -1) {
+        if (Mob.velocity == -1) {
             if (Kid.life_points <= 2) {
                 fade_scene(2000, 48, 16, 0);
                 return;
             }
         } else {
-            fireball_phase &= ~7;
-            fireball_phase |= frame;
+            Mob.flags &= ~7;
+            Mob.flags |= frame;
         }
     }
 }
@@ -1657,14 +1714,14 @@ void far pascal trigger_fireball(void)
 {
     int y;
 
-    fireball_x = AddCharX(27) - 130;
-    fireball_y = y = Char.y - 29;
-    fireball_room = (byte)Char.room;
-    fireball_active = 0;
-    fireball_velocity = direction_step[Char.direction] * 8;
-    fireball_kind = 12;
-    fireball_row = GetRow(y);
-    fireball_phase = 2;
+    Mob.x = AddCharX(27) - 130;
+    Mob.y = y = Char.y - 29;
+    Mob.room = (byte)Char.room;
+    Mob.velocity = 0;
+    (*(volatile int near *)&Mob.auxiliary) = direction_step[Char.direction] * 8;
+    Mob.kind = 12;
+    Mob.row = GetRow(y);
+    Mob.flags = 2;
     check_fireball_hit_wall();
     add_mob();
     AddSound(258);
