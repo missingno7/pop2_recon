@@ -150,7 +150,7 @@ typedef struct {
 extern FCHARREC FChar;
 
 extern void save_actor_slot(void), copy_kid_to_char(void), load_actor_slot(signed char), remove_char(void);
-extern void clear_life_bar(void), position_char(int, int), AddSong(int), AddSound(int);
+extern void clear_life_bar(void), DrawKidMeter(int, int), AddSong(int), AddSound(int);
 extern void JumpSeq(int), step_forward(int), run_jump(int), FallOn(void);
 extern int IsCharSwingingFwd(void);
 extern void climb_up(void);
@@ -184,7 +184,7 @@ void altar_kid_rises_from_death(void)
     Char.alive = -1;
     Char.life_points = Char.life_initial;
     clear_life_bar();
-    position_char(Char.life_points, Char.life_initial);
+    DrawKidMeter(Char.life_points, Char.life_initial);
     Char.sequence_group = 13;
     Char.stance = 0;
     Kid = Char;

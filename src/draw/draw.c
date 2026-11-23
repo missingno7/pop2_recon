@@ -189,7 +189,7 @@ extern DirtyCell redraw_fore_cells[], redraw_top_cells[];
 
 extern int SECTRECT(DrawRect far *out, const DrawRect far *a,
                           const DrawRect far *b);
-extern void union_rect(DrawRect far *out, const DrawRect far *a,
+extern void UnionRect(DrawRect far *out, const DrawRect far *a,
                        const DrawRect far *b);
 extern int compute_half_rect(DrawRect *area);
 extern void draw_half_cell(void);
@@ -201,67 +201,60 @@ extern void draw_cell_objects(char column);
 #define WORD_FLAG(table, byte_offset) \
     (*(int *)((char *)(table) + (byte_offset)))
 
+#pragma optimize("gl", on)
 void redraw_cell_fast(char column)
 {
     DrawRect old_clip;
-    struct { int dirty_offset, cell, word_offset; } state;
 
-    state.cell = column;
-    state.word_offset = state.cell * sizeof(int);
-
-    if (WORD_FLAG(redraw_whole_cell, state.word_offset)) {
-        WORD_FLAG(redraw_whole_cell, state.word_offset) = 0;
+    if (redraw_whole_cell[column]) {
+        redraw_whole_cell[column] = 0;
         redraw_cell_sure();
-    } else {
-        state.dirty_offset = state.cell * sizeof(DirtyCell);
-        if (DIRTY_CELL(redraw_back_cells, state.dirty_offset).pending) {
-            DIRTY_CELL(redraw_back_cells, state.dirty_offset).pending = 0;
-            old_clip = clip_rect;
-            if (SECTRECT(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_back_cells, state.dirty_offset).area)) {
-                draw_back_image(0);
-                draw_back_image(5);
-                draw_back_image(11);
-                draw_fore_image();
-            }
-            clip_rect = old_clip;
-        }
-    }
-    state.dirty_offset = state.cell * sizeof(DirtyCell);
-    if (DIRTY_CELL(redraw_floor_cells, state.dirty_offset).pending) {
-        DIRTY_CELL(redraw_floor_cells, state.dirty_offset).pending = 0;
-        if (WORD_FLAG(redraw_half_cell, state.word_offset) && compute_half_rect(&old_clip))
-            union_rect(&DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area,
-                       &DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area, &old_clip);
+    } else if (redraw_back_cells[column].pending) {
+        redraw_back_cells[column].pending = 0;
         old_clip = clip_rect;
-        if (SECTRECT(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_floor_cells, state.dirty_offset).area))
+        if (SECTRECT(&clip_rect, &clip_rect, &redraw_back_cells[column].area)) {
+            draw_back_image(0);
+            draw_back_image(5);
+            draw_back_image(11);
+            draw_fore_image();
+        }
+        clip_rect = old_clip;
+    }
+    if (redraw_floor_cells[column].pending) {
+        redraw_floor_cells[column].pending = 0;
+        if (redraw_half_cell[column] && compute_half_rect(&old_clip))
+            UnionRect(&redraw_floor_cells[column].area, &redraw_floor_cells[column].area, &old_clip);
+        old_clip = clip_rect;
+        if (SECTRECT(&clip_rect, &clip_rect, &redraw_floor_cells[column].area))
             draw_floor_buffer();
         clip_rect = old_clip;
-    } else if (WORD_FLAG(redraw_half_cell, state.word_offset)) {
-        WORD_FLAG(redraw_half_cell, state.word_offset) = 0;
+    } else if (redraw_half_cell[column]) {
+        redraw_half_cell[column] = 0;
         draw_half_cell();
     }
-    if (redraw_cell_objects[state.cell]) {
+    if (redraw_cell_objects[column]) {
         draw_cell_objects(column);
-        redraw_cell_objects[state.cell] = 0;
+        redraw_cell_objects[column] = 0;
     }
-    if (DIRTY_CELL(redraw_fore_cells, state.dirty_offset).pending) {
-        DIRTY_CELL(redraw_fore_cells, state.dirty_offset).pending = 0;
-        if (SECTRECT(&clip_rect, &clip_rect, &DIRTY_CELL(redraw_fore_cells, state.dirty_offset).area))
+    if (redraw_fore_cells[column].pending) {
+        redraw_fore_cells[column].pending = 0;
+        if (SECTRECT(&clip_rect, &clip_rect, &redraw_fore_cells[column].area))
             draw_fore_image();
     }
 }
+#pragma optimize("gl", off)
 
+#pragma optimize("gl", on)
 void redraw_top_fast(char column)
 {
-    int dirty_offset = column * sizeof(DirtyCell);
     char old_row;
     DrawRect old_clip;
 
-    if (DIRTY_CELL(redraw_top_cells, dirty_offset).pending) {
-        DIRTY_CELL(redraw_top_cells, dirty_offset).pending = 0;
+    if (redraw_top_cells[column].pending) {
+        redraw_top_cells[column].pending = 0;
         old_row = draw_row;
         old_clip = clip_rect;
-        clip_rect = DIRTY_CELL(redraw_top_cells, dirty_offset).area;
+        clip_rect = redraw_top_cells[column].area;
         draw_row = -1;
         draw_back_image(0);
         draw_back_image(5);
@@ -271,6 +264,7 @@ void redraw_top_fast(char column)
         clip_rect = old_clip;
     }
 }
+#pragma optimize("gl", off)
 
 /* Packed tile and image records used by the drawing passes. */
 #pragma pack(1)
@@ -322,11 +316,14 @@ typedef struct DrawEntry {
 #pragma pack()
 
 typedef void (far pascal *TileDrawer)(TileDrawArgs *args);
-extern TileDrawer *tile_drawers;
+typedef struct LooseItemDrawer {
+    TileDrawer base, item;
+} LooseItemDrawer;
+extern LooseItemDrawer *loose_item_drawer;
 extern RoomImages *room_images;
 extern TileInfo BlueSpec;
-extern signed char drawn_tile_kind, CellLeft;
-extern TileInfo left_tile_info;
+extern signed char drawn_tile_kind;
+extern Tile CellLeft;
 extern Tile above_tiles[], below_tiles[];
 extern int force_full_clip;
 extern DrawRect GamePlayRect;
@@ -346,10 +343,11 @@ extern int draw_pillar_in_back(RoomImage *image);
 extern void draw_horse(unsigned int sheet, unsigned int shape, char pass);
 extern unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *sheet);
 
+#pragma optimize("gl", on)
 void draw_back_image(unsigned char pass)
 {
-    unsigned char priority;
     unsigned char layer;
+    unsigned char priority;
     struct { unsigned long address; TileDrawArgs args; } draw;
 
     layer = back_image_start_pass();
@@ -390,18 +388,19 @@ void draw_back_image(unsigned char pass)
         draw_left:
             draw.args.column = draw_column - 1;
             draw.args.row = draw_row;
-            draw.args.kind = CellLeft;
-            draw.args.info = left_tile_info;
+            draw.args.kind = CellLeft.kind;
+            draw.args.info = CellLeft.info;
             break;
         }
         priority = (draw.args.info.words[0] >> 14) & 3;
         if (!room_images || !priority || priority == pass || (priority == 2 && pass == 5)) {
-            draw.address = (unsigned long)tile_drawers[draw.args.kind];
+            draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[draw.args.kind];
             if (draw.address)
                 ((TileDrawer)draw.address)(&draw.args);
         }
     } while (++layer < 4);
 }
+#pragma optimize("gl", off)
 
 unsigned char back_image_start_pass(void)
 {
@@ -410,7 +409,7 @@ unsigned char back_image_start_pass(void)
 
     custom_edge = force_full_clip &&
         ((drawn_tile_kind != 7 && IsWall(drawn_tile_kind) &&
-          CellLeft != 7 && IsWall(CellLeft)) ||
+          CellLeft.kind != 7 && IsWall(CellLeft.kind)) ||
          (draw_column != 0 && draw_row != 2));
     if (custom_edge)
         pass = 3;
@@ -501,6 +500,7 @@ queued:
     entry->sheet = image->sheet;
 }
 
+#pragma optimize("gl", on)
 void draw_fore_image(void)
 {
     unsigned char layer, priority;
@@ -519,8 +519,8 @@ void draw_fore_image(void)
         case 0:
             draw.args.column = draw_column - 1;
             draw.args.row = draw_row;
-            draw.args.kind = CellLeft;
-            draw.args.info = left_tile_info;
+            draw.args.kind = CellLeft.kind;
+            draw.args.info = CellLeft.info;
             break;
         case 1:
             draw.args.column = draw_column;
@@ -539,13 +539,14 @@ void draw_fore_image(void)
         }
         priority = (draw.args.info.words[0] >> 14) & 3;
         if (!room_images || !priority || priority == 1 || priority == 2) {
-            draw.address = (unsigned long)tile_drawers[draw.args.kind];
+            draw.address = (unsigned long)((TileDrawer *)loose_item_drawer)[draw.args.kind];
             if (draw.address)
                 ((TileDrawer)draw.address)(&draw.args);
         }
     } while (++layer < 3 && (layer < 2 || draw_row != -1));
     draw_custom_room_images(1);
 }
+#pragma optimize("gl", off)
 
 #pragma pack(1)
 typedef struct GateImage {
@@ -591,26 +592,23 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 
+extern signed char meter_phase;
 extern CHARREC Kid;
-extern unsigned char gate_number, gate_kind;
-extern signed char gate_column, gate_row;
+extern CHARREC Char;
 extern TileDrawer draw_gate;
-extern void draw_special_gate(TileDrawArgs *args);
-extern void examine_first_gate(void);
-extern void examine_gate(char index);
+extern void DrawCaveGateSquishing(TileDrawArgs *args);
+extern void copy_kid_to_char(void);
+extern void load_actor_slot(char index);
 extern GateImage *get_gate_image(char type, unsigned char index);
-extern int empty_rect(DrawRect far *rect);
+extern int EMPTYRECT(DrawRect far *rect);
 
+#pragma optimize("gl", on)
 void check_foreground_gate(void)
 {
-    unsigned char found;
-    signed char index, count;
-    int matches;
+    signed char count, index;
+    int found;
     TileDrawArgs args;
-    struct {
-        volatile int distance;
-        DrawRect saved_clip;
-    } state;
+    DrawRect saved_clip;
     GateImage *image;
 
     if (Kid.frame >= 264 && Kid.frame <= 266) {
@@ -620,53 +618,51 @@ void check_foreground_gate(void)
             if (drawn_tile_kind == 4) {
                 args.column = draw_column;
                 args.info = BlueSpec;
-                draw_special_gate(&args);
-            } else if (CellLeft == 4) {
+                DrawCaveGateSquishing(&args);
+            } else if (CellLeft.kind == 4) {
                 args.column = draw_column - 1;
-                args.info = left_tile_info;
-                draw_special_gate(&args);
+                args.info = CellLeft.info;
+                DrawCaveGateSquishing(&args);
             }
         }
         return;
     }
-    if (CellLeft != 4)
+    if (CellLeft.kind != 4)
         return;
-    state.saved_clip = clip_rect;
-    examine_first_gate();
-    matches = CellLeft == 4 && gate_row == draw_row &&
-              ((state.distance = draw_column - gate_column) - 1 == 0 || state.distance == 2) &&
-              gate_kind != 2 && gate_kind != 6;
-    if (matches) {
-        found = 1;
-        image = get_gate_image(2, 0);
-    } else {
+    saved_clip = clip_rect;
+    copy_kid_to_char();
+    found = CellLeft.kind == 4 && Char.row == draw_row &&
+            (draw_column - Char.column == 1 || draw_column - Char.column == 2) &&
+            Char.action != 2 && Char.action != 6;
+    if (!found) {
         count = Level.room_objects[Room.number - 1].opponent_count;
-        for (index = 0; index < count && !matches; ++index) {
-            examine_gate(index);
-            matches = CellLeft == 4 && gate_row == draw_row &&
-                      ((state.distance = draw_column - gate_column) - 1 == 0 || state.distance == 2) &&
-                      gate_kind != 2 && gate_kind != 6;
+        for (index = 0; !found && index < count; ++index) {
+            load_actor_slot(index);
+            found = CellLeft.kind == 4 && Char.row == draw_row &&
+                    (draw_column - Char.column == 1 || draw_column - Char.column == 2) &&
+                    Char.action != 2 && Char.action != 6;
         }
-        found = matches;
         if (found)
-            image = get_gate_image(3, gate_number);
-    }
+            image = get_gate_image(3, (unsigned char)Char.character_kind);
+    } else
+        image = get_gate_image(2, 0);
     if (found) {
         args.pass = 2;
         args.column = draw_column - 1;
         args.row = draw_row;
-        args.info = left_tile_info;
+        args.info = CellLeft.info;
         if (draw_gate) {
             if (force_full_clip)
                 clip_rect.top = 63 * args.row + 3;
             else if (image)
                 SECTRECT(&clip_rect, &clip_rect, &image->clip);
-            if (!empty_rect(&clip_rect))
+            if (!EMPTYRECT(&clip_rect))
                 draw_gate(&args);
         }
     }
-    clip_rect = state.saved_clip;
+    clip_rect = saved_clip;
 }
+#pragma optimize("gl", off)
 
 extern _segment room_queue_segment;
 extern DrawEntry _based(room_queue_segment) back_entries[];
@@ -732,8 +728,8 @@ extern ShapeTable *shape_tables[];
 extern MiddleEntry far middle_queue[];
 extern _segment middle_queue_segment;
 extern MiddleEntry _based(middle_queue_segment) middle_entries[];
-extern ShapeBitmap far *lock_shape(unsigned int handle);
-extern ShapeBitmap far *locate_shape(unsigned int handle);
+extern ShapeBitmap far *resolve_handle_to_far_payload(unsigned int);
+extern ShapeBitmap far *fetch_locked_shape_list(unsigned int);
 extern unsigned int mark_shape(unsigned int handle);
 extern void restore_shape(unsigned int handle, unsigned int mark);
 extern void load_shape_ref(ShapeTable *table, int image, ShapeRef far *reference);
@@ -786,7 +782,7 @@ void draw_back_fore_item(unsigned char pass, unsigned char index)
             flags = 0;
         }
         load_shape_ref(table, image_number, &ref);
-        image = lock_shape(ref.handle);
+        image = resolve_handle_to_far_payload(ref.handle);
         if (!image)
             return;
     } else {
@@ -864,7 +860,7 @@ void draw_middle_item(int index)
     }
     flip = middle_entries[index].attributes;
     mark = mark_shape(ref.handle);
-    image = locate_shape(ref.handle);
+    image = fetch_locked_shape_list(ref.handle);
     x = entry->x;
     palette = &entry->palette;
     if (*palette)
@@ -914,13 +910,32 @@ typedef struct DrawDestination {
 } DrawDestination;
 
 extern DrawDestination *Graf;
+static unsigned char far *saved_palette = 0;
+static unsigned char far *saved_text_palette = 0;
+static const DrawRect half_tile_rectangles[10] = {
+    {57, 0, 63, 16},
+    {57, 0, 63, 16},
+    {57, 0, 63, 17},
+    {57, 0, 63, 20},
+    {57, 0, 63, 15},
+    {57, 0, 63, 16},
+    {57, 0, 63, 19},
+    {59, 0, 63, 14},
+    {59, 0, 63, 13},
+    {59, 0, 63, 13},
+};
+static const int horse_level9_origin[] = {22, 159};
+static const int horse_level10_origin[] = {102, 119};
+int horse_level14_origin[] = {37, 112};
+
 extern char missing_shape_format[];
-extern int cdecl format_draw_error(char *out, const char *fmt, ...);
-extern void report_draw_error(int severity, const char far *message);
-extern void copy_shape(ShapeBitmap far *image, int x, int y, int flip);
-extern void copy_shape_mode(ShapeBitmap far *image, int x, int y, int flip, unsigned int flags);
+extern char dirty_rectangle_error[];
+extern int cdecl sprintf(char *out, const char *fmt, ...);
+extern void abort_with_message(int severity, const char far *message);
+extern void paint_plain(ShapeBitmap far *image, int x, int y, int flip);
+extern void paint_indexed_shape(ShapeBitmap far *image, int x, int y, int flip, unsigned int flags);
 extern void copy_shape_special(ShapeBitmap far *image, int x, int y, int flip);
-extern void copy_shape_mask(ShapeBitmap far *mask, int x, int y, int color, int flip);
+extern void paint_four_bit(ShapeBitmap far *mask, int x, int y, int color, int flip);
 extern void add_dirty_rectangle(DrawRect *rect);
 
 void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
@@ -934,8 +949,8 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
     char message[150];
 
     if (!image && !mask) {
-        format_draw_error(message, missing_shape_format, x, y, flip, mode);
-        report_draw_error(1, message);
+        sprintf(message, missing_shape_format, x, y, flip, mode);
+        abort_with_message(1, message);
     }
     if (image) {
         switch (flip) {
@@ -946,18 +961,18 @@ void draw_bitmap(ShapeBitmap far *image, ShapeBitmap far *mask, int x, int y,
                 break;
             }
             if (mode == 3) {
-                copy_shape_mode(image, x, y, flip, flags);
+                paint_indexed_shape(image, x, y, flip, flags);
                 break;
             }
         case 2:
         case 3:
         case 8:
-            copy_shape(image, x, y, flip);
+            paint_plain(image, x, y, flip);
             break;
         }
         size = *(BitmapSize far *)image;
     } else {
-        copy_shape_mask(mask, x, y, 0, flip);
+        paint_four_bit(mask, x, y, 0, flip);
         size = *(BitmapSize far *)mask;
     }
     if (!force_full_clip) {
@@ -1030,13 +1045,12 @@ extern DrawDestination ScreenPort;
 extern int draw_room_frame;
 extern int dirty_rectangle_count;
 extern DrawRect dirty_rectangles[40];
-extern char dirty_rectangle_error[];
 extern void SET_RECORD_RANGE(DrawRect far *area, int style);
 extern void sort_back_table(void);
 extern void sort_fore_table(void);
 extern void prepare_room_tables(void);
 extern DrawRect far *INSETRECT(DrawRect far *out, const DrawRect far *area, int x, int y);
-extern void report_rect_error(const char far *message, int severity);
+extern void show_message(const char far *message, int severity);
 
 void draw_all(void)
 {
@@ -1056,41 +1070,29 @@ void draw_all(void)
     Graf = &ScreenPort;
 }
 
+#pragma optimize("gl", on)
 void add_dirty_rectangle(DrawRect *rect)
 {
     DrawRect expanded;
-    DrawRect *entry;
-    int index = 0;
+    int index;
 
-    if (dirty_rectangle_count > index) {
-        entry = dirty_rectangles;
-        do {
-            INSETRECT(&expanded, rect, -1, -1);
-            if (SECTRECT(&expanded, &expanded, entry))
-                goto merge;
-            ++entry;
-            ++index;
-        } while (dirty_rectangle_count > index);
+    for (index = 0; index < dirty_rectangle_count; index++) {
+        INSETRECT(&expanded, rect, -1, -1);
+        if (SECTRECT(&expanded, &expanded, &dirty_rectangles[index])) {
+            UnionRect(&dirty_rectangles[index], &dirty_rectangles[index], rect);
+            return;
+        }
     }
-    if (dirty_rectangle_count >= 40) {
-        report_rect_error(dirty_rectangle_error, 1);
-        goto done;
-    }
-    goto append;
-merge:
-    entry = &dirty_rectangles[index];
-    union_rect(entry, entry, rect);
-    goto done;
-append:
-    dirty_rectangles[dirty_rectangle_count++] = *rect;
-done:
-    return;
+    if (dirty_rectangle_count >= 40)
+        show_message(dirty_rectangle_error, 1);
+    else
+        dirty_rectangles[dirty_rectangle_count++] = *rect;
 }
+#pragma optimize("gl", off)
 
 extern int compute_slide_rock_rect(DrawRect *area, RoomNumber room, signed char row);
 extern void mark_foreground(signed char cell, DrawRect *area);
 
-extern struct LooseItemDrawer *loose_item_drawer;
 
 void draw_half_cell(void)
 {
@@ -1126,20 +1128,7 @@ void draw_half_cell(void)
     clip_rect = draw.old_clip;
 }
 
-extern CHARREC Char;
 extern CHARREC RoomOpp[5];
-static const DrawRect _based(_segname("_CONST")) half_tile_rectangles[10] = {
-    {57, 0, 63, 16},
-    {57, 0, 63, 16},
-    {57, 0, 63, 17},
-    {57, 0, 63, 20},
-    {57, 0, 63, 15},
-    {57, 0, 63, 16},
-    {57, 0, 63, 19},
-    {59, 0, 63, 14},
-    {59, 0, 63, 13},
-    {59, 0, 63, 13},
-};
 extern DrawRect *ComputeOffsetCellRect(DrawRect *area, DrawRect *source, int column, int row);
 
 int compute_half_rect(DrawRect *area)
@@ -1180,13 +1169,13 @@ int compute_half_rect(DrawRect *area)
 
 extern int far pascal IS_SIX_KIND(char kind);
 
+#pragma optimize("gl", on)
 void draw_floor_buffer(void)
 {
     DrawRect old_clip, row_clip;
     TileDrawArgs args;
     unsigned char priority;
     int floor_edge, floor_y;
-    struct { TileDrawer *current_draw, *left_draw; } callbacks;
 
     old_clip = clip_rect;
     floor_y = 63 * draw_row + 53;
@@ -1203,50 +1192,48 @@ void draw_floor_buffer(void)
             floor_edge = 1;
         }
     }
-    if (IS_SIX_KIND(CellLeft)) {
-        priority = (left_tile_info.words[0] >> 14) & 3;
+    if (IS_SIX_KIND(CellLeft.kind)) {
+        priority = (CellLeft.info.words[0] >> 14) & 3;
         if (!Room.custom || priority == 2 || !priority) {
-            callbacks.left_draw = &tile_drawers[(unsigned char)CellLeft];
-            if (*callbacks.left_draw) {
+            if (((TileDrawer *)loose_item_drawer)[(unsigned char)CellLeft.kind]) {
                 args.pass = 2;
                 args.column = draw_column - 1;
                 args.row = draw_row;
-                args.kind = CellLeft;
-                args.info = left_tile_info;
-                (*callbacks.left_draw)(&args);
+                args.kind = CellLeft.kind;
+                args.info = CellLeft.info;
+                ((TileDrawer *)loose_item_drawer)[(unsigned char)CellLeft.kind](&args);
             }
         }
         priority = (BlueSpec.words[0] >> 14) & 3;
         if (!Room.custom || priority == 2 || !priority) {
-            callbacks.current_draw = &tile_drawers[(unsigned char)drawn_tile_kind];
-            if (*callbacks.current_draw) {
+            if (((TileDrawer *)loose_item_drawer)[(unsigned char)drawn_tile_kind]) {
                 args.pass = 2;
                 args.column = draw_column;
                 args.row = draw_row;
                 args.kind = drawn_tile_kind;
                 args.info = BlueSpec;
-                (*callbacks.current_draw)(&args);
+                ((TileDrawer *)loose_item_drawer)[(unsigned char)drawn_tile_kind](&args);
                 mark_foreground((signed char)(FirstInRow(draw_row) + draw_column), &clip_rect);
             }
         }
         if (room_images && room_images->floor_image)
             draw_custom_room_images(2);
-    } else if (floor_edge && IS_SIX_KIND(drawn_tile_kind) && IsWall(CellLeft)) {
-        priority = (left_tile_info.words[0] >> 14) & 3;
+    } else if (floor_edge && IS_SIX_KIND(drawn_tile_kind) && IsWall(CellLeft.kind)) {
+        priority = (CellLeft.info.words[0] >> 14) & 3;
         if (!Room.custom || priority == 2) {
-            callbacks.left_draw = &tile_drawers[(unsigned char)CellLeft];
-            if (*callbacks.left_draw) {
+            if (((TileDrawer *)loose_item_drawer)[(unsigned char)CellLeft.kind]) {
                 args.pass = 2;
                 args.column = draw_column - 1;
                 args.row = draw_row;
-                args.kind = CellLeft;
-                args.info = left_tile_info;
-                (*callbacks.left_draw)(&args);
+                args.kind = CellLeft.kind;
+                args.info = CellLeft.info;
+                ((TileDrawer *)loose_item_drawer)[(unsigned char)CellLeft.kind](&args);
             }
         }
     }
     clip_rect = old_clip;
 }
+#pragma optimize("gl", off)
 
 #pragma pack(1)
 typedef struct CellObject {
@@ -1264,76 +1251,62 @@ typedef struct CellObject {
 #pragma pack()
 
 extern CellObject cell_objects[];
-extern signed char sorted_objects[];
+static signed char sorted_objects[26];
 extern signed char cell_object_total;
 extern int sorted_object_total;
 extern int equal_rect(DrawRect far *first, DrawRect far *second);
 extern void sort_cell_objects(void);
 extern void draw_cell_object(signed char index);
 
+#pragma optimize("gl", on)
 void draw_cell_objects(char column)
 {
-    struct {
-        int byte_offset;
-        DrawRect original_clip, object_clip, merged_clip;
-        signed char count, index;
-    } state;
+    signed char index, count;
+    DrawRect merged_clip, object_clip, original_clip;
 
-    state.count = cell_object_total;
-    if (!state.count)
+    count = cell_object_total;
+    if (!count)
         return;
-    state.original_clip = clip_rect;
-    state.merged_clip = clip_rect;
+    original_clip = clip_rect;
+    merged_clip = clip_rect;
     sorted_object_total = 0;
-    if ((state.index = state.count - 1) >= 0) {
-        do {
-            state.byte_offset = state.index * sizeof(CellObject);
-            if (((CellObject *)((char *)cell_objects + state.byte_offset))->status == column ||
-                (((CellObject *)((char *)cell_objects + state.byte_offset))->status >= 0 &&
-                 SECTRECT(&state.object_clip, &state.merged_clip,
-                                &((CellObject *)((char *)cell_objects + state.byte_offset))->clip))) {
-                sorted_objects[sorted_object_total++] = state.index;
-                union_rect(&state.object_clip, &state.merged_clip,
-                           &((CellObject *)((char *)cell_objects + state.byte_offset))->clip);
-                if (!equal_rect(&state.object_clip, &state.merged_clip)) {
-                    state.index = state.count;
-                    sorted_object_total = 0;
-                    state.merged_clip = state.object_clip;
-                }
+    if ((index = count - 1) >= 0) do {
+        if (cell_objects[index].status == column ||
+            (cell_objects[index].status >= 0 &&
+             SECTRECT(&object_clip, &merged_clip, &cell_objects[index].clip))) {
+            sorted_objects[sorted_object_total++] = index;
+            UnionRect(&object_clip, &merged_clip, &cell_objects[index].clip);
+            if (!equal_rect(&object_clip, &merged_clip)) {
+                index = count;
+                sorted_object_total = 0;
+                merged_clip = object_clip;
             }
-        } while (--state.index >= 0);
-    }
-    if (sorted_object_total) {
-        clip_rect = state.merged_clip;
-        sort_cell_objects();
-        state.index = 0;
-        if (sorted_object_total > 0) {
-            do {
-                int index;
-                unsigned char object = sorted_objects[state.index];
-                index = state.index;
-                draw_cell_object(object);
-                cell_objects[sorted_objects[index]].status = -2;
-            } while (++state.index < sorted_object_total);
         }
+    } while (--index >= 0);
+    if (sorted_object_total) {
+        clip_rect = merged_clip;
+        sort_cell_objects();
+        index = 0;
+        if (sorted_object_total > 0) do {
+            draw_cell_object(sorted_objects[index]);
+            cell_objects[sorted_objects[index]].status = -2;
+        } while (++index < sorted_object_total);
     }
-    clip_rect = state.original_clip;
+    clip_rect = original_clip;
 }
+#pragma optimize("gl", off)
 
 extern int compare_objects(int first, int second);
 extern unsigned char far _fastcall object_priority(unsigned char type);
-static unsigned char object_priority_low[16] = {
-    127, 127, 127, 100, 127, 50, 127, 127, 127, 100, 127, 127, 127, 200, 200, 0
-};
-static unsigned char object_priority_high[13] = {
-    127, 127, 127, 127, 200, 60, 225, 50, 200, 80, 210, 210, 60
-};
+extern unsigned char CharObjForePriority[15];
+extern unsigned char NonCharObjForePriority[13];
 extern unsigned char load_draw_object(signed char index);
 extern void draw_loose_object(unsigned char type);
 
+#pragma optimize("gl", on)
 void sort_cell_objects(void)
 {
-    int swapped, index, last;
+    int swapped, index, last, value;
 
     last = sorted_object_total - 1;
     do {
@@ -1341,94 +1314,68 @@ void sort_cell_objects(void)
         swapped = 0;
         if (last > 0) {
             do {
-                int next = index + 1;
-                if (compare_objects(index, next)) {
-                    int value = sorted_objects[index];
+                if (compare_objects(index, index + 1)) {
+                    value = sorted_objects[index];
                     sorted_objects[index] = sorted_objects[index + 1];
-                    sorted_objects[index + 1] = (signed char)value;
+                    sorted_objects[index + 1] = value;
                     swapped = 1;
                 }
-                index = next;
-            } while (index < last);
+            } while (++index < last);
         }
     } while (swapped);
 }
+#pragma optimize("gl", off)
 
+#pragma optimize("gl", on)
 int compare_objects(int first, int second)
 {
-    volatile int left_offset, right_offset;
     int left_id, right_id;
-    unsigned char left_type, right_type;
-    unsigned char right_priority, left_priority;
-    volatile int swap;
-    int left_entry = first, right_entry = second;
+    unsigned char right_type, left_type;
+    unsigned char left_priority, right_priority;
+    int swap;
 
-#define SORTED_AT(offset) (*(CellObject *)((char *)cell_objects + (offset)))
-    left_offset = sorted_objects[left_entry] * sizeof(CellObject);
-    left_id = *(int *)&SORTED_AT(left_offset).object_id;
-    left_type = SORTED_AT(left_offset).kind;
-    right_offset = sorted_objects[right_entry] * sizeof(CellObject);
-    right_id = *(int *)&SORTED_AT(right_offset).object_id;
-    right_type = SORTED_AT(right_offset).kind;
+    left_id = *(int *)&cell_objects[sorted_objects[first]].object_id;
+    left_type = cell_objects[sorted_objects[first]].kind;
+    right_id = *(int *)&cell_objects[sorted_objects[second]].object_id;
+    right_type = cell_objects[sorted_objects[second]].kind;
     if (left_type == right_type) {
-        if (SORTED_AT(left_offset).y != SORTED_AT(right_offset).y)
-            goto less_y;
-        if (SORTED_AT(left_offset).x > SORTED_AT(right_offset).x)
-            goto before;
-        goto after;
-    }
-    if (left_type != 7 && left_type != 8 &&
-        (right_type == 7 || right_type == 8) &&
-        (right_id == 181 || right_id == 166)) {
+        if (cell_objects[sorted_objects[first]].y != cell_objects[sorted_objects[second]].y)
+            swap = cell_objects[sorted_objects[first]].y > cell_objects[sorted_objects[second]].y;
+        else
+            swap = cell_objects[sorted_objects[first]].x > cell_objects[sorted_objects[second]].x;
+    } else if (left_type != 7 && left_type != 8 &&
+               (right_type == 7 || right_type == 8) &&
+               (right_id == 181 || right_id == 166)) {
         swap = 1;
-        goto done;
-    }
-    if ((left_type == 7 || left_type == 8) &&
-        right_type != 7 && right_type != 8 &&
-        (left_id == 181 || left_id == 166)) {
+    } else if ((left_type == 7 || left_type == 8) &&
+               right_type != 7 && right_type != 8 &&
+               (left_id == 181 || left_id == 166)) {
         swap = 0;
-        goto done;
+    } else {
+        left_priority = object_priority(left_type);
+        right_priority = object_priority(right_type);
+        if (left_priority != right_priority)
+            swap = left_priority < right_priority;
+        else if (cell_objects[sorted_objects[first]].y != cell_objects[sorted_objects[second]].y) {
+            if (!(left_type & 0x80) && !(right_type & 0x80))
+                swap = cell_objects[sorted_objects[first]].y > cell_objects[sorted_objects[second]].y;
+            else
+                swap = cell_objects[sorted_objects[first]].y < cell_objects[sorted_objects[second]].y;
+        } else
+            swap = cell_objects[sorted_objects[first]].x > cell_objects[sorted_objects[second]].x;
     }
-    left_priority = object_priority(left_type);
-    right_priority = object_priority(right_type);
-    if (left_priority != right_priority) {
-        if (left_priority < right_priority)
-            goto before;
-        goto after;
-    }
-    left_offset = sorted_objects[left_entry] * sizeof(CellObject);
-    right_offset = sorted_objects[right_entry] * sizeof(CellObject);
-    if (SORTED_AT(left_offset).y == SORTED_AT(right_offset).y) {
-        if (SORTED_AT(left_offset).x > SORTED_AT(right_offset).x)
-            goto before;
-        goto after;
-    }
-    if ((left_type & 0x80) || (right_type & 0x80)) {
-        if (SORTED_AT(left_offset).y < SORTED_AT(right_offset).y)
-            goto before;
-        goto after;
-    }
-less_y:
-    if (SORTED_AT(left_offset).y <= SORTED_AT(right_offset).y)
-        goto after;
-before:
-    swap = 1;
-    goto done;
-after:
-    swap = 0;
-done:
-#undef SORTED_AT
     return swap;
 }
+#pragma optimize("gl", off)
 
 unsigned char far _fastcall object_priority(unsigned char type)
 {
     unsigned char result;
 
     if (type & 0x80)
-        result = object_priority_high[type & 0x7f];
+        result = NonCharObjForePriority[type & 0x7f];
     else
-        result = object_priority_low[type];
+        result = CharObjForePriority[type];
     return result;
 }
 
@@ -1462,16 +1409,17 @@ typedef struct {
     unsigned char object_type;                        /* 13 */
 } FCHARREC;
 #pragma pack()
+extern unsigned int *kid_meter_shapes;
 extern FCHARREC FChar;
 extern int active_object_offset;
 extern int counter_tick, middle_count;
 extern int far _fastcall add_middle_image(unsigned char set, int image, int x, int y, unsigned char order);
 extern void draw_overlay_object_13(unsigned char type);
-extern void draw_overlay_object_84(unsigned char type);
+extern void DrawObjSpikes(unsigned char type);
 extern void draw_overlay_object_86(unsigned char type);
-extern void draw_overlay_object_8a(unsigned char type);
-extern void draw_overlay_object_8b(unsigned char type);
-extern void draw_overlay_object_8c(unsigned char type);
+extern void draw_object_trapdoor(unsigned char type);
+extern void draw_bridge_mob_object(unsigned char type);
+extern void draw_fireball_object(unsigned char type);
 
 void draw_cell_object(signed char index)
 {
@@ -1506,19 +1454,19 @@ void draw_cell_object(signed char index)
         add_middle_image(FChar.image_set, 103, active_object_offset, FChar.y, 10);
         return;
     case 0x84: case 0x85:
-        draw_overlay_object_84(type);
+        DrawObjSpikes(type);
         return;
     case 0x86: case 0x87: case 0x88: case 0x89:
         draw_overlay_object_86(type);
         return;
     case 0x8a:
-        draw_overlay_object_8a(type);
+        draw_object_trapdoor(type);
         return;
     case 0x8b:
-        draw_overlay_object_8b(type);
+        draw_bridge_mob_object(type);
         return;
     case 0x8c:
-        draw_overlay_object_8c(type);
+        draw_fireball_object(type);
         break;
     }
 }
@@ -1730,16 +1678,13 @@ typedef struct HorseShapeHeader {
 
 extern ShapeRef horse_shape_ref;
 extern int suppress_horse;
-extern unsigned int load_resource_shape(unsigned long type, int shape);
-extern unsigned int derive_resource_id(int shape);
-extern unsigned int create_shape(HorseShapeHeader far *out, HorseShapeHeader far *header, int count);
-extern unsigned int retain_shape(unsigned int handle);
-extern ShapeBitmap far *probe_shape(unsigned int handle);
-extern void free_shape(unsigned int handle);
-static const int _based(_segname("_CONST")) horse_level9_origin[] = {22, 159};
-static const int _based(_segname("_CONST")) horse_level10_origin[] = {102, 119};
-extern int horse_level14_origin[];
-
+extern unsigned int HGetRsrc(unsigned long type, int shape);
+extern unsigned int find_shape_list(int shape);
+extern unsigned int convert_shape(HorseShapeHeader far *out, HorseShapeHeader far *header, int count);
+extern unsigned int mark_purgeable(unsigned int handle);
+extern ShapeBitmap far *materialize_handle(unsigned int handle);
+extern void dispose_handle(unsigned int handle);
+#pragma optimize("gl", on)
 ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
 {
     HorseShapeHeader header;
@@ -1747,30 +1692,32 @@ ShapeBitmap far *far _fastcall load_horse_shape(int id, ShapeRef *ref)
     unsigned int handle, new_handle;
     HorseShapeHeader far *metadata;
 
-    if (!horse_shape_ref.handle || !probe_shape(horse_shape_ref.handle)) {
+    if (!horse_shape_ref.handle || !materialize_handle(horse_shape_ref.handle)) {
         if (horse_shape_ref.handle)
-            free_shape(horse_shape_ref.handle);
-        handle = load_resource_shape(0x53484150UL, id);
+            dispose_handle(horse_shape_ref.handle);
+        handle = HGetRsrc(0x53484150UL, id);
         if (handle) {
-            metadata = (HorseShapeHeader far *)lock_shape(derive_resource_id(0x61a9));
+            metadata = (HorseShapeHeader far *)resolve_handle_to_far_payload(find_shape_list(0x61a9));
             header = *(HorseShapeHeader far *)((char far *)metadata + 4);
             header.palette = 0xf0;
             header.mode = -2;
-            new_handle = create_shape((HorseShapeHeader far *)locate_shape(handle), &header, 1);
-            free_shape(handle);
-            /* The first word is kind/reserved, the second mask/palette. */
-            *(unsigned int *)&horse_shape_ref.kind = 1;
-            *(unsigned int *)&horse_shape_ref.separate_mask = 0;
-            horse_shape_ref.handle = retain_shape(new_handle);
+            new_handle = convert_shape((HorseShapeHeader far *)fetch_locked_shape_list(handle), &header, 1);
+            dispose_handle(handle);
+            horse_shape_ref.kind = 1;
+            horse_shape_ref.reserved = 0;
+            horse_shape_ref.separate_mask = 0;
+            horse_shape_ref.palette = 0;
+            horse_shape_ref.handle = mark_purgeable(new_handle);
         }
     }
     *ref = horse_shape_ref;
     if (horse_shape_ref.handle)
-        result = lock_shape(horse_shape_ref.handle);
+        result = resolve_handle_to_far_payload(horse_shape_ref.handle);
     else
         result = 0;
     return result;
 }
+#pragma optimize("gl", off)
 
 unsigned int far _fastcall horse_room_image(RoomNumber room, char pass, unsigned int *shape)
 {
@@ -1825,16 +1772,13 @@ void draw_horse(unsigned int shape, unsigned int origin, char pass)
 }
 
 
-typedef struct LooseItemDrawer {
-    TileDrawer base, item;
-} LooseItemDrawer;
 
-extern LooseItemDrawer *loose_item_drawer;
 extern int *middle_draw_state;
 extern void add_middle_item(unsigned char sheet, int image, char column, char row,
                             unsigned char color, unsigned char flags);
 extern unsigned char flask_bubble_color(unsigned int attributes);
 
+#pragma optimize("gl", on)
 void draw_flask(TileDrawArgs *args)
 {
     int color, tall;
@@ -1849,25 +1793,24 @@ void draw_flask(TileDrawArgs *args)
     if (args->pass != 1)
         return;
     color = args->info.words[0] & 0xe0;
-    tall = color < 0xa0 && color >= 0x40 ? 1 : 0;
+    tall = color < 0xa0 && color >= 0x40;
     add_middle_item(10, tall + 1, args->column, args->row, 10, 0);
-    if (color) {
-        color = args->info.words[0] & 0x1f;
-        if (color == 28 || (color >= 10 && color <= 13) || color - 14 >= 10)
-            return;
-        bubble = flask_bubble_color(args->info.words[0]);
-        if (color > 13) {
-            int first_bubble = color - 14;
-            color = first_bubble;
-            flags = 1;
-        } else {
-            flags = 0;
-        }
-        *(int *)((char *)middle_draw_state + 0x485) = tall < 1 ? -14 : -17;
-        add_middle_item(60, color + 3, args->column, args->row, bubble, flags);
-        add_middle_item(60, color + 13, args->column, args->row, bubble + 1, flags);
-    }
+    if (!color)
+        return;
+    color = args->info.words[0] & 0x1f;
+    if (color == 28 || (color >= 10 && color <= 13) || color - 14 >= 10)
+        return;
+    bubble = flask_bubble_color(args->info.words[0]);
+    if (color > 13) {
+        color -= 14;
+        flags = 1;
+    } else
+        flags = 0;
+    *(int *)((char *)middle_draw_state + 0x485) = tall ? -17 : -14;
+    add_middle_item(60, color + 3, args->column, args->row, bubble, flags);
+    add_middle_item(60, color + 13, args->column, args->row, bubble + 1, flags);
 }
+#pragma optimize("gl", off)
 
 unsigned char flask_bubble_color(unsigned int attributes)
 {
@@ -1888,43 +1831,36 @@ unsigned char flask_bubble_color(unsigned int attributes)
     return color;
 }
 
-extern int meter_sheet;
-extern signed char meter_phase, meter_limit;
 extern DrawRect meter_strip;
-extern void blit_meter_shape(int table, int image, int x, int y, int flags, int mode);
+extern void PrincePaintShapeIdx(int table, int image, int x, int y, int flags, int mode);
 extern void load_kid_with_opponent(signed char guard);
 extern CHARREC Opp;
 extern void draw_opponent_meter(signed char guard, int life, int max_life);
 
-void draw_kid_meter(int life, int max_life)
+#pragma optimize("gl", on)
+void DrawKidMeter(int life, int max_life)
 {
-    int x = 2, index, visible, mode = 1;
-    struct { DrawRect rect; volatile int blank_start, full_cells; } state;
+    int x, index;
+    DrawRect rect;
 
-    state.blank_start = 0;
-    if ((visible = life) > 0) {
-        state.full_cells = visible;
-        index = visible;
-        do {
-            blit_meter_shape(meter_sheet, 216, x, 193, 0, mode);
-            x += 8;
-        } while (--index);
+    x = 2;
+    for (index = 0; index < life; index++) {
+        PrincePaintShapeIdx((int)kid_meter_shapes, 216, x, 193, 0, 1);
+        x += 8;
     }
-    if (life < max_life) {
-        index = max_life - life;
-        do {
-            blit_meter_shape(meter_sheet, 217, x, 193, 0, mode);
-            x += 8;
-        } while (--index);
+    for (index = life; index < max_life; index++) {
+        PrincePaintShapeIdx((int)kid_meter_shapes, 217, x, 193, 0, 1);
+        x += 8;
     }
-    if (max_life > 1 && meter_limit < meter_phase) {
-        state.rect.top = 193;
-        state.rect.left = x;
-        state.rect.bottom = meter_strip.bottom;
-        state.rect.right = 98;
-        STROKE_PORT_RECT(&state.rect);
+    if (max_life > 1 && Char.life_initial < meter_phase) {
+        rect.top = 193;
+        rect.left = x;
+        rect.bottom = meter_strip.bottom;
+        rect.right = 98;
+        STROKE_PORT_RECT(&rect);
     }
 }
+#pragma optimize("gl", off)
 
 void draw_meters(void)
 {
@@ -1932,13 +1868,13 @@ void draw_meters(void)
         load_kid_with_opponent(Kid.opponent_index);
         draw_opponent_meter(Opp.slot, Opp.life_points, Opp.life_initial);
     }
-    draw_kid_meter(Kid.life_points, Kid.life_initial);
+    DrawKidMeter(Kid.life_points, Kid.life_initial);
 }
 
 extern unsigned char guard_kind, guard_level_room, guard_action;
 extern int game_tick_counter;
 extern signed char find_guard_for_meter(unsigned char slot);
-extern void select_guard_for_meter(signed char guard);
+extern void load_actor_slot(signed char guard);
 
 void draw_opponent_meter(signed char guard, int life, int max_life)
 {
@@ -1952,7 +1888,7 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
             guard = 0;
     }
     if (guard != -1)
-        select_guard_for_meter(guard);
+        load_actor_slot(guard);
     if (guard == -1 || !(unsigned char)Level.room_objects[Room.number - 1].opponent_count ||
         guard_kind == 10 || guard_kind == 11 || guard_kind == 0 ||
         (guard_kind == 4 && ((unsigned char)Level.level_number) == 5 && guard_level_room == 1 &&
@@ -1973,12 +1909,12 @@ void draw_opponent_meter(signed char guard, int life, int max_life)
             full_cells = life;
             count = full_cells;
             do {
-                blit_meter_shape(meter_sheet, 131, x, 193, 0, 1);
+                PrincePaintShapeIdx((int)kid_meter_shapes, 131, x, 193, 0, 1);
                 x -= 10;
             } while (--count);
         }
         if ((guard_kind == 7 || guard_kind == 8) && half) {
-            blit_meter_shape(meter_sheet, 132, x, 193, 0, 1);
+            PrincePaintShapeIdx((int)kid_meter_shapes, 132, x, 193, 0, 1);
             x -= 10;
         }
         rect.top = 193;
@@ -2061,12 +1997,10 @@ int far pascal IsWall(char kind)
 
 
 extern int set_palette(int resource, int first, unsigned char count, unsigned char palette);
-extern unsigned char far *saved_palette, far *saved_text_palette;
 extern unsigned char far *ALLOCATE_PINNED_PAYLOAD(long bytes);
 extern void CLEAR_PAYLOAD_HEADER(unsigned char far *palette);
 extern void READ_DAC_BLOCK(int first, int count, unsigned char far *palette);
 extern void WRITE_DAC_BLOCK(int first, int count, const unsigned char far *palette, int update);
-extern int EMPTYRECT(DrawRect far *clip);
 extern unsigned int HGETRSRC(unsigned long type, int resource);
 extern unsigned char get_total_pals(int resource);
 extern void far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(unsigned int resource);
@@ -2082,13 +2016,11 @@ void restore_game_play_palette(void)
 {
     if (saved_palette) {
         WRITE_DAC_BLOCK(16, 240, saved_palette, 1);
-        CLEAR_PAYLOAD_HEADER(saved_palette);
-        saved_palette = 0;
+        CLEAR_PAYLOAD_HEADER(saved_palette); saved_palette = 0;
     }
     if (saved_text_palette) {
         WRITE_DAC_BLOCK(0, 16, saved_text_palette, 0);
-        CLEAR_PAYLOAD_HEADER(saved_text_palette);
-        saved_text_palette = 0;
+        CLEAR_PAYLOAD_HEADER(saved_text_palette); saved_text_palette = 0;
     }
 }
 
@@ -2118,12 +2050,8 @@ void fill_palette_with_color(unsigned char color)
 
     palette = (PaletteColor far *)ALLOCATE_PINNED_PAYLOAD(768L);
     READ_DAC_BLOCK(color, 1, (unsigned char far *)palette);
-    next = palette + 1;
-    remaining = 255;
-    do {
-        *next = *palette;
-        ++next;
-    } while (--remaining);
+    next = palette + 1; remaining = 255;
+    do { *next = *palette; ++next; } while (--remaining);
     if (!saved_palette) {
         saved_palette = ALLOCATE_PINNED_PAYLOAD(720L);
         READ_DAC_BLOCK(16, 240, saved_palette);
@@ -2185,7 +2113,6 @@ unsigned char get_total_pals(int resource)
     return (unsigned char)total;
 }
 
-extern unsigned int *kid_meter_shapes;
 
 void set_shape_variant(int variant)
 {

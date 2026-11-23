@@ -19,7 +19,7 @@
       "LOAD_ACTOR_SLOT",
       "REMOVE_CHAR",
       "CLEAR_LIFE_BAR",
-      "POSITION_CHAR",
+      "DRAWKIDMETER",
       "LOAD_ALTAR_ROOM",
       "ADDSONG",
       "ADDSOUND",
@@ -440,7 +440,7 @@
           "index": 19,
           "kind": "external",
           "method": 6,
-          "name": "POSITION_CHAR",
+          "name": "DRAWKIDMETER",
           "zero_displacement": true
         }
       },
@@ -454,7 +454,7 @@
         "index": 19,
         "kind": "external",
         "method": 6,
-        "name": "POSITION_CHAR",
+        "name": "DRAWKIDMETER",
         "zero_displacement": true
       }
     },
@@ -5210,6 +5210,23 @@
         }
       ]
     },
+    "DRAWKIDMETER": {
+      "entry_sha256": "6d88f56d67f90060d88ec300541b28e0a4a54fb646476df7e48380002763e1aa",
+      "entry_target_id": "root:078a:24ee",
+      "kind": "far-code-entry",
+      "offset": 9454,
+      "segment": 1930,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9aee248a07",
+          "file_offset": 11995,
+          "image_offset": 3803,
+          "relocation_index": 121,
+          "space": "root"
+        }
+      ]
+    },
     "DRAW_UNDER_ACTOR": {
       "kind": "far-data",
       "offset": 3536,
@@ -5543,23 +5560,6 @@
           "file_offset": 15606,
           "image_offset": 7414,
           "relocation_index": 143,
-          "space": "root"
-        }
-      ]
-    },
-    "POSITION_CHAR": {
-      "entry_sha256": "6d88f56d67f90060d88ec300541b28e0a4a54fb646476df7e48380002763e1aa",
-      "entry_target_id": "root:078a:24ee",
-      "kind": "far-code-entry",
-      "offset": 9454,
-      "segment": 1930,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9aee248a07",
-          "file_offset": 11995,
-          "image_offset": 3803,
-          "relocation_index": 121,
           "space": "root"
         }
       ]

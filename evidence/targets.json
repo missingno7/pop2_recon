@@ -71500,6 +71500,353 @@
       "size": 520,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void with two unsigned byte arguments in the BP+8/BP+6 word slots; RETF 4.",
+      "boundary_evidence": [
+        "Locked root interval [0x848c,0x8770). Entry 078a:0bec begins 55 8B EC after the preceding routine ends with ca020090.",
+        "The routine at DUMP_DRAW_TABLE contains PUSH CS at 0x8475 and a near CALL at 0x8476 landing on 078a:0bec.",
+        "The final bytes ca040090 end the interval before the next reviewed DRAW.C entry at 078a:0ed0."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42102,
+          "image_offset": 33910,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 33909,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C back/foreground queue item renderer: indexes the far back or fore queue, loads or locks the shape, applies palettes and calls DRAW_BITMAP."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0bec",
+      "offset": 3052,
+      "segment": 1930,
+      "sha256": "2c1500246f134e341b9eaf1608af2b6e15b54d2f372297d4cde3033cd0ebf938",
+      "size": 740,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void with one int argument at BP+6; RETF 2.",
+      "boundary_evidence": [
+        "Locked root interval [0x8770,0x8a3e). Entry 078a:0ed0 begins 55 8B EC after the preceding routine ends with ca040090.",
+        "The routine at DUMP_DRAW_TABLE contains PUSH CS at 0x8447 and a near CALL at 0x8448 landing on 078a:0ed0.",
+        "The final bytes ca020090 end the interval before the next reviewed DRAW.C entry at 078a:119e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42056,
+          "image_offset": 33864,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 33863,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C middle queue item renderer: loads the entry shape, applies palette, updates the middle peel and calls DRAW_BITMAP."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:0ed0",
+      "offset": 3792,
+      "segment": 1930,
+      "sha256": "dbb9cb7e20a1ccd30f81cb287e9066ed28141f20370072555f992fa30277d575",
+      "size": 718,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void with no arguments; RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x929e,0x92f0). Entry 078a:19fe begins 55 8B EC after the preceding routine ends with 5dca0200.",
+        "The routine at DRAW_CELL_OBJECTS contains PUSH CS at 0x9250 and a near CALL at 0x9251 landing on 078a:19fe.",
+        "The final bytes e55dcb90 end the interval before the next reviewed DRAW.C entry at 078a:1a50."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 45649,
+          "image_offset": 37457,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 37456,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C bubble sort of the sorted cell-object byte list using COMPARE_OBJECTS."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:19fe",
+      "offset": 6654,
+      "segment": 1930,
+      "sha256": "21d4012496c547186a014fb668a73368a5832ac1ffb48ec2a4ac3d932fbdd18c",
+      "size": 82,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal int with two int arguments at BP+8/BP+6; RETF 4.",
+      "boundary_evidence": [
+        "Locked root interval [0x92f0,0x9452). Entry 078a:1a50 begins 55 8B EC after the preceding routine ends with e55dcb90.",
+        "The routine at SORT_CELL_OBJECTS contains PUSH CS at 0x92ba and a near CALL at 0x92bb landing on 078a:1a50.",
+        "The final bytes 5dca0400 end the interval before the next reviewed DRAW.C entry at 078a:1bb2."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 45755,
+          "image_offset": 37563,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 37562,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C cell-object ordering predicate (type, priority, y and x keys)."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:1a50",
+      "offset": 6736,
+      "segment": 1930,
+      "sha256": "37430dd992003cc68e26755db269007ee27366b61e5d046eb3ac9358868606fb",
+      "size": 354,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void with one signed byte argument occupying the BP+6 word slot. RETF 2 on all exits.",
+      "boundary_evidence": [
+        "Locked root interval [0x94ba,0x965e). The fresh BP frame at 078a:1c1a follows RETF 4 at 1c16 and the alignment NOP at 1c19.",
+        "The reviewed DRAW_CELL_OBJECTS interval contains PUSH CS at 19cc and E8 4a02 at 19cd. The near call lands at 1c1a in frame 078a.",
+        "The absolute CS switch table at [1c8c,1ca0) has ten words. Each lands on a decoded case start. All decoded direct branches stay inside the locked interval.",
+        "The final RETF 2 at 1dba and 90 at 1dbd end before the independently reviewed BP frame at 1dbe."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 45677,
+          "image_offset": 37485,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 37484,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C object dispatch. Reads the object index in the BP+6 slot, calls the object loader at 1e52 and dispatches the returned type into middle-layer drawing and object-specific helpers."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:1c1a",
+      "offset": 7194,
+      "segment": 1930,
+      "sha256": "d0dfa098b2b1858fc5c3efc3bd8a2ccf123cc5c7003e1d57dc2663c1e38fb591",
+      "size": 420,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void with no arguments; RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x9772,0x980c). Entry 078a:1ed2 begins 55 8B EC after the preceding routine ends with 5dca0200.",
+        "The routine at DRAW_ALL contains PUSH CS at 0x8c88 and a near CALL at 0x8c89 landing on 078a:1ed2.",
+        "The final bytes 5dcb9090 end the interval before the next reviewed DRAW.C entry at 078a:1f6c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 44169,
+          "image_offset": 35977,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 35976,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C stable partition of the far back queue by sheet byte using _move_far_memory."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:1ed2",
+      "offset": 7890,
+      "segment": 1930,
+      "sha256": "af80b4dbf6b33a6d3757bd7537a2869f7a1c43da41286cda412bb7d7516fcd4f",
+      "size": 154,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal void with no arguments; RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x980c,0x98f0). Entry 078a:1f6c begins 55 8B EC after the preceding routine ends with 5dcb9090.",
+        "The routine at DRAW_ALL contains PUSH CS at 0x8ca8 and a near CALL at 0x8ca9 landing on 078a:1f6c.",
+        "The final bytes e55dcb90 end the interval before the next reviewed DRAW.C entry at 078a:2050."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 44201,
+          "image_offset": 36009,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 36008,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C level-specific foreground queue reorder for one shape id using _move_far_memory."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:1f6c",
+      "offset": 8044,
+      "segment": 1930,
+      "sha256": "3950ab4afee470f3f4b9db6ae3ac93a0533c66729d5fb45b22f44220da33965c",
+      "size": 228,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far _fastcall: AX shape id, BX near ShapeRef pointer; returns far bitmap pointer in DX:AX; RETF.",
+      "boundary_evidence": [
+        "Locked root interval [0x9a50,0x9b32). Entry 078a:21b0 begins 55 8B EC after the preceding routine ends with a34829cb.",
+        "The routine at DRAW_BACK_FORE_ITEM contains PUSH CS at 0x85a4 and a near CALL at 0x85a5 landing on 078a:21b0.",
+        "The final bytes 8be55dcb end the interval before the next reviewed DRAW.C entry at 078a:2292."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 42405,
+          "image_offset": 34213,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 34212,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "DRAW.C horse shape cache: loads, recolours and retains the horse shape, then locks it for the caller."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:078a:21b0",
+      "offset": 8624,
+      "segment": 1930,
+      "sha256": "dd34aef421d743ddd5909902769d145f7acb4e5c7993108cee0bafca140c5328",
+      "size": 226,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal with no arguments, bare RETF. Saves SI.",
+      "boundary_evidence": [
+        "The preceding guard predicate ends in RETF and one alignment NOP before PUSH SI at 0c66.",
+        "AnimTrob at 015a pushes CS and its original E8 at 015b lands on 0c66. The final PUSH CS/CALL at 0cfe selects RedrawExit, followed by POP SI/RETF at 0d02/0d03.",
+        "The reviewed independent ISEXITOPEN entry at 0d04 follows immediately."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 54635,
+          "image_offset": 46443,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 46442,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Updates the exit height from phase and speed, schedules exit sounds, then redraws the exit. The DOS routine pairs with the exit animation interval of MOVE.C."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:0c66",
+      "offset": 3174,
+      "segment": 2881,
+      "sha256": "f293668a8a3fde22c056fa17132cc4608ee8173bede51161e1203cf7a945b835",
+      "size": 158,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal, two stack words, no result used, RETF 4.",
+      "boundary_evidence": [
+        "MarkRectBuf ends at 10e8. A BP frame starts here, reading two word arguments and saving DI/SI.",
+        "The reviewed PushPlate routine contains PUSH CS and near CALL pairs at 1647/1648, 1661/1662, and 1683/1684 that all enter 10e8. The loop latches from 115e to 1108. The common exit ends with RETF 4 at 1165.",
+        "The independently reviewed TriggerFlask starts at 1168."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 59992,
+          "image_offset": 51800,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51799,
+          "space": "root"
+        },
+        {
+          "file_offset": 60018,
+          "image_offset": 51826,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51825,
+          "space": "root"
+        },
+        {
+          "file_offset": 60052,
+          "image_offset": 51860,
+          "kind": "push_cs_near_call",
+          "pushed_cs_site": 51859,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "MOVE.C room link traversal dispatches TriggerObject and AddTrob. The original calls provide the traversal and argument evidence."
+      ],
+      "classification_status": "Resident game code",
+      "entry_kind": "direct-code",
+      "id": "root:0b41:10e8",
+      "offset": 4328,
+      "segment": 2881,
+      "sha256": "f546c4ce31a1b272f93d00e508ab6bb41ca36c7fd477bc5c90b0f0b61d4cf63c",
+      "size": 128,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "Far Pascal int with two far rectangle pointers (BP+0xa..BP+6); RETF 8.",
+      "boundary_evidence": [
+        "Locked root interval [0x1ec2a,0x1ec50). Entry 1ead:015a begins 55 8B EC after the reviewed routine root:1ead:0118 ends with RETF 8 at 0156 and a 90 pad at 0159.",
+        "Linear decode: pushes 8 and both far pointers, calls the far compare at 1fe6:1dd4, CMP AX,1/SBB/NEG, MOV SP,BP, POP BP, RETF 8 at 017c and 90 at 017f, before the reviewed entry root:1ead:0180.",
+        "The DRAW_CELL_OBJECTS interval holds the relocated CALL FAR 9A 5A01 AD1E at root 0x9210 (relocation 800)."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "file_offset": 45584,
+          "image_offset": 37392,
+          "kind": "far_call",
+          "relocated_segment_site": 37395,
+          "space": "root"
+        }
+      ],
+      "classification": "GAME_C",
+      "classification_evidence": [
+        "Callee of reconstructed DRAW.C code."
+      ],
+      "entry_kind": "direct-code",
+      "id": "root:1ead:015a",
+      "offset": 346,
+      "segment": 7853,
+      "sha256": "f6eaf62e8f21a6937c466db43dab5fe975c03f2ebc3f366bb35a266211859f40",
+      "size": 38,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

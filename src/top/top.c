@@ -202,7 +202,7 @@ extern int PrepCut(int);                  /* far:0000:0dd4 */
 extern int IsLevelStartWithNISScreen(void);                         /* far:0284:0096 */
 extern void STROKE_PORT_RECT(char far *);          /* far:1101:4d90 */
 extern void clear_message(int);                    /* far:078a:213a */
-extern void update_health(int, int);                /* far:078a:24ee */
+extern void DrawKidMeter(int, int);                /* far:078a:24ee */
 extern void clear_keyboard(void);                     /* far:0000:125a */
 extern void SET_RECORD_RANGE(char far *, int);         /* far:1101:6650 */
 extern void full_redraw(void);                  /* far:078a:0000 */
@@ -515,7 +515,7 @@ int first_frame(signed char requested)
             clear_message(1);
         sequence_delay = pending_sequence = 0;
         clean_cut();
-        update_health(Kid.life_points, Kid.life_initial);
+        DrawKidMeter(Kid.life_points, Kid.life_initial);
         tick_delay = 5;
         if (tick_delay) {
             do {

@@ -142,7 +142,7 @@ extern signed char far pascal FirstInRow(signed char row);
 extern void far pascal AnimChar(void);
 extern void far pascal save_actor_slot(void);
 extern void far pascal copy_kid_to_char(void);
-extern void far pascal draw_kid_meter(int health, int max_health);
+extern void far pascal DrawKidMeter(int health, int max_health);
 extern void far pascal load_actor_slot(signed char index);
 extern signed char far pascal register_actor_room(void);
 extern void far pascal remove_char(void);
@@ -285,7 +285,7 @@ void far pascal CutToKidRoom(void)
 
     kid = &Kid;
     *kid = Char;
-    draw_kid_meter(Char.life_points, Char.life_initial);
+    DrawKidMeter(Char.life_points, Char.life_initial);
     load_actor_slot(GetKidIdxAsOpp());
     Char.slot = 10;
     Char.field_34 = 0;

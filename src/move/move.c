@@ -559,6 +559,7 @@ extern sbyte get_under_foot(void);
 extern void fall_spikes(void);
 void break_loose_floor(sbyte);
 extern CHARREC Char;
+extern byte CutRoom;
 void jam_plate(void);
 void push_plate(sbyte sound, int link);
 
@@ -679,11 +680,11 @@ void animate_torch(int index)
     }
 }
 
-extern byte collision_state, exit_flags;
+extern byte collision_state, active_sound_channels;
 extern int exit_sound_suppressed;
 extern sbyte gate_close_speed[], gate_open_speed[], exit_close_speed[];
 extern int limit_gate_opening(int height);
-extern void AddSound(int sound), finish_exit_opening(int value);
+extern void AddSound(int sound), dispatch_sound(int value);
 void stop_gate(int);
 void check_gate_fingers(void);
 int did_player_escape_guard(void);
@@ -833,25 +834,27 @@ void animate_exit(void)
 {
     int height = BlueSpec.state & 255;
 
-    if (current_trob.state >= 4) {
-        ++current_trob.state;
-        height -= exit_close_speed[current_trob.state];
-        if (height < 0) {
-            height = 0;
-            current_trob.state = -1;
-            AddSound(9);
-        } else if (current_trob.state == 4 && (exit_flags & 1) && !exit_sound_suppressed)
-            AddSound(7);
-    } else if (current_trob.state >= 0) {
-        ++height;
-        if (height >= 42) {
-            current_trob.state = -1;
-            if (Room.number != 4 || Level.level_number != 13) {
-                finish_exit_opening(0);
-                AddSound(8);
-            }
-        } else if (Room.number != 4 || Level.level_number != 13)
-            AddSound(7);
+    if (current_trob.state >= 0) {
+        if (current_trob.state >= 4) {
+            ++current_trob.state;
+            height -= exit_close_speed[current_trob.state];
+            if (height < 0) {
+                height = 0;
+                current_trob.state = -1;
+                AddSound(9);
+            } else if (current_trob.state == 4 && (active_sound_channels & 1) && !exit_sound_suppressed)
+                AddSound(7);
+        } else {
+            ++height;
+            if (height >= 42) {
+                current_trob.state = -1;
+                if (Room.number != 4 || Level.level_number != 13) {
+                    dispatch_sound(0);
+                    AddSound(8);
+                }
+            } else if (Room.number != 4 || Level.level_number != 13)
+                AddSound(7);
+        }
     }
     BlueSpec.state = (BlueSpec.state & 0xff00U) + height;
     redraw_exit();
@@ -1086,30 +1089,29 @@ void trigger_flask(byte room, sbyte cell)
     add_trob(room, cell, 1, 10);
 }
 
-extern byte gate_lock_room;
-extern sbyte trigger_style_gate(byte room, sbyte cell);
+extern sbyte trigger_gate_with_reverse_plate(byte room, sbyte cell);
 
 sbyte trigger_gate(byte room, sbyte cell, int action)
 {
     sbyte state = -1;
-    RoomObject *object = &BlueS[cell];
-    unsigned value = object->state;
+    unsigned value = (*(RoomObject **)&BlueS)[cell].state;
     unsigned height = value & 255;
-    unsigned flags = value & 0xff00U;
+    unsigned modifier = value;
+    unsigned flags = modifier & 0xff00U;
 
     switch (action) {
     case 5:
         if (height == 255)
             break;
         if (height >= 200) {
-            object->state = flags + 250;
-            if (Char.alive >= 0 || (gate_lock_room && gate_lock_room != (byte)Char.room)) {
+            (*(RoomObject **)&BlueS)[cell].state = flags + 250;
+            if (Char.alive >= 0 || (CutRoom && CutRoom != (byte)Char.room)) {
                 BlueS[cell].state = flags + 255;
                 state = 3;
             }
         } else {
-            object->state = flags + ((height + 3) & 0xfc);
-            if (Char.alive >= 0 || (gate_lock_room && gate_lock_room != (byte)Char.room))
+            (*(RoomObject **)&BlueS)[cell].state = flags + ((height + 3) & 0xfc);
+            if (Char.alive >= 0 || (CutRoom && CutRoom != (byte)Char.room))
                 state = 3;
             else
                 state = 2;
@@ -1123,10 +1125,10 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
         if (height < 200)
             state = 3;
         else
-            object->state = flags + 255;
+            (*(RoomObject **)&BlueS)[cell].state = flags + 255;
         break;
     case 34:
-        state = trigger_style_gate(room, cell);
+        state = trigger_gate_with_reverse_plate(room, cell);
         break;
     }
     return state;
@@ -1152,14 +1154,13 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
         if (room != exit_room && Level.level_number == 8 && exit_unlocked != 1) {
             state = -1;
         } else {
-            state = 2 * ((byte)BlueS[cell].state < 1) - 1;
-            if (state == 1 && !has_sound_override(exit_sound_name) && Level.level_number != 13)
+            state = (-((unsigned)(byte)BlueS[cell].state < 1U) & 2) - 1;
+            if ((sbyte)(state - 1) == 0 && !has_sound_override(exit_sound_name) && Level.level_number != 13)
                 AddSong(27);
         }
         break;
     case 25:
-        state = action == 5 ? 2 : 1;
-        trigger_desert_floor(room, cell, state);
+        trigger_desert_floor(room, cell, state = action == 5 ? 2 : 1);
         state = -1;
         break;
     case 27:
@@ -2119,3 +2120,11 @@ int is_visible_room_cell(byte room, sbyte cell)
         visible = 0;
     return visible;
 }
+
+unsigned char CharObjForePriority[15] = {
+    127, 127, 127, 100, 127, 50, 127, 127, 127, 100, 127, 127, 127, 200, 200
+};
+
+unsigned char NonCharObjForePriority[13] = {
+    127, 127, 127, 127, 200, 60, 225, 50, 200, 80, 210, 210, 60
+};

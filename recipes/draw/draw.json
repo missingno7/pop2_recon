@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "6ac5d93cdfdcaa2163f04c2b26d8d74e289fdd2f75606e80b903b18a554bed30",
+  "binding_sha256": "287bed7d0c60ac353ec3d353c4832c75c5249b9dd5fc37571fbe5dea66b05e52",
   "claims": [
     {
       "fixup_count": 5,
@@ -55,6 +55,11 @@
       "target_id": "root:078a:01c8"
     },
     {
+      "fixup_count": 13,
+      "public": "REDRAW_TOP_FAST",
+      "target_id": "root:078a:0356"
+    },
+    {
       "fixup_count": 15,
       "public": "BACK_IMAGE_START_PASS",
       "relocation_indices": [
@@ -90,6 +95,22 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:078a:0712"
+    },
+    {
+      "fixup_count": 49,
+      "public": "CHECK_FOREGROUND_GATE",
+      "relocation_indices": [
+        736,
+        741,
+        769,
+        814,
+        827
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:078a:0984"
     },
     {
       "fixup_count": 8,
@@ -143,8 +164,10 @@
         704,
         731
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "root:078a:13b2"
     },
     {
@@ -171,6 +194,47 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:078a:15ca"
+    },
+    {
+      "fixup_count": 58,
+      "public": "DRAW_FLOOR_BUFFER",
+      "relocation_indices": [
+        773,
+        774,
+        839,
+        846,
+        860,
+        861
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:078a:1696"
+    },
+    {
+      "fixup_count": 25,
+      "public": "DRAW_CELL_OBJECTS",
+      "relocation_indices": [
+        749,
+        775,
+        800
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:078a:18c6"
+    },
+    {
+      "fixup_count": 6,
+      "public": "SORT_CELL_OBJECTS",
+      "target_id": "root:078a:19fe"
+    },
+    {
+      "fixup_count": 22,
+      "public": "COMPARE_OBJECTS",
+      "target_id": "root:078a:1a50"
     },
     {
       "fixup_count": 2,
@@ -234,10 +298,8 @@
         760,
         830
       ],
-      "relocation_order": "GROUPED",
-      "relocation_order_debt": [
-        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
-      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
       "target_id": "root:078a:2108"
     },
     {
@@ -281,9 +343,43 @@
       "target_id": "root:078a:22f8"
     },
     {
+      "fixup_count": 8,
+      "public": "DRAW_FLASK",
+      "relocation_indices": [
+        867,
+        868,
+        869
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:078a:2398"
+    },
+    {
       "fixup_count": 0,
       "public": "FLASK_BUBBLE_COLOR",
       "target_id": "root:078a:24b8"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAWKIDMETER",
+      "relocation_indices": [
+        761,
+        873,
+        874
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:078a:24ee"
+    },
+    {
+      "fixup_count": 11,
+      "public": "DRAW_METERS",
+      "relocation_indices": [
+        797
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:078a:2590"
     },
     {
       "fixup_count": 7,
@@ -417,39 +513,64 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:078a:2cb2"
+    }
+  ],
+  "code_matches": [
+    {
+      "public": "REDRAW_CELL_FAST",
+      "target_id": "root:078a:01e2",
+      "unproven": [
+        "REDRAW_BACK_CELLS+0x2",
+        "REDRAW_FORE_CELLS+0x2"
+      ]
     },
     {
-      "fixup_count": 11,
-      "public": "DRAW_METERS",
-      "relocation_indices": [
-        797
-      ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
-      "target_id": "root:078a:2590"
+      "public": "DRAW_BACK_IMAGE",
+      "target_id": "root:078a:03da",
+      "unproven": [
+        "BELOW_TILES+0x3",
+        "BELOW_TILES+0x5",
+        "BELOW_TILES+0x6",
+        "BELOW_TILES+0x8"
+      ]
+    },
+    {
+      "public": "DRAW_FORE_IMAGE",
+      "target_id": "root:078a:0858",
+      "unproven": [
+        "ABOVE_TILES+0x5",
+        "ABOVE_TILES+0x6",
+        "ABOVE_TILES+0x8"
+      ]
+    },
+    {
+      "public": "DRAW_BITMAP",
+      "target_id": "root:078a:119e",
+      "unproven": [
+        "MISSING_SHAPE_FORMAT"
+      ]
+    },
+    {
+      "public": "@load_horse_shape",
+      "target_id": "root:078a:21b0",
+      "unproven": [
+        "HORSE_SHAPE_REF+0x1",
+        "HORSE_SHAPE_REF+0x2",
+        "HORSE_SHAPE_REF+0x3"
+      ]
+    }
+  ],
+  "data_publics": [
+    {
+      "address": 1242,
+      "name": "HORSE_LEVEL14_ORIGIN",
+      "offset": 96,
+      "segment": "_DATA",
+      "span": 4,
+      "unique": true
     }
   ],
   "drafts": [
-    {
-      "object_offset": 482,
-      "public": "REDRAW_CELL_FAST"
-    },
-    {
-      "object_offset": 854,
-      "public": "REDRAW_TOP_FAST"
-    },
-    {
-      "object_offset": 986,
-      "public": "DRAW_BACK_IMAGE"
-    },
-    {
-      "object_offset": 2136,
-      "public": "DRAW_FORE_IMAGE"
-    },
-    {
-      "object_offset": 2436,
-      "public": "CHECK_FOREGROUND_GATE"
-    },
     {
       "object_offset": 3052,
       "public": "DRAW_BACK_FORE_ITEM"
@@ -459,28 +580,8 @@
       "public": "DRAW_MIDDLE_ITEM"
     },
     {
-      "object_offset": 4510,
-      "public": "DRAW_BITMAP"
-    },
-    {
       "object_offset": 5166,
       "public": "ADD_DIRTY_RECTANGLE"
-    },
-    {
-      "object_offset": 5782,
-      "public": "DRAW_FLOOR_BUFFER"
-    },
-    {
-      "object_offset": 6342,
-      "public": "DRAW_CELL_OBJECTS"
-    },
-    {
-      "object_offset": 6654,
-      "public": "SORT_CELL_OBJECTS"
-    },
-    {
-      "object_offset": 6736,
-      "public": "COMPARE_OBJECTS"
     },
     {
       "object_offset": 7194,
@@ -493,18 +594,6 @@
     {
       "object_offset": 8044,
       "public": "SORT_FORE_TABLE"
-    },
-    {
-      "object_offset": 8624,
-      "public": "@load_horse_shape"
-    },
-    {
-      "object_offset": 9112,
-      "public": "DRAW_FLASK"
-    },
-    {
-      "object_offset": 9454,
-      "public": "DRAW_KID_METER"
     },
     {
       "object_offset": 9672,
@@ -530,12 +619,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "a14421d264c274c057a2a0a54b0b748460c4e83657f659c40e7d2289d3d4961e",
+  "object_sha256": "c295abc0ca573fb57ca8cc70d9a8b5161a7654975ca6faea8cd526a4b400bf85",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "89612b2fc2a55e0ce186aa86b00722c2982a03454f8ef3d681796fadf4232f73",
+  "source_sha256": "7ebbe0c97ca14686e47effe4a10f19a064c6f197f8f3084578a6a2f0d0acdd8f",
   "space": "root"
 }
