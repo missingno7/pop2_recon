@@ -268,8 +268,11 @@ def _linked_data(seg, content, fields, placements, far_symbols=None, data_symbol
             relocated.append(at + 2)
             continue
         external = (data_symbols or {}).get(target.get("name")) if target.get("kind") == "external" else None
-        require(not f["self_relative"] and f["loc_type"] in (1, 5) and f["field_width"] == 2 and
-                {k: frame.get(k) for k in ("kind", "name")} == {"kind": "group", "name": "DGROUP"} and
+        # An external may also be framed by its own target (F5, as in the code-side v4 equation): its
+        # PUBDEF is framed by DGROUP, so the linked value is the same DGROUP offset.
+        framed = ({k: frame.get(k) for k in ("kind", "name")} == {"kind": "group", "name": "DGROUP"} or
+                  external is not None and frame == {"kind": "target_frame", "target": target})
+        require(not f["self_relative"] and f["loc_type"] in (1, 5) and f["field_width"] == 2 and framed and
                 ((target.get("kind") == "segment" and target.get("name") in placements) or
                  (external is not None and type(external.get("offset")) is int and not external.get("unproven"))),
                 f"Placed segment {seg} fixup at +{f['segment_offset']:#x} is not a DGROUP near pointer "
@@ -1093,6 +1096,59 @@ def accepted_public_names(recipes):
     return counts
 
 
+def _archive_public(name, symbol, oracle):
+    """Ground an external DGROUP symbol by a data public of a pinned library member (2026-11-23; `__ctype`).
+
+    The member's placed segment must be fixup-free, fully initialized and at least 16 bytes long, and equal
+    original DGROUP bytes that occur once and hold no relocated word. Its library must be one that accepted runtime
+    recipes pin. No accepted component may define the name or place data over the segment."""
+    from pathlib import Path
+    from common import project_path
+    from omf import OmfReader
+    spec = symbol["archive"]
+    require(set(symbol) <= {"kind", "group", "provider", "offset", "context", "archive"} and
+            symbol.get("group") == "DGROUP" and symbol.get("provider") == "runtime" and
+            set(spec) == {"library_path", "library_sha256", "archive_offset", "member_extent", "member_sha256",
+                          "segment", "placement", "dgroup_segment"}, "Unsupported archive data public symbol")
+    recipes = _accepted_recipes()
+    require(any(o.get("kind") == "PINNED_RUNTIME" and r.get("library_sha256") == spec["library_sha256"]
+                for o, r in recipes), "Archive provider library is not one an accepted runtime recipe pins")
+    library = Path(spec["library_path"]).read_bytes()
+    raw = library[spec["archive_offset"]:spec["archive_offset"] + spec["member_extent"]]
+    require(sha(library) == spec["library_sha256"] and sha(raw) == spec["member_sha256"],
+            "Archive provider library or member identity changed")
+    module = OmfReader(overwrite_ledata=True, library_records=True).read(raw, "member")
+    seg, p = spec["segment"], spec["placement"]
+    content = module.segments.get(seg)
+    length = next((d["length"] for d in module.segment_defs if d["name"] == seg), 0)
+    members = {module.segment_defs[i - 1]["name"] for g in module.groups if g["name"] == "DGROUP"
+               for i in g["segments"] if 1 <= i <= len(module.segment_defs)}
+    require(seg in members and content is not None and length >= 16 and
+            _initialized_with_alignment_holes(module.initialized_ranges.get(seg, []), length) and
+            not any(f["segment"] == seg for f in fixes(module)),
+            "Archive provider segment is not fixup-free initialized DGROUP data")
+    home, dgroup = _dgroup_home({"dgroup_segment": spec["dgroup_segment"]}, oracle.spaces["root"], oracle)
+    start = dgroup + p
+    require(home.data[start:start + length] == content and _occurs_once(home, dgroup, content) and
+            not any(start - 1 <= r["image_offset"] < start + length for r in home.relocations),
+            f"Placement of {name} is not fixed by unique original DGROUP content")
+    own = sorted(q["offset"] for q in module.publics if q["segment"] == seg)
+    entry = [q["offset"] for q in module.publics if q["segment"] == seg and q["name"] == name]
+    require(len(entry) == 1 and symbol["offset"] == p + entry[0] and accepted_public_names(recipes).get(name, 0) == 0,
+            f"{name} is not the single data public of that archive member")
+    span = min([o for o in own if o > entry[0]], default=length) - entry[0]
+    for _, other in recipes:
+        if "binding" not in other or other.get("kind") not in ("same_source_group", DATA_GROUP_KIND):
+            continue
+        other_binding = read_json(project_path(other["binding"]))
+        lengths = {d["name"]: d["length"] for d in other_binding["declarations"]["segments"]}
+        for oseg, q in other_binding.get("placements", {}).items():
+            require(not (q < p + length and p < q + lengths[oseg]),
+                    f"Archive segment of {name} overlaps placed {oseg} of {other['name']}")
+    return {"kind": PUBLIC_KIND, "offset": symbol["offset"], "span": span, "provider": "runtime",
+            "segment": seg, "range": (p, p + length)}
+
+
 def _provider_public(name, symbol, oracle, group_id, own_names):
     """Ground an external DGROUP symbol by the data public of that name in another accepted
     group (2026-11-22). The linker resolves the EXTDEF by name, so the value is S + A with
@@ -1101,6 +1157,8 @@ def _provider_public(name, symbol, oracle, group_id, own_names):
     freshly validated object. The addend must stay inside the public's span."""
     import json
     from common import project_path
+    if "archive" in symbol:
+        return _archive_public(name, symbol, oracle)
     require(set(symbol) <= {"kind", "group", "provider", "offset", "context"} and symbol.get("group") == "DGROUP" and
             type(symbol.get("offset")) is int and type(symbol.get("provider")) is str,
             "Unsupported provider data public symbol")

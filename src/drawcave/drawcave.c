@@ -835,3 +835,21 @@ int far _fastcall IsRoundCaveBlock(Word modifier)
 void load_cave_drawing(void)
 {
 }
+
+extern void far pascal draw_flask(DrawCell near *);
+extern void far pascal draw_carpet(DrawCell near *);
+extern void far pascal draw_cave_bars(DrawCell near *);
+extern void far pascal draw_bridge_floor(DrawCell near *);
+
+typedef void (far pascal *LevelTileProc)(DrawCell near *);
+LevelTileProc drawcave_level_spec[] = {
+    DrawCaveSpace, DrawCaveFloor, DrawCaveSpikes, DrawCavePosts, DrawCaveGate,
+    0, 0, 0, DrawCavePillarBot, DrawCavePillarTop,
+    draw_flask, DrawCaveLoose, 0, 0, draw_cave_rubble,
+    0, DrawCaveExit1, DrawCaveExit2, draw_carpet, DrawCaveTorch,
+    DrawCaveBlock, 0, 0, DrawCaveLava1, DrawCaveLava2,
+    0, 0, draw_cave_bars, 0, 0,
+    0, 0, draw_cave_rubble_torch, DrawCaveExit3, DrawCaveRevPlate,
+    DrawCaveExit4, DrawCaveDart, 0, 0, 0,
+    0, 0, 0, 0, draw_bridge_floor
+};

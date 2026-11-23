@@ -2,12 +2,11 @@
   "method": "Original bytes of all 204 ASM_EXACT owners without a DOS-FM pair (layout/manifest.json minus evidence/modules.json pairs) decoded with the pinned Capstone 5.0.3 (tools/disasm.py). Each marker was calibrated against all 567 accepted MSC 6.00 CODE_EXACT components in the same image: a marker is counted as strong only if it occurs in 0 of the 567 C components (exceptions noted). Strong markers: odd entry address (all 567 C entries are even); pop si/di/ds/es directly before pop bp (MSC restores through mov sp,bp); pop bp without mov sp,bp after a Pascal call (255/256 C functions comply, the exception is a call-free path); add sp,-n frame allocation (C uses sub sp,n 181 times); les/lds into ax/cx/dx; mov r,es; or ax,bx null tests; jcxz/loop/xlat/lods/stos/scas/cmps (lone); cli/sti/pushf/popf/in/out/int/iret/std/stc/clc/rcr; xor r,r zeroing (MSC uses sub r,r); test r,r (MSC uses or r,r); plain E8 near calls without push cs and near RET (register-argument helpers); mov bp,[bp+n]/BP as a general register; xchg other than MSC's xchg bx,ax; lea [bp..]; push ds (MSC pushes ss); carry-flag results tested after calls; frameless mov bx,sp argument access; jmp word ptr [DGROUP vector] stubs; far tail jumps. Weak markers (seen in C too: push es, cmc, CS: switch tables, mov ds,r) are listed only as supplements. MSC-like frames (push bp; mov bp,sp; push di; push si; retf n) were not taken as C evidence because FM-confirmed genuine assembly (UNPACK.ASM, TGATOMCG.ASM, XLATTXT4.ASM) uses the same frame shape.",
   "targets": {
     "root:0000:15d1": {
-      "verdict": "asm",
-      "group": "prince/flush_bios_keyboard",
       "evidence": [
-        "odd entry address 15d1 (every MSC function here starts even)",
-        "15d6 int 0x21"
-      ]
+        "Odd entry at 15d1, direct INT 21h DOS keyboard flush service at 15d6."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
     },
     "root:1000:99fc": {
       "verdict": "asm",
@@ -3108,14 +3107,60 @@
       ]
     },
     "root:0000:1529": {
-      "verdict": "asm",
-      "group": "prince/restore_interrupt_vectors",
       "evidence": [
-        "Original entry is at odd offset 1529, immediately after the vector installation routine's RETF at 1528.",
-        "Repeated DOS INT 21h and LDS DX with SS override (1532, 153d, 1548, 1553). MSC's observed C codegen does not emit LDS into DX.",
-        "PUSH DS and POP DS enclose the vector restores before RETF at 155b. The 155c IRET is a distinct handler.",
-        "The accepted target row records the original relocated CALL FAR at root+0x1def6 (MZ 1722)."
-      ]
+        "Odd entry at 1529, LDS DX from SS overrides at 1532/153d/1548/1553, and direct INT 21h."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:14ae": {
+      "evidence": [
+        "14b3 INT 21h uses the DOS register ABI directly."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:14b7": {
+      "evidence": [
+        "Odd entry at 14b7, direct INT 21h vector services and PUSH CS / POP DS at 14f1..14f2."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:155c": {
+      "evidence": [
+        "155c IRET is the whole entry."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:155d": {
+      "evidence": [
+        "155d odd entry, 1565 IN AL,60h, 1581 PUSHF and 1587 IRET."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:1588": {
+      "evidence": [
+        "1595 PUSHF and 159b IRET; saved vector reached by indirect far CALL."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:159c": {
+      "evidence": [
+        "15a4 TEST AH,AH; PUSHF before both indirect far CALLs; 15ba IRET; 15bb POP CS:[scratch] and 15c8 MOV DS,CS:[scratch]."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
+    },
+    "root:0000:15d0": {
+      "evidence": [
+        "15d0 IRET is the whole entry."
+      ],
+      "group": "prince/keyboard",
+      "verdict": "asm"
     }
   },
   "summary": {

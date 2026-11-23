@@ -390,6 +390,11 @@ externs (`dgroup-public` provider symbols, as for a group). The manifest lists t
 `data_groups`; validation recompiles it and includes its placements in the overlap check, so a
 correctly attributed data module can never coexist with a misattributed placement of the same bytes.
 
+A data public of a pinned library member can be the provider too (`"provider": "runtime"` with an `archive` object:
+library, member identity, segment, placement). Its segment must be fixup-free, fully initialized, at least 16 bytes
+long and occur once in the original DGROUP image (`module_gate._archive_public`; MSC `__ctype` at DS:24ba). An addend
+equal to a provider public's span is accepted only as a compared immediate, the one-past-the-end bound of a loop.
+
 ## Aggregate extents (2026-11-22)
 
 A v4 member address S+k usually needs its own witness. Many single-use addresses are members
@@ -420,6 +425,15 @@ window that ends in a relocated far CALL of a resident routine and passes exactl
 routine's entry (`push bp; mov bp,sp`) and copies through `mov r,[bp+disp]` with the matching stack slot. First use:
 INIT_PORT copies 44 bytes into `ScreenPort` (DS:5e62). A base with a proven extent is a used address, so it needs no
 other immediate evidence.
+
+An extent may also come from a bounds-checked byte index (`"kind": "index"`): BH cleared, `cmp bl,N; jae`, then
+`add bx,S` and a byte access at [bx]. The program addresses exactly S..S+N-1 as one array, which grounds S as well.
+First use: the keyboard interrupt handler's `KEY_DOWN` (DS:1e7b, 59h bytes).
+
+A far pointer variable has extent 4 (`"kind": "pointer"`) when one reached original instruction loads or calls through
+it as a whole (`les`/`lds r,[S]`, `call`/`jmp far [S]`); its segment half S+2 is then a member. An index witness grounds
+S as well, so it must lie outside the claims; after a pointer access inside a claim, S still needs an outside witness or
+two equal claimed sites (internal consensus).
 
 A provider data public's segment may hold relocated words when they are exactly the provider's own far-pointer and
 segment-word fixups (LOAD's level procedure table at DS:06d4). Any other relocated word is refused.

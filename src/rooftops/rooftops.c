@@ -174,7 +174,10 @@ extern int delay_count, active_sound_channels;
 extern CHARREC Char;
 extern CHARREC Kid;
 extern Rect draw_clip, NullRect, GamePlayRect;
-extern SplashImage splash_images[];
+static SplashImage splash_images[] = {
+    {0, 0}, {56, 0}, {57, 0}, {58, 0},
+    {56, 0}, {59, 0}, {60, 0}, {56, 0}
+};
 extern PeelSlot custom_peels[];
 extern char quit_prompt[], restart_prompt[];
 
@@ -633,3 +636,15 @@ void far pascal update_ship_peel(sbyte slot, int bottom)
             peel->bottom = bottom;
     }
 }
+
+typedef void (far pascal *LevelTileProc)(RoofAnimation near *);
+LevelTileProc rooftops_level_spec[] = {
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, draw_roof_pillar, draw_roof_ship, draw_roof_glass
+};

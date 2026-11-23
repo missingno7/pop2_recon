@@ -653,7 +653,7 @@ extern struct slot_editor far * far pascal create_edit_field(struct dialog_rect 
                                           struct dialog_rect far *, char far *, int);
 extern void far pascal show_edit_caret(struct slot_editor far *);
 extern void far pascal blink_edit_caret(struct slot_editor far *);
-extern void far pascal edit_slot_key(struct slot_editor far *, int);
+extern void far pascal handle_edit_key(struct slot_editor far *, int);
 
 int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
 {
@@ -711,7 +711,7 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
         default:
             if (editor) {
                 if (key != '>' && key != '<')
-                    edit_slot_key(editor, key);
+                    handle_edit_key(editor, key);
             } else {
                 switch (key) {
                 case 0x4700: slot = 0; break;
@@ -1362,7 +1362,7 @@ void far pascal edit_hall_name(struct hall_table far *table, int row)
             else
                 done = 1;
         } else if (key && key != '>' && key != '<') {
-            edit_slot_key((struct slot_editor far *)editor, key);
+            handle_edit_key((struct slot_editor far *)editor, key);
         }
     } while (!done);
     close_slot_editor((struct slot_editor far *)editor);

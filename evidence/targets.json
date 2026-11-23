@@ -72056,6 +72056,128 @@
       "size": 316,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "Far entry, no arguments, result in AX; RETF.",
+      "boundary_evidence": [
+        "The FM Towns-anchored MCGA1 packed-nibble mirror returns with RETF 10 at root+0x14ab, ending immediately before this entry.",
+        "Starts a separate frameless DOS AH=48h call with BX=FFFFh at root+0x14ae; XCHG AX,BX and RETF at 0x14b5..0x14b6 conclude the routine.",
+        "The independently relocated installer entry at 0x14b7 starts at the next byte. A relocated caller of the memory query was not found."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS platform assembly.",
+      "entry_kind": "direct-code",
+      "id": "root:0000:14ae",
+      "offset": 5294,
+      "segment": 0,
+      "semantic_name_hypothesis": "largest_dos_memory_block",
+      "sha256": "8e5527bb1a5aef86ef6d178d316d50b4bd5b6c2433e492656f07f75d94c04c3c",
+      "size": 9,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 05h entry; preserves registers and returns via IRET.",
+      "boundary_evidence": [
+        "The installer puts CS in DS at root+0x14f1 and loads DX with 155ch at root+0x14f7 before INT 21h with AX=2505h, installing INT 05h.",
+        "The preceding restore routine ends with RETF at 0x155b. This handler is a single IRET. The next byte is the independently installed INT 09h entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS platform assembly.",
+      "entry_kind": "direct-code",
+      "id": "root:0000:155c",
+      "offset": 5468,
+      "segment": 0,
+      "semantic_name_hypothesis": "ignore_print_screen",
+      "sha256": "7a4a4b50f5121ed5310ece45a7eeb7af5545af63ee2ae52add4f37788f075b1d",
+      "size": 1,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "IRQ 1 / INT 09h entry; saves DS, AX and BX and invokes the previous handler with PUSHF and far CALL before IRET.",
+      "boundary_evidence": [
+        "The installer puts CS in DS at root+0x14f1 and loads DX with 155dh at root+0x1500 before INT 21h with AX=2509h, installing INT 09h.",
+        "The bound branch from 0x1577 bypasses the key table store and joins the old-handler call path at 0x157f. IRET at 0x1587 ends the handler before the independently installed INT 10h entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS platform assembly.",
+      "entry_kind": "direct-code",
+      "id": "root:0000:155d",
+      "offset": 5469,
+      "segment": 0,
+      "semantic_name_hypothesis": "track_keyboard_irq",
+      "sha256": "9bdc5fa438a57fdfebe5c5dd2fa914305b51f2c8004f1d6b0b166fec0856aad8",
+      "size": 43,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 10h entry; takes BIOS selection in AH, preserves DS and returns with IRET.",
+      "boundary_evidence": [
+        "The installer puts CS in DS at root+0x14f1 and loads DX with 1588h at root+0x1509 before INT 21h with AX=2510h, installing INT 10h.",
+        "AH=0Eh bypasses the previous handler call. Both paths converge at POP DS / IRET at 0x159a..0x159b; INT 16h starts at 0x159c."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS platform assembly.",
+      "entry_kind": "direct-code",
+      "id": "root:0000:1588",
+      "offset": 5512,
+      "segment": 0,
+      "semantic_name_hypothesis": "filter_video_interrupt",
+      "sha256": "1456b2a8bbc0cc90393462c63f33570b3f433549e8cd8e5558822c82cf306ed9",
+      "size": 20,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 16h entry; AH=0 path returns by IRET; nonzero AH hands the saved interrupt frame to the original BIOS vector.",
+      "boundary_evidence": [
+        "The installer puts CS in DS at root+0x14f1 and loads DX with 159ch at root+0x1512 before INT 21h with AX=2516h, installing INT 16h.",
+        "The JNE at 0x15a6 targets the internal path at 0x15bb. That path restores caller DS and executes RETF at 0x15cd with the old BIOS destination on the stack.",
+        "Both CS overrides at 0x15bb and 0x15c8 name the same two-byte writable DS scratch word at 0x15ce. This word ends at the independently installed INT 23h entry."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS platform assembly.",
+      "entry_kind": "direct-code",
+      "id": "root:0000:159c",
+      "offset": 5532,
+      "segment": 0,
+      "semantic_name_hypothesis": "filter_keyboard_interrupt",
+      "sha256": "174ab521824c669203d177222e89697210b4f90231a5470fe9fa3a2ee1c11509",
+      "size": 52,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "abi": "INT 23h entry; preserves registers and returns via IRET.",
+      "boundary_evidence": [
+        "The installer puts CS in DS at root+0x14f1 and loads DX with 15d0h at root+0x151b before INT 21h with AX=2523h, installing INT 23h.",
+        "One-byte IRET after the INT 16h scratch word and immediately before the independently relocated DOS keyboard flush routine."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [],
+      "classification": "SUPPORT_CODE",
+      "classification_status": "Reviewed original DOS platform assembly.",
+      "entry_kind": "direct-code",
+      "id": "root:0000:15d0",
+      "offset": 5584,
+      "segment": 0,
+      "semantic_name_hypothesis": "ignore_ctrl_break",
+      "sha256": "7a4a4b50f5121ed5310ece45a7eeb7af5545af63ee2ae52add4f37788f075b1d",
+      "size": 1,
+      "space": "root",
+      "state": "ANALYZED"
     }
   ],
   "schema": 1,

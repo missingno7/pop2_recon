@@ -101,7 +101,7 @@ class RuntimeProviderTests(unittest.TestCase):
 
     def test_provider_must_be_an_accepted_owner_with_that_public(self):
         binding = self.binding("crt_malloc_medium")
-        binding["external_providers"][0]["target_id"] = "root:0000:0000"
+        binding["external_providers"][0]["target_id"] = "root:0000:0001"
         with self.assertRaisesRegex(ValueError, "not one accepted exact resident owner"):
             self.prove("crt_malloc_medium", binding=binding)
         binding = self.binding("crt_malloc_medium")

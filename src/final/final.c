@@ -451,8 +451,8 @@ typedef struct {
     byte flags;
 } AnimationFrame;
 
-extern _segment animation_frame_segment;
-extern AnimationFrame _based(animation_frame_segment) animation_frames[];
+typedef AnimationFrame AnimationFrameTable[];
+extern AnimationFrameTable far hit_actions;
 
 void far pascal FinlWatchKid(void)
 {
@@ -467,7 +467,7 @@ void far pascal FinlWatchKid(void)
         room = register_actor_room();
         if ((room == 7 || room == 8) && Level.environment_kind == 6 &&
             Kid.room == 5 && Level.environment_kind == 6 && Kid.column <= 4 &&
-            (animation_frames[(int)Kid.frame].flags & 0x40)) {
+            (hit_actions[(int)Kid.frame].flags & 0x40)) {
             copy_kid_to_char();
             decrement_life_points(100);
             JumpSeq(71);
@@ -611,7 +611,7 @@ int far pascal jaffar_has_clear_shot(void)
 
     if (Opp.life_points > 0 && (Opp.room == 7 || Opp.room == 8) &&
         Level.environment_kind == 6 && Char.row == Opp.row &&
-        (animation_frames[(int)Char.frame].flags & 0x40) && Char.frame != 109) {
+        (hit_actions[(int)Char.frame].flags & 0x40) && Char.frame != 109) {
         sbyte position = Char.column;
 
         if (Char.room == 8)
@@ -1731,3 +1731,18 @@ void far pascal trigger_fireball(void)
     add_mob();
     AddSound(258);
 }
+
+extern void far pascal draw_flask(FinalObject near *);
+
+typedef void (far pascal *LevelTileProc)(FinalObject near *);
+LevelTileProc final_level_spec[] = {
+    draw_final_object, draw_final_object, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    draw_flask, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    draw_final_object, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, draw_jaffar_blink, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    draw_spider, draw_crystal, draw_gargoyle
+};

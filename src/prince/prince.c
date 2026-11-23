@@ -58,7 +58,7 @@ typedef struct {
 
 /* Resident PRINCE.C, DOS root [0000,1340). */
 
-extern const char *resource_files[2];
+extern const char *resource_files[3];
 extern LEVELREC Level;
 extern char selected_level;
 extern char LevelIdx;
@@ -121,11 +121,11 @@ void far pascal ResetData(void);
     platform_setup();
     SetOptionsFromDisk();
     read_start_level();
-    file = resource_files;
+    file = resource_files + 1;
     do {
         open_verified_resource(*file);
         ++file;
-    } while (file < resource_files + 2);
+    } while (file < resource_files + 3);
     Rnd(1);
     Level.environment_kind = 0;
     ResetGame();

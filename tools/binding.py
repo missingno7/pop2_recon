@@ -361,6 +361,47 @@ def fixes(module):
     return [e for r in module.fixups for e in r["resolved"] if e["kind"] == "fixup"]
 
 
+def index_extent(raw, base):
+    """Length N of the byte array at DGROUP offset `base` that an original bounds-checked index proves, else None.
+
+    The window ends `cmp bl,N; jae X; add bx,base; <byte access [bx]>` with BH cleared earlier in it and nothing but
+    BL-only operations on BX in between: the program addresses exactly base..base+N-1 as one array."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    if len(rows) < 5:
+        return None
+    compare, branch, add, access = rows[-4:]
+    if not (compare.mnemonic == "cmp" and compare.operands[0].type == xc.X86_OP_REG and
+            compare.operands[0].reg == xc.X86_REG_BL and compare.operands[1].type == xc.X86_OP_IMM and
+            branch.bytes[0] == 0x73 and bytes(add.bytes) == b"\x81\xc3" + struct.pack("<H", base)):
+        return None
+    memory = [o for o in access.operands if o.type == xc.X86_OP_MEM]
+    if not (len(memory) == 1 and memory[0].size == 1 and memory[0].mem.base == xc.X86_REG_BX and
+            memory[0].mem.index == memory[0].mem.disp == 0 and memory[0].mem.segment in (0, xc.X86_REG_DS)):
+        return None
+    cleared = False
+    for insn in rows[:-4]:
+        require(not set(insn.groups).intersection((1, 2, 3, 4, 5, 7)), "Index window must be straight-line before the bound")
+        if bytes(insn.bytes) in (b"\x2a\xff", b"\x32\xff", b"\x28\xff", b"\x30\xff"):   # sub/xor bh,bh
+            cleared = True
+        elif {insn.reg_name(r) for r in insn.regs_access()[1]} & {"bx", "bh"}:
+            cleared = False
+    return compare.operands[1].imm & 0xFF if cleared else None
+
+
+def pointer_extent(raw, base):
+    """4 when the single original instruction `raw` reads a far pointer stored at DGROUP offset `base` (les/lds r,[base]
+    or call/jmp far [base], default DS or the equal SS), else None: the program treats [base, base+4) as one pointer."""
+    _, xc = _capstone()
+    rows = instructions(raw)
+    if len(rows) != 1 or rows[0].mnemonic not in ("les", "lds", "lcall", "ljmp"):
+        return None
+    memory = [o for o in rows[0].operands if o.type == xc.X86_OP_MEM]
+    ok = (len(memory) == 1 and memory[0].mem.base == memory[0].mem.index == 0 and rows[0].disp_size == 2 and
+          memory[0].mem.disp & 0xFFFF == base and memory[0].mem.segment in (0, xc.X86_REG_DS, xc.X86_REG_SS))
+    return 4 if ok else None
+
+
 def call_arguments(raw):
     """Stack words a straight-line original window passes to the far CALL that ends it, as {disp: value}: disp is the
     callee's [bp+disp] after `push bp; mov bp,sp` (6 for the last word pushed), value the pushed constant. Words that
@@ -541,12 +582,15 @@ def ground(binding, target, oracle, claimed=None):
             length = 0
             if "extent" in symbol:
                 spec = symbol["extent"]
-                require(set(spec) <= {"length", "witness", "call"} and {"length", "witness"} <= set(spec) and
-                        symbol["witnesses"],
+                kind = spec.get("kind")
+                require(set(spec) <= {"length", "witness", "call", "kind"} and {"length", "witness"} <= set(spec) and
+                        (symbol["witnesses"] and kind is None or kind in ("index", "pointer") and "call" not in spec),
                         "An aggregate extent needs {length, witness} and an independently witnessed base")
                 # In a group the copy may itself lie inside a claim (2026-11-23): its length is an
                 # original fact about [S, S+L); S still needs its own witness outside the claims.
-                at, raw = witness(spec["witness"], draft_ok=True, anywhere=True)
+                # An index witness is S's only evidence, so it must stay outside the claims. A pointer access
+                # inside one leaves S to internal consensus (two equal claimed sites) when S has no witness.
+                at, raw = witness(spec["witness"], draft_ok=True, anywhere=kind != "index")
                 require("entry" in spec["witness"] and at in reachable_from_entry(oracle, spec["witness"]["entry"]),
                         "Extent witness is not reached from its entry")
                 arguments = None
@@ -563,9 +607,10 @@ def ground(binding, target, oracle, claimed=None):
                             "Extent call is not a reached, relocated far CALL of the copying routine")
                     arguments = call_arguments(craw)
                     require(offset in arguments.values(), "Extent call does not pass the symbol's address")
-                length = block_copy_extent(raw, at, offset, arguments)
+                length = (index_extent(raw, offset) if kind == "index" else pointer_extent(raw, offset)
+                          if kind == "pointer" else block_copy_extent(raw, at, offset, arguments))
                 require(length is not None and length == spec["length"],
-                        "Extent witness is not a block copy of the declared length anchored at the symbol")
+                        "Extent witness is not a block copy, bounded index or far pointer access of that length at the symbol")
             require(all(type(m.get("offset")) is int and 0 < m["offset"] < 65536 and
                         type(m.get("witnesses")) is list and
                         (m["witnesses"] or internal or m["offset"] < length or
@@ -702,8 +747,10 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
                         fix["frame"].get("name") == "DGROUP")
         require(fix["segment"] == code_name and fix["loc_type"] == 1 and
                 fix["field_width"] == 2 and not fix["self_relative"] and
-                target_ref["kind"] == "external" and target_ref["method"] == 6 and
-                fix["displacement"] is None and
+                target_ref["kind"] == "external" and
+                (target_ref["method"] == 6 and fix["displacement"] is None or
+                 # MASM `sym+k`: the addend is the fixup's target displacement (T2), under the DGROUP frame.
+                 dgroup_frame and target_ref["method"] == 2 and type(fix["displacement"]) is int) and
                 (fix["frame"] == {"kind": "target_frame", "target": target_ref} or dgroup_frame),
                 "Unsupported DGROUP fixup equation")
         require(0 <= at <= len(actual)-2 and not occupied.intersection((at, at+1)),
@@ -712,7 +759,7 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
         if mode == OPERAND_MODE:
             fields = [operand_field(i, at, candidate=True) for i in rows if operand_field(i, at, candidate=True)]
             require(len(fields) == 1, "v4 FIXUPP is not the disp16/imm16 field of one decoded instruction")
-            addend = struct.unpack_from("<H", actual, at)[0]
+            addend = (struct.unpack_from("<H", actual, at)[0] + (fix["displacement"] or 0)) & 0xFFFF
             # A non-zero addend must be a member whose own address S+k is independently
             # witnessed; a free addend would let the binding re-fit S (2026-11-21 review).
             if symbol.get("kind") == "dgroup-public":
@@ -722,7 +769,9 @@ def data_equations(obligations, symbols, code_name, actual, expected, rows, mode
                 insn = next(i for i in rows if operand_field(i, at, candidate=True))
                 direct = [o for o in insn.operands if o.type == xc.X86_OP_MEM and o.mem.base == o.mem.index == 0]
                 width = direct[0].size if fields[0] == "displacement" and direct else 1
-                require(addend + width <= symbol["span"], "Addend leaves the provider data public's span")
+                # `p < array + n`: the one-past-the-end address, only as a compared immediate.
+                past = addend == symbol["span"] and fields[0] == "immediate" and insn.mnemonic == "cmp"
+                require(addend + width <= symbol["span"] or past, "Addend leaves the provider data public's span")
             else:
                 require(addend == 0 or addend in {m["offset"] for m in symbol.get("members", [])},
                         "v4 proves zero-addend fields or independently witnessed members only")

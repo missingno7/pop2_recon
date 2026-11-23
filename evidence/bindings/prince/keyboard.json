@@ -1,0 +1,917 @@
+{
+  "declarations": {
+    "segments": [
+      {
+        "name": "_DATA",
+        "class": "DATA",
+        "overlay": "",
+        "length": 0,
+        "alignment": 2,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      },
+      {
+        "name": "PRINCE_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "length": 299,
+        "alignment": 1,
+        "combine": 2,
+        "big": false,
+        "use32": false,
+        "frame": null,
+        "frame_offset": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "segments": [
+          1
+        ]
+      }
+    ],
+    "publics": [
+      {
+        "name": "TRACK_KEYBOARD_IRQ",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 175,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "LARGEST_DOS_MEMORY_BLOCK",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 0,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "FLUSH_BIOS_KEYBOARD",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 291,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "IGNORE_PRINT_SCREEN",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 174,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "FILTER_KEYBOARD_INTERRUPT",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 238,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "RESTORE_INTERRUPT_VECTORS",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 123,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "INSTALL_INTERRUPT_HANDLERS",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 9,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "FILTER_VIDEO_INTERRUPT",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 218,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      },
+      {
+        "name": "IGNORE_CTRL_BREAK",
+        "segment": "PRINCE_TEXT",
+        "segment_index": 2,
+        "offset": 290,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 0
+      }
+    ],
+    "externals": [
+      "SAVED_KEYBOARD_IRQ_VECTOR",
+      "SAVED_PRINT_SCREEN_VECTOR",
+      "KEY_DOWN",
+      "SAVED_KEYBOARD_BIOS_VECTOR",
+      "INTERRUPT_VECTORS_INSTALLED",
+      "SAVED_VIDEO_BIOS_VECTOR"
+    ]
+  },
+  "dgroup_segment": {
+    "segment": 12531,
+    "witnesses": [
+      {
+        "image_offset": 7807,
+        "relocation_index": 176,
+        "space": "root"
+      }
+    ]
+  },
+  "fixups": [
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 18,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "SAVED_PRINT_SCREEN_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 22,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "SAVED_PRINT_SCREEN_VECTOR",
+        "method": 2
+      },
+      "displacement": 2
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 32,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "SAVED_KEYBOARD_IRQ_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 36,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "SAVED_KEYBOARD_IRQ_VECTOR",
+        "method": 2
+      },
+      "displacement": 2
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 46,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "SAVED_VIDEO_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 50,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "SAVED_VIDEO_BIOS_VECTOR",
+        "method": 2
+      },
+      "displacement": 2
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 60,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 64,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 2
+      },
+      "displacement": 2
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 74,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 174
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 83,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 175
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 92,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 218
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 101,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 238
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 110,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 290
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 117,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 5,
+        "name": "INTERRUPT_VECTORS_INSTALLED",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 135,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 2,
+        "name": "SAVED_PRINT_SCREEN_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 146,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "SAVED_KEYBOARD_IRQ_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 157,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "SAVED_VIDEO_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 168,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 179,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 205,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 3,
+        "name": "KEY_DOWN",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 214,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 1,
+        "name": "SAVED_KEYBOARD_IRQ_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 221,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 234,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "SAVED_VIDEO_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 241,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP",
+        "method": 5,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 255,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 265,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 272,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 288
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 276,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 2
+      },
+      "displacement": 2
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 280,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "external",
+        "index": 4,
+        "name": "SAVED_KEYBOARD_BIOS_VECTOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 2,
+      "segment": "PRINCE_TEXT",
+      "segment_offset": 285,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "PRINCE_TEXT",
+        "method": 0
+      },
+      "displacement": 288
+    }
+  ],
+  "frame": {
+    "entry_path": {
+      "bytes_hex": "2e8c0682092e8c1e8409bb03228edb",
+      "image_offset": 140968,
+      "space": "root"
+    },
+    "segment": 8707,
+    "witness": {
+      "bytes_hex": "bb03228edb",
+      "image_offset": 140978,
+      "space": "root"
+    }
+  },
+  "mode": "external-dgroup-offset16-v4",
+  "schema": 1,
+  "symbols": {
+    "KEY_DOWN": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7803,
+      "unproven": "Only the original ADD BX,OFFSET KEY_DOWN names the table base; no independent v4 operand names 1e7bh.",
+      "witnesses": []
+    },
+    "SAVED_KEYBOARD_BIOS_VECTOR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7906,
+      "witnesses": [],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "pointer",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "entry": "root:0000:1529",
+          "image_offset": 5459,
+          "bytes_hex": "36c516e21e"
+        }
+      }
+    },
+    "SAVED_KEYBOARD_IRQ_VECTOR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7898,
+      "witnesses": [],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "pointer",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "entry": "root:0000:1529",
+          "image_offset": 5437,
+          "bytes_hex": "36c516da1e"
+        }
+      }
+    },
+    "SAVED_PRINT_SCREEN_VECTOR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7894,
+      "witnesses": [],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "pointer",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "entry": "root:0000:1529",
+          "image_offset": 5426,
+          "bytes_hex": "36c516d61e"
+        }
+      }
+    },
+    "SAVED_VIDEO_BIOS_VECTOR": {
+      "group": "DGROUP",
+      "kind": "dgroup-offset",
+      "offset": 7902,
+      "witnesses": [],
+      "members": [
+        {
+          "offset": 2,
+          "witnesses": []
+        }
+      ],
+      "extent": {
+        "kind": "pointer",
+        "length": 4,
+        "witness": {
+          "space": "root",
+          "entry": "root:0000:1529",
+          "image_offset": 5448,
+          "bytes_hex": "36c516de1e"
+        }
+      }
+    },
+    "INTERRUPT_VECTORS_INSTALLED": {
+      "kind": "dgroup-offset",
+      "group": "DGROUP",
+      "offset": 7892,
+      "witnesses": [
+        {
+          "bytes_hex": "833ed41e00",
+          "entry": "root:1de8:004e",
+          "image_offset": 122607,
+          "operand_offset": 2,
+          "space": "root"
+        }
+      ]
+    }
+  },
+  "target_id": "group:prince/keyboard",
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+}

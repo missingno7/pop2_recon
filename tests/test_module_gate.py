@@ -668,6 +668,8 @@ class PlacementTests(unittest.TestCase):
         image = bytes(8) + b"\x42\x00\xaa\xbb"
         args = ([("_DATA", b"\x02\x00\xaa\xbb", 4)], {}, {"_DATA": 8}, image, [field])
         self.assertTrue(self.check(*args, data_symbols={"TABLE": {"offset": 0x40}})["_DATA"]["unique"])
+        f5 = dict(field, frame={"kind": "target_frame", "target": target})   # MSC extern: F5/T6
+        self.assertTrue(self.check(*args[:4], [f5], data_symbols={"TABLE": {"offset": 0x40}})["_DATA"]["unique"])
         for symbols in (None, {"TABLE": {"offset": 0x40, "unproven": "single site"}}):  # ungrounded: refused
             with self.assertRaisesRegex(ValueError, "independently grounded"):
                 self.check(*args, data_symbols=symbols)

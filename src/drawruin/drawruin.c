@@ -917,3 +917,17 @@ void ruin_set_crevice_revealed(int reveal)
         ((LEVELCELL *)Level.cell_info)[(Byte)Cell.room * 30 + Cell.index - 30].modifier = flags;
     }
 }
+
+extern void far pascal draw_flask(RuinCell near *);
+extern void far pascal DrawScythe1(RuinCell near *);
+extern void far pascal DrawScythe2(RuinCell near *);
+extern void far pascal draw_sword(RuinCell near *);
+
+typedef void (far pascal *LevelTileProc)(RuinCell near *);
+LevelTileProc drawruin_level_spec[] = {
+    draw_ruin_space, draw_ruin_floor, 0, draw_ruin_posts, draw_ruin_gate,
+    draw_ruin_up_plate, draw_ruin_down_plate, draw_ruin_crevice, draw_ruin_pillar_bottom, draw_ruin_pillar_top,
+    draw_flask, draw_ruin_loose, DrawScythe1, DrawScythe2, draw_ruin_rubble,
+    draw_ruin_floor, draw_ruin_exit_left, draw_ruin_exit_right, 0, 0,
+    draw_ruin_block, draw_ruin_bones, draw_sword
+};

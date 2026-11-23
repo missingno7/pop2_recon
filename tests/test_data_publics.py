@@ -372,6 +372,97 @@ class ExtendedCopyTests(unittest.TestCase):
         self.assertIsNone(self.extent("bea42afdb90600f3a5"))        # std
 
 
+class PointerExtentTests(unittest.TestCase):
+    """One far-pointer access proves a 4-byte object."""
+
+    def test_original_vector_uses(self):
+        from oracle import Oracle
+        from binding import pointer_extent
+        root = Oracle.load().spaces["root"]
+        self.assertEqual(pointer_extent(root.data[0x1532:0x1537], 0x1ED6), 4)     # lds dx,ss:[1ed6]
+        self.assertEqual(pointer_extent(root.data[0x1582:0x1586], 0x1EDA), 4)     # call far [1eda]
+        self.assertIsNone(pointer_extent(root.data[0x1582:0x1586], 0x1EDC))
+
+    def test_other_accesses_do_not(self):
+        from binding import pointer_extent
+        for code in ("a1da1e", "ff36da1e", "26c41eda1e", "c45eda", "c41f"):   # word, push, ES, [bp], [bx]
+            self.assertIsNone(pointer_extent(bytes.fromhex(code), 0x1EDA), code)
+
+    def test_an_index_witness_must_lie_outside_the_claims(self):
+        from oracle import Oracle
+        from binding import ground
+        oracle = Oracle.load()
+        real = common.read_json(ROOT / "evidence/bindings/custcvca/custcvca.json")
+        symbol = {"kind": "dgroup-offset", "group": "DGROUP", "offset": 0x1ED6, "witnesses": [],
+                  "members": [{"offset": 2, "witnesses": []}],
+                  "extent": {"kind": "pointer", "length": 4, "witness": {
+                      "space": "root", "entry": "root:0000:1529", "image_offset": 0x1532, "bytes_hex": "36c516d61e"}}}
+        binding = {**real, "target_id": "group:t/t", "symbols": {"V": symbol}}
+        target = {"id": "group:t/t", "space": "root", "segment": 0, "offset": 0x14AE, "size": 0x12B}
+        ground(binding, target, oracle, claimed=[(0x1529, 0x155C)])     # a pointer access may be claimed
+        symbol["extent"]["kind"] = "index"
+        with self.assertRaisesRegex(ValueError, "overlaps candidate"):
+            ground(binding, target, oracle, claimed=[(0x1529, 0x155C)])
+
+
+class IndexExtentTests(unittest.TestCase):
+    """A bounds-checked byte index proves an array's base and length."""
+
+    def test_keyboard_handler_indexes_59h_bytes(self):
+        from oracle import Oracle
+        from binding import index_extent
+        root = Oracle.load().spaces["root"]
+        self.assertEqual(index_extent(root.data[0x155D:0x157F], 0x1E7B), 0x59)
+        self.assertIsNone(index_extent(root.data[0x155D:0x157F], 0x1E7C))
+
+    def test_every_part_of_the_bound_is_required(self):
+        from binding import index_extent
+        good = "8ad82aff80e37f80fb59730681c37b1e8807"
+        self.assertEqual(index_extent(bytes.fromhex(good), 0x1E7B), 0x59)
+        for code in ("8ad880e37f80fb59730681c37b1e8807",            # BH not cleared
+                     "8ad82aff8bd880fb59730681c37b1e8807",          # BX replaced afterwards
+                     "8ad82aff80fb597f0681c37b1e8807",              # signed bound
+                     "8ad82aff80fb59730681c37b1e268807"):           # ES access
+            self.assertIsNone(index_extent(bytes.fromhex(code), 0x1E7B), code)
+
+
+class ArchivePublicTests(unittest.TestCase):
+    """A pinned library member's unique data can be the provider of an extern."""
+    ARCHIVE = {"library_path": "C:/tools/msc-6.00/LIB/mlibcr.lib",
+               "library_sha256": "03a85ba8ac1752b64c82eff829bd2de34f776630e1aa90874155b55f187d64f0",
+               "archive_offset": 32704, "segment": "_DATA", "placement": 0x24BA,
+               "dgroup_segment": {"segment": 12531, "witnesses": [
+                   {"space": "root", "image_offset": 5473, "relocation_index": 42}]},
+               "member_sha256": "9b7dd91fa60b803dfa5a4f7b3b03e45022c44e42291fc9c813ac55481839a1a2"}
+
+    @classmethod
+    def setUpClass(cls):
+        from oracle import Oracle
+        cls.oracle = Oracle.load()
+        library = Path(cls.ARCHIVE["library_path"]).read_bytes()
+        start = cls.ARCHIVE["archive_offset"]
+        cls.extent = next(n for n in range(16, 4096)
+                          if common.sha(library[start:start + n]) == cls.ARCHIVE["member_sha256"])
+
+    def ground(self, name="__ctype", offset=0x24BA, **archive):
+        symbol = {"kind": "dgroup-public", "group": "DGROUP", "provider": "runtime", "offset": offset,
+                  "archive": {**self.ARCHIVE, "member_extent": self.extent, **archive}}
+        return module_gate._provider_public(name, symbol, self.oracle, "group:x/x", set())
+
+    def test_ctype_is_grounded_by_the_pinned_member(self):
+        self.assertEqual((self.ground()["offset"], self.ground()["span"]), (0x24BA, 257))
+
+    def test_other_placements_names_and_members_are_refused(self):
+        with self.assertRaisesRegex(ValueError, "unique original DGROUP content"):
+            self.ground(offset=0x24BC, placement=0x24BC)
+        with self.assertRaisesRegex(ValueError, "single data public"):
+            self.ground(name="__other")
+        with self.assertRaisesRegex(ValueError, "identity changed"):
+            self.ground(archive_offset=32705)
+        with self.assertRaisesRegex(ValueError, "accepted runtime recipe pins"):
+            self.ground(library_sha256="0" * 64)
+
+
 class CallArgumentExtentTests(unittest.TestCase):
     """A callee's copy through a near-pointer argument proves the passed object's extent."""
     INIT_PORT = (0x15FF0, 0x16004)

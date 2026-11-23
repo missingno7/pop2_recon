@@ -711,3 +711,20 @@ void LoadTempleDrawCode(void)
     Pause = 0;
 }
 
+extern void far pascal draw_flask(TempleCell near *);
+extern void far pascal DrawScythe1(TempleCell near *);
+extern void far pascal DrawScythe2(TempleCell near *);
+extern void far pascal draw_temp_sacred_flame(TempleCell near *);
+
+typedef void (far pascal *LevelTileProc)(TempleCell near *);
+LevelTileProc drawtemp_level_spec[] = {
+    draw_temple_space, draw_temple_floor, draw_temple_spikes, draw_temple_posts, draw_temple_gate,
+    draw_temple_up_plate, draw_temple_down_plate, 0, draw_temple_pillar_bottom, draw_temple_pillar_top,
+    draw_flask, draw_temple_loose, DrawScythe1, DrawScythe2, draw_temple_rubble,
+    0, draw_temple_exit_left, draw_temple_exit_right, 0, draw_temple_torch,
+    draw_temple_block, 0, 0, 0, 0,
+    draw_temple_block, draw_temple_trapdoor, 0, 0, 0,
+    0, 0, draw_temple_rubble_torch, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, draw_temp_sacred_flame
+};

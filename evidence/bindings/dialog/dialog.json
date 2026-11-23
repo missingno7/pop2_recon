@@ -20,7 +20,7 @@
       "PAINT_PLAIN",
       "BLINK_EDIT_CARET",
       "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
-      "EDIT_SLOT_KEY",
+      "HANDLE_EDIT_KEY",
       "LOAD_FRAME_ASSET",
       "FETCH_LOCKED_SHAPE_LIST",
       "GAMEPLAYRECT",
@@ -6828,7 +6828,7 @@
           "index": 20,
           "kind": "external",
           "method": 6,
-          "name": "EDIT_SLOT_KEY",
+          "name": "HANDLE_EDIT_KEY",
           "zero_displacement": true
         }
       },
@@ -6842,7 +6842,7 @@
         "index": 20,
         "kind": "external",
         "method": 6,
-        "name": "EDIT_SLOT_KEY",
+        "name": "HANDLE_EDIT_KEY",
         "zero_displacement": true
       }
     },
@@ -14141,7 +14141,7 @@
           "index": 20,
           "kind": "external",
           "method": 6,
-          "name": "EDIT_SLOT_KEY",
+          "name": "HANDLE_EDIT_KEY",
           "zero_displacement": true
         }
       },
@@ -14155,7 +14155,7 @@
         "index": 20,
         "kind": "external",
         "method": 6,
-        "name": "EDIT_SLOT_KEY",
+        "name": "HANDLE_EDIT_KEY",
         "zero_displacement": true
       }
     },
@@ -19631,23 +19631,6 @@
         }
       ]
     },
-    "EDIT_SLOT_KEY": {
-      "entry_sha256": "b562158e29cb4808641b1e80b68e1ccb9ff0cdde7adfe7e0ec27f5366236c3f1",
-      "entry_target_id": "root:1d76:0234",
-      "kind": "far-code-entry",
-      "offset": 564,
-      "segment": 7542,
-      "space": "root",
-      "witnesses": [
-        {
-          "bytes_hex": "9a3402761d",
-          "file_offset": 32186,
-          "image_offset": 23994,
-          "relocation_index": 580,
-          "space": "root"
-        }
-      ]
-    },
     "FADE_TO": {
       "entry_sha256": "f20850e3ff8bec8633072c28eef60421e0f26d9bfbae5f617411358a9098d181",
       "entry_target_id": "root:1e23:0378",
@@ -19780,6 +19763,23 @@
           "entry": "root:0000:0000",
           "image_offset": 4908,
           "operand_offset": 1,
+          "space": "root"
+        }
+      ]
+    },
+    "HANDLE_EDIT_KEY": {
+      "entry_sha256": "b562158e29cb4808641b1e80b68e1ccb9ff0cdde7adfe7e0ec27f5366236c3f1",
+      "entry_target_id": "root:1d76:0234",
+      "kind": "far-code-entry",
+      "offset": 564,
+      "segment": 7542,
+      "space": "root",
+      "witnesses": [
+        {
+          "bytes_hex": "9a3402761d",
+          "file_offset": 32186,
+          "image_offset": 23994,
+          "relocation_index": 580,
           "space": "root"
         }
       ]
@@ -19993,6 +19993,15 @@
       ]
     },
     "LEVEL": {
+      "extent": {
+        "length": 12025,
+        "witness": {
+          "bytes_hex": "be022dc47ef6b97c17f3a5a4",
+          "entry": "overlay-16:2dc2:0062",
+          "image_offset": 132,
+          "space": "overlay-16"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "members": [
@@ -20071,16 +20080,7 @@
           "operand_offset": 1,
           "space": "root"
         }
-      ],
-      "extent": {
-        "length": 12025,
-        "witness": {
-          "bytes_hex": "be022dc47ef6b97c17f3a5a4",
-          "entry": "overlay-16:2dc2:0062",
-          "image_offset": 132,
-          "space": "overlay-16"
-        }
-      }
+      ]
     },
     "LEVELIDX": {
       "group": "DGROUP",
@@ -20502,6 +20502,21 @@
       ]
     },
     "SCREENPORT": {
+      "extent": {
+        "call": {
+          "bytes_hex": "b8625e50b8e01f1e509ae04f0111",
+          "entry": "root:0000:1316",
+          "image_offset": 4894,
+          "space": "root"
+        },
+        "length": 44,
+        "witness": {
+          "bytes_hex": "558bec57568b5e0ab92c008bfbbeee251e07f3a4",
+          "entry": "root:1101:4fe0",
+          "image_offset": 90096,
+          "space": "root"
+        }
+      },
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 24162,
@@ -20513,22 +20528,7 @@
           "operand_offset": 1,
           "space": "root"
         }
-      ],
-      "extent": {
-        "length": 44,
-        "witness": {
-          "bytes_hex": "558bec57568b5e0ab92c008bfbbeee251e07f3a4",
-          "entry": "root:1101:4fe0",
-          "image_offset": 90096,
-          "space": "root"
-        },
-        "call": {
-          "bytes_hex": "b8625e50b8e01f1e509ae04f0111",
-          "entry": "root:0000:1316",
-          "image_offset": 4894,
-          "space": "root"
-        }
-      }
+      ]
     },
     "SETFONT": {
       "entry_sha256": "41e4a26b769e71db14db8d74112d3bd3707829717c05ed9c604a73ff276f2bab",

@@ -163,13 +163,13 @@ extern int sound_room;
 extern CHARREC Kid;
 extern int next_level, fall_transition;
 extern sbyte move_up, move_down, move_forward, move_action;
-extern sbyte desert_variant;
+static Rect stone_bounds = {49, 11, 70, 54};
+static sbyte desert_variant = -1;
 extern DesertRoom *custom_room;
 extern uword *background_shapes;
 extern Rect draw_clip, GamePlayRect;
 extern int sprite_width;
 extern sbyte animation_tile, animation_remove;
-static Rect stone_bounds = {49, 11, 70, 54};
 extern PeelRecord peel_records[];
 
 extern void AddSong(int), AddSound(int);
@@ -697,3 +697,13 @@ int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
 }
 #pragma optimize("s", off)
 
+typedef void (far pascal *LevelTileProc)(Piece near *);
+LevelTileProc desert_level_spec[] = {
+    0, 0, 0, 0, draw_desert_exit,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, draw_desert_rocks, draw_desert_planks,
+    draw_desert_stone
+};
