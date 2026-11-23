@@ -16,7 +16,6 @@
       "ALLOCATE_PAYLOAD_HANDLE",
       "RELOCATE_HANDLE_PAYLOAD",
       "ALLOCATE_PINNED_PAYLOAD",
-      "CATALOG_OPEN_MODE",
       "FETCH_LOCKED_SHAPE_LIST",
       "CATALOG_CALLBACK_SEGMENT",
       "QUERY_HANDLE_SIZE",
@@ -152,7 +151,7 @@
         "combine": 2,
         "frame": null,
         "frame_offset": null,
-        "length": 2,
+        "length": 5,
         "name": "_DATA",
         "overlay": "",
         "use32": false
@@ -170,6 +169,28 @@
     ]
   },
   "fixups": [
+    {
+      "displacement": null,
+      "field_width": 2,
+      "frame": {
+        "index": 3,
+        "kind": "external",
+        "name": "LEGACY_CATALOG"
+      },
+      "kind": "fixup",
+      "loc_type": 2,
+      "segment": "_DATA",
+      "segment_index": 2,
+      "segment_offset": 3,
+      "self_relative": false,
+      "target": {
+        "index": 3,
+        "kind": "external",
+        "method": 6,
+        "name": "LEGACY_CATALOG",
+        "zero_displacement": true
+      }
+    },
     {
       "displacement": 1345,
       "field_width": 2,
@@ -249,7 +270,7 @@
       "segment_offset": 83,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -378,7 +399,7 @@
       "segment_offset": 203,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -465,7 +486,7 @@
       "segment_offset": 264,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -531,7 +552,7 @@
       "segment_offset": 309,
       "self_relative": true,
       "target": {
-        "index": 17,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "FETCH_LOCKED_SHAPE_LIST",
@@ -597,10 +618,10 @@
       "segment_offset": 402,
       "self_relative": false,
       "target": {
-        "index": 16,
-        "kind": "external",
-        "method": 6,
-        "name": "CATALOG_OPEN_MODE",
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
         "zero_displacement": true
       }
     },
@@ -641,7 +662,7 @@
       "segment_offset": 453,
       "self_relative": true,
       "target": {
-        "index": 17,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "FETCH_LOCKED_SHAPE_LIST",
@@ -880,7 +901,7 @@
       "segment_offset": 686,
       "self_relative": false,
       "target": {
-        "index": 18,
+        "index": 17,
         "kind": "external",
         "method": 6,
         "name": "CATALOG_CALLBACK_SEGMENT",
@@ -910,7 +931,7 @@
       }
     },
     {
-      "displacement": null,
+      "displacement": 1,
       "field_width": 2,
       "frame": {
         "index": 1,
@@ -926,9 +947,8 @@
       "target": {
         "index": 2,
         "kind": "segment",
-        "method": 4,
-        "name": "_DATA",
-        "zero_displacement": true
+        "method": 0,
+        "name": "_DATA"
       }
     },
     {
@@ -946,10 +966,10 @@
       "segment_offset": 739,
       "self_relative": false,
       "target": {
-        "index": 16,
-        "kind": "external",
-        "method": 6,
-        "name": "CATALOG_OPEN_MODE",
+        "index": 2,
+        "kind": "segment",
+        "method": 4,
+        "name": "_DATA",
         "zero_displacement": true
       }
     },
@@ -990,7 +1010,7 @@
       "segment_offset": 766,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -1055,7 +1075,7 @@
       "segment_offset": 854,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -1099,7 +1119,7 @@
       "segment_offset": 960,
       "self_relative": true,
       "target": {
-        "index": 20,
+        "index": 19,
         "kind": "external",
         "method": 6,
         "name": "MATERIALIZE_HANDLE",
@@ -1121,7 +1141,7 @@
       "segment_offset": 969,
       "self_relative": true,
       "target": {
-        "index": 19,
+        "index": 18,
         "kind": "external",
         "method": 6,
         "name": "QUERY_HANDLE_SIZE",
@@ -1208,7 +1228,7 @@
       "segment_offset": 1045,
       "self_relative": true,
       "target": {
-        "index": 17,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "FETCH_LOCKED_SHAPE_LIST",
@@ -1273,7 +1293,7 @@
       "segment_offset": 1098,
       "self_relative": true,
       "target": {
-        "index": 17,
+        "index": 16,
         "kind": "external",
         "method": 6,
         "name": "FETCH_LOCKED_SHAPE_LIST",
@@ -1467,7 +1487,7 @@
       "segment_offset": 1372,
       "self_relative": true,
       "target": {
-        "index": 21,
+        "index": 20,
         "kind": "external",
         "method": 6,
         "name": "RESOLVE_HANDLE_TO_FAR_PAYLOAD",
@@ -1512,7 +1532,7 @@
   },
   "mode": "external-dgroup-offset16-v4",
   "placements": {
-    "_DATA": 9781
+    "_DATA": 9780
   },
   "schema": 1,
   "symbols": {
@@ -1563,12 +1583,6 @@
           "space": "overlay-2"
         }
       ]
-    },
-    "CATALOG_OPEN_MODE": {
-      "group": "DGROUP",
-      "kind": "dgroup-offset",
-      "offset": 9780,
-      "witnesses": []
     },
     "CHECK_DOS_DRIVE": {
       "entry_sha256": "752023a429b14484c28dea6451e2d4b38150f6cfc0ed4f278f3c7c10be8e38a7",

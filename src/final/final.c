@@ -1181,7 +1181,7 @@ extern unsigned int final_animation;
 extern int blink_always;
 extern byte final_object_visibility;
 extern int fade_active;
-extern byte crystal_serial;
+static byte crystal_serial;
 static byte gargoyle_serial;
 extern unsigned int (*near tile_effects)[2];
 

@@ -1,10 +1,12 @@
 .MODEL MEDIUM
 EXTRN LEGACY_CATALOG:BYTE
 .DATA
+catalog_open_mode DB 0
+; The built-in catalog uses the zero offset word as its persistent handle flags.
 resident_handle_flags DW 0
+                      DW SEG LEGACY_CATALOG
 EXTRN CATALOG_CALLBACK:DWORD
 EXTRN CATALOG_CALLBACK_SEGMENT:WORD
-EXTRN CATALOG_OPEN_MODE:BYTE
 EXTRN RESOURCE_CATALOG_LIST:WORD
 EXTRN SHAPE_METADATA_LIST:WORD
 .CODE

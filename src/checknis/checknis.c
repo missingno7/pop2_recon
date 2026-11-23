@@ -1,4 +1,6 @@
 /* CHECKNIS.C reconstruction. External aliases describe the observed uses. */
+
+signed char quote_index = -1;
 extern int IsTimeForNIS(int level, int previous_level);
 extern int play_nis(int sequence);
 
@@ -60,7 +62,7 @@ int far pascal IsLevelStartWithNISScreen(void)
     return result;
 }
 
-extern signed char cinematics_enabled, quote_index;
+extern signed char cinematics_enabled;
 extern int remaining_time, debug_options;
 extern int level_resource_files[];
 extern char *find_option(const char far *option);

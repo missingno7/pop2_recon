@@ -1,9 +1,15 @@
+EXTRN __nmalloc:FAR
+EXTRN __nfree:FAR
+EXTRN find_string_byte:FAR
+
+GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
+GAMELIB_TEXT ENDS
+
 ; DOS window-library item handlers for menus, grids, sliders and text.
 ; The callback table holds the four far entries in their linked order.
 ; All entries have near assembler labels. Far-return entries are called
 ; within frame 1101 with PUSH CS before CALL.
-.MODEL MEDIUM
-.DATA
+_DATA SEGMENT WORD PUBLIC 'DATA'
 EXTRN current_port:WORD
 EXTRN active_window:WORD
 EXTRN menu_bounds_top:WORD
@@ -22,9 +28,9 @@ current_menu_item         DW 0
 ; Horizontal and vertical slider descriptors select keys and arrow bitmaps.
 slider_arrow_inset       DW 8, 12
 slider_decrement_key     DW 4800h, 4B00h
-slider_decrement_shape   DW OFFSET slider_up_arrow, OFFSET slider_left_arrow
+slider_decrement_shape   DW OFFSET DGROUP:slider_up_arrow, OFFSET DGROUP:slider_left_arrow
 slider_increment_key     DW 5000h, 4D00h
-slider_increment_shape   DW OFFSET slider_down_arrow, OFFSET slider_right_arrow
+slider_increment_shape   DW OFFSET DGROUP:slider_down_arrow, OFFSET DGROUP:slider_right_arrow
 
 slider_down_arrow        DW 4, 8, 1
                          DB 0FFh, 7Eh, 3Ch, 18h
@@ -35,7 +41,11 @@ slider_right_arrow       DW 5, 6, 1
 slider_up_arrow          DW 4, 8, 1
                          DB 18h, 3Ch, 7Eh, 0FFh
 
-.CODE
+_DATA ENDS
+DGROUP GROUP _DATA
+
+GAMELIB_TEXT SEGMENT BYTE PUBLIC 'CODE'
+ASSUME CS:GAMELIB_TEXT, DS:DGROUP, SS:DGROUP
 EXTRN point_in_rectangle:NEAR
 EXTRN clamp_point_to_rect:NEAR
 EXTRN mouse_button_unqueued:NEAR
@@ -86,9 +96,6 @@ EXTRN STROKE_PORT_RECT:NEAR
 EXTRN draw_text_handle_in_rect:NEAR
 EXTRN measure_character:NEAR
 EXTRN draw_axis_segment:NEAR
-EXTRN __nmalloc:FAR
-EXTRN __nfree:FAR
-EXTRN find_string_byte:FAR
 
 PUBLIC navigate_grid_items
 navigate_grid_items LABEL NEAR
@@ -860,7 +867,7 @@ redraw_dialog_scroll LABEL NEAR
     push word ptr [bx + 028h]
     xchg word ptr [current_port], bx
     push bx
-    mov si, OFFSET menu_bounds_top
+    mov si, OFFSET DGROUP:menu_bounds_top
     push ds
     push si
     mov ax, 0fh
@@ -1140,7 +1147,7 @@ initialize_menu_bounds LABEL NEAR
     mov bx, word ptr [active_window]
     mov cx, 4
     lea si, [bx + 010h]
-    mov di, OFFSET menu_bounds_top
+    mov di, OFFSET DGROUP:menu_bounds_top
     push ds
     pop es
     rep movsw
@@ -1176,7 +1183,7 @@ set_indexed_item_position LABEL NEAR
     push di
     push si
     mov cx, word ptr [bp + 6]
-    mov si, OFFSET menu_list
+    mov si, OFFSET DGROUP:menu_list
 loc_a01b:
     mov di, si
     mov si, word ptr [di]
@@ -1362,14 +1369,14 @@ loc_a15f:
     cmp ax, 04b00h
     jne loc_a138
 loc_a172:
-    mov bx, OFFSET menu_list
+    mov bx, OFFSET DGROUP:menu_list
 loc_a175:
     cmp di, word ptr [bx]
     je loc_a17d
     mov bx, word ptr [bx]
     jmp SHORT loc_a175
 loc_a17d:
-    cmp bx, OFFSET menu_list
+    cmp bx, OFFSET DGROUP:menu_list
     jne loc_a18b
     jmp SHORT loc_a138
 loc_a185:
@@ -3471,4 +3478,5 @@ loc_b12c:
 PUBLIC align_b12d
 align_b12d db 0   ; Inter-entry fill in the original image
 
+GAMELIB_TEXT ENDS
 END

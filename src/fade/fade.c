@@ -1,4 +1,4 @@
-/* FADE.C draft in original DOS function order. See notes.md for verified claims. */
+/* FADE.C: palette fades and DAC block transfers. */
 
 typedef unsigned char component;
 typedef component palette[768];
@@ -30,15 +30,15 @@ extern int far pascal check_wait_function(void);
 extern void far pascal MEASURE_TEXT(int slot, int port, fade_state far *draw,
     fade_state far *update, int flags);
 extern void far *far pascal RESOLVE_HANDLE_TO_FAR_PAYLOAD(void near *handle);
-extern void far pascal update_palette(component far *port, int mode);
+typedef struct { int top, left, bottom, right; } Rect;
+extern void far pascal SET_RECORD_RANGE(const Rect far *bounds, int color);
 extern void far *far cdecl _fmemset(void far *, int, unsigned);
 extern void far *far cdecl _fmemcpy(void far *, const void far *, unsigned);
 extern int far cdecl _fmemcmp(const void far *, const void far *, unsigned);
 
 extern int fade_delay;
 extern int fade_queue_slot;
-extern void far *active_palette;
-extern component fallback_palette[];
+extern Rect screen_bounds;
 
 fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsigned blocks);
 int far pascal fade_in_step(fade_state far *state);
@@ -82,7 +82,7 @@ fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsig
     fade_delay = 0;
     return state;
 }
-
+/* Draft: the original uses DS for the inner source cursor. */
 int far pascal fade_in_step(fade_state far *state)
 {
     int done = 0;
@@ -207,8 +207,7 @@ fade_state far *far pascal init_fade_to(void near *handle, unsigned blocks, int 
     fade_state far *state = ALLOCATE_PINNED_PAYLOAD(sizeof(fade_state));
     component far *last;
 
-    state->blocks = blocks;
-    state->elapsed = 0;
+    state->blocks = blocks; state->elapsed = 0;
     state->delay = delay;
     state->cleanup = QuitFadeTo;
     state->step = fade_to_step;
@@ -231,25 +230,29 @@ void far pascal QuitFadeTo(void far *block)
 {
     CLEAR_PAYLOAD_HEADER(block);
 }
-
+/* Draft: the original uses a countdown for the inner loop. */
 int far pascal fade_to_step(fade_state far *state)
 {
     int done = 0;
     if (!fade_delay) {
         int elapsed, remaining, i;
         unsigned bit;
-        component far *src, *dst, *target;
+        component far *outer;
+        component far *src;
+        component far *volatile target;
+        component far *volatile dst;
 
         fade_delay = state->delay;
         elapsed = ++state->elapsed;
         bit = 1;
-        src = state->last;
+        outer = state->last;
         remaining = 16;
         do {
             if (state->blocks & bit) {
+                src = outer;
                 target = src - 2 * sizeof(palette);
                 dst = src - sizeof(palette);
-                i = 16;
+                i = 0;
                 do {
                     dst[0] = src[0] + (target[0] - src[0]) * elapsed / 64;
                     dst[1] = src[1] + (target[1] - src[1]) * elapsed / 64;
@@ -257,14 +260,14 @@ int far pascal fade_to_step(fade_state far *state)
                     src += 3;
                     target += 3;
                     dst += 3;
-                } while (--i);
-                src -= 48;
+                } while (++i < 16);
             }
-            src += 48;
+            outer += 48;
             bit <<= 1;
         } while (--remaining);
         set_dac_blocks(state->blocks, state->work);
-        done = elapsed == 64;
+        if (elapsed == 64)
+            done = 1;
     }
     return done;
 }
@@ -345,12 +348,14 @@ void far pascal scale_three_component_bytes63(component far *out, component far 
     out[2] = in[2] * scale / 63;
 }
 
+extern int (far *poll_input)(void);
+
 void far pascal fade_out_and_restore_palette(void)
 {
-    void far *saved = active_palette;
+    int (far *saved)(void) = poll_input;
 
-    active_palette = 0;
+    poll_input = 0;
     fade_to(0, 0xffff, 0);
-    update_palette((component far *)fallback_palette, 0);
-    active_palette = saved;
+    SET_RECORD_RANGE(&screen_bounds, 0);
+    poll_input = saved;
 }
