@@ -10,13 +10,6 @@ typedef struct {
 } Trob;
 
 typedef struct {
-    sbyte kind;
-    uword flags;
-    sbyte cell;
-    ubyte other[7];
-} TileState;
-
-typedef struct {
     uword state;
     int other;
 } CellState;
@@ -26,14 +19,6 @@ typedef struct {
     sbyte room;
     int top, left;
 } Projectile;
-
-typedef struct {
-    int x, y;
-    ubyte room;
-    int velocity_y, velocity_x;
-    sbyte mode, row;
-    sbyte state[2];
-} DartState;
 
 typedef struct {
     sbyte cell;
@@ -65,7 +50,18 @@ struct input {
 
 extern CellState *BlueS;
 extern int current_tile_number;
-extern TileState current_tile;
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+#pragma pack()
+extern CELLREC Cell;
 #pragma pack(1)
 typedef struct {
     signed char slot;                  /* 00 */
@@ -102,20 +98,103 @@ typedef struct {
 } CHARREC;
 #pragma pack()
 extern CHARREC Char;
-extern ubyte level_number;
-extern ubyte viewed_room;
-extern ubyte down_room;
-extern sbyte right_room, upper_room;
-extern struct { ubyte link[4]; } room_links[];
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
+
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
 extern CHARREC Kid;
 
 extern uword BlueSpec;
-extern DartState dart;
-extern LavaTrob current_lava;
+#pragma pack(1)
+typedef struct {
+    int x, y;                                         /* 00,02 */
+    unsigned char room;                               /* 04 */
+    int velocity, auxiliary;                          /* 05,07 */
+    signed char kind, row;                             /* 09-0a */
+    unsigned int flags;                               /* 0b */
+} MOBREC;
+#pragma pack()
+extern MOBREC Mob;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 #define animation_code current_lava.slot
-extern sbyte current_row_flags;
-extern sbyte FChar;
-extern int cell_x[], cell_x_clipped[], floor_y[];
+#pragma pack(1)
+typedef struct {
+    int image, equipment_image;                       /* 00,02 */
+    signed char x, y;                                 /* 04-05 */
+    unsigned char flags;                              /* 06 */
+} FRAMEREC;
+#pragma pack()
+extern FRAMEREC Frame;
+#pragma pack(1)
+typedef struct {
+    signed char index, flipped;                       /* 00-01 */
+    int x, y, image;                                   /* 02,04,06 */
+    unsigned char image_set;                          /* 08 */
+    int clip_top, clip_left, clip_bottom, clip_right;    /* 09,0b,0d,0f */
+    int depth;                                        /* 11 */
+    unsigned char object_type;                        /* 13 */
+} FCHARREC;
+#pragma pack()
+extern FCHARREC FChar;
+extern int ColEdgeX[20];
+extern int Col2PixelX[13];
+extern int Row2PixelY[5];
+extern LavaTrob current_lava;
 extern struct list *lava_slots[4];
 extern sbyte *bubble_frames[];
 extern sbyte gate_offsets[];
@@ -221,7 +300,7 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
 {
     struct {
         int cell_offset;
-        TileState previous_tile;
+        CELLREC previous_tile;
         uword low;
         int result;
         uword high, flags;
@@ -244,16 +323,16 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
     if (saved.trob != 0) {
         if (saved.trob->action <= 1) {
             if (pressed)
-                saved.flags = current_tile.flags;
+                saved.flags = Cell.modifier;
             else {
-                saved.previous_tile = current_tile;
+                saved.previous_tile = Cell;
                 saved.previous_number = current_tile_number;
                 saved.previous_cells = BlueS;
                 saved.flags = ReadCell((ubyte)Char.room, Char.column, Char.row) == 34
-                    ? current_tile.flags : 0;
+                    ? Cell.modifier : 0;
                 BlueS = saved.previous_cells;
                 current_tile_number = saved.previous_number;
-                current_tile = saved.previous_tile;
+                Cell = saved.previous_tile;
             }
             if (saved.flags & 0x0800) {
                 ((CellState *)((char *)BlueS + saved.cell_offset))->state = saved.high + 250;
@@ -265,10 +344,10 @@ int trigger_reverse_gate(sbyte room, sbyte cell)
         } else if (saved.trob->action == 2 && pressed)
             saved.trob->action = 3;
     } else if (saved.low != 255) {
-        if (saved.low == 0 && !(Char.character_kind == 4 && level_number == 5 && Char.row == 1 &&
+        if (saved.low == 0 && !(Char.character_kind == 4 && ((unsigned char)Level.level_number) == 5 && Char.row == 1 &&
                          ((ubyte)Char.room == 10 || (ubyte)Char.room == 7 || (ubyte)Char.room == 12))) {
             if (!pressed) {
-                if (!(current_tile.flags & 0x0800))
+                if (!(Cell.modifier & 0x0800))
                     saved.result = 2;
             } else
                 saved.result = 3;
@@ -294,12 +373,12 @@ void animate_dart(void)
 
 void move_dart_to_tile(void)
 {
-    if (dart.velocity_y != -1 && dart.velocity_y != -2) {
-        FChar = IndexCell1(GetRow(dart.x / 32, dart.y));
-        if (viewed_room == dart.room) {
+    if (Mob.velocity != -1 && Mob.velocity != -2) {
+        FChar.index = IndexCell1(GetRow(Mob.x / 32, Mob.y));
+        if (Room.number == Mob.room) {
             mark_mob_redraw(1);
-            play_exit_sound(dart.y);
-            dart.mode = 2;
+            play_exit_sound(Mob.y);
+            Mob.kind = 2;
         }
     }
 }
@@ -345,50 +424,50 @@ void move_dart_mob(void)
     int next_col;
     register int y;
 
-    if (dart.velocity_y == -2) {
-        dart.velocity_y = -1;
+    if (Mob.velocity == -2) {
+        Mob.velocity = -1;
         return;
     }
-    if (dart.velocity_y != -1) {
-        y = dart.y + dart.velocity_y;
-        motion.x = dart.velocity_x + dart.x;
+    if (Mob.velocity != -1) {
+        y = Mob.y + Mob.velocity;
+        motion.x = Mob.auxiliary + Mob.x;
         if (motion.x > 320) {
-            if ((ubyte)right_room == dart.room) {
-                dart.room = viewed_room;
+            if ((ubyte)((signed char)Room.left) == Mob.room) {
+                Mob.room = Room.number;
                 motion.x -= 320;
             } else {
-                if (!room_links[dart.room].link[0])
+                if (!Level.room_links[Mob.room - 1].right)
                     AddSound(82);
-                dart.velocity_y = -2;
+                Mob.velocity = -2;
             }
         }
-        if (dart.velocity_y != -1 && y < 3) {
-            if (down_room == dart.room) {
-                dart.room = viewed_room;
+        if (Mob.velocity != -1 && y < 3) {
+            if (Room.below == Mob.room) {
+                Mob.room = Room.number;
                 y += 192;
             } else {
-                if (!room_links[dart.room].link[1])
+                if (!Level.room_links[Mob.room - 1].above)
                     AddSound(82);
-                dart.velocity_y = -2;
+                Mob.velocity = -2;
             }
         }
-        if (dart.velocity_y != -2) {
+        if (Mob.velocity != -2) {
             register int next_x = motion.x;
-            if (63 * dart.row + 3 >= y) {
-                if (!IS_SIX_KIND(ReadCell(dart.room, next_x / 32, --dart.row)))
-                    dart.velocity_y = -2;
+            if (63 * Mob.row + 3 >= y) {
+                if (!IS_SIX_KIND(ReadCell(Mob.room, next_x / 32, --Mob.row)))
+                    Mob.velocity = -2;
             } else {
                 *(volatile int *)&next_col = next_x / 32;
-                if (dart.x / 32 != next_col) {
-                    motion.tile[1] = ReadCell(dart.room, next_col, dart.row);
+                if (Mob.x / 32 != next_col) {
+                    motion.tile[1] = ReadCell(Mob.room, next_col, Mob.row);
                     if (IsWall(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_dart()))
-                        dart.velocity_y = -2;
+                        Mob.velocity = -2;
                 }
             }
-            if (dart.velocity_y == -2)
+            if (Mob.velocity == -2)
                 AddSound(82);
-            dart.y = y;
-            dart.x = next_x;
+            Mob.y = y;
+            Mob.x = next_x;
         }
     }
 }
@@ -433,35 +512,35 @@ void redraw_dart(void)
 
 void trigger_dart(sbyte room, sbyte cell)
 {
-    DartState saved;
+    MOBREC saved;
     uword frame;
     int x;
 
     frame = (ubyte)BlueS[cell].state & 15;
-    saved = dart;
+    saved = Mob;
     if (!frame) {
         add_trob(room, cell, 1, 36);
         AddSound(80);
-        dart.velocity_x = 18;
-        dart.velocity_y = -11;
-        x = cell_x_clipped[current_lava.cell % (sbyte)10] + 30;
+        Mob.auxiliary = 18;
+        Mob.velocity = -11;
+        x = Col2PixelX[current_lava.cell % (sbyte)10 + 1] + 30;
         if (x > 320) {
-            if (right_room == room) {
-                room = viewed_room;
+            if (((signed char)Room.left) == room) {
+                room = Room.number;
                 x -= 320;
             } else
-                dart.velocity_y = -1;
+                Mob.velocity = -1;
         }
-        if (dart.velocity_y != -1) {
-            dart.x = x;
-            dart.room = room;
-            dart.y = floor_y[current_lava.cell / (sbyte)10] - 15;
-            dart.mode = 2;
-            dart.row = current_lava.cell / (sbyte)10;
+        if (Mob.velocity != -1) {
+            Mob.x = x;
+            Mob.room = room;
+            Mob.y = Row2PixelY[current_lava.cell / (sbyte)10 + 1] - 15;
+            Mob.kind = 2;
+            Mob.row = current_lava.cell / (sbyte)10;
             add_mob();
         }
     }
-    dart = saved;
+    Mob = saved;
 }
 
 #pragma optimize("gl", on)
@@ -533,9 +612,9 @@ void check_lava_boil(void)
     kind = ReadCell((ubyte)Char.room, Char.column, Char.row);
     y = (sbyte)63 * Char.row + 41;
     center = get_base_x();
-    reach = cell_x[Char.column] - center + 26;
+    reach = ColEdgeX[Char.column + 5] - center + 26;
     if ((kind == 23 || (kind == 24 && reach >= 0)) &&
-        (current_row_flags & 64) && y < Char.y && Char.sequence_group != 5)
+        (Frame.flags & 64) && y < Char.y && Char.sequence_group != 5)
         do_lava_boil();
 }
 
@@ -606,11 +685,11 @@ LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
     LavaTrob *trob;
 
     kind = ReadCell(room, col, row);
-    cell = current_tile.cell;
+    cell = Cell.index;
     if (kind == 24)
         --cell;
     trob = (LavaTrob *)get_trob_room_cell(room, cell);
-    load_room(viewed_room);
+    load_room(Room.number);
     return trob;
 }
 
@@ -726,9 +805,9 @@ int move_cave_gate(int sequence)
 
     cell = FirstInRow(Kid.row) + Kid.column;
     if (Kid.room != current_lava.room) {
-        if (right_room == current_lava.room)
+        if (((signed char)Room.left) == current_lava.room)
             cell += 10;
-        else if (upper_room == current_lava.room)
+        else if (((signed char)Room.right) == current_lava.room)
             cell -= 10;
         else
             cell = 30;
@@ -766,9 +845,9 @@ void cave_overlay_entry(void)
 
 void cave_frame(void)
 {
-    if ((level_number == 5 && viewed_room == 10) ||
-        (level_number == 5 && viewed_room == 7) ||
-        (level_number == 5 && viewed_room == 12))
+    if ((((unsigned char)Level.level_number) == 5 && Room.number == 10) ||
+        (((unsigned char)Level.level_number) == 5 && Room.number == 7) ||
+        (((unsigned char)Level.level_number) == 5 && Room.number == 12))
         frame_water_effect();
 }
 

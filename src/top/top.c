@@ -36,9 +36,6 @@ typedef struct {
     unsigned char field_3a;            /* 3a */
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
-struct room_state { char prefix[0x34]; signed char guard_count; char suffix[0x3f]; };
-struct room_links { unsigned char left, right, above, below; };
-struct rebirth_point { signed char room, cell; };
 struct guard_record { char prefix[7]; int active; };
 typedef void (far pascal *frame_proc)(void);
 
@@ -46,19 +43,59 @@ extern CHARREC Char;                     /* ds:5c00 */
 extern CHARREC Opp;                    /* ds:5c40 */
 extern CHARREC Kid;                      /* ds:5c80 */
 extern CHARREC RoomOpp[5];                /* ds:5cc0 */
-extern struct room_state room_states[];            /* ds:44c1 */
+#pragma pack(1)
+typedef struct {
+    unsigned int modifier, unknown_02;
+} LEVELCELL;
 
-extern const struct rebirth_point rebirth_points[2]; /* ds:53e9 */
+typedef struct {
+    unsigned char left, right, above, below;
+} ROOMLINKS;
+
+typedef struct {
+    signed char opponent_count;
+    unsigned char opponent_data[5][23];
+} ROOMOBJECTS;
+
+typedef struct {
+    signed char room, cell;
+} REBIRTHPOINT;
+
+typedef struct {
+    signed char count;
+    unsigned char spawn_flags;
+    unsigned char header[2];
+    unsigned char points[3][10];
+} ROOMGENERATORS;
+
+typedef struct {
+    unsigned char cell_kinds[32][30];                  /* 0000 */
+    LEVELCELL cell_info[32][30];                       /* 03c0 */
+    unsigned char unknown_12c0[0x500];                 /* 12c0 */
+    ROOMLINKS room_links[32];                          /* 17c0 */
+    unsigned char room_count;                         /* 1840 */
+    unsigned char unknown_1841[4];
+    unsigned char environment_kind;                  /* 1845 */
+    unsigned char unknown_1846;
+    signed char level_number;                         /* 1847 */
+    int background_overlays[8];                       /* 1848 */
+    unsigned char unknown_1858[4];
+    int actor_phase;                                  /* 185c */
+    unsigned char unknown_185e[2];
+    signed char entry_room, entry_cell, entry_facing;    /* 1860-1862 */
+    unsigned char unknown_1863[3];
+    unsigned char preferred_opponent;                /* 1866 */
+    ROOMOBJECTS room_objects[32];                      /* 1867 */
+    REBIRTHPOINT rebirth_points[2];                    /* 26e7 */
+    unsigned char unknown_26eb[0x0e];
+    ROOMGENERATORS generators[32];                     /* 26f9 */
+    unsigned char unknown_2b39[0x3c0];                 /* 2b39-2ef8 */
+} LEVELREC;
+#pragma pack()
+extern LEVELREC Level;
+
 extern frame_proc level_frame_procs[];             /* ds:06d4 */
 extern int far *rebirth_data;                      /* ds:5bfc */
-extern unsigned char room_count;                   /* ds:4542 */
-extern unsigned char stage_set;                    /* ds:4547 */
-extern signed char stage_number;                   /* ds:4549 */
-extern struct {
-    char before_entry[0x1860];
-    signed char entry_room, entry_cell, entry_facing;
-} Level;
-extern signed char end_room;                       /* ds:4568 */
 extern signed char game_request;                   /* ds:6ccc */
 extern signed char CutRoom;                   /* ds:6ccd */
 extern signed char starting_health;                /* ds:6cd1 */
@@ -76,7 +113,16 @@ extern int queued_sound;                           /* ds:5e22 */
 extern unsigned remaining_minutes;                 /* ds:5e2a */
 extern int restart_request;                        /* ds:5e2c */
 extern int skip_frame;                             /* ds:5e2e */
-extern unsigned char viewed_room;                 /* ds:5e34 */
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
 extern int freeze_ticks;                           /* ds:5e3e */
 extern int sequence_delay;                    /* ds:5e40 */
 extern int pending_sequence;                       /* ds:5e42 */
@@ -109,17 +155,21 @@ extern int collision_pending;                      /* ds:62de */
 extern int transition_pending;                     /* ds:67cc */
 extern int fade_ticks;                              /* ds:67bc */
 extern char timer_disabled;                            /* ds:01d6 */
-extern unsigned char cell_flags;                   /* ds:6271 */
-extern signed char sweep_column;                   /* ds:6275 */
-extern signed char sweep_left;                     /* ds:6277 */
-extern signed char sweep_right;                    /* ds:6278 */
-extern signed char previous_sweep_row;             /* ds:627a */
-extern signed char sweep_row;                      /* ds:6279 */
-extern int column_x[];                              /* ds:0d86 */
+#pragma pack(1)
+typedef struct {
+    signed char kind;                                 /* 00 */
+    unsigned int modifier;                            /* 01 */
+    signed char index;                                /* 03 */
+    unsigned char room;                               /* 04 */
+    signed char column, row;                          /* 05-06 */
+    signed char first_col, last_col;                   /* 07-08 */
+    unsigned char top_row, bottom_row;                 /* 09-0a */
+} CELLREC;
+#pragma pack()
+extern CELLREC Cell;
+extern int ColEdgeX[20];
 extern char room_render_flags[10];                  /* ds:6248 */
 extern unsigned char *room_kinds;                   /* ds:6294 */
-extern unsigned int entry_cells_a[];                /* ds:3faa */
-extern unsigned int entry_cells_b[];                /* ds:328e */
 static char level_option[] = "LEVEL";
 struct gameplay_rect { int top, left, bottom, right; };
 struct gameplay_rect GamePlayRect = { 0, 0, 192, 320 };
@@ -286,7 +336,7 @@ int start_game(signed char requested)
         remaining_ticks = 719;
         starting_health = 3;
         if (option_flags && find_option(level_option)) {
-            signed char health = stage_number;
+            signed char health = Level.level_number;
             health = health < 3 ? 3 : health;
             starting_health = health > 12 ? 12 : health;
         }
@@ -327,7 +377,7 @@ int restart_level(signed char requested)
         InitCollisionDetection();
         InitInput();
         init_level_specific();
-        viewed_room = 0;
+        Room.number = 0;
         special_sequence = fade_ticks = control_lock = transition_pending = collision_pending = 0;
         last_track = last_sound = -1;
         Kid.life_delta = 0;
@@ -365,29 +415,29 @@ void start_kid(void)
     signed char repeat;
 
     Char.character_kind = 0;
-    if (stage_number == 7)
+    if (Level.level_number == 7)
         special_entrance();
     CutRoom = Char.room = Level.entry_room;
     Char.column = Level.entry_cell % 10;
     Char.row = Level.entry_cell / 10;
     Char.direction = ~Level.entry_facing;
     seq = starting_sequence();
-    Char.x = column_x[Char.column] + 14;
+    Char.x = ColEdgeX[Char.column + 5] + 14;
     Char.life_initial = Char.life_points = LevelIdx ? starting_health : 4;
     repeat = 0;
     if (seq == -1) {
-        if (stage_set == 5 && Level.entry_room == 4) {
+        if (Level.environment_kind == 5 && Level.entry_room == 4) {
             seq = 4;
             repeat = 9;
-        } else if (stage_set == 1) {
+        } else if (Level.environment_kind == 1) {
             seq = 124;
-        } else if (Level.entry_room == 27 && stage_number == 6) {
+        } else if (Level.entry_room == 27 && Level.level_number == 6) {
             seq = 2;
             Char.x = 240;
-        } else if (Level.entry_room == 22 && stage_number == 10) {
+        } else if (Level.entry_room == 22 && Level.level_number == 10) {
             seq = 2;
             Char.x = 310;
-        } else if (stage_number == 14 && Char.room == 1 && stage_number == 14) {
+        } else if (Level.level_number == 14 && Char.room == 1 && Level.level_number == 14) {
             seq = 2;
             Char.x = 306;
         } else {
@@ -427,11 +477,11 @@ void special_entrance(void)
     if (entrance_state.entrance_mode == 2) {
         Level.entry_room = 4;
         Level.entry_cell = 25;
-        entry_cells_a[0] = (unsigned) ((unsigned char *)entry_cells_a)[1] << 8;
+        Level.cell_info[31][24].modifier = (unsigned) ((unsigned char *)&Level.cell_info[31][24].modifier)[1] << 8;
     } else {
         Level.entry_room = 32;
         Level.entry_cell = 24;
-        entry_cells_b[0] = (unsigned) ((unsigned char *)entry_cells_b)[1] << 8;
+        Level.cell_info[3][25].modifier = (unsigned) ((unsigned char *)&Level.cell_info[3][25].modifier)[1] << 8;
     }
 }
 
@@ -525,7 +575,7 @@ int run_frames(void)
             } else if (LevelIdx != next_level && !is_leave_level_music_on() &&
                        (!query_sound(resource_index + 10000) ||
                         resource_index == 4 || resource_index == 7 || resource_index == 54)) {
-                if (next_level == -1 || (stage_number != 9 && stage_number != 5))
+                if (next_level == -1 || (Level.level_number != 9 && Level.level_number != 5))
                     dispatch_sound(0);
                 starting_health = Kid.life_initial;
                 request = next_level;
@@ -553,9 +603,9 @@ int next_frame(void)
 
     start_floor_frame();
     update_floors();
-    if (end_room == 2 || RoomOpp[0].character_kind == 10)
+    if (((signed char)Level.preferred_opponent) == 2 || RoomOpp[0].character_kind == 10)
         level_special_floor();
-    select_guards_in_room(viewed_room);
+    select_guards_in_room(Room.number);
     check_alert();
     result = run_kid();
     if (!result) {
@@ -621,7 +671,7 @@ int run_kid(void)
                 check_gate_for_player();
                 check_floor();
                 check_press();
-                switch (stage_set) {
+                switch (Level.environment_kind) {
                 case 2:
                     CheckSpikes();
                     check_trapdoor();
@@ -674,30 +724,30 @@ save_result:
 void run_shadows(void)
 {
     signed char index = 0;
-    signed char count = room_states[viewed_room].guard_count;
+    signed char count = Level.room_objects[Room.number - 1].opponent_count;
     unsigned char old_room;
 
     if (count > 0) do {
         load_actor_slot(index);
         if (Char.direction == 0x56 || is_undefined_room() ||
-            (Char.y > 254 && !((struct room_links *)room_states)[(unsigned char)Char.room].left)) {
+            (Char.y > 254 && !Level.room_links[(unsigned char)Char.room - 1].below)) {
             FallingInUndefinedRoom();
         } else {
             set_shadow_opponent(index);
             reread_cells();
             control_shadow();
-            old_room = viewed_room;
+            old_room = Room.number;
             if (old_room != (unsigned char)Char.room) {
-                viewed_room = Char.room;
+                Room.number = Char.room;
                 change_view_room();
             }
             AnimChar();
             if (Char.character_kind == 2)
                 shadow_bump();
             if ((Char.x >= 34 && Char.x <= 545) ||
-                (stage_number == 5 && Char.row == 1 &&
+                (Level.level_number == 5 && Char.row == 1 &&
                  (Char.room == 10 || Char.room == 7 || Char.room == 12)) ||
-                ((Char.room == 7 || Char.room == 8) && stage_set == 6)) {
+                ((Char.room == 7 || Char.room == 8) && Level.environment_kind == 6)) {
                 Gravity();
                 add_char_velocity();
                 check_controls();
@@ -708,7 +758,7 @@ void run_shadows(void)
                     collide_shadow_walls();
                     check_floor();
                     check_press();
-                    switch (stage_set) {
+                    switch (Level.environment_kind) {
                     case 2:
                         CheckSpikes();
                         check_trapdoor();
@@ -737,7 +787,7 @@ void run_shadows(void)
             {
                 unsigned char new_room = Char.room;
                 if (old_room != new_room) {
-                    viewed_room = old_room;
+                    Room.number = old_room;
                     change_view_room();
                 }
             }
@@ -749,7 +799,7 @@ void run_shadows(void)
     if (count > 0) do {
         if (RoomOpp[index].direction == 0x56) {
             load_actor_slot(index);
-            remove_shadow(viewed_room, index);
+            remove_shadow(Room.number, index);
             if (Kid.opponent_index > Char.slot)
                 --Kid.opponent_index;
             else if (Kid.opponent_index == Char.slot)
@@ -771,11 +821,11 @@ int advance_frame(void)
         clean_cut();
         redraw_frame = 0;
     } else if (cut_required) {
-        viewed_room = CutRoom;
+        Room.number = CutRoom;
         clean_cut();
     } else if (reload_room) {
         reload_room = 0;
-        select_room_view(viewed_room);
+        select_room_view(Room.number);
         clean_cut();
         update_room_screen();
     } else {
@@ -810,7 +860,7 @@ int advance_frame(void)
         if (special_sequence != -1)
             --sequence_delay;
         if (pending_sequence == 600) {
-            if (viewed_room == 4 && stage_number == 13 && !special_sequence)
+            if (Room.number == 4 && Level.level_number == 13 && !special_sequence)
                 special_sequence = 1;
             if ((unsigned)sequence_delay < 120) {
                 phase = (unsigned)sequence_delay % 12;
@@ -840,7 +890,7 @@ void reset_frame_vars(void)
     if (Kid.sequence_group == 8 && (Kid.sequence_id != 52 || Kid.sequence_position))
         Kid.sequence_group = 0;
     index = 0;
-    count = room_states[viewed_room].guard_count;
+    count = Level.room_objects[Room.number - 1].opponent_count;
     if (count > 0) do {
         load_actor_slot(index);
         Char.life_delta = 0;
@@ -865,49 +915,49 @@ void quick_floor(void)
     unsigned seq = Char.frame;
 
     if (seq >= 135 && seq < 145 && !Char.direction) {
-        mark_half(index_cell(sweep_right, sweep_row));
+        mark_half(index_cell(Cell.last_col, ((signed char)Cell.top_row)));
         return;
     }
     if (floor != 2 && floor != 3 && floor != 4 && floor != 6 && seq != 79 && seq != 81) {
         if ((Char.character_kind == 7 || Char.character_kind == 8) &&
             (Char.sequence == 137 || Char.sequence == 138 || Char.sequence == 143 ||
              (int)Char.sequence <= 144 || Char.sequence == 143 || Char.sequence == 144)) {
-            if ((sweep_column = sweep_right) >= sweep_left) do {
-                mark_floor(index_cell(sweep_column, sweep_row), &Char.bounds);
-                left_edge = sweep_left;
-                --sweep_column;
-            } while (sweep_column >= left_edge);
+            if ((Cell.column = Cell.last_col) >= Cell.first_col) do {
+                mark_floor(index_cell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
+                left_edge = Cell.first_col;
+                --Cell.column;
+            } while (Cell.column >= left_edge);
             return;
         }
         return;
     }
-    if ((sweep_column = sweep_right) >= sweep_left) do {
+    if ((Cell.column = Cell.last_col) >= Cell.first_col) do {
         if (floor != 2)
-            mark_floor(index_cell(sweep_column, previous_sweep_row), &Char.bounds);
-        if (previous_sweep_row != sweep_row &&
-            !(Char.sequence == 28 && (Char.room == 7 || Char.room == 8) && stage_set == 6))
-            mark_floor(index_cell(sweep_column, sweep_row), &Char.bounds);
-        left_edge = sweep_left;
-        --sweep_column;
-    } while (sweep_column >= left_edge);
+            mark_floor(index_cell(Cell.column, ((signed char)Cell.bottom_row)), &Char.bounds);
+        if (((signed char)Cell.bottom_row) != ((signed char)Cell.top_row) &&
+            !(Char.sequence == 28 && (Char.room == 7 || Char.room == 8) && Level.environment_kind == 6))
+            mark_floor(index_cell(Cell.column, ((signed char)Cell.top_row)), &Char.bounds);
+        left_edge = Cell.first_col;
+        --Cell.column;
+    } while (Cell.column >= left_edge);
 }
 
 
 void check_rebirth_points(void)
 {
     int index;
-    const struct rebirth_point *point;
+    const REBIRTHPOINT *point;
 
     if (Kid.room && Kid.action != 4 && Kid.alive < 0 && abs(Kid.life_delta) < Kid.life_points &&
-        Kid.character_kind != 1 && (Kid.room != 9 || stage_number != 8 || start_facing == 1)) {
-        point = rebirth_points;
+        Kid.character_kind != 1 && (Kid.room != 9 || Level.level_number != 8 || start_facing == 1)) {
+        point = Level.rebirth_points;
         index = 0;
         do {
             if (Kid.room == point->room && first_in_row(Kid.row) + Kid.column == point->cell &&
                 (!rebirth_data || *rebirth_data - index != 1))
                 reach_rebirth_point(index + 1);
             ++index;
-        } while (++point < rebirth_points + 2);
+        } while (++point < Level.rebirth_points + 2);
     }
 }
 
@@ -956,7 +1006,7 @@ void reset_guard_records(void)
     struct guard_record *guard;
 
     room = 1;
-    if (room_count >= 1) {
+    if (Level.room_count >= 1) {
         do {
             index = 0;
             do {
@@ -964,7 +1014,7 @@ void reset_guard_records(void)
                 if (guard)
                     guard->active = 0;
             } while (guard);
-            limit = room_count;
+            limit = Level.room_count;
             ++room;
         } while (room <= limit);
     }
@@ -972,11 +1022,11 @@ void reset_guard_records(void)
 
 void init_level_specific(void)
 {
-    if (stage_set == 3) {
+    if (Level.environment_kind == 3) {
         clear_lava_slots();
-        if (stage_number == 5)
+        if (Level.level_number == 5)
             initialize_bridge();
-    } else if (stage_set == 4) {
+    } else if (Level.environment_kind == 4) {
         stage_state = 0;
     }
 }
@@ -990,13 +1040,13 @@ void check_alert(void)
         sequence = Kid.frame;
         first = find_opponent(0);
         second = find_opponent(-1);
-        count = room_states[(unsigned char)Kid.room].guard_count;
+        count = Level.room_objects[(unsigned char)Kid.room - 1].opponent_count;
         index = 0;
         if (count > 0) do {
             load_actor_slot(index);
             if (!sequence || (sequence >= 217 && sequence < 226) || Kid.alive >= 0 || Char.alive >= 0 ||
                 Char.direction == 0x56 || (Kid.row != Char.row && Char.character_kind != 7 && Char.character_kind != 8) ||
-                (Char.character_kind == 11 && Char.sequence_group == 6) || (Kid.character_kind == 1 && stage_set == 2)) {
+                (Char.character_kind == 11 && Char.sequence_group == 6) || (Kid.character_kind == 1 && Level.environment_kind == 2)) {
                 Char.alert_delay = 0;
             } else {
                 Char.alert_delay = 3;
@@ -1015,9 +1065,9 @@ void check_alert(void)
                             break;
                         kind = ReadCell(Kid.room, left, Kid.row);
                         if (IsWall(kind) &&
-                            !(Char.character_kind == 11 && kind == 7 && (cell_flags & 0x80))) {
+                            !(Char.character_kind == 11 && kind == 7 && ((*(unsigned char *)&Cell.modifier) & 0x80))) {
                             Char.alert_delay = 0;
-                        } else if ((kind == 4 && cell_flags < 0x70) ||
+                        } else if ((kind == 4 && (*(unsigned char *)&Cell.modifier) < 0x70) ||
                                    (IsImpassable(kind) && Char.character_kind != 10) ||
                                    (IS_SIX_KIND(kind) && Char.character_kind != 10 &&
                                     Char.character_kind != 7 && Char.character_kind != 8)) {
@@ -1039,7 +1089,7 @@ void check_alert(void)
 
 void call_level_frame_proc(void)
 {
-    unsigned long address = (unsigned long)level_frame_procs[stage_set];
+    unsigned long address = (unsigned long)level_frame_procs[Level.environment_kind];
     if (address)
         ((frame_proc)address)();
 }

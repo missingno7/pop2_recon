@@ -84,7 +84,17 @@ typedef struct {
 
 extern CHARREC Kid;
 extern DrawRect clip_rect, GamePlayRect, CaveTorchRect;
-extern Byte viewed_room, drawn_tile_kind;
+#pragma pack(1)
+typedef struct {
+    unsigned char number;                             /* 00 */
+    unsigned char left, right, above, below;           /* 01-04 */
+    unsigned char above_left, above_right;             /* 05-06 */
+    unsigned char below_left, below_right;             /* 07-08 */
+    unsigned char custom;                             /* 09 */
+} ROOMREC;
+#pragma pack()
+extern ROOMREC Room;
+extern Byte drawn_tile_kind;
 extern int draw_pass_mode;
 extern signed char *bubble_frames[];
 extern TileNeighbor CellLeft;
@@ -401,7 +411,7 @@ void DrawCaveLava1(DrawCell *cell)
 
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
-    lava = get_lava_info(viewed_room, cell->column, cell->row);
+    lava = get_lava_info(Room.number, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -440,7 +450,7 @@ void DrawCaveLava2(DrawCell *cell)
     floor = *cell;
     ((Byte *)&floor.modifier)[0] = 0;
     ++floor.modifier;
-    lava = get_lava_info(viewed_room, cell->column, cell->row);
+    lava = get_lava_info(Room.number, cell->column, cell->row);
     switch (cell->pass) {
     case 0:
         DrawCaveFloor(&floor);
@@ -480,7 +490,7 @@ void DrawCaveLavaBubbles(DrawCell *cell, int right)
     if (draw_pass_mode && !right)
         return;
     draw = cell->pass == 2 ? AddBFImgToFTable : AddBFImgToBTable;
-    lava = get_lava_info(viewed_room, cell->column, cell->row);
+    lava = get_lava_info(Room.number, cell->column, cell->row);
     if (!lava)
         return;
     frame = lava->flags & 0x3f;
