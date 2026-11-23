@@ -111,3 +111,10 @@ update the closed-family list instead of repeating its experiments.
 - SimAnt VER-3 / C4203: whole-file pass-2 budget effects; pop2 tested only single-function files.
 - SimAnt "slots follow first use", Stunts L1 "BP homes follow identifier hash": relevant to the swap's `[BP-2]`.
 - SimAnt ZI-1/ZD-1: `/Zi`/`/Zd` move LEDATA breaks only — matters for relocation order, not CODE.
+
+## Binary-patched original function
+- **root+0x6562 SHOW_DIALOG_NOTICE (330 B).** The supplied EXE is hand-patched here: +0b `cmp word [03e2],0; je` became
+  `mov byte [03e2],1; nop; nop` and +df `cmp [bp-0ch],si` became `cmp si,si; nop` (copy protection disabled). `src/dialog/dialog.c`
+  reproduces every other byte; no C construct may be fitted to the patch, so the function stays a draft.
+- **ANIM_NEW, ANIM_IDLE.** Both match far better with all of e, g and l off for just these two functions (40 and 112 bytes off) than
+  with `/Oegl`: the pattern of MSC's "function too large for global optimizations" fallback. Open.

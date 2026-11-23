@@ -168,23 +168,21 @@ void far pascal ResetData(void);
         CheckPlayNIS(0, 0);
 }
 
-#pragma optimize("e", off)
 /* 0116 */ void far pascal read_start_level(void)
 {
-    const char *option;
+    char near *option;
 
     selected_level = 0;
     if (command_line_enabled) {
         option = find_option("LEVEL");
         if (option == 0)
             return;
-        selected_level = (char)atoi(option + 5);
+        selected_level = (char)atoi(&option[5]);
         if (selected_level < 1 || selected_level > 14)
             selected_level = 1;
     }
 }
 
-#pragma optimize("e", on)
 static int skip_intro = 1;
 
 /* 014e */ char far pascal PlayOpeningSequence(void)
@@ -206,8 +204,7 @@ static int skip_intro = 1;
         result = play_nis(7);
 next_opening_clip:
     if (result != 2) result = play_nis(4);
-    if (result != 2)
-        result = play_nis(8);
+    if (result != 2) result = play_nis(8);
     if (result == 2) {
         selected_level = 1;
         skip_intro = 1;
