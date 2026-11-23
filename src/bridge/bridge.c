@@ -155,7 +155,7 @@ extern int AddCharX(int); /* Column-to-X helper at 02cc:0360. */
 extern void remove_char(void); /* Removes the current character at 02cc:1bd6. */
 extern void start_opponent_running(void); /* Starts the RoomOpp running at overlay-12:2c3e:00d6. */
 extern void turn_engarde(void), JumpSeq(int);
-extern void trigger_gate_with_reverse_plate(char, char);
+extern void trigger_reverse_gate(char, char);
 extern Gate near *get_trob_room_cell(char, int);
 extern unsigned char ReadCell(char, char, char);
 extern void set_resource(int, unsigned int, unsigned char, unsigned char);
@@ -165,7 +165,7 @@ extern void DrawCustomRoomImgAtInfo(char, TileAnim near *);
 extern void OFFSETRECT(void far *, void far *, int, int);
 extern void ComputeOffsetCellRect(Rect near *, void near *, int, int);
 typedef void far pascal DrawCallback(char cell, Rect near *rect);
-extern DrawCallback mark_bridge_top, mark_bridge_floor;
+extern DrawCallback mark_bridge_top, mark_floor;
 extern void mark_bufs_for_rect(DrawCallback *, Rect near *, char);
 extern void add_trob(char, char, char, char);
 extern char far pascal FirstInRow(signed char);
@@ -174,7 +174,7 @@ typedef struct {
     unsigned int width, height;
 } ShapeSize;
 extern ShapeSize far *GetCustomPieceSize(unsigned char, ShapeSize far *);
-extern void mark_mob_redraw(char), get_mob_rect(Rect near *), update_mob_y(int), add_mob(void);
+extern void mark_mob_redraw(char), compute_mob_rect(Rect near *), update_mob_y(int), add_mob(void);
 extern void far _fastcall add_middle_image(char, int, void near *, int, char);
 typedef struct {
     signed char index, flipped;                       /* 00-01 */
@@ -198,7 +198,10 @@ typedef struct {
 
 extern MOBREC Mob;
 extern ROOMREC Room;
-extern int mob_heights[], mob_widths[];
+extern struct {
+    int heights[13];
+    int widths[13];
+} mob_dimensions;
 
 int bridge_watch_kid(void);
 int bridge_watch_opponent(void);
@@ -286,7 +289,7 @@ int bridge_watch_kid(void)
             on_bridge = 0;
     } else if (Char.room == 7 && Char.stance != -1 &&
                bridge_gate_open() && Char.column <= 5) {
-        trigger_gate_with_reverse_plate(7, 13);
+        trigger_reverse_gate(7, 13);
     }
     Kid = Char;
     return on_bridge;
@@ -565,31 +568,31 @@ void trigger_bridge_floor(char room, char cell)
     redraw_bridge_floor(phase, cell);
 }
 
-/* Draft: the original uses DI for x and SI for y. */
 void animate_bridge_mob(void)
 {
     int x = Mob.x, y = Mob.y;
     signed char room = Mob.room;
     signed char col, image;
-    register int phase;
+    int phase;
     int old_x, old_y;
     ShapeSize bounds;
     Rect redraw;
 
-    if (room != ((signed char)Room.number)) {
-        if ((signed char)Room.below == (signed char)Mob.room)
+    if (room != (signed char)Room.number) {
+        if ((signed char)Room.below == (signed char)Mob.room) {
             y += 191;
-        else if ((signed char)Mob.room == (signed char)Room.above)
-            y -= 191;
-        else if ((signed char)Mob.room == (signed char)Room.left)
+            room = (signed char)Room.number;
+        } else if ((signed char)Mob.room == (signed char)Room.above) {
+            y = Mob.y - 191;
+            room = (signed char)Room.number;
+        } else if ((signed char)Mob.room == (signed char)Room.left) {
             x -= 320;
-        else if ((signed char)Mob.room == (signed char)Room.right)
+            room = (signed char)Room.number;
+        } else if ((signed char)Mob.room == (signed char)Room.right) {
             x += 320;
-        else
-            goto get_position;
-        room = ((signed char)Room.number);
+            room = (signed char)Room.number;
+        }
     }
-get_position:
     col = x / 32;
     FChar.index = IndexCell1(col, y / 63);
     if (FChar.index != 30) {
@@ -601,21 +604,21 @@ get_position:
     FirstInRow(Mob.row);
     phase = Mob.flags & 15;
     image = bridge_images[phase];
-    if ((*(volatile unsigned char *)&Level.level_number) == 5 && room == 10) {
+    if (Level.level_number == 5 && room == 10) {
         old_y = Mob.y;
         Mob.y += floor_y_adjustment[phase];
         y += floor_y_adjustment[phase];
         old_x = Mob.x;
         Mob.x += floor_x_adjustment[phase];
         if (GetCustomPieceSize(image, &bounds)) {
-            mob_heights[11] = bounds.width + 1;
-            mob_widths[11] = bounds.height + 1;
+            mob_dimensions.heights[11] = bounds.width + 1;
+            mob_dimensions.widths[11] = bounds.height + 1;
         }
         mark_mob_redraw(0);
         if (Mob.velocity != -1) {
-            get_mob_rect(&redraw);
+            compute_mob_rect(&redraw);
             redraw.left += 16;
-            mark_bufs_for_rect(&mark_bridge_floor, &redraw, -1);
+            mark_bufs_for_rect(&mark_floor, &redraw, -1);
             update_mob_y(y);
         }
         Mob.x = old_x;

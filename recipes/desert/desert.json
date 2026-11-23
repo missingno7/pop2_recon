@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/desert/desert.json",
-  "binding_sha256": "ff6e6658afb9d5a275e2e7a574bab2035a9473462034db9d8866e06fc2e00575",
+  "binding_sha256": "987ff740846260b8b2c82325bbd3741793ab0aafdaf1073323f11c23bb6bcee8",
   "claims": [
     {
       "fixup_count": 2,
@@ -293,6 +293,22 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "overlay-5:29cf:002a"
+    },
+    {
+      "fixup_count": 8,
+      "public": "TRIGGER_STONE_AT",
+      "relocation_indices": [
+        8,
+        19,
+        27,
+        49,
+        58
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-5:29cf:0a1a"
     }
   ],
   "data_publics": [
@@ -305,13 +321,8 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 2586,
-      "public": "TRIGGER_STONE_AT"
-    }
-  ],
-  "emitted_size": 2828,
+  "drafts": [],
+  "emitted_size": 2826,
   "flags": [
     "/c",
     "/AM",
@@ -326,12 +337,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "desert/desert",
-  "object_sha256": "e2ff46294a7b6a1af6318b427b026babc57b0784d0ab9cd7b5cf7acba32ccab6",
+  "object_sha256": "30293a6c3cc2b78a94aea50383b7d625e5b2d02a375c0b98488a7ca15c91a417",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/desert/desert.c",
-  "source_sha256": "90f526ddd45a04119a7c27818bcf53307d2fec8cad25f64783a20c82a89ce43c",
+  "source_sha256": "6d9ec07d812502b731fbb4028dd6f749408947f7deac7b5f7df4bf011021e8a2",
   "space": "overlay-5"
 }

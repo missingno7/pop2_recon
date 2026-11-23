@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/fade/fade.json",
-  "binding_sha256": "4f6851efb125b1560d450e90d793d320926205ba7319907f8e6d81a0a6cd52f7",
+  "binding_sha256": "7a88bc0b5deec9c9f25e10d6d818b77b0cff47f24f7e34f68cacda98f50bb66d",
   "claims": [
     {
       "fixup_count": 3,
@@ -151,27 +151,37 @@
       "relocation_order": "EXACT",
       "relocation_order_debt": [],
       "target_id": "root:1e23:0866"
-    }
-  ],
-  "drafts": [
-    {
-      "object_offset": 244,
-      "public": "FADE_IN_STEP"
     },
     {
-      "object_offset": 1234,
-      "public": "FADE_TO_STEP"
+      "fixup_count": 4,
+      "public": "FADE_IN_STEP",
+      "relocation_indices": [
+        1772
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1e23:00fc"
+    },
+    {
+      "fixup_count": 4,
+      "public": "FADE_TO_STEP",
+      "relocation_indices": [
+        1773
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:1e23:04da"
     }
   ],
+  "drafts": [],
   "emitted_size": 2210,
   "flags": [
     "/c",
     "/AM",
-    "/Oe",
+    "/Oegl",
     "/Gs",
     "/Zl",
     "/Gc",
-    "/Og",
     "/Zi"
   ],
   "frame": 7715,
@@ -179,12 +189,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "fade/fade",
-  "object_sha256": "0e4d039c1ea68edfc133ed7cacaf3ca3437b3bace84e499c978652fcd963c79a",
+  "object_sha256": "61a1ea00aaefdbc8434c1166927126e4707e24f4b80a620aa5e91d5c7a39ea42",
   "origin": 123448,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/fade/fade.c",
-  "source_sha256": "d37deedf20f327a0eec2d39da0b5579a3841d38b6ef634947cc5a40e7d00c0d3",
+  "source_sha256": "c315cb1dce33fb99d2584806ca35313f9335a1b882d8842457cbf1d7f19424b5",
   "space": "root"
 }

@@ -157,7 +157,7 @@ extern void far pascal unload_overlay(Handle, int, int);
 extern void far pascal PrinceMarkRangesPurgeable(Handle, const int *, const int *);
 extern void far pascal load_song_range(int, int);
 extern void far pascal release_song_range(int, int);
-extern void far pascal load_opponent_sound(SByte);
+extern void far pascal change_song_range(SByte);
 extern void far pascal load_resource_palette(unsigned, int, Byte, Byte);
 extern void * far cdecl _nmalloc(unsigned);
 extern void far cdecl _nfree(void *);
@@ -696,7 +696,7 @@ void far pascal load_opponent_set(SByte kind)
                 PrinceMarkRangesPurgeable(sprite_sets[3], opponent_overlay_first[kind],
                                      opponent_overlay_last[kind]);
             }
-            load_opponent_sound(kind);
+            change_song_range(kind);
             opponent_frames = HGETRSRC(0x4652414dUL, 750);
             if ((kind == 5 || kind == 6) && opponent_effect_frames == 0)
                 opponent_effect_frames = HGETRSRC(0L, 755);
@@ -762,7 +762,7 @@ void far pascal preload_room_data(Byte room)
             }
         }
     } while (++tile < 30);
-    if (Level.room_objects[room - 1].opponent_count) load_opponent_sound(Level.preferred_opponent);
+    if (Level.room_objects[room - 1].opponent_count) change_song_range(Level.preferred_opponent);
     if ((SByte)(*(unsigned char near *)&Kid.vertical_step) > 0) {
         if ((SByte)(*(unsigned char near *)&Kid.vertical_step) < 33) hGetSnd(10016);
         else hGetSnd(10000);

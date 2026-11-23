@@ -239,7 +239,7 @@ extern void cut_room_opponents(void);               /* far:2344:0fae */
 extern void KeepTime(void);                      /* far:0000:0cbc */
 extern void copy_kid_to_char(void);                         /* far:02cc:1d94 */
 extern int is_undefined_room(void);            /* far:02cc:0eb6 */
-extern signed char find_opponent(signed char);       /* far:2344:08f0 */
+extern signed char pick_hidden_actor(signed char);       /* far:2344:08f0 */
 extern void load_kid_with_opponent(signed char);               /* far:02cc:07fc */
 extern void reread_cells(void);           /* far:02cc:027e */
 extern int ctrl_player(void);                       /* far:02cc:116e */
@@ -286,8 +286,8 @@ extern void floor_foreground_resource(void);        /* far:0b41:0f1e */
 extern int index_cell(char, char);               /* far:02cc:020a */
 extern void mark_half(int);                 /* far:0b41:0e60 */
 extern void mark_floor(int, struct char_bounds *);           /* far:0b41:0e1c */
-extern char first_in_row(char);                     /* far:02cc:07c6 */
-extern void reach_rebirth_point(int);               /* far:052d:0fc4 */
+extern char FirstInRow(char);                     /* far:02cc:07c6 */
+extern void SaveRebirthPtStatus(int);               /* far:052d:0fc4 */
 extern void shake_row(char, char);            /* far:0b41:190c */
 extern int get_opp_dist(void);                  /* far:02cc:1cac */
 extern int AddCharX(int);                     /* far:02cc:0360 */
@@ -654,7 +654,7 @@ int run_kid(void)
     copy_kid_to_char();
     if (!is_undefined_room()) {
         if ((opponent = Char.opponent_index) == -1) {
-            if ((opponent = find_opponent(1)) == -1)
+            if ((opponent = pick_hidden_actor(1)) == -1)
                 opponent = 0;
         }
         load_kid_with_opponent(opponent);
@@ -804,7 +804,7 @@ void run_shadows(void)
             if (Kid.opponent_index > Char.slot)
                 --Kid.opponent_index;
             else if (Kid.opponent_index == Char.slot)
-                Kid.opponent_index = find_opponent(Char.direction);
+                Kid.opponent_index = pick_hidden_actor(Char.direction);
             --index;
             --count;
         }
@@ -938,18 +938,14 @@ void quick_floor(void)
 void check_rebirth_points(void)
 {
     int index;
-    const REBIRTHPOINT *point;
 
     if (Kid.room && Kid.action != 4 && Kid.alive < 0 && abs(Kid.life_delta) < Kid.life_points &&
         Kid.character_kind != 1 && (Kid.room != 9 || Level.level_number != 8 || start_facing == 1)) {
-        point = Level.rebirth_points;
-        index = 0;
-        do {
-            if (Kid.room == point->room && first_in_row(Kid.row) + Kid.column == point->cell &&
+        for (index = 0; index < 2; ++index) {
+            if (Kid.room == Level.rebirth_points[index].room && FirstInRow(Kid.row) + Kid.column == Level.rebirth_points[index].cell &&
                 (!rebirth_data || *rebirth_data - index != 1))
-                reach_rebirth_point(index + 1);
-            ++index;
-        } while (++point < Level.rebirth_points + 2);
+                SaveRebirthPtStatus(index + 1);
+        }
     }
 }
 
@@ -1025,13 +1021,13 @@ void init_level_specific(void)
 
 void check_alert(void)
 {
-    signed char index, left, right, kind, swap, second, first, count;
+    signed char swap, index, left, right, kind, second, first, count;
     unsigned int sequence;
 
     if (Kid.room) {
         sequence = Kid.frame;
-        first = find_opponent(0);
-        second = find_opponent(-1);
+        first = pick_hidden_actor(0);
+        second = pick_hidden_actor(-1);
         count = Level.room_objects[(unsigned char)Kid.room - 1].opponent_count;
         index = 0;
         if (count > 0) do {

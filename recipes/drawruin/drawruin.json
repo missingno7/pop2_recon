@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/drawruin/drawruin.json",
-  "binding_sha256": "e07c381173995238087f069c4395ad3d1846af8f78027909b936599e73398f8f",
+  "binding_sha256": "8a00e1201e85bc0e2ee20a585fb162ff3c53e0ebd1625a34b36f1293b52199ac",
   "claims": [
     {
       "fixup_count": 15,
@@ -296,6 +296,20 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-8:2a74:1094"
+    },
+    {
+      "fixup_count": 8,
+      "public": "DRAW_RUIN_LOOSE",
+      "relocation_indices": [
+        50,
+        92,
+        96
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-8:2a74:0a7c"
     }
   ],
   "code_matches": [
@@ -317,12 +331,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 2672,
-      "public": "DRAW_RUIN_LOOSE"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 4410,
   "flags": [
     "/c",
@@ -338,12 +347,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "drawruin/drawruin",
-  "object_sha256": "fe8dc8bfde3ce832d5b3c96320f9e5b0fb826a10eebd78b2764c051b3c3bae5d",
+  "object_sha256": "4d3d649b9e17effe75163bf2281a44f1a94b159d44555ed03f256b0d815305ab",
   "origin": 620,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/drawruin/drawruin.c",
-  "source_sha256": "e23295fb8797315932e6df5edb30ce0c69eb89381c3020434629ed7ca337a28a",
+  "source_sha256": "f55761fe4f0d684e61310050f1df6b26095dec99ccf5235f05c518d1b830de09",
   "space": "overlay-8"
 }

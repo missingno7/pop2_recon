@@ -1505,7 +1505,7 @@ void set_object_cell(signed char index)
 }
 
 extern void far *far cdecl _fmemmove(void far *out, const void far *src, unsigned count);
-extern void sort_fore_overlay(void);
+extern void sort_foreground(void);
 
 void sort_back_table(void)
 {
@@ -1530,7 +1530,7 @@ void sort_back_table(void)
 
 void sort_fore_table(void)
 {
-    int dest, source, shape;
+    int source, dest, shape;
     DrawEntry item;
 
     shape = 0;
@@ -1542,7 +1542,7 @@ void sort_fore_table(void)
             shape = -1;
     }
     if (shape == -1) {
-        sort_fore_overlay();
+        sort_foreground();
         return;
     }
     if (shape) {

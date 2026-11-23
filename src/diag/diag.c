@@ -66,7 +66,7 @@ typedef struct {
 #pragma pack()
 extern CHARREC Kid;
 extern CHARREC Char;
-extern int left_edge, right_edge;
+extern int left_edge_x, right_edge_x;
 
 extern long tick_count;
 extern drawing_context ScreenPort, *Graf;
@@ -177,14 +177,13 @@ void report_ticks(const char *label)
 
 void plot_edge_offset(register int distance)
 {
-    register int x;
+    int x;
 
     if (Char.direction == 0)
-        x = right_edge + distance;
+        x = right_edge_x + distance - 130;
     else
-        x = left_edge - distance;
-    distance = x - 130;
-    plot_position(distance, 14);
+        x = left_edge_x - distance - 130;
+    plot_position(x, 14);
 }
 
 void plot_actor_offset(int distance)

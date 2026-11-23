@@ -47,7 +47,7 @@ struct Animation
     int loops[4];
     Element elements[32];
     int sound_flag;
-    volatile int handle_count;
+    int handle_count;
     unsigned long fade;
     int handles[1];
 };
@@ -64,7 +64,7 @@ extern unsigned int active_animation_flags;
 extern unsigned long clock_ticks;
 extern void MEASURE_TEXT(int, int, const Rect far *, const Rect far *, int);
 extern void QuitFadeTo(unsigned long);
-extern int fade_finished(unsigned long);
+extern int fade_to_step(unsigned long);
 extern void dispose_handle(int);
 extern void release_port(void *);
 extern void release_buffer(void far *);
@@ -80,10 +80,9 @@ Animation *anim_draw(Animation *animation)
     return animation;
 }
 
-#pragma optimize("l", on)
 void anim_free(Animation *animation)
 {
-    register int i;
+    int i;
 
     if (animation->fade)
         QuitFadeTo(animation->fade);
@@ -98,7 +97,6 @@ void anim_free(Animation *animation)
     release_animation_heap(animation);
 }
 
-#pragma optimize("l", off)
 Animation *draw_frame(Animation *animation);
 Animation *near advance_animation_frame(Animation *animation);
 void near paint_element(Animation *animation, Element *element);
@@ -111,10 +109,9 @@ extern int animation_fade_pending(int);
 extern unsigned char animation_wait_level;
 
 /* Read the command operands at their byte offsets in the animation resource. */
-#define WORD_AT(p, n) (*(const int far *)((p) + (n)))
-#define LONG_AT(p, n) (*(const long far *)((p) + (n)))
+#define WORD_AT(p, n) (((const int far *)&(p)[(n)])[0])
+#define LONG_AT(p, n) (((const long far *)&(p)[(n)])[0])
 
-#pragma optimize("e", off)
 int anim_idle(Animation *animation)
 {
     int previous_port;
@@ -129,81 +126,81 @@ int anim_idle(Animation *animation)
     Graf = (int)animation;
 
 next_command:
-    event = animation->commands;
+    event = (*animation).commands;
     switch (*event) {
     case 0:
-        if (animation->deadline_base + animation->delay <= *(volatile unsigned long *)&clock_ticks)
+        if ((*animation).deadline_base + (*animation).delay <= *(volatile unsigned long *)&clock_ticks)
             status = 1;
         break;
     case 1:
-        if (animation->deadline_base + animation->delay <= *(const volatile unsigned long *)&clock_ticks) {
+        if ((*animation).deadline_base + (*animation).delay <= *(const volatile unsigned long *)&clock_ticks) {
             advance_animation_frame(animation);
-            if (!animation->timing.repeats) {
-                animation->timing.repeats = WORD_AT(event, 1);
-                animation->delay = WORD_AT(event, 3);
+            if (!(*animation).timing.repeats) {
+                (*animation).timing.repeats = WORD_AT(event, 1);
+                (*animation).delay = WORD_AT(event, 3);
             }
-            if (!--animation->timing.repeats) animation->commands += 5;
+            if (!--(*animation).timing.repeats) (*animation).commands += 5;
         }
         break;
     case 2:
-        if (!animation->timing.deadline) {
-            animation->timing.deadline = WORD_AT(event, 1) + *(volatile unsigned long *)&clock_ticks;
-            if (animation->deadline_base) animation->deadline_base += WORD_AT(event, 1);
-        } else if (animation->timing.deadline <= *(const volatile unsigned long *)&clock_ticks) {
-            animation->timing.deadline = 0;
-            animation->commands += 3;
+        if (!(*animation).timing.deadline) {
+            (*animation).timing.deadline = WORD_AT(event, 1) + *(volatile unsigned long *)&clock_ticks;
+            if ((*animation).deadline_base) (*animation).deadline_base += WORD_AT(event, 1);
+        } else if ((*animation).timing.deadline <= *(const volatile unsigned long *)&clock_ticks) {
+            (*animation).timing.deadline = 0;
+            (*animation).commands += 3;
         }
         break;
     case 3:
-        if (animation->deadline_base + animation->delay <= *(const volatile unsigned long *)&clock_ticks) {
+        if ((*animation).deadline_base + (*animation).delay <= *(const volatile unsigned long *)&clock_ticks) {
             effect_id = WORD_AT(event, 1);
             play_animation_sound(effect_id);
-            animation->commands += 3;
+            (*animation).commands += 3;
         }
         break;
     case 4:
         start_animation_fade(WORD_AT(event, 1));
-        animation->commands += 3;
+        (*animation).commands += 3;
         break;
     case 5:
-        if (!animation_fade_pending(WORD_AT(event, 1))) animation->commands += 3;
+        if (!animation_fade_pending(WORD_AT(event, 1))) (*animation).commands += 3;
         break;
     case 6:
-        if (!animation->timing.wait_level) animation->timing.wait_level = event[1];
-        if (!animation_wait_level || animation->timing.wait_level <= animation_wait_level) {
-            animation->timing.wait_level = 0;
-            animation->commands += 2;
+        if (!(*animation).timing.wait_level) (*animation).timing.wait_level = event[1];
+        if (!animation_wait_level || (*animation).timing.wait_level <= animation_wait_level) {
+            (*animation).timing.wait_level = 0;
+            (*animation).commands += 2;
         }
         break;
     case 7:
         draw_frame(animation);
-        animation->skip_draw = 1;
-        ++animation->commands;
+        (*animation).skip_draw = 1;
+        ++(*animation).commands;
         break;
     default:
         if ((*event & ~3) == 0x10) {
             idx = *event & 3;
-            if (animation->callbacks[idx] &&
-                animation->callbacks[idx](animation, WORD_AT(event, 1)))
+            if ((*animation).callbacks[idx] &&
+                (*animation).callbacks[idx](animation, WORD_AT(event, 1)))
                 status = 2;
-            animation->commands += 3;
+            (*animation).commands += 3;
             goto next_command;
         }
         if ((*event & ~3) == 0x14) {
             idx = *event & 3;
-            if (animation->loops[idx]) {
-                --animation->loops[idx];
-                if (!*(volatile int *)&animation->loops[idx])
+            if ((*animation).loops[idx]) {
+                --(*animation).loops[idx];
+                if (!*(volatile int *)&(*animation).loops[idx])
                     goto next_element_command;
                 goto continue_loop;
             }
-            animation->loops[idx] = WORD_AT(event, 1);
+            (*animation).loops[idx] = WORD_AT(event, 1);
         continue_loop:
-            animation->commands += WORD_AT(event, 3) + 3;
+            (*animation).commands += WORD_AT(event, 3) + 3;
             goto next_command;
         }
         idx = *event & 31;
-        current_element = &animation->elements[idx];
+        current_element = &(*animation).elements[idx];
         switch (*event & ~31) {
         case 0x20:
             saved_flags = current_element->flags;
@@ -214,7 +211,7 @@ next_command:
             if ((current_element->flags ^ saved_flags) & 0x0f00)
                 current_element->frame_ticks = 0;
         next_element_command:
-            animation->commands += 5;
+            (*animation).commands += 5;
             goto next_command;
         case 0x40:
             accumulate_element_bounds(animation, current_element);
@@ -240,33 +237,33 @@ next_command:
         case 0xa0:
             current_element->dx = LONG_AT(event, 1);
             current_element->dy = LONG_AT(event, 5);
-            animation->commands += 9;
+            (*animation).commands += 9;
             goto next_command;
         case 0xc0:
             current_element->ddx = LONG_AT(event, 1);
             current_element->ddy = LONG_AT(event, 5);
-            animation->commands += 9;
+            (*animation).commands += 9;
             goto next_command;
         case 0xe0:
             if ((signed char)event[1] > 0) {
-                Graf = animation->destination;
-                ((int *)&current_element->x)[1] += animation->bounds.left;
-                ((int *)&current_element->y)[1] += animation->bounds.top;
+                Graf = (*animation).destination;
+                ((int *)&current_element->x)[1] += (*animation).bounds.left;
+                ((int *)&current_element->y)[1] += (*animation).bounds.top;
                 paint_element(animation, current_element);
-                ((int *)&current_element->x)[1] -= animation->bounds.left;
-                ((int *)&current_element->y)[1] -= animation->bounds.top;
+                ((int *)&current_element->x)[1] -= (*animation).bounds.left;
+                ((int *)&current_element->y)[1] -= (*animation).bounds.top;
                 Graf = (int)animation;
             }
             if (!event[1]) {
                 paint_element(animation, current_element);
             } else {
-                saved_pixels = animation->port.pixels;
-                animation->port.pixels = animation->background.pixels;
-                if (animation->port.pixels)
+                saved_pixels = (*animation).port.pixels;
+                (*animation).port.pixels = (*animation).background.pixels;
+                if ((*animation).port.pixels)
                     paint_element(animation, current_element);
-                animation->port.pixels = saved_pixels;
+                (*animation).port.pixels = saved_pixels;
             }
-            animation->commands += 2;
+            (*animation).commands += 2;
             goto next_command;
         default:
             status = 1;
@@ -279,7 +276,6 @@ finish:
     return status;
 }
 
-#pragma optimize("e", on)
 extern void near *cdecl malloc(unsigned int);
 extern unsigned int cdecl allocation_size(void *);
 extern void near *cdecl memset(void near *, int, unsigned int);
@@ -308,7 +304,6 @@ extern int animation_color_mode;
 extern int cdecl sprintf(char *, const char *, ...);
 extern void abort_with_message(int, const char far *);
 
-#pragma optimize("e", off)
 Animation *anim_new(const unsigned char far *commands, int sheet, int first_shape,
                     int last_shape, int save_background)
 {
@@ -327,23 +322,28 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         memset(anim_record, 0, allocation_size(anim_record));
         previous_port = anim_record->destination = Graf;
         ei = 0;
-        do {
+        while (ei < 32) {
             reset_element(&anim_record->elements[ei]);
-        } while (++ei < 32);
+            ++ei;
+        }
         idx = 0;
         do {
             used_entries[idx] = (unsigned char)*(volatile int *)&load_all_animation_shapes;
         } while (++idx < (int)sizeof(used_entries));
         if (!load_all_animation_shapes) {
-            command_cursor = commands + 8;
-            while ((operation = *command_cursor) != 0) {
+            command_cursor = &commands[8];
+            for (operation = *command_cursor; operation; operation = *command_cursor) {
                 for (idx = 0; idx < 8; ++idx) {
-                    if (operation == animation_command_codes[idx]) goto found_command;
+                    if (operation == animation_command_codes[idx])
+                        break;
                 }
-                idx = 8;
-                if ((operation & ~3) == *(volatile unsigned char *)&animation_command_codes[8]) goto found_command;
-                idx = 9;
-                if ((operation & ~3) == *(volatile unsigned char *)&animation_command_codes[9]) goto found_command;
+                if (idx < 8)
+                    goto found_command;
+                if ((operation & ~3) == animation_command_codes[8] ||
+                    (operation & ~3) == animation_command_codes[9]) {
+                    idx = (operation & ~3) == animation_command_codes[8] ? 8 : 9;
+                    goto found_command;
+                }
                 if ((operation & ~31) == 0x80 && (idx = WORD_AT(command_cursor, 1)) != 0) {
                     for (; idx <= WORD_AT(command_cursor, 3); ++idx) {
                         if (idx > last_shape) {
@@ -357,7 +357,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                 for (idx = 10; idx < 17; ++idx) {
                     if (animation_command_codes[idx] == (operation & ~31)) {
                     found_command:
-                        command_cursor += animation_operand_lengths[idx] + 1;
+                        command_cursor = &command_cursor[animation_operand_lengths[idx] + 1];
                     }
                 }
             }
@@ -366,7 +366,7 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
         sheet_info = fetch_locked_shape_list(sheet);
         if (sheet_info) {
             animation_color_mode = sheet_info->depth <= 16;
-            if (!sheet_info->sound) {
+            if (sheet_info->sound == 0) {
                 prepare_sheet(sheet);
                 anim_record->sound_flag = sheet_info->sound;
             }
@@ -374,25 +374,25 @@ Animation *anim_new(const unsigned char far *commands, int sheet, int first_shap
                 if (used_entries[count]) {
                     if (!(anim_record->handles[count] = load_sheet_shape(sheet, count + first_shape,
                             animation_color_mode == 0 ? 1 : 2))) {
-                        if (anim_record->sound_flag) sheet_info->sound = 0;
+                        if (anim_record->sound_flag != 0) sheet_info->sound = 0;
                         goto fail;
                     }
                 } else {
                     anim_record->handles[count] = 0;
                 }
             }
-            if (anim_record->sound_flag) sheet_info->sound = 0;
+            if (anim_record->sound_flag != 0) sheet_info->sound = 0;
             unlock_sheet(sheet);
             prepare_transparency(sheet);
         }
         {
-            register Rect *bounds = &anim_record->bounds;
+            Rect *bounds = &anim_record->bounds;
 
             if (!create_port(anim_record, _fmemcpy(bounds, commands, sizeof(Rect)))) goto fail;
             Graf = (int)anim_record;
             set_port_origin(0, 0);
             anim_record->dirty = anim_record->source;
-            anim_record->commands = commands + 8;
+            anim_record->commands = &commands[8];
             if (save_background) {
                 anim_record->background = anim_record->port;
                 anim_record->background.pixels = allocate_pixels(
@@ -415,7 +415,6 @@ restore:
     return anim_record;
 }
 
-#pragma optimize("e", on)
 extern Rect far *OFFSETRECT(Rect far *, const Rect far *, int, int);
 extern void PUSH_PORT_CLIP(Rect far *);
 extern void SET_RECORD_RANGE(Rect far *, int);
@@ -500,7 +499,7 @@ Animation *draw_frame(Animation *animation)
     element = animation->elements;
     do {
         paint_element(animation, element);
-        if (i && animation->frame_index > 1 && animation->fade && fade_finished(animation->fade)) {
+        if (i && animation->frame_index > 1 && animation->fade && fade_to_step(animation->fade)) {
             QuitFadeTo(animation->fade);
             animation->fade = 0;
         }
@@ -539,7 +538,6 @@ extern int SECTRECT(Rect far *, const Rect far *, const Rect far *);
 extern int EMPTYRECT(const Rect far *);
 extern void UNIONRECT(Rect far *, const Rect far *, const Rect far *);
 
-#pragma optimize("g", on)
 void near accumulate_element_bounds(Animation *animation, Element *element)
 {
     Rect rect;
@@ -560,7 +558,6 @@ void near accumulate_element_bounds(Animation *animation, Element *element)
     }
 }
 
-#pragma optimize("g", off)
 void near reset_element(Element *element)
 {
     memset(element, 0, sizeof(*element));
@@ -581,8 +578,6 @@ extern void CLEAR_PAYLOAD_HEADER(const unsigned char far *);
 extern int query_sound_payload(const void far *);
 extern char ScreenPort[];
 
-#pragma optimize("l", on)
-#pragma optimize("g", on)
 int play_anim(int sheet_override, int scene, int scene_offset, int save_background,
               AnimationCallback callback, int restore, unsigned int flags, int interruptible)
 {
@@ -620,7 +615,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
             }
             if (result == 2) result = 0;
         }
-        if (animation->fade && fade_finished(animation->fade)) {
+        if (animation->fade && fade_to_step(animation->fade)) {
             QuitFadeTo(animation->fade);
             animation->fade = 0;
         }
@@ -644,9 +639,7 @@ int play_anim(int sheet_override, int scene, int scene_offset, int save_backgrou
         if (palettes[result] && !query_sound_payload(resolve_handle_to_far_payload(palettes[result]))) dispose_handle(palettes[result]);
     return aborted;
 }
-#pragma optimize("g", off)
 
-#pragma optimize("l", off)
 
 void swap_record_pairs(Animation *animation)
 {

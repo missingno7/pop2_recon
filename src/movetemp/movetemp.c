@@ -172,10 +172,8 @@ extern int screen_left, screen_right;
 int choose_trapdoor_delay(int active)
 {
     int delay;
-    if (active)
-        delay = 0;
-    else
-        delay = Rnd(2) + 1;
+    if (active) delay = 0;
+    else delay = Rnd(2) + 1;
     return delay;
 }
 
@@ -186,10 +184,8 @@ void move_slide_bolt(void)
     if (end > Mob.x) {
         do {
             FChar.index = FirstInRow(row) + Mob.x / 32;
-            if (Mob.kind == 8)
-                ++FChar.index;
-            draw_moving_tile(Mob.y);
-            Mob.x += 24;
+            if (Mob.kind == 8) ++FChar.index;
+            draw_moving_tile(Mob.y); Mob.x += 24;
         } while (Mob.x < end);
     }
 }
@@ -199,55 +195,39 @@ void move_slide_rock(void)
     int x, y, sequence, old_speed;
     signed char row;
     if (Mob.velocity != -1) {
-        row = GetRow(Mob.y);
-        FChar.index = IndexCell1(Mob.x / 32, row);
+        row = GetRow(Mob.y); FChar.index = IndexCell1(Mob.x / 32, row);
         if (is_visible_room_cell(Mob.room, (unsigned char)FChar.index)) {
             sequence = sequence_b;
             if (!probe_floors_toward_rock(-1, 52)) {
-                y = Mob.y;
-                Mob.y -= 59;
-                old_speed = rock_speed_a;
+                y = Mob.y; Mob.y -= 59; old_speed = rock_speed_a;
                 rock_speed_a = (int)(Mob.flags - Mob.x) <= old_speed ? (int)(Mob.flags - Mob.x) : old_speed;
                 rock_speed_b = (int)(Mob.flags - Mob.x) <= rock_speed_b ? (int)(Mob.flags - Mob.x) : rock_speed_b;
                 Mob.x += 5;
-                sequence_b = sequence_a = 9;
-                mark_mob_redraw(2);
-                Mob.y = y;
-                Mob.x -= 5;
-                rock_speed_b = rock_speed_a = old_speed;
+                sequence_b = sequence_a = 9; mark_mob_redraw(2);
+                Mob.y = y; Mob.x -= 5; rock_speed_b = rock_speed_a = old_speed;
                 sequence_b = sequence_a = sequence;
             } else
                 sequence_b = sequence_a = 58;
-            Mob.kind = 7;
-            draw_moving_tile(Mob.y);
-            x = Mob.x;
-            Mob.x += 32;
-            y = Mob.y;
+            Mob.kind = 7; draw_moving_tile(Mob.y);
+            x = Mob.x; Mob.x += 32; y = Mob.y;
             if (Mob.flags > (unsigned int)Mob.x) {
-                FChar.index = FirstInRow(row) + Mob.x / 32;
-                Mob.kind = 6;
-                --Mob.y;
-                draw_moving_tile(Mob.y);
+                FChar.index = FirstInRow(row) + Mob.x / 32; Mob.kind = 6;
+                --Mob.y; draw_moving_tile(Mob.y);
             }
             Mob.x = temple_draw_offsets.trapdoor_x[0] + x;
             if ((unsigned int)Mob.x < Mob.flags) {
-                Mob.y = temple_draw_offsets.bolt_y_1 + y;
-                Mob.kind = 8;
-                move_slide_bolt();
+                Mob.y = temple_draw_offsets.bolt_y_1 + y; Mob.kind = 8; move_slide_bolt();
             }
             Mob.x = temple_draw_offsets.bolt_x_2 + x;
             if ((unsigned int)Mob.x < Mob.flags) {
-                Mob.y = temple_draw_offsets.bolt_y_2 + y;
-                Mob.kind = 9;
+                Mob.y = temple_draw_offsets.bolt_y_2 + y; Mob.kind = 9;
                 move_slide_bolt();
                 Mob.x = temple_draw_offsets.bolt_x_3 + x;
                 Mob.y = temple_draw_offsets.bolt_y_3 + y;
                 move_slide_bolt();
             }
-            Mob.x = x;
-            Mob.y = y;
-            Mob.kind = 6;
-            sequence_b = sequence_a = sequence;
+            Mob.x = x; Mob.y = y;
+            Mob.kind = 6; sequence_b = sequence_a = sequence;
         }
     }
 }
@@ -255,8 +235,7 @@ void move_slide_rock(void)
 int can_slide_rock_stop(void)
 {
     int result = 0;
-    if (probe_floors_toward_rock(-1, 32))
-        result = probe_floors_toward_rock(0, 32);
+    if (probe_floors_toward_rock(-1, 32)) result = probe_floors_toward_rock(0, 32);
     return result;
 }
 
@@ -264,10 +243,8 @@ struct rock_rect *compute_slide_rock_rect(struct rock_rect *rect, unsigned char 
 {
     struct moving_rock *rock = (struct moving_rock *)slide_rock_on_row(room, row);
     if (rock) {
-        rect->top = rock->y - 69;
-        rect->left = rock->x;
-        rect->bottom = rock->y + 1;
-        rect->right = rect->left + 52;
+        rect->top = rock->y - 69; rect->left = rock->x;
+        rect->bottom = rock->y + 1; rect->right = rect->left + 52;
     } else
         rect = 0;
     return rect;
@@ -281,8 +258,7 @@ void check_slide_rock_crush(void)
     if (Mob.room == (unsigned char)Char.room && Mob.row == Char.row) {
         rock_x = Mob.x + 140;
         if (Char.sequence_group == 4 || (rock_x < kid_x && rock_x + 16 > kid_x)) {
-            hit_character_with_rock();
-            Kid = Char;
+            hit_character_with_rock(); Kid = Char;
         }
     }
 }
@@ -293,8 +269,7 @@ void draw_object_slide_rock(unsigned char kind)
     int x, frame, right;
     rock = (struct moving_rock *)slide_rock_on_row(Room.number, FChar.y / 63);
     right = rock ? rock->screen_x : 320;
-    FChar.clip_right = right;
-    x = right - FChar.x;
+    FChar.clip_right = right; x = right - FChar.x;
     switch (kind) {
     case 134: frame = 79; break;
     case 135: frame = 80; break;
@@ -302,8 +277,7 @@ void draw_object_slide_rock(unsigned char kind)
     case 137: frame = x % 5 + 81; break;
     default: frame = -1; break;
     }
-    if (frame != -1)
-        add_middle_image(4, frame, FChar.x, FChar.y, 10);
+    if (frame != -1) add_middle_image(4, frame, FChar.x, FChar.y, 10);
 }
 
 
@@ -324,16 +298,14 @@ int slide_rock_barrier(signed char direction, unsigned char room, signed char ro
                                     (signed char)(FirstInRow(rock->row) + column)];
             if (IsWall(tile) || tile == 4) {
                 right = ColEdgeX[column + 6] + 24;
-                if (Char.direction == 0)
-                    right += screen_right - screen_left;
+                if (Char.direction == 0) right += screen_right - screen_left;
                 barrier = right >= barrier ? right : barrier;
             }
         } else
             barrier += 35;
     } else if (direction == -1)
         barrier = ColEdgeX[19];
-    else
-        barrier = 0;
+    else barrier = 0;
     return barrier;
 }
 
@@ -353,16 +325,14 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
         if (left < screen_right) {
             column = get_char_col(left);
             if (column >= 0 && column < 10) {
-                flags[column] |= 0x0f;
-                rooms[column] = rock->room;
+                flags[column] |= 0x0f; rooms[column] = rock->room;
             }
             if (rock->mode != 100 && row == Char.row) {
                 signed char neighbor = get_char_col(left + 1);
                 if (neighbor != column) {
                     edge.neighbor_flags = &slide_det_flags[neighbor];
                     slide_det_flags[column] |= *edge.neighbor_flags & 0x0f;
-                    if (!(flags[neighbor] & 0x0f))
-                        *edge.neighbor_flags &= 0xf0;
+                    if (!(flags[neighbor] & 0x0f)) *edge.neighbor_flags &= 0xf0;
                 }
             }
         }
@@ -370,16 +340,14 @@ void slide_rock_collision_row(signed char row, unsigned char *rooms, unsigned ch
         if (edge.right > screen_left) {
             column = get_char_col(edge.right);
             if (column >= 0 && column < 10) {
-                flags[column] |= 0xf0;
-                rooms[column] = rock->room;
+                flags[column] |= 0xf0; rooms[column] = rock->room;
             }
             if (rock->mode != 100 && row == Char.row) {
                 signed char neighbor = get_char_col(edge.right + 1);
                 if (neighbor != column) {
                     edge.neighbor_flags = &slide_det_flags[neighbor];
                     slide_det_flags[column] |= *edge.neighbor_flags & 0xf0;
-                    if (!(flags[neighbor] & 0xf0))
-                        *edge.neighbor_flags &= 0x0f;
+                    if (!(flags[neighbor] & 0xf0)) *edge.neighbor_flags &= 0x0f;
                 }
             }
         }
@@ -403,21 +371,20 @@ struct slide_rock *far _fastcall slide_rock_on_row(unsigned char room, signed ch
 
     do {
         rock = get_mob_type_item(6, index++);
-        if (!rock || (rock->room == room && rock->row == row))
-            finished = 1;
+        if (!rock || (rock->room == room && rock->row == row)) finished = 1;
     } while (!finished);
     return rock;
 }
 
 extern unsigned char ReadCell(unsigned char, signed char, signed char);
 extern int IS_SIX_KIND(unsigned char);
-extern void get_tile_knockback(unsigned char kind);
+extern void decrement_life_points(unsigned char kind);
 extern void AddSound(int);
 extern void dispatch_sound(int);
 extern void mark_kid_contact(unsigned char);
-extern void reset_kid_collision(void);
-extern void set_character_sequence(int);
-extern void update_kid_contact(void);
+extern void reset_char_y(void);
+extern void JumpSeq(int);
+extern void AnimChar(void);
 
 void hit_character_with_rock(void)
 {
@@ -429,67 +396,54 @@ void hit_character_with_rock(void)
         sequence = -1;
         if (Char.x - 144 > Mob.x) {
             Char.x = Mob.x + 140;
-            if (Char.direction == -1)
-                Char.x -= 13;
+            if (Char.direction == -1) Char.x -= 13;
         }
         x = Char.x - 8;
-        if (Char.direction == 0)
-            x -= 13;
+        if (Char.direction == 0) x -= 13;
         column = get_char_col(x);
         tile = ReadCell((unsigned char)Char.room, column, Char.row);
         if (!IsWall(tile) && tile != 4) {
             if (Char.alive < 0) {
-                if (Char.stance != 1)
-                    sequence = Char.direction == 0 ? 47 : 48;
+                if (Char.stance != 1) sequence = Char.direction == 0 ? 47 : 48;
                 else {
-                    sequence = 93;
-                    Char.stance = 0;
+                    sequence = 93; Char.stance = 0;
                 }
             } else
                 Char.x -= 8;
         } else {
             Char.x = ColEdgeX[column + 6] + 8;
-            if (Char.direction == 0)
-                Char.x += 17;
+            if (Char.direction == 0) Char.x += 17;
             if (tile != 2) {
                 if (Mob.auxiliary == 100) {
                     if (Char.alive < 0) {
-                        get_tile_knockback(Char.life_points);
-                        Char.alive = 0;
+                        decrement_life_points(Char.life_points); Char.alive = 0;
                     }
                     Char.frame = 185;
                 } else {
-                    x = Mob.x - 10;
-                    column = x / 32;
+                    int rock_x = Mob.x - 10;
+                    column = rock_x / 32;
                     tile = ReadCell((unsigned char)Char.room, column, Char.row);
                     if (!IsWall(tile) && tile != 4) {
                         if (Char.alive < 0) {
-                            int other_column;
-                            x -= 5;
-                            other_column = x / 32;
-                            if (other_column != column) {
-                                tile = ReadCell((unsigned char)Char.room, other_column, Char.row);
-                                if (IsWall(tile) || tile == 4)
-                                    AddSound(1);
+                            rock_x -= 5;
+                            if (rock_x / 32 != column) {
+                                tile = ReadCell((unsigned char)Char.room, rock_x / 32, Char.row);
+                                if (IsWall(tile) || tile == 4) AddSound(1);
                             }
                         }
                     } else {
                         if (Char.alive < 0) {
-                            dispatch_sound(10001);
-                            AddSound(55);
+                            dispatch_sound(10001); AddSound(55);
                         }
                         mark_kid_contact(13);
                     }
-                    Char.sequence_group = 4;
-                    sequence = 71;
+                    Char.sequence_group = 4; sequence = 71;
                 }
             }
         }
         if (sequence != -1) {
-            reset_kid_collision();
-            Char.vertical_step = 0;
-            set_character_sequence(sequence);
-            update_kid_contact();
+            reset_char_y(); Char.vertical_step = 0;
+            JumpSeq(sequence); AnimChar();
         }
     }
 }
@@ -505,13 +459,10 @@ int probe_floors_toward_rock(signed char row_delta, int step)
     row = Mob.row + row_delta;
     if (last >= first) {
         do {
-            if (!result)
-                break;
+            if (!result) break;
             tile = ReadCell(Mob.room, first++, row);
-            if (IS_SIX_KIND(tile) || tile == 25)
-                result = 0;
-            else
-                result = 1;
+            if (IS_SIX_KIND(tile) || tile == 25) result = 0;
+            else result = 1;
         } while (last >= first);
     }
     return result;
@@ -567,23 +518,17 @@ void move_rock_record(void)
     unsigned char tile;
     signed char column;
 
-    if (Mob.auxiliary == 0 || Mob.auxiliary == 100)
-        return;
+    if (Mob.auxiliary == 0 || Mob.auxiliary == 100) return;
     x = Mob.x;
-    if (Mob.auxiliary == -1)
-        --x;
+    if (Mob.auxiliary == -1) --x;
     else if (can_slide_rock_stop() && Mob.auxiliary >= 8) {
-        Mob.auxiliary = 0;
-        dispatch_sound(10054);
-        if (current_sound == 54)
-            current_sound = -1;
+        Mob.auxiliary = 0; dispatch_sound(10054);
+        if (current_sound == 54) current_sound = -1;
     } else {
         Mob.x -= 8;
-        if (can_slide_rock_stop())
-            AddSound(53);
+        if (can_slide_rock_stop()) AddSound(53);
         Mob.x = x--;
-        if (Mob.auxiliary <= 8)
-            ++Mob.auxiliary;
+        if (Mob.auxiliary <= 8) ++Mob.auxiliary;
     }
     if (x < 0) {
         Mob.room = Level.room_links[Mob.room - 1].left;
@@ -594,46 +539,37 @@ void move_rock_record(void)
             Mob.velocity = -1;
             goto stop_timer;
         }
-        if (Mob.auxiliary == 0 || Mob.auxiliary == 100)
-            goto done;
+        if (Mob.auxiliary == 0 || Mob.auxiliary == 100) goto done;
         prior_column = x - 20;
         column = prior_column / 32;
-        if (prior_column <= 0)
-            --column;
+        if (prior_column <= 0) --column;
         tile = ReadCell(Mob.room, column, Mob.row);
         if (Mob.velocity == 1) {
             Mob.velocity = 0;
             Mob.auxiliary = 100;
-            ++Mob.y;
-            Mob.x = x + 2;
-            if (tile != 2)
-                break;
-            copy_kid_to_char();
-            DoImpale();
+            ++Mob.y; Mob.x = x + 2;
+            if (tile != 2) break;
+            copy_kid_to_char(); DoImpale();
         } else {
             prev_column = (Mob.x - 4) / 32;
             if ((new_column = (x - 4) / 32) != prev_column || prev_column != column) {
                 column = ReadCell(Mob.room, new_column, Mob.row);
                 if ((IsWall(column) || column == 4 || tile == 2) && Mob.velocity == 0) {
-                    Mob.velocity = 1;
-                    --Mob.y;
-                    if (!query_sound(10055) && tile != 2)
-                        AddSound(8);
+                    Mob.velocity = 1; --Mob.y;
+                    if (!query_sound(10055) && tile != 2) AddSound(8);
                 }
             }
             copy_kid_to_char();
             if (Char.frame >= 87 && Char.frame <= 99) {
                 column = (x - 8) / 32;
-                if (Mob.row - Char.row + 1 == 0 && column == Char.column)
-                    control_drop();
+                if (Mob.row - Char.row + 1 == 0 && column == Char.column) control_drop();
             }
         }
         Kid = Char;
     } while (0);
     if (Mob.auxiliary != 100) {
         Mob.x = x;
-        if (Mob.auxiliary != 0)
-            AddSound(54);
+        if (Mob.auxiliary != 0) AddSound(54);
         return;
     }
 stop_timer:

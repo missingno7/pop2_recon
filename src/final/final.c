@@ -380,59 +380,48 @@ typedef struct {
 } ForegroundImage;
 
 typedef struct {
+    int xmin, ymin, xmax, ymax;
+} Rect;
+
+typedef struct {
     sbyte shape_delta;
-    byte attributes[24];
-} ShapeEntry;
+    unsigned long shape_list;
+    byte layer;
+    byte attributes[5];
+    Rect bounds;
+    byte tail[6];
+} FinalImage;
 
 typedef struct {
     byte room, tile;
     int first_shape;
-    byte data[24];
-    ShapeEntry entries[1];
-} RoomShapeTable;
+    byte attributes[24];
+    FinalImage images[1];
+} RoomImageTable;
 
-extern RoomShapeTable near *shapes_by_room;
-typedef unsigned int ForegroundOffset;
+extern RoomImageTable near *room_image_table;
 extern ForegroundImage far fore_queue[];
 extern int foreground_count;
 extern void far cdecl move_bytes(void far *dst, const void far *src, unsigned int size);
 
 void far pascal sort_foreground(void)
 {
-    ForegroundOffset destination;
     int out, index;
+    ForegroundImage saved;
 
-    out = index = foreground_count - 1;
-    if (index >= 0) {
-        ForegroundOffset shape_ptr;
-        ForegroundImage saved;
-
-        destination = (unsigned int)&fore_queue[out];
-        shape_ptr = (unsigned int)&fore_queue[index].shape;
-        do {
-            int shape;
-
-            shape = shapes_by_room->entries[*(((_segment)fore_queue) :> (int _based(void) *)shape_ptr) - shapes_by_room->first_shape].shape_delta
-                  + shapes_by_room->first_shape;
-            if ((shape >= 0x1021 && shape <= 0x1024) ||
-                (shape >= 0x1058 && shape <= 0x105c)) {
-                if (index != out) {
-                    ForegroundImage far *source;
-                    char _based(void) *at;
-                    _segment storage_segment = (_segment)fore_queue;
-
-                    at = (char _based(void) *)shape_ptr;
-                    source = storage_segment :> (ForegroundImage _based(void) *)(at - 2);
-                    saved = *source;
-                    move_bytes(source, storage_segment :> (void _based(void) *)(at + 18),
-                               (out - index) * sizeof(ForegroundImage));
-                    *(((_segment)fore_queue) :> (ForegroundImage _based(void) *)destination) = saved;
-                }
-                destination -= sizeof(ForegroundImage);
-                --out;
+    index = foreground_count - 1;
+    out = index;
+    for (; index >= 0; --index) {
+        int shape = room_image_table->images[fore_queue[index].shape - room_image_table->first_shape].shape_delta
+                  + room_image_table->first_shape;
+        if ((shape >= 0x1021 && shape <= 0x1024) || (shape >= 0x1058 && shape <= 0x105c)) {
+            if (index != out) {
+                saved = fore_queue[index];
+                move_bytes(&fore_queue[index], &fore_queue[index + 1], (out - index) * sizeof(ForegroundImage));
+                fore_queue[out] = saved;
             }
-            shape_ptr -= sizeof(ForegroundImage);
-        } while (--index >= 0);
+            --out;
+        }
     }
 }
 
@@ -472,7 +461,8 @@ void far pascal FinlWatchKid(void)
             decrement_life_points(100);
             JumpSeq(71);
             Kid = Char;
-            ChangeMeters(); CheckMeters();
+            ChangeMeters();
+            CheckMeters();
         }
         copy_kid_to_char();
     }
@@ -757,7 +747,8 @@ int far pascal jaffar_go_to_position_0(sbyte near *stance)
 
     if (stance[2] == 3) {
         if (Char.frame == 15) {
-            if (x == 6) standing_jump();
+            if (x == 6)
+                standing_jump();
             else if (x > 7 && x < rule->room_x - 1) start_running();
             else
                 goto settle;
@@ -1072,18 +1063,18 @@ void far pascal update_jaffar_slot(OpponentSlot near *opponent)
 
 int far pascal shadow_in_range(sbyte position, sbyte direction)
 {
-    const PositionRule near *rule = &position_rules[position];
-    int side;
+    const PositionRule *rule;
     int inside;
     sbyte x;
-    const sbyte near *side_fields;
 
-    direction = (direction < 0) ? 0 : 1;
-    side = direction;
-    side_fields = (const sbyte near *)rule + side;
-    if (side_fields[7] == Opp.row &&
-        (x = Opp.column + ((Opp.room == 8) ? 1 : 0) * 10) >= side_fields[9] &&
-        x <= side_fields[11])
+    if (direction < 0)
+        direction = 0;
+    else
+        direction = 1;
+    rule = &position_rules[position];
+    if (rule->shadow_column[direction] == Opp.row &&
+        (x = Opp.column + (Opp.room == 8 ? 1 : 0) * 10) >= rule->shadow_min[direction] &&
+        x <= rule->shadow_max[direction])
         inside = 1;
     else
         inside = 0;
@@ -1177,25 +1168,6 @@ void far pascal setup_guard_smoke(void)
     }
 }
 
-typedef struct {
-    int xmin, ymin, xmax, ymax;
-} Rect;
-
-typedef struct {
-    byte type;
-    unsigned long shape_list;
-    byte layer;
-    byte attributes[5];
-    Rect bounds;
-    byte tail[6];
-} FinalImage;
-
-typedef struct {
-    byte attributes[28];
-    FinalImage images[1];
-} RoomImageTable;
-
-extern RoomImageTable near *room_image_table;
 /* Each frame selects a room image slot. Each shape pair packs two word offsets. */
 static byte crystal_frame_slot[] = {
     0, 1, 2, 3, 2, 1, 0, 0
@@ -1241,7 +1213,7 @@ void far pascal animate_jaffar_blink(void)
 
     ++BlueSpec;
     frame = BlueSpec & 15;
-    if (frame >= 5 && room_image_table->attributes[1] == 26) {
+    if (frame >= 5 && room_image_table->tile == 26) {
         frame -= 5;
         if (frame < 6) {
             mark_bufs_for_rect(mark_move, ROOM_RECT(89), -1);
@@ -1266,7 +1238,7 @@ void far pascal draw_jaffar_blink(FinalObject near *object)
 
 void far pascal animate_spider(void)
 {
-    if (room_image_table->attributes[1] == 25) {
+    if (room_image_table->tile == 25) {
         unsigned int state = BlueSpec;
         int ticks = (state & 0x7f8) >> 3;
 
@@ -1326,7 +1298,7 @@ void far pascal setup_crystal_room(void)
 
 void far pascal animate_crystal(void)
 {
-    if (room_image_table->attributes[1] == 28) {
+    if (room_image_table->tile == 28) {
         unsigned int state = BlueSpec; if (state & 0x800) {
             unsigned int frame = ((state & 0x7f0) >> 4) + 1;
 
@@ -1393,7 +1365,7 @@ void far pascal trigger_crystal(sbyte row, sbyte col)
 
 void far pascal animate_gargoyle(void)
 {
-    if (room_image_table->attributes[1] == 29 || room_image_table->attributes[1] == 30) {
+    if (room_image_table->tile == 29 || room_image_table->tile == 30) {
         unsigned int state = BlueSpec;
         byte serial = (byte)(state & 15);
 

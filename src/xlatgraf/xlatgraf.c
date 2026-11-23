@@ -36,31 +36,36 @@ void far pascal ResetBanks(unsigned int banks)
     }
 }
 
-typedef struct ShapeHeader {
-    unsigned short height, width, format;
-} ShapeHeader;
-
 typedef union ShapeLayout {
     unsigned short word;
     unsigned char bytes[2];
+    struct {
+        unsigned bands:7;
+        unsigned reserved:1;
+        unsigned packing:4;
+        unsigned planes:3;
+        unsigned indexed:1;
+    } bits;
 } ShapeLayout;
 
-/* Unverified draft: CalcRowBytes flags and width arithmetic. */
+typedef struct ShapeHeader {
+    unsigned short height, width;
+    ShapeLayout format;
+} ShapeHeader;
+
 int far pascal CalcRowBytes(const ShapeHeader far *shape)
 {
     ShapeLayout code;
-    const volatile unsigned char *layout = code.bytes;
-    int row_bytes;
+    const ShapeLayout *format;
 
-    code.word = shape->format;
-    if (!(layout[1] & 0x80))
-        row_bytes = ((short)shape->width + 7) / 8;
-    else
-        row_bytes = (unsigned short)(((((unsigned short)layout[1] & 0x70U) >> 4) + 1U) * shape->width + 7U) >> 3;
-    return row_bytes;
+    code = shape->format;
+    format = &code;
+
+    if (!format->bits.indexed)
+        return ((int)shape->width + 7) / 8;
+    return ((format->bits.planes + 1) * shape->width + 7) / 8;
 }
 
-#pragma optimize("gl", on)
 void far pascal MCGAToMCGA(const ShapeHeader far *shape,
                            unsigned char far *pixels, unsigned banks)
 {
@@ -87,7 +92,6 @@ void far pascal MCGAToMCGA(const ShapeHeader far *shape,
     }
 }
 
-#pragma optimize("gl", off)
 
 int far pascal Get1stBank(unsigned banks)
 {
@@ -129,7 +133,7 @@ extern void far pascal mark_handle_converted(Handle handle);
 extern void far pascal clear_payload_header(void far *payload);
 extern void far pascal dispose_handle(Handle handle);
 extern Handle far pascal allocate_payload_handle(unsigned long size);
-extern Handle far pascal mark_payload_owned(Handle handle);
+extern Handle far pascal CLEAR_HANDLE_OWNED(Handle handle);
 extern void far *far cdecl far_copy(void far *destination, const void far *source, unsigned length);
 extern void far pascal MaskToMCGA(Glyph far *glyph, unsigned char far *bits);
 
@@ -234,54 +238,42 @@ int far pascal halve_for_mode_two(int value, int mode)
 Handle far pascal XlatFont(FontHeader far *font)
 {
     unsigned count;
-    unsigned size;
-    unsigned far *source_offsets;
-    unsigned far *output_offsets;
+    unsigned size, offset;
     Glyph far *glyph;
     Glyph far *output;
     FontHeader far *translated;
     Handle handle;
-    unsigned remaining;
     int converted_width;
     unsigned bytes;
 
     count = (unsigned)font->last - font->first + 1;
     size = count * (2 + 6) + 10;
-    if (count) {
-        unsigned far *input = font->glyph_offset;
-        unsigned left = count;
-        do {
-            Glyph far *cell = (Glyph far *)((unsigned long)font + *input);
+    {
+        unsigned i;
+        for (i = 0; i < count; ++i) {
+            Glyph far *cell = (Glyph far *)((unsigned long)font + font->glyph_offset[i]);
             size += halve_for_mode_two(cell->width, 1) * cell->height;
-            ++input;
-        } while (--left);
+        }
     }
 
     handle = allocate_payload_handle(size);
     if (handle) {
         translated = FETCH_LOCKED_SHAPE_LIST(handle);
-        far_copy(translated, font, 10);
-        size = (count + 5) * 2;
-        if (count) {
-            source_offsets = font->glyph_offset;
-            output_offsets = translated->glyph_offset;
-            remaining = count;
-            do {
-                *output_offsets = size;
-                glyph = (Glyph far *)((unsigned long)font + *source_offsets);
-                converted_width = halve_for_mode_two(glyph->width, 1);
-                glyph->row_bytes = (glyph->width + 7) / 8;
+        far_copy(translated, font, 10); offset = (count + 5) * 2;
+        {
+            unsigned index;
+            for (index = 0; index < count; ++index) {
+                translated->glyph_offset[index] = offset; glyph = (Glyph far *)((unsigned long)font + font->glyph_offset[index]);
+                converted_width = halve_for_mode_two(glyph->width, 1); glyph->row_bytes = (glyph->width + 7) / 8;
                 bytes = glyph->row_bytes * glyph->height + 6;
-                output = (Glyph far *)((unsigned long)translated + size);
+                output = (Glyph far *)((unsigned long)translated + offset);
                 far_copy(output, glyph, bytes);
                 MaskToMCGA(output, output->bits);
                 output->row_bytes = converted_width;
-                size += converted_width * glyph->height + 6;
-                ++source_offsets;
-                ++output_offsets;
-            } while (--remaining);
+                offset += converted_width * glyph->height + 6;
+            }
         }
-        mark_payload_owned(handle);
+        CLEAR_HANDLE_OWNED(handle);
     }
     return handle;
 }
@@ -312,22 +304,22 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
     int indexed, mask, wide;
     unsigned long input_allocation, output_allocation;
     unsigned long input_left, output_left;
-    unsigned band_rows, rows_left, input_bytes, output_bytes;
+    unsigned rows_left, band_rows, output_bytes, input_bytes;
     unsigned output_stride;
     Handle handle;
     ShapeHeader far *output;
     unsigned char far *input_bits;
     unsigned char far *output_bits;
 
-    layout.word = shape->format;
+    layout.word = shape->format.word;
     format = layout.bytes;
-    if (*format & 0x7f)
+    if (format[0] & 0x7f)
         return convert_banded_shape(shape, banks);
     indexed = !(layout.word & 0x8000);
-    mask = indexed && !(layout.bytes[1] & 0x70);
-    wide = (video_mode == 6 || video_mode == 4) && indexed && (layout.bytes[1] & 0x70) == 0x30;
-    shape->format = CalcRowBytes(shape);
-    input_allocation = (long)(short)shape->format * (short)shape->height;
+    mask = indexed && !(format[1] & 0x70);
+    wide = (video_mode == 6 || video_mode == 4) && indexed && (format[1] & 0x70) == 0x30;
+    shape->format.word = CalcRowBytes(shape);
+    input_allocation = (long)(short)shape->format.word * (short)shape->height;
     if (wide)
         input_allocation <<= 2;
     input_left = input_allocation;
@@ -345,7 +337,7 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
         *output = *shape;
         band_rows = chunk_byte_limit / shape->width < shape->height ? chunk_byte_limit / shape->width : shape->height;
         rows_left = shape->height;
-        input_bytes = rows_left * shape->format;
+        input_bytes = band_rows * shape->format.word;
         if (wide)
             input_bytes <<= 2;
         output_bytes = (1 + 3 * (!mask * (video_mode == 4 || video_mode == 6))) * output_stride * band_rows;
@@ -357,10 +349,11 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
                 input_bits = NormalizePtr(input_bits);
                 output_bits = NormalizePtr(output_bits);
                 band_rows = rows_left < band_rows ? rows_left : band_rows;
+                output->height = band_rows;
                 input_bits += unpack_pixels(output_bits, input_bits,
-                                            input_bytes = input_bytes > input_left ? (unsigned)input_left : input_bytes, shape->format,
-                                            (output->height = band_rows), layout.bytes[1] & 15, wide);
-                if (!indexed && (layout.bytes[1] & 0x70) == 0x30) {
+                                            input_bytes = (unsigned)(input_bytes > input_left ? input_left : input_bytes), shape->format.word,
+                                            band_rows, format[1] & 15, wide);
+                if (!indexed && (format[1] & 0x70) == 0x30) {
                     if (mode == 1)
                         TgaToMCGA(output, output_bits, Get1stBank(*banks));
                     else if (mode == 2) {
@@ -369,7 +362,7 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
                     }
                 } else if (mask) {
                     MaskToMCGA((Glyph far *)output, output_bits);
-                } else if (!indexed && (layout.bytes[1] & 0x70) == 0x70) {
+                } else if (!indexed && (format[1] & 0x70) == 0x70) {
                     MCGAToMCGA(output, output_bits, *banks);
                 } else {
                     goto discard;
@@ -389,12 +382,12 @@ Handle far pascal XlatShape(ShapeHeader far *shape, unsigned *banks, int mode)
 
     finish:
         output->height = shape->height;
-        output->format = output_stride;
-        resize_payload(mark_payload_owned(handle), output_allocation);
+        output->format.word = output_stride;
+        resize_payload(CLEAR_HANDLE_OWNED(handle), output_allocation);
     }
 
 restore_format:
-    shape->format = layout.word;
+    shape->format.word = layout.word;
     return handle;
 }
 
@@ -405,20 +398,20 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
     const unsigned char *format;
     int indexed, mask, wide;
     unsigned output_stride, band_rows, rows_left, band_bytes;
-    volatile unsigned input_bytes;
-    unsigned long input_allocation, input_left, output_size, added;
+    unsigned input_bytes;
+    unsigned long input_allocation, input_left, output_size;
     volatile unsigned long output_left;
     Handle handle;
     ShapeHeader far *output;
     unsigned char far *input_bits;
     unsigned char far *volatile output_bits;
 
-    layout.word = shape->format;
+    layout.word = shape->format.word;
     format = layout.bytes;
     indexed = !(layout.word & 0x8000);
     mask = indexed && !(format[1] & 0x70);
     wide = (video_mode == 6 || video_mode == 4) && indexed && (format[1] & 0x70) == 0x30;
-    shape->format = CalcRowBytes(shape);
+    shape->format.word = CalcRowBytes(shape);
     input_allocation = *(unsigned far *)(shape + 1);
     if (wide)
         input_allocation <<= 2;
@@ -428,7 +421,8 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
     output_size = output_left = 0;
     chunk_byte_limit = (unsigned long)((long)(short)shape->width * (short)shape->height) > 64100UL
                        ? 58240U : 64100U;
-    handle = allocate_payload_handle(input_allocation <= (output_size = sizeof(ShapeHeader)) ? output_size : input_allocation);
+    output_size = sizeof(ShapeHeader);
+    handle = allocate_payload_handle(output_size < input_allocation ? input_allocation : output_size);
     if (handle) {
         unsigned band_limit;
         volatile int planar_mode;
@@ -436,8 +430,9 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
         output = FETCH_LOCKED_SHAPE_LIST(handle);
         *output = *shape;
         band_limit = 58238L / (long)(short)((shape->width + 1) * 2);
-        band_rows = band_limit < (rows_left = shape->height) ? band_limit : rows_left;
-        input_bytes = band_rows * shape->format;
+        rows_left = shape->height;
+        band_rows = band_limit < rows_left ? band_limit : rows_left;
+        input_bytes = band_rows * shape->format.word;
         planar_mode = video_mode == 4 || video_mode == 6;
         input_bits = (unsigned char far *)(shape + 1);
         if (rows_left) {
@@ -446,17 +441,16 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
                 band_bytes = *(unsigned far *)input_bits;
                 input_bytes = band_bytes;
                 input_bits += 2;
-                mark_payload_owned(handle);
-                added = band_bytes;
-                if (resize_payload(handle, added + output_size))
+                CLEAR_HANDLE_OWNED(handle);
+                if (resize_payload(handle, band_bytes + output_size))
                     goto discard;
                 output = FETCH_LOCKED_SHAPE_LIST(handle);
                 output_bits = (unsigned char far *)output + (unsigned)output_size;
-                output_size += added;
+                output_size += band_bytes;
                 input_bits = NormalizePtr(input_bits);
                 output_bits = NormalizePtr(output_bits);
                 output->height = band_rows;
-                input_bits += unpack_pixels(output_bits, input_bits, input_bytes, shape->format,
+                input_bits += unpack_pixels(output_bits, input_bits, input_bytes, shape->format.word,
                                             band_rows, format[1] & 15, wide);
                 if (!indexed && (format[1] & 0x70) == 0x30)
                     TgaToMCGA(output, output_bits, Get1stBank(*banks));
@@ -467,13 +461,13 @@ Handle far pascal convert_banded_shape(ShapeHeader far *shape, unsigned *banks)
                 else if (!((video_mode == 6 || video_mode == 4) && indexed && (format[1] & 0x70) == 0x30))
                     goto discard;
                 input_left -= input_bytes;
-                output_left -= added;
+                output_left -= band_bytes;
                 rows_left -= band_rows;
             } while (rows_left);
         }
         output->height = shape->height;
-        output->format = output_stride;
-        resize_payload(mark_payload_owned(handle), output_size);
+        output->format.word = output_stride;
+        resize_payload(CLEAR_HANDLE_OWNED(handle), output_size);
     }
     goto restore_format;
 
@@ -481,11 +475,10 @@ discard:
     dispose_handle(handle);
     handle = 0;
 restore_format:
-    shape->format = layout.word;
+    shape->format.word = layout.word;
     return handle;
 }
 
-#pragma optimize("gl", on)
 void far pascal remap_banded_pixels(ShapeHeader far *shape, unsigned char far *pixels, unsigned banks)
 {
     unsigned char map[16];
@@ -522,7 +515,6 @@ void far pascal remap_banded_pixels(ShapeHeader far *shape, unsigned char far *p
         }
     }
 }
-#pragma optimize("gl", off)
 
 unsigned *far pascal copy_far_word(unsigned *out, const unsigned far *in)
 {

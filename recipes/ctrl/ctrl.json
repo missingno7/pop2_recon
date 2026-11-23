@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/ctrl/ctrl.json",
-  "binding_sha256": "ecedc8e80a90b4b1f067c8986d91b5063fc906a2dcd2945df8d37e187dbc7eac",
+  "binding_sha256": "b790766a323e17c7c61b6c6920e91dad76e612b28598dbf7abd7e3e22900cf29",
   "claims": [
     {
       "fixup_count": 28,
@@ -610,19 +610,34 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:02cc:12e4"
-    }
-  ],
-  "drafts": [
+    },
     {
-      "object_offset": 5640,
-      "public": "CLIPCHAR"
+      "fixup_count": 68,
+      "public": "CLIPCHAR",
+      "relocation_indices": [
+        303,
+        327,
+        344,
+        357,
+        358,
+        361,
+        366,
+        376,
+        377
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:02cc:160a"
     }
   ],
+  "drafts": [],
   "emitted_size": 7588,
   "flags": [
     "/c",
     "/AM",
-    "/Oe",
+    "/Oegl",
     "/Gs",
     "/Zl",
     "/Gc",
@@ -633,12 +648,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "ctrl/ctrl",
-  "object_sha256": "b225a728da12b920075862a650c9c820ad32a6b07bc3189ec9b2b50722520517",
+  "object_sha256": "dd520edd52d01bd92deb78a85b07da2cefdbc7986120c9cc8897023ebe16fcb5",
   "origin": 11458,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/ctrl/ctrl.c",
-  "source_sha256": "bade3c6eaf6e620537a74a6010e9c88bd6aa7f950fb1f1d659b5f4e2b4f9fb4f",
+  "source_sha256": "f06a7452152dea25b086f9ba54ed603706236f12b9bce1667c27de8e52cf3880",
   "space": "root"
 }

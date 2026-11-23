@@ -47,6 +47,45 @@ def _ground_segment(symbol, target, oracle, claimed=None):
     return {"kind": "segment-base", "segment": symbol["segment"], "witnesses": receipts}
 
 
+def _carried_pointer(rows, load, value):
+    """True when the first instruction forms a near pointer with offset `value` and straight-line register/stack-slot
+    copies carry it to the base register of the last instruction's plain ES:[r] access (see _far_window)."""
+    from binding import registers_written
+    from disasm import _capstone
+    _, xc = _capstone()
+    frame = lambda o: (o.type == xc.X86_OP_MEM and o.mem.base == xc.X86_REG_BP and o.mem.index == 0 and
+                       o.mem.segment in (0, xc.X86_REG_SS) and o.size == 2)
+    place = lambda i, o: ("slot", o.mem.disp) if frame(o) else ("reg", i.reg_name(o.reg)) if o.type == xc.X86_OP_REG else None
+    first, held, loaded = rows[0], set(), False
+    ops = first.operands
+    if not (len(ops) == 2 and ops[1].type == xc.X86_OP_IMM and first.imm_size == 2 and ops[1].imm & 0xFFFF == value and
+            ops[0].size == 2 and (first.mnemonic == "mov" and place(first, ops[0]) or
+                                  first.mnemonic == "add" and ops[0].type == xc.X86_OP_REG)):
+        return False
+    held.add(place(first, ops[0]))
+    for insn in rows[1:]:
+        written, ops = registers_written(insn), insn.operands
+        if set(insn.groups).intersection((1, 2, 3, 4, 5, 7)) or "ds" in written or "bp" in written or \
+                ("es" in written and insn is not load):
+            return False
+        loaded = loaded or insn is load
+        if insn is rows[-1]:
+            mem = [o for o in ops if o.type == xc.X86_OP_MEM]
+            return bool(loaded and len(mem) == 1 and mem[0].mem.segment == xc.X86_REG_ES and mem[0].mem.index == 0 and
+                        mem[0].mem.disp == 0 and ("reg", insn.reg_name(mem[0].mem.base)) in held)
+        if insn.mnemonic == "mov" and len(ops) == 2 and ops[0].size == 2 and place(insn, ops[0]):
+            carries = place(insn, ops[1]) in held if ops[1].type in (xc.X86_OP_REG, xc.X86_OP_MEM) else False
+            held.discard(place(insn, ops[0]))
+            if carries:
+                held.add(place(insn, ops[0]))
+            continue
+        if any(o.type == xc.X86_OP_MEM and o.access & 2 for o in ops) or insn.mnemonic.startswith(("push", "rep", "movs", "stos")):
+            return False  # some other store: a carried slot may have changed
+        held -= {("reg", n) for n in written}
+        held -= {("reg", n[0] + "x") for n in written if len(n) == 2 and n[1] in "lh"}
+    return False
+
+
 def _far_window(spec, raw, at, wspace, symbol, value, oracle):
     """Explicit original far-address forms pairing offset `value` with segment N (2026-11-23):
     - `selector-access`: `mov es,[D]` first, straight-line code with no write to ES or DS, and a
@@ -55,6 +94,9 @@ def _far_window(spec, raw, at, wspace, symbol, value, oracle):
       A `push es ... pop es` pair with no other stack operation between restores ES (2026-11-23).
     - `selector-copy`: the same start, then `lea di,[r+B]` and, as the window's end, a run of plain MOVSW/MOVSB
       through ES:DI of L bytes: the original copies one unit to [B, B+L), and `value` lies in it (2026-11-23).
+    - `selector-pointer`: the window starts with `mov word [bp+d],value`, `mov r16,value` or `add r16,value`; straight
+      through register/stack-slot copies that near pointer reaches r, `mov es,[D]` is the window's only segment
+      load, and its last instruction accesses ES:[r] without a displacement (2026-11-23).
     - `address-construction`: `add r16,value` directly followed by `mov r16,N`, N relocated.
     - `stored-pointer`: `mov word [bp+d],value` directly followed by `mov word [bp+d+2],N`, N
       relocated (the two halves of one far pointer local)."""
@@ -64,16 +106,22 @@ def _far_window(spec, raw, at, wspace, symbol, value, oracle):
     rows = instructions(raw)
     segment = symbol["segment"]
     relocated = {r["image_offset"] for r in wspace.relocations}
-    if spec["kind"] in ("selector-access", "selector-copy"):
+    if spec["kind"] in ("selector-access", "selector-copy", "selector-pointer"):
         from module_gate import _dgroup_home
-        require(len(rows) >= 2 and bytes(rows[0].bytes[:2]) == b"\x8e\x06" and
-                struct.unpack_from("<H", raw, 2)[0] == spec["selector_offset"], "Selector window must start with mov es,[D]")
+        load = [i for i in rows if bytes(i.bytes[:2]) == b"\x8e\x06"]
+        require(len(rows) >= 2 and len(load) == 1 and (spec["kind"] == "selector-pointer" or rows[0] is load[0]) and
+                struct.unpack_from("<H", load[0].bytes, 2)[0] == spec["selector_offset"],
+                "Selector window must start with mov es,[D]" if spec["kind"] != "selector-pointer" else
+                "Pointer window must hold exactly one mov es,[D]")
         home, dgroup = _dgroup_home({"dgroup_segment": spec["dgroup_segment"]}, oracle.spaces["root"], oracle)
         word = dgroup + spec["selector_offset"]
         relocs = [r for r in home.relocations if r["image_offset"] == word]
         require(len(relocs) == 1 and relocs[0]["index"] == spec["relocation_index"] and
                 struct.unpack_from("<H", home.data, word)[0] == segment,
                 "Selector word is not an original relocated DGROUP word storing the segment")
+        if spec["kind"] == "selector-pointer":
+            require(_carried_pointer(rows, load[0], value), "Selector window does not carry that offset to an ES access")
+            return
         saved = False
         for insn in rows[1:]:
             written = registers_written(insn)

@@ -133,7 +133,9 @@ int IsTimeForNIS(int level, int previous_level)
     if (game_request) {
         if (level == 0 || (previous_level != level && previous_level != -1)) {
             switch (level) {
-            case 1: sequence = 9; break;
+            case 1:
+                sequence = 9;
+                break;
             case 2: sequence = 100; break;
             case 3: sequence = 10; break;
             case 5: sequence = 1; break;

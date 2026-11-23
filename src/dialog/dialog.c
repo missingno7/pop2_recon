@@ -284,10 +284,13 @@ extern DialogAsset far pascal hGetNMapShpList(int, int, int);
 
 void far pascal DialogResetToGamePlay(int restart_input)
 {
-    if (dialog_port_handle) DeallocBackPort(dialog_port_handle);
+    if (dialog_port_handle)
+        DeallocBackPort(dialog_port_handle);
     dialog_port_handle = AllocBackPort((struct ScreenPort far *)&GamePlayRect);
-    Graf = &ScreenPort; SetFont(0);
-    Graf->mode = 0; Graf->foreground = 15;
+    Graf = &ScreenPort;
+    SetFont(0);
+    Graf->mode = 0;
+    Graf->foreground = 15;
     STROKE_PORT_RECT(saved_port);
     set_default_palette();
     DISPOSE_HANDLE(hGetFont(11));
@@ -609,18 +612,23 @@ void far pascal draw_save_slots(struct save_slot_table far *slots, int saving)
     int light_font, dark_font;
     struct dialog_range range;
 
-    light_font = hGetFont(12); dark_font = hGetFont(13);
+    light_font = hGetFont(12);
+    dark_font = hGetFont(13);
     range.first = range.last = 0;
     if (!saving) {
         title = 8004;
         action = 8013;
     } else {
-        title = 8000; action = 8003;
+        title = 8000;
+        action = 8003;
     }
     DialogDrawStrId(title, 12, 0, 0, &save_heading, &range);
-    DISPOSE_HANDLE(light_font); DISPOSE_HANDLE(dark_font);
-    light_font = hGetFont(10); hGetFont(11);
-    OffsetRect(&save_description, &save_description, 0, -18); DialogDrawStrId(8001, 10, 0, 0, &save_description, &range);
+    DISPOSE_HANDLE(light_font);
+    DISPOSE_HANDLE(dark_font);
+    light_font = hGetFont(10);
+    hGetFont(11);
+    OffsetRect(&save_description, &save_description, 0, -18);
+    DialogDrawStrId(8001, 10, 0, 0, &save_description, &range);
     OffsetRect(&save_description, &save_description, 0, 18); range.last = -1; DialogDrawStrId(action, 10, 0, 0, &save_description, &range);
     range.last = 1; DialogDrawStrId(8002, 10, 0, 0, &save_description, &range);
     i = 0;
@@ -657,10 +665,10 @@ extern void far pascal handle_edit_key(struct slot_editor far *, int);
 
 int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
 {
-    char initials[26];
+    int result, done, slot, previous, key;
     struct slot_editor far *editor;
     struct dialog_rect rect;
-    int result, done, previous, slot, key;
+    char initials[26];
 
     result = previous = -1;
     done = slot = 0;
@@ -690,7 +698,11 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
         switch (key) {
         case 9:
             previous = slot;
-            goto advance_slot;
+            if (slot != 9)
+                ++slot;
+            else
+                slot = 0;
+            break;
         case 13:
             if ((saving == 0 && !_fstrlen(slots->initials[slot])) ||
                 (saving == 1 && !_fstrlen(initials))) {
@@ -700,7 +712,7 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
             if (editor)
                 _fstrcpy(slots->initials[slot], initials);
             result = slot;
-            /* Enter and Escape both leave the slot loop. */
+            /* fall through: Enter and Escape both leave the loop */
         case 27:
             done = 1;
             break;
@@ -714,20 +726,35 @@ int far pascal select_save_slot(struct save_slot_table far *slots, int saving)
                     handle_edit_key(editor, key);
             } else {
                 switch (key) {
-                case 0x4700: slot = 0; break;
-                case 0x4800: slot = slot ? slot - 1 : 9; break;
+                case 0x4700:
+                    slot = 0;
+                    break;
+                case 0x4800:
+                    if (slot == 0)
+                        slot = 9;
+                    else
+                        --slot;
+                    break;
                 case 0x4b00:
                 case 0x4d00:
-                    slot += slot >= 5 ? -5 : 5;
+                    if (slot >= 5)
+                        slot -= 5;
+                    else
+                        slot += 5;
                     break;
-                case 0x4f00: slot = 9; break;
+                case 0x4f00:
+                    slot = 9;
+                    break;
                 case 0x5000:
-                advance_slot:
-                    slot = slot == 9 ? 0 : slot + 1;
+                    if (slot != 9)
+                        ++slot;
+                    else
+                        slot = 0;
                     break;
                 }
             }
             break;
+
         }
     } while (!done);
     if (editor)
@@ -1023,7 +1050,7 @@ int far pascal read_notice_selection(void);
 void far pascal show_dialog_notice(int reason)
 {
     int passed = 1;
-    int attempt;
+    unsigned attempt;
     unsigned previous;
     unsigned index;
     unsigned count;
@@ -1141,18 +1168,17 @@ void far pascal draw_notice_cursor(int index, int selected)
 
 
 extern int notice_keyboard_text;
-extern int far cdecl _fstrcmp(const char far *, const char far *);
+extern int far cdecl _fstricmp(const char far *, const char far *);
 
 int far pascal read_notice_selection(void)
 {
-    char typed[101];
-    const char far *confirmation;
-    int confirmation_length;
-    int typed_count;
-    int previous = -1;
     int index = 0;
+    int previous = -1;
     int done = 0;
     unsigned key;
+    const char far *confirmation;
+    int confirmation_length, typed_count;
+    char typed[100];
 
     if (notice_keyboard_text) {
         confirmation = FETCH_LOCKED_SHAPE_LIST(hGetTxt4(10));
@@ -1162,26 +1188,21 @@ int far pascal read_notice_selection(void)
         confirmation = 0;
     }
     do {
-        int current = index;
-        int remainder;
-        if (previous != current) {
+        if (previous != index) {
             if (previous != -1)
                 draw_notice_cursor(previous, 0);
-            previous = current;
-            draw_notice_cursor(current, 1);
+            previous = index;
+            draw_notice_cursor(index, 1);
         }
-        index = current;
         key = read_key();
         switch (key) {
         case 9:
-            previous = current;
-            if (current == 9) {
+            previous = index;
+            if (index != 9)
+                ++index;
+            else
                 index = 0;
-                continue;
-            }
-        next_symbol:
-            ++current;
-            goto update_index;
+            continue;
         case 13:
             done = 1;
             continue;
@@ -1194,24 +1215,22 @@ int far pascal read_notice_selection(void)
             continue;
         case 0x4800:
         case 0x5000:
-            if (current >= 5)
-                current -= 5;
+            if (index >= 5)
+                index -= 5;
             else
-                current += 5;
-            goto update_index;
+                index += 5;
+            continue;
         case 0x4b00:
-            if (current % 5 == 0)
-                current += 4;
+            if (index % 5 == 0)
+                index += 4;
             else
-                --current;
-            goto update_index;
+                --index;
+            continue;
         case 0x4d00:
-            remainder = current % 5;
-            if (remainder != 4)
-                goto next_symbol;
-            current -= remainder;
-        update_index:
-            index = current;
+            if (index % 5 == 4)
+                index -= 4;
+            else
+                ++index;
             continue;
         case 0x4f00:
             index = 9;
@@ -1223,11 +1242,11 @@ int far pascal read_notice_selection(void)
     draw_notice_cursor(index, 0);
     if (confirmation) {
         if (confirmation_length <= typed_count) {
-            typed[typed_count] = '\0';
-            if (!_fstrcmp(confirmation, typed + typed_count - confirmation_length))
+            typed[typed_count] = 0;
+            if (!_fstricmp(confirmation, &typed[typed_count - confirmation_length]))
                 index = -2;
         }
-        DISPOSE_HANDLE(hGetFont(10));
+        DISPOSE_HANDLE(hGetTxt4(10));
     }
     return index;
 }
@@ -1295,7 +1314,7 @@ int far * far pascal ComputeHallPlayerRect(int far *p, int index)
     p[2] = p[0] + 20;
     return p;
 }
-extern int far pascal wait_for_hall_input(void);
+extern int far pascal wait_key(void);
 extern int far pascal GET_PAYLOAD_SIZE(void far *);
 extern void far * far cdecl _fmemmove(void far *, const void far *, unsigned);
 
@@ -1411,7 +1430,9 @@ struct hall_table far * far pascal read_hall_file(int score, int *index)
     }
     if (score > 0)
         table = insert_hall_record(table, score, index);
-    else if (!table) {
+    else {
+        if (table)
+            return table;
         table = ALLOCATE_PINNED_PAYLOAD(sizeof(table->count) + sizeof(struct hall_record));
         table->count = 0;
     }
@@ -1422,9 +1443,7 @@ int far pascal show_hall_records(int hold)
 {
     struct hall_table far *table;
     int index;
-    int key;
-
-    *(volatile int *)&key = 0;
+    unsigned key = 0;
 
     table = read_hall_file(0, &index);
     if (table && (table->count || hold)) {
@@ -1433,7 +1452,7 @@ int far pascal show_hall_records(int hold)
         Graf = &ScreenPort;
         key = DialogFadeIn();
         if (!key)
-            key = hold ? wait_for_hall_input() : wait_ticks(0, 900);
+            key = hold ? wait_key() : wait_ticks(0, 900);
         if (key && !hold)
             SET_RECORD_RANGE((struct dialog_rect *)saved_port, 0);
         else
@@ -1499,27 +1518,24 @@ int far pascal main_menu_choice(void)
         switch ((unsigned)read_key()) {
         case 9:
             previous = option;
-            if (option != 5)
-                goto next_option;
-            /* A tab from the last option returns to the first. */
+            if (option == 5)
+                option = 0;
+            else
+                ++option;
+            break;
         case 0x4700:
-first_option:
             option = 0;
             break;
         case 13:
             if (option != 3 && option != 4) {
-                if (change_menu_option(option)) {
+                if (change_menu_option(option))
                     draw_menu_label(option, 1);
-                    break;
-                }
-            } else {
-                if (option != 3 || IsValidTimeForSaveGame())
-                    goto accept_option;
-            }
-            menu_sound(-2);
-            break;
-accept_option:
-            done = 1;
+                else
+                    menu_sound(-2);
+            } else if (option == 3 && !IsValidTimeForSaveGame())
+                menu_sound(-2);
+            else
+                done = 1;
             break;
         case 17:
         case 0x1000:
@@ -1530,14 +1546,13 @@ accept_option:
             done = 1;
             break;
         case 0x4800:
-            if (option)
-                goto previous_option;
-            /* Up from the first option wraps to the last. */
+            if (option == 0)
+                option = 5;
+            else
+                --option;
+            break;
         case 0x4f00:
             option = 5;
-            break;
-previous_option:
-            --option;
             break;
         case 0x4b00:
         case 0x4d00:
@@ -1547,9 +1562,10 @@ previous_option:
                 option += 3;
             break;
         case 0x5000:
-next_option:
-            if (++option > 5)
+            if (option == 5)
                 option = 0;
+            else
+                ++option;
             break;
         }
     } while (!done);

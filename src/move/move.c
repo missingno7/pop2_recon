@@ -715,8 +715,7 @@ void animate_gate(void)
                 current_trob.state = ++phase;
             height -= gate_close_speed[phase];
             if (height <= 0) {
-                sbyte row;
-                sbyte col;
+                sbyte col, row;
                 if (Level.environment_kind == 3) {
                     row = current_trob.cell / 10;
                     col = current_trob.cell % 10;
@@ -732,8 +731,8 @@ void animate_gate(void)
                     height = 36;
                     sound = 9;
                 } else {
-                    height = 0;
                     sound = Level.environment_kind != 3 ? 15 : 9;
+                    height = 0;
                     check_gate_fingers();
                     if (did_player_escape_guard())
                         collision_state = 4;
@@ -743,7 +742,7 @@ void animate_gate(void)
             }
         } else {
             if (height == 255)
-                stop_gate((byte)height);
+                stop_gate(height);
             else {
                 height += gate_open_speed[phase];
                 if (phase == 0 || phase == 1) {
@@ -1099,7 +1098,7 @@ void trigger_flask(byte room, sbyte cell)
     add_trob(room, cell, 1, 10);
 }
 
-extern sbyte trigger_gate_with_reverse_plate(byte room, sbyte cell);
+extern sbyte trigger_reverse_gate(byte room, sbyte cell);
 
 sbyte trigger_gate(byte room, sbyte cell, int action)
 {
@@ -1138,7 +1137,7 @@ sbyte trigger_gate(byte room, sbyte cell, int action)
             (*(RoomObject **)&BlueS)[cell].state = flags + 255;
         break;
     case 34:
-        state = trigger_gate_with_reverse_plate(room, cell);
+        state = trigger_reverse_gate(room, cell);
         break;
     }
     return state;
@@ -1170,7 +1169,7 @@ sbyte trigger_object(byte kind, byte room, sbyte cell, int action)
         }
         break;
     case 25:
-        trigger_desert_floor(room, cell, state = action == 5 ? 2 : 1);
+        trigger_desert_floor(room, cell, (state = action != 5 ? 1 : 2));
         state = -1;
         break;
     case 27:
@@ -1858,12 +1857,9 @@ void add_loose_to_frame(void)
 {
     int visible = 1;
     int y = Mob.y;
-    struct {
-        MoveRect rect;
-        byte pad;
-        sbyte cell, row, column;
-    } work;
-
+    sbyte column, row, cell;
+    MoveRect rect;
+    int x;
     int height = mob_heights[(byte)Mob.kind];
 
     if (Room.number == Mob.room) {
@@ -1879,8 +1875,8 @@ void add_loose_to_frame(void)
             y -= 191;
         else
             visible = 0;
-    } else if (Room.left == Mob.room && mob_widths[(byte)Mob.kind] + Mob.x > 320) {
-        Mob.x = Mob.x - 320;
+    } else if (Room.left == Mob.room && mob_widths[(byte)Mob.kind] + (x = Mob.x) > 320) {
+        Mob.x = x - 320;
         if (Room.left == Mob.room)
             Mob.room = Room.number;
         else if (Room.above_left == Mob.room)
@@ -1890,18 +1886,18 @@ void add_loose_to_frame(void)
     }
 
     if (visible) {
-        FChar.index = floor_row_for_draw(work.column = Mob.x / 32,
-                                           work.row = room_row_at_y(y));
+        FChar.index = floor_row_for_draw(column = Mob.x / 32,
+                                           row = room_row_at_y(y));
         mark_mob_redraw(1);
-        compute_mob_rect(&work.rect);
+        compute_mob_rect(&rect);
         add_mob_obj(y);
-        ++work.column;
-        work.cell = index_cell(work.column, work.row);
+        ++column;
+        cell = index_cell(column, row);
         if (Room.below != Mob.room)
-            mark_floor(work.cell, &work.rect);
-        work.cell = room_row_at_y(y - height);
-        if (work.cell != work.row)
-            mark_floor(index_cell(work.column, work.cell), &work.rect);
+            mark_floor(cell, &rect);
+        cell = room_row_at_y(y - height);
+        if (cell != row)
+            mark_floor(index_cell(column, cell), &rect);
     }
 }
 

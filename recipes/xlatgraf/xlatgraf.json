@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/xlatgraf/xlatgraf.json",
-  "binding_sha256": "e5ff94160fe7e7d2e0311fcbe27a2d8cd7f1c157521fa9183fc551b17539feec",
+  "binding_sha256": "58d55c1cda73646e1bfa7cfa05d46ac2c19d8763fe4c5151b67142c6ef9598a5",
   "claims": [
     {
       "fixup_count": 2,
@@ -96,17 +96,31 @@
       "fixup_count": 0,
       "public": "COPY_FAR_WORD",
       "target_id": "root:1101:159e"
+    },
+    {
+      "fixup_count": 8,
+      "public": "XLATFONT",
+      "relocation_indices": [
+        1443,
+        1496,
+        1497,
+        1503,
+        1602,
+        1616
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:1101:0bd2"
+    },
+    {
+      "fixup_count": 0,
+      "public": "CALCROWBYTES",
+      "target_id": "root:1000:190c"
     }
   ],
   "drafts": [
-    {
-      "object_offset": 116,
-      "public": "CALCROWBYTES"
-    },
-    {
-      "object_offset": 842,
-      "public": "XLATFONT"
-    },
     {
       "object_offset": 1296,
       "public": "XLATSHAPE"
@@ -120,7 +134,7 @@
   "flags": [
     "/c",
     "/AM",
-    "/Oe",
+    "/Oegl",
     "/Gs",
     "/Zl",
     "/Gc",
@@ -131,12 +145,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "xlatgraf/xlatgraf",
-  "object_sha256": "0047d20c971f9d9449cf59d755cb2777a3ebcc354fa9b5d30da3df25560a12ec",
+  "object_sha256": "3f5eae55ba3ab3d4e60d215439ec19532fb0bdfc3bf91c153371552d36e43ff6",
   "origin": 71832,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/xlatgraf/xlatgraf.c",
-  "source_sha256": "015f0d7020101289743e7e215ac6dd823cf3f66d7ba560c5628d685f5e5e56c8",
+  "source_sha256": "be6af71ba4de92b868194364b8a83071462054080ad056bfc086170df2fdcd6b",
   "space": "root"
 }

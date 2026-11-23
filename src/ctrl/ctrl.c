@@ -768,7 +768,7 @@ extern int far pascal RoofClimbingIntoShip(void);
 extern void far pascal trigger_all_stones_down(void);
 extern int far pascal grab_roof_ship(void);
 extern int far pascal probe_chain_floor(int index);
-extern unsigned char far pascal turn_hidden_actor(unsigned char direction);
+extern unsigned char far pascal pick_hidden_actor(unsigned char direction);
 extern int far pascal query_sound(int mask);
 extern void far pascal CutToKidRoom(void);
 
@@ -955,7 +955,7 @@ void far pascal FallingInUndefinedRoom(void)
             Char.vertical_step = 0;
             Char.action = 1;
             if ((*(volatile unsigned char near *)&Char.character_kind) && (*(unsigned char near *)&Kid.opponent_index) == (unsigned char)Char.slot)
-                (*(unsigned char near *)&Kid.opponent_index) = turn_hidden_actor(char_direction);
+                (*(unsigned char near *)&Kid.opponent_index) = pick_hidden_actor(char_direction);
         } else if ((*(volatile unsigned char near *)&Char.character_kind) == 2 && Char.frame != 185 &&
                    !query_sound(0x2729)) {
             AddSound(25);
@@ -1418,13 +1418,13 @@ void far pascal RemoveObj(int portion)
 }
 
 extern Rect NullRect;
-extern unsigned int clip_tables[];
-extern int far pascal clip_floor(int near *bounds, unsigned int table, int column, int row);
-extern void far pascal clip_cave(void);
-extern void far pascal clip_ruins(void);
-extern void far pascal clip_temple(void);
-extern void far pascal clip_rooftops(void);
-extern int far _fastcall clip_desert_floor(unsigned int modifier);
+extern Rect near *clip_char_rects[5];
+extern int far pascal ComputeOffsetCellRect(int near *bounds, Rect near *table, int column, int row);
+extern void far pascal clip_character_at_water(void);
+extern void far pascal clip_desert_character(void);
+extern void far pascal clip_ruins_actor(void);
+extern void far pascal clip_final_character(void);
+extern int far _fastcall IsRoundCaveBlock(unsigned int modifier);
 extern int clip_top_cache;
 void far pascal MakeFCharClipRect(void);
 int far pascal is_char_non_viewable(void);
@@ -1447,7 +1447,7 @@ void far pascal ClipChar(void)
     }
     if ((*(volatile unsigned char near *)&Char.character_kind) == 0 && Char.frame >= 217 && Char.frame <= 226) {
         tile = ReadCell(character_room, (*(unsigned char near *)&Char.column), character_row);
-        if (clip_floor(workspace.bounds, clip_tables[Level.environment_kind], (tile == 16) + (signed char)(*(unsigned char near *)&Char.column), character_row)) {
+        if (ComputeOffsetCellRect(workspace.bounds, clip_char_rects[Level.environment_kind], (tile == 16) + (signed char)(*(unsigned char near *)&Char.column), character_row)) {
             FChar.clip_top = workspace.bounds[0];
             FChar.clip_right = workspace.bounds[3];
         }
@@ -1455,37 +1455,31 @@ void far pascal ClipChar(void)
     }
     if (Char.action == 9) {
         if (Level.environment_kind == 5)
-            clip_cave();
+            clip_character_at_water();
         return;
     }
 
     flying = (*(volatile unsigned char near *)&Char.character_kind) == 7 || (*(volatile unsigned char near *)&Char.character_kind) == 8;
     tile = ReadCell(character_room, Cell.first_col, ((signed char)Cell.top_row));
-    if (IS_SIX_KIND(tile))
-        goto solid;
-    if (Level.environment_kind == 3 && tile == 20 && clip_desert_floor(Cell.modifier))
-        goto solid;
-    if (Cell.room == 1 && ((unsigned char)Level.level_number) == 14)
-        goto solid;
-    if ((Cell.room == 7 || Cell.room == 8) && Level.environment_kind == 6 && (*(int near *)&Char.sequence) != 14)
-        goto solid;
-    if (action == 0 && (frame == 79 || frame == 81))
-        goto adjust;
-    tile = ReadCell(character_room, Cell.last_col, ((signed char)Cell.top_row));
-    if (IS_SIX_KIND(tile) || (tile == 20 && Level.environment_kind == 3 && clip_desert_floor(Cell.modifier))) {
-    solid:
+    if (IS_SIX_KIND(tile) ||
+        (Level.environment_kind == 3 && tile == 20 && IsRoundCaveBlock(Cell.modifier)) ||
+        (Cell.room == 1 && ((unsigned char)Level.level_number) == 14) ||
+        ((Cell.room == 7 || Cell.room == 8) && Level.environment_kind == 6 && (*(int near *)&Char.sequence) != 14)) {
         clearance = 0;
+    } else if (action != 0 || (frame != 79 && frame != 81)) {
+        tile = ReadCell(character_room, Cell.last_col, (signed char)Cell.top_row);
+        if (IS_SIX_KIND(tile) || (tile == 20 && Level.environment_kind == 3 && IsRoundCaveBlock(Cell.modifier)))
+            clearance = 0;
     }
 
-adjust:
     if (clearance && Level.environment_kind != 5 && Level.environment_kind != 1 &&
         !(character_room == 16 && ((unsigned char)Level.level_number) == 9) &&
         !(character_room == 27 && ((unsigned char)Level.level_number) == 6) &&
         !(character_room == 3 && Level.environment_kind == 6) &&
         !(character_room == 6 && Level.environment_kind == 6)) {
         if ((signed char)((tile = row + 1) - 1)) {
-            workspace.top = (signed char)63 * tile - 60;
-            clearance = workspace.top >= FChar.y ? 0 : workspace.top - 15 >= clip_top_cache ? 0 : clearance;
+            int height = (signed char)63 * tile - 60;
+            clearance = height >= FChar.y ? 0 : height - 15 >= clip_top_cache ? 0 : clearance;
         }
         if (clearance && !flying) {
             if ((workspace.top = (signed char)63 * tile - 60) > FChar.clip_top)
@@ -1493,10 +1487,10 @@ adjust:
         }
     }
     switch (Level.environment_kind) {
-    case 1: clip_ruins(); break;
-    case 4: clip_temple(); break;
-    case 5: clip_cave(); break;
-    case 6: clip_rooftops(); break;
+    case 1: clip_desert_character(); break;
+    case 4: clip_ruins_actor(); break;
+    case 5: clip_character_at_water(); break;
+    case 6: clip_final_character(); break;
     }
 }
 
@@ -1569,9 +1563,7 @@ void far pascal PotionEffect(void)
             BoostMeter();
             AddSong(101);
             break;
-        case 2:
-            GoWeightless();
-            break;
+        case 2: GoWeightless(); break;
         case 3:
             ToggleInvertState();
             break;
@@ -1677,7 +1669,7 @@ void far pascal VanishChar(void)
     Char.alive = zero;
     Char.life_points = zero;
     if (Char.slot != zero && (*(unsigned char near *)&Kid.opponent_index) == (unsigned char)Char.slot)
-        (*(unsigned char near *)&Kid.opponent_index) = turn_hidden_actor(1);
+        (*(unsigned char near *)&Kid.opponent_index) = pick_hidden_actor(1);
 }
 
 void SaveFChar(void) { saved_fchar = FChar; }

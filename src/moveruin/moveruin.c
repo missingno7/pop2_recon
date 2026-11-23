@@ -142,7 +142,7 @@ typedef struct {
 
 extern ROOMREC Room;
 extern Byte plateau_intro;
-extern volatile Byte CutRoom;
+extern CellCoord CutRoom;
 extern Byte *ruins_start_actor;
 extern int ColEdgeX[20];
 extern int plateau_room_loaded;
@@ -211,7 +211,6 @@ void fall_spikes(void)
     Mob.x = saved_x;
 }
 
-#pragma optimize("e", off)
 void cut_kid_inside_level6(void)
 {
     CellCoord start_room;
@@ -232,7 +231,6 @@ void cut_kid_inside_level6(void)
     plateau_intro = 0;
 }
 
-#pragma optimize("e", on)
 
 void load_ruins_start_palette(void)
 {

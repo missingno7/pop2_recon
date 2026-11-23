@@ -29,6 +29,7 @@ typedef struct {
     unsigned char flags;
     unsigned int background, foreground;
 } AboveCell;
+extern CustomRoom *custom_room;
 
 typedef struct {
     unsigned char sheet;
@@ -58,7 +59,6 @@ typedef struct {
 } PeelRecord;
 #pragma pack()
 
-extern CustomRoom *custom_room;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -214,15 +214,15 @@ extern unsigned int HGETRSRC(unsigned long type, int id);
 extern void *LOAD_RESOURCE_COPY(unsigned long type, int id);
 extern void far *FETCH_LOCKED_SHAPE_LIST(unsigned int archive);
 extern void CLEAR_HANDLE_OWNED(unsigned int archive);
-extern void prepare_archive(unsigned int archive);
-extern int archive_position(unsigned int archive);
-extern void set_archive_position(unsigned int archive, int position);
+extern void RELOCATE_HANDLE_PAYLOAD(unsigned int archive);
+extern int SAVE_HANDLE_FLAGS(unsigned int archive);
+extern void RESTORE_HANDLE_FLAGS(unsigned int archive, int position);
 extern ShapeHandle PrinceUnpackShape(unsigned int resource, int format, void far *archive);
 extern void load_song_range(int first, int last);
 extern void release_song_range(int first, int last);
-extern void shape_rect(CustomRect far *rect, int x, int y, void far *shape);
-extern int rect_is_empty(CustomRect far *);
-extern void unite_rect(CustomRect far *, CustomRect far *, CustomRect far *);
+extern void MAKESHAPERECT(CustomRect far *rect, int x, int y, void far *shape);
+extern int EMPTYRECT(CustomRect far *);
+extern void SECTRECT(CustomRect far *, CustomRect far *, CustomRect far *);
 extern void AddDsrtStoneUpPeels(CustomPiece *);
 extern void mark_bufs_for_rect(void (far *image)(void), CustomRect *rect, char pass);
 extern void * _cdecl _nmalloc(unsigned int bytes);
@@ -396,18 +396,15 @@ void LoadCustomRoomData(unsigned char room_number_arg)
     }
 }
 
-#pragma optimize("l", on)
 void LoadCustomRoomShapes(CustomRoom *room)
 {
-    int i, old_count, bytes, shape_base, position;
-    unsigned int offset;
-    CustomPiece *next;
-    ShapeHandle *old_shapes = 0, *new_shapes, *handle;
+    int old_count, bytes, shape_base, i, position;
+
+    ShapeHandle *old_shapes = 0, *new_shapes;
     void far *archive;
     void far *bitmap;
     CustomPiece *piece;
     CustomRect rect;
-    CustomRect far *clip;
 
     if (custom_room) {
         if (custom_room->shape_base == (shape_base = room->shape_base)) {
@@ -416,18 +413,12 @@ void LoadCustomRoomShapes(CustomRoom *room)
             bytes = old_count * sizeof(ShapeHandle);
             old_shapes = _nmalloc(bytes);
             memset(old_shapes, 0, bytes);
-            i = 0;
-            if (custom_room->count > 0) {
-                offset = 0;
-                do {
-                    CustomRoom *indexed = (CustomRoom *)((char *)custom_room + offset);
-                    if (indexed->pieces[0].handle) {
-                        piece = &indexed->pieces[0];
-                        old_shapes[piece->shape] = piece->handle;
-                        indexed->pieces[0].handle = 0;
-                    }
-                    offset += sizeof(CustomPiece);
-                } while (++i < custom_room->count);
+            for (i = 0; i < custom_room->count; ++i) {
+                if (custom_room->pieces[i].handle) {
+                    piece = &custom_room->pieces[i];
+                    old_shapes[piece->shape] = custom_room->pieces[i].handle;
+                    custom_room->pieces[i].handle = 0;
+                }
             }
         }
         if (custom_room->template_id != room->template_id)
@@ -435,21 +426,20 @@ void LoadCustomRoomShapes(CustomRoom *room)
     }
 
     shape_base = room->shape_base;
-    position = archive_position(*background_shapes);
-    prepare_archive(*background_shapes);
+    position = SAVE_HANDLE_FLAGS(*background_shapes);
+    RELOCATE_HANDLE_PAYLOAD(*background_shapes);
     archive = FETCH_LOCKED_SHAPE_LIST(*background_shapes);
     bytes = (room->last_shape + 1) * sizeof(ShapeHandle);
     new_shapes = _nmalloc(bytes);
     memset(new_shapes, 0, bytes);
     i = 0;
     if (room->count > 0) {
-        next = room->pieces;
         do {
-            if (next->shape != -1) {
-                piece = next;
+            if (room->pieces[i].shape != -1) {
+                piece = &room->pieces[i];
                 if (!new_shapes[piece->shape]) {
-                    if (old_shapes && (handle = &old_shapes[piece->shape], *handle)) {
-                        new_shapes[piece->shape] = *handle;
+                    if (old_shapes && old_shapes[piece->shape]) {
+                        new_shapes[piece->shape] = old_shapes[piece->shape];
                         old_shapes[piece->shape] = 0;
                     } else {
                         unsigned int resource = HGETRSRC(0x53484150UL, piece->shape + shape_base);
@@ -458,12 +448,12 @@ void LoadCustomRoomShapes(CustomRoom *room)
                 }
                 piece->handle = new_shapes[piece->shape];
                 bitmap = RESOLVE_HANDLE_TO_FAR_PAYLOAD(piece->handle);
-                shape_rect(&rect, piece->x, piece->y, bitmap);
-                if (rect_is_empty(clip = &piece->rect)) {
-                    *clip = rect;
+                MAKESHAPERECT(&rect, piece->x, piece->y, bitmap);
+                if (EMPTYRECT(&piece->rect)) {
+                    piece->rect = rect;
                 } else {
                     OFFSETRECT(&piece->rect, &piece->rect, piece->y, piece->x);
-                    unite_rect(&piece->rect, &piece->rect, &rect);
+                    SECTRECT(&piece->rect, &piece->rect, &rect);
                 }
                 piece->resource = i + shape_base;
             } else {
@@ -471,24 +461,18 @@ void LoadCustomRoomShapes(CustomRoom *room)
                 piece->rect = empty_piece_rect;
                 piece->resource = -1;
             }
-            ++next;
         } while (++i < room->count);
     }
-    set_archive_position(*background_shapes, position);
+    RESTORE_HANDLE_FLAGS(*background_shapes, position);
     if (old_shapes) {
-        i = 0;
-        if (old_count > 0) {
-            do {
-                handle = &old_shapes[i];
-                if (*handle)
-                    DISPOSE_HANDLE(*handle);
-            } while (++i < old_count);
+        for (i = 0; i < old_count; ++i) {
+            if (old_shapes[i])
+                DISPOSE_HANDLE(old_shapes[i]);
         }
         _nfree(old_shapes);
     }
     _nfree(new_shapes);
 }
-#pragma optimize("l", off)
 
 int NeedDrawRoomBelowCustom(void)
 {
@@ -509,38 +493,22 @@ int RestoreKeepCustomPeel(unsigned char id)
     return peel;
 }
 
-#pragma optimize("e", off)
 void SaveCustomRoomPeels(void)
 {
-    register int offset, i;
+    int i;
 
     if (custom_room) {
-        i = 0;
-        if (custom_room->count > 0) {
-            offset = 0;
-            do {
-                CustomRoom *at = (CustomRoom *)((char *)custom_room + offset);
-                if (at->pieces[0].peel_type == 2) {
-                    /* Form both arguments from the reloaded near base. */
-                    AddCustomPiecePeel(
-                        &((CustomRoom *)((unsigned)custom_room + offset))->pieces[0],
-                        &((CustomRoom *)((unsigned)custom_room + offset))->pieces[0].rect);
-                } else {
-                    CustomRoom *other = custom_room;
-                    other = (CustomRoom *)((char *)other + offset);
-                    if (other->pieces[0].peel_type == 3)
-                        AddDsrtStoneUpPeels(&((CustomRoom *)(
-                            (char *)*(CustomRoom * volatile *)&custom_room + offset))->pieces[0]);
-                }
-                offset += sizeof(CustomPiece);
-            } while (++i < custom_room->count);
+        for (i = 0; i < custom_room->count; ++i) {
+            if (custom_room->pieces[i].peel_type == 2) {
+                AddCustomPiecePeel(&custom_room->pieces[i], &custom_room->pieces[i].rect);
+            } else if (custom_room->pieces[i].peel_type == 3) {
+                AddDsrtStoneUpPeels(&custom_room->pieces[i]);
+            }
         }
     }
 }
 
-#pragma optimize("e", on)
 
-#pragma optimize("e", off)
 void SetCustomRoomTemplate(unsigned char type)
 {
     if (type < 35) {
@@ -549,7 +517,6 @@ void SetCustomRoomTemplate(unsigned char type)
     }
     room_template = &templates[TEMPLATE_DEFAULT];
 }
-#pragma optimize("e", on)
 
 void UnloadCustomRoomData(void)
 {
@@ -568,8 +535,8 @@ void UnloadCustomRoomData(void)
 
 void UnloadCustomRoomShapes(int all)
 {
-    signed char i;
     CustomPiece *piece;
+    signed char i;
     ShapeHandle *released;
     unsigned int bytes;
     signed char count;

@@ -566,6 +566,10 @@ pairs the offset with a relocated N:
 - `selector-copy`: the same start, then one `lea di,[r+B]` and a final run of plain MOVSW/MOVSB (L bytes) through
   ES:DI. The original copies one unit to [B, B+L), which proves every member address in it (`draw.c`'s queue
   rectangles, copied by `@add_middle_image`).
+- `selector-pointer`: a window starting `mov word [bp+d],O`, `mov r16,O` or `add r16,O`; register and stack-slot copies
+  carry that near pointer straight-line to r, the only segment load is `mov es,[D]`, and the window ends in an ES:[r]
+  access without displacement (the `fore_queue` sorters keep `&fore_queue[i].shape` in a local). No other store, push
+  or string instruction may occur in the window.
 - `address-construction`: `add r16,O` directly followed by `mov r16,N` with N relocated (`&far_array[i]`).
 - `stored-pointer`: `mov word [bp+d],O` directly followed by `mov word [bp+d+2],N` with N relocated.
 

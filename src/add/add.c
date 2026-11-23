@@ -107,7 +107,7 @@ typedef struct {
 } LEVELREC;
 extern LEVELREC Level;
 extern int background_image_limits[];
-extern void release_shape(unsigned int handle);
+extern void DISPOSE_HANDLE(unsigned int handle);
 extern int far *MATERIALIZE_HANDLE(unsigned int handle);
 extern void load_set_shape(unsigned int resource, int image,
                            ShapeItem far *entry, int slot);
@@ -629,7 +629,7 @@ extern Offset actor_clip_mode;
 extern unsigned int object_position_handle;
 
 extern void copy_kid_to_char(void);
-extern void check_actor_room(void);
+extern void ClipChar(void);
 extern void get_frame_info(void);
 extern void update_actor_frame(void);
 extern int far _fastcall get_sword_frame_image(unsigned int frame);
@@ -866,7 +866,7 @@ void setup_kid(void)
     IndexChar();
     quick_foreground();
     quick_floor();
-    check_actor_room();
+    ClipChar();
     add_char_object(Char.character_kind);
 }
 
@@ -925,16 +925,15 @@ void setup_flask(void)
 
 void check_background_shape(int index)
 {
-    volatile int handle;
     int image;
 
     if (index < 0)
         return;
-    if ((handle = background_shapes->images[index].handle) &&
+    if ((image = background_shapes->images[index].handle) &&
         MATERIALIZE_HANDLE(background_shapes->images[index].handle))
         return;
-    if ((handle = background_shapes->images[index].handle) != 0) {
-        release_shape(background_shapes->images[index].handle);
+    if ((image = background_shapes->images[index].handle) != 0) {
+        DISPOSE_HANDLE(background_shapes->images[index].handle);
         background_shapes->images[index].handle = 0;
     }
     image = index + 1;
@@ -1025,7 +1024,7 @@ int far _fastcall setup_opponent(Offset opponent)
     get_char_edges();
     IndexChar();
     quick_floor();
-    check_actor_room();
+    ClipChar();
 
     if (!Char.alert_delay && Char.previous_frame == Char.frame &&
         Char.previous_x == Char.x && Char.previous_y == Char.y &&

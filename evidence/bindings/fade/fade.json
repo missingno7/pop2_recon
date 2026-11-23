@@ -53,7 +53,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 1600,
+        "length": 1545,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -65,7 +65,7 @@
         "name": "$$TYPES",
         "class": "DEBTYP",
         "overlay": "",
-        "length": 1047,
+        "length": 1177,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -92,7 +92,7 @@
         "offset": 2142,
         "group_index": 0,
         "frame": null,
-        "type_index": 624
+        "type_index": 630
       },
       {
         "name": "INIT_FADE_IN",
@@ -119,7 +119,7 @@
         "offset": 514,
         "group_index": 0,
         "frame": null,
-        "type_index": 590
+        "type_index": 592
       },
       {
         "name": "READ_DAC_BLOCKS",
@@ -128,7 +128,7 @@
         "offset": 556,
         "group_index": 0,
         "frame": null,
-        "type_index": 592
+        "type_index": 594
       },
       {
         "name": "SET_DAC_BLOCKS",
@@ -137,7 +137,7 @@
         "offset": 648,
         "group_index": 0,
         "frame": null,
-        "type_index": 594
+        "type_index": 596
       },
       {
         "name": "INIT_FADE_TO",
@@ -146,7 +146,7 @@
         "offset": 984,
         "group_index": 0,
         "frame": null,
-        "type_index": 601
+        "type_index": 603
       },
       {
         "name": "FADE_PALETTE_UP",
@@ -155,7 +155,7 @@
         "offset": 1596,
         "group_index": 0,
         "frame": null,
-        "type_index": 607
+        "type_index": 613
       },
       {
         "name": "QUITFADETO",
@@ -164,7 +164,7 @@
         "offset": 1214,
         "group_index": 0,
         "frame": null,
-        "type_index": 603
+        "type_index": 605
       },
       {
         "name": "FADE_TO_STEP",
@@ -173,7 +173,7 @@
         "offset": 1234,
         "group_index": 0,
         "frame": null,
-        "type_index": 605
+        "type_index": 607
       },
       {
         "name": "BLEND_PALETTE",
@@ -182,7 +182,7 @@
         "offset": 1790,
         "group_index": 0,
         "frame": null,
-        "type_index": 611
+        "type_index": 617
       },
       {
         "name": "STORE_THREE_COMPONENT_BYTES",
@@ -191,7 +191,7 @@
         "offset": 1956,
         "group_index": 0,
         "frame": null,
-        "type_index": 616
+        "type_index": 622
       },
       {
         "name": "FADE_PALETTE_DOWN",
@@ -200,7 +200,7 @@
         "offset": 1694,
         "group_index": 0,
         "frame": null,
-        "type_index": 609
+        "type_index": 615
       },
       {
         "name": "ADD_THREE_COMPONENTS",
@@ -209,7 +209,7 @@
         "offset": 1994,
         "group_index": 0,
         "frame": null,
-        "type_index": 618
+        "type_index": 624
       },
       {
         "name": "SCALE_THREE_COMPONENT_BYTES63",
@@ -218,7 +218,7 @@
         "offset": 2038,
         "group_index": 0,
         "frame": null,
-        "type_index": 620
+        "type_index": 626
       },
       {
         "name": "FADE_IN_PORT",
@@ -236,7 +236,7 @@
         "offset": 880,
         "group_index": 0,
         "frame": null,
-        "type_index": 599
+        "type_index": 601
       }
     ],
     "externals": [
@@ -694,7 +694,29 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 274,
+      "segment_offset": 450,
+      "loc_type": 2,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "group",
+        "index": 1,
+        "name": "DGROUP"
+      },
+      "target": {
+        "kind": "segment",
+        "index": 2,
+        "name": "_DATA",
+        "method": 4,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 271,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -1045,6 +1067,33 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
+      "segment_offset": 1197,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 6,
+          "name": "FADE_DELAY",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 6,
+        "name": "FADE_DELAY",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
       "segment_offset": 1188,
       "loc_type": 3,
       "field_width": 4,
@@ -1342,7 +1391,34 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1197,
+      "segment_offset": 1224,
+      "loc_type": 3,
+      "field_width": 4,
+      "self_relative": false,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 27,
+          "name": "CLEAR_PAYLOAD_HEADER",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 27,
+        "name": "CLEAR_PAYLOAD_HEADER",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 1261,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": false,
@@ -1369,24 +1445,24 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 1224,
-      "loc_type": 3,
-      "field_width": 4,
+      "segment_offset": 1246,
+      "loc_type": 1,
+      "field_width": 2,
       "self_relative": false,
       "frame": {
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
-          "name": "CLEAR_PAYLOAD_HEADER",
+          "index": 6,
+          "name": "FADE_DELAY",
           "method": 6,
           "zero_displacement": true
         }
       },
       "target": {
         "kind": "external",
-        "index": 27,
-        "name": "CLEAR_PAYLOAD_HEADER",
+        "index": 6,
+        "name": "FADE_DELAY",
         "method": 6,
         "zero_displacement": true
       },
@@ -1437,60 +1513,6 @@
         "index": 2,
         "name": "_DATA",
         "method": 4,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1267,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "FADE_DELAY",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "FADE_DELAY",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 1246,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": false,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 6,
-          "name": "FADE_DELAY",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 6,
-        "name": "FADE_DELAY",
-        "method": 6,
         "zero_displacement": true
       },
       "displacement": null
@@ -2129,14 +2151,7 @@
       "group": "DGROUP",
       "kind": "dgroup-offset",
       "offset": 9810,
-      "witnesses": [
-        {
-          "bytes_hex": "39365226",
-          "image_offset": 123702,
-          "operand_offset": 2,
-          "space": "root"
-        }
-      ]
+      "witnesses": []
     },
     "GRAF": {
       "group": "DGROUP",
@@ -2331,5 +2346,6 @@
     }
   },
   "target_id": "group:fade/fade",
-  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314"
+  "target_sha256": "5bf733c56441258e69303102b0e08388484a9400e4d5cdad9bd517478e150314",
+  "placements": {}
 }

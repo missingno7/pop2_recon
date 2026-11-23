@@ -1191,13 +1191,32 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
     def setUpClass(cls):
         from oracle import Oracle
         cls.oracle = Oracle.load()
-        recipe = common.read_json(ROOT / "recipes/ctrl/ctrl.json")
-        result = compile_c((ROOT / recipe["source"]).read_text(encoding="utf-8"), recipe["profile"],
-                           recipe["flags"], workdir=ROOT / "build/workers/tests/far_draft")
-        assert result.ok, result.log
-        cls.obj, cls.recipe = result.obj_bytes, recipe
-        cls.binding = common.read_json(ROOT / recipe["binding"])
         cls.root = cls.oracle.spaces["root"]
+        # Any resident C group with a draft that calls a grounded far callee (drafts come and go as files complete).
+        rows = {r["id"]: r for r in common.read_json(ROOT / "evidence/targets.json")["functions"]}
+        for path in sorted((ROOT / "recipes").rglob("*.json")):
+            recipe = common.read_json(path)
+            if not (isinstance(recipe, dict) and recipe.get("kind") == "same_source_group" and
+                    recipe.get("space") == "root" and recipe["source"].endswith(".c")):
+                continue
+            judged = [rows[c["target_id"]] for c in recipe["claims"] + recipe.get("code_matches", [])]
+            spans = [(r["segment"] * 16 + r["offset"], r["segment"] * 16 + r["offset"] + r["size"]) for r in judged]
+            binding = common.read_json(ROOT / recipe["binding"])
+            callees = {(s["offset"], s["segment"]): n for n, s in binding["symbols"].items()
+                       if s.get("kind") == "far-code-entry" and s.get("witnesses")}
+            for r in cls.root.relocations:
+                at = r["image_offset"] - 3
+                if recipe["origin"] <= at < recipe["origin"] + recipe["emitted_size"] and cls.root.data[at] == 0x9a and \
+                        not any(lo - 5 < at < hi for lo, hi in spans):
+                    name = callees.get(struct.unpack_from("<HH", cls.root.data, at + 1))
+                    if name:
+                        result = compile_c((ROOT / recipe["source"]).read_text(encoding="utf-8"), recipe["profile"],
+                                           recipe["flags"], workdir=ROOT / "build/workers/tests/far_draft")
+                        assert result.ok, result.log
+                        cls.obj, cls.recipe, cls.binding, cls.draft_call, cls.callee = \
+                            result.obj_bytes, recipe, binding, at, name
+                        return
+        raise unittest.SkipTest("no resident C group has an open draft calling a grounded far callee")
 
     def witness(self, at):
         relocation = next(r for r in self.root.relocations if r["image_offset"] == at + 3)
@@ -1207,19 +1226,19 @@ class DraftRegionFarWitnessTests(unittest.TestCase):
     def check(self, at):
         from module_gate import check_group
         binding = copy.deepcopy(self.binding)
-        binding["symbols"]["IS_SIX_KIND"]["witnesses"] = [self.witness(at)]
+        binding["symbols"][self.callee]["witnesses"] = [self.witness(at)]
         return check_group(self.obj, recipe_claims(self.recipe), self.oracle, binding=binding,
                            group_id=self.recipe["group_id"])
 
     def test_call_in_an_unclaimed_draft_region_witnesses_the_callee(self):
-        self.assertTrue(exact_except_matches(self.check(0x443b), self.recipe))  # a draft of CTRL.C (CLIPCHAR), relocation 357
+        self.assertTrue(exact_except_matches(self.check(self.draft_call), self.recipe))
 
     def test_call_inside_a_claim_is_refused(self):
-        report = self.check(0x443b)
+        report = self.check(self.draft_call)
         claimed = next(c for c in report["claims"] for e in c["equations"]
-                       if e.get("kind") == "far-call" and e.get("symbol") == "IS_SIX_KIND")
+                       if e.get("kind") == "far-call" and e.get("symbol") == self.callee)
         at = report["origin"] + claimed["object_offset"] + next(
-            e["offset"] for e in claimed["equations"] if e.get("symbol") == "IS_SIX_KIND") - 1
+            e["offset"] for e in claimed["equations"] if e.get("symbol") == self.callee) - 1
         with self.assertRaisesRegex(ValueError, "overlaps candidate"):
             self.check(at)
 

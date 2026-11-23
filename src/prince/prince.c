@@ -94,7 +94,7 @@ extern void far pascal CheckPlayNIS(int status, int flags);
 extern void far pascal RECLAIM_HEAP_BLOCKS(long color);
 extern void far pascal COMPACT_HEAP_BLOCKS(long color);
 extern int far pascal show_credits(void);
-extern int far pascal opening_input(int mode);
+extern int far pascal show_hall_records(int mode);
 extern void far pascal TurnRecordedGamePlayerOff(void);
 extern void far pascal TurnRecordedGamePlayerOn(void);
 extern void far pascal reset_level_overlays(void);
@@ -197,7 +197,7 @@ static int skip_intro = 1;
     if (!skip_intro) {
         if (skip_opening)
             result = 2;
-        else if (show_credits() || opening_input(0))
+        else if (show_credits() || show_hall_records(0))
             result = 2;
     } else {
         skip_intro = 0;
@@ -293,7 +293,7 @@ extern void far pascal save_game_dialog(void);
 extern void far pascal main_menu_dialog(void);
 extern void far pascal copy_kid_to_char(void);
 extern int far pascal toggle_sound(void);
-extern int far pascal opening_input(int mode);
+extern int far pascal show_hall_records(int mode);
 extern char *far pascal joystick_status(void);
 extern int far pascal load_game_dialog(void);
 extern const char *far pascal toggle_ambient(void);
@@ -334,7 +334,7 @@ unsigned int far pascal prince_poll(void)
         case 0x2300:
         /* This case starts a separate CodeView record. */
         shortcut_dialog:
-            if (IsValidTimeForDialog()) opening_input(1); break;
+            if (IsValidTimeForDialog()) show_hall_records(1); break;
         case 0x2400: message = joystick_status(); break;
         case 0x2500:
             /* The keyboard label follows the audio and joystick strings. */

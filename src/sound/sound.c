@@ -1,3 +1,4 @@
+extern signed char previous_track_range;
 #pragma pack(1)
 typedef struct {
     unsigned char number;                             /* 00 */
@@ -153,7 +154,6 @@ extern CHARREC Kid;
 extern CHARREC RoomOpp[5];
 extern SoundRule sound_rules[];
 extern AmbientState ambient_state;
-extern signed char previous_track_range;
 extern ROOMREC Room;
 extern signed char ambient_table[];
 
@@ -169,7 +169,7 @@ extern SoundData MATERIALIZE_HANDLE(SoundHandle handle);
 extern void DISPOSE_HANDLE(SoundHandle handle);
 extern SoundHandle hGetSnd(int resource);
 extern SoundHandle MARK_PURGEABLE(SoundHandle handle);
-extern SoundData lock_sound_data(SoundHandle handle);
+extern SoundData RESOLVE_HANDLE_TO_FAR_PAYLOAD(SoundHandle handle);
 extern int find_option(const char far *option);
 extern void advance_sound(void);
 extern int random_below(int limit);
@@ -283,18 +283,13 @@ void AddSound(int effect)
 SoundData load_song(int song)
 {
     SoundData data;
-    SoundHandle *handle = &sound_handles[song];
 
-    data = *handle ? MATERIALIZE_HANDLE(*handle) : (SoundData)0;
-    if ((unsigned long)data == 0) {
-        if (*handle)
-            DISPOSE_HANDLE(*handle);
-        *handle = hGetSnd(song + 10000);
-        if (*handle) {
-            SoundHandle prepared = MARK_PURGEABLE(*(*(SoundHandle *volatile *)&handle));
-            *handle = prepared;
-            data = lock_sound_data(prepared);
-        }
+    data = sound_handles[song] ? MATERIALIZE_HANDLE(sound_handles[song]) : (SoundData)0;
+    if (!data) {
+        if (sound_handles[song])
+            DISPOSE_HANDLE(sound_handles[song]);
+        if ((sound_handles[song] = hGetSnd(song + 10000)) != 0)
+            data = RESOLVE_HANDLE_TO_FAR_PAYLOAD(sound_handles[song] = MARK_PURGEABLE(sound_handles[song]));
     }
     return data;
 }
@@ -342,15 +337,10 @@ int is_leave_level_music_on(void)
 
 void change_song_range(signed char range)
 {
-    signed char prior;
-    if ((prior = previous_track_range) != range && prior != -1 &&
-        track_first[prior] != -1)
+    if (range != previous_track_range && previous_track_range != -1 && track_first[previous_track_range] != -1)
         release_song_range(track_first[range], track_last[range]);
-    if (range != -1) {
-        int index = range * 2;
-        if (*(int *)((char *)track_first + index) != -1)
-            load_song_range(*(int *)((char *)track_first + index), *(int *)((char *)track_last + index));
-    }
+    if (range != -1 && track_first[range] != -1)
+        load_song_range(track_first[range], track_last[range]);
 }
 
 void load_song_range(int first, int last)
@@ -384,7 +374,8 @@ void load_song_range(int first, int last)
 void play_ambient(AmbientState *state)
 {
     int special, song, first, count;
-    signed char cue;
+    signed char cue, cell;
+    int *songs;
 
     if (Kid.room) {
         advance_sound();
@@ -393,24 +384,26 @@ void play_ambient(AmbientState *state)
             if (special && ambient_special[Level.environment_kind] == -1)
                 special = 0;
             song = select_special_ambient(special);
-            if (song != -1)
-                goto fixed_song;
-            cue = !special ? ambient_table[(signed char)(map_room_row(Char.row) + Char.column) +
-                                          30 * (unsigned char)Char.room] : ambient_special[Level.environment_kind];
-            first = ambient_first[Level.environment_kind][cue];
-            count = ambient_count[Level.environment_kind][cue];
-            song = random_below(count);
-            song += ambient_first[Level.environment_kind][cue];
-            if (state->song == song) {
-                if (first + count != song)
-                    ++song;
-                else
-                    song = first;
+            if (song == -1) {
+                if (!special) {
+                    cell = map_room_row(Char.row) + Char.column;
+                    cue = ambient_table[cell + 30 * (unsigned char)Char.room];
+                } else {
+                    cue = ambient_special[Level.environment_kind];
+                }
+                songs = ambient_first[Level.environment_kind];
+                first = songs[cue];
+                count = *(int *)((unsigned)ambient_count[Level.environment_kind] + cue * sizeof(*ambient_count[Level.environment_kind]));
+                song = random_below(count) + *(int *)((unsigned)songs + cue * sizeof(*songs));
+                if (state->song == song) {
+                    if (first + count != song)
+                        ++song;
+                    else
+                        song = first;
+                }
+            } else {
+                cue = -1;
             }
-            goto play;
-fixed_song:
-            cue = -1;
-play:
             play_song(song);
             state->cue = cue;
             state->song = song;
@@ -453,10 +446,8 @@ int should_replace_effect(int effect, int playing)
         if (!query_sound(playing + 10000)) {
             replace = 1;
         } else {
-            int index = playing;
-            SoundRule *rule = &sound_rules[index];
-            if (((rule->mode == 1 && playing != effect) || rule->mode == 2) &&
-                rule->priority >= sound_rules[effect].priority)
+            if (((sound_rules[playing].mode == 1 && playing != effect) || sound_rules[playing].mode == 2) &&
+                sound_rules[playing].priority >= sound_rules[effect].priority)
                 replace = 1;
         }
     }

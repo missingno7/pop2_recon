@@ -100,7 +100,7 @@ extern signed char *bubble_frames[];
 extern TileNeighbor CellLeft;
 extern BackgroundImage *background_shapes;
 extern LavaInfo *get_lava_info(Byte, CellCoord, CellCoord);
-extern void CheckBGSetImg(int);
+extern void check_background_shape(int);
 extern int far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(int);
 extern Byte PieceAboveId(CellCoord, CellCoord);
 extern Byte PieceAboveRightId(CellCoord, CellCoord);
@@ -786,7 +786,7 @@ void DrawCaveTopEdge(DrawCell *cell)
         if (image) {
             shape_offsets->top_edge_x = cave_images.top_edge_x[image - 1];
             image += 91;
-            CheckBGSetImg(image);
+            check_background_shape(image);
             height = RESOLVE_HANDLE_TO_FAR_PAYLOAD(background_shapes[image].handle);
             shape_offsets->top_edge_y = *height - 63;
             AddFImgToFTable(61, image, cell->column, cell->row, 10, 0);

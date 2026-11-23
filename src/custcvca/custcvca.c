@@ -62,10 +62,18 @@ typedef struct {
 extern FCHARREC FChar;
 extern Byte draw_col, draw_row, drawn_tile_kind;       /* DS:6ccf,6cce,6cd2 */
 extern CarpetDraw far carpet_draw_queue[];       /* 2fae:0000 */
-extern _segment mid_table_selector;             /* DS:284c */
-extern MidItem _based(mid_table_selector) mid_rows[]; /* 2fae:11f8 */
-extern int camera_y;                            /* DS:5e94 */
-extern Rect view_rect;                          /* DS:5e9d */
+extern MidItem far mid_table[];
+#pragma pack(1)
+typedef struct {
+    int x, y;
+    unsigned char kind;
+    int image;
+    unsigned char flags[4];
+    Rect clip;
+    unsigned char state;
+} DrawObject;
+#pragma pack()
+extern DrawObject cell_objects[];                /* DS:5e92 */
 #pragma pack(1)
 struct char_bounds { int top, left, bottom, right; };
 typedef struct {
@@ -178,11 +186,11 @@ extern Handle ALLOCATE_PAYLOAD_HANDLE(long);
 extern Shape far *RESOLVE_HANDLE_TO_FAR_PAYLOAD(Handle);
 extern void create_shape(Handle, int, CarpetImage far *, int);
 extern void PrinceFreeShp(int);
-extern void unload_palette(int);
+extern void dispatch_sound(int);
 extern void MAKESHAPERECT(Rect far *, int, int, Shape far *);
 extern void far _fastcall save_under_shape(int, int, int, int, Byte, Byte);
-extern void set_floor_restore(Byte);
-extern void translate_rect(Rect far *, Rect far *, int, int);
+extern void RestoreKeepCustomPeel(Byte);
+extern void OFFSETRECT(Rect far *, Rect far *, int, int);
 extern void SaveFChar(void), RestoreFChar(void), init_fchar_rect(void);
 extern void far _fastcall add_char_object(Byte);
 typedef void far pascal DrawCallback(void);
@@ -195,7 +203,7 @@ extern void decrement_life_points(Byte), set_char_state(Byte);
 extern void far _fastcall draw_custom_room_image(Byte, Byte);
 extern int compute_trob_move_rect(Rect near *, Rect near *);
 extern void * _cdecl _nmalloc(unsigned int);
-extern void _cdecl free(void *);
+extern void _cdecl _nfree(void *);
 extern void * _cdecl memset(void *, int, unsigned int);
 #pragma intrinsic(memset)
 
@@ -286,21 +294,22 @@ void save_under_carpet(void)
 
 void draw_obj_carpet(Byte *unused)
 {
-    int slot, frame[1];  /* Draft: keep the frame index on the stack across calls. */
+    int slot, frame;
     Shape far *shape;
     ShapeRef ref;
     signed char scroll;
     Byte palette;
 
     if (carpet && carpet->frame) {
-        slot = mid_count; mid_rows[slot].x = FChar.x;
-        frame[0] = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame[0]] + 1);
-        mid_rows[slot].y = FChar.y - shape->height; mid_rows[slot].sheet = 4;
-        mid_rows[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame[0]] + 1; mid_rows[slot].clip = *(Rect *)&FChar.clip_top;
-        mid_rows[slot].order = 10;
-        mid_rows[slot].reserved = 0; mid_rows[slot].invisible = 0; mid_rows[slot].depth = 255;
-        scroll = carpet_animation.scroll[frame[0]]; if (scroll) {
-            camera_y += scroll; translate_rect(&view_rect, &view_rect, 0, scroll);
+        slot = mid_count; mid_table[slot].x = FChar.x;
+        frame = get_carpet_frame(); shape = get_carpet_shape_info(&ref, carpet_animation.images[frame] + 1);
+        mid_table[slot].y = FChar.y - shape->height; mid_table[slot].sheet = 4;
+        mid_table[slot].image = CARPET_SHAPE_ID + carpet_animation.images[frame] + 1; mid_table[slot].clip = *(Rect *)&FChar.clip_top;
+        mid_table[slot].order = 10;
+        mid_table[slot].reserved = 0; mid_table[slot].invisible = 0; mid_table[slot].depth = 255;
+        if (carpet_animation.scroll[frame]) {
+            scroll = carpet_animation.scroll[frame];
+            cell_objects[0].y += scroll; OFFSETRECT(&cell_objects[0].clip, &cell_objects[0].clip, 0, scroll);
         }
         if (carpet->sitting) {
             palette = carpet->frame - 4;
@@ -308,7 +317,7 @@ void draw_obj_carpet(Byte *unused)
         }
         ++mid_count; ++carpet->frame;
         if (carpet->saved) {
-            set_floor_restore(1); carpet->saved = 0;
+            RestoreKeepCustomPeel(1); carpet->saved = 0;
         }
     }
 }
@@ -316,21 +325,16 @@ void draw_obj_carpet(Byte *unused)
 int get_carpet_frame(void)
 {
     int frame;
+
     if (carpet) {
-        if (!carpet->sitting)
+        if (!carpet->sitting) {
             frame = (carpet->frame / 2) % 9;
-        else
-            goto seated;
-        goto finish;
+        } else {
+            frame = carpet->frame + 8;
+            frame = frame < 9 ? frame : 9;
+        }
     }
-    /* The DOS null path reads an uninitialized frame slot. */
-    return frame;
-seated:
-    frame = carpet->frame + 8;
-    if (frame > 9)
-        frame = 9;
-finish:
-    return frame;
+    return frame; /* DOS leaves the result uninitialized when carpet is null. */
 }
 
 Shape far * far _fastcall get_carpet_shape_info(ShapeRef *ref, int index)
@@ -436,19 +440,15 @@ void trigger_char_on_carpet(void)
 
 void unload_carpet_data(void)
 {
-    int offset;
-    Handle handle;
-    volatile Handle held; /* Draft handle lifetime hypothesis. */
-    offset = 0;
-    do {
-        held = handle = ((CarpetImage *)((char *)carpet + offset))->handle;
-        if (handle)
-            DISPOSE_HANDLE(handle);
-        offset += sizeof(CarpetImage);
-    } while (offset < 10 * sizeof(CarpetImage));
-    unload_palette(10033);
+    int i;
+
+    for (i = 0; i < 10; i++) {
+        if (carpet->images[i].handle)
+            DISPOSE_HANDLE(carpet->images[i].handle);
+    }
+    dispatch_sound(10033);
     release_song_range(33, 36);
-    free(carpet);
+    _nfree(carpet);
     carpet = 0;
 }
 

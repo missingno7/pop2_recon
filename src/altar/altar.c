@@ -401,13 +401,13 @@ void load_altar_room(void)
     copy->size = room_data->palette;
     i = 11;
     do {
-        piece = &room_data->pieces[i];
+        piece = &room_data->pieces[(signed char)i];
         free_handle(piece->shape);
         ref.handle = 0;
         create_shape(handle, piece->type + 1, &ref, 1);
         piece->shape = ref.handle;
         free_resource_shape(piece->type + room_data->palette);
-    } while (++i <= 38);
+    } while ((signed char)++i <= 38);
     free_handle(handle);
     set_resource(room_data->palette, 224, 16, 0);
     set_resource(2000, 48, 16, 0);

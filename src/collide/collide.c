@@ -20,7 +20,7 @@ struct collision_row {
 extern unsigned char current_rooms[10], prev_rooms[10], below_rooms[10], above_rooms[10];
 extern unsigned char prev_edges[10], current_edges[10], below_edges[10], above_edges[10];
 extern signed char current_row, first_col, last_col;
-extern volatile signed char previous_row;
+extern signed char previous_row;
 extern signed char left_barrier_col;
 extern signed char right_barrier_col;
 #pragma pack(1)
@@ -249,12 +249,11 @@ void CheckWeightlessBarr(void)
 void InitColDetBufs(void)
 {
     struct collision_row *rooms, *edges;
-    volatile int delta;
 
-    if (current_row == previous_row || (delta = current_row - previous_row) == -3 || delta == 3) {
+    if (current_row == previous_row || (current_row - previous_row) == -3 || (current_row - previous_row) == 3) {
         rooms = (struct collision_row *)current_rooms;
         edges = (struct collision_row *)current_edges;
-    } else if (delta == -1 || delta == 2) {
+    } else if ((current_row - previous_row) == -1 || (current_row - previous_row) == 2) {
         rooms = (struct collision_row *)above_rooms;
         edges = (struct collision_row *)above_edges;
     } else {
@@ -558,29 +557,25 @@ int CreviceBarr(void)
 
 int gate_blocks_passage(void)
 {
-    int height, clearance, result;
+    int height, clearance;
+    int result;
 
-    if (Level.environment_kind != 1)
-        goto general;
-    if ((signed char)(cell_flags & 31) >= 19)
-        goto passable;
-blocked:
-    result = 1;
-    goto finished;
-general:
-    if (Char.character_kind == 1)
-        goto passable;
-    height = Char.bounds.bottom - Char.bounds.top;
-    if (Char.character_kind == 7)
-        height += 26;
-    else if (Char.character_kind == 8)
-        height += 19;
-    clearance = ((Cell.modifier & 252) >> 2) + 6;
-    if (clearance < height + 7)
-        goto blocked;
-passable:
-    result = 0;
-finished:
+    if (Level.environment_kind == 1) {
+        if ((signed char)(Cell.modifier & 31) < 19)
+            result = 1;
+        else
+            result = 0;
+    } else if (Char.character_kind == 1) {
+        result = 0;
+    } else {
+        height = Char.bounds.bottom - Char.bounds.top;
+        if (Char.character_kind == 7)
+            height += 26;
+        else if (Char.character_kind == 8)
+            height += 19;
+        clearance = ((Cell.modifier & 252) >> 2) + 6;
+        result = height + 7 <= clearance ? 0 : 1;
+    }
     return result;
 }
 

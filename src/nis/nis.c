@@ -314,7 +314,8 @@ void tree_check(int scene)
     int interrupted;
     int palette;
 
-    open_level_resources(nis_data_files); install_nis_input();
+    open_level_resources(nis_data_files);
+    install_nis_input();
     tree_scene = scene;
     open_verified_resource(nis_file);
     shapes = hGetSL(TREE_RESOURCE, -1); GetDialog();
@@ -1817,15 +1818,16 @@ int dispatch_nis(int sequence)
 
 extern Handle hGetSnd(int cue);
 
-#pragma optimize("e", off)
 int run_nis_dialog(int resource, int line, int voice, unsigned int duration)
 {
-    register int string_resource, cue;
-    cue = *(volatile int *)&voice, string_resource = resource;
-    hGetSnd(cue += string_resource); draw_nis_text(string_resource, line);
+    int string_resource, cue;
+    cue = voice;
+    string_resource = resource;
+    cue += string_resource;
+    hGetSnd(cue);
+    draw_nis_text(string_resource, line);
     return play_timed_music(cue, duration);
 }
-#pragma optimize("", on)
 
 Rect *get_shape_rect(Rect far *bounds, Handle shapes, int item, int x, int y)
 {
@@ -1945,7 +1947,8 @@ int ending(void)
         DISPOSE_BITMAP_PORT(alternate_port);
     }
     fade_out_and_restore_palette();
-    if (interrupted) dispatch_resource_pointer(0L);
+    if (interrupted)
+        dispatch_resource_pointer(0L);
     dispose_handle(nis_palette); FreeDialog();
     dispose_handle(ending_shapes); release_port(&port);
     close_resource_file(nis_file);

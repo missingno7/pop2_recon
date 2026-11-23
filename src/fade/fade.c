@@ -71,10 +71,8 @@ fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsig
     fade_state far *state = ALLOCATE_PINNED_PAYLOAD(sizeof(fade_state));
 
     state->header = *header;
-    state->blocks = blocks;
-    state->delay = state->elapsed = 0;
-    state->cleanup = quit_fade_in;
-    state->step = fade_in_step;
+    state->blocks = blocks; state->delay = state->elapsed = 0;
+    state->cleanup = quit_fade_in; state->step = fade_in_step;
     read_dac_blocks(blocks, state->first);
     set_dac_blocks(blocks, 0);
     _fmemset(state->work, 0, sizeof(palette));
@@ -82,40 +80,30 @@ fade_state far *far pascal init_fade_in(int port, fade_header far *header, unsig
     fade_delay = 0;
     return state;
 }
-/* Draft: the original uses DS for the inner source cursor. */
 int far pascal fade_in_step(fade_state far *state)
 {
+    typedef struct { component red, green, blue; } RGB;
+    int elapsed, bank, i;
+    unsigned bit;
+    RGB far *src;
+    RGB far *dst;
     int done = 0;
-    if (!fade_delay) {
-        int elapsed, remaining, i;
-        unsigned bit;
-        _segment color_segment;
-        component _based(color_segment) *outer;
-        component _based(color_segment) *src;
-        component far *volatile dst;
 
+    if (!fade_delay) {
         fade_delay = state->delay;
         elapsed = ++state->elapsed;
         bit = 1;
-        color_segment = (_segment)state;
-        outer = (component _based(void) *)state->first;
-        remaining = 16;
-        do {
+        for (bank = 0; bank < 16; ++bank, bit <<= 1) {
             if (state->blocks & bit) {
-                src = outer;
-                dst = (component far *)src + sizeof(palette);
-                i = 16;
-                do {
-                    dst[0] = src[0] * elapsed / 64;
-                    dst[1] = src[1] * elapsed / 64;
-                    dst[2] = src[2] * elapsed / 64;
-                    src += 3;
-                    dst += 3;
-                } while (--i);
+                src = (RGB far *)state->first + 16 * bank;
+                dst = src + 256;
+                for (i = 0; i < 16; ++i) {
+                    dst[i].red = src[i].red * elapsed / 64;
+                    dst[i].green = src[i].green * elapsed / 64;
+                    dst[i].blue = src[i].blue * elapsed / 64;
+                }
             }
-            outer += 48;
-            bit <<= 1;
-        } while (--remaining);
+        }
         set_dac_blocks(state->blocks, state->work);
         done = elapsed == 64;
     }
@@ -139,8 +127,7 @@ void far pascal read_dac_blocks(unsigned blocks, component far *colors)
         READ_DAC_BLOCK(0, 256, colors);
     else {
         bit = 1;
-        first = 0;
-        offset = 0;
+        first = 0; offset = 0;
         do {
             if (blocks & bit)
                 READ_DAC_BLOCK(first, 16, colors + offset);
@@ -230,44 +217,34 @@ void far pascal QuitFadeTo(void far *block)
 {
     CLEAR_PAYLOAD_HEADER(block);
 }
-/* Draft: the original uses a countdown for the inner loop. */
 int far pascal fade_to_step(fade_state far *state)
 {
+    typedef struct { component red, green, blue; } RGB;
+    int elapsed, bank, i;
+    unsigned bit;
+    RGB far *src;
+    RGB far *dst;
+    RGB far *target;
     int done = 0;
-    if (!fade_delay) {
-        int elapsed, remaining, i;
-        unsigned bit;
-        component far *outer;
-        component far *src;
-        component far *volatile target;
-        component far *volatile dst;
 
+    if (!fade_delay) {
         fade_delay = state->delay;
         elapsed = ++state->elapsed;
         bit = 1;
-        outer = state->last;
-        remaining = 16;
-        do {
+        for (bank = 0; bank < 16; ++bank, bit <<= 1) {
             if (state->blocks & bit) {
-                src = outer;
-                target = src - 2 * sizeof(palette);
-                dst = src - sizeof(palette);
-                i = 0;
-                do {
-                    dst[0] = src[0] + (target[0] - src[0]) * elapsed / 64;
-                    dst[1] = src[1] + (target[1] - src[1]) * elapsed / 64;
-                    dst[2] = src[2] + (target[2] - src[2]) * elapsed / 64;
-                    src += 3;
-                    target += 3;
-                    dst += 3;
-                } while (++i < 16);
+                src = (RGB far *)state->last + 16 * bank;
+                target = src - 512;
+                dst = src - 256;
+                for (i = 0; i < 16; ++i) {
+                    dst[i].red = src[i].red + (target[i].red - src[i].red) * elapsed / 64;
+                    dst[i].green = src[i].green + (target[i].green - src[i].green) * elapsed / 64;
+                    dst[i].blue = src[i].blue + (target[i].blue - src[i].blue) * elapsed / 64;
+                }
             }
-            outer += 48;
-            bit <<= 1;
-        } while (--remaining);
+        }
         set_dac_blocks(state->blocks, state->work);
-        if (elapsed == 64)
-            done = 1;
+        done = elapsed == 64;
     }
     return done;
 }
@@ -304,18 +281,17 @@ void far pascal blend_palette(component far *out, component far *first,
     int block, color, offset, index;
     component scaled[3];
 
-    offset = 0;
-    block = 0;
+    block = offset = 0;
     do {
         color = 0;
-        index = 3 * block;
+        index = block * 3;
         block += 16;
         do {
-            STORE_THREE_COMPONENT_BYTES(((component far *volatile *)&out)[0] + index, 0, 0, 0);
-            scale_three_component_bytes63(scaled, first + offset, first_factor);
-            add_three_components(((component far *volatile *)&out)[0] + index, scaled);
-            scale_three_component_bytes63(scaled, last + color, last_factor);
-            add_three_components(((component far *volatile *)&out)[0] + index, scaled);
+            STORE_THREE_COMPONENT_BYTES(&out[index], 0, 0, 0);
+            scale_three_component_bytes63(scaled, &first[offset], first_factor);
+            add_three_components(&out[index], scaled);
+            scale_three_component_bytes63(scaled, &last[color], last_factor);
+            add_three_components(&out[index], scaled);
             index += 3;
             color += 3;
         } while (color < 48);

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/custcvca/custcvca.json",
-  "binding_sha256": "45856924a9cc262e0892879fc689406c89feccd8882856131f1cc0187092ab8e",
+  "binding_sha256": "462155da3ff77790c7a7e8f0659ff266788be1408ab14e368e9e44db27440b70",
   "claims": [
     {
       "fixup_count": 3,
@@ -196,22 +196,38 @@
       "fixup_count": 2,
       "public": "TRIGGER_CAVE_BARS",
       "target_id": "overlay-13:2dc2:0778"
-    }
-  ],
-  "drafts": [
-    {
-      "object_offset": 570,
-      "public": "DRAW_OBJ_CARPET"
     },
     {
-      "object_offset": 864,
-      "public": "GET_CARPET_FRAME"
+      "fixup_count": 7,
+      "public": "UNLOAD_CARPET_DATA",
+      "relocation_indices": [
+        10,
+        23,
+        37,
+        45
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-13:2dc2:0614"
     },
     {
-      "object_offset": 1556,
-      "public": "UNLOAD_CARPET_DATA"
+      "fixup_count": 2,
+      "public": "GET_CARPET_FRAME",
+      "target_id": "overlay-13:2dc2:0360"
     }
   ],
+  "code_matches": [
+    {
+      "public": "DRAW_OBJ_CARPET",
+      "target_id": "overlay-13:2dc2:023a",
+      "unproven": [
+        "CELL_OBJECTS+0xb"
+      ]
+    }
+  ],
+  "drafts": [],
   "emitted_size": 1982,
   "flags": [
     "/c",
@@ -227,12 +243,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "custcvca/custcvca",
-  "object_sha256": "d6777051589e4b11d728744f10679efc0b3ff312aa22817452b159457d1faff8",
+  "object_sha256": "073d6a4f08013bef70f49ac1f1257150512fe4cca69a3ad29cedbcd13a8d96bf",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/custcvca/custcvca.c",
-  "source_sha256": "b457af65e57dc3eac6bc16d0ed5cc26cc45b74c337544c50e8e314c9e9eccbaa",
+  "source_sha256": "032f9023dccdb58e8c6e0cda1d3cb6221083c1076e887e026d13f2cd2b8dc1ce",
   "space": "overlay-13"
 }

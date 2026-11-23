@@ -378,6 +378,20 @@ class FarWindowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "run of MOVS"):         # window ends before the copy
             self.window("selector-copy", 0x1B2A, 0x1B4F, 0x11FF, **extra)
 
+    def test_carried_pointer_reaches_the_es_access(self):
+        # root+986f: mov word [bp-8],0a2a; mov ax,[bp-0ah]; mov es,[2840]; mov bx,[bp-8]; cmp es:[bx],ax
+        extra = dict(selector_offset=0x2840, relocation_index=self.index(0x2840), dgroup_segment=self.DGROUP)
+        raw = self.root.data[0x986F:0x9881]
+        self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, **extra)
+        with self.assertRaisesRegex(ValueError, "does not carry"):
+            self.window("selector-pointer", 0x986F, 0x9881, 0x0A28, **extra)
+        with self.assertRaisesRegex(ValueError, "does not carry"):          # the slot is loaded from elsewhere
+            self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, raw=raw.replace(bytes.fromhex("8b5ef8"), bytes.fromhex("8b5efa")), **extra)
+        with self.assertRaisesRegex(ValueError, "does not carry"):          # another store in between
+            self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, raw=raw.replace(bytes.fromhex("8b46f6"), bytes.fromhex("8946f8")), **extra)
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            self.window("selector-pointer", 0x986F, 0x9881, 0x0A2A, raw=raw.replace(bytes.fromhex("8b46f6"), bytes.fromhex("8ec090")), **dict(extra, selector_offset=0x283C))
+
     def index(self, selector):
         home = self.oracle.spaces["overlay-17"]
         return next(r["index"] for r in home.relocations if r["image_offset"] == 0x2940 + selector)

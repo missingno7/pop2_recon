@@ -72240,6 +72240,167 @@
       "size": 557,
       "space": "root",
       "state": "ANALYZED"
+    },
+    {
+      "abi": "far cdecl, two far string pointers",
+      "boundary_evidence": [
+        "Same bytes as the accepted pinned member crt_fstricmp (__fstricmp) at link address 2000:1cee, named here through segment 1fe6.",
+        "1 original relocated CALL FAR sites name 1fe6:1e8e."
+      ],
+      "boundary_status": "REVIEWED",
+      "call_sites": [
+        {
+          "kind": "far_call",
+          "space": "root",
+          "image_offset": 27106,
+          "file_offset": 35298,
+          "relocated_segment_site": 27109
+        }
+      ],
+      "classification": "SUPPORT_CODE",
+      "classification_evidence": [
+        "Pinned __fstricmp library member (recipes/runtime/crt_fstricmp.json)."
+      ],
+      "classification_status": "Pinned archive identity under another segment alias.",
+      "entry_kind": "direct-code",
+      "id": "root:1fe6:1e8e",
+      "offset": 7822,
+      "segment": 8166,
+      "sha256": "139b7c6d73baad3f586256404c04f228a0664dc315325cf23abf816646a4c7ef",
+      "size": 69,
+      "space": "root",
+      "state": "ANALYZED"
+    },
+    {
+      "id": "overlay-3:25da:2090",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 8336,
+      "size": 194,
+      "sha256": "fae5ba8f8ade67f9694f397026c66a4e67eb0957add05a32422e6155689ddb95",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "block_actor",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "ACT.C pairing with FM Towns @DoBlock in evidence/modules.json (probable).",
+        "Selects a block or retreat from the actor and opponent frames."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Original ACT frame decodes completely from 2090 through the extent ending at 2152. All direct branches stay inside the extent on instruction boundaries.",
+        "The complete extent ends with RETF and the observed alignment before the next procedure.",
+        "overlay-3:25da:1e08 reaches PUSH CS / CALL near at overlay-3+47E9."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 18410,
+          "pushed_cs_site": 18409,
+          "file_offset": 203178
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:0802",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 2050,
+      "size": 370,
+      "sha256": "6e743d11b883900778bdd2cade00d5836f28371ac1ccd40a8b087a78c5d0cb7c",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "control_crouching",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "ACT.C pairing with FM Towns @Crouching in evidence/modules.json (probable).",
+        "Handles standing up, stepping, and the crouched walk."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Original ACT frame decodes completely from 0802 through the extent ending at 0974. All direct branches stay inside the extent on instruction boundaries.",
+        "The complete extent ends with RETF and the observed alignment before the next procedure.",
+        "overlay-3:25da:047e reaches PUSH CS / CALL near at overlay-3+2EC9."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 11978,
+          "pushed_cs_site": 11977,
+          "file_offset": 196746
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:1b92",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 7058,
+      "size": 404,
+      "sha256": "eb5918c7f1b071d1fccc639a4038e668c358b73be5a005dd4f80100063604b9f",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "control_fighting",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "ACT.C pairing with FM Towns @FightCtrl in evidence/modules.json (probable).",
+        "Selects a live opponent and handles distance and combat inputs."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Original ACT frame decodes completely from 1B92 through the extent ending at 1D26. All direct branches stay inside the extent on instruction boundaries.",
+        "The complete extent ends with RETF and the observed alignment before the next procedure.",
+        "overlay-3:25da:047e reaches PUSH CS / CALL near at overlay-3+2E26."
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 11815,
+          "pushed_cs_site": 11814,
+          "file_offset": 196583
+        }
+      ]
+    },
+    {
+      "id": "overlay-3:25da:1978",
+      "space": "overlay-3",
+      "segment": 9690,
+      "offset": 6520,
+      "size": 538,
+      "sha256": "7d600caf90cd359c988a660ef7873881657c263ce22add3547fbeef191f61031",
+      "entry_kind": "direct-code",
+      "state": "ANALYZED",
+      "semantic_name_hypothesis": "choose_weapon_draw",
+      "classification": "GAME_C",
+      "classification_status": "Original byte and ACT module review",
+      "classification_evidence": [
+        "ACT.C code frame; chooses the weapon-draw sequence from the jump anchor and edge distance."
+      ],
+      "boundary_status": "REVIEWED",
+      "abi": "Far Pascal, no arguments, bare RETF.",
+      "boundary_evidence": [
+        "Reviewed extents border it: previous ['overlay-3:25da:1918'], next ['overlay-3:25da:1b92'].",
+        "Entry starts with a BP frame and the extent ends with RETF and its alignment.",
+        "Original PUSH CS / CALL near sites reach it: overlay-3+0x42c3"
+      ],
+      "call_sites": [
+        {
+          "kind": "push_cs_near_call",
+          "space": "overlay-3",
+          "image_offset": 17091,
+          "pushed_cs_site": 17090,
+          "file_offset": 201859
+        }
+      ]
     }
   ],
   "schema": 1,

@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/draw/draw.json",
-  "binding_sha256": "83b95c8b6ffdd8530f87cd92e32652aeecb764d8a12475b5debfb68db4f04ae5",
+  "binding_sha256": "3d9b6f165fdda84125ce3825723eb6cf60a3988e94956aa55073536361202975",
   "claims": [
     {
       "fixup_count": 5,
@@ -612,6 +612,21 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:078a:0ed0"
+    },
+    {
+      "fixup_count": 14,
+      "public": "SORT_FORE_TABLE",
+      "relocation_indices": [
+        794,
+        795,
+        803,
+        815
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "root:078a:1f6c"
     }
   ],
   "code_matches": [
@@ -684,10 +699,6 @@
       "public": "DRAW_CELL_OBJECT"
     },
     {
-      "object_offset": 8044,
-      "public": "SORT_FORE_TABLE"
-    },
-    {
       "object_offset": 9672,
       "public": "DRAW_OPPONENT_METER"
     },
@@ -711,12 +722,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "draw/draw",
-  "object_sha256": "2f0cfb788fa60dc2da5e7ae8d2c2929613ea6a6f7e003ae55bac7eaef2d023d5",
+  "object_sha256": "5fbaefbec404eadc4f9cb032afd837fd8fa45de410870ea68f55f3f2c307e955",
   "origin": 30880,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/draw/draw.c",
-  "source_sha256": "37531145cbb71fbf0a0c7985654a05c557b8878dd93642850e656703b572905e",
+  "source_sha256": "974503512cbccefbad17ac2074fdc6cdc1bfb87e5eadf5ba94d3e23f9e0df232",
   "space": "root"
 }

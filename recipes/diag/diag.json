@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/diag/diag.json",
-  "binding_sha256": "8a9a695b930351e72cc1e211aeb265bebb05052fad6799e710acefecc67f5c11",
+  "binding_sha256": "65eafe4fba422d5e47af9b922400529b54fe843b97dce3fcd46bce2544da9478",
   "claims": [
     {
       "fixup_count": 12,
@@ -157,6 +157,11 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "root:107d:015a"
+    },
+    {
+      "fixup_count": 4,
+      "public": "PLOT_EDGE_OFFSET",
+      "target_id": "root:107d:009e"
     }
   ],
   "data_publics": [
@@ -235,10 +240,6 @@
   ],
   "drafts": [
     {
-      "object_offset": 146,
-      "public": "PLOT_EDGE_OFFSET"
-    },
-    {
       "object_offset": 820,
       "public": "DUMP_HEAP"
     }
@@ -258,12 +259,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "diag/diag",
-  "object_sha256": "a6c033c6b7f432bd0cb386e42ac531ab101c14125ca6a598af3004d9b07f3062",
+  "object_sha256": "acf6a51df7f0c50273275009230e8192953111604815c28d3897cd2c50062a78",
   "origin": 67548,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/diag/diag.c",
-  "source_sha256": "1ab9bf92fcefa71339b93aa4f6ed9b9bfdbbdb5883d7979ca39185b5f7daf9f7",
+  "source_sha256": "f4b6c9d1ea01de97b79289d8a4574b2d64aaec5fb198e18ef5c98969e6e48528",
   "space": "root"
 }

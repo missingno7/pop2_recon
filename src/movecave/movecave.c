@@ -97,7 +97,6 @@ typedef struct {
     unsigned char unknown_3b[5];        /* 3b..3f */
 } CHARREC;
 #pragma pack()
-extern CHARREC Char;
 #pragma pack(1)
 typedef struct {
     unsigned int modifier, unknown_02;
@@ -111,6 +110,7 @@ typedef struct {
     signed char opponent_count;
     unsigned char opponent_data[5][23];
 } ROOMOBJECTS;
+extern CHARREC Char;
 
 typedef struct {
     signed char room, cell;
@@ -241,7 +241,7 @@ static struct {
 #define lava_redraw_type cave_motion.lava_redraw[0]
 #define lava_bubbles ((struct input *)cave_motion.bubbles)
 
-extern int reverse_plate_active(void);
+extern int is_loose_pushing_plate(void);
 extern Trob *get_trob_room_cell(sbyte, int);
 extern ubyte ReadCell(sbyte, sbyte, sbyte);
 extern void add_trob(sbyte, sbyte, sbyte, sbyte);
@@ -256,7 +256,7 @@ extern int SECTRECT(struct char_bounds far *, struct char_bounds far *, struct c
 extern void AddSound(int);
 extern int IS_SIX_KIND(ubyte);
 extern int IsWall(ubyte);
-extern int gate_blocks_dart(void);
+extern int gate_blocks_passage(void);
 extern int decrement_life_points(sbyte);
 extern int get_edge_distance(void);
 extern int get_behind(void);
@@ -298,63 +298,55 @@ void far pascal TriggerLavaBubble(struct list *, struct input *);
 
 int trigger_reverse_gate(sbyte room, sbyte cell)
 {
-    struct {
-        int cell_offset;
-        CELLREC previous_tile;
-        uword low;
-        int result;
-        uword high, flags;
-        CellState *previous_cells;
-        int previous_number;
-        Trob *trob;
-    } saved;
-    register int cell_index;
-    int pressed;
-    uword state;
+    int cell_index, pressed, result;
+    CELLREC previous_tile;
+    uword low, high, flags, state;
+    CellState *previous_cells;
+    int previous_number;
+    Trob *trob;
 
-    saved.result = -1;
+    result = -1;
     cell_index = cell;
-    saved.cell_offset = cell_index * 4;
-    state = ((CellState *)((char *)BlueS + saved.cell_offset))->state;
-    saved.low = state & 255;
-    saved.high = state & 0xff00;
-    pressed = reverse_plate_active();
-    saved.trob = get_trob_room_cell(room, cell_index);
-    if (saved.trob != 0) {
-        if (saved.trob->action <= 1) {
+    state = BlueS[cell].state;
+    low = state & 255;
+    high = state & 0xff00;
+    pressed = is_loose_pushing_plate();
+    trob = get_trob_room_cell(room, cell_index);
+    if (trob != 0) {
+        if (trob->action == 0 || trob->action == 1) {
             if (pressed)
-                saved.flags = Cell.modifier;
+                flags = Cell.modifier;
             else {
-                saved.previous_tile = Cell;
-                saved.previous_number = current_tile_number;
-                saved.previous_cells = BlueS;
-                saved.flags = ReadCell((ubyte)Char.room, Char.column, Char.row) == 34
+                previous_tile = Cell;
+                previous_number = current_tile_number;
+                previous_cells = BlueS;
+                flags = ReadCell((ubyte)Char.room, Char.column, Char.row) == 34
                     ? Cell.modifier : 0;
-                BlueS = saved.previous_cells;
-                current_tile_number = saved.previous_number;
-                Cell = saved.previous_tile;
+                BlueS = previous_cells;
+                current_tile_number = previous_number;
+                Cell = previous_tile;
             }
-            if (saved.flags & 0x0800) {
-                ((CellState *)((char *)BlueS + saved.cell_offset))->state = saved.high + 250;
+            if (flags & 0x0800) {
+                BlueS[cell].state = high + 250;
             } else {
-                if (saved.low > 200)
-                    ((CellState *)((char *)BlueS + saved.cell_offset))->state = saved.high + 200;
-                saved.trob->action = 4;
+                if (low > 200)
+                    BlueS[cell].state = high + 200;
+                trob->action = 4;
             }
-        } else if (saved.trob->action == 2 && pressed)
-            saved.trob->action = 3;
-    } else if (saved.low != 255) {
-        if (saved.low == 0 && !(Char.character_kind == 4 && ((unsigned char)Level.level_number) == 5 && Char.row == 1 &&
+        } else if (trob->action == 2 && pressed)
+            trob->action = 3;
+    } else if (low != 255) {
+        if (low == 0 && !(Char.character_kind == 4 && ((unsigned char)Level.level_number) == 5 && Char.row == 1 &&
                          ((ubyte)Char.room == 10 || (ubyte)Char.room == 7 || (ubyte)Char.room == 12))) {
             if (!pressed) {
                 if (!(Cell.modifier & 0x0800))
-                    saved.result = 2;
+                    result = 2;
             } else
-                saved.result = 3;
-        } else if (saved.low != 0 && saved.low != 36 && Kid.alive < 0)
-            saved.result = 4;
+                result = 3;
+        } else if (low != 0 && low != 36 && Kid.alive < 0)
+            result = 4;
     }
-    return saved.result;
+    return result;
 }
 
 void animate_dart(void)
@@ -414,7 +406,6 @@ void check_dart_hit(void)
     }
 }
 
-#pragma optimize("g", on)
 void move_dart_mob(void)
 {
     union {
@@ -460,7 +451,7 @@ void move_dart_mob(void)
                 *(volatile int *)&next_col = next_x / 32;
                 if (Mob.x / 32 != next_col) {
                     motion.tile[1] = ReadCell(Mob.room, next_col, Mob.row);
-                    if (IsWall(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_dart()))
+                    if (IsWall(motion.tile[1]) || (motion.tile[1] == 4 && gate_blocks_passage()))
                         Mob.velocity = -2;
                 }
             }
@@ -471,7 +462,6 @@ void move_dart_mob(void)
         }
     }
 }
-#pragma optimize("", on)
 
 void hit_actor_with_dart(void)
 {
@@ -555,7 +545,6 @@ sbyte *bubble_frames[6] = {
 
 static const char too_many_lava_pools[] = "All global lava info structs have been used.";
 
-#pragma optimize("gl", on)
 void animate_lava(void)
 {
     sbyte frame, i, next;
@@ -615,7 +604,6 @@ void animate_lava(void)
     }
 }
 
-#pragma optimize("", on)
 
 void check_lava_boil(void)
 {
@@ -675,7 +663,6 @@ ubyte get_free_lava_slot(void)
     return slot;
 }
 
-#pragma optimize("g", on)
 struct list *get_lava_info(sbyte room, sbyte col, sbyte row)
 {
     struct list *result;
@@ -688,7 +675,6 @@ struct list *get_lava_info(sbyte room, sbyte col, sbyte row)
         result = 0;
     return result;
 }
-#pragma optimize("", on)
 
 LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
 {
@@ -705,7 +691,6 @@ LavaTrob *get_lava_trob(sbyte room, sbyte col, sbyte row)
     return trob;
 }
 
-#pragma optimize("gl", on)
 void clear_lava_slots(void)
 {
     int i;
@@ -717,14 +702,18 @@ void clear_lava_slots(void)
         }
     }
 }
-#pragma optimize("", on)
 
 void redraw_lava(void)
 {
     struct { sbyte flags; int bounds[4]; } redraw;
 
     redraw.flags = lava_slots[animation_code]->prefix;
-    lava_redraw_type = redraw.flags & 128 ? 16 : (redraw.flags & 64 ? 39 : 48);
+    if (redraw.flags & 128)
+        lava_redraw_type = 16;
+    else if (redraw.flags & 64)
+        lava_redraw_type = 39;
+    else
+        lava_redraw_type = 48;
     if (compute_trob_move_rect((struct char_bounds *)redraw.bounds, &lava_redraw_type)) {
         mark_move(current_lava.cell, (struct char_bounds *)redraw.bounds);
         mark_move(check_trob_right(), (struct char_bounds *)redraw.bounds);

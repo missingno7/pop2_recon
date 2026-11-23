@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/bridge/bridge.json",
-  "binding_sha256": "fdee6bd1f352f3896f808eadd5bb69d1ab1c828568808c9a42e7276ad213b7cb",
+  "binding_sha256": "5258eac42cdb478497e53d22dd00815614ca5ab5ab7178b19c2f63db988eaae2",
   "claims": [
     {
       "fixup_count": 4,
@@ -240,6 +240,25 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-14:2dc2:090c"
+    },
+    {
+      "fixup_count": 40,
+      "public": "ANIMATE_BRIDGE_MOB",
+      "relocation_indices": [
+        0,
+        6,
+        14,
+        20,
+        24,
+        28,
+        37,
+        39
+      ],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
+      "target_id": "overlay-14:2dc2:0748"
     }
   ],
   "data_publics": [
@@ -252,12 +271,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 1864,
-      "public": "ANIMATE_BRIDGE_MOB"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 2504,
   "flags": [
     "/c",
@@ -273,12 +287,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "bridge/bridge",
-  "object_sha256": "53ab3cf93b9f712eaa83a638d22890acf32664a494a8148b39edd0a82266c414",
+  "object_sha256": "52067858e35582f683fb73948c61463fafe024a2f42d20215b1a49e6bf4175d4",
   "origin": 0,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/bridge/bridge.c",
-  "source_sha256": "780c55e56fdf328c638a96550ab6cc8c0742eb22a34687523ca69ffebc51805a",
+  "source_sha256": "1159262d86872a318c349643925ea6fa545bd90918f09a36dee7901931c338a8",
   "space": "overlay-14"
 }

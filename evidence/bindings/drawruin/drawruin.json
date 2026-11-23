@@ -53,7 +53,7 @@
         "name": "$$SYMBOLS",
         "class": "DEBSYM",
         "overlay": "",
-        "length": 2280,
+        "length": 2263,
         "alignment": 1,
         "combine": 0,
         "big": false,
@@ -85,6 +85,15 @@
       }
     ],
     "publics": [
+      {
+        "name": "DRAW_RUIN_RUBBLE_PIECES",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 3774,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 665
+      },
       {
         "name": "DRAW_RUIN_RUBBLE",
         "segment": "UNIT_TEXT",
@@ -300,18 +309,10 @@
         "group_index": 0,
         "frame": null,
         "type_index": 544
-      },
-      {
-        "name": "DRAW_RUIN_RUBBLE_PIECES",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 3774,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 665
       }
     ],
     "externals": [
+      "DRAW_RUIN_RUBBLE_PIECES",
       "DRAW_RUIN_RUBBLE",
       "DRAW_RUIN_PILLAR_TOP",
       "RUIN_CHECK_CREVICES",
@@ -324,54 +325,53 @@
       "FORE_QUEUE",
       "DRAW_RUIN_DOWN_PLATE",
       "DRAW_FLASK",
+      "DRAW_RUIN_BLOCK",
       "DRAWSCYTHE1",
       "DRAWSCYTHE2",
-      "DRAW_RUIN_BLOCK",
       "DRAW_SWORD",
       "DRAWN_TILE_KIND",
       "VISIBLE_ABOVE_PIECE",
       "IS_SIX_KIND",
-      "PAUSE",
       "DRAW_RUIN_LOOSE",
-      "DRAW_RUIN_SPACE",
+      "PAUSE",
       "SHAPE_OFFSETS",
-      "DRAW_RUIN_UP_PLATE",
+      "DRAW_RUIN_SPACE",
       "GAMEPLAYRECT",
+      "DRAW_RUIN_UP_PLATE",
       "DRAW_RUIN_FLOOR",
       "ROOM",
       "DRAW_RUIN_BONES",
-      "LOADRUINSDRAWCODE",
       "KID",
       "FIRSTINROW",
+      "LOADRUINSDRAWCODE",
       "GET_TROB_ROOM_CELL",
-      "CELL",
       "DRAW_RUIN_EXIT_MOVABLE",
-      "CHAR",
-      "READCELL",
+      "CELL",
       "DRAW_RUIN_EXIT_RIGHT",
-      "GET_CELLS_AHEAD",
+      "CHAR",
       "DRAW_RUIN_GATE_MOVABLE",
       "DRAW_PASS_MODE",
-      "IS_VISIBLE_ROOM_CELL",
+      "READCELL",
       "CLIP_RECT",
-      "MARK_CELL_REDRAW",
+      "GET_CELLS_AHEAD",
       "DRAW_RUIN_GATE",
+      "IS_VISIBLE_ROOM_CELL",
+      "MARK_CELL_REDRAW",
       "DRAW_RUIN_POSTS",
-      "RUIN_SET_CREVICE_REVEALED",
       "@get_back_table_image_row",
+      "RUIN_SET_CREVICE_REVEALED",
       "SECTRECT",
       "UNIONRECT",
       "DRAW_RUIN_CREVICE",
       "ADDBIMGTOBTABLE",
-      "RUIN_CHANGE_CREVICES",
       "ADDBFIMGTOBTABLE",
-      "DRAW_RUIN_PILLAR_BOTTOM",
       "ADDBFIMGTOFTABLE",
+      "RUIN_CHANGE_CREVICES",
       "ADD_FOREGROUND_IMAGE",
+      "DRAW_RUIN_PILLAR_BOTTOM",
       "PIECERIGHTID",
       "DRAW_RUIN_FLAW",
-      "DRAW_RUIN_BACK_WALL",
-      "DRAW_RUIN_RUBBLE_PIECES"
+      "DRAW_RUIN_BACK_WALL"
     ]
   },
   "dgroup_segment": {
@@ -397,7 +397,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -405,7 +405,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -424,7 +424,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -432,7 +432,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -451,7 +451,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -459,7 +459,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -478,7 +478,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -486,7 +486,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -505,7 +505,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 50,
           "name": "UNIONRECT",
           "method": 6,
           "zero_displacement": true
@@ -513,7 +513,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 50,
         "name": "UNIONRECT",
         "method": 6,
         "zero_displacement": true
@@ -532,7 +532,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -540,7 +540,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -559,7 +559,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 49,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -567,7 +567,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 49,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -586,7 +586,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -594,7 +594,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -640,7 +640,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 49,
+          "index": 50,
           "name": "UNIONRECT",
           "method": 6,
           "zero_displacement": true
@@ -648,7 +648,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 49,
+        "index": 50,
         "name": "UNIONRECT",
         "method": 6,
         "zero_displacement": true
@@ -667,7 +667,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -675,7 +675,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -694,7 +694,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 49,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -702,7 +702,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 49,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -721,7 +721,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -729,7 +729,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -775,7 +775,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -783,7 +783,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -802,7 +802,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -810,7 +810,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -856,7 +856,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -864,7 +864,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -883,7 +883,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 57,
+          "index": 58,
           "name": "PIECERIGHTID",
           "method": 6,
           "zero_displacement": true
@@ -891,7 +891,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 57,
+        "index": 58,
         "name": "PIECERIGHTID",
         "method": 6,
         "zero_displacement": true
@@ -910,7 +910,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -918,7 +918,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -937,7 +937,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -945,7 +945,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -1018,7 +1018,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1026,7 +1026,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1045,7 +1045,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1053,7 +1053,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1126,7 +1126,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1134,7 +1134,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1153,7 +1153,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -1161,7 +1161,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -1180,7 +1180,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 14,
           "name": "DRAW_RUIN_BLOCK",
           "method": 6,
           "zero_displacement": true
@@ -1188,7 +1188,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 14,
         "name": "DRAW_RUIN_BLOCK",
         "method": 6,
         "zero_displacement": true
@@ -1234,7 +1234,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1242,7 +1242,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1261,7 +1261,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -1269,7 +1269,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -1288,7 +1288,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 14,
           "name": "DRAW_RUIN_BLOCK",
           "method": 6,
           "zero_displacement": true
@@ -1296,7 +1296,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 14,
         "name": "DRAW_RUIN_BLOCK",
         "method": 6,
         "zero_displacement": true
@@ -1364,7 +1364,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1372,7 +1372,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1391,7 +1391,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1399,7 +1399,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -1418,7 +1418,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -1426,7 +1426,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -1499,7 +1499,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1507,7 +1507,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1526,7 +1526,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1534,7 +1534,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1607,7 +1607,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1615,7 +1615,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1634,7 +1634,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1642,7 +1642,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1661,7 +1661,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -1669,7 +1669,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -1688,7 +1688,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1696,7 +1696,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -1742,7 +1742,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -1750,7 +1750,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -1823,7 +1823,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -1831,7 +1831,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -1850,7 +1850,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1858,7 +1858,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -1877,7 +1877,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -1885,7 +1885,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2034,7 +2034,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -2042,7 +2042,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -2061,7 +2061,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -2069,7 +2069,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -2088,7 +2088,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2096,7 +2096,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2218,7 +2218,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2226,7 +2226,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2245,7 +2245,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2253,7 +2253,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2326,7 +2326,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2334,7 +2334,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2380,7 +2380,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2388,7 +2388,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2407,7 +2407,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 33,
           "name": "GET_TROB_ROOM_CELL",
           "method": 6,
           "zero_displacement": true
@@ -2415,7 +2415,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 33,
         "name": "GET_TROB_ROOM_CELL",
         "method": 6,
         "zero_displacement": true
@@ -2461,7 +2461,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 28,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -2469,7 +2469,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 28,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -2488,7 +2488,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 49,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -2496,7 +2496,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 49,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -2515,7 +2515,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2523,7 +2523,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2569,7 +2569,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -2577,7 +2577,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -2596,7 +2596,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "FORE_QUEUE",
           "method": 6,
           "zero_displacement": true
@@ -2604,7 +2604,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "FORE_QUEUE",
         "method": 6,
         "zero_displacement": true
@@ -2623,7 +2623,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2631,7 +2631,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2829,7 +2829,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 10,
+          "index": 11,
           "name": "FORE_QUEUE",
           "method": 6,
           "zero_displacement": true
@@ -2837,7 +2837,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 10,
+        "index": 11,
         "name": "FORE_QUEUE",
         "method": 6,
         "zero_displacement": true
@@ -2878,7 +2878,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 9,
+          "index": 10,
           "name": "LAST_FRONT_TABLE_SLOT",
           "method": 6,
           "zero_displacement": true
@@ -2886,7 +2886,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 9,
+        "index": 10,
         "name": "LAST_FRONT_TABLE_SLOT",
         "method": 6,
         "zero_displacement": true
@@ -2905,7 +2905,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -2913,7 +2913,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -2932,7 +2932,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -2940,7 +2940,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -2959,7 +2959,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 6,
+          "index": 7,
           "name": "HIDDEN_FLAW_COLUMN",
           "method": 6,
           "zero_displacement": true
@@ -2967,7 +2967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 6,
+        "index": 7,
         "name": "HIDDEN_FLAW_COLUMN",
         "method": 6,
         "zero_displacement": true
@@ -2986,7 +2986,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -2994,7 +2994,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -3062,7 +3062,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_PASS_MODE",
           "method": 6,
           "zero_displacement": true
@@ -3070,7 +3070,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_PASS_MODE",
         "method": 6,
         "zero_displacement": true
@@ -3116,7 +3116,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3124,7 +3124,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3170,7 +3170,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -3178,7 +3178,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -3197,7 +3197,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -3205,7 +3205,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -3224,7 +3224,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -3232,7 +3232,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -3251,7 +3251,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 39,
+          "index": 38,
           "name": "DRAW_RUIN_GATE_MOVABLE",
           "method": 6,
           "zero_displacement": true
@@ -3259,7 +3259,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 39,
+        "index": 38,
         "name": "DRAW_RUIN_GATE_MOVABLE",
         "method": 6,
         "zero_displacement": true
@@ -3332,7 +3332,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3340,7 +3340,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3359,7 +3359,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3367,7 +3367,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3440,7 +3440,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -3448,7 +3448,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -3467,7 +3467,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 5,
+          "index": 6,
           "name": "DRAW_THRONE_ROOM_GATE_IN_FORE",
           "method": 6,
           "zero_displacement": true
@@ -3475,7 +3475,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 5,
+        "index": 6,
         "name": "DRAW_THRONE_ROOM_GATE_IN_FORE",
         "method": 6,
         "zero_displacement": true
@@ -3494,7 +3494,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 5,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -3502,7 +3502,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -3521,7 +3521,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 28,
           "name": "ROOM",
           "method": 6,
           "zero_displacement": true
@@ -3529,7 +3529,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 28,
         "name": "ROOM",
         "method": 6,
         "zero_displacement": true
@@ -3602,7 +3602,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3610,7 +3610,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3629,7 +3629,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3637,7 +3637,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3683,7 +3683,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 48,
+          "index": 49,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -3691,7 +3691,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 48,
+        "index": 49,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -3710,7 +3710,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3718,7 +3718,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3764,7 +3764,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3772,7 +3772,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3791,7 +3791,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "CLIP_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3799,7 +3799,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "CLIP_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3810,7 +3810,34 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2924,
+      "segment_offset": 2943,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 59,
+          "name": "DRAW_RUIN_FLAW",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 59,
+        "name": "DRAW_RUIN_FLAW",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2936,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3837,7 +3864,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2882,
+      "segment_offset": 2894,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3845,7 +3872,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -3853,7 +3880,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -3864,7 +3891,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2840,
+      "segment_offset": 2850,
       "loc_type": 3,
       "field_width": 4,
       "self_relative": false,
@@ -3891,7 +3918,7 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2798,
+      "segment_offset": 2808,
       "loc_type": 1,
       "field_width": 2,
       "self_relative": true,
@@ -3899,7 +3926,34 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 27,
+          "name": "DRAW_RUIN_FLOOR",
+          "method": 6,
+          "zero_displacement": true
+        }
+      },
+      "target": {
+        "kind": "external",
+        "index": 27,
+        "name": "DRAW_RUIN_FLOOR",
+        "method": 6,
+        "zero_displacement": true
+      },
+      "displacement": null
+    },
+    {
+      "kind": "fixup",
+      "segment_index": 1,
+      "segment": "UNIT_TEXT",
+      "segment_offset": 2797,
+      "loc_type": 1,
+      "field_width": 2,
+      "self_relative": true,
+      "frame": {
+        "kind": "target_frame",
+        "target": {
+          "kind": "external",
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -3907,7 +3961,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -3962,60 +4016,6 @@
       "kind": "fixup",
       "segment_index": 1,
       "segment": "UNIT_TEXT",
-      "segment_offset": 2933,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 58,
-          "name": "DRAW_RUIN_FLAW",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 58,
-        "name": "DRAW_RUIN_FLAW",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
-      "segment_offset": 2944,
-      "loc_type": 1,
-      "field_width": 2,
-      "self_relative": true,
-      "frame": {
-        "kind": "target_frame",
-        "target": {
-          "kind": "external",
-          "index": 26,
-          "name": "DRAW_RUIN_FLOOR",
-          "method": 6,
-          "zero_displacement": true
-        }
-      },
-      "target": {
-        "kind": "external",
-        "index": 26,
-        "name": "DRAW_RUIN_FLOOR",
-        "method": 6,
-        "zero_displacement": true
-      },
-      "displacement": null
-    },
-    {
-      "kind": "fixup",
-      "segment_index": 1,
-      "segment": "UNIT_TEXT",
       "segment_offset": 3047,
       "loc_type": 1,
       "field_width": 2,
@@ -4024,7 +4024,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -4032,7 +4032,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -4105,7 +4105,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4113,7 +4113,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4132,7 +4132,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4140,7 +4140,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4159,7 +4159,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4167,7 +4167,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4240,7 +4240,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4248,7 +4248,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4267,7 +4267,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 51,
+          "index": 52,
           "name": "ADDBIMGTOBTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4275,7 +4275,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 51,
+        "index": 52,
         "name": "ADDBIMGTOBTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4294,7 +4294,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4302,7 +4302,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4321,7 +4321,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -4329,7 +4329,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -4348,7 +4348,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4356,7 +4356,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4375,7 +4375,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4383,7 +4383,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4510,7 +4510,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4518,7 +4518,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4537,7 +4537,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4545,7 +4545,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4564,7 +4564,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4572,7 +4572,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4699,7 +4699,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4707,7 +4707,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4780,7 +4780,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4788,7 +4788,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4807,7 +4807,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -4815,7 +4815,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -4888,7 +4888,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -4896,7 +4896,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -4915,7 +4915,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -4923,7 +4923,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -4942,7 +4942,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -4950,7 +4950,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -4969,7 +4969,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 60,
+          "index": 1,
           "name": "DRAW_RUIN_RUBBLE_PIECES",
           "method": 6,
           "zero_displacement": true
@@ -4977,7 +4977,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 60,
+        "index": 1,
         "name": "DRAW_RUIN_RUBBLE_PIECES",
         "method": 6,
         "zero_displacement": true
@@ -4996,7 +4996,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -5004,7 +5004,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -5023,7 +5023,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 27,
           "name": "DRAW_RUIN_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -5031,7 +5031,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 27,
         "name": "DRAW_RUIN_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -5050,7 +5050,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "DRAW_RUIN_DOWN_PLATE",
           "method": 6,
           "zero_displacement": true
@@ -5058,7 +5058,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "DRAW_RUIN_DOWN_PLATE",
         "method": 6,
         "zero_displacement": true
@@ -5077,7 +5077,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 26,
           "name": "DRAW_RUIN_UP_PLATE",
           "method": 6,
           "zero_displacement": true
@@ -5085,7 +5085,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 26,
         "name": "DRAW_RUIN_UP_PLATE",
         "method": 6,
         "zero_displacement": true
@@ -5104,7 +5104,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -5112,7 +5112,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -5185,7 +5185,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -5193,7 +5193,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -5212,7 +5212,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 55,
+          "index": 54,
           "name": "ADDBFIMGTOFTABLE",
           "method": 6,
           "zero_displacement": true
@@ -5220,7 +5220,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 55,
+        "index": 54,
         "name": "ADDBFIMGTOFTABLE",
         "method": 6,
         "zero_displacement": true
@@ -5293,7 +5293,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 58,
+          "index": 59,
           "name": "DRAW_RUIN_FLAW",
           "method": 6,
           "zero_displacement": true
@@ -5301,7 +5301,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 58,
+        "index": 59,
         "name": "DRAW_RUIN_FLAW",
         "method": 6,
         "zero_displacement": true
@@ -5320,7 +5320,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 59,
+          "index": 60,
           "name": "DRAW_RUIN_BACK_WALL",
           "method": 6,
           "zero_displacement": true
@@ -5328,7 +5328,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 59,
+        "index": 60,
         "name": "DRAW_RUIN_BACK_WALL",
         "method": 6,
         "zero_displacement": true
@@ -5347,7 +5347,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 20,
           "name": "IS_SIX_KIND",
           "method": 6,
           "zero_displacement": true
@@ -5355,7 +5355,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 20,
         "name": "IS_SIX_KIND",
         "method": 6,
         "zero_displacement": true
@@ -5374,7 +5374,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 17,
+          "index": 18,
           "name": "DRAWN_TILE_KIND",
           "method": 6,
           "zero_displacement": true
@@ -5382,7 +5382,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 17,
+        "index": 18,
         "name": "DRAWN_TILE_KIND",
         "method": 6,
         "zero_displacement": true
@@ -5401,7 +5401,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5409,7 +5409,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5428,7 +5428,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 19,
           "name": "VISIBLE_ABOVE_PIECE",
           "method": 6,
           "zero_displacement": true
@@ -5436,7 +5436,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 19,
         "name": "VISIBLE_ABOVE_PIECE",
         "method": 6,
         "zero_displacement": true
@@ -5455,7 +5455,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5463,7 +5463,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5482,7 +5482,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 7,
+          "index": 8,
           "name": "HIDDEN_FLAW_ROW",
           "method": 6,
           "zero_displacement": true
@@ -5490,7 +5490,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 7,
+        "index": 8,
         "name": "HIDDEN_FLAW_ROW",
         "method": 6,
         "zero_displacement": true
@@ -5509,7 +5509,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 22,
           "name": "PAUSE",
           "method": 6,
           "zero_displacement": true
@@ -5517,7 +5517,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 22,
         "name": "PAUSE",
         "method": 6,
         "zero_displacement": true
@@ -5536,7 +5536,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 40,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -5544,7 +5544,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 40,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5563,7 +5563,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5571,7 +5571,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5590,7 +5590,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5598,7 +5598,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5617,7 +5617,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5625,7 +5625,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5644,7 +5644,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 46,
+          "index": 48,
           "name": "RUIN_SET_CREVICE_REVEALED",
           "method": 6,
           "zero_displacement": true
@@ -5652,7 +5652,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 46,
+        "index": 48,
         "name": "RUIN_SET_CREVICE_REVEALED",
         "method": 6,
         "zero_displacement": true
@@ -5671,7 +5671,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 40,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -5679,7 +5679,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 40,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5698,7 +5698,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5706,7 +5706,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5725,7 +5725,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5733,7 +5733,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5752,7 +5752,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5760,7 +5760,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5779,7 +5779,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 40,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -5787,7 +5787,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 40,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5806,7 +5806,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5814,7 +5814,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5833,7 +5833,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5841,7 +5841,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5860,7 +5860,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -5868,7 +5868,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -5887,7 +5887,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 40,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -5895,7 +5895,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 40,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -5914,7 +5914,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 52,
+          "index": 55,
           "name": "RUIN_CHANGE_CREVICES",
           "method": 6,
           "zero_displacement": true
@@ -5922,7 +5922,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 52,
+        "index": 55,
         "name": "RUIN_CHANGE_CREVICES",
         "method": 6,
         "zero_displacement": true
@@ -5941,7 +5941,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 37,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -5949,7 +5949,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 37,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5968,7 +5968,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 37,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -5976,7 +5976,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 37,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -5995,7 +5995,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 37,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6003,7 +6003,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 37,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6022,7 +6022,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6030,7 +6030,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6049,7 +6049,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 38,
+          "index": 42,
           "name": "GET_CELLS_AHEAD",
           "method": 6,
           "zero_displacement": true
@@ -6057,7 +6057,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 38,
+        "index": 42,
         "name": "GET_CELLS_AHEAD",
         "method": 6,
         "zero_displacement": true
@@ -6076,7 +6076,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 35,
+          "index": 37,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6084,7 +6084,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 35,
+        "index": 37,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6103,7 +6103,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 5,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -6111,7 +6111,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -6130,7 +6130,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6138,7 +6138,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6157,7 +6157,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6165,7 +6165,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6184,7 +6184,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 40,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -6192,7 +6192,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 40,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -6211,7 +6211,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6219,7 +6219,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6238,7 +6238,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6246,7 +6246,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6265,7 +6265,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6273,7 +6273,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6292,7 +6292,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 45,
           "name": "MARK_CELL_REDRAW",
           "method": 6,
           "zero_displacement": true
@@ -6300,7 +6300,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 45,
         "name": "MARK_CELL_REDRAW",
         "method": 6,
         "zero_displacement": true
@@ -6319,7 +6319,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 36,
+          "index": 40,
           "name": "READCELL",
           "method": 6,
           "zero_displacement": true
@@ -6327,7 +6327,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 36,
+        "index": 40,
         "name": "READCELL",
         "method": 6,
         "zero_displacement": true
@@ -6346,7 +6346,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6354,7 +6354,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6373,7 +6373,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6381,7 +6381,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6400,7 +6400,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6408,7 +6408,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6427,7 +6427,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6435,7 +6435,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6454,7 +6454,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 45,
           "name": "MARK_CELL_REDRAW",
           "method": 6,
           "zero_displacement": true
@@ -6462,7 +6462,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 45,
         "name": "MARK_CELL_REDRAW",
         "method": 6,
         "zero_displacement": true
@@ -6481,7 +6481,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 41,
+          "index": 44,
           "name": "IS_VISIBLE_ROOM_CELL",
           "method": 6,
           "zero_displacement": true
@@ -6489,7 +6489,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 41,
+        "index": 44,
         "name": "IS_VISIBLE_ROOM_CELL",
         "method": 6,
         "zero_displacement": true
@@ -6508,7 +6508,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6516,7 +6516,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6535,7 +6535,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6543,7 +6543,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6562,7 +6562,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 4,
+          "index": 5,
           "name": "LEVEL",
           "method": 6,
           "zero_displacement": true
@@ -6570,7 +6570,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 4,
+        "index": 5,
         "name": "LEVEL",
         "method": 6,
         "zero_displacement": true
@@ -6589,7 +6589,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6597,7 +6597,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6616,7 +6616,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 33,
+          "index": 35,
           "name": "CELL",
           "method": 6,
           "zero_displacement": true
@@ -6624,7 +6624,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 33,
+        "index": 35,
         "name": "CELL",
         "method": 6,
         "zero_displacement": true
@@ -6643,7 +6643,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 16,
+          "index": 17,
           "name": "DRAW_SWORD",
           "method": 6,
           "zero_displacement": true
@@ -6651,7 +6651,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 16,
+        "index": 17,
         "name": "DRAW_SWORD",
         "method": 6,
         "zero_displacement": true
@@ -6670,7 +6670,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 29,
           "name": "DRAW_RUIN_BONES",
           "method": 6,
           "zero_displacement": true
@@ -6678,7 +6678,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 29,
         "name": "DRAW_RUIN_BONES",
         "method": 6,
         "zero_displacement": true
@@ -6697,7 +6697,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 15,
+          "index": 14,
           "name": "DRAW_RUIN_BLOCK",
           "method": 6,
           "zero_displacement": true
@@ -6705,7 +6705,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 15,
+        "index": 14,
         "name": "DRAW_RUIN_BLOCK",
         "method": 6,
         "zero_displacement": true
@@ -6724,7 +6724,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 37,
+          "index": 36,
           "name": "DRAW_RUIN_EXIT_RIGHT",
           "method": 6,
           "zero_displacement": true
@@ -6732,7 +6732,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 37,
+        "index": 36,
         "name": "DRAW_RUIN_EXIT_RIGHT",
         "method": 6,
         "zero_displacement": true
@@ -6751,7 +6751,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 8,
+          "index": 9,
           "name": "DRAW_RUIN_EXIT_LEFT",
           "method": 6,
           "zero_displacement": true
@@ -6759,7 +6759,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 8,
+        "index": 9,
         "name": "DRAW_RUIN_EXIT_LEFT",
         "method": 6,
         "zero_displacement": true
@@ -6778,7 +6778,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 27,
           "name": "DRAW_RUIN_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -6786,7 +6786,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 27,
         "name": "DRAW_RUIN_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -6805,7 +6805,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 1,
+          "index": 2,
           "name": "DRAW_RUIN_RUBBLE",
           "method": 6,
           "zero_displacement": true
@@ -6813,7 +6813,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 1,
+        "index": 2,
         "name": "DRAW_RUIN_RUBBLE",
         "method": 6,
         "zero_displacement": true
@@ -6832,7 +6832,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 14,
+          "index": 16,
           "name": "DRAWSCYTHE2",
           "method": 6,
           "zero_displacement": true
@@ -6840,7 +6840,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 14,
+        "index": 16,
         "name": "DRAWSCYTHE2",
         "method": 6,
         "zero_displacement": true
@@ -6859,7 +6859,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 13,
+          "index": 15,
           "name": "DRAWSCYTHE1",
           "method": 6,
           "zero_displacement": true
@@ -6867,7 +6867,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 13,
+        "index": 15,
         "name": "DRAWSCYTHE1",
         "method": 6,
         "zero_displacement": true
@@ -6913,7 +6913,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 12,
+          "index": 13,
           "name": "DRAW_FLASK",
           "method": 6,
           "zero_displacement": true
@@ -6921,7 +6921,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 12,
+        "index": 13,
         "name": "DRAW_FLASK",
         "method": 6,
         "zero_displacement": true
@@ -6940,7 +6940,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 2,
+          "index": 3,
           "name": "DRAW_RUIN_PILLAR_TOP",
           "method": 6,
           "zero_displacement": true
@@ -6948,7 +6948,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 2,
+        "index": 3,
         "name": "DRAW_RUIN_PILLAR_TOP",
         "method": 6,
         "zero_displacement": true
@@ -6967,7 +6967,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 54,
+          "index": 57,
           "name": "DRAW_RUIN_PILLAR_BOTTOM",
           "method": 6,
           "zero_displacement": true
@@ -6975,7 +6975,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 54,
+        "index": 57,
         "name": "DRAW_RUIN_PILLAR_BOTTOM",
         "method": 6,
         "zero_displacement": true
@@ -6994,7 +6994,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 50,
+          "index": 51,
           "name": "DRAW_RUIN_CREVICE",
           "method": 6,
           "zero_displacement": true
@@ -7002,7 +7002,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 50,
+        "index": 51,
         "name": "DRAW_RUIN_CREVICE",
         "method": 6,
         "zero_displacement": true
@@ -7021,7 +7021,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 11,
+          "index": 12,
           "name": "DRAW_RUIN_DOWN_PLATE",
           "method": 6,
           "zero_displacement": true
@@ -7029,7 +7029,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 11,
+        "index": 12,
         "name": "DRAW_RUIN_DOWN_PLATE",
         "method": 6,
         "zero_displacement": true
@@ -7048,7 +7048,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 24,
+          "index": 26,
           "name": "DRAW_RUIN_UP_PLATE",
           "method": 6,
           "zero_displacement": true
@@ -7056,7 +7056,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 24,
+        "index": 26,
         "name": "DRAW_RUIN_UP_PLATE",
         "method": 6,
         "zero_displacement": true
@@ -7075,7 +7075,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 43,
           "name": "DRAW_RUIN_GATE",
           "method": 6,
           "zero_displacement": true
@@ -7083,7 +7083,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 43,
         "name": "DRAW_RUIN_GATE",
         "method": 6,
         "zero_displacement": true
@@ -7102,7 +7102,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 46,
           "name": "DRAW_RUIN_POSTS",
           "method": 6,
           "zero_displacement": true
@@ -7110,7 +7110,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 46,
         "name": "DRAW_RUIN_POSTS",
         "method": 6,
         "zero_displacement": true
@@ -7129,7 +7129,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 27,
           "name": "DRAW_RUIN_FLOOR",
           "method": 6,
           "zero_displacement": true
@@ -7137,7 +7137,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 27,
         "name": "DRAW_RUIN_FLOOR",
         "method": 6,
         "zero_displacement": true
@@ -7156,7 +7156,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 22,
+          "index": 24,
           "name": "DRAW_RUIN_SPACE",
           "method": 6,
           "zero_displacement": true
@@ -7164,7 +7164,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 22,
+        "index": 24,
         "name": "DRAW_RUIN_SPACE",
         "method": 6,
         "zero_displacement": true

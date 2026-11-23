@@ -194,15 +194,6 @@
         "type_index": 641
       },
       {
-        "name": "ANIMATE_ROOF_SHIP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 2068,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 670
-      },
-      {
         "name": "LOADROOFCODE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -212,13 +203,13 @@
         "type_index": 642
       },
       {
-        "name": "DRAW_ROOF_SHIP",
+        "name": "ANIMATE_ROOF_SHIP",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
-        "offset": 2280,
+        "offset": 2068,
         "group_index": 0,
         "frame": null,
-        "type_index": 672
+        "type_index": 670
       },
       {
         "name": "SETUP_SPLASH",
@@ -230,6 +221,15 @@
         "type_index": 656
       },
       {
+        "name": "DRAW_ROOF_SHIP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 2280,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 672
+      },
+      {
         "name": "CHECK_ROOF_PALETTE",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -239,15 +239,6 @@
         "type_index": 645
       },
       {
-        "name": "GRAB_ROOF_SHIP",
-        "segment": "UNIT_TEXT",
-        "segment_index": 1,
-        "offset": 2604,
-        "group_index": 0,
-        "frame": null,
-        "type_index": 674
-      },
-      {
         "name": "ANIMATE_ROOF_GLASS",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -255,6 +246,15 @@
         "group_index": 0,
         "frame": null,
         "type_index": 657
+      },
+      {
+        "name": "GRAB_ROOF_SHIP",
+        "segment": "UNIT_TEXT",
+        "segment_index": 1,
+        "offset": 2604,
+        "group_index": 0,
+        "frame": null,
+        "type_index": 674
       },
       {
         "name": "DRAW_ROOF_GLASS",
@@ -293,15 +293,6 @@
         "type_index": 663
       },
       {
-        "name": "ROOFTOPS_LEVEL_SPEC",
-        "segment": "_DATA",
-        "segment_index": 2,
-        "offset": 16,
-        "group_index": 1,
-        "frame": null,
-        "type_index": 685
-      },
-      {
         "name": "ROOF_FRAME",
         "segment": "UNIT_TEXT",
         "segment_index": 1,
@@ -327,6 +318,15 @@
         "group_index": 0,
         "frame": null,
         "type_index": 665
+      },
+      {
+        "name": "ROOFTOPS_LEVEL_SPEC",
+        "segment": "_DATA",
+        "segment_index": 2,
+        "offset": 16,
+        "group_index": 1,
+        "frame": null,
+        "type_index": 685
       }
     ],
     "externals": [
@@ -346,15 +346,14 @@
       "@keep_image_in_back",
       "ROOM",
       "FADE_ACTIVE",
-      "ANIMATE_ROOF_SHIP",
       "FRAMENUM",
       "BLUESPEC",
       "ANIMATION_TILE",
       "ANIMATION_REMOVE",
       "LOADROOFCODE",
+      "ANIMATE_ROOF_SHIP",
       "FCHAR",
       "PILLAR_FOREGROUND",
-      "DRAW_ROOF_SHIP",
       "CHARACTER_WIDTH",
       "DELAY_COUNT",
       "ACTIVE_SOUND_CHANNELS",
@@ -362,19 +361,20 @@
       "SETUP_SPLASH",
       "KID",
       "DRAW_CLIP",
+      "DRAW_ROOF_SHIP",
       "NULLRECT",
       "GAMEPLAYRECT",
       "CUSTOM_PEELS",
       "QUIT_PROMPT",
       "RESTART_PROMPT",
       "CHECK_ROOF_PALETTE",
-      "GRAB_ROOF_SHIP",
       "DRAW_LIST",
       "ANIMATE_ROOF_GLASS",
       "REDRAW_OBJECT",
       "RESTORE_OBJECT",
       "SECTRECT",
       "MARK_BUFS_FOR_RECT",
+      "GRAB_ROOF_SHIP",
       "DRAW_ROOF_GLASS",
       "DECREMENT_LIFE_POINTS",
       "CHECK_ROOF_ROOM",
@@ -435,7 +435,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -443,7 +443,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -462,7 +462,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -470,7 +470,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -489,7 +489,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -497,7 +497,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -516,7 +516,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 43,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -524,7 +524,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 43,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -543,7 +543,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -551,7 +551,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -732,7 +732,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -740,7 +740,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -759,7 +759,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -767,7 +767,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -867,7 +867,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -875,7 +875,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -894,7 +894,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -902,7 +902,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -970,7 +970,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -978,7 +978,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -997,7 +997,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -1005,7 +1005,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -1024,7 +1024,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -1032,7 +1032,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -1078,7 +1078,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1086,7 +1086,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1159,7 +1159,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1167,7 +1167,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1186,7 +1186,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1194,7 +1194,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1213,7 +1213,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1221,7 +1221,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1240,7 +1240,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1248,7 +1248,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1267,7 +1267,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1275,7 +1275,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1645,7 +1645,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1653,7 +1653,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1672,7 +1672,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1680,7 +1680,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1726,7 +1726,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1734,7 +1734,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1753,7 +1753,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -1761,7 +1761,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -1861,7 +1861,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 18,
+          "index": 17,
           "name": "FRAMENUM",
           "method": 6,
           "zero_displacement": true
@@ -1869,7 +1869,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 18,
+        "index": 17,
         "name": "FRAMENUM",
         "method": 6,
         "zero_displacement": true
@@ -2293,7 +2293,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2301,7 +2301,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2320,7 +2320,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -2328,7 +2328,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -2374,7 +2374,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 26,
           "name": "DELAY_COUNT",
           "method": 6,
           "zero_displacement": true
@@ -2382,7 +2382,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 26,
         "name": "DELAY_COUNT",
         "method": 6,
         "zero_displacement": true
@@ -2401,7 +2401,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2409,7 +2409,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2482,7 +2482,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 27,
+          "index": 26,
           "name": "DELAY_COUNT",
           "method": 6,
           "zero_displacement": true
@@ -2490,7 +2490,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 27,
+        "index": 26,
         "name": "DELAY_COUNT",
         "method": 6,
         "zero_displacement": true
@@ -2698,7 +2698,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 28,
+          "index": 27,
           "name": "ACTIVE_SOUND_CHANNELS",
           "method": 6,
           "zero_displacement": true
@@ -2706,7 +2706,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 28,
+        "index": 27,
         "name": "ACTIVE_SOUND_CHANNELS",
         "method": 6,
         "zero_displacement": true
@@ -2725,7 +2725,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -2733,7 +2733,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -2968,7 +2968,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHARACTER_WIDTH",
           "method": 6,
           "zero_displacement": true
@@ -2976,7 +2976,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHARACTER_WIDTH",
         "method": 6,
         "zero_displacement": true
@@ -3022,7 +3022,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 26,
+          "index": 25,
           "name": "CHARACTER_WIDTH",
           "method": 6,
           "zero_displacement": true
@@ -3030,7 +3030,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 26,
+        "index": 25,
         "name": "CHARACTER_WIDTH",
         "method": 6,
         "zero_displacement": true
@@ -3049,7 +3049,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3057,7 +3057,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3103,7 +3103,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3111,7 +3111,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3157,7 +3157,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3165,7 +3165,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3238,7 +3238,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3246,7 +3246,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3346,7 +3346,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -3354,7 +3354,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -3454,7 +3454,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -3462,7 +3462,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -3481,7 +3481,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -3489,7 +3489,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -3508,7 +3508,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3516,7 +3516,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3535,7 +3535,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 31,
+          "index": 30,
           "name": "KID",
           "method": 6,
           "zero_displacement": true
@@ -3543,7 +3543,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 31,
+        "index": 30,
         "name": "KID",
         "method": 6,
         "zero_displacement": true
@@ -3589,7 +3589,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3597,7 +3597,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3643,7 +3643,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3651,7 +3651,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3751,7 +3751,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3759,7 +3759,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3778,7 +3778,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -3786,7 +3786,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -3886,7 +3886,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -3894,7 +3894,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -3913,7 +3913,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -3921,7 +3921,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -3940,7 +3940,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 42,
           "name": "RESTORE_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -3948,7 +3948,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 42,
         "name": "RESTORE_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -3967,7 +3967,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 42,
           "name": "RESTORE_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -3975,7 +3975,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 42,
         "name": "RESTORE_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -3994,7 +3994,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4002,7 +4002,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4048,7 +4048,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -4056,7 +4056,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -4156,7 +4156,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4164,7 +4164,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4183,7 +4183,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -4191,7 +4191,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -4259,7 +4259,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -4267,7 +4267,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -4286,7 +4286,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -4294,7 +4294,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -4367,7 +4367,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -4375,7 +4375,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -4421,7 +4421,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -4429,7 +4429,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -4448,7 +4448,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -4456,7 +4456,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -4475,7 +4475,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -4483,7 +4483,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -4502,7 +4502,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -4510,7 +4510,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -4529,7 +4529,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -4537,7 +4537,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -4583,7 +4583,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -4591,7 +4591,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -4610,7 +4610,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -4618,7 +4618,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -4637,7 +4637,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 20,
           "name": "ANIMATION_REMOVE",
           "method": 6,
           "zero_displacement": true
@@ -4645,7 +4645,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 20,
         "name": "ANIMATION_REMOVE",
         "method": 6,
         "zero_displacement": true
@@ -4664,7 +4664,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -4672,7 +4672,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -4691,7 +4691,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -4699,7 +4699,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -4718,7 +4718,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -4726,7 +4726,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -4745,7 +4745,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 42,
           "name": "RESTORE_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -4753,7 +4753,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 42,
         "name": "RESTORE_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -4772,7 +4772,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 43,
+          "index": 42,
           "name": "RESTORE_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -4780,7 +4780,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 43,
+        "index": 42,
         "name": "RESTORE_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -4799,7 +4799,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -4807,7 +4807,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -4880,7 +4880,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -4888,7 +4888,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -4907,7 +4907,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -4915,7 +4915,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -4934,7 +4934,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -4942,7 +4942,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -4988,7 +4988,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -4996,7 +4996,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -5015,7 +5015,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5023,7 +5023,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5042,7 +5042,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -5050,7 +5050,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -5069,7 +5069,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -5077,7 +5077,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -5096,7 +5096,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -5104,7 +5104,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -5123,7 +5123,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5131,7 +5131,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5150,7 +5150,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -5158,7 +5158,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -5177,7 +5177,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -5185,7 +5185,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -5204,7 +5204,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 43,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -5212,7 +5212,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 43,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -5231,7 +5231,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5239,7 +5239,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5312,7 +5312,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 20,
+          "index": 19,
           "name": "ANIMATION_TILE",
           "method": 6,
           "zero_displacement": true
@@ -5320,7 +5320,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 20,
+        "index": 19,
         "name": "ANIMATION_TILE",
         "method": 6,
         "zero_displacement": true
@@ -5393,7 +5393,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5401,7 +5401,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5420,7 +5420,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5428,7 +5428,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5447,7 +5447,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5455,7 +5455,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5501,7 +5501,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5509,7 +5509,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5555,7 +5555,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5563,7 +5563,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5690,7 +5690,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 44,
+          "index": 43,
           "name": "SECTRECT",
           "method": 6,
           "zero_displacement": true
@@ -5698,7 +5698,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 44,
+        "index": 43,
         "name": "SECTRECT",
         "method": 6,
         "zero_displacement": true
@@ -5798,7 +5798,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -5806,7 +5806,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -5825,7 +5825,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -5833,7 +5833,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -5852,7 +5852,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -5860,7 +5860,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -5933,7 +5933,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5941,7 +5941,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -5960,7 +5960,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -5968,7 +5968,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -5987,7 +5987,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -5995,7 +5995,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6068,7 +6068,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 45,
+          "index": 44,
           "name": "MARK_BUFS_FOR_RECT",
           "method": 6,
           "zero_displacement": true
@@ -6076,7 +6076,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 45,
+        "index": 44,
         "name": "MARK_BUFS_FOR_RECT",
         "method": 6,
         "zero_displacement": true
@@ -6095,7 +6095,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -6103,7 +6103,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -6122,7 +6122,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 42,
+          "index": 41,
           "name": "REDRAW_OBJECT",
           "method": 6,
           "zero_displacement": true
@@ -6130,7 +6130,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 42,
+        "index": 41,
         "name": "REDRAW_OBJECT",
         "method": 6,
         "zero_displacement": true
@@ -6203,7 +6203,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -6211,7 +6211,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -6230,7 +6230,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6238,7 +6238,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6311,7 +6311,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 21,
+          "index": 20,
           "name": "ANIMATION_REMOVE",
           "method": 6,
           "zero_displacement": true
@@ -6319,7 +6319,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 21,
+        "index": 20,
         "name": "ANIMATION_REMOVE",
         "method": 6,
         "zero_displacement": true
@@ -6338,7 +6338,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6346,7 +6346,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6365,7 +6365,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 19,
+          "index": 18,
           "name": "BLUESPEC",
           "method": 6,
           "zero_displacement": true
@@ -6373,7 +6373,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 19,
+        "index": 18,
         "name": "BLUESPEC",
         "method": 6,
         "zero_displacement": true
@@ -6392,7 +6392,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -6400,7 +6400,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -6500,7 +6500,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -6508,7 +6508,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -6608,7 +6608,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -6616,7 +6616,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -6716,7 +6716,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 40,
+          "index": 39,
           "name": "DRAW_LIST",
           "method": 6,
           "zero_displacement": true
@@ -6724,7 +6724,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 40,
+        "index": 39,
         "name": "DRAW_LIST",
         "method": 6,
         "zero_displacement": true
@@ -6770,7 +6770,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -6778,7 +6778,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -6797,7 +6797,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 32,
+          "index": 31,
           "name": "DRAW_CLIP",
           "method": 6,
           "zero_displacement": true
@@ -6805,7 +6805,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 32,
+        "index": 31,
         "name": "DRAW_CLIP",
         "method": 6,
         "zero_displacement": true
@@ -6824,7 +6824,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6832,7 +6832,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6851,7 +6851,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6859,7 +6859,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6878,7 +6878,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6886,7 +6886,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6932,7 +6932,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6940,7 +6940,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6959,7 +6959,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6967,7 +6967,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -6986,7 +6986,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -6994,7 +6994,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7013,7 +7013,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7021,7 +7021,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7040,7 +7040,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7048,7 +7048,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7067,7 +7067,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7075,7 +7075,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7094,7 +7094,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 29,
+          "index": 28,
           "name": "CHAR",
           "method": 6,
           "zero_displacement": true
@@ -7102,7 +7102,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 29,
+        "index": 28,
         "name": "CHAR",
         "method": 6,
         "zero_displacement": true
@@ -7175,7 +7175,7 @@
         "kind": "target_frame",
         "target": {
           "kind": "external",
-          "index": 25,
+          "index": 32,
           "name": "DRAW_ROOF_SHIP",
           "method": 6,
           "zero_displacement": true
@@ -7183,7 +7183,7 @@
       },
       "target": {
         "kind": "external",
-        "index": 25,
+        "index": 32,
         "name": "DRAW_ROOF_SHIP",
         "method": 6,
         "zero_displacement": true

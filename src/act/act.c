@@ -249,7 +249,8 @@ void far pascal HitFloor(void)
             if (Char.character_kind == 4) {
                 bones_fall(); sequence = 112;
             } else {
-                sound = 0; sequence = 22;
+                sound = 0;
+                sequence = 22;
             }
             set_actor_action(3);
             PutDeadBodyOnSolidGround();
@@ -258,7 +259,9 @@ void far pascal HitFloor(void)
             Char.x = AddCharX(6);
             sequence = 155;
         }
-        JumpSeq(sequence); AnimChar(); Char.vertical_step = 0;
+        JumpSeq(sequence);
+        AnimChar();
+        Char.vertical_step = 0;
         if (sound != -1) {
             AddSound(sound);
             if (Char.character_kind == 0)
@@ -420,8 +423,8 @@ extern unsigned char far pascal ClrAll(void);
 extern signed char far pascal ReadCell(signed char room, signed char column, signed char row);
 extern signed char far pascal GetCellCol(void);
 extern void far pascal ruin_check_crevices(void);
-extern void far pascal trigger_crouch_event(void);
-extern int far pascal crouch_obstructed(void);
+extern void far pascal trigger_char_on_carpet(void);
+extern int far pascal gate_blocks_standing(void);
 extern int far pascal ScytheBarrToStandUp(void);
 extern int far pascal try_pick_up(void);
 
@@ -487,8 +490,8 @@ void far pascal control_crawling(void)
 /* 25da:0802 */
 void far pascal control_crouching(void)
 {
-    signed char tile;
-    int edge, gap, delta;
+    signed char tile, column;
+    int gap;
     int sequence;
 
     if (Level.environment_kind == 4)
@@ -496,7 +499,7 @@ void far pascal control_crouching(void)
     if (Level.level_number == 5 && Char.room == 3 &&
         (*(int near *)&Char.sequence) != 17 && (*(int near *)&Char.sequence) != 20 &&
         (get_under_foot() == 18 || ReadCell(Char.room, Char.column - 1, Char.row) == 18)) {
-        trigger_crouch_event();
+        trigger_char_on_carpet();
         return;
     }
     if ((*(int near *)&Char.sequence) == 111 || try_pick_up()) {
@@ -506,36 +509,30 @@ void far pascal control_crouching(void)
 
     sequence = -1;
     if (direction_down == 0) {
-        if (!crouch_obstructed() && (!gate_override || !ScytheBarrToStandUp())) {
+        if (!gate_blocks_standing() && (!gate_override || !ScytheBarrToStandUp()))
             sequence = 49;
-            goto apply;
-        }
-        if (direction_forward < 0)
-            goto step;
+        else if (direction_forward < 0)
+            sequence = 79;
     } else if (direction_forward < 0) {
         direction_forward = ClrAll();
         tile = get_cells_ahead(1);
-        if (tile != 7 && tile != 12 && tile != 13)
-            goto step;
-        if (tile == 7 && (Cell.modifier & 3) == 3)
-            goto step;
-        tile = GetCellCol();
-        if (Char.direction == 0 && -((edge = ColEdgeX[tile + 5]) - Char.x) > 6) {
-            gap = edge - Char.x;
-            gap += 6;
-        } else if (Char.direction == -1 && (delta = Char.x - ColEdgeX[tile + 6]) < 22) {
-            gap = delta - 22;
+        if ((tile == 7 || tile == 12 || tile == 13) &&
+            (tile != 7 || (Cell.modifier & 3) != 3)) {
+            column = GetCellCol();
+            if (Char.direction == 0 && Char.x - ColEdgeX[column + 5] > 6) {
+                gap = ColEdgeX[column + 5] - Char.x + 6;
+            } else if (Char.direction == -1 && Char.x - ColEdgeX[column + 6] < 22) {
+                gap = Char.x - ColEdgeX[column + 6] - 22;
+            } else {
+                gap = 0;
+            }
+            if (gap)
+                Char.x = AddCharX(gap);
+            sequence = 125;
         } else {
-            gap = 0;
+            sequence = 79;
         }
-        if (gap != 0)
-            Char.x = AddCharX(gap);
-        sequence = 125;
-        goto apply;
-step:
-        sequence = 79;
     }
-apply:
     if (direction_down != 0)
         direction_down = ClrAll();
     if (sequence != -1) {
@@ -783,7 +780,7 @@ void far pascal crouch_actor(void)
     direction_down = ClrAll();
 }
 
-extern int far pascal can_turn_on_gate(void);
+extern int far pascal gate_blocks_passage(void);
 extern void far pascal CheckShadowmanCreate(void);
 
 /* 25da:0e3a */
@@ -793,7 +790,7 @@ void far pascal turn_actor(void)
     direction_back = ClrAll();
     Char.field_0f = 1;
     edge = get_edge_distance();
-    if (get_cells_ahead(1) == 4 && can_turn_on_gate()) {
+    if (get_cells_ahead(1) == 4 && gate_blocks_passage()) {
         if (Level.environment_kind == 3)
             distance = 7;
         else if ((signed char)Room.number == 9 && Level.level_number == 8)
@@ -864,7 +861,7 @@ void far pascal step_forward(int distance)
     if (running_collision == 1)
         distance--;
     if (distance > 0) {
-        Char.field_0f = 1;
+        Char.field_0f = edge_marker;
         if (distance < 28) {
             if (distance == 1)
                 sequence = -1;
@@ -1320,7 +1317,7 @@ void far pascal advance_actor(void)
 }
 
 extern int far pascal choose_weapon_draw(void);
-extern int far pascal special_shadow_draw(void);
+extern int far pascal do_throw_fireball(void);
 extern CHARREC RoomOpp[5];
 
 /* 25da:1918 */
@@ -1345,16 +1342,16 @@ void far pascal engage_weapon(void)
 int far pascal choose_weapon_draw(void)
 {
     signed char tile, slot;
-    int sequence, anchor, edge, adjustment;
+    int sequence, anchor, adjustment, distance;
 
-    if (((unsigned int)(*(int near *)&Char.frame) >= 246 && (unsigned int)(*(int near *)&Char.frame) <= 261) ||
+    if (((unsigned int)Char.frame >= 246 && (unsigned int)Char.frame <= 261) ||
         ((Char.room == 1 || Char.room == 2) && Level.environment_kind == 14)) {
         sequence = -1;
     } else if (Char.character_kind == 1 && (Char.room == 7 || Char.room == 8) && Level.environment_kind == 6) {
-        sequence = special_shadow_draw();
+        sequence = do_throw_fireball();
         slot = 0;
         while (RoomOpp[slot].character_kind != 0 && slot < 5)
-            slot++;
+            ++slot;
         Char.stance = RoomOpp[slot].stance;
     } else {
         sequence = 55;
@@ -1366,28 +1363,29 @@ int far pascal choose_weapon_draw(void)
                 anchor = 0;
         }
         tile = Char.direction == 0 ? get_under_foot() : 0;
-        if (tile == 4 && can_turn_on_gate()) {
+        if (tile == 4 && gate_blocks_passage()) {
             adjustment = -32;
         } else if (anchor && ((Char.direction == -1 && Char.x >= anchor) ||
                              (Char.direction == 0 && Char.x <= anchor))) {
-            edge = get_edge_distance();
-            adjustment = abs(anchor - Char.x) - edge;
-            adjustment = (adjustment == -1 ? -2 : adjustment) - 4;
+            distance = get_edge_distance();
+            adjustment = abs(anchor - Char.x) - distance;
+            if (adjustment == -1) adjustment = -2;
+            adjustment -= 4;
         } else {
             tile = get_cells_ahead(1);
-            if (!is_open_tile(tile) || (tile == 4 && can_turn_on_gate()))
+            if (!is_open_tile(tile) || (tile == 4 && gate_blocks_passage()))
                 adjustment = 0;
         }
         if (adjustment != -1) {
             tile = get_behind();
-            if (is_open_tile(tile) && (tile != 4 || !can_turn_on_gate()) &&
+            if (is_open_tile(tile) && (tile != 4 || !gate_blocks_passage()) &&
                 (!anchor || (Char.direction == -1 && Char.x >= anchor) ||
                  (Char.direction == 0 && anchor >= Char.x)) && Char.sequence_group != 4) {
-                edge = get_edge_distance() + adjustment;
-                if (Char.direction == 0 && edge < 21)
-                    Char.x = AddCharX(edge - 21);
-                else if (Char.direction == -1 && edge < 15)
-                    Char.x = AddCharX(edge - 15);
+                distance = get_edge_distance() + adjustment;
+                if (Char.direction == 0 && distance < 21)
+                    Char.x = AddCharX(distance - 21);
+                else if (Char.direction == -1 && distance < 15)
+                    Char.x = AddCharX(distance - 15);
             } else {
                 Char.stance = 0;
                 sequence = -1;
@@ -1413,7 +1411,7 @@ extern void far pascal sheathe_weapon(void);
 void far pascal control_fighting(void)
 {
     signed char target;
-    int gap, react, eligible, out_of_range, opponent_can_react;
+    int gap, react;
 
     if (Char.slot == 10) {
         Kid = Char;
@@ -1433,22 +1431,26 @@ void far pascal control_fighting(void)
         load_kid_with_opponent(target);
     }
     if (Char.action < 2) {
+        signed char tile = get_under_foot();
         react = 1;
-        {
-            signed char tile = get_under_foot();
-            eligible = tile == 11 || tile == 15 || Opp.alert_delay >= 2;
-            if (eligible) {
-                gap = get_opp_dist();
-                out_of_range = gap < -10 || gap >= 205;
-                if (out_of_range)
-                    goto distant_opponent;
-alert:
+        if (tile == 11 || tile == 15 || Opp.alert_delay >= 2) {
+            gap = get_opp_dist();
+            if (gap >= -10 && gap < 205) {
                 on_alert();
-reacted:
+                react = 0;
+            } else if (gap < 0) {
+                if (gap >= -4 ||
+                    (gap >= -30 && (Opp.character_kind == 7 || Opp.character_kind == 8))) {
+                    on_alert();
+                } else if (Char.character_kind != 11) {
+                    if ((Char.slot == 10 && !next_opponent_toggle) || Opp.character_kind == 6)
+                        on_alert();
+                    else
+                        turn_engarde();
+                }
                 react = 0;
             }
         }
-after_reaction:
         if (Char.slot == 10 && direction_back < 0 &&
             (direction_action == -1 || direction_action == 1) &&
             (Level.level_number != 5 || Char.room != 10 || room_event_pending <= 0)) {
@@ -1459,29 +1461,6 @@ after_reaction:
             Char.opponent_index = pick_hidden_actor(~Char.direction);
             return;
         }
-        goto check_reaction;
-
-distant_opponent:
-        if (gap >= 0)
-            goto after_reaction;
-        if (gap >= -4)
-            goto alert;
-        if (gap >= -30) {
-            switch (Opp.character_kind) {
-            case 7:
-            case 8:
-                goto alert;
-            }
-        }
-        if (Char.character_kind == 11)
-            goto reacted;
-        opponent_can_react = (Char.slot == 10 && !next_opponent_toggle) || Opp.character_kind == 6;
-        if (opponent_can_react)
-            goto alert;
-        turn_engarde();
-        goto reacted;
-
-check_reaction:
         if (react) {
             if (Char.slot == 10 && direction_down < 0) {
                 sheathe_weapon();
@@ -1628,9 +1607,9 @@ void far pascal turn_kid_engarde(void)
 
     offset = -1;
     tile = get_cells_ahead(1);
-    if (is_open_tile(tile) && (tile != 4 || !can_turn_on_gate())) {
+    if (is_open_tile(tile) && (tile != 4 || !gate_blocks_passage())) {
         tile = get_cells_ahead(2);
-        if (!is_open_tile(tile) || (tile == 4 && can_turn_on_gate()))
+        if (!is_open_tile(tile) || (tile == 4 && gate_blocks_passage()))
             offset = 32;
     } else {
         offset = 0;
@@ -1688,25 +1667,23 @@ void far pascal block_actor(void)
         sequence = 62;
         advance = 0;
         frame = (*(int near *)&Char.frame);
-        if (frame == 158 || frame == 170 || frame == 171 || frame == 168 || frame == 165) {
-            if (kind == 0 || kind == 1) {
+        if (Char.frame == 158 || Char.frame == 170 || Char.frame == 171 || Char.frame == 168 || Char.frame == 165) {
+            if (kind != 0 && kind != 1) {
+                if (get_opp_dist() >= 51) {
+                    retreat_actor();
+                    sequence = -1;
+                } else if (threat_frame != 152)
+                    sequence = -1;
+            } else {
                 if (threat_frame == 168)
                     sequence = -1;
-                else if (threat_frame == 152 || threat_frame == 162) {
-                    /* Keep the default block sequence. */
-                } else if (threat_frame == 153) {
+                else if (threat_frame != 151 && threat_frame != 152 &&
+                         threat_frame != 162 && threat_frame == 153)
                     advance = 1;
-                }
-            } else if (get_opp_dist() >= 51) {
-                retreat_actor();
-                goto cannot_block;
-            } else if (threat_frame != 152) {
-                goto cannot_block;
             }
         } else if (frame == 167) {
             sequence = 61;
         } else {
-cannot_block:
             sequence = -1;
         }
         if (sequence != -1) {

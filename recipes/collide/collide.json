@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/collide/collide.json",
-  "binding_sha256": "2a2cdab6150c8ba89d9d0dae082278e70c3d813c35e467339914be90a66fa658",
+  "binding_sha256": "444e31016866e845dd8cddcfbabad9f4a145eac427ed0bbd78d0d888f178c6a8",
   "claims": [
     {
       "fixup_count": 62,
@@ -330,18 +330,19 @@
         "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
       ],
       "target_id": "overlay-3:2802:06cc"
-    }
-  ],
-  "drafts": [
-    {
-      "object_offset": 440,
-      "public": "INITCOLDETBUFS"
     },
     {
-      "object_offset": 2196,
-      "public": "GATE_BLOCKS_PASSAGE"
+      "fixup_count": 15,
+      "public": "INITCOLDETBUFS",
+      "target_id": "overlay-3:2802:01c6"
+    },
+    {
+      "fixup_count": 8,
+      "public": "GATE_BLOCKS_PASSAGE",
+      "target_id": "overlay-3:2802:08a2"
     }
   ],
+  "drafts": [],
   "emitted_size": 4376,
   "flags": [
     "/c",
@@ -357,12 +358,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "collide/collide",
-  "object_sha256": "ba3cef84193e8016c48b9c9a4fc340402804e3f9bf724c13e22625210b70cea1",
+  "object_sha256": "cb7bb2f1b4367ff7642bee519cda8091df64bf9ad268c1163790f950a6e24d3c",
   "origin": 19438,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/collide/collide.c",
-  "source_sha256": "bfeb6f51b0c6f8a227b89efcfbef4eec284301b849541f9603e69293adfcc70e",
+  "source_sha256": "2f1ce7bbd88953701754f57beee38497822194daaa4d0d31fbfef9d886660474",
   "space": "overlay-3"
 }

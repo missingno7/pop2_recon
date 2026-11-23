@@ -90,7 +90,7 @@ void far pascal CheckRecordedDirForChar(void)
             character.value = current_character;
         recording = RESOLVE_HANDLE_TO_FAR_PAYLOAD(playback.handle);
         if (playback.offset < recording->data_size) {
-            frame = (RecordedFrame far *)(recording->data + *(volatile int *)&playback.offset);
+            frame = (RecordedFrame far *)(recording->data + playback.offset);
             if (FrameNum > frame->tick)
                 frame = IncRecordedGameToNextFrame(recording);
             if (FrameNum == frame->tick && frame->count > playback.input_index) {

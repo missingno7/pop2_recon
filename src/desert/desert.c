@@ -656,23 +656,22 @@ void trigger_all_stones_down(void)
 
 int trigger_stone_at(ubyte room, sbyte cell, sbyte action)
 {
-    int index = cell;
-    uword *flags = &((LEVELCELL *)Level.cell_info)[index + 30 * room - 30].modifier;
-    uword original = *flags;
+    uword original = Level.cell_info[room - 1][cell].modifier;
     int frame = original & 15;
     int started = 1;
 
     if (action == 3 && frame == 0) {
         original &= ~0x1f0;
-        *flags = original | ((Rnd(10) + 21) << 4);
+        original |= (Rnd(10) + 21) << 4;
+        Level.cell_info[room - 1][cell].modifier = original;
     } else if (action == 1) {
         if (frame) {
             AddSound(43);
         } else {
-            started = get_trob_room_cell(room, index) == 0;
+            started = get_trob_room_cell(room, cell) != 0;
             if (original & 0x1f0) {
                 original &= ~0x1f0;
-                *flags = original;
+                Level.cell_info[room - 1][cell].modifier = original;
             }
         }
     } else {

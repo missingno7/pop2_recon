@@ -186,7 +186,7 @@ extern int far pascal IsWall(signed char tile);
 extern int far pascal IS_SIX_KIND(signed char tile);
 extern int far pascal GetBarrCode(unsigned char tile);
 extern int far pascal head_has_target(void);
-extern int far pascal gate_blocks_head(void);
+extern int far pascal gate_blocks_passage(void);
 extern int far pascal Rnd(int maximum);
 extern void far pascal reset_char_y(void);
 extern void far pascal ClearCharVel(void);
@@ -269,8 +269,8 @@ void far pascal align_head_on_kid_neck(void)
 
 int far pascal head_visibility(void)
 {
-    signed char column, row, error, columns, end_column, diagonal, rows;
-    signed char step_row, step_column, end_row, straight_error;
+    signed char end_column, end_row, column, row, error, columns, rows;
+    signed char step_row, step_column, straight_error, diagonal;
     int clear = 1;
     int result;
 
@@ -420,6 +420,7 @@ void far pascal head_attack_prog(HeadPlan near *plan)
 {
     unsigned char dx, dy;
     int direction, vertical_sequence;
+
     if (Char.sequence == 140 || Char.sequence == 152 ||
         Char.sequence == 156 || Char.sequence == 162)
         return;
@@ -443,18 +444,22 @@ void far pascal head_attack_prog(HeadPlan near *plan)
         }
         if (dy == 0 && dx < 2) {
             vertical_sequence = Char.x < Opp.x ? 1 : 0;
-            if (dx == 0 || head_clear_in_dir(vertical_sequence)) {
-                if (Char.sequence != 147)
-                    JumpSeq(147);
-            } else
-                goto stop_horizontal;
+            if (dx != 0 && !head_clear_in_dir(vertical_sequence)) {
+                if (Char.sequence != 166 && YWithinMiddleOfCell(Char.y, 15))
+                    JumpSeq(166);
+                return;
+            }
+            if (Char.sequence != 147)
+                JumpSeq(147);
         } else if (dx == 0 && dy == 1 && head_clear_in_dir(direction)) {
-            vertical_sequence = Opp.row < Char.row ? 143 : 144;
+            if (Opp.row < Char.row)
+                vertical_sequence = 143;
+            else
+                vertical_sequence = 144;
             if (vertical_sequence != Char.sequence)
                 JumpSeq(vertical_sequence);
         } else if (direction == 4) {
             if (dx || dy) {
-stop_horizontal:
                 if (Char.sequence != 166 && YWithinMiddleOfCell(Char.y, 15))
                     JumpSeq(166);
             }
@@ -462,7 +467,7 @@ stop_horizontal:
             plan->row = Opp.row;
             plan->column = Opp.column;
             if ((direction == 3 || direction == 2) && !head_clear_in_dir(direction))
-                direction = Opp.x > Char.x;
+                direction = Char.x < Opp.x ? 1 : 0;
             if (head_clear_in_dir(direction)) {
                 if (direction == 3)
                     direction = 143;
@@ -514,7 +519,7 @@ int far pascal head_clear_in_dir(int direction)
         tile = ReadCell(Char.room, Char.column - 1, Char.row);
         if (IsWall(tile))
             break;
-        if (tile == 4 && gate_blocks_head())
+        if (tile == 4 && gate_blocks_passage())
             break;
         clear = 1;
         break;
@@ -524,9 +529,9 @@ int far pascal head_clear_in_dir(int direction)
         tile = ReadCell(Char.room, Char.column + 1, Char.row);
         if (IsWall(tile))
             break;
-        if (tile == 4 && gate_blocks_head())
+        if (tile == 4 && gate_blocks_passage())
             break;
-        if (ReadCell(Char.room, Char.column, Char.row) != 4 || !gate_blocks_head())
+        if (ReadCell(Char.room, Char.column, Char.row) != 4 || !gate_blocks_passage())
             clear = 1;
         break;
     case 2:
@@ -840,7 +845,7 @@ int far pascal head_set_to_flee_mode(void)
             if (!clear)
                 break;
             skill = ReadCell(Char.room, column, Char.row);
-            if (GetBarrCode(skill) && (skill != 4 || gate_blocks_head()))
+            if (GetBarrCode(skill) && (skill != 4 || gate_blocks_passage()))
                 clear = 0;
             column += move_against_facing[Char.direction];
         } while (column != edge);

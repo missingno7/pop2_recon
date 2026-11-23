@@ -1,6 +1,6 @@
 {
   "binding": "evidence/bindings/top/top.json",
-  "binding_sha256": "f2e277e5770a0bef32938be18d0e7f4d5d67a9c877b6c24dd7e8402b3dc40934",
+  "binding_sha256": "1020bc5a4ecb30730a65a738c425d27227e5abe90307ec56e070a9da00fdba9f",
   "claims": [
     {
       "fixup_count": 16,
@@ -374,8 +374,10 @@
         1206,
         1294
       ],
-      "relocation_order": "EXACT",
-      "relocation_order_debt": [],
+      "relocation_order": "GROUPED",
+      "relocation_order_debt": [
+        "Between-target-symbol relocation group order and combined output-segment placement require structural linker proof"
+      ],
       "target_id": "root:0e56:11b6"
     },
     {
@@ -439,6 +441,17 @@
       "fixup_count": 3,
       "public": "CALL_LEVEL_FRAME_PROC",
       "target_id": "root:0e56:118c"
+    },
+    {
+      "fixup_count": 19,
+      "public": "CHECK_REBIRTH_POINTS",
+      "relocation_indices": [
+        1265,
+        1279
+      ],
+      "relocation_order": "EXACT",
+      "relocation_order_debt": [],
+      "target_id": "root:0e56:0d5e"
     }
   ],
   "data_publics": [
@@ -459,12 +472,7 @@
       "unique": true
     }
   ],
-  "drafts": [
-    {
-      "object_offset": 3416,
-      "public": "CHECK_REBIRTH_POINTS"
-    }
-  ],
+  "drafts": [],
   "emitted_size": 4620,
   "flags": [
     "/c",
@@ -480,12 +488,12 @@
   "kind": "same_source_group",
   "language": "c",
   "name": "top/top",
-  "object_sha256": "3d7bfe4f805747e46b18c37ff3a225f3549e654df3201a6ce5008c58ff1b0f81",
+  "object_sha256": "25c760a8981abfdc339c927fedaf4768df9f0ef1981766b1ce22e487368250b8",
   "origin": 58726,
   "profile": "msc600a_bound",
   "proof_scope": "Complete code of each claimed function at one shared placement from one compilation; same-object near calls inside the witnessed original CS window and external DGROUP offset16 equations proven; original file boundary, unclaimed drafts, data placement and natural link placement unproved",
   "schema": 1,
   "source": "src/top/top.c",
-  "source_sha256": "4c83171f9c3119c4cb52556e4f49b8ebc0941fa8bd3c9e24e568064278926c1c",
+  "source_sha256": "5fb97878d9d37555b18ad52e1d13b2d61ecfe100df8e51a19b45bf34957f9942",
   "space": "root"
 }

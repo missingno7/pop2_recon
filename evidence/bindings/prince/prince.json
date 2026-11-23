@@ -83,7 +83,7 @@
       "CHANGEMETERS",
       "ONE_SECOND_LEFT",
       "CHECKMETERS",
-      "OPENING_INPUT",
+      "SHOW_HALL_RECORDS",
       "PRINCECOPY",
       "SECONDS_LEFT",
       "BOOSTMETER",
@@ -1744,7 +1744,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "OPENING_INPUT",
+          "name": "SHOW_HALL_RECORDS",
           "zero_displacement": true
         }
       },
@@ -1758,7 +1758,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "OPENING_INPUT",
+        "name": "SHOW_HALL_RECORDS",
         "zero_displacement": true
       }
     },
@@ -3755,7 +3755,7 @@
           "index": 83,
           "kind": "external",
           "method": 6,
-          "name": "OPENING_INPUT",
+          "name": "SHOW_HALL_RECORDS",
           "zero_displacement": true
         }
       },
@@ -3769,7 +3769,7 @@
         "index": 83,
         "kind": "external",
         "method": 6,
-        "name": "OPENING_INPUT",
+        "name": "SHOW_HALL_RECORDS",
         "zero_displacement": true
       }
     },
@@ -17337,15 +17337,6 @@
       "offset": 2588,
       "provider": "group:english/english"
     },
-    "OPENING_INPUT": {
-      "entry_sha256": "ad1406a0850e788079559623188c8ae7482cbd3972d752d29d99e2927b2378d3",
-      "entry_target_id": "root:052d:1c98",
-      "kind": "far-code-entry",
-      "offset": 7320,
-      "segment": 1325,
-      "space": "root",
-      "witnesses": []
-    },
     "OPEN_VERIFIED_RESOURCE": {
       "entry_sha256": "ed34c25955f54ae8a9e9e2118b13dd9ade001157a4b958b447f3e80773b4201a",
       "entry_target_id": "root:1de8:01fa",
@@ -17884,6 +17875,15 @@
         }
       ]
     },
+    "SHOW_HALL_RECORDS": {
+      "entry_sha256": "ad1406a0850e788079559623188c8ae7482cbd3972d752d29d99e2927b2378d3",
+      "entry_target_id": "root:052d:1c98",
+      "kind": "far-code-entry",
+      "offset": 7320,
+      "segment": 1325,
+      "space": "root",
+      "witnesses": []
+    },
     "SKIP_OPENING": {
       "group": "DGROUP",
       "kind": "dgroup-offset",
@@ -18082,7 +18082,6 @@
       "offset": 2586,
       "segment": 10703,
       "space": "overlay-5",
-      "unproven": "overlay-5:29cf:0a1a: Far callee has no independent original CALL witness or accepted exact entry; no admissible relocated caller remains outside the claimed extents.",
       "witnesses": []
     },
     "TRIGGER_TORCH": {

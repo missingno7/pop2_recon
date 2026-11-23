@@ -354,38 +354,34 @@ void far pascal initialize_room_actors(void)
 
 void far pascal check_side_rooms(void)
 {
-    struct {
-        int shift, side;
-        unsigned char room;
-        signed char count;
-        int index;
-    } scan;
-    int displacement;
+    int index, side, shift;
+    unsigned char room;
+    signed char count;
     opponent_record *record;
     opponent_record copy;
 
-    for (scan.side = 0; scan.side < 2; ++scan.side) {
-        if (scan.side == 0) {
-            scan.room = Room.left;
-            displacement = -320;
+    for (side = 0; side < 2; ++side) {
+        if (side == 0) {
+            room = Room.left;
+            shift = -320;
         } else {
-            scan.room = Room.right;
-            displacement = 320;
+            room = Room.right;
+            shift = 320;
         }
-        if (scan.room == 0)
+        if (room == 0)
             continue;
-        scan.shift = displacement;
-        for (scan.index = 0, scan.count = Level.room_objects[scan.room - 1].opponent_count; scan.index < scan.count; ++scan.index) {
-            record = GetOppInfoIdx(scan.room, scan.index);
-            if ((scan.side == 0 && record->x > 367) || (scan.side == 1 && record->x < 208) ||
-                ((scan.room == 7 || scan.room == 8) && Level.environment_kind == 6 && record->appearance == 3)) {
+        count = Level.room_objects[room - 1].opponent_count;
+        for (index = 0; index < count; ++index) {
+            record = GetOppInfoIdx(room, index);
+            if ((side == 0 && record->x > 367) || (side == 1 && record->x < 208) ||
+                ((room == 7 || room == 8) && Level.environment_kind == 6 && record->appearance == 3)) {
                 copy = *record;
-                copy.x += scan.shift;
+                copy.x += shift;
                 copy.index = Level.room_objects[Room.number - 1].opponent_count;
                 add_opponent_to_room(Room.number, &copy);
-                RemoveOppFromRoom(scan.room, scan.index);
-                --scan.index;
-                --scan.count;
+                RemoveOppFromRoom(room, index);
+                --index;
+                --count;
             }
         }
     }
@@ -406,7 +402,7 @@ int abs(int value);
 
 unsigned char far pascal register_actor_room(void);
 void far pascal jam_plate(void);
-signed char far pascal index_cell(signed char row, signed char column);
+signed char far pascal index_cell(signed char, signed char);
 signed char far pascal FirstInRow(signed char column);
 void far pascal dispatch_sound(int object_id);
 void far pascal AddSound(int sound);
@@ -528,28 +524,23 @@ void far pascal set_special_opponent(opponent_record *record)
 
 void far pascal RemoveOppFromRoom(unsigned char room, int index)
 {
-    int room_index = room;
-    ROOMOBJECTS *list = &Level.room_objects[room_index - 1];
-    signed char count = list->opponent_count;
-    opponent_record *record;
-    CHARREC *live, *next;
+    signed char count = Level.room_objects[room - 1].opponent_count;
+    opponent_record *record, *following;
 
     if (count > index) {
         if (count > index + 1) {
-            live = &RoomOpp[index];
             do {
-                record = GetOppInfoIdx(room_index, index);
-                *record = *GetOppInfoIdx(room_index, index + 1);
+                record = GetOppInfoIdx(room, index);
+                following = GetOppInfoIdx(room, index + 1);
+                *record = *following;
                 record->index = index;
                 if (Room.number == room) {
-                    next = &live[1];
-                    *live = *next;
-                    live->slot = index;
+                    RoomOpp[index] = RoomOpp[index + 1];
+                    RoomOpp[index].slot = index;
                 }
-                ++live;
             } while (++index + 1 < count);
         }
-        --list->opponent_count;
+        --Level.room_objects[room - 1].opponent_count;
     }
 }
 
@@ -579,13 +570,13 @@ opponent_record *far pascal GetOppInfoIdx(int room, int index)
 signed char far pascal pick_hidden_actor(signed char direction)
 {
     signed char best = -1, index, count;
-    int dx, dy, best_dx, best_dy;
+    int dx, best_dx, best_dy, dy;
     CHARREC *actor;
     opponent_record *record;
 
-    if ((*(volatile unsigned char near *)&Kid.room) != 0) {
+    if ((unsigned char)Kid.room != 0) {
         index = 0;
-        count = Level.room_objects[(*(volatile unsigned char near *)&Kid.room) - 1].opponent_count;
+        count = Level.room_objects[(unsigned char)Kid.room - 1].opponent_count;
         for (; index < count; ++index) {
             record = GetOppInfoIdx(Room.number, index);
             actor = &RoomOpp[index];

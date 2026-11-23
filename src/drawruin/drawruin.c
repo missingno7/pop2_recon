@@ -579,7 +579,6 @@ void draw_ruin_gate_movable(RuinCell *cell)
 void draw_ruin_loose(RuinCell *cell)
 {
     int image;
-    RuinCell *draw_cell;
     RuinCell floor;
     image = cell->modifier & 15;
     if (image != 13)
@@ -591,39 +590,53 @@ void draw_ruin_loose(RuinCell *cell)
     }
     switch (cell->pass) {
     case 0:
-        if (image == 13 || image)
+        if (image != 13) {
+            if (image)
+                draw_ruin_back_wall(cell);
+            else
+                draw_ruin_floor(&floor);
+        } else {
             draw_ruin_back_wall(cell);
-        else {
-    draw_floor:
+        }
+        break;
+    case 1: {
+        RuinCell *tile = cell;
+        if (image == 13) {
+            draw_ruin_flaw(tile);
+            break;
+        }
+        if (!image) {
             draw_ruin_floor(&floor);
+            break;
         }
+        add_foreground_image(11, image + 43, tile->column, tile->row, 10, 0);
+        draw_ruin_flaw(tile);
         break;
-    case 1:
-        draw_cell = cell;
-        if (image != 13) {
-            if (!image)
-                goto draw_floor;
-            add_foreground_image(11, image + 43, draw_cell->column, draw_cell->row, 10, 0);
-        }
-        goto finish_flaw;
+    }
     case 2:
-        draw_cell = cell;
         if (image != 13) {
-            if (!image)
-                goto draw_floor;
-            AddBFImgToFTable(11, image + 41, draw_cell->column, draw_cell->row, 10, 0);
+            if (image) {
+                RuinCell *tile = cell;
+                AddBFImgToFTable(11, image + 41, tile->column, tile->row, 10, 0);
+            } else {
+                draw_ruin_floor(&floor);
+            }
         }
         break;
-    case 5:
-        draw_cell = cell;
-        if (!image)
-            goto draw_floor;
-        if (image != 13) {
-            AddBFImgToBTable(11, image + 41, draw_cell->column, draw_cell->row, 10, 0);
+    case 5: {
+        RuinCell *tile = cell;
+        if (image == 13) {
+            draw_ruin_flaw(tile);
+            break;
         }
-    finish_flaw:
-        draw_ruin_flaw(cell);
+        if (!image) {
+            draw_ruin_floor(&floor);
+            break;
+        }
+        AddBFImgToBTable(11, image + 41, tile->column, tile->row, 10, 0);
+        draw_ruin_flaw(tile);
         break;
+    }
     }
 }
 
